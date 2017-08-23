@@ -17,25 +17,20 @@ namespace Wms12m.Presentation.Controllers
         }
         public PartialViewResult List()
         {
-            List<UserDetail> list;
+            List<User> list;
             List<SipOnayYetkiler> yetkiler = new List<SipOnayYetkiler>();
             if (vUser.Id == 1)
-                list = db.UserDetails.ToList();
+                list = db.Users.ToList();
             else
-                list = db.UserDetails.Where(m => m.UserID > 1).ToList();
+                list = db.Users.Where(m => m.ID > 1).ToList();
 
             foreach (var item in list)
             {
                 SipOnayYetkiler yetki = new SipOnayYetkiler();
-                yetki.GostCHKKodAlani = item.GostCHKKodAlani;
-                yetki.GosterilecekSirket = item.GosterilecekSirket;
-                yetki.GostKod3OrtBakiye = item.GostKod3OrtBakiye;
-                yetki.GostRiskDeger = item.GostRiskDeger;
-                yetki.GostSTKDeger = item.GostSTKDeger;
-                yetki.Kod = item.User.Kod;
-                yetki.AdSoyad = item.User.AdSoyad;
-                yetki.UserID = item.UserID;
-                yetki.RoleName = item.User.RoleName;
+                yetki.Kod = item.Kod;
+                yetki.AdSoyad = item.AdSoyad;
+                yetki.UserID = item.ID;
+                yetki.RoleName = item.RoleName;
 
                 yetkiler.Add(yetki);
             }
@@ -47,12 +42,26 @@ namespace Wms12m.Presentation.Controllers
         {
             var tbl = db.UserDetails.Where(m => m.UserID == ID).FirstOrDefault();
             SipOnayYetkiler yetki = new SipOnayYetkiler();
-            yetki.GostCHKKodAlani = tbl.GostCHKKodAlani;
-            yetki.GosterilecekSirket = tbl.GosterilecekSirket;
-            yetki.GostKod3OrtBakiye = tbl.GostKod3OrtBakiye;
-            yetki.GostRiskDeger = tbl.GostRiskDeger;
-            yetki.GostSTKDeger = tbl.GostSTKDeger;
-            yetki.AdSoyad = tbl.User.AdSoyad;
+            if (tbl != null)
+            {
+
+                yetki.GostCHKKodAlani = tbl.GostCHKKodAlani;
+                yetki.GosterilecekSirket = tbl.GosterilecekSirket;
+                yetki.GostKod3OrtBakiye = tbl.GostKod3OrtBakiye;
+                yetki.GostRiskDeger = tbl.GostRiskDeger;
+                yetki.GostSTKDeger = tbl.GostSTKDeger;
+                yetki.AdSoyad = tbl.User.AdSoyad;
+
+            }
+            else
+            {
+                yetki.GostCHKKodAlani = "";
+                yetki.GosterilecekSirket = "";
+                yetki.GostKod3OrtBakiye = "";
+                yetki.GostRiskDeger = "";
+                yetki.GostSTKDeger = "";
+                yetki.AdSoyad = vUser.FirstName;
+            }
             ViewBag.ID = ID;
             return PartialView("YetkiDuzenle", yetki);
         }
@@ -68,7 +77,21 @@ namespace Wms12m.Presentation.Controllers
         public JsonResult ParametreUpdate(string CHKAraligi, string Sirketler, string Tipler, string Kod3, string Risk, int ID)
         {
             Result _Result = new Result(true);
-            db.Database.ExecuteSqlCommand(string.Format("[BIRIKIM].[wms].[TumpaSiparisParametreOnayla] @CHKAraligi = '{0}',@Sirketler = '{1}', @Tipler='{2}',@Kod3 = '{3}', @Risk='{4}', @UserID={5}", CHKAraligi, Sirketler, Tipler, Kod3, Risk, ID));
+            var tbl = db.UserDetails.Where(m => m.UserID == ID).FirstOrDefault();
+            if (tbl != null)
+                db.Database.ExecuteSqlCommand(string.Format("[BIRIKIM].[wms].[TumpaSiparisParametreOnayla] @CHKAraligi = '{0}',@Sirketler = '{1}', @Tipler='{2}',@Kod3 = '{3}', @Risk='{4}', @UserID={5}", CHKAraligi, Sirketler, Tipler, Kod3, Risk, ID));
+            else
+            {
+                UserDetail udt = new UserDetail();
+                udt.UserID = ID;
+                udt.GostCHKKodAlani = CHKAraligi;
+                udt.GosterilecekSirket = Sirketler;
+                udt.GostSTKDeger = Tipler;
+                udt.GostKod3OrtBakiye = Kod3;
+                udt.GostRiskDeger = Risk;
+
+                db.UserDetails.Add(udt);
+            }
             try
             {
                 db.SaveChanges();

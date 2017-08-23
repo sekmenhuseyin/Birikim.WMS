@@ -4,11 +4,13 @@ using System.Linq;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
 using Wms12m.Entity;
+using Wms12m.Entity.Models;
 
 namespace Wms12m.Presentation.Areas.Reports.Controllers
 {
     public class StockController : RootController
     {
+        public LOGEntities logdb = new LOGEntities();
         /// <summary>
         /// stok
         /// </summary>
@@ -160,5 +162,47 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
             }
             return PartialView("GerceklesenSevkiyatPlaniList", SU);
         }
+
+        public ActionResult SiparisOnayRapor(string onayRed)
+        {
+            if (onayRed == null)
+            {
+                ViewBag.OnayDurum = "Onaylandı";
+            }
+            else
+            {
+                ViewBag.OnayDurum = onayRed;
+            }
+            return View();
+        }
+
+        public PartialViewResult SiparisOnayRaporList(string Tip, int bastarih, int bittarih)
+        {
+            ViewBag.Tip = Tip;
+            ViewBag.bastarih = bastarih;
+            ViewBag.bittarih = bittarih;
+            return PartialView("SiparisOnayRaporList");
+        }
+
+        public string SiparisOnayRaporData(string tip, int bastarih, int bittarih)
+        {
+
+            JavaScriptSerializer json = new JavaScriptSerializer()
+            {
+                MaxJsonLength = int.MaxValue
+            };
+            List<TumSiparisOnayLog> sipBilgi = new List<TumSiparisOnayLog>();
+
+            try
+            {
+                sipBilgi = logdb.TumSiparisOnayLogs.Where(m => m.OnayDurumu == tip && m.DegisTarih >= bastarih && m.DegisTarih <= bittarih).ToList();
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return json.Serialize(sipBilgi);
+        }
+
     }
 }

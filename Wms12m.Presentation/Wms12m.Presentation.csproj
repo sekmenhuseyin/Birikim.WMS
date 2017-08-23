@@ -213,6 +213,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\assets\pages\img\texbox-cal.png" />
+    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\images\12M-Logo-30.png" />
     <Content Include="Content\images\12M-Logo-90.png" />
     <Content Include="Content\images\12M-Logo.png" />
@@ -349,7 +351,9 @@
     <Content Include="Content\Scripts\Operation.min.js">
       <DependentUpon>Operation.js</DependentUpon>
     </Content>
+    <Content Include="Content\Site.css" />
     <Content Include="favicon.ico" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="robots.txt" />
     <Content Include="humans.txt" />
@@ -434,13 +438,26 @@
     <Content Include="Areas\Approvals\Views\TumOrder\Index.cshtml" />
     <Content Include="Areas\Approvals\Views\TumOrder\List.cshtml" />
     <Content Include="Areas\Approvals\Views\TumOrder\YetkiDuzenle.cshtml" />
+    <Content Include="Areas\Reports\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\Reports\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\Reports\Views\Stock\SiparisOnayRapor.cshtml" />
+    <Content Include="Areas\Reports\Views\Stock\SiparisOnayRaporList.cshtml" />
     <None Include="bundleconfig.json" />
     <Content Include="Content\SizeSablon.xlsx" />
     <Content Include="Content\StockSablon.xlsx" />
     <Content Include="Content\STISablon.xlsx" />
     <Content Include="Content\KatSablon.xlsx" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <None Include="Properties\PublishProfiles\local.pubxml" />
     <None Include="Properties\PublishProfiles\WmsPublish.pubxml" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
+    <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\jquery-1.10.2.js" />
+    <Content Include="Scripts\jquery-1.10.2.min.js" />
+    <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Service\Terminal.asmx" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\_PartialAylikSatisAnaliziBar.cshtml" />
@@ -782,7 +799,8 @@
     <Content Include="Views\Home\_PartialGunlukSatisZamanCizelgesi.cshtml" />
     <Content Include="Views\SiparisYetki\Index.cshtml" />
     <Content Include="Views\SiparisYetki\List.cshtml" />
-    <Content Include="Views\SiparisYetki\YetkiDuzenle.cshtml" />
+    <Content Include="Views\Users\YetkiDuzenle.cshtml" />
+    <Content Include="Scripts\jquery-1.10.2.min.map" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
