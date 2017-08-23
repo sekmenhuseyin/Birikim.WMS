@@ -44,8 +44,5 @@ namespace Wms12m.Entity.Models
         public string RoleName { get; set; }
         public string Degistiren { get; set; }
         public int DegisTarih { get; set; }
-        public string Unvan { get; set; }
-        public string EvrakNo { get; set; }
-        public decimal Risk { get; set; }
     }
 }

@@ -25,10 +25,10 @@ namespace Wms12m.Entity.Models
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<TumSiparisOnayLog> TumSiparisOnayLogs { get; set; }
         public virtual DbSet<AppLog> AppLogs { get; set; }
         public virtual DbSet<ELMAH_Error> ELMAH_Error { get; set; }
         public virtual DbSet<ErrorLog> ErrorLogs { get; set; }
         public virtual DbSet<LoginLog> LoginLogs { get; set; }
+        public virtual DbSet<TumSiparisOnayLog> TumSiparisOnayLogs { get; set; }
     }
 }
