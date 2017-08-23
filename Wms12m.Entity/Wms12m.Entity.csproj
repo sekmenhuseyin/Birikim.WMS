@@ -229,11 +229,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ModelLog.edmx</DependentUpon>
     </Compile>
-    <Compile Include="Models\ModelWMS.Context1.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ModelWMS.Context.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\ModelYeniNesil.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
