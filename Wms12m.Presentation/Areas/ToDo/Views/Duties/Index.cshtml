@@ -52,6 +52,7 @@
             });
         }
         function getProje(id, what, what2) {
+            console.log("vvvv");
             $("#" + what + " option").remove();
             $("#" + what2 + " option").remove();
             $.ajax({
@@ -83,6 +84,11 @@
                         });
                         $("#" + what).prepend("<option value=''>Seçiniz !!!</option>"); $("#" + what)[0].selectedIndex = 0;
                     }
+                    //if (pfid != null) {
+                    //    console.log("fghytr");
+                    //    $('#ProjeList').val(id);
+                    //    $('#ProjeFormID').val(pfid);
+                    //}
                 }
             });
         }

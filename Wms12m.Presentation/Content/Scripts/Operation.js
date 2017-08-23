@@ -111,6 +111,7 @@ function DeleteKontrol(deleteId, Method, DivName, KontrolMetod, extraId, URL) {
             }
             else {
                 Delete(deleteId, Method, DivName, extraId, URL)
+                CreateEdit('0');
             }
         }
     });

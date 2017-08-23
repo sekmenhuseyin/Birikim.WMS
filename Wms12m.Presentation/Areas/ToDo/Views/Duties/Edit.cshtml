@@ -28,22 +28,36 @@
                         <div class="form-group row">
                             <label class="col-md-4 control-label">Firma</label>
                             <div class="col-md-4">
-                                @Html.DropDownList("MusteriID", null, htmlAttributes: new { @class = "form-control input-circle MusteriID", @onchange = "getProje(this.value,'ProjeListt', 'FormListt');"})
+                                @Html.DropDownList("MusteriID", null, string.Empty, htmlAttributes: new { @class = "form-control input-circle MusteriID", @onchange = "getProje(this.value,'ProjeList', 'FormList');" })
                                 <span class="field-validation-valid" data-valmsg-for="MusteriID" data-valmsg-replace="true" style="color:red;"></span>
                             </div>
                         </div>
                         <div class="form-group row">
+                            <label class="col-md-4 control-label">Proje</label>
+                            <div class="col-md-4">
+                                @Html.DropDownList("Proje", null, string.Empty, htmlAttributes: new { @class = "form-control input-circle Proje", @id = "ProjeList", @onchange = "getForm(this.value, 'FormList');" })
+                                <span class="field-validation-valid" style="color:red;"></span>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-md-4 control-label">Form</label>
+                            <div class="col-md-4">
+                                @Html.DropDownList("ProjeFormID", null, string.Empty, htmlAttributes: new { @class = "form-control input-circle ProjeFormID", @id= "FormList" })
+                                <span class="field-validation-valid"  style="color:red;"></span>
+                            </div>
+                        </div>
+                        @*<div class="form-group row">
                             <div class="col-sm-4  control-label">Proje</div>
                             <div class="col-sm-4">
-                                <select id="ProjeListt" class="form-control input-circle ProjeID" onchange="getForm(this.value, 'FormList');"></select>
+                                <select id="ProjeList" class="form-control input-circle ProjeID" onchange="getForm(this.value, 'FormList');"></select>
                             </div>
                         </div>
                         <div class="form-group row">
                             <div class="col-sm-4  control-label">Form</div>
                             <div class="col-sm-4">
-                                <select name="ProjeFormID" id="FormListt" class="form-control input-circle FormID"></select>
+                                <select name="ProjeFormID" id="FormList" class="form-control input-circle FormID"></select>
                             </div>
-                        </div>
+                        </div>*@
 
                         <div class="form-group row">
                             @Html.LabelFor(model => model.Sorumlu, htmlAttributes: new { @class = "control-label col-md-4" })
@@ -116,13 +130,13 @@
                             </div>
                         </div>
 
-                        <div class="form-group row">
-                            @Html.LabelFor(model => model.TahminiBitis, htmlAttributes: new { @class = "control-label col-md-4" })
-                            <div class="col-md-4">
-                                @Html.EditorFor(model => model.TahminiBitis, new { htmlAttributes = new { @class = "form-control input-circle date-picker" } })
-                                @Html.ValidationMessageFor(model => model.TahminiBitis, "", new { @class = "text-danger" })
+                         <div class="form-group row">
+                                @Html.LabelFor(model => model.TahminiBitis, htmlAttributes: new { @class = "control-label col-md-4" })
+                                <div class="col-md-4">
+                                    @Html.EditorFor(model => model.TahminiBitis, new { htmlAttributes = new { @class = "form-control input-circle date-picker" } })
+                                    @Html.ValidationMessageFor(model => model.TahminiBitis, "", new { @class = "text-danger" })
+                                </div>
                             </div>
-                        </div>
                         <div class="form-actions">
                             <div class="row">
                                 <div class="col-md-offset-3 col-md-9">
@@ -138,6 +152,14 @@
     </div>
 </div>
 <script type="text/javascript">
+    var Proje = '@ViewBag.Proje';
+    var Form = '@ViewBag.Form';
+    var ID = '@ViewBag.ID';
+    var PFID = '@ViewBag.PFID';
+    //console.log(PFID);
+    //getProje(ID, 'ProjeList', 'FormList');
+    //getForm(ID, 'FormList', PFID);
+
     $(document).ready(function () {
         $('.date-picker').datepicker();
         ClearControl();

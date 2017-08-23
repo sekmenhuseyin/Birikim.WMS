@@ -54,7 +54,8 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             ProjeForm projeForm = db.ProjeForms.Find(gorevler.ProjeFormID);
 
             ViewBag.MusteriID = new SelectList(db.Musteris.ToList(), "ID", "Firma", projeForm.MusteriID);
-            //ViewBag.ProjeFormID = new SelectList(db.ProjeForms, "ID", "Proje", gorevler.ProjeFormID);
+            ViewBag.Proje = new SelectList(db.ProjeForms.Where(m => m.MusteriID == projeForm.MusteriID && m.PID == null).ToList(), "ID", "Proje", projeForm.PID);
+            ViewBag.ProjeFormID = new SelectList(db.ProjeForms.Where(m => m.PID == projeForm.PID).ToList(), "ID", "Form", projeForm.ID);
             ViewBag.DurumID = new SelectList(ComboSub.GetList(Combos.GörevYönetimDurumları.ToInt32()), "ID", "Name");
             ViewBag.OncelikID = new SelectList(ComboSub.GetList(Combos.Öncelik.ToInt32()), "ID", "Name");
             ViewBag.GorevTipiID = new SelectList(ComboSub.GetList(Combos.GörevYönetimTipleri.ToInt32()), "ID", "Name", "");
@@ -62,6 +63,8 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             ViewBag.Sorumlu = new SelectList(db.Users.ToList(), "Kod", "AdSoyad");
             ViewBag.Sorumlu2 = new SelectList(db.Users.ToList(), "Kod", "AdSoyad", "");
             ViewBag.Sorumlu3 = new SelectList(db.Users.ToList(), "Kod", "AdSoyad", "");
+            ViewBag.ID = projeForm.PID;
+            ViewBag.PFID = projeForm.ID;
             return PartialView("Edit", tbl);
         }
 
