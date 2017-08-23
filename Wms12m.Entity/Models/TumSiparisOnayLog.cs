@@ -16,10 +16,13 @@ namespace Wms12m.Entity.Models
     {
         public int ID { get; set; }
         public string HesapKodu { get; set; }
+        public string Unvan { get; set; }
+        public string EvrakNo { get; set; }
         public string Firma { get; set; }
         public string SiparisTuru { get; set; }
         public string OnayDurumu { get; set; }
         public string TipKodu { get; set; }
+        public decimal Risk { get; set; }
         public decimal KrediLimiti { get; set; }
         public decimal Bakiye { get; set; }
         public decimal SCek { get; set; }
@@ -41,8 +44,5 @@ namespace Wms12m.Entity.Models
         public string RoleName { get; set; }
         public string Degistiren { get; set; }
         public int DegisTarih { get; set; }
-        public string Unvan { get; set; }
-        public string EvrakNo { get; set; }
-        public decimal Risk { get; set; }
     }
 }

@@ -10,6 +10,7 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Tarih" Type="smalldatetime" Nullable="false" />
           <Property Name="Site" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Area" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Controller" Type="varchar" MaxLength="50" Nullable="false" />
@@ -20,7 +21,7 @@
           <Property Name="Request" Type="varchar(max)" />
           <Property Name="Username" Type="varchar" MaxLength="5" />
           <Property Name="IpAddress" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="Tarih" Type="smalldatetime" Nullable="false" />
+          <Property Name="TypeName" Type="varchar" MaxLength="50" StoreGeneratedPattern="Computed" />
         </EntityType>
         <EntityType Name="ELMAH_Error">
           <Key>
@@ -109,52 +110,18 @@
     <edmx:ConceptualModels>
       <Schema Namespace="BIRIKIM_LOGModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="LOGEntities" annotation:LazyLoadingEnabled="true" >
-          <EntitySet Name="TumSiparisOnayLogs" EntityType="BIRIKIM_LOGModel.TumSiparisOnayLog" />
           <EntitySet Name="AppLogs" EntityType="BIRIKIM_LOGModel.AppLog" />
           <EntitySet Name="ELMAH_Error" EntityType="BIRIKIM_LOGModel.ELMAH_Error" />
           <EntitySet Name="ErrorLogs" EntityType="BIRIKIM_LOGModel.ErrorLog" />
           <EntitySet Name="LoginLogs" EntityType="BIRIKIM_LOGModel.LoginLog" />
+          <EntitySet Name="TumSiparisOnayLogs" EntityType="BIRIKIM_LOGModel.TumSiparisOnayLog" />
         </EntityContainer>
-        <EntityType Name="TumSiparisOnayLog">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="HesapKodu" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="Firma" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="SiparisTuru" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="OnayDurumu" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="TipKodu" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="KrediLimiti" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <Property Name="Bakiye" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <Property Name="SCek" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <Property Name="TCek" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <Property Name="PRTBakiye" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <Property Name="Kod2" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="Kod3OrtBakiye" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <Property Name="Kod3OrtGun" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <Property Name="OrtGun" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <Property Name="SicakSiparis" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <Property Name="SogukSiparis" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <Property Name="GunIciSiparis" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <Property Name="CHKAralik" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="RiskBakiyesi" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <Property Name="TipKodlari" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
-          <Property Name="RiskBakiyeAralik" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="false" />
-          <Property Name="RiskAralik" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="false" />
-          <Property Name="SirketAralik" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="RoleName" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="Degistiren" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="DegisTarih" Type="Int32" Nullable="false" />
-          <Property Name="Unvan" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="EvrakNo" Type="String" Nullable="false" MaxLength="16" FixedLength="false" Unicode="false" />
-          <Property Name="Risk" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-        </EntityType>
         <EntityType Name="AppLog">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Tarih" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="Site" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Area" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Controller" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
@@ -165,7 +132,7 @@
           <Property Name="Request" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="Username" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
           <Property Name="IpAddress" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Tarih" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="TypeName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" annotation:StoreGeneratedPattern="Computed" />
         </EntityType>
         <EntityType Name="ELMAH_Error">
           <Key>
@@ -207,52 +174,51 @@
           <Property Name="LoggedIn" Type="Boolean" Nullable="false" />
           <Property Name="Comment" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
         </EntityType>
-      </Schema>
+        <EntityType Name="TumSiparisOnayLog">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="HesapKodu" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Unvan" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="EvrakNo" Type="String" Nullable="false" MaxLength="16" FixedLength="false" Unicode="false" />
+          <Property Name="Firma" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="SiparisTuru" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="OnayDurumu" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="TipKodu" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Risk" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="KrediLimiti" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="Bakiye" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="SCek" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="TCek" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="PRTBakiye" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="Kod2" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Kod3OrtBakiye" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="Kod3OrtGun" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="OrtGun" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="SicakSiparis" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="SogukSiparis" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="GunIciSiparis" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="CHKAralik" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="RiskBakiyesi" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="TipKodlari" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="RiskBakiyeAralik" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="RiskAralik" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="SirketAralik" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="RoleName" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="Degistiren" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="DegisTarih" Type="Int32" Nullable="false" />
+        </EntityType>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="BIRIKIM_LOGModelStoreContainer" CdmEntityContainer="LOGEntities" >
-          <EntitySetMapping Name="TumSiparisOnayLogs">
-            <EntityTypeMapping TypeName="BIRIKIM_LOGModel.TumSiparisOnayLog">
-              <MappingFragment StoreEntitySet="TumSiparisOnayLog">
-                <ScalarProperty Name="Risk" ColumnName="Risk" />
-                <ScalarProperty Name="EvrakNo" ColumnName="EvrakNo" />
-                <ScalarProperty Name="Unvan" ColumnName="Unvan" />
-                <ScalarProperty Name="DegisTarih" ColumnName="DegisTarih" />
-                <ScalarProperty Name="Degistiren" ColumnName="Degistiren" />
-                <ScalarProperty Name="RoleName" ColumnName="RoleName" />
-                <ScalarProperty Name="SirketAralik" ColumnName="SirketAralik" />
-                <ScalarProperty Name="RiskAralik" ColumnName="RiskAralik" />
-                <ScalarProperty Name="RiskBakiyeAralik" ColumnName="RiskBakiyeAralik" />
-                <ScalarProperty Name="TipKodlari" ColumnName="TipKodlari" />
-                <ScalarProperty Name="RiskBakiyesi" ColumnName="RiskBakiyesi" />
-                <ScalarProperty Name="CHKAralik" ColumnName="CHKAralik" />
-                <ScalarProperty Name="GunIciSiparis" ColumnName="GunIciSiparis" />
-                <ScalarProperty Name="SogukSiparis" ColumnName="SogukSiparis" />
-                <ScalarProperty Name="SicakSiparis" ColumnName="SicakSiparis" />
-                <ScalarProperty Name="OrtGun" ColumnName="OrtGun" />
-                <ScalarProperty Name="Kod3OrtGun" ColumnName="Kod3OrtGun" />
-                <ScalarProperty Name="Kod3OrtBakiye" ColumnName="Kod3OrtBakiye" />
-                <ScalarProperty Name="Kod2" ColumnName="Kod2" />
-                <ScalarProperty Name="PRTBakiye" ColumnName="PRTBakiye" />
-                <ScalarProperty Name="TCek" ColumnName="TCek" />
-                <ScalarProperty Name="SCek" ColumnName="SCek" />
-                <ScalarProperty Name="Bakiye" ColumnName="Bakiye" />
-                <ScalarProperty Name="KrediLimiti" ColumnName="KrediLimiti" />
-                <ScalarProperty Name="TipKodu" ColumnName="TipKodu" />
-                <ScalarProperty Name="OnayDurumu" ColumnName="OnayDurumu" />
-                <ScalarProperty Name="SiparisTuru" ColumnName="SiparisTuru" />
-                <ScalarProperty Name="Firma" ColumnName="Firma" />
-                <ScalarProperty Name="HesapKodu" ColumnName="HesapKodu" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="AppLogs">
             <EntityTypeMapping TypeName="BIRIKIM_LOGModel.AppLog">
               <MappingFragment StoreEntitySet="AppLog">
-                <ScalarProperty Name="Tarih" ColumnName="Tarih" />
+                <ScalarProperty Name="TypeName" ColumnName="TypeName" />
                 <ScalarProperty Name="IpAddress" ColumnName="IpAddress" />
                 <ScalarProperty Name="Username" ColumnName="Username" />
                 <ScalarProperty Name="Request" ColumnName="Request" />
@@ -263,6 +229,7 @@
                 <ScalarProperty Name="Controller" ColumnName="Controller" />
                 <ScalarProperty Name="Area" ColumnName="Area" />
                 <ScalarProperty Name="Site" ColumnName="Site" />
+                <ScalarProperty Name="Tarih" ColumnName="Tarih" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -306,6 +273,42 @@
                 <ScalarProperty Name="DateTime" ColumnName="DateTime" />
                 <ScalarProperty Name="IP" ColumnName="IP" />
                 <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TumSiparisOnayLogs">
+            <EntityTypeMapping TypeName="BIRIKIM_LOGModel.TumSiparisOnayLog">
+              <MappingFragment StoreEntitySet="TumSiparisOnayLog">
+                <ScalarProperty Name="DegisTarih" ColumnName="DegisTarih" />
+                <ScalarProperty Name="Degistiren" ColumnName="Degistiren" />
+                <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+                <ScalarProperty Name="SirketAralik" ColumnName="SirketAralik" />
+                <ScalarProperty Name="RiskAralik" ColumnName="RiskAralik" />
+                <ScalarProperty Name="RiskBakiyeAralik" ColumnName="RiskBakiyeAralik" />
+                <ScalarProperty Name="TipKodlari" ColumnName="TipKodlari" />
+                <ScalarProperty Name="RiskBakiyesi" ColumnName="RiskBakiyesi" />
+                <ScalarProperty Name="CHKAralik" ColumnName="CHKAralik" />
+                <ScalarProperty Name="GunIciSiparis" ColumnName="GunIciSiparis" />
+                <ScalarProperty Name="SogukSiparis" ColumnName="SogukSiparis" />
+                <ScalarProperty Name="SicakSiparis" ColumnName="SicakSiparis" />
+                <ScalarProperty Name="OrtGun" ColumnName="OrtGun" />
+                <ScalarProperty Name="Kod3OrtGun" ColumnName="Kod3OrtGun" />
+                <ScalarProperty Name="Kod3OrtBakiye" ColumnName="Kod3OrtBakiye" />
+                <ScalarProperty Name="Kod2" ColumnName="Kod2" />
+                <ScalarProperty Name="PRTBakiye" ColumnName="PRTBakiye" />
+                <ScalarProperty Name="TCek" ColumnName="TCek" />
+                <ScalarProperty Name="SCek" ColumnName="SCek" />
+                <ScalarProperty Name="Bakiye" ColumnName="Bakiye" />
+                <ScalarProperty Name="KrediLimiti" ColumnName="KrediLimiti" />
+                <ScalarProperty Name="Risk" ColumnName="Risk" />
+                <ScalarProperty Name="TipKodu" ColumnName="TipKodu" />
+                <ScalarProperty Name="OnayDurumu" ColumnName="OnayDurumu" />
+                <ScalarProperty Name="SiparisTuru" ColumnName="SiparisTuru" />
+                <ScalarProperty Name="Firma" ColumnName="Firma" />
+                <ScalarProperty Name="EvrakNo" ColumnName="EvrakNo" />
+                <ScalarProperty Name="Unvan" ColumnName="Unvan" />
+                <ScalarProperty Name="HesapKodu" ColumnName="HesapKodu" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>

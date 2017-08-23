@@ -35,10 +35,9 @@
                 <th>Gün İçindeki Sipariş</th>
                 <th>Evrak No</th>
                 <th>Onay Durumu</th>
-                <th>Tarih</th>
                 <th>Firma</th>
-                <th>Onaylayan</th>
-             
+                <th>Kaydeden</th>
+                <th>KayıtTarih</th>
             </tr>
         </thead>
     </table>
@@ -51,23 +50,10 @@
     var bastarih = "@ViewBag.bastarih";
     var bittarih ="@ViewBag.bittarih";
 
-    if (tip1 == "Onaylandı") {
-        $(".onay").css("display","none");
-    }
-    else {
-        $(".onay").css("display", "block");
-    }
-
-    if (tip1 == "Reddedildi") {
-        $(".reddet").css("display", "none");
-    }
-    else {
-        $(".reddet").css("display", "block");
-    }
     var table = $('#sample_1').DataTable({
         "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
         "ajax": {
-            "url": '/Approvals/TumOrder/TumOrderListData',
+            "url": '/Reports/Stock/SiparisOnayRaporData',
             "data": { tip: tip1, bastarih: bastarih, bittarih: bittarih},
             "dataSrc": function (json) {
                 return json;
@@ -97,9 +83,9 @@
 
             { "data": "EvrakNo"},
             { "data": "OnayDurumu" },
-            { "data": "Tarih" },
             { "data": "Firma" },
-            { "data": "Onaylayan" },
+            { "data": "Degistiren" },
+            { "data": "DegisTarih", "render": function (data) { if (data != null) return fromOADate(data); else return "&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp;"; } }
         ],
         "ordering": false,
         "fnRowCallback": function (nRow, aData, iDisplayIndex) {
@@ -118,61 +104,5 @@
         ]
     }).container().appendTo($('#buttons'));
 
-    function SiparisOnayla() {
-        var x = table.rows('.selected').data();
-        secili_table = [];
-        for (var i = 0; i < x.length; i++) {
-            secili_table.push(x[i]);
-        }
-        var _dfd = $.Deferred();
-        $.ajax({
-            url: window.location.origin + "/Approvals/TumOrder/Onayla",
-            data: { Data: JSON.stringify(secili_table) },
-            type: "post",
-
-            success: function (data) {
-                if (data.Status == true) {
-                    Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "Guncel");
-                    setTimeout(function () { window.location.reload(); }, 500);
-                }
-                else {
-                    if (data.Message == "") data.Message = "Hata oluştu";
-                    Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
-                    setTimeout(function () { window.location.reload(); }, 500);
-                }
-
-            }
-        });
-
-        return _dfd.promise();
-    }
-
-    function SiparisReddet() {
-        var x = table.rows('.selected').data();
-        secili_table = [];
-        for (var i = 0; i < x.length; i++) {
-            secili_table.push(x[i]);
-        }
-        var _dfd = $.Deferred();
-        $.ajax({
-            url: window.location.origin + "/Approvals/TumOrder/Reddet",
-            data: { Data: JSON.stringify(secili_table) },
-            type: "post",
-
-            success: function (data) {
-                if (data.Status == true) {
-                    Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "Guncel");
-                    setTimeout(function () { window.location.reload(); }, 500);
-                }
-                else {
-                    if (data.Message == "") data.Message = "Hata oluştu";
-                    Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
-                    setTimeout(function () { window.location.reload(); }, 500);
-                }
-
-            }
-        });
-
-        return _dfd.promise();
-    }
 </script>
+

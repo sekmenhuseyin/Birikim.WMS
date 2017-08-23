@@ -18,7 +18,7 @@
                                     <th style="display:none"></th>
                                     <th>Kullanıcı Adı<br /><input class="w-50 input-circle" type="text" id="sKod" /></th>
                                     <th>Ad Soyad<br /><input class="w-50 input-circle" type="text" id="sAdSoyad" /></th>
-                                    <th>Ünvan<br /><input class="w-50 input-circle" type="text" id="sAdSoyad" /></th>
+                                    <th>Yetki<br /><input class="w-50 input-circle" type="text" id="sUnvan" /></th>
 
                                     <th class="col-lg-2"></th>
                                 </tr>
@@ -33,7 +33,7 @@
                                         <td>@item.RoleName</td>
 
                                         <td>
-                                            <div class="butondiv pull-right m-t-5"><button class="btn btn-primary pull-right input-circle duzenle-buton"> Listele <i class="fa fa-pencil-square-o" style="margin-left:5px;"></i></button></div>
+                                            <div class="butondiv pull-right m-t-5"><button class="btn btn-primary pull-right input-circle duzenle-buton"> Düzenle <i class="fa fa-pencil-square-o" style="margin-left:5px;"></i></button></div>
                                         </td>
                                     </tr>
                                 }
@@ -75,8 +75,9 @@
         //    });
         //}
     });
-    $("#sKod").on("change paste keyup", function () { filter(table, 0, $("#sKod").val()); });
-    $("#sAdSoyad").on("change paste keyup", function () { filter(table, 1, $("#sAdSoyad").val()); });
+    $("#sKod").on("change paste keyup", function () { filter(table, 1, $("#sKod").val()); });
+    $("#sAdSoyad").on("change paste keyup", function () { filter(table, 2, $("#sAdSoyad").val()); });
+    $("#sUnvan").on("change paste keyup", function () { filter(table, 3, $("#sUnvan").val()); });
 
     $('.duzenle-buton').click(function () {
         $('#modalEditPage').modal('toggle');

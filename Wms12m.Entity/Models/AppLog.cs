@@ -15,6 +15,7 @@ namespace Wms12m.Entity.Models
     public partial class AppLog
     {
         public int ID { get; set; }
+        public System.DateTime Tarih { get; set; }
         public string Site { get; set; }
         public string Area { get; set; }
         public string Controller { get; set; }
@@ -25,6 +26,6 @@ namespace Wms12m.Entity.Models
         public string Request { get; set; }
         public string Username { get; set; }
         public string IpAddress { get; set; }
-        public System.DateTime Tarih { get; set; }
+        public string TypeName { get; set; }
     }
 }

@@ -44,22 +44,24 @@
 <script type="text/javascript">
     var model = @Html.Raw(Json.Encode(Model));
     var ID = "@ViewBag.ID";
-    $(".baslik").text("aaaa");
+    $(".baslik").text(model.AdSoyad);
     $(".yetki-btn").css("display", "none");
     var sirketlist = model.GosterilecekSirket.split(";");
     sirketlist.pop();
     var tiplist = model.GostSTKDeger.split(";");
     tiplist.pop();
     var chklist, kod3list, risklist,secilitipkod,secilisirket,secilichk="",secilikod3="",secilirisk="";
-    if (model.GostCHKKodAlani == null) {chklist = ["", ""];}
+    if (model.GostCHKKodAlani == null || model.GostCHKKodAlani == "") {chklist = ["", ""];}
     else { chklist = model.GostCHKKodAlani.split(";"); }
-    if (model.GostKod3OrtBakiye == null) {kod3list = [0, 0];}
+    if (model.GostKod3OrtBakiye == null || model.GostKod3OrtBakiye == "") {kod3list = [0, 0];}
     else {
         kod3list = model.GostKod3OrtBakiye.split(";");
+        console.log(kod3list[1]);
+
         if (kod3list[0] == "") kod3list[0] = 0;
         if (kod3list[1] == "") kod3list[1] = 0;
     }
-    if (model.GostRiskDeger == null) {risklist = [0, 0,];}
+    if (model.GostRiskDeger == null || model.GostRiskDeger == "") {risklist = [0, 0,];}
     else {
         risklist = model.GostRiskDeger.split(";");
         if (risklist[0] == "") risklist[0] = 0;
@@ -192,7 +194,7 @@
     });
 
     $.ajax({
-        url: window.location.origin + "/SiparisYetki/TipKodSelect",
+        url: window.location.origin + "/Users/TipKodSelect",
                 data: {},
                 type: "post",
                 success: function (data)
@@ -226,8 +228,9 @@
 
 
     $('.save-buton').click(function () {
+        console.log(ID);
       $.ajax({
-         url: window.location.origin + "/SiparisYetki/ParametreUpdate",
+         url: window.location.origin + "/Users/ParametreUpdate",
          data: { CHKAraligi: secilichk, Sirketler: secilisirket, Tipler: secilitipkod, Kod3: secilikod3, Risk: secilirisk, ID :ID},
          type: "post",
          success: function (data) {
