@@ -31,35 +31,27 @@ namespace WMSMobil
                 case MenuType.None:
                     break;
                 case MenuType.MalKabul:
-                    this.Text = "Mal Kabul";
                     btnLinkeAktar.Text = "Linke Aktar";
                     break;
                 case MenuType.RafaYerlestirme:
-                    this.Text = "Rafa Yerleştirme";
                     btnLinkeAktar.Text="Görevi Sonlandır";
                     break;
                 case MenuType.SiparisToplama:
-                    this.Text = "Sipariş Toplama";
                     btnLinkeAktar.Text = "Linke Aktar";
                     break;
                 case MenuType.Paketle:
-                    this.Text = "Paketle";
                     btnLinkeAktar.Text = "Görevi Sonlandır";
                     break;
                 case MenuType.Sevkiyat:
-                    this.Text = "Sevkiyat";
                     btnLinkeAktar.Text = "Görevi Sonlandır";
                     break;
                 case MenuType.TransferÇıkış:
-                    this.Text = "Transfer";
                     btnLinkeAktar.Text = "Linke Aktar";
                     break;
                 case MenuType.TransferGiriş:
-                    this.Text = "Transfer";
                     btnLinkeAktar.Text = "Linke Aktar";
                     break;
                 case MenuType.KontrollüSayım:
-                    this.Text = "Kontrollü Sayım";
                     btnLinkeAktar.Text = "Görevi Sonlandır";
                     break;
                 default:

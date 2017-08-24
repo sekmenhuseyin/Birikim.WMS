@@ -51,7 +51,7 @@ namespace WMSMobil
             txtEvrakno.Visible = true;
             if (gorevtip == 1)
             {
-                this.Text = "Mal Kabulü";
+                this.Text = "WMS Mobil - Mal Kabulü";
                 label5.Text = "Okutulan Miktar";
                 txtRafBarkod.Visible = false;
                 label7.Visible = false;
@@ -60,7 +60,7 @@ namespace WMSMobil
             }
             else if (gorevtip == 2)
             {
-                this.Text = "Rafa Yerleştirme";
+                this.Text = "WMS Mobil - Rafa Yerleştirme";
                 label5.Text = "Raf";
                 txtRafBarkod.Visible = true;
                 label7.Visible = true;
@@ -69,7 +69,7 @@ namespace WMSMobil
             }
             else if (gorevtip == 3)
             {
-                this.Text = "Sipariş Toplama";
+                this.Text = "WMS Mobil - Sipariş Toplama";
                 label5.Text = "Raf";
                 txtRafBarkod.Visible = true;
                 label7.Visible = true;
@@ -84,7 +84,7 @@ namespace WMSMobil
             }
             else if (gorevtip == 6)
             {
-                this.Text = "Paketle";
+                this.Text = "WMS Mobil - Paketle";
                 label5.Text = "Okutulan Miktar";
                 txtRafBarkod.Visible = false;
                 label7.Visible = false;
@@ -93,7 +93,7 @@ namespace WMSMobil
             }
             else if (gorevtip == 7)
             {
-                this.Text = "Sevkiyat";
+                this.Text = "WMS Mobil - Sevkiyat";
                 label5.Text = "Okutulan Miktar";
                 txtRafBarkod.Visible = false;
                 label7.Visible = false;
@@ -102,7 +102,7 @@ namespace WMSMobil
             }
             else if (gorevtip == 8)
             {
-                this.Text = "Kontrollü Sayım";
+                this.Text = "WMS Mobil - Kontrollü Sayım";
                 label5.Text = "Raf";
                 label6.Text = "Okutulan Miktar";
                 txtRafBarkod.Visible = true;
@@ -118,7 +118,7 @@ namespace WMSMobil
             }
             else// if (gorevtip == 19 || gorevtip == 20)
             {
-                this.Text = "Transfer";
+                this.Text = "WMS Mobil - Transfer";
                 label5.Text = "Raf";
                 txtRafBarkod.Visible = true;
                 label7.Visible = true;

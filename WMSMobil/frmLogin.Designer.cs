@@ -165,7 +165,7 @@
             this.Controls.Add(this.panel1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmLogin";
-            this.Text = "Giriş Ekranı";
+            this.Text = "WMS Mobil - Giriş";
             this.Closing += new System.ComponentModel.CancelEventHandler(this.GirisForm_Closing);
             this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
