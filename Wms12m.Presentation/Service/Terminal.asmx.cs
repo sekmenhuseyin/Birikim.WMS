@@ -853,7 +853,7 @@ namespace Wms12m
                 catch (Exception ex)
                 {
                     Logger(kull.AdSoyad, "Terminal", ex, "Service/Terminal/SiparisTopla_GoreviTamamla");
-                    return new Result(false, "Kablo kaydı hariç her şey tamamlandı!");
+                    //return new Result(false, "Kablo kaydı hariç her şey tamamlandı!");
                 }
             return new Result(true);
         }

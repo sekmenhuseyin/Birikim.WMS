@@ -464,7 +464,7 @@
     <Content Include="Models\ModelWMS.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>ModelWMS.edmx</DependentUpon>
-      <LastGenOutput>ModelWMS.Context1.cs</LastGenOutput>
+      <LastGenOutput>ModelWMS.Context.cs</LastGenOutput>
     </Content>
     <Content Include="Models\ModelWMS.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
