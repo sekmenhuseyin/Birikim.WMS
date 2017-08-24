@@ -81,7 +81,9 @@
         ptÇuval = 66,
         ptBağ = 67,
         ptPoşetPaket = 68,
-        ptPalet = 69
+        ptPalet = 69,
+        Bakır = 70,
+        KüçükRaf = 71
     }
     /// <summary>
     /// combo item names
