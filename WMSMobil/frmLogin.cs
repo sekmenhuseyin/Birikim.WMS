@@ -59,26 +59,27 @@ namespace WMSMobil
             {
                 this.Invoke((MethodInvoker)delegate()
                 {
+                    Cursor.Current = Cursors.WaitCursor;
                     Login login = Servis.LoginKontrol2(scanDataCollection.GetFirst.Text, Ayarlar.AuthCode);
+                    Cursor.Current = Cursors.Default;
                     if (login.ID != 0)
                     {
                         Ayarlar.Kullanici = login;
                         frmMain anaForm = new frmMain();
-                        this.Enabled = true;
                         anaForm.ShowDialog();
                         this.Close();
                     }
                     else
                     {
-                        this.Enabled = true;
                         Mesaj.Uyari(login.AdSoyad);
                     }
                 });
             }
             catch (Exception)
             {
-                this.Enabled = true;
+                Cursor.Current = Cursors.Default;
                 Mesaj.Uyari("Bağlantı hatası. Lütfen daha sonra tekrar deneyin");
+                Cursor.Current = Cursors.Default;
             }
         }
         /// <summary>
