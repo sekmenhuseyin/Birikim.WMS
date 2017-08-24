@@ -51,6 +51,7 @@
           <Property Name="OnayTekno" Type="bit" Nullable="false" />
           <Property Name="CrmOzet" Type="bit" Nullable="false" />
           <Property Name="SevkiyatVarmi" Type="bit" Nullable="false" />
+          <Property Name="SiparisOnayParametre" Type="bit" Nullable="false" />
           <Property Name="MaliYil" Type="smallint" Nullable="false" />
           <Property Name="MaliYil1" Type="smallint" Nullable="false" />
           <Property Name="MaliYil2" Type="smallint" Nullable="false" />
@@ -3497,6 +3498,7 @@
           <Property Name="MaliYilDb2" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Version" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Aktif" Type="Boolean" Nullable="false" />
+          <Property Name="SiparisOnayParametre" Type="Boolean" Nullable="false" />
         </EntityType>
         </Schema>
     </edmx:ConceptualModels>
@@ -4366,6 +4368,7 @@
           <EntitySetMapping Name="Settings">
             <EntityTypeMapping TypeName="MModel.Setting">
               <MappingFragment StoreEntitySet="Settings">
+                <ScalarProperty Name="SiparisOnayParametre" ColumnName="SiparisOnayParametre" />
                 <ScalarProperty Name="Aktif" ColumnName="Aktif" />
                 <ScalarProperty Name="Version" ColumnName="Version" />
                 <ScalarProperty Name="MaliYilDb2" ColumnName="MaliYilDb2" />
