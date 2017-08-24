@@ -10,11 +10,9 @@
     textarea {border-radius: 1rem !important;}
 </style>
 }<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><span>Proje Form İşlemleri</span></li></ul></div>
-<h1 class="page-title">Proje Form İşlemleri</h1>
+<h1 class="page-title">Görev Çalışma İşlemleri</h1>
 <div class="row">
-
     <div class="col-md-12">
-
         <div class="row" id="CreateEdit">
             <div class="col-md-12">
                 <div class="portlet box green">
@@ -86,17 +84,19 @@
 <script src="~/Content/assets/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js" type="text/javascript"></script>
 <script type="text/javascript">
     $(document).ready(function () {
-        $('.date-picker').datepicker();           
-    });    
+        $('.date-picker').datepicker();
+    });
     var DeleteFunctionUrl = '/ToDo/DutyWork /Delete';
     PartialView("/ToDo/DutyWork/List", 'liste');
     function CreateEdit(Id) {
+        $("html, body").animate({ scrollTop: 0 }, "slow");
         if (Id == 0) {
             $("#ID").val("0");
             $("#Tarih").val("");
             $("#CalismaSure").val("");
             $("#Calisma").val("");
-            PartialView("/ToDo/DutyWork/List", 'liste');
+            setTimeout(function () { window.location.reload(); }, 500);
+            //PartialView("/ToDo/DutyWork/List", 'liste');
         }
         else
         { PartialView("/ToDo/DutyWork/Edit", 'CreateEdit', JSON.stringify({ Id: Id })); }

@@ -1,62 +1,60 @@
 ﻿@model GorevCalisma
-}<div class="modal-content">
-    <div class="close-modal" data-dismiss="modal"><div class="lr"><div class="rl"></div></div></div>
-    <div class="container">
-        <div class="portlet box green">
-            <div class="portlet-title">
-                <div class="caption">
-                    <i class="fa fa-gift"></i>Görev Çalışma Düzenle
-                </div>
+<div class="col-md-12">
+    <div class="portlet box green">
+        <div class="portlet-title">
+            <div class="caption">
+                <i class="fa fa-gift"></i>Görev Çalışma Düzenle
             </div>
-            <div class="portlet-body form">
-                @using (Ajax.BeginForm("Save", "DutyWork", new { area = "ToDo" }, new AjaxOptions { InsertionMode = InsertionMode.Replace, OnFailure = "Modaldialog('Lütfen Tekrar Deneyin', 'Hata', 'Tamam', 'btn-danger');", OnSuccess = "CreateEdit('0');" }, new { @class = "form-horizontal" }))
+        </div>
+        <div class="portlet-body form">
+            @using (Ajax.BeginForm("Save", "DutyWork", new { area = "ToDo" }, new AjaxOptions { InsertionMode = InsertionMode.Replace, OnFailure = "Modaldialog('Lütfen Tekrar Deneyin', 'Hata', 'Tamam', 'btn-danger');", OnSuccess = "CreateEdit('0');" }, new { @class = "form-horizontal" }))
                 {
-                    @Html.HiddenFor(model => model.ID)
-                    @Html.AntiForgeryToken()
-                    @Html.ValidationSummary(true)
-                    <div class="form-body">
-                        <div class="form-group row">
-                            <div class="control-label col-md-4">Görev</div>
-                            <div class="col-md-4">
-                                @Html.DropDownList("GorevID", null, htmlAttributes: new { @class = "form-control input-circle" })
-                                @Html.ValidationMessageFor(model => model.GorevID, "", new { @class = "text-danger" })
-                            </div>
+                @Html.HiddenFor(model => model.ID)
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true)
+                <div class="form-body">
+                    <div class="form-group row">
+                        <div class="control-label col-md-4">Görev</div>
+                        <div class="col-md-4">
+                            @Html.DropDownList("GorevID", null, htmlAttributes: new { @class = "form-control input-circle", @disabled = false  })
+                            @Html.ValidationMessageFor(model => model.GorevID, "", new { @class = "text-danger" })
                         </div>
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.Tarih, htmlAttributes: new { @class = "control-label col-md-4" })
-                            <div class="col-md-4">
-                                @Html.EditorFor(model => model.Tarih, new { htmlAttributes = new { id = "Tarih", @class = "form-control input-circle date-picker" } })
-                                @Html.ValidationMessageFor(model => model.Tarih, "", new { @class = "text-danger" })
-                            </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Tarih, htmlAttributes: new { @class = "control-label col-md-4" })
+                        <div class="col-md-4">
+                            @Html.EditorFor(model => model.Tarih, new { htmlAttributes = new { id = "Tarih", @class = "form-control input-circle date-picker" } })
+                            @Html.ValidationMessageFor(model => model.Tarih, "", new { @class = "text-danger" })
                         </div>
-                        <div class="form-group">
-                            <div class="control-label col-md-4">Çalışma Süresi</div>
-                            <div class="col-md-4">
-                                @Html.EditorFor(model => model.CalismaSure, new { htmlAttributes = new { @class = "form-control input-circle" } })
-                                @Html.ValidationMessageFor(model => model.CalismaSure, "", new { @class = "text-danger" })
-                            </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="control-label col-md-4">Çalışma Süresi</div>
+                        <div class="col-md-4">
+                            @Html.EditorFor(model => model.CalismaSure, new { htmlAttributes = new { @class = "form-control input-circle" } })
+                            @Html.ValidationMessageFor(model => model.CalismaSure, "", new { @class = "text-danger" })
                         </div>
-                        <div class="form-group">
-                            <div class="control-label col-md-4">Çalışma</div>
-                            <div class="col-md-4">
-                                @Html.TextAreaFor(model => model.Calisma, 10, 55, new { htmlAttributes = new { @class = "form-control input-circle" } })
-                                @Html.ValidationMessageFor(model => model.Calisma, "", new { @class = "text-danger" })
-                            </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="control-label col-md-4">Çalışma</div>
+                        <div class="col-md-4">
+                            @Html.TextAreaFor(model => model.Calisma, 10, 55, new { htmlAttributes = new { @class = "form-control input-circle" } })
+                            @Html.ValidationMessageFor(model => model.Calisma, "", new { @class = "text-danger" })
                         </div>
-                        <div class="form-actions">
-                            <div class="row">
-                                <div class="col-md-offset-3 col-md-9">
-                                    <center>
-                                        <input type="submit" value="Kaydet" class="btn btn-circle green" />
-                                        <button type="button" class="btn btn-circle grey-salsa btn-outline" onclick="CreateEdit('0')">Temizle</button>
-                                    </center>
-                                </div>
+                    </div>
+                    <div class="form-actions">
+                        <div class="row">
+                            <div class="col-md-offset-3 col-md-9">
+                                <center>
+                                    <input type="submit" value="Kaydet" class="btn btn-circle green" />
+                                    <button type="button" class="btn btn-circle grey-salsa btn-outline" onclick="CreateEdit('0')">Temizle</button>
+                                </center>
                             </div>
                         </div>
                     </div>
+                </div>
                 }
-            </div>
         </div>
     </div>
 </div>
+
 <script type="text/javascript">$(document).ready(function () {$('.date-picker').datepicker();});</script>

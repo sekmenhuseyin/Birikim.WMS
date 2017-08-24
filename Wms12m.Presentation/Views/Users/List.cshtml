@@ -26,7 +26,7 @@
                         <ul class="dropdown-menu" role="menu">
                             <li><a href="#modalEditPage" data-toggle="modal" onclick="editInModal('/Users/Perm/@item.ID')">Yetki Ata </a></li>
                             <li><a href="#modalEditPage" data-toggle="modal" onclick="editInModal('/Users/Pass/@item.ID')"> Şifre Değiştir </a></li>
-                            <li><a href="#modalEditPage" data-toggle="modal" onclick="editInModal('/Users/YetkiDuzenle/@item.ID')">Sipariş Onay Parametreleri </a></li>
+                            @{if(ViewBag.SiparisOnay == true){<li><a href="#modalEditPage" data-toggle="modal" onclick="editInModal('/Users/YetkiDuzenle/@item.ID')">Sipariş Onay Parametreleri </a></li>}}
                             <li><a href="#modalEditPage" data-toggle="modal" onclick="editInModal('/Users/Edit/@item.ID')"><i class="icon-pencil"></i> Düzenle </a></li>
                         </ul>
                     </div>}
