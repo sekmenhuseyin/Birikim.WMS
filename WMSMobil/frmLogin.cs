@@ -37,16 +37,16 @@ namespace WMSMobil
             //set servis
             Servis.Url = Ayarlar.ServisURL;
             //barkod
-            //Barkod = new Barcode2();
-            //Barkod.DeviceType = Symbol.Barcode2.DEVICETYPES.FIRSTAVAILABLE;
-            //try
-            //{
-            //    Barkod.EnableScanner = true;
-            //}
-            //catch (Exception)
-            //{
-            //}
-            //Barkod.OnScan += new Barcode2.OnScanEventHandler(Barkod_OnScan);
+            Barkod = new Barcode2();
+            Barkod.DeviceType = Symbol.Barcode2.DEVICETYPES.FIRSTAVAILABLE;
+            try
+            {
+                Barkod.EnableScanner = true;
+            }
+            catch (Exception)
+            {
+            }
+            Barkod.OnScan += new Barcode2.OnScanEventHandler(Barkod_OnScan);
             Cursor.Current = Cursors.Default;
         }
         /// <summary>
@@ -66,6 +66,7 @@ namespace WMSMobil
                         frmMain anaForm = new frmMain();
                         this.Enabled = true;
                         anaForm.ShowDialog();
+                        this.Close();
                     }
                     else
                     {
