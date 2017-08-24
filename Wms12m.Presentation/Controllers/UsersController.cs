@@ -32,6 +32,7 @@ namespace Wms12m.Presentation.Controllers
             else
                 list = db.Users.Where(m => m.Sirket == "" && m.Tip == 0 && m.ID > 1).ToList();
             ViewBag.Yetki = CheckPerm(Perms.Kullanıcılar, PermTypes.Writing);
+            ViewBag.SiparisOnay = ViewBag.settings.SiparisOnayParametre;
             return PartialView("List", list);
         }
         /// <summary>
