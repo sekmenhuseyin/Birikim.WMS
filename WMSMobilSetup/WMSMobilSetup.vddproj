@@ -455,33 +455,6 @@
         }
         "Folder"
         {
-            "{F6DFDB62-1DD1-498B-89B7-27BAC542EE5A}:_751C3AED782446AD9C31F4915EBF846F"
-            {
-            "Name" = "8:#1919"
-            "Condition" = "8:"
-            "Property" = "8:%CE17%"
-                "Folders"
-                {
-                    "{5943FCFD-5B64-4EE4-96C9-4618EC95352A}:_74A18B865FBD4A74B30D973381D9A1B4"
-                    {
-                    "Name" = "8:12M Consulting"
-                    "Condition" = "8:"
-                    "Property" = "8:_DA9BD9B99DAA4B66A49865C63A483014"
-                        "Folders"
-                        {
-                        }
-                    }
-                }
-            }
-            "{F6DFDB62-1DD1-498B-89B7-27BAC542EE5A}:_967D36ED004D4F62BF89F927CD6E442E"
-            {
-            "Name" = "8:#1914"
-            "Condition" = "8:"
-            "Property" = "8:%CE5%"
-                "Folders"
-                {
-                }
-            }
             "{D5B00AC1-E6C3-4CC5-90FF-8E0F53D9E5E0}:_BB9FFC32F3FD425AB294D1E12973AD54"
             {
             "DefaultLocation" = "8:%InstallDir%"
@@ -517,6 +490,15 @@
                             }
                         }
                     }
+                }
+            }
+            "{F6DFDB62-1DD1-498B-89B7-27BAC542EE5A}:_EF92E530015447D6A705ABCA95F8FC61"
+            {
+            "Name" = "8:#1919"
+            "Condition" = "8:"
+            "Property" = "8:%CE17%"
+                "Folders"
+                {
                 }
             }
         }
@@ -624,24 +606,14 @@
         }
         "Shortcut"
         {
-            "{971D45E9-E38C-49AC-B36E-4C5BEA533350}:_2609295DAE04428D8CF4161C4AFDF4C7"
+            "{971D45E9-E38C-49AC-B36E-4C5BEA533350}:_40AEA815453F4101862D8985A447B5BC"
             {
             "Name" = "8:WMSMobil"
             "Arguments" = "8:"
             "Description" = "8:"
             "ShowCmd" = "3:1"
             "Target" = "8:_8E1884A51088480992E2FA9B95EE056B"
-            "Folder" = "8:_751C3AED782446AD9C31F4915EBF846F"
-            "WorkingFolder" = "8:_19005643B4D244E5AA29F9848560B676"
-            }
-            "{971D45E9-E38C-49AC-B36E-4C5BEA533350}:_BC10A24712F347B79FD9079187B984D4"
-            {
-            "Name" = "8:WMSMobil"
-            "Arguments" = "8:"
-            "Description" = "8:"
-            "ShowCmd" = "3:1"
-            "Target" = "8:_8E1884A51088480992E2FA9B95EE056B"
-            "Folder" = "8:_74A18B865FBD4A74B30D973381D9A1B4"
+            "Folder" = "8:_EF92E530015447D6A705ABCA95F8FC61"
             "WorkingFolder" = "8:_9DC09D7200194CD18675623CA7152D30"
             }
         }

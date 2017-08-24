@@ -29,7 +29,7 @@ namespace WMSMobil
             if (!File.Exists(@"\WMSMobil-ip.txt"))
                 using (var Dosya = new FileStream(@"\WMSMobil-ip.txt", FileMode.OpenOrCreate, FileAccess.Write))
                     using (var Oku = new StreamWriter(Dosya))
-                        Oku.WriteLine(Servis.Url);
+                        Oku.WriteLine("http://88.248.139.219/service/terminal.asmx");
             //get servis url
             using (var Dosya = new FileStream(@"\WMSMobil-ip.txt", FileMode.Open))
                 using (var Oku = new StreamReader(Dosya))
@@ -37,16 +37,16 @@ namespace WMSMobil
             //set servis
             Servis.Url = Ayarlar.ServisURL;
             //barkod
-            Barkod = new Barcode2();
-            Barkod.DeviceType = Symbol.Barcode2.DEVICETYPES.FIRSTAVAILABLE;
-            try
-            {
-                Barkod.EnableScanner = true;
-            }
-            catch (Exception)
-            {
-            }
-            Barkod.OnScan += new Barcode2.OnScanEventHandler(Barkod_OnScan);
+            //Barkod = new Barcode2();
+            //Barkod.DeviceType = Symbol.Barcode2.DEVICETYPES.FIRSTAVAILABLE;
+            //try
+            //{
+            //    Barkod.EnableScanner = true;
+            //}
+            //catch (Exception)
+            //{
+            //}
+            //Barkod.OnScan += new Barcode2.OnScanEventHandler(Barkod_OnScan);
             Cursor.Current = Cursors.Default;
         }
         /// <summary>
@@ -59,9 +59,7 @@ namespace WMSMobil
             {
                 this.Invoke((MethodInvoker)delegate()
                 {
-                    Cursor.Current = Cursors.WaitCursor;
                     Login login = Servis.LoginKontrol2(scanDataCollection.GetFirst.Text, Ayarlar.AuthCode);
-                    Cursor.Current = Cursors.Default;
                     if (login.ID != 0)
                     {
                         Ayarlar.Kullanici = login;
@@ -75,11 +73,9 @@ namespace WMSMobil
                     }
                 });
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                Cursor.Current = Cursors.Default;
                 Mesaj.Uyari("Bağlantı hatası. Lütfen daha sonra tekrar deneyin");
-                Cursor.Current = Cursors.Default;
             }
         }
         /// <summary>
@@ -113,7 +109,7 @@ namespace WMSMobil
                     Mesaj.Uyari(login.AdSoyad);
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 this.Enabled = true;
                 Mesaj.Uyari("Bağlantı hatası. Lütfen daha sonra tekrar deneyin");
