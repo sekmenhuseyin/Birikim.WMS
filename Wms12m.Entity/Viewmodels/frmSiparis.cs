@@ -62,7 +62,8 @@ namespace Wms12m.Entity
         public string MalAdi { get; set; }
         public decimal Miktar { get; set; }
         public string Birim { get; set; }
-        public decimal Stok { get; set; }
+        public decimal WmsStok { get; set; }
+        public decimal GunesStok { get; set; }
     }
     /// <summary>
     /// sipariş onay formu

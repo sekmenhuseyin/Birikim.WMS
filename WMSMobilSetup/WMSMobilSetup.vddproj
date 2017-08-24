@@ -510,7 +510,7 @@
         "OSVersionMin" = "8:4.0"
         "OSVersionMax" = "8:6.99"
         "NoUninstall" = "11:FALSE"
-        "Compress" = "11:TRUE"
+        "Compress" = "11:FALSE"
         "CESetupDLL" = "8:"
         }
         "ProjectOutput"
