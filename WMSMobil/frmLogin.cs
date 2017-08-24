@@ -29,7 +29,7 @@ namespace WMSMobil
             if (!File.Exists(@"\WMSMobil-ip.txt"))
                 using (var Dosya = new FileStream(@"\WMSMobil-ip.txt", FileMode.OpenOrCreate, FileAccess.Write))
                     using (var Oku = new StreamWriter(Dosya))
-                        Oku.WriteLine(Servis.Url);
+                        Oku.WriteLine("http://88.248.139.219/service/terminal.asmx");
             //get servis url
             using (var Dosya = new FileStream(@"\WMSMobil-ip.txt", FileMode.Open))
                 using (var Oku = new StreamReader(Dosya))
@@ -64,19 +64,17 @@ namespace WMSMobil
                     {
                         Ayarlar.Kullanici = login;
                         frmMain anaForm = new frmMain();
-                        this.Enabled = true;
                         anaForm.ShowDialog();
+                        this.Close();
                     }
                     else
                     {
-                        this.Enabled = true;
                         Mesaj.Uyari(login.AdSoyad);
                     }
                 });
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                this.Enabled = true;
                 Mesaj.Uyari("Bağlantı hatası. Lütfen daha sonra tekrar deneyin");
             }
         }
@@ -111,7 +109,7 @@ namespace WMSMobil
                     Mesaj.Uyari(login.AdSoyad);
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 this.Enabled = true;
                 Mesaj.Uyari("Bağlantı hatası. Lütfen daha sonra tekrar deneyin");

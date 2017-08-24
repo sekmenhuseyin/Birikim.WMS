@@ -201,7 +201,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
             this.Name = "frmTasks";
-            this.Text = "MalKabul";
+            this.Text = "WMS Mobil - Görevler";
             this.Closing += new System.ComponentModel.CancelEventHandler(this.frmTasks_Closing);
             this.panel2.ResumeLayout(false);
             this.panelOrta.ResumeLayout(false);

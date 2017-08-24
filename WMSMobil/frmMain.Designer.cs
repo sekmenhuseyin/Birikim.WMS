@@ -272,7 +272,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
             this.Name = "frmMain";
-            this.Text = "Ana Form";
+            this.Text = "WMS Mobil";
             this.Activated += new System.EventHandler(this.AnaForm_Activated);
             this.Closing += new System.ComponentModel.CancelEventHandler(this.AnaForm_Closing);
             this.ResumeLayout(false);

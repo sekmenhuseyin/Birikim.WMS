@@ -119,13 +119,13 @@ namespace Wms12m
                 SolidBrush black = new SolidBrush(Color.Black);
                 SolidBrush white = new SolidBrush(Color.White);
                 graphic.FillRectangle(white, 0, 0, objBitmap.Width, objBitmap.Height);
-                graphic.DrawString("*" + Code + "*", newFont, black, point);
+                graphic.DrawString(Code, newFont, black, point);
             }
             using (MemoryStream Mmst = new MemoryStream())
             {
                 objBitmap.Save(Mmst, ImageFormat.Png);
                 barcode = Mmst.GetBuffer();
-                BarCodeImage = barcode != null ? "data:image/jpg;base64," + Convert.ToBase64String((byte[])barcode) : "";
+                BarCodeImage = barcode != null ? "data:image/jpg;base64," + Convert.ToBase64String(barcode) : "";
                 return BarCodeImage;
             }
         }
