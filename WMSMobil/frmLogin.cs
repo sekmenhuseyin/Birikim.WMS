@@ -29,7 +29,7 @@ namespace WMSMobil
             if (!File.Exists(@"\WMSMobil-ip.txt"))
                 using (var Dosya = new FileStream(@"\WMSMobil-ip.txt", FileMode.OpenOrCreate, FileAccess.Write))
                     using (var Oku = new StreamWriter(Dosya))
-                        Oku.WriteLine("http://88.248.139.219/service/terminal.asmx");
+                        Oku.WriteLine("http://192.168.2.228/service/terminal.asmx");
             //get servis url
             using (var Dosya = new FileStream(@"\WMSMobil-ip.txt", FileMode.Open))
                 using (var Oku = new StreamReader(Dosya))
@@ -59,17 +59,20 @@ namespace WMSMobil
             {
                 this.Invoke((MethodInvoker)delegate()
                 {
-                    Login login = Servis.LoginKontrol2(scanDataCollection.GetFirst.Text, Ayarlar.AuthCode);
-                    if (login.ID != 0)
-                    {
-                        Ayarlar.Kullanici = login;
-                        frmMain anaForm = new frmMain();
-                        anaForm.ShowDialog();
-                        this.Close();
-                    }
-                    else
-                    {
-                        Mesaj.Uyari(login.AdSoyad);
+                    if (scanDataCollection.GetFirst.Text != "")
+                    {                        
+                        Login login = Servis.LoginKontrol2(scanDataCollection.GetFirst.Text, Ayarlar.AuthCode);
+                        if (login.ID != 0)
+                        {
+                            Ayarlar.Kullanici = login;
+                            frmMain anaForm = new frmMain();
+                            anaForm.ShowDialog();
+                            this.Close();
+                        }
+                        else
+                        {
+                            Mesaj.Uyari(login.AdSoyad);
+                        }
                     }
                 });
             }
