@@ -75,7 +75,6 @@ namespace WMSMobil
             }
             catch (Exception ex)
             {
-                Mesaj.Uyari("Bağlantı hatası. Lütfen daha sonra tekrar deneyin");
             }
         }
         /// <summary>
@@ -89,7 +88,6 @@ namespace WMSMobil
                 return;
             }
             this.Enabled = false;
-
             try
             {
                 Cursor.Current = Cursors.WaitCursor;

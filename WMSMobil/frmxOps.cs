@@ -32,16 +32,16 @@ namespace WMSMobil
             glbTip = tip;
             GorevTip=gorevtip;
             //barkod
-            //Barkod = new Barcode2();
-            //Barkod.DeviceType = Symbol.Barcode2.DEVICETYPES.FIRSTAVAILABLE;
-            //try
-            //{
-            //    Barkod.EnableScanner = true;
-            //}
-            //catch (Exception)
-            //{
-            //}
-            //Barkod.OnScan += new Barcode2.OnScanEventHandler(Barkod_OnScan);
+            Barkod = new Barcode2();
+            Barkod.DeviceType = Symbol.Barcode2.DEVICETYPES.FIRSTAVAILABLE;
+            try
+            {
+                Barkod.EnableScanner = true;
+            }
+            catch (Exception)
+            {
+            }
+            Barkod.OnScan += new Barcode2.OnScanEventHandler(Barkod_OnScan);
             //gizle göster
             label1.Visible = true;
             label2.Visible = true;
@@ -349,7 +349,7 @@ namespace WMSMobil
                 tBarkod.Text = stiItem.Barkod;
                 tMalKodu.Text = stiItem.MalKodu;
                 tBirim.Text = stiItem.Birim;
-                tMakaraNo.Text = stiItem.Birim;
+                tMakaraNo.Text = stiItem.MakaraNo;
                 tMalAdi.Text = stiItem.MalAdi;
                 tMalKodu.Tag = stiItem.ID.ToInt32();
                 tMiktar.Text = stiItem.Miktar.ToDecimal().ToString("N2");
@@ -367,6 +367,7 @@ namespace WMSMobil
                 panelSatir.Controls.Add(tMalAdi);
                 panelSatir.Controls.Add(tMiktar);
                 panelSatir.Controls.Add(tBirim);
+                panelSatir.Controls.Add(tMakaraNo);
                 if (Ayarlar.MenuTip == MenuType.MalKabul || Ayarlar.MenuTip == MenuType.Paketle || Ayarlar.MenuTip == MenuType.Sevkiyat)
                 {
                     panelSatir.Size = new Size(520.Carpim(), 20.Carpim());
@@ -374,7 +375,7 @@ namespace WMSMobil
                 }
                 else if (Ayarlar.MenuTip == MenuType.KontrollüSayım)
                 {
-                    panelSatir.Size = new Size(450.Carpim(), 20.Carpim());
+                    panelSatir.Size = new Size(626.Carpim(), 20.Carpim());
                     panelSatir.Controls.Add(tRaf);
                     panelSatir.Controls.Add(tMiktarOkutulan);
                 }
@@ -385,7 +386,6 @@ namespace WMSMobil
                     panelSatir.Controls.Add(tYerlestirmeMiktari);
                 }
                 panelSatir.Controls.Add(tIslemMiktar);
-                panelSatir.Controls.Add(tMakaraNo);
                 panelOrta.Controls.Add(panelSatir);
                 PanelVeriList.Add(panelSatir);
             }
@@ -798,7 +798,7 @@ namespace WMSMobil
                 var yer = new frmYerlesme();
                 if (Ayarlar.MenuTip == MenuType.MalKabul || Ayarlar.MenuTip == MenuType.Paketle || Ayarlar.MenuTip == MenuType.Sevkiyat)
                 {
-                    sti.OkutulanMiktar = itemPanel.Controls[6].Text.ToDecimal();
+                    sti.OkutulanMiktar = itemPanel.Controls[7].Text.ToDecimal();
                     sti.ID = itemPanel.Controls[1].Tag.ToInt32();
                     StiList.Add(sti);
                 }
@@ -812,7 +812,7 @@ namespace WMSMobil
                         yer.DepoID = Ayarlar.Kullanici.DepoID;
                         yer.IrsDetayID = itemPanel.Controls[1].Tag.ToInt32();
                         yer.IrsID = txtEvrakno.Tag.ToInt32();
-                        yer.RafNo = itemPanel.Controls[5].Text;
+                        yer.RafNo = itemPanel.Controls[6].Text;
                         yer.GorevID = GorevID;
                         YerList.Add(yer);
                     }
@@ -827,7 +827,7 @@ namespace WMSMobil
                         yer.DepoID = Ayarlar.Kullanici.DepoID;
                         yer.IrsDetayID = itemPanel.Controls[1].Tag.ToInt32();
                         yer.IrsID = txtEvrakno.Tag.ToInt32();
-                        yer.RafNo = itemPanel.Controls[5].Text;
+                        yer.RafNo = itemPanel.Controls[6].Text;
                         yer.GorevID = GorevID;
                         YerList.Add(yer);
                     }

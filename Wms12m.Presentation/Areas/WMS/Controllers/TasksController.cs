@@ -194,14 +194,16 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             string[] tmp = id.ToString().Split('-');
             string sql = "";
             if (tmp[0] != "1")//sadece fark liste
-                sql = " WHERE (Stok <> Miktar)";
+                sql = " WHERE (WmsStok <> Miktar)";
             int GorevID = tmp[1].ToInt32();
             var mGorev = db.Gorevs.Where(m => m.ID == GorevID).FirstOrDefault();
-            sql = string.Format("SELECT MalKodu, Birim, Miktar, Stok FROM (" +
+            sql = string.Format("SELECT MalKodu, MalAdi, Birim, Miktar, WmsStok, GunesStok FROM (" +
                                             "SELECT wms.GorevYer.MalKodu, wms.GorevYer.Birim, SUM(wms.GorevYer.Miktar) AS Miktar, " +
+                                                "[wms].fnGetStockByID(wms.Gorev.DepoID,wms.GorevYer.MalKodu, wms.GorevYer.Birim) as WmsStok, " +
+                                                "(SELECT FINSAT6{0}.FINSAT6{0}.STK.MalAdi from FINSAT6{0}.FINSAT6{0}.STK WHERE FINSAT6{0}.FINSAT6{0}.STK.MalKodu = wms.GorevYer.MalKodu) as MalAdi, " +
                                                 "ISNULL((SELECT FINSAT6{0}.FINSAT6{0}.DST.DvrMiktar + FINSAT6{0}.FINSAT6{0}.DST.GirMiktar - FINSAT6{0}.FINSAT6{0}.DST.CikMiktar AS stok " +
                                                 "FROM FINSAT6{0}.FINSAT6{0}.DST INNER JOIN FINSAT6{0}.FINSAT6{0}.STK ON FINSAT6{0}.FINSAT6{0}.DST.MalKodu = FINSAT6{0}.FINSAT6{0}.STK.MalKodu " +
-                                                "WHERE (FINSAT6{0}.FINSAT6{0}.DST.Depo = '{1}') AND (FINSAT6{0}.FINSAT6{0}.DST.MalKodu = wms.GorevYer.MalKodu) AND (FINSAT6{0}.FINSAT6{0}.DST.DvrMiktar + FINSAT6{0}.FINSAT6{0}.DST.GirMiktar - FINSAT6{0}.FINSAT6{0}.DST.CikMiktar > 0)),0) AS Stok " +
+                                                "WHERE (FINSAT6{0}.FINSAT6{0}.DST.Depo = '{1}') AND (FINSAT6{0}.FINSAT6{0}.DST.MalKodu = wms.GorevYer.MalKodu) AND (FINSAT6{0}.FINSAT6{0}.DST.DvrMiktar + FINSAT6{0}.FINSAT6{0}.DST.GirMiktar - FINSAT6{0}.FINSAT6{0}.DST.CikMiktar > 0)),0) AS GunesStok " +
                                             "FROM wms.Gorev WITH(NOLOCK) INNER JOIN wms.GorevYer WITH(NOLOCK) ON wms.Gorev.ID = wms.GorevYer.GorevID " +
                                             "WHERE (wms.Gorev.ID = {2}) GROUP BY wms.Gorev.DepoID, wms.GorevYer.MalKodu, wms.GorevYer.Birim" +
                                         ") AS t{3}", mGorev.IR.SirketKod, mGorev.Depo.DepoKodu, GorevID, sql);
@@ -237,11 +239,13 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             short sirano = 0;
             List<STI> stiList = new List<STI>();
             //loop malkods
-            string sql = string.Format("SELECT MalKodu, Birim, Miktar, Stok FROM (" +
+            string sql = string.Format("SELECT MalKodu, MalAdi, Birim, Miktar, GunesStok, WmsStok FROM (" +
                                             "SELECT wms.GorevYer.MalKodu, wms.GorevYer.Birim, SUM(wms.GorevYer.Miktar) AS Miktar, " +
+                                                "[wms].fnGetStockByID(wms.Gorev.DepoID,wms.GorevYer.MalKodu, wms.GorevYer.Birim) as WmsStok, " +
+                                                "(SELECT FINSAT6{0}.FINSAT6{0}.STK.MalAdi from FINSAT6{0}.FINSAT6{0}.STK WHERE FINSAT6{0}.FINSAT6{0}.STK.MalKodu = wms.GorevYer.MalKodu) as MalAdi, " +
                                                 "ISNULL((SELECT FINSAT6{0}.FINSAT6{0}.DST.DvrMiktar + FINSAT6{0}.FINSAT6{0}.DST.GirMiktar - FINSAT6{0}.FINSAT6{0}.DST.CikMiktar AS stok " +
                                                 "FROM FINSAT6{0}.FINSAT6{0}.DST INNER JOIN FINSAT6{0}.FINSAT6{0}.STK ON FINSAT6{0}.FINSAT6{0}.DST.MalKodu = FINSAT6{0}.FINSAT6{0}.STK.MalKodu " +
-                                                "WHERE (FINSAT6{0}.FINSAT6{0}.DST.Depo = '{1}') AND (FINSAT6{0}.FINSAT6{0}.DST.MalKodu = wms.GorevYer.MalKodu) AND (FINSAT6{0}.FINSAT6{0}.DST.DvrMiktar + FINSAT6{0}.FINSAT6{0}.DST.GirMiktar - FINSAT6{0}.FINSAT6{0}.DST.CikMiktar > 0)),0) AS Stok " +
+                                                "WHERE (FINSAT6{0}.FINSAT6{0}.DST.Depo = '{1}') AND (FINSAT6{0}.FINSAT6{0}.DST.MalKodu = wms.GorevYer.MalKodu) AND (FINSAT6{0}.FINSAT6{0}.DST.DvrMiktar + FINSAT6{0}.FINSAT6{0}.DST.GirMiktar - FINSAT6{0}.FINSAT6{0}.DST.CikMiktar > 0)),0) AS GunesStok " +
                                             "FROM wms.Gorev WITH(NOLOCK) INNER JOIN wms.GorevYer WITH(NOLOCK) ON wms.Gorev.ID = wms.GorevYer.GorevID " +
                                             "WHERE (wms.Gorev.ID = {2}) GROUP BY wms.Gorev.DepoID, wms.GorevYer.MalKodu, wms.GorevYer.Birim" +
                                         ") AS t", mGorev.IR.SirketKod, mGorev.Depo.DepoKodu, GorevID);
@@ -251,7 +255,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                 //TODO: burada hata var
                 var sti = new STI();
                 sti.DefaultValueSet();
-                if (item.Miktar > item.Stok)//olması gerekenden fazlaysa giriş yapılacak
+                if (item.Miktar > item.WmsStok)//olması gerekenden fazlaysa giriş yapılacak
                     sti.IslemTur = 0;
                 else//eğer olması gerekenden az varsa çıkış yapılacak
                     sti.IslemTur = 1;
@@ -261,7 +265,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                 sti.IslemTip = 18;//"Sayım Sonuç Fişi" from finsat.COMBOITEM_NAME
                 sti.MalKodu = item.MalKodu;
                 sti.Miktar = item.Miktar;
-                sti.Miktar2 = item.Stok;
+                sti.Miktar2 = item.WmsStok;
                 sti.Birim = item.Birim;
                 sti.BirimMiktar = item.Miktar;
                 sti.Depo = mGorev.Depo.DepoKodu;
@@ -315,11 +319,13 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             short sirano = 0;
             List<STI> stiList = new List<STI>();
             //loop malkods
-            string sql = string.Format("SELECT MalKodu, Birim, Miktar, Stok FROM (" +
+            string sql = string.Format("SELECT MalKodu, MalAdi, Birim, Miktar, GunesStok, WmsStok FROM (" +
                                             "SELECT wms.GorevYer.MalKodu, wms.GorevYer.Birim, SUM(wms.GorevYer.Miktar) AS Miktar, " +
+                                                "[wms].fnGetStockByID(wms.Gorev.DepoID,wms.GorevYer.MalKodu, wms.GorevYer.Birim) as WmsStok, " +
+                                                "(SELECT FINSAT6{0}.FINSAT6{0}.STK.MalAdi from FINSAT6{0}.FINSAT6{0}.STK WHERE FINSAT6{0}.FINSAT6{0}.STK.MalKodu = wms.GorevYer.MalKodu) as MalAdi, " +
                                                 "ISNULL((SELECT FINSAT6{0}.FINSAT6{0}.DST.DvrMiktar + FINSAT6{0}.FINSAT6{0}.DST.GirMiktar - FINSAT6{0}.FINSAT6{0}.DST.CikMiktar AS stok " +
                                                 "FROM FINSAT6{0}.FINSAT6{0}.DST INNER JOIN FINSAT6{0}.FINSAT6{0}.STK ON FINSAT6{0}.FINSAT6{0}.DST.MalKodu = FINSAT6{0}.FINSAT6{0}.STK.MalKodu " +
-                                                "WHERE (FINSAT6{0}.FINSAT6{0}.DST.Depo = '{1}') AND (FINSAT6{0}.FINSAT6{0}.DST.MalKodu = wms.GorevYer.MalKodu) AND (FINSAT6{0}.FINSAT6{0}.DST.DvrMiktar + FINSAT6{0}.FINSAT6{0}.DST.GirMiktar - FINSAT6{0}.FINSAT6{0}.DST.CikMiktar > 0)),0) AS Stok " +
+                                                "WHERE (FINSAT6{0}.FINSAT6{0}.DST.Depo = '{1}') AND (FINSAT6{0}.FINSAT6{0}.DST.MalKodu = wms.GorevYer.MalKodu) AND (FINSAT6{0}.FINSAT6{0}.DST.DvrMiktar + FINSAT6{0}.FINSAT6{0}.DST.GirMiktar - FINSAT6{0}.FINSAT6{0}.DST.CikMiktar > 0)),0) AS GunesStok " +
                                             "FROM wms.Gorev WITH(NOLOCK) INNER JOIN wms.GorevYer WITH(NOLOCK) ON wms.Gorev.ID = wms.GorevYer.GorevID " +
                                             "WHERE (wms.Gorev.ID = {2}) GROUP BY wms.Gorev.DepoID, wms.GorevYer.MalKodu, wms.GorevYer.Birim" +
                                         ") AS t WHERE (Stok <> Miktar)", mGorev.IR.SirketKod, mGorev.Depo.DepoKodu, GorevID);
@@ -329,11 +335,11 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                 //TODO: burada hata var
                 var sti = new STI();
                 sti.DefaultValueSet();
-                if (item.Miktar > item.Stok)//fazla mal varsa giriş
+                if (item.Miktar > item.WmsStok)//fazla mal varsa giriş
                     sti.IslemTur = 0;
                 else
                     sti.IslemTur = 1;
-                sti.Miktar = Math.Abs(item.Miktar - item.Stok);
+                sti.Miktar = Math.Abs(item.Miktar - item.WmsStok);
                 sti.Tarih = tarih;
                 sti.KynkEvrakTip = 100;//"Sayım Farkı Fişi" from finsat.COMBOITEM_NAME
                 sti.SiraNo = sirano;
@@ -341,7 +347,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                 sti.MalKodu = item.MalKodu;
                 sti.Birim = item.Birim;
                 sti.BirimMiktar = sti.Miktar;
-                sti.Miktar2 = item.Stok;
+                sti.Miktar2 = item.WmsStok;
                 sti.Depo = mGorev.Depo.DepoKodu;
                 sti.VadeTarih = tarih;
                 sti.EvrakTarih = tarih;
@@ -362,23 +368,23 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                 sql = string.Format("UPDATE FINSAT6{0}.FINSAT6{0}.STI SET KaynakIrsEvrakNo='{1}' WHERE EvrakNo = '{2}' AND KynkEvrakTip = 94;", mGorev.IR.SirketKod, sonuc.Message, mGorev.IR.EvrakNo);
                 foreach (var item in list)
                 {
-                    if (item.Miktar > item.Stok)//giriş
+                    if (item.Miktar > item.WmsStok)//giriş
                     {
                         sql += string.Format("UPDATE FINSAT6{0}.FINSAT6{0}.DST " +
                             "SET GirMiktar = GirMiktar + {3}, SonGirTarih = {5}, SonSayimTarih = {5}, SonSayimFarki = {3}, Degistiren = '{4}', DegisTarih = {5}, DegisSaat = {6} " +
-                            "WHERE(MalKodu = '{1}') AND(Depo = '{2}');", mGorev.IR.SirketKod, item.MalKodu, mGorev.Depo.DepoKodu, (item.Miktar - item.Stok).ToDot(), vUser.UserName, tarih, saat);
+                            "WHERE(MalKodu = '{1}') AND(Depo = '{2}');", mGorev.IR.SirketKod, item.MalKodu, mGorev.Depo.DepoKodu, (item.Miktar - item.WmsStok).ToDot(), vUser.UserName, tarih, saat);
                         sql += string.Format("UPDATE FINSAT6{0}.FINSAT6{0}.STK " +
                             "SET TahminiStok = TahminiStok + {2}, GirMiktar = GirMiktar + {2}, GirTarih = {5}, SonSayimTarih = {5}, SonSayimSonuc = {3}, Degistiren = '{4}', DegisTarih = {5}, DegisSaat = {6} " +
-                            "WHERE(MalKodu = '{1}');", mGorev.IR.SirketKod, item.MalKodu, (item.Miktar - item.Stok).ToDot(), item.Miktar.ToDot(), vUser.UserName, tarih, saat);
+                            "WHERE(MalKodu = '{1}');", mGorev.IR.SirketKod, item.MalKodu, (item.Miktar - item.WmsStok).ToDot(), item.Miktar.ToDot(), vUser.UserName, tarih, saat);
                     }
                     else//çıkış
                     {
                         sql += string.Format("UPDATE FINSAT6{0}.FINSAT6{0}.DST " +
                             "SET CikMiktar = CikMiktar + {3}, SonCikTarih = {5}, SonSayimTarih = {5}, SonSayimFarki = -{3}, Degistiren = '{4}', DegisTarih = {5}, DegisSaat = {6} " +
-                            "WHERE(MalKodu = '{1}') AND(Depo = '{2}');", mGorev.IR.SirketKod, item.MalKodu, mGorev.Depo.DepoKodu, (item.Stok - item.Miktar).ToDot(), vUser.UserName, tarih, saat);
+                            "WHERE(MalKodu = '{1}') AND(Depo = '{2}');", mGorev.IR.SirketKod, item.MalKodu, mGorev.Depo.DepoKodu, (item.WmsStok - item.Miktar).ToDot(), vUser.UserName, tarih, saat);
                         sql += string.Format("UPDATE FINSAT6{0}.FINSAT6{0}.STK " +
                             "SET TahminiStok = TahminiStok - {2}, CikMiktar = CikMiktar + {2}, CikTarih = {5}, SonSayimTarih = {5}, SonSayimSonuc = {3}, Degistiren = '{4}', DegisTarih = {5}, DegisSaat = {6} " +
-                            "WHERE(MalKodu = '{1}');", mGorev.IR.SirketKod, item.MalKodu, (item.Stok - item.Miktar).ToDot(), item.Miktar.ToDot(), vUser.UserName, tarih, saat);
+                            "WHERE(MalKodu = '{1}');", mGorev.IR.SirketKod, item.MalKodu, (item.WmsStok - item.Miktar).ToDot(), item.Miktar.ToDot(), vUser.UserName, tarih, saat);
                     }
                 }
                 db.Database.ExecuteSqlCommand(sql);
