@@ -24,6 +24,7 @@
                 @foreach (var item in Model)
                 {
                     list[x] = item.Depo2Miktar.ToString();
+                    decimal mktr = item.Depo2StokMiktar > 0 ? item.Depo2StokMiktar > Math.Abs(item.Depo1KritikMiktar) ? Math.Abs(item.Depo1KritikMiktar) : item.Depo2StokMiktar : 0;
                     <tr style="cursor:pointer;" onclick="$(this).toggleClass('selected');">
                         <td>@Html.DisplayFor(modelItem => item.MalKodu)</td>
                         <td>@Html.DisplayFor(modelItem => item.MalAdi)</td>
@@ -36,7 +37,7 @@
                         <td align="right">@String.Format("{0:n}", item.Depo2StokMiktar)</td>
                         <td align="right">@String.Format("{0:n}", item.Depo2KritikMiktar)</td>
                         <td align="right">@String.Format("{0:n}", item.Depo2GerekenMiktar)</td>
-                        <td align="right" ondblclick="ChangeMiktar(this, '@item.MalKodu', '@item.Depo2Miktar', '@x')">@String.Format("{0:n}", item.Depo2Miktar)</td>
+                        <td align="right" ondblclick="ChangeMiktar(this, '@item.MalKodu', '@item.Depo2Miktar', '@x')">@String.Format("{0:n}", mktr)</td>
                         <td>@x</td>
                     </tr>
                     x++;
@@ -63,7 +64,7 @@
             ordering: true,
             "columnDefs": [{ "targets": [12], "visible": false, "searchable": false }],
             "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
-            "dom": 'Bfrtip',
+            "dom": 'lBfrtip',
             "buttons": [
                 { "extend": 'pdf', "text": '<span class="fa fa-file-pdf-o f-s-15 red"></span>', "className": 'btn btn-default btn-xs' },
                 { "extend": 'excel', "text": '<span class="fa fa-file-excel-o f-s-15 green"></span>', "className": 'btn btn-default btn-xs' }

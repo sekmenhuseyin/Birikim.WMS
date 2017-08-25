@@ -113,6 +113,7 @@ namespace WMSMobil
             catch (Exception ex)
             {
                 this.Enabled = true;
+                Cursor.Current = Cursors.Default;
                 Mesaj.Uyari("Bağlantı hatası. Lütfen daha sonra tekrar deneyin");
             }
         }
