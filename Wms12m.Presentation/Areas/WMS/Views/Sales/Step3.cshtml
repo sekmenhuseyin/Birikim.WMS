@@ -55,7 +55,7 @@
                                     <td>@Html.DisplayFor(modelItem => item.MalKodu)</td>
                                     <td>@Html.DisplayFor(modelItem => item.MalAdi)</td>
                                     <td ondblclick="ChangeMiktar(this, '@item.MalKodu', '@item.Miktar', '@x')" align="right">@String.Format("{0:n}", item.Miktar)</td>
-                                    <td align="right">@String.Format("{0:n}", item.Stok)</td>
+                                    <td align="right">@String.Format("{0:n}", item.WmsStok)</td>
                                     <td>@Html.DisplayFor(modelItem => item.Birim)</td>
                                     <td>@item.SirketID-@item.ID</td>
                                     <td>@x</td>
