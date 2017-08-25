@@ -467,7 +467,7 @@ namespace WMSMobil
                             if (itemPanel.Raf == raf)
                             {
                                 raf_var = true;
-                                itemPanel.Controls[6].Text = (itemPanel.Controls[6].Text.ToDecimal() + 1).ToString();
+                                itemPanel.Controls[7].Text = (itemPanel.Controls[7].Text.ToDecimal() + 1).ToString();
                                 foreach (Control item in itemPanel.Controls)
                                     item.BackColor = Color.DarkOrange;
                             }
@@ -525,7 +525,7 @@ namespace WMSMobil
                 Font font = new Font("Tahoma", 8, FontStyle.Regular);
                 PanelEx panelSatir = new PanelEx();
                 panelSatir.Name = Sayac.ToString();
-                panelSatir.Size = new Size((500 * carpim).ToInt32(), (20 * carpim).ToInt32());
+                panelSatir.Size = new Size((627 * carpim).ToInt32(), (20 * carpim).ToInt32());
                 panelSatir.Location = new Point(0, (Sayac * 20 * carpim).ToInt32());
 
                 TextBox tBarkod = new TextBox();
@@ -651,7 +651,7 @@ namespace WMSMobil
                     Font font = new Font("Tahoma", 8, FontStyle.Regular);
                     PanelEx panelSatir = new PanelEx();
                     panelSatir.Name = Sayac.ToString();
-                    panelSatir.Size = new Size((550 * carpim).ToInt32(), (20 * carpim).ToInt32());
+                    panelSatir.Size = new Size((627 * carpim).ToInt32(), (20 * carpim).ToInt32());
                     panelSatir.Location = new Point(1, (Sayac * 21));
 
                     TextBox tBarkod = new TextBox();
@@ -805,7 +805,7 @@ namespace WMSMobil
                 }
                 else if (Ayarlar.MenuTip == MenuType.KontrollüSayım)
                 {
-                    if (itemPanel.Controls[6].Text.ToDecimal() > 0)
+                    if (itemPanel.Controls[7].Text.ToDecimal() > 0)
                     {
                         yer.MalKodu = itemPanel.Controls[1].Text;
                         yer.Miktar = itemPanel.Controls[7].Text.ToDecimal();
