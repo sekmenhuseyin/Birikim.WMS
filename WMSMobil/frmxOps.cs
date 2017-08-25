@@ -56,7 +56,7 @@ namespace WMSMobil
                 txtRafBarkod.Visible = false;
                 label7.Visible = false;
                 label6.Visible = false;
-                label12.Left = 450;
+                label12.Left = 450.Carpim();
             }
             else if (gorevtip == 2)
             {
@@ -65,7 +65,7 @@ namespace WMSMobil
                 txtRafBarkod.Visible = true;
                 label7.Visible = true;
                 label6.Visible = true;
-                label12.Left = 556;
+                label12.Left = 556.Carpim();
             }
             else if (gorevtip == 3)
             {
@@ -80,7 +80,7 @@ namespace WMSMobil
                 txtUnvan.Visible = false;
                 txtHesapKodu.Visible = false;
                 txtEvrakno.Visible = false;
-                label12.Left = 556;
+                label12.Left = 556.Carpim();
             }
             else if (gorevtip == 6)
             {
@@ -89,7 +89,7 @@ namespace WMSMobil
                 txtRafBarkod.Visible = false;
                 label7.Visible = false;
                 label6.Visible = false;
-                label12.Left = 450;
+                label12.Left = 450.Carpim();
             }
             else if (gorevtip == 7)
             {
@@ -98,7 +98,7 @@ namespace WMSMobil
                 txtRafBarkod.Visible = false;
                 label7.Visible = false;
                 label6.Visible = false;
-                label12.Left = 450;
+                label12.Left = 450.Carpim();
             }
             else if (gorevtip == 8)
             {
@@ -114,7 +114,7 @@ namespace WMSMobil
                 txtUnvan.Visible = false;
                 txtHesapKodu.Visible = false;
                 txtEvrakno.Visible = false;
-                label12.Left = 556;
+                label12.Left = 556.Carpim();
             }
             else// if (gorevtip == 19 || gorevtip == 20)
             {
@@ -129,7 +129,7 @@ namespace WMSMobil
                 txtUnvan.Visible = false;
                 txtHesapKodu.Visible = false;
                 txtEvrakno.Visible = false;
-                label12.Left = 556;
+                label12.Left = 556.Carpim();
             }
             try
             {
@@ -218,7 +218,7 @@ namespace WMSMobil
 
                 TextBox tBarkod = new TextBox();
                 tBarkod.Visible = false;
-                tBarkod.Width = 3;
+                tBarkod.Width = 3.Carpim();
                 tBarkod.Location = new Point(0, 0);
                 tBarkod.ReadOnly = true;
                 tBarkod.Name = "txtMalKodu";
