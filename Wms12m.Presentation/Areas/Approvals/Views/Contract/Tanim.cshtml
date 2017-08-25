@@ -746,6 +746,7 @@
         $('.sozlesme-kaydet-buton').click(function () {
             if ($(this).hasClass("disabled"))
                 return;
+
             if ($(".txt_sozlesme_sira_no").dxTextBox("instance").option("value") == "") {
                 Modaldialog("Sözleşme Numarası Girmelisiniz.", "Satır Ekle", "Tamam", "Uyarı");
                 return;
@@ -783,29 +784,32 @@
 
             $.ajax({
                 url: window.location.origin + "/Approvals/Contract/ListeNoKontrol",
-                data: { SozlesmeNo: ListeNo },
+                data: { ListeNo: ListeNo },
                 type: "post",
                 success: function (data) {
                     if (data > 0) {
                         Modaldialog("Liste No Kullanılmış.", "Kayıt İşlemi", "Tamam", "Kayıt");
                     }
+                    else {
+                        if ($(".select_baglanti_tipi").dxSelectBox("instance").option("value") == null) {
+                            Modaldialog("Bağlantı Tipi Seçmelisiniz.", "Kayıt İşlemi", "Tamam", "Kayıt");
+                            return;
+                        }
+                        if ($(".swtch_vade_valor").dxSwitch("instance").option("value") == true && $(".date_vade_tarihi").dxDateBox("instance").option("value") == null) {
+                            Modaldialog("Vade Tarihi Seçmelisiniz.", "Kayıt İşlemi", "Tamam", "Kayıt");
+                            return;
+                        }
+                        if ($(".swtch_vade_valor").dxSwitch("instance").option("value") == false && $(".numb_valor_gun").dxTextBox("instance").option("value") <= 0) {
+                            Modaldialog("ValorGun Boş Geçilemez.", "Kayıt İşlemi", "Tamam", "Kayıt");
+                            return;
+                        }
+
+                        dddd();
+                    }
                 }
             });
 
-            if ($(".select_baglanti_tipi").dxSelectBox("instance").option("value") == null) {
-                Modaldialog("Bağlantı Tipi Seçmelisiniz.", "Kayıt İşlemi", "Tamam", "Kayıt");
-                return;
-            }
-            if ($(".swtch_vade_valor").dxSwitch("instance").option("value") == true && $(".date_vade_tarihi").dxDateBox("instance").option("value") == null) {
-                Modaldialog("Vade Tarihi Seçmelisiniz.", "Kayıt İşlemi", "Tamam", "Kayıt");
-                return;
-            }
-            if ($(".swtch_vade_valor").dxSwitch("instance").option("value") == false && $(".numb_valor_gun").dxTextBox("instance").option("value") <= 0) {
-                Modaldialog("ValorGun Boş Geçilemez.", "Kayıt İşlemi", "Tamam", "Kayıt");
-                return;
-            }
-
-            dddd();
+            
         });
 
         $('.sozlesme-sil-buton').click(function () {

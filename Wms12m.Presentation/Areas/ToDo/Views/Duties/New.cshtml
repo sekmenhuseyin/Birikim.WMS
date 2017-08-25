@@ -87,6 +87,14 @@
                                 </div>
                             </div>
 
+                            <div class="form-group row  todo-content index1">
+                                    <div class="control-label col-md-4"><span>1</span><span>-</span></div>
+                                    <div class="col-md-4">
+                                        <div class="txt-aciklama work-1"></div>
+                                    </div>
+                                    <div class="insert-work-icon col-md-4"><i class="fa fa-plus-circle last-work" style="margin-left:5px;"></i></div>
+                            </div>
+
                             <div class="form-group row">
                                 @Html.LabelFor(model => model.OncelikID, htmlAttributes: new { @class = "control-label col-md-4" })
                                 <div class="col-md-4">
@@ -164,9 +172,29 @@
     </div>
 </div>
 <script type="text/javascript">
-
+    sayac = 1;
+    $(".work-1").dxTextBox();
     $(document).ready(function () {
         $('.date-picker').datepicker();
     });
+
+    $('.last-work').click(function () {
+        sayac++;
+        console.log(sayac);
+        NewElement(sayac);
+    });
+
+    function NewElement(index) {
+        console.log("aaaaa");
+        //$(".last-work").removeClass("fa fa-plus-circle");
+        //$(".insert-work-icon i").removeClass("last-work");
+        var newElement = $("<div>").addClass("form-group row todo-content");
+        newElement.append("<div class='control-label col-md-4'><span class='work-index'>" + index + "</span > <span>-</span></div><div class='col-md-4'><div class='txt-aciklama work-" + index +"'></div></div><div class='insert-work-icon col-md-4'><i class='fa fa-plus-circle last-work' style='margin-left:5px;'></i></div>");
+        newElement.addClass("index" + index);
+        newElement.insertAfter(".todo-content:last");
+        $(".work-"+index).dxTextBox();
+
+    };
+   
 
 </script>
