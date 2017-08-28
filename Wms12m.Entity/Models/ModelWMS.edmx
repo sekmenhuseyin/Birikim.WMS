@@ -1265,6 +1265,9 @@
         <Function Name="CRM_TeklifAnaliz_Detay" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="wms">
           <Parameter Name="TeklifID" Type="int" Mode="In" />
         </Function>
+        <Function Name="DeleteTransfer" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="wms">
+          <Parameter Name="GorevID" Type="int" Mode="In" />
+        </Function>
         <Function Name="GetBolumSiralamaFromGorevId" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="wms">
           <Parameter Name="GorevID" Type="int" Mode="In" />
           <Parameter Name="KoridorID" Type="int" Mode="In" />
@@ -2092,6 +2095,9 @@
             <End Role="Yer" EntitySet="Yers" />
           </AssociationSet>
           <EntitySet Name="Settings" EntityType="MModel.Setting" />
+          <FunctionImport Name="DeleteTransfer">
+            <Parameter Name="GorevID" Mode="In" Type="Int32" />
+          </FunctionImport>
           </EntityContainer>
         <ComplexType Name="GetSirkets_Result">
           <Property Type="String" Name="Kod" Nullable="false" MaxLength="2" />
@@ -4402,6 +4408,7 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="DeleteTransfer" FunctionName="MModel.Store.DeleteTransfer" />
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

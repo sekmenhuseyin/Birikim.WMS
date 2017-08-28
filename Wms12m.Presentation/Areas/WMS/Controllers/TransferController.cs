@@ -220,7 +220,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             Result _Result = new Result();
             try
             {
-                db.DeleteFromGorev(ID);
+                db.DeleteTransfer(ID);
                 _Result.Status = true; _Result.Id = ID;
             }
             catch (Exception ex)
