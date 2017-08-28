@@ -12,9 +12,10 @@
 </div>
 <div class="row" id="gunluk-satis-grid" style="margin-top:20px;"></div>
 @section Scripts{<script>
+      var basTarih = @DateTime.Today.ToOADateInt();
+      var bitTarih = basTarih;
     $(document).ready(function () {
-        var basTarih = @DateTime.Today.ToOADateInt();
-        var bitTarih = basTarih;
+
         $.datepicker.setDefaults($.datepicker.regional["tr"]);
         $("#txtBaslangic").datepicker().on("change", function (e) { basTarih = toOADateFromString(e.target.value); });
         $("#txtBitis").datepicker().on("change", function (e) { bitTarih = toOADateFromString(e.target.value); });

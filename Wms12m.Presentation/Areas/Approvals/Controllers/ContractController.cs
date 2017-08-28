@@ -177,19 +177,15 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             }
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
-        public JsonResult Sil_GM(string Data)
+        public JsonResult Red_GM(string Data)
         {
             Result _Result = new Result(true);
             if (CheckPerm(Perms.SözleşmeOnaylamaGM, PermTypes.Writing) == false) return null;
             JArray parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
-            SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "17");
             try
             {
                 foreach (JObject insertObj in parameters)
                 {
-                    DateTime date = DateTime.Now;
-                    var shortDate = date.ToString("yyyy-MM-dd");
-                    var sonuc = sqlexper.AcceptChanges();
                     db.Database.ExecuteSqlCommand(string.Format("DELETE FROM [FINSAT6{0}].[FINSAT6{0}].[ISS_Temp] WHERE  ListeNo = '{1}'", "17", insertObj["ListeNo"].ToString()));
 
                 }
@@ -378,19 +374,15 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             }
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
-        public JsonResult Sil_SM(string Data)
+        public JsonResult Red_SM(string Data)
         {
             Result _Result = new Result(true);
             if (CheckPerm(Perms.SözleşmeOnaylamaSM, PermTypes.Writing) == false) return null;
             JArray parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
-            SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "17");
             try
             {
                 foreach (JObject insertObj in parameters)
                 {
-                    DateTime date = DateTime.Now;
-                    var shortDate = date.ToString("yyyy-MM-dd");
-                    var sonuc = sqlexper.AcceptChanges();
                     db.Database.ExecuteSqlCommand(string.Format("DELETE FROM [FINSAT6{0}].[FINSAT6{0}].[ISS_Temp] WHERE  ListeNo = '{1}'", "17", insertObj["ListeNo"].ToString()));
 
                 }
@@ -572,19 +564,15 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             }
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
-        public JsonResult Sil_SPGMY(string Data)
+        public JsonResult Red_SPGMY(string Data)
         {
             Result _Result = new Result(true);
             if (CheckPerm(Perms.SözleşmeOnaylamaSPGMY, PermTypes.Writing) == false) return null;
             JArray parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
-            SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "17");
             try
             {
                 foreach (JObject insertObj in parameters)
                 {
-                    DateTime date = DateTime.Now;
-                    var shortDate = date.ToString("yyyy-MM-dd");
-                    var sonuc = sqlexper.AcceptChanges();
                     db.Database.ExecuteSqlCommand(string.Format("DELETE FROM [FINSAT6{0}].[FINSAT6{0}].[ISS_Temp] WHERE  ListeNo = '{1}'", "17", insertObj["ListeNo"].ToString()));
 
                 }

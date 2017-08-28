@@ -166,7 +166,7 @@
 
         return _dfd.promise();
     }
-    function SozlesmeSil() {
+    function SozlesmeRed() {
 
         var x = table.rows('.selected').data();
         for (var i = 0; i < x.length; i++) {
@@ -174,7 +174,7 @@
         }
         var _dfd = $.Deferred();
         $.ajax({
-            url: window.location.origin + "/Approvals/Contract/Sil_GM",
+            url: window.location.origin + "/Approvals/Contract/Red_GM",
             data: { Data: JSON.stringify(secili_table) },
             type: "post",
             success: function (data) {

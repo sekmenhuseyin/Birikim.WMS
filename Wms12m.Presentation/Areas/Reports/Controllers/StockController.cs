@@ -92,23 +92,26 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
         public PartialViewResult GunlukSatisList(int bastarih, int bittarih)
         {
             if (CheckPerm(Perms.Raporlar, PermTypes.Reading) == false) return null;
-            List<RaporGunlukSatis> SU;
-            try
-            {
-                SU = db.Database.SqlQuery<RaporGunlukSatis>(string.Format("[FINSAT6{0}].[wms].[GunlukSatisRaporu] @BasTarih = {1}, @BitTarih = {2}", db.GetSirketDBs().FirstOrDefault(), bastarih, bittarih)).ToList();
-            }
-            catch (Exception ex)
-            {
-                Logger(ex, "/Reports/Stock/GunlukSatisList");
-                SU = new List<RaporGunlukSatis>();
-            }
-            return PartialView("GunlukSatisList", SU);
+            //List<RaporGunlukSatis> SU;
+            //try
+            //{
+            //    SU = db.Database.SqlQuery<RaporGunlukSatis>(string.Format("[FINSAT6{0}].[wms].[GunlukSatisRaporu] @BasTarih = {1}, @BitTarih = {2}",db.GetSirketDBs().FirstOrDefault(), bastarih, bittarih)).ToList();
+            //}
+            //catch (Exception ex)
+            //{
+            //    Logger(ex, "/Reports/Stock/GunlukSatisList");
+            //    SU = new List<RaporGunlukSatis>();
+            //}
+            return PartialView("GunlukSatisList");
         }
         public string List(int bastarih, int bittarih)
         {
+            JavaScriptSerializer json = new JavaScriptSerializer()
+            {
+                MaxJsonLength = int.MaxValue
+            };
             var GS = db.Database.SqlQuery<RaporGunlukSatis>(string.Format("[FINSAT6{0}].[wms].[GunlukSatisRaporu] @BasTarih = {1}, @BitTarih = {2}", db.GetSirketDBs().FirstOrDefault(), bastarih, bittarih)).ToList();
-            var json = new JavaScriptSerializer().Serialize(GS);
-            return json;
+            return json.Serialize(GS);
         }
         /// <summary>
         /// kampanyalı satış
