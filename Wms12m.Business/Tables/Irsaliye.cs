@@ -47,8 +47,7 @@ namespace Wms12m.Business
                 IR tbl = db.IRS.Where(m => m.ID == Id).FirstOrDefault();
                 if (tbl != null)
                 {
-                    int gid = db.Gorevs.Where(m => m.IrsaliyeID == Id).Select(m => m.ID).FirstOrDefault();
-                    db.DeleteFromGorev(gid);
+                    db.DeleteIrsaliye(Id);
                     LogActions("Business", "Irsaliye", "Delete", ComboItems.alSil, tbl.ID);
                     _Result.Id = Id;
                     _Result.Message = "İşlem Başarılı !!!";

@@ -1265,6 +1265,9 @@
         <Function Name="CRM_TeklifAnaliz_Detay" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="wms">
           <Parameter Name="TeklifID" Type="int" Mode="In" />
         </Function>
+        <Function Name="DeleteIrsaliye" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="wms">
+          <Parameter Name="IrsaliyeID" Type="int" Mode="In" />
+        </Function>
         <Function Name="DeleteTransfer" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="wms">
           <Parameter Name="GorevID" Type="int" Mode="In" />
         </Function>
@@ -2096,7 +2099,10 @@
           </AssociationSet>
           <EntitySet Name="Settings" EntityType="MModel.Setting" />
           <FunctionImport Name="DeleteTransfer">
-            <Parameter Name="GorevID" Mode="In" Type="Int32" />
+          <Parameter Name="GorevID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="DeleteIrsaliye">
+            <Parameter Name="IrsaliyeID" Mode="In" Type="Int32" />
           </FunctionImport>
           </EntityContainer>
         <ComplexType Name="GetSirkets_Result">
@@ -4409,6 +4415,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="DeleteTransfer" FunctionName="MModel.Store.DeleteTransfer" />
+          <FunctionImportMapping FunctionImportName="DeleteIrsaliye" FunctionName="MModel.Store.DeleteIrsaliye" />
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

@@ -822,5 +822,14 @@ namespace Wms12m.Entity.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("WMSEntities.DeleteTransfer", gorevIDParameter);
         }
+    
+        public virtual int DeleteIrsaliye(Nullable<int> irsaliyeID)
+        {
+            var irsaliyeIDParameter = irsaliyeID.HasValue ?
+                new ObjectParameter("IrsaliyeID", irsaliyeID) :
+                new ObjectParameter("IrsaliyeID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("WMSEntities.DeleteIrsaliye", irsaliyeIDParameter);
+        }
     }
 }
