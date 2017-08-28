@@ -43,12 +43,12 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             try
             {
                 var list = db.Database.SqlQuery<frmTransferMalzemeler>(sql).ToList();
-                return PartialView("_Stock", list);
+                return PartialView("Index_Stock", list);
             }
             catch (Exception ex)
             {
                 Logger(ex, "Transfer/Stock");
-                return PartialView("_Stock", new List<frmTransferMalzemeler>());
+                return PartialView("Index_Stock", new List<frmTransferMalzemeler>());
             }
 
         }
@@ -176,7 +176,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         {
             if (CheckPerm(Perms.Transfer, PermTypes.Reading) == false) return null;
             var list = Transfers.GetList(Id, vUser.DepoId);
-            return PartialView("_List", list);
+            return PartialView("ListDetail", list);
         }
         /// <summary>
         /// transfere ait mallar
@@ -192,7 +192,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             ViewBag.Sirket = liste;
             //return
             var result = db.Transfer_Detay.Where(m => m.TransferID == ID).Select(m => new frmMalKoduMiktar { MalKodu = m.MalKodu, Miktar = m.Miktar, Birim = m.Birim }).ToList();
-            return PartialView("_Details", result);
+            return PartialView("List_Details", result);
         }
         /// <summary>
         /// bekleyen transferi onayla
