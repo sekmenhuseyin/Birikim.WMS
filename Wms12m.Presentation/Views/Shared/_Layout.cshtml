@@ -75,9 +75,9 @@
         <div id="div_loading" class="loader"></div>
         <div class="portfolio-modal modal fade" id="modalEditPage" tabindex="-1" role="dialog" aria-hidden="true"></div>
     </div>
+    <script>SiteAddress = "@Request.Url.Scheme://@Request.Url.Authority/";</script>
     @Scripts.Render(BundleConfig.JsBundle)<script src="~/Content/assets/global/plugins/datatables/extensions/Buttons/js/buttons.html5.js"></script>
-    <script src="~/Content/assets/global/plugins/datatables/extensions/Buttons/js/buttons.flash.js"></script>@RenderSection("Scripts", required: false)
-    <script>@*/*Burası teknoloji özürlüler için eklenmiştir: eski tarayıcıları çalıştırma*/*@
+    <script src="~/Content/assets/global/plugins/datatables/extensions/Buttons/js/buttons.flash.js"></script>@RenderSection("Scripts", required: false)<script>@*/*Burası teknoloji özürlüler için eklenmiştir: eski tarayıcıları çalıştırma*/*@
         var $buoop = { vs: { i: 10, f: -8, o: -8, s: 8, c: -8 }, api: 4 };
         function $buo_f() {
             var e = document.createElement("script");
