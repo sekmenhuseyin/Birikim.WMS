@@ -96,10 +96,8 @@
             <div class="caption">
                 <i class="fa fa-files-o"></i>Malzeme Bilgileri
             </div>
-            <div class="col-md-1 text-right pull-right m-t-5 showlater2">
-                <button type="button" class="btn btn-circle green btn-outline" onclick="Activate(0)">Görevi Başlat</button>
-            </div>
-            <div class="col-md-2 pull-right m-t-5 showlater">
+            <div class="col-md-3 pull-right m-t-5 showlater">
+                <button type="button" class="btn btn-default input-circle" onclick="Activate()">Görevi Başlat</button>
                 <a id="btnSiparis" class="btn btn-default input-circle" href="#modalEditPage" data-toggle="modal" onclick="editInModal('/WMS/Purchase/SiparisList/' + $('#SirketID').val() + ',' + $('#DepoID').val() + ',' + $('#HesapKodu').val())"> Siparişten Getir </a>
             </div>
         </div>

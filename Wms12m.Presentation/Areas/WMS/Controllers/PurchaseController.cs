@@ -66,6 +66,26 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
         /// <summary>
+        /// seçili görewvi başlatır
+        /// </summary>
+        [HttpPost]
+        public JsonResult Activate(int ID)
+        {
+            if (CheckPerm(Perms.MalKabul, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
+            var tbl = db.IRS.Where(m => m.ID == ID).FirstOrDefault();
+            tbl.Onay = true;
+            tbl.Gorevs.FirstOrDefault().DurumID = ComboItems.Açık.ToInt32();
+            try
+            {
+                db.SaveChanges();
+                return Json(new Result(true), JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception)
+            {
+                return Json(new Result(false, "Kayıtta hata oldu"), JsonRequestBehavior.AllowGet);
+            }
+        }
+        /// <summary>
         /// irs detay güncelle
         /// </summary>
         [HttpPost]
