@@ -1588,7 +1588,7 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
 
         public string SatirEkle(string Data, string Satirlar)
         {
-            if (CheckPerm(Perms.FiyatOnaylama, PermTypes.Writing) == false) return null;
+            if (CheckPerm(Perms.FiyatTanim, PermTypes.Writing) == false) return null;
 
             JObject parameters = JsonConvert.DeserializeObject<JObject>(Request["Data"]);
             SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "17");
