@@ -110,60 +110,64 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             var gDepoID = Store.Detail(tbl.GirisDepo);
             int today = fn.ToOADate(), time = fn.ToOATime();
             //kontrol
-            var kontrol = db.Transfers.Where(m => m.Onay == false && m.SirketKod == tbl.SirketID && m.GirisDepoID == gDepoID.ID && m.AraDepoID == aDepoID && m.CikisDepoID == cDepoID.ID && m.Gorev.OlusturmaTarihi == today).FirstOrDefault();
-            if (kontrol == null)
+            var kontrol = db.Transfers.Where(m => m.Onay == false && m.Gorev.DurumID == 15 && m.SirketKod == tbl.SirketID && m.GirisDepoID == gDepoID.ID && m.AraDepoID == aDepoID && m.CikisDepoID == cDepoID.ID && m.Gorev.OlusturmaTarihi == today).FirstOrDefault();
+            if (kontrol != null)
             {
-                //yeni bir görev eklenir
-                string GorevNo = db.SettingsGorevNo(today, cDepoID.ID).FirstOrDefault();
-                var cevap = db.InsertIrsaliye(tbl.SirketID, cDepoID.ID, GorevNo, GorevNo, today, "Giriş: " + tbl.AraDepo + ", Çıkış: " + tbl.CikisDepo, true, ComboItems.TransferÇıkış.ToInt32(), vUser.UserName, today, time, cDepoID.DepoAd, "", 0, "").FirstOrDefault();
-                //yeni transfer eklenir
-                var sonuc = Transfers.Operation(new Transfer() { SirketKod = tbl.SirketID, GirisDepoID = gDepoID.ID, CikisDepoID = cDepoID.ID, AraDepoID = aDepoID, GorevID = cevap.GorevID.Value });
-                ViewBag.Result = new Result(false, "Kayıtta hata oldu. Lütfen tekrar deneyin.");
-                if (sonuc.Status == false)
-                    return PartialView("Summary");
-                //find detays
-                foreach (var item in mallistesi)
-                {
-                    //stok kontrol
-                    var tmpYer = db.Yers.Where(m => m.MalKodu == item.MalKodu && m.Birim == item.Birim && m.Kat.Bolum.Raf.Koridor.Depo.DepoKodu == tbl.CikisDepo && m.Miktar > 0).OrderBy(m => m.Miktar).ToList();
-                    decimal toplam = 0, miktar = 0;
-                    if (tmpYer != null)
-                    {
-                        foreach (var itemyer in tmpYer)
-                        {
-                            if (itemyer.Miktar >= (item.Miktar - toplam))
-                                miktar = item.Miktar - toplam;
-                            else
-                                miktar = itemyer.Miktar;
-                            toplam += miktar;
-                            //miktarı tabloya ekle
-                            GorevYer tblyer = new GorevYer()
-                            {
-                                GorevID = cevap.GorevID.Value,
-                                YerID = itemyer.ID,
-                                MalKodu = item.MalKodu,
-                                Birim = item.Birim,
-                                Miktar = miktar,
-                                GC = true
-                            };
-                            if (miktar > 0) TaskYer.Operation(tblyer);
-                            //toplam yeterli miktardaysa
-                            if (toplam == item.Miktar) break;
-                        }
-                        item.Miktar = toplam;
-                        item.TransferID = sonuc.Id;
-                        //hepsi eklenince detayı db'ye ekle
-                        if (item.Miktar > 0) Transfers.AddDetay(item);
-                        if (item.Miktar > 0) IrsaliyeDetay.Operation(new IRS_Detay() { IrsaliyeID = cevap.IrsaliyeID.Value, MalKodu = item.MalKodu, Miktar = item.Miktar, Birim = item.Birim });
-                    }
-                }
-                today = sonuc.Id;
+                db.DeleteTransfer(kontrol.GorevID);
             }
-            else
-                today = kontrol.ID;
+            //yeni bir görev eklenir
+            string GorevNo = db.SettingsGorevNo(today, cDepoID.ID).FirstOrDefault();
+            var cevap = db.InsertIrsaliye(tbl.SirketID, cDepoID.ID, GorevNo, GorevNo, today, "Giriş: " + tbl.AraDepo + ", Çıkış: " + tbl.CikisDepo, true, ComboItems.TransferÇıkış.ToInt32(), vUser.UserName, today, time, cDepoID.DepoAd, "", 0, "").FirstOrDefault();
+            //yeni transfer eklenir
+            var sonuc = Transfers.Operation(new Transfer() { SirketKod = tbl.SirketID, GirisDepoID = gDepoID.ID, CikisDepoID = cDepoID.ID, AraDepoID = aDepoID, GorevID = cevap.GorevID.Value });
+            ViewBag.Result = new Result(false, "Kayıtta hata oldu. Lütfen tekrar deneyin.");
+            if (sonuc.Status == false)
+                return PartialView("Summary");
+            //find detays
+            string eksikler = "";
+            foreach (var item in mallistesi)
+            {
+                //stok kontrol
+                var tmpYer = db.Yers.Where(m => m.MalKodu == item.MalKodu && m.Birim == item.Birim && m.Kat.Bolum.Raf.Koridor.Depo.DepoKodu == tbl.CikisDepo && m.Miktar > 0).OrderByDescending(m => m.Miktar).ToList();
+                decimal toplam = 0, miktar = 0;
+                if (tmpYer.Count > 0)
+                {
+                    foreach (var itemyer in tmpYer)
+                    {
+                        if (itemyer.Miktar >= (item.Miktar - toplam))
+                            miktar = item.Miktar - toplam;
+                        else
+                            miktar = itemyer.Miktar;
+                        toplam += miktar;
+                        //miktarı tabloya ekle
+                        GorevYer tblyer = new GorevYer()
+                        {
+                            GorevID = cevap.GorevID.Value,
+                            YerID = itemyer.ID,
+                            MalKodu = item.MalKodu,
+                            Birim = item.Birim,
+                            Miktar = miktar,
+                            GC = true
+                        };
+                        if (miktar > 0) TaskYer.Operation(tblyer);
+                        //toplam yeterli miktardaysa
+                        if (toplam == item.Miktar) break;
+                    }
+                    item.Miktar = toplam;
+                    item.TransferID = sonuc.Id;
+                    //hepsi eklenince detayı db'ye ekle
+                    if (item.Miktar > 0) Transfers.AddDetay(item);
+                    if (item.Miktar > 0) IrsaliyeDetay.Operation(new IRS_Detay() { IrsaliyeID = cevap.IrsaliyeID.Value, MalKodu = item.MalKodu, Miktar = item.Miktar, Birim = item.Birim });
+                }
+                else
+                {
+                    if (eksikler != "") eksikler += ", ";
+                    eksikler += item.MalKodu;
+                }
+            }
             //return
-            var list = db.Transfers.Where(m => m.ID == today).FirstOrDefault();
-            ViewBag.Result = new Result(true);
+            var list = db.Transfers.Where(m => m.ID == sonuc.Id).FirstOrDefault();
+            ViewBag.Result = new Result(true, eksikler != "" ? "Şu ürünler stokta bulunamadı: " + eksikler : "");
             return PartialView("Summary", list);
         }
         /// <summary>

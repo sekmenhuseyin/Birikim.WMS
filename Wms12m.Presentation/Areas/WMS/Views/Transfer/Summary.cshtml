@@ -8,6 +8,7 @@
                 <div class="modal-body">@*Project Details Go Here*@
                     @if (result.Status == true)
                     {
+                        if (result.Message != "") { <p class="text-danger"><strong>@result.Message</strong></p> }
                         <div class="row">
                             <div class="col-lg-12 modal-body">
                                 <table class="table table-bordered table-condensed">
