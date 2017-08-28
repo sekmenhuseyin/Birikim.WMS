@@ -1650,9 +1650,6 @@
             <Parameter Name="Message" Mode="In" Type="String" />
             <Parameter Name="Source" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="DeleteFromGorev">
-          <Parameter Name="GorevID" Mode="In" Type="Int32" />
-          </FunctionImport>
           <FunctionImport Name="GetBolumSiralamaFromGorevId" ReturnType="Collection(Int32)">
             <Parameter Name="GorevID" Mode="In" Type="Int32" />
             <Parameter Name="KoridorID" Mode="In" Type="Int32" />
