@@ -169,8 +169,17 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
         public PartialViewResult RiskAnalizList(string baschk, string bitchk)
         {
             if (CheckPerm(Perms.Raporlar, PermTypes.Reading) == false) return null;
+
+            return PartialView("RiskAnalizList");
+        }
+        public string RiskAnalizListData(string baschk, string bitchk)
+        {
+            JavaScriptSerializer json = new JavaScriptSerializer()
+            {
+                MaxJsonLength = int.MaxValue
+            };
             var TRAR = db.Database.SqlQuery<ToplamRiskAnaliziRaporu>(string.Format("[FINSAT6{0}].[wms].[ToplamRiskAnaliziRaporu] @BasHesapKodu='{1}', @BitHesapKodu='{2}'", db.GetSirketDBs().FirstOrDefault(), baschk, bitchk)).ToList();
-            return PartialView("RiskAnalizList", TRAR);
+            return json.Serialize(TRAR);
         }
         /// <summary>
         /// cari detay
