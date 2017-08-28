@@ -415,7 +415,6 @@
     <Content Include="Areas\Approvals\Views\Wood\TahsisliIsletmeKasasi_List.cshtml" />
     <Content Include="Areas\WMS\Views\Cable\Step3Details.cshtml" />
     <Content Include="Areas\ToDo\Views\_ViewStart.cshtml" />
-    <Content Include="Areas\ToDo\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\ToDo\Views\GorevTakvimi\GorevTakvimi.cshtml" />
     <Content Include="Areas\ToDo\Views\ProjectForm\FormList.cshtml" />
     <Content Include="Areas\ToDo\Views\ProjectForm\FormEdit.cshtml" />
@@ -430,7 +429,6 @@
     <Content Include="Areas\Approvals\Views\Purchase\TeklifList.cshtml" />
     <Content Include="Areas\YN\Views\OnayBekleyenler\Siparis_Details.cshtml" />
     <Content Include="Areas\Approvals\Views\_ViewStart.cshtml" />
-    <Content Include="Areas\Approvals\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\Approvals\Views\TumOrder\Index.cshtml" />
     <Content Include="Areas\Approvals\Views\TumOrder\List.cshtml" />
     <Content Include="Areas\Approvals\Views\TumOrder\YetkiDuzenle.cshtml" />
@@ -822,9 +820,7 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Areas\ToDo\Views\GörevTakvimi\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
