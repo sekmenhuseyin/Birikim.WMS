@@ -23,8 +23,8 @@
             <tbody>
                 @foreach (var item in Model)
                 {
-                    list[x] = item.Depo2Miktar.ToString();
-                    decimal mktr = item.Depo2StokMiktar > 0 ? item.Depo2StokMiktar > Math.Abs(item.Depo1KritikMiktar) ? Math.Abs(item.Depo1KritikMiktar) : item.Depo2StokMiktar : 0;
+                    decimal mktr = item.Depo2StokMiktar > 0 ? item.Depo2StokMiktar > Math.Abs(item.Depo1GerekenMiktar) ? Math.Abs(item.Depo1GerekenMiktar) : item.Depo2StokMiktar : 0;
+                    list[x] = mktr.ToString();
                     <tr style="cursor:pointer;" onclick="$(this).toggleClass('selected');">
                         <td>@Html.DisplayFor(modelItem => item.MalKodu)</td>
                         <td>@Html.DisplayFor(modelItem => item.MalAdi)</td>

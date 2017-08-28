@@ -415,7 +415,6 @@
     <Content Include="Areas\Approvals\Views\Wood\TahsisliIsletmeKasasi_List.cshtml" />
     <Content Include="Areas\WMS\Views\Cable\Step3Details.cshtml" />
     <Content Include="Areas\ToDo\Views\_ViewStart.cshtml" />
-    <Content Include="Areas\ToDo\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\ToDo\Views\GorevTakvimi\GorevTakvimi.cshtml" />
     <Content Include="Areas\ToDo\Views\ProjectForm\FormList.cshtml" />
     <Content Include="Areas\ToDo\Views\ProjectForm\FormEdit.cshtml" />
@@ -430,12 +429,10 @@
     <Content Include="Areas\Approvals\Views\Purchase\TeklifList.cshtml" />
     <Content Include="Areas\YN\Views\OnayBekleyenler\Siparis_Details.cshtml" />
     <Content Include="Areas\Approvals\Views\_ViewStart.cshtml" />
-    <Content Include="Areas\Approvals\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\Approvals\Views\TumOrder\Index.cshtml" />
     <Content Include="Areas\Approvals\Views\TumOrder\List.cshtml" />
     <Content Include="Areas\Approvals\Views\TumOrder\YetkiDuzenle.cshtml" />
     <Content Include="Areas\Reports\Views\_ViewStart.cshtml" />
-    <Content Include="Areas\Reports\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\Reports\Views\Stock\SiparisOnayRapor.cshtml" />
     <Content Include="Areas\Reports\Views\Stock\SiparisOnayRaporList.cshtml" />
     <None Include="bundleconfig.json" />
@@ -622,9 +619,9 @@
     <Content Include="Areas\WMS\Views\Sales\Step4.cshtml" />
     <Content Include="Areas\WMS\Views\Sales\Step5.cshtml" />
     <Content Include="Areas\WMS\Views\Transfer\Index.cshtml" />
-    <Content Include="Areas\WMS\Views\Transfer\_Stock.cshtml" />
+    <Content Include="Areas\WMS\Views\Transfer\Index_Stock.cshtml" />
     <Content Include="Areas\WMS\Views\Transfer\List.cshtml" />
-    <Content Include="Areas\WMS\Views\Transfer\_Details.cshtml" />
+    <Content Include="Areas\WMS\Views\Transfer\List_Details.cshtml" />
     <Content Include="Areas\WMS\Views\Stock\History.cshtml" />
     <Content Include="Areas\WMS\Views\Stock\HistoryList.cshtml" />
     <Content Include="Areas\WMS\Views\Transfer\Summary.cshtml" />
@@ -634,7 +631,7 @@
     <Content Include="Areas\WMS\Views\Cable\_Siparis.cshtml" />
     <Content Include="Areas\WMS\Views\Cable\Step2.cshtml" />
     <Content Include="Areas\WMS\Views\Cable\Step3.cshtml" />
-    <Content Include="Areas\WMS\Views\Transfer\_List.cshtml" />
+    <Content Include="Areas\WMS\Views\Transfer\ListDetail.cshtml" />
     <Content Include="Areas\WMS\Views\Cable\Step4.cshtml" />
     <Content Include="Areas\WMS\Views\Cable\Step5.cshtml" />
     <Content Include="Areas\WMS\Views\Stock\ManualPlacement.cshtml" />
@@ -823,9 +820,7 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Areas\ToDo\Views\GörevTakvimi\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

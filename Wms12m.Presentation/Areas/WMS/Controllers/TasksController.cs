@@ -67,26 +67,6 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
         /// <summary>
-        /// görev sil
-        /// </summary>
-        public JsonResult Delete(int ID)
-        {
-            if (CheckPerm(Perms.GörevListesi, PermTypes.Deleting) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
-            Result _Result = new Result();
-            try
-            {
-                db.DeleteFromGorev(ID);
-                _Result.Status = true; _Result.Id = ID;
-            }
-            catch (Exception ex)
-            {
-                Logger(ex, "Tasks/Delete");
-                _Result.Status = false;
-                _Result.Message = ex.Message;
-            }
-            return Json(_Result, JsonRequestBehavior.AllowGet);
-        }
-        /// <summary>
         /// görevli ata
         /// </summary>
         [HttpPost]

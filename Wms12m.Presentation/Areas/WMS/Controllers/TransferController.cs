@@ -43,12 +43,12 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             try
             {
                 var list = db.Database.SqlQuery<frmTransferMalzemeler>(sql).ToList();
-                return PartialView("_Stock", list);
+                return PartialView("Index_Stock", list);
             }
             catch (Exception ex)
             {
                 Logger(ex, "Transfer/Stock");
-                return PartialView("_Stock", new List<frmTransferMalzemeler>());
+                return PartialView("Index_Stock", new List<frmTransferMalzemeler>());
             }
 
         }
@@ -56,11 +56,13 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         /// ilk sayfada seçtiklerini gösterip onaylatan bir sayfa
         /// </summary>
         [HttpPost, ValidateAntiForgeryToken]
-        public ActionResult Summary(frmTransferMalzemeApprove tbl)
+        public PartialViewResult Summary(frmTransferMalzemeApprove tbl)
         {
-            if (CheckPerm(Perms.Transfer, PermTypes.Writing) == false) return Redirect("/");
+            ViewBag.Result = new Result(false, "Yetkiniz yok.");
+            if (CheckPerm(Perms.Transfer, PermTypes.Writing) == false) return PartialView("Summary");
+            ViewBag.Result = new Result(false, "Eksik bilgi girdiniz.");
             if (tbl.SirketID == "" || tbl.GirisDepo == "" || tbl.AraDepo == "" || tbl.CikisDepo == "" || tbl.checkboxes.ToString2() == "")
-                return RedirectToAction("Index");
+                return PartialView("Summary");
             //liste oluştur
             tbl.checkboxes = tbl.checkboxes.Left(tbl.checkboxes.Length - 1);
             string[] tmp = tbl.checkboxes.Split('#');
@@ -99,8 +101,9 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                 var sayi = db.Yers.Where(m => m.MalKodu == item.MalKodu && m.Birim == item.Birim && m.Miktar > 0 && m.Kat.Bolum.Raf.Koridor.Depo.DepoKodu == tbl.CikisDepo).FirstOrDefault();
                 if (sayi != null) { varmi = true; break; }
             }
+            ViewBag.Result = new Result(false, "Seçtiğiniz hiç bir ürün stokta kayıtlı değil.");
             if (varmi == false)
-                return RedirectToAction("Index");
+                return PartialView("Summary");
             //add to list
             int aDepoID = Store.Detail(tbl.AraDepo).ID;
             var cDepoID = Store.Detail(tbl.CikisDepo);
@@ -115,8 +118,9 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                 var cevap = db.InsertIrsaliye(tbl.SirketID, cDepoID.ID, GorevNo, GorevNo, today, "Giriş: " + tbl.AraDepo + ", Çıkış: " + tbl.CikisDepo, true, ComboItems.TransferÇıkış.ToInt32(), vUser.UserName, today, time, cDepoID.DepoAd, "", 0, "").FirstOrDefault();
                 //yeni transfer eklenir
                 var sonuc = Transfers.Operation(new Transfer() { SirketKod = tbl.SirketID, GirisDepoID = gDepoID.ID, CikisDepoID = cDepoID.ID, AraDepoID = aDepoID, GorevID = cevap.GorevID.Value });
+                ViewBag.Result = new Result(false, "Kayıtta hata oldu. Lütfen tekrar deneyin.");
                 if (sonuc.Status == false)
-                    return RedirectToAction("Index");
+                    return PartialView("Summary");
                 //find detays
                 foreach (var item in mallistesi)
                 {
@@ -159,7 +163,8 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                 today = kontrol.ID;
             //return
             var list = db.Transfers.Where(m => m.ID == today).FirstOrDefault();
-            return View("Summary", list);
+            ViewBag.Result = new Result(true);
+            return PartialView("Summary", list);
         }
         /// <summary>
         /// onay bekleyen transfer lsitesi
@@ -176,7 +181,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         {
             if (CheckPerm(Perms.Transfer, PermTypes.Reading) == false) return null;
             var list = Transfers.GetList(Id, vUser.DepoId);
-            return PartialView("_List", list);
+            return PartialView("ListDetail", list);
         }
         /// <summary>
         /// transfere ait mallar
@@ -192,7 +197,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             ViewBag.Sirket = liste;
             //return
             var result = db.Transfer_Detay.Where(m => m.TransferID == ID).Select(m => new frmMalKoduMiktar { MalKodu = m.MalKodu, Miktar = m.Miktar, Birim = m.Birim }).ToList();
-            return PartialView("_Details", result);
+            return PartialView("List_Details", result);
         }
         /// <summary>
         /// bekleyen transferi onayla
@@ -220,7 +225,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             Result _Result = new Result();
             try
             {
-                db.DeleteFromGorev(ID);
+                db.DeleteTransfer(ID);
                 _Result.Status = true; _Result.Id = ID;
             }
             catch (Exception ex)

@@ -3,12 +3,12 @@
 <table class="table table-striped table-bordered" id="sample_1">
     <thead>
         <tr>
-            <th>Yer<br /><input class="w-50 input-circle" type="text" id="Yer" /></th>
+            <th>Yer<br /><input class="w-50 input-circle" type="text" id="sYer" /></th>
             <th>Mal Kodu<br /><input class="w-50 input-circle" type="text" id="sMalKodu" /></th>
             <th>Mal Adı<br /><input class="w-50 input-circle" type="text" id="sMalAdi" /></th>
             <th>Birim</th>
-            <th class="text-right">Miktar<br /><input class="w-50 input-circle" type="text" id="Miktar" /></th>
-            <th>Makara No<br /><input class="w-50 input-circle" type="text" id="MakaraNo" /></th>
+            <th class="text-right">Miktar<br /><input class="w-50 input-circle" type="text" id="sMiktar" /></th>
+            <th>Makara No<br /><input class="w-50 input-circle" type="text" id="sMakaraNo" /></th>
             @{if (ellemi == true) { <th></th> } }
         </tr>
     </thead>
@@ -49,10 +49,10 @@
                 { "extend": 'excel', "text": '<span class="fa fa-file-excel-o f-s-15 green"></span>', "className": 'btn btn-default btn-xs' }
             ]
         });
-        $("#Yer").on("change paste keyup", function () { filter(table, 0, $("#Yer").val()); });
+        $("#sYer").on("change paste keyup", function () { filter(table, 0, $("#sYer").val()); });
         $("#sMalKodu").on("change paste keyup", function () { filter(table, 1, $("#sMalKodu").val()); });
         $("#sMalAdi").on("change paste keyup", function () { filter(table, 2, $("#sMalAdi").val()); });
-        $("#Miktar").on("change paste keyup", function () { filter(table, 4, $("#Miktar").val()); });
-        $("#MakaraNo").on("change paste keyup", function () { filter(table, 5, $("#MakaraNo").val()); });
+        $("#sMiktar").on("change paste keyup", function () { filter(table, 4, $("#sMiktar").val()); });
+        $("#sMakaraNo").on("change paste keyup", function () { filter(table, 5, $("#sMakaraNo").val()); });
     });
 </script>
