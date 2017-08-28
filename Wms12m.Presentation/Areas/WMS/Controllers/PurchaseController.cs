@@ -192,8 +192,6 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                         Logger(ex, "Purchase/FromSiparis");
                     }
                 }
-                if (eklenen > 0)
-                    db.UpdateGorevDurum(fn.ToOADate(), fn.ToOATime(), irsaliyeID);
             }
             //get list
             var list = IrsaliyeDetay.GetList(irsaliyeID);
