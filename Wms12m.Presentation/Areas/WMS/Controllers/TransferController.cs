@@ -179,9 +179,16 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         /// özet sayfasındaki listeyi yeniler
         /// </summary>
         [HttpPost]
-        public PartialViewResult ListSummary(int ID)
+        public PartialViewResult SummaryList(int ID)
         {
-            return PartialView();
+            //dbler tempe aktarılıyor
+            var listdb = db.GetSirketDBs();
+            List<string> liste = new List<string>();
+            foreach (var item in listdb) { liste.Add(item); }
+            ViewBag.Sirket = liste;
+            //return
+            var list = db.Transfers.Where(m => m.ID == ID).FirstOrDefault();
+            return PartialView("SummaryList", list);
         }
         /// <summary>
         /// onay bekleyen transfer lsitesi
@@ -262,10 +269,11 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             Result _Result = new Result();
             var satir1 = db.Transfer_Detay.Where(m => m.ID == ID).FirstOrDefault();
             var satir2 = db.IRS_Detay.Where(m => m.KynkSiparisID == ID && m.KynkSiparisTarih == satir1.TransferID).FirstOrDefault();
+            db.Transfer_Detay.Remove(satir1);
+            db.IRS_Detay.Remove(satir2);
             try
             {
-                db.Transfer_Detay.Remove(satir1);
-                db.IRS_Detay.Remove(satir2);
+                db.SaveChanges();
                 _Result = new Result(true, ID);
             }
             catch (Exception ex)

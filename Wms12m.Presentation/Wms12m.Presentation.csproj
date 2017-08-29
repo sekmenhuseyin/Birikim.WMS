@@ -432,6 +432,7 @@
     <Content Include="Areas\Approvals\Views\TumOrder\YetkiDuzenle.cshtml" />
     <Content Include="Areas\Reports\Views\Stock\SiparisOnayRapor.cshtml" />
     <Content Include="Areas\Reports\Views\Stock\SiparisOnayRaporList.cshtml" />
+    <Content Include="Areas\WMS\Views\Transfer\SummaryList.cshtml" />
     <None Include="bundleconfig.json" />
     <Content Include="Content\SizeSablon.xlsx" />
     <Content Include="Content\StockSablon.xlsx" />
