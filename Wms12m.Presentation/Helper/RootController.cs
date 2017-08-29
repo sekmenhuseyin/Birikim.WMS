@@ -79,13 +79,14 @@ namespace Wms12m.Presentation
                 filterContext.Result = new RedirectToRouteResult(new RouteValueDictionary(new { area = "", controller = "Security", action = "Login" }));
                 return;
             }
+            ViewBag.User = vUser.FirstName;
             ViewBag.settings = db.Settings.FirstOrDefault();
+            ViewBag.Debug = HttpContext.IsDebuggingEnabled;
             if (ViewBag.settings.Aktif == false && filterContext.ActionDescriptor.ControllerDescriptor.ControllerName != "Maintenance")
             {
                 filterContext.Result = new RedirectToRouteResult(new RouteValueDictionary(new { area = "", controller = "Maintenance", action = "Index" }));
                 return;
             }
-            ViewBag.User = vUser.FirstName;
             base.OnActionExecuting(filterContext);
         }
         /// <summary>

@@ -56,10 +56,11 @@ namespace Wms12m.Presentation
                 .Include("~/Content/assets/global/plugins/pdfmake.min.js")
                 .Include("~/Content/assets/global/plugins/vfs_fonts.js")
                  // dx.web
-                 //.Include("~/Content/assets/global/plugins/DevExtreme/js/dx.web.js")
                  .Include("~/Content/assets/global/plugins/devextreme/js/dx.all.js")
-                 //theme scripts
-                 .Include("~/Content/assets/global/scripts/app.min.js")
+                 //console clear
+                 .Include("~/Content/assets/global/plugins/devtools-detect.js")
+                //theme scripts
+                .Include("~/Content/assets/global/scripts/app.min.js")
                 .Include("~/Content/assets/layouts/layout/scripts/layout.min.js")
                 .Include("~/Content/Scripts/Operation.min.js")
                 .Include("~/Content/Scripts/MessageBox.min.js")
