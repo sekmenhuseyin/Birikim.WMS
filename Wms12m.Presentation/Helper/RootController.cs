@@ -80,6 +80,7 @@ namespace Wms12m.Presentation
                 return;
             }
             ViewBag.User = vUser.FirstName;
+            ViewBag.UserID = vUser.Id;
             ViewBag.settings = db.Settings.FirstOrDefault();
             ViewBag.Debug = HttpContext.IsDebuggingEnabled;
             if (ViewBag.settings.Aktif == false && filterContext.ActionDescriptor.ControllerDescriptor.ControllerName != "Maintenance")

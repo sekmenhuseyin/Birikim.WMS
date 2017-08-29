@@ -45,10 +45,8 @@ namespace Wms12m.Presentation.Controllers
             }
             //return
             ViewBag.SirketKodu = SirketKodu;
-            ViewBag.Settings = setts;
             ViewBag.BekleyenOnaylar = bo;
             ViewBag.RoleName = vUser.RoleName;
-            ViewBag.Id = vUser.Id;
             return View("Index", db.GetHomeSummary(vUser.UserName, vUser.Id).FirstOrDefault());
         }
         /// <summary>
@@ -252,7 +250,7 @@ namespace Wms12m.Presentation.Controllers
                 }
             return PartialView("_PartialAylikSatisCHKAnaliziBar", liste);
         }
-        
+
         public PartialViewResult PartialAylikSatisAnaliziKodTipDovizBar(string SirketKodu, string kod, int islemtip, string doviz)
         {
             ViewBag.Doviz = doviz;
@@ -397,7 +395,7 @@ namespace Wms12m.Presentation.Controllers
         {
             ViewBag.SirketKodu = SirketKodu;
             ViewBag.SirketID = new SelectList(db.GetSirkets().ToList(), "Kod", "Ad");
-                ViewBag.MiktarTutar = "Miktar";
+            ViewBag.MiktarTutar = "Miktar";
             if (CheckPerm(Perms.ChartBekleyenSiparisUrunGrubu, PermTypes.Reading) == false) return PartialView("_PartialBekleyenSiparisUrunGrubuMiktar", new List<GetCachedChartBekleyenUrunMiktarFiyat_Result>());
             List<GetCachedChartBekleyenUrunMiktarFiyat_Result> BSUG;
             if (miktarTutar == true)
@@ -435,7 +433,7 @@ namespace Wms12m.Presentation.Controllers
         {
             ViewBag.SirketKodu = SirketKodu;
             ViewBag.SirketID = new SelectList(db.GetSirkets().ToList(), "Kod", "Ad");
-                ViewBag.MiktarTutar = "Miktar";
+            ViewBag.MiktarTutar = "Miktar";
             if (CheckPerm(Perms.ChartBekleyenSiparisUrunGrubu, PermTypes.Reading) == false) return PartialView("_PartialBekleyenSiparisUrunGrubuMiktarPie", new List<GetCachedChartBekleyenUrunMiktarFiyat_Result>());
             List<GetCachedChartBekleyenUrunMiktarFiyat_Result> BSUG;
             if (miktarTutar == true)

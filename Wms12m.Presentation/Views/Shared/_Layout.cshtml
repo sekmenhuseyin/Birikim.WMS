@@ -15,8 +15,8 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="Content-Language" content="tr" />
     <meta name="Copyright" content="Copyright © @DateTime.Today.Year" />
-    <meta name="description" content="Depo Yönetim" />
-    <meta name="keywords" content="" />
+    <meta name="description" content="12M ERP Yönetim Paneli" />
+    <meta name="keywords" content="12M, Link, Güneş, ERP, Yönetim, Birikim, Finans" />
     <link rel='shortcut icon' type='image/x-icon' href='/favicon.ico' />
     <title>@ViewBag.Title</title>
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=all" rel="stylesheet" type="text/css" />
@@ -75,8 +75,9 @@
         <div id="div_loading" class="loader"></div>
         <div class="portfolio-modal modal fade" id="modalEditPage" tabindex="-1" role="dialog" aria-hidden="true"></div>
     </div>
-    <script>var SAdress = @{if (ViewBag.Debug == true) { <text>""</text> } else { <text>"@Request.Url.Scheme://@Request.Url.Authority/"</text> } };</script>
-    @Scripts.Render(BundleConfig.JsBundle)<script src="~/Content/assets/global/plugins/datatables/extensions/Buttons/js/buttons.html5.js"></script>
-    <script src="~/Content/assets/global/plugins/datatables/extensions/Buttons/js/buttons.flash.js"></script>@RenderSection("Scripts", required: false)
+    @Scripts.Render(BundleConfig.JsBundle)    <script src="~/Content/assets/global/plugins/datatables/extensions/Buttons/js/buttons.html5.js"></script>
+    <script src="~/Content/assets/global/plugins/datatables/extensions/Buttons/js/buttons.flash.js"></script>
+    @{if (ViewBag.Debug == false && ViewBag.UserID > 1) {    <script src="~/Content/assets/global/plugins/devtools-detect.js"></script><script>window.addEventListener('devtoolschange', function (e) { if (e.detail.open == true) { console.clear(); window.location.href = "@Request.Url.Scheme://@Request.Url.Authority/"; } });</script> }}
+    @RenderSection("Scripts", required: false)
 </body>
 </html>

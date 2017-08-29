@@ -9,12 +9,6 @@ function $buo_f() {
 };
 try { document.addEventListener("DOMContentLoaded", $buo_f, false) }
 catch (e) { window.attachEvent("onload", $buo_f) }
-window.addEventListener('devtoolschange', function (e) {
-    if (e.detail.open == true && SAdress != "") {
-        console.clear();
-        window.location.href = SAdress;
-    }
-});
 //filter fn
 function filter(tbl, col, val) {
     tbl.column(col).search(val).draw();
