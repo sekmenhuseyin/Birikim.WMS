@@ -1,5 +1,5 @@
 ﻿@model Transfer
-@{ Result result = ViewBag.Result; }
+@{ Result result = ViewBag.Result; string tmp; List<string> Sirket = ViewBag.Sirket; var malkod = new List<String>(); var malad = new List<String>(); }
 <div class="modal-content">
     <div class="close-modal" data-dismiss="modal"><div class="lr"><div class="rl"></div></div></div>
     <div class="container">
@@ -12,22 +12,47 @@
                         <div class="row">
                             <div class="col-lg-12 modal-body">
                                 <table class="table table-bordered table-condensed">
-                                    <thead><tr><th>Şirket</th><th>Giriş Depo</th><th>Ara Depo</th><th>Çıkış Depo</th><th></th></tr></thead>
-                                    <tbody><tr><td>@Model.SirketKod</td><td>@Model.Depo.DepoAd</td><td>@Model.Depo2.DepoAd</td><td>@Model.Depo1.DepoAd</td><td><a class="btn btn-danger input-circle" href="javascript:;" onclick="Delete('@Model.GorevID','','','')"> Sil </a></td></tr></tbody>
+                                    <thead><tr><th>Şirket</th><th>Giriş Depo</th><th>Ara Depo</th><th>Çıkış Depo</th></tr></thead>
+                                    <tbody><tr><td>@Model.SirketKod</td><td>@Model.Depo.DepoAd</td><td>@Model.Depo2.DepoAd</td><td>@Model.Depo1.DepoAd</td></tr></tbody>
                                 </table>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-lg-12 modal-body">
+                            <div class="col-lg-12 modal-body" id="listSummary">
                                 <table class="table table-striped table-bordered table-condensed" id="sample_2">
-                                    <thead><tr><th>Mal Kodu</th><th class="text-right">Miktar</th><th>Birim</th></tr></thead>
+                                    <thead><tr><th>Mal Kodu</th><th>Mal Adı</th><th class="text-right">Miktar</th><th>Birim</th><th></th></tr></thead>
+                                    <thead>
+                                        <tr>
+                                            <td><input class="input-circle form-control" type="text" name="sMalKodu" id="sMalKodu" /></td>
+                                            <td><input class="input-circle form-control" type="text" name="sMalAdi" id="sMalAdi" /></td>
+                                            <td><input class="input-circle form-control" pull-right" type="text" name="sBirim" id="sBirim" /></td>
+                                            <td><input class="input-circle form-control" type="text" name="sMiktar" id="sMiktar" /></td>
+                                            <td><button type="button" class="btn btn-primary input-circle" onclick="">Ekle</button></td>
+                                        </tr>
+                                    </thead>
                                     <tbody>
                                         @foreach (var item in Model.Transfer_Detay)
                                         {
+                                            if (malkod.Contains(item.MalKodu) == false)
+                                            {
+                                                tmp = item.MalKodu.GetMalAdi(Sirket[0]);
+                                                if (tmp == null || tmp == "") { tmp = item.MalKodu.GetMalAdi(Sirket[1]); }
+                                                malkod.Add(item.MalKodu);
+                                                malad.Add(tmp);
+                                            }
+                                            else
+                                            {
+                                                tmp = malad[malkod.IndexOf(item.MalKodu)];
+                                            }
                                             <tr>
                                                 <td>@item.MalKodu</td>
+                                                <td>@tmp</td>
                                                 <td class="text-right">@String.Format("{0:n}", item.Miktar)</td>
                                                 <td>@item.Birim</td>
+                                                <td>
+                                                    <a href="javascript:;" class="btn btn-default input-circle" onclick="">Değiştir</a>
+                                                    <a href="javascript:;" class="btn btn-danger input-circle" onclick="Delete('@item.ID','/WMS/Transfer/ListSummary','listSummary','@item.TransferID', '')"> Sil </a>
+                                                </td>
                                             </tr>
                                         }
                                     </tbody>
@@ -38,7 +63,7 @@
                     else
                     {
                         <div class="row">
-                            <div class="col-lg-12 modal-body">@result.Message</div>
+                            <div class="col-lg-12 modal-body"><p class="text-danger"><strong>@result.Message</strong></p></div>
                         </div>
                     }
                 </div>
@@ -50,12 +75,46 @@
     </div>
 </div>
 @section Scripts{@if (result.Status == true){<script>
-    var DeleteFunctionUrl = '/WMS/Transfer/Delete';
     $(document).ready(function () {
         var table = $('#sample_2').DataTable({
             ordering: false,
             "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" }
         });
+        $("#sMalKodu").autocomplete({
+            source: "/WMS/Purchase/getMalzemebyCode/0",
+            minLength: 2,
+            select: function (event, ui) {
+                getBirims(ui.item.id);
+                $("#MalAdi").val(ui.item.value);
+            }
+        });
+        $("#sMalAdi").autocomplete({
+            source: "/WMS/Purchase/GetMalzemebyName/0",
+            minLength: 2,
+            select: function (event, ui) {
+                getBirims(ui.item.id);
+                $("#MalAdi").val(ui.item.value);
+            }
+        });
     });
+    function getBirims(id) {
+        $("#sBirim option").remove();
+        $.ajax({
+            url: "/WMS/Purchase/getBirim",
+            type: 'POST',
+            data: JSON.stringify({ kod: id, s: 0 }),
+            dataType: "json",
+            contentType: 'application/json; charset=utf-8',
+            success: function (data) {
+                if (data != "") {
+                    if (data[0].Birim1.replace(" ", "") != "") { $('#sBirim').append($('<option>', { value: data[0].Birim1, text: data[0].Birim1 })); }
+                    if (data[0].Birim2.replace(" ", "") != "") { $('#sBirim').append($('<option>', { value: data[0].Birim2, text: data[0].Birim2 })); }
+                    if (data[0].Birim3.replace(" ", "") != "") { $('#sBirim').append($('<option>', { value: data[0].Birim3, text: data[0].Birim3 })); }
+                    if (data[0].Birim4.replace(" ", "") != "") { $('#sBirim').append($('<option>', { value: data[0].Birim4, text: data[0].Birim4 })); }
+                }
+                $("#MalKodu").val(id);
+            }
+        });
+    }
 </script>
 }}

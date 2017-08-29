@@ -130,27 +130,4 @@ namespace Wms12m
             }
         }
     }
-    /// <summary>
-    /// export to excel
-    /// </summary>
-    public class Export
-    {
-        public void ToExcel(HttpResponseBase Response, object clientsList, string fileName)
-        {
-            var grid = new GridView();
-            grid.DataSource = clientsList;
-            grid.DataBind();
-            Response.ClearContent();
-            Response.AddHeader("content-disposition", "attachment; filename=" + fileName + ".xls");
-            Response.ContentType = "application/excel";
-            using (StringWriter sw = new StringWriter())
-            using (HtmlTextWriter htw = new HtmlTextWriter(sw))
-            {
-                grid.RenderControl(htw);
-                Response.Output.Write(sw.ToString());
-                Response.Flush();
-                Response.End();
-            }
-        }
-    }
 }

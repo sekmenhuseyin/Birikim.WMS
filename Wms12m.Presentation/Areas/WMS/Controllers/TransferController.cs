@@ -124,7 +124,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             if (sonuc.Status == false)
                 return PartialView("Summary");
             //find detays
-            string eksikler = "";
+            string eksikler = ""; int TransferID = sonuc.Id;
             foreach (var item in mallistesi)
             {
                 //stok kontrol
@@ -154,10 +154,10 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                         if (toplam == item.Miktar) break;
                     }
                     item.Miktar = toplam;
-                    item.TransferID = sonuc.Id;
+                    item.TransferID = TransferID;
                     //hepsi eklenince detayı db'ye ekle
-                    if (item.Miktar > 0) Transfers.AddDetay(item);
-                    if (item.Miktar > 0) IrsaliyeDetay.Operation(new IRS_Detay() { IrsaliyeID = cevap.IrsaliyeID.Value, MalKodu = item.MalKodu, Miktar = item.Miktar, Birim = item.Birim });
+                    if (item.Miktar > 0) { sonuc = Transfers.AddDetay(item); }
+                    if (item.Miktar > 0) IrsaliyeDetay.Operation(new IRS_Detay() { IrsaliyeID = cevap.IrsaliyeID.Value, MalKodu = item.MalKodu, Miktar = item.Miktar, Birim = item.Birim, KynkSiparisID = sonuc.Id, KynkSiparisTarih = TransferID });
                 }
                 else
                 {
@@ -166,9 +166,22 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                 }
             }
             //return
-            var list = db.Transfers.Where(m => m.ID == sonuc.Id).FirstOrDefault();
+            var list = db.Transfers.Where(m => m.ID == TransferID).FirstOrDefault();
             ViewBag.Result = new Result(true, eksikler != "" ? "Şu ürünler stokta bulunamadı: " + eksikler : "");
+            //dbler tempe aktarılıyor
+            var listdb = db.GetSirketDBs();
+            List<string> liste = new List<string>();
+            foreach (var item in listdb) { liste.Add(item); }
+            ViewBag.Sirket = liste;
             return PartialView("Summary", list);
+        }
+        /// <summary>
+        /// özet sayfasındaki listeyi yeniler
+        /// </summary>
+        [HttpPost]
+        public PartialViewResult ListSummary(int ID)
+        {
+            return PartialView();
         }
         /// <summary>
         /// onay bekleyen transfer lsitesi
@@ -235,6 +248,29 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             catch (Exception ex)
             {
                 Logger(ex, "Tasks/Delete");
+                _Result.Status = false;
+                _Result.Message = ex.Message;
+            }
+            return Json(_Result, JsonRequestBehavior.AllowGet);
+        }
+        /// <summary>
+        /// görev sil
+        /// </summary>
+        public JsonResult Delete2(int ID)
+        {
+            if (CheckPerm(Perms.Transfer, PermTypes.Deleting) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
+            Result _Result = new Result();
+            var satir1 = db.Transfer_Detay.Where(m => m.ID == ID).FirstOrDefault();
+            var satir2 = db.IRS_Detay.Where(m => m.KynkSiparisID == ID && m.KynkSiparisTarih == satir1.TransferID).FirstOrDefault();
+            try
+            {
+                db.Transfer_Detay.Remove(satir1);
+                db.IRS_Detay.Remove(satir2);
+                _Result = new Result(true, ID);
+            }
+            catch (Exception ex)
+            {
+                Logger(ex, "Tasks/Delete2");
                 _Result.Status = false;
                 _Result.Message = ex.Message;
             }
