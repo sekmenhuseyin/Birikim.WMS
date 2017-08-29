@@ -343,7 +343,7 @@ namespace Wms12m.Presentation.Controllers
             //generate sql
             if (id.ToString() == "0")
                 id = db.GetSirketDBs().FirstOrDefault();
-            sql = String.Format("FINSAT6{0}.[wms].[CHKSearch] @HesapKodu = N'{1}', @Unvan = N'', @top = 20", id.ToString(), term);
+            sql = String.Format("FINSAT6{0}.[wms].[BTBCHKSearch] @HesapKodu = N'{1}', @Unvan = N'', @top = 20", id.ToString(), term);
             //return
             try
             {
@@ -364,7 +364,7 @@ namespace Wms12m.Presentation.Controllers
             //generate sql
             if (id.ToString() == "0")
                 id = db.GetSirketDBs().FirstOrDefault();
-            sql = String.Format("FINSAT6{0}.[wms].[CHKSearch] @HesapKodu = N'', @Unvan = N'{1}', @top = 20", id.ToString(), term);
+            sql = String.Format("FINSAT6{0}.[wms].[BTBCHKSearch] @HesapKodu = N'', @Unvan = N'{1}', @top = 20", id.ToString(), term);
             //return
             try
             {
