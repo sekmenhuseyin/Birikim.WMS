@@ -186,11 +186,47 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             var listdb = db.GetSirketDBs();
             List<string> liste = new List<string>();
             foreach (var item in listdb) { liste.Add(item); }
-            ViewBag.Sirket = liste;
+            //get transfer
+            var transfer = db.Transfers.Where(m => m.ID == ID).FirstOrDefault();
+            //delete gorev yer
+            var gorevyerleri = db.GorevYers.Where(m => m.GorevID == transfer.GorevID).ToList();
+            db.GorevYers.RemoveRange(gorevyerleri);
+            db.SaveChanges();
+            //add gorev yer
+            foreach (var item in transfer.Transfer_Detay)
+            {
+                //stok kontrol
+                var tmpYer = db.Yers.Where(m => m.MalKodu == item.MalKodu && m.Birim == item.Birim && m.Kat.Bolum.Raf.Koridor.DepoID == transfer.CikisDepoID && m.Miktar > 0).OrderByDescending(m => m.Miktar).ToList();
+                decimal toplam = 0, miktar = 0;
+                if (tmpYer.Count > 0)
+                {
+                    foreach (var itemyer in tmpYer)
+                    {
+                        if (itemyer.Miktar >= (item.Miktar - toplam))
+                            miktar = item.Miktar - toplam;
+                        else
+                            miktar = itemyer.Miktar;
+                        toplam += miktar;
+                        //miktarı tabloya ekle
+                        GorevYer tblyer = new GorevYer()
+                        {
+                            GorevID = transfer.GorevID,
+                            YerID = itemyer.ID,
+                            MalKodu = item.MalKodu,
+                            Birim = item.Birim,
+                            Miktar = miktar,
+                            GC = true
+                        };
+                        if (miktar > 0) TaskYer.Operation(tblyer);
+                        //toplam yeterli miktardaysa
+                        if (toplam == item.Miktar) break;
+                    }
+                }
+            }
             //return
-            var list = db.Transfers.Where(m => m.ID == ID).FirstOrDefault();
-            ViewBag.IrsaliyeId = list.Gorev.IrsaliyeID;
-            return PartialView("SummaryList", list);
+            ViewBag.IrsaliyeId = transfer.Gorev.IrsaliyeID;
+            ViewBag.Sirket = liste;
+            return PartialView("SummaryList", transfer);
         }
         /// <summary>
         /// onay bekleyen transfer lsitesi
@@ -313,6 +349,42 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                 _Result.Message = ex.Message;
             }
             return Json(_Result, JsonRequestBehavior.AllowGet);
+        }
+        /// <summary>
+        /// irs detay düzenle
+        /// </summary>
+        public PartialViewResult EditList(int ID, string s)
+        {
+            if (CheckPerm(Perms.MalKabul, PermTypes.Writing) == false) return null;
+            var tbl = IrsaliyeDetay.Detail(ID);
+            ViewBag.SirketID = s;
+            return PartialView("EditList", tbl);
+        }
+        /// <summary>
+        /// irs detay güncelle
+        /// </summary>
+        [HttpPost]
+        public JsonResult UpdateList(int ID, decimal M, string mNo)
+        {
+            if (CheckPerm(Perms.MalKabul, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
+            var tbl = db.IRS_Detay.Where(m => m.ID == ID).FirstOrDefault();
+            tbl.Miktar = M;
+            if (mNo != "")
+            {
+                var tmpx = db.IRS_Detay.Where(m => m.MakaraNo == tbl.MakaraNo).FirstOrDefault();
+                if (tmpx != null)
+                    return Json(new Result(false, "Bu makara no kullanılıyor"), JsonRequestBehavior.AllowGet);
+                tbl.MakaraNo = mNo;
+            }
+            try
+            {
+                db.SaveChanges();
+                return Json(new Result(true), JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception)
+            {
+                return Json(new Result(false, "Kayıtta hata oldu"), JsonRequestBehavior.AllowGet);
+            }
         }
     }
 }
