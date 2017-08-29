@@ -110,7 +110,7 @@
 </div>
 <script>
     $(document).ready(function () {
-        var model =  @Html.Raw(serializer.Serialize(Model));
+        @*var model =  @Html.Raw(serializer.Serialize(Model));*@
         var BirimMiktar = 0, AnaBirim = 0, AnaBirimMiktar = 0, AdetCikisMiktar = 0, MTCikisMiktar = 0, M2CikisMiktar = 0, M3CikisMiktar = 0, KGCikisMiktar = 0, NetBirimFiyat = 0, NetTutar = 0, KDV = 0, GenelToplam = 0;
         var table123 = $('#sample_1').DataTable({
             "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },

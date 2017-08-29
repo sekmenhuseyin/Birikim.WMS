@@ -103,6 +103,7 @@
             });
         });
         $('.onay-buton').click(function () {
+            secili_table = [];
             if ($("#chkKoleksiyon").prop("checked") == false && $("#chkGrup").prop("checked") == false) {
                 var x = table.rows('.selected').data();
                 for (var i = 0; i < x.length; i++) {
@@ -194,6 +195,7 @@
         });
 
         $('.reddet-buton').click(function () {
+            secili_table = [];
             if ($("#chkKoleksiyon").prop("checked") == false && $("#chkGrup").prop("checked") == false) {
                 var x = table.rows('.selected').data();
                 for (var i = 0; i < x.length; i++) {

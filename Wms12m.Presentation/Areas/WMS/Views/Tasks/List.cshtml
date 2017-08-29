@@ -20,7 +20,7 @@
         {
             <tr data-ID="@item.ID">
                 <td style="width:20px!important;" class="details-control"></td>
-                <th>@item.GorevNo</th>
+                <td>@item.GorevNo</td>
                 <td>@item.Depo.DepoAd</td>
                 <td>@item.ID.GetEvrakNosForGorev()</td>
                 <td>@item.ComboItem_Name1.Name</td>
@@ -54,7 +54,7 @@
             "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
             "columnDefs": [{ "targets": [0], "orderable": false }],
             initComplete: function () {
-                this.api().columns([1, 3]).every(function () {
+                this.api().columns([2, 4]).every(function () {
                     var column = this;
                     var select = $('<br /><select class="form-control input-circle" style="max-width:100px;"><option value=""></option></select>')
                         .appendTo($(column.header()))

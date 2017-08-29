@@ -32,7 +32,7 @@ namespace Wms12m.Presentation.Controllers
             else
                 list = db.Users.Where(m => m.Sirket == "" && m.Tip == 0 && m.ID > 1).ToList();
             ViewBag.Yetki = CheckPerm(Perms.Kullanıcılar, PermTypes.Writing);
-            ViewBag.SiparisOnay = ViewBag.settings.SiparisOnayParametre;
+            ViewBag.UserID = vUser.Id;
             return PartialView("List", list);
         }
         /// <summary>
@@ -218,6 +218,14 @@ namespace Wms12m.Presentation.Controllers
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
         /// <summary>
+        /// şifreyi çözümler ve gösterir
+        /// </summary>
+        [HttpPost]
+        public JsonResult GetPass(int ID)
+        {
+            return Json(Persons.GetPass(ID), JsonRequestBehavior.AllowGet);
+        }
+        /// <summary>
         /// sil
         /// </summary>
         [HttpPost]
@@ -369,7 +377,9 @@ namespace Wms12m.Presentation.Controllers
                 return Json(new List<frmJson>(), JsonRequestBehavior.AllowGet);
             }
         }
-
+        /// <summary>
+        /// sipriş yetki düzenleme sayfası
+        /// </summary>
         public PartialViewResult YetkiDuzenle(int ID)
         {
             var tbl = db.UserDetails.Where(m => m.UserID == ID).FirstOrDefault();
@@ -397,14 +407,18 @@ namespace Wms12m.Presentation.Controllers
             ViewBag.ID = ID;
             return PartialView("YetkiDuzenle", yetki);
         }
-
+        /// <summary>
+        /// select box doldurur
+        /// </summary>
         public string TipKodSelect()
         {
             var KOD = db.Database.SqlQuery<RaporGetKod>(string.Format("[FINSAT6{0}].[wms].[DB_GetTipKod]", "71")).ToList();
             var json = new JavaScriptSerializer().Serialize(KOD);
             return json;
         }
-
+        /// <summary>
+        /// sipriş yetki update
+        /// </summary>
         public JsonResult ParametreUpdate(string CHKAraligi, string Sirketler, string Tipler, string Kod3, string Risk, int ID)
         {
             Result _Result = new Result(true);

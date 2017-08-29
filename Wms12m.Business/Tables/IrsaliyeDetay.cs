@@ -90,8 +90,6 @@ namespace Wms12m.Business
                     }
                     db.IRS_Detay.Add(tablo);
                     db.SaveChanges();
-                    //set aktif
-                    db.UpdateGorevDurum(fn.ToOADate(), fn.ToOATime(), tbl.IrsaliyeId);
                     //log
                     LogActions("Business", "IrsaliyeDetay", "Operation", ComboItems.alEkle , tablo.ID, tbl.MalKodu + ", " + tbl.Miktar);
                     _Result.Message = "İşlem Başarılı !!!";

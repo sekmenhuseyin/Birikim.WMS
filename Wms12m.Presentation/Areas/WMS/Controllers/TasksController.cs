@@ -235,7 +235,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                 //TODO: burada hata var
                 var sti = new STI();
                 sti.DefaultValueSet();
-                if (item.Miktar > item.WmsStok)//olması gerekenden fazlaysa giriş yapılacak
+                if (item.Miktar > item.GunesStok)//olması gerekenden fazlaysa giriş yapılacak
                     sti.IslemTur = 0;
                 else//eğer olması gerekenden az varsa çıkış yapılacak
                     sti.IslemTur = 1;
@@ -245,7 +245,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                 sti.IslemTip = 18;//"Sayım Sonuç Fişi" from finsat.COMBOITEM_NAME
                 sti.MalKodu = item.MalKodu;
                 sti.Miktar = item.Miktar;
-                sti.Miktar2 = item.WmsStok;
+                sti.Miktar2 = item.GunesStok;
                 sti.Birim = item.Birim;
                 sti.BirimMiktar = item.Miktar;
                 sti.Depo = mGorev.Depo.DepoKodu;
@@ -256,7 +256,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                 sirano++;
             }
             //finsat tanımlama
-            int EvrakSeriNo = 7000 + details.SayimSeri.Value - 1;
+            int EvrakSeriNo = 7100 + details.SayimSeri.Value - 1;
             Finsat finsat = new Finsat(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, mGorev.IR.SirketKod);
             var sonuc = finsat.SayımVeFarkFişi(stiList, EvrakSeriNo, true, vUser.UserName);
             if (sonuc.Status == true)
@@ -308,18 +308,18 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                                                 "WHERE (FINSAT6{0}.FINSAT6{0}.DST.Depo = '{1}') AND (FINSAT6{0}.FINSAT6{0}.DST.MalKodu = wms.GorevYer.MalKodu) AND (FINSAT6{0}.FINSAT6{0}.DST.DvrMiktar + FINSAT6{0}.FINSAT6{0}.DST.GirMiktar - FINSAT6{0}.FINSAT6{0}.DST.CikMiktar > 0)),0) AS GunesStok " +
                                             "FROM wms.Gorev WITH(NOLOCK) INNER JOIN wms.GorevYer WITH(NOLOCK) ON wms.Gorev.ID = wms.GorevYer.GorevID " +
                                             "WHERE (wms.Gorev.ID = {2}) GROUP BY wms.Gorev.DepoID, wms.GorevYer.MalKodu, wms.GorevYer.Birim" +
-                                        ") AS t WHERE (Stok <> Miktar)", mGorev.IR.SirketKod, mGorev.Depo.DepoKodu, GorevID);
+                                        ") AS t WHERE (WmsStok <> Miktar)", mGorev.IR.SirketKod, mGorev.Depo.DepoKodu, GorevID);
             var list = db.Database.SqlQuery<frmSiparisMalzemeDetay>(sql).ToList();
             foreach (var item in list)
             {
                 //TODO: burada hata var
                 var sti = new STI();
                 sti.DefaultValueSet();
-                if (item.Miktar > item.WmsStok)//fazla mal varsa giriş
+                if (item.Miktar > item.GunesStok)//fazla mal varsa giriş
                     sti.IslemTur = 0;
                 else
                     sti.IslemTur = 1;
-                sti.Miktar = Math.Abs(item.Miktar - item.WmsStok);
+                sti.Miktar = Math.Abs(item.Miktar - item.GunesStok);
                 sti.Tarih = tarih;
                 sti.KynkEvrakTip = 100;//"Sayım Farkı Fişi" from finsat.COMBOITEM_NAME
                 sti.SiraNo = sirano;
@@ -327,7 +327,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                 sti.MalKodu = item.MalKodu;
                 sti.Birim = item.Birim;
                 sti.BirimMiktar = sti.Miktar;
-                sti.Miktar2 = item.WmsStok;
+                sti.Miktar2 = item.GunesStok;
                 sti.Depo = mGorev.Depo.DepoKodu;
                 sti.VadeTarih = tarih;
                 sti.EvrakTarih = tarih;
@@ -337,7 +337,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                 sirano++;
             }
             //finsat tanımlama
-            int EvrakSeriNo = 2600 + details.SayimSeri.Value - 1;
+            int EvrakSeriNo = 7500 + details.SayimSeri.Value - 1;
             Finsat finsat = new Finsat(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, mGorev.IR.SirketKod);
             var sonuc = finsat.SayımVeFarkFişi(stiList, EvrakSeriNo, true, vUser.UserName);
             if (sonuc.Status == true)
@@ -345,7 +345,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                 mGorev.IR.LinkEvrakNo = sonuc.Message;
                 db.SaveChanges();
                 //finsat dst & stk update
-                sql = string.Format("UPDATE FINSAT6{0}.FINSAT6{0}.STI SET KaynakIrsEvrakNo='{1}' WHERE EvrakNo = '{2}' AND KynkEvrakTip = 94;", mGorev.IR.SirketKod, sonuc.Message, mGorev.IR.EvrakNo);
+                sql = string.Format("UPDATE FINSAT6{0}.FINSAT6{0}.STI SET KaynakIrsEvrakNo='{1}' WHERE EvrakNo = '{2}' AND KynkEvrakTip = 95;", mGorev.IR.SirketKod, sonuc.Message, mGorev.IR.EvrakNo);
                 foreach (var item in list)
                 {
                     if (item.Miktar > item.WmsStok)//giriş

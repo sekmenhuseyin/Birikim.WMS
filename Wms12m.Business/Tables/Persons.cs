@@ -203,6 +203,14 @@ namespace Wms12m.Business
             return _Result;
         }
         /// <summary>
+        /// şifre göster
+        /// </summary>
+        public string GetPass(int ID)
+        {
+            var P = Detail(ID);
+            return CryptographyExtension.Cozumle(P.Sifre);
+        }
+        /// <summary>
         /// bir kişinin ayrıntıları
         /// </summary>
         public override User Detail(int Id)

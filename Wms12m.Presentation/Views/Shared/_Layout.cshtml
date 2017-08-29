@@ -24,7 +24,7 @@
     <link href="~/Content/assets/global/plugins/simple-line-icons/css/simple-line-icons.min.css" rel="stylesheet" />
     <link href="~/Content/assets/global/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
     @Styles.Render(BundleConfig.CssBundle)@RenderSection("Styles", required: false)
-    <style>.dx-scrollbar-vertical.dx-scrollbar-hoverable, .slimScrollBar, .slimScrollRail { width: 15px!important; }</style>@*/*Burası teknoloji özürlüler için eklenmiştir*/*@
+    @{if (ViewBag.Debug == false) {<style>.dx-scrollbar-vertical.dx-scrollbar-hoverable, .slimScrollBar, .slimScrollRail { width: 15px!important; }</style>@*/*Burası teknoloji özürlüler için eklenmiştir*/*@} }
 </head>
 <body class="page-header-fixed page-sidebar-closed-hide-logo page-content-white page-sidebar-fixed page-md">
     <div class="page-wrapper">
@@ -75,17 +75,8 @@
         <div id="div_loading" class="loader"></div>
         <div class="portfolio-modal modal fade" id="modalEditPage" tabindex="-1" role="dialog" aria-hidden="true"></div>
     </div>
+    <script>var SAdress = @{if (ViewBag.Debug == true) { <text>""</text> } else { <text>"@Request.Url.Scheme://@Request.Url.Authority/"</text> } };</script>
     @Scripts.Render(BundleConfig.JsBundle)<script src="~/Content/assets/global/plugins/datatables/extensions/Buttons/js/buttons.html5.js"></script>
     <script src="~/Content/assets/global/plugins/datatables/extensions/Buttons/js/buttons.flash.js"></script>@RenderSection("Scripts", required: false)
-    <script>@*/*Burası teknoloji özürlüler için eklenmiştir: eski tarayıcıları çalıştırma*/*@
-        var $buoop = { vs: { i: 10, f: -8, o: -8, s: 8, c: -8 }, api: 4 };
-        function $buo_f() {
-            var e = document.createElement("script");
-            e.src = "//browser-update.org/update.min.js";
-            document.body.appendChild(e);
-        };
-        try { document.addEventListener("DOMContentLoaded", $buo_f, false) }
-        catch (e) { window.attachEvent("onload", $buo_f) }
-    </script>
 </body>
 </html>
