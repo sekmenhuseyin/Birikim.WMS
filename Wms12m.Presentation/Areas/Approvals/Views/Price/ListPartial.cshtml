@@ -25,7 +25,9 @@
                                     <th>Döviz Satış Fiyat</th>
                                     <th>Döviz Satış Fiyat Birim</th>
                                     <th>Döviz Cinsi</th>
-
+                                    <th>Birim1</th>
+                                    <th>Birim2</th>
+                                    <th>Birim3</th>
                                 </tr>
                             </thead>
                         </table>
@@ -62,7 +64,10 @@
             { "data": "SF1Birim" },
             { "data": "DvzSatisFiyat1", "render": $.fn.dataTable.render.number('.', ',', 6, '') },
             { "data": "DovizSF1Birim" },
-            { "data": "SF1DovizCinsi" }
+            { "data": "SF1DovizCinsi" },
+            { "data": "Birim1" },
+            { "data": "Birim2" },
+            { "data": "Birim3" }
         ],
         "ordering": false,
         "fnRowCallback": function (nRow, aData, iDisplayIndex) {
@@ -80,6 +85,7 @@
 
             switch (key) {
                 case 'edit':
+                    console.log(table.cell(rowIndex, 6).data());
                     if (table.cell(rowIndex, 6).data() > 0) {
                         var Birimler = new Array();
                         var stsFiyat = ondalikBinlik(table.cell(rowIndex, 6).data().toString().replace(".", ","),2);
@@ -140,6 +146,7 @@
                             .nodes()
                             .to$()      // Convert to a jQuery object
                             .removeClass('selected');
+                        console.log("aa");
                         $(this).parent().toggleClass('selected');
                         //$('tr').eq(rowIndex + 1).addClass('selected');
                       
