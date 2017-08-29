@@ -13,7 +13,8 @@
                     <th>@ViewBag.GirisDepo<br />Gereken Miktar</th>
                     <th>@ViewBag.GirisDepo<br />Alım Siparişi</th>
                     <th>@ViewBag.GirisDepo<br />Satış Siparişi</th>
-                    <th>@ViewBag.CikisDepo<br />Stok Miktar</th>
+                    <th>@ViewBag.CikisDepo<br />Güneş Stok</th>
+                    <th>@ViewBag.CikisDepo<br />WMS Stok</th>
                     <th>@ViewBag.CikisDepo<br />Kritik Miktar</th>
                     <th>@ViewBag.CikisDepo<br />Gereken Miktar</th>
                     <th>@ViewBag.CikisDepo<br />Miktar</th>
@@ -23,7 +24,7 @@
             <tbody>
                 @foreach (var item in Model)
                 {
-                    decimal mktr = item.Depo2StokMiktar > 0 ? item.Depo2StokMiktar > Math.Abs(item.Depo1GerekenMiktar) ? Math.Abs(item.Depo1GerekenMiktar) : item.Depo2StokMiktar : 0;
+                    decimal mktr = item.Depo2GunesStok > 0 ? item.Depo2GunesStok > Math.Abs(item.Depo1GerekenMiktar) ? Math.Abs(item.Depo1GerekenMiktar) : item.Depo2GunesStok : 0;
                     list[x] = mktr.ToString();
                     <tr style="cursor:pointer;" onclick="$(this).toggleClass('selected');">
                         <td>@Html.DisplayFor(modelItem => item.MalKodu)</td>
@@ -34,7 +35,8 @@
                         <td align="right">@String.Format("{0:n}", item.Depo1GerekenMiktar)</td>
                         <td align="right">@String.Format("{0:n}", item.AlSiparis)</td>
                         <td align="right">@String.Format("{0:n}", item.SatSiparis)</td>
-                        <td align="right">@String.Format("{0:n}", item.Depo2StokMiktar)</td>
+                        <td align="right">@String.Format("{0:n}", item.Depo2GunesStok)</td>
+                        <td align="right">@String.Format("{0:n}", item.Depo2WmsStok)</td>
                         <td align="right">@String.Format("{0:n}", item.Depo2KritikMiktar)</td>
                         <td align="right">@String.Format("{0:n}", item.Depo2GerekenMiktar)</td>
                         <td align="right" ondblclick="ChangeMiktar(this, '@item.MalKodu', '@item.Depo2Miktar', '@x')">@String.Format("{0:n}", mktr)</td>
@@ -62,7 +64,7 @@
         var table = $('#sample_2').DataTable({
             "pagingType": "full_numbers", 
             ordering: true,
-            "columnDefs": [{ "targets": [12], "visible": false, "searchable": false }],
+            "columnDefs": [{ "targets": [13], "visible": false, "searchable": false }],
             "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
             "dom": 'lBfrtip',
             "buttons": [
@@ -73,7 +75,7 @@
         $(".submit").click(function () {
             var selected = "";
             table.rows(".selected").every(function (rowIdx, tableLoop, rowLoop) {
-                var miktar = parseFloat(list[this.data()[12]]);
+                var miktar = parseFloat(list[this.data()[13]]);
                 if (miktar > 0) selected = selected + this.data()[0] + "#" + this.data()[2] + "#" + miktar + "#";
             });
             $("#checkboxes").val(selected);

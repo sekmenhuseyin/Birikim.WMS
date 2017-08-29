@@ -13,7 +13,8 @@
         public decimal Depo1GerekenMiktar { get; set; }
         public decimal AlSiparis { get; set; }
         public decimal SatSiparis { get; set; }
-        public decimal Depo2StokMiktar { get; set; }
+        public decimal Depo2GunesStok { get; set; }
+        public decimal Depo2WmsStok { get; set; }
         public decimal Depo2KritikMiktar { get; set; }
         public decimal Depo2GerekenMiktar { get; set; }
         public decimal Depo2Miktar { get; set; }
