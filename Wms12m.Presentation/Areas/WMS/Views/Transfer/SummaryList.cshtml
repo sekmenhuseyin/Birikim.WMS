@@ -13,7 +13,7 @@
                 <td><input class="input-circle form-control" type="text" name="sMalAdi" id="sMalAdi" /></td>
                 <td><input class="input-circle form-control pull-right" type="text" name="sMiktar" id="sMiktar" /></td>
                 <td><select class="input-circle form-control" name="sBirim" id="sBirim"><option></option></select></td>
-                <td><button type="button" class="btn btn-primary input-circle" onclick="">Ekle</button></td>
+                <td><button type="submit" class="btn btn-primary input-circle">Ekle</button></td>
             </tr>
         </thead>
         <tbody>
@@ -36,7 +36,7 @@
                     <td class="text-right">@String.Format("{0:n}", item.Miktar)</td>
                     <td>@item.Birim</td>
                     <td>
-                        <a href="javascript:;" class="btn btn-default input-circle" onclick="">Değiştir</a>
+                        @*<a href="javascript:;" class="btn btn-default input-circle" onclick="">Değiştir</a>*@
                         <a href="javascript:;" class="btn btn-danger input-circle" onclick="Delete('@item.ID','/WMS/Transfer/SummaryList','listSummary','@item.TransferID', '')"> Sil </a>
                     </td>
                 </tr>

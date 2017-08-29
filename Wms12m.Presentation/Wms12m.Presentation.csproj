@@ -433,6 +433,7 @@
     <Content Include="Areas\Reports\Views\Stock\SiparisOnayRapor.cshtml" />
     <Content Include="Areas\Reports\Views\Stock\SiparisOnayRaporList.cshtml" />
     <Content Include="Areas\WMS\Views\Transfer\SummaryList.cshtml" />
+    <Content Include="Areas\WMS\Views\Transfer\SummaryEdit.cshtml" />
     <None Include="bundleconfig.json" />
     <Content Include="Content\SizeSablon.xlsx" />
     <Content Include="Content\StockSablon.xlsx" />
