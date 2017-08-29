@@ -85,7 +85,6 @@
 
             switch (key) {
                 case 'edit':
-                    console.log(table.cell(rowIndex, 6).data());
                     if (table.cell(rowIndex, 6).data() > 0) {
                         var Birimler = new Array();
                         var stsFiyat = ondalikBinlik(table.cell(rowIndex, 6).data().toString().replace(".", ","),2);
@@ -146,7 +145,6 @@
                             .nodes()
                             .to$()      // Convert to a jQuery object
                             .removeClass('selected');
-                        console.log("aa");
                         $(this).parent().toggleClass('selected');
                         //$('tr').eq(rowIndex + 1).addClass('selected');
                       
