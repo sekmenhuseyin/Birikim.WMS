@@ -22,14 +22,14 @@ tr.shown td.details-control {background: url('/Content/assets/global/plugins/dat
 @section Scripts{<script>
     var chk_bas = "", chk_bit = "";
     $("#txtHesapBas").autocomplete({
-        source: "/Reports/Financial/GetChKCode/0",
+        source: "/Reports/Financial/GetChKCode/17",
         minLength: 2,
         select: function (event, ui) {
             chk_bas = ui.item.id;
         }
     });
     $("#txtHesapBit").autocomplete({
-        source: "/Reports/Financial/GetChKCode/0",
+        source: "/Reports/Financial/GetChKCode/17",
         minLength: 2,
         select: function (event, ui) {
             chk_bit = ui.item.id;

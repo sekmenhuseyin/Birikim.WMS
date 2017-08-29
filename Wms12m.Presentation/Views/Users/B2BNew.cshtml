@@ -56,14 +56,23 @@
         source: "/Users/GetChKCode/0",
         minLength: 2,
         select: function (event, ui) {
+            setTimeout(function () { $("#HesapKodu").val(ui.item.id); }, 0);
             $("#Unvan").val(ui.item.value);
+        },
+        open: function () {
+            $(this).autocomplete('widget').css('z-index', 1000000000);
+            return false;
         }
     });
     $("#Unvan").autocomplete({
         source: "/Users/GetChKUnvan/0",
         minLength: 2,
         select: function (event, ui) {
-            $("#Unvan").val(ui.item.value);
+            $("#HesapKodu").val(ui.item.id);
+        },
+        open: function () {
+            $(this).autocomplete('widget').css('z-index', 10000000000);
+            return false;
         }
     });
 </script>
