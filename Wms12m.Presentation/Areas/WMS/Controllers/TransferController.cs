@@ -165,14 +165,15 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                     eksikler += item.MalKodu;
                 }
             }
-            //return
-            var list = db.Transfers.Where(m => m.ID == TransferID).FirstOrDefault();
-            ViewBag.Result = new Result(true, eksikler != "" ? "Şu ürünler stokta bulunamadı: " + eksikler : "");
             //dbler tempe aktarılıyor
             var listdb = db.GetSirketDBs();
             List<string> liste = new List<string>();
             foreach (var item in listdb) { liste.Add(item); }
             ViewBag.Sirket = liste;
+            ViewBag.IrsaliyeId = cevap.IrsaliyeID.Value;
+            ViewBag.Result = new Result(true, eksikler != "" ? "Şu ürünler stokta bulunamadı: " + eksikler : "");
+            //return
+            var list = db.Transfers.Where(m => m.ID == TransferID).FirstOrDefault();
             return PartialView("Summary", list);
         }
         /// <summary>
@@ -188,6 +189,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             ViewBag.Sirket = liste;
             //return
             var list = db.Transfers.Where(m => m.ID == ID).FirstOrDefault();
+            ViewBag.IrsaliyeId = list.Gorev.IrsaliyeID;
             return PartialView("SummaryList", list);
         }
         /// <summary>
@@ -237,11 +239,13 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             var tbl2 = db.Gorevs.Where(m => m.ID == tbl.GorevID).FirstOrDefault();
             tbl2.DurumID = ComboItems.Açık.ToInt32();
             db.SaveChanges();
+            //log
+            LogActions("WMS", "Transfer", "Approve", ComboItems.alOnayla, ID);
             //return
             return RedirectToAction("List");
         }
         /// <summary>
-        /// görev sil
+        /// transfer sil
         /// </summary>
         public JsonResult Delete(int ID)
         {
@@ -261,7 +265,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
         /// <summary>
-        /// görev sil
+        /// transfer detay sil
         /// </summary>
         public JsonResult Delete2(int ID)
         {
@@ -269,8 +273,10 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             Result _Result = new Result();
             var satir1 = db.Transfer_Detay.Where(m => m.ID == ID).FirstOrDefault();
             var satir2 = db.IRS_Detay.Where(m => m.KynkSiparisID == ID && m.KynkSiparisTarih == satir1.TransferID).FirstOrDefault();
+            var satir3 = db.GorevYers.Where(m => m.GorevID == satir1.Transfer.GorevID).ToList();
             db.Transfer_Detay.Remove(satir1);
             db.IRS_Detay.Remove(satir2);
+            db.GorevYers.RemoveRange(satir3);
             try
             {
                 db.SaveChanges();
@@ -279,6 +285,30 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             catch (Exception ex)
             {
                 Logger(ex, "Tasks/Delete2");
+                _Result.Status = false;
+                _Result.Message = ex.Message;
+            }
+            return Json(_Result, JsonRequestBehavior.AllowGet);
+        }
+        /// <summary>
+        /// transfer detay ekle
+        /// </summary>
+        public JsonResult AddDetail(frmMalzeme tbl)
+        {
+            if (CheckPerm(Perms.Transfer, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
+            if (tbl.MalKodu == "" || tbl.Birim == "" || tbl.Miktar < 1) return Json(new Result(false, "Eksik bilgi yazılmış"), JsonRequestBehavior.AllowGet);
+            //ekle
+            var item = new Transfer_Detay() { TransferID = tbl.Id, MalKodu = tbl.MalKodu, Miktar = tbl.Miktar, Birim = tbl.Birim };
+            var _Result = Transfers.AddDetay(item);
+            _Result = IrsaliyeDetay.Operation(new IRS_Detay() { IrsaliyeID = tbl.IrsaliyeId, MalKodu = item.MalKodu, Miktar = item.Miktar, Birim = item.Birim, KynkSiparisID = _Result.Id, KynkSiparisTarih = tbl.Id });
+            try
+            {
+                db.SaveChanges();
+                _Result.Id = tbl.Id;
+            }
+            catch (Exception ex)
+            {
+                Logger(ex, "Tasks/AddDetail");
                 _Result.Status = false;
                 _Result.Message = ex.Message;
             }

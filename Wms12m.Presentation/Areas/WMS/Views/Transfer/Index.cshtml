@@ -93,5 +93,30 @@
             }
         });
     }
+    function getResult(e) {
+        if (e.Status == true)
+            PartialView("/WMS/Transfer/SummaryList", 'listSummary', JSON.stringify({ Id: e.Id }));
+        else
+            Modaldialog(e.Message, 'Hata', 'Tamam', 'btn-danger');
+    };
+    function getBirims(id) {
+        $("#sBirim option").remove();
+        $.ajax({
+            url: "/WMS/Purchase/getBirim",
+            type: 'POST',
+            data: JSON.stringify({ kod: id, s: 0 }),
+            dataType: "json",
+            contentType: 'application/json; charset=utf-8',
+            success: function (data) {
+                if (data != "") {
+                    if (data[0].Birim1.replace(" ", "") != "") { $('#sBirim').append($('<option>', { value: data[0].Birim1, text: data[0].Birim1 })); }
+                    if (data[0].Birim2.replace(" ", "") != "") { $('#sBirim').append($('<option>', { value: data[0].Birim2, text: data[0].Birim2 })); }
+                    if (data[0].Birim3.replace(" ", "") != "") { $('#sBirim').append($('<option>', { value: data[0].Birim3, text: data[0].Birim3 })); }
+                    if (data[0].Birim4.replace(" ", "") != "") { $('#sBirim').append($('<option>', { value: data[0].Birim4, text: data[0].Birim4 })); }
+                }
+                $("#sMalKodu").val(id);
+            }
+        });
+    }
 </script>
 }
