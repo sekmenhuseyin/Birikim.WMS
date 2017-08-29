@@ -56,8 +56,8 @@
                             <td nowrap>@item.CHK</td>
                             <td nowrap>@item.Unvan</td>
                             <td nowrap align="right">@item.Tutar.ToDecimal().ToOnFormat()</td>
-                            <td nowrap>@item.Tarih</td>
-                            <td nowrap>@item.VadeTarih</td>
+                            <td nowrap>@Convert.ToDateTime(@item.Tarih).ToString("dd MMM yyyy")</td>
+                            <td nowrap>@Convert.ToDateTime(@item.VadeTarih).ToString("dd MMM yyyy")</td>
                             <td nowrap>@item.VerildigiYer</td>
                             <td nowrap>@item.VerildigiYerUnvan</td>
                             <td nowrap>@item.CekiDuzenleyen</td>

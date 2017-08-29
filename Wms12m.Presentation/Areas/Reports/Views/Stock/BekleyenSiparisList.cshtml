@@ -83,7 +83,7 @@
                             <tr>
                                 <td nowrap>@item.Chk</td>
                                 <td nowrap>@item.Unvan</td>
-                                <td nowrap>@item.Tarih.Value.ToString("dd/MM/yyyy")</td>
+                                <td nowrap>@item.Tarih.Value.ToString("dd MMM yyyy")</td>
                                 <td nowrap>@item.EvrakNo</td>
                                 <td nowrap>@item.BaglantiNo</td>
                                 <td nowrap>@item.GrupKod</td>
@@ -112,7 +112,7 @@
                                 <td nowrap>@item.StokBirim</td>
                                 <td nowrap align="right">@item.StokAnaMiktar.ToDecimal().ToOnFormat()</td>
                                 <td nowrap>@item.StokAnaBirim</td>
-                                <td nowrap>@item.TeslimTarih</td>
+                                <td nowrap>@item.TeslimTarih.Value.ToString("dd MMM yyyy")</td>
                                 <td nowrap>@item.TeslimTarihDurum</td>
                                 <td nowrap>@item.SatisTemsilcisi</td>
                             </tr>
