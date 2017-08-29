@@ -37,6 +37,7 @@ namespace Wms12m.Entity
         public int ROW_ID { get; set; }
         public bool Onay { get; set; }
         public string Durum { get; set; }
+        public string OzgurMu { get; set; }
     }
     public class SozlesmeOnaySelect
     {

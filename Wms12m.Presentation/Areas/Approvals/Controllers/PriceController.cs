@@ -1233,11 +1233,13 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
         public PartialViewResult SM_List()
         {
             if (CheckPerm(Perms.FiyatOnaylamaSM, PermTypes.Reading) == false) return null;
+            ViewBag.User = vUser.UserName;
             return PartialView();
         }
         public string SMOnayCek()
         {
             if (CheckPerm(Perms.FiyatOnaylamaSM, PermTypes.Reading) == false) return null;
+
             var RT = db.Database.SqlQuery<FiyatOnayGMSelect>(string.Format("[FINSAT6{0}].[wms].[FiyatOnayList]", "17")).ToList();
             var json = new JavaScriptSerializer().Serialize(RT);
             return json;

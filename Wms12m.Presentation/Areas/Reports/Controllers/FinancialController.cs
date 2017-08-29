@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.RegularExpressions;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
 using Wms12m.Entity;
@@ -60,7 +59,7 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
         public PartialViewResult CekList(int pozisyon, int ay, int yil)
         {
             if (CheckPerm(Perms.Raporlar, PermTypes.Reading) == false) return null;
-            var CLR = db.Database.SqlQuery<RaporCekListesi>(string.Format("[FINSAT6{0}].[wms].[CekListesiRaporu] @Ay = {1}, @IslemTip = {2}, @Yil = {3}", "17", ay, pozisyon, yil)).ToList();
+            var CLR = db.Database.SqlQuery<RaporCekListesi>(string.Format("[FINSAT6{0}].[wms].[CekListesiRaporu] @Ay = {1}, @IslemTip = {2}, @Yil = {3}", db.GetSirketDBs().FirstOrDefault(), ay, pozisyon, yil)).ToList();
             return PartialView("CekList", CLR);
         }
         /// <summary>
@@ -179,7 +178,7 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
             {
                 MaxJsonLength = int.MaxValue
             };
-            var TRAR = db.Database.SqlQuery<ToplamRiskAnaliziRaporu>(string.Format("[FINSAT6{0}].[wms].[ToplamRiskAnaliziRaporu] @BasHesapKodu='{1}', @BitHesapKodu='{2}'", "17", baschk, bitchk)).ToList();
+            var TRAR = db.Database.SqlQuery<ToplamRiskAnaliziRaporu>(string.Format("[FINSAT6{0}].[wms].[ToplamRiskAnaliziRaporu] @BasHesapKodu='{1}', @BitHesapKodu='{2}'", db.GetSirketDBs().FirstOrDefault(), baschk, bitchk)).ToList();
             return json.Serialize(TRAR);
         }
         /// <summary>
