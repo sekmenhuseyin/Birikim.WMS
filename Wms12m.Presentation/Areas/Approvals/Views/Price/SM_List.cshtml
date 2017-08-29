@@ -29,6 +29,9 @@
     </table>
 </div>
 <script>
+    var user = '@ViewBag.User';
+    var sayac = 0;
+    var sil = new Array();
     var secili_satir = new Array();
     var secili_table = new Array();
     var table = $('#sample_1').DataTable({
@@ -36,6 +39,18 @@
         "ajax": {
             "url": '/Approvals/Price/SMOnayCek',
             "dataSrc": function (json) {
+                sil = [];
+                jQuery.each(json, function (i, val) {
+                    if (user != 'SMF') {
+                        if (val.Ozgurmu == 'OZ') {
+                            sil.push(sayac);
+                        }
+                    }
+                    sayac++;
+                });
+                jQuery.each(sil, function (i, val) {
+                    json.splice(val-i, 1);
+                });
                 return json;
             },
         },
