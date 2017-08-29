@@ -598,11 +598,15 @@
             jObject["DovizCinsi"] = $(".txt-doviz-cinsi").dxSelectBox("instance").option("value");
             jObject["GrupKod"] = GrupKod;
             jObject["Durum"] = id;
-            if (id == 1 && ( parseFloat(jObject["DovizSatisFiyat"]) > 0) && (parseFloat(jObject["SatisFiyat"]) > 0 )) {
+            
+            var sf = Number(jObject["SatisFiyat"].toString().replace(/\./g, "").replace(",", "."));
+            var dsf = Number(jObject["DovizSatisFiyat"].toString().replace(/\./g, "").replace(",", "."));
+
+            if (id == 1 && (dsf > 0) && (sf > 0 )) {
                 Modaldialog("TL ve Döviz fiyat beraber girilemez.", "Güncelleme İşlemi", "Tamam", "Guncel");
                 return;
             }
-            if (id == 1 && (jObject["ListeNo"] == null || jObject["UrunKodu"] == null || (parseFloat(jObject["SatisFiyat"]) == 0 && parseFloat(jObject["DovizSatisFiyat"]) == 0) || (parseFloat(jObject["SatisFiyat"]) > 0 && jObject["Birim"] == null) || (parseFloat(jObject["DovizSatisFiyat"]) > 0 && jObject["DovizBirim"] == null && jObject["DovizCinsi"] == null))) {
+            if (id == 1 && (jObject["ListeNo"] == null || jObject["UrunKodu"] == null || (sf == 0 && dsf == 0) || (sf > 0 && jObject["Birim"] == null) || (dsf > 0 && jObject["DovizBirim"] == null && jObject["DovizCinsi"] == null))) {
                 Modaldialog("Girilen değerleri kontrol edin", "Güncelleme İşlemi", "Tamam", "Guncel");
                 return;
             }
