@@ -3,6 +3,7 @@
     <thead>
         <tr style='background: transparent;color:#c3a0a0;'>
             <th>Hesap Kodu</th>
+            <th>Unvan</th>
             <th>Evrak No</th>
             <th>Comfort Miktar</th>
             <th>Comfort Birim</th>
@@ -53,6 +54,7 @@
     {
         <tr class="detay" style='background: transparent;'>
             <td>@item.Chk</td>
+            <td>@item.Unvan</td>
             <td>@item.EvrakNo</td>
             <td align="right">@String.Format("{0:0.00}", item.ComfortMiktar).ToDecimal().ToOnFormat()</td>
             <td>@item.ComfortBirim</td>
@@ -104,7 +106,7 @@
 <script>
     $(".detay").dblclick(function () {
         var CHK = $(this).find("td").eq(0).text();
-        var EvrakNo = $(this).find("td").eq(1).text();
+        var EvrakNo = $(this).find("td").eq(2).text();
         $.ajax({
             type: 'POST',
             url: '/Reports/Financial/SiparisKampanyaDetay',
@@ -116,6 +118,7 @@
                 var columns = [
                     { caption: 'EvrakNo', dataField: 'EvrakNo' },
                     { caption: 'Hesap Kodu', dataField: 'Chk' },
+                    { caption: 'Ünvan', dataField: 'Unvan' },
                     {
                         caption: 'Tarih', dataField: 'Tarih',
                         customizeText: function (cellInfo) {

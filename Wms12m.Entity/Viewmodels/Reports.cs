@@ -244,6 +244,7 @@ namespace Wms12m.Entity
     public class KampanyaliSatisRaporu
     {
         public string Chk { get; set; }
+        public string Unvan { get; set; }
         public string EvrakNo { get; set; }
         public string ComfortBirim { get; set; }
         public string ExculusiveBirim { get; set; }
@@ -293,6 +294,7 @@ namespace Wms12m.Entity
     public class KampanyaSiparisDetay
     {
         public string Chk { get; set; }
+        public string Unvan { get; set; }
         public string EvrakNo { get; set; }
         public DateTime Tarih { get; set; }
         public decimal Tutar { get; set; }

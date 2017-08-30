@@ -20,6 +20,7 @@
                         <tr>
                             <th style="width:20px;"></th>
                             <th>Hesap Kodu</th>
+                            <th>Unvan</th>
                             <th>Comfort Miktar</th>
                             <th>Comfort Birim</th>
                             <th>Comfort Teslim Miktar</th>
@@ -112,6 +113,7 @@
                             <th class="text-right"></th>
                             <th class="text-right"></th>
                             <th class="text-right"></th>
+                            <th class="text-right"></th>
                         </tr>
                     </tfoot>
                     <tbody>
@@ -120,6 +122,7 @@
                             <tr>
                                 <td nowrap class='details-control'  style="width:20px;"> </td>
                                 <td nowrap>@item.Chk</td>
+                                <td nowrap>@item.Unvan</td>
                                 <td nowrap align="right">@String.Format("{0:0.00}", item.ComfortMiktar).ToDecimal().ToOnFormat()</td>
                                 <td nowrap>@item.ComfortBirim</td>
                                 <td nowrap align="right">@String.Format("{0:0.00}", item.ComfortTeslimMiktar).ToDecimal().ToOnFormat()</td>
