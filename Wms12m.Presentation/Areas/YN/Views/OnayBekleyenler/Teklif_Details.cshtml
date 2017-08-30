@@ -1,5 +1,5 @@
-﻿@model IEnumerable<frmOnayTeklifList>
-    @{ decimal tl = 0, avro = 0, dolar = 0; }
+﻿@model IEnumerable<frmOnayTeklifListDetay>
+    @*@{ decimal tl = 0, avro = 0, dolar = 0; }*@
     <div class="modal-content">
         <div class="close-modal" data-dismiss="modal"><div class="lr"><div class="rl"></div></div></div>
         <div class="container">
@@ -23,7 +23,7 @@
                                     //if (item.DovizCinsi == "TL") { tl += item.Tutar.Value; }
                                     //else if (item.DovizCinsi == "EUR") { avro += item.Tutar.Value; }
                                     //else { dolar += item.Tutar.Value; }
-                                <tr class="clickable" onclick="satir_click('@item.TeklifNo')">
+                                <tr class="clickable")">
                                     <td>@item.TeklifNo</td>
                                     <td>@item.HesapKodu</td>
                                     <td>@item.Unvan</td>
