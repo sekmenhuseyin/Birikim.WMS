@@ -40,12 +40,14 @@
     var secili_table = new Array();
     var silinecek = new Array();
     var table = "";
+    console.log('@ViewBag.ListeNo');
     if ("@ViewBag.ListeNo" != "#12MConsulting#")
     {
          table = $('#sample_1').DataTable({
             "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
             "ajax": {
-                "url": '/Approvals/Contract/TanimListesiSelect?listeNo=' + '@ViewBag.ListeNo',
+                "url": '/Approvals/Contract/TanimListesiSelect',
+                "data": {listeNo:'@ViewBag.ListeNo'},
                 "dataSrc": function (json) {
                     return json;
                 },
@@ -185,7 +187,7 @@
                     Modaldialog("Hata Oluştu.", "Kayıt İşlemi", "Tamam", "Kayıt");
                     inputClear();
                 }
-                
+
             }
         });
 

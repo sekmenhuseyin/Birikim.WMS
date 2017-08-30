@@ -5,6 +5,14 @@
 }@section Styles{<style>
     td.details-control {background: url('/Content/assets/global/plugins/datatables/images/details_open.png') no-repeat center center;cursor: pointer;}
     tr.shown td.details-control {background: url('/Content/assets/global/plugins/datatables/images/details_close.png') no-repeat center center;}
+    .ui-autocomplete {
+        max-height: 400px;
+        overflow-y: auto;
+        /* prevent horizontal scrollbar */
+        overflow-x: hidden;
+        /* add padding to account for vertical scrollbar */
+        padding-right: 20px;
+    }
 </style>
 }<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><span>Raporlar</span><i class="fa fa-circle"></i></li><li><span>Bakiye</span></li></ul></div>
 <h1 class="page-title">Bakiye</h1>
@@ -19,8 +27,8 @@
 </div>
 <div class="row m-t-20">
     <div class="col-md-2 text-right p-0 m-t-5 color-blue-light bold">Hesap Kodu: </div>
-    <div class="col-md-2 p-l-5 p-r-0"><div class="form-control chk-bas-select"></div></div>
-    <div class="col-md-2 p-l-5 p-r-0"><div class="form-control chk-bit-select"></div></div>
+    <div class="col-md-2 p-l-5 p-r-0"><input class="form-control" type="text" id="chk-bas-select" /></div>
+    <div class="col-md-2 p-l-5 p-r-0"><input class="form-control" type="text" id="chk-bit-select" /></div>
 </div>
 <div class="row m-t-20">
     <div class="col-md-2 text-right p-0 m-t-5 color-blue-light bold">Tarih: </div>
@@ -69,19 +77,23 @@
             PartialView("/Reports/Financial/BakiyeList", 'bakiye-grid', JSON.stringify({ bastarih: basTarih, bittarih: bitTarih, basvadetarih: basVadeTarih, bitvadetarih: bitVadeTarih, chk_bas: chk_bas, chk_bit: chk_bit, bakiye: bakiye }));
         });
         $(".bakiye").dxNumberBox({ value: 0, min: 0, placeholder: 'Gün sayısı girin' });    
-        $("#txtHesapBas").autocomplete({
+        $("#chk-bas-select").autocomplete({
             source: "/Reports/Financial/GetChKCode/0",
             minLength: 2,
             select: function (event, ui) {
+                setTimeout(function () { $("#chk-bas-select").val(ui.item.value.substring(ui.item.id.length + 1)); }, 0);
                 chk_bas = ui.item.id;
-            }
+            },
+            scroll: true
         });
-        $("#txtHesapBit").autocomplete({
+        $("#chk-bit-select").autocomplete({
             source: "/Reports/Financial/GetChKCode/0",
             minLength: 2,
             select: function (event, ui) {
+                setTimeout(function () { $("#chk-bit-select").val(ui.item.value.substring(ui.item.id.length + 1)); }, 0);
                 chk_bit = ui.item.id;
-            }
+            },
+            scroll: true
         });
         //$(".chk-bas-select").dxLookup({
         //    dataSource: model,

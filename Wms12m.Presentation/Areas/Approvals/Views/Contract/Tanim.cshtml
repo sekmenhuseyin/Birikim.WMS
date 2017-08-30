@@ -510,8 +510,8 @@
                     PartialView("/Approvals/Contract/Tanim_List", 'sozlesme_tanim_data', JSON.stringify({ listeNo: e.value }));
                     inputDisable();
                     $.ajax({
-                        url: window.location.origin + "/Approvals/Contract/ISSTempList?SozlesmeNo=" + e.value,
-                        data: {},
+                        url: window.location.origin + "/Approvals/Contract/ISSTempList",
+                        data: { SozlesmeNo :  e.value },
                         type: "post",
                         success: function (data) {
                             var result = JSON.parse(data);
@@ -647,8 +647,8 @@
                     }
                     var listeNo = $(".select_sozlesmeler").dxLookup("instance").option("value");
                     $.ajax({
-                        url: window.location.origin + "/Approvals/Contract/CariBilgileri?ListeNo=" + listeNo + "&HesapKodu=" + e.value,
-                        data: {},
+                        url: window.location.origin + "/Approvals/Contract/CariBilgileri",
+                        data: { ListeNo: listeNo, HesapKodu: e.value},
                         type: "post",
                         success: function (data) {
                             var result = JSON.parse(data);
