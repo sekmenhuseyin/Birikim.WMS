@@ -1,4 +1,4 @@
-﻿@model IEnumerable<frmOnaySiparisList>
+﻿@model IEnumerable<frmOnayTeklifList>
     @{ decimal tl = 0, avro = 0, dolar = 0; }
     <div class="modal-content">
         <div class="close-modal" data-dismiss="modal"><div class="lr"><div class="rl"></div></div></div>
@@ -20,9 +20,9 @@
                             <tbody>
                                 @foreach (var item in Model)
                                 {
-                                if (item.DovizCinsi == "TL") { tl += item.Tutar.Value; }
-                                else if (item.DovizCinsi == "EUR") { avro += item.Tutar.Value; }
-                                else { dolar += item.Tutar.Value; }
+                                    //if (item.DovizCinsi == "TL") { tl += item.Tutar.Value; }
+                                    //else if (item.DovizCinsi == "EUR") { avro += item.Tutar.Value; }
+                                    //else { dolar += item.Tutar.Value; }
                                 <tr class="clickable" onclick="satir_click('@item.TeklifNo')">
                                     <td>@item.TeklifNo</td>
                                     <td>@item.HesapKodu</td>
@@ -39,12 +39,12 @@
                                 }
                             </tbody>
                         </table>
-                        <div class="row m-t-40">
+                        @*<div class="row m-t-40">
                             <div class="col-lg-9 text-right">Toplam Tutar</div>
                             <div class="col-lg-1">@tl ₺</div>
                             <div class="col-lg-1">@avro €</div>
                             <div class="col-lg-1">@dolar $</div>
-                        </div>
+                        </div>*@
                     </div>
                 </div>
             </div>
