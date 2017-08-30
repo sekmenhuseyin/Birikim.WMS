@@ -52,8 +52,37 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                     var Sirketler = tbl.GosterilecekSirket;
                     var CHKAraligi = tbl.GostCHKKodAlani;
                     var TipKodlari = tbl.GostSTKDeger;
-                    var Kod3Araligi = tbl.GostKod3OrtBakiye;
-                    var RiskAraligi = tbl.GostRiskDeger;
+                    var Kod3Araligi = "";
+                    var Kod3Araligi2 = "";
+                    var RiskAraligi = "";
+                    var RiskAraligi2 = "";
+
+                    var Kod3Array = tbl.GostKod3OrtBakiye.Split(';');
+                    var RiskArray = tbl.GostRiskDeger.Split(';');
+
+
+                    if (Kod3Array.Length > 3)
+                    {
+                        Kod3Araligi = Kod3Array[0] + ";" + Kod3Array[1];
+                        Kod3Araligi2 = Kod3Array[2] + ";" + Kod3Array[3];
+
+                    }
+                    else if (Kod3Array.Length > 1)
+                    {
+                        Kod3Araligi = Kod3Array[0] + ";" + Kod3Array[1];
+                    }
+
+                    if (RiskArray.Length > 3)
+                    {
+                        RiskAraligi = RiskArray[0] + ";" + RiskArray[1];
+                        RiskAraligi2 = RiskArray[2] + ";" + RiskArray[3];
+
+                    }
+                    else if (RiskArray.Length > 1)
+                    {
+                        RiskAraligi = RiskArray[0] + ";" + RiskArray[1];
+                    }
+
                     var Grup = vUser.RoleName;
 
                     if (Sirketler.Contains("Tüm;"))
@@ -61,18 +90,18 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                         if (Sirketler.Contains("Tümpa;"))
                         {
                             // TÜmAndTümpaProcedure Çağır
-                            sipBilgi = db.Database.SqlQuery<SipOnay>(string.Format("[FINSAT6{0}].[wms].[TumAndTumpaSiparisOnayList] @OnayDurm='{1}', @Secim=0, @ChkAralik='{2}', @Sirketler='{3}', @TipKodlari='{4}',@Kod3Aralik='{5}',@RiskAralik='{6}', @Grup='{7}', @BasTarih={8}, @BitTarih={9}", "71", tip, CHKAraligi, Sirketler, TipKodlari, Kod3Araligi, RiskAraligi, Grup, bastarih, bittarih)).ToList();
+                            sipBilgi = db.Database.SqlQuery<SipOnay>(string.Format("[FINSAT6{0}].[wms].[TumAndTumpaSiparisOnayList] @OnayDurm='{1}', @Secim=0, @ChkAralik='{2}', @Sirketler='{3}', @TipKodlari='{4}',@Kod3Aralik='{5}',@RiskAralik='{6}', @Grup='{7}', @BasTarih={8}, @BitTarih={9},@Kod3Aralik2='{10}',@RiskAralik2='{11}'", "71", tip, CHKAraligi, Sirketler, TipKodlari, Kod3Araligi, RiskAraligi, Grup, bastarih, bittarih, Kod3Araligi2, RiskAraligi2)).ToList();
                         }
                         else
                         {
                             // TÜm Procedure Çağır
-                            sipBilgi = db.Database.SqlQuery<SipOnay>(string.Format("[FINSAT6{0}].[wms].[TumSiparisOnayList] @OnayDurm='{1}', @Secim=0, @ChkAralik='{2}', @Sirketler='{3}', @TipKodlari='{4}',@Kod3Aralik='{5}',@RiskAralik='{6}', @Grup='{7}', @BasTarih={8}, @BitTarih={9}", "71", tip, CHKAraligi, Sirketler, TipKodlari, Kod3Araligi, RiskAraligi, Grup, bastarih, bittarih)).ToList();
+                            sipBilgi = db.Database.SqlQuery<SipOnay>(string.Format("[FINSAT6{0}].[wms].[TumSiparisOnayList] @OnayDurm='{1}', @Secim=0, @ChkAralik='{2}', @Sirketler='{3}', @TipKodlari='{4}',@Kod3Aralik='{5}',@RiskAralik='{6}', @Grup='{7}', @BasTarih={8}, @BitTarih={9},@Kod3Aralik2='{10}',@RiskAralik2='{11}'", "71", tip, CHKAraligi, Sirketler, TipKodlari, Kod3Araligi, RiskAraligi, Grup, bastarih, bittarih, Kod3Araligi2, RiskAraligi2)).ToList();
                         }
                     }
                     else if (Sirketler.Contains("Tümpa;"))
                     {
                         // TÜmpa Procedure Çağır
-                        sipBilgi = db.Database.SqlQuery<SipOnay>(string.Format("[FINSAT6{0}].[wms].[TumpaSiparisOnayList] @OnayDurm='{1}', @Secim=0, @ChkAralik='{2}', @Sirketler='{3}', @TipKodlari='{4}',@Kod3Aralik='{5}',@RiskAralik='{6}', @Grup='{7}', @BasTarih={8}, @BitTarih={9}", "71", tip, CHKAraligi, Sirketler, TipKodlari, Kod3Araligi, RiskAraligi, Grup, bastarih, bittarih)).ToList();
+                        sipBilgi = db.Database.SqlQuery<SipOnay>(string.Format("[FINSAT6{0}].[wms].[TumpaSiparisOnayList] @OnayDurm='{1}', @Secim=0, @ChkAralik='{2}', @Sirketler='{3}', @TipKodlari='{4}',@Kod3Aralik='{5}',@RiskAralik='{6}', @Grup='{7}', @BasTarih={8}, @BitTarih={9},@Kod3Aralik2='{10}',@RiskAralik2='{11}'", "71", tip, CHKAraligi, Sirketler, TipKodlari, Kod3Araligi, RiskAraligi, Grup, bastarih, bittarih, Kod3Araligi2, RiskAraligi2)).ToList();
                     }
                 }
             }
