@@ -47,7 +47,7 @@
                 { "data": "TeklifTarihi" }
             ]
         });
-        $('#sample_1 tbody').on('dblclick', 'tr', function () {
+        $('#sample_1 tbody').on('dblclick', 'tr', function () {/
             var tr = $(this).closest('tr');
             var row = table.row(tr);
             editInModal2('/YN/OnayBekleyenler/Teklif_Details', { ID: row.data().TeklifNo })
