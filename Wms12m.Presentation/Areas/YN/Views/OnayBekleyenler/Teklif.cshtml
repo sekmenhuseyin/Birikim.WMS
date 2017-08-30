@@ -50,8 +50,9 @@
         $('#sample_1 tbody').on('dblclick', 'tr', function () {
             var tr = $(this).closest('tr');
             var row = table.row(tr);
-            editInModal2('/YN/OnayBekleyenler/Teklif_Details', { ID: row.data().TeklifNo })
             $('#modalEditPage').modal('toggle');
+            editInModal2('/YN/OnayBekleyenler/Teklif_Details', { ID: row.data().TeklifNo })
+         
         });
         $('.yenile-buton').click(function () {
             table.ajax.reload();
