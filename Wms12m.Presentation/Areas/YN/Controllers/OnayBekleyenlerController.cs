@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
@@ -35,6 +36,29 @@ namespace Wms12m.Presentation.Areas.YN.Controllers
                 return json;
             }
         }
+
+        public ActionResult Teklif()
+        {
+
+            return View("Teklif");
+        }
+
+        public string Teklif_List()
+        {
+            using (YNSEntities dby = new YNSEntities())
+            {
+                var list = dby.Database.SqlQuery<frmOnayTeklifList>(string.Format(@"SELECT TeklifNo,HesapKodu,COUNT(MalKodu) AS Cesit,
+                                                                                    SUM(Miktar) AS Miktar,Kaydeden,
+                                                                                    CONVERT(VARCHAR(15), CAST(KayitTarih - 2 AS datetime), 104) AS KayitTarihi,
+                                                                                    CONVERT(VARCHAR(15), CAST(TeklifTarihi - 2 AS datetime), 104) AS TeklifTarihi
+                                                                                      FROM [YNS{0}].[YNS{0}].[Teklif]
+                                                                                      GROUP BY TeklifNo,TeklifTarihi,HesapKodu,KayitTarih,Kaydeden", "0TEST")).ToList();
+                var json = new JavaScriptSerializer().Serialize(list);
+                return json;
+            }
+        }
+
+
         /// <summary>
         /// liste detayı
         /// </summary>
@@ -51,6 +75,27 @@ namespace Wms12m.Presentation.Areas.YN.Controllers
                                                                                             YNS{0}.STK004 ON YNS{0}.STK002.STK002_MalKodu = YNS{0}.STK004.STK004_MalKodu
                                                                 WHERE        (YNS{0}.STK002.STK002_GC = 1) AND (YNS{0}.STK002.STK002_SipDurumu = 0) AND YNS{0}.STK002.STK002_EvrakSeriNo = '{1}'", "0TEST", ID)).ToList();
                 return PartialView("Siparis_Details", list);
+            }
+        }
+
+
+
+        [HttpPost]
+        public PartialViewResult Teklif_Details(string ID)
+        {
+            using (YNSEntities dby = new YNSEntities())
+            {
+                var list = dby.Database.SqlQuery<frmOnayTeklifListDetay>(string.Format(@"SELECT TeklifNo,HesapKodu,
+                                                                                YNS{0}.CAR002.CAR002_Unvan1 AS Unvan,
+                                                                                Miktar AS Miktar,Kaydeden,MalKodu,STK004_Aciklama AS MalAdi,
+                                                                                Fiyat,Tutar,DovizCinsi,
+                                                                                CONVERT(VARCHAR(15), CAST(KayitTarih - 2 AS datetime), 104) AS KayitTarihi
+                                                                                  FROM [YNS{0}].[YNS{0}].[Teklif] 
+                                                                                  INNER JOIN
+                                                                                  YNS{0}.CAR002 ON HesapKodu = YNS{0}.CAR002.CAR002_HesapKodu
+                                                                                  INNER JOIN
+                                                                                  YNS{0}.STK004 ON MalKodu = YNS{0}.STK004.STK004_MalKodu WHERE TeklifNo='{1}'", "0TEST", ID)).ToList();
+                return PartialView("Teklif_Details", list);
             }
         }
         /// <summary>
