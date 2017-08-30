@@ -85,7 +85,7 @@ namespace Wms12m.Presentation.Areas.YN.Controllers
         {
             using (YNSEntities dby = new YNSEntities())
             {
-                List< frmOnayTeklifListDetay> list = dby.Database.SqlQuery<frmOnayTeklifListDetay>(string.Format(@"SELECT TeklifNo,HesapKodu,
+                var list = dby.Database.SqlQuery<frmOnayTeklifListDetay>(string.Format(@"SELECT TeklifNo,HesapKodu,
                                                                                 YNS{0}.CAR002.CAR002_Unvan1 AS Unvan,
                                                                                 Miktar AS Miktar,Kaydeden,MalKodu,STK004_Aciklama AS MalAdi,
                                                                                 Fiyat,Tutar,DovizCinsi,
