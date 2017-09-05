@@ -85,28 +85,18 @@
 </div>
 <script>
     $(document).ready(function () {
-        var Bakiye = 0, BekleyenSiparisTutari = 0, SahsiCekRiski = 0, ToplamSahsiRisk = 0, SahsiCekLimiti = 0, MusteriCekRiski = 0, ToplamRisk = 0,  ToplamCekRiski = 0, Teminat = 0;
+       
         table = $('#sample_1').DataTable({
             "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
             "ajax": {
                 "url": '/Reports/Financial/RiskAnalizListData',
                 "data": { baschk: chk_bas, bitchk: chk_bit },
                 "dataSrc": function (json) {
-                    jQuery.each(json, function (i, val) {
-                        Bakiye += val.Bakiye;
-                        BekleyenSiparisTutari += val.BekleyenSiparisTutari;
-                        SahsiCekRiski += val.SahsiCekRiski;
-                        ToplamSahsiRisk += val.ToplamSahsiRisk;
-                        SahsiCekLimiti += val.SahsiCekLimiti;
-                        MusteriCekRiski += val.MusteriCekRiski;
-                        ToplamRisk += val.ToplamRisk;
-                        ToplamCekRiski += val.ToplamCekRiski;
-                        Teminat += val.Teminat;
-                    });
                     return json;
                 },
             },
             "dom": 'lBfrtip',
+            "pagingType": "full_numbers",
             "scrollX": true,
             "buttons": [
                 { "extend": 'pdf', "text": '<span class="fa fa-file-pdf-o f-s-15 red"></span>', "className": 'btn btn-default btn-xs' },
@@ -133,6 +123,19 @@
                 return nRow;
             },
             "footerCallback": function (row, data, start, end, display) {
+                var Bakiye = 0, BekleyenSiparisTutari = 0, SahsiCekRiski = 0, ToplamSahsiRisk = 0, SahsiCekLimiti = 0, MusteriCekRiski = 0, ToplamRisk = 0, ToplamCekRiski = 0, Teminat = 0;
+                table.rows({ search: 'applied' }).data().each(function (val, index) {
+                    Bakiye += val.Bakiye;
+                    BekleyenSiparisTutari += val.BekleyenSiparisTutari;
+                    SahsiCekRiski += val.SahsiCekRiski;
+                    ToplamSahsiRisk += val.ToplamSahsiRisk;
+                    SahsiCekLimiti += val.SahsiCekLimiti;
+                    MusteriCekRiski += val.MusteriCekRiski;
+                    ToplamRisk += val.ToplamRisk;
+                    ToplamCekRiski += val.ToplamCekRiski;
+                    Teminat += val.Teminat;
+                });
+                
 
                 var api = this.api(), data;
 

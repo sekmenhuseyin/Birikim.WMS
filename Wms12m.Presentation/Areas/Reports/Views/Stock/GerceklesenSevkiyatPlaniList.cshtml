@@ -65,22 +65,24 @@
 <script>
     $(document).ready(function () {
         var model =  @Html.Raw(serializer.Serialize(Model));
-        var Birimmiktar = 0, StokMiktar = 0;
-        jQuery.each(model, function (i, val) {
-            Birimmiktar += val.Birimmiktar;
-            StokMiktar += val.StokMiktar;
-        });
+
         table = $('#sample_1').DataTable({
             "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
             "pagingType": "full_numbers",
             "footerCallback": function (row, data, start, end, display) {
-
+                var Birimmiktar = 0, StokMiktar = 0;
+                table.rows({ search: 'applied' }).data().each(function (val, index) {
+                    if (val[7] != '' && val[7] != null)
+                    Birimmiktar += jDecimal(val[7]);
+                    if (val[9] != '' && val[9] != null)
+                    StokMiktar += jDecimal(val[9]);
+                });
                 var api = this.api(), data;
                 $(api.column(7).footer()).html(
-                    ondalikBinlik(Math.round(Birimmiktar * 100) / 100 ,2)
+                    ondalikBinlik(Math.round(Birimmiktar * 1000000) / 1000000 ,6)
                 );
                 $(api.column(9).footer()).html(
-                    ondalikBinlik(Math.round(StokMiktar * 100) / 100 , 2)
+                    ondalikBinlik(Math.round(StokMiktar * 1000000) / 1000000 , 6)
                 );
             }
         });

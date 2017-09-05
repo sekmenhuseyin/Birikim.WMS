@@ -171,8 +171,7 @@ function ondalikBinlik(Val, Ond) {
 };
 // Ondalık Binliğe cevrilen değeri decimal'a çevirme
 function jDecimal(Val) {
-    var decVal = parseFloat(Val);
-    decVal = Val.toString().replace(/\./g, "").replace(",", ".");
+    var decVal = Val.toString().replace(/\./g, "").replace(",", ".");
     return parseFloat(decVal);
 }
 //format to proper number

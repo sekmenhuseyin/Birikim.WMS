@@ -112,7 +112,7 @@
                                 <td nowrap>@item.StokBirim</td>
                                 <td nowrap align="right">@item.StokAnaMiktar.ToDecimal().ToOnFormat()</td>
                                 <td nowrap>@item.StokAnaBirim</td>
-                                <td nowrap>@item.TeslimTarih.Value.ToString("dd-MM-yyyy")</td>
+                                <td nowrap>@(item.TeslimTarih!=null?item.TeslimTarih.Value.ToString("dd-MM-yyyy"):"")</td>
                                 <td nowrap>@item.TeslimTarihDurum</td>
                                 <td nowrap>@item.SatisTemsilcisi</td>
                             </tr>
@@ -127,41 +127,55 @@
 <script>
     $(document).ready(function () {
         var model =  @Html.Raw(serializer.Serialize(Model));
-        var Miktar = 0, AnaMiktar = 0, SevkedilenMiktar = 0, KalanMiktar = 0, KalanAnaMiktar = 0, FYTFiyat = 0, NetFiyat = 0, KDVSizTutar = 0, KDVliTutar = 0, KDVSizKalanTutar = 0, KDVliKalanTutar = 0, StokMiktar = 0, StokAnaMiktar = 0;
-        jQuery.each(model, function (i, val) {
-            Miktar += val.Miktar;
-            AnaMiktar += val.AnaMiktar;
-            SevkedilenMiktar += val.SevkedilenMiktar;
-            KalanMiktar += val.KalanMiktar;
-            KalanAnaMiktar += val.KalanAnaMiktar;
-            KDVSizTutar += val.KDVSizTutar;
-            KDVliTutar += val.KDVliTutar;
-            KDVSizKalanTutar += val.KDVSizKalanTutar;
-            KDVliKalanTutar += val.KDVliKalanTutar;
-            StokMiktar += val.StokMiktar;
-        });
+      
        var table12 = $('#sample_1').DataTable({
             "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
             "pagingType": "full_numbers",
             "ordering": false,
             "footerCallback": function (row, data, start, end, display) {
+                var Miktar = 0, AnaMiktar = 0, SevkedilenMiktar = 0, KalanMiktar = 0, KalanAnaMiktar = 0, FYTFiyat = 0, NetFiyat = 0, KDVSizTutar = 0, KDVliTutar = 0, KDVSizKalanTutar = 0, KDVliKalanTutar = 0, StokMiktar = 0, StokAnaMiktar = 0;
+                table12.rows({ search: 'applied' }).data().each(function (val, index) {
+                    if (val[8] != '' && val[8] != null)
+                    Miktar += jDecimal(val[8]);
+                    if (val[10] != '' && val[10] != null)
+                    AnaMiktar += jDecimal(val[10]);
+                    if (val[12] != '' && val[12] != null)
+                    SevkedilenMiktar += jDecimal(val[12]);
+                    if (val[13] != '' && val[13] != null)
+                    KalanMiktar += jDecimal(val[13]);
+                    if (val[15] != '' && val[15] != null)
+                    KalanAnaMiktar += jDecimal(val[15]);
+                    if (val[23] != '' && val[23] != null)
+                    KDVSizTutar += jDecimal(val[23]);
+                    if (val[24] != '' && val[24] != null)
+                    KDVliTutar += jDecimal(val[24]);
+                    if (val[25] != '' && val[25] != null)
+                        KDVSizKalanTutar += jDecimal(val[25]);
+                    if (val[26] != '' && val[26] != null)
+                        KDVliKalanTutar += jDecimal(val[26]);
+                    if (val[27] != '' && val[27]!=null)
+                        StokMiktar += jDecimal(val[27]);
+                    if (val[29] != '' && val[29] != null)
+                        StokAnaMiktar += jDecimal(val[29]);
+
+                });
                 var api = this.api(), data;
 
                 // Update footer
                 $(api.column(8).footer()).html(
-                    ondalikBinlik(Math.round(Miktar * 100) / 100, 2)
+                    ondalikBinlik(Math.round(Miktar * 100) / 100, 6)
                 );
                 $(api.column(10).footer()).html(
-                    ondalikBinlik(Math.round(AnaMiktar * 100) / 100, 2)
+                    ondalikBinlik(Math.round(AnaMiktar * 100) / 100, 6)
                 );
                 $(api.column(12).footer()).html(
-                    ondalikBinlik(Math.round(SevkedilenMiktar * 100) / 100, 2)
+                    ondalikBinlik(Math.round(SevkedilenMiktar * 100) / 100, 6)
                 );
                 $(api.column(13).footer()).html(
-                    ondalikBinlik(Math.round(KalanMiktar * 100) / 100, 2)
+                    ondalikBinlik(Math.round(KalanMiktar * 100) / 100, 6)
                 );
                 $(api.column(15).footer()).html(
-                    ondalikBinlik(Math.round(KalanAnaMiktar * 100) / 100, 2)
+                    ondalikBinlik(Math.round(KalanAnaMiktar * 100) / 100, 6)
                 );
                 $(api.column(23).footer()).html(
                     ondalikBinlik(Math.round(KDVSizTutar * 100) / 100, 2)
@@ -174,6 +188,13 @@
                 );
                 $(api.column(26).footer()).html(
                     ondalikBinlik(Math.round(KDVliKalanTutar * 100) / 100, 2)
+                );
+
+                $(api.column(27).footer()).html(
+                    ondalikBinlik(Math.round(StokMiktar * 100) / 100, 6)
+                );
+                $(api.column(29).footer()).html(
+                    ondalikBinlik(Math.round(StokAnaMiktar * 100) / 100, 6)
                 );
             }
         });

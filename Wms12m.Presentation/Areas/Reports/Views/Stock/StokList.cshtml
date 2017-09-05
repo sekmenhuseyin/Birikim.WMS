@@ -81,16 +81,16 @@
 <script>
     $(document).ready(function () {
         var model =  @Html.Raw(serializer.Serialize(Model));
-        var GirMiktar = 0, CikMiktar = 0, StokMiktar = 0;
-        jQuery.each(model, function (i, val) {
-            GirMiktar += val.GirMiktar;
-            CikMiktar += val.CikMiktar;
-            StokMiktar += val.StokMiktar;
-        });
       var table123=  $('#sample_1').DataTable({
             "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
             "pagingType": "full_numbers",
             "footerCallback": function (row, data, start, end, display) {
+                var GirMiktar = 0, CikMiktar = 0, StokMiktar = 0;
+                table123.rows({ search: 'applied' }).data().each(function (val, index) {
+                    GirMiktar += val.GirMiktar;
+                    CikMiktar += val.CikMiktar;
+                    StokMiktar += val.StokMiktar;
+                });
                 var api = this.api(), data;
                 $(api.column(9).footer()).html(
                     ondalikBinlik(Math.round(GirMiktar * 100) / 100, 2)

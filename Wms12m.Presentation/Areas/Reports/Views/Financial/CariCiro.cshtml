@@ -46,13 +46,9 @@
 </div>
 @section Scripts{<script>
     $(document).ready(function () {
-        var hsp = 0, bakiye1 = 0, bakiye2 = 0;
+       
         var model =  @Html.Raw(serializer.Serialize(Model));
-        jQuery.each(model, function (i, val) {
-            hsp ++;
-            bakiye1 += val.ToplamBakiye;
-            bakiye2 += val.ToplamBakiyeOD;
-        });
+
          $("#HesapKodu").on("change paste keyup", function () { filterx(0, $("#HesapKodu").val()); });
         $("#Unvan").on("change paste keyup", function () { filterx(1, $("#Unvan").val()); });
         var table = $('#sample_1').DataTable({
@@ -65,6 +61,12 @@
             ],
             "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
             "footerCallback": function (row, data, start, end, display) {
+                var hsp = 0, bakiye1 = 0, bakiye2 = 0;
+                table.rows({ search: 'applied' }).data().each(function (val, index) {
+                    hsp++;
+                    bakiye1 += jDecimal(val[2]);
+                    bakiye2 += jDecimal(val[3]);
+                });
                 var api = this.api(), data;                
                 $(api.column(0).footer()).html(hsp);
                 $(api.column(2).footer()).html(ondalikBinlik(bakiye1, 2));
