@@ -188,9 +188,9 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             foreach (var item in listdb) { liste.Add(item); }
             ViewBag.Sirket = liste;
             ViewBag.IrsaliyeId = cevap.IrsaliyeID.Value;
-            if (eksikler == "")
+            if (eksikler == "" && malkodlari != "")
                 eksikler = malkodlari + " için stok miktarları uyuşmuyor.";
-            else
+            else if (eksikler != "" && malkodlari != "")
                 eksikler += " için stok bulunamadı.<br />Ayrıca " + malkodlari + " için stok miktarları uyuşmuyor.";
             ViewBag.Result = new Result(true, eksikler);
             //return
@@ -204,7 +204,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         public PartialViewResult SummaryList(int ID)
         {
             //dbler tempe aktarılıyor
-            var listdb = db.GetSirketDBs();
+            string eksikler = ""; var listdb = db.GetSirketDBs();
             List<string> liste = new List<string>();
             foreach (var item in listdb) { liste.Add(item); }
             //get transfer
@@ -243,10 +243,16 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                         if (toplam == item.Miktar) break;
                     }
                 }
+                else
+                {
+                    if (eksikler != "") eksikler += ", ";
+                    eksikler += item.MalKodu;
+                }
             }
             //return
             ViewBag.IrsaliyeId = transfer.Gorev.IrsaliyeID;
             ViewBag.Sirket = liste;
+            ViewBag.Result = new Result(true, eksikler);
             return PartialView("SummaryList", transfer);
         }
         /// <summary>
@@ -372,35 +378,27 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
         /// <summary>
-        /// irs detay düzenle
+        /// transfer detay düzenle
         /// </summary>
-        public PartialViewResult EditList(int ID, string s)
+        public PartialViewResult SummaryEdit(int ID)
         {
-            if (CheckPerm(Perms.MalKabul, PermTypes.Writing) == false) return null;
-            var tbl = IrsaliyeDetay.Detail(ID);
-            ViewBag.SirketID = s;
-            return PartialView("EditList", tbl);
+            if (CheckPerm(Perms.Transfer, PermTypes.Writing) == false) return null;
+            var tbl = Transfers.SubDetail(ID);
+            return PartialView("SummaryEdit", tbl);
         }
         /// <summary>
-        /// irs detay güncelle
+        /// transfer detay güncelle
         /// </summary>
         [HttpPost]
-        public JsonResult UpdateList(int ID, decimal M, string mNo)
+        public JsonResult UpdateList(int ID, decimal M)
         {
-            if (CheckPerm(Perms.MalKabul, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
-            var tbl = db.IRS_Detay.Where(m => m.ID == ID).FirstOrDefault();
+            if (CheckPerm(Perms.Transfer, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
+            var tbl = db.Transfer_Detay.Where(m => m.ID == ID).FirstOrDefault();
             tbl.Miktar = M;
-            if (mNo != "")
-            {
-                var tmpx = db.IRS_Detay.Where(m => m.MakaraNo == tbl.MakaraNo).FirstOrDefault();
-                if (tmpx != null)
-                    return Json(new Result(false, "Bu makara no kullanılıyor"), JsonRequestBehavior.AllowGet);
-                tbl.MakaraNo = mNo;
-            }
             try
             {
                 db.SaveChanges();
-                return Json(new Result(true), JsonRequestBehavior.AllowGet);
+                return Json(new Result(true, tbl.TransferID), JsonRequestBehavior.AllowGet);
             }
             catch (Exception)
             {

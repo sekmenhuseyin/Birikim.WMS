@@ -30,17 +30,17 @@
                 {
                     tmp = malad[malkod.IndexOf(item.MalKodu)];
                 }
-                <tr>
+                <tr id="tr@{@item.ID}">
                     <td>@item.MalKodu</td>
                     <td>@tmp</td>
                     <td class="text-right">@String.Format("{0:n}", item.Miktar)</td>
                     <td>@item.Birim</td>
                     <td>
-                        @*<a href="javascript:;" class="btn btn-default input-circle" onclick="">Değiştir</a>*@
+                        <a href="javascript:;" class="btn btn-default input-circle" onclick="editlist(@item.ID)">Değiştir</a>
                         <a href="javascript:;" class="btn btn-danger input-circle" onclick="Delete('@item.ID','/WMS/Transfer/SummaryList','listSummary','@item.TransferID', '')"> Sil </a>
                     </td>
                 </tr>
-            }
+    }
         </tbody>
     </table>
 }

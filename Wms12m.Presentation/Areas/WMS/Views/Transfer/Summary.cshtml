@@ -8,7 +8,7 @@
                 <div class="modal-body">@*Project Details Go Here*@
                     @if (result.Status == true)
                     {
-                        if (result.Message != "") { <p class="text-danger"><strong>@result.Message</strong></p> }
+                        if (result.Message != "") { <p class="text-danger"><strong>@Html.Raw(result.Message)</strong></p> }
                         <div class="row">
                             <div class="col-lg-12 modal-body">
                                 <table class="table table-bordered table-condensed">
@@ -49,17 +49,17 @@
                                                 {
                                                     tmp = malad[malkod.IndexOf(item.MalKodu)];
                                                 }
-                                                <tr>
+                                                <tr id="tr@{@item.ID}">
                                                     <td>@item.MalKodu</td>
                                                     <td>@tmp</td>
                                                     <td class="text-right">@String.Format("{0:n}", item.Miktar)</td>
                                                     <td>@item.Birim</td>
                                                     <td>
-                                                        @*<a href="javascript:;" class="btn btn-default input-circle" onclick="">Değiştir</a>*@
+                                                        <a href="javascript:;" class="btn btn-default input-circle" onclick="editlist(@item.ID)">Değiştir</a>
                                                         <a href="javascript:;" class="btn btn-danger input-circle" onclick="Delete('@item.ID','/WMS/Transfer/SummaryList','listSummary','@item.TransferID', '')"> Sil </a>
                                                     </td>
                                                 </tr>
-                                            }
+    }
                                         </tbody>
                                     </table>
                                 }
@@ -81,6 +81,23 @@
     </div>
 </div>
 @if (result.Status == true){<script>
+    function editlist(id) {
+        PartialView('/WMS/Transfer/SummaryEdit', 'tr' + id, JSON.stringify({ Id: id }));
+    }
+    function UpdateList(id) {
+        $.ajax({
+            url: "/WMS/Transfer/UpdateList",
+            data: JSON.stringify({ ID: id, M: $("#Miktar" + id).val() }),
+            type: 'POST',
+            dataType: "json",
+            contentType: 'application/json; charset=utf-8',
+            success: function (data) {
+                if (data.Status == false)
+                    Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
+                PartialView('/WMS/Transfer/SummaryList', 'listSummary', JSON.stringify({ Id: data.Id }));
+            }
+        });
+    }
     $(document).ready(function () {
         $("#sMalKodu").autocomplete({
             source: "/WMS/Purchase/getMalzemebyCode/0",

@@ -1,17 +1,16 @@
 ﻿@model Transfer_Detay
-@{string tmp = ViewBag.SirketID;}
 <td>@Model.MalKodu</td>
-<td>@Model.MalKodu.GetMalAdi(tmp)</td>
+<td>@Model.MalKodu.GetMalAdi(Model.Transfer.SirketKod)</td>
 <td>@Html.TextBoxFor(a => a.Miktar, new { @class = "form-control input-circle Miktar" + Model.ID + "", @required = "", @onchange = "$('#Miktar" + Model.ID + "').val(this.value)" })</td>
 <td>@Model.Birim</td>
 <td>
-    @using (Ajax.BeginForm("UpdateDetail", "Transfer", new { area = "WMS" }, new AjaxOptions { HttpMethod = "POST", OnSuccess = "getResult", OnFailure = "Modaldialog('Lütfen Tekrar Deneyin', 'Hata', 'Tamam', 'btn-danger');" }, new { @class = "pull-left" }))
+    @using (Ajax.BeginForm("UpdateList", "Transfer", new { area = "WMS" }, new AjaxOptions { HttpMethod = "POST", OnSuccess = "getResult", OnFailure = "Modaldialog('Lütfen Tekrar Deneyin', 'Hata', 'Tamam', 'btn-danger');" }, new { @class = "pull-left" }))
     {
         @Html.AntiForgeryToken()
         <input type="hidden" name="ID" value="@Model.ID" />
         <input type="hidden" name="Miktar" id="Miktar@{@Model.ID}" value="@Model.Miktar" />
         <button class="btn btn-primary input-circle" type="button" onclick="UpdateList(@Model.ID)">Kaydet</button>
     }
-    <a class="btn btn-default input-circle" href="javascript:;" onclick="$('#submitForm').click();"> İptal </a>
+    <a class="btn btn-default input-circle" href="javascript:;" onclick="PartialView('/WMS/Transfer/SummaryList', 'listSummary', JSON.stringify({ Id: @Model.TransferID }));"> İptal </a>
 </td>
 <script>$('.Miktar@{@Model.ID}').val('@String.Format("{0:n}", Model.Miktar)');</script>
