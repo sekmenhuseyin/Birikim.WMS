@@ -40,7 +40,6 @@
     var secili_table = new Array();
     var silinecek = new Array();
     var table = "";
-    console.log('@ViewBag.ListeNo');
     if ("@ViewBag.ListeNo" != "#12MConsulting#")
     {
          table = $('#sample_1').DataTable({
@@ -80,6 +79,7 @@
 
         });
     } else {
+       
         $('tbody').last().remove();
         var elementt = @Html.Raw(Json.Encode(ViewBag.Satir));
         $(elementt).insertAfter($(".aaaaa"));
@@ -96,10 +96,13 @@
     $('#sample_1 tbody').on('click', 'tr', function () {
         $(this).toggleClass('selected');
         if($( this ).hasClass( "selected" )){
-            silinecek.push($("tr").index(this) - 1)
-        } else {
-            var ind = $("tr").index(this) - 1;
+            silinecek.push($(".table tr").index(this) - 1)
+        }
+        else {
+            var ind = $(".table tr").index(this) - 1;
             silinecek = jQuery.grep(silinecek, function (value) {
+                console.log(value);
+                console.log(ind);
                 return value != ind;
             });
         }
@@ -195,14 +198,17 @@
     }
 
     function SatirSil() {
+        console.log("aaa");
         silinecek.sort(function (a, b) { return b - a })
         for (var i = 0; i < silinecek.length; i++) {
             element.splice(silinecek[i], 1);
             var jsonElement = JSON.stringify(element);
-            if ($("#fiyat_listesi_data table").length < 1) {
-                PartialView("/Approvals/Contract/Tanim_List", 'sozlesme_tanim_data', JSON.stringify({ listeNo: "#12MConsulting#", satir: jsonElement }));
-            }
+            //if ($("#fiyat_listesi_data table").length < 1) {
+            //    console.log("bbb");
+            //    PartialView("/Approvals/Contract/Tanim_List", 'sozlesme_tanim_data', JSON.stringify({ listeNo: "#12MConsulting#", satir: jsonElement }));
+            //}
         }
+        PartialView("/Approvals/Contract/Tanim_List", 'sozlesme_tanim_data', JSON.stringify({ listeNo: "#12MConsulting#", satir: jsonElement }));
     }
 
 
