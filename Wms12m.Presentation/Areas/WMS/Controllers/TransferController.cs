@@ -191,7 +191,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             if (eksikler == "")
                 eksikler = malkodlari + " için stok miktarları uyuşmuyor.";
             else
-                eksikler += "<br />Ayrıca " + malkodlari + " için stok miktarları uyuşmuyor.";
+                eksikler += " için stok bulunamadı.<br />Ayrıca " + malkodlari + " için stok miktarları uyuşmuyor.";
             ViewBag.Result = new Result(true, eksikler);
             //return
             var list = db.Transfers.Where(m => m.ID == TransferID).FirstOrDefault();
