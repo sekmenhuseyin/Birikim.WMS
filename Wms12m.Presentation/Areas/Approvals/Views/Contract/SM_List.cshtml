@@ -91,6 +91,7 @@
                 { "data": null, "render": $.fn.dataTable.render.number('.', ',', 2, '') }
             ],
             "ordering": false,
+            "pagingType": "full_numbers",
             "fnRowCallback": function (nRow, aData, iDisplayIndex) {
                 $('td', nRow).attr('nowrap', 'nowrap');
                 if (aData["YeniBaglantiTutar"] > 1) {

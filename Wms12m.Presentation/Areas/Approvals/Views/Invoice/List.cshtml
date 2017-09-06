@@ -38,7 +38,7 @@
 </div>
 <script type="text/javascript">
     $(document).ready(function () {
-        var table = $('#sample_1').DataTable({ "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" } });
+        var table = $('#sample_1').DataTable({ "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json", "pagingType": "full_numbers", } });
 
         if($("#ListType").val()=="0")
             $(".item_red").hide();

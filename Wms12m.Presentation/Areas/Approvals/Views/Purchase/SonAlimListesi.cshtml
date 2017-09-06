@@ -120,17 +120,20 @@
 <script>
     $(document).ready(function () {
             var model =  @Html.Raw(serializer.Serialize(Model));
-    var BirimMiktar = 0, Tutar = 0, DovizTutar = 0;
-    jQuery.each(model, function (i, val) {
-        BirimMiktar += val.BirimMiktar;
-        Tutar += val.Tutar;
-        DovizTutar = val.DovizTutar;
-    });
-    $('#@ViewBag.id').DataTable({
+            var table12 = $('#@ViewBag.id').DataTable({
         "pagingType": "full_numbers",
         "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
         "footerCallback": function (row, data, start, end, display) {
+            var BirimMiktar = 0, Tutar = 0, DovizTutar = 0;
+            table12.rows({ search: 'applied' }).data().each(function (val, index) {
+                if (val[5] != '' && val[5] != null)
+                    BirimMiktar += jDecimal(val[5]);
+                if (val[7] != '' && val[7] != null)
+                    Tutar += jDecimal(val[7]);
+                if (val[9] != '' && val[9] != null)
+                    DovizTutar += jDecimal(val[9]);
 
+            });
             var api = this.api(), data;
 
 
