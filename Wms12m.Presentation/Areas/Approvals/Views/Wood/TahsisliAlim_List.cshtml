@@ -73,7 +73,6 @@
 
 </div>
 <script>
-    var IbreliMiktarSter = 0, IbreliMiktarM3 = 0, YaprakliMiktarSter = 0, YaprakliMiktarM3 = 0, Miktar = 0;
     var secili_satir = new Array();
     var secili_table = new Array();
     var HFT = '@ViewBag.Hafta';
@@ -84,16 +83,10 @@
             "url": '/Approvals/Wood/TahsisliAlimCek',
             "data":{ Hafta: '@ViewBag.Hafta', Isletme: '@ViewBag.Isletme' },
             "dataSrc": function (json) {
-                jQuery.each(json, function (i, val) {
-                    IbreliMiktarSter += val.IbreliMiktarSter;
-                    IbreliMiktarM3 += val.IbreliMiktarM3;
-                    YaprakliMiktarSter += val.YaprakliMiktarSter;
-                    YaprakliMiktarM3 += val.YaprakliMiktarM3;
-                    Miktar += val.Miktar;
-                });
                 return json;
             },
         },
+        "pagingType": "full_numbers",
         "columnDefs": [{ "type": "num-fmt", "className": "dt-right", "targets": [4,5, 6,7,8,9,10,11,12,13,14,15,16,17,18,19,22,24,25,26,27,28,29,30,31,32,33] }],
         "columns": [
             { "data": "Yil" },
@@ -151,7 +144,14 @@
             return nRow;
         },
         "footerCallback": function (row, data, start, end, display) {
-
+            var IbreliMiktarSter = 0, IbreliMiktarM3 = 0, YaprakliMiktarSter = 0, YaprakliMiktarM3 = 0, Miktar = 0;
+            table.rows({ search: 'applied' }).data().each(function (val, index) {
+                IbreliMiktarSter += val.IbreliMiktarSter;
+                IbreliMiktarM3 += val.IbreliMiktarM3;
+                YaprakliMiktarSter += val.YaprakliMiktarSter;
+                YaprakliMiktarM3 += val.YaprakliMiktarM3;
+                Miktar += val.Miktar;
+            });
             var api = this.api(), data;
 
             $(api.column(4).footer()).html(

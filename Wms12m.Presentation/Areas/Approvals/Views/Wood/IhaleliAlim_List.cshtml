@@ -50,7 +50,7 @@
 
 </div>
 <script>
-    var Miktar = 0;
+    
     var secili_satir = new Array();
     var secili_table = new Array();
     var table = $('#sample_1').DataTable({
@@ -58,12 +58,10 @@
         "ajax": {
             "url": '/Approvals/Wood/IhaleliAlimOnayCek',
             "dataSrc": function (json) {
-                jQuery.each(json, function (i, val) {
-                    Miktar += val.Miktar;
-                });
                 return json;
             },
         },
+        "pagingType": "full_numbers",
         "columnDefs": [{ "visible": false, "targets": [1] }, { "type": "num-fmt", "className": "dt-right", "targets": [8,9,10,11,14,15,16,17] }],
         "columns": [
             { "data": null, "defaultContent": '', "className": 'select-checkbox', "orderable": false },
@@ -91,7 +89,10 @@
         ],
 
         "footerCallback": function (row, data, start, end, display) {
-
+            var Miktar = 0;
+            table.rows({ search: 'applied' }).data().each(function (val, index) {
+                Miktar += val.Miktar;
+            });
             var api = this.api(), data;
 
 

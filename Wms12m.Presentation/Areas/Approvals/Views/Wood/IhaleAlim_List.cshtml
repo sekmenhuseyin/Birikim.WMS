@@ -72,7 +72,7 @@
 
 </div>
 <script>
-    var Miktar = 0;
+   
     var secili_satir = new Array();
     var secili_table = new Array();
     var table = $('#sample_1').DataTable({
@@ -84,12 +84,10 @@
             "url": '/Approvals/Wood/IhaleAlimCek',
             "data":{ Hafta: '@ViewBag.Hafta', Isletme: '@ViewBag.Isletme' },
             "dataSrc": function (json) {
-                jQuery.each(json, function (i, val) {
-                    Miktar += val.Miktar;
-                });
                 return json;
             },
         }, 
+        "pagingType": "full_numbers",
         "columnDefs": [{ "visible": false, "targets": [0] },{ "type": "num-fmt", "className": "dt-right", "targets": [2,3,4,5, 6,7,8,9,10,11,12,13,14,15,16,17,20,22,23,24,25,26,27,28,29,30,31] }],
         "columns": [
             { "data": "ID" },
@@ -144,7 +142,10 @@
         ],
 
         "footerCallback": function (row, data, start, end, display) {
-
+            var Miktar = 0;
+            table.rows({ search: 'applied' }).data().each(function (val, index) {
+                Miktar += val.Miktar;
+            });
             var api = this.api(), data;
            
           

@@ -51,15 +51,6 @@
 </table>
 <script type="text/javascript">
     var model =  @Html.Raw(serializer.Serialize(Model));
-    var Kod13 = 0, Kod14 = 0, topSterIbre = 0, topM3Ibre = 0, topSterYaprak = 0, topM3Yaprak = 0;
-    jQuery.each(model, function (i, val) {
-        Kod13 += val.Kod13;
-        Kod14 += val.Kod14;
-        topSterIbre = val.topSterIbre;
-        topM3Ibre = val.topM3Ibre;
-        topSterYaprak = val.topSterYaprak;
-        topM3Yaprak = val.topM3Yaprak;//
-    });
     $(document).ready(function () {
         var table = $('#sample_1').DataTable({
             "ordering": false,
@@ -70,6 +61,22 @@
                 { "extend": 'excel', "text": '<span class="fa fa-file-excel-o f-s-15 green"></span>', "className": 'btn-xs' }//
             ],
             "footerCallback": function (row, data, start, end, display) {
+                var Kod13 = 0, Kod14 = 0, topSterIbre = 0, topM3Ibre = 0, topSterYaprak = 0, topM3Yaprak = 0;
+                table.rows({ search: 'applied' }).data().each(function (val, index) {
+                    if (val[4] != '' && val[4] != null)
+                        Kod13 += jDecimal(val[4]);
+                    if (val[5] != '' && val[5] != null)
+                        Kod14 += jDecimal(val[5]);
+                    if (val[6] != '' && val[6] != null)
+                        topSterIbre += jDecimal(val[6]);
+                    if (val[7] != '' && val[7] != null)
+                        topM3Ibre += jDecimal(val[7]);
+                    if (val[8] != '' && val[8] != null)
+                        topSterYaprak += jDecimal(val[8]);
+                    if (val[9] != '' && val[9] != null)
+                        topM3Yaprak += jDecimal(val[9]);
+
+                });
                 var api = this.api(), data;
                 $(api.column(4).footer()).html(numeral(Kod13).format('0,0.00'));
                 $(api.column(5).footer()).html(numeral(Kod14).format('0,0.00'));
