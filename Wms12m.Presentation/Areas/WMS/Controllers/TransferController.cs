@@ -321,6 +321,24 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             Transfers.Operation(tbl);
             var tbl2 = db.Gorevs.Where(m => m.ID == tbl.GorevID).FirstOrDefault();
             tbl2.DurumID = ComboItems.Açık.ToInt32();
+            //sıralama
+            var lstKoridor = db.GetKoridorIdFromGorevId(tbl.GorevID).ToList();
+            bool asc = false; int sira = 1;
+            foreach (var item in lstKoridor)
+            {
+                var lstBolum = db.GetBolumSiralamaFromGorevId(tbl.GorevID, item.Value, asc).ToList();
+                foreach (var item2 in lstBolum)
+                {
+                    var tmptblyer = new GorevYer()
+                    {
+                        ID = item2.Value,
+                        Sira = sira
+                    };
+                    sira++;
+                    TaskYer.Operation(tmptblyer);
+                }
+                asc = asc == false ? true : false;
+            }
             db.SaveChanges();
             //log
             LogActions("WMS", "Transfer", "Approve", ComboItems.alOnayla, ID);
