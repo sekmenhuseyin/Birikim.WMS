@@ -88,6 +88,7 @@ namespace Wms12m.Presentation
                 filterContext.Result = new RedirectToRouteResult(new RouteValueDictionary(new { area = "", controller = "Maintenance", action = "Index" }));
                 return;
             }
+            db.Database.CommandTimeout = 2000;
             base.OnActionExecuting(filterContext);
         }
         /// <summary>

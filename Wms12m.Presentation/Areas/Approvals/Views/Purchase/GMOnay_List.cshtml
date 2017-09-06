@@ -76,21 +76,18 @@
 </div>
 <script type="text/javascript">
     var ch = JSON.parse('@Html.Raw(ViewBag.HesapKodu)');
-    var BirimMiktar = 0, Tutar = 0, KDV = 0;
+
     var table = $('#sample_1').DataTable({
         "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
         "ajax": {
             "url": '/Approvals/Purchase/SipGMOnayListData',
             "data": {HesapKodu:ch, SipTalepNo:'@ViewBag.SipTalepNo'},
             "dataSrc": function (json) {
-                jQuery.each(json, function (i, val) {
-                    BirimMiktar += val.BirimMiktar;
-                    Tutar += val.Tutar;
-                    KDV += val.KDV;
-                });
+                
                 return json;
             },
         },
+        "pagingType": "full_numbers",
         "fixedHeader": true,
         "scrollX": true,
         "columnDefs": [{ "visible": false, "targets": [18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35] }, { "type": "num-fmt", "className": "dt-right", "targets": [5, 6, 7, 8, 10, 11, 13] }],
@@ -141,7 +138,12 @@
             return nRow;
         },
         "footerCallback": function (row, data, start, end, display) {
-
+            var BirimMiktar = 0, Tutar = 0, KDV = 0;
+            table.rows({ search: 'applied' }).data().each(function (val, index) {
+                BirimMiktar += val.BirimMiktar;
+                Tutar += val.Tutar;
+                KDV += val.KDV;
+            });
                     var api = this.api(), data;
 
                     $(api.column(5).footer()).html(

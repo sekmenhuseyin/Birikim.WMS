@@ -132,6 +132,7 @@
                 return json;
             },
         },
+        "pagingType": "full_numbers",
         "fixedHeader": true,
         "columnDefs": [{ "visible": false, "targets": 0 }, { "type": "num-fmt", "className": "dt-right", "targets": [7, 8] }],
         "columns": [
@@ -169,7 +170,7 @@
         tr.addClass("aa");
         var x = table.rows('.aa').data();
         var Tutar = 0;
-        tEvrakNo = x[0].EvrakNo.toString()            
+        tEvrakNo = x[0].EvrakNo.toString()
         $('#x-modal-gm-cek-detay').modal("show");
         $('#tblcek_detay').html("<table id='sample_cekdetay' class='table table-striped table-bordered table-condensed'><thead><tr><th>Evrak No</th><th>Tarih</th><th>Veren</th><th>Veren Ünvan</th><th>Borçlu</th><th>Borçlu Ünvan</th><th>Tutar</th><th>Vade Tarihi</th><th>Son Pozisyon</th></tr></thead> <tfoot><tr><th colspan='6'></th><th class='text-right'></th><th colspan='2'></th></tr></tfoot></table>");
         var table2 = $('#sample_cekdetay').DataTable({
@@ -198,7 +199,7 @@
                 { "data": "VerenUnvan"},
                 { "data": "Borclu" },
                 { "data": "BorcluUnvan"},
-                { "data": "Tutar", "className": "dt-right", "render": $.fn.dataTable.render.number('.', ',', 2, '') },    
+                { "data": "Tutar", "className": "dt-right", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
                 { "data": "VadeTarih", "render": function (data) { return formatDateFromJson(data); } },
                 { "data": "SonPozisyon"},
             ],
@@ -215,7 +216,7 @@
 
         });
     });
-                
+
     $('.onay-buton').click(function () {
 
         var x = table.rows('.selected').data();

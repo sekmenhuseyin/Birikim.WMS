@@ -83,7 +83,7 @@
 <script>
     var secili_table = new Array();
     $(document).ready(function () {
-        table = $('#sample_1').DataTable({ "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" } });
+        table = $('#sample_1').DataTable({ "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json", "pagingType": "full_numbers",} });
 
         var buttons = new $.fn.dataTable.Buttons(table, {
             buttons: [
