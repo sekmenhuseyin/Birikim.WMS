@@ -64,14 +64,14 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             //listeyi getir
             var list = db.Database.SqlQuery<frmSiparisMalzeme>(sql).ToList();
             //çapraz stok kontrol
-            string hataliStok = "", sifirStok = "";
+            string hataliStok = "", sifirStok = ""; var newList = new List<frmSiparisMalzeme>();
             foreach (var item in list)
             {
                 if (item.WmsStok == 0)
                 {
                     if (sifirStok != "") sifirStok += ", ";
                     sifirStok += item.MalKodu;
-                    list.Remove(item);
+                    newList.Add(item);
                 }
                 else if (item.Stok != item.WmsStok)
                 {
@@ -79,6 +79,9 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                     hataliStok += item.MalKodu;
                 }
             }
+            if (newList.Count > 0)
+                foreach (var item in newList)
+                    list.Remove(item);
             if (sifirStok == "")
                 sifirStok = sifirStok + " için stok bulunamadı.";
             if (hataliStok == "")

@@ -1,5 +1,6 @@
 ﻿@model Transfer
 @{ Result result = ViewBag.Result; string tmp; List<string> Sirket = ViewBag.Sirket; var malkod = new List<String>(); var malad = new List<String>(); }
+@if (result.Message != "") { <p class="text-danger"><strong>@Html.Raw(result.Message)</strong></p> }
 @using (Ajax.BeginForm("AddDetail", "Transfer", new { area = "WMS" }, new AjaxOptions { OnSuccess = "getResult", OnFailure = "Modaldialog('Lütfen Tekrar Deneyin', 'Hata', 'Tamam', 'btn-danger');" }, new { @id = "frmAddDetay" }))
 {
     <input type="hidden" name="Id" value="@Model.ID" />
