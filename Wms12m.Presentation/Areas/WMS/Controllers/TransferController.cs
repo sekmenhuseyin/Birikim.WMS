@@ -104,6 +104,23 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             ViewBag.Result = new Result(false, "Seçtiğiniz hiç bir ürün stokta kayıtlı değil.");
             if (varmi == false)
                 return PartialView("Summary");
+            //çapraz stok kontrol
+            string sql = string.Format(@"SELECT STK.MalKodu, wms.fnGetStock('{2}', STK.MalKodu, STK.Birim1) AS Depo2WmsStok, 
+                                                            ISNULL(DST.DvrMiktar, 0) + ISNULL(DST.GirMiktar, 0) - ISNULL(DST.CikMiktar, 0) -
+                                                             (SELECT        ISNULL(SUM(Miktar - TeslimMiktar), 0) AS Miktar FROM            FINSAT6{0}.FINSAT6{0}.DTF WITH(NOLOCK) WHERE(CikDepo = '{2}') AND(Durum = 0) AND(MalKodu = DST.MalKodu)) AS Depo2GunesStok
+                                        FROM FINSAT6{0}.FINSAT6{0}.STK AS STK WITH(NOLOCK) LEFT OUTER JOIN
+                                                                    FINSAT6{0}.FINSAT6{0}.DST AS DST WITH(NOLOCK) ON STK.MalKodu = DST.MalKodu AND DST.Depo = '{2}'
+                                        WHERE(STK.MalKodu IN({1}))", tbl.SirketID, malkodlari, tbl.CikisDepo);
+            var list1 = db.Database.SqlQuery<frmTransferMalzemeler>(sql).ToList();
+            malkodlari = "";
+            foreach (var item in list1)
+            {
+                if (item.Depo2GunesStok != item.Depo2WmsStok)
+                {
+                    if (malkodlari != "") malkodlari += ", ";
+                    malkodlari += item.MalKodu;
+                }
+            }
             //add to list
             int aDepoID = Store.Detail(tbl.AraDepo).ID;
             var cDepoID = Store.Detail(tbl.CikisDepo);
@@ -171,7 +188,11 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             foreach (var item in listdb) { liste.Add(item); }
             ViewBag.Sirket = liste;
             ViewBag.IrsaliyeId = cevap.IrsaliyeID.Value;
-            ViewBag.Result = new Result(true, eksikler != "" ? "Şu ürünler stokta bulunamadı: " + eksikler : "");
+            if (eksikler == "")
+                eksikler = malkodlari + " için stok miktarları uyuşmuyor.";
+            else
+                eksikler += "<br />Ayrıca " + malkodlari + " için stok miktarları uyuşmuyor.";
+            ViewBag.Result = new Result(true, eksikler);
             //return
             var list = db.Transfers.Where(m => m.ID == TransferID).FirstOrDefault();
             return PartialView("Summary", list);

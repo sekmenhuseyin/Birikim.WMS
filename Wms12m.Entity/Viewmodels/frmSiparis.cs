@@ -46,6 +46,7 @@ namespace Wms12m.Entity
         public int KatID { get; set; }
         public int Sira { get; set; }
         public decimal Stok { get; set; }
+        public decimal WmsStok { get; set; }
     }
     /// <summary>
     /// siparişlerin malzeme detay
