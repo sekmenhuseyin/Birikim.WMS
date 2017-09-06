@@ -26,7 +26,7 @@
                 <td>@item.ComboItem_Name1.Name</td>
                 <td>@if(item.ComboItem_Name1.Name != "Kontrollü Sayım"){<a class="btn btn-default input-circle" href="#modalEditPage" data-toggle="modal" onclick="editInModal('/WMS/Tasks/GorevliAta/@item.ID')"> @{if (item.Gorevli != null){ @item.Gorevli} else {<text>Görevli Ata</text>}} </a>}</td>
                 <td>@item.ID.GetEvrakTarihsForGorev()</td>
-                <td>@item.OlusturmaTarihi.FromOADateInt()</td>
+                <td><span class="hide">@item.OlusturmaTarihi</span>@item.OlusturmaTarihi.FromOADateInt()</td>
                 <td>@{if (item.BitisTarihi != null) { @item.BitisTarihi.Value.FromOADateInt() } }</td>
                 <td>@item.Bilgi</td>
                 <td>
@@ -50,7 +50,7 @@
         //datatable
         var table = $('#sample_1').DataTable({
             "pagingType": "full_numbers",
-            "order": [[6, "desc"]],
+            "order": [[7, "desc"]],
             "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
             "columnDefs": [{ "targets": [0], "orderable": false }],
             initComplete: function () {
