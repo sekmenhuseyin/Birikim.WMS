@@ -98,7 +98,7 @@
 
             { "data": "EvrakNo"},
             { "data": "OnayDurumu" },
-            { "data": "Tarih" },
+            { "data": "Tarih", "render": function (data) { console.log(data); return data.replace(/\./g, '-')} },
             { "data": "Firma" },
             { "data": "Onaylayan" },
         ],
