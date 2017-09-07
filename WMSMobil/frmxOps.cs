@@ -485,10 +485,10 @@ namespace WMSMobil
                             if (sender == btnUygula)
                             {
                                 if (itemPanel.Miktar != 0)
-                                    itemPanel.Controls[5].Text = itemPanel.Controls[3].Text;
+                                    itemPanel.Controls[6].Text = itemPanel.Controls[3].Text;
                             }
                             else
-                                itemPanel.Controls[5].Text = (itemPanel.Controls[5].Text.ToDecimal() + 1).ToString();
+                                itemPanel.Controls[6].Text = (itemPanel.Controls[6].Text.ToDecimal() + 1).ToString();
                             foreach (Control item in itemPanel.Controls)
                                 item.BackColor = Color.DarkOrange;
                         }
