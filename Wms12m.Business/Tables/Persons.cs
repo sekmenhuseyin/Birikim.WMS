@@ -245,7 +245,7 @@ namespace Wms12m.Business
         }
         public List<User> GetListWithoutTerminal()
         {
-            return db.Users.Where(m => m.UserDetail == null).OrderBy(m => m.AdSoyad).ToList();
+            return db.Users.Where(m => m.UserDetail == null && m.ID > 1).OrderBy(m => m.AdSoyad).ToList();
         }
     }
 }
