@@ -1,5 +1,5 @@
 ﻿@model Olcu
-@using (Ajax.BeginForm("Save", "Size", new { area = "Constants" }, new AjaxOptions { OnSuccess = "getresult", HttpMethod = "post" }, htmlAttributes: new { @class = "form-horizontal", role = "form" }))
+@using (Ajax.BeginForm("Save", "Size", new { area = "Constants" }, new AjaxOptions { OnSuccess = "getresult", OnFailure = "Modaldialog('Lütfen Tekrar Deneyin', 'Hata', 'Tamam', 'btn-danger');", HttpMethod = "post" }, htmlAttributes: new { @class = "form-horizontal", role = "form" }))
 {
     @Html.AntiForgeryToken()
     @Html.HiddenFor(m => m.ID)

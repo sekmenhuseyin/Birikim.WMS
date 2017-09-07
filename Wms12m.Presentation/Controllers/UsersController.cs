@@ -88,6 +88,7 @@ namespace Wms12m.Presentation.Controllers
             if (id == null || id.ToString2() == "") return null;
             //return
             var ID = id.ToInt32();
+            if (ID == 1) return null;
             var list = db.GetUserPermsFor(ID).ToList();
             ViewBag.PermName = new SelectList(db.Perms.ToList(), "PermName", "PermName");
             ViewBag.UserName = Persons.Detail(ID).Kod;
@@ -223,6 +224,7 @@ namespace Wms12m.Presentation.Controllers
         [HttpPost]
         public JsonResult GetPass(int ID)
         {
+            if (CheckPerm(Perms.Kullanıcılar, PermTypes.Reading) == false || ID == 1) return Json("Yetkiniz yok", JsonRequestBehavior.AllowGet);
             return Json(Persons.GetPass(ID), JsonRequestBehavior.AllowGet);
         }
         /// <summary>

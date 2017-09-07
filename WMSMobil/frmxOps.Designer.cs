@@ -44,6 +44,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.panelOrta = new System.Windows.Forms.Panel();
+            this.label13 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
@@ -54,7 +55,6 @@
             this.panelAlt = new System.Windows.Forms.Panel();
             this.btnBack = new System.Windows.Forms.Button();
             this.btnKaydet = new System.Windows.Forms.Button();
-            this.label13 = new System.Windows.Forms.Label();
             this.panelUst.SuspendLayout();
             this.panelOrta.SuspendLayout();
             this.panelAlt.SuspendLayout();
@@ -97,7 +97,6 @@
             this.txtRafBarkod.Name = "txtRafBarkod";
             this.txtRafBarkod.Size = new System.Drawing.Size(106, 21);
             this.txtRafBarkod.TabIndex = 0;
-            this.txtRafBarkod.Visible = false;
             this.txtRafBarkod.GotFocus += new System.EventHandler(this.txt_GotFocus);
             // 
             // txtBarkod
@@ -128,7 +127,6 @@
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(70, 21);
             this.label7.Text = "Raf Okut";
-            this.label7.Visible = false;
             // 
             // label4
             // 
@@ -216,6 +214,16 @@
             this.panelOrta.Name = "panelOrta";
             this.panelOrta.Size = new System.Drawing.Size(240, 169);
             // 
+            // label13
+            // 
+            this.label13.BackColor = System.Drawing.Color.CadetBlue;
+            this.label13.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
+            this.label13.ForeColor = System.Drawing.SystemColors.Window;
+            this.label13.Location = new System.Drawing.Point(284, 0);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(72, 18);
+            this.label13.Text = "Makara No";
+            // 
             // label12
             // 
             this.label12.BackColor = System.Drawing.Color.CadetBlue;
@@ -233,7 +241,6 @@
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(105, 18);
             this.label6.Text = "Yerleştirme Miktar";
-            this.label6.Visible = false;
             // 
             // label5
             // 
@@ -316,16 +323,6 @@
             this.btnKaydet.TabIndex = 0;
             this.btnKaydet.Text = "Kaydet";
             this.btnKaydet.Click += new System.EventHandler(this.btnKaydet_Click);
-            // 
-            // label13
-            // 
-            this.label13.BackColor = System.Drawing.Color.CadetBlue;
-            this.label13.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
-            this.label13.ForeColor = System.Drawing.SystemColors.Window;
-            this.label13.Location = new System.Drawing.Point(284, 0);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(72, 18);
-            this.label13.Text = "Makara No";
             // 
             // frmxOps
             // 
