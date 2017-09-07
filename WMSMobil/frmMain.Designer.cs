@@ -55,7 +55,7 @@
             this.btnMalKabul.Location = new System.Drawing.Point(2, 45);
             this.btnMalKabul.Name = "btnMalKabul";
             this.btnMalKabul.Size = new System.Drawing.Size(115, 56);
-            this.btnMalKabul.TabIndex = 0;
+            this.btnMalKabul.TabIndex = 1;
             this.btnMalKabul.Tag = "1";
             this.btnMalKabul.Text = "Mal Kabul";
             this.btnMalKabul.Click += new System.EventHandler(this.btns_Click);
@@ -67,7 +67,7 @@
             this.btnRafaKaldirma.Location = new System.Drawing.Point(122, 45);
             this.btnRafaKaldirma.Name = "btnRafaKaldirma";
             this.btnRafaKaldirma.Size = new System.Drawing.Size(115, 56);
-            this.btnRafaKaldirma.TabIndex = 0;
+            this.btnRafaKaldirma.TabIndex = 2;
             this.btnRafaKaldirma.Tag = "2";
             this.btnRafaKaldirma.Text = "Rafa Kaldırma";
             this.btnRafaKaldirma.Click += new System.EventHandler(this.btns_Click);
@@ -90,7 +90,7 @@
             this.btnSiparisToplama.Location = new System.Drawing.Point(2, 109);
             this.btnSiparisToplama.Name = "btnSiparisToplama";
             this.btnSiparisToplama.Size = new System.Drawing.Size(115, 56);
-            this.btnSiparisToplama.TabIndex = 0;
+            this.btnSiparisToplama.TabIndex = 3;
             this.btnSiparisToplama.Tag = "3";
             this.btnSiparisToplama.Text = "Sipariş Toplama";
             this.btnSiparisToplama.Click += new System.EventHandler(this.btns_Click);
@@ -102,7 +102,7 @@
             this.btnSayim.Location = new System.Drawing.Point(3, 235);
             this.btnSayim.Name = "btnSayim";
             this.btnSayim.Size = new System.Drawing.Size(115, 56);
-            this.btnSayim.TabIndex = 0;
+            this.btnSayim.TabIndex = 7;
             this.btnSayim.Tag = "8";
             this.btnSayim.Text = "Kontrollü Sayım";
             this.btnSayim.Click += new System.EventHandler(this.btns_Click);
@@ -114,7 +114,7 @@
             this.btnPaketleme.Location = new System.Drawing.Point(122, 109);
             this.btnPaketleme.Name = "btnPaketleme";
             this.btnPaketleme.Size = new System.Drawing.Size(115, 56);
-            this.btnPaketleme.TabIndex = 0;
+            this.btnPaketleme.TabIndex = 4;
             this.btnPaketleme.Tag = "6";
             this.btnPaketleme.Text = "Paketleme";
             this.btnPaketleme.Click += new System.EventHandler(this.btns_Click);
@@ -126,7 +126,7 @@
             this.btnTransferIn.Location = new System.Drawing.Point(3, 172);
             this.btnTransferIn.Name = "btnTransferIn";
             this.btnTransferIn.Size = new System.Drawing.Size(115, 56);
-            this.btnTransferIn.TabIndex = 0;
+            this.btnTransferIn.TabIndex = 5;
             this.btnTransferIn.Tag = "20";
             this.btnTransferIn.Text = "Transfer Giriş";
             this.btnTransferIn.Click += new System.EventHandler(this.btns_Click);
@@ -204,7 +204,7 @@
             this.btnTransferOut.Location = new System.Drawing.Point(123, 172);
             this.btnTransferOut.Name = "btnTransferOut";
             this.btnTransferOut.Size = new System.Drawing.Size(115, 56);
-            this.btnTransferOut.TabIndex = 8;
+            this.btnTransferOut.TabIndex = 6;
             this.btnTransferOut.Tag = "19";
             this.btnTransferOut.Text = "Transfer Çıkış";
             this.btnTransferOut.Click += new System.EventHandler(this.btns_Click);
@@ -217,7 +217,7 @@
             this.btnBack.Location = new System.Drawing.Point(167, 3);
             this.btnBack.Name = "btnBack";
             this.btnBack.Size = new System.Drawing.Size(70, 23);
-            this.btnBack.TabIndex = 15;
+            this.btnBack.TabIndex = 9;
             this.btnBack.Text = "Kapat";
             this.btnBack.Click += new System.EventHandler(this.btnBack_Click);
             // 
@@ -229,7 +229,7 @@
             this.btnRefresh.Location = new System.Drawing.Point(3, 4);
             this.btnRefresh.Name = "btnRefresh";
             this.btnRefresh.Size = new System.Drawing.Size(95, 22);
-            this.btnRefresh.TabIndex = 23;
+            this.btnRefresh.TabIndex = 0;
             this.btnRefresh.Text = "Güncelle";
             this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
             // 
@@ -240,7 +240,7 @@
             this.btnBarcode.Location = new System.Drawing.Point(122, 235);
             this.btnBarcode.Name = "btnBarcode";
             this.btnBarcode.Size = new System.Drawing.Size(115, 56);
-            this.btnBarcode.TabIndex = 31;
+            this.btnBarcode.TabIndex = 8;
             this.btnBarcode.Tag = "6";
             this.btnBarcode.Text = "Paket Barkod";
             this.btnBarcode.Click += new System.EventHandler(this.btnBarcode_Click);

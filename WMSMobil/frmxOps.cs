@@ -49,6 +49,22 @@ namespace WMSMobil
             txtUnvan.Visible = true;
             txtHesapKodu.Visible = true;
             txtEvrakno.Visible = true;
+            //places
+            if (gorevtip == 1 || gorevtip == 6 || gorevtip == 7)
+            {
+                label12.Left = 450.Carpim();
+            }
+            else
+            {
+                label12.Left = 556.Carpim();
+                label5.Left = label8.Left;
+                label8.Left += label5.Width + 1;
+                label9.Left += label5.Width + 1;
+                label10.Left += label5.Width + 1;
+                label11.Left += label5.Width + 1;
+                label13.Left += label5.Width + 1;
+            }
+            //visibilities
             if (gorevtip == 1)
             {
                 this.Text = "WMS Mobil - Mal Kabulü";
@@ -56,31 +72,22 @@ namespace WMSMobil
                 txtRafBarkod.Visible = false;
                 label7.Visible = false;
                 label6.Visible = false;
-                label12.Left = 450.Carpim();
             }
             else if (gorevtip == 2)
             {
                 this.Text = "WMS Mobil - Rafa Yerleştirme";
                 label5.Text = "Raf";
-                txtRafBarkod.Visible = true;
-                label7.Visible = true;
-                label6.Visible = true;
-                label12.Left = 556.Carpim();
             }
             else if (gorevtip == 3)
             {
                 this.Text = "WMS Mobil - Sipariş Toplama";
                 label5.Text = "Raf";
-                txtRafBarkod.Visible = true;
-                label7.Visible = true;
-                label6.Visible = true;
                 label1.Visible = false;
                 label2.Visible = false;
                 label3.Visible = false;
                 txtUnvan.Visible = false;
                 txtHesapKodu.Visible = false;
                 txtEvrakno.Visible = false;
-                label12.Left = 556.Carpim();
             }
             else if (gorevtip == 6)
             {
@@ -89,7 +96,6 @@ namespace WMSMobil
                 txtRafBarkod.Visible = false;
                 label7.Visible = false;
                 label6.Visible = false;
-                label12.Left = 450.Carpim();
             }
             else if (gorevtip == 7)
             {
@@ -98,38 +104,29 @@ namespace WMSMobil
                 txtRafBarkod.Visible = false;
                 label7.Visible = false;
                 label6.Visible = false;
-                label12.Left = 450.Carpim();
             }
             else if (gorevtip == 8)
             {
                 this.Text = "WMS Mobil - Kontrollü Sayım";
                 label5.Text = "Raf";
                 label6.Text = "Okutulan Miktar";
-                txtRafBarkod.Visible = true;
-                label7.Visible = true;
-                label6.Visible = true;
                 label1.Visible = false;
                 label2.Visible = false;
                 label3.Visible = false;
                 txtUnvan.Visible = false;
                 txtHesapKodu.Visible = false;
                 txtEvrakno.Visible = false;
-                label12.Left = 556.Carpim();
             }
             else// if (gorevtip == 19 || gorevtip == 20)
             {
                 this.Text = "WMS Mobil - Transfer";
                 label5.Text = "Raf";
-                txtRafBarkod.Visible = true;
-                label7.Visible = true;
-                label6.Visible = true;
                 label1.Visible = false;
                 label2.Visible = false;
                 label3.Visible = false;
                 txtUnvan.Visible = false;
                 txtHesapKodu.Visible = false;
                 txtEvrakno.Visible = false;
-                label12.Left = 556.Carpim();
             }
             try
             {
@@ -367,6 +364,17 @@ namespace WMSMobil
                 panelSatir.Controls.Add(tMalAdi);
                 panelSatir.Controls.Add(tMiktar);
                 panelSatir.Controls.Add(tBirim);
+                //change places
+                if (GorevTip != 1 && GorevTip != 6 && GorevTip != 7)
+                {
+                    tRaf.Left = tMalKodu.Left;
+                    tMalKodu.Left += tRaf.Width + 1;
+                    tMalAdi.Left += tRaf.Width + 1;
+                    tMiktar.Left += tRaf.Width + 1;
+                    tBirim.Left += tRaf.Width + 1;
+                    tMakaraNo.Left += tRaf.Width + 1;
+                }
+                //add one or more control and change size
                 if (Ayarlar.MenuTip == MenuType.MalKabul || Ayarlar.MenuTip == MenuType.Paketle || Ayarlar.MenuTip == MenuType.Sevkiyat)
                 {
                     panelSatir.Size = new Size((525 * carpim).ToInt32(), (20 * carpim).ToInt32());
@@ -634,6 +642,16 @@ namespace WMSMobil
                 panelSatir.Controls.Add(tYerlestirmeMiktari);
                 panelSatir.Controls.Add(tIslemMiktar);
                 panelSatir.Controls.Add(tMakaraNo);
+                //change places
+                if (GorevTip != 1 && GorevTip != 6 && GorevTip != 7)
+                {
+                    tRaf.Left = tMalKodu.Left;
+                    tMalKodu.Left += tRaf.Width + 1;
+                    tMalAdi.Left += tRaf.Width + 1;
+                    tMiktar.Left += tRaf.Width + 1;
+                    tBirim.Left += tRaf.Width + 1;
+                    tMakaraNo.Left += tRaf.Width + 1;
+                }
 
                 panelOrta.Controls.Add(panelSatir);
                 PanelVeriList.Add(panelSatir);
@@ -767,6 +785,16 @@ namespace WMSMobil
                     panelSatir.Controls.Add(tYerlestirmeMiktari);
                     panelSatir.Controls.Add(tIslemMiktar);
                     panelSatir.Controls.Add(tMakaraNo);
+                    //change places
+                    if (GorevTip != 1 && GorevTip != 6 && GorevTip != 7)
+                    {
+                        tRaf.Left = tMalKodu.Left;
+                        tMalKodu.Left += tRaf.Width + 1;
+                        tMalAdi.Left += tRaf.Width + 1;
+                        tMiktar.Left += tRaf.Width + 1;
+                        tBirim.Left += tRaf.Width + 1;
+                        tMakaraNo.Left += tRaf.Width + 1;
+                    }
 
                     panelOrta.Controls.Add(panelSatir);
                     PanelVeriList.Add(panelSatir);
