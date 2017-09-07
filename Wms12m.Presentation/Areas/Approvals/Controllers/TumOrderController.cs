@@ -70,6 +70,12 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                     else if (Kod3Array.Length > 1)
                     {
                         Kod3Araligi = Kod3Array[0] + ";" + Kod3Array[1];
+                        Kod3Araligi2 = "0;9999999999999999";
+                    }
+                    else
+                    {
+                        Kod3Araligi = "0;9999999999999999";
+                        Kod3Araligi2 = "0;9999999999999999";
                     }
 
                     if (RiskArray.Length > 3)
@@ -81,6 +87,12 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                     else if (RiskArray.Length > 1)
                     {
                         RiskAraligi = RiskArray[0] + ";" + RiskArray[1];
+                        RiskAraligi2 = "0;9999999999999999";
+                    }
+                    else
+                    {
+                        RiskAraligi = "0;9999999999999999";
+                        RiskAraligi2 = "0;9999999999999999";
                     }
 
                     var Grup = vUser.RoleName;
