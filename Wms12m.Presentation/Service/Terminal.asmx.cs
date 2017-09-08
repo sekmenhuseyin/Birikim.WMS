@@ -741,9 +741,9 @@ namespace Wms12m
             //kaydeden bulunur
             var kull = db.Users.Where(m => m.ID == KullID).FirstOrDefault();
             if (kull.UserDetail.SatisFaturaSeri == null || kull.UserDetail.SatisIrsaliyeSeri == null)
-                return new Result(false, "Bu kullanıcıya ait seri nolar hatalı !");
+                return new Result(false, "Bu kullanıcıya ait seri nolar hatalı ! Lütfen terminal yetkilerinden seriyi değiştirin yada Güneşten seçili seri için bir değer verin.");
             if (kull.UserDetail.SatisFaturaSeri.Value < 1 || kull.UserDetail.SatisFaturaSeri.Value > 199 || kull.UserDetail.SatisIrsaliyeSeri.Value < 1 || kull.UserDetail.SatisIrsaliyeSeri.Value > 199)
-                return new Result(false, "Bu kullanıcıya ait seri nolar hatalı !");
+                return new Result(false, "Bu kullanıcıya ait seri nolar hatalı ! Lütfen terminal yetkilerinden seriyi değiştirin yada Güneşten seçili seri için bir değer verin.");
             //değiş saat kontrol
             //string sql = string.Format("SELECT wms.GorevIRS.GorevID " +
             //            "FROM wms.IRS_Detay INNER JOIN FINSAT6{0}.FINSAT6{0}.SPI ON wms.IRS_Detay.KynkSiparisID = FINSAT6{0}.FINSAT6{0}.SPI.ROW_ID AND wms.IRS_Detay.KynkSiparisNo = FINSAT6{0}.FINSAT6{0}.SPI.EvrakNo AND wms.IRS_Detay.KynkSiparisSiraNo = FINSAT6{0}.FINSAT6{0}.SPI.SiraNo AND wms.IRS_Detay.KynkSiparisTarih = FINSAT6{0}.FINSAT6{0}.SPI.Tarih AND " +
@@ -1095,9 +1095,9 @@ namespace Wms12m
             {
                 string gorevNo = db.SettingsGorevNo(tarih, mGorev.DepoID).FirstOrDefault();
                 if (kull.UserDetail.TransferOutSeri == null)
-                    return new Result(false, "Bu kullanıcıya ait seri nolar hatalı !");
+                    return new Result(false, "Bu kullanıcıya ait seri nolar hatalı ! Lütfen terminal yetkilerinden seriyi değiştirin yada Güneşten seçili seri için bir değer verin.");
                 if (kull.UserDetail.TransferOutSeri.Value < 1 || kull.UserDetail.TransferOutSeri.Value > 199)
-                    return new Result(false, "Bu kullanıcıya ait seri nolar hatalı !");
+                    return new Result(false, "Bu kullanıcıya ait seri nolar hatalı ! Lütfen terminal yetkilerinden seriyi değiştirin yada Güneşten seçili seri için bir değer verin.");
                 Finsat finsat = new Finsat(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, mGorev.IR.SirketKod);
                 sonuc = finsat.DepoTransfer(transfer, false, kull.Kod, kull.UserDetail.TransferOutSeri.Value);
                 if (sonuc.Status == true)
@@ -1292,9 +1292,9 @@ namespace Wms12m
             //kullanıcı kontrol
             var kull = db.Users.Where(m => m.ID == KullID).FirstOrDefault();
             if (kull.UserDetail.TransferInSeri == null)
-                return new Result(false, "Bu kullanıcıya ait seri nolar hatalı !");
+                return new Result(false, "Bu kullanıcıya ait seri nolar hatalı ! Lütfen terminal yetkilerinden seriyi değiştirin yada Güneşten seçili seri için bir değer verin.");
             if (kull.UserDetail.TransferInSeri < 1 || kull.UserDetail.TransferInSeri > 199)
-                return new Result(false, "Bu kullanıcıya ait seri nolar hatalı !");
+                return new Result(false, "Bu kullanıcıya ait seri nolar hatalı ! Lütfen terminal yetkilerinden seriyi değiştirin yada Güneşten seçili seri için bir değer verin.");
             //aktar
             //görev bitir
             Result sonuc;
