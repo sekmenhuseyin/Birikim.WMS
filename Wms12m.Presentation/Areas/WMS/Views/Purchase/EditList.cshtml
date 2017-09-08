@@ -1,5 +1,6 @@
 ﻿@model IRS_Detay
 @{string tmp = ViewBag.SirketID;}
+<td></td>
 <td>@Model.MalKodu</td>
 <td>@Model.MalKodu.GetMalAdi(tmp)</td>
 <td>@Html.TextBoxFor(a => a.Miktar, new { @class = "form-control input-circle Miktar" + Model.ID + "", @required = "", @onchange = "$('#Miktar" + Model.ID + "').val(this.value)" })</td>
