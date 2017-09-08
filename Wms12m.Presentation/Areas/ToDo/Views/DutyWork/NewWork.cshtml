@@ -17,7 +17,7 @@
                         @Html.AntiForgeryToken()
                         @Html.ValidationSummary(true)
                         <div class="form-body">
-                            <div class="form-group">
+                            <div class="form-group pointer">
                                 <div class="control-label col-md-4">Görev</div>
                                 <div class="col-md-4">
                                     @Html.DropDownList("GorevID", null, htmlAttributes: new { @class = "form-control input-circle", @readonly = "readonly" })
@@ -67,11 +67,47 @@
     </div>
 
 <script type="text/javascript">
+    sayac = 1;
     $(document).ready(function () {
         $('.date-picker').datepicker();
 
     });
+    var aciklama = "@ViewBag.Aciklama";
+    aciklama = aciklama.split("12MConsulting12MDA");
+    aciklama.splice(aciklama.length-1, 2)
+    $.each(aciklama, function (index, value) {
+        var deger = "";
+        console.log(value.substring(0,5));
+        if (value.substring(0,5) == "FFFFF") {
+            deger = false;
+        }
+        else {
+            deger =true
+        }
+        var index = sayac++;
+        $(".last-work").removeClass("fa fa-plus-circle");
+        $(".insert-work-icon i").removeClass("last-work");
+        $(".delete-icn").css("display", "initial");
+        var newElement = $("<div>").addClass("form-group row todo-content");
+        newElement.append("<div class='control-label col-md-4'><div class='checkitem"+index +"'></div></div><div class='col-md-4'><div class='txt-aciklama work-" + index + "'></div></div>");
+        newElement.addClass("index" + index);
+        if (index == 1) {
+            newElement.insertAfter(".pointer");
+        }
+        else {
+            newElement.insertAfter(".todo-content:last");
+        }
+        
+        $(".work-" + index).dxTextBox();
+        $(".work-" + index).dxTextBox("instance").option({ name: "work", value: value.substring(5), readOnly:true});
+        $(".checkitem"+index).dxCheckBox({
+            value: deger,
+            onValueChanged: function (e) {
 
+            }
+        });
+        $(".checkitem" + index).dxCheckBox("instance").option({ name: "checkitem"});
+    });
     function CreateEditNewWork(Id) {
         if (Id == 0) {
             $("#ID").val("0");
