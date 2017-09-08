@@ -41,7 +41,7 @@ namespace Wms12m.Presentation.Controllers
             var depo = Store.Detail(DID);
             //buraya kadar hata yoksa bunu yapar. yine de hata olursa hiçbirini kaydetmez...
             int tarih = fn.ToOADate();
-            var gorevno = db.SettingsGorevNo(tarih, DID).FirstOrDefault();
+            string gorevno = "";
             var sonuc = new InsertIrsaliye_Result();
             string evraklar = "";
             using (var dbContextTransaction = db.Database.BeginTransaction())
@@ -67,6 +67,16 @@ namespace Wms12m.Presentation.Controllers
                     malkodu = db.Database.SqlQuery<string>(malkodu).FirstOrDefault();
                     _result.Message = "Mal kodu yanlış";
                     if (malkodu == "" || malkodu == null) return Json(_result, JsonRequestBehavior.AllowGet);
+                    //check if gorev
+                    var kontrol1 = db.IRS.Where(m => m.EvrakNo == dr["İrsaliye No"].ToString() && m.IslemTur == false).FirstOrDefault();
+                    if (kontrol1 != null)
+                    {
+                        return Json(new Result(false, 0, "Bu irsaliye daha önce kaydedilmiş."), JsonRequestBehavior.AllowGet);
+                    }
+                    else
+                    {
+                        gorevno = db.SettingsGorevNo(tarih, DID).FirstOrDefault();
+                    }
                     //add irsaliye and gorev
                     sonuc = db.InsertIrsaliye(SID, DID, gorevno, dr["İrsaliye No"].ToString(), tarih, "", false, ComboItems.MalKabul.ToInt32(), vUser.UserName, tarih, fn.ToOATime(), Hesap, "", 0, "").FirstOrDefault();
                     if (evraklar.Contains(dr["İrsaliye No"].ToString()) == false)
@@ -131,7 +141,6 @@ namespace Wms12m.Presentation.Controllers
             LogActions("", "Uploads", "Malzeme", ComboItems.alYükle, sonuc.GorevID.Value, "GörevID: " + sonuc.GorevID.Value + ", Satır Sayısı: " + liste.Count);
             //update görev
             var gorev = db.Gorevs.Where(m => m.ID == sonuc.GorevID.Value).FirstOrDefault();
-            gorev.DurumID = ComboItems.Açık.ToInt32();
             gorev.Bilgi = "Irs: " + evraklar + ", Tedarikçi: " + Unvan;
             db.SaveChanges();
             //return
