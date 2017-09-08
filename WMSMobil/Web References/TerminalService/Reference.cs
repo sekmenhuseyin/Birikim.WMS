@@ -722,6 +722,34 @@ namespace WMSMobil.TerminalService {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.12mconsulting.com.tr/Transfer_Giris", RequestNamespace="http://www.12mconsulting.com.tr/", ResponseNamespace="http://www.12mconsulting.com.tr/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public Result Transfer_Giris(frmYerlesme[] YerlestirmeList, int KullID, int GorevID, string AuthGiven, string Guid) {
+            object[] results = this.Invoke("Transfer_Giris", new object[] {
+                        YerlestirmeList,
+                        KullID,
+                        GorevID,
+                        AuthGiven,
+                        Guid});
+            return ((Result)(results[0]));
+        }
+        
+        /// <remarks/>
+        public System.IAsyncResult BeginTransfer_Giris(frmYerlesme[] YerlestirmeList, int KullID, int GorevID, string AuthGiven, string Guid, System.AsyncCallback callback, object asyncState) {
+            return this.BeginInvoke("Transfer_Giris", new object[] {
+                        YerlestirmeList,
+                        KullID,
+                        GorevID,
+                        AuthGiven,
+                        Guid}, callback, asyncState);
+        }
+        
+        /// <remarks/>
+        public Result EndTransfer_Giris(System.IAsyncResult asyncResult) {
+            object[] results = this.EndInvoke(asyncResult);
+            return ((Result)(results[0]));
+        }
+        
+        /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.12mconsulting.com.tr/TransferGiris_GoreviTamamla", RequestNamespace="http://www.12mconsulting.com.tr/", ResponseNamespace="http://www.12mconsulting.com.tr/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public Result TransferGiris_GoreviTamamla(int GorevID, int KullID, string AuthGiven, string Guid) {
             object[] results = this.Invoke("TransferGiris_GoreviTamamla", new object[] {

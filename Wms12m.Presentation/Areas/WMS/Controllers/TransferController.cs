@@ -134,7 +134,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             }
             //yeni bir görev eklenir
             string GorevNo = db.SettingsGorevNo(today, cDepoID.ID).FirstOrDefault();
-            var cevap = db.InsertIrsaliye(tbl.SirketID, cDepoID.ID, GorevNo, GorevNo, today, "Giriş: " + tbl.AraDepo + ", Çıkış: " + tbl.CikisDepo, true, ComboItems.TransferÇıkış.ToInt32(), vUser.UserName, today, time, cDepoID.DepoAd, "", 0, "").FirstOrDefault();
+            var cevap = db.InsertIrsaliye(tbl.SirketID, cDepoID.ID, GorevNo, GorevNo, today, "Giriş: " + tbl.GirisDepo + ", Çıkış: " + tbl.CikisDepo, true, ComboItems.TransferÇıkış.ToInt32(), vUser.UserName, today, time, cDepoID.DepoAd, "", 0, "").FirstOrDefault();
             //yeni transfer eklenir
             var sonuc = Transfers.Operation(new Transfer() { SirketKod = tbl.SirketID, GirisDepoID = gDepoID.ID, CikisDepoID = cDepoID.ID, AraDepoID = aDepoID, GorevID = cevap.GorevID.Value });
             ViewBag.Result = new Result(false, "Kayıtta hata oldu. Lütfen tekrar deneyin.");
@@ -164,6 +164,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                             MalKodu = item.MalKodu,
                             Birim = item.Birim,
                             Miktar = miktar,
+                            MakaraNo = itemyer.MakaraNo,
                             GC = true
                         };
                         if (miktar > 0) TaskYer.Operation(tblyer);
@@ -174,7 +175,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                     item.TransferID = TransferID;
                     //hepsi eklenince detayı db'ye ekle
                     if (item.Miktar > 0) { sonuc = Transfers.AddDetay(item); }
-                    if (item.Miktar > 0) IrsaliyeDetay.Operation(new IRS_Detay() { IrsaliyeID = cevap.IrsaliyeID.Value, MalKodu = item.MalKodu, Miktar = item.Miktar, Birim = item.Birim, KynkSiparisID = sonuc.Id, KynkSiparisTarih = TransferID });
+                    if (item.Miktar > 0) IrsaliyeDetay.Operation(new IRS_Detay() { IrsaliyeID = cevap.IrsaliyeID.Value, MalKodu = item.MalKodu, Miktar = miktar, Birim = item.Birim, KynkSiparisID = sonuc.Id, KynkSiparisTarih = TransferID });
                 }
                 else
                 {

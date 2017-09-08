@@ -219,7 +219,7 @@
             this.label13.BackColor = System.Drawing.Color.CadetBlue;
             this.label13.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
             this.label13.ForeColor = System.Drawing.SystemColors.Window;
-            this.label13.Location = new System.Drawing.Point(284, 0);
+            this.label13.Location = new System.Drawing.Point(145, 0);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(72, 18);
             this.label13.Text = "Makara No";
@@ -231,7 +231,7 @@
             this.label12.Location = new System.Drawing.Point(556, 0);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(70, 18);
-            this.label12.Text = "İşlem Miktarı";
+            this.label12.Text = "İşlemMiktar";
             // 
             // label6
             // 
@@ -256,7 +256,7 @@
             this.label11.BackColor = System.Drawing.Color.CadetBlue;
             this.label11.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
             this.label11.ForeColor = System.Drawing.SystemColors.Window;
-            this.label11.Location = new System.Drawing.Point(211, 0);
+            this.label11.Location = new System.Drawing.Point(218, 0);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(72, 18);
             this.label11.Text = "Birim";
@@ -266,7 +266,7 @@
             this.label10.BackColor = System.Drawing.Color.CadetBlue;
             this.label10.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
             this.label10.ForeColor = System.Drawing.SystemColors.Window;
-            this.label10.Location = new System.Drawing.Point(145, 0);
+            this.label10.Location = new System.Drawing.Point(291, 0);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(65, 18);
             this.label10.Text = "Miktar";

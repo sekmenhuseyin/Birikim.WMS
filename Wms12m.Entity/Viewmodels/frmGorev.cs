@@ -108,6 +108,7 @@ namespace Wms12m.Entity
     public class frmSiparisToplayerlestirilen
     {
         public int YerID { get; set; }
+        public string MakaraNo { get; set; }
         public string MalKodu { get; set; }
         public string Birim { get; set; }
         public decimal YerlestirmeMiktari { get; set; }
