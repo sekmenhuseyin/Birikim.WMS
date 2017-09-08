@@ -83,7 +83,7 @@
         <div class="input_content">
             <div class="input_label">Tarih</div>
             <div class="input">
-                <input class="form-control dateboxbg date_tarih" type="text" value="@DateTime.Today" />
+                <input class="form-control dateboxbg date_tarih" type="text" value="@DateTime.Today.ToString("MM.dd.yyyy")" />
             </div>
         </div>
         <div class="input_content">
@@ -93,7 +93,7 @@
         <div class="input_content">
             <div class="input_label">Vade Tarihi</div>
             <div class="input">
-                <input class="form-control dateboxbg date_vade_tarih" readonly="readonly" type="text" value="@DateTime.Today" />
+                <input class="form-control dateboxbg date_vade_tarih" readonly="readonly" type="text" value="@DateTime.Today.ToString("MM.dd.yyyy")" />
             </div>
         </div>
     </div>
