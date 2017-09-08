@@ -37,27 +37,37 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         public PartialViewResult Edit(int? id)
         {
             GorevCalisma gorevCalisma = db.GorevCalismas.Find(id);
-
+            ViewBag.Aciklama = gorevCalisma.Calisma;
             ViewBag.GorevID = new SelectList(db.Gorevlers.Where(a => a.Sorumlu == vUser.UserName || a.Sorumlu2 == vUser.UserName || a.Sorumlu3 == vUser.UserName).ToList(), "ID", "Gorev", gorevCalisma.GorevID);
             return PartialView(gorevCalisma);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public JsonResult Save([Bind(Include = "ID,GorevID,Tarih,CalismaSure,Calisma,Kaydeden,KayitTarih,Degistiren,DegisTarih,work,checkitem")] GorevCalisma gorevCalisma)
+        public JsonResult Save([Bind(Include = "ID,GorevID,Tarih,CalismaSure,Calisma,Kaydeden,KayitTarih,Degistiren,DegisTarih,work,checkitem,eskiyeni")] GorevCalisma gorevCalisma)
         {
             if (ModelState.IsValid)
             {
+                var grv = db.Gorevlers.Where(z => z.ID == gorevCalisma.GorevID).FirstOrDefault();
                 string a = gorevCalisma.work[0];
                 string b = gorevCalisma.checkitem[0];
                 if (gorevCalisma.ID == 0)
                 {
                     gorevCalisma.Calisma = "";
+                    grv.Aciklama = "";
                     for (int i = 0; i < gorevCalisma.work.Length; i++)
                     {
                         if (gorevCalisma.checkitem[i] == "true")
                         {
-                            gorevCalisma.Calisma += gorevCalisma.work[i] + "12MConsulting12MDA";
+                            if (gorevCalisma.eskiyeni[i] == "false")
+                            {
+                                gorevCalisma.Calisma += gorevCalisma.work[i] + "12MConsulting12MDA";
+                            }
+                            grv.Aciklama += "TTTTT" + gorevCalisma.work[i] + "12MConsulting12MDA";
+                        }
+                        else
+                        {
+                            grv.Aciklama += "FFFFF" + gorevCalisma.work[i] + "12MConsulting12MDA";
                         }
 
                     }
@@ -78,6 +88,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
 
 
                 }
+
                 try
                 {
                     db.SaveChanges();

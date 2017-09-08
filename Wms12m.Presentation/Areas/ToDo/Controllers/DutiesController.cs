@@ -36,6 +36,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         {
             var gorevCalismas = db.GorevCalismas.Include(g => g.Gorevler);
             var list = gorevCalismas.Where(a => a.GorevID == ID).ToList();
+
             return PartialView("Duty_Details", list);
 
         }

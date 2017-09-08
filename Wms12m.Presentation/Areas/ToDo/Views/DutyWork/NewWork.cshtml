@@ -76,19 +76,22 @@
     aciklama = aciklama.split("12MConsulting12MDA");
     aciklama.splice(aciklama.length - 1, 1);
     $.each(aciklama, function (index, value) {
+        var index = sayac++;
         var deger = "";
+        var newElement = "";
+        console.log(value.substring(0, 5));
         if (value.substring(0,5) == "FFFFF") {
             deger = false;
+            newElement = $("<div>").addClass("form-group row todo-content");
         }
         else {
-            deger =true
+            deger = true
+            newElement = $("<div>").addClass("form-group row todo-content ro-item");
         }
-        var index = sayac++;
-        $(".last-work").removeClass("fa fa-plus-circle");
-        $(".insert-work-icon i").removeClass("last-work");
-        $(".delete-icn").css("display", "initial");
-        var newElement = $("<div>").addClass("form-group row todo-content");
-        newElement.append("<div class='control-label col-md-1'><div class='checkitem" + index + "'></div></div><div class='col-md-10'><div class='txt-aciklama work-" + index + "' style='border-color: #ece7e7'></div></div>");
+        
+
+        //newElement = $("<div>").addClass("form-group row todo-content");
+        newElement.append("<div class='control-label col-md-1'><div class='eskiyeni" + index + "'></div><div class='checkitem" + index + "'></div></div><div class='col-md-10'><div class='txt-aciklama work-" + index + "' style='border-color: #ece7e7'></div></div>");
         newElement.addClass("index" + index);
         if (index == 1) {
             newElement.insertAfter(".pointer");
@@ -105,8 +108,25 @@
 
             }
         });
-        $(".checkitem" + index).dxCheckBox("instance").option({ name: "checkitem"});
+        $(".checkitem" + index).dxCheckBox("instance").option({ name: "checkitem" });
+        $(".eskiyeni" + index).dxCheckBox({
+            value: deger,
+            onValueChanged: function (e) {
+
+            }
+        });
+        $(".eskiyeni" + index).dxCheckBox("instance").option({ name: "eskiyeni" });
+        $(".eskiyeni" + index).css("display", "none");
+
+        if (value.substring(0, 5) == "FFFFF") {
+            deger = false;
+        }
+        else {
+            deger = true
+        }
     });
+    $(".ro-item").css("display", "none");
+    
     function CreateEditNewWork(Id) {
         if (Id == 0) {
             $("#ID").val("0");

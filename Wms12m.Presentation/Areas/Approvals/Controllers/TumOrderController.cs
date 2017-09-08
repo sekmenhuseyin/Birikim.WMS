@@ -150,38 +150,38 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
                         LogActions("Approvals", "TumOrder", "Onayla", ComboItems.alOnayla, 0, logDetay);
 
-                        TumSiparisOnayLog sip = new TumSiparisOnayLog();
-                        sip.Bakiye = insertObj["Bakiye"].ToDecimal();
-                        sip.Unvan = insertObj["Unvan"].ToString();
-                        sip.EvrakNo = insertObj["EvrakNo"].ToString();
-                        sip.DegisTarih = (int)DateTime.Now.ToOADate();
-                        sip.Degistiren = vUser.UserName.ToString();
-                        sip.SirketAralik = tbl.GosterilecekSirket;
-                        sip.CHKAralik = tbl.GostCHKKodAlani;
-                        sip.TipKodlari = tbl.GostSTKDeger;
-                        sip.RiskBakiyeAralik = tbl.GostKod3OrtBakiye;
-                        sip.RiskAralik = tbl.GostRiskDeger;
-                        sip.Risk = insertObj["Risk"].ToDecimal();
-                        sip.RoleName = vUser.RoleName;
-                        sip.Firma = insertObj["Firma"].ToString();
-                        sip.GunIciSiparis = insertObj["GunIciSiparis"].ToDecimal();
-                        sip.HesapKodu = insertObj["HesapKodu"].ToString();
-                        sip.Kod2 = insertObj["Kod2"].ToString();
-                        sip.Kod3OrtBakiye = insertObj["Kod3OrtBakiye"].ToDecimal();
-                        sip.Kod3OrtGun = insertObj["Kod3OrtGun"].ToDecimal();
-                        sip.KrediLimiti = insertObj["KrediLimiti"].ToDecimal();
-                        sip.OnayDurumu = "Onaylandı";
-                        sip.OrtGun = insertObj["OrtGun"].ToDecimal();
-                        sip.PRTBakiye = insertObj["PRTBakiye"].ToDecimal();
-                        sip.SCek = insertObj["SCek"].ToDecimal();
-                        sip.SicakSiparis = insertObj["SicakSiparis"].ToDecimal();
-                        sip.SiparisTuru = insertObj["SiparisTuru"].ToString();
-                        sip.SogukSiparis = insertObj["SogukSiparis"].ToDecimal();
-                        sip.TCek = insertObj["TCek"].ToDecimal();
-                        sip.TipKodu = insertObj["TipKodu"].ToString();
-                        sip.RiskBakiyesi = insertObj["RiskBakiyesi"].ToDecimal();
+                        //TumSiparisOnayLog sip = new TumSiparisOnayLog();
+                        //sip.Bakiye = insertObj["Bakiye"].ToDecimal();
+                        //sip.Unvan = insertObj["Unvan"].ToString();
+                        //sip.EvrakNo = insertObj["EvrakNo"].ToString();
+                        //sip.DegisTarih = (int)DateTime.Now.ToOADate();
+                        //sip.Degistiren = vUser.UserName.ToString();
+                        //sip.SirketAralik = tbl.GosterilecekSirket;
+                        //sip.CHKAralik = tbl.GostCHKKodAlani;
+                        //sip.TipKodlari = tbl.GostSTKDeger;
+                        //sip.RiskBakiyeAralik = tbl.GostKod3OrtBakiye;
+                        //sip.RiskAralik = tbl.GostRiskDeger;
+                        //sip.Risk = insertObj["Risk"].ToDecimal();
+                        //sip.RoleName = vUser.RoleName;
+                        //sip.Firma = insertObj["Firma"].ToString();
+                        //sip.GunIciSiparis = insertObj["GunIciSiparis"].ToDecimal();
+                        //sip.HesapKodu = insertObj["HesapKodu"].ToString();
+                        //sip.Kod2 = insertObj["Kod2"].ToString();
+                        //sip.Kod3OrtBakiye = insertObj["Kod3OrtBakiye"].ToDecimal();
+                        //sip.Kod3OrtGun = insertObj["Kod3OrtGun"].ToDecimal();
+                        //sip.KrediLimiti = insertObj["KrediLimiti"].ToDecimal();
+                        //sip.OnayDurumu = "Onaylandı";
+                        //sip.OrtGun = insertObj["OrtGun"].ToDecimal();
+                        //sip.PRTBakiye = insertObj["PRTBakiye"].ToDecimal();
+                        //sip.SCek = insertObj["SCek"].ToDecimal();
+                        //sip.SicakSiparis = insertObj["SicakSiparis"].ToDecimal();
+                        //sip.SiparisTuru = insertObj["SiparisTuru"].ToString();
+                        //sip.SogukSiparis = insertObj["SogukSiparis"].ToDecimal();
+                        //sip.TCek = insertObj["TCek"].ToDecimal();
+                        //sip.TipKodu = insertObj["TipKodu"].ToString();
+                        //sip.RiskBakiyesi = insertObj["RiskBakiyesi"].ToDecimal();
 
-                        logdb.TumSiparisOnayLogs.Add(sip);
+                        //logdb.TumSiparisOnayLogs.Add(sip);
                     }
                     try
                     {
