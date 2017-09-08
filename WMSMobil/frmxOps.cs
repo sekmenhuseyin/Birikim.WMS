@@ -238,7 +238,7 @@ namespace WMSMobil
                 TextBox tMiktar = new TextBox();
                 tMiktar.Font = font;
                 tMiktar.Width = 65.Carpim();
-                tMiktar.Location = new Point(145.Carpim(), 0);
+                tMiktar.Location = new Point(291.Carpim(), 0);
                 tMiktar.ReadOnly = true;
                 tMiktar.TextAlign = HorizontalAlignment.Right;
                 tMiktar.GotFocus += new EventHandler(TextBoxlar_GotFocus);
@@ -253,7 +253,7 @@ namespace WMSMobil
                 TextBox tMakaraNo = new TextBox();
                 tMakaraNo.Font = font;
                 tMakaraNo.Width = 72.Carpim();
-                tMakaraNo.Location = new Point(284.Carpim(), 0);
+                tMakaraNo.Location = new Point(145.Carpim(), 0);
                 tMakaraNo.ReadOnly = true;
                 tMakaraNo.GotFocus += new EventHandler(TextBoxlar_GotFocus);
 
@@ -561,7 +561,7 @@ namespace WMSMobil
                 TextBox tMiktar = new TextBox();
                 tMiktar.Font = font;
                 tMiktar.Width = (65 * carpim).ToInt32();
-                tMiktar.Location = new Point((145 * carpim).ToInt32(), 0);
+                tMiktar.Location = new Point((291 * carpim).ToInt32(), 0);
                 tMiktar.TextAlign = HorizontalAlignment.Right;
                 tMiktar.ReadOnly = true;
                 tMiktar.GotFocus += new EventHandler(TextBoxlar_GotFocus);
@@ -569,14 +569,14 @@ namespace WMSMobil
                 TextBox tBirim = new TextBox();
                 tBirim.Font = font;
                 tBirim.Width = (72 * carpim).ToInt32();
-                tBirim.Location = new Point((211 * carpim).ToInt32(), 0);
+                tBirim.Location = new Point((218 * carpim).ToInt32(), 0);
                 tBirim.ReadOnly = true;
                 tBirim.GotFocus += new EventHandler(TextBoxlar_GotFocus);
 
                 TextBox tMakaraNo = new TextBox();
                 tMakaraNo.Font = font;
                 tMakaraNo.Width = 72.Carpim();
-                tMakaraNo.Location = new Point(284.Carpim(), 0);
+                tMakaraNo.Location = new Point(145.Carpim(), 0);
                 tMakaraNo.ReadOnly = true;
                 tMakaraNo.GotFocus += new EventHandler(TextBoxlar_GotFocus);
 
@@ -697,7 +697,7 @@ namespace WMSMobil
                     TextBox tMiktar = new TextBox();
                     tMiktar.Font = font;
                     tMiktar.Width = (65 * carpim).ToInt32();
-                    tMiktar.Location = new Point((145 * carpim).ToInt32(), 0);
+                    tMiktar.Location = new Point((291 * carpim).ToInt32(), 0);
                     tMiktar.TextAlign = HorizontalAlignment.Right;
                     tMiktar.ReadOnly = true;
                     tMiktar.GotFocus += new EventHandler(TextBoxlar_GotFocus);
@@ -705,14 +705,14 @@ namespace WMSMobil
                     TextBox tBirim = new TextBox();
                     tBirim.Font = font;
                     tBirim.Width = (72 * carpim).ToInt32();
-                    tBirim.Location = new Point((211 * carpim).ToInt32(), 0);
+                    tBirim.Location = new Point((218 * carpim).ToInt32(), 0);
                     tBirim.ReadOnly = true;
                     tBirim.GotFocus += new EventHandler(TextBoxlar_GotFocus);
 
                     TextBox tMakaraNo = new TextBox();
                     tMakaraNo.Font = font;
                     tMakaraNo.Width = 72.Carpim();
-                    tMakaraNo.Location = new Point(284.Carpim(), 0);
+                    tMakaraNo.Location = new Point(145.Carpim(), 0);
                     tMakaraNo.ReadOnly = true;
                     tMakaraNo.GotFocus += new EventHandler(TextBoxlar_GotFocus);
 
@@ -894,14 +894,8 @@ namespace WMSMobil
         /// </summary>
         private void MalzemeIslemleri_Closing(object sender, CancelEventArgs e)
         {
-            try
-            {
-                Barkod.EnableScanner = false;
-            }
-            catch (Exception)
-            {
-            }
-            Barkod.Dispose();
+            try { Barkod.EnableScanner = false; } catch (Exception) { }
+            try { Barkod.Dispose(); } catch (Exception) { }
             Servis.Dispose();
         }
         /// <summary>
