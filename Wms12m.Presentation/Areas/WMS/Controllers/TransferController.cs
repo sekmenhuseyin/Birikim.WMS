@@ -164,6 +164,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                             MalKodu = item.MalKodu,
                             Birim = item.Birim,
                             Miktar = miktar,
+                            MakaraNo = itemyer.MakaraNo,
                             GC = true
                         };
                         if (miktar > 0) TaskYer.Operation(tblyer);
@@ -174,7 +175,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                     item.TransferID = TransferID;
                     //hepsi eklenince detayı db'ye ekle
                     if (item.Miktar > 0) { sonuc = Transfers.AddDetay(item); }
-                    if (item.Miktar > 0) IrsaliyeDetay.Operation(new IRS_Detay() { IrsaliyeID = cevap.IrsaliyeID.Value, MalKodu = item.MalKodu, Miktar = item.Miktar, Birim = item.Birim, KynkSiparisID = sonuc.Id, KynkSiparisTarih = TransferID });
+                    if (item.Miktar > 0) IrsaliyeDetay.Operation(new IRS_Detay() { IrsaliyeID = cevap.IrsaliyeID.Value, MalKodu = item.MalKodu, Miktar = miktar, Birim = item.Birim, KynkSiparisID = sonuc.Id, KynkSiparisTarih = TransferID });
                 }
                 else
                 {

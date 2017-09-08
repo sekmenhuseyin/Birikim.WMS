@@ -1102,15 +1102,64 @@ namespace Wms12m
                 sonuc = finsat.DepoTransfer(transfer, false, kull.Kod, kull.UserDetail.TransferOutSeri.Value);
                 if (sonuc.Status == true)
                 {
+                    //get depo details
+                    var cikisDepo = db.Depoes.Where(m => m.ID == transfer.CikisDepoID).Select(m => m.DepoKodu).FirstOrDefault();
+                    var araDepo = db.Depoes.Where(m => m.ID == transfer.AraDepoID).FirstOrDefault();
+                    var girisDepo = db.Depoes.Where(m => m.ID == transfer.GirisDepoID).Select(m => m.DepoKodu).FirstOrDefault();
+                    var KatID = db.GetHucreKatID(araDepo.ID, "R-ZR-V").FirstOrDefault();
+                    //yerleştirmeden düşülür
+                    var yerleştirilen = db.Database.SqlQuery<frmSiparisToplayerlestirilen>(@"SELECT        YerID, SUM(YerlestirmeMiktari) AS YerlestirmeMiktari, MalKodu, Birim, MakaraNo
+                                                                                            FROM            wms.GorevYer WITH (nolock)
+                                                                                            WHERE        GorevID =  " + GorevID + " GROUP BY YerID, MalKodu, Birim, MakaraNo").ToList();
+                    using (var yerleştirme = new Yerlestirme())
+                    {
+                        foreach (var item2 in yerleştirilen)
+                        {
+                            var dusulecek = yerleştirme.Detail(item2.YerID);
+                            dusulecek.Miktar += item2.YerlestirmeMiktari;
+                            dusulecek.MakaraDurum = false;
+                            yerleştirme.Update(dusulecek, mGorev.IrsaliyeID.Value, KullID, true, item2.YerlestirmeMiktari);
+                            //yerleştirme kaydı yapılır
+                            var stok = new Yerlestirme();
+                            var tmp2 = stok.Detail(KatID.Value, item2.MalKodu, item2.Birim);
+                            if (tmp2 == null)
+                            {
+                                tmp2 = new Yer()
+                                {
+                                    KatID = KatID.Value,
+                                    MalKodu = item2.MalKodu,
+                                    Birim = item2.Birim,
+                                    Miktar = item2.YerlestirmeMiktari
+                                };
+                                if (item2.MakaraNo != "" || item2.MakaraNo != null) tmp2.MakaraNo = item2.MakaraNo;
+                                stok.Insert(tmp2, 0, KullID);
+                            }
+                            else if (item2.MakaraNo != "" || item2.MakaraNo != null)
+                                if (tmp2.MakaraNo != item2.MakaraNo)
+                                {
+                                    tmp2 = new Yer()
+                                    {
+                                        KatID = KatID.Value,
+                                        MalKodu = item2.MalKodu,
+                                        Birim = item2.Birim,
+                                        Miktar = item2.YerlestirmeMiktari
+                                    };
+                                    tmp2.MakaraNo = item2.MakaraNo;
+                                    stok.Insert(tmp2, 0, KullID);
+                                }
+                                else
+                                {
+                                    tmp2.Miktar += item2.YerlestirmeMiktari;
+                                    stok.Update(tmp2, 0, KullID, false, item2.YerlestirmeMiktari);
+                                }
+                        }
+                    }
                     //finish
                     db.TerminalFinishGorev(GorevID, mGorev.IrsaliyeID, "", tarih, DateTime.Now.ToOaTime(), kull.Kod, "", ComboItems.TransferÇıkış.ToInt32(), 0).FirstOrDefault();
-                    LogActions(KullID.ToString(), "Terminal", "Service", "Terminal", "TransferGiris_GoreviTamamla", ComboItems.alDüzenle, GorevID, "TransferÇıkış => -");
+                    LogActions(KullID.ToString(), "Terminal", "Service", "Terminal", "TransferCikis_GoreviTamamla", ComboItems.alDüzenle, GorevID, "TransferÇıkış: " + cikisDepo + " => " + girisDepo);
                     //görev user tablosu
                     var tbl = db.GorevUsers.Where(m => m.GorevID == GorevID && m.UserName == tblx.Kod).FirstOrDefault();
                     tbl.BitisTarihi = DateTime.Today.ToOADateInt();
-                    //get depo details
-                    var cikisDepo = db.Depoes.Where(m => m.ID == transfer.CikisDepoID).Select(m => m.DepoKodu).FirstOrDefault();
-                    var girisDepo = db.Depoes.Where(m => m.ID == transfer.GirisDepoID).Select(m => m.DepoKodu).FirstOrDefault();
                     //add new irsaliye for giriş
                     var cevap = db.InsertIrsaliye(transfer.SirketKod, transfer.GirisDepoID, gorevNo, gorevNo, tarih, "Giriş: " + girisDepo + ", Çıkış: " + cikisDepo, false, ComboItems.TransferGiriş.ToInt32(), kull.Kod, tarih, saat, mGorev.IR.HesapKodu, "", 0, "").FirstOrDefault();
                     var grvtbl = db.Gorevs.Where(m => m.ID == cevap.GorevID).FirstOrDefault();
@@ -1129,6 +1178,98 @@ namespace Wms12m
                 }
             }
             return sonuc;
+        }
+        /// <summary>
+        /// rafa yerleştir
+        /// </summary>
+        [WebMethod]
+        public Result Transfer_Giris(List<frmYerlesme> YerlestirmeList, int KullID, int GorevID, string AuthGiven, string Guid)
+        {
+            //kontrol
+            if (AuthGiven.Cozumle() != AuthPass) return new Result(false, "Yetkisiz giriş!");
+            Guid = Guid.Cozumle();
+            var tblx = db.Users.Where(m => m.ID == KullID && m.Guid.ToString() == Guid).FirstOrDefault();
+            if (tblx == null) return new Result(false, "Yetkisiz giriş!");
+            int durumID = ComboItems.Açık.ToInt32();
+            var mGorev = db.Gorevs.Where(m => m.ID == GorevID && m.DurumID == durumID).FirstOrDefault();
+            if (mGorev.IsNull())
+                return new Result(false, "İrsaliye bulunamadı !");
+            //add to gorev user table
+            var tbl = db.GorevUsers.Where(m => m.GorevID == GorevID && m.UserName == tblx.Kod).FirstOrDefault();
+            if (tbl == null)
+            {
+                tbl = new GorevUser()
+                {
+                    UserName = tblx.Kod,
+                    GorevID = GorevID,
+                    BaslamaTarihi = DateTime.Today.ToOADateInt()
+                };
+                db.GorevUsers.Add(tbl);
+                db.SaveChanges();
+            }
+            //loop
+            Result _result = new Result(true);
+            var Rkat = db.GetHucreKatID(mGorev.Transfers.FirstOrDefault().AraDepoID, "R-ZR-V").FirstOrDefault();
+            foreach (var item in YerlestirmeList)
+            {
+                //hücre adından kat id bulunur
+                var kat = db.GetHucreKatID(item.DepoID, item.RafNo).FirstOrDefault();
+                if (kat != null)
+                {
+                    //irs detay tablosu güncellenir
+                    var irsdetay = new IrsaliyeDetay();
+                    var tmp = irsdetay.Detail(item.IrsDetayID);
+                    if (tmp.Miktar >= ((tmp.YerlestirmeMiktari ?? 0) + item.Miktar))
+                    {
+                        if (tmp.YerlestirmeMiktari == null) tmp.YerlestirmeMiktari = item.Miktar;
+                        else tmp.YerlestirmeMiktari += item.Miktar;
+                        //irs detay kayıt
+                        irsdetay.Operation(tmp);
+                        var stok = new Yerlestirme();
+                        //rezervden düşürülür
+                        var tmp2 = stok.Detail(Rkat.Value, item.MalKodu, item.Birim);
+                        tmp2.Miktar -= item.Miktar;
+                        stok.Update(tmp2, item.IrsID, KullID, true, item.Miktar);
+                        string makarano = tmp2.MakaraNo;
+                        //yerleştirme kaydı yapılır
+                        tmp2 = stok.Detail(kat.Value, item.MalKodu, item.Birim);
+                        if (tmp2 == null)
+                        {
+                            tmp2 = new Yer()
+                            {
+                                KatID = kat.Value,
+                                MalKodu = item.MalKodu,
+                                Birim = item.Birim,
+                                Miktar = item.Miktar
+                            };
+                            if (makarano != "" || makarano != null) tmp2.MakaraNo = makarano;
+                            stok.Insert(tmp2, item.IrsID, KullID);
+                        }
+                        else if (tmp2.MakaraNo != makarano)
+                        {
+                            tmp2 = new Yer()
+                            {
+                                KatID = kat.Value,
+                                MalKodu = item.MalKodu,
+                                Birim = item.Birim,
+                                Miktar = item.Miktar
+                            };
+                            if (makarano != "" || makarano != null) tmp2.MakaraNo = makarano;
+                            stok.Insert(tmp2, item.IrsID, KullID);
+                        }
+                        else
+                        {
+                            tmp2.Miktar += item.Miktar;
+                            stok.Update(tmp2, item.IrsID, KullID, false, item.Miktar);
+                        }
+                    }
+                    else
+                        _result = new Result(false, item.MalKodu + " için fazla mal yazılmış");
+                }
+                else
+                    _result = new Result(false, item.RafNo + " adlı yer bulunamadı");
+            }
+            return _result;
         }
         /// <summary>
         /// transfer giriş görevleri tamamlma
