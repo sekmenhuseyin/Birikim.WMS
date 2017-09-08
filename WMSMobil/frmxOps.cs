@@ -760,7 +760,7 @@ namespace WMSMobil
                     tMakaraNo.Text = "";
                     tMalAdi.Text = temp_sti.MalAdi;
                     tRaf.Text = temp_sti.Raf;
-                    tYerlestirmeMiktari.Text = tMiktar.Text;
+                    tYerlestirmeMiktari.Text = 0;
                     tIslemMiktar.Text = (sender == btnUygula) ? temp_sti.Miktar.ToString("N2") : "1";
 
                     if (Ayarlar.MenuTip == MenuType.SiparisToplama)
