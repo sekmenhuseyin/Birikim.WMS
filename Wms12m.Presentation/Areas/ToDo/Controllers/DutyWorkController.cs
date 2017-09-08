@@ -44,12 +44,23 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public JsonResult Save([Bind(Include = "ID,GorevID,Tarih,CalismaSure,Calisma,Kaydeden,KayitTarih,Degistiren,DegisTarih")] GorevCalisma gorevCalisma)
+        public JsonResult Save([Bind(Include = "ID,GorevID,Tarih,CalismaSure,Calisma,Kaydeden,KayitTarih,Degistiren,DegisTarih,work,checkitem")] GorevCalisma gorevCalisma)
         {
             if (ModelState.IsValid)
             {
+                string a = gorevCalisma.work[0];
+                string b = gorevCalisma.checkitem[0];
                 if (gorevCalisma.ID == 0)
                 {
+                    gorevCalisma.Calisma = "";
+                    for (int i = 0; i < gorevCalisma.work.Length; i++)
+                    {
+                        if (gorevCalisma.checkitem[i] == "true")
+                        {
+                            gorevCalisma.Calisma += gorevCalisma.work[i] + "12MConsulting12MDA";
+                        }
+
+                    }
                     gorevCalisma.Degistiren = vUser.UserName;
                     gorevCalisma.Kaydeden = vUser.UserName;
                     gorevCalisma.DegisTarih = DateTime.Now;
