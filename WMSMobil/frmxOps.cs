@@ -525,6 +525,7 @@ namespace WMSMobil
                 var malbilgileri = Servis.GetMalzemeFromBarcode("", mal, Ayarlar.Kullanici.ID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid);
                 if (malbilgileri == null)
                 {
+                    Cursor.Current = Cursors.Default;
                     Mesaj.Uyari("Sistemde böyle bir barkod bulunamadı");
                     return;
                 }
@@ -535,7 +536,7 @@ namespace WMSMobil
                 PanelEx panelSatir = new PanelEx();
                 panelSatir.Name = Sayac.ToString();
                 panelSatir.Size = new Size(627.Carpim(), 20.Carpim());
-                panelSatir.Location = new Point(0, (Sayac * 20 * carpim).ToInt32());
+                panelSatir.Location = new Point(1, (Sayac * 21).Carpim());
 
                 TextBox tBarkod = new TextBox();
                 tBarkod.Visible = false;
@@ -671,7 +672,7 @@ namespace WMSMobil
                     PanelEx panelSatir = new PanelEx();
                     panelSatir.Name = Sayac.ToString();
                     panelSatir.Size = new Size(627.Carpim(), 20.Carpim());
-                    panelSatir.Location = new Point(1, (Sayac * 21));
+                    panelSatir.Location = new Point(1, (Sayac * 21).Carpim());
 
                     TextBox tBarkod = new TextBox();
                     tBarkod.Visible = false;
@@ -802,14 +803,14 @@ namespace WMSMobil
                 }
                 else
                 {
-                    Mesaj.Uyari("Göreve ait böyle bir ürün bulunmamaktadır.");
                     Cursor.Current = Cursors.Default;
+                    Mesaj.Uyari("Göreve ait böyle bir ürün bulunmamaktadır.");
                 }
             }
             else if (!mal_var)
             {
-                Mesaj.Uyari("Göreve ait böyle bir ürün bulunmamaktadır.");
                 Cursor.Current = Cursors.Default;
+                Mesaj.Uyari("Göreve ait böyle bir ürün bulunmamaktadır.");
             }
             Cursor.Current = Cursors.Default;
         }
