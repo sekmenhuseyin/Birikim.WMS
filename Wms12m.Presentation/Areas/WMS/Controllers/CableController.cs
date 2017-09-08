@@ -165,6 +165,10 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             foreach (var item in tmp)
             {
                 string[] tmp2 = item.Split('-');
+                //tmp2[0] = "SirketID";
+                //tmp2[1] = "ROW_ID";
+                //tmp2[2] = "MakaraNo-YerID";
+                //tmp2[3] = "Miktar";
                 if (sirketler.Contains(tmp2[0]) == false) { sirketler.Add(tmp2[0]); evraklar.Add("'" + tmp2[1] + "'"); ids.Add("0"); }//eğer şirket yoksa ekle
                 else
                 {
@@ -224,6 +228,8 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                 var stokMiktari = db.GetStock(idDepo, item.MalKodu, item.Birim, true).FirstOrDefault();
                 if (stokMiktari != null)
                 {
+                    var tyerid = rowids[Array.FindIndex(tmp, m => m.Contains(item.ROW_ID.ToString()))];
+                    var yersatiri = Yerlestirme.Detail(tyerid);
                     var miktar = miktars[Array.FindIndex(tmp, m => m.Contains(item.ID))];
                     //sti tablosu
                     IRS_Detay sti = new IRS_Detay()
@@ -232,6 +238,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                         MalKodu = item.MalKodu,
                         Birim = item.Birim,
                         Miktar = miktar <= stokMiktari.Value ? miktar : stokMiktari.Value,
+                        MakaraNo= yersatiri.MakaraNo,
                         KynkSiparisID = item.ROW_ID,
                         KynkSiparisNo = item.EvrakNo,
                         KynkSiparisSiraNo = item.SiraNo,
@@ -239,36 +246,27 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                         KynkSiparisMiktar = item.BirimMiktar,
                         KynkDegisSaat = item.DegisSaat
                     };
-                    var op2 = new IrsaliyeDetay();
-                    _Result = op2.Operation(sti);
+                    using (var op2 = new IrsaliyeDetay())
+                        _Result = op2.Operation(sti);
 
+                    //miktarı tabloya ekle
+                    GorevYer tblyer = new GorevYer()
+                    {
+                        GorevID = cevap.GorevID.Value,
+                        YerID = tyerid,
+                        MalKodu = item.MalKodu,
+                        Birim = item.Birim,
+                        Miktar = miktar,
+                        MakaraNo= yersatiri.MakaraNo,
+                        GC = true
+                    };
+                    TaskYer.Operation(tblyer);
                 }
             }
             //görev tablosu için tekrar yeni ve sade bir liste lazım
             Gorev grv = db.Gorevs.Where(m => m.ID == cevap.GorevID).FirstOrDefault();
             grv.Bilgi = "Irs: " + evraknolar + " Alıcı: " + alıcılar;
             db.SaveChanges();
-            //get gorev details
-            sql = string.Format("SELECT wms.IRS_Detay.MalKodu, wms.IRS_Detay.Miktar, wms.IRS_Detay.Birim, wms.IRS_Detay.KynkSiparisID as ROW_ID " +
-                                "FROM wms.IRS_Detay INNER JOIN wms.GorevIRS ON wms.IRS_Detay.IrsaliyeID = wms.GorevIRS.IrsaliyeID " +
-                                "WHERE(wms.GorevIRS.GorevID = {0})", cevap.GorevID);
-            list = db.Database.SqlQuery<frmSiparisMalzemeOnay>(sql).ToList();
-            foreach (var item in list)
-            {
-                var tyerid = rowids[Array.FindIndex(tmp, m => m.Contains(item.ROW_ID.ToString()))].ToInt32();
-                var miktar = miktars[Array.FindIndex(tmp, m => m.Contains(item.ROW_ID.ToString()))];
-                //miktarı tabloya ekle
-                GorevYer tblyer = new GorevYer()
-                {
-                    GorevID = cevap.GorevID.Value,
-                    YerID = tyerid,
-                    MalKodu = item.MalKodu,
-                    Birim = item.Birim,
-                    Miktar = miktar,
-                    GC = true
-                };
-                TaskYer.Operation(tblyer);
-            }
             //listeyi getir
             sql = string.Format("SELECT wms.Yer.HucreAd, wms.GorevYer.MalKodu, wms.GorevYer.Miktar, wms.GorevYer.Birim, wms.Yer.Miktar AS Stok, wms.Yer.MakaraNo " +
                                 "FROM wms.GorevYer INNER JOIN wms.Yer ON wms.GorevYer.YerID = wms.Yer.ID " +

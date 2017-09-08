@@ -1109,10 +1109,10 @@ namespace Wms12m
                     var tbl = db.GorevUsers.Where(m => m.GorevID == GorevID && m.UserName == tblx.Kod).FirstOrDefault();
                     tbl.BitisTarihi = DateTime.Today.ToOADateInt();
                     //get depo details
-                    var araDepo = db.Depoes.Where(m => m.ID == transfer.AraDepoID).Select(m => m.DepoKodu).FirstOrDefault();
+                    var cikisDepo = db.Depoes.Where(m => m.ID == transfer.CikisDepoID).Select(m => m.DepoKodu).FirstOrDefault();
                     var girisDepo = db.Depoes.Where(m => m.ID == transfer.GirisDepoID).Select(m => m.DepoKodu).FirstOrDefault();
                     //add new irsaliye for giriş
-                    var cevap = db.InsertIrsaliye(transfer.SirketKod, transfer.GirisDepoID, gorevNo, gorevNo, tarih, "Giriş: " + girisDepo + ", Çıkış: " + araDepo, false, ComboItems.TransferGiriş.ToInt32(), kull.Kod, tarih, saat, mGorev.IR.HesapKodu, "", 0, "").FirstOrDefault();
+                    var cevap = db.InsertIrsaliye(transfer.SirketKod, transfer.GirisDepoID, gorevNo, gorevNo, tarih, "Giriş: " + girisDepo + ", Çıkış: " + cikisDepo, false, ComboItems.TransferGiriş.ToInt32(), kull.Kod, tarih, saat, mGorev.IR.HesapKodu, "", 0, "").FirstOrDefault();
                     var grvtbl = db.Gorevs.Where(m => m.ID == cevap.GorevID).FirstOrDefault();
                     grvtbl.DurumID = ComboItems.Açık.ToInt32();
                     //insert irs_detay
