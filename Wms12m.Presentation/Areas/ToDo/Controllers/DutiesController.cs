@@ -71,12 +71,17 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public JsonResult Save([Bind(Include = "ID,ProjeFormID,Sorumlu,Sorumlu2,Sorumlu3,Gorev,Aciklama,OncelikID,DurumID,GorevTipiID,DepartmanID,TahminiBitis,BitisTarih,IslemTip,IslemSira,Kaydeden,KayitTarih,Degistiren,DegisTarih")] Gorevler gorevler)
+        public JsonResult Save([Bind(Include = "ID,ProjeFormID,Sorumlu,Sorumlu2,Sorumlu3,Gorev,Aciklama,OncelikID,DurumID,GorevTipiID,DepartmanID,TahminiBitis,BitisTarih,IslemTip,IslemSira,Kaydeden,KayitTarih,Degistiren,DegisTarih,work")] Gorevler gorevler)
         {
             if (ModelState.IsValid)
             {
                 if (gorevler.ID == 0)
                 {
+                    gorevler.Aciklama = "";
+                    foreach (var item in gorevler.work)
+                    {
+                        gorevler.Aciklama += "FFFFF" + item + "12MConsulting12MDA";
+                    }
                     gorevler.Degistiren = vUser.UserName;
                     gorevler.Kaydeden = vUser.UserName;
                     gorevler.DegisTarih = DateTime.Now;

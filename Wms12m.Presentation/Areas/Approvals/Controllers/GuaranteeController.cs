@@ -148,14 +148,14 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                     HesapKodu = parameters["HesapKodu"].ToString(),
                     Cins = parameters["TeminatCinsi"].ToString(),
                     Tutar = Convert.ToDecimal(parameters["TeminatTutari"].ToString()),
-                    Tarih = parameters["Tarih"].ToDatetime(),
+                    Tarih = Convert.ToDateTime(parameters["Tarih"]),
                     AltBayi = parameters["AltBayi"].ToString(),
                     Unvan = parameters["Unvan"].ToString(),
                     SureliSuresiz = parameters["SureliSuresiz"].ToBool()
                 };
                 if (parameters["VadeTarihi"] != null && parameters["VadeTarihi"].ToString() != "")
                 {
-                    tmnt.VadeTarih = parameters["VadeTarihi"].ToDatetime();
+                    tmnt.VadeTarih = Convert.ToDateTime(parameters["VadeTarihi"]);
                 }
 
                 sqlexper.Insert(tmnt);
@@ -171,7 +171,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
             }
 
-            catch (Exception)
+            catch (Exception ex)
             {
                 return "NO";
             }

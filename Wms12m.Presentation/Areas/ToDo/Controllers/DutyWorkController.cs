@@ -21,8 +21,10 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         {
             var id = Url.RequestContext.RouteData.Values["id"];
             var ID = id.ToInt32();
+            Gorevler gorevler = db.Gorevlers.Where(a => (a.Sorumlu == vUser.UserName || a.Sorumlu2 == vUser.UserName || a.Sorumlu3 == vUser.UserName) && a.ID == ID).FirstOrDefault();
             ViewBag.id = ID;
             ViewBag.GorevID = new SelectList(db.Gorevlers.Where(a => (a.Sorumlu == vUser.UserName || a.Sorumlu2 == vUser.UserName || a.Sorumlu3 == vUser.UserName) && a.ID == ID).ToList(), "ID", "Gorev");
+            ViewBag.Aciklama = gorevler.Aciklama;
             return PartialView(new GorevCalisma());
         }
 

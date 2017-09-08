@@ -48,6 +48,27 @@
                             <th colspan="3"></th>
                         </tr>
                     </tfoot>
+                    <tfoot class="tf-search">
+                        <tr>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </tfoot>
                     <tbody>
                         @foreach (var item in Model)
                         {
@@ -81,7 +102,12 @@
 <script>
  
     var model =  @Html.Raw(serializer.Serialize(Model));
-
+    $('#sample_1 .tf-search th').each(function () {
+        var title = $('#sample_1 thead th').eq($(this).index()).text();
+        if (title != "" && title != "Detay" && title != "Hareket") {
+            $(this).html('<input type="text" placeholder="' + title + ' Ara" />');
+        }
+    });
     var table = $('#sample_1').DataTable({
         "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
         "pagingType": "full_numbers",
@@ -114,7 +140,12 @@
             );
         }
     });
-
+    $("#sample_1 tfoot input").on('keyup change', function () {
+        table
+            .column($(this).parent().index() + ':visible')
+            .search(this.value)
+            .draw();
+    });
     var buttons = new $.fn.dataTable.Buttons(table, {
         buttons: [
             { "extend": 'pdf', "text": '<span class="fa fa-file-pdf-o f-s-15 red"></span>', "className": ' btn-xs;' },
