@@ -91,7 +91,6 @@ namespace Wms12m.Presentation.Areas.YN.Controllers
         /// </summary>
         public ActionResult Teklif()
         {
-
             return View("Teklif");
         }
         /// <summary>

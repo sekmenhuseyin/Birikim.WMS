@@ -80,10 +80,8 @@
                     }
                 }
             });
-
             return _dfd.promise();
         });
-
         $('.reddet-buton').click(function () {
 
             var x = table.rows('.selected').data();
@@ -108,9 +106,8 @@
                 }
             });
             return _dfd.promise();
-
         });
-        });
+    });
     function newrow(id) {
         return "<table style='background:transparent;' id='new" + id + "'></table>";
     }
