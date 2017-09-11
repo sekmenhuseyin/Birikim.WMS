@@ -20,13 +20,13 @@ namespace Wms12m.Entity.Models
             this.Gorevs = new HashSet<Gorev>();
             this.Gorevs1 = new HashSet<Gorev>();
             this.Kats = new HashSet<Kat>();
+            this.GorevPaketlers = new HashSet<GorevPaketler>();
+            this.WebMenus = new HashSet<WebMenu>();
+            this.WebMenus1 = new HashSet<WebMenu>();
             this.Gorevlers = new HashSet<Gorevler>();
             this.Gorevlers1 = new HashSet<Gorevler>();
             this.Gorevlers2 = new HashSet<Gorevler>();
             this.Gorevlers3 = new HashSet<Gorevler>();
-            this.GorevPaketlers = new HashSet<GorevPaketler>();
-            this.WebMenus = new HashSet<WebMenu>();
-            this.WebMenus1 = new HashSet<WebMenu>();
         }
     
         public int ID { get; set; }
@@ -42,6 +42,12 @@ namespace Wms12m.Entity.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Kat> Kats { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<GorevPaketler> GorevPaketlers { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<WebMenu> WebMenus { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<WebMenu> WebMenus1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Gorevler> Gorevlers { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Gorevler> Gorevlers1 { get; set; }
@@ -49,11 +55,5 @@ namespace Wms12m.Entity.Models
         public virtual ICollection<Gorevler> Gorevlers2 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Gorevler> Gorevlers3 { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<GorevPaketler> GorevPaketlers { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<WebMenu> WebMenus { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<WebMenu> WebMenus1 { get; set; }
     }
 }

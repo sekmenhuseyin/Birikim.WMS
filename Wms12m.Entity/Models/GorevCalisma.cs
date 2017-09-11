@@ -21,8 +21,10 @@ namespace Wms12m.Entity.Models
         public System.DateTime KayitTarih { get; set; }
         public string Degistiren { get; set; }
         public System.DateTime DegisTarih { get; set; }
+
         public string[] work { get; set; }
         public string[] checkitem { get; set; }
+
         public virtual Gorevler Gorevler { get; set; }
     }
 }

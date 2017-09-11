@@ -50,9 +50,9 @@ namespace Wms12m.Entity.Models
         public virtual ComboItem_Name ComboItem_Name1 { get; set; }
         public virtual ComboItem_Name ComboItem_Name2 { get; set; }
         public virtual ComboItem_Name ComboItem_Name3 { get; set; }
-        public virtual ProjeForm ProjeForm { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<GorevCalisma> GorevCalismas { get; set; }
+        public virtual ProjeForm ProjeForm { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<GorevToDoList> GorevToDoLists { get; set; }
     }

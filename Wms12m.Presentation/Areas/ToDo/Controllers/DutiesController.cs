@@ -74,7 +74,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public JsonResult Save([Bind(Include = "ID,ProjeFormID,Sorumlu,Sorumlu2,Sorumlu3,Gorev,Aciklama,OncelikID,DurumID,GorevTipiID,DepartmanID,TahminiBitis,BitisTarih,IslemTip,IslemSira,Kaydeden,KayitTarih,Degistiren,DegisTarih,work,todo,silinenler")] Gorevler gorevler)
+        public JsonResult Save([Bind(Include = "ID,ProjeFormID,Sorumlu,Sorumlu2,Sorumlu3,KaliteKontrol,Gorev,Aciklama,OncelikID,DurumID,GorevTipiID,DepartmanID,TahminiBitis,BitisTarih,IslemTip,IslemSira,Kaydeden,KayitTarih,Degistiren,DegisTarih,work,todo,silinenler")] Gorevler gorevler)
         {
             if (ModelState.IsValid)
             {
@@ -110,12 +110,17 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                 }
                 else
                 {
-                    var sl = gorevler.silinenler.Split(',');
+                    string[] sl = new string[0];
+                    if (gorevler.silinenler != null)
+                    {
+                        sl = gorevler.silinenler.Split(',');
+                    }
 
                     var tbl = db.Gorevlers.Where(m => m.ID == gorevler.ID).FirstOrDefault();
                     tbl.Sorumlu = gorevler.Sorumlu;
                     tbl.Sorumlu2 = gorevler.Sorumlu2;
                     tbl.Sorumlu3 = gorevler.Sorumlu3;
+                    tbl.KaliteKontrol = gorevler.KaliteKontrol;
                     tbl.Gorev = gorevler.Gorev;
                     tbl.Aciklama = gorevler.Aciklama;
                     tbl.OncelikID = gorevler.OncelikID;

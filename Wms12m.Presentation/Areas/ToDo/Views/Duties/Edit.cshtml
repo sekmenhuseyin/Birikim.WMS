@@ -89,7 +89,7 @@
                         <div class="form-group row">
                             @Html.LabelFor(model => model.KaliteKontrol, htmlAttributes: new { @class = "control-label col-md-1" })
                             <div class="col-md-10">
-                                @Html.DropDownList("KaliteKontrol", null, htmlAttributes: new { @id = "ddKaliteKontrol", @class = "form-control input-circle" })
+                                @Html.DropDownList("KaliteKontrol", null, Model.KaliteKontrol, htmlAttributes: new { @id = "ddKaliteKontrol", @class = "form-control input-circle" })
                                 @Html.ValidationMessageFor(model => model.KaliteKontrol, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -234,7 +234,7 @@
             silinenler+= id+","
         }
         $(".silinenler").dxTextBox("instance").option({ value: silinenler});
-        console.log(silinenler);
+
         $(secili).closest(".form-group").remove();
         $(".todo-content .work-index").each(function (index) {
             $(this).text(index + 1)

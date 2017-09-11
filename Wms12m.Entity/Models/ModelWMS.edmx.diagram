@@ -54,14 +54,8 @@
         <AssociationConnector Association="MModel.FK_Users_Roles" />
         <EntityTypeShape EntityType="MModel.UserDevice" Width="1.5" PointX="22.375" PointY="13.375" />
         <AssociationConnector Association="MModel.FK_UserDevices_Users" />
-        <EntityTypeShape EntityType="MModel.Gorevler" Width="1.5" PointX="33.5" PointY="1.875" />
-        <AssociationConnector Association="MModel.FK_Gorevler_ComboItem_Name_Departman" />
-        <AssociationConnector Association="MModel.FK_Gorevler_ComboItem_Name_Durum" />
-        <AssociationConnector Association="MModel.FK_Gorevler_ComboItem_Name_GorevTipi" />
-        <AssociationConnector Association="MModel.FK_Gorevler_ComboItem_Name_Oncelik" />
-        <EntityTypeShape EntityType="MModel.Musteri" Width="1.5" PointX="38.5" PointY="2.125" />
-        <EntityTypeShape EntityType="MModel.ProjeForm" Width="1.5" PointX="36.375" PointY="1.625" />
-        <AssociationConnector Association="MModel.FK_Gorevler_ProjeForm" />
+        <EntityTypeShape EntityType="MModel.Musteri" Width="1.5" PointX="39.25" PointY="2.25" />
+        <EntityTypeShape EntityType="MModel.ProjeForm" Width="1.5" PointX="37" PointY="1.75" />
         <AssociationConnector Association="MModel.FK_Proje_Musteri" />
         <AssociationConnector Association="MModel.FK_ProjeForm_ProjeForm" />
         <EntityTypeShape EntityType="MModel.IRS_Detay" Width="1.5" PointX="7.5" PointY="17.625" />
@@ -88,7 +82,13 @@
         <EntityTypeShape EntityType="MModel.Setting" Width="1.5" PointX="0.75" PointY="5.75" />
         <EntityTypeShape EntityType="MModel.GorevCalisma" Width="1.5" PointX="31" PointY="5.75" />
         <EntityTypeShape EntityType="MModel.GorevToDoList" Width="1.5" PointX="36.25" PointY="7.5" />
+        <EntityTypeShape EntityType="MModel.Gorevler" Width="1.5" PointX="33.5" PointY="0.875" />
+        <AssociationConnector Association="MModel.FK_Gorevler_ComboItem_Name_Departman" />
+        <AssociationConnector Association="MModel.FK_Gorevler_ComboItem_Name_Durum" />
+        <AssociationConnector Association="MModel.FK_Gorevler_ComboItem_Name_GorevTipi" />
+        <AssociationConnector Association="MModel.FK_Gorevler_ComboItem_Name_Oncelik" />
         <AssociationConnector Association="MModel.FK_GorevCalisma_Gorevler" />
+        <AssociationConnector Association="MModel.FK_Gorevler_ProjeForm" />
         <AssociationConnector Association="MModel.FK_GorevToDoList_Gorevler" />
         </Diagram>
     </edmx:Diagrams>
