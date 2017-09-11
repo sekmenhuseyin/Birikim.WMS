@@ -18,6 +18,7 @@ namespace Wms12m.Entity.Models
         public Gorevler()
         {
             this.GorevCalismas = new HashSet<GorevCalisma>();
+            this.GorevToDoLists = new HashSet<GorevToDoList>();
         }
 
         public int ID { get; set; }
@@ -39,14 +40,19 @@ namespace Wms12m.Entity.Models
         public System.DateTime KayitTarih { get; set; }
         public string Degistiren { get; set; }
         public System.DateTime DegisTarih { get; set; }
+
         public string[] work { get; set; }
+        public int[] todo { get; set; }
+        public string silinenler { get; set; }
 
         public virtual ComboItem_Name ComboItem_Name { get; set; }
         public virtual ComboItem_Name ComboItem_Name1 { get; set; }
         public virtual ComboItem_Name ComboItem_Name2 { get; set; }
         public virtual ComboItem_Name ComboItem_Name3 { get; set; }
+        public virtual ProjeForm ProjeForm { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<GorevCalisma> GorevCalismas { get; set; }
-        public virtual ProjeForm ProjeForm { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<GorevToDoList> GorevToDoLists { get; set; }
     }
 }

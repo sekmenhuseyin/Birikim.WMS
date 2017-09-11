@@ -44,7 +44,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public JsonResult Save([Bind(Include = "ID,GorevID,Tarih,CalismaSure,Calisma,Kaydeden,KayitTarih,Degistiren,DegisTarih,work,checkitem,eskiyeni")] GorevCalisma gorevCalisma)
+        public JsonResult Save([Bind(Include = "ID,GorevID,Tarih,CalismaSure,Calisma,Kaydeden,KayitTarih,Degistiren,DegisTarih,work,checkitem")] GorevCalisma gorevCalisma)
         {
             if (ModelState.IsValid)
             {
@@ -59,10 +59,10 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                     {
                         if (gorevCalisma.checkitem[i] == "true")
                         {
-                            if (gorevCalisma.eskiyeni[i] == "false")
-                            {
-                                gorevCalisma.Calisma += gorevCalisma.work[i] + "12MConsulting12MDA";
-                            }
+                            //if (gorevCalisma.eskiyeni[i] == "false")
+                            //{
+                            //    gorevCalisma.Calisma += gorevCalisma.work[i] + "12MConsulting12MDA";
+                            //}
                             grv.Aciklama += "TTTTT" + gorevCalisma.work[i] + "12MConsulting12MDA";
                         }
                         else

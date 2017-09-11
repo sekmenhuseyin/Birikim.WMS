@@ -1,4 +1,8 @@
 ﻿@model Gorevler
+@{
+    System.Web.Script.Serialization.JavaScriptSerializer serializer = new System.Web.Script.Serialization.JavaScriptSerializer();
+    serializer.MaxJsonLength = Int32.MaxValue;
+}
 <div class="modal-content">
     <div class="close-modal" data-dismiss="modal"><div class="lr"><div class="rl"></div></div></div>
     <div class="container">
@@ -42,22 +46,22 @@
                         <div class="form-group row">
                             <label class="col-md-4 control-label">Form</label>
                             <div class="col-md-4">
-                                @Html.DropDownList("ProjeFormID", null, string.Empty, htmlAttributes: new { @class = "form-control input-circle ProjeFormID", @id= "FormList", required = "required" })
-                                <span class="field-validation-valid" data-valmsg-for="ProjeFormID" data-valmsg-replace="true"  style="color:red;"></span>
+                                @Html.DropDownList("ProjeFormID", null, string.Empty, htmlAttributes: new { @class = "form-control input-circle ProjeFormID", @id = "FormList", required = "required" })
+                                <span class="field-validation-valid" data-valmsg-for="ProjeFormID" data-valmsg-replace="true" style="color:red;"></span>
                             </div>
                         </div>
                         @*<div class="form-group row">
-                            <div class="col-sm-4  control-label">Proje</div>
-                            <div class="col-sm-4">
-                                <select id="ProjeList" class="form-control input-circle ProjeID" onchange="getForm(this.value, 'FormList');"></select>
+                                <div class="col-sm-4  control-label">Proje</div>
+                                <div class="col-sm-4">
+                                    <select id="ProjeList" class="form-control input-circle ProjeID" onchange="getForm(this.value, 'FormList');"></select>
+                                </div>
                             </div>
-                        </div>
-                        <div class="form-group row">
-                            <div class="col-sm-4  control-label">Form</div>
-                            <div class="col-sm-4">
-                                <select name="ProjeFormID" id="FormList" class="form-control input-circle FormID"></select>
-                            </div>
-                        </div>*@
+                            <div class="form-group row">
+                                <div class="col-sm-4  control-label">Form</div>
+                                <div class="col-sm-4">
+                                    <select name="ProjeFormID" id="FormList" class="form-control input-circle FormID"></select>
+                                </div>
+                            </div>*@
 
                         <div class="form-group row">
                             @Html.LabelFor(model => model.Sorumlu, htmlAttributes: new { @class = "control-label col-md-4" })
@@ -91,10 +95,10 @@
                             </div>
                         </div>
 
-                        <div class="form-group row">
+                        <div class="form-group row pointer">
                             @Html.LabelFor(model => model.Aciklama, htmlAttributes: new { @class = "control-label col-md-4" })
                             <div class="col-md-4">
-                                @Html.TextAreaFor(model => model.Aciklama, 10, 55, new { htmlAttributes = new { @class = "form-control form-rounded"}, required = "required" })
+                                @Html.TextAreaFor(model => model.Aciklama, 10, 55, new { htmlAttributes = new { @class = "form-control form-rounded" }, required = "required" })
                                 @Html.ValidationMessageFor(model => model.Aciklama, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -130,13 +134,16 @@
                             </div>
                         </div>
 
-                         <div class="form-group row">
-                                @Html.LabelFor(model => model.TahminiBitis, htmlAttributes: new { @class = "control-label col-md-4" })
-                                <div class="col-md-4">
-                                    @Html.EditorFor(model => model.TahminiBitis, new { htmlAttributes = new { @class = "form-control input-circle date-picker" } })
-                                    @Html.ValidationMessageFor(model => model.TahminiBitis, "", new { @class = "text-danger" })
-                                </div>
+                        <div class="form-group row">
+                            @Html.LabelFor(model => model.TahminiBitis, htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-4">
+                                @Html.EditorFor(model => model.TahminiBitis, new { htmlAttributes = new { @class = "form-control input-circle date-picker" } })
+                                @Html.ValidationMessageFor(model => model.TahminiBitis, "", new { @class = "text-danger" })
                             </div>
+                        </div>
+                        <div class="form-group row" style="display:none">
+                           <div class="silinenler"></div>
+                        </div>
                         <div class="form-actions">
                             <div class="row">
                                 <div class="col-md-offset-3 col-md-9">
@@ -152,13 +159,40 @@
     </div>
 </div>
 <script type="text/javascript">
+    var silinenler = "";
+    var sayac = 1;
     var Proje = '@ViewBag.Proje';
     var Form = '@ViewBag.Form';
     var ID = '@ViewBag.ID';
     var PFID = '@ViewBag.PFID';
+    $(".silinenler").dxTextBox();
+    $(".silinenler").dxTextBox("instance").option({ name: "silinenler"});
+   var model = @Html.Raw(Json.Encode(Model.GorevToDoLists.Select(m=> new frmGorevTodos { ID=m.ID, Aciklama=m.Aciklama, AktifPasif=m.AktifPasif }).ToList()));
+    $.each(model, function (index, value) {
+        if (value.AktifPasif == true) {
+            var index = sayac++;
+            $(".last-work").removeClass("fa fa-plus-circle");
+            $(".insert-work-icon i").removeClass("last-work");
+            $(".delete-icn").css("display", "initial");
+            var newElement = $("<div>").addClass("form-group row todo-content");
+            newElement.append("<div class='todo-text todo-id" + index + "' style='display:none'></div> <div class='control-label col-md-1'><span class='work-index'>" + index + "</span > <span>-</span></div><div class='col-md-10'><div class='txt-aciklama work-" + index + "'></div></div><div class='insert-work-icon col-md-1'><i class='fa fa-minus-circle delete-icn' style='display:none' onclick='DeleteElement(this," + value.ID + ")' style='margin- left:5px;'></i><i class='fa fa-plus-circle last-work' onclick='NewElement()' style='margin-left:5px;'></i></div>");
+            newElement.addClass("index" + index);
+
+
+            if (index == 1) {
+                newElement.insertAfter(".pointer");
+            }
+            else {
+                newElement.insertAfter(".todo-content:last");
+            }
+            $(".work-" + index).dxTextArea();
+            $(".work-" + index).dxTextArea("instance").option({ name: "work", value: value.Aciklama, maxHeight: 80 });
+            $(".todo-id" + index).dxTextBox();
+            $(".todo-id" + index).dxTextBox("instance").option({ name: "todo", value: value.ID });
+        }
+    });
     //getProje(ID, 'ProjeList', 'FormList');
     //getForm(ID, 'FormList', PFID);
-
     $(document).ready(function () {
         $('.date-picker').datepicker();
         ClearControl();
@@ -169,4 +203,45 @@
         $("#ddSorumlu2").val("");
         $("#ddSorumlu3").val("");
     }
+
+    function NewElement() {
+        var index = sayac++;
+        $(".last-work").removeClass("fa fa-plus-circle");
+        $(".insert-work-icon i").removeClass("last-work");
+        $(".delete-icn").css("display", "initial");
+        var newElement = $("<div>").addClass("form-group row todo-content");
+        newElement.append("<div class='todo-text todo-id" + index + "' style='display:none'></div><div class='control-label col-md-1'><span class='work-index'>" + index + "</span > <span>-</span></div><div class='col-md-10'><div class='txt-aciklama work-" + index + "'></div></div><div class='insert-work-icon col-md-1'><i class='fa fa-minus-circle delete-icn' onclick='DeleteElement(this, " + 0 +")' style='margin- left:5px;'></i><i class='fa fa-plus-circle last-work' onclick='NewElement()' style='margin-left:5px;'></i></div>");
+        newElement.addClass("index" + index);
+        newElement.insertAfter(".todo-content:last");
+        $(".work-" + index).dxTextArea();
+        $(".work-" + index).dxTextArea("instance").option({ name:"work", maxHeight: 80 });
+        $(".todo-id" + index).dxTextBox();
+        $(".todo-id" + index).dxTextBox("instance").option({ name: "todo", value: 0 });
+
+    };
+
+    function DeleteElement(secili,id) {
+        sayac--;
+        if (id != 0) {
+            silinenler+= id+","
+        }
+        $(".silinenler").dxTextBox("instance").option({ value: silinenler});
+        console.log(silinenler);
+        $(secili).closest(".form-group").remove();
+        $(".todo-content .work-index").each(function (index) {
+            $(this).text(index + 1)
+        });
+        if (!$(".last-work").length) {
+            $(".todo-content i:last").addClass("last-work");
+            $(".last-work").addClass("fa fa-plus-circle");
+        }
+        if (sayac == 2) {
+            $(".delete-icn").css("display", "none");
+
+            $(".insert-work-icon i:last").addClass("last-work");
+            $(".last-work").addClass("fa fa-plus-circle");
+        }
+
+
+    };
 </script>

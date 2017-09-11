@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
@@ -125,5 +126,17 @@ namespace Wms12m.Entity
         public string FaturaAdres { get; set; }
         public string Unvan { get; set; }
         public string TeslimAdres { get; set; }
+    }
+    public class frmGorevTodos
+    {
+        public int ID { get; set; }
+        public int GorevID { get; set; }
+        public string Aciklama { get; set; }
+        public bool AktifPasif { get; set; }
+        public bool OnayDurum { get; set; }
+        public string Kaydeden { get; set; }
+        public DateTime KayitTarih { get; set; }
+        public string Degistiren { get; set; }
+        public DateTime? DegisTarih { get; set; }
     }
 }
