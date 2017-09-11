@@ -82,14 +82,14 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             if (newList.Count > 0)
                 foreach (var item in newList)
                     list.Remove(item);
-            if (sifirStok == "")
-                sifirStok = sifirStok + " için stok bulunamadı.";
-            if (hataliStok == "")
-                hataliStok += hataliStok + " için stok miktarları uyuşmuyor.";
+            if (sifirStok != "")
+                sifirStok += " için stok bulunamadı.<br />";
+            if (hataliStok != "")
+                hataliStok += " için stok miktarları uyuşmuyor.<br />";
             //return
             ViewBag.EvrakNos = tbl.checkboxes;
             ViewBag.DepoID = tbl.DepoID;
-            ViewBag.Hatali = sifirStok != "" ? sifirStok + "<br />" : "" + hataliStok + "<br /><br /><br />";
+            ViewBag.Hatali = sifirStok + hataliStok + "<br /><br />";
             return View("Step2", list);
         }
         /// <summary>

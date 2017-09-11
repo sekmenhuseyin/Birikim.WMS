@@ -38,7 +38,7 @@
         <div class="portlet box green m-t-30">
             <div class="portlet-title"><div class="caption"><i class="fa fa-gift"></i>Sipariş Seçimi</div></div>
             <div class="portlet-body form p-30">
-                <p class="text-right">@ViewBag.Hatali</p>
+                <p class="bold color-red">@Html.Raw(ViewBag.Hatali)</p>
                 @using (Html.BeginForm("Step3", "Sales", new { area = "WMS" }, FormMethod.Post, new { @class = "form-horizontal" }))
                 {
                     @Html.AntiForgeryToken()
