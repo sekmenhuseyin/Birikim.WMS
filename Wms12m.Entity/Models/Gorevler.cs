@@ -26,6 +26,7 @@ namespace Wms12m.Entity.Models
         public string Sorumlu { get; set; }
         public string Sorumlu2 { get; set; }
         public string Sorumlu3 { get; set; }
+        public string KaliteKontrol { get; set; }
         public string Gorev { get; set; }
         public string Aciklama { get; set; }
         public int OncelikID { get; set; }

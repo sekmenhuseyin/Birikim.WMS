@@ -26,6 +26,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             //ViewBag.ProjeFormID = new SelectList(db.ProjeForms, "ID", "Proje");
             ViewBag.MusteriID = new SelectList(db.Musteris.ToList(), "ID", "Firma");
             ViewBag.Sorumlu = new SelectList(db.Users.ToList(), "Kod", "AdSoyad");
+            ViewBag.KaliteKontrol = new SelectList(db.Users.Where(m => m.RoleName == "Destek").ToList(), "Kod", "AdSoyad");
             ViewBag.Sorumlu2 = ViewBag.Sorumlu;
             ViewBag.Sorumlu3 = ViewBag.Sorumlu;
             return PartialView(new Gorevler());
@@ -64,6 +65,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             ViewBag.Sorumlu = new SelectList(db.Users.ToList(), "Kod", "AdSoyad");
             ViewBag.Sorumlu2 = new SelectList(db.Users.ToList(), "Kod", "AdSoyad", "");
             ViewBag.Sorumlu3 = new SelectList(db.Users.ToList(), "Kod", "AdSoyad", "");
+            ViewBag.KaliteKontrol = new SelectList(db.Users.Where(m => m.RoleName == "Destek").ToList(), "Kod", "AdSoyad");
             ViewBag.ID = projeForm.PID;
             ViewBag.PFID = projeForm.ID;
             return PartialView("Edit", tbl);
@@ -93,7 +95,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                     {
                         GorevToDoList grvTDL = new GorevToDoList();
                         grvTDL.Aciklama = item;
-                        grvTDL.AktifPasif = Convert.ToBoolean(1);
+                        grvTDL.AktifPasif = true;
                         grvTDL.DegisTarih = DateTime.Now;
                         grvTDL.Degistiren = vUser.UserName;
                         grvTDL.KayitTarih = DateTime.Now;
@@ -150,7 +152,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                             grvTDL.Degistiren = vUser.UserName;
                             grvTDL.KayitTarih = DateTime.Now;
                             grvTDL.Kaydeden = vUser.UserName;
-                            grvTDL.Gorevler = gorevler;
+                            grvTDL.Gorevler = tbl;
 
                             db.GorevToDoLists.Add(grvTDL);
                         }
