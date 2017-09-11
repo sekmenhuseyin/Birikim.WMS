@@ -262,6 +262,12 @@
     <Compile Include="Models\STK002.cs">
       <DependentUpon>ModelYeniNesil.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Teklif.cs">
+      <DependentUpon>ModelYeniNesil.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TempFatura.cs">
+      <DependentUpon>ModelYeniNesil.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Transfer.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
     </Compile>
