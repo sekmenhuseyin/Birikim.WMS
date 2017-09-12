@@ -20,9 +20,8 @@
     </div>
 </div>
 @section Scripts{<script>
-    var secili_satir = new Array();
-    var secili_table = new Array();
-        $(document).ready(function () {
+    var selected = "";
+    $(document).ready(function () {
         var table = $('#sample_1').DataTable({
             "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
             "ordering": false,
@@ -48,64 +47,44 @@
             var row = table.row(tr);
             $('#modalEditPage').modal('toggle');
             editInModal2('/YN/OnayBekleyenler/Teklif_Details', { ID: row.data().TeklifNo })
-         
-        });
-        $('#sample_2 tbody').on('click', 'tr', function () {
-            $(this).toggleClass('selected');
+            selected = row.data().TeklifNo;
         });
         $('.yenile-buton').click(function () {
             table.ajax.reload();
         });
         $('.onay-buton').click(function () {
-
-            var x = table.rows('.selected').data();
-            for (var i = 0; i < x.length; i++) {
-                secili_table.push(x[i]);
-            }
-            var _dfd = $.Deferred();
             $.ajax({
                 url: window.location.origin + "/YN/OnayBekleyenler/Teklif_Onay",
-                data: { Data: JSON.stringify(secili_table) },
-                type: "post",
-
+                data: { "ID": selected, "Onay": true },
+                dataType: "json",
                 success: function (data) {
                     if (data.Status == true) {
                         Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "Guncel");
-                        setTimeout(function () { window.location.reload(); }, 500);
+                        table.ajax.reload();
                     }
-                    else {
-                        if (data.Message == "") data.Message = "Hata oluştu";
-                        Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
-                        setTimeout(function () { window.location.reload(); }, 500);
-                    }
+                    else if (data.Message != "" && data.Message != null)
+                        Modaldialog(data.Message, 'Hata', 'Tamam', 'btn-danger');
+                    else
+                        Modaldialog("Hata oldu", 'Hata', 'Tamam', 'btn-danger');
                 }
             });
-            return _dfd.promise();
         });
         $('.reddet-buton').click(function () {
-
-            var x = table.rows('.selected').data();
-            for (var i = 0; i < x.length; i++) {
-                secili_table.push(x[i]);
-            }
-            var _dfd = $.Deferred();
             $.ajax({
                 url: window.location.origin + "/YN/OnayBekleyenler/Teklif_Red",
-                data: { Data: JSON.stringify(secili_table) },
-                type: "post",
+                data: { "ID": selected, "Onay": true },
+                dataType: "json",
                 success: function (data) {
                     if (data.Status == true) {
                         Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "Guncel");
-                        setTimeout(function () { window.location.reload(); }, 500);
+                        table.ajax.reload();
                     }
-                    else {
-                        if (data.Message == "") data.Message = "Hata oluştu";
-                        Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
-                        setTimeout(function () { window.location.reload(); }, 500);
-                    }
+                    else if (data.Message != "" && data.Message != null)
+                        Modaldialog(data.Message, 'Hata', 'Tamam', 'btn-danger');
+                    else
+                        Modaldialog("Hata oldu", 'Hata', 'Tamam', 'btn-danger');
                 }
             });
-            return _dfd.promise();
         });
     });
     function newrow(id) {

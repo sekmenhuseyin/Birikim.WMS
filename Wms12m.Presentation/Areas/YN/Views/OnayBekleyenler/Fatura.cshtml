@@ -20,6 +20,7 @@
     </div>
 </div>
 @section Scripts{<script>
+    var selected = "";
     $(document).ready(function () {
         var table = $('#sample_1').DataTable({
             "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
@@ -32,7 +33,7 @@
             },
             "fixedHeader": true,
             "columns": [
-                { "data": "EvrakSeriNo" },
+                { "data": "EvrakNo" },
                 { "data": "HesapKodu" },
                 { "data": "Unvan" },
                 { "data": "Cesit", "className": "text-right" },
@@ -44,8 +45,9 @@
         $('#sample_1 tbody').on('dblclick', 'tr', function () {
             var tr = $(this).closest('tr');
             var row = table.row(tr);
-            editInModal2('/YN/OnayBekleyenler/Fatura_Details', { ID: row.data().EvrakSeriNo })
+            editInModal2('/YN/OnayBekleyenler/Fatura_Details', { ID: row.data().EvrakNo })
             $('#modalEditPage').modal('toggle');
+            selected = row.data().EvrakNo;
         });
         $('.yenile-buton').click(function () {
             table.ajax.reload();
@@ -54,7 +56,7 @@
             $.ajax({
                 type: 'POST',
                 url: '/YN/OnayBekleyenler/Fatura_Onay',
-                data: { "ID": 0, "Onay": true },
+                data: { "ID": selected, "Onay": true },
                 dataType: "json",
                 success: function (data) {
                     if (data.Status == true)
@@ -73,7 +75,7 @@
             $.ajax({
                 type: 'POST',
                 url: '/YN/OnayBekleyenler/Fatura_Onay',
-                data: { "ID": 0, "Onay": false },
+                data: { "ID": selected, "Onay": false },
                 dataType: "json",
                 success: function (data) {
                     if (data.Status == true)
