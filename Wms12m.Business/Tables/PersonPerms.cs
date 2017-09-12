@@ -98,7 +98,7 @@ namespace Wms12m.Business
         /// </summary>
         public override List<UserDetail> GetList()
         {
-            return db.UserDetails.Where(m=>m.Depo != null).ToList();
+            return db.UserDetails.ToList();
         }
         /// <summary>
         /// yetkiye sahip kişiler
