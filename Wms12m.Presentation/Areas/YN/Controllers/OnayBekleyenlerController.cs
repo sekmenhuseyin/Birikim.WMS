@@ -225,14 +225,12 @@ namespace Wms12m.Presentation.Areas.YN.Controllers
         {
             using (YNSEntities dby = new YNSEntities())
             {
-                var list = dby.Database.SqlQuery<frmOnayFatura>(string.Format(@"SELECT        YNS{0}.TempFatura.EvrakNo, YNS{0}.TempFatura.SiraNo, YNS{0}.TempFatura.HesapKodu, YNS{0}.TempFatura.UrunKodu AS MalKodu, YNS{0}.TempFatura.Depo, COUNT(YNS{0}.TempFatura.ID) AS Çeşit, 
-                                                                                                 SUM(YNS{0}.TempFatura.Miktar) AS Miktar, YNS{0}.TempFatura.Kaydeden, YNS{0}.TempFatura.KayitTarih, YNS{0}.CAR002.CAR002_Unvan1 AS Unvan, YNS{0}.STK004.STK004_Aciklama AS MalAdi
+                var list = dby.Database.SqlQuery<frmOnayFatura>(string.Format(@"SELECT        YNS{0}.TempFatura.EvrakNo, YNS{0}.TempFatura.HesapKodu, YNS{0}.TempFatura.Depo, COUNT(YNS{0}.TempFatura.ID) AS Çeşit, 
+                                                                                                 SUM(YNS{0}.TempFatura.Miktar) AS Miktar, YNS{0}.TempFatura.Kaydeden, YNS{0}.TempFatura.KayitTarih, YNS{0}.CAR002.CAR002_Unvan1 AS Unvan
                                                                         FROM            YNS{0}.TempFatura INNER JOIN
-                                                                                                 YNS{0}.CAR002 ON YNS{0}.TempFatura.HesapKodu = YNS{0}.CAR002.CAR002_HesapKodu INNER JOIN
-                                                                                                 YNS{0}.STK004 ON YNS{0}.TempFatura.UrunKodu = YNS{0}.STK004.STK004_MalKodu
+                                                                                                 YNS{0}.CAR002 ON YNS{0}.TempFatura.HesapKodu = YNS{0}.CAR002.CAR002_HesapKodu
                                                                         WHERE        (YNS{0}.TempFatura.IslemDurumu = 0)
-                                                                        GROUP BY YNS{0}.TempFatura.EvrakNo, YNS{0}.TempFatura.SiraNo, YNS{0}.TempFatura.HesapKodu, YNS{0}.TempFatura.UrunKodu, YNS{0}.TempFatura.Depo, YNS{0}.TempFatura.Kaydeden, 
-                                                                                                 YNS{0}.TempFatura.KayitTarih, YNS{0}.CAR002.CAR002_Unvan1, YNS{0}.STK004.STK004_Aciklama", "0TEST")).ToList();
+                                                                        GROUP BY YNS{0}.TempFatura.EvrakNo, YNS{0}.TempFatura.HesapKodu, YNS{0}.TempFatura.Depo, YNS{0}.TempFatura.Kaydeden, YNS{0}.TempFatura.KayitTarih, YNS{0}.CAR002.CAR002_Unvan1", "0TEST")).ToList();
                 var json = new JavaScriptSerializer().Serialize(list);
                 return json;
             }
