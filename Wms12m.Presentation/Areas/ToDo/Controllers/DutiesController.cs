@@ -4,7 +4,6 @@ using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Web.Mvc;
-using System.Web.Script.Serialization;
 using Wms12m.Entity;
 using Wms12m.Entity.Models;
 
@@ -206,7 +205,10 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         public JsonResult Delete(string Id)
         {
             Gorevler gorev = db.Gorevlers.Find(Id.ToInt32());
-            db.Gorevlers.Remove(gorev);
+            gorev.AktifPasif = false;
+
+            db.Database.ExecuteSqlCommand(string.Format("UPDATE [BIRIKIM].[ong].[GorevTodoList] SET AktifPasif=0 WHERE  GorevID = {0}", Id.ToInt32()));
+
             db.SaveChanges();
 
             Result _Result = new Result(true, Id.ToInt32());
@@ -252,7 +254,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
 
         }
 
-       
+
 
     }
 }

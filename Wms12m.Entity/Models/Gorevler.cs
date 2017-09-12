@@ -41,10 +41,12 @@ namespace Wms12m.Entity.Models
         public System.DateTime KayitTarih { get; set; }
         public string Degistiren { get; set; }
         public System.DateTime DegisTarih { get; set; }
+        public bool AktifPasif { get; set; }
 
         public string[] work { get; set; }
         public int[] todo { get; set; }
         public string silinenler { get; set; }
+
 
         public virtual ComboItem_Name ComboItem_Name { get; set; }
         public virtual ComboItem_Name ComboItem_Name1 { get; set; }

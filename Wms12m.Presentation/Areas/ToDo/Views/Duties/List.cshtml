@@ -10,25 +10,26 @@
     </div>
     <div class="portlet-body form p-40">
         <table class="table table-bordered table-striped table-condensed" id="sample_1">
-            <thead class="flip-content" ><tr> 
-                       <th>Çalışma</th>                      
-                       <th>Firma</th>
-                       <th>Proje</th>
-                       <th>Form</th>
-                       <th>Görev</th>
-                       <th>Sorumlular</th>                  
-                       <th>Öncelik</th>
-                       <th>Durum</th>
-                       <th>Görev Tipi</th>
-                       <th>Departman</th>
-                       <th>Tahmini Bitiş</th>
-                       <th></th>
+            <thead class="flip-content">
+                <tr>
+                    <th>Çalışma</th>
+                    <th>Firma</th>
+                    <th>Proje</th>
+                    <th>Form</th>
+                    <th>Görev</th>
+                    <th>Sorumlular</th>
+                    <th>Öncelik</th>
+                    <th>Durum</th>
+                    <th>Görev Tipi</th>
+                    <th>Departman</th>
+                    <th>Tahmini Bitiş</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
                 @foreach (var item in Model)
                 {
-                    <tr  data-ID="@item.ID" ondblclick="showEdit(@item.ID)">
+                    <tr data-ID="@item.ID" ondblclick="showEdit(@item.ID)">
                         <td class="details-control"></td>
                         <td nowrap>@item.ProjeForm.Musteri.Firma</td>
                         <td nowrap>@item.ProjeForm.Proje</td>
@@ -36,48 +37,56 @@
 
                         <td nowrap>@item.Gorev</td>
                         <td nowrap>
-                        @{
-                            if (item.Sorumlu2.IsNullEmpty())
-                            {
-                                @item.Sorumlu
+                            @{
+                                if (item.Sorumlu2.IsNullEmpty())
+                                {
+                                    @item.Sorumlu
+                                }
+                                else if (item.Sorumlu3.IsNullEmpty())
+                                {
+                                    @(item.Sorumlu + " - " + item.Sorumlu2)
+                                }
+                                else
+                                {
+                                    @(item.Sorumlu + " - " + item.Sorumlu2 + " - " + item.Sorumlu3)
+                                }
                             }
-                            else if (item.Sorumlu3.IsNullEmpty())
-                            {
-                                @(item.Sorumlu + " - " + item.Sorumlu2)
-                            }
-                            else
-                            {
-                                @(item.Sorumlu + " - " + item.Sorumlu2 + " - " + item.Sorumlu3)
-                            }
-                        } 
                         </td>
-                        
+
                         <td>@item.ComboItem_Name3.Name</td>
                         <td>@item.ComboItem_Name1.Name</td>
-                        <td>@if (item.ComboItem_Name2 != null) { @item.ComboItem_Name2.Name}</td>
-                        <td>@if (item.ComboItem_Name != null) { @item.ComboItem_Name.Name}</td>
-                        <td>@if (item.TahminiBitis != null) { @item.TahminiBitis.Value.ToString("dd-MM-yyyy")}</td>
-                        <td nowrap>
-                            <a class="btn btn-info" href="#modalEditPage" data-toggle="modal" onclick="editInModal('/ToDo/DutyWork/NewWork/@item.ID')"><span class="glyphicon glyphicon-floppy-save"></span>Çalışma</a>
-                            <a class="btn btn-danger" href="javascript:;" onclick="Delete('@item.ID','/ToDo/Duties/List','liste','@item.ID')"> Sil </a>
-                        </td>
-                    </tr>
-                }
+                        <td>
+                            @if (item.ComboItem_Name2 != null)
+                        { @item.ComboItem_Name2.Name}
+                    </td>
+                    <td>
+                        @if (item.ComboItem_Name != null)
+                    { @item.ComboItem_Name.Name}
+                </td>
+                <td>
+                    @if (item.TahminiBitis != null)
+                { @item.TahminiBitis.Value.ToString("dd-MM-yyyy")}
+            </td>
+            <td nowrap>
+                <a class="btn btn-info" href="#modalEditPage" data-toggle="modal" onclick="DuzenleModal('@item.AktifPasif.ToString()' , '@item.ID')"><span class="glyphicon glyphicon-floppy-save"></span>Çalışma</a>
+                <a class="btn btn-danger" href="javascript:;" onclick="SilModal('@item.AktifPasif.ToString()' ,'@item.ID')"> Sil </a>
+            </td>
+        </tr>
+                                }
             </tbody>
 
         </table>
     </div>
 </div>
 <script language="text/javascript">
-    function showEdit(ID)
-    {
+    function showEdit(ID) {
         $('#modalEditPage').modal('toggle');
-        editInModal('/ToDo/Duties/Edit/'+ID)
+        editInModal('/ToDo/Duties/Edit/' + ID)
     }
     $(document).ready(function () {
         var table = $('#sample_1').DataTable({
             "pagingType": "full_numbers",
-            "ordering": false,         
+            "ordering": false,
             "columnDefs": [
                 { "width": "50px", "targets": 0 }
             ],
@@ -93,7 +102,7 @@
                         });
                     column.data().unique().sort().each(function (d, j) { select.append('<option value="' + d + '">' + d + '</option>') });
                 });
-            },           
+            },
         });
 
         $('#sample_1 tbody').on('click', 'td.details-control', function () {
@@ -104,4 +113,27 @@
         });
 
     });
+
+    function DuzenleModal(aktif, ID) {
+        if (aktif = "False") {
+            $('#modalEditPage').modal('toggle');
+            Modaldialog("Görev aktif değil.", "Hata", "Tamam", "btn-danger");
+            return;
+        }
+        else {
+            editInModal('/ToDo/DutyWork/NewWork/' + ID);
+        }
+
+    }
+
+    function SilModal(aktif, ID) {
+        if (aktif = "False") {
+            Modaldialog("Görev aktif değil.", "Hata", "Tamam", "btn-danger");
+            return;
+        }
+        else {
+            Delete('' + ID + '', '/ToDo/Duties/List', 'liste', '' + ID + '')
+        }
+
+    }
 </script>

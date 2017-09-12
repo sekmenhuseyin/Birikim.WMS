@@ -62,7 +62,10 @@ function Modaldialog(message, title, label, className) {
         buttons: {
             cancel: {
                 label: label,
-                className: className
+                className: className,
+                callback: function () {
+               
+                }
             }
         }
     });

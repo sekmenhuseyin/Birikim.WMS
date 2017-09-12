@@ -85,6 +85,7 @@ function FunctionDelete(URL, deleteId) {
 // silme işleminde method silinecek nesne ile ilgili method belirtiyor,divname ise günceleme sonrası hangi div veya elementi güncelleyecegini belirliyor
 function Delete(deleteId, Method, DivName, extraId, URL) {
     ModalYesNoClick('Kaydı silmek istediğinizden eminmisiniz !!!', ' İşlemi', "Evet", 'btn-success', DeleteTriger, 'Hayır', 'btn-warning', null);
+    console.log("aa");
     URL = URL || DeleteFunctionUrl;
     function DeleteTriger() {
         var Status = FunctionDelete(URL, deleteId);
