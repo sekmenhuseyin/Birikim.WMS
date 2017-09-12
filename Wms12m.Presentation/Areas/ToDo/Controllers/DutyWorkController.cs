@@ -94,7 +94,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                     db.SaveChanges();
                     return Json(new Result(true, gorevCalisma.ID), JsonRequestBehavior.AllowGet);
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                 }
             }

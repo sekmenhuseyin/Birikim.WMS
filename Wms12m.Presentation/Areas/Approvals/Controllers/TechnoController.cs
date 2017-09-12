@@ -60,7 +60,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             {
                 ucretBilgi = db.Database.SqlQuery<TechnoList>(string.Format("[HR03V01].[wms].[TCH_UcretOnaySelect] @Birim='{1}', @Tip='{0}'", tip, MyGlobalVariables.Birim)).ToList();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 ucretBilgi = new List<Entity.TechnoList>();
             }
@@ -77,7 +77,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             {
                 primBilgi = db.Database.SqlQuery<TechnoList>(string.Format("[HR03V01].[wms].[TCH_PrimOnaySelect] @Birim='{1}', @Tip='{0}'", tip, MyGlobalVariables.Birim)).ToList();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 primBilgi = new List<Entity.TechnoList>();
             }
@@ -146,7 +146,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                     _Result.Message = "İşlem Başarılı ";
 
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     _Result.Status = false;
                     _Result.Message = "Hata Oluştu. ";
@@ -158,7 +158,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                     db.SaveChanges();
                     dbContextTransaction.Commit();
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     _Result.Status = false;
                     _Result.Message = "Hata Oluştu. ";
@@ -230,7 +230,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                     _Result.Message = "İşlem Başarılı ";
 
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     _Result.Status = false;
                     _Result.Message = "Hata Oluştu. ";
@@ -241,7 +241,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                     db.SaveChanges();
                     dbContextTransaction.Commit();
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     _Result.Status = false;
                     _Result.Message = "Hata Oluştu. ";
@@ -272,7 +272,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                     _Result.Message = "İşlem Başarılı ";
 
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     _Result.Status = false;
                     _Result.Message = "Hata Oluştu. ";
@@ -283,7 +283,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                     db.SaveChanges();
                     dbContextTransaction.Commit();
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     _Result.Status = false;
                     _Result.Message = "Hata Oluştu. ";
@@ -314,7 +314,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                     _Result.Message = "İşlem Başarılı ";
 
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     _Result.Status = false;
                     _Result.Message = "Hata Oluştu. ";
@@ -325,7 +325,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                     db.SaveChanges();
                     dbContextTransaction.Commit();
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     _Result.Status = false;
                     _Result.Message = "Hata Oluştu. ";

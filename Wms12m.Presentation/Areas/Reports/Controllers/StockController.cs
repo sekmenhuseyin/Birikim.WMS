@@ -201,7 +201,7 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
             {
                 sipBilgi = logdb.TumSiparisOnayLogs.Where(m => m.OnayDurumu == tip && m.DegisTarih >= bastarih && m.DegisTarih <= bittarih).ToList();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
             }

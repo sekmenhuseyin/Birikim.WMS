@@ -446,7 +446,7 @@ namespace Wms12m.Presentation.Controllers
                 _Result.Message = "İşlem Başarılı ";
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
                 _Result.Status = false;

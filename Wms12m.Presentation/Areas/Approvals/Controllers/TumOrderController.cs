@@ -117,7 +117,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                     }
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
             }
@@ -271,7 +271,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                         _Result.Status = true;
                         _Result.Message = "İşlem Başarılı ";
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
                         _Result.Status = false;
                         _Result.Message = "Hata Oluştu.";
