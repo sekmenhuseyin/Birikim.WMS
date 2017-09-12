@@ -225,7 +225,7 @@ namespace Wms12m.Presentation.Areas.YN.Controllers
         {
             using (YNSEntities dby = new YNSEntities())
             {
-                var list = dby.Database.SqlQuery<frmOnayFatura>(string.Format(@"SELECT        YNS{0}.TempFatura.EvrakNo, YNS{0}.TempFatura.HesapKodu, YNS{0}.TempFatura.Depo, COUNT(YNS{0}.TempFatura.ID) AS Çeşit, 
+                var list = dby.Database.SqlQuery<frmOnayFatura>(string.Format(@"SELECT        YNS{0}.TempFatura.EvrakNo, YNS{0}.TempFatura.HesapKodu, YNS{0}.TempFatura.Depo, COUNT(YNS{0}.TempFatura.ID) AS Cesit, 
                                                                                                  SUM(YNS{0}.TempFatura.Miktar) AS Miktar, YNS{0}.TempFatura.Kaydeden, YNS{0}.TempFatura.KayitTarih, YNS{0}.CAR002.CAR002_Unvan1 AS Unvan
                                                                         FROM            YNS{0}.TempFatura INNER JOIN
                                                                                                  YNS{0}.CAR002 ON YNS{0}.TempFatura.HesapKodu = YNS{0}.CAR002.CAR002_HesapKodu
@@ -264,7 +264,7 @@ namespace Wms12m.Presentation.Areas.YN.Controllers
         {
             using (YNSEntities dby = new YNSEntities())
             {
-                var list = dby.Database.SqlQuery<frmOnaySiparisList>(string.Format(@"SELECT        YNS{0}.TempFatura.ID, YNS{0}.TempFatura.EvrakNo, YNS{0}.TempFatura.SiraNo, YNS{0}.TempFatura.HesapKodu, YNS{0}.TempFatura.UrunKodu AS MalKodu, YNS{0}.TempFatura.Depo, 
+                var list = dby.Database.SqlQuery<frmOnayFatura>(string.Format(@"SELECT        YNS{0}.TempFatura.ID, YNS{0}.TempFatura.EvrakNo, YNS{0}.TempFatura.SiraNo, YNS{0}.TempFatura.HesapKodu, YNS{0}.TempFatura.UrunKodu AS MalKodu, YNS{0}.TempFatura.Depo, 
                                                                                                          YNS{0}.TempFatura.ParaCinsi, YNS{0}.TempFatura.Birim, YNS{0}.TempFatura.Miktar, YNS{0}.TempFatura.Fiyat, YNS{0}.TempFatura.IslemDurumu, YNS{0}.TempFatura.Kaydeden, 
                                                                                                          YNS{0}.TempFatura.KayitTarih, YNS{0}.TempFatura.KayitSaat, YNS{0}.TempFatura.Degistiren, YNS{0}.TempFatura.DegisTarih, YNS{0}.TempFatura.DegisSaat, YNS{0}.CAR002.CAR002_Unvan1 AS Unvan, 
                                                                                                          YNS{0}.STK004.STK004_Aciklama AS MalAdi
