@@ -41,7 +41,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         {
             GorevCalisma gorevCalisma = db.GorevCalismas.Find(id);
             var ids = gorevCalisma.ToDoListID.Split(',');
-            List<GorevToDoList> grv = db.GorevToDoLists.Where(x =>((x.OnayDurum==false) && (x.AktifPasif==true) && (x.GorevID==gorevCalisma.GorevID)) || ids.Contains(x.ID.ToString())).ToList();
+            List<GorevToDoList> grv = db.GorevToDoLists.Where(x => ((x.OnayDurum == false) && (x.AktifPasif == true) && (x.GorevID == gorevCalisma.GorevID)) || ids.Contains(x.ID.ToString())).ToList();
             ViewBag.Aciklama = gorevCalisma.Calisma;
             ViewBag.GorevID = new SelectList(db.Gorevlers.Where(a => a.Sorumlu == vUser.UserName || a.Sorumlu2 == vUser.UserName || a.Sorumlu3 == vUser.UserName).ToList(), "ID", "Gorev", gorevCalisma.GorevID);
             ViewBag.TodoList = db.GorevToDoLists.Where(x => ((x.OnayDurum == false) && (x.AktifPasif == true) && (x.GorevID == gorevCalisma.GorevID)) || ids.Contains(x.ID.ToString())).ToList();
@@ -81,6 +81,20 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                     tbl.CalismaSure = gorevCalisma.CalismaSure;//
                     tbl.Calisma = gorevCalisma.Calisma;//
 
+                    for (int i = 0; i < gorevCalisma.work.Length; i++)
+                    {
+
+                        var id2 = Convert.ToInt32(gorevCalisma.todo[i]);
+                        var grv = db.GorevToDoLists.Where(m => m.ID == id2).FirstOrDefault();
+                        if (grv.OnayDurum != Convert.ToBoolean(gorevCalisma.checkitem[i]) && grv.AktifPasif != false)
+                        {
+                            grv.DegisTarih = DateTime.Now;
+                            grv.Degistiren = vUser.UserName;
+                            grv.OnayDurum = Convert.ToBoolean(gorevCalisma.checkitem[i]);
+
+
+                        }
+                    }
 
 
                 }
