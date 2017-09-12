@@ -51,8 +51,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             {
                 if (sql != "") sql += " UNION ";
                 sql += String.Format("SELECT '{0}' as SirketID, FINSAT6{0}.FINSAT6{0}.SPI.MalKodu, (FINSAT6{0}.FINSAT6{0}.SPI.BirimMiktar - FINSAT6{0}.FINSAT6{0}.SPI.TeslimMiktar - FINSAT6{0}.FINSAT6{0}.SPI.KapatilanMiktar) AS Miktar, FINSAT6{0}.FINSAT6{0}.SPI.Birim, " +
-                                            "wms.fnGetStock('{1}',FINSAT6{0}.FINSAT6{0}.SPI.MalKodu,FINSAT6{0}.FINSAT6{0}.SPI.Birim) AS WmsStok, " +
-                                            "ISNULL(DST.DvrMiktar, 0) + ISNULL(DST.GirMiktar, 0) - ISNULL(DST.CikMiktar, 0) - (SELECT ISNULL(SUM(Miktar - TeslimMiktar), 0) AS Miktar FROM FINSAT6{0}.FINSAT6{0}.DTF WITH(NOLOCK) WHERE(CikDepo = '{1}') AND (Durum = 0) AND (MalKodu = DST.MalKodu)) AS Stok " +
+                                            "FINSAT6{0}.wms.getStockByDepo(FINSAT6{0}.FINSAT6{0}.STK.MalKodu, '{1}') as Stok, wms.fnGetStock('{1}',FINSAT6{0}.FINSAT6{0}.SPI.MalKodu,FINSAT6{0}.FINSAT6{0}.SPI.Birim) AS WmsStok " +
                                     "FROM FINSAT6{0}.FINSAT6{0}.SPI WITH(NOLOCK) INNER JOIN " +
                                             "FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) ON FINSAT6{0}.FINSAT6{0}.SPI.MalKodu = FINSAT6{0}.FINSAT6{0}.STK.MalKodu LEFT OUTER JOIN " +
                                             "FINSAT6{0}.FINSAT6{0}.DST WITH(NOLOCK) ON FINSAT6{0}.FINSAT6{0}.STK.MalKodu =FINSAT6{0}. FINSAT6{0}.DST.MalKodu AND FINSAT6{0}.FINSAT6{0}.DST.Depo = '{1}' " +
