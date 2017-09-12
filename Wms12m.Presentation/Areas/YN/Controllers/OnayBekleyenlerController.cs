@@ -1,6 +1,4 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using System;
+﻿using System;
 using System.Linq;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
@@ -81,7 +79,8 @@ namespace Wms12m.Presentation.Areas.YN.Controllers
             }
             catch (Exception ex)
             {
-                return Json(new Result(false, ex.Message), JsonRequestBehavior.AllowGet);
+                Logger(ex, "YN/OnayBekleyenler/Siparis_Onay");
+                return Json(new Result(false, "Hata Oluştu"), JsonRequestBehavior.AllowGet);
             }
         }
         #endregion
@@ -135,85 +134,19 @@ namespace Wms12m.Presentation.Areas.YN.Controllers
         /// teklif onay
         /// </summary>
         [HttpPost]
-        public JsonResult Teklif_Onay(string Data)
+        public JsonResult Teklif_Onay(string ID, bool Onay)
         {
-
-            Result _Result = new Result(true);
-
-
-            JArray parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
-
-
             try
             {
-
-                foreach (JObject insertObj in parameters)
-                {
-
-
-
-                    db.Database.ExecuteSqlCommand(string.Format("UPDATE [YNS{0}].[YNS{0}].[Teklif] SET OnayDurumu=1 WHERE TeklifNo='{1}'", "0TEST", insertObj["TeklifNo"].ToString()));
-
-
-
-
-                }
-
-
-                _Result.Status = true;
-                _Result.Message = "İşlem Başarılı ";
-
+                using (YNSEntities dby = new YNSEntities())
+                    dby.Database.ExecuteSqlCommand(string.Format("UPDATE [YNS{0}].[YNS{0}].[Teklif] SET OnayDurumu = {1} WHERE TeklifNo='{2}'", "0TEST", Onay == true ? 1 : 2, ID));
+                return Json(new Result(true, 1), JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
-
-                _Result.Status = false;
-                _Result.Message = "Hata Oluştu. ";
-
+                Logger(ex, "YN/OnayBekleyenler/Teklif_Onay");
+                return Json(new Result(false, "Hata Oluştu"), JsonRequestBehavior.AllowGet);
             }
-            return Json(_Result, JsonRequestBehavior.AllowGet);
-        }
-        /// <summary>
-        /// teklif ret
-        /// </summary>
-        [HttpPost]
-        public JsonResult Teklif_Red(string Data)
-        {
-
-            Result _Result = new Result(true);
-
-
-            JArray parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
-
-
-
-            try
-            {
-
-                foreach (JObject insertObj in parameters)
-                {
-
-
-                    db.Database.ExecuteSqlCommand(string.Format("UPDATE [YNS{0}].[YNS{0}].[Teklif] SET OnayDurumu=2 WHERE TeklifNo='{1}'", "0TEST", insertObj["TeklifNo"].ToString()));
-
-
-
-
-                }
-
-
-                _Result.Status = true;
-                _Result.Message = "İşlem Başarılı ";
-
-            }
-            catch (Exception ex)
-            {
-
-                _Result.Status = false;
-                _Result.Message = "Hata Oluştu. ";
-
-            }
-            return Json(_Result, JsonRequestBehavior.AllowGet);
         }
         #endregion
         #region Transfer
@@ -267,24 +200,15 @@ namespace Wms12m.Presentation.Areas.YN.Controllers
             try
             {
                 using (YNSEntities dby = new YNSEntities())
-                {
-                    if (Onay == true)
-                    {
-                        dby.Database.ExecuteSqlCommand(string.Format(@"UPDATE YNS{0}.TransferDepo SET OnayDurumu = 1 WHERE (TransferNo IN ({1}))", "0TEST", ID));
-                    }
-                    else
-                    {
-                        dby.Database.ExecuteSqlCommand(string.Format(@"UPDATE YNS{0}.TransferDepo SET OnayDurumu = 2 WHERE (TransferNo IN ({1}))", "0TEST", ID));
-                    }
-                }
-                return Json(new Result(true), JsonRequestBehavior.AllowGet);
+                    dby.Database.ExecuteSqlCommand(string.Format(@"UPDATE YNS{0}.TransferDepo SET OnayDurumu = {1} WHERE (TransferNo IN ({2}))", "0TEST", Onay == true ? 1 : 2, ID));
+                return Json(new Result(true, 1), JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
-                return Json(new Result(false, ex.Message), JsonRequestBehavior.AllowGet);
+                Logger(ex, "YN/OnayBekleyenler/Transfer_Onay");
+                return Json(new Result(false, "Hata Oluştu"), JsonRequestBehavior.AllowGet);
             }
         }
-
         #endregion
         #region Fatura
         /// <summary>
@@ -301,8 +225,30 @@ namespace Wms12m.Presentation.Areas.YN.Controllers
         {
             using (YNSEntities dby = new YNSEntities())
             {
-                var json = new JavaScriptSerializer().Serialize("");
+                var list = dby.TempFaturas.Where(m => m.IslemDurumu == 0).ToList();
+                var json = new JavaScriptSerializer().Serialize(list);
                 return json;
+            }
+        }
+        /// <summary>
+        /// Fatura onay
+        /// </summary>
+        [HttpPost]
+        public JsonResult Fatura_Onay(string ID, bool Onay)
+        {
+            try
+            {
+                using (YNSEntities dby = new YNSEntities())
+                {
+
+                    dby.Database.ExecuteSqlCommand(string.Format("UPDATE [YNS{0}].[YNS{0}].[TempFatura] SET IslemDurumu={1} WHERE EvrakNo='{2}'", "0TEST", Onay == true ? 1 : 2, ID));
+                }
+                return Json(new Result(true, 1), JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Logger(ex, "YN/OnayBekleyenler/Fatura_Onay");
+                return Json(new Result(false, "Hata Oluştu"), JsonRequestBehavior.AllowGet);
             }
         }
         #endregion
