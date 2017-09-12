@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
@@ -33,8 +32,8 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
 
         public PartialViewResult List()
         {
-            var gorevCalismas = db.GorevCalismas.Include(g => g.Gorevler);
-            return PartialView(gorevCalismas.Where(a => a.Gorevler.Sorumlu == vUser.UserName || a.Gorevler.Sorumlu2 == vUser.UserName || a.Gorevler.Sorumlu3 == vUser.UserName).ToList());
+            List<GorevCalisma> gorevCalismas = db.GorevCalismas.Where(a => a.Gorevler.Sorumlu == vUser.UserName || a.Gorevler.Sorumlu2 == vUser.UserName || a.Gorevler.Sorumlu3 == vUser.UserName).ToList();
+            return PartialView(gorevCalismas);
         }
 
         public PartialViewResult Edit(int? id)
@@ -80,10 +79,10 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                     tbl.Tarih = gorevCalisma.Tarih;//
                     tbl.CalismaSure = gorevCalisma.CalismaSure;//
                     tbl.Calisma = gorevCalisma.Calisma;//
-
+                    tbl.ToDoListID = "";
                     for (int i = 0; i < gorevCalisma.work.Length; i++)
                     {
-
+                        tbl.ToDoListID += gorevCalisma.todo[i] + ",";
                         var id2 = Convert.ToInt32(gorevCalisma.todo[i]);
                         var grv = db.GorevToDoLists.Where(m => m.ID == id2).FirstOrDefault();
                         if (grv.OnayDurum != Convert.ToBoolean(gorevCalisma.checkitem[i]) && grv.AktifPasif != false)
@@ -124,10 +123,24 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
 
         }
 
-        public string GorevToDoList(int ID)
+        public string GorevToDoList()
         {
-            var grvToDO = db.GorevToDoLists.Where(m => m.GorevID == ID).ToList();
-            var json = new JavaScriptSerializer().Serialize(grvToDO);
+            var id = Url.RequestContext.RouteData.Values["id"];
+            var ID = id.ToInt32();
+            List<GorevToDoList> grvToDO = db.GorevToDoLists.Where(m => m.GorevID == ID).ToList();
+            List<frmGorevTodos> aa = new List<frmGorevTodos>();
+            foreach (GorevToDoList item in grvToDO)
+            {
+                frmGorevTodos a = new frmGorevTodos();
+                a.ID = item.ID;
+                a.AktifPasif = item.AktifPasif;
+                a.Aciklama = item.Aciklama;
+                a.OnayDurum = item.OnayDurum;
+
+                aa.Add(a);
+
+            }
+            var json = new JavaScriptSerializer().Serialize(aa);
             return json;
 
         }
