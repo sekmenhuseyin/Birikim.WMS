@@ -10,7 +10,7 @@
                 <td></td>
                 <td>@item.User.Kod</td>
                 <td>@item.User.AdSoyad</td>
-                <td>@item.Depo.DepoAd</td>
+                <td>@if (item.Depo != null) { @item.Depo.DepoAd }</td>
                 <td>@item.SatisIrsaliyeSeri</td>
                 <td>@item.SatisFaturaSeri</td>
                 <td>@item.TransferOutSeri</td>
