@@ -19,7 +19,7 @@
                 <td>@if (item.MakaraDurum == false) { <text>Açık</text> } else { <text>Kapalı</text> }</td>
                 <td align="right">@String.Format("{0:n}", item.Miktar)</td>
                 <td>@item.Birim</td>
-                <td><button class="btn btn-default btn-sm" type="button" onclick="SelectMakara(@item.ID, @ViewBag.satir,'@item.MakaraNo');">Seç</button></td>
+                <td><button class="btn btn-default btn-sm" type="button" onclick="SelectMakara(@item.ID, @ViewBag.satir,'@item.MakaraNo', '@item.Miktar');">Seç</button></td>
             </tr>
         }
     </tbody>
