@@ -171,6 +171,8 @@
     var Form = '@ViewBag.Form';
     var ID = '@ViewBag.ID';
     var PFID = '@ViewBag.PFID';
+    //$("#ddSorumlu2").prepend("<option value=''>Seçiniz !!!</option>"); 
+    //$("#ddSorumlu3").prepend("<option value=''>Seçiniz !!!</option>"); 
     $(".silinenler").dxTextBox();
     $(".silinenler").dxTextBox("instance").option({ name: "silinenler"});
    var model = @Html.Raw(Json.Encode(Model.GorevToDoLists.Select(m=> new frmGorevTodos { ID=m.ID, Aciklama=m.Aciklama, AktifPasif=m.AktifPasif }).ToList()));
