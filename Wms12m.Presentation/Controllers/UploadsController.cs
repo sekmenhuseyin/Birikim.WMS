@@ -68,25 +68,31 @@ namespace Wms12m.Presentation.Controllers
                     _result.Message = "Mal kodu yanlış";
                     if (malkodu == "" || malkodu == null) return Json(_result, JsonRequestBehavior.AllowGet);
                     //check if gorev
-                    var kontrol1 = db.IRS.Where(m => m.EvrakNo == dr["İrsaliye No"].ToString() && m.IslemTur == false).FirstOrDefault();
-                    if (kontrol1 != null)
                     {
-                        return Json(new Result(false, 0, "Bu irsaliye daha önce kaydedilmiş."), JsonRequestBehavior.AllowGet);
-                    }
-                    else
-                    {
-                        gorevno = db.SettingsGorevNo(tarih, DID).FirstOrDefault();
                     }
                     //add irsaliye and gorev
-                    sonuc = db.InsertIrsaliye(SID, DID, gorevno, dr["İrsaliye No"].ToString(), tarih, "", false, ComboItems.MalKabul.ToInt32(), vUser.UserName, tarih, fn.ToOATime(), Hesap, "", 0, "").FirstOrDefault();
                     if (evraklar.Contains(dr["İrsaliye No"].ToString()) == false)
                     {
                         if (evraklar != "") evraklar += ",";
                         evraklar += dr["İrsaliye No"].ToString();
+                        gorevno = db.Gorevs.Where(m => m.IR.EvrakNo == dr["İrsaliye No"].ToString() && m.IR.IslemTur == false).Select(m => m.GorevNo).FirstOrDefault();
                     }
+                    else//daha önce eklenmeyen bir irsaliye ise
+                    {
+                        var kontrol1 = db.Gorevs.Where(m => m.IR.EvrakNo == dr["İrsaliye No"].ToString() && m.IR.IslemTur == false && (m.DurumID == 9 || m.DurumID == 11)).FirstOrDefault();
+                        if (kontrol1 != null)
+                            return Json(new Result(false, 0, kontrol1.IR.EvrakNo + " nolu irsaliye daha önce kaydedilmiş."), JsonRequestBehavior.AllowGet);
+                        else
+                            gorevno = db.SettingsGorevNo(tarih, DID).FirstOrDefault();
+                    }
+                    sonuc = db.InsertIrsaliye(SID, DID, gorevno, dr["İrsaliye No"].ToString(), tarih, "", false, ComboItems.MalKabul.ToInt32(), vUser.UserName, tarih, fn.ToOATime(), Hesap, "", 0, "").FirstOrDefault();
                     //add detays
                     try
                     {
+                        //malkodu kontrol
+                        var kontrol2 = db.IRS_Detay.Where(m => m.MalKodu == malkodu && m.IR.EvrakNo == dr["İrsaliye No"].ToString() && m.IR.IslemTur == false).FirstOrDefault();
+                        if (kontrol2 != null)
+                            return Json(new Result(false, 0, kontrol2.IR.EvrakNo + " nolu irsaliyeye daha önce " + malkodu + " eklenmiş."), JsonRequestBehavior.AllowGet);
                         //irs detay
                         IRS_Detay sti = new IRS_Detay()
                         {

@@ -1,8 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
-using System.Collections.Generic;
-using System.Configuration;
 using System.Linq;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
@@ -13,6 +11,7 @@ namespace Wms12m.Presentation.Areas.YN.Controllers
 {
     public class OnayBekleyenlerController : RootController
     {
+        #region Sipariş
         /// <summary>
         /// sipariş onayı bekleyenler sayfası
         /// </summary>
@@ -39,128 +38,6 @@ namespace Wms12m.Presentation.Areas.YN.Controllers
                 return json;
             }
         }
-
-        public ActionResult Teklif()
-        {
-
-            return View("Teklif");
-        }
-
-        public string Teklif_List()
-        {
-            using (YNSEntities dby = new YNSEntities())
-            {
-                var list = dby.Database.SqlQuery<frmOnayTeklifList>(string.Format(@"SELECT TeklifNo,HesapKodu,COUNT(MalKodu) AS Cesit,
-                                                                                    SUM(Miktar) AS Miktar,Kaydeden,
-                                                                                    CONVERT(VARCHAR(15), CAST(KayitTarih - 2 AS datetime), 104) AS KayitTarihi,
-                                                                                    CONVERT(VARCHAR(15), CAST(TeklifTarihi - 2 AS datetime), 104) AS TeklifTarihi
-                                                                                      FROM [YNS{0}].[YNS{0}].[Teklif]
-                                                                                      GROUP BY TeklifNo,TeklifTarihi,HesapKodu,KayitTarih,Kaydeden", "0TEST")).ToList();
-                var json = new JavaScriptSerializer().Serialize(list);
-                return json;
-            }
-        }
-
-        [HttpPost]
-        public PartialViewResult Teklif_Details(string ID)
-        {
-            using (YNSEntities dby = new YNSEntities())
-            {
-                var list = dby.Database.SqlQuery<frmOnayTeklifListDetay>(string.Format(@"SELECT TeklifNo,HesapKodu,
-                                                                                YNS{0}.CAR002.CAR002_Unvan1 AS Unvan,
-                                                                                Miktar AS Miktar,Kaydeden,MalKodu,STK004_Aciklama AS MalAdi,
-                                                                                Fiyat,Tutar,DovizCinsi,
-                                                                                CONVERT(VARCHAR(15), CAST(KayitTarih - 2 AS datetime), 104) AS KayitTarihi
-                                                                                  FROM [YNS{0}].[YNS{0}].[Teklif] 
-                                                                                  INNER JOIN
-                                                                                  YNS{0}.CAR002 ON HesapKodu = YNS{0}.CAR002.CAR002_HesapKodu
-                                                                                  INNER JOIN
-                                                                                  YNS{0}.STK004 ON MalKodu = YNS{0}.STK004.STK004_MalKodu WHERE TeklifNo='{1}'", "0TEST", ID)).ToList();
-                return PartialView("Teklif_Details", list);
-            }
-        }
-
-
-        [HttpPost]
-        public JsonResult Teklif_Onay(string Data)
-        {
-
-            Result _Result = new Result(true);
-            
-
-            JArray parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
-
-
-            try
-            {
-                
-                foreach (JObject insertObj in parameters)
-                {
-
-
-                   
-                    db.Database.ExecuteSqlCommand(string.Format("UPDATE [YNS{0}].[YNS{0}].[Teklif] SET OnayDurumu=1 WHERE TeklifNo='{1}'", "0TEST", insertObj["TeklifNo"].ToString()));
-
-
-
-
-                }
-
-
-                _Result.Status = true;
-                _Result.Message = "İşlem Başarılı ";
-
-            }
-            catch (Exception ex)
-            {
-
-                _Result.Status = false;
-                _Result.Message = "Hata Oluştu. ";
-
-            }
-            return Json(_Result, JsonRequestBehavior.AllowGet);
-        }
-
-        [HttpPost]
-        public JsonResult Teklif_Red(string Data)
-        {
-
-            Result _Result = new Result(true);
-           
-
-            JArray parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
-
-           
-
-            try
-            {
-
-                foreach (JObject insertObj in parameters)
-                {
-
-                    
-                    db.Database.ExecuteSqlCommand(string.Format("UPDATE [YNS{0}].[YNS{0}].[Teklif] SET OnayDurumu=2 WHERE TeklifNo='{1}'", "0TEST", insertObj["TeklifNo"].ToString()));
-
-
-
-
-                }
-
-
-                _Result.Status = true;
-                _Result.Message = "İşlem Başarılı ";
-
-            }
-            catch (Exception ex)
-            {
-
-                _Result.Status = false;
-                _Result.Message = "Hata Oluştu. ";
-
-            }
-            return Json(_Result, JsonRequestBehavior.AllowGet);
-        }
-
         /// <summary>
         /// liste detayı
         /// </summary>
@@ -179,9 +56,6 @@ namespace Wms12m.Presentation.Areas.YN.Controllers
                 return PartialView("Siparis_Details", list);
             }
         }
-
-
-
         /// <summary>
         /// onayla veya reddet
         /// </summary>
@@ -210,6 +84,139 @@ namespace Wms12m.Presentation.Areas.YN.Controllers
                 return Json(new Result(false, ex.Message), JsonRequestBehavior.AllowGet);
             }
         }
+        #endregion
+        #region Teklif
+        /// <summary>
+        /// teklif onay lsayfası
+        /// </summary>
+        public ActionResult Teklif()
+        {
+            return View("Teklif");
+        }
+        /// <summary>
+        /// teklif onay listesi
+        /// </summary>
+        public string Teklif_List()
+        {
+            using (YNSEntities dby = new YNSEntities())
+            {
+                var list = dby.Database.SqlQuery<frmOnayTeklifList>(string.Format(@"SELECT TeklifNo,HesapKodu,COUNT(MalKodu) AS Cesit,
+                                                                                    SUM(Miktar) AS Miktar,Kaydeden,
+                                                                                    CONVERT(VARCHAR(15), CAST(KayitTarih - 2 AS datetime), 104) AS KayitTarihi,
+                                                                                    CONVERT(VARCHAR(15), CAST(TeklifTarihi - 2 AS datetime), 104) AS TeklifTarihi
+                                                                                      FROM [YNS{0}].[YNS{0}].[Teklif]
+                                                                                      GROUP BY TeklifNo,TeklifTarihi,HesapKodu,KayitTarih,Kaydeden", "0TEST")).ToList();
+                var json = new JavaScriptSerializer().Serialize(list);
+                return json;
+            }
+        }
+        /// <summary>
+        /// teklif detayları
+        /// </summary>
+        [HttpPost]
+        public PartialViewResult Teklif_Details(string ID)
+        {
+            using (YNSEntities dby = new YNSEntities())
+            {
+                var list = dby.Database.SqlQuery<frmOnayTeklifListDetay>(string.Format(@"SELECT TeklifNo,HesapKodu,
+                                                                                YNS{0}.CAR002.CAR002_Unvan1 AS Unvan,
+                                                                                Miktar AS Miktar,Kaydeden,MalKodu,STK004_Aciklama AS MalAdi,
+                                                                                Fiyat,Tutar,DovizCinsi,
+                                                                                CONVERT(VARCHAR(15), CAST(KayitTarih - 2 AS datetime), 104) AS KayitTarihi
+                                                                                  FROM [YNS{0}].[YNS{0}].[Teklif] 
+                                                                                  INNER JOIN
+                                                                                  YNS{0}.CAR002 ON HesapKodu = YNS{0}.CAR002.CAR002_HesapKodu
+                                                                                  INNER JOIN
+                                                                                  YNS{0}.STK004 ON MalKodu = YNS{0}.STK004.STK004_MalKodu WHERE TeklifNo='{1}'", "0TEST", ID)).ToList();
+                return PartialView("Teklif_Details", list);
+            }
+        }
+        /// <summary>
+        /// teklif onay
+        /// </summary>
+        [HttpPost]
+        public JsonResult Teklif_Onay(string Data)
+        {
+
+            Result _Result = new Result(true);
+
+
+            JArray parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
+
+
+            try
+            {
+
+                foreach (JObject insertObj in parameters)
+                {
+
+
+
+                    db.Database.ExecuteSqlCommand(string.Format("UPDATE [YNS{0}].[YNS{0}].[Teklif] SET OnayDurumu=1 WHERE TeklifNo='{1}'", "0TEST", insertObj["TeklifNo"].ToString()));
+
+
+
+
+                }
+
+
+                _Result.Status = true;
+                _Result.Message = "İşlem Başarılı ";
+
+            }
+            catch (Exception ex)
+            {
+
+                _Result.Status = false;
+                _Result.Message = "Hata Oluştu. ";
+
+            }
+            return Json(_Result, JsonRequestBehavior.AllowGet);
+        }
+        /// <summary>
+        /// teklif ret
+        /// </summary>
+        [HttpPost]
+        public JsonResult Teklif_Red(string Data)
+        {
+
+            Result _Result = new Result(true);
+
+
+            JArray parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
+
+
+
+            try
+            {
+
+                foreach (JObject insertObj in parameters)
+                {
+
+
+                    db.Database.ExecuteSqlCommand(string.Format("UPDATE [YNS{0}].[YNS{0}].[Teklif] SET OnayDurumu=2 WHERE TeklifNo='{1}'", "0TEST", insertObj["TeklifNo"].ToString()));
+
+
+
+
+                }
+
+
+                _Result.Status = true;
+                _Result.Message = "İşlem Başarılı ";
+
+            }
+            catch (Exception ex)
+            {
+
+                _Result.Status = false;
+                _Result.Message = "Hata Oluştu. ";
+
+            }
+            return Json(_Result, JsonRequestBehavior.AllowGet);
+        }
+        #endregion
+        #region Transfer
         /// <summary>
         /// transfer onayı bekleyenler sayfası
         /// </summary>
@@ -277,5 +284,27 @@ namespace Wms12m.Presentation.Areas.YN.Controllers
                 return Json(new Result(false, ex.Message), JsonRequestBehavior.AllowGet);
             }
         }
+
+        #endregion
+        #region Fatura
+        /// <summary>
+        /// Fatura onayı bekleyenler sayfası
+        /// </summary>
+        public ActionResult Fatura()
+        {
+            return View("Fatura");
+        }
+        /// <summary>
+        /// Fatura onayı bekleyenler listesi
+        /// </summary>
+        public string Fatura_List()
+        {
+            using (YNSEntities dby = new YNSEntities())
+            {
+                var json = new JavaScriptSerializer().Serialize("");
+                return json;
+            }
+        }
+        #endregion
     }
 }
