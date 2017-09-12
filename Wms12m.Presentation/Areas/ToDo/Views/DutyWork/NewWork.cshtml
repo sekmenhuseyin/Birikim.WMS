@@ -68,65 +68,43 @@
 
 <script type="text/javascript">
     sayac = 1;
+     var model = @Html.Raw(Json.Encode(Model.Gorevler.GorevToDoLists.Select(m=> new frmGorevTodos { ID=m.ID, Aciklama=m.Aciklama, AktifPasif=m.AktifPasif, OnayDurum=m.OnayDurum }).ToList()));
+     $.each(model, function (indexx, value) {
+         console.log(model);
+         if (value.AktifPasif == true && value.OnayDurum == false) {
+             var index = sayac++;
+             var newElement = "";
+             newElement = $("<div>").addClass("form-group row todo-content");
+             newElement.append("<div class='todo-text todo-id" + index + "' style='display:none'></div><div class='checkitem" + index + " col-md-1' style='text-align:right;margin-top: 15px;'></div></div><div class='col-md-10'><div class='txt-aciklama work-" + index + "' style='border-color: #ece7e7'></div></div>");
+             newElement.addClass("index" + index);
+             if (index == 1) {
+                 newElement.insertAfter(".pointer");
+             }
+             else {
+                 newElement.insertAfter(".todo-content:last");
+             }
+
+             $(".work-" + index).dxTextArea();
+             $(".work-" + index).dxTextArea("instance").option({ name: "work", value: value.Aciklama, maxHeight: 80, readOnly: true });
+             $(".todo-id" + index).dxTextBox();
+             $(".todo-id" + index).dxTextBox("instance").option({ name: "todo", value: value.ID });
+             $(".checkitem" + index).dxCheckBox({
+                 value: false,
+                 onValueChanged: function (e) {
+
+                 }
+             });
+             $(".checkitem" + index).dxCheckBox("instance").option({ name: "checkitem" });
+         }
+     });
+
     $(document).ready(function () {
         $('.date-picker').datepicker();
 
     });
-    var aciklama = "@Html.Raw(ViewBag.Aciklama)";
-    aciklama = aciklama.split("12MConsulting12MDA");
-    aciklama.splice(aciklama.length - 1, 1);
-    $.each(aciklama, function (index, value) {
-        var index = sayac++;
-        var deger = "";
-        var newElement = "";
-        console.log(value.substring(0, 5));
-        if (value.substring(0,5) == "FFFFF") {
-            deger = false;
-            newElement = $("<div>").addClass("form-group row todo-content");
-        }
-        else {
-            deger = true
-            newElement = $("<div>").addClass("form-group row todo-content ro-item");
-        }
-        
 
-        //newElement = $("<div>").addClass("form-group row todo-content");
-        newElement.append("<div class='control-label col-md-1'><div class='eskiyeni" + index + "'></div><div class='checkitem" + index + "'></div></div><div class='col-md-10'><div class='txt-aciklama work-" + index + "' style='border-color: #ece7e7'></div></div>");
-        newElement.addClass("index" + index);
-        if (index == 1) {
-            newElement.insertAfter(".pointer");
-        }
-        else {
-            newElement.insertAfter(".todo-content:last");
-        }
-        
-        $(".work-" + index).dxTextArea();
-        $(".work-" + index).dxTextArea("instance").option({ name: "work", value: value.substring(5), maxHeight: 80, readOnly:true});
-        $(".checkitem"+index).dxCheckBox({
-            value: deger,
-            onValueChanged: function (e) {
-
-            }
-        });
-        $(".checkitem" + index).dxCheckBox("instance").option({ name: "checkitem" });
-        $(".eskiyeni" + index).dxCheckBox({
-            value: deger,
-            onValueChanged: function (e) {
-
-            }
-        });
-        $(".eskiyeni" + index).dxCheckBox("instance").option({ name: "eskiyeni" });
-        $(".eskiyeni" + index).css("display", "none");
-
-        if (value.substring(0, 5) == "FFFFF") {
-            deger = false;
-        }
-        else {
-            deger = true
-        }
-    });
     $(".ro-item").css("display", "none");
-    
+
     function CreateEditNewWork(Id) {
         if (Id == 0) {
             $("#ID").val("0");
