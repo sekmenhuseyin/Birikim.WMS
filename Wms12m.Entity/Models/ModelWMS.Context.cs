@@ -48,9 +48,7 @@ namespace Wms12m.Entity.Models
         public virtual DbSet<Combo_Name> Combo_Name { get; set; }
         public virtual DbSet<ComboItem_Name> ComboItem_Name { get; set; }
         public virtual DbSet<Role> Roles { get; set; }
-        public virtual DbSet<GorevCalisma> GorevCalismas { get; set; }
         public virtual DbSet<UserDevice> UserDevices { get; set; }
-        public virtual DbSet<Gorevler> Gorevlers { get; set; }
         public virtual DbSet<Musteri> Musteris { get; set; }
         public virtual DbSet<ProjeForm> ProjeForms { get; set; }
         public virtual DbSet<IRS_Detay> IRS_Detay { get; set; }
@@ -61,6 +59,9 @@ namespace Wms12m.Entity.Models
         public virtual DbSet<UserDetail> UserDetails { get; set; }
         public virtual DbSet<Yer> Yers { get; set; }
         public virtual DbSet<Setting> Settings { get; set; }
+        public virtual DbSet<GorevCalisma> GorevCalismas { get; set; }
+        public virtual DbSet<GorevToDoList> GorevToDoLists { get; set; }
+        public virtual DbSet<Gorevler> Gorevlers { get; set; }
     
         public virtual ObjectResult<string> GetSirketDBs()
         {

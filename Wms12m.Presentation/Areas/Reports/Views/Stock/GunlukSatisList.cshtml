@@ -69,6 +69,34 @@
                                 <th class="text-right"></th>
                             </tr>
                         </tfoot>
+                        <tfoot class="tf-search">
+                            <tr>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </tfoot>
                         @*<tbody>
                                 @foreach (var item in Model)
                                 {
@@ -111,7 +139,12 @@
 <script>
     $(document).ready(function () {
         @*var model =  @Html.Raw(serializer.Serialize(Model));*@
-     
+        $('#sample_1 .tf-search th').each(function () {
+            var title = $('#sample_1 thead th').eq($(this).index()).text();
+            if (title != "") {
+                $(this).html('<input type="text" placeholder="' + title + ' Ara" />');
+            }
+        });
         var table123 = $('#sample_1').DataTable({
             "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
             "ajax": {
@@ -211,7 +244,13 @@
                 );
             }
         });
-
+        $("#sample_1 tfoot input").on('keyup change', function () {
+            table123
+                .column($(this).parent().index() + ':visible')
+                .search(this.value)
+                .draw();
+        });
+        $('#sample_1 .tf-search tr').insertAfter($('#sample_1 thead tr'))
          //var buttons = new $.fn.dataTable.Buttons(table123, {
          //    buttons: [
          //        { "extend": 'pdf', "text": '<span class="fa fa-file-pdf-o f-s-15 red"></span>', "className": 'btn-xs;' },
