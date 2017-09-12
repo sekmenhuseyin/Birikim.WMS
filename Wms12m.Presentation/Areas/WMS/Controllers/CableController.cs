@@ -87,6 +87,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             ViewBag.DepoID = tbl.DepoID;
             ViewBag.KabloDepoID = db.Depoes.Where(m => m.DepoKodu == tbl.DepoID).Select(m => m.KabloDepoID).FirstOrDefault().Value;
             ViewBag.Hatali = sifirStok + hataliStok + "<br /><br />";
+            ViewBag.hataliStok = hataliStok == "" ? true : false;
             return View("Step2", list);
         }
         /// <summary>
@@ -238,7 +239,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                         MalKodu = item.MalKodu,
                         Birim = item.Birim,
                         Miktar = miktar <= stokMiktari.Value ? miktar : stokMiktari.Value,
-                        MakaraNo= yersatiri.MakaraNo,
+                        MakaraNo = yersatiri.MakaraNo,
                         KynkSiparisID = item.ROW_ID,
                         KynkSiparisNo = item.EvrakNo,
                         KynkSiparisSiraNo = item.SiraNo,
@@ -257,7 +258,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                         MalKodu = item.MalKodu,
                         Birim = item.Birim,
                         Miktar = miktar,
-                        MakaraNo= yersatiri.MakaraNo,
+                        MakaraNo = yersatiri.MakaraNo,
                         GC = true
                     };
                     TaskYer.Operation(tblyer);

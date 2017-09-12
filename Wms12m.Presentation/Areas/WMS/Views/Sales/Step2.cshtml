@@ -61,7 +61,7 @@
                     </table>
                     <div class="row m-t-20">
                         <div class="col-md-2">
-                            <button class="btn btn-default btn-block" onclick="window.history.back();"><<< Geri</button>
+                            <button type="button" class="btn btn-default btn-block" onclick="window.history.back();"><<< Geri</button>
                         </div>
                         <div class="col-md-1 col-md-offset-7">
                             <button type="button" class="btn btn-default m-r-20" id="selector">Hepsini Seç</button>
@@ -69,9 +69,11 @@
                         <div class="col-md-2">
                             <input type="hidden" name="DepoID" value="@ViewBag.DepoID" />
                             <input type="hidden" name="EvrakNos" value="@ViewBag.EvrakNos" />
-                            <input type="hidden" name="checkboxes" id="checkboxes" value="" />
-                            <input type="submit" class="hide hidden" value="submit" name="submit" id="submit" />
-                            <input type="button" class="btn btn-primary btn-block green submit" value="İleri >>>" />
+                            <input type="hidden" name="checkboxes" id="checkboxes" value="" />@if (ViewBag.hataliStok == true)
+                            {
+                                <input type="submit" class="hide hidden" value="submit" name="submit" id="submit" />
+                                <input type="button" class="btn btn-primary btn-block green submit" value="İleri >>>" />
+                            }
                         </div>
                     </div>
                 }
