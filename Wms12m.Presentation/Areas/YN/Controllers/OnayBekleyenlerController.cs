@@ -60,20 +60,10 @@ namespace Wms12m.Presentation.Areas.YN.Controllers
         [HttpPost]
         public JsonResult Siparis_Onay(string ID, bool Onay)
         {
-            ID = ID.RemoveLastCharacter();
-            ID = "'" + ID.Replace("#", "','") + "'";
             try
             {
                 using (YNSEntities dby = new YNSEntities())
                 {
-                    if (Onay == true)
-                    {
-
-                    }
-                    else
-                    {
-
-                    }
                 }
                 return Json(new Result(true), JsonRequestBehavior.AllowGet);
             }
