@@ -69,6 +69,7 @@
     <Compile Include="Helpers\MultipleResultSets.cs" />
     <Compile Include="Helpers\MyMail.cs" />
     <Compile Include="Helpers\SqlExper.cs" />
+    <Compile Include="Helpers\YeniNesil.cs" />
     <Compile Include="Tables\PersonPerms.cs" />
     <Compile Include="Tables\TaskYer.cs" />
     <Compile Include="Tables\Transfers.cs" />

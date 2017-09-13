@@ -73,6 +73,18 @@
     <Compile Include="Models\Bolum.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\CAR002.cs">
+      <DependentUpon>ModelYeniNesil.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CAR003.cs">
+      <DependentUpon>ModelYeniNesil.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CAR004.cs">
+      <DependentUpon>ModelYeniNesil.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CAR005.cs">
+      <DependentUpon>ModelYeniNesil.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\ComboItem_Name.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
     </Compile>
@@ -263,6 +275,12 @@
       <DependentUpon>ModelWMS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\STK002.cs">
+      <DependentUpon>ModelYeniNesil.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\STK004.cs">
+      <DependentUpon>ModelYeniNesil.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\STK005.cs">
       <DependentUpon>ModelYeniNesil.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Teklif.cs">
