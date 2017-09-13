@@ -195,12 +195,10 @@ namespace Wms12m.Presentation.Areas.YN.Controllers
         [HttpPost]
         public JsonResult Transfer_Onay(string ID, bool Onay)
         {
-            ID = ID.RemoveLastCharacter();
-            ID = "'" + ID.Replace("#", "','") + "'";
             try
             {
                 using (YNSEntities dby = new YNSEntities())
-                    dby.Database.ExecuteSqlCommand(string.Format(@"UPDATE YNS{0}.TransferDepo SET OnayDurumu = {1} WHERE (TransferNo IN ({2}))", "0TEST", Onay == true ? 1 : 2, ID));
+                    dby.Database.ExecuteSqlCommand(string.Format(@"UPDATE YNS{0}.TransferDepo SET OnayDurumu = {1} WHERE (TransferNo = '{2}')", "0TEST", Onay == true ? 1 : 2, ID));
                 return Json(new Result(true, 1), JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
