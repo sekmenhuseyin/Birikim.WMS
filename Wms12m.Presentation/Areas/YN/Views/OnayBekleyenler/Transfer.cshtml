@@ -54,45 +54,10 @@
             var row = table.row(tr);
             editInModal2('/YN/OnayBekleyenler/Transfer_Details', { ID: row.data().TransferNo })
             $('#modalEditPage').modal('toggle');
+            selected = row.data().TransferNo;
         });
         $('.yenile-buton').click(function () {
             table.ajax.reload();
-        });
-        $('.onay-buton').click(function () {
-            $.ajax({
-                type: 'POST',
-                url: '/YN/OnayBekleyenler/Transfer_Onay',
-                data: { "ID": 0, "Onay": true },
-                dataType: "json",
-                success: function (data) {
-                    if (data.Status == true) {
-                        Modaldialog("İşlem Tamamlandı", 'Onaylandı', 'Tamam', 'btn-success');
-                        table.ajax.reload();
-                    }
-                    else if (data.Message != "" && data.Message != null)
-                        Modaldialog(data.Message, 'Hata', 'Tamam', 'btn-danger');
-                    else
-                        Modaldialog("Hata oldu", 'Hata', 'Tamam', 'btn-danger');
-                }
-            });
-        });
-        $('.reddet-buton').click(function () {
-            $.ajax({
-                type: 'POST',
-                url: '/YN/OnayBekleyenler/Transfer_Onay',
-                data: { "ID": 0, "Onay": false },
-                dataType: "json",
-                success: function (data) {
-                    if (data.Status == true) {
-                        Modaldialog("İşlem Tamamlandı", 'Onaylandı', 'Tamam', 'btn-success');
-                        table.ajax.reload();
-                    }
-                    else if (data.Message != "" && data.Message != null)
-                        Modaldialog(data.Message, 'Hata', 'Tamam', 'btn-danger');
-                    else
-                        Modaldialog("Hata oldu", 'Hata', 'Tamam', 'btn-danger');
-                }
-            });
         });
     });
 </script>}
