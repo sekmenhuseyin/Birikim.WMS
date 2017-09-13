@@ -132,8 +132,10 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             ViewBag.MusteriID = new SelectList(db.Musteris.ToList(), "ID", "Firma", projeForm.MusteriID);
             ViewBag.PID = new SelectList(db.ProjeForms.Where(x => x.PID == null).ToList(), "ID", "Proje", projeForm.ID);
             var proje = projeForm.Proje;
-            projeForm = new ProjeForm();
-            projeForm.Proje = proje;
+            projeForm = new ProjeForm
+            {
+                Proje = proje
+            };
             return PartialView(projeForm);
             //ViewBag.MusteriID = new SelectList(db.Musteris.ToList(), "ID", "Firma");
             //ViewBag.PID = new SelectList(db.ProjeForms.Where(x => x.PID == null).ToList(), "ID", "Proje");
