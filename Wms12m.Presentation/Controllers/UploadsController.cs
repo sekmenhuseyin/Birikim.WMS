@@ -55,7 +55,6 @@ namespace Wms12m.Presentation.Controllers
                         if (dr["İrsaliye No"].ToString() == "") return Json(_result, JsonRequestBehavior.AllowGet);
                         if (dr["Miktar"].ToString2().IsNumeric() == false) return Json(_result, JsonRequestBehavior.AllowGet);
                         if (dr["MalKodu"].ToString() == "") return Json(_result, JsonRequestBehavior.AllowGet);
-                        if (dr["Kaynak Sipariş No"].ToString() == "") return Json(_result, JsonRequestBehavior.AllowGet);
                     }
                     catch (Exception ex)
                     {
