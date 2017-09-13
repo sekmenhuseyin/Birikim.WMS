@@ -230,26 +230,21 @@ namespace Wms12m.Presentation.Areas.YN.Controllers
         [HttpPost]
         public JsonResult Fatura_Onay(string ID, bool Onay)
         {
+            var result = new Result();
             try
             {
                 using (YNSEntities dby = new YNSEntities())
                 {
                     if (Onay == true)
                     {
-                        try
-                        {
-                            var yns = new YeniNesil(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "0TEST");
-                            var sepetIslemleri = yns.FaturaKaydet(SepetUrunleri);
-
-                        }
-                        catch (Exception ex)
-                        {
-                        }
-
+                        var list = dby.TempFaturas.Where(m => m.IslemDurumu == 0 && m.EvrakNo == ID).Select(m => new SepetUrun { SatirTip = 1, UrunKodu = m.UrunKodu, HesapKodu = m.HesapKodu, Birim = m.Birim, Fiyat = m.Fiyat.ToString(), Miktar = m.Miktar.ToString(), Depo = m.Depo, ParaCinsi = m.ParaCinsi, KullaniciKodu = vUser.UserName }).ToList();
+                        var yns = new YeniNesil(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "0TEST");
+                        var sepetIslemleri = yns.FaturaKaydet(list);
+                        result = new Result(true, 1);
                     }
-                    dby.Database.ExecuteSqlCommand(string.Format("UPDATE [YNS{0}].[YNS{0}].[TempFatura] SET IslemDurumu={1} WHERE EvrakNo='{2}'", "0TEST", Onay == true ? 1 : 2, ID));
+                    if (result.Status == true) dby.Database.ExecuteSqlCommand(string.Format("UPDATE [YNS{0}].[YNS{0}].[TempFatura] SET IslemDurumu={1} WHERE EvrakNo='{2}'", "0TEST", Onay == true ? 1 : 2, ID));
                 }
-                return Json(new Result(true, 1), JsonRequestBehavior.AllowGet);
+                return Json(result, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {

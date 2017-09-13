@@ -30,6 +30,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="DevHelper">
+      <HintPath>..\Wms12m.Presentation\Lib\DevHelper.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0-beta1\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
@@ -72,9 +75,6 @@
     </Compile>
     <Compile Include="Models\Bolum.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\CAR002.cs">
-      <DependentUpon>ModelYeniNesil.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\CAR003.cs">
       <DependentUpon>ModelYeniNesil.tt</DependentUpon>
@@ -277,9 +277,6 @@
     <Compile Include="Models\STK002.cs">
       <DependentUpon>ModelYeniNesil.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\STK004.cs">
-      <DependentUpon>ModelYeniNesil.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\STK005.cs">
       <DependentUpon>ModelYeniNesil.tt</DependentUpon>
     </Compile>
@@ -380,7 +377,9 @@
     <Compile Include="Mysql\sure.cs">
       <DependentUpon>ModelKablo.tt</DependentUpon>
     </Compile>
+    <Compile Include="Viewmodels\CAR002.cs" />
     <Compile Include="Viewmodels\SipOnayYetkiler.cs" />
+    <Compile Include="Viewmodels\STK004.cs" />
     <Compile Include="Viewmodels\YeniNesil.cs" />
     <Compile Include="Viewmodels\frmCables.cs" />
     <Compile Include="Viewmodels\frmTransfer.cs" />
