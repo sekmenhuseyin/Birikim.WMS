@@ -55,5 +55,43 @@
         var table = $('#sample_2').DataTable({
             "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" }
         });
+        $('.onay-buton').click(function () {
+            $.ajax({
+                type: 'POST',
+                url: '/YN/OnayBekleyenler/Siparis_Onay',
+                data: { "ID": selected, "Onay": true },
+                dataType: "json",
+                success: function (data) {
+                    if (data.Status == true) {
+                        Modaldialog("İşlem Tamamlandı", 'Onaylandı', 'Tamam', 'btn-success');
+                        $('#modalEditPage').modal('toggle');
+                        $('.yenile-buton').click();
+                    }
+                    else if (data.Message != "" && data.Message != null)
+                        Modaldialog(data.Message, 'Hata', 'Tamam', 'btn-danger');
+                    else
+                        Modaldialog("Hata oldu", 'Hata', 'Tamam', 'btn-danger');
+                }
+            });
+        });
+        $('.reddet-buton').click(function () {
+            $.ajax({
+                type: 'POST',
+                url: '/YN/OnayBekleyenler/Siparis_Onay',
+                data: { "ID": selected, "Onay": false },
+                dataType: "json",
+                success: function (data) {
+                    if (data.Status == true) {
+                        Modaldialog("İşlem Tamamlandı", 'Onaylandı', 'Tamam', 'btn-success');
+                        $('#modalEditPage').modal('toggle');
+                        $('.yenile-buton').click();
+                    }
+                    else if (data.Message != "" && data.Message != null)
+                        Modaldialog(data.Message, 'Hata', 'Tamam', 'btn-danger');
+                    else
+                        Modaldialog("Hata oldu", 'Hata', 'Tamam', 'btn-danger');
+                }
+            });
+        });
     });
-W</script>
+</script>
