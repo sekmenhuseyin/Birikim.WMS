@@ -60,8 +60,8 @@ namespace Wms12m.Entity.Models
         public virtual DbSet<Yer> Yers { get; set; }
         public virtual DbSet<Setting> Settings { get; set; }
         public virtual DbSet<GorevCalisma> GorevCalismas { get; set; }
-        public virtual DbSet<GorevToDoList> GorevToDoLists { get; set; }
         public virtual DbSet<Gorevler> Gorevlers { get; set; }
+        public virtual DbSet<GorevToDoList> GorevToDoLists { get; set; }
     
         public virtual ObjectResult<string> GetSirketDBs()
         {

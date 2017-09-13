@@ -16,6 +16,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         // GET: Approvals/IzOrder
         public ActionResult Index(string onayRed)
         {
+            if (CheckPerm(Perms.SiparişOnaylama, PermTypes.Reading) == false) return Redirect("/");
             if (onayRed == null)
             {
                 ViewBag.OnayDurum = "Beklemede";
@@ -127,6 +128,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
         public JsonResult Onayla(string Data)
         {
+            if (CheckPerm(Perms.SiparişOnaylama, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             Result _Result = new Result(true);
             JArray parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
             var logDetay = "";
@@ -204,6 +206,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
         public JsonResult Reddet(string Data)
         {
+            if (CheckPerm(Perms.SiparişOnaylama, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             Result _Result = new Result(true);
             JArray parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
             var logDetay = "";

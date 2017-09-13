@@ -1376,8 +1376,8 @@ namespace Wms12m
                 else
                 {
                     tbl2 = db.GorevYers.Where(m => m.ID == item.IrsDetayID).FirstOrDefault();
-                    tbl2.Miktar = item.Miktar;
-                    tbl2.YerlestirmeMiktari = item.Miktar;
+                    tbl2.Miktar += item.Miktar;
+                    tbl2.YerlestirmeMiktari += item.Miktar;
                 }
                 //kaydetme işlemleri
                 try

@@ -399,12 +399,13 @@ namespace Wms12m.Presentation.Controllers
             }
             else
             {
+                User grv = db.Users.Where(m => m.ID == ID).FirstOrDefault();
                 yetki.GostCHKKodAlani = "";
                 yetki.GosterilecekSirket = "";
                 yetki.GostKod3OrtBakiye = "";
                 yetki.GostRiskDeger = "";
                 yetki.GostSTKDeger = "";
-                yetki.AdSoyad = vUser.FirstName;
+                yetki.AdSoyad = grv.AdSoyad;
             }
             ViewBag.ID = ID;
             return PartialView("YetkiDuzenle", yetki);

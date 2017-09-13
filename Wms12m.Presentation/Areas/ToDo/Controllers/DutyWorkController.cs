@@ -1,7 +1,8 @@
 ﻿using System;
-using System.Data.Entity;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using System.Web.Script.Serialization;
 using Wms12m.Entity;
 using Wms12m.Entity.Models;
 
@@ -21,55 +22,49 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         {
             var id = Url.RequestContext.RouteData.Values["id"];
             var ID = id.ToInt32();
-            Gorevler gorevler = db.Gorevlers.Where(a => (a.Sorumlu == vUser.UserName || a.Sorumlu2 == vUser.UserName || a.Sorumlu3 == vUser.UserName) && a.ID == ID).FirstOrDefault();
+            Gorevler gorev = db.Gorevlers.Find(ID);
             ViewBag.id = ID;
             ViewBag.GorevID = new SelectList(db.Gorevlers.Where(a => (a.Sorumlu == vUser.UserName || a.Sorumlu2 == vUser.UserName || a.Sorumlu3 == vUser.UserName) && a.ID == ID).ToList(), "ID", "Gorev");
-            ViewBag.Aciklama = gorevler.Aciklama;
-            return PartialView(new GorevCalisma());
+            GorevCalisma aa = new GorevCalisma();
+            aa.Gorevler = gorev;
+            return PartialView(aa);
         }
 
         public PartialViewResult List()
         {
-            var gorevCalismas = db.GorevCalismas.Include(g => g.Gorevler);
-            return PartialView(gorevCalismas.Where(a => a.Gorevler.Sorumlu == vUser.UserName || a.Gorevler.Sorumlu2 == vUser.UserName || a.Gorevler.Sorumlu3 == vUser.UserName).ToList());
+            List<GorevCalisma> gorevCalismas = db.GorevCalismas.Where(a => a.Gorevler.Sorumlu == vUser.UserName || a.Gorevler.Sorumlu2 == vUser.UserName || a.Gorevler.Sorumlu3 == vUser.UserName).ToList();
+            return PartialView(gorevCalismas);
         }
 
         public PartialViewResult Edit(int? id)
         {
             GorevCalisma gorevCalisma = db.GorevCalismas.Find(id);
+            var ids = gorevCalisma.ToDoListID.Split(',');
+            List<GorevToDoList> grv = db.GorevToDoLists.Where(x => ((x.OnayDurum == false) && (x.AktifPasif == true) && (x.GorevID == gorevCalisma.GorevID)) || ids.Contains(x.ID.ToString())).ToList();
             ViewBag.Aciklama = gorevCalisma.Calisma;
             ViewBag.GorevID = new SelectList(db.Gorevlers.Where(a => a.Sorumlu == vUser.UserName || a.Sorumlu2 == vUser.UserName || a.Sorumlu3 == vUser.UserName).ToList(), "ID", "Gorev", gorevCalisma.GorevID);
+            ViewBag.TodoList = db.GorevToDoLists.Where(x => ((x.OnayDurum == false) && (x.AktifPasif == true) && (x.GorevID == gorevCalisma.GorevID)) || ids.Contains(x.ID.ToString())).ToList();
             return PartialView(gorevCalisma);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public JsonResult Save([Bind(Include = "ID,GorevID,Tarih,CalismaSure,Calisma,Kaydeden,KayitTarih,Degistiren,DegisTarih,work,checkitem")] GorevCalisma gorevCalisma)
+        public JsonResult Save([Bind(Include = "ID,GorevID,Tarih,CalismaSure,Calisma,Kaydeden,KayitTarih,Degistiren,DegisTarih,work,checkitem,todo")] GorevCalisma gorevCalisma)
         {
             if (ModelState.IsValid)
             {
-                var grv = db.Gorevlers.Where(z => z.ID == gorevCalisma.GorevID).FirstOrDefault();
-                string a = gorevCalisma.work[0];
-                string b = gorevCalisma.checkitem[0];
                 if (gorevCalisma.ID == 0)
                 {
-                    gorevCalisma.Calisma = "";
-                    grv.Aciklama = "";
+                    gorevCalisma.ToDoListID = "";
                     for (int i = 0; i < gorevCalisma.work.Length; i++)
                     {
                         if (gorevCalisma.checkitem[i] == "true")
                         {
-                            //if (gorevCalisma.eskiyeni[i] == "false")
-                            //{
-                            //    gorevCalisma.Calisma += gorevCalisma.work[i] + "12MConsulting12MDA";
-                            //}
-                            grv.Aciklama += "TTTTT" + gorevCalisma.work[i] + "12MConsulting12MDA";
+                            gorevCalisma.ToDoListID += gorevCalisma.todo[i] + ",";
+                            var idd = gorevCalisma.todo[i];
+                            var grvtodo = db.GorevToDoLists.Where(m => m.ID == idd).FirstOrDefault();
+                            grvtodo.OnayDurum = true;
                         }
-                        else
-                        {
-                            grv.Aciklama += "FFFFF" + gorevCalisma.work[i] + "12MConsulting12MDA";
-                        }
-
                     }
                     gorevCalisma.Degistiren = vUser.UserName;
                     gorevCalisma.Kaydeden = vUser.UserName;
@@ -84,7 +79,21 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                     tbl.Tarih = gorevCalisma.Tarih;//
                     tbl.CalismaSure = gorevCalisma.CalismaSure;//
                     tbl.Calisma = gorevCalisma.Calisma;//
+                    tbl.ToDoListID = "";
+                    for (int i = 0; i < gorevCalisma.work.Length; i++)
+                    {
+                        tbl.ToDoListID += gorevCalisma.todo[i] + ",";
+                        var id2 = Convert.ToInt32(gorevCalisma.todo[i]);
+                        var grv = db.GorevToDoLists.Where(m => m.ID == id2).FirstOrDefault();
+                        if (grv.OnayDurum != Convert.ToBoolean(gorevCalisma.checkitem[i]) && grv.AktifPasif != false)
+                        {
+                            grv.DegisTarih = DateTime.Now;
+                            grv.Degistiren = vUser.UserName;
+                            grv.OnayDurum = Convert.ToBoolean(gorevCalisma.checkitem[i]);
 
+
+                        }
+                    }
 
 
                 }
@@ -111,6 +120,28 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
 
             Result _Result = new Result(true, Id.ToInt32());
             return Json(_Result, JsonRequestBehavior.AllowGet);
+
+        }
+
+        public string GorevToDoList()
+        {
+            var id = Url.RequestContext.RouteData.Values["id"];
+            var ID = id.ToInt32();
+            List<GorevToDoList> grvToDO = db.GorevToDoLists.Where(m => m.GorevID == ID).ToList();
+            List<frmGorevTodos> aa = new List<frmGorevTodos>();
+            foreach (GorevToDoList item in grvToDO)
+            {
+                frmGorevTodos a = new frmGorevTodos();
+                a.ID = item.ID;
+                a.AktifPasif = item.AktifPasif;
+                a.Aciklama = item.Aciklama;
+                a.OnayDurum = item.OnayDurum;
+
+                aa.Add(a);
+
+            }
+            var json = new JavaScriptSerializer().Serialize(aa);
+            return json;
 
         }
 

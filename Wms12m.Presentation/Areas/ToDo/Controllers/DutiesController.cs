@@ -63,8 +63,8 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             ViewBag.GorevTipiID = new SelectList(ComboSub.GetList(Combos.GörevYönetimTipleri.ToInt32()), "ID", "Name", "");
             ViewBag.DepartmanID = new SelectList(ComboSub.GetList(Combos.Departman.ToInt32()), "ID", "Name", "");
             ViewBag.Sorumlu = new SelectList(db.Users.ToList(), "Kod", "AdSoyad", tbl.Sorumlu);
-            ViewBag.Sorumlu2 = new SelectList(db.Users.ToList(), "Kod", "AdSoyad", tbl.Sorumlu2);
-            ViewBag.Sorumlu3 = new SelectList(db.Users.ToList(), "Kod", "AdSoyad", tbl.Sorumlu3);
+            ViewBag.Sorumlu2 = new SelectList(db.Users.ToList(), "Kod", "AdSoyad", tbl.Sorumlu2 != null ? tbl.Sorumlu2 : "");
+            ViewBag.Sorumlu3 = new SelectList(db.Users.ToList(), "Kod", "AdSoyad", tbl.Sorumlu3 != null ? tbl.Sorumlu3 : "");
             ViewBag.KaliteKontrol = new SelectList(db.Users.Where(m => m.RoleName == "Destek").ToList(), "Kod", "AdSoyad", tbl.KaliteKontrol);
             ViewBag.ID = projeForm.PID;
             ViewBag.PFID = projeForm.ID;
@@ -205,7 +205,10 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         public JsonResult Delete(string Id)
         {
             Gorevler gorev = db.Gorevlers.Find(Id.ToInt32());
-            db.Gorevlers.Remove(gorev);
+            gorev.AktifPasif = false;
+
+            db.Database.ExecuteSqlCommand(string.Format("UPDATE [BIRIKIM].[ong].[GorevTodoList] SET AktifPasif=0 WHERE  GorevID = {0}", Id.ToInt32()));
+
             db.SaveChanges();
 
             Result _Result = new Result(true, Id.ToInt32());
@@ -250,6 +253,8 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             return Json(List.Select(x => new { Value = x.Value, Text = x.Text, Selected = x.Selected }), JsonRequestBehavior.AllowGet);
 
         }
+
+
 
     }
 }
