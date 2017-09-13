@@ -21,6 +21,7 @@ namespace Wms12m.Business
                 _Result.Status = false;
                 return _Result;
             }
+            tbl.Visible = true;
             //set details
             if (tbl.ID == 0)
             {
