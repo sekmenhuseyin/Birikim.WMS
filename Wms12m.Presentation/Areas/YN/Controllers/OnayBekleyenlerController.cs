@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Configuration;
 using System.Linq;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
@@ -233,7 +234,19 @@ namespace Wms12m.Presentation.Areas.YN.Controllers
             {
                 using (YNSEntities dby = new YNSEntities())
                 {
+                    if (Onay == true)
+                    {
+                        try
+                        {
+                            var yns = new YeniNesil(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "0TEST");
+                            var sepetIslemleri = yns.FaturaKaydet(SepetUrunleri);
 
+                        }
+                        catch (Exception ex)
+                        {
+                        }
+
+                    }
                     dby.Database.ExecuteSqlCommand(string.Format("UPDATE [YNS{0}].[YNS{0}].[TempFatura] SET IslemDurumu={1} WHERE EvrakNo='{2}'", "0TEST", Onay == true ? 1 : 2, ID));
                 }
                 return Json(new Result(true, 1), JsonRequestBehavior.AllowGet);
