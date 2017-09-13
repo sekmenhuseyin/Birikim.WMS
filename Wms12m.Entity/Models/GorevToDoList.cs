@@ -23,6 +23,8 @@ namespace Wms12m.Entity.Models
         public System.DateTime KayitTarih { get; set; }
         public string Degistiren { get; set; }
         public Nullable<System.DateTime> DegisTarih { get; set; }
+        public bool Kontrol { get; set; }
+        public bool KontrolOnay { get; set; }
     
         public virtual Gorevler Gorevler { get; set; }
     }

@@ -26,6 +26,7 @@ namespace Wms12m.Entity.Models
         public string[] checkitem { get; set; }
         public int[] todo { get; set; }
 
+
         public virtual Gorevler Gorevler { get; set; }
     }
 }
