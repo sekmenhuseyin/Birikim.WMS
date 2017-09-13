@@ -115,7 +115,7 @@
     });
 
     function DuzenleModal(aktif, ID) {
-        if (aktif = "False") {
+        if (aktif == "False") {
             $('#modalEditPage').modal('toggle');
             Modaldialog("Görev aktif değil.", "Hata", "Tamam", "btn-danger");
             return;
@@ -127,7 +127,7 @@
     }
 
     function SilModal(aktif, ID) {
-        if (aktif = "False") {
+        if (aktif == "False") {
             Modaldialog("Görev aktif değil.", "Hata", "Tamam", "btn-danger");
             return;
         }

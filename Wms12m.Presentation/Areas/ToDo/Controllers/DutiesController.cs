@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Web.Mvc;
+using System.Web.Script.Serialization;
 using Wms12m.Entity;
 using Wms12m.Entity.Models;
 
@@ -60,12 +61,9 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             ViewBag.ProjeFormID = new SelectList(db.ProjeForms.Where(m => m.PID == projeForm.PID).ToList(), "ID", "Form", projeForm.ID);
             ViewBag.DurumID = new SelectList(ComboSub.GetList(Combos.GörevYönetimDurumları.ToInt32()), "ID", "Name");
             ViewBag.OncelikID = new SelectList(ComboSub.GetList(Combos.Öncelik.ToInt32()), "ID", "Name");
-            ViewBag.GorevTipiID = new SelectList(ComboSub.GetList(Combos.GörevYönetimTipleri.ToInt32()), "ID", "Name", "");
-            ViewBag.DepartmanID = new SelectList(ComboSub.GetList(Combos.Departman.ToInt32()), "ID", "Name", "");
-            ViewBag.Sorumlu = new SelectList(db.Users.ToList(), "Kod", "AdSoyad", tbl.Sorumlu);
-            ViewBag.Sorumlu2 = new SelectList(db.Users.ToList(), "Kod", "AdSoyad", tbl.Sorumlu2 != null ? tbl.Sorumlu2 : "");
-            ViewBag.Sorumlu3 = new SelectList(db.Users.ToList(), "Kod", "AdSoyad", tbl.Sorumlu3 != null ? tbl.Sorumlu3 : "");
-            ViewBag.KaliteKontrol = new SelectList(db.Users.Where(m => m.RoleName == "Destek").ToList(), "Kod", "AdSoyad", tbl.KaliteKontrol);
+            ViewBag.GorevTipiID = new SelectList(ComboSub.GetList(Combos.GörevYönetimTipleri.ToInt32()), "ID", "Name");
+            ViewBag.DepartmanID = new SelectList(ComboSub.GetList(Combos.Departman.ToInt32()), "ID", "Name");
+
             ViewBag.ID = projeForm.PID;
             ViewBag.PFID = projeForm.ID;
             return PartialView("Edit", tbl);
@@ -254,6 +252,13 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
 
         }
 
+        public string SorumluListesi()
+        {
+            List<frmUserss> usr = db.Users.Where(a => a.Aktif == true).Select(m=> new frmUserss { ID=m.ID, Kod=m.Kod, AdSoyad=m.AdSoyad, RoleName=m.RoleName }).ToList();
+            var json = new JavaScriptSerializer().Serialize(usr);
+            return json;
+
+        }
 
 
     }

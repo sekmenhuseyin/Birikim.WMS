@@ -153,4 +153,19 @@ namespace Wms12m.Entity
         public string Degistiren { get; set; }
         public System.DateTime DegisTarih { get; set; }
     }
+
+    public class frmUserss
+    {
+        public int ID { get; set; }
+        public string Sirket { get; set; }
+        public short Tip { get; set; }
+        public string Kod { get; set; }
+        public string Sifre { get; set; }
+        public string AdSoyad { get; set; }
+        public string Email { get; set; }
+        public string RoleName { get; set; }
+        public string Tema { get; set; }
+        public bool Admin { get; set; }
+        public bool Aktif { get; set; }
+    }
 }
