@@ -436,7 +436,7 @@ namespace Wms12m.Presentation.Controllers
                                 db.SaveChanges();
                             }
                             //özellik id bul
-                            var ozellik = db.ComboItem_Name.Where(m => m.Name == tozellik && m.ComboID == ozelliktipi).Select(m => m.ID).FirstOrDefault();
+                            var ozellik = db.Database.SqlQuery<int>("SELECT ID FROM ComboItem_Name WHERE (ComboID = 3) AND (Name like '%" + tozellik + "%')").FirstOrDefault();
                             if (ozellik == 0) ozellik = 14;
                             //kat bul
                             var kt = db.Kats.Where(m => m.KatAd == tkat && m.BolumID == bl.ID).FirstOrDefault();
