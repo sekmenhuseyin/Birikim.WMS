@@ -56,10 +56,16 @@
     var ID = "@ViewBag.ID";
     $(".baslik").text(model.AdSoyad);
     $(".yetki-btn").css("display", "none");
-    var sirketlist = model.GosterilecekSirket.split(";");
+    var sirketlist = new Array();
+    var tiplist = new Array();
+    if (model.GosterilecekSirket != null && model.GosterilecekSirket!=""){
+    sirketlist = model.GosterilecekSirket.split(";");
     sirketlist.pop();
-    var tiplist = model.GostSTKDeger.split(";");
-    tiplist.pop();
+    }
+    if (model.GostSTKDeger != null && model.GostSTKDeger != "") {
+        tiplist = model.GostSTKDeger.split(";");
+        tiplist.pop();
+    }
     var chklist, kod3list, risklist, secilitipkod, secilisirket, secilichk = "", secilikod3 = "", secilirisk = "", secilikod32 = "", secilirisk2 = "";
     if (model.GostCHKKodAlani == null || model.GostCHKKodAlani == "") { chklist = ["", "ZZZZZZZZZZZZZZ"];}
     else { chklist = model.GostCHKKodAlani.split(";"); }
@@ -101,7 +107,6 @@
     secilikod32 = ";" + kod3list[2] + ";" + kod3list[3];
     secilirisk2 = ";" + risklist[2] + ";" + risklist[3];
 
-    console.log(kod3list[1]);
     DevExpress.ui.dxOverlay.baseZIndex(20000);
     $(".bas-chk").dxTextBox({
         value: chklist[0],
