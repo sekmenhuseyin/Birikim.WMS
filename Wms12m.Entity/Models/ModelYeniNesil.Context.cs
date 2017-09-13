@@ -29,9 +29,5 @@ namespace Wms12m.Entity.Models
         public virtual DbSet<Teklif> Teklifs { get; set; }
         public virtual DbSet<TempFatura> TempFaturas { get; set; }
         public virtual DbSet<TransferDepo> TransferDepoes { get; set; }
-        public virtual DbSet<CAR003> CAR003 { get; set; }
-        public virtual DbSet<CAR004> CAR004 { get; set; }
-        public virtual DbSet<CAR005> CAR005 { get; set; }
-        public virtual DbSet<STK005> STK005 { get; set; }
     }
 }
