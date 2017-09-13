@@ -52,39 +52,5 @@
         $('.yenile-buton').click(function () {
             table.ajax.reload();
         });
-        $('.onay-buton').click(function () {
-            $.ajax({
-                url: window.location.origin + "/YN/OnayBekleyenler/Teklif_Onay",
-                data: { "ID": selected, "Onay": true },
-                dataType: "json",
-                success: function (data) {
-                    if (data.Status == true) {
-                        Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "Guncel");
-                        table.ajax.reload();
-                    }
-                    else if (data.Message != "" && data.Message != null)
-                        Modaldialog(data.Message, 'Hata', 'Tamam', 'btn-danger');
-                    else
-                        Modaldialog("Hata oldu", 'Hata', 'Tamam', 'btn-danger');
-                }
-            });
-        });
-        $('.reddet-buton').click(function () {
-            $.ajax({
-                url: window.location.origin + "/YN/OnayBekleyenler/Teklif_Red",
-                data: { "ID": selected, "Onay": true },
-                dataType: "json",
-                success: function (data) {
-                    if (data.Status == true) {
-                        Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "Guncel");
-                        table.ajax.reload();
-                    }
-                    else if (data.Message != "" && data.Message != null)
-                        Modaldialog(data.Message, 'Hata', 'Tamam', 'btn-danger');
-                    else
-                        Modaldialog("Hata oldu", 'Hata', 'Tamam', 'btn-danger');
-                }
-            });
-        });
     });
 </script>}
