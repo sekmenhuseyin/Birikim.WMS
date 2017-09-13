@@ -2113,9 +2113,10 @@
           <FunctionImport Name="DeleteIrsaliye">
           <Parameter Name="IrsaliyeID" Mode="In" Type="Int32" />
           </FunctionImport>
+          <EntitySet Name="GorevToDoLists" EntityType="MModel.GorevToDoList" />
+          <FunctionImport Name="f_Sıfırla" />
           <EntitySet Name="GorevCalismas" EntityType="MModel.GorevCalisma" />
           <EntitySet Name="Gorevlers" EntityType="MModel.Gorevler" />
-          <EntitySet Name="GorevToDoLists" EntityType="MModel.GorevToDoList" />
           <AssociationSet Name="FK_Gorevler_ComboItem_Name_Departman" Association="MModel.FK_Gorevler_ComboItem_Name_Departman">
             <End Role="ComboItem_Name" EntitySet="ComboItem_Name" />
             <End Role="Gorevler" EntitySet="Gorevlers" />
@@ -2144,7 +2145,6 @@
             <End Role="Gorevler" EntitySet="Gorevlers" />
             <End Role="GorevToDoList" EntitySet="GorevToDoLists" />
           </AssociationSet>
-          <FunctionImport Name="f_Sıfırla" />
           </EntityContainer>
         <ComplexType Name="GetSirkets_Result">
           <Property Type="String" Name="Kod" Nullable="false" MaxLength="2" />
@@ -3433,6 +3433,21 @@
           <Property Name="Aktif" Type="Boolean" Nullable="false" />
           <Property Name="SiparisOnayParametre" Type="Boolean" Nullable="false" />
         </EntityType>
+        <EntityType Name="GorevToDoList">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="GorevID" Type="Int32" Nullable="false" />
+          <Property Name="Aciklama" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="AktifPasif" Type="Boolean" Nullable="false" />
+          <Property Name="OnayDurum" Type="Boolean" Nullable="false" />
+          <Property Name="Kaydeden" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="KayitTarih" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Degistiren" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="DegisTarih" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Gorevler" Relationship="MModel.FK_GorevToDoList_Gorevler" FromRole="GorevToDoList" ToRole="Gorevler" />
+        </EntityType>
         <EntityType Name="GorevCalisma">
           <Key>
             <PropertyRef Name="ID" />
@@ -3481,21 +3496,6 @@
           <NavigationProperty Name="GorevCalismas" Relationship="MModel.FK_GorevCalisma_Gorevler" FromRole="Gorevler" ToRole="GorevCalisma" />
           <NavigationProperty Name="ProjeForm" Relationship="MModel.FK_Gorevler_ProjeForm" FromRole="Gorevler" ToRole="ProjeForm" />
           <NavigationProperty Name="GorevToDoLists" Relationship="MModel.FK_GorevToDoList_Gorevler" FromRole="Gorevler" ToRole="GorevToDoList" />
-        </EntityType>
-        <EntityType Name="GorevToDoList">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="GorevID" Type="Int32" Nullable="false" />
-          <Property Name="Aciklama" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="AktifPasif" Type="Boolean" Nullable="false" />
-          <Property Name="OnayDurum" Type="Boolean" Nullable="false" />
-          <Property Name="Kaydeden" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="KayitTarih" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="Degistiren" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="DegisTarih" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="Gorevler" Relationship="MModel.FK_GorevToDoList_Gorevler" FromRole="GorevToDoList" ToRole="Gorevler" />
         </EntityType>
         <Association Name="FK_Gorevler_ComboItem_Name_Departman">
           <End Type="MModel.ComboItem_Name" Role="ComboItem_Name" Multiplicity="0..1" />
@@ -4448,6 +4448,22 @@
           </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="DeleteTransfer" FunctionName="MModel.Store.DeleteTransfer" />
           <FunctionImportMapping FunctionImportName="DeleteIrsaliye" FunctionName="MModel.Store.DeleteIrsaliye" />
+          <EntitySetMapping Name="GorevToDoLists">
+            <EntityTypeMapping TypeName="MModel.GorevToDoList">
+              <MappingFragment StoreEntitySet="GorevToDoList">
+                <ScalarProperty Name="DegisTarih" ColumnName="DegisTarih" />
+                <ScalarProperty Name="Degistiren" ColumnName="Degistiren" />
+                <ScalarProperty Name="KayitTarih" ColumnName="KayitTarih" />
+                <ScalarProperty Name="Kaydeden" ColumnName="Kaydeden" />
+                <ScalarProperty Name="OnayDurum" ColumnName="OnayDurum" />
+                <ScalarProperty Name="AktifPasif" ColumnName="AktifPasif" />
+                <ScalarProperty Name="Aciklama" ColumnName="Aciklama" />
+                <ScalarProperty Name="GorevID" ColumnName="GorevID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="f_Sıfırla" FunctionName="MModel.Store.f_Sıfırla" />
           <EntitySetMapping Name="GorevCalismas">
             <EntityTypeMapping TypeName="MModel.GorevCalisma">
               <MappingFragment StoreEntitySet="GorevCalisma">
@@ -4491,22 +4507,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="GorevToDoLists">
-            <EntityTypeMapping TypeName="MModel.GorevToDoList">
-              <MappingFragment StoreEntitySet="GorevToDoList">
-                <ScalarProperty Name="DegisTarih" ColumnName="DegisTarih" />
-                <ScalarProperty Name="Degistiren" ColumnName="Degistiren" />
-                <ScalarProperty Name="KayitTarih" ColumnName="KayitTarih" />
-                <ScalarProperty Name="Kaydeden" ColumnName="Kaydeden" />
-                <ScalarProperty Name="OnayDurum" ColumnName="OnayDurum" />
-                <ScalarProperty Name="AktifPasif" ColumnName="AktifPasif" />
-                <ScalarProperty Name="Aciklama" ColumnName="Aciklama" />
-                <ScalarProperty Name="GorevID" ColumnName="GorevID" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="f_Sıfırla" FunctionName="MModel.Store.f_Sıfırla" />
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
