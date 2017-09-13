@@ -435,11 +435,13 @@ namespace Wms12m.Presentation.Controllers
                                 db.Bolums.Add(bl);
                                 db.SaveChanges();
                             }
+                            //özellik id bul
+                            var ozellik = db.ComboItem_Name.Where(m => m.Name == tozellik && m.ComboID == ozelliktipi).Select(m => m.ID).FirstOrDefault();
+                            if (ozellik == 0) ozellik = 14;
+                            //kat bul
                             var kt = db.Kats.Where(m => m.KatAd == tkat && m.BolumID == bl.ID).FirstOrDefault();
                             if (kt == null)
                             {
-                                var ozellik = db.ComboItem_Name.Where(m => m.Name == tozellik && m.ComboID == ozelliktipi).Select(m => m.ID).FirstOrDefault();
-                                if (ozellik == 0) ozellik = 14;
                                 kt = new Kat()
                                 {
                                     BolumID = bl.ID,
@@ -459,6 +461,16 @@ namespace Wms12m.Presentation.Controllers
                                 if (taciklama != "") kt.Aciklama = taciklama;
                                 db.Kats.Add(kt);
                                 db.SaveChanges();
+                            }
+                            else
+                            {
+                                kt.Boy = dr["Yükseklik (mm)"].ToDecimal();
+                                kt.En = dr["Genişlik (mm)"].ToDecimal();
+                                kt.Derinlik = dr["Derinlik (mm)"].ToDecimal();
+                                kt.AgirlikKapasite = dr["Kapasite (kg)"].ToDecimal();
+                                kt.OzellikID = ozellik;
+                                kt.Degistiren = vUser.UserName;
+                                kt.DegisTarih = fn.ToOADate();
                             }
                             basarili++;
                         }
