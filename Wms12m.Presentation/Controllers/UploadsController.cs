@@ -460,7 +460,6 @@ namespace Wms12m.Presentation.Controllers
                                 };
                                 if (taciklama != "") kt.Aciklama = taciklama;
                                 db.Kats.Add(kt);
-                                db.SaveChanges();
                             }
                             else
                             {
@@ -472,6 +471,7 @@ namespace Wms12m.Presentation.Controllers
                                 kt.Degistiren = vUser.UserName;
                                 kt.DegisTarih = fn.ToOADate();
                             }
+                            db.SaveChanges();
                             basarili++;
                         }
                     }
