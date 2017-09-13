@@ -74,6 +74,22 @@
         </tr>
                                 }
             </tbody>
+            <tfoot class="tf-search">
+                <tr>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </tfoot>
 
         </table>
     </div>
@@ -84,27 +100,27 @@
         editInModal('/ToDo/Duties/Edit/' + ID)
     }
     $(document).ready(function () {
+        $('#sample_1 .tf-search th').each(function () {
+            var title = $('#sample_1 thead th').eq($(this).index()).text();
+            if (title != "" && title != "Çalışma") {
+                $(this).html('<input type="text" placeholder="' + title + ' Ara" />');
+            }
+        });
         var table = $('#sample_1').DataTable({
             "pagingType": "full_numbers",
             "ordering": false,
             "columnDefs": [
                 { "width": "50px", "targets": 0 }
             ],
-            "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
-            initComplete: function () {
-                this.api().columns([1, 2, 3, 4, 6, 7]).every(function () {
-                    var column = this;
-                    var select = $('<br /><select class="form-control input-circle" style="max-width:100px;"><option value=""></option></select>')
-                        .appendTo($(column.header()))
-                        .on('change', function () {
-                            var val = $.fn.dataTable.util.escapeRegex($(this).val());
-                            column.search(val ? '^' + val + '$' : '', true, false).draw();
-                        });
-                    column.data().unique().sort().each(function (d, j) { select.append('<option value="' + d + '">' + d + '</option>') });
-                });
-            },
+            "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" }
         });
-
+        $("#sample_1 tfoot input").on('keyup change', function () {
+            table
+                .column($(this).parent().index() + ':visible')
+                .search(this.value)
+                .draw();
+        });
+        $('#sample_1 .tf-search tr').insertAfter($('#sample_1 thead tr'))
         $('#sample_1 tbody').on('click', 'td.details-control', function () {
             var tr = $(this).closest('tr');
             var row = table.row(tr);

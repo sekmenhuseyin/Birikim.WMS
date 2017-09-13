@@ -50,8 +50,36 @@
                     </tr>
                 }
             </tbody>
-
+            <tfoot class="tf-search">
+                <tr>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </tfoot>
         </table>
     </div>
 </div>
-<script>$(document).ready(function () { $('#sample_1').DataTable({ "pagingType": "full_numbers", "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" } }); });</script>
+<script>
+    $(document).ready(function () {
+        $('#sample_1 .tf-search th').each(function () {
+            var title = $('#sample_1 thead th').eq($(this).index()).text();
+            if (title != "" && title != "Çalışma") {
+                $(this).html('<input type="text" placeholder="' + title.trim() + ' Ara" />');
+            }
+        });
+        var table = $('#sample_1').DataTable({
+            "pagingType": "full_numbers",
+            "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" }
+        });
+        $("#sample_1 tfoot input").on('keyup change', function () {
+            table
+                .column($(this).parent().index() + ':visible')
+                .search(this.value)
+                .draw();
+        });
+        $('#sample_1 .tf-search tr').insertAfter($('#sample_1 thead tr'))
+    });
+</script>
