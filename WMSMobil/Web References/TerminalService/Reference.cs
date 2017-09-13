@@ -289,10 +289,11 @@ namespace WMSMobil.TerminalService {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.12mconsulting.com.tr/GetMalzemeFromBarcode", RequestNamespace="http://www.12mconsulting.com.tr/", ResponseNamespace="http://www.12mconsulting.com.tr/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public Tip_Malzeme GetMalzemeFromBarcode(string malkodu, string barkod, int KullID, string AuthGiven, string Guid) {
+        public Tip_Malzeme GetMalzemeFromBarcode(string malkodu, string barkod, int GorevID, int KullID, string AuthGiven, string Guid) {
             object[] results = this.Invoke("GetMalzemeFromBarcode", new object[] {
                         malkodu,
                         barkod,
+                        GorevID,
                         KullID,
                         AuthGiven,
                         Guid});
@@ -300,10 +301,11 @@ namespace WMSMobil.TerminalService {
         }
         
         /// <remarks/>
-        public System.IAsyncResult BeginGetMalzemeFromBarcode(string malkodu, string barkod, int KullID, string AuthGiven, string Guid, System.AsyncCallback callback, object asyncState) {
+        public System.IAsyncResult BeginGetMalzemeFromBarcode(string malkodu, string barkod, int GorevID, int KullID, string AuthGiven, string Guid, System.AsyncCallback callback, object asyncState) {
             return this.BeginInvoke("GetMalzemeFromBarcode", new object[] {
                         malkodu,
                         barkod,
+                        GorevID,
                         KullID,
                         AuthGiven,
                         Guid}, callback, asyncState);
