@@ -176,7 +176,7 @@ namespace Wms12m.Presentation.Areas.YN.Controllers
         /// liste detayı
         /// </summary>
         [HttpPost]
-        public JsonResult Transfer_Details(string ID)
+        public PartialViewResult Transfer_Details(string ID)
         {
             using (YNSEntities dby = new YNSEntities())
             {
@@ -186,7 +186,7 @@ namespace Wms12m.Presentation.Areas.YN.Controllers
                                                                         FROM            YNS{0}.TransferDepo INNER JOIN
                                                                                                  YNS{0}.STK004 ON YNS{0}.TransferDepo.MalKodu = YNS{0}.STK004.STK004_MalKodu
                                                                         WHERE        YNS{0}.TransferDepo.TransferNo = '{1}'", "0TEST", ID)).ToList();
-                return Json(list, JsonRequestBehavior.AllowGet);
+                return PartialView("Transfer_Details", list);
             }
         }
         /// <summary>

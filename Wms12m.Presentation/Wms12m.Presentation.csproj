@@ -438,6 +438,7 @@
     <Content Include="Areas\YN\Views\OnayBekleyenler\Teklif_Details.cshtml" />
     <Content Include="Areas\YN\Views\OnayBekleyenler\Fatura.cshtml" />
     <Content Include="Areas\YN\Views\OnayBekleyenler\Fatura_Details.cshtml" />
+    <Content Include="Areas\YN\Views\OnayBekleyenler\Transfer_Details.cshtml" />
     <None Include="bundleconfig.json" />
     <Content Include="Content\SizeSablon.xlsx" />
     <Content Include="Content\StockSablon.xlsx" />
