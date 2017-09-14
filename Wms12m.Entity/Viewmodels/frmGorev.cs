@@ -8,7 +8,19 @@ using Wms12m.Entity.Models;
 namespace Wms12m.Entity
 {
     /// <summary>
-    /// 
+    /// sayım fişi getirir
+    /// </summary>
+    public class frmGorevSayimFisi
+    {
+        public short IslemTur { get; set; }
+        public string MalKodu { get; set; }
+        public decimal Miktar { get; set; }
+        public decimal Miktar2 { get; set; }
+        public string Birim { get; set; }
+        public string Depo { get; set; }
+    }
+    /// <summary>
+    /// görev ayrıntıları
     /// </summary>
     public class frmTaskDetails
     {
