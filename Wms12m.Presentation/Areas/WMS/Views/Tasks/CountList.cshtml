@@ -27,6 +27,12 @@
                         <a class="btn btn-default pull-left input-circle" href="#modalEditPage" data-toggle="modal" onclick="editInModal('/WMS/Tasks/CountFark/0-@item.ID')"> Fark Liste </a>
                         if (item.IR.Onay == false)
                         {
+                            using (Ajax.BeginForm("ReActivate", "Tasks", new { area = "WMS" }, new AjaxOptions { InsertionMode = InsertionMode.Replace, OnSuccess = "getresult", OnFailure = "Modaldialog('Lütfen Tekrar Deneyin', 'Hata', 'Tamam', 'btn-danger');" }, new { @class = "pull-left" }))
+                            {
+                                @Html.AntiForgeryToken()
+                                <input name="GorevID" type="hidden" value="@item.ID" />
+                                <input type="submit" class="btn green input-circle" value="Aktif Et" />
+                            }
                             using (Ajax.BeginForm("CountCreate", "Tasks", new { area = "WMS" }, new AjaxOptions { InsertionMode = InsertionMode.Replace, OnSuccess = "getresult", OnFailure = "Modaldialog('Lütfen Tekrar Deneyin', 'Hata', 'Tamam', 'btn-danger');" }, new { @class = "pull-left" }))
                             {
                                 @Html.AntiForgeryToken()

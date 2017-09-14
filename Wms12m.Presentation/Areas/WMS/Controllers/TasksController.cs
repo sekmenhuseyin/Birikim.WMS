@@ -353,12 +353,10 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                 db.Database.ExecuteSqlCommand(sql);
                 //son olarak bizim stoka kaydet
                 //get list
-                sql = string.Format(@"SELECT        wms.Yer.KatID, wms.Yer.MalKodu, wms.Yer.Birim, ISNULL
-                                                        ((SELECT        Miktar
-                                                            FROM            wms.GorevYer
-                                                            WHERE (GorevID = {0}) AND(MalKodu = wms.Yer.MalKodu) AND (YerID = wms.Yer.ID)), 0) AS Miktar, wms.Yer.Miktar AS Stok
-                                        FROM            wms.Yer INNER JOIN wms.Gorev ON wms.Yer.DepoID = wms.Gorev.DepoID
-                                        WHERE (wms.Gorev.ID = {0}) AND(wms.Yer.MalKodu IN (SELECT MalKodu FROM wms.GorevYer WHERE (GorevID = {0})))", GorevID);
+                sql = string.Format(@"SELECT        wms.Yer.KatID, wms.Yer.MalKodu, wms.Yer.Birim, wms.Yer.Miktar AS Stok, 
+                                                        ISNULL((SELECT Miktar FROM wms.GorevYer WHERE (GorevID = {0}) AND(MalKodu = wms.Yer.MalKodu) AND (YerID = wms.Yer.ID)), 0) AS Miktar
+                                        FROM wms.Yer INNER JOIN wms.Gorev ON wms.Yer.DepoID = wms.Gorev.DepoID
+                                        WHERE (wms.Gorev.ID = {0})", GorevID);
                 var list2 = db.Database.SqlQuery<frmSiparisToplama>(sql).ToList();
                 //loop list
                 foreach (var item in list2)
@@ -410,6 +408,30 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             if (tbl != null)
                 return Json(new Result(false, "Bu görev daha bitmemiş!"), JsonRequestBehavior.AllowGet);
             mGorev.DurumID = ComboItems.Tamamlanan.ToInt32();
+            mGorev.BitisTarihi = fn.ToOADate();
+            mGorev.BitisSaati = fn.ToOATime();
+            db.SaveChanges();
+            return Json(new Result(true, mGorev.ID, "İşlem tamlandı!"), JsonRequestBehavior.AllowGet);
+        }
+        /// <summary>
+        /// sayımı tekrar aktif et
+        /// </summary>
+        [HttpPost]
+        public JsonResult ReActivate(int GorevID)
+        {
+            if (CheckPerm(Perms.GörevListesi, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
+            int durumID = ComboItems.Tamamlanan.ToInt32();
+            int tipID = ComboItems.KontrolSayım.ToInt32();
+            var mGorev = db.Gorevs.Where(m => m.ID == GorevID && m.GorevTipiID == tipID && m.DurumID == durumID).FirstOrDefault();
+            if (mGorev.IsNull())
+                return Json(new Result(false, "Görev bulunamadı!"), JsonRequestBehavior.AllowGet);
+            mGorev.DurumID = ComboItems.Açık.ToInt32();
+            mGorev.BitisTarihi = null;
+            mGorev.BitisSaati = null;
+            foreach (var item in mGorev.GorevUsers)
+            {
+                item.BitisTarihi = null;
+            }
             db.SaveChanges();
             return Json(new Result(true, mGorev.ID, "İşlem tamlandı!"), JsonRequestBehavior.AllowGet);
         }
