@@ -66,7 +66,7 @@
         });
         $('#sample_1 .tf-search th').each(function () {
             var title = $('#sample_1 thead th').eq($(this).index()).text();
-            if (title.indexOf("Tarih") !== -1)
+            if (title != "" && title.indexOf("Tarih") !== -1)
                 $(this).html('<input class="form-control input-circle tarih" type="text" placeholder="Ara" />');
             else if (title != "" && title != "Detay" && title != "Hareket")
                 $(this).html('<input class="form-control input-circle" type="text" placeholder="Ara" />');
