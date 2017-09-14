@@ -118,7 +118,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                     }
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
             }
