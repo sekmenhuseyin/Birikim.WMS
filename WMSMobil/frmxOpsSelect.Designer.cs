@@ -31,20 +31,21 @@
         {
             this.mainMenu1 = new System.Windows.Forms.MainMenu();
             this.listView1 = new System.Windows.Forms.ListView();
-            this.btnSec = new System.Windows.Forms.Button();
+            this.columnHeader2 = new System.Windows.Forms.ColumnHeader();
             this.columnHeader6 = new System.Windows.Forms.ColumnHeader();
             this.columnHeader1 = new System.Windows.Forms.ColumnHeader();
-            this.columnHeader2 = new System.Windows.Forms.ColumnHeader();
             this.columnHeader3 = new System.Windows.Forms.ColumnHeader();
             this.columnHeader4 = new System.Windows.Forms.ColumnHeader();
             this.columnHeader5 = new System.Windows.Forms.ColumnHeader();
             this.columnHeader7 = new System.Windows.Forms.ColumnHeader();
             this.columnHeader8 = new System.Windows.Forms.ColumnHeader();
+            this.btnSec = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // listView1
             // 
+            this.listView1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.listView1.Columns.Add(this.columnHeader2);
             this.listView1.Columns.Add(this.columnHeader6);
             this.listView1.Columns.Add(this.columnHeader1);
@@ -56,18 +57,14 @@
             this.listView1.FullRowSelect = true;
             this.listView1.Location = new System.Drawing.Point(0, 38);
             this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(394, 168);
+            this.listView1.Size = new System.Drawing.Size(240, 168);
             this.listView1.TabIndex = 0;
             this.listView1.SelectedIndexChanged += new System.EventHandler(this.listView1_SelectedIndexChanged);
             // 
-            // btnSec
+            // columnHeader2
             // 
-            this.btnSec.Location = new System.Drawing.Point(168, 222);
-            this.btnSec.Name = "btnSec";
-            this.btnSec.Size = new System.Drawing.Size(72, 20);
-            this.btnSec.TabIndex = 1;
-            this.btnSec.Text = "Seç";
-            this.btnSec.Click += new System.EventHandler(this.btnSec_Click);
+            this.columnHeader2.Text = "ID";
+            this.columnHeader2.Width = 60;
             // 
             // columnHeader6
             // 
@@ -78,11 +75,6 @@
             // 
             this.columnHeader1.Text = "Mal Adı";
             this.columnHeader1.Width = 60;
-            // 
-            // columnHeader2
-            // 
-            this.columnHeader2.Text = "ID";
-            this.columnHeader2.Width = 60;
             // 
             // columnHeader3
             // 
@@ -108,6 +100,17 @@
             // 
             this.columnHeader8.Text = "Sipariş Sıra No";
             this.columnHeader8.Width = 60;
+            // 
+            // btnSec
+            // 
+            this.btnSec.BackColor = System.Drawing.Color.SteelBlue;
+            this.btnSec.ForeColor = System.Drawing.SystemColors.Window;
+            this.btnSec.Location = new System.Drawing.Point(168, 222);
+            this.btnSec.Name = "btnSec";
+            this.btnSec.Size = new System.Drawing.Size(72, 20);
+            this.btnSec.TabIndex = 1;
+            this.btnSec.Text = "Seç";
+            this.btnSec.Click += new System.EventHandler(this.btnSec_Click);
             // 
             // label1
             // 

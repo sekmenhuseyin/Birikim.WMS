@@ -457,19 +457,23 @@ namespace WMSMobil
             Cursor.Current = Cursors.WaitCursor;
             bool mal_var = false;
             bool raf_var = false;
+            string tmpMalKod = "";
             Tip_STI temp_sti = new Tip_STI();
             //tüm sayırları eski rengine döndür
             foreach (var itemPanel in PanelVeriList)
             {
                 if (itemPanel.Controls[0].Text == mal)
+                {
                     cokluMalSayisi++;
+                    tmpMalKod = itemPanel.Controls[1].Text;
+                }
                 foreach (Control item in itemPanel.Controls)
                     item.BackColor = Color.FromArgb(206, 223, 239);
             }
             if (Ayarlar.MenuTip == MenuType.MalKabul && cokluMalSayisi > 1)
             {
                 Ayarlar.Tarih = 0;
-                frmxOpsSelect frm = new frmxOpsSelect(GorevID, mal);
+                frmxOpsSelect frm = new frmxOpsSelect(GorevID, tmpMalKod);
                 var sonuc = frm.ShowDialog();
                 sonucID = Ayarlar.Tarih;
             }

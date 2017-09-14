@@ -1691,7 +1691,7 @@ namespace WMSMobil.TerminalService {
         
         private string kynkSiparisNoField;
         
-        private short kynkSiparisSiraNoField;
+        private System.Nullable<short> kynkSiparisSiraNoField;
         
         /// <remarks/>
         public int ID {
@@ -1855,7 +1855,8 @@ namespace WMSMobil.TerminalService {
         }
         
         /// <remarks/>
-        public short KynkSiparisSiraNo {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public System.Nullable<short> KynkSiparisSiraNo {
             get {
                 return this.kynkSiparisSiraNoField;
             }

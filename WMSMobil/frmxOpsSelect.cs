@@ -23,10 +23,10 @@ namespace WMSMobil
 
             try
             {
-                var liste = new List<Tip_STI2>(Servis.GetMalKoduMalzemes(malKodu, gorevID, Ayarlar.Kullanici.ID, false, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid).ToList());
+                List<Tip_STI2> liste = new List<Tip_STI2>(Servis.GetMalKoduMalzemes(malKodu, gorevID, Ayarlar.Kullanici.ID, false, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid).ToList());
                 foreach (Tip_STI2 item in liste)
                 {
-                    string[] l = new string[] { item.ID.ToString(), item.MalKodu, item.MalAdi, item.Miktar.ToString(), item.Birim, item.MakaraNo, item.KynkSiparisNo, item.KynkSiparisSiraNo.ToString() };
+                    string[] l = new string[] { item.ID.ToString(), item.MalKodu, item.MalAdi, item.Miktar.ToString("N2"), item.Birim, item.MakaraNo, item.KynkSiparisNo, item.KynkSiparisSiraNo.ToString() };
                     var it=new ListViewItem(l);
                     listView1.Items.Add(it);
                 }

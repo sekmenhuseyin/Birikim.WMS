@@ -37,7 +37,7 @@
         public decimal? YerMiktar { get; set; }
         public string Raf { get; set; }
         public string KynkSiparisNo { get; set; }
-        public short KynkSiparisSiraNo { get; set; }
+        public short? KynkSiparisSiraNo { get; set; }
     }
 
     public class STIMax
