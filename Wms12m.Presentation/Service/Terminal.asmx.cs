@@ -141,6 +141,38 @@ namespace Wms12m
                 "GROUP BY wms.Depo.DepoKodu, IRS.HesapKodu, wms.fnFormatDateFromInt(IRS.Tarih)", mGorev.IR.SirketKod, mGorev.ID);
             return db.Database.SqlQuery<Tip_IRS>(sql).FirstOrDefault();
         }
+
+        /// <summary>
+        /// seçili malkoduna malzeme ait bilgileri
+        /// </summary>
+        [WebMethod]
+        public List<Tip_STI2> GetMalKoduMalzemes(string MalKodu, int GorevID, int KullID, bool devamMi, string AuthGiven, string Guid)
+        {
+            //kontrol
+            if (AuthGiven.Cozumle() != AuthPass) return new List<Tip_STI2>();
+            Guid = Guid.Cozumle();
+            var tbl = db.Users.Where(m => m.ID == KullID && m.Guid.ToString() == Guid).FirstOrDefault();
+            if (tbl == null) return new List<Tip_STI2>();
+            var mGorev = db.Gorevs.Where(m => m.ID == GorevID).FirstOrDefault();
+            if (mGorev.IsNull())
+                return new List<Tip_STI2>();
+            string sql = "";
+            sql = (mGorev.GorevTipiID == ComboItems.Paketle.ToInt32() || mGorev.GorevTipiID == ComboItems.BarkodHazırla.ToInt32() || mGorev.GorevTipiID == ComboItems.Sevket.ToInt32()) ? "(wms.Yer_Log.GC = 1) " : "(wms.Yer_Log.GC = 0 OR wms.Yer_Log.GC IS NULL) ";
+            sql = string.Format("SELECT wms.IRS_Detay.ID, wms.IRS.ID as irsID,wms.IRS_Detay.KynkSiparisNo,wms.IRS_Detay.KynkSiparisSiraNo, wms.IRS_Detay.MalKodu, wms.IRS_Detay.Miktar, wms.IRS_Detay.Birim, wms.IRS_Detay.MakaraNo, ISNULL(wms.IRS_Detay.OkutulanMiktar, 0) AS OkutulanMiktar, wms.Yer_Log.HucreAd AS Raf, SUM(wms.Yer_Log.Miktar) as Raf, SUM(wms.Yer_Log.Miktar) AS YerMiktar, " +
+                                "ISNULL((SELECT MalAdi FROM FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) WHERE (MalKodu = wms.IRS_Detay.MalKodu)),'') AS MalAdi, " +
+                                "ISNULL((SELECT case when Barkod1='' then Barkod2 else Barkod1 end Barkod FROM FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) WHERE (MalKodu = wms.IRS_Detay.MalKodu)),'') AS Barkod " +
+                                "FROM wms.IRS_Detay WITH (nolock) INNER JOIN wms.IRS WITH (nolock) ON wms.IRS_Detay.IrsaliyeID = wms.IRS.ID INNER JOIN wms.GorevIRS WITH (nolock) ON wms.IRS.ID = wms.GorevIRS.IrsaliyeID LEFT OUTER JOIN wms.Yer_Log WITH (nolock) ON wms.IRS_Detay.IrsaliyeID = wms.Yer_Log.IrsaliyeID AND wms.IRS_Detay.MalKodu = wms.Yer_Log.MalKodu " +
+                                "WHERE (wms.GorevIRS.GorevID = {1} AND wms.IRS_Detay.MalKodu='{3}') AND " + sql +
+                                "GROUP BY wms.IRS_Detay.ID, wms.IRS.ID, wms.IRS_Detay.MalKodu, wms.IRS_Detay.Miktar, wms.IRS_Detay.KynkSiparisNo,wms.IRS_Detay.KynkSiparisSiraNo,wms.IRS_Detay.Birim, wms.IRS_Detay.MakaraNo, ISNULL(wms.IRS_Detay.OkutulanMiktar, 0), ISNULL(wms.IRS_Detay.YerlestirmeMiktari, 0), wms.Yer_Log.HucreAd ", mGorev.IR.SirketKod, mGorev.ID, mGorev.DepoID, MalKodu);
+            if (devamMi == true)
+                if (mGorev.GorevTipiID == ComboItems.MalKabul.ToInt32() || mGorev.GorevTipiID == ComboItems.Paketle.ToInt32() || mGorev.GorevTipiID == ComboItems.Sevket.ToInt32())
+                    sql += "HAVING (wms.IRS_Detay.Miktar <> ISNULL(OkutulanMiktar,0))";
+                else
+                    sql += "HAVING (wms.IRS_Detay.Miktar <> ISNULL(YerlestirmeMiktari,0))";
+            return db.Database.SqlQuery<Tip_STI2>(sql).ToList();
+        }
+
+
         /// <summary>
         /// görev listelerini filtreye göre getirir
         /// </summary>

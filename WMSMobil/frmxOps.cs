@@ -428,6 +428,8 @@ namespace WMSMobil
         /// </summary>
         private void btnUygula_Click(object sender, EventArgs e)
         {
+            //MalKabulde okutulan mala ait listede bulunan kayıt sayısı
+            int cokluMalSayisi = 0, sonucID = 0;
             string mal = txtBarkod.Text;
             if (mal == "")
             {
@@ -455,18 +457,33 @@ namespace WMSMobil
             Cursor.Current = Cursors.WaitCursor;
             bool mal_var = false;
             bool raf_var = false;
+            string tmpMalKod = "";
             Tip_STI temp_sti = new Tip_STI();
             //tüm sayırları eski rengine döndür
             foreach (var itemPanel in PanelVeriList)
             {
+                if (itemPanel.Controls[0].Text == mal)
+                {
+                    cokluMalSayisi++;
+                    tmpMalKod = itemPanel.Controls[1].Text;
+                }
                 foreach (Control item in itemPanel.Controls)
                     item.BackColor = Color.FromArgb(206, 223, 239);
+            }
+            if (Ayarlar.MenuTip == MenuType.MalKabul && cokluMalSayisi > 1)
+            {
+                Ayarlar.Tarih = 0;
+                frmxOpsSelect frm = new frmxOpsSelect(GorevID, tmpMalKod);
+                var sonuc = frm.ShowDialog();
+                sonucID = Ayarlar.Tarih;
             }
             foreach (var itemPanel in PanelVeriList)
             {
                 //mal kabul ise malın bulunduğu satırdaki miktarı bir artırıyor, bir de satırı turuncuya boyuyor
                 if (Ayarlar.MenuTip == MenuType.MalKabul || Ayarlar.MenuTip == MenuType.Paketle || Ayarlar.MenuTip == MenuType.Sevkiyat || Ayarlar.MenuTip == MenuType.KontrollüSayım)
                 {
+
+
                     if (itemPanel.Controls[0].Text == mal)
                     {
                         mal_var = true;
@@ -481,6 +498,21 @@ namespace WMSMobil
                                     item.BackColor = Color.DarkOrange;
                             }
                         }//diğer görevlerde sadece sayıyı arttır
+                        else if (Ayarlar.MenuTip == MenuType.MalKabul)
+                        {
+                            if (cokluMalSayisi == 1 || (cokluMalSayisi > 1 && sonucID == itemPanel.Controls[1].Tag.ToInt32()))
+                            {
+                                if (sender == btnUygula)
+                                {
+                                    if (itemPanel.Miktar != 0)
+                                        itemPanel.Controls[6].Text = itemPanel.Controls[3].Text;
+                                }
+                                else
+                                    itemPanel.Controls[6].Text = (itemPanel.Controls[6].Text.ToDecimal() + 1).ToString();
+                                foreach (Control item in itemPanel.Controls)
+                                    item.BackColor = Color.DarkOrange;
+                            }
+                        }
                         else
                         {
                             if (sender == btnUygula)
