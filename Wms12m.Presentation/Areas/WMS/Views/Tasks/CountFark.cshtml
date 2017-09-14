@@ -13,18 +13,15 @@
                             <tbody>
                                 @foreach (var item in Model)
                                 {
-                                    if (ViewBag.ID != "2" || (ViewBag.ID == "2" && item.GunesStok != item.WmsStok))
-                                    {
-                                        <tr>
-                                            <td>@item.MalKodu</td>
-                                            <td>@item.MalAdi</td>
-                                            <td align="right">@String.Format("{0:n}", item.Miktar)</td>
-                                            <td align="right">@String.Format("{0:n}", item.WmsStok)</td>
-                                            <td align="right">@String.Format("{0:n}", item.GunesStok)</td>
-                                            <td align="right">@String.Format("{0:n}", item.Miktar - item.WmsStok)</td>
-                                            <td>@item.Birim</td>
-                                        </tr>
-                                    }
+                                    <tr>
+                                        <td>@item.MalKodu</td>
+                                        <td>@item.MalAdi</td>
+                                        <td align="right">@String.Format("{0:n}", item.Miktar)</td>
+                                        <td align="right">@String.Format("{0:n}", item.WmsStok)</td>
+                                        <td align="right">@String.Format("{0:n}", item.GunesStok)</td>
+                                        <td align="right">@String.Format("{0:n}", item.Miktar - item.WmsStok)</td>
+                                        <td>@item.Birim</td>
+                                    </tr>
                                 }
                             </tbody>
                         </table>
