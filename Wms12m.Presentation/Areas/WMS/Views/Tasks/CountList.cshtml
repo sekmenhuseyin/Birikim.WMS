@@ -35,7 +35,7 @@
                                 <input name="GorevID" type="hidden" value="@item.ID" />
                                 <input type="submit" class="btn green input-circle" value="Aktif Et" />
                             }
-                            using (Ajax.BeginForm("CountCreate", "Tasks", new { area = "WMS" }, new AjaxOptions { InsertionMode = InsertionMode.Replace, OnSuccess = "getresult", OnFailure = "Modaldialog('Lütfen Tekrar Deneyin', 'Hata', 'Tamam', 'btn-danger');" }, new { @class = "pull-left" }))
+                            using (Ajax.BeginForm("CountCreate", "Tasks", new { area = "WMS" }, new AjaxOptions { InsertionMode = InsertionMode.Replace, OnSuccess = "getresult", OnFailure = "Modaldialog('Lütfen Tekrar Deneyin', 'Hata', 'Tamam', 'btn-danger');" }, new { @class = "pull-left", @id = "frmCreate" }))
                             {
                                 @Html.AntiForgeryToken()
                                 <input name="GorevID" type="hidden" value="@item.ID" />
@@ -81,4 +81,13 @@
         else
             Modaldialog(e.Message, 'Hata', 'Tamam', 'btn-danger');
     };
+    @*https://stackoverflow.com/questions/3928299/javascript-work-before-submitting-asp-net-mvc-form*@
+    jQuery('form#frmCreate').submit(function (e) {
+        if (somevar == false) {
+            e.preventDefault();
+        }
+        else {
+            jQuery('input#hiddeninput').val('somevalue');
+        }
+    })
 </script>
