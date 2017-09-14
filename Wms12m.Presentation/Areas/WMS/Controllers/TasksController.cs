@@ -356,9 +356,9 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                 sql = string.Format(@"SELECT        wms.Yer.KatID, wms.Yer.MalKodu, wms.Yer.Birim, ISNULL
                                                         ((SELECT        Miktar
                                                             FROM            wms.GorevYer
-                                                            WHERE (GorevID = {1}) AND(MalKodu = wms.Yer.MalKodu) AND (YerID = wms.Yer.ID)), 0) AS Miktar, wms.Yer.Miktar AS Stok
+                                                            WHERE (GorevID = {0}) AND(MalKodu = wms.Yer.MalKodu) AND (YerID = wms.Yer.ID)), 0) AS Miktar, wms.Yer.Miktar AS Stok
                                         FROM            wms.Yer INNER JOIN wms.Gorev ON wms.Yer.DepoID = wms.Gorev.DepoID
-                                        WHERE (wms.Gorev.ID = {1}) AND(wms.Yer.MalKodu IN (SELECT MalKodu FROM wms.GorevYer WHERE (GorevID = {1})))", GorevID);
+                                        WHERE (wms.Gorev.ID = {0}) AND(wms.Yer.MalKodu IN (SELECT MalKodu FROM wms.GorevYer WHERE (GorevID = {0})))", GorevID);
                 var list2 = db.Database.SqlQuery<frmSiparisToplama>(sql).ToList();
                 //loop list
                 foreach (var item in list2)
