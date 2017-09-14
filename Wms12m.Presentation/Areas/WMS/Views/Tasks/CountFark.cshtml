@@ -1,5 +1,5 @@
 ﻿@model IEnumerable<frmSiparisMalzemeDetay>
-@{ string tmp = ViewBag.ID; if (tmp.Left(1) == "0") { tmp = "Fark"; } else { tmp = ""; } }
+@{ string tmp = ViewBag.ID; if (tmp.Left(1) == "1") { tmp = "Fark"; } else { tmp = ""; } }
 <div class="modal-content">
     <div class="close-modal" data-dismiss="modal"><div class="lr"><div class="rl"></div></div></div>
     <div class="container">
@@ -13,15 +13,18 @@
                             <tbody>
                                 @foreach (var item in Model)
                                 {
-                                    <tr>
-                                        <td>@item.MalKodu</td>
-                                        <td>@item.MalAdi</td>
-                                        <td align="right">@String.Format("{0:n}", item.Miktar)</td>
-                                        <td align="right">@String.Format("{0:n}", item.WmsStok)</td>
-                                        <td align="right">@String.Format("{0:n}", item.GunesStok)</td>
-                                        <td align="right">@String.Format("{0:n}", item.Miktar - item.WmsStok)</td>
-                                        <td>@item.Birim</td>
-                                    </tr>
+                                    if (ViewBag.ID != "2" || (ViewBag.ID == "2" && item.GunesStok != item.WmsStok))
+                                    {
+                                        <tr>
+                                            <td>@item.MalKodu</td>
+                                            <td>@item.MalAdi</td>
+                                            <td align="right">@String.Format("{0:n}", item.Miktar)</td>
+                                            <td align="right">@String.Format("{0:n}", item.WmsStok)</td>
+                                            <td align="right">@String.Format("{0:n}", item.GunesStok)</td>
+                                            <td align="right">@String.Format("{0:n}", item.Miktar - item.WmsStok)</td>
+                                            <td>@item.Birim</td>
+                                        </tr>
+                                    }
                                 }
                             </tbody>
                         </table>
