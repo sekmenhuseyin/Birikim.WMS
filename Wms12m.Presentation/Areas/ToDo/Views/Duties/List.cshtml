@@ -12,6 +12,7 @@
         <table class="table table-bordered table-striped table-condensed" id="sample_1">
             <thead class="flip-content">
                 <tr>
+                    <th></th>
                     <th>Çalışma</th>
                     <th>Firma</th>
                     <th>Proje</th>
@@ -30,6 +31,7 @@
                 @foreach (var item in Model)
                 {
                     <tr data-ID="@item.ID" ondblclick="showEdit(@item.ID)">
+                        <td><div style="display:flex;"><i class='fa fa-arrow-up list-up-down' onclick='DeleteElement(this)' style='color:green;'></i><i class='fa fa-arrow-down list-up-down' onclick='NewElement()'  style='color:red;'></i></div></td>
                         <td class="details-control"></td>
                         <td nowrap>@item.ProjeForm.Musteri.Firma</td>
                         <td nowrap>@item.ProjeForm.Proje</td>
@@ -76,6 +78,7 @@
             </tbody>
             <tfoot class="tf-search">
                 <tr>
+                    <th></th>
                     <th></th>
                     <th></th>
                     <th></th>

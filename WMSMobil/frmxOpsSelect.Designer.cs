@@ -41,6 +41,7 @@
             this.columnHeader8 = new System.Windows.Forms.ColumnHeader();
             this.btnSec = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
+            this.columnHeader9 = new System.Windows.Forms.ColumnHeader();
             this.SuspendLayout();
             // 
             // listView1
@@ -52,6 +53,7 @@
             this.listView1.Columns.Add(this.columnHeader3);
             this.listView1.Columns.Add(this.columnHeader4);
             this.listView1.Columns.Add(this.columnHeader5);
+            this.listView1.Columns.Add(this.columnHeader9);
             this.listView1.Columns.Add(this.columnHeader7);
             this.listView1.Columns.Add(this.columnHeader8);
             this.listView1.FullRowSelect = true;
@@ -114,11 +116,16 @@
             // 
             // label1
             // 
-            this.label1.ForeColor = System.Drawing.Color.DarkTurquoise;
+            this.label1.ForeColor = System.Drawing.Color.Red;
             this.label1.Location = new System.Drawing.Point(0, 10);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(240, 20);
             this.label1.Text = "Güncellemek istediğiniz malkodunu seçiniz";
+            // 
+            // columnHeader9
+            // 
+            this.columnHeader9.Text = "İrsaliye No";
+            this.columnHeader9.Width = 60;
             // 
             // frmxOpsSelect
             // 
@@ -131,7 +138,7 @@
             this.Controls.Add(this.listView1);
             this.Menu = this.mainMenu1;
             this.Name = "frmxOpsSelect";
-            this.Text = "frmxOpsSelect";
+            this.Text = "Malzeme Seçimi";
             this.ResumeLayout(false);
 
         }
@@ -149,5 +156,6 @@
         private System.Windows.Forms.ColumnHeader columnHeader7;
         private System.Windows.Forms.ColumnHeader columnHeader8;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.ColumnHeader columnHeader9;
     }
 }

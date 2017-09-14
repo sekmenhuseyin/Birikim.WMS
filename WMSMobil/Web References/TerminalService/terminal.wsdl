@@ -165,6 +165,7 @@
           <s:element minOccurs="1" maxOccurs="1" name="YerMiktar" nillable="true" type="s:decimal" />
           <s:element minOccurs="0" maxOccurs="1" name="Raf" type="s:string" />
           <s:element minOccurs="0" maxOccurs="1" name="KynkSiparisNo" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="IrsaliyeNo" type="s:string" />
           <s:element minOccurs="1" maxOccurs="1" name="KynkSiparisSiraNo" nillable="true" type="s:short" />
         </s:sequence>
       </s:complexType>

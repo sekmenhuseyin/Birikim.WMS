@@ -37,6 +37,7 @@
         public decimal? YerMiktar { get; set; }
         public string Raf { get; set; }
         public string KynkSiparisNo { get; set; }
+        public string IrsaliyeNo { get; set; }
         public short? KynkSiparisSiraNo { get; set; }
     }
 

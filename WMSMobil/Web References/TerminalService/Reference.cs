@@ -1691,6 +1691,8 @@ namespace WMSMobil.TerminalService {
         
         private string kynkSiparisNoField;
         
+        private string irsaliyeNoField;
+        
         private System.Nullable<short> kynkSiparisSiraNoField;
         
         /// <remarks/>
@@ -1851,6 +1853,16 @@ namespace WMSMobil.TerminalService {
             }
             set {
                 this.kynkSiparisNoField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string IrsaliyeNo {
+            get {
+                return this.irsaliyeNoField;
+            }
+            set {
+                this.irsaliyeNoField = value;
             }
         }
         
