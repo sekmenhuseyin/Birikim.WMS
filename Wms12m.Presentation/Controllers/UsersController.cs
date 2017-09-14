@@ -384,6 +384,7 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public PartialViewResult YetkiDuzenle(int ID)
         {
+            if (CheckPerm(Perms.Kullanıcılar, PermTypes.Reading) == false || ID == 1) return null;
             var tbl = db.UserDetails.Where(m => m.UserID == ID).FirstOrDefault();
             SipOnayYetkiler yetki = new SipOnayYetkiler();
             if (tbl != null)
@@ -424,6 +425,7 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public JsonResult ParametreUpdate(string CHKAraligi, string Sirketler, string Tipler, string Kod3, string Risk, int ID)
         {
+            if (CheckPerm(Perms.Kullanıcılar, PermTypes.Writing) == false || ID == 1) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             Result _Result = new Result(true);
             var tbl = db.UserDetails.Where(m => m.UserID == ID).FirstOrDefault();
             if (tbl != null)
