@@ -52,57 +52,5 @@
         $('.yenile-buton').click(function () {
             table.ajax.reload();
         });
-        $('.onay-buton').click(function () {
-            $.ajax({
-                url: window.location.origin + "/YN/OnayBekleyenler/Teklif_Onay",
-                data: { "ID": selected, "Onay": true },
-                dataType: "json",
-                success: function (data) {
-                    if (data.Status == true) {
-                        Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "Guncel");
-                        table.ajax.reload();
-                    }
-                    else if (data.Message != "" && data.Message != null)
-                        Modaldialog(data.Message, 'Hata', 'Tamam', 'btn-danger');
-                    else
-                        Modaldialog("Hata oldu", 'Hata', 'Tamam', 'btn-danger');
-                }
-            });
-        });
-        $('.reddet-buton').click(function () {
-            $.ajax({
-                url: window.location.origin + "/YN/OnayBekleyenler/Teklif_Red",
-                data: { "ID": selected, "Onay": true },
-                dataType: "json",
-                success: function (data) {
-                    if (data.Status == true) {
-                        Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "Guncel");
-                        table.ajax.reload();
-                    }
-                    else if (data.Message != "" && data.Message != null)
-                        Modaldialog(data.Message, 'Hata', 'Tamam', 'btn-danger');
-                    else
-                        Modaldialog("Hata oldu", 'Hata', 'Tamam', 'btn-danger');
-                }
-            });
-        });
     });
-    function newrow(id) {
-        return "<table style='background:transparent;' id='new" + id + "'></table>";
-    }
-    function format(d) {
-        var html = "<tr style='background: transparent;'><th>Teklif No</th><th>Hesap Kodu</th><th>Ünvan</th><th>Miktar</th><th>Kaydeden</th><th>Mal Kodu</th><th>Mal Adı</th><th>Fiyat</th><th>Tutar</th><th>Kayıt Tarihi</th></tr>";
-        $.ajax({
-            type: 'POST',
-            url: '/YN/OnayBekleyenler/Teklif_Details',
-            data: { "ID": d },
-            dataType: "json",
-            success: function (data) {
-                for (var i in data) {
-                    html += '<tr style="background:transparent;"><td>' + data[i].TeklifNo + '</td><td>' + data[i].HesapKodu + '</td><td>' + data[i].Unvan + '</td><td>' + data[i].Miktar + '</td><td>' + data[i].Kaydeden + '</td><td>' + data[i].MalKodu + '</td><td>' + data[i].MalAdi + '</td>' + data[i].Fiyat + ' ' + data[i].DovizCinsi + '</td><td>' + data[i].Tutar + '</td><td>' + data[i].KayitTarihi + '</td></tr>';
-                };
-                $('#new' + d).html(html);
-            }
-        });
-    }
 </script>}

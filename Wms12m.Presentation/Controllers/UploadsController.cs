@@ -55,7 +55,6 @@ namespace Wms12m.Presentation.Controllers
                         if (dr["İrsaliye No"].ToString() == "") return Json(_result, JsonRequestBehavior.AllowGet);
                         if (dr["Miktar"].ToString2().IsNumeric() == false) return Json(_result, JsonRequestBehavior.AllowGet);
                         if (dr["MalKodu"].ToString() == "") return Json(_result, JsonRequestBehavior.AllowGet);
-                        if (dr["Kaynak Sipariş No"].ToString() == "") return Json(_result, JsonRequestBehavior.AllowGet);
                     }
                     catch (Exception ex)
                     {
@@ -71,26 +70,27 @@ namespace Wms12m.Presentation.Controllers
                     {
                     }
                     //add irsaliye and gorev
-                    if (evraklar.Contains(dr["İrsaliye No"].ToString()) == false)
+                    string irsNo = dr["İrsaliye No"].ToString();
+                    if (evraklar.Contains(irsNo) == false)
                     {
                         if (evraklar != "") evraklar += ",";
-                        evraklar += dr["İrsaliye No"].ToString();
-                        gorevno = db.Gorevs.Where(m => m.IR.EvrakNo == dr["İrsaliye No"].ToString() && m.IR.IslemTur == false).Select(m => m.GorevNo).FirstOrDefault();
+                        evraklar += irsNo;
+                        gorevno = db.SettingsGorevNo(tarih, DID).FirstOrDefault();
                     }
-                    else//daha önce eklenmeyen bir irsaliye ise
+                    else//daha önce eklenen bir irsaliye ise
                     {
-                        var kontrol1 = db.Gorevs.Where(m => m.IR.EvrakNo == dr["İrsaliye No"].ToString() && m.IR.IslemTur == false && (m.DurumID == 9 || m.DurumID == 11)).FirstOrDefault();
+                        var kontrol1 = db.Gorevs.Where(m => m.IR.EvrakNo == irsNo && m.IR.IslemTur == false && (m.DurumID == 9 || m.DurumID == 11)).FirstOrDefault();
                         if (kontrol1 != null)
                             return Json(new Result(false, 0, kontrol1.IR.EvrakNo + " nolu irsaliye daha önce kaydedilmiş."), JsonRequestBehavior.AllowGet);
                         else
-                            gorevno = db.SettingsGorevNo(tarih, DID).FirstOrDefault();
+                            gorevno = db.Gorevs.Where(m => m.IR.EvrakNo == irsNo && m.IR.IslemTur == false).Select(m => m.GorevNo).FirstOrDefault();
                     }
-                    sonuc = db.InsertIrsaliye(SID, DID, gorevno, dr["İrsaliye No"].ToString(), tarih, "", false, ComboItems.MalKabul.ToInt32(), vUser.UserName, tarih, fn.ToOATime(), Hesap, "", 0, "").FirstOrDefault();
+                    sonuc = db.InsertIrsaliye(SID, DID, gorevno, irsNo, tarih, "", false, ComboItems.MalKabul.ToInt32(), vUser.UserName, tarih, fn.ToOATime(), Hesap, "", 0, "").FirstOrDefault();
                     //add detays
                     try
                     {
                         //malkodu kontrol
-                        var kontrol2 = db.IRS_Detay.Where(m => m.MalKodu == malkodu && m.IR.EvrakNo == dr["İrsaliye No"].ToString() && m.IR.IslemTur == false).FirstOrDefault();
+                        var kontrol2 = db.IRS_Detay.Where(m => m.MalKodu == malkodu && m.IR.EvrakNo == irsNo && m.IR.IslemTur == false).FirstOrDefault();
                         if (kontrol2 != null)
                             return Json(new Result(false, 0, kontrol2.IR.EvrakNo + " nolu irsaliyeye daha önce " + malkodu + " eklenmiş."), JsonRequestBehavior.AllowGet);
                         //irs detay
@@ -435,11 +435,13 @@ namespace Wms12m.Presentation.Controllers
                                 db.Bolums.Add(bl);
                                 db.SaveChanges();
                             }
+                            //özellik id bul
+                            var ozellik = db.Database.SqlQuery<int>("SELECT ID FROM ComboItem_Name WHERE (ComboID = 3) AND (Name like '%" + tozellik + "%')").FirstOrDefault();
+                            if (ozellik == 0) ozellik = 14;
+                            //kat bul
                             var kt = db.Kats.Where(m => m.KatAd == tkat && m.BolumID == bl.ID).FirstOrDefault();
                             if (kt == null)
                             {
-                                var ozellik = db.ComboItem_Name.Where(m => m.Name == tozellik && m.ComboID == ozelliktipi).Select(m => m.ID).FirstOrDefault();
-                                if (ozellik == 0) ozellik = 14;
                                 kt = new Kat()
                                 {
                                     BolumID = bl.ID,
@@ -458,8 +460,18 @@ namespace Wms12m.Presentation.Controllers
                                 };
                                 if (taciklama != "") kt.Aciklama = taciklama;
                                 db.Kats.Add(kt);
-                                db.SaveChanges();
                             }
+                            else
+                            {
+                                kt.Boy = dr["Yükseklik (mm)"].ToDecimal();
+                                kt.En = dr["Genişlik (mm)"].ToDecimal();
+                                kt.Derinlik = dr["Derinlik (mm)"].ToDecimal();
+                                kt.AgirlikKapasite = dr["Kapasite (kg)"].ToDecimal();
+                                kt.OzellikID = ozellik;
+                                kt.Degistiren = vUser.UserName;
+                                kt.DegisTarih = fn.ToOADate();
+                            }
+                            db.SaveChanges();
                             basarili++;
                         }
                     }

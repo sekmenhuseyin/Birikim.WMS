@@ -281,6 +281,7 @@
           <s:sequence>
             <s:element minOccurs="0" maxOccurs="1" name="malkodu" type="s:string" />
             <s:element minOccurs="0" maxOccurs="1" name="barkod" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="GorevID" type="s:int" />
             <s:element minOccurs="1" maxOccurs="1" name="KullID" type="s:int" />
             <s:element minOccurs="0" maxOccurs="1" name="AuthGiven" type="s:string" />
             <s:element minOccurs="0" maxOccurs="1" name="Guid" type="s:string" />

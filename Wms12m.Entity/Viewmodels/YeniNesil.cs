@@ -94,4 +94,38 @@
         public int DegisTarih { get; set; }
         public string DegisSaat { get; set; }
     }
+    /// <summary>
+    /// fatura kayıt işlemleri için
+    /// </summary>
+    public class SepetUrun
+    {
+        public string KullaniciKodu { get; set; }
+        public string HesapKodu { get; set; }
+        public string UrunKodu { get; set; }
+        public string Depo { get; set; }
+        public string ParaCinsi { get; set; }
+        public string Birim { get; set; }
+        public string Fiyat { get; set; }
+        public string Miktar { get; set; }
+        public int SatirTip { get; set; }  ///1 Fatura 2 Sipariş 3 Teklif
+    }
+    public class HesapItem
+    {
+        public string HesapKodu { get; set; }
+        public string Unvan { get; set; }
+        public string BankaHesapKodu { get; set; }
+        public string ParaBirimi { get; set; }
+        public static string Sorgu = @"
+        SELECT CAR002_HesapKodu as HesapKodu, CAR002_Unvan1+' '+CAR002_Unvan2 as Unvan,
+               CAR002_BankaHesapKodu as BankaHesapKodu, CAR002_ParaBirimi as ParaBirimi   
+        FROM  YNS{{0}}.YNS{{0}}.CAR002(NOLOCK)
+        WHERE CAR002_AktifFlag=1 AND CAR002_BankaHesapKodu='{0}'
+        ";
+    }
+    public class STIEvrakBilgi
+    {
+        public int Tip { get; set; }
+        public string EvrakNo { get; set; }
+        public int SiraNo { get; set; }
+    }
 }

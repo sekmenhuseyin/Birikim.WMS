@@ -20,6 +20,7 @@
     </div>
 </div>
 @section Scripts{<script>
+    var selected = "";
     $(document).ready(function () {
         var table = $('#sample_1').DataTable({
             "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
@@ -46,65 +47,10 @@
             var row = table.row(tr);
             editInModal2('/YN/OnayBekleyenler/Siparis_Details', { ID: row.data().EvrakSeriNo })
             $('#modalEditPage').modal('toggle');
+            selected = row.data().EvrakSeriNo;
         });
         $('.yenile-buton').click(function () {
             table.ajax.reload();
         });
-        $('.onay-buton').click(function () {
-            $.ajax({
-                type: 'POST',
-                url: '/YN/OnayBekleyenler/Siparis_Onay',
-                data: { "ID": 0, "Onay": true },
-                dataType: "json",
-                success: function (data) {
-                    if (data.Status == true)
-                    {
-                        Modaldialog("İşlem Tamamlandı", 'Onaylandı', 'Tamam', 'btn-success');
-                        table.ajax.reload();
-                    }
-                    else if (data.Message != "" && data.Message != null)
-                        Modaldialog(data.Message, 'Hata', 'Tamam', 'btn-danger');
-                    else
-                        Modaldialog("Hata oldu", 'Hata', 'Tamam', 'btn-danger');
-                }
-            });
-        });
-        $('.reddet-buton').click(function () {
-            $.ajax({
-                type: 'POST',
-                url: '/YN/OnayBekleyenler/Siparis_Onay',
-                data: { "ID": 0, "Onay": false },
-                dataType: "json",
-                success: function (data) {
-                    if (data.Status == true)
-                    {
-                        Modaldialog("İşlem Tamamlandı", 'Onaylandı', 'Tamam', 'btn-success');
-                        table.ajax.reload();
-                    }
-                    else if (data.Message != "" && data.Message != null)
-                        Modaldialog(data.Message, 'Hata', 'Tamam', 'btn-danger');
-                    else
-                        Modaldialog("Hata oldu", 'Hata', 'Tamam', 'btn-danger');
-                }
-            });
-        });
     });
-    function newrow(id) {
-        return "<table style='background:transparent;' id='new" + id + "'></table>";
-    }
-    function format(d) {
-        var html = "<tr style='background: transparent;'><th>HesapKodu</th><th>Unvan</th><th>MalKodu</th><th>Miktar</th><th>BirimFiyat</th><th>Tutar</th><th>Depo</th></tr>";
-        $.ajax({
-            type: 'POST',
-            url: '/YN/OnayBekleyenler/Siparis_Details',
-            data: { "ID": d },
-            dataType: "json",
-            success: function (data) {
-                for (var i in data) {
-                    html += '<tr style="background:transparent;"><td>' + data[i].HesapKodu + '</td><td>' + data[i].Unvan + '</td><td>' + data[i].MalKodu + '</td><td>' + data[i].Miktar + '</td><td align=right>' + data[i].BirimFiyat + ' ' + data[i].DovizCinsi + '</td><td align=right>' + data[i].Tutar + ' ' + data[i].DovizCinsi + '</td><td>' + data[i].Depo + '</td></tr>';
-                };
-                $('#new' + d).html(html);
-            }
-        });
-    }
 </script>}

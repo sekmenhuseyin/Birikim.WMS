@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "Onay Bekleyen Transferler";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }@section Styles{<style>
@@ -15,14 +14,11 @@
             <div class="portlet-title">
                 <div class="caption"><i class="fa fa-gift"></i>Onay Bekleyen Transferler</div>
                 <div class="col-md-2 pull-right m-t-5"><button class="btn btn-default pull-right input-circle yenile-buton glyphicon glyphicon-refresh"> Yenile </button></div>
-                <div class="col-md-2 pull-right m-t-5"><button class="btn btn-success pull-right input-circle onay-buton glyphicon glyphicon-ok"> Onayla </button></div>
-                <div class="col-md-2 pull-right m-t-5"><button class="btn btn-danger pull-right input-circle reddet-buton glyphicon glyphicon-remove"> Reddet </button></div>
             </div>
             <div class="portlet-body form p-30 p-t-15">
                 <table class="table table-striped table-bordered" id="sample_1">
                     <thead>
                         <tr>
-                            <th></th>
                             <th>Transfer No</th>
                             <th>Talep Eden</th>
                             <th>Tarih</th>
@@ -47,96 +43,21 @@
             },
             "fixedHeader": true,
             "columns": [
-                {
-                    "class": "details-control",
-                    "orderable": false,
-                    "data": null,
-                    "defaultContent": ""
-                },
+               
                 { "data": "TransferNo" },
                 { "data": "Kaydeden" },
                 { "data": "Tarih" }
             ]
         });
-        $('#sample_1 tbody').on('click', 'td.details-control', function () {
+        $('#sample_1 tbody').on('dblclick', 'tr', function () {
             var tr = $(this).closest('tr');
             var row = table.row(tr);
-            if (row.child.isShown()) { row.child.hide(); tr.removeClass('shown'); }
-            else { row.child(newrow(row.data().TransferNo)).show(); format(row.data().TransferNo); tr.addClass('shown'); }
-        });
-        $('#sample_1 tbody').on('click', 'tr', function () {
-            var tr = $(this).closest('tr');
-            var row = table.row(tr);
-            $(tr).toggleClass('selected');
-            if ($(tr).hasClass('selected') == true) selected = selected + row.data().TransferNo + "#";
-            else selected = selected.replace(row.data().TransferNo + "#", "");
-        });
-        $('.onay-buton').click(function () {
-            if (selected == "") {
-                Modaldialog("Bir kayıt seçmediniz", 'Hata', 'Tamam', 'btn-danger');
-                return;
-            }
-            $.ajax({
-                type: 'POST',
-                url: '/YN/OnayBekleyenler/Transfer_Onay',
-                data: { "ID": selected, "Onay": true },
-                dataType: "json",
-                success: function (data) {
-                    if (data.Status == true)
-                    {
-                        Modaldialog("İşlem Tamamlandı", 'Onaylandı', 'Tamam', 'btn-success');
-                        table.ajax.reload();
-                    }
-                    else if (data.Message != "" && data.Message != null)
-                        Modaldialog(data.Message, 'Hata', 'Tamam', 'btn-danger');
-                    else
-                        Modaldialog("Hata oldu", 'Hata', 'Tamam', 'btn-danger');
-                }
-            });
-        });
-        $('.reddet-buton').click(function () {
-            if (selected == "") {
-                Modaldialog("Bir kayıt seçmediniz", 'Hata', 'Tamam', 'btn-danger');
-                return;
-            }
-            $.ajax({
-                type: 'POST',
-                url: '/YN/OnayBekleyenler/Transfer_Onay',
-                data: { "ID": selected, "Onay": false },
-                dataType: "json",
-                success: function (data) {
-                    if (data.Status == true)
-                    {
-                        Modaldialog("İşlem Tamamlandı", 'Onaylandı', 'Tamam', 'btn-success');
-                        table.ajax.reload();
-                    }
-                    else if (data.Message != "" && data.Message != null)
-                        Modaldialog(data.Message, 'Hata', 'Tamam', 'btn-danger');
-                    else
-                        Modaldialog("Hata oldu", 'Hata', 'Tamam', 'btn-danger');
-                }
-            });
+            editInModal2('/YN/OnayBekleyenler/Transfer_Details', { ID: row.data().TransferNo })
+            $('#modalEditPage').modal('toggle');
+            selected = row.data().TransferNo;
         });
         $('.yenile-buton').click(function () {
             table.ajax.reload();
         });
     });
-    function newrow(id) {
-        return "<table style='background:transparent;' id='new" + id + "'></table>";
-    }
-    function format(d) {
-        var html = "<tr style='background: transparent;'><th>Mal Kodu</th><th>Mal Adı</th><th>Miktar</th><th>Birim</th><th>CikisDepo</th></tr>";
-        $.ajax({
-            type: 'POST',
-            url: '/YN/OnayBekleyenler/Transfer_Details',
-            data: { "ID": d },
-            dataType: "json",
-            success: function (data) {
-                for (var i in data) {
-                    html += '<tr style="background:transparent;"><td>' + data[i].MalKodu + '</td><td>' + data[i].MalAdi + '</td><td class="text-right">' + data[i].Miktar + '</td><td align=right>' + data[i].Birim + '</td><td>' + data[i].CikisDepo + '</td></tr>';
-                };
-                $('#new' + d).html(html);
-            }
-        });
-    }
 </script>}

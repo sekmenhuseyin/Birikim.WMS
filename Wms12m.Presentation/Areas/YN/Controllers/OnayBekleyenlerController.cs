@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Configuration;
 using System.Linq;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
@@ -60,20 +61,10 @@ namespace Wms12m.Presentation.Areas.YN.Controllers
         [HttpPost]
         public JsonResult Siparis_Onay(string ID, bool Onay)
         {
-            ID = ID.RemoveLastCharacter();
-            ID = "'" + ID.Replace("#", "','") + "'";
             try
             {
                 using (YNSEntities dby = new YNSEntities())
                 {
-                    if (Onay == true)
-                    {
-
-                    }
-                    else
-                    {
-
-                    }
                 }
                 return Json(new Result(true), JsonRequestBehavior.AllowGet);
             }
@@ -176,7 +167,7 @@ namespace Wms12m.Presentation.Areas.YN.Controllers
         /// liste detayı
         /// </summary>
         [HttpPost]
-        public JsonResult Transfer_Details(string ID)
+        public PartialViewResult Transfer_Details(string ID)
         {
             using (YNSEntities dby = new YNSEntities())
             {
@@ -186,7 +177,7 @@ namespace Wms12m.Presentation.Areas.YN.Controllers
                                                                         FROM            YNS{0}.TransferDepo INNER JOIN
                                                                                                  YNS{0}.STK004 ON YNS{0}.TransferDepo.MalKodu = YNS{0}.STK004.STK004_MalKodu
                                                                         WHERE        YNS{0}.TransferDepo.TransferNo = '{1}'", "0TEST", ID)).ToList();
-                return Json(list, JsonRequestBehavior.AllowGet);
+                return PartialView("Transfer_Details", list);
             }
         }
         /// <summary>
@@ -195,12 +186,10 @@ namespace Wms12m.Presentation.Areas.YN.Controllers
         [HttpPost]
         public JsonResult Transfer_Onay(string ID, bool Onay)
         {
-            ID = ID.RemoveLastCharacter();
-            ID = "'" + ID.Replace("#", "','") + "'";
             try
             {
                 using (YNSEntities dby = new YNSEntities())
-                    dby.Database.ExecuteSqlCommand(string.Format(@"UPDATE YNS{0}.TransferDepo SET OnayDurumu = {1} WHERE (TransferNo IN ({2}))", "0TEST", Onay == true ? 1 : 2, ID));
+                    dby.Database.ExecuteSqlCommand(string.Format(@"UPDATE YNS{0}.TransferDepo SET OnayDurumu = {1} WHERE (TransferNo = '{2}')", "0TEST", Onay == true ? 1 : 2, ID));
                 return Json(new Result(true, 1), JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
@@ -241,14 +230,21 @@ namespace Wms12m.Presentation.Areas.YN.Controllers
         [HttpPost]
         public JsonResult Fatura_Onay(string ID, bool Onay)
         {
+            var result = new Result();
             try
             {
                 using (YNSEntities dby = new YNSEntities())
                 {
-
-                    dby.Database.ExecuteSqlCommand(string.Format("UPDATE [YNS{0}].[YNS{0}].[TempFatura] SET IslemDurumu={1} WHERE EvrakNo='{2}'", "0TEST", Onay == true ? 1 : 2, ID));
+                    if (Onay == true)
+                    {
+                        var list = dby.TempFaturas.Where(m => m.IslemDurumu == 0 && m.EvrakNo == ID).Select(m => new SepetUrun { SatirTip = 1, UrunKodu = m.UrunKodu, HesapKodu = m.HesapKodu, Birim = m.Birim, Fiyat = m.Fiyat.ToString(), Miktar = m.Miktar.ToString(), Depo = m.Depo, ParaCinsi = m.ParaCinsi, KullaniciKodu = vUser.UserName }).ToList();
+                        var yns = new YeniNesil(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "0TEST");
+                        var sepetIslemleri = yns.FaturaKaydet(list);
+                        result = new Result(true, 1);
+                    }
+                    if (result.Status == true) dby.Database.ExecuteSqlCommand(string.Format("UPDATE [YNS{0}].[YNS{0}].[TempFatura] SET IslemDurumu={1} WHERE EvrakNo='{2}'", "0TEST", Onay == true ? 1 : 2, ID));
                 }
-                return Json(new Result(true, 1), JsonRequestBehavior.AllowGet);
+                return Json(result, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {

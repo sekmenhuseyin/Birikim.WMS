@@ -832,5 +832,10 @@ namespace Wms12m.Entity.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("WMSEntities.DeleteIrsaliye", irsaliyeIDParameter);
         }
+    
+        public virtual int f_Sıfırla()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("WMSEntities.f_Sıfırla");
+        }
     }
 }

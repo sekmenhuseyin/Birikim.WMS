@@ -279,7 +279,7 @@ namespace Wms12m
         /// malzemeyi barkoda göre bulur
         /// </summary>
         [WebMethod]
-        public Tip_Malzeme GetMalzemeFromBarcode(string malkodu, string barkod, int KullID, string AuthGiven, string Guid)
+        public Tip_Malzeme GetMalzemeFromBarcode(string malkodu, string barkod, int GorevID, int KullID, string AuthGiven, string Guid)
         {
             //kontrol
             if (AuthGiven.Cozumle() != AuthPass) return new Tip_Malzeme();
@@ -287,16 +287,10 @@ namespace Wms12m
             var tbl = db.Users.Where(m => m.ID == KullID && m.Guid.ToString() == Guid).FirstOrDefault();
             if (tbl == null) return new Tip_Malzeme();
             //return
-            string sql = "";
-            var dbs = db.GetSirketDBs();
-            foreach (var item in dbs)
-            {
-                if (sql != "") sql += " UNION ";
-                sql += string.Format("SELECT MalKodu, MalAdi, Birim1, case when Barkod1='' then Barkod2 else Barkod1 end Barkod FROM FINSAT6{0}.FINSAT6{0}.STK WHERE ", item);
-                if (malkodu != "") sql += string.Format("(MalKodu = '{0}')", malkodu);
-                else sql += string.Format("(BarKod1 = '{0}') OR (BarKod2 = '{0}')", barkod);
-            }
-            sql = "SELECT MalKodu, MalAdi, Birim1 as Birim, Barkod from (" + sql + ") as t where MalAdi<>''";
+            var sirketkodu = db.Gorevs.Where(m => m.ID == GorevID).Select(m => m.IR.SirketKod).FirstOrDefault();
+            string sql = string.Format("SELECT MalKodu, MalAdi, Birim1 as Birim, case when Barkod1='' then Barkod2 else Barkod1 end Barkod FROM FINSAT6{0}.FINSAT6{0}.STK WHERE MalAdi<>'' AND ", sirketkodu);
+            if (malkodu != "") sql += string.Format("(MalKodu = '{0}')", malkodu);
+            else sql += string.Format("(BarKod1 = '{0}') OR (BarKod2 = '{0}')", barkod);
             return db.Database.SqlQuery<Tip_Malzeme>(sql).FirstOrDefault();
         }
         /// <summary>
