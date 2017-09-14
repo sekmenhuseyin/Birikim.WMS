@@ -88,8 +88,9 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                     tbl.ToDoListID = "";
                     for (int i = 0; i < gorevCalisma.work.Length; i++)
                     {
-                        if (Convert.ToBoolean(gorevCalisma.checkitem[i]) == true) { 
-                        tbl.ToDoListID += gorevCalisma.todo[i] + ",";
+                        if (Convert.ToBoolean(gorevCalisma.checkitem[i]) == true)
+                        {
+                            tbl.ToDoListID += gorevCalisma.todo[i] + ",";
                         }
                         var id2 = Convert.ToInt32(gorevCalisma.todo[i]);
                         var grv = db.GorevToDoLists.Where(m => m.ID == id2).FirstOrDefault();
@@ -115,7 +116,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                                 grv.KontrolOnay = false;
                                 if (sayac == 0)
                                 {
-                                    var z = db.GorevToDoLists.Where(m => m.GorevID == gorevCalisma.GorevID && m.OnayDurum == true && m.Kontrol == true && m.KontrolOnay == false && m.AktifPasif != false).ToList();
+                                    var z = db.GorevToDoLists.Where(m => m.GorevID == grv.GorevID && m.OnayDurum == true && m.Kontrol == true && m.KontrolOnay == false && m.AktifPasif != false).ToList();
                                     if (z.Count <= 1)
                                     {
                                         gr.Kontrol = false;
