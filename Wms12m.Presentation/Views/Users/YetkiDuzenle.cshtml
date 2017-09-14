@@ -56,14 +56,20 @@
     var ID = "@ViewBag.ID";
     $(".baslik").text(model.AdSoyad);
     $(".yetki-btn").css("display", "none");
-    var sirketlist = model.GosterilecekSirket.split(";");
+    var sirketlist = new Array();
+    var tiplist = new Array();
+    if (model.GosterilecekSirket != null && model.GosterilecekSirket!=""){
+    sirketlist = model.GosterilecekSirket.split(";");
     sirketlist.pop();
-    var tiplist = model.GostSTKDeger.split(";");
-    tiplist.pop();
+    }
+    if (model.GostSTKDeger != null && model.GostSTKDeger != "") {
+        tiplist = model.GostSTKDeger.split(";");
+        tiplist.pop();
+    }
     var chklist, kod3list, risklist, secilitipkod, secilisirket, secilichk = "", secilikod3 = "", secilirisk = "", secilikod32 = "", secilirisk2 = "";
     if (model.GostCHKKodAlani == null || model.GostCHKKodAlani == "") { chklist = ["", "ZZZZZZZZZZZZZZ"];}
     else { chklist = model.GostCHKKodAlani.split(";"); }
-    if (model.GostKod3OrtBakiye == null || model.GostKod3OrtBakiye == "") { kod3list = [0, 999999999999, 0, 999999999999];}
+    if (model.GostKod3OrtBakiye == null || model.GostKod3OrtBakiye == "") { kod3list = [0, 999999999999, 0, 0];}
     else {
         kod3list = model.GostKod3OrtBakiye.split(";");
 
@@ -71,14 +77,14 @@
         if (kod3list[1] == 0 || kod3list[1] == null) kod3list[1] = 999999999999;
         if (kod3list.length > 2) {
             if (kod3list[2] == "" || kod3list[2] == null) kod3list[2] = 0;
-            if (kod3list[3] == 0 || kod3list[3] == null) kod3list[3] = 999999999999;
+            if (kod3list[3] == 0 || kod3list[3] == null) kod3list[3] = 0;
         }
         else {
             kod3list.push(0);
-            kod3list.push(999999999999);
+            kod3list.push(0);
         }
     }
-    if (model.GostRiskDeger == null || model.GostRiskDeger == "") { risklist = [0, 999999999999, 0, 999999999999];}
+    if (model.GostRiskDeger == null || model.GostRiskDeger == "") { risklist = [0, 999999999999, 0, 0];}
     else {
         risklist = model.GostRiskDeger.split(";");
         if (risklist[0] == "" || risklist[0] == null) risklist[0] = 0;
@@ -86,11 +92,11 @@
 
         if (risklist.length > 2) {
             if (risklist[2] == "" || risklist[2] == null) risklist[2] = 0;
-            if (risklist[3] == 0 || risklist[3] == null) risklist[3] = 999999999999;
+            if (risklist[3] == 0 || risklist[3] == null) risklist[3] = 0;
         }
         else {
             risklist.push(0);
-            risklist.push(999999999999);
+            risklist.push(0);
         }
     }
     secilitipkod = model.GostSTKDeger;
@@ -217,7 +223,7 @@
                 secilikod32 += $(".bit-kod32").dxNumberBox("instance").option("value");
             }
             else {
-                secilikod32 += "999999999999";
+                secilikod32 += "0";
             }
         }
 
@@ -238,7 +244,7 @@
                 secilikod32 += e.value;
             }
             else {
-                secilikod32 += "999999999999";
+                secilikod32 += "0";
             }
         }
     });
@@ -298,7 +304,7 @@
                 secilirisk2 += $(".bit-risk2").dxNumberBox("instance").option("value");
             }
             else {
-                secilirisk2 += "999999999999";
+                secilirisk2 += "0";
             }
         }
     });
@@ -318,7 +324,7 @@
                 secilirisk2 += e.value;
             }
             else {
-                secilirisk2 += "999999999999";
+                secilirisk2 += "0";
             }
         }
     });
