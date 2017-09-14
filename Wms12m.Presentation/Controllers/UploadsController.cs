@@ -41,8 +41,8 @@ namespace Wms12m.Presentation.Controllers
             var depo = Store.Detail(DID);
             //buraya kadar hata yoksa bunu yapar. yine de hata olursa hiçbirini kaydetmez...
             int tarih = fn.ToOADate();
-            string gorevno = "";
             var sonuc = new InsertIrsaliye_Result();
+            var gorevno = db.SettingsGorevNo(tarih, DID).FirstOrDefault();
             string evraklar = "";
             using (var dbContextTransaction = db.Database.BeginTransaction())
             {
@@ -75,15 +75,12 @@ namespace Wms12m.Presentation.Controllers
                     {
                         if (evraklar != "") evraklar += ",";
                         evraklar += irsNo;
-                        gorevno = db.SettingsGorevNo(tarih, DID).FirstOrDefault();
                     }
                     else//daha önce eklenen bir irsaliye ise
                     {
                         var kontrol1 = db.Gorevs.Where(m => m.IR.EvrakNo == irsNo && m.IR.IslemTur == false && (m.DurumID == 9 || m.DurumID == 11)).FirstOrDefault();
                         if (kontrol1 != null)
                             return Json(new Result(false, 0, kontrol1.IR.EvrakNo + " nolu irsaliye daha önce kaydedilmiş."), JsonRequestBehavior.AllowGet);
-                        else
-                            gorevno = db.Gorevs.Where(m => m.IR.EvrakNo == irsNo && m.IR.IslemTur == false).Select(m => m.GorevNo).FirstOrDefault();
                     }
                     sonuc = db.InsertIrsaliye(SID, DID, gorevno, irsNo, tarih, "", false, ComboItems.MalKabul.ToInt32(), vUser.UserName, tarih, fn.ToOATime(), Hesap, "", 0, "").FirstOrDefault();
                     //add detays
