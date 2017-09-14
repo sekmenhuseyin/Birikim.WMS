@@ -1203,6 +1203,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="f_Sıfırla" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" StoreFunctionName="_Sıfırla" />
         <Function Name="DeleteLog" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="table" Type="varchar" Mode="In" />
           <Parameter Name="ID" Type="varchar" Mode="In" />
@@ -2146,6 +2147,7 @@
             <End Role="Gorevler" EntitySet="Gorevlers" />
             <End Role="GorevToDoList" EntitySet="GorevToDoLists" />
           </AssociationSet>
+          <FunctionImport Name="f_Sıfırla" />
           </EntityContainer>
         <ComplexType Name="GetSirkets_Result">
           <Property Type="String" Name="Kod" Nullable="false" MaxLength="2" />
@@ -4513,6 +4515,7 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="f_Sıfırla" FunctionName="MModel.Store.f_Sıfırla" />
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
