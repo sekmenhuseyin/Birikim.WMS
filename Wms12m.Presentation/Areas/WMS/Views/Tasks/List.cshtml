@@ -24,7 +24,15 @@
                 <td>@item.Depo.DepoAd</td>
                 <td>@item.ID.GetEvrakNosForGorev()</td>
                 <td>@item.ComboItem_Name1.Name</td>
-                <td>@if(item.ComboItem_Name1.Name != "Kontrollü Sayım"){<a class="btn btn-default input-circle" href="#modalEditPage" data-toggle="modal" onclick="editInModal('/WMS/Tasks/GorevliAta/@item.ID')"> @{if (item.Gorevli != null){ @item.Gorevli} else {<text>Görevli Ata</text>}} </a>}</td>
+                <td>
+                    @if(item.ComboItem_Name1.Name != "Kontrollü Sayım" && item.DurumID == ComboItems.Açık.ToInt32()){
+                        <a class="btn btn-default input-circle" href="#modalEditPage" data-toggle="modal" onclick="editInModal('/WMS/Tasks/GorevliAta/@item.ID')">@{if (item.Gorevli != null){ @item.Gorevli } else { <text>Görevli Ata</text> }}</a>
+                    }
+                    else
+                    {
+                        @item.Gorevli
+                    }
+                </td>
                 <td>@item.ID.GetEvrakTarihsForGorev()</td>
                 <td><span class="hide">@item.OlusturmaTarihi</span>@item.OlusturmaTarihi.FromOADateInt()</td>
                 <td>@{if (item.BitisTarihi != null) { @item.BitisTarihi.Value.FromOADateInt() } }</td>
