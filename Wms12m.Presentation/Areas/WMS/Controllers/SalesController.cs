@@ -215,7 +215,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                     alıcılar += item.Unvan + ",";
                 }
                 //get stok
-                var stokMiktari = db.GetStock(idDepo, item.MalKodu, item.Birim, true).FirstOrDefault();
+                var stokMiktari = db.GetStock(idDepo, item.MalKodu, item.Birim, false).FirstOrDefault();
                 if (stokMiktari != null)
                 {
                     var miktar = miktars[Array.FindIndex(tmp, m => m.Contains(item.ID))];

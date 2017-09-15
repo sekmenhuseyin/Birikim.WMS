@@ -809,7 +809,7 @@ namespace Wms12m
                         foreach (var item2 in yerleştirilen)
                         {
                             var dusulecek = yerleştirme.Detail(item2.YerID);
-                            dusulecek.Miktar += item2.YerlestirmeMiktari;
+                            dusulecek.Miktar -= item2.YerlestirmeMiktari;
                             dusulecek.MakaraDurum = false;
                             yerleştirme.Update(dusulecek, item.IrsaliyeID, KullID, true, item2.YerlestirmeMiktari);
                         }
