@@ -164,7 +164,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             }
             sql = "SELECT ISNULL(SUM(Stok),0) as Stok from (" + sql + ")t";
             //return
-            var list = db.Yer_Log.Where(m => m.MalKodu == kod && m.DepoID == depoID).OrderBy(m => m.KayitTarihi).ThenBy(m => m.KayitSaati).ToList();
+            var list = db.Yer_Log.Where(m => m.MalKodu == kod && m.DepoID == depoID).OrderBy(m => m.KayitTarihi).ThenBy(m => m.KayitSaati).ThenBy(m => m.ID).ToList();
             ViewBag.Stok = db.Database.SqlQuery<decimal>(sql).FirstOrDefault();
             return PartialView("HistoryList", list);
         }
