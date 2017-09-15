@@ -105,7 +105,7 @@ namespace Wms12m.Presentation.Controllers
                         var tbl = db.Database.SqlQuery<frmIrsaliyeMalzeme>(sql).FirstOrDefault();
                         if (tbl != null)
                         {
-                            if (dr["Birim"].ToString() == "") sti.Birim = tbl.Birim;
+                            if (sti.Birim == "") sti.Birim = tbl.Birim;
                             sti.KynkSiparisNo = tbl.EvrakNo;
                             sti.KynkSiparisID = tbl.ROW_ID;
                             sti.KynkSiparisMiktar = tbl.BirimMiktar;

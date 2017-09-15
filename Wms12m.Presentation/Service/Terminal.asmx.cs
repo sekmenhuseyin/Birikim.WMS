@@ -423,7 +423,7 @@ namespace Wms12m
             var kull = db.Users.Where(m => m.ID == KullID).Select(m => m.Kod).FirstOrDefault();
             Finsat finsat = new Finsat(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, mGorev.IR.SirketKod);
             //loop iraliyes
-            foreach (var item in mGorev.IRS.Where(m => m.Onay == false))
+            foreach (var item in mGorev.IRS.Where(m => m.Onay == true && m.LinkEvrakNo == null))
             {
                 string sql = string.Format("SELECT EvrakNo FROM FINSAT6{0}.FINSAT6{0}.STI WHERE (EvrakNo = '{1}') AND (KynkEvrakTip = 3) AND (Chk = {2})", item.SirketKod, item.EvrakNo, item.HesapKodu);
                 var sti = db.Database.SqlQuery<string>(sql).FirstOrDefault();
@@ -437,7 +437,7 @@ namespace Wms12m
                 if (sonuc.Status == true)
                 {
                     //finish
-                    db.TerminalFinishGorev(GorevID, item.ID, gorevNo, DateTime.Today.ToOADateInt(), DateTime.Now.ToOaTime(), kull, "", ComboItems.MalKabul.ToInt32(), ComboItems.RafaKaldır.ToInt32()).FirstOrDefault();
+                    db.TerminalFinishGorev(GorevID, item.ID, gorevNo, DateTime.Today.ToOADateInt(), DateTime.Now.ToOaTime(), kull, item.EvrakNo, ComboItems.MalKabul.ToInt32(), ComboItems.RafaKaldır.ToInt32()).FirstOrDefault();
                     LogActions(KullID.ToString(), "Terminal", "Service", "Terminal", "MalKabul_GoreviTamamla", ComboItems.alDüzenle, GorevID, "MalKabul => RafaKaldır");
                     //add to stok
                     var list = db.GetIrsDetayfromGorev(GorevID).ToList();
