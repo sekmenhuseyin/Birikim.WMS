@@ -37,11 +37,11 @@
             this.columnHeader3 = new System.Windows.Forms.ColumnHeader();
             this.columnHeader4 = new System.Windows.Forms.ColumnHeader();
             this.columnHeader5 = new System.Windows.Forms.ColumnHeader();
+            this.columnHeader9 = new System.Windows.Forms.ColumnHeader();
             this.columnHeader7 = new System.Windows.Forms.ColumnHeader();
             this.columnHeader8 = new System.Windows.Forms.ColumnHeader();
             this.btnSec = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
-            this.columnHeader9 = new System.Windows.Forms.ColumnHeader();
             this.SuspendLayout();
             // 
             // listView1
@@ -93,6 +93,11 @@
             this.columnHeader5.Text = "Makara No";
             this.columnHeader5.Width = 60;
             // 
+            // columnHeader9
+            // 
+            this.columnHeader9.Text = "İrsaliye No";
+            this.columnHeader9.Width = 60;
+            // 
             // columnHeader7
             // 
             this.columnHeader7.Text = "Sipariş No";
@@ -122,11 +127,6 @@
             this.label1.Size = new System.Drawing.Size(240, 20);
             this.label1.Text = "Güncellemek istediğiniz malkodunu seçiniz";
             // 
-            // columnHeader9
-            // 
-            this.columnHeader9.Text = "İrsaliye No";
-            this.columnHeader9.Width = 60;
-            // 
             // frmxOpsSelect
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
@@ -139,6 +139,7 @@
             this.Menu = this.mainMenu1;
             this.Name = "frmxOpsSelect";
             this.Text = "Malzeme Seçimi";
+            this.Closing += new System.ComponentModel.CancelEventHandler(this.frmxOpsSelect_Closing);
             this.ResumeLayout(false);
 
         }

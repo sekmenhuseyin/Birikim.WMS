@@ -21,7 +21,6 @@ namespace WMSMobil
             listView1.FullRowSelect = true;
             listView1.BackColor = Color.FromArgb(206, 223, 239);
             Servis.Url = Ayarlar.ServisURL;
-
             try
             {
                 List<Tip_STI2> liste = new List<Tip_STI2>(Servis.GetMalKoduMalzemes(malKodu, gorevID, Ayarlar.Kullanici.ID, false, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid).ToList());
@@ -32,10 +31,8 @@ namespace WMSMobil
                     listView1.Items.Add(it);
                 }
             }
-            catch (Exception ex)
-            {
-                
-                throw;
+            catch (Exception)
+            {                
             }
         }
 
@@ -48,6 +45,11 @@ namespace WMSMobil
         private void btnSec_Click(object sender, EventArgs e)
         {
             Close();
+        }
+
+        private void frmxOpsSelect_Closing(object sender, CancelEventArgs e)
+        {
+            Servis.Dispose();
         }
 
     }
