@@ -96,20 +96,26 @@ namespace Wms12m.Presentation.Controllers
                             Miktar = Convert.ToDecimal(dr["Miktar"]),
                             Birim = dr["Birim"].ToString()
                         };
-                        //kaynak sipariş
-                        string sql = String.Format("SELECT FINSAT6{0}.FINSAT6{0}.SPI.ROW_ID, FINSAT6{0}.FINSAT6{0}.SPI.EvrakNo, FINSAT6{0}.FINSAT6{0}.SPI.Tarih, FINSAT6{0}.FINSAT6{0}.SPI.SiraNo, FINSAT6{0}.FINSAT6{0}.SPI.BirimMiktar, FINSAT6{0}.FINSAT6{0}.STK.Birim1 as Birim " +
-                            "FROM FINSAT6{0}.FINSAT6{0}.SPI WITH(NOLOCK) INNER JOIN FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) ON FINSAT6{0}.FINSAT6{0}.SPI.MalKodu = FINSAT6{0}.FINSAT6{0}.STK.MalKodu " +
-                            "WHERE (FINSAT6{0}.FINSAT6{0}.SPI.IslemTur = 0) AND (FINSAT6{0}.FINSAT6{0}.SPI.KynkEvrakTip = 63) AND (FINSAT6{0}.FINSAT6{0}.SPI.EvrakNo = '{1}') AND (FINSAT6{0}.FINSAT6{0}.SPI.MalKodu = '{2}') AND (FINSAT6{0}.FINSAT6{0}.SPI.Depo = '{3}')", SID, dr["Kaynak Sipariş No"].ToString(), malkodu, depo.DepoKodu);
-                        var tbl = db.Database.SqlQuery<frmIrsaliyeMalzeme>(sql).FirstOrDefault();
-                        if (tbl != null)
+                        if (dr["Kaynak Sipariş No"].ToString() != "")
                         {
-                            if (sti.Birim == "") sti.Birim = tbl.Birim;
-                            sti.KynkSiparisNo = tbl.EvrakNo;
-                            sti.KynkSiparisID = tbl.ROW_ID;
-                            sti.KynkSiparisMiktar = tbl.BirimMiktar;
-                            sti.KynkSiparisSiraNo = tbl.SiraNo;
-                            sti.KynkSiparisTarih = tbl.Tarih;
+                            //kaynak sipariş
+                            string sql = String.Format("SELECT FINSAT6{0}.FINSAT6{0}.SPI.ROW_ID, FINSAT6{0}.FINSAT6{0}.SPI.EvrakNo, FINSAT6{0}.FINSAT6{0}.SPI.Tarih, FINSAT6{0}.FINSAT6{0}.SPI.SiraNo, FINSAT6{0}.FINSAT6{0}.SPI.BirimMiktar, FINSAT6{0}.FINSAT6{0}.STK.Birim1 as Birim " +
+                                "FROM FINSAT6{0}.FINSAT6{0}.SPI WITH(NOLOCK) INNER JOIN FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) ON FINSAT6{0}.FINSAT6{0}.SPI.MalKodu = FINSAT6{0}.FINSAT6{0}.STK.MalKodu " +
+                                "WHERE (FINSAT6{0}.FINSAT6{0}.SPI.IslemTur = 0) AND (FINSAT6{0}.FINSAT6{0}.SPI.KynkEvrakTip = 63) AND (FINSAT6{0}.FINSAT6{0}.SPI.EvrakNo = '{1}') AND (FINSAT6{0}.FINSAT6{0}.SPI.MalKodu = '{2}') AND (FINSAT6{0}.FINSAT6{0}.SPI.Depo = '{3}')", SID, dr["Kaynak Sipariş No"].ToString(), malkodu, depo.DepoKodu);
+                            var tbl = db.Database.SqlQuery<frmIrsaliyeMalzeme>(sql).FirstOrDefault();
+                            if (tbl != null)
+                            {
+                                if (sti.Birim == "") sti.Birim = tbl.Birim;
+                                sti.KynkSiparisNo = tbl.EvrakNo;
+                                sti.KynkSiparisID = tbl.ROW_ID;
+                                sti.KynkSiparisMiktar = tbl.BirimMiktar;
+                                sti.KynkSiparisSiraNo = tbl.SiraNo;
+                                sti.KynkSiparisTarih = tbl.Tarih;
+                            }
                         }
+                        //birim kontrol
+                        if (sti.Birim == "")
+                            sti.Birim = db.Database.SqlQuery<string>(string.Format("SELECT Birim1 FROM FINSAT6{0}.FINSAT6{0}.STK WHERE (MalKodu = '{1}')", SID, sti.MalKodu)).FirstOrDefault();
                         //Makara No
                         if (dr["Makara No"].ToString() != "") sti.MakaraNo = dr["Makara No"].ToString();
                         //ekle
