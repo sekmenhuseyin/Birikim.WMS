@@ -37,21 +37,50 @@
     </div>
 </div>
 @section Scripts{<script type="text/javascript">
-    FuncSearchBtn();
+    $(document).ready(function () {
+        FuncSearchBtn();
+    });
     function FuncSearchBtn() {
         $('#GorevGrid').html("");
-        setTimeout(PartialView('/WMS/Tasks/CountList', 'GorevGrid', JSON.stringify({ Id: $('#DurumID').val() })), 500);
+        PartialView('/WMS/Tasks/CountList', 'GorevGrid', JSON.stringify({ Id: $('#DurumID').val() }));
     }
-    function newrow(id) { return "<table style='background:transparent;' id='new"+id+"'></table>"; }
-    function format(d) {
-        var html = "<tr style='background: transparent;'><th>Mal Kodu</th><th>Mal Adı</th><th>Miktar</th><th>Birim</th></tr>";
-        $.ajax({
-            type: 'POST',
-            url: '/WMS/Tasks/Details',
-            data: { "ID": d },
-            dataType: "html",
-            success: function (data) {
-               $('#new' + d).html(data);
+    function getresult(e) {
+        if (e.Status == true) {
+            if (e.Message != "")
+                Modaldialog(e.Message, 'Tamamlandı', 'Tamam', 'btn-success');
+            $('#DurumID').val(11);
+            FuncSearchBtn();
+        }
+        else
+            Modaldialog(e.Message, 'Hata', 'Tamam', 'btn-danger');
+    };
+    function frmSubmit() {
+        var dialog = bootbox.dialog({
+            title: 'Liste Onayı',
+            message: "<p>Eksik listesindeki ürünler 'Depo Sayım Fişi'ne atılsın mı?</p>",
+            buttons: {
+                yes: {
+                    label: "Evet",
+                    className: 'btn-info',
+                    callback: function () {
+                        $('#txtCountCreateTip').val("true");
+                        $('#frmCreate').submit();
+                    }
+                },
+                no: {
+                    label: "Hayır",
+                    className: 'btn-warning',
+                    callback: function () {
+                        $('#txtCountCreateTip').val("false");
+                        $('#frmCreate').submit();
+                    }
+                },
+                cancel: {
+                    label: "İptal",
+                    className: 'btn-danger',
+                    callback: function () {
+                    }
+                }
             }
         });
     }
