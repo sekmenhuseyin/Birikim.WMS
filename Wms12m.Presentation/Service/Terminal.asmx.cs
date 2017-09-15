@@ -429,6 +429,9 @@ namespace Wms12m
                 var sti = db.Database.SqlQuery<string>(sql).FirstOrDefault();
                 if (sti != null)
                     return new Result(false, item.EvrakNo + " nolu evrak daha önce kullanılmış");
+                var KatID = db.GetHucreKatID(item.DepoID, "R-ZR-V").FirstOrDefault();
+                if (KatID == null)
+                    return new Result(false, "Deponun rezerv katı bulunamadı");
                 //send to finsat
                 var sonuc = finsat.MalKabul(item, KullID);
                 if (sonuc.Status == true)
@@ -437,16 +440,26 @@ namespace Wms12m
                     db.TerminalFinishGorev(GorevID, item.ID, gorevNo, DateTime.Today.ToOADateInt(), DateTime.Now.ToOaTime(), kull, "", ComboItems.MalKabul.ToInt32(), ComboItems.RafaKaldır.ToInt32()).FirstOrDefault();
                     LogActions(KullID.ToString(), "Terminal", "Service", "Terminal", "MalKabul_GoreviTamamla", ComboItems.alDüzenle, GorevID, "MalKabul => RafaKaldır");
                     //add to stok
-                    var KatID = db.GetHucreKatID(item.DepoID, "R-ZR-V").FirstOrDefault();
-                    if (KatID != null)
+                    var list = db.GetIrsDetayfromGorev(GorevID).ToList();
+                    foreach (var item2 in list)
                     {
-                        var list = db.GetIrsDetayfromGorev(GorevID).ToList();
-                        foreach (var item2 in list)
+                        //yerleştirme kaydı yapılır
+                        var stok = new Yerlestirme();
+                        var tmp2 = stok.Detail(KatID.Value, item2.MalKodu, item2.Birim);
+                        if (tmp2 == null)
                         {
-                            //yerleştirme kaydı yapılır
-                            var stok = new Yerlestirme();
-                            var tmp2 = stok.Detail(KatID.Value, item2.MalKodu, item2.Birim);
-                            if (tmp2 == null)
+                            tmp2 = new Yer()
+                            {
+                                KatID = KatID.Value,
+                                MalKodu = item2.MalKodu,
+                                Birim = item2.Birim,
+                                Miktar = item2.Miktar.Value
+                            };
+                            if (item2.MakaraNo != "" || item2.MakaraNo != null) tmp2.MakaraNo = item2.MakaraNo;
+                            stok.Insert(tmp2, 0, KullID);
+                        }
+                        else if (item2.MakaraNo != "" || item2.MakaraNo != null)
+                            if (tmp2.MakaraNo != item2.MakaraNo)
                             {
                                 tmp2 = new Yer()
                                 {
@@ -455,31 +468,15 @@ namespace Wms12m
                                     Birim = item2.Birim,
                                     Miktar = item2.Miktar.Value
                                 };
-                                if (item2.MakaraNo != "" || item2.MakaraNo != null) tmp2.MakaraNo = item2.MakaraNo;
+                                tmp2.MakaraNo = item2.MakaraNo;
                                 stok.Insert(tmp2, 0, KullID);
                             }
-                            else if (item2.MakaraNo != "" || item2.MakaraNo != null)
-                                if (tmp2.MakaraNo != item2.MakaraNo)
-                                {
-                                    tmp2 = new Yer()
-                                    {
-                                        KatID = KatID.Value,
-                                        MalKodu = item2.MalKodu,
-                                        Birim = item2.Birim,
-                                        Miktar = item2.Miktar.Value
-                                    };
-                                    tmp2.MakaraNo = item2.MakaraNo;
-                                    stok.Insert(tmp2, 0, KullID);
-                                }
-                                else
-                                {
-                                    tmp2.Miktar += item2.Miktar.Value;
-                                    stok.Update(tmp2, 0, KullID, false, item2.Miktar.Value);
-                                }
-                        }
+                            else
+                            {
+                                tmp2.Miktar += item2.Miktar.Value;
+                                stok.Update(tmp2, 0, KullID, false, item2.Miktar.Value);
+                            }
                     }
-                    else
-                        return new Result(false, "Deponun rezerv katı bulunamadı");
                     //add to mysql
                     if (db.Settings.FirstOrDefault().KabloSiparisMySql == true)
                     {

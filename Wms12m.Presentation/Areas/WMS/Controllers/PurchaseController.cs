@@ -73,7 +73,6 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         {
             if (CheckPerm(Perms.MalKabul, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             var tbl = db.IRS.Where(m => m.ID == ID).FirstOrDefault();
-            tbl.Onay = true;
             tbl.Gorevs1.FirstOrDefault().DurumID = ComboItems.Açık.ToInt32();
             try
             {
