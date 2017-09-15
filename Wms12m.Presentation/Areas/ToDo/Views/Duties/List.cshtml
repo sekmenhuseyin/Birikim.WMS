@@ -13,6 +13,8 @@
             <thead class="flip-content">
                 <tr>
                     <th></th>
+                    <th></th>
+                    <th></th>
                     <th>Çalışma</th>
                     <th>Firma</th>
                     <th>Proje</th>
@@ -31,7 +33,10 @@
                 @foreach (var item in Model)
                 {
                     <tr data-ID="@item.ID" ondblclick="showEdit(@item.ID)">
-                        <td><div style="display:flex;"><i class='fa fa-arrow-up list-up-down' onclick='DeleteElement(this)' style='color:green;'></i><i class='fa fa-arrow-down list-up-down' onclick='NewElement()'  style='color:red;'></i></div></td>
+                        
+                        <td data="@item.OncelikID" data-id="@item.ID"><div style="display:flex;"><i class='fa fa-arrow-up list-up-down item-up' onclick='RowUp(this)' style='color:#a0e4a0;'></i><i class='fa fa-arrow-down list-up-down item-down' onclick='RowDown(this)'  style='color:#ec9696;'></i></div></td>
+                        <td nowrap>@item.OncelikID</td>
+                        <td nowrap>@item.ID</td>
                         <td class="details-control"></td>
                         <td nowrap>@item.ProjeForm.Musteri.Firma</td>
                         <td nowrap>@item.ProjeForm.Proje</td>
@@ -91,6 +96,8 @@
                     <th></th>
                     <th></th>
                     <th></th>
+                    <th></th>
+                    <th></th>
                 </tr>
             </tfoot>
 
@@ -98,22 +105,30 @@
     </div>
 </div>
 <script language="text/javascript">
+    var secili_table = new Array();
+    var eskiData = new Array();
+    var yeniData = new Array();
+    $("tbody tr").each(function () {
+        eskiData.push($(this).children("td").eq(2).text());
+    });
+
     function showEdit(ID) {
         $('#modalEditPage').modal('toggle');
         editInModal('/ToDo/Duties/Edit/' + ID)
     }
-    $(document).ready(function () {
+
         $('#sample_1 .tf-search th').each(function () {
             var title = $('#sample_1 thead th').eq($(this).index()).text();
-            if (title != "" && title != "Çalışma") {
+            if (title != "" && title != "Çalışma" && title != "Sıra") {
                 $(this).html('<input type="text" placeholder="' + title + ' Ara" />');
             }
         });
         var table = $('#sample_1').DataTable({
-            "pagingType": "full_numbers",
+            //"pagingType": "full_numbers",
+            "paging": false,
             "ordering": false,
             "columnDefs": [
-                { "width": "50px", "targets": 0 }
+                { "width": "50px", "targets": 0 }, { "visible": false, "targets": [1,2] }
             ],
             "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" }
         });
@@ -130,8 +145,6 @@
             if (row.child.isShown()) { row.child.hide(); tr.removeClass('shown'); }
             else { row.child(newrow(tr.data('id'))).show(); format(tr.data('id')); tr.addClass('shown'); }
         });
-
-    });
 
     function DuzenleModal(aktif, ID) {
         if (aktif == "False") {
@@ -154,5 +167,90 @@
             Delete('' + ID + '', '/ToDo/Duties/List', 'liste', '' + ID + '')
         }
 
+    }
+
+    function RowUp(item) {
+        if (rdrValue == "Pasif") {
+            return;
+        }
+        var sayac = 0;
+        yeniData = [];
+        if ($(item).closest('tr').prev().length == 1) {
+            var tempOnc = $(item).closest('tr').prev().find("td").eq(0).attr("data");
+            $(item).closest('tr').prev().find("td").eq(0).attr("data", $(item).closest('tr').find("td").eq(0).attr("data"));
+            $(item).closest('tr').find("td").eq(0).attr("data", tempOnc);
+            $(item).closest('tr').insertBefore($(item).closest('tr').prev())
+        }
+        $("tbody tr").each(function (index) {
+            yeniData.push($(this).find("td").eq(0).attr("data-id"));
+        });
+        $.each(yeniData, function (index, value) {
+            if (yeniData[index] != eskiData[index]) {
+                sayac++;
+            }
+        });
+        if (sayac > 0) {
+            $(".oncelik-kayit-buton").css("display","block");
+        }
+        else {
+            $(".oncelik-kayit-buton").css("display", "none");
+        }
+    }
+
+    function RowDown(item) {
+        if (rdrValue == "Pasif") {
+            return;
+        }
+        var sayac = 0;
+        yeniData = [];
+        if ($(item).closest('tr').next().length == 1) {
+            var tempOnc = $(item).closest('tr').next().find("td").eq(0).attr("data");
+            $(item).closest('tr').next().find("td").eq(0).attr("data", $(item).closest('tr').find("td").eq(0).attr("data"));
+            $(item).closest('tr').find("td").eq(0).attr("data", tempOnc);
+            $(item).closest('tr').insertAfter($(item).closest('tr').next())
+        }
+        $("tbody tr").each(function (index) {
+            yeniData.push($(this).find("td").eq(0).attr("data-id"));
+        });
+        $.each(yeniData, function (index, value) {
+            if (yeniData[index] != eskiData[index]) {
+                sayac++;
+            }
+        });
+        if (sayac > 0) {
+            $(".oncelik-kayit-buton").css("display", "block");
+        }
+        else {
+            $(".oncelik-kayit-buton").css("display", "none");
+        }
+    }
+
+    function OncelikKaydet() {
+        if (rdrValue == "Pasif") {
+            return;
+        }
+        secili_table = [];
+        $("tbody tr").each(function (index) {
+            var jObject = {};
+            jObject["ID"] = $(this).find("td").eq(0).attr("data-id");
+            jObject["OncelikID"] = $(this).find("td").eq(0).attr("data");
+            secili_table.push(jObject);
+        });
+        $.ajax({
+            url: window.location.origin + "/ToDo/Duties/OncelikGuncelle",
+            data: { Data: JSON.stringify(secili_table) },
+            type: "post",
+            success: function (data) {
+                if (data == "OK") {
+                    Modaldialog("İşlem Başarılı", "Güncelleme İşlemi", "Tamam", "Güncelleme");
+                    setTimeout(function () { window.location.reload(); }, 500);
+                }
+
+                else {
+                    Modaldialog("Hata Oluştu.", "Güncelleme İşlemi", "Tamam", "Güncelleme");
+                }
+
+            }
+        });
     }
 </script>

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -13,8 +15,16 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
     public class DutiesController : RootController
     {
         // GET: MainProjectForm/Create
-        public ActionResult Index()
+        public ActionResult Index(string aktifPasif)
         {
+            if (aktifPasif == null)
+            {
+                ViewBag.AktifPasif = "Aktif";
+            }
+            else
+            {
+                ViewBag.AktifPasif = aktifPasif;
+            }
             return View();
         }
 
@@ -43,9 +53,10 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
 
         }
 
-        public PartialViewResult List()
+        public PartialViewResult List(string Tip)
         {
-            var list = db.Gorevlers.ToList();
+            var tip = Tip == "Aktif" ? true : false;
+            var list = db.Gorevlers.Where(a => a.AktifPasif == tip).OrderBy(a => a.OncelikID).ToList();
             return PartialView(list);
         }
 
@@ -78,7 +89,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             {
                 if (gorevler.ID == 0)
                 {
-
+                    var maxSira = db.Gorevlers.Max(p => p.OncelikID);
                     gorevler.Degistiren = vUser.UserName;
                     gorevler.Kaydeden = vUser.UserName;
                     gorevler.DegisTarih = DateTime.Now;
@@ -86,6 +97,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                     gorevler.IslemTip = 0;
                     gorevler.BitisTarih = null;
                     gorevler.IslemSira = null;
+                    gorevler.OncelikID = maxSira + 1;
 
                     db.Gorevlers.Add(gorevler);
 
@@ -254,12 +266,38 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
 
         public string SorumluListesi()
         {
-            List<frmUserss> usr = db.Users.Where(a => a.Aktif == true).Select(m=> new frmUserss { ID=m.ID, Kod=m.Kod, AdSoyad=m.AdSoyad, RoleName=m.RoleName }).ToList();
+            List<frmUserss> usr = db.Users.Where(a => a.Aktif == true).Select(m => new frmUserss { ID = m.ID, Kod = m.Kod, AdSoyad = m.AdSoyad, RoleName = m.RoleName }).ToList();
             var json = new JavaScriptSerializer().Serialize(usr);
             return json;
 
         }
 
+        public string OncelikGuncelle(string Data)
+        {
+            if (CheckPerm(Perms.SözleşmeTanim, PermTypes.Writing) == false) return null;
+            JArray parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
+            foreach (JObject bds in parameters)
+            {
+                var id = bds["ID"].ToInt32();
+                List<Gorevler> grv = db.Gorevlers.ToList();
+                foreach (Gorevler item in grv)
+                {
+                    if (item.ID == id)
+                    {
+                        item.OncelikID = bds["OncelikID"].ToInt32();
+                    }
+                }
 
+            }
+            try
+            {
+                var x = db.SaveChanges();
+                return "OK";
+            }
+            catch (Exception ex)
+            {
+                return "NO";
+            }
+        }
     }
 }

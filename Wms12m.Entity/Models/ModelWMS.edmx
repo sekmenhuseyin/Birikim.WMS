@@ -112,10 +112,10 @@
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ProjeFormID" Type="int" Nullable="false" />
-          <Property Name="Sorumlu" Type="varchar" MaxLength="5" />
+          <Property Name="Sorumlu" Type="varchar" MaxLength="5" Nullable="false" />
           <Property Name="Sorumlu2" Type="varchar" MaxLength="5" />
           <Property Name="Sorumlu3" Type="varchar" MaxLength="5" />
-          <Property Name="KaliteKontrol" Type="varchar" MaxLength="5" />
+          <Property Name="KaliteKontrol" Type="varchar" MaxLength="5" Nullable="false" />
           <Property Name="Gorev" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="Aciklama" Type="nvarchar(max)" Nullable="false" />
           <Property Name="OncelikID" Type="int" Nullable="false" />
@@ -2118,6 +2118,7 @@
           </FunctionImport>
           <EntitySet Name="GorevToDoLists" EntityType="MModel.GorevToDoList" />
           <EntitySet Name="GorevCalismas" EntityType="MModel.GorevCalisma" />
+          <FunctionImport Name="f_Sıfırla" />
           <EntitySet Name="Gorevlers" EntityType="MModel.Gorevler" />
           <AssociationSet Name="FK_Gorevler_ComboItem_Name_Departman" Association="MModel.FK_Gorevler_ComboItem_Name_Departman">
             <End Role="ComboItem_Name" EntitySet="ComboItem_Name" />
@@ -2147,7 +2148,6 @@
             <End Role="Gorevler" EntitySet="Gorevlers" />
             <End Role="GorevToDoList" EntitySet="GorevToDoLists" />
           </AssociationSet>
-          <FunctionImport Name="f_Sıfırla" />
           </EntityContainer>
         <ComplexType Name="GetSirkets_Result">
           <Property Type="String" Name="Kod" Nullable="false" MaxLength="2" />
@@ -3475,10 +3475,10 @@
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="ProjeFormID" Type="Int32" Nullable="false" />
-          <Property Name="Sorumlu" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="Sorumlu" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
           <Property Name="Sorumlu2" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
           <Property Name="Sorumlu3" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="KaliteKontrol" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="KaliteKontrol" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
           <Property Name="Gorev" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="Aciklama" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="OncelikID" Type="Int32" Nullable="false" />
@@ -4487,6 +4487,7 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="f_Sıfırla" FunctionName="MModel.Store.f_Sıfırla" />
           <EntitySetMapping Name="Gorevlers">
             <EntityTypeMapping TypeName="MModel.Gorevler">
               <MappingFragment StoreEntitySet="Gorevler">
@@ -4515,7 +4516,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="f_Sıfırla" FunctionName="MModel.Store.f_Sıfırla" />
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
