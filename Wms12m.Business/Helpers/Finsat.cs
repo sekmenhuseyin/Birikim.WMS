@@ -67,7 +67,8 @@ namespace Wms12m
                 item.MlyMhs = 1;
                 item.MhsTabloNo = 1;
                 item.Katsayi = 1;
-                item.ErekIFMiktar = -1;
+                item.ErekIFMiktar = 0;
+                item.ErekIIFMiktar = 0;
                 item.IrsFat2 = -1;
                 item.KrediArindirmaSekli = -1;
                 item.FinansmanGiderTuru = -1;
