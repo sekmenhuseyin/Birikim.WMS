@@ -9,6 +9,12 @@
         width: 100% !important;
         height: 100px !important;
     }
+    .item-up:hover {
+        color: #1fe21f !important;
+    }
+    .item-down:hover {
+        color: #f31414 !important;
+    }
     .list-up-down {
         margin-left: 5px;
         background-color: white;
@@ -16,7 +22,6 @@
         font-size: 18px; 
     }
         .list-up-down:hover {
-            font-size: 24px;
             cursor:pointer;
         }
         #Calisma {
@@ -26,20 +31,7 @@
     }
     td.details-control {background: url('/Content/assets/global/plugins/datatables/images/details_open.png') no-repeat center center;cursor: pointer;}
     tr.shown td.details-control {background: url('/Content/assets/global/plugins/datatables/images/details_close.png') no-repeat center center;}
-    td.item-up {
-        background: url('/Content/assets/global/plugins/datatables/images/sort_asc.png') no-repeat center center;
-        cursor: pointer;
-    }
-    tr.shown td.item-up {
-        background: url('/Content/assets/global/plugins/datatables/images/sort_asc.png') no-repeat center center;
-    }
-    td.item-down {
-        background: url('/Content/assets/global/plugins/datatables/images/sort_desc.png') no-repeat center center;
-        cursor: pointer;
-    }
-    tr.shown td.item-down {
-        background: url('/Content/assets/global/plugins/datatables/images/sort_desc.png') no-repeat center center;
-    }
+
     .last-work {line-height: 32px !important;color: #86d8ea;font-size: 24px;margin-left:5px;}
     .delete-icn {line-height: 32px !important;color: #ec4646;font-size: 24px;}
     .txt-aciklama.dx-texteditor.dx-widget.dx-textbox {border-radius: 30px !important;border: .7px solid #bdb7b7;}
@@ -47,6 +39,11 @@
 </style>
 }<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><span>Görevler</span></li></ul></div>
 <h1 class="page-title">Görev İşlemleri</h1>
+<div class="row m-10">
+    <div class="rdgrpOnayRed col-md-5"></div>
+    <div class="col-md-2"><button class="btn btn-success pull-right input-circle yenile-buton glyphicon glyphicon-refresh" style="width:80%"> Yenile </button></div>
+    <div class="col-md-2"><button class="btn btn-primary pull-right input-circle oncelik-kayit-buton glyphicon glyphicon-ok" style="display:none;width:80%"> Öncelik Kaydet </button></div>
+</div>
 <div class="row">
     <div class="col-md-12">
         <div class="row" id="CreateEdit"></div>
@@ -61,8 +58,31 @@
         $('.date-picker').datepicker();
         $(".form-rounded").css("border-radius", "1rem");
     });
-    var DeleteFunctionUrl = '/ToDo/Duties/Delete';
-    PartialView("/ToDo/Duties/List", 'liste');
+       var aktifPasif = "@ViewBag.AktifPasif";
+       var rdrValue = aktifPasif;
+        var radioGroupItems = [
+            { text: "Bekleyenler", value: "Aktif" },
+            { text: "Tamamlananlar", value: "Pasif" }
+       ];
+        $(function () {
+            $(".rdgrpOnayRed").dxRadioGroup({
+                dataSource: radioGroupItems,
+                displayExpr: "text",
+                valueExpr: "value",
+                value: rdrValue,
+                layout: "horizontal",
+                onValueChanged: function (e) {
+                    rdrValue = e.value;
+                    if (rdrValue == "Pasif") {
+                        $(".oncelik-kayit-buton").css("display", "none");
+                    }
+
+                    PartialView("/ToDo/Duties/List", 'liste', JSON.stringify({ Tip: rdrValue }));
+                }
+            });
+        });
+        var DeleteFunctionUrl = '/ToDo/Duties/Delete';
+    PartialView("/ToDo/Duties/List", 'liste', JSON.stringify({ Tip: rdrValue }));
     function CreateEdit(Id) {
         if (Id == 0) {
             $("#ID").val("0");
@@ -121,14 +141,16 @@
                         });
                         $("#" + what).prepend("<option value=''>Seçiniz !!!</option>"); $("#" + what)[0].selectedIndex = 0;
                     }
-                    //if (pfid != null) {
-                    //    $('#ProjeList').val(id);
-                    //    $('#ProjeFormID').val(pfid);
-                    //}
                 }
             });
         }
+        $('.yenile-buton').click(function () {
+            PartialView("/ToDo/Duties/List", 'liste', JSON.stringify({ Tip: rdrValue }));
+        });
 
-      
+        $('.oncelik-kayit-buton').click(function () {
+            OncelikKaydet();
+        });
+
     </script>
 }
