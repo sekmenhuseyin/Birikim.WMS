@@ -72,12 +72,16 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         public JsonResult Activate(int ID)
         {
             if (CheckPerm(Perms.MalKabul, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
-            var tbl = db.IRS.Where(m => m.ID == ID).FirstOrDefault();
-            tbl.Onay = true;
-            tbl.Gorevs1.FirstOrDefault().DurumID = ComboItems.Açık.ToInt32();
             try
             {
-                db.SaveChanges();
+                db.Database.ExecuteSqlCommand(string.Format(@"UPDATE wms.IRS SET Onay = 1 WHERE (ID IN
+                                                                        (SELECT IrsaliyeID FROM wms.GorevIRS WHERE (GorevID IN
+                                                                                    (SELECT GorevID FROM wms.GorevIRS WHERE (IrsaliyeID = {0}))
+                                                                        ))
+                                                                    )
+                                                            UPDATE wms.Gorev SET DurumID = 9 WHERE (ID IN
+                                                                        (SELECT GorevID FROM wms.GorevIRS WHERE (IrsaliyeID = {0}))
+                                                            )", ID));
                 return Json(new Result(true), JsonRequestBehavior.AllowGet);
             }
             catch (Exception)

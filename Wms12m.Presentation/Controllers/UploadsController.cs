@@ -48,6 +48,7 @@ namespace Wms12m.Presentation.Controllers
             {
                 for (int i = 0; i < result.Tables[0].Rows.Count; i++)
                 {
+                    _result = new Result(false, 0, "Hatalı dosya");
                     DataRow dr = result.Tables[0].Rows[i];
                     //kontrol
                     try
@@ -66,9 +67,6 @@ namespace Wms12m.Presentation.Controllers
                     malkodu = db.Database.SqlQuery<string>(malkodu).FirstOrDefault();
                     _result.Message = "Mal kodu yanlış";
                     if (malkodu == "" || malkodu == null) return Json(_result, JsonRequestBehavior.AllowGet);
-                    //check if gorev
-                    {
-                    }
                     //add irsaliye and gorev
                     string irsNo = dr["İrsaliye No"].ToString();
                     if (evraklar.Contains(irsNo) == false)
