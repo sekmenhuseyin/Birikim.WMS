@@ -76,15 +76,15 @@
                 cell.innerHTML = i + 1;
             });
         }).draw();
+        //tarih
+        $.datepicker.setDefaults($.datepicker.regional["tr"]);
+        $(".tarih").datepicker();
         $('#sample_2 tbody').on('click', 'td.details-control', function () {
             var tr = $(this).closest('tr');
             var row = table.row(tr);
             if (row.child.isShown()) { row.child.hide(); tr.removeClass('shown'); }
             else { row.child(newrow(tr.data('id'))).show(); format(tr.data('id')); tr.addClass('shown'); }
         });
-        //tarih
-        $.datepicker.setDefaults($.datepicker.regional["tr"]);
-        $(".tarih").datepicker();
         $("#selector").click(function () {
             selected = "";
             if (selectall == true) {

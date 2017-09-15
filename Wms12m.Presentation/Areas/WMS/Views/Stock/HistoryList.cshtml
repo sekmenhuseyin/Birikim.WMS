@@ -21,20 +21,24 @@
     <table class="table table-striped table-bordered" id="sample_1">
         <thead>
             <tr>
+                <th></th>
                 <th>Girdi-Çıktı</th>
-                <th>Tarih<br /><input class="w-50 input-circle" type="text" id="Tarih" /></th>
-                <th>Saat<br /><input class="w-50 input-circle" type="text" id="Saat" /></th>
-                <th>Evrak No<br /><input class="w-50 input-circle" type="text" id="EvrakNo" /></th>
-                <th>Hücre Adı<br /><input class="w-50 input-circle" type="text" id="HücreAdi" /></th>
-                <th>Makara No<br /><input class="w-50 input-circle" type="text" id="MakaraNo" /></th>
+                <th>Tarih</th>
+                <th>Saat</th>
+                <th>Evrak No</th>
+                <th>Hücre Adı</th>
+                <th>Makara No</th>
                 <th>Birim</th>
-                <th class="text-right">Miktar<br /><input class="w-50 input-circle" type="text" id="Miktar" /></th>
-                <th class="text-right">Stok<br /><input class="w-50 input-circle" type="text" id="Stok" /></th>
+                <th class="text-right">Miktar</th>
+                <th class="text-right">Stok</th>
             </tr>
         </thead>
+        <tfoot><tr><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr></tfoot>
+        <tfoot class="tf-search"><tr><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr></tfoot>
         <tbody>
             @foreach (var item in Model) {
                 <tr>
+                    <td></td>
                     <td>@if (item.GC == true) { i = i - item.Miktar; <text>Çıktı</text> }else{ i = i + item.Miktar; <text>Girdi</text> }</td>
                     <td>@item.KayitTarihi.FromOADateInt()</td>
                     <td>@item.KayitSaati.FromOaTime()</td>
@@ -52,14 +56,6 @@
 <script type="text/javascript">
     $('#Stok').val('@String.Format("{0:n}", i)');
     $(document).ready(function () {
-        $.datepicker.setDefaults($.datepicker.regional["tr"]);
-        $("#Tarih").datepicker().on("change", function (e) { filterx(1, e.target.value); });
-        $("#Saat").on("change paste keyup", function () { filterx(2, $("#Saat").val()); });
-        $("#EvrakNo").on("change paste keyup", function () { filterx(3, $("#EvrakNo").val()); });
-        $("#HücreAdi").on("change paste keyup", function () { filterx(4, $("#HücreAdi").val()); });
-        $("#MakaraNo").on("change paste keyup", function () { filterx(5, $("#MakaraNo").val()); });
-        $("#Miktar").on("change paste keyup", function () { filterx(7, $("#Miktar").val()); });
-        $("#Stok").on("change paste keyup", function () { filterx(8, $("#Stok").val()); });
         var table = $('#sample_1').DataTable({
             "pagingType": "full_numbers",
             "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
@@ -67,20 +63,23 @@
             "buttons": [
                 { "extend": 'pdf', "text": '<span class="fa fa-file-pdf-o f-s-15 red"></span>', "className": 'btn btn-default btn-xs' },
                 { "extend": 'excel', "text": '<span class="fa fa-file-excel-o f-s-15 green"></span>', "className": 'btn btn-default btn-xs' }
-            ],
-            initComplete: function () {
-                this.api().columns([0]).every(function () {
-                    var column = this;
-                    var select = $('<br /><select class="form-control input-circle" style="max-width:100px;"><option value=""></option></select>')
-                        .appendTo($(column.header()))
-                        .on('change', function () {
-                            var val = $.fn.dataTable.util.escapeRegex($(this).val());
-                            column.search(val ? '^' + val + '$' : '', true, false).draw();
-                        });
-                    column.data().unique().sort().each(function (d, j) { select.append('<option value="' + d + '">' + d + '</option>') });
-                });
-            }
+            ]
         });
-        function filterx(a, b) { filter(table, a, b); }
+        $('#sample_1 .tf-search th').each(function () {
+            var title = $('#sample_1 thead th').eq($(this).index()).text();
+            if (title != "" && title.indexOf("Tarih") !== -1)
+                $(this).html('<input class="form-control input-circle tarih" type="text" placeholder="Ara" />');
+            else if (title != "" && title != "Detay" && title != "Hareket")
+                $(this).html('<input class="form-control input-circle" type="text" placeholder="Ara" />');
+        });
+        $("#sample_1 tfoot input").on('keyup change', function () { table.column($(this).parent().index() + ':visible').search(this.value).draw(); });
+        table.on('order.dt search.dt', function () {
+            table.column(0, { search: 'applied', order: 'applied' }).nodes().each(function (cell, i) {
+                cell.innerHTML = i + 1;
+            });
+        }).draw();
+        //tarih
+        $.datepicker.setDefaults($.datepicker.regional["tr"]);
+        $(".tarih").datepicker();
     });
 </script>
