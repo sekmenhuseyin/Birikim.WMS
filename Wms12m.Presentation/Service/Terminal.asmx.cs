@@ -141,7 +141,6 @@ namespace Wms12m
                 "GROUP BY wms.Depo.DepoKodu, IRS.HesapKodu, wms.fnFormatDateFromInt(IRS.Tarih)", mGorev.IR.SirketKod, mGorev.ID);
             return db.Database.SqlQuery<Tip_IRS>(sql).FirstOrDefault();
         }
-
         /// <summary>
         /// seçili malkoduna malzeme ait bilgileri
         /// </summary>
@@ -171,8 +170,6 @@ namespace Wms12m
                     sql += "HAVING (wms.IRS_Detay.Miktar <> ISNULL(YerlestirmeMiktari,0))";
             return db.Database.SqlQuery<Tip_STI2>(sql).ToList();
         }
-
-
         /// <summary>
         /// görev listelerini filtreye göre getirir
         /// </summary>
