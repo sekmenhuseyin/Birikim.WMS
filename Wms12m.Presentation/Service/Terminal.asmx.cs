@@ -798,31 +798,32 @@ namespace Wms12m
                 var sonuc = finsat.FaturaKayıt(item.IrsaliyeID, mGorev.Depo.DepoKodu, efatKullanici, item.Tarih, item.HesapKodu, kull.Kod, kull.UserDetail.SatisIrsaliyeSeri.Value, kull.UserDetail.SatisFaturaSeri.Value, yil);
                 if (sonuc.Status == true)
                 {
-                    //yerleştirmeden düşülür
-                    var yerleştirilen = db.Database.SqlQuery<frmSiparisToplayerlestirilen>(@"SELECT        YerID, SUM(YerlestirmeMiktari) AS YerlestirmeMiktari, MalKodu, Birim
-                                                                                            FROM            wms.GorevYer WITH (nolock)
-                                                                                            WHERE        GorevID =  " + GorevID + " GROUP BY YerID, MalKodu, Birim").ToList();
-                    using (var yerleştirme = new Yerlestirme())
-                        foreach (var item2 in yerleştirilen)
-                        {
-                            var dusulecek = yerleştirme.Detail(item2.YerID);
-                            dusulecek.Miktar -= item2.YerlestirmeMiktari;
-                            dusulecek.MakaraDurum = false;
-                            yerleştirme.Update(dusulecek, item.IrsaliyeID, KullID, true, item2.YerlestirmeMiktari);
-                        }
                     //update irsaliye
                     string fatNo = sonuc.Message.Left(sonuc.Message.IndexOf(","));
                     string irsNo = sonuc.Message.Substring(sonuc.Message.IndexOf(",") + 1);
-                    db.UpdateIrsaliye(item.IrsaliyeID, irsNo, fatNo);
+                    db.UpdateIrsaliye(item.IrsaliyeID, fatNo, irsNo);
                     //yeni görev
                     string gorevNo = db.SettingsGorevNo(tarih, mGorev.DepoID).FirstOrDefault();
                     string alıcı = item.HesapKodu.GetUnvan(item.SirketKod);
-                    var x = db.InsertIrsaliye(item.SirketKod, mGorev.DepoID, gorevNo, irsNo, item.Tarih, "Irs: " + irsNo + " Alıcı: " + alıcı, true, ComboItems.Paketle.ToInt32(), kull.Kod, tarih, saat, item.HesapKodu, item.TeslimChk, item.ValorGun, "").FirstOrDefault();
-                    LogActions(KullID.ToString(), "Terminal", "Service", "Terminal", "SiparisTopla_GoreviTamamla", ComboItems.alEkle, x.GorevID.Value, "Irs: " + irsNo + " Alıcı: " + alıcı);
+                    var x = db.InsertIrsaliye(item.SirketKod, mGorev.DepoID, gorevNo, fatNo, item.Tarih, "Fat: " + fatNo + " Alıcı: " + alıcı, true, ComboItems.Paketle.ToInt32(), kull.Kod, tarih, saat, item.HesapKodu, item.TeslimChk, item.ValorGun, "").FirstOrDefault();
+                    LogActions(KullID.ToString(), "Terminal", "Service", "Terminal", "SiparisTopla_GoreviTamamla", ComboItems.alEkle, x.GorevID.Value, "Fat: " + fatNo + " Alıcı: " + alıcı);
                 }
                 else
                     return new Result(false, sonuc.Message);
             }
+            //yerleştirmeden düşülür
+            var yerleştirilen = db.Database.SqlQuery<frmSiparisToplayerlestirilen>(@"SELECT        YerID, SUM(YerlestirmeMiktari) AS YerlestirmeMiktari, MalKodu, Birim
+                                                                                    FROM            wms.GorevYer WITH (nolock)
+                                                                                    WHERE        GorevID =  " + GorevID + " GROUP BY YerID, MalKodu, Birim").ToList();
+            using (var yerleştirme = new Yerlestirme())
+                foreach (var item2 in yerleştirilen)
+                {
+                    var dusulecek = yerleştirme.Detail(item2.YerID);
+                    dusulecek.Miktar -= item2.YerlestirmeMiktari;
+                    dusulecek.MakaraDurum = false;
+                    yerleştirme.Update(dusulecek, mGorev.IrsaliyeID.Value, KullID, true, item2.YerlestirmeMiktari);
+                }
+            //finish gorev
             db.TerminalFinishGorev(GorevID, mGorev.IrsaliyeID, "", tarih, saat, kull.Kod, "", ComboItems.SiparişTopla.ToInt32(), 0).FirstOrDefault();
             //görev user tablosu
             var tbl = db.GorevUsers.Where(m => m.GorevID == GorevID && m.UserName == tblx.Kod).FirstOrDefault();
@@ -1431,10 +1432,19 @@ namespace Wms12m
             if (tbl != null)
             {
                 tbl.BitisTarihi = DateTime.Today.ToOADateInt();
-                db.SaveChanges();
+                try
+                {
+                    db.SaveChanges();
+                    LogActions(KullID.ToString(), "Terminal", "Service", "Terminal", "KontrolluSay_GoreviTamamla", ComboItems.alDüzenle, GorevID, "KontrolluSay => -");
+                    return new Result(true);
+                }
+                catch (Exception ex)
+                {
+                    Logger(KullID.ToString(), "Terminal", ex, "Service/Terminal/KontrolluSay_GoreviTamamla");
+                    return new Result(false, "Hata oldu");
+                }
             }
-            LogActions(KullID.ToString(), "Terminal", "Service", "Terminal", "KontrolluSay_GoreviTamamla", ComboItems.alDüzenle, GorevID, "KontrolluSay => -");
-            return new Result(true);
+            return new Result(false, "Kayıt hatası");
         }
     }
 }

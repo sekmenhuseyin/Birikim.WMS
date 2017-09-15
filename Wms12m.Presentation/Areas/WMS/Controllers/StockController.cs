@@ -408,8 +408,9 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             var id = Url.RequestContext.RouteData.Values["id"];
             if (id == null || id.ToString2() == "") return null;
             if (CheckPerm(Perms.Stok, PermTypes.Reading) == false) return null;
+            var ID = id.ToInt32();
             //listeyi getir
-            var list = Irsaliye.Detail(id.ToInt32());
+            var list = db.Gorevs.Where(m => m.IrsaliyeID == ID).FirstOrDefault();
             if (list == null)
                 return null;
             return PartialView("Details", list);
