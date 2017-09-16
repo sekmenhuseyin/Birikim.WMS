@@ -320,7 +320,15 @@ namespace Wms12m
             string sql = string.Format("SELECT MalKodu, MalAdi, Birim1 as Birim, case when Barkod1='' then Barkod2 else Barkod1 end Barkod FROM FINSAT6{0}.FINSAT6{0}.STK WHERE MalAdi<>'' AND ", sirketkodu);
             if (malkodu != "") sql += string.Format("(MalKodu = '{0}')", malkodu);
             else sql += string.Format("(BarKod1 = '{0}') OR (BarKod2 = '{0}')", barkod);
-            return db.Database.SqlQuery<Tip_Malzeme>(sql).FirstOrDefault();
+            try
+            {
+                return db.Database.SqlQuery<Tip_Malzeme>(sql).FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                Logger(KullID.ToString(), "Terminal", ex, "Service/Terminal/GetMalzemeFromBarcode");
+                return new Tip_Malzeme();
+            }
         }
         /// <summary>
         /// seçili depoda böyle bir raf var mı

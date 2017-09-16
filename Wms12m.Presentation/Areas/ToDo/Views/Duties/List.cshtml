@@ -4,15 +4,14 @@
         <div class="caption">
             <i class="fa fa-gift"></i>Görevler Listesi
         </div>
-        <div class="col-md-2 pull-right m-t-5">
+        @*<div class="col-md-2 pull-right m-t-5">
             <a class="btn btn-default pull-right input-circle" href="#modalEditPage" data-toggle="modal" onclick="editInModal('/ToDo/Duties/New')"> Yeni </a>
-        </div>
+        </div>*@
     </div>
     <div class="portlet-body form p-40">
         <table class="table table-bordered table-striped table-condensed" id="sample_1">
             <thead class="flip-content">
                 <tr>
-                    <th></th>
                     <th></th>
                     <th></th>
                     <th>Çalışma</th>
@@ -21,7 +20,7 @@
                     <th>Form</th>
                     <th>Görev</th>
                     <th>Sorumlular</th>
-                    <th>Öncelik</th>
+                    @*<th>Öncelik</th>*@
                     <th>Durum</th>
                     <th>Görev Tipi</th>
                     <th>Departman</th>
@@ -35,7 +34,6 @@
                     <tr data-ID="@item.ID" ondblclick="showEdit(@item.ID)">
                         
                         <td data="@item.OncelikID" data-id="@item.ID"><div style="display:flex;"><i class='fa fa-arrow-up list-up-down item-up' onclick='RowUp(this)' style='color:#a0e4a0;'></i><i class='fa fa-arrow-down list-up-down item-down' onclick='RowDown(this)'  style='color:#ec9696;'></i></div></td>
-                        <td nowrap>@item.OncelikID</td>
                         <td nowrap>@item.ID</td>
                         <td class="details-control"></td>
                         <td nowrap>@item.ProjeForm.Musteri.Firma</td>
@@ -60,7 +58,7 @@
                             }
                         </td>
 
-                        <td>@item.ComboItem_Name3.Name</td>
+                        @*<td>@item.ComboItem_Name3.Name</td>*@
                         <td>@item.ComboItem_Name1.Name</td>
                         <td>
                             @if (item.ComboItem_Name2 != null)
@@ -90,9 +88,7 @@
                     <th></th>
                     <th></th>
                     <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
+                    <th></th> 
                     <th></th>
                     <th></th>
                     <th></th>
@@ -108,13 +104,18 @@
     var secili_table = new Array();
     var eskiData = new Array();
     var yeniData = new Array();
+    var roleName = "@ViewBag.RoleName";
     $("tbody tr").each(function () {
-        eskiData.push($(this).children("td").eq(2).text());
+        eskiData.push($(this).children("td").eq(1).text());
     });
 
     function showEdit(ID) {
+        if (roleName != "Admin") {
+            return;
+        }
         $('#modalEditPage').modal('toggle');
         editInModal('/ToDo/Duties/Edit/' + ID)
+
     }
 
         $('#sample_1 .tf-search th').each(function () {
@@ -128,7 +129,7 @@
             "paging": false,
             "ordering": false,
             "columnDefs": [
-                { "width": "50px", "targets": 0 }, { "visible": false, "targets": [1,2] }
+                { "width": "50px", "targets": 0 }, { "visible": false, "targets": [0,1] }
             ],
             "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" }
         });
@@ -145,7 +146,26 @@
             if (row.child.isShown()) { row.child.hide(); tr.removeClass('shown'); }
             else { row.child(newrow(tr.data('id'))).show(); format(tr.data('id')); tr.addClass('shown'); }
         });
-
+        $('#sample_1 tbody').on('click', 'tr', function () {
+            if (rdrValue != "Onay") {
+                return;
+            }
+            table
+                .rows('.selected')
+                .nodes()
+                .to$()      // Convert to a jQuery object
+                .removeClass('selected');
+            $("tr").find('td').not(".degisim").css('background-color', 'transparent');
+            $(".degisim").css('background-color', '#f9df63');
+            $(this).find('td').css('background-color', '#B0BED9');
+            $(this).toggleClass('selected');
+        });
+        if (roleName == 'Admin') {
+            table.columns([0]).visible(true, true);
+        }
+        else {
+            table.columns([0]).visible(false, false);
+        }
     function DuzenleModal(aktif, ID) {
         if (aktif == "False") {
             $('#modalEditPage').modal('toggle');
@@ -252,5 +272,60 @@
 
             }
         });
+    }
+    function GorevOnayla() {
+        if (rdrValue == "Pasif" || rdrValue == "Aktif") {
+            return;
+        }
+        var id = 0;
+    var x = table.rows('.selected').data();
+    for (var i = 0; i < x.length; i++) {
+        id = x[i][1];
+    }
+        $.ajax({
+            url: window.location.origin + "/ToDo/Duties/GorevOnayla",
+            data: { Data: id },
+            type: "post",
+
+            success: function (data) {
+                if (data == "OK") {
+                    Modaldialog("İşlem Başarılı", "Onaylama İşlemi", "Tamam", "Onaylama");
+                   setTimeout(function () { window.location.reload(); }, 500);
+                }
+                else {
+                    Modaldialog("Hata Oluştu", "Hata", "Tamam", "btn-danger");
+                   setTimeout(function () { window.location.reload(); }, 500);
+                }
+
+            }
+        });
+    }
+    function GorevReddet() {
+        if (rdrValue == "Pasif" || rdrValue == "Aktif") {
+            return;
+        }
+        var id = 0;
+        var x = table.rows('.selected').data();
+        for (var i = 0; i < x.length; i++) {
+            id = x[i][1];
+        }
+        $.ajax({
+            url: window.location.origin + "/ToDo/Duties/GorevReddet",
+            data: { Data: id },
+            type: "post",
+
+            success: function (data) {
+                if (data == "OK") {
+                    Modaldialog("İşlem Başarılı", "Onaylama İşlemi", "Tamam", "Onaylama");
+                    setTimeout(function () { window.location.reload(); }, 500);
+                }
+                else {
+                    Modaldialog("Hata Oluştu", "Hata", "Tamam", "btn-danger");
+                    setTimeout(function () { window.location.reload(); }, 500);
+                }
+
+            }
+        });
+
     }
 </script>

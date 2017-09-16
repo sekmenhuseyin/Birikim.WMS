@@ -14,7 +14,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
 
         public ActionResult Index()
         {
-            ViewBag.GorevID = new SelectList(db.Gorevlers.Where(a => a.Sorumlu == vUser.UserName || a.Sorumlu2 == vUser.UserName || a.Sorumlu3 == vUser.UserName).ToList(), "ID", "Gorev");
+            ViewBag.GorevID = new SelectList(db.Gorevlers.Where(a => a.Sorumlu == vUser.UserName || a.Sorumlu2 == vUser.UserName || a.Sorumlu3 == vUser.UserName || a.KaliteKontrol == vUser.UserName).ToList(), "ID", "Gorev");
             return View(new GorevCalisma());
         }
 
@@ -24,15 +24,17 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             var ID = id.ToInt32();
             Gorevler gorev = db.Gorevlers.Find(ID);
             ViewBag.id = ID;
-            ViewBag.GorevID = new SelectList(db.Gorevlers.Where(a => (a.Sorumlu == vUser.UserName || a.Sorumlu2 == vUser.UserName || a.Sorumlu3 == vUser.UserName) && a.ID == ID).ToList(), "ID", "Gorev");
+            ViewBag.RoleName = vUser.RoleName;
+            ViewBag.GorevID = new SelectList(db.Gorevlers.Where(a => (a.Sorumlu == vUser.UserName || a.Sorumlu2 == vUser.UserName || a.Sorumlu3 == vUser.UserName || (a.Kontrol == true && a.KaliteKontrol == vUser.UserName)) && a.ID == ID).ToList(), "ID", "Gorev");
             GorevCalisma aa = new GorevCalisma();
+
             aa.Gorevler = gorev;
             return PartialView(aa);
         }
 
         public PartialViewResult List()
         {
-            List<GorevCalisma> gorevCalismas = db.GorevCalismas.Where(a => a.Gorevler.Sorumlu == vUser.UserName || a.Gorevler.Sorumlu2 == vUser.UserName || a.Gorevler.Sorumlu3 == vUser.UserName).ToList();
+            List<GorevCalisma> gorevCalismas = db.GorevCalismas.Where(a => a.Gorevler.Sorumlu == vUser.UserName || a.Gorevler.Sorumlu2 == vUser.UserName || a.Gorevler.Sorumlu3 == vUser.UserName || a.Gorevler.KaliteKontrol == vUser.UserName).ToList();
             return PartialView(gorevCalismas);
         }
 
@@ -56,7 +58,13 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             {
                 if (gorevCalisma.ID == 0)
                 {
+                    var kontOnay = false;
+                    if (vUser.RoleName == "Destek")
+                    {
+                        kontOnay = true;
+                    }
                     gorevCalisma.ToDoListID = "";
+                    var grv = db.Gorevlers.Where(a => a.ID == gorevCalisma.GorevID).FirstOrDefault();
                     for (int i = 0; i < gorevCalisma.work.Length; i++)
                     {
                         if (gorevCalisma.checkitem[i] == "true")
@@ -66,11 +74,33 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                             var grvtodo = db.GorevToDoLists.Where(m => m.ID == idd).FirstOrDefault();
                             grvtodo.OnayDurum = true;
                             grvtodo.Kontrol = true;
-                            grvtodo.KontrolOnay = false;
+                            grvtodo.KontrolOnay = kontOnay;
 
-                            var grv = db.Gorevlers.Where(a => a.ID == gorevCalisma.GorevID).FirstOrDefault();
                             grv.Kontrol = true;
                         }
+                    }
+                    for (int i = 0; i < gorevCalisma.checkitem.Length; i++)
+                    {
+                        if (gorevCalisma.checkitem[i] == "false")
+                        {
+                            sayac++;
+                        }
+                    }
+                    if (sayac == 0)
+                    {
+                        if (kontOnay == true)
+                        {
+                            grv.AktifPasif = false;
+                        }
+                        else
+                        {
+                            var tipId = Combos.GörevYönetimTipleri.ToInt32();
+                            var gorevTipleri = db.ComboItem_Name.Where(a => a.ComboID == tipId && a.Name == "Kalite Kontrol").FirstOrDefault();
+                            grv.GorevTipiID = gorevTipleri.ID;
+                        }
+                        //grv.Sorumlu = grv.KaliteKontrol;
+                        //grv.Sorumlu2 = grv.KaliteKontrol;
+                        //grv.Sorumlu3 = grv.KaliteKontrol;
                     }
                     gorevCalisma.Degistiren = vUser.UserName;
                     gorevCalisma.Kaydeden = vUser.UserName;

@@ -146,6 +146,8 @@ namespace Wms12m.Entity
         public string Aciklama { get; set; }
         public bool AktifPasif { get; set; }
         public bool OnayDurum { get; set; }
+        public bool Kontrol { get; set; }
+        public bool KontrolOnay { get; set; }
         public string Kaydeden { get; set; }
         public DateTime KayitTarih { get; set; }
         public string Degistiren { get; set; }

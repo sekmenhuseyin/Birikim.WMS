@@ -55,8 +55,43 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
 
         public PartialViewResult List(string Tip)
         {
-            var tip = Tip == "Aktif" ? true : false;
-            var list = db.Gorevlers.Where(a => a.AktifPasif == tip).OrderBy(a => a.OncelikID).ToList();
+            ViewBag.RoleName = vUser.RoleName;
+            var tip = Tip == "Aktif" || Tip == "Onay" ? true : false;
+            var list = new List<Gorevler>();
+            if (vUser.RoleName == "Admin" && Tip == "Onay")
+            {
+                var id = Combos.GörevYönetimDurumları.ToInt32();
+                var durum = db.ComboItem_Name.Where(a => a.ComboID == id && a.Name == "Onay Ver").FirstOrDefault();
+                list = db.Gorevlers.Where(a => a.AktifPasif == true && a.DurumID == durum.ID).OrderBy(a => a.OncelikID).ToList();
+            }
+            else if (vUser.RoleName == "Admin")
+            {
+                list = db.Gorevlers.Where(a => a.AktifPasif == tip).OrderBy(a => a.OncelikID).ToList();
+            }
+            else if (Tip == "Onay")
+            {
+                var id = Combos.GörevYönetimDurumları.ToInt32();
+                var durum = db.ComboItem_Name.Where(a => a.ComboID == id && a.Name == "Onay Ver").FirstOrDefault();
+                var tipId = Combos.GörevYönetimTipleri.ToInt32();
+                var gorevTipleri = db.ComboItem_Name.Where(a => a.ComboID == tipId && a.Name == "Kalite Kontrol").FirstOrDefault();
+                list = db.Gorevlers.Where(a => a.AktifPasif == tip && a.DurumID == durum.ID && (((a.Sorumlu == vUser.UserName || a.Sorumlu2 == vUser.UserName || a.Sorumlu3 == vUser.UserName) && a.GorevTipiID != gorevTipleri.ID) || (a.KaliteKontrol == vUser.UserName && a.GorevTipiID == gorevTipleri.ID))).OrderBy(a => a.OncelikID).ToList();
+            }
+            else
+            {
+                var id = Combos.GörevYönetimDurumları.ToInt32();
+                var durum = db.ComboItem_Name.Where(a => a.ComboID == id && a.Name == "Onay Ver").FirstOrDefault();
+                var tipId = Combos.GörevYönetimTipleri.ToInt32();
+                var gorevTipleri = db.ComboItem_Name.Where(a => a.ComboID == tipId && a.Name == "Kalite Kontrol").FirstOrDefault();
+                if (tip == true)
+                {
+                    list = db.Gorevlers.Where(a => a.AktifPasif == tip && a.DurumID != durum.ID && (((a.Sorumlu == vUser.UserName || a.Sorumlu2 == vUser.UserName || a.Sorumlu3 == vUser.UserName) && a.GorevTipiID != gorevTipleri.ID) || (a.KaliteKontrol == vUser.UserName && a.GorevTipiID == gorevTipleri.ID))).OrderBy(a => a.OncelikID).ToList();
+                }
+                else
+                {
+                    list = db.Gorevlers.Where(a => a.AktifPasif == tip && (((a.Sorumlu == vUser.UserName || a.Sorumlu2 == vUser.UserName || a.Sorumlu3 == vUser.UserName) && a.GorevTipiID != gorevTipleri.ID) || (a.KaliteKontrol == vUser.UserName && a.GorevTipiID == gorevTipleri.ID))).OrderBy(a => a.OncelikID).ToList();
+                }
+
+            }
             return PartialView(list);
         }
 
@@ -89,6 +124,47 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             {
                 if (gorevler.ID == 0)
                 {
+                    var kontDur = false;
+                    var onayVerID = 0;
+                    var atandıID = 0;
+                    var gelistirmeID = 0;
+                    var bilgiTalebiID = 0;
+                    var kritikHataID = 0;
+                    var kaliteKontrolID = 0;
+                    var tipId = Combos.GörevYönetimTipleri.ToInt32();
+                    var durumId = Combos.GörevYönetimDurumları.ToInt32();
+                    var gorevTipleri = db.ComboItem_Name.Where(a => a.ComboID == tipId).ToList();
+                    var gorevDurumları = db.ComboItem_Name.Where(a => a.ComboID == durumId).ToList();
+                    foreach (var item in gorevTipleri)
+                    {
+                        if (item.Name == "Kritik Hata")
+                        {
+                            kritikHataID = item.ID;
+                        }
+                        else if (item.Name == "Bilgi Talebi")
+                        {
+                            bilgiTalebiID = item.ID;
+                        }
+                        else if (item.Name == "Geliştirme")
+                        {
+                            gelistirmeID = item.ID;
+                        }
+                        else if (item.Name == "Kalite Kontrol")
+                        {
+                            kaliteKontrolID = item.ID;
+                        }
+                    }
+                    foreach (var item in gorevDurumları)
+                    {
+                        if (item.Name == "Atandı")
+                        {
+                            atandıID = item.ID;
+                        }
+                        else if (item.Name == "Onay Ver")
+                        {
+                            onayVerID = item.ID;
+                        }
+                    }
                     var maxSira = db.Gorevlers.Max(p => p.OncelikID);
                     gorevler.Degistiren = vUser.UserName;
                     gorevler.Kaydeden = vUser.UserName;
@@ -97,8 +173,30 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                     gorevler.IslemTip = 0;
                     gorevler.BitisTarih = null;
                     gorevler.IslemSira = null;
+                    gorevler.AktifPasif = true;
                     gorevler.OncelikID = maxSira + 1;
+                    if ((gorevler.GorevTipiID == bilgiTalebiID || gorevler.GorevTipiID == gelistirmeID) && vUser.RoleName != "Admin")
+                    {
+                        gorevler.DurumID = onayVerID;
+                    }
+                    else if (gorevler.GorevTipiID == kaliteKontrolID)
+                    {
+                        if (vUser.RoleName == "Admin")
+                        {
+                            gorevler.DurumID = atandıID;
+                        }
+                        else
+                        {
+                            gorevler.DurumID = onayVerID;
+                        }
 
+                        gorevler.Kontrol = true;
+                        kontDur = true;
+                    }
+                    else
+                    {
+                        gorevler.DurumID = atandıID;
+                    }
                     db.Gorevlers.Add(gorevler);
 
                     foreach (var item in gorevler.work)
@@ -111,6 +209,8 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                         grvTDL.KayitTarih = DateTime.Now;
                         grvTDL.Kaydeden = vUser.UserName;
                         grvTDL.Gorevler = gorevler;
+                        grvTDL.OnayDurum = kontDur;
+                        grvTDL.Kontrol = kontDur;
 
                         db.GorevToDoLists.Add(grvTDL);
                     }
@@ -201,7 +301,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                     db.SaveChanges();
                     return Json(new Result(true, gorevler.ID), JsonRequestBehavior.AllowGet);
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
                 }
             }
@@ -298,6 +398,45 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             {
                 return "NO";
             }
+        }
+
+        public string GorevReddet(int Data)
+        {
+
+            try
+            {
+                var durumId = Combos.GörevYönetimDurumları.ToInt32();
+                var gorevDurumları = db.ComboItem_Name.Where(a => a.ComboID == durumId && a.Name == "Reddedildi").FirstOrDefault();
+                db.Database.ExecuteSqlCommand(string.Format("UPDATE [BIRIKIM].[ong].[GorevTodoList] SET AktifPasif=0  WHERE  GorevID = {0}", Data));
+                db.Database.ExecuteSqlCommand(string.Format("UPDATE [BIRIKIM].[ong].[Gorevler] SET AktifPasif=0 , DurumID={0} WHERE ID = {1}", gorevDurumları.ID, Data));
+                db.SaveChanges();
+                return "OK";
+            }
+            catch (Exception ex)
+            {
+
+                return "NO";
+            }
+
+        }
+
+        public string GorevOnayla(int Data)
+        {
+
+            try
+            {
+                var durumId = Combos.GörevYönetimDurumları.ToInt32();
+                var gorevDurumları = db.ComboItem_Name.Where(a => a.ComboID == durumId && a.Name == "Atandı").FirstOrDefault();
+                db.Database.ExecuteSqlCommand(string.Format("UPDATE [BIRIKIM].[ong].[Gorevler] SET DurumID={0} WHERE  ID = {1}", gorevDurumları.ID, Data));
+                db.SaveChanges();
+                return "OK";
+            }
+            catch (Exception ex)
+            {
+
+                return "NO";
+            }
+
         }
     }
 }

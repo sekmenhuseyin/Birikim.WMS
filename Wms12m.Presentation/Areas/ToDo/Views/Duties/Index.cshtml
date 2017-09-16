@@ -40,9 +40,17 @@
 }<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><span>Görevler</span></li></ul></div>
 <h1 class="page-title">Görev İşlemleri</h1>
 <div class="row m-10">
-    <div class="rdgrpOnayRed col-md-5"></div>
-    <div class="col-md-2"><button class="btn btn-success pull-right input-circle yenile-buton glyphicon glyphicon-refresh" style="width:80%"> Yenile </button></div>
-    <div class="col-md-2"><button class="btn btn-primary pull-right input-circle oncelik-kayit-buton glyphicon glyphicon-ok" style="display:none;width:80%"> Öncelik Kaydet </button></div>
+    <div class="rdgrpOnayRed col-md-4"></div>
+    <div class="col-md-8">
+        <div class="col-md-3"><button class="btn btn-primary pull-right input-circle yeni-gorev-buton glyphicon glyphicon-refresh" href="#modalEditPage" data-toggle="modal" style="width:100%"> Yeni Görev </button></div>
+        <div class="col-md-3"><button class="btn btn btn-lg yellow pull-right input-circle oncelik-kayit-buton glyphicon glyphicon-ok" style="display:none;width:100%"> Öncelik Kaydet </button></div>
+        <div class="col-md-2"><button class="btn btn btn-lg yellow pull-right input-circle onayla-buton glyphicon glyphicon-ok" style="display:none;width:100%"> Onayla </button></div>
+        <div class="col-md-2"><button class="btn btn btn-lg yellow pull-right input-circle reddet-buton glyphicon glyphicon-ok" style="display:none;width:100%"> Reddet </button></div>
+        <div class="col-md-2"><button class="btn btn-success pull-right input-circle yenile-buton glyphicon glyphicon-refresh" style="width:100%"> Yenile </button></div>
+        
+    </div>
+    
+    
 </div>
 <div class="row">
     <div class="col-md-12">
@@ -61,8 +69,9 @@
        var aktifPasif = "@ViewBag.AktifPasif";
        var rdrValue = aktifPasif;
         var radioGroupItems = [
-            { text: "Bekleyenler", value: "Aktif" },
-            { text: "Tamamlananlar", value: "Pasif" }
+            { text: "Aktif", value: "Aktif" },
+            { text: "Tamamlananlar", value: "Pasif" },
+            { text: "Onay Bekleyenler", value: "Onay" }
        ];
         $(function () {
             $(".rdgrpOnayRed").dxRadioGroup({
@@ -75,6 +84,16 @@
                     rdrValue = e.value;
                     if (rdrValue == "Pasif") {
                         $(".oncelik-kayit-buton").css("display", "none");
+                        $(".onayla-buton").css("display", "none");
+                        $(".reddet-buton").css("display", "none");
+                    }
+                    else if (rdrValue == "Onay") {
+                        $(".onayla-buton").css("display", "block");
+                        $(".reddet-buton").css("display", "block");
+                    }
+                    else {
+                        $(".onayla-buton").css("display", "none");
+                        $(".reddet-buton").css("display", "none");
                     }
 
                     PartialView("/ToDo/Duties/List", 'liste', JSON.stringify({ Tip: rdrValue }));
@@ -144,12 +163,21 @@
                 }
             });
         }
+        $('.yeni-gorev-buton').click(function () {
+            editInModal('/ToDo/Duties/New');
+        });
         $('.yenile-buton').click(function () {
             PartialView("/ToDo/Duties/List", 'liste', JSON.stringify({ Tip: rdrValue }));
         });
 
         $('.oncelik-kayit-buton').click(function () {
             OncelikKaydet();
+        });
+        $('.onayla-buton').click(function () {
+            GorevOnayla();
+        });
+        $('.reddet-buton').click(function () {
+            GorevReddet();
         });
 
     </script>
