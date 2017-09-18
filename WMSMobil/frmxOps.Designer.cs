@@ -55,6 +55,9 @@
             this.panelAlt = new System.Windows.Forms.Panel();
             this.btnBack = new System.Windows.Forms.Button();
             this.btnKaydet = new System.Windows.Forms.Button();
+            this.label15 = new System.Windows.Forms.Label();
+            this.txtMakaraBarkod = new System.Windows.Forms.TextBox();
+            this.label14 = new System.Windows.Forms.Label();
             this.panelUst.SuspendLayout();
             this.panelOrta.SuspendLayout();
             this.panelAlt.SuspendLayout();
@@ -68,17 +71,20 @@
             this.panelUst.Controls.Add(this.txtBarkod);
             this.panelUst.Controls.Add(this.btnEkle);
             this.panelUst.Controls.Add(this.label7);
+            this.panelUst.Controls.Add(this.label14);
             this.panelUst.Controls.Add(this.label4);
             this.panelUst.Controls.Add(this.panel2);
             this.panelUst.Controls.Add(this.txtEvrakno);
             this.panelUst.Controls.Add(this.txtHesapKodu);
+            this.panelUst.Controls.Add(this.txtMakaraBarkod);
             this.panelUst.Controls.Add(this.txtUnvan);
             this.panelUst.Controls.Add(this.label3);
             this.panelUst.Controls.Add(this.label2);
+            this.panelUst.Controls.Add(this.label15);
             this.panelUst.Controls.Add(this.label1);
             this.panelUst.Location = new System.Drawing.Point(0, 0);
             this.panelUst.Name = "panelUst";
-            this.panelUst.Size = new System.Drawing.Size(240, 90);
+            this.panelUst.Size = new System.Drawing.Size(240, 111);
             // 
             // btnUygula
             // 
@@ -140,13 +146,13 @@
             // 
             // panel2
             // 
-            this.panel2.Location = new System.Drawing.Point(0, 99);
+            this.panel2.Location = new System.Drawing.Point(0, 111);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(320, 160);
             // 
             // txtEvrakno
             // 
-            this.txtEvrakno.Location = new System.Drawing.Point(181, 68);
+            this.txtEvrakno.Location = new System.Drawing.Point(181, 90);
             this.txtEvrakno.Name = "txtEvrakno";
             this.txtEvrakno.ReadOnly = true;
             this.txtEvrakno.Size = new System.Drawing.Size(58, 21);
@@ -154,7 +160,7 @@
             // 
             // txtHesapKodu
             // 
-            this.txtHesapKodu.Location = new System.Drawing.Point(74, 68);
+            this.txtHesapKodu.Location = new System.Drawing.Point(74, 90);
             this.txtHesapKodu.Name = "txtHesapKodu";
             this.txtHesapKodu.ReadOnly = true;
             this.txtHesapKodu.Size = new System.Drawing.Size(54, 21);
@@ -162,7 +168,7 @@
             // 
             // txtUnvan
             // 
-            this.txtUnvan.Location = new System.Drawing.Point(74, 46);
+            this.txtUnvan.Location = new System.Drawing.Point(74, 68);
             this.txtUnvan.Name = "txtUnvan";
             this.txtUnvan.ReadOnly = true;
             this.txtUnvan.Size = new System.Drawing.Size(165, 21);
@@ -173,7 +179,7 @@
             this.label3.BackColor = System.Drawing.Color.Teal;
             this.label3.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
             this.label3.ForeColor = System.Drawing.SystemColors.Window;
-            this.label3.Location = new System.Drawing.Point(129, 68);
+            this.label3.Location = new System.Drawing.Point(129, 90);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(51, 21);
             this.label3.Text = "EvrakNo";
@@ -183,7 +189,7 @@
             this.label2.BackColor = System.Drawing.Color.Teal;
             this.label2.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
             this.label2.ForeColor = System.Drawing.SystemColors.Window;
-            this.label2.Location = new System.Drawing.Point(3, 68);
+            this.label2.Location = new System.Drawing.Point(3, 90);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(70, 21);
             this.label2.Text = "HesapKodu";
@@ -193,9 +199,9 @@
             this.label1.BackColor = System.Drawing.Color.Teal;
             this.label1.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
             this.label1.ForeColor = System.Drawing.SystemColors.Window;
-            this.label1.Location = new System.Drawing.Point(3, 46);
+            this.label1.Location = new System.Drawing.Point(3, 69);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(70, 21);
+            this.label1.Size = new System.Drawing.Size(70, 20);
             this.label1.Text = "Unvan";
             // 
             // panelOrta
@@ -210,7 +216,7 @@
             this.panelOrta.Controls.Add(this.label10);
             this.panelOrta.Controls.Add(this.label9);
             this.panelOrta.Controls.Add(this.label8);
-            this.panelOrta.Location = new System.Drawing.Point(0, 91);
+            this.panelOrta.Location = new System.Drawing.Point(0, 112);
             this.panelOrta.Name = "panelOrta";
             this.panelOrta.Size = new System.Drawing.Size(240, 169);
             // 
@@ -324,6 +330,36 @@
             this.btnKaydet.Text = "Kaydet";
             this.btnKaydet.Click += new System.EventHandler(this.btnKaydet_Click);
             // 
+            // label15
+            // 
+            this.label15.BackColor = System.Drawing.Color.Teal;
+            this.label15.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
+            this.label15.ForeColor = System.Drawing.SystemColors.Window;
+            this.label15.Location = new System.Drawing.Point(3, 25);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(70, 21);
+            this.label15.Text = "Unvan";
+            // 
+            // txtMakaraBarkod
+            // 
+            this.txtMakaraBarkod.Location = new System.Drawing.Point(114, 46);
+            this.txtMakaraBarkod.Name = "txtMakaraBarkod";
+            this.txtMakaraBarkod.ReadOnly = true;
+            this.txtMakaraBarkod.Size = new System.Drawing.Size(125, 21);
+            this.txtMakaraBarkod.TabIndex = 3;
+            this.txtMakaraBarkod.Visible = false;
+            // 
+            // label14
+            // 
+            this.label14.BackColor = System.Drawing.Color.CadetBlue;
+            this.label14.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
+            this.label14.ForeColor = System.Drawing.SystemColors.Window;
+            this.label14.Location = new System.Drawing.Point(3, 47);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(110, 21);
+            this.label14.Text = "Malzeme No Okut";
+            this.label14.Visible = false;
+            // 
             // frmxOps
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
@@ -373,5 +409,8 @@
         private System.Windows.Forms.Button btnBack;
         private System.Windows.Forms.Button btnUygula;
         private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.TextBox txtMakaraBarkod;
+        private System.Windows.Forms.Label label15;
     }
 }

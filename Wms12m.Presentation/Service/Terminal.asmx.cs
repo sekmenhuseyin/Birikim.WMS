@@ -317,7 +317,7 @@ namespace Wms12m
             if (tbl == null) return new Tip_Malzeme();
             //return
             var sirketkodu = db.Gorevs.Where(m => m.ID == GorevID).Select(m => m.IR.SirketKod).FirstOrDefault();
-            string sql = string.Format("SELECT MalKodu, MalAdi, Birim1 as Birim, case when Barkod1='' then case when Barkod2='' then  Barkod3 else Barkod2 end else Barkod1 end Barkod FROM FINSAT6{0}.FINSAT6{0}.STK WHERE MalAdi<>'' AND ", sirketkodu);
+            string sql = string.Format("SELECT MalKodu, MalAdi, Birim1 as Birim, Kod1, case when Barkod1='' then case when Barkod2='' then  Barkod3 else Barkod2 end else Barkod1 end Barkod FROM FINSAT6{0}.FINSAT6{0}.STK WHERE MalAdi<>'' AND ", sirketkodu);
             if (malkodu != "") sql += string.Format("(MalKodu = '{0}')", malkodu);
             else sql += string.Format("(BarKod1 = '{0}') OR (BarKod2 = '{0}') OR (BarKod3 = '{0}')", barkod);
             try
