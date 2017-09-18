@@ -116,8 +116,15 @@ namespace Wms12m.Presentation.Controllers
                         //birim kontrol
                         if (sti.Birim == "")
                             sti.Birim = db.Database.SqlQuery<string>(string.Format("SELECT Birim1 FROM FINSAT6{0}.FINSAT6{0}.STK WHERE (MalKodu = '{1}')", SID, sti.MalKodu)).FirstOrDefault();
+                        if (sti.Birim == "")
+                            sti.Birim = "ADET";
                         //Makara No
-                        if (dr["Makara No"].ToString() != "") sti.MakaraNo = dr["Makara No"].ToString();
+                        var kod1 = db.Database.SqlQuery<string>(string.Format("SELECT Kod1 FROM FINSAT6{0}.FINSAT6{0}.STK WHERE (MalKodu = '{1}')", SID, sti.MalKodu)).FirstOrDefault();
+                        if (kod1 == "KKABLO")
+                        {
+                            if (dr["Makara No"].ToString() != "") sti.MakaraNo = dr["Makara No"].ToString();
+                            else sti.MakaraNo = "Boş-" + db.SettingsMakaraNo(DID).FirstOrDefault();
+                        }
                         //ekle
                         liste.Add(sti);
                     }
