@@ -483,13 +483,11 @@ namespace WMSMobil
                 if (Ayarlar.MenuTip == MenuType.MalKabul || Ayarlar.MenuTip == MenuType.Paketle || Ayarlar.MenuTip == MenuType.Sevkiyat || Ayarlar.MenuTip == MenuType.KontrollüSayım)
                 {
 
-
-                    if (itemPanel.Controls[0].Text == mal)
-                    {
-                        mal_var = true;
-                        //eğer kontrollü sayım ise rafı da doğru olmalı ki sayıyı arttırsın
-                        if (Ayarlar.MenuTip == MenuType.KontrollüSayım)
+                    if (Ayarlar.MenuTip == MenuType.KontrollüSayım) {
+                        var malbilgileri = Servis.GetMalzemeFromBarcode("", mal, GorevID, Ayarlar.Kullanici.ID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid);
+                        if (itemPanel.Controls[0].Text == malbilgileri.Barkod)
                         {
+                            mal_var = true;
                             if (itemPanel.Raf == raf)
                             {
                                 raf_var = true;
@@ -497,8 +495,26 @@ namespace WMSMobil
                                 foreach (Control item in itemPanel.Controls)
                                     item.BackColor = Color.DarkOrange;
                             }
-                        }//diğer görevlerde sadece sayıyı arttır
-                        else if (Ayarlar.MenuTip == MenuType.MalKabul)
+                        }
+                    }
+                    else if (itemPanel.Controls[0].Text == mal)
+                    {
+                        mal_var = true;
+                        //eğer kontrollü sayım ise rafı da doğru olmalı ki sayıyı arttırsın
+                        //if (Ayarlar.MenuTip == MenuType.KontrollüSayım)
+                        //{
+                        //    if (itemPanel.Raf == raf)
+                        //    {
+                        //        raf_var = true;
+                        //        itemPanel.Controls[7].Text = (itemPanel.Controls[7].Text.ToDecimal() + 1).ToString();
+                        //        foreach (Control item in itemPanel.Controls)
+                        //            item.BackColor = Color.DarkOrange;
+                        //    }
+                        //}
+
+
+                            //diğer görevlerde sadece sayıyı arttır
+                        if (Ayarlar.MenuTip == MenuType.MalKabul)
                         {
                             if (cokluMalSayisi == 1 || (cokluMalSayisi > 1 && sonucID == itemPanel.Controls[1].Tag.ToInt32()))
                             {
