@@ -548,6 +548,9 @@ namespace WMSMobil
                             foreach (Control item in itemPanel.Controls)
                                 item.BackColor = Color.DarkOrange;
                         }
+                        // Scrollu sağa kaydırma
+                        panelOrta.AutoScroll = true;
+                        panelOrta.AutoScrollPosition = new Point(400, 0.Carpim());
                     }
                 }//end of if else
             }//end of foreach
@@ -686,9 +689,22 @@ namespace WMSMobil
                     tBirim.Left += tRaf.Width + 1;
                     tMakaraNo.Left += tRaf.Width + 1;
                 }
+                
+                // yeni eklenen satırı en üste atma
+                var tempSayac = PanelVeriList.Count()+1;
+                foreach (PanelEx pnlItem in PanelVeriList)
+                {
+                    
+                    pnlItem.Location = new Point(0, (tempSayac * 21).Carpim());
+                    tempSayac--;
+                }
 
+                panelSatir.Location = new Point(0, 21.Carpim());
                 panelOrta.Controls.Add(panelSatir);
                 PanelVeriList.Add(panelSatir);
+                // Scrollu sağa kaydırma
+                panelOrta.AutoScroll = true;
+                panelOrta.AutoScrollPosition = new Point(400, 0.Carpim());
             }
             //bunlarda da aynı maldan yeni raf ekle
             else if (Ayarlar.MenuTip == MenuType.RafaYerlestirme || Ayarlar.MenuTip == MenuType.TransferGiriş || Ayarlar.MenuTip == MenuType.SiparisToplama)
@@ -829,9 +845,12 @@ namespace WMSMobil
                         tBirim.Left += tRaf.Width + 1;
                         tMakaraNo.Left += tRaf.Width + 1;
                     }
-
                     panelOrta.Controls.Add(panelSatir);
                     PanelVeriList.Add(panelSatir);
+
+                    // Scrollu sağa kaydırma
+                    panelOrta.AutoScroll = true;
+                    panelOrta.AutoScrollPosition = new Point(400, 0.Carpim());
                 }
                 else
                 {
@@ -930,8 +949,10 @@ namespace WMSMobil
         /// </summary>
         private void MalzemeIslemleri_Closing(object sender, CancelEventArgs e)
         {
-            try { Barkod.EnableScanner = false; } catch (Exception) { }
-            try { Barkod.Dispose(); } catch (Exception) { }
+            try { Barkod.EnableScanner = false; }
+            catch (Exception) { }
+            try { Barkod.Dispose(); }
+            catch (Exception) { }
             Servis.Dispose();
         }
         /// <summary>

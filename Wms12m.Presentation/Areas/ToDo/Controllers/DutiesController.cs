@@ -165,7 +165,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                             onayVerID = item.ID;
                         }
                     }
-                    var maxSira = db.Gorevlers.Max(p => p.OncelikID);
+                    var maxSira = db.Gorevlers.Where(a=>a.ID>0).ToList().Max(p => p.OncelikID);
                     gorevler.Degistiren = vUser.UserName;
                     gorevler.Kaydeden = vUser.UserName;
                     gorevler.DegisTarih = DateTime.Now;

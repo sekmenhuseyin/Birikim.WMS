@@ -404,7 +404,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                 //son olarak bizim stoka kaydet
                 //get list
                 sql = string.Format(@"SELECT        wms.Yer.KatID, wms.Yer.MalKodu, wms.Yer.Birim, wms.Yer.Miktar AS Stok, 
-                                                        ISNULL((SELECT Miktar FROM wms.GorevYer WHERE (GorevID = {0}) AND(MalKodu = wms.Yer.MalKodu) AND (YerID = wms.Yer.ID)), 0) AS Miktar
+                                                        ISNULL((SELECT Sum(Miktar) FROM wms.GorevYer WHERE (GorevID = {0}) AND(MalKodu = wms.Yer.MalKodu) AND (YerID = wms.Yer.ID)), 0) AS Miktar
                                         FROM wms.Yer INNER JOIN wms.Gorev ON wms.Yer.DepoID = wms.Gorev.DepoID
                                         WHERE (wms.Gorev.ID = {0})", GorevID);
                 var list2 = db.Database.SqlQuery<frmSiparisToplama>(sql).ToList();
