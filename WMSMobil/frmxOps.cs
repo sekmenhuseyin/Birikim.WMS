@@ -649,7 +649,7 @@ namespace WMSMobil
                 tIslemMiktar.BackColor = Color.DarkOrange;
                 tYerlestirmeMiktari.BackColor = Color.DarkOrange;
 
-                tBarkod.Text = mal;
+                tBarkod.Text = malbilgileri.Barkod;
                 tMalKodu.Text = malbilgileri.MalKodu;
                 tMalAdi.Text = malbilgileri.MalAdi;
                 tBirim.Text = malbilgileri.Birim;
