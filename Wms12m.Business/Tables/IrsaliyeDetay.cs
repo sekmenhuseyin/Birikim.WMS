@@ -27,7 +27,7 @@ namespace Wms12m.Business
                 db.IRS_Detay.Add(tbl);
                 eklemi = true;
             }
-           else
+            else
             {
                 var tmp = Detail(tbl.ID);
                 tmp.IrsaliyeID = tbl.IrsaliyeID;
@@ -58,7 +58,7 @@ namespace Wms12m.Business
         /// <summary>
         /// yeni ekle
         /// </summary>
-        public Result Insert(frmMalzeme tbl)
+        public Result Insert(frmMalzeme tbl, int DepoID)
         {
             _Result = new Result();
             if (tbl.Miktar <= 0)
@@ -80,7 +80,7 @@ namespace Wms12m.Business
                     };
                     if (tbl.MakaraNo != "" && tbl.MakaraNo != null)
                     {
-                        var tmpx = db.IRS_Detay.Where(m => m.MakaraNo == tbl.MakaraNo).FirstOrDefault();
+                        var tmpx = db.Yers.Where(m => m.DepoID == DepoID && m.MakaraNo == tbl.MakaraNo).FirstOrDefault();
                         if (tmpx != null)
                         {
                             _Result.Message = "Bu makara no kullanılıyor";
@@ -91,7 +91,7 @@ namespace Wms12m.Business
                     db.IRS_Detay.Add(tablo);
                     db.SaveChanges();
                     //log
-                    LogActions("Business", "IrsaliyeDetay", "Operation", ComboItems.alEkle , tablo.ID, tbl.MalKodu + ", " + tbl.Miktar);
+                    LogActions("Business", "IrsaliyeDetay", "Operation", ComboItems.alEkle, tablo.ID, tbl.MalKodu + ", " + tbl.Miktar);
                     _Result.Message = "İşlem Başarılı !!!";
                     _Result.Status = true;
                     _Result.Id = tablo.ID;

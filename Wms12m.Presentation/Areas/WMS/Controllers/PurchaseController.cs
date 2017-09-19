@@ -100,7 +100,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             tbl.Miktar = M;
             if (mNo != "" && mNo != null)
             {
-                var tmpx = db.IRS_Detay.Where(m => m.MakaraNo == tbl.MakaraNo && m.ID != ID).FirstOrDefault();
+                var tmpx = db.Yers.Where(m => m.MakaraNo == tbl.MakaraNo && m.DepoID == tbl.IR.DepoID).FirstOrDefault();
                 if (tmpx != null)
                     return Json(new Result(false, "Bu makara no kullanılıyor"), JsonRequestBehavior.AllowGet);
                 tbl.MakaraNo = mNo;
@@ -338,10 +338,10 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         public JsonResult InsertMalzeme(frmMalzeme tbl)
         {
             if (CheckPerm(Perms.MalKabul, PermTypes.Writing) == false) return null;
-            //sadece irsaliye daha onaylanmamışsa yani işlemleri bitmeişse ekle
+            //sadece irsaliye daha onaylanmamışsa yani işlemleri bitmemişse ekle
             var irs = Irsaliye.Detail(tbl.IrsaliyeId);
             if (irs.Onay == false)
-                return Json(IrsaliyeDetay.Insert(tbl), JsonRequestBehavior.AllowGet);
+                return Json(IrsaliyeDetay.Insert(tbl, irs.DepoID), JsonRequestBehavior.AllowGet);
             return Json(new Result(false, "Bu irsaliyeye ürün eklenemez"), JsonRequestBehavior.AllowGet);
         }
         /// <summary>
