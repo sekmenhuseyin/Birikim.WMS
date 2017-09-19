@@ -147,7 +147,7 @@ namespace Wms12m.Business
                         //update db
                         db.LogLogins(P.Kod, device, true, "");
                         db.UpdateUserDevice(tbl.ID, device);
-                        //resturn result
+                        //return result
                         _Result.Status = true;
                         _Result.Id = tbl.ID;
                         _Result.Message = "İşlem Başarılı";
