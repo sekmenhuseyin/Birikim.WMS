@@ -441,6 +441,9 @@
     <Content Include="Areas\ToDo\Views\Kullanici\Details.cshtml" />
     <Content Include="Areas\ToDo\Views\Kullanici\Edit.cshtml" />
     <Content Include="Areas\ToDo\Views\Kullanici\Index.cshtml" />
+    <Content Include="Areas\YN\Views\OnayBekleyenler\Fatura.cshtml" />
+    <Content Include="Areas\YN\Views\OnayBekleyenler\Fatura_Details.cshtml" />
+    <Content Include="Areas\YN\Views\OnayBekleyenler\Transfer_Details.cshtml" />
     <None Include="bundleconfig.json" />
     <Content Include="Content\SizeSablon.xlsx" />
     <Content Include="Content\StockSablon.xlsx" />
