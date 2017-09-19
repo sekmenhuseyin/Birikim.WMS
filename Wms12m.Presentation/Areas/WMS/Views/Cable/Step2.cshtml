@@ -55,6 +55,7 @@
                                 <th class="text-right">Miktar</th>
                                 <th class="text-right">Stok</th>
                                 <th class="text-right">Wms Stok</th>
+                                <th class="text-right">Wms Rezerv</th>
                                 <th>Birim</th>
                                 <th>ID</th>
                             </tr>
@@ -72,6 +73,7 @@
                                     <td align="right">@String.Format("{0:n}", item.Miktar)</td>
                                     <td align="right">@String.Format("{0:n}", item.GunesStok)</td>
                                     <td align="right">@String.Format("{0:n}", item.WmsStok)</td>
+                                    <td align="right">@String.Format("{0:n}", item.WmsRezerv)</td>
                                     <td>@item.Birim</td>
                                     <td>@item.SirketID-@item.ID</td>
                                 </tr>
@@ -112,10 +114,9 @@
             $("#MalKodu").on("change paste keyup", function () { filterx(4, $("#MalKodu").val()); });
             $("#MalAdi").on("change paste keyup", function () { filterx(5, $("#MalAdi").val()); });
             var table = $('#sample_2').DataTable({
-                //"ordering": false,
                 "pagingType": "full_numbers",
                 "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
-                "columnDefs": [{ "targets": [10], "visible": false, "searchable": false }]
+                "columnDefs": [{ "targets": [11], "visible": false, "searchable": false }]
             });
             function filterx(a, b) { filter(table, a, b); }
             $("#selector").click(function () {
@@ -123,7 +124,7 @@
                 if (selectall == true) {
                     $("#selector").text("Seçimi İptal Et"); selectall = false;
                     table.rows({ filter: 'applied' }).every(function (rowIdx, tableLoop, rowLoop) {
-                        selected = selected + this.data()[10] + "#";
+                        selected = selected + this.data()[11] + "#";
                         this.select();
                     });
                 }

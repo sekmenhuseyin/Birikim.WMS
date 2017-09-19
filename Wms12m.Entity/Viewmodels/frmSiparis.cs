@@ -66,6 +66,7 @@ namespace Wms12m.Entity
         public string Birim { get; set; }
         public decimal WmsStok { get; set; }
         public decimal GunesStok { get; set; }
+        public decimal WmsRezerv { get; set; }
     }
     /// <summary>
     /// sipariş onay formu
