@@ -1,0 +1,64 @@
+﻿@model User
+@using Wms12m.Security
+<form class="form-horizontal ajaxForm" method="post" action="/ToDo/User/Save">
+    <input type="hidden" name="ID" value="@ViewBag.ID" />
+    <input type="hidden" name="Tip" value="0" />
+    <div class="form-group">
+        <label class="control-label col-sm-2">Şirket:</label>
+        <div class="col-sm-10">
+            <input type="text" required maxlength="5" class="form-control" placeholder="" name="Sirket" value="@Model.Sirket">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-sm-2">Kod:</label>
+        <div class="col-sm-10">
+            <input type="text" required maxlength="5" class="form-control" placeholder="" name="Kod" value="@Model.Kod">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-sm-2">Parola:</label>
+        <div class="col-sm-10">
+            <input type="text" required class="form-control" placeholder="" name="Sifre" value="@CryptographyExtension.Cozumle(Model.Sifre)">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-sm-2">Adı Soyadı:</label>
+        <div class="col-sm-10">
+            <input type="text" required maxlength="50" class="form-control" placeholder="" name="AdSoyad" value="@Model.AdSoyad">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-sm-2">E-Mail:</label>
+        <div class="col-sm-10">
+            <input type="text" required maxlength="100" class="form-control" placeholder="" name="Email" value="@Model.Email">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-sm-2">Rol Adı:</label>
+        <div class="col-sm-10">
+            <select name="RoleName" class="form-control">
+                @foreach (Role item in ViewBag.Role)
+                {
+                    if (string.IsNullOrEmpty(item.RoleName))
+                    {
+                        continue;
+                    }
+                    if (item.RoleName == Model.RoleName)
+                    {
+                        <option value="@item.RoleName" selected>@item.Aciklama</option>
+                    }
+                    else
+                    {
+                        <option value="@item.RoleName">@item.Aciklama</option>
+                    }
+                }
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <button type="submit" class="btn btn-default">Kaydet</button>
+        </div>
+    </div>
+</form>

@@ -64,6 +64,8 @@ namespace Wms12m.Security
         /// </summary>
         public static string Cozumle(string cozulecekSifreliText, string sifreAnahtari = VarsayilanAnahtar)
         {
+            if (string.IsNullOrEmpty(cozulecekSifreliText))
+                return "";
             // Get the complete stream of bytes that represent:
             // [32 bytes of Salt] + [32 bytes of IV] + [n bytes of CipherText]
             var cipherTextBytesWithSaltAndIv = Convert.FromBase64String(cozulecekSifreliText);

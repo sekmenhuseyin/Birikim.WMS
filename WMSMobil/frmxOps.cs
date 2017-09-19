@@ -496,9 +496,10 @@ namespace WMSMobil
                         var malbilgileri = Servis.GetMalzemeFromBarcode("", mal, GorevID, Ayarlar.Kullanici.ID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid);
                         if (itemPanel.Controls[0].Text == malbilgileri.Barkod && malbilgileri.Kod1=="KKABLO")
                         {
-                            mal_var = true;
+                           
                             if (itemPanel.Raf == raf && itemPanel.MakaraNo == makaraNo)
                             {
+                                mal_var = true;
                                 raf_var = true;
                                 itemPanel.Controls[7].Text = (itemPanel.Controls[7].Text.ToDecimal() + 1).ToString();
                                 foreach (Control item in itemPanel.Controls)
@@ -689,7 +690,7 @@ namespace WMSMobil
                 tMalKodu.Text = malbilgileri.MalKodu;
                 tMalAdi.Text = malbilgileri.MalAdi;
                 tBirim.Text = malbilgileri.Birim;
-                tMakaraNo.Text = "";
+                tMakaraNo.Text = txtMakaraBarkod.Text;
                 tRaf.Text = raf;
                 tMiktar.Text = "0";
                 tYerlestirmeMiktari.Text = "0";
@@ -932,6 +933,7 @@ namespace WMSMobil
                         yer.IrsID = txtEvrakno.Tag.ToInt32();
                         yer.RafNo = itemPanel.Controls[5].Text;
                         yer.GorevID = GorevID;
+                        yer.MakaraNo = itemPanel.Controls[8].Text;
                         YerList.Add(yer);
                     }
                 }
@@ -997,6 +999,39 @@ namespace WMSMobil
         private void btnBack_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void frmxOps_KeyDown(object sender, KeyEventArgs e)
+        {
+
+        }
+
+        private void txtMakaraBarkod_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtBarkod_TextChanged(object sender, EventArgs e)
+        {
+            if (txtBarkod.Text.Length == 11)
+            {
+                var malbilgileri = Servis.GetMalzemeFromBarcode("", txtBarkod.Text, GorevID, Ayarlar.Kullanici.ID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid);
+                if (malbilgileri.Kod1 == "KKABLO")
+                {
+                    txtMakaraBarkod.Visible = true;
+                    label14.Visible = true;
+                }
+                else 
+                {
+                    txtMakaraBarkod.Visible = false;
+                    label14.Visible = false;
+                }
+            }
+            else {
+                txtMakaraBarkod.Visible = false;
+                label14.Visible = false;
+            }
+
         }
     }
 }

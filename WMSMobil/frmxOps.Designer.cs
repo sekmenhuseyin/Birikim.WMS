@@ -35,13 +35,16 @@
             this.txtBarkod = new System.Windows.Forms.TextBox();
             this.btnEkle = new System.Windows.Forms.Button();
             this.label7 = new System.Windows.Forms.Label();
+            this.label14 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
             this.txtEvrakno = new System.Windows.Forms.TextBox();
             this.txtHesapKodu = new System.Windows.Forms.TextBox();
+            this.txtMakaraBarkod = new System.Windows.Forms.TextBox();
             this.txtUnvan = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
+            this.label15 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.panelOrta = new System.Windows.Forms.Panel();
             this.label13 = new System.Windows.Forms.Label();
@@ -55,9 +58,6 @@
             this.panelAlt = new System.Windows.Forms.Panel();
             this.btnBack = new System.Windows.Forms.Button();
             this.btnKaydet = new System.Windows.Forms.Button();
-            this.label15 = new System.Windows.Forms.Label();
-            this.txtMakaraBarkod = new System.Windows.Forms.TextBox();
-            this.label14 = new System.Windows.Forms.Label();
             this.panelUst.SuspendLayout();
             this.panelOrta.SuspendLayout();
             this.panelAlt.SuspendLayout();
@@ -111,6 +111,7 @@
             this.txtBarkod.Name = "txtBarkod";
             this.txtBarkod.Size = new System.Drawing.Size(106, 21);
             this.txtBarkod.TabIndex = 1;
+            this.txtBarkod.TextChanged += new System.EventHandler(this.txtBarkod_TextChanged);
             this.txtBarkod.GotFocus += new System.EventHandler(this.txt_GotFocus);
             // 
             // btnEkle
@@ -133,6 +134,17 @@
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(70, 21);
             this.label7.Text = "Raf Okut";
+            // 
+            // label14
+            // 
+            this.label14.BackColor = System.Drawing.Color.CadetBlue;
+            this.label14.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
+            this.label14.ForeColor = System.Drawing.SystemColors.Window;
+            this.label14.Location = new System.Drawing.Point(3, 47);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(110, 21);
+            this.label14.Text = "Makara Okut";
+            this.label14.Visible = false;
             // 
             // label4
             // 
@@ -166,6 +178,14 @@
             this.txtHesapKodu.Size = new System.Drawing.Size(54, 21);
             this.txtHesapKodu.TabIndex = 4;
             // 
+            // txtMakaraBarkod
+            // 
+            this.txtMakaraBarkod.Location = new System.Drawing.Point(114, 46);
+            this.txtMakaraBarkod.Name = "txtMakaraBarkod";
+            this.txtMakaraBarkod.Size = new System.Drawing.Size(125, 21);
+            this.txtMakaraBarkod.TabIndex = 3;
+            this.txtMakaraBarkod.Visible = false;
+            // 
             // txtUnvan
             // 
             this.txtUnvan.Location = new System.Drawing.Point(74, 68);
@@ -193,6 +213,16 @@
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(70, 21);
             this.label2.Text = "HesapKodu";
+            // 
+            // label15
+            // 
+            this.label15.BackColor = System.Drawing.Color.Teal;
+            this.label15.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
+            this.label15.ForeColor = System.Drawing.SystemColors.Window;
+            this.label15.Location = new System.Drawing.Point(3, 25);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(70, 21);
+            this.label15.Text = "Unvan";
             // 
             // label1
             // 
@@ -330,36 +360,6 @@
             this.btnKaydet.Text = "Kaydet";
             this.btnKaydet.Click += new System.EventHandler(this.btnKaydet_Click);
             // 
-            // label15
-            // 
-            this.label15.BackColor = System.Drawing.Color.Teal;
-            this.label15.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
-            this.label15.ForeColor = System.Drawing.SystemColors.Window;
-            this.label15.Location = new System.Drawing.Point(3, 25);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(70, 21);
-            this.label15.Text = "Unvan";
-            // 
-            // txtMakaraBarkod
-            // 
-            this.txtMakaraBarkod.Location = new System.Drawing.Point(114, 46);
-            this.txtMakaraBarkod.Name = "txtMakaraBarkod";
-            this.txtMakaraBarkod.ReadOnly = true;
-            this.txtMakaraBarkod.Size = new System.Drawing.Size(125, 21);
-            this.txtMakaraBarkod.TabIndex = 3;
-            this.txtMakaraBarkod.Visible = false;
-            // 
-            // label14
-            // 
-            this.label14.BackColor = System.Drawing.Color.CadetBlue;
-            this.label14.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
-            this.label14.ForeColor = System.Drawing.SystemColors.Window;
-            this.label14.Location = new System.Drawing.Point(3, 47);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(110, 21);
-            this.label14.Text = "Makara Okut";
-            this.label14.Visible = false;
-            // 
             // frmxOps
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
@@ -374,6 +374,7 @@
             this.Name = "frmxOps";
             this.Text = "MalKabul";
             this.Closing += new System.ComponentModel.CancelEventHandler(this.MalzemeIslemleri_Closing);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.frmxOps_KeyDown);
             this.panelUst.ResumeLayout(false);
             this.panelOrta.ResumeLayout(false);
             this.panelAlt.ResumeLayout(false);

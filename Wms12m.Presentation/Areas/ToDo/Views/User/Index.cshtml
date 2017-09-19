@@ -1,0 +1,99 @@
+﻿@model List<User>
+@{
+    ViewBag.Title = "Kullanıcı Listesi";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><span>Müşteri İşlemleri</span></li></ul></div>
+<h1 class="page-title">Müşteri İşlemleri</h1>
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet box green">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-gift"></i>Kullanıcı Listesi
+                </div>
+                <a data-href="/ToDo/User/Create/-1" class="btn btn-info pull-right partialView">Kullanıcı Ekle</a>
+            </div>
+            <div class="portlet-body listDataTable form p-40">
+                
+            </div>
+        </div>
+    </div>
+</div>
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title"></h4>
+            </div>
+            <div class="modal-body">
+                
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Kapat</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            refreshTable();
+        })
+        $(document).on('click','.partialView',function () {
+            $.ajax({
+                type: "GET",
+                url: $(this).data('href'),
+                success: function (dt) {
+                    getModal("", dt);
+                },
+                error: function (err) {
+                    alert(err.responseText);
+                }
+            })
+        })
+        $(document).on('submit', '.ajaxForm', function (evet) {
+            event.preventDefault();
+            var _data = new FormData(this);
+            $.ajax({
+                type: "POST",
+                url: $(this).attr('action'),
+                data: _data,
+                contentType: false,
+                processData: false,
+                success: function (dt) {
+                    if (dt === "True") {
+                        getModal("Uyarı", "İşlem Başarılı");
+                        refreshTable();
+                    } else {
+                        getModal("Uyarı", "İşlem Başarısız");
+                    }
+                },
+                error: function (err) {
+                    alert(err.responseText);
+                }
+            })
+        })
+        function getModal(title, body) {
+            $('#myModal .modal-body').html(body);
+            $('#myModal .modal-title').html(title);
+            $('#myModal').modal();
+        }
+        function refreshTable() {
+            $.ajax({
+                type: "GET",
+                url: "/ToDo/User/List",
+                success: function (dt) {
+                    $('.listDataTable').html(dt);
+                },
+                error: function (err) {
+                    alert(err.responseText);
+                }
+            })
+        }
+    </script>
+}

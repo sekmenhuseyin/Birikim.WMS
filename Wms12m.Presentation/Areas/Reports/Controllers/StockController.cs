@@ -17,7 +17,7 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
         public ActionResult Stok()
         {
             if (CheckPerm(Perms.Raporlar, PermTypes.Reading) == false) return Redirect("/");
-            var KOD = db.Database.SqlQuery<RaporGetKod>(string.Format("[FINSAT6{0}].[wms].[DB_GetKod]", db.GetSirketDBs().FirstOrDefault())).ToList();
+            var KOD = db.Database.SqlQuery<RaporGetKod>(string.Format("[FINSAT6{0}].[wms].[DB_GetKod]", "17")).ToList();
             return View(KOD);
         }
         public PartialViewResult StokList(int Tarih, string BasGrupKod, string BitGrupKod, string BasTipKod, string BitTipKod, string BasOzelKod, string BitOzelKod, string BasKod1, string BitKod1, string BasKod2, string BitKod2, string BasKod3, string BitKod3)
@@ -27,7 +27,7 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
             try
             {
 
-                SR = db.Database.SqlQuery<RaporStokKodCase>(string.Format("[FINSAT6{0}].[wms].[StokRaporuKodCase] @Tarih = {1}, @BasGrupKod = '{2}',@BitGrupKod = '{3}', @BasTipKod = '{4}',@BitTipKod= '{5}', @BasOzelKod = '{6}', @BitOzelKod = '{7}',@BasKod1 = '{8}', @BitKod1 = '{9}',@BasKod2= '{10}', @BitKod2 = '{11}',@BasKod3= '{12}', @BitKod3 = '{13}'", db.GetSirketDBs().FirstOrDefault(), Tarih, BasGrupKod, BitGrupKod, BasTipKod, BitTipKod, BasOzelKod, BitOzelKod, BasKod1, BitKod1, BasKod2, BitKod2, BasKod3, BitKod3)).ToList();
+                SR = db.Database.SqlQuery<RaporStokKodCase>(string.Format("[FINSAT6{0}].[wms].[StokRaporuKodCase] @Tarih = {1}, @BasGrupKod = '{2}',@BitGrupKod = '{3}', @BasTipKod = '{4}',@BitTipKod= '{5}', @BasOzelKod = '{6}', @BitOzelKod = '{7}',@BasKod1 = '{8}', @BitKod1 = '{9}',@BasKod2= '{10}', @BitKod2 = '{11}',@BasKod3= '{12}', @BitKod3 = '{13}'", "17", Tarih, BasGrupKod, BitGrupKod, BasTipKod, BitTipKod, BasOzelKod, BitOzelKod, BasKod1, BitKod1, BasKod2, BitKod2, BasKod3, BitKod3)).ToList();
             }
             catch (Exception ex)
             {
@@ -50,7 +50,7 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
             List<RaporBekleyenSiparis> BSR;
             try
             {
-                BSR = db.Database.SqlQuery<RaporBekleyenSiparis>(string.Format("[FINSAT6{0}].[wms].[BekleyenSiparisRaporu] @BasTarih = {1}, @BitTarih = {2},@BasTeslimTarih = {3}, @BitTeslimTarih = {4}", db.GetSirketDBs().FirstOrDefault(), bastarih, bittarih, basteslimtarih, bitteslimtarih)).ToList();
+                BSR = db.Database.SqlQuery<RaporBekleyenSiparis>(string.Format("[FINSAT6{0}].[wms].[BekleyenSiparisRaporu] @BasTarih = {1}, @BitTarih = {2},@BasTeslimTarih = {3}, @BitTeslimTarih = {4}", "17", bastarih, bittarih, basteslimtarih, bitteslimtarih)).ToList();
             }
             catch (Exception ex)
             {
@@ -73,7 +73,7 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
             List<RaporSatilmayanUrunler> SU;
             try
             {
-                SU = db.Database.SqlQuery<RaporSatilmayanUrunler>(string.Format("[FINSAT6{0}].[wms].[SatilmayanUrunler] @Number = {1}", db.GetSirketDBs().FirstOrDefault(), gunsayisi)).ToList();
+                SU = db.Database.SqlQuery<RaporSatilmayanUrunler>(string.Format("[FINSAT6{0}].[wms].[SatilmayanUrunler] @Number = {1}", "17", gunsayisi)).ToList();
             }
             catch (Exception ex)
             {
@@ -96,7 +96,7 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
             //List<RaporGunlukSatis> SU;
             //try
             //{
-            //    SU = db.Database.SqlQuery<RaporGunlukSatis>(string.Format("[FINSAT6{0}].[wms].[GunlukSatisRaporu] @BasTarih = {1}, @BitTarih = {2}",db.GetSirketDBs().FirstOrDefault(), bastarih, bittarih)).ToList();
+            //    SU = db.Database.SqlQuery<RaporGunlukSatis>(string.Format("[FINSAT6{0}].[wms].[GunlukSatisRaporu] @BasTarih = {1}, @BitTarih = {2}","17", bastarih, bittarih)).ToList();
             //}
             //catch (Exception ex)
             //{
@@ -111,7 +111,7 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
             {
                 MaxJsonLength = int.MaxValue
             };
-            var GS = db.Database.SqlQuery<RaporGunlukSatis>(string.Format("[FINSAT6{0}].[wms].[GunlukSatisRaporu] @BasTarih = {1}, @BitTarih = {2}", db.GetSirketDBs().FirstOrDefault(), bastarih, bittarih)).ToList();
+            var GS = db.Database.SqlQuery<RaporGunlukSatis>(string.Format("[FINSAT6{0}].[wms].[GunlukSatisRaporu] @BasTarih = {1}, @BitTarih = {2}", "17", bastarih, bittarih)).ToList();
             return json.Serialize(GS);
         }
         /// <summary>
@@ -128,7 +128,7 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
             List<KampanyaliSatisRaporu> SU;
             try
             {
-                SU = db.Database.SqlQuery<KampanyaliSatisRaporu>(string.Format("[FINSAT6{0}].[wms].[KampanyaliSatisRaporu] @BasTarih={1}, @BitTarih={2}", db.GetSirketDBs().FirstOrDefault(), bastarih, bittarih)).ToList();
+                SU = db.Database.SqlQuery<KampanyaliSatisRaporu>(string.Format("[FINSAT6{0}].[wms].[KampanyaliSatisRaporu] @BasTarih={1}, @BitTarih={2}", "17", bastarih, bittarih)).ToList();
             }
             catch (Exception ex)
             {
@@ -140,7 +140,7 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
         public PartialViewResult KampanyaChkDetay(string CHK, int bastarih, int bittarih)
         {
             if (CheckPerm(Perms.SözleşmeOnaylama, PermTypes.Reading) == false) return null;
-            var list = db.Database.SqlQuery<KampanyaliSatisRaporu>(string.Format("[FINSAT6{0}].[wms].[ChkKampanyaDetay] @CHK='{1}', @BasTarih={2}, @BitTarih={3}", db.GetSirketDBs().FirstOrDefault(), CHK, bastarih, bittarih)).ToList();
+            var list = db.Database.SqlQuery<KampanyaliSatisRaporu>(string.Format("[FINSAT6{0}].[wms].[ChkKampanyaDetay] @CHK='{1}', @BasTarih={2}, @BitTarih={3}", "17", CHK, bastarih, bittarih)).ToList();
             return PartialView(list);
         }
         /// <summary>
@@ -157,7 +157,7 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
             List<GerceklesenSevkiyatPlani> SU;
             try
             {
-                SU = db.Database.SqlQuery<GerceklesenSevkiyatPlani>(string.Format("[FINSAT6{0}].[wms].[GerceklesenSevkiyatRaporu] @BasTarih={1}, @BitTarih={2}", db.GetSirketDBs().FirstOrDefault(), bastarih, bittarih)).ToList();
+                SU = db.Database.SqlQuery<GerceklesenSevkiyatPlani>(string.Format("[FINSAT6{0}].[wms].[GerceklesenSevkiyatRaporu] @BasTarih={1}, @BitTarih={2}", "17", bastarih, bittarih)).ToList();
             }
             catch (Exception ex)
             {
