@@ -182,11 +182,19 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                 sql = " WHERE (WmsStok <> Miktar)";
             //eksik liste için farklı sql
             if (tmp[0] == "2")
-                sql = string.Format(@"SELECT FINSAT6{0}.FINSAT6{0}.STK.MalKodu, FINSAT6{0}.FINSAT6{0}.STK.MalAdi, FINSAT6{0}.FINSAT6{0}.STK.Birim1 as Birim, CAST(0 as DECIMAL) as Miktar, FINSAT6{0}.wms.getStockByDepo(FINSAT6{0}.FINSAT6{0}.STK.MalKodu, '{1}') AS GunesStok, 
+                sql = string.Format(@"SELECT FINSAT6{0}.FINSAT6{0}.STK.MalKodu, FINSAT6{0}.FINSAT6{0}.STK.MalAdi, FINSAT6{0}.FINSAT6{0}.STK.Birim1 as Birim, CAST(0 as DECIMAL) as Miktar, ISNULL(FINSAT6{0}.wms.getStockByDepo(FINSAT6{0}.FINSAT6{0}.STK.MalKodu, '{1}'), 0) AS GunesStok, 
                                                 ISNULL([wms].fnGetStockByID({3}, FINSAT6{0}.FINSAT6{0}.STK.MalKodu, FINSAT6{0}.FINSAT6{0}.STK.Birim1), 0) AS WmsStok
                                     FROM FINSAT6{0}.FINSAT6{0}.STK INNER JOIN FINSAT6{0}.FINSAT6{0}.DST ON FINSAT6{0}.FINSAT6{0}.STK.MalKodu = FINSAT6{0}.FINSAT6{0}.DST.MalKodu
                                     WHERE        (FINSAT6{0}.FINSAT6{0}.DST.Depo = '{1}') AND (FINSAT6{0}.wms.getStockByDepo(FINSAT6{0}.FINSAT6{0}.STK.MalKodu, '{1}') <> ISNULL([wms].fnGetStockByID({3}, FINSAT6{0}.FINSAT6{0}.STK.MalKodu, FINSAT6{0}.FINSAT6{0}.STK.Birim1), 0))
                                                 AND FINSAT6{0}.FINSAT6{0}.STK.MalKodu NOT IN (SELECT MalKodu FROM wms.GorevYer WHERE (GorevID = {2}))
+
+                                UNION
+
+                                SELECT        MalKodu, '' AS MalAdi, Birim, 0 AS Miktar, ISNULL(FINSAT699.wms.getStockByDepo(MalKodu, '{1}'), 0) AS GunesStok, ISNULL(wms.fnGetStockByID({3}, MalKodu, Birim), 0) AS WmsStok
+                                FROM            wms.Yer
+                                GROUP BY MalKodu, Birim, ISNULL(FINSAT6{0}.wms.getStockByDepo(MalKodu, '{1}'), 0), ISNULL(wms.fnGetStockByID({3}, MalKodu, Birim), 0)
+                                HAVING        (NOT (MalKodu IN (SELECT MalKodu FROM wms.GorevYer WHERE (GorevID = {2})))) 
+                                            AND (ISNULL(wms.fnGetStockByID({3}, MalKodu, Birim), 0) > 0)
                                     ORDER BY FINSAT6{0}.FINSAT6{0}.STK.MalKodu", mGorev.IR.SirketKod, mGorev.Depo.DepoKodu, GorevID, mGorev.DepoID);
             else
                 sql = string.Format("SELECT MalKodu, ISNULL(MalAdi, '') as MalAdi, Birim, ISNULL(Miktar, 0) as Miktar, ISNULL(WmsStok, 0) as WmsStok, ISNULL(GunesStok, 0) as GunesStok FROM (" +

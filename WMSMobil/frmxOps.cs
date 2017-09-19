@@ -586,7 +586,7 @@ namespace WMSMobil
                                 item.BackColor = Color.DarkOrange;
                         }
                         // Scrollu sağa kaydırma
-                        panelOrta.AutoScroll = true;
+                        //panelOrta.AutoScroll = true;
                         panelOrta.AutoScrollPosition = new Point(400, 0.Carpim());
                     }
                 }//end of if else
@@ -703,7 +703,7 @@ namespace WMSMobil
                 panelSatir.MalKodu = tMalKodu.Text;
                 panelSatir.Miktar = 0;
                 panelSatir.Birim = malbilgileri.Birim;
-                panelSatir.MakaraNo = "";
+                panelSatir.MakaraNo = txtMakaraBarkod.Text;
                 panelSatir.YerlestirmeMiktari = 0;
                 panelSatir.Raf = raf;
 
@@ -740,7 +740,7 @@ namespace WMSMobil
                 panelOrta.Controls.Add(panelSatir);
                 PanelVeriList.Add(panelSatir);
                 // Scrollu sağa kaydırma
-                panelOrta.AutoScroll = true;
+                //panelOrta.AutoScroll = true;
                 panelOrta.AutoScrollPosition = new Point(400, 0.Carpim());
             }
             //bunlarda da aynı maldan yeni raf ekle
@@ -885,8 +885,8 @@ namespace WMSMobil
                     panelOrta.Controls.Add(panelSatir);
                     PanelVeriList.Add(panelSatir);
 
-                    // Scrollu sağa kaydırma
-                    panelOrta.AutoScroll = true;
+                    //// Scrollu sağa kaydırma
+                    //panelOrta.AutoScroll = true;
                     panelOrta.AutoScrollPosition = new Point(400, 0.Carpim());
                 }
                 else
