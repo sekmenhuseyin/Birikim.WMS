@@ -47,6 +47,7 @@ namespace Wms12m.Entity
         public int Sira { get; set; }
         public decimal Stok { get; set; }
         public decimal WmsStok { get; set; }
+        public decimal WmsRezerv { get; set; }
     }
     /// <summary>
     /// siparişlerin malzeme detay
@@ -65,6 +66,7 @@ namespace Wms12m.Entity
         public string Birim { get; set; }
         public decimal WmsStok { get; set; }
         public decimal GunesStok { get; set; }
+        public decimal WmsRezerv { get; set; }
     }
     /// <summary>
     /// sipariş onay formu

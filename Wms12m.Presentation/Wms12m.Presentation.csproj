@@ -33,7 +33,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <IntermediateOutputPath>C:\Users\yazilim4\AppData\Local\Temp\vsBF69.tmp\Debug\</IntermediateOutputPath>
+    <IntermediateOutputPath>C:\Users\user\AppData\Local\Temp\vsBF5.tmp\Debug\</IntermediateOutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -42,7 +42,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <IntermediateOutputPath>C:\Users\yazilim4\AppData\Local\Temp\vsBF69.tmp\Release\</IntermediateOutputPath>
+    <IntermediateOutputPath>C:\Users\user\AppData\Local\Temp\vsBF5.tmp\Release\</IntermediateOutputPath>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Antlr3.Runtime, Version=3.5.0.2, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
@@ -213,8 +213,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\assets\pages\img\texbox-cal.png" />
-    <Content Include="Content\bootstrap.css" />
-    <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\images\12M-Logo-30.png" />
     <Content Include="Content\images\12M-Logo-90.png" />
     <Content Include="Content\images\12M-Logo.png" />
@@ -351,9 +349,7 @@
     <Content Include="Content\Scripts\Operation.min.js">
       <DependentUpon>Operation.js</DependentUpon>
     </Content>
-    <Content Include="Content\Site.css" />
     <Content Include="favicon.ico" />
-    <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="robots.txt" />
     <Content Include="humans.txt" />
@@ -445,28 +441,16 @@
     <Content Include="Areas\ToDo\Views\Kullanici\Details.cshtml" />
     <Content Include="Areas\ToDo\Views\Kullanici\Edit.cshtml" />
     <Content Include="Areas\ToDo\Views\Kullanici\Index.cshtml" />
-    <Content Include="Areas\ToDo\Views\_ViewStart.cshtml" />
-    <Content Include="Areas\ToDo\Views\Shared\_Layout.cshtml" />
-    <Content Include="Areas\ToDo\Views\User\Index.cshtml" />
-    <Content Include="Areas\ToDo\Views\User\Edit.cshtml" />
-    <Content Include="Areas\ToDo\Views\User\List.cshtml" />
-    <Content Include="Areas\ToDo\Views\User\Delete.cshtml" />
+    <Content Include="Areas\YN\Views\OnayBekleyenler\Fatura.cshtml" />
+    <Content Include="Areas\YN\Views\OnayBekleyenler\Fatura_Details.cshtml" />
+    <Content Include="Areas\YN\Views\OnayBekleyenler\Transfer_Details.cshtml" />
     <None Include="bundleconfig.json" />
     <Content Include="Content\SizeSablon.xlsx" />
     <Content Include="Content\StockSablon.xlsx" />
     <Content Include="Content\STISablon.xlsx" />
     <Content Include="Content\KatSablon.xlsx" />
-    <Content Include="fonts\glyphicons-halflings-regular.woff" />
-    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
-    <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <None Include="Properties\PublishProfiles\local.pubxml" />
     <None Include="Properties\PublishProfiles\WmsPublish.pubxml" />
-    <Content Include="Scripts\bootstrap.js" />
-    <Content Include="Scripts\bootstrap.min.js" />
-    <None Include="Scripts\jquery-1.10.2.intellisense.js" />
-    <Content Include="Scripts\jquery-1.10.2.js" />
-    <Content Include="Scripts\jquery-1.10.2.min.js" />
-    <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Service\Terminal.asmx" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\_PartialAylikSatisAnaliziBar.cshtml" />
@@ -521,7 +505,6 @@
     <Compile Include="Areas\System\SystemAreaRegistration.cs" />
     <Compile Include="Areas\ToDo\Controllers\GorevTakvimiController.cs" />
     <Compile Include="Areas\ToDo\Controllers\KullaniciController.cs" />
-    <Compile Include="Areas\ToDo\Controllers\UserController.cs" />
     <Compile Include="Areas\ToDo\ToDoAreaRegistration.cs" />
     <Compile Include="Areas\WMS\WMSAreaRegistration.cs" />
     <Compile Include="Areas\ToDo\Controllers\DutiesController.cs" />
@@ -808,7 +791,6 @@
     <Content Include="Views\Users\B2BNew.cshtml" />
     <Content Include="Views\Home\_PartialGunlukSatisZamanCizelgesi.cshtml" />
     <Content Include="Views\Users\YetkiDuzenle.cshtml" />
-    <Content Include="Scripts\jquery-1.10.2.min.map" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
