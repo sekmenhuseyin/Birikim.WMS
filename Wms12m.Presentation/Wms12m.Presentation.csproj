@@ -436,8 +436,6 @@
     <Content Include="Areas\WMS\Views\Transfer\SummaryEdit.cshtml" />
     <Content Include="Areas\YN\Views\OnayBekleyenler\Teklif.cshtml" />
     <Content Include="Areas\YN\Views\OnayBekleyenler\Teklif_Details.cshtml" />
-    <Content Include="Areas\ToDo\Views\_ViewStart.cshtml" />
-    <Content Include="Areas\ToDo\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\ToDo\Views\Kullanici\Create.cshtml" />
     <Content Include="Areas\ToDo\Views\Kullanici\Delete.cshtml" />
     <Content Include="Areas\ToDo\Views\Kullanici\Details.cshtml" />
