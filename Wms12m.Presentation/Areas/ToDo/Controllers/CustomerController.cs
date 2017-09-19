@@ -8,6 +8,11 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
 {
     public class CustomerController : RootController
     {
+      
+
+
+
+
 
         // GET: Customer/Create
         public ActionResult Index()

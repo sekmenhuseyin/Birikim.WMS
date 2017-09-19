@@ -1,0 +1,214 @@
+﻿@model IEnumerable<Wms12m.Entity.Models.User>
+
+@{
+    
+    Layout = null;
+}
+
+<h2>Index</h2>
+
+@*<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Sirket)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Tip)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Kod)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Sifre)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AdSoyad)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Email)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Tema)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Admin)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Aktif)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Kaydeden)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.KayitTarih)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.KayitSaat)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.KayitKaynak)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.KayitSurum)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Degistiren)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DegisTarih)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DegisSaat)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DegisKaynak)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DegisSurum)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Guid)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Users1.Sirket)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.User1.Sirket)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Role.Aciklama)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UserDetail.GosterilecekSirket)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Sirket)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Tip)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Kod)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Sifre)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AdSoyad)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Email)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Tema)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Admin)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Aktif)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Kaydeden)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.KayitTarih)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.KayitSaat)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.KayitKaynak)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.KayitSurum)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Degistiren)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DegisTarih)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DegisSaat)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DegisKaynak)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DegisSurum)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Guid)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Users1.Sirket)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.User1.Sirket)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Role.Aciklama)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UserDetail.GosterilecekSirket)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
+        </td>
+    </tr>
+}
+
+</table>*@
+
+
+
+<div class="portlet box green">
+    <div class="portlet-title">
+        <div class="caption">
+            <i class="fa fa-gift"></i>Kullanıcı Listesi
+        </div>
+    </div>
+    <div class="portlet-body form p-40">
+        <table class="table table-striped table-bordered table-hover" id="sample_1">
+            <thead>
+                <tr><th>AdSoyad</th><th>Mail</th><th>Rol Açıklama</th><th></th></tr>
+
+            </thead>
+            <tbody>
+
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.AdSoyad)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Email)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.RoleName)
+                        </td>
+                 
+                       
+                        <td>
+                            <a class="btn btn-success input-circle" href="javascript:;" onclick="CreateEdit('@item.ID')"> Düzenle </a>
+                            <a class="btn btn-danger input-circle" href="javascript:;" onclick="DeleteKontrol('@item.ID','/ToDo/Customer/List','liste','/ToDo/Customer/DeleteKontrol')"> Sil </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+
+        </table>
+    </div>
+</div>

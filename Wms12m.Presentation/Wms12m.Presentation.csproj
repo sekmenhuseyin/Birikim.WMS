@@ -436,6 +436,13 @@
     <Content Include="Areas\WMS\Views\Transfer\SummaryEdit.cshtml" />
     <Content Include="Areas\YN\Views\OnayBekleyenler\Teklif.cshtml" />
     <Content Include="Areas\YN\Views\OnayBekleyenler\Teklif_Details.cshtml" />
+    <Content Include="Areas\ToDo\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\ToDo\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\ToDo\Views\Kullanici\Create.cshtml" />
+    <Content Include="Areas\ToDo\Views\Kullanici\Delete.cshtml" />
+    <Content Include="Areas\ToDo\Views\Kullanici\Details.cshtml" />
+    <Content Include="Areas\ToDo\Views\Kullanici\Edit.cshtml" />
+    <Content Include="Areas\ToDo\Views\Kullanici\Index.cshtml" />
     <None Include="bundleconfig.json" />
     <Content Include="Content\SizeSablon.xlsx" />
     <Content Include="Content\StockSablon.xlsx" />
@@ -496,6 +503,7 @@
     <Compile Include="Areas\System\Controllers\SettingsController.cs" />
     <Compile Include="Areas\System\SystemAreaRegistration.cs" />
     <Compile Include="Areas\ToDo\Controllers\GorevTakvimiController.cs" />
+    <Compile Include="Areas\ToDo\Controllers\KullaniciController.cs" />
     <Compile Include="Areas\ToDo\ToDoAreaRegistration.cs" />
     <Compile Include="Areas\WMS\WMSAreaRegistration.cs" />
     <Compile Include="Areas\ToDo\Controllers\DutiesController.cs" />
