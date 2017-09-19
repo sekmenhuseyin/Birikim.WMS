@@ -1394,6 +1394,7 @@ namespace Wms12m
                         var yert = db.Yers.Where(m => m.KatID == katID && m.MalKodu == item.MalKodu).FirstOrDefault();
                         if (yert == null)
                         {
+
                             yert = new Yer() { KatID = katID.Value, MalKodu = item.MalKodu, Birim = item.Birim, Miktar = 0 };
                             db.Yers.Add(yert);
                             db.SaveChanges();

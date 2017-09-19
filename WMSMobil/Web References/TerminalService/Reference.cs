@@ -1042,6 +1042,8 @@ namespace WMSMobil.TerminalService {
         
         private string rafNoField;
         
+        private string makaraNoField;
+        
         /// <remarks/>
         public int GorevID {
             get {
@@ -1119,6 +1121,16 @@ namespace WMSMobil.TerminalService {
             }
             set {
                 this.rafNoField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string MakaraNo {
+            get {
+                return this.makaraNoField;
+            }
+            set {
+                this.makaraNoField = value;
             }
         }
     }
