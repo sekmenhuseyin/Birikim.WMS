@@ -15,13 +15,9 @@ namespace Wms12m
             var serializeModel = AuthIdentity(person, false);
             DateTime expiration = DateTime.Now.AddMinutes(HttpContext.Current.Session.Timeout);
             if (rememberMe)
-            {
                 expiration = DateTime.MaxValue;
-            }
             else
-            {
-                expiration = DateTime.Now.AddHours(1);
-            }
+                expiration = DateTime.Now.AddMinutes(30);
             var serializer = new JavaScriptSerializer();
             string userData = serializer.Serialize(serializeModel);
             var authTicket = new FormsAuthenticationTicket(1,
