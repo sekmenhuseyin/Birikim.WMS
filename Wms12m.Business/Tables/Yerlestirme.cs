@@ -70,11 +70,16 @@ namespace Wms12m.Business
             };
             if (IrsID > 0) yerLog.IrsaliyeID = IrsID;
             db.Yer_Log.Add(yerLog);
-            if (gc==true)
+            if (gc == true)
                 tbl.MakaraDurum = false;
             //stok
             var log = Detail(tbl.ID);
             log.Miktar = tbl.Miktar;
+            if (log.Miktar == 0)
+            {
+                log.MakaraNo = null;
+                log.MakaraDurum = false;
+            }
             //save
             try
             {
@@ -111,7 +116,11 @@ namespace Wms12m.Business
             }
             else
                 tmp.Miktar -= tbl.Miktar;
+            //makara
+            if (tmp.Miktar == 0)
+                tmp.MakaraNo = null;
             tmp.MakaraDurum = false;
+            //log
             Yer_Log logs = new Yer_Log()
             {
                 HucreAd = tbl.HucreAd,
