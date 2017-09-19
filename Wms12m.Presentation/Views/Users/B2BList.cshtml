@@ -1,10 +1,13 @@
 ﻿@model IEnumerable<mdlB2BUsers>
 <table class="table table-striped table-bordered table-hover" id="sample_1">
-    <thead><tr><th>Hesap Kodu</th><th>Unvan</th><th>Yetkili Email</th><th>Parola</th><th></th></tr></thead>
+    <thead><tr><th></th><th>Hesap Kodu</th><th>Unvan</th><th>Yetkili Email</th><th>Parola</th><th></th></tr></thead>
+    <tfoot><tr><th></th><th></th><th></th><th></th><th></th><th></th></tr></tfoot>
+    <tfoot class="tf-search"><tr><th></th><th></th><th></th><th></th><th></th><th></th></tr></tfoot>
     <tbody>
         @foreach (var item in Model)
         {
-            <tr id="tr@{@item.ID} ">
+            <tr id="tr@{@item.ID}">
+                <td></td>
                 <td>@item.HesapKodu</td>
                 <td>@item.Unvan</td>
                 <td>@item.YetkiliEMail</td>
@@ -29,5 +32,16 @@
                 { "extend": 'excel', "text": '<span class="fa fa-file-excel-o f-s-15 green"></span>', "className": 'btn btn-default btn-xs' }
             ]
         });
+        $('#sample_1 .tf-search th').each(function () {
+            var title = $('#sample_1 thead th').eq($(this).index()).text();
+            if (title != "" && title != "Detay" && title != "Hareket")
+                $(this).html('<input class="form-control input-circle" type="text" placeholder="Ara" />');
+        });
+        $("#sample_1 tfoot input").on('keyup change', function () { table.column($(this).parent().index() + ':visible').search(this.value).draw(); });
+        table.on('order.dt search.dt', function () {
+            table.column(0, { search: 'applied', order: 'applied' }).nodes().each(function (cell, i) {
+                cell.innerHTML = i + 1;
+            });
+        }).draw();
     });
 </script>

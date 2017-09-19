@@ -122,7 +122,7 @@ namespace WMSMobil
         /// </summary>
         private void btnConnection_Click(object sender, EventArgs e)
         {
-            Mesaj.Uyari(Ayarlar.ServisURL);
+            Mesaj.Basari(Ayarlar.ServisURL);
         }
         /// <summary>
         /// entera basarsa

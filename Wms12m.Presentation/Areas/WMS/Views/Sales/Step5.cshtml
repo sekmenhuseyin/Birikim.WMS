@@ -65,7 +65,7 @@
                     </table>
                     <div class="row m-t-20">
                         <div class="col-md-2">
-                            <button class="btn btn-default btn-block" onclick="window.history.back();"><<< Geri</button>
+                            <button type="button" class="btn btn-default btn-block" onclick="window.history.back();"><<< Geri</button>
                         </div>
                         <div class="col-md-1 col-md-offset-9">
                             <input type="hidden" name="GorevID" value="@ViewBag.GorevID" />
@@ -77,4 +77,4 @@
         </div>
     </div>
 </div>
-@section Scripts{<script>$(document).ready(function () { var table = $('#sample_2').DataTable({ "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" } }); });</script>}
+@section Scripts{<script>$(document).ready(function () { var table = $('#sample_2').DataTable({ "order": [[7, "asc"]], "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" } }); });</script>}

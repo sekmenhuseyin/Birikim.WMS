@@ -51,18 +51,18 @@
     $(document).ready(function () {
         DevExpress.ui.dxOverlay.baseZIndex(20000);
         var model =  @Html.Raw(serializer.Serialize(Model));
-        var Borc = 0, Alacak = 0, Bakiye = 0;
-        jQuery.each(model, function (i, val) {
-            Borc += val.Borc;
-            Alacak += val.Alacak;
-            Bakiye += val.Bakiye;
-        });
         table =$('#sample_1').DataTable({
             "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
             "scrollY": 400,
             "pagingType": "full_numbers",
             "ordering": false,
             "footerCallback": function (row, data, start, end, display) {
+                var Borc = 0, Alacak = 0, Bakiye = 0;
+                table.rows({ search: 'applied' }).data().each(function (val, index) {
+                    Borc += jDecimal(val[3]);
+                    Alacak += jDecimal(val[4]);
+                    Bakiye += jDecimal(val[5]);
+                });
                 var api = this.api(), data;
 
                 // Update footer

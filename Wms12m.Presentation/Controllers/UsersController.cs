@@ -88,6 +88,7 @@ namespace Wms12m.Presentation.Controllers
             if (id == null || id.ToString2() == "") return null;
             //return
             var ID = id.ToInt32();
+            if (ID == 1) return null;
             var list = db.GetUserPermsFor(ID).ToList();
             ViewBag.PermName = new SelectList(db.Perms.ToList(), "PermName", "PermName");
             ViewBag.UserName = Persons.Detail(ID).Kod;
@@ -223,6 +224,7 @@ namespace Wms12m.Presentation.Controllers
         [HttpPost]
         public JsonResult GetPass(int ID)
         {
+            if (CheckPerm(Perms.Kullanıcılar, PermTypes.Reading) == false || ID == 1) return Json("Yetkiniz yok", JsonRequestBehavior.AllowGet);
             return Json(Persons.GetPass(ID), JsonRequestBehavior.AllowGet);
         }
         /// <summary>
@@ -382,6 +384,7 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public PartialViewResult YetkiDuzenle(int ID)
         {
+            if (CheckPerm(Perms.Kullanıcılar, PermTypes.Reading) == false || ID == 1) return null;
             var tbl = db.UserDetails.Where(m => m.UserID == ID).FirstOrDefault();
             SipOnayYetkiler yetki = new SipOnayYetkiler();
             if (tbl != null)
@@ -397,12 +400,13 @@ namespace Wms12m.Presentation.Controllers
             }
             else
             {
+                User grv = db.Users.Where(m => m.ID == ID).FirstOrDefault();
                 yetki.GostCHKKodAlani = "";
                 yetki.GosterilecekSirket = "";
                 yetki.GostKod3OrtBakiye = "";
                 yetki.GostRiskDeger = "";
                 yetki.GostSTKDeger = "";
-                yetki.AdSoyad = vUser.FirstName;
+                yetki.AdSoyad = grv.AdSoyad;
             }
             ViewBag.ID = ID;
             return PartialView("YetkiDuzenle", yetki);
@@ -421,6 +425,7 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public JsonResult ParametreUpdate(string CHKAraligi, string Sirketler, string Tipler, string Kod3, string Risk, int ID)
         {
+            if (CheckPerm(Perms.Kullanıcılar, PermTypes.Writing) == false || ID == 1) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             Result _Result = new Result(true);
             var tbl = db.UserDetails.Where(m => m.UserID == ID).FirstOrDefault();
             if (tbl != null)
@@ -444,7 +449,7 @@ namespace Wms12m.Presentation.Controllers
                 _Result.Message = "İşlem Başarılı ";
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
                 _Result.Status = false;

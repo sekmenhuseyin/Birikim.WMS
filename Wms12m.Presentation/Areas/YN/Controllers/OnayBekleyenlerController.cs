@@ -1,7 +1,4 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Configuration;
 using System.Linq;
 using System.Web.Mvc;
@@ -13,6 +10,7 @@ namespace Wms12m.Presentation.Areas.YN.Controllers
 {
     public class OnayBekleyenlerController : RootController
     {
+        #region Sipariş
         /// <summary>
         /// sipariş onayı bekleyenler sayfası
         /// </summary>
@@ -39,128 +37,6 @@ namespace Wms12m.Presentation.Areas.YN.Controllers
                 return json;
             }
         }
-
-        public ActionResult Teklif()
-        {
-
-            return View("Teklif");
-        }
-
-        public string Teklif_List()
-        {
-            using (YNSEntities dby = new YNSEntities())
-            {
-                var list = dby.Database.SqlQuery<frmOnayTeklifList>(string.Format(@"SELECT TeklifNo,HesapKodu,COUNT(MalKodu) AS Cesit,
-                                                                                    SUM(Miktar) AS Miktar,Kaydeden,
-                                                                                    CONVERT(VARCHAR(15), CAST(KayitTarih - 2 AS datetime), 104) AS KayitTarihi,
-                                                                                    CONVERT(VARCHAR(15), CAST(TeklifTarihi - 2 AS datetime), 104) AS TeklifTarihi
-                                                                                      FROM [YNS{0}].[YNS{0}].[Teklif]
-                                                                                      GROUP BY TeklifNo,TeklifTarihi,HesapKodu,KayitTarih,Kaydeden", "0TEST")).ToList();
-                var json = new JavaScriptSerializer().Serialize(list);
-                return json;
-            }
-        }
-
-        [HttpPost]
-        public PartialViewResult Teklif_Details(string ID)
-        {
-            using (YNSEntities dby = new YNSEntities())
-            {
-                var list = dby.Database.SqlQuery<frmOnayTeklifListDetay>(string.Format(@"SELECT TeklifNo,HesapKodu,
-                                                                                YNS{0}.CAR002.CAR002_Unvan1 AS Unvan,
-                                                                                Miktar AS Miktar,Kaydeden,MalKodu,STK004_Aciklama AS MalAdi,
-                                                                                Fiyat,Tutar,DovizCinsi,
-                                                                                CONVERT(VARCHAR(15), CAST(KayitTarih - 2 AS datetime), 104) AS KayitTarihi
-                                                                                  FROM [YNS{0}].[YNS{0}].[Teklif] 
-                                                                                  INNER JOIN
-                                                                                  YNS{0}.CAR002 ON HesapKodu = YNS{0}.CAR002.CAR002_HesapKodu
-                                                                                  INNER JOIN
-                                                                                  YNS{0}.STK004 ON MalKodu = YNS{0}.STK004.STK004_MalKodu WHERE TeklifNo='{1}'", "0TEST", ID)).ToList();
-                return PartialView("Teklif_Details", list);
-            }
-        }
-
-
-        [HttpPost]
-        public JsonResult Teklif_Onay(string Data)
-        {
-
-            Result _Result = new Result(true);
-            
-
-            JArray parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
-
-
-            try
-            {
-                
-                foreach (JObject insertObj in parameters)
-                {
-
-
-                   
-                    db.Database.ExecuteSqlCommand(string.Format("UPDATE [YNS{0}].[YNS{0}].[Teklif] SET OnayDurumu=1 WHERE TeklifNo='{1}'", "0TEST", insertObj["TeklifNo"].ToString()));
-
-
-
-
-                }
-
-
-                _Result.Status = true;
-                _Result.Message = "İşlem Başarılı ";
-
-            }
-            catch (Exception ex)
-            {
-
-                _Result.Status = false;
-                _Result.Message = "Hata Oluştu. ";
-
-            }
-            return Json(_Result, JsonRequestBehavior.AllowGet);
-        }
-
-        [HttpPost]
-        public JsonResult Teklif_Red(string Data)
-        {
-
-            Result _Result = new Result(true);
-           
-
-            JArray parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
-
-           
-
-            try
-            {
-
-                foreach (JObject insertObj in parameters)
-                {
-
-                    
-                    db.Database.ExecuteSqlCommand(string.Format("UPDATE [YNS{0}].[YNS{0}].[Teklif] SET OnayDurumu=2 WHERE TeklifNo='{1}'", "0TEST", insertObj["TeklifNo"].ToString()));
-
-
-
-
-                }
-
-
-                _Result.Status = true;
-                _Result.Message = "İşlem Başarılı ";
-
-            }
-            catch (Exception ex)
-            {
-
-                _Result.Status = false;
-                _Result.Message = "Hata Oluştu. ";
-
-            }
-            return Json(_Result, JsonRequestBehavior.AllowGet);
-        }
-
         /// <summary>
         /// liste detayı
         /// </summary>
@@ -179,37 +55,92 @@ namespace Wms12m.Presentation.Areas.YN.Controllers
                 return PartialView("Siparis_Details", list);
             }
         }
-
-
-
         /// <summary>
         /// onayla veya reddet
         /// </summary>
         [HttpPost]
         public JsonResult Siparis_Onay(string ID, bool Onay)
         {
-            ID = ID.RemoveLastCharacter();
-            ID = "'" + ID.Replace("#", "','") + "'";
             try
             {
                 using (YNSEntities dby = new YNSEntities())
                 {
-                    if (Onay == true)
-                    {
-
-                    }
-                    else
-                    {
-
-                    }
                 }
                 return Json(new Result(true), JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
-                return Json(new Result(false, ex.Message), JsonRequestBehavior.AllowGet);
+                Logger(ex, "YN/OnayBekleyenler/Siparis_Onay");
+                return Json(new Result(false, "Hata Oluştu"), JsonRequestBehavior.AllowGet);
             }
         }
+        #endregion
+        #region Teklif
+        /// <summary>
+        /// teklif onay lsayfası
+        /// </summary>
+        public ActionResult Teklif()
+        {
+            return View("Teklif");
+        }
+        /// <summary>
+        /// teklif onay listesi
+        /// </summary>
+        public string Teklif_List()
+        {
+            using (YNSEntities dby = new YNSEntities())
+            {
+                var list = dby.Database.SqlQuery<frmOnayTeklifList>(string.Format(@"SELECT TeklifNo,HesapKodu,COUNT(MalKodu) AS Cesit,
+                                                                                    SUM(Miktar) AS Miktar,Kaydeden,
+                                                                                    CONVERT(VARCHAR(15), CAST(KayitTarih - 2 AS datetime), 104) AS KayitTarihi,
+                                                                                    CONVERT(VARCHAR(15), CAST(TeklifTarihi - 2 AS datetime), 104) AS TeklifTarihi
+                                                                                      FROM [YNS{0}].[YNS{0}].[Teklif]
+                                                                                      GROUP BY TeklifNo,TeklifTarihi,HesapKodu,KayitTarih,Kaydeden", "0TEST")).ToList();
+                var json = new JavaScriptSerializer().Serialize(list);
+                return json;
+            }
+        }
+        /// <summary>
+        /// teklif detayları
+        /// </summary>
+        [HttpPost]
+        public PartialViewResult Teklif_Details(string ID)
+        {
+            using (YNSEntities dby = new YNSEntities())
+            {
+                var list = dby.Database.SqlQuery<frmOnayTeklifListDetay>(string.Format(@"SELECT TeklifNo,HesapKodu,
+                                                                                YNS{0}.CAR002.CAR002_Unvan1 AS Unvan,
+                                                                                Miktar AS Miktar,Kaydeden,MalKodu,STK004_Aciklama AS MalAdi,
+                                                                                Fiyat,Tutar,DovizCinsi,
+                                                                                CONVERT(VARCHAR(15), CAST(KayitTarih - 2 AS datetime), 104) AS KayitTarihi
+                                                                                  FROM [YNS{0}].[YNS{0}].[Teklif] 
+                                                                                  INNER JOIN
+                                                                                  YNS{0}.CAR002 ON HesapKodu = YNS{0}.CAR002.CAR002_HesapKodu
+                                                                                  INNER JOIN
+                                                                                  YNS{0}.STK004 ON MalKodu = YNS{0}.STK004.STK004_MalKodu WHERE TeklifNo='{1}'", "0TEST", ID)).ToList();
+                return PartialView("Teklif_Details", list);
+            }
+        }
+        /// <summary>
+        /// teklif onay
+        /// </summary>
+        [HttpPost]
+        public JsonResult Teklif_Onay(string ID, bool Onay)
+        {
+            try
+            {
+                using (YNSEntities dby = new YNSEntities())
+                    dby.Database.ExecuteSqlCommand(string.Format("UPDATE [YNS{0}].[YNS{0}].[Teklif] SET OnayDurumu = {1} WHERE TeklifNo='{2}'", "0TEST", Onay == true ? 1 : 2, ID));
+                return Json(new Result(true, 1), JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Logger(ex, "YN/OnayBekleyenler/Teklif_Onay");
+                return Json(new Result(false, "Hata Oluştu"), JsonRequestBehavior.AllowGet);
+            }
+        }
+        #endregion
+        #region Transfer
         /// <summary>
         /// transfer onayı bekleyenler sayfası
         /// </summary>
@@ -236,7 +167,7 @@ namespace Wms12m.Presentation.Areas.YN.Controllers
         /// liste detayı
         /// </summary>
         [HttpPost]
-        public JsonResult Transfer_Details(string ID)
+        public PartialViewResult Transfer_Details(string ID)
         {
             using (YNSEntities dby = new YNSEntities())
             {
@@ -246,7 +177,7 @@ namespace Wms12m.Presentation.Areas.YN.Controllers
                                                                         FROM            YNS{0}.TransferDepo INNER JOIN
                                                                                                  YNS{0}.STK004 ON YNS{0}.TransferDepo.MalKodu = YNS{0}.STK004.STK004_MalKodu
                                                                         WHERE        YNS{0}.TransferDepo.TransferNo = '{1}'", "0TEST", ID)).ToList();
-                return Json(list, JsonRequestBehavior.AllowGet);
+                return PartialView("Transfer_Details", list);
             }
         }
         /// <summary>
@@ -255,27 +186,91 @@ namespace Wms12m.Presentation.Areas.YN.Controllers
         [HttpPost]
         public JsonResult Transfer_Onay(string ID, bool Onay)
         {
-            ID = ID.RemoveLastCharacter();
-            ID = "'" + ID.Replace("#", "','") + "'";
+            try
+            {
+                using (YNSEntities dby = new YNSEntities())
+                    dby.Database.ExecuteSqlCommand(string.Format(@"UPDATE YNS{0}.TransferDepo SET OnayDurumu = {1} WHERE (TransferNo = '{2}')", "0TEST", Onay == true ? 1 : 2, ID));
+                return Json(new Result(true, 1), JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Logger(ex, "YN/OnayBekleyenler/Transfer_Onay");
+                return Json(new Result(false, "Hata Oluştu"), JsonRequestBehavior.AllowGet);
+            }
+        }
+        #endregion
+        #region Fatura
+        /// <summary>
+        /// Fatura onayı bekleyenler sayfası
+        /// </summary>
+        public ActionResult Fatura()
+        {
+            return View("Fatura");
+        }
+        /// <summary>
+        /// Fatura onayı bekleyenler listesi
+        /// </summary>
+        public string Fatura_List()
+        {
+            using (YNSEntities dby = new YNSEntities())
+            {
+                var list = dby.Database.SqlQuery<frmOnayFatura>(string.Format(@"SELECT        YNS{0}.TempFatura.EvrakNo, YNS{0}.TempFatura.HesapKodu, YNS{0}.TempFatura.Depo, COUNT(YNS{0}.TempFatura.ID) AS Cesit, 
+                                                                                                 SUM(YNS{0}.TempFatura.Miktar) AS Miktar, YNS{0}.TempFatura.Kaydeden, YNS{0}.TempFatura.KayitTarih, YNS{0}.CAR002.CAR002_Unvan1 AS Unvan
+                                                                        FROM            YNS{0}.TempFatura INNER JOIN
+                                                                                                 YNS{0}.CAR002 ON YNS{0}.TempFatura.HesapKodu = YNS{0}.CAR002.CAR002_HesapKodu
+                                                                        WHERE        (YNS{0}.TempFatura.IslemDurumu = 0)
+                                                                        GROUP BY YNS{0}.TempFatura.EvrakNo, YNS{0}.TempFatura.HesapKodu, YNS{0}.TempFatura.Depo, YNS{0}.TempFatura.Kaydeden, YNS{0}.TempFatura.KayitTarih, YNS{0}.CAR002.CAR002_Unvan1", "0TEST")).ToList();
+                var json = new JavaScriptSerializer().Serialize(list);
+                return json;
+            }
+        }
+        /// <summary>
+        /// Fatura onay
+        /// </summary>
+        [HttpPost]
+        public JsonResult Fatura_Onay(string ID, bool Onay)
+        {
+            var result = new Result();
             try
             {
                 using (YNSEntities dby = new YNSEntities())
                 {
                     if (Onay == true)
                     {
-                        dby.Database.ExecuteSqlCommand(string.Format(@"UPDATE YNS{0}.TransferDepo SET OnayDurumu = 1 WHERE (TransferNo IN ({1}))", "0TEST", ID));
+                        var list = dby.TempFaturas.Where(m => m.IslemDurumu == 0 && m.EvrakNo == ID).Select(m => new SepetUrun { SatirTip = 1, UrunKodu = m.UrunKodu, HesapKodu = m.HesapKodu, Birim = m.Birim, Fiyat = m.Fiyat.ToString(), Miktar = m.Miktar.ToString(), Depo = m.Depo, ParaCinsi = m.ParaCinsi, KullaniciKodu = vUser.UserName }).ToList();
+                        var yns = new YeniNesil(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "0TEST");
+                        var sepetIslemleri = yns.FaturaKaydet(list);
+                        result = new Result(true, 1);
                     }
-                    else
-                    {
-                        dby.Database.ExecuteSqlCommand(string.Format(@"UPDATE YNS{0}.TransferDepo SET OnayDurumu = 2 WHERE (TransferNo IN ({1}))", "0TEST", ID));
-                    }
+                    if (result.Status == true) dby.Database.ExecuteSqlCommand(string.Format("UPDATE [YNS{0}].[YNS{0}].[TempFatura] SET IslemDurumu={1} WHERE EvrakNo='{2}'", "0TEST", Onay == true ? 1 : 2, ID));
                 }
-                return Json(new Result(true), JsonRequestBehavior.AllowGet);
+                return Json(result, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
-                return Json(new Result(false, ex.Message), JsonRequestBehavior.AllowGet);
+                Logger(ex, "YN/OnayBekleyenler/Fatura_Onay");
+                return Json(new Result(false, "Hata Oluştu"), JsonRequestBehavior.AllowGet);
             }
         }
+        /// <summary>
+        /// liste detayı
+        /// </summary>
+        [HttpPost]
+        public PartialViewResult Fatura_Details(string ID)
+        {
+            using (YNSEntities dby = new YNSEntities())
+            {
+                var list = dby.Database.SqlQuery<frmOnayFatura>(string.Format(@"SELECT        YNS{0}.TempFatura.ID, YNS{0}.TempFatura.EvrakNo, YNS{0}.TempFatura.SiraNo, YNS{0}.TempFatura.HesapKodu, YNS{0}.TempFatura.UrunKodu AS MalKodu, YNS{0}.TempFatura.Depo, 
+                                                                                                         YNS{0}.TempFatura.ParaCinsi, YNS{0}.TempFatura.Birim, YNS{0}.TempFatura.Miktar, YNS{0}.TempFatura.Fiyat, YNS{0}.TempFatura.IslemDurumu, YNS{0}.TempFatura.Kaydeden, 
+                                                                                                         YNS{0}.TempFatura.KayitTarih, YNS{0}.TempFatura.KayitSaat, YNS{0}.TempFatura.Degistiren, YNS{0}.TempFatura.DegisTarih, YNS{0}.TempFatura.DegisSaat, YNS{0}.CAR002.CAR002_Unvan1 AS Unvan, 
+                                                                                                         YNS{0}.STK004.STK004_Aciklama AS MalAdi
+                                                                                FROM            YNS{0}.TempFatura INNER JOIN
+                                                                                                         YNS{0}.CAR002 ON YNS{0}.TempFatura.HesapKodu = YNS{0}.CAR002.CAR002_HesapKodu INNER JOIN
+                                                                                                         YNS{0}.STK004 ON YNS{0}.TempFatura.UrunKodu = YNS{0}.STK004.STK004_MalKodu
+                                                                                WHERE        (YNS{0}.TempFatura.EvrakNo = '{1}')", "0TEST", ID)).ToList();
+                return PartialView("Fatura_Details", list);
+            }
+        }
+        #endregion
     }
 }

@@ -19,6 +19,28 @@
         public string Raf { get; set; }
     }
 
+    public class Tip_STI2
+    {
+        public int ID { get; set; }
+        public int irsID { get; set; }
+        public string MalKodu { get; set; }
+        public string MalAdi { get; set; }
+        public decimal Miktar { get; set; }
+        public string Birim { get; set; }
+        public string MakaraNo { get; set; }
+        public string Barkod { get; set; }
+        public int SiraNo { get; set; }
+        public string Kaydeden { get; set; }
+        public bool AktarimDurumu { get; set; }
+        public decimal OkutulanMiktar { get; set; }
+        public decimal YerlestirmeMiktari { get; set; }
+        public decimal? YerMiktar { get; set; }
+        public string Raf { get; set; }
+        public string KynkSiparisNo { get; set; }
+        public string IrsaliyeNo { get; set; }
+        public short? KynkSiparisSiraNo { get; set; }
+    }
+
     public class STIMax
     {
         public string SirketKod { get; set; }
@@ -87,6 +109,7 @@
         public string MalAdi { get; set; }
         public string Birim { get; set; }
         public string Barkod { get; set; }
+        public string Kod1 { get; set; }
     }
     public class FiyatKoleksiyonSelect
     {

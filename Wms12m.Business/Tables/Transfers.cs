@@ -101,6 +101,10 @@ namespace Wms12m.Business
         {
             return db.Transfers.Where(m => m.ID == Id).FirstOrDefault();
         }
+        public Transfer_Detay SubDetail(int Id)
+        {
+            return db.Transfer_Detay.Where(m => m.ID == Id).FirstOrDefault();
+        }
         /// <summary>
         /// get list
         /// </summary>

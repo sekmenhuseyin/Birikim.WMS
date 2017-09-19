@@ -65,7 +65,7 @@
                                     <td>@item.Cins</td>
                                     <td>@item.Kesit</td>
                                     <td id="mkr@{@x}"></td>
-                                    <td ondblclick="ChangeMiktar(this, '@item.MalKodu', '@item.Miktar', '@x')" align="right">@String.Format("{0:n}", item.Miktar)</td>
+                                    <td id="mktr@{@x}" ondblclick="ChangeMiktar(this, '@item.MalKodu', '@item.Miktar', '@x')" align="right">@String.Format("{0:n}", item.Miktar)</td>
                                     <td align="right">@String.Format("{0:n}", item.Stok)</td>
                                     <td>@item.SirketID-@item.ROW_ID</td>
                                     <td>@x</td>
@@ -76,7 +76,7 @@
                     </table>
                     <div class="row m-t-20">
                         <div class="col-md-2">
-                            <button class="btn btn-default btn-block" onclick="window.history.back();"><<< Geri</button>
+                            <button type="button" class="btn btn-default btn-block" onclick="window.history.back();"><<< Geri</button>
                         </div>
                         <div class="col-md-1 col-md-offset-7">
                             <button type="button" class="btn btn-default m-r-20" id="selector">Hepsini Seç</button>
@@ -134,11 +134,37 @@
         if (row.child.isShown()) { row.child.hide(); tr.removeClass('shown'); }
         else { row.child(newrow(tr.data('id'))).show(); format(tr.data('id')); tr.addClass('shown'); }
     });
-    function SelectMakara(id, row, mno) {
-        if (mno == "") mno = "Seçildi";
-        $("#mkr" + row).html(mno);
+    function SelectMakara(id, row, mno, mktr) {
         table.rows().every(function (rowIdx, tableLoop, rowLoop) {
-            if (this.data()[14] == row) this.data()[10] = id;
+            if (this.data()[14] == row) {
+                if (parseFloat(this.data()[11]) > parseFloat(mktr))
+                    bootbox.dialog({
+                        message: "Seçili makaranın uzunluğu istenenden daha az. Devam etmek istiyor musunuz?",
+                        title: "Miktar Hatası",
+                        buttons: {
+                            save: {
+                                label: "Devam",
+                                className: 'btn-success',
+                                callback: function () {
+                                    if (mno == "") mno = "Seçildi";
+                                    this.data()[10] = id;
+                                    this.data()[11] = mktr;
+                                    $("#mkr" + row).html(mno);
+                                    $("#mktr" + row).html(parseFloat(mktr).formatMoney(2));
+                                }
+                            },
+                            cancel: {
+                                label: "İptal",
+                                className: 'btn-warning'
+                            }
+                        }
+                    });
+                else {
+                    if (mno == "") mno = "Seçildi";
+                    this.data()[10] = id;
+                    $("#mkr" + row).html(mno);
+                }
+            }
         });
     }
     function ChangeMiktar(td, mal, miktar, id) {

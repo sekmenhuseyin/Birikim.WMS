@@ -4,31 +4,37 @@
         <div class="caption">
             <i class="fa fa-gift"></i>Görevler Listesi
         </div>
-        <div class="col-md-2 pull-right m-t-5">
+        @*<div class="col-md-2 pull-right m-t-5">
             <a class="btn btn-default pull-right input-circle" href="#modalEditPage" data-toggle="modal" onclick="editInModal('/ToDo/Duties/New')"> Yeni </a>
-        </div>
+        </div>*@
     </div>
     <div class="portlet-body form p-40">
         <table class="table table-bordered table-striped table-condensed" id="sample_1">
-            <thead class="flip-content" ><tr> 
-                       <th>Çalışma</th>                      
-                       <th>Firma</th>
-                       <th>Proje</th>
-                       <th>Form</th>
-                       <th>Görev</th>
-                       <th>Sorumlular</th>                  
-                       <th>Öncelik</th>
-                       <th>Durum</th>
-                       <th>Görev Tipi</th>
-                       <th>Departman</th>
-                       <th>Tahmini Bitiş</th>
-                       <th></th>
+            <thead class="flip-content">
+                <tr>
+                    <th></th>
+                    <th></th>
+                    <th>Çalışma</th>
+                    <th>Firma</th>
+                    <th>Proje</th>
+                    <th>Form</th>
+                    <th>Görev</th>
+                    <th>Sorumlular</th>
+                    @*<th>Öncelik</th>*@
+                    <th>Durum</th>
+                    <th>Görev Tipi</th>
+                    <th>Departman</th>
+                    <th>Tahmini Bitiş</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
                 @foreach (var item in Model)
                 {
-                    <tr  data-ID="@item.ID" ondblclick="showEdit(@item.ID)">
+                    <tr data-ID="@item.ID" ondblclick="showEdit(@item.ID)">
+                        
+                        <td data="@item.OncelikID" data-id="@item.ID"><div style="display:flex;"><i class='fa fa-arrow-up list-up-down item-up' onclick='RowUp(this)' style='color:#a0e4a0;'></i><i class='fa fa-arrow-down list-up-down item-down' onclick='RowDown(this)'  style='color:#ec9696;'></i></div></td>
+                        <td nowrap>@item.ID</td>
                         <td class="details-control"></td>
                         <td nowrap>@item.ProjeForm.Musteri.Firma</td>
                         <td nowrap>@item.ProjeForm.Proje</td>
@@ -36,72 +42,290 @@
 
                         <td nowrap>@item.Gorev</td>
                         <td nowrap>
-                        @{
-                            if (item.Sorumlu2.IsNullEmpty())
-                            {
-                                @item.Sorumlu
+                            @{
+                                if (item.Sorumlu2.IsNullEmpty())
+                                {
+                                    @item.Sorumlu
+                                }
+                                else if (item.Sorumlu3.IsNullEmpty())
+                                {
+                                    @(item.Sorumlu + " - " + item.Sorumlu2)
+                                }
+                                else
+                                {
+                                    @(item.Sorumlu + " - " + item.Sorumlu2 + " - " + item.Sorumlu3)
+                                }
                             }
-                            else if (item.Sorumlu3.IsNullEmpty())
-                            {
-                                @(item.Sorumlu + " - " + item.Sorumlu2)
-                            }
-                            else
-                            {
-                                @(item.Sorumlu + " - " + item.Sorumlu2 + " - " + item.Sorumlu3)
-                            }
-                        } 
                         </td>
-                        
-                        <td>@item.ComboItem_Name3.Name</td>
+
+                        @*<td>@item.ComboItem_Name3.Name</td>*@
                         <td>@item.ComboItem_Name1.Name</td>
-                        <td>@if (item.ComboItem_Name2 != null) { @item.ComboItem_Name2.Name}</td>
-                        <td>@if (item.ComboItem_Name != null) { @item.ComboItem_Name.Name}</td>
-                        <td>@if (item.TahminiBitis != null) { @item.TahminiBitis.Value.ToString("dd-MM-yyyy")}</td>
-                        <td nowrap>
-                            <a class="btn btn-info" href="#modalEditPage" data-toggle="modal" onclick="editInModal('/ToDo/DutyWork/NewWork/@item.ID')"><span class="glyphicon glyphicon-floppy-save"></span>Çalışma</a>
-                            <a class="btn btn-danger" href="javascript:;" onclick="Delete('@item.ID','/ToDo/Duties/List','liste','@item.ID')"> Sil </a>
-                        </td>
-                    </tr>
-                }
+                        <td>
+                            @if (item.ComboItem_Name2 != null)
+                        { @item.ComboItem_Name2.Name}
+                    </td>
+                    <td>
+                        @if (item.ComboItem_Name != null)
+                    { @item.ComboItem_Name.Name}
+                </td>
+                <td>
+                    @if (item.TahminiBitis != null)
+                { @item.TahminiBitis.Value.ToString("dd-MM-yyyy")}
+            </td>
+            <td nowrap>
+                <a class="btn btn-info" href="#modalEditPage" data-toggle="modal" onclick="DuzenleModal('@item.AktifPasif.ToString()' , '@item.ID')"><span class="glyphicon glyphicon-floppy-save"></span>Çalışma</a>
+                <a class="btn btn-danger" href="javascript:;" onclick="SilModal('@item.AktifPasif.ToString()' ,'@item.ID')"> Sil </a>
+            </td>
+        </tr>
+                                }
             </tbody>
+            <tfoot class="tf-search">
+                <tr>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th> 
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </tfoot>
 
         </table>
     </div>
 </div>
 <script language="text/javascript">
-    function showEdit(ID)
-    {
-        $('#modalEditPage').modal('toggle');
-        editInModal('/ToDo/Duties/Edit/'+ID)
-    }
-    $(document).ready(function () {
-        var table = $('#sample_1').DataTable({
-            "pagingType": "full_numbers",
-            "ordering": false,         
-            "columnDefs": [
-                { "width": "50px", "targets": 0 }
-            ],
-            "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
-            initComplete: function () {
-                this.api().columns([1, 2, 3, 4, 6, 7]).every(function () {
-                    var column = this;
-                    var select = $('<br /><select class="form-control input-circle" style="max-width:100px;"><option value=""></option></select>')
-                        .appendTo($(column.header()))
-                        .on('change', function () {
-                            var val = $.fn.dataTable.util.escapeRegex($(this).val());
-                            column.search(val ? '^' + val + '$' : '', true, false).draw();
-                        });
-                    column.data().unique().sort().each(function (d, j) { select.append('<option value="' + d + '">' + d + '</option>') });
-                });
-            },           
-        });
+    var secili_table = new Array();
+    var eskiData = new Array();
+    var yeniData = new Array();
+    var roleName = "@ViewBag.RoleName";
+    $("tbody tr").each(function () {
+        eskiData.push($(this).children("td").eq(1).text());
+    });
 
+    function showEdit(ID) {
+        if (roleName != "Admin") {
+            return;
+        }
+        $('#modalEditPage').modal('toggle');
+        editInModal('/ToDo/Duties/Edit/' + ID)
+
+    }
+
+        $('#sample_1 .tf-search th').each(function () {
+            var title = $('#sample_1 thead th').eq($(this).index()).text();
+            if (title != "" && title != "Çalışma" && title != "Sıra") {
+                $(this).html('<input type="text" placeholder="' + title + ' Ara" />');
+            }
+        });
+        var table = $('#sample_1').DataTable({
+            //"pagingType": "full_numbers",
+            "paging": false,
+            "ordering": false,
+            "columnDefs": [
+                { "width": "50px", "targets": 0 }, { "visible": false, "targets": [0,1] }
+            ],
+            "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" }
+        });
+        $("#sample_1 tfoot input").on('keyup change', function () {
+            table
+                .column($(this).parent().index() + ':visible')
+                .search(this.value)
+                .draw();
+        });
+        $('#sample_1 .tf-search tr').insertAfter($('#sample_1 thead tr'))
         $('#sample_1 tbody').on('click', 'td.details-control', function () {
             var tr = $(this).closest('tr');
             var row = table.row(tr);
             if (row.child.isShown()) { row.child.hide(); tr.removeClass('shown'); }
             else { row.child(newrow(tr.data('id'))).show(); format(tr.data('id')); tr.addClass('shown'); }
         });
+        $('#sample_1 tbody').on('click', 'tr', function () {
+            if (rdrValue != "Onay") {
+                return;
+            }
+            table
+                .rows('.selected')
+                .nodes()
+                .to$()      // Convert to a jQuery object
+                .removeClass('selected');
+            $("tr").find('td').not(".degisim").css('background-color', 'transparent');
+            $(".degisim").css('background-color', '#f9df63');
+            $(this).find('td').css('background-color', '#B0BED9');
+            $(this).toggleClass('selected');
+        });
+        if (roleName == 'Admin') {
+            table.columns([0]).visible(true, true);
+        }
+        else {
+            table.columns([0]).visible(false, false);
+        }
+    function DuzenleModal(aktif, ID) {
+        if (aktif == "False") {
+            $('#modalEditPage').modal('toggle');
+            Modaldialog("Görev aktif değil.", "Hata", "Tamam", "btn-danger");
+            return;
+        }
+        else {
+            editInModal('/ToDo/DutyWork/NewWork/' + ID);
+        }
 
-    });
+    }
+
+    function SilModal(aktif, ID) {
+        if (aktif == "False") {
+            Modaldialog("Görev aktif değil.", "Hata", "Tamam", "btn-danger");
+            return;
+        }
+        else {
+            Delete('' + ID + '', '/ToDo/Duties/List', 'liste', '' + ID + '')
+        }
+
+    }
+
+    function RowUp(item) {
+        if (rdrValue == "Pasif") {
+            return;
+        }
+        var sayac = 0;
+        yeniData = [];
+        if ($(item).closest('tr').prev().length == 1) {
+            var tempOnc = $(item).closest('tr').prev().find("td").eq(0).attr("data");
+            $(item).closest('tr').prev().find("td").eq(0).attr("data", $(item).closest('tr').find("td").eq(0).attr("data"));
+            $(item).closest('tr').find("td").eq(0).attr("data", tempOnc);
+            $(item).closest('tr').insertBefore($(item).closest('tr').prev())
+        }
+        $("tbody tr").each(function (index) {
+            yeniData.push($(this).find("td").eq(0).attr("data-id"));
+        });
+        $.each(yeniData, function (index, value) {
+            if (yeniData[index] != eskiData[index]) {
+                sayac++;
+            }
+        });
+        if (sayac > 0) {
+            $(".oncelik-kayit-buton").css("display","block");
+        }
+        else {
+            $(".oncelik-kayit-buton").css("display", "none");
+        }
+    }
+
+    function RowDown(item) {
+        if (rdrValue == "Pasif") {
+            return;
+        }
+        var sayac = 0;
+        yeniData = [];
+        if ($(item).closest('tr').next().length == 1) {
+            var tempOnc = $(item).closest('tr').next().find("td").eq(0).attr("data");
+            $(item).closest('tr').next().find("td").eq(0).attr("data", $(item).closest('tr').find("td").eq(0).attr("data"));
+            $(item).closest('tr').find("td").eq(0).attr("data", tempOnc);
+            $(item).closest('tr').insertAfter($(item).closest('tr').next())
+        }
+        $("tbody tr").each(function (index) {
+            yeniData.push($(this).find("td").eq(0).attr("data-id"));
+        });
+        $.each(yeniData, function (index, value) {
+            if (yeniData[index] != eskiData[index]) {
+                sayac++;
+            }
+        });
+        if (sayac > 0) {
+            $(".oncelik-kayit-buton").css("display", "block");
+        }
+        else {
+            $(".oncelik-kayit-buton").css("display", "none");
+        }
+    }
+
+    function OncelikKaydet() {
+        if (rdrValue == "Pasif") {
+            return;
+        }
+        secili_table = [];
+        $("tbody tr").each(function (index) {
+            var jObject = {};
+            jObject["ID"] = $(this).find("td").eq(0).attr("data-id");
+            jObject["OncelikID"] = $(this).find("td").eq(0).attr("data");
+            secili_table.push(jObject);
+        });
+        $.ajax({
+            url: window.location.origin + "/ToDo/Duties/OncelikGuncelle",
+            data: { Data: JSON.stringify(secili_table) },
+            type: "post",
+            success: function (data) {
+                if (data == "OK") {
+                    Modaldialog("İşlem Başarılı", "Güncelleme İşlemi", "Tamam", "Güncelleme");
+                    setTimeout(function () { window.location.reload(); }, 500);
+                }
+
+                else {
+                    Modaldialog("Hata Oluştu.", "Güncelleme İşlemi", "Tamam", "Güncelleme");
+                }
+
+            }
+        });
+    }
+    function GorevOnayla() {
+        if (rdrValue == "Pasif" || rdrValue == "Aktif") {
+            return;
+        }
+        var id = 0;
+    var x = table.rows('.selected').data();
+    for (var i = 0; i < x.length; i++) {
+        id = x[i][1];
+    }
+        $.ajax({
+            url: window.location.origin + "/ToDo/Duties/GorevOnayla",
+            data: { Data: id },
+            type: "post",
+
+            success: function (data) {
+                if (data == "OK") {
+                    Modaldialog("İşlem Başarılı", "Onaylama İşlemi", "Tamam", "Onaylama");
+                   setTimeout(function () { window.location.reload(); }, 500);
+                }
+                else {
+                    Modaldialog("Hata Oluştu", "Hata", "Tamam", "btn-danger");
+                   setTimeout(function () { window.location.reload(); }, 500);
+                }
+
+            }
+        });
+    }
+    function GorevReddet() {
+        if (rdrValue == "Pasif" || rdrValue == "Aktif") {
+            return;
+        }
+        var id = 0;
+        var x = table.rows('.selected').data();
+        for (var i = 0; i < x.length; i++) {
+            id = x[i][1];
+        }
+        $.ajax({
+            url: window.location.origin + "/ToDo/Duties/GorevReddet",
+            data: { Data: id },
+            type: "post",
+
+            success: function (data) {
+                if (data == "OK") {
+                    Modaldialog("İşlem Başarılı", "Onaylama İşlemi", "Tamam", "Onaylama");
+                    setTimeout(function () { window.location.reload(); }, 500);
+                }
+                else {
+                    Modaldialog("Hata Oluştu", "Hata", "Tamam", "btn-danger");
+                    setTimeout(function () { window.location.reload(); }, 500);
+                }
+
+            }
+        });
+
+    }
 </script>

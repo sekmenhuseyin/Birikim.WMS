@@ -71,20 +71,11 @@
                 "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
                 "pagingType": "full_numbers",
                 "footerCallback": function (row, data, start, end, display) {
+                    var miktartotal = 0;
+                    tbl.rows({ search: 'applied' }).data().each(function (val, index) {
+                        miktartotal += jDecimal(val[5]);
+                    });
                     var api = this.api(), data;
-
-                    // Remove the formatting to get integer data for summation
-                    var intVal = function (i) {
-                        return Math.round(Number(i.toString().replace(/\./g, "").replace(",", ".")) * 10000000000) / 10000000000;
-                    };
-
-                    // Total over all pages
-                    miktartotal = api
-                        .column(5)
-                        .data()
-                        .reduce(function (a, b) {
-                            return a + intVal(b);
-                        }, 0);
 
 
                     // Update footer

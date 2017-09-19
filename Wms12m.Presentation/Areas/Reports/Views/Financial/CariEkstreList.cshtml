@@ -40,6 +40,19 @@
                         <th class="text-right"></th>
                     </tr>
                 </tfoot>
+                <tfoot>
+                    <tr>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </tfoot>
                 <tbody>
                     @foreach (var item in Model)
                     {
@@ -75,22 +88,27 @@
         });
         var edit_date_col_num = $('th:contains("Tarih")').index();
         var model =  @Html.Raw(serializer.Serialize(Model));
-        var Borc = 0, Alacak = 0, BorcBakiye = 0, AlacakBakiye = 0;
-        jQuery.each(model, function (i, val) {
-            Borc += val.Borc;
-            Alacak += val.Alacak;
-            BorcBakiye = val.BorcBakiye;
-            AlacakBakiye = val.AlacakBakiye;
+        $('#sample_1 tfoot th').each(function () {
+            var title = $('#sample_1 thead th').eq($(this).index()).text();
+            if(title!=""){
+                $(this).html('<input type="text" placeholder="'+ title +' Ara" />');
+            }
         });
         table = $('#sample_1').DataTable({
             "pagingType": "full_numbers",
-            "ordering": false,
+            "ordering": true,
             "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
             "columnDefs": [
                 { "type": "date-uk", targets: [edit_date_col_num] }
             ],
             "footerCallback": function (row, data, start, end, display) {
-
+                var Borc = 0, Alacak = 0, BorcBakiye = 0, AlacakBakiye = 0;
+                table.rows({ search: 'applied' }).data().each(function (val, index) {
+                    Borc += jDecimal(val[5]);
+                    Alacak += jDecimal(val[6]);
+                    BorcBakiye = jDecimal(val[7]);
+                    AlacakBakiye = jDecimal(val[8]);
+                });
                 var api = this.api(), data;
 
 
@@ -109,6 +127,12 @@
                 );
             }
 
+        });
+        $("#sample_1 tfoot input").on('keyup change', function () {
+            table
+                .column($(this).parent().index() + ':visible')
+                .search(this.value)
+                .draw();
         });
         $('#sample_1 tbody').on('click', '.details-control', function () {
             var tr = $(this).closest('tr');

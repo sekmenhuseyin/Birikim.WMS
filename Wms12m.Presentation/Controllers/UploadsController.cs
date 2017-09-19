@@ -41,13 +41,14 @@ namespace Wms12m.Presentation.Controllers
             var depo = Store.Detail(DID);
             //buraya kadar hata yoksa bunu yapar. yine de hata olursa hiçbirini kaydetmez...
             int tarih = fn.ToOADate();
-            var gorevno = db.SettingsGorevNo(tarih, DID).FirstOrDefault();
             var sonuc = new InsertIrsaliye_Result();
+            var gorevno = db.SettingsGorevNo(tarih, DID).FirstOrDefault();
             string evraklar = "";
             using (var dbContextTransaction = db.Database.BeginTransaction())
             {
                 for (int i = 0; i < result.Tables[0].Rows.Count; i++)
                 {
+                    _result = new Result(false, 0, "Hatalı dosya");
                     DataRow dr = result.Tables[0].Rows[i];
                     //kontrol
                     try
@@ -55,7 +56,6 @@ namespace Wms12m.Presentation.Controllers
                         if (dr["İrsaliye No"].ToString() == "") return Json(_result, JsonRequestBehavior.AllowGet);
                         if (dr["Miktar"].ToString2().IsNumeric() == false) return Json(_result, JsonRequestBehavior.AllowGet);
                         if (dr["MalKodu"].ToString() == "") return Json(_result, JsonRequestBehavior.AllowGet);
-                        if (dr["Kaynak Sipariş No"].ToString() == "") return Json(_result, JsonRequestBehavior.AllowGet);
                     }
                     catch (Exception ex)
                     {
@@ -68,15 +68,26 @@ namespace Wms12m.Presentation.Controllers
                     _result.Message = "Mal kodu yanlış";
                     if (malkodu == "" || malkodu == null) return Json(_result, JsonRequestBehavior.AllowGet);
                     //add irsaliye and gorev
-                    sonuc = db.InsertIrsaliye(SID, DID, gorevno, dr["İrsaliye No"].ToString(), tarih, "", false, ComboItems.MalKabul.ToInt32(), vUser.UserName, tarih, fn.ToOATime(), Hesap, "", 0, "").FirstOrDefault();
-                    if (evraklar.Contains(dr["İrsaliye No"].ToString()) == false)
+                    string irsNo = dr["İrsaliye No"].ToString();
+                    if (evraklar.Contains(irsNo) == false)
                     {
                         if (evraklar != "") evraklar += ",";
-                        evraklar += dr["İrsaliye No"].ToString();
+                        evraklar += irsNo;
                     }
+                    else//daha önce eklenen bir irsaliye ise
+                    {
+                        var kontrol1 = db.Gorevs.Where(m => m.IR.EvrakNo == irsNo && m.IR.IslemTur == false && (m.DurumID == 9 || m.DurumID == 11)).FirstOrDefault();
+                        if (kontrol1 != null)
+                            return Json(new Result(false, 0, kontrol1.IR.EvrakNo + " nolu irsaliye daha önce kaydedilmiş."), JsonRequestBehavior.AllowGet);
+                    }
+                    sonuc = db.InsertIrsaliye(SID, DID, gorevno, irsNo, tarih, "", false, ComboItems.MalKabul.ToInt32(), vUser.UserName, tarih, fn.ToOATime(), Hesap, "", 0, "").FirstOrDefault();
                     //add detays
                     try
                     {
+                        //malkodu kontrol
+                        var kontrol2 = db.IRS_Detay.Where(m => m.MalKodu == malkodu && m.IR.EvrakNo == irsNo && m.IR.IslemTur == false).FirstOrDefault();
+                        if (kontrol2 != null)
+                            return Json(new Result(false, 0, kontrol2.IR.EvrakNo + " nolu irsaliyeye daha önce " + malkodu + " eklenmiş."), JsonRequestBehavior.AllowGet);
                         //irs detay
                         IRS_Detay sti = new IRS_Detay()
                         {
@@ -85,22 +96,35 @@ namespace Wms12m.Presentation.Controllers
                             Miktar = Convert.ToDecimal(dr["Miktar"]),
                             Birim = dr["Birim"].ToString()
                         };
-                        //kaynak sipariş
-                        string sql = String.Format("SELECT FINSAT6{0}.FINSAT6{0}.SPI.ROW_ID, FINSAT6{0}.FINSAT6{0}.SPI.EvrakNo, FINSAT6{0}.FINSAT6{0}.SPI.Tarih, FINSAT6{0}.FINSAT6{0}.SPI.SiraNo, FINSAT6{0}.FINSAT6{0}.SPI.BirimMiktar, FINSAT6{0}.FINSAT6{0}.STK.Birim1 as Birim " +
-                            "FROM FINSAT6{0}.FINSAT6{0}.SPI WITH(NOLOCK) INNER JOIN FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) ON FINSAT6{0}.FINSAT6{0}.SPI.MalKodu = FINSAT6{0}.FINSAT6{0}.STK.MalKodu " +
-                            "WHERE (FINSAT6{0}.FINSAT6{0}.SPI.IslemTur = 0) AND (FINSAT6{0}.FINSAT6{0}.SPI.KynkEvrakTip = 63) AND (FINSAT6{0}.FINSAT6{0}.SPI.EvrakNo = '{1}') AND (FINSAT6{0}.FINSAT6{0}.SPI.MalKodu = '{2}') AND (FINSAT6{0}.FINSAT6{0}.SPI.Depo = '{3}')", SID, dr["Kaynak Sipariş No"].ToString(), malkodu, depo.DepoKodu);
-                        var tbl = db.Database.SqlQuery<frmIrsaliyeMalzeme>(sql).FirstOrDefault();
-                        if (tbl != null)
+                        if (dr["Kaynak Sipariş No"].ToString() != "")
                         {
-                            if (dr["Birim"].ToString() == "") sti.Birim = tbl.Birim;
-                            sti.KynkSiparisNo = tbl.EvrakNo;
-                            sti.KynkSiparisID = tbl.ROW_ID;
-                            sti.KynkSiparisMiktar = tbl.BirimMiktar;
-                            sti.KynkSiparisSiraNo = tbl.SiraNo;
-                            sti.KynkSiparisTarih = tbl.Tarih;
+                            //kaynak sipariş
+                            string sql = String.Format("SELECT FINSAT6{0}.FINSAT6{0}.SPI.ROW_ID, FINSAT6{0}.FINSAT6{0}.SPI.EvrakNo, FINSAT6{0}.FINSAT6{0}.SPI.Tarih, FINSAT6{0}.FINSAT6{0}.SPI.SiraNo, FINSAT6{0}.FINSAT6{0}.SPI.BirimMiktar, FINSAT6{0}.FINSAT6{0}.STK.Birim1 as Birim " +
+                                "FROM FINSAT6{0}.FINSAT6{0}.SPI WITH(NOLOCK) INNER JOIN FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) ON FINSAT6{0}.FINSAT6{0}.SPI.MalKodu = FINSAT6{0}.FINSAT6{0}.STK.MalKodu " +
+                                "WHERE (FINSAT6{0}.FINSAT6{0}.SPI.IslemTur = 0) AND (FINSAT6{0}.FINSAT6{0}.SPI.KynkEvrakTip = 63) AND (FINSAT6{0}.FINSAT6{0}.SPI.EvrakNo = '{1}') AND (FINSAT6{0}.FINSAT6{0}.SPI.MalKodu = '{2}') AND (FINSAT6{0}.FINSAT6{0}.SPI.Depo = '{3}')", SID, dr["Kaynak Sipariş No"].ToString(), malkodu, depo.DepoKodu);
+                            var tbl = db.Database.SqlQuery<frmIrsaliyeMalzeme>(sql).FirstOrDefault();
+                            if (tbl != null)
+                            {
+                                if (sti.Birim == "") sti.Birim = tbl.Birim;
+                                sti.KynkSiparisNo = tbl.EvrakNo;
+                                sti.KynkSiparisID = tbl.ROW_ID;
+                                sti.KynkSiparisMiktar = tbl.BirimMiktar;
+                                sti.KynkSiparisSiraNo = tbl.SiraNo;
+                                sti.KynkSiparisTarih = tbl.Tarih;
+                            }
                         }
+                        //birim kontrol
+                        if (sti.Birim == "")
+                            sti.Birim = db.Database.SqlQuery<string>(string.Format("SELECT Birim1 FROM FINSAT6{0}.FINSAT6{0}.STK WHERE (MalKodu = '{1}')", SID, sti.MalKodu)).FirstOrDefault();
+                        if (sti.Birim == "")
+                            sti.Birim = "ADET";
                         //Makara No
-                        if (dr["Makara No"].ToString() != "") sti.MakaraNo = dr["Makara No"].ToString();
+                        var kod1 = db.Database.SqlQuery<string>(string.Format("SELECT Kod1 FROM FINSAT6{0}.FINSAT6{0}.STK WHERE (MalKodu = '{1}')", SID, sti.MalKodu)).FirstOrDefault();
+                        if (kod1 == "KKABLO")
+                        {
+                            if (dr["Makara No"].ToString() != "") sti.MakaraNo = dr["Makara No"].ToString();
+                            else sti.MakaraNo = "Boş-" + db.SettingsMakaraNo(DID).FirstOrDefault();
+                        }
                         //ekle
                         liste.Add(sti);
                     }
@@ -131,7 +155,6 @@ namespace Wms12m.Presentation.Controllers
             LogActions("", "Uploads", "Malzeme", ComboItems.alYükle, sonuc.GorevID.Value, "GörevID: " + sonuc.GorevID.Value + ", Satır Sayısı: " + liste.Count);
             //update görev
             var gorev = db.Gorevs.Where(m => m.ID == sonuc.GorevID.Value).FirstOrDefault();
-            gorev.DurumID = ComboItems.Açık.ToInt32();
             gorev.Bilgi = "Irs: " + evraklar + ", Tedarikçi: " + Unvan;
             db.SaveChanges();
             //return
@@ -420,11 +443,13 @@ namespace Wms12m.Presentation.Controllers
                                 db.Bolums.Add(bl);
                                 db.SaveChanges();
                             }
+                            //özellik id bul
+                            var ozellik = db.Database.SqlQuery<int>("SELECT ID FROM ComboItem_Name WHERE (ComboID = 3) AND (Name like '%" + tozellik + "%')").FirstOrDefault();
+                            if (ozellik == 0) ozellik = 14;
+                            //kat bul
                             var kt = db.Kats.Where(m => m.KatAd == tkat && m.BolumID == bl.ID).FirstOrDefault();
                             if (kt == null)
                             {
-                                var ozellik = db.ComboItem_Name.Where(m => m.Name == tozellik && m.ComboID == ozelliktipi).Select(m => m.ID).FirstOrDefault();
-                                if (ozellik == 0) ozellik = 14;
                                 kt = new Kat()
                                 {
                                     BolumID = bl.ID,
@@ -443,8 +468,18 @@ namespace Wms12m.Presentation.Controllers
                                 };
                                 if (taciklama != "") kt.Aciklama = taciklama;
                                 db.Kats.Add(kt);
-                                db.SaveChanges();
                             }
+                            else
+                            {
+                                kt.Boy = dr["Yükseklik (mm)"].ToDecimal();
+                                kt.En = dr["Genişlik (mm)"].ToDecimal();
+                                kt.Derinlik = dr["Derinlik (mm)"].ToDecimal();
+                                kt.AgirlikKapasite = dr["Kapasite (kg)"].ToDecimal();
+                                kt.OzellikID = ozellik;
+                                kt.Degistiren = vUser.UserName;
+                                kt.DegisTarih = fn.ToOADate();
+                            }
+                            db.SaveChanges();
                             basarili++;
                         }
                     }

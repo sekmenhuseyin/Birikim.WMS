@@ -1,76 +1,103 @@
 ﻿@model GorevCalisma
 
-    <div class="modal-content">
-        <div class="close-modal" data-dismiss="modal"><div class="lr"><div class="rl"></div></div></div>
-        <div class="container">
-            <div class="portlet box green">
-                <div class="portlet-title">
-                    <div class="caption">
-                        <i class="fa fa-gift"></i>Çalışma Ekle
+<div class="modal-content">
+    <div class="close-modal" data-dismiss="modal"><div class="lr"><div class="rl"></div></div></div>
+    <div class="container">
+        <div class="portlet box green">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-gift"></i>Çalışma Ekle
 
-                    </div>
                 </div>
-                <div class="portlet-body form">
-                    @using (Ajax.BeginForm("Save", "DutyWork", new { area = "ToDo" }, new AjaxOptions { InsertionMode = InsertionMode.Replace, OnFailure = "Modaldialog('Lütfen Tekrar Deneyin', 'Hata', 'Tamam', 'btn-danger');", OnSuccess = "CreateEdit('0');" }, new { @class = "form-horizontal" }))
-                    {
-                        @Html.HiddenFor(model => model.ID)
-                        @Html.AntiForgeryToken()
-                        @Html.ValidationSummary(true)
-                        <div class="form-body">
-                            <div class="form-group">
-                                <div class="control-label col-md-4">Görev</div>
-                                <div class="col-md-4">
-                                    @Html.DropDownList("GorevID", null, htmlAttributes: new { @class = "form-control input-circle", @readonly = "readonly" })
-                                    @Html.ValidationMessageFor(model => model.GorevID, "", new { @class = "text-danger" })
-                                </div>
+            </div>
+            <div class="portlet-body form">
+                @using (Ajax.BeginForm("Save", "DutyWork", new { area = "ToDo" }, new AjaxOptions { InsertionMode = InsertionMode.Replace, OnFailure = "Modaldialog('Lütfen Tekrar Deneyin', 'Hata', 'Tamam', 'btn-danger');", OnSuccess = "CreateEdit('0');" }, new { @class = "form-horizontal" }))
+                {
+                    @Html.HiddenFor(model => model.ID)
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true)
+                    <div class="form-body">
+                        <div class="form-group pointer">
+                            <div class="control-label col-md-1">Görev</div>
+                            <div class="col-md-10">
+                                @Html.DropDownList("GorevID", null, htmlAttributes: new { @class = "form-control input-circle", @readonly = "readonly" })
+                                @Html.ValidationMessageFor(model => model.GorevID, "", new { @class = "text-danger" })
                             </div>
+                        </div>
 
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.Tarih, htmlAttributes: new { @class = "control-label col-md-4" })
-                                <div class="col-md-4">
-                                    @Html.EditorFor(model => model.Tarih, new { htmlAttributes = new { id = "Tarih", @class = "form-control input-circle date-picker", @Value = "" } })
-                                    @Html.ValidationMessageFor(model => model.Tarih, "", new { @class = "text-danger" })
-                                </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Tarih, htmlAttributes: new { @class = "control-label col-md-1" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Tarih, new { htmlAttributes = new { id = "Tarih", @class = "form-control input-circle date-picker", @Value = "" } })
+                                @Html.ValidationMessageFor(model => model.Tarih, "", new { @class = "text-danger" })
                             </div>
+                        </div>
 
-                            <div class="form-group">
-                                <div class="control-label col-md-4">Çalışma Süresi</div>
-                                <div class="col-md-4">
-                                    @Html.EditorFor(model => model.CalismaSure, new { htmlAttributes = new { @class = "form-control input-circle" } })
-                                    @Html.ValidationMessageFor(model => model.CalismaSure, "", new { @class = "text-danger" })
-                                </div>
+                        <div class="form-group">
+                            <div class="control-label col-md-1">Çalışma Süresi</div>
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.CalismaSure, new { htmlAttributes = new { @class = "form-control input-circle" } })
+                                @Html.ValidationMessageFor(model => model.CalismaSure, "", new { @class = "text-danger" })
                             </div>
+                        </div>
 
-                            <div class="form-group">
-                                <div class="control-label col-md-4">Çalışma</div>
-                                <div class="col-md-4">
-                                    @Html.TextAreaFor(model => model.Calisma, 10, 55, new { htmlAttributes = new { @class = "form-control input-circle" } })
-                                    @Html.ValidationMessageFor(model => model.Calisma, "", new { @class = "text-danger" })
-                                </div>
+                        <div class="form-group">
+                            <div class="control-label col-md-1">Çalışma</div>
+                            <div class="col-md-10">
+                                @Html.TextAreaFor(model => model.Calisma, 10, 55, new { htmlAttributes = new { @class = "form-control input-circle txar-cal" } })
+                                @Html.ValidationMessageFor(model => model.Calisma, "", new { @class = "text-danger" })
                             </div>
+                        </div>
 
-                            <div class="form-actions">
-                                <div class="row">
-                                    <div class="col-md-offset-3 col-md-9">
-                                        <center>
-                                            <input type="submit" value="Ekle" class="btn btn-circle green" />
-                                            <button type="button" class="btn btn-circle grey-salsa btn-outline" onclick="CreateEditNewWork('0')">Temizle</button>
-                                        </center>
-                                    </div>
+                        <div class="form-actions">
+                            <div class="row">
+                                <div class="col-md-offset-3 col-md-9">
+                                    <center>
+                                        <input type="submit" value="Ekle" class="btn btn-circle green" />
+                                        <button type="button" class="btn btn-circle grey-salsa btn-outline" onclick="CreateEditNewWork('0')">Temizle</button>
+                                    </center>
                                 </div>
                             </div>
                         </div>
-                    }
-                </div>
+                    </div>
+                }
             </div>
+        </div>
     </div>
-    </div>
+</div>
 
 <script type="text/javascript">
+    DevExpress.ui.dxOverlay.baseZIndex(20000);
+    sayac = 1;
+    var roleName = "@ViewBag.RoleName";
+    var kont = "@Html.Raw(Json.Encode(Model.Gorevler.Kontrol))";
+    var durum = "";
+    var model = "";
+    if (roleName=="Destek" && kont=="true")
+    {
+        durum = "Kontrol";
+        model = @Html.Raw(Json.Encode(Model.Gorevler.GorevToDoLists.Select(m=> new frmGorevTodos { ID=m.ID, Aciklama=m.Aciklama, AktifPasif=m.AktifPasif, OnayDurum=m.OnayDurum , Kontrol=m.Kontrol , KontrolOnay=m.KontrolOnay}).ToList()));
+    }
+    else {
+        durum = "Gorev";
+        model = @Html.Raw(Json.Encode(Model.Gorevler.GorevToDoLists.Select(m=> new frmGorevTodos { ID=m.ID, Aciklama=m.Aciklama, AktifPasif=m.AktifPasif, OnayDurum=m.OnayDurum }).ToList()));
+    }
+    $.each(model, function (indexx, value) {
+         if (durum == "Gorev" && value.AktifPasif == true && value.OnayDurum == false) {
+             GorevList(indexx, value)
+         }
+         else if (durum == "Kontrol" && value.AktifPasif == true && value.OnayDurum == true && value.Kontrol==true && value.KontrolOnay==false) {
+             GorevList(indexx, value)
+         }
+
+     });
+
     $(document).ready(function () {
         $('.date-picker').datepicker();
 
     });
+
+    $(".ro-item").css("display", "none");
 
     function CreateEditNewWork(Id) {
         if (Id == 0) {
@@ -80,5 +107,31 @@
             $("#Calisma").val("");
 
         }
+    }
+
+    function GorevList(indexx, value) {
+        var index = sayac++;
+        var newElement = "";
+        newElement = $("<div>").addClass("form-group row todo-content");
+        newElement.append("<div class='todo-text todo-id" + index + "' style='display:none'></div><div class='checkitem" + index + " col-md-1' style='text-align:right;margin-top: 15px;'></div></div><div class='col-md-10'><div class='txt-aciklama work-" + index + "' style='border-color: #ece7e7'></div></div>");
+        newElement.addClass("index" + index);
+        if (index == 1) {
+            newElement.insertAfter(".pointer");
+        }
+        else {
+            newElement.insertAfter(".todo-content:last");
+        }
+
+        $(".work-" + index).dxTextArea();
+        $(".work-" + index).dxTextArea("instance").option({ name: "work", value: value.Aciklama, maxHeight: 80, readOnly: true });
+        $(".todo-id" + index).dxTextBox();
+        $(".todo-id" + index).dxTextBox("instance").option({ name: "todo", value: value.ID });
+        $(".checkitem" + index).dxCheckBox({
+            value: false,
+            onValueChanged: function (e) {
+
+            }
+        });
+        $(".checkitem" + index).dxCheckBox("instance").option({ name: "checkitem" });
     }
 </script>

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
-using System.Runtime.Serialization;
 using System.ComponentModel.DataAnnotations;
+using System.Runtime.Serialization;
 
 namespace Wms12m.Entity
 {
@@ -74,6 +74,7 @@ namespace Wms12m.Entity
         public string Birim { get; set; }
         public decimal Miktar { get; set; }
         public string RafNo { get; set; }
+        public string MakaraNo { get; set; }
     }
     /// <summary>
     /// stok sayfası 1

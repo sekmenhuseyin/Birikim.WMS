@@ -40,7 +40,6 @@
     var secili_table = new Array();
     var silinecek = new Array();
     var table = "";
-    console.log('@ViewBag.ListeNo');
     if ("@ViewBag.ListeNo" != "#12MConsulting#")
     {
          table = $('#sample_1').DataTable({
@@ -53,6 +52,7 @@
                 },
             },
             "dom": 'lBfrtip',
+            "pagingType": "full_numbers",
             "buttons": [
                 { "extend": 'pdf', "text": '<span class="fa fa-file-pdf-o f-s-15 red"></span>', "className": 'btn btn-default btn-xs' },
                 { "extend": 'excel', "text": '<span class="fa fa-file-excel-o f-s-15 green"></span>', "className": 'btn btn-default btn-xs' }
@@ -79,6 +79,7 @@
 
         });
     } else {
+       
         $('tbody').last().remove();
         var elementt = @Html.Raw(Json.Encode(ViewBag.Satir));
         $(elementt).insertAfter($(".aaaaa"));
@@ -95,9 +96,10 @@
     $('#sample_1 tbody').on('click', 'tr', function () {
         $(this).toggleClass('selected');
         if($( this ).hasClass( "selected" )){
-            silinecek.push($("tr").index(this) - 1)
-        } else {
-            var ind = $("tr").index(this) - 1;
+            silinecek.push($(".table tr").index(this) - 1)
+        }
+        else {
+            var ind = $(".table tr").index(this) - 1;
             silinecek = jQuery.grep(silinecek, function (value) {
                 return value != ind;
             });
@@ -198,10 +200,11 @@
         for (var i = 0; i < silinecek.length; i++) {
             element.splice(silinecek[i], 1);
             var jsonElement = JSON.stringify(element);
-            if ($("#fiyat_listesi_data table").length < 1) {
-                PartialView("/Approvals/Contract/Tanim_List", 'sozlesme_tanim_data', JSON.stringify({ listeNo: "#12MConsulting#", satir: jsonElement }));
-            }
+            //if ($("#fiyat_listesi_data table").length < 1) {
+            //    PartialView("/Approvals/Contract/Tanim_List", 'sozlesme_tanim_data', JSON.stringify({ listeNo: "#12MConsulting#", satir: jsonElement }));
+            //}
         }
+        PartialView("/Approvals/Contract/Tanim_List", 'sozlesme_tanim_data', JSON.stringify({ listeNo: "#12MConsulting#", satir: jsonElement }));
     }
 
 

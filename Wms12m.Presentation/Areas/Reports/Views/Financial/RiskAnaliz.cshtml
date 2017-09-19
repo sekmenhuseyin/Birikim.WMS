@@ -48,8 +48,10 @@ tr.shown td.details-control {background: url('/Content/assets/global/plugins/dat
         scroll: true
     });
     $("#btnListele").click(function () {
-        if (chk_bas == "" || chk_bit == "")
+        if (chk_bas == "" || chk_bit == ""){
             Modaldialog("Başlangıç ve bitiş hesap kodlarını seçin ", "Hata", "Tamam", "btn-danger");
+            return;
+        }
         PartialView("/Reports/Financial/RiskAnalizList", 'toplam-riskbakiye-analizi-grid', JSON.stringify({ baschk: chk_bas, bitchk: chk_bit }));
     });
 </script>

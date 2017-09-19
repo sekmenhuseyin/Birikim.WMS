@@ -154,6 +154,36 @@ namespace WMSMobil.TerminalService {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.12mconsulting.com.tr/GetMalKoduMalzemes", RequestNamespace="http://www.12mconsulting.com.tr/", ResponseNamespace="http://www.12mconsulting.com.tr/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public Tip_STI2[] GetMalKoduMalzemes(string MalKodu, int GorevID, int KullID, bool devamMi, string AuthGiven, string Guid) {
+            object[] results = this.Invoke("GetMalKoduMalzemes", new object[] {
+                        MalKodu,
+                        GorevID,
+                        KullID,
+                        devamMi,
+                        AuthGiven,
+                        Guid});
+            return ((Tip_STI2[])(results[0]));
+        }
+        
+        /// <remarks/>
+        public System.IAsyncResult BeginGetMalKoduMalzemes(string MalKodu, int GorevID, int KullID, bool devamMi, string AuthGiven, string Guid, System.AsyncCallback callback, object asyncState) {
+            return this.BeginInvoke("GetMalKoduMalzemes", new object[] {
+                        MalKodu,
+                        GorevID,
+                        KullID,
+                        devamMi,
+                        AuthGiven,
+                        Guid}, callback, asyncState);
+        }
+        
+        /// <remarks/>
+        public Tip_STI2[] EndGetMalKoduMalzemes(System.IAsyncResult asyncResult) {
+            object[] results = this.EndInvoke(asyncResult);
+            return ((Tip_STI2[])(results[0]));
+        }
+        
+        /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.12mconsulting.com.tr/GetGorevList", RequestNamespace="http://www.12mconsulting.com.tr/", ResponseNamespace="http://www.12mconsulting.com.tr/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public Tip_GOREV[] GetGorevList(string gorevli, int durum, int gorevtipi, int DepoID, int KullID, string AuthGiven, string Guid) {
             object[] results = this.Invoke("GetGorevList", new object[] {
@@ -289,10 +319,11 @@ namespace WMSMobil.TerminalService {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.12mconsulting.com.tr/GetMalzemeFromBarcode", RequestNamespace="http://www.12mconsulting.com.tr/", ResponseNamespace="http://www.12mconsulting.com.tr/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public Tip_Malzeme GetMalzemeFromBarcode(string malkodu, string barkod, int KullID, string AuthGiven, string Guid) {
+        public Tip_Malzeme GetMalzemeFromBarcode(string malkodu, string barkod, int GorevID, int KullID, string AuthGiven, string Guid) {
             object[] results = this.Invoke("GetMalzemeFromBarcode", new object[] {
                         malkodu,
                         barkod,
+                        GorevID,
                         KullID,
                         AuthGiven,
                         Guid});
@@ -300,10 +331,11 @@ namespace WMSMobil.TerminalService {
         }
         
         /// <remarks/>
-        public System.IAsyncResult BeginGetMalzemeFromBarcode(string malkodu, string barkod, int KullID, string AuthGiven, string Guid, System.AsyncCallback callback, object asyncState) {
+        public System.IAsyncResult BeginGetMalzemeFromBarcode(string malkodu, string barkod, int GorevID, int KullID, string AuthGiven, string Guid, System.AsyncCallback callback, object asyncState) {
             return this.BeginInvoke("GetMalzemeFromBarcode", new object[] {
                         malkodu,
                         barkod,
+                        GorevID,
                         KullID,
                         AuthGiven,
                         Guid}, callback, asyncState);
@@ -722,6 +754,34 @@ namespace WMSMobil.TerminalService {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.12mconsulting.com.tr/Transfer_Giris", RequestNamespace="http://www.12mconsulting.com.tr/", ResponseNamespace="http://www.12mconsulting.com.tr/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public Result Transfer_Giris(frmYerlesme[] YerlestirmeList, int KullID, int GorevID, string AuthGiven, string Guid) {
+            object[] results = this.Invoke("Transfer_Giris", new object[] {
+                        YerlestirmeList,
+                        KullID,
+                        GorevID,
+                        AuthGiven,
+                        Guid});
+            return ((Result)(results[0]));
+        }
+        
+        /// <remarks/>
+        public System.IAsyncResult BeginTransfer_Giris(frmYerlesme[] YerlestirmeList, int KullID, int GorevID, string AuthGiven, string Guid, System.AsyncCallback callback, object asyncState) {
+            return this.BeginInvoke("Transfer_Giris", new object[] {
+                        YerlestirmeList,
+                        KullID,
+                        GorevID,
+                        AuthGiven,
+                        Guid}, callback, asyncState);
+        }
+        
+        /// <remarks/>
+        public Result EndTransfer_Giris(System.IAsyncResult asyncResult) {
+            object[] results = this.EndInvoke(asyncResult);
+            return ((Result)(results[0]));
+        }
+        
+        /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.12mconsulting.com.tr/TransferGiris_GoreviTamamla", RequestNamespace="http://www.12mconsulting.com.tr/", ResponseNamespace="http://www.12mconsulting.com.tr/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public Result TransferGiris_GoreviTamamla(int GorevID, int KullID, string AuthGiven, string Guid) {
             object[] results = this.Invoke("TransferGiris_GoreviTamamla", new object[] {
@@ -982,6 +1042,8 @@ namespace WMSMobil.TerminalService {
         
         private string rafNoField;
         
+        private string makaraNoField;
+        
         /// <remarks/>
         public int GorevID {
             get {
@@ -1059,6 +1121,16 @@ namespace WMSMobil.TerminalService {
             }
             set {
                 this.rafNoField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string MakaraNo {
+            get {
+                return this.makaraNoField;
+            }
+            set {
+                this.makaraNoField = value;
             }
         }
     }
@@ -1163,6 +1235,8 @@ namespace WMSMobil.TerminalService {
         
         private string barkodField;
         
+        private string kod1Field;
+        
         /// <remarks/>
         public string MalKodu {
             get {
@@ -1200,6 +1274,16 @@ namespace WMSMobil.TerminalService {
             }
             set {
                 this.barkodField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string Kod1 {
+            get {
+                return this.kod1Field;
+            }
+            set {
+                this.kod1Field = value;
             }
         }
     }
@@ -1589,6 +1673,231 @@ namespace WMSMobil.TerminalService {
             }
             set {
                 this.durumField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.12mconsulting.com.tr/")]
+    public partial class Tip_STI2 {
+        
+        private int idField;
+        
+        private int irsIDField;
+        
+        private string malKoduField;
+        
+        private string malAdiField;
+        
+        private decimal miktarField;
+        
+        private string birimField;
+        
+        private string makaraNoField;
+        
+        private string barkodField;
+        
+        private int siraNoField;
+        
+        private string kaydedenField;
+        
+        private bool aktarimDurumuField;
+        
+        private decimal okutulanMiktarField;
+        
+        private decimal yerlestirmeMiktariField;
+        
+        private System.Nullable<decimal> yerMiktarField;
+        
+        private string rafField;
+        
+        private string kynkSiparisNoField;
+        
+        private string irsaliyeNoField;
+        
+        private System.Nullable<short> kynkSiparisSiraNoField;
+        
+        /// <remarks/>
+        public int ID {
+            get {
+                return this.idField;
+            }
+            set {
+                this.idField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public int irsID {
+            get {
+                return this.irsIDField;
+            }
+            set {
+                this.irsIDField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string MalKodu {
+            get {
+                return this.malKoduField;
+            }
+            set {
+                this.malKoduField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string MalAdi {
+            get {
+                return this.malAdiField;
+            }
+            set {
+                this.malAdiField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public decimal Miktar {
+            get {
+                return this.miktarField;
+            }
+            set {
+                this.miktarField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string Birim {
+            get {
+                return this.birimField;
+            }
+            set {
+                this.birimField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string MakaraNo {
+            get {
+                return this.makaraNoField;
+            }
+            set {
+                this.makaraNoField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string Barkod {
+            get {
+                return this.barkodField;
+            }
+            set {
+                this.barkodField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public int SiraNo {
+            get {
+                return this.siraNoField;
+            }
+            set {
+                this.siraNoField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string Kaydeden {
+            get {
+                return this.kaydedenField;
+            }
+            set {
+                this.kaydedenField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public bool AktarimDurumu {
+            get {
+                return this.aktarimDurumuField;
+            }
+            set {
+                this.aktarimDurumuField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public decimal OkutulanMiktar {
+            get {
+                return this.okutulanMiktarField;
+            }
+            set {
+                this.okutulanMiktarField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public decimal YerlestirmeMiktari {
+            get {
+                return this.yerlestirmeMiktariField;
+            }
+            set {
+                this.yerlestirmeMiktariField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public System.Nullable<decimal> YerMiktar {
+            get {
+                return this.yerMiktarField;
+            }
+            set {
+                this.yerMiktarField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string Raf {
+            get {
+                return this.rafField;
+            }
+            set {
+                this.rafField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string KynkSiparisNo {
+            get {
+                return this.kynkSiparisNoField;
+            }
+            set {
+                this.kynkSiparisNoField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string IrsaliyeNo {
+            get {
+                return this.irsaliyeNoField;
+            }
+            set {
+                this.irsaliyeNoField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public System.Nullable<short> KynkSiparisSiraNo {
+            get {
+                return this.kynkSiparisSiraNoField;
+            }
+            set {
+                this.kynkSiparisSiraNoField = value;
             }
         }
     }

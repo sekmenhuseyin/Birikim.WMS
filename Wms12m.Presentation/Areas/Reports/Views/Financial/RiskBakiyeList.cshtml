@@ -58,40 +58,14 @@
             "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
             "pagingType": "full_numbers",
             "footerCallback": function (row, data, start, end, display) {
+                var miktartotal = 0, bakiyetotal = 0, aa = 0, bb = 0;
+                table12.rows({ search: 'applied' }).data().each(function (val, index) {
+                    miktartotal += jDecimal(val[2]);
+                    bakiyetotal += jDecimal(val[3]);
+                    aa += jDecimal(val[4]);
+                    bb += jDecimal(val[5]);
+                });
                 var api = this.api(), data;
-
-                // Remove the formatting to get integer data for summation
-                var intVal = function (i) {
-                    return Number(i.toString().replace(/\./g, "").replace(",", "."))
-                };
-
-                // Total over all pages
-                miktartotal = api
-                    .column(2)
-                    .data()
-                    .reduce(function (a, b) {
-                        return a + intVal(b);
-                    }, 0);
-
-                bakiyetotal = api
-                    .column(3)
-                    .data()
-                    .reduce(function (a, b) {
-                        return a + intVal(b);
-                    }, 0);
-                aa = api
-                    .column(4)
-                    .data()
-                    .reduce(function (a, b) {
-                        return a + intVal(b);
-                    }, 0);
-
-                bb = api
-                    .column(5)
-                    .data()
-                    .reduce(function (a, b) {
-                        return a + intVal(b);
-                    }, 0);
 
 
                 // Update footer

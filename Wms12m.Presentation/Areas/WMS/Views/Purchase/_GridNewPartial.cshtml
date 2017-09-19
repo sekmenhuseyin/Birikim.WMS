@@ -2,6 +2,7 @@
 <tr>
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
+    <td></td>
     <td>@Html.TextBoxFor(a => a.MalKodu, new { @class = "form-control input-circle", @required = "" })</td>
     <td>@Html.TextBoxFor(a => a.MalAdi, new { @class = "form-control input-circle", @required = "" })</td>
     <td>@Html.TextBoxFor(a => a.Miktar, new { @class = "form-control input-circle", @required = "" })</td>

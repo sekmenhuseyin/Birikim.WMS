@@ -3,30 +3,42 @@
     <thead>
         <tr>
             <th></th>
+            <th></th>
             <th>Görev No</th>
             <th>Depo</th>
-            <th>Evrak No<br /><input class="w-50 input-circle" type="text" id="EvrakNo" /></th>
+            <th>Evrak No</th>
             <th>Görev Tipi</th>
-            <th>Görevli<br /><input class="w-50 input-circle" type="text" id="Görevli" /></th>
-            <th>Sipariş<br />Tarihi<br /><input class="w-50 input-circle" type="text" id="SiparisTarihi" /></th>
-            <th>Oluşturma<br />Tarihi<br /><input class="w-50 input-circle" type="text" id="OlusturmaTarihi" /></th>
-            <th>Bitirme<br />Tarihi<br /><input class="w-50 input-circle" type="text" id="BitirmeTarihi" /></th>
-            <th>Bilgi<br /><input class="w-50 input-circle" type="text" id="Bilgi" /></th>
+            <th>Görevli</th>
+            <th>Sipariş<br />Tarihi</th>
+            <th>Oluşturma<br />Tarihi</th>
+            <th>Bitirme<br />Tarihi</th>
+            <th>Bilgi</th>
             <th></th>
         </tr>
     </thead>
+    <tfoot><tr><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr></tfoot>
+    <tfoot class="tf-search"><tr><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr></tfoot>
     <tbody id="GorevFrom">
         @foreach (var item in Model)
         {
             <tr data-ID="@item.ID">
+                <td style="width:20px!important;"></td>
                 <td style="width:20px!important;" class="details-control"></td>
                 <td>@item.GorevNo</td>
                 <td>@item.Depo.DepoAd</td>
                 <td>@item.ID.GetEvrakNosForGorev()</td>
                 <td>@item.ComboItem_Name1.Name</td>
-                <td>@if(item.ComboItem_Name1.Name != "Kontrollü Sayım"){<a class="btn btn-default input-circle" href="#modalEditPage" data-toggle="modal" onclick="editInModal('/WMS/Tasks/GorevliAta/@item.ID')"> @{if (item.Gorevli != null){ @item.Gorevli} else {<text>Görevli Ata</text>}} </a>}</td>
+                <td>
+                    @if(item.ComboItem_Name1.Name != "Kontrollü Sayım" && item.DurumID == ComboItems.Açık.ToInt32()){
+                        <a class="btn btn-default input-circle" href="#modalEditPage" data-toggle="modal" onclick="editInModal('/WMS/Tasks/GorevliAta/@item.ID')">@{if (item.Gorevli != null){ @item.Gorevli } else { <text>Görevli Ata</text> }}</a>
+                    }
+                    else
+                    {
+                        @item.Gorevli
+                    }
+                </td>
                 <td>@item.ID.GetEvrakTarihsForGorev()</td>
-                <td>@item.OlusturmaTarihi.FromOADateInt()</td>
+                <td><span class="hide">@item.OlusturmaTarihi</span>@item.OlusturmaTarihi.FromOADateInt()</td>
                 <td>@{if (item.BitisTarihi != null) { @item.BitisTarihi.Value.FromOADateInt() } }</td>
                 <td>@item.Bilgi</td>
                 <td>
@@ -39,32 +51,12 @@
 </table>
 <script type="text/javascript">
     $(document).ready(function () {
-        //tarih alanları
-        $.datepicker.setDefaults($.datepicker.regional["tr"]);
-        $("#EvrakNo").on("change paste keyup", function () { filterx(3, $("#EvrakNo").val()); });
-        $("#Görevli").on("change paste keyup", function () { filterx(5, $("#Görevli").val()); });
-        $("#SiparisTarihi").datepicker().on("change", function (e) { filterx(6, e.target.value); });
-        $("#OlusturmaTarihi").datepicker().on("change", function (e) { filterx(7, e.target.value); });
-        $("#BitirmeTarihi").datepicker().on("change", function (e) { filterx(8, e.target.value); });
-        $("#Bilgi").on("change paste keyup", function () { filterx(9, $("#Bilgi").val()); });
         //datatable
         var table = $('#sample_1').DataTable({
             "pagingType": "full_numbers",
-            "order": [[6, "desc"]],
             "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
-            "columnDefs": [{ "targets": [0], "orderable": false }],
-            initComplete: function () {
-                this.api().columns([2, 4]).every(function () {
-                    var column = this;
-                    var select = $('<br /><select class="form-control input-circle" style="max-width:100px;"><option value=""></option></select>')
-                        .appendTo($(column.header()))
-                        .on('change', function () {
-                            var val = $.fn.dataTable.util.escapeRegex($(this).val());
-                            column.search(val ? '^' + val + '$' : '', true, false).draw();
-                        });
-                    column.data().unique().sort().each(function (d, j) { select.append('<option value="' + d + '">' + d + '</option>') });
-                });
-            }
+            "columnDefs": [{ "targets": [0,1], "orderable": false }],
+            "order": [[8, "desc"]]
         });
         $('#sample_1 tbody').on('click', 'td.details-control', function () {
             var tr = $(this).closest('tr');
@@ -72,6 +64,21 @@
             if (row.child.isShown()) { row.child.hide(); tr.removeClass('shown'); }
             else { row.child(newrow(tr.data('id'))).show(); format(tr.data('id')); tr.addClass('shown'); }
         });
-        function filterx(a, b) { filter(table, a, b); }
+        $('#sample_1 .tf-search th').each(function () {
+            var title = $('#sample_1 thead th').eq($(this).index()).text();
+            if (title != "" && title.indexOf("Tarih") !== -1)
+                $(this).html('<input class="form-control input-circle tarih" type="text" placeholder="Ara" />');
+            else if (title != "" && title != "Detay" && title != "Hareket")
+                $(this).html('<input class="form-control input-circle" type="text" placeholder="Ara" />');
+        });
+        $("#sample_1 tfoot input").on('keyup change', function () { table.column($(this).parent().index() + ':visible').search(this.value).draw(); });
+        table.on('order.dt search.dt', function () {
+            table.column(0, { search: 'applied', order: 'applied' }).nodes().each(function (cell, i) {
+                cell.innerHTML = i + 1;
+            });
+        }).draw();
+        //tarih
+        $.datepicker.setDefaults($.datepicker.regional["tr"]);
+        $(".tarih").datepicker();
     });
 </script>

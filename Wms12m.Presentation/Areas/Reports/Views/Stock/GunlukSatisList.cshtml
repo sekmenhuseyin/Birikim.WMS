@@ -69,6 +69,34 @@
                                 <th class="text-right"></th>
                             </tr>
                         </tfoot>
+                        <tfoot class="tf-search">
+                            <tr>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </tfoot>
                         @*<tbody>
                                 @foreach (var item in Model)
                                 {
@@ -111,27 +139,18 @@
 <script>
     $(document).ready(function () {
         @*var model =  @Html.Raw(serializer.Serialize(Model));*@
-        var BirimMiktar = 0, AnaBirim = 0, AnaBirimMiktar = 0, AdetCikisMiktar = 0, MTCikisMiktar = 0, M2CikisMiktar = 0, M3CikisMiktar = 0, KGCikisMiktar = 0, NetBirimFiyat = 0, NetTutar = 0, KDV = 0, GenelToplam = 0;
+        $('#sample_1 .tf-search th').each(function () {
+            var title = $('#sample_1 thead th').eq($(this).index()).text();
+            if (title != "") {
+                $(this).html('<input type="text" placeholder="' + title + ' Ara" />');
+            }
+        });
         var table123 = $('#sample_1').DataTable({
             "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
             "ajax": {
                 "url": '/Reports/Stock/List',
                 "data": { bastarih: basTarih, bittarih: bitTarih },
                 "dataSrc": function (json) {
-                    jQuery.each(json, function (i, val) {
-                        BirimMiktar += val.BirimMiktar;
-                        AnaBirim += val.AnaBirim;
-                        AnaBirimMiktar += val.AnaBirimMiktar;
-                        AdetCikisMiktar += val.AdetCikisMiktar;
-                        MTCikisMiktar += val.MTCikisMiktar;
-                        M2CikisMiktar += val.M2CikisMiktar;
-                        M3CikisMiktar += val.M3CikisMiktar;
-                        KGCikisMiktar += val.KGCikisMiktar;
-                        NetBirimFiyat += val.NetBirimFiyat;
-                        NetTutar += val.NetTutar;
-                        KDV += val.KDV;
-                        GenelToplam += val.GenelToplam;
-                    });
                     return json;
                 },
             },
@@ -174,6 +193,21 @@
                 return nRow;
             },
             "footerCallback": function (row, data, start, end, display) {
+                var BirimMiktar = 0, AnaBirim = 0, AnaBirimMiktar = 0, AdetCikisMiktar = 0, MTCikisMiktar = 0, M2CikisMiktar = 0, M3CikisMiktar = 0, KGCikisMiktar = 0, NetBirimFiyat = 0, NetTutar = 0, KDV = 0, GenelToplam = 0;
+                table123.rows({ search: 'applied' }).data().each(function (val, index) {
+                    BirimMiktar += val.BirimMiktar;
+                    AnaBirim += val.AnaBirim;
+                    AnaBirimMiktar += val.AnaBirimMiktar;
+                    AdetCikisMiktar += val.AdetCikisMiktar;
+                    MTCikisMiktar += val.MTCikisMiktar;
+                    M2CikisMiktar += val.M2CikisMiktar;
+                    M3CikisMiktar += val.M3CikisMiktar;
+                    KGCikisMiktar += val.KGCikisMiktar;
+                    NetBirimFiyat += val.NetBirimFiyat;
+                    NetTutar += val.NetTutar;
+                    KDV += val.KDV;
+                    GenelToplam += val.GenelToplam;
+                });
                 var api = this.api(), data;
                 $(api.column(12).footer()).html(
                     ondalikBinlik(Math.round(BirimMiktar * 100) / 100, 2)
@@ -210,7 +244,13 @@
                 );
             }
         });
-
+        $("#sample_1 tfoot input").on('keyup change', function () {
+            table123
+                .column($(this).parent().index() + ':visible')
+                .search(this.value)
+                .draw();
+        });
+        $('#sample_1 .tf-search tr').insertAfter($('#sample_1 thead tr'))
          //var buttons = new $.fn.dataTable.Buttons(table123, {
          //    buttons: [
          //        { "extend": 'pdf', "text": '<span class="fa fa-file-pdf-o f-s-15 red"></span>', "className": 'btn-xs;' },

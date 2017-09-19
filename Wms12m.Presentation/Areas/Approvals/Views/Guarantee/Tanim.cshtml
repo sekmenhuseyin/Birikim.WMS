@@ -3,21 +3,53 @@
     ViewBag.Title = "Teminat Tanım";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }@section Styles{<link href="~/Content/assets/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css" rel="stylesheet" type="text/css" />
-<style>
-    .input_content {margin-bottom: 3px;height: 40px;line-height: 20px;}
-    .input_label {float: left;width: 25%;font-weight: bold;color: #5bc8d2;font-size: 10px;padding-top: 4px;}
-    .input {float: left;width: 60%;font-size: 10px;height: 30px;}
-    .input_style {background-color: white;padding: 10px;margin: 0;}
-    .dx-header-row{background-color: #86d8ea;color: window;}
-    table{margin:0 !important;}
-    .dx-item-content .dx-popup-cancel {
-        background-color: #ff4d4d !important;
-        color: white !important;
-    }
-    .dx-texteditor-input {
-    text-align:right;
-    }
-</style>
+    <style>
+        .input_content {
+            margin-bottom: 3px;
+            height: 40px;
+            line-height: 20px;
+        }
+
+        .input_label {
+            float: left;
+            width: 25%;
+            font-weight: bold;
+            color: #5bc8d2;
+            font-size: 10px;
+            padding-top: 4px;
+        }
+
+        .input {
+            float: left;
+            width: 60%;
+            font-size: 10px;
+            height: 30px;
+        }
+
+        .input_style {
+            background-color: white;
+            padding: 10px;
+            margin: 0;
+        }
+
+        .dx-header-row {
+            background-color: #86d8ea;
+            color: window;
+        }
+
+        table {
+            margin: 0 !important;
+        }
+
+        .dx-item-content .dx-popup-cancel {
+            background-color: #ff4d4d !important;
+            color: white !important;
+        }
+
+        .dx-texteditor-input {
+            text-align: right;
+        }
+    </style>
 }
 
 <div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><span>Onaylama</span><i class="fa fa-circle"></i></li><li><span>Teminat</span></li></ul></div>
@@ -50,7 +82,9 @@
     <div class="col-xs-12 col-sm-5">
         <div class="input_content">
             <div class="input_label">Tarih</div>
-            <div class="input date_tarih"></div>
+            <div class="input">
+                <input class="form-control dateboxbg date_tarih" type="text" value="@DateTime.Today.ToString("MM.dd.yyyy")" />
+            </div>
         </div>
         <div class="input_content">
             <div class="input_label">Teminat Tutarı</div>
@@ -58,7 +92,9 @@
         </div>
         <div class="input_content">
             <div class="input_label">Vade Tarihi</div>
-            <div class="input date_vade_tarih"></div>
+            <div class="input">
+                <input class="form-control dateboxbg date_vade_tarih" readonly="readonly" type="text" value="@DateTime.Today.ToString("MM.dd.yyyy")" />
+            </div>
         </div>
     </div>
 </div>
@@ -107,21 +143,21 @@
     <script src="~/Content/assets/global/plugins/moment/moment.min.js"></script>
     <script src="~/Content/assets/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js" type="text/javascript"></script>
     <script type="text/javascript">
-
-
+        var datetarih = "@DateTime.Today.ToString("MM.dd.yyyy")";
+        var datevadetarih = null;
         $(document).ready(function () {
             var model = @Html.Raw(Json.Encode(Model));
             var chk = "";
             var yeniKayit = new Array();
             var teminat_cinsi = [
-                { state: "Gayrimenkul İpoteği"},
-                { state: "Taşınır Rehni"},
+                { state: "Gayrimenkul İpoteği" },
+                { state: "Taşınır Rehni" },
                 { state: "Teminat Mektubu" },
             ];
             $(".select_chk").dxLookup({
                 dataSource: model,
                 searchEnabled: true,
-                pageLoadMode:"nextButton",
+                pageLoadMode: "nextButton",
                 searchExpr: ["HesapKodu", "Unvan"],
                 valueExpr: 'HesapKodu',
                 displayExpr: 'Unvan',
@@ -131,10 +167,9 @@
                 },
 
                 itemTemplate: function (itemData, itemIndex, itemElement) {
-                    itemElement.css({"text-align":"left", "border-bottom":"1px solid #2fc1d8"});
-                    if(itemIndex>0)
-                    {
-                        itemElement.css({ "margin-top":"-40px" });
+                    itemElement.css({ "text-align": "left", "border-bottom": "1px solid #2fc1d8" });
+                    if (itemIndex > 0) {
+                        itemElement.css({ "margin-top": "-40px" });
                     }
                     var rightBlock = $("<div style=' margin: 2px; width:100%;'>");
                     rightBlock.append("<div><p style='font-size:11px; font-weight:bold; line-height: 0%;'><b>" + itemData.Unvan + "</b></p>");
@@ -161,31 +196,49 @@
                 onValueChanged: function (e) {
                     switch (e.value) {
                         case true:
-                            $(".date_vade_tarih").dxDateBox("instance").option("readOnly", false)
+                            $(".date_vade_tarih").datepicker("option", "minDate", null);
+                            $(".date_vade_tarih").datepicker("option", "maxDate", null);
+                            $(".date_vade_tarih").datepicker().removeAttr('readonly');
                             break;
                         case false:
-                            $(".date_vade_tarih").dxDateBox("instance").option("readOnly", true)
+                            $(".date_vade_tarih").datepicker("option", "minDate", -1);
+                            $(".date_vade_tarih").datepicker("option", "maxDate", -2);
+                            $(".date_vade_tarih").datepicker().attr('readonly', 'readonly');
                             break;
                         default:
-                            $(".date_vade_tarih").dxDateBox("instance").option("readOnly", true)
+                            $(".date_vade_tarih").datepicker("option", "minDate", -1);
+                            $(".date_vade_tarih").datepicker("option", "maxDate", -2);
+                            $(".date_vade_tarih").datepicker().attr('readonly', 'readonly');
                             break;
                     }
                 }
             });
-
-            $(".date_tarih").dxDateBox({
-                format: 'date',
-                formatString: 'dd.MM.yyyy',
-                width:'60%'
+            $.datepicker.setDefaults($.datepicker.regional["tr"]);
+            $(".date_tarih").datepicker({
+                onSelect: function (dateText, inst) {
+                    datetarih = dateText.split(".")[1] + "." + dateText.split(".")[0] + "." + dateText.split(".")[2];
+                }
+            });
+            $(".date_vade_tarih").datepicker({
+                onSelect: function (dateText, inst) {
+                    datevadetarih = dateText.split(".")[1] + "." + dateText.split(".")[0] + "." + dateText.split(".")[2];
+                },
+                minDate: -1, maxDate: -2
             });
 
-            $(".date_vade_tarih").dxDateBox({
-                format: 'date',
-                formatString: 'dd.MM.yyyy',
-                width: '60%',
-                readOnly:true
-            });
-            NumbBox(".teminat_tutar", false,2);
+            //$(".date_tarih").dxDateBox({
+            //    format: 'date',
+            //    formatString: 'dd.MM.yyyy',
+            //    width:'60%'
+            //});
+
+            //$(".date_vade_tarih").dxDateBox({
+            //    format: 'date',
+            //    formatString: 'dd.MM.yyyy',
+            //    width: '60%',
+            //    readOnly:true
+            //});
+            NumbBox(".teminat_tutar", false, 2);
             //$(".teminat_tutar").dxNumberBox({
             //    min:0,
             //    step:1,
@@ -200,12 +253,11 @@
                 url: window.location.origin + "/Approvals/Guarantee/Durbun",
                 data: {},
                 type: "post",
-                success: function (data)
-                {
+                success: function (data) {
                     var result = JSON.parse(data);
                     var columns = [
-                    { caption: 'Hesap Kodu', dataField: 'HesapKodu', width: '30%' },
-                    { caption: 'Unvan', dataField: 'Unvan', width: '70%' },
+                        { caption: 'Hesap Kodu', dataField: 'HesapKodu', width: '30%' },
+                        { caption: 'Unvan', dataField: 'Unvan', width: '70%' },
                     ];
                     _grid_quotations_detail = $('.grid_dürbün').dxDataGrid({
                         dataSource: result,
@@ -261,33 +313,34 @@
                 url: window.location.origin + "/Approvals/Guarantee/Bekleyen",
                 data: {},
                 type: "post",
-                success: function (data)
-                {
+                success: function (data) {
                     var result = JSON.parse(data);
                     var columns = [
-                    { caption: 'Hesap Kodu', dataField: 'HesapKodu'},
-                    { caption: 'Unvan', dataField: 'Unvan'},
-                    { caption: 'AltBayi', dataField: 'AltBayi' },
-                    { caption: 'Cins', dataField: 'Cins'},
-                    { caption: 'Tutar', dataField: 'Tutar',  },
-                    { caption: 'Süreli/Süresiz', dataField: 'SureliSuresiz' },
-                    { caption: 'Tarih', dataField: 'Tarih',
-                    customizeText: function (cellInfo) {
-                        if(cellInfo.value!=null)
-                            return formatDateFromJson(cellInfo.value);
-                        else
-                            return "";
-                    }
-                    },
-                    { caption: 'Vade Tarihi', dataField: 'VadeTarih',
-                        customizeText: function (cellInfo) {
-                            if(cellInfo.value!=null)
-                                return formatDateFromJson(cellInfo.value);
-                            else
-                                return "";
-                    }
-                    },
-                    { caption: 'Teminat Tutar', dataField: 'TeminatTutar' }
+                        { caption: 'Hesap Kodu', dataField: 'HesapKodu' },
+                        { caption: 'Unvan', dataField: 'Unvan' },
+                        { caption: 'AltBayi', dataField: 'AltBayi' },
+                        { caption: 'Cins', dataField: 'Cins' },
+                        { caption: 'Tutar', dataField: 'Tutar', },
+                        { caption: 'Süreli/Süresiz', dataField: 'SureliSuresiz' },
+                        {
+                            caption: 'Tarih', dataField: 'Tarih',
+                            customizeText: function (cellInfo) {
+                                if (cellInfo.value != null)
+                                    return formatDateFromJson(cellInfo.value);
+                                else
+                                    return "";
+                            }
+                        },
+                        {
+                            caption: 'Vade Tarihi', dataField: 'VadeTarih',
+                            customizeText: function (cellInfo) {
+                                if (cellInfo.value != null)
+                                    return formatDateFromJson(cellInfo.value);
+                                else
+                                    return "";
+                            }
+                        },
+                        { caption: 'Teminat Tutar', dataField: 'TeminatTutar' }
                     ];
                     _grid_quotations_detail = $('.grid_bekleyen_teminat').dxDataGrid({
                         dataSource: result,
@@ -340,16 +393,14 @@
 
         $('.sil-buton').click(function () {
             var silinecek = table.rows('.selected').data();
-            if(silinecek.length>0)
-            {
+            if (silinecek.length > 0) {
                 $.ajax({
                     url: window.location.origin + "/Approvals/Guarantee/Sil",
-                    data: {ID: silinecek[0].ID},
+                    data: { ID: silinecek[0].ID },
                     type: "post",
-                    success: function (data)
-                    {
-                        if(data=="OK"){
-                           setTimeout(function () { window.location.reload(); }, 500);
+                    success: function (data) {
+                        if (data == "OK") {
+                            setTimeout(function () { window.location.reload(); }, 500);
                         }
                         else {
                             Modaldialog("Hata Oluştu", "Silme İşlemi", "Tamam", "Uyarı");
@@ -370,12 +421,12 @@
             jObject["HesapKodu"] = $(".select_chk").dxLookup("instance").option("value");
             jObject["TeminatCinsi"] = $(".select_teminat_cinsi").dxSelectBox("instance").option("value");
             jObject["TeminatTutari"] = $(".teminat_tutar").dxTextBox("instance").option("value");
-            jObject["Tarih"] = $(".date_tarih").dxDateBox("instance").option("text");
+            jObject["Tarih"] = datetarih;
             jObject["AltBayi"] = "";
             jObject["Unvan"] = $(".select_chk").dxLookup("instance").option("text");
             jObject["SureliSuresiz"] = $(".check_sureli_suresiz").dxCheckBox("instance").option("value");
             if (jObject["SureliSuresiz"]) {
-                jObject["VadeTarihi"] = $(".date_vade_tarih").dxDateBox("instance").option("value");
+                jObject["VadeTarihi"] = datevadetarih;
             }
             else {
                 jObject["VadeTarihi"] = null;
@@ -403,7 +454,7 @@
                 type: "post",
                 success: function (data) {
                     if (data == "OK") {
-                       setTimeout(function () { window.location.reload(); }, 500);
+                        setTimeout(function () { window.location.reload(); }, 500);
                     }
                     else {
                         Modaldialog("Hata Oluştu", "Silme İşlemi", "Tamam", "Uyarı");
@@ -412,10 +463,9 @@
                     }
                 }
             });
-            return _dfd.promise();
         });
         $('.temizle-buton').click(function () {
-           window.location.reload();
+            window.location.reload();
         });
 
     </script>

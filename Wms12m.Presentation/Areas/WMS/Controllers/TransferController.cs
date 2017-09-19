@@ -104,6 +104,23 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             ViewBag.Result = new Result(false, "Seçtiğiniz hiç bir ürün stokta kayıtlı değil.");
             if (varmi == false)
                 return PartialView("Summary");
+            //çapraz stok kontrol
+            string sql = string.Format(@"SELECT STK.MalKodu, wms.fnGetStock('{2}', STK.MalKodu, STK.Birim1) AS Depo2WmsStok, 
+                                                            ISNULL(DST.DvrMiktar, 0) + ISNULL(DST.GirMiktar, 0) - ISNULL(DST.CikMiktar, 0) -
+                                                             (SELECT        ISNULL(SUM(Miktar - TeslimMiktar), 0) AS Miktar FROM            FINSAT6{0}.FINSAT6{0}.DTF WITH(NOLOCK) WHERE(CikDepo = '{2}') AND(Durum = 0) AND(MalKodu = DST.MalKodu)) AS Depo2GunesStok
+                                        FROM FINSAT6{0}.FINSAT6{0}.STK AS STK WITH(NOLOCK) LEFT OUTER JOIN
+                                                                    FINSAT6{0}.FINSAT6{0}.DST AS DST WITH(NOLOCK) ON STK.MalKodu = DST.MalKodu AND DST.Depo = '{2}'
+                                        WHERE(STK.MalKodu IN({1}))", tbl.SirketID, malkodlari, tbl.CikisDepo);
+            var list1 = db.Database.SqlQuery<frmTransferMalzemeler>(sql).ToList();
+            malkodlari = "";
+            foreach (var item in list1)
+            {
+                if (item.Depo2GunesStok != item.Depo2WmsStok)
+                {
+                    if (malkodlari != "") malkodlari += ", ";
+                    malkodlari += item.MalKodu;
+                }
+            }
             //add to list
             int aDepoID = Store.Detail(tbl.AraDepo).ID;
             var cDepoID = Store.Detail(tbl.CikisDepo);
@@ -117,7 +134,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             }
             //yeni bir görev eklenir
             string GorevNo = db.SettingsGorevNo(today, cDepoID.ID).FirstOrDefault();
-            var cevap = db.InsertIrsaliye(tbl.SirketID, cDepoID.ID, GorevNo, GorevNo, today, "Giriş: " + tbl.AraDepo + ", Çıkış: " + tbl.CikisDepo, true, ComboItems.TransferÇıkış.ToInt32(), vUser.UserName, today, time, cDepoID.DepoAd, "", 0, "").FirstOrDefault();
+            var cevap = db.InsertIrsaliye(tbl.SirketID, cDepoID.ID, GorevNo, GorevNo, today, "Giriş: " + tbl.GirisDepo + ", Çıkış: " + tbl.CikisDepo, true, ComboItems.TransferÇıkış.ToInt32(), vUser.UserName, today, time, cDepoID.DepoAd, "", 0, "").FirstOrDefault();
             //yeni transfer eklenir
             var sonuc = Transfers.Operation(new Transfer() { SirketKod = tbl.SirketID, GirisDepoID = gDepoID.ID, CikisDepoID = cDepoID.ID, AraDepoID = aDepoID, GorevID = cevap.GorevID.Value });
             ViewBag.Result = new Result(false, "Kayıtta hata oldu. Lütfen tekrar deneyin.");
@@ -147,6 +164,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                             MalKodu = item.MalKodu,
                             Birim = item.Birim,
                             Miktar = miktar,
+                            MakaraNo = itemyer.MakaraNo,
                             GC = true
                         };
                         if (miktar > 0) TaskYer.Operation(tblyer);
@@ -157,7 +175,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                     item.TransferID = TransferID;
                     //hepsi eklenince detayı db'ye ekle
                     if (item.Miktar > 0) { sonuc = Transfers.AddDetay(item); }
-                    if (item.Miktar > 0) IrsaliyeDetay.Operation(new IRS_Detay() { IrsaliyeID = cevap.IrsaliyeID.Value, MalKodu = item.MalKodu, Miktar = item.Miktar, Birim = item.Birim, KynkSiparisID = sonuc.Id, KynkSiparisTarih = TransferID });
+                    if (item.Miktar > 0) IrsaliyeDetay.Operation(new IRS_Detay() { IrsaliyeID = cevap.IrsaliyeID.Value, MalKodu = item.MalKodu, Miktar = miktar, Birim = item.Birim, KynkSiparisID = sonuc.Id, KynkSiparisTarih = TransferID });
                 }
                 else
                 {
@@ -171,7 +189,11 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             foreach (var item in listdb) { liste.Add(item); }
             ViewBag.Sirket = liste;
             ViewBag.IrsaliyeId = cevap.IrsaliyeID.Value;
-            ViewBag.Result = new Result(true, eksikler != "" ? "Şu ürünler stokta bulunamadı: " + eksikler : "");
+            if (eksikler == "" && malkodlari != "")
+                eksikler = malkodlari + " için stok miktarları uyuşmuyor.";
+            else if (eksikler != "" && malkodlari != "")
+                eksikler += " için stok bulunamadı.<br />Ayrıca " + malkodlari + " için stok miktarları uyuşmuyor.";
+            ViewBag.Result = new Result(true, eksikler);
             //return
             var list = db.Transfers.Where(m => m.ID == TransferID).FirstOrDefault();
             return PartialView("Summary", list);
@@ -183,7 +205,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         public PartialViewResult SummaryList(int ID)
         {
             //dbler tempe aktarılıyor
-            var listdb = db.GetSirketDBs();
+            string malkodlari = "", eksikler = ""; var listdb = db.GetSirketDBs();
             List<string> liste = new List<string>();
             foreach (var item in listdb) { liste.Add(item); }
             //get transfer
@@ -195,6 +217,22 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             //add gorev yer
             foreach (var item in transfer.Transfer_Detay)
             {
+                //çapraz stok kontrol
+                string sql = string.Format(@"SELECT STK.MalKodu, wms.fnGetStock('{2}', STK.MalKodu, STK.Birim1) AS Depo2WmsStok, 
+                                                            ISNULL(DST.DvrMiktar, 0) + ISNULL(DST.GirMiktar, 0) - ISNULL(DST.CikMiktar, 0) -
+                                                             (SELECT        ISNULL(SUM(Miktar - TeslimMiktar), 0) AS Miktar FROM            FINSAT6{0}.FINSAT6{0}.DTF WITH(NOLOCK) WHERE(CikDepo = '{2}') AND(Durum = 0) AND(MalKodu = DST.MalKodu)) AS Depo2GunesStok
+                                        FROM FINSAT6{0}.FINSAT6{0}.STK AS STK WITH(NOLOCK) LEFT OUTER JOIN
+                                                                    FINSAT6{0}.FINSAT6{0}.DST AS DST WITH(NOLOCK) ON STK.MalKodu = DST.MalKodu AND DST.Depo = '{2}'
+                                        WHERE (STK.MalKodu = '{1}')", item.Transfer.SirketKod, item.MalKodu, item.Transfer.Depo1.DepoKodu);
+                var list1 = db.Database.SqlQuery<frmTransferMalzemeler>(sql).ToList();
+                foreach (var item2 in list1)
+                {
+                    if (item2.Depo2GunesStok != item2.Depo2WmsStok)
+                    {
+                        if (malkodlari != "") malkodlari += ", ";
+                        malkodlari += item2.MalKodu;
+                    }
+                }
                 //stok kontrol
                 var tmpYer = db.Yers.Where(m => m.MalKodu == item.MalKodu && m.Birim == item.Birim && m.Kat.Bolum.Raf.Koridor.DepoID == transfer.CikisDepoID && m.Miktar > 0).OrderByDescending(m => m.Miktar).ToList();
                 decimal toplam = 0, miktar = 0;
@@ -222,10 +260,20 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                         if (toplam == item.Miktar) break;
                     }
                 }
+                else
+                {
+                    if (eksikler != "") eksikler += ", ";
+                    eksikler += item.MalKodu;
+                }
             }
+            if (eksikler == "" && malkodlari != "")
+                eksikler = malkodlari + " için stok miktarları uyuşmuyor.";
+            else if (eksikler != "" && malkodlari != "")
+                eksikler += " için stok bulunamadı.<br />Ayrıca " + malkodlari + " için stok miktarları uyuşmuyor.";
             //return
             ViewBag.IrsaliyeId = transfer.Gorev.IrsaliyeID;
             ViewBag.Sirket = liste;
+            ViewBag.Result = new Result(true, eksikler);
             return PartialView("SummaryList", transfer);
         }
         /// <summary>
@@ -274,6 +322,24 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             Transfers.Operation(tbl);
             var tbl2 = db.Gorevs.Where(m => m.ID == tbl.GorevID).FirstOrDefault();
             tbl2.DurumID = ComboItems.Açık.ToInt32();
+            //sıralama
+            var lstKoridor = db.GetKoridorIdFromGorevId(tbl.GorevID).ToList();
+            bool asc = false; int sira = 1;
+            foreach (var item in lstKoridor)
+            {
+                var lstBolum = db.GetBolumSiralamaFromGorevId(tbl.GorevID, item.Value, asc).ToList();
+                foreach (var item2 in lstBolum)
+                {
+                    var tmptblyer = new GorevYer()
+                    {
+                        ID = item2.Value,
+                        Sira = sira
+                    };
+                    sira++;
+                    TaskYer.Operation(tmptblyer);
+                }
+                asc = asc == false ? true : false;
+            }
             db.SaveChanges();
             //log
             LogActions("WMS", "Transfer", "Approve", ComboItems.alOnayla, ID);
@@ -351,35 +417,27 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
         /// <summary>
-        /// irs detay düzenle
+        /// transfer detay düzenle
         /// </summary>
-        public PartialViewResult EditList(int ID, string s)
+        public PartialViewResult SummaryEdit(int ID)
         {
-            if (CheckPerm(Perms.MalKabul, PermTypes.Writing) == false) return null;
-            var tbl = IrsaliyeDetay.Detail(ID);
-            ViewBag.SirketID = s;
-            return PartialView("EditList", tbl);
+            if (CheckPerm(Perms.Transfer, PermTypes.Writing) == false) return null;
+            var tbl = Transfers.SubDetail(ID);
+            return PartialView("SummaryEdit", tbl);
         }
         /// <summary>
-        /// irs detay güncelle
+        /// transfer detay güncelle
         /// </summary>
         [HttpPost]
-        public JsonResult UpdateList(int ID, decimal M, string mNo)
+        public JsonResult UpdateList(int ID, decimal M)
         {
-            if (CheckPerm(Perms.MalKabul, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
-            var tbl = db.IRS_Detay.Where(m => m.ID == ID).FirstOrDefault();
+            if (CheckPerm(Perms.Transfer, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
+            var tbl = db.Transfer_Detay.Where(m => m.ID == ID).FirstOrDefault();
             tbl.Miktar = M;
-            if (mNo != "")
-            {
-                var tmpx = db.IRS_Detay.Where(m => m.MakaraNo == tbl.MakaraNo).FirstOrDefault();
-                if (tmpx != null)
-                    return Json(new Result(false, "Bu makara no kullanılıyor"), JsonRequestBehavior.AllowGet);
-                tbl.MakaraNo = mNo;
-            }
             try
             {
                 db.SaveChanges();
-                return Json(new Result(true), JsonRequestBehavior.AllowGet);
+                return Json(new Result(true, tbl.TransferID), JsonRequestBehavior.AllowGet);
             }
             catch (Exception)
             {

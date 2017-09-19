@@ -123,6 +123,52 @@
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:element name="GetMalKoduMalzemes">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="MalKodu" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="GorevID" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="KullID" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="devamMi" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="AuthGiven" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Guid" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetMalKoduMalzemesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetMalKoduMalzemesResult" type="tns:ArrayOfTip_STI2" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfTip_STI2">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Tip_STI2" nillable="true" type="tns:Tip_STI2" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Tip_STI2">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="ID" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="irsID" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="MalKodu" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="MalAdi" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="Miktar" type="s:decimal" />
+          <s:element minOccurs="0" maxOccurs="1" name="Birim" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="MakaraNo" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Barkod" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="SiraNo" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Kaydeden" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="AktarimDurumu" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="OkutulanMiktar" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="YerlestirmeMiktari" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="YerMiktar" nillable="true" type="s:decimal" />
+          <s:element minOccurs="0" maxOccurs="1" name="Raf" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="KynkSiparisNo" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="IrsaliyeNo" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="KynkSiparisSiraNo" nillable="true" type="s:short" />
+        </s:sequence>
+      </s:complexType>
       <s:element name="GetGorevList">
         <s:complexType>
           <s:sequence>
@@ -281,6 +327,7 @@
           <s:sequence>
             <s:element minOccurs="0" maxOccurs="1" name="malkodu" type="s:string" />
             <s:element minOccurs="0" maxOccurs="1" name="barkod" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="GorevID" type="s:int" />
             <s:element minOccurs="1" maxOccurs="1" name="KullID" type="s:int" />
             <s:element minOccurs="0" maxOccurs="1" name="AuthGiven" type="s:string" />
             <s:element minOccurs="0" maxOccurs="1" name="Guid" type="s:string" />
@@ -300,6 +347,7 @@
           <s:element minOccurs="0" maxOccurs="1" name="MalAdi" type="s:string" />
           <s:element minOccurs="0" maxOccurs="1" name="Birim" type="s:string" />
           <s:element minOccurs="0" maxOccurs="1" name="Barkod" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Kod1" type="s:string" />
         </s:sequence>
       </s:complexType>
       <s:element name="IfExistsRaf">
@@ -417,6 +465,7 @@
           <s:element minOccurs="0" maxOccurs="1" name="Birim" type="s:string" />
           <s:element minOccurs="1" maxOccurs="1" name="Miktar" type="s:decimal" />
           <s:element minOccurs="0" maxOccurs="1" name="RafNo" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="MakaraNo" type="s:string" />
         </s:sequence>
       </s:complexType>
       <s:element name="Rafa_KaldirResponse">
@@ -611,6 +660,24 @@
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:element name="Transfer_Giris">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="YerlestirmeList" type="tns:ArrayOfFrmYerlesme" />
+            <s:element minOccurs="1" maxOccurs="1" name="KullID" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="GorevID" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="AuthGiven" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Guid" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Transfer_GirisResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Transfer_GirisResult" type="tns:Result" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
       <s:element name="TransferGiris_GoreviTamamla">
         <s:complexType>
           <s:sequence>
@@ -694,6 +761,12 @@
   </wsdl:message>
   <wsdl:message name="GetIrsaliyeSoapOut">
     <wsdl:part name="parameters" element="tns:GetIrsaliyeResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetMalKoduMalzemesSoapIn">
+    <wsdl:part name="parameters" element="tns:GetMalKoduMalzemes" />
+  </wsdl:message>
+  <wsdl:message name="GetMalKoduMalzemesSoapOut">
+    <wsdl:part name="parameters" element="tns:GetMalKoduMalzemesResponse" />
   </wsdl:message>
   <wsdl:message name="GetGorevListSoapIn">
     <wsdl:part name="parameters" element="tns:GetGorevList" />
@@ -821,6 +894,12 @@
   <wsdl:message name="TransferCikis_GoreviTamamlaSoapOut">
     <wsdl:part name="parameters" element="tns:TransferCikis_GoreviTamamlaResponse" />
   </wsdl:message>
+  <wsdl:message name="Transfer_GirisSoapIn">
+    <wsdl:part name="parameters" element="tns:Transfer_Giris" />
+  </wsdl:message>
+  <wsdl:message name="Transfer_GirisSoapOut">
+    <wsdl:part name="parameters" element="tns:Transfer_GirisResponse" />
+  </wsdl:message>
   <wsdl:message name="TransferGiris_GoreviTamamlaSoapIn">
     <wsdl:part name="parameters" element="tns:TransferGiris_GoreviTamamla" />
   </wsdl:message>
@@ -859,6 +938,10 @@
     <wsdl:operation name="GetIrsaliye">
       <wsdl:input message="tns:GetIrsaliyeSoapIn" />
       <wsdl:output message="tns:GetIrsaliyeSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetMalKoduMalzemes">
+      <wsdl:input message="tns:GetMalKoduMalzemesSoapIn" />
+      <wsdl:output message="tns:GetMalKoduMalzemesSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="GetGorevList">
       <wsdl:input message="tns:GetGorevListSoapIn" />
@@ -944,6 +1027,10 @@
       <wsdl:input message="tns:TransferCikis_GoreviTamamlaSoapIn" />
       <wsdl:output message="tns:TransferCikis_GoreviTamamlaSoapOut" />
     </wsdl:operation>
+    <wsdl:operation name="Transfer_Giris">
+      <wsdl:input message="tns:Transfer_GirisSoapIn" />
+      <wsdl:output message="tns:Transfer_GirisSoapOut" />
+    </wsdl:operation>
     <wsdl:operation name="TransferGiris_GoreviTamamla">
       <wsdl:input message="tns:TransferGiris_GoreviTamamlaSoapIn" />
       <wsdl:output message="tns:TransferGiris_GoreviTamamlaSoapOut" />
@@ -997,6 +1084,15 @@
     </wsdl:operation>
     <wsdl:operation name="GetIrsaliye">
       <soap:operation soapAction="http://www.12mconsulting.com.tr/GetIrsaliye" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMalKoduMalzemes">
+      <soap:operation soapAction="http://www.12mconsulting.com.tr/GetMalKoduMalzemes" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -1193,6 +1289,15 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="Transfer_Giris">
+      <soap:operation soapAction="http://www.12mconsulting.com.tr/Transfer_Giris" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="TransferGiris_GoreviTamamla">
       <soap:operation soapAction="http://www.12mconsulting.com.tr/TransferGiris_GoreviTamamla" style="document" />
       <wsdl:input>
@@ -1261,6 +1366,15 @@
     </wsdl:operation>
     <wsdl:operation name="GetIrsaliye">
       <soap12:operation soapAction="http://www.12mconsulting.com.tr/GetIrsaliye" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMalKoduMalzemes">
+      <soap12:operation soapAction="http://www.12mconsulting.com.tr/GetMalKoduMalzemes" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
@@ -1450,6 +1564,15 @@
     </wsdl:operation>
     <wsdl:operation name="TransferCikis_GoreviTamamla">
       <soap12:operation soapAction="http://www.12mconsulting.com.tr/TransferCikis_GoreviTamamla" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Transfer_Giris">
+      <soap12:operation soapAction="http://www.12mconsulting.com.tr/Transfer_Giris" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

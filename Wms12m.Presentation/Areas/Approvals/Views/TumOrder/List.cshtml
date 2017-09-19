@@ -73,6 +73,7 @@
                 return json;
             },
         },
+        "pagingType": "full_numbers",
         "columnDefs": [{ "type": "num-fmt", "className": "dt-right" }],
         "columns": [
             {"data": null,"defaultContent": '',"className": 'select-checkbox',"orderable": false},
@@ -97,7 +98,7 @@
 
             { "data": "EvrakNo"},
             { "data": "OnayDurumu" },
-            { "data": "Tarih" },
+            { "data": "Tarih", "render": function (data) { return data.replace(/\./g, '-')} },
             { "data": "Firma" },
             { "data": "Onaylayan" },
         ],

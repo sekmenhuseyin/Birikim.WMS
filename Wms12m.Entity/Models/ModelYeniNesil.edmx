@@ -92,6 +92,60 @@
           <Property Name="STK002_Not4" Type="nvarchar" MaxLength="128" />
           <Property Name="STK002_Not5" Type="nvarchar" MaxLength="128" />
         </EntityType>
+        <EntityType Name="Teklif">
+          <Key>
+            <PropertyRef Name="TeklifNo" />
+            <PropertyRef Name="TeklifTarihi" />
+            <PropertyRef Name="IslemTur" />
+            <PropertyRef Name="HesapKodu" />
+            <PropertyRef Name="SiraNo" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TeklifNo" Type="varchar" MaxLength="16" Nullable="false" />
+          <Property Name="TeklifTarihi" Type="int" Nullable="false" />
+          <Property Name="IslemTur" Type="smallint" Nullable="false" />
+          <Property Name="HesapKodu" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="SiraNo" Type="smallint" Nullable="false" />
+          <Property Name="MalKodu" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="Miktar" Type="numeric" Precision="17" Scale="4" Nullable="false" />
+          <Property Name="Birim" Type="varchar" MaxLength="6" Nullable="false" />
+          <Property Name="Fiyat" Type="numeric" Precision="23" Scale="6" Nullable="false" />
+          <Property Name="Tutar" Type="numeric" Precision="19" Scale="2" Nullable="false" />
+          <Property Name="DovizCinsi" Type="varchar" MaxLength="4" Nullable="false" />
+          <Property Name="OnayDurumu" Type="smallint" Nullable="false" />
+          <Property Name="Aciklama" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="IslemDonusum" Type="smallint" Nullable="false" />
+          <Property Name="AktifMi" Type="bit" Nullable="false" />
+          <Property Name="Kaydeden" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="KayitTarih" Type="int" Nullable="false" />
+          <Property Name="KayitSaat" Type="varchar" MaxLength="8" Nullable="false" />
+          <Property Name="Degistiren" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="DegisTarih" Type="int" Nullable="false" />
+          <Property Name="DegisSaat" Type="varchar" MaxLength="8" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TempFatura">
+          <Key>
+            <PropertyRef Name="EvrakNo" />
+            <PropertyRef Name="SiraNo" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EvrakNo" Type="varchar" MaxLength="12" Nullable="false" />
+          <Property Name="SiraNo" Type="smallint" Nullable="false" />
+          <Property Name="HesapKodu" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="UrunKodu" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="Depo" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="ParaCinsi" Type="varchar" MaxLength="6" Nullable="false" />
+          <Property Name="Birim" Type="varchar" MaxLength="6" Nullable="false" />
+          <Property Name="Miktar" Type="numeric" Precision="17" Scale="4" Nullable="false" />
+          <Property Name="Fiyat" Type="numeric" Precision="23" Scale="6" Nullable="false" />
+          <Property Name="IslemDurumu" Type="smallint" Nullable="false" />
+          <Property Name="Kaydeden" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="KayitTarih" Type="int" Nullable="false" />
+          <Property Name="KayitSaat" Type="varchar" MaxLength="8" Nullable="false" />
+          <Property Name="Degistiren" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="DegisTarih" Type="int" Nullable="false" />
+          <Property Name="DegisSaat" Type="varchar" MaxLength="8" Nullable="false" />
+        </EntityType>
         <EntityType Name="TransferDepo">
           <Key>
             <PropertyRef Name="TransferNo" />
@@ -118,6 +172,8 @@
         </EntityType>
         <EntityContainer Name="YNSModelStoreContainer">
           <EntitySet Name="STK002" EntityType="Self.STK002" Schema="YNS0TEST" store:Type="Tables" />
+          <EntitySet Name="Teklif" EntityType="Self.Teklif" Schema="YNS0TEST" store:Type="Tables" />
+          <EntitySet Name="TempFatura" EntityType="Self.TempFatura" Schema="YNS0TEST" store:Type="Tables" />
           <EntitySet Name="TransferDepo" EntityType="Self.TransferDepo" Schema="YNS0TEST" store:Type="Tables" />
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -126,6 +182,8 @@
       <Schema Namespace="YNSModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="YNSEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="STK002" EntityType="YNSModel.STK002" />
+          <EntitySet Name="Teklifs" EntityType="YNSModel.Teklif" />
+          <EntitySet Name="TempFaturas" EntityType="YNSModel.TempFatura" />
           <EntitySet Name="TransferDepoes" EntityType="YNSModel.TransferDepo" />
         </EntityContainer>
         <EntityType Name="STK002">
@@ -214,6 +272,60 @@
           <Property Name="STK002_Not3" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="STK002_Not4" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="STK002_Not5" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Teklif">
+          <Key>
+            <PropertyRef Name="TeklifNo" />
+            <PropertyRef Name="TeklifTarihi" />
+            <PropertyRef Name="IslemTur" />
+            <PropertyRef Name="HesapKodu" />
+            <PropertyRef Name="SiraNo" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TeklifNo" Type="String" Nullable="false" MaxLength="16" FixedLength="false" Unicode="false" />
+          <Property Name="TeklifTarihi" Type="Int32" Nullable="false" />
+          <Property Name="IslemTur" Type="Int16" Nullable="false" />
+          <Property Name="HesapKodu" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="SiraNo" Type="Int16" Nullable="false" />
+          <Property Name="MalKodu" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="Miktar" Type="Decimal" Nullable="false" Precision="17" Scale="4" />
+          <Property Name="Birim" Type="String" Nullable="false" MaxLength="6" FixedLength="false" Unicode="false" />
+          <Property Name="Fiyat" Type="Decimal" Nullable="false" Precision="23" Scale="6" />
+          <Property Name="Tutar" Type="Decimal" Nullable="false" Precision="19" Scale="2" />
+          <Property Name="DovizCinsi" Type="String" Nullable="false" MaxLength="4" FixedLength="false" Unicode="false" />
+          <Property Name="OnayDurumu" Type="Int16" Nullable="false" />
+          <Property Name="Aciklama" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="IslemDonusum" Type="Int16" Nullable="false" />
+          <Property Name="AktifMi" Type="Boolean" Nullable="false" />
+          <Property Name="Kaydeden" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="KayitTarih" Type="Int32" Nullable="false" />
+          <Property Name="KayitSaat" Type="String" Nullable="false" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="Degistiren" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="DegisTarih" Type="Int32" Nullable="false" />
+          <Property Name="DegisSaat" Type="String" Nullable="false" MaxLength="8" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="TempFatura">
+          <Key>
+            <PropertyRef Name="EvrakNo" />
+            <PropertyRef Name="SiraNo" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EvrakNo" Type="String" Nullable="false" MaxLength="12" FixedLength="false" Unicode="false" />
+          <Property Name="SiraNo" Type="Int16" Nullable="false" />
+          <Property Name="HesapKodu" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="UrunKodu" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="Depo" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="ParaCinsi" Type="String" Nullable="false" MaxLength="6" FixedLength="false" Unicode="false" />
+          <Property Name="Birim" Type="String" Nullable="false" MaxLength="6" FixedLength="false" Unicode="false" />
+          <Property Name="Miktar" Type="Decimal" Nullable="false" Precision="17" Scale="4" />
+          <Property Name="Fiyat" Type="Decimal" Nullable="false" Precision="23" Scale="6" />
+          <Property Name="IslemDurumu" Type="Int16" Nullable="false" />
+          <Property Name="Kaydeden" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="KayitTarih" Type="Int32" Nullable="false" />
+          <Property Name="KayitSaat" Type="String" Nullable="false" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="Degistiren" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="DegisTarih" Type="Int32" Nullable="false" />
+          <Property Name="DegisSaat" Type="String" Nullable="false" MaxLength="8" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="TransferDepo">
           <Key>
@@ -330,6 +442,57 @@
                 <ScalarProperty Name="STK002_IslemTarihi" ColumnName="STK002_IslemTarihi" />
                 <ScalarProperty Name="STK002_MalKodu" ColumnName="STK002_MalKodu" />
                 <ScalarProperty Name="STK002_Row_ID" ColumnName="STK002_Row_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Teklifs">
+            <EntityTypeMapping TypeName="YNSModel.Teklif">
+              <MappingFragment StoreEntitySet="Teklif">
+                <ScalarProperty Name="DegisSaat" ColumnName="DegisSaat" />
+                <ScalarProperty Name="DegisTarih" ColumnName="DegisTarih" />
+                <ScalarProperty Name="Degistiren" ColumnName="Degistiren" />
+                <ScalarProperty Name="KayitSaat" ColumnName="KayitSaat" />
+                <ScalarProperty Name="KayitTarih" ColumnName="KayitTarih" />
+                <ScalarProperty Name="Kaydeden" ColumnName="Kaydeden" />
+                <ScalarProperty Name="AktifMi" ColumnName="AktifMi" />
+                <ScalarProperty Name="IslemDonusum" ColumnName="IslemDonusum" />
+                <ScalarProperty Name="Aciklama" ColumnName="Aciklama" />
+                <ScalarProperty Name="OnayDurumu" ColumnName="OnayDurumu" />
+                <ScalarProperty Name="DovizCinsi" ColumnName="DovizCinsi" />
+                <ScalarProperty Name="Tutar" ColumnName="Tutar" />
+                <ScalarProperty Name="Fiyat" ColumnName="Fiyat" />
+                <ScalarProperty Name="Birim" ColumnName="Birim" />
+                <ScalarProperty Name="Miktar" ColumnName="Miktar" />
+                <ScalarProperty Name="MalKodu" ColumnName="MalKodu" />
+                <ScalarProperty Name="SiraNo" ColumnName="SiraNo" />
+                <ScalarProperty Name="HesapKodu" ColumnName="HesapKodu" />
+                <ScalarProperty Name="IslemTur" ColumnName="IslemTur" />
+                <ScalarProperty Name="TeklifTarihi" ColumnName="TeklifTarihi" />
+                <ScalarProperty Name="TeklifNo" ColumnName="TeklifNo" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TempFaturas">
+            <EntityTypeMapping TypeName="YNSModel.TempFatura">
+              <MappingFragment StoreEntitySet="TempFatura">
+                <ScalarProperty Name="DegisSaat" ColumnName="DegisSaat" />
+                <ScalarProperty Name="DegisTarih" ColumnName="DegisTarih" />
+                <ScalarProperty Name="Degistiren" ColumnName="Degistiren" />
+                <ScalarProperty Name="KayitSaat" ColumnName="KayitSaat" />
+                <ScalarProperty Name="KayitTarih" ColumnName="KayitTarih" />
+                <ScalarProperty Name="Kaydeden" ColumnName="Kaydeden" />
+                <ScalarProperty Name="IslemDurumu" ColumnName="IslemDurumu" />
+                <ScalarProperty Name="Fiyat" ColumnName="Fiyat" />
+                <ScalarProperty Name="Miktar" ColumnName="Miktar" />
+                <ScalarProperty Name="Birim" ColumnName="Birim" />
+                <ScalarProperty Name="ParaCinsi" ColumnName="ParaCinsi" />
+                <ScalarProperty Name="Depo" ColumnName="Depo" />
+                <ScalarProperty Name="UrunKodu" ColumnName="UrunKodu" />
+                <ScalarProperty Name="HesapKodu" ColumnName="HesapKodu" />
+                <ScalarProperty Name="SiraNo" ColumnName="SiraNo" />
+                <ScalarProperty Name="EvrakNo" ColumnName="EvrakNo" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

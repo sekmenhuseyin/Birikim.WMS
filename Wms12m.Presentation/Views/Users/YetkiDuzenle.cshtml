@@ -56,37 +56,43 @@
     var ID = "@ViewBag.ID";
     $(".baslik").text(model.AdSoyad);
     $(".yetki-btn").css("display", "none");
-    var sirketlist = model.GosterilecekSirket.split(";");
+    var sirketlist = new Array();
+    var tiplist = new Array();
+    if (model.GosterilecekSirket != null && model.GosterilecekSirket!=""){
+    sirketlist = model.GosterilecekSirket.split(";");
     sirketlist.pop();
-    var tiplist = model.GostSTKDeger.split(";");
-    tiplist.pop();
+    }
+    if (model.GostSTKDeger != null && model.GostSTKDeger != "") {
+        tiplist = model.GostSTKDeger.split(";");
+        tiplist.pop();
+    }
     var chklist, kod3list, risklist, secilitipkod, secilisirket, secilichk = "", secilikod3 = "", secilirisk = "", secilikod32 = "", secilirisk2 = "";
-    if (model.GostCHKKodAlani == null || model.GostCHKKodAlani == "") {chklist = ["", ""];}
+    if (model.GostCHKKodAlani == null || model.GostCHKKodAlani == "") { chklist = ["", "ZZZZZZZZZZZZZZ"];}
     else { chklist = model.GostCHKKodAlani.split(";"); }
-    if (model.GostKod3OrtBakiye == null || model.GostKod3OrtBakiye == "") {kod3list = [0, 0, 0, 0];}
+    if (model.GostKod3OrtBakiye == null || model.GostKod3OrtBakiye == "") { kod3list = [0, 999999999999, 0, 0];}
     else {
         kod3list = model.GostKod3OrtBakiye.split(";");
 
-        if (kod3list[0] == "") kod3list[0] = 0;
-        if (kod3list[1] == "") kod3list[1] = 0;
+        if (kod3list[0] == "" || kod3list[0] == null) kod3list[0] = 0;
+        if (kod3list[1] == 0 || kod3list[1] == null) kod3list[1] = 999999999999;
         if (kod3list.length > 2) {
-            if (kod3list[2] == "") kod3list[2] = 0;
-            if (kod3list[3] == "") kod3list[3] = 0;
+            if (kod3list[2] == "" || kod3list[2] == null) kod3list[2] = 0;
+            if (kod3list[3] == 0 || kod3list[3] == null) kod3list[3] = 0;
         }
         else {
             kod3list.push(0);
             kod3list.push(0);
         }
     }
-    if (model.GostRiskDeger == null || model.GostRiskDeger == "") {risklist = [0, 0, 0, 0];}
+    if (model.GostRiskDeger == null || model.GostRiskDeger == "") { risklist = [0, 999999999999, 0, 0];}
     else {
         risklist = model.GostRiskDeger.split(";");
-        if (risklist[0] == "") risklist[0] = 0;
-        if (risklist[1] == "") risklist[1] = 0;
+        if (risklist[0] == "" || risklist[0] == null) risklist[0] = 0;
+        if (risklist[1] == 0 || risklist[1] == null) risklist[1] = 999999999999;
 
         if (risklist.length > 2) {
-            if (risklist[2] == "") risklist[2] = 0;
-            if (risklist[3] == "") risklist[3] = 0;
+            if (risklist[2] == "" || risklist[2] == null) risklist[2] = 0;
+            if (risklist[3] == 0 || risklist[3] == null) risklist[3] = 0;
         }
         else {
             risklist.push(0);
@@ -96,22 +102,28 @@
     secilitipkod = model.GostSTKDeger;
     secilisirket = model.GosterilecekSirket;
     secilichk = model.GostCHKKodAlani;
-    secilikod3 = model.GostKod3OrtBakiye;
-    secilirisk = model.GostRiskDeger;
+    secilikod3 = kod3list[0] + ";" + kod3list[1];
+    secilirisk = risklist[0] + ";" + risklist[1];
+    secilikod32 = ";" + kod3list[2] + ";" + kod3list[3];
+    secilirisk2 = ";" + risklist[2] + ";" + risklist[3];
+
     DevExpress.ui.dxOverlay.baseZIndex(20000);
     $(".bas-chk").dxTextBox({
         value: chklist[0],
         onValueChanged: function (e) {
             secilichk = "";
-            if (e.value == 0 || "") {
+            if (e.value == null || "") {
                 secilichk += "" + ";"
             }
             else {
                 secilichk += e.value + ";"
             }
 
-            if ($(".bit-chk").dxTextBox("instance").option("value") != 0 && $(".bit-chk").dxTextBox("instance").option("value") != "") {
+            if ($(".bit-chk").dxTextBox("instance").option("value") != null && $(".bit-chk").dxTextBox("instance").option("value") != "") {
                 secilichk += $(".bit-chk").dxTextBox("instance").option("value");
+            }
+            else {
+                secilichk += "ZZZZZZZZZZZZZZ";
             }
         }
     });
@@ -119,15 +131,18 @@
         value: chklist[1],
         onValueChanged: function (e) {
             secilichk = "";
-            if ($(".bas-chk").dxTextBox("instance").option("value") == 0 && $(".bas-chk").dxTextBox("instance").option("value") == "") {
+            if ($(".bas-chk").dxTextBox("instance").option("value") == null || $(".bas-chk").dxTextBox("instance").option("value") == "") {
                 secilichk += "" + ";"
             }
             else {
                 secilichk += $(".bas-chk").dxTextBox("instance").option("value") + ";"
             }
 
-            if (e.value != 0 && e.value != "") {
+            if (e.value != null && e.value != "") {
                 secilichk += e.value;
+            }
+            else {
+                secilichk += "ZZZZZZZZZZZZZZ";
             }
         }
     });
@@ -139,10 +154,14 @@
         displayExpr: 'state',
         valueExpr: 'state',
         value: sirketlist,
+        showSelectionControls: true,
+        applyValueMode: "useButtons",
         onValueChanged: function (e) {
             secilisirket = "";
-            for (var i = 0; i < e.value.length; i++) {
-                secilisirket += e.value[i] + ";";
+            if (e.value != null && e.value != "") {
+                for (var i = 0; i < e.value.length; i++) {
+                    secilisirket += e.value[i] + ";";
+                }
             }
         }
     });
@@ -163,7 +182,7 @@
                 secilikod3 += $(".bit-kod3").dxNumberBox("instance").option("value");
             }
             else {
-                secilikod3 += "9999999999999999";
+                secilikod3 += "999999999999";
             }
         }
 
@@ -173,7 +192,7 @@
         min: 0,
         onValueChanged: function (e) {
             secilikod3 = "";
-            if ($(".bas-kod3").dxNumberBox("instance").option("value") == 0 && $(".bas-kod3").dxNumberBox("instance").option("value") == null) {
+            if ($(".bas-kod3").dxNumberBox("instance").option("value") == 0 || $(".bas-kod3").dxNumberBox("instance").option("value") == null) {
                 secilikod3 += 0 + ";"
             }
             else {
@@ -184,7 +203,7 @@
                 secilikod3 += e.value;
             }
             else {
-                secilikod3 += "9999999999999999";
+                secilikod3 += "999999999999";
             }
         }
     });
@@ -204,7 +223,7 @@
                 secilikod32 += $(".bit-kod32").dxNumberBox("instance").option("value");
             }
             else {
-                secilikod32 += "9999999999999999";
+                secilikod32 += "0";
             }
         }
 
@@ -214,7 +233,7 @@
         min: 0,
         onValueChanged: function (e) {
             secilikod32 = "";
-            if ($(".bas-kod32").dxNumberBox("instance").option("value") == 0 && $(".bas-kod32").dxNumberBox("instance").option("value") == null) {
+            if ($(".bas-kod32").dxNumberBox("instance").option("value") == 0 || $(".bas-kod32").dxNumberBox("instance").option("value") == null) {
                 secilikod32 += ";" + 0 + ";"
             }
             else {
@@ -225,7 +244,7 @@
                 secilikod32 += e.value;
             }
             else {
-                secilikod32 += "9999999999999999";
+                secilikod32 += "0";
             }
         }
     });
@@ -245,7 +264,7 @@
                 secilirisk += $(".bit-risk").dxNumberBox("instance").option("value");
             }
             else {
-                secilirisk += "9999999999999999";
+                secilirisk += "999999999999";
             }
         }
     });
@@ -254,7 +273,7 @@
         min: 0,
         onValueChanged: function (e) {
             secilirisk = "";
-            if ($(".bas-risk").dxNumberBox("instance").option("value") == 0 && $(".bas-risk").dxNumberBox("instance").option("value") == null) {
+            if ($(".bas-risk").dxNumberBox("instance").option("value") == 0 || $(".bas-risk").dxNumberBox("instance").option("value") == null) {
                 secilirisk += 0 + ";"
             }
             else {
@@ -265,7 +284,7 @@
                 secilirisk += e.value;
             }
             else {
-                secilirisk += "9999999999999999";
+                secilirisk += "999999999999";
             }
         }
     });
@@ -285,7 +304,7 @@
                 secilirisk2 += $(".bit-risk2").dxNumberBox("instance").option("value");
             }
             else {
-                secilirisk2 += "9999999999999999";
+                secilirisk2 += "0";
             }
         }
     });
@@ -294,7 +313,7 @@
         min: 0,
         onValueChanged: function (e) {
             secilirisk2 = "";
-            if ($(".bas-risk2").dxNumberBox("instance").option("value") == 0 && $(".bas-risk2").dxNumberBox("instance").option("value") == null) {
+            if ($(".bas-risk2").dxNumberBox("instance").option("value") == 0 || $(".bas-risk2").dxNumberBox("instance").option("value") == null) {
                 secilirisk2 += ";" + 0 + ";"
             }
             else {
@@ -305,7 +324,7 @@
                 secilirisk2 += e.value;
             }
             else {
-                secilirisk2 += "9999999999999999";
+                secilirisk2 += "0";
             }
         }
     });
@@ -332,10 +351,15 @@
                         displayExpr: 'Kod',
                         valueExpr: 'Kod',
                         value: tiplist,
+                        showSelectionControls: true,
+                        applyValueMode: "useButtons",
                         onValueChanged: function (e) {
                             secilitipkod = "";
+                            if (e.value != null && e.value != "")
+                            {
                             for (var i = 0; i < e.value.length; i++) {
                                 secilitipkod += e.value[i] + ";";
+                                }
                             }
                         }
                     });

@@ -181,10 +181,10 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                     foreach (var item in MyGlobalVariables.TalepSource)
                     {
                         string sql = string.Format(@"UPDATE Kaynak.sta.Talep 
-    SET GMOnaylayan=@Degistiren, GMOnayTarih=@DegisTarih, Durum=15, SipEvrakNo=@SipEvrakNo
-    , SirketKodu='{0}'
-    , Degistiren=@Degistiren, DegisTarih=@DegisTarih, DegisSirKodu='{0}'
-    WHERE ID=@ID AND Durum=11 AND SipTalepNo IS NOT NULL", "17");
+	SET GMOnaylayan=@Degistiren, GMOnayTarih=@DegisTarih, Durum=15, SipEvrakNo=@SipEvrakNo
+	, SirketKodu='{0}'
+	, Degistiren=@Degistiren, DegisTarih=@DegisTarih, DegisSirKodu='{0}'
+	WHERE ID=@ID AND Durum=11 AND SipTalepNo IS NOT NULL", "17");
 
 
                         SqlParameter[] paramlist = new SqlParameter[4]
@@ -295,8 +295,10 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                         }
                         SatınalmaSiparisFormu.SatinalmaSiparisFormu(sipEvrakNo, hesapKodu, sipTarih, true);
 
-                        List<string> attachList = new List<string>();
-                        attachList.Add(String.Format("{0}{1}.pdf", Path.GetTempPath(), sipEvrakNo));
+                        List<string> attachList = new List<string>
+                        {
+                            String.Format("{0}{1}.pdf", Path.GetTempPath(), sipEvrakNo)
+                        };
 
                         List<SatTalep> listTalep = db.Database.SqlQuery<SatTalep>(string.Format("SELECT TalepNo, MalKodu, EkDosya FROM Kaynak.sta.Talep (nolock) WHERE SipEvrakNo ='{0}' AND HesapKodu = '{1}' AND ISNULL(EkDosya,'')<> '' ", sipEvrakNo, hesapKodu)).ToList();
 
@@ -320,9 +322,11 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                             icerik = "Purchase Order Items Information in Attachments";
                         }
 
-                        MyMail m = new MyMail(false);
-                        m.MailHataMesajı = "Sipariş Onay Maili Gönderiminde hata oluştu!! Mail Gönderilelemedi!!";
-                        m.MailBasariMesajı = "Sipariş Onay Maili başarılı bir şekilde gönderildi!!";
+                        MyMail m = new MyMail(false)
+                        {
+                            MailHataMesajı = "Sipariş Onay Maili Gönderiminde hata oluştu!! Mail Gönderilelemedi!!",
+                            MailBasariMesajı = "Sipariş Onay Maili başarılı bir şekilde gönderildi!!"
+                        };
                         m.Gonder(kime, mailayar.MailCc, gorunenIsim, konu, icerik, attachList);
 
                         if (m.MailGonderimBasarili)
@@ -342,14 +346,14 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                         #endregion
 
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
                         _Result.Message = string.Format("Sipariş Onay Maili Gönderiminde hata oluştu!! Mail Gönderilelemedi!!)");
                         _Result.Status = false;
                         return Json(_Result, JsonRequestBehavior.AllowGet);
                     }
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     _Result.Message = "İşlem Sırasında Hata Oluştu.";
                     _Result.Status = false;
@@ -388,7 +392,7 @@ WHERE ID={4} AND Durum=11 AND SipTalepNo IS NOT NULL";
                 con.Trans.Commit();
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 if (con.Trans != null)
                     con.Trans.Rollback();
@@ -405,18 +409,18 @@ WHERE ID={4} AND Durum=11 AND SipTalepNo IS NOT NULL";
             List<int> brmContList = null;
             string query = string.Format(
    @"SELECT (CASE WHEN ST.Birim = STK.Birim1 THEN 1
-        WHEN ST.Birim = STK.Birim2 THEN 1
-        WHEN ST.Birim = STK.Birim3 THEN 1 
-        WHEN ST.Birim = STK.Birim4 THEN 1 
+		WHEN ST.Birim = STK.Birim2 THEN 1
+		WHEN ST.Birim = STK.Birim3 THEN 1 
+		WHEN ST.Birim = STK.Birim4 THEN 1 
 		ELSE 0 END ) AS Miktar
 
 FROM Kaynak.sta.Talep as ST (nolock)
 LEFT JOIN FINSAT6{0}.FINSAT6{0}.STK (nolock) on ST.MalKodu=STK.MalKodu
 WHERE ST.Durum=11 AND ST.SipTalepNo={1} AND ST.HesapKodu='{2}'
 GROUP BY (CASE WHEN ST.Birim = STK.Birim1 THEN 1
-        WHEN ST.Birim = STK.Birim2 THEN 1
-        WHEN ST.Birim = STK.Birim3 THEN 1 
-        WHEN ST.Birim = STK.Birim4 THEN 1 
+		WHEN ST.Birim = STK.Birim2 THEN 1
+		WHEN ST.Birim = STK.Birim3 THEN 1 
+		WHEN ST.Birim = STK.Birim4 THEN 1 
 		ELSE 0 END )"
       , "17"
       , talepNo, hesapKodu);

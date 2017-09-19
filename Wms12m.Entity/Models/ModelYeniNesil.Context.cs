@@ -26,6 +26,8 @@ namespace Wms12m.Entity.Models
         }
     
         public virtual DbSet<STK002> STK002 { get; set; }
+        public virtual DbSet<Teklif> Teklifs { get; set; }
+        public virtual DbSet<TempFatura> TempFaturas { get; set; }
         public virtual DbSet<TransferDepo> TransferDepoes { get; set; }
     }
 }

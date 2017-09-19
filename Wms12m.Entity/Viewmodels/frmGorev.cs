@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
@@ -7,7 +8,19 @@ using Wms12m.Entity.Models;
 namespace Wms12m.Entity
 {
     /// <summary>
-    /// 
+    /// sayım fişi getirir
+    /// </summary>
+    public class frmGorevSayimFisi
+    {
+        public short IslemTur { get; set; }
+        public string MalKodu { get; set; }
+        public decimal Miktar { get; set; }
+        public decimal Miktar2 { get; set; }
+        public string Birim { get; set; }
+        public string Depo { get; set; }
+    }
+    /// <summary>
+    /// görev ayrıntıları
     /// </summary>
     public class frmTaskDetails
     {
@@ -108,6 +121,7 @@ namespace Wms12m.Entity
     public class frmSiparisToplayerlestirilen
     {
         public int YerID { get; set; }
+        public string MakaraNo { get; set; }
         public string MalKodu { get; set; }
         public string Birim { get; set; }
         public decimal YerlestirmeMiktari { get; set; }
@@ -124,5 +138,48 @@ namespace Wms12m.Entity
         public string FaturaAdres { get; set; }
         public string Unvan { get; set; }
         public string TeslimAdres { get; set; }
+    }
+    public class frmGorevTodos
+    {
+        public int ID { get; set; }
+        public int GorevID { get; set; }
+        public string Aciklama { get; set; }
+        public bool AktifPasif { get; set; }
+        public bool OnayDurum { get; set; }
+        public bool Kontrol { get; set; }
+        public bool KontrolOnay { get; set; }
+        public string Kaydeden { get; set; }
+        public DateTime KayitTarih { get; set; }
+        public string Degistiren { get; set; }
+        public DateTime? DegisTarih { get; set; }
+    }
+
+    public class frmGorevCalismas
+    {
+        public int ID { get; set; }
+        public int GorevID { get; set; }
+        public System.DateTime Tarih { get; set; }
+        public int CalismaSure { get; set; }
+        public string Calisma { get; set; }
+        public string ToDoListID { get; set; }
+        public string Kaydeden { get; set; }
+        public System.DateTime KayitTarih { get; set; }
+        public string Degistiren { get; set; }
+        public System.DateTime DegisTarih { get; set; }
+    }
+
+    public class frmUserss
+    {
+        public int ID { get; set; }
+        public string Sirket { get; set; }
+        public short Tip { get; set; }
+        public string Kod { get; set; }
+        public string Sifre { get; set; }
+        public string AdSoyad { get; set; }
+        public string Email { get; set; }
+        public string RoleName { get; set; }
+        public string Tema { get; set; }
+        public bool Admin { get; set; }
+        public bool Aktif { get; set; }
     }
 }

@@ -38,7 +38,7 @@ namespace Wms12m
             //evrak no
             string evrakno = EvrakNo(EvrakSeriNo);
             if (evrakno == null || evrakno == "")
-                return new Result(false, "Evrak Seri hatası.");
+                return new Result(false, "Evrak Seri hatası. Lütfen terminal yetkilerinden seriyi değiştirin yada Güneşten seçili seri için bir değer verin.");
             //definitions
             Functions fn = new Functions();
             int tarih = fn.ToOADate();
@@ -67,7 +67,8 @@ namespace Wms12m
                 item.MlyMhs = 1;
                 item.MhsTabloNo = 1;
                 item.Katsayi = 1;
-                item.ErekIFMiktar = -1;
+                item.ErekIFMiktar = 0;
+                item.ErekIIFMiktar = 0;
                 item.IrsFat2 = -1;
                 item.KrediArindirmaSekli = -1;
                 item.FinansmanGiderTuru = -1;

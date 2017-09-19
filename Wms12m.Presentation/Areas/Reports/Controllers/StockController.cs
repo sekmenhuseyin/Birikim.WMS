@@ -26,6 +26,7 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
             List<RaporStokKodCase> SR;
             try
             {
+
                 SR = db.Database.SqlQuery<RaporStokKodCase>(string.Format("[FINSAT6{0}].[wms].[StokRaporuKodCase] @Tarih = {1}, @BasGrupKod = '{2}',@BitGrupKod = '{3}', @BasTipKod = '{4}',@BitTipKod= '{5}', @BasOzelKod = '{6}', @BitOzelKod = '{7}',@BasKod1 = '{8}', @BitKod1 = '{9}',@BasKod2= '{10}', @BitKod2 = '{11}',@BasKod3= '{12}', @BitKod3 = '{13}'", db.GetSirketDBs().FirstOrDefault(), Tarih, BasGrupKod, BitGrupKod, BasTipKod, BitTipKod, BasOzelKod, BitOzelKod, BasKod1, BitKod1, BasKod2, BitKod2, BasKod3, BitKod3)).ToList();
             }
             catch (Exception ex)
@@ -200,7 +201,7 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
             {
                 sipBilgi = logdb.TumSiparisOnayLogs.Where(m => m.OnayDurumu == tip && m.DegisTarih >= bastarih && m.DegisTarih <= bittarih).ToList();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
             }
