@@ -105,7 +105,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             if (varmi == false)
                 return PartialView("Summary");
             //çapraz stok kontrol
-            string sql = string.Format(@"SELECT STK.MalKodu, wms.fnGetStock('{2}', STK.MalKodu, STK.Birim1) AS Depo2WmsStok, 
+            string sql = string.Format(@"SELECT STK.MalKodu, wms.fnGetStock('{2}', STK.MalKodu, STK.Birim1, 0) AS Depo2WmsStok, 
                                                             ISNULL(DST.DvrMiktar, 0) + ISNULL(DST.GirMiktar, 0) - ISNULL(DST.CikMiktar, 0) -
                                                              (SELECT        ISNULL(SUM(Miktar - TeslimMiktar), 0) AS Miktar FROM            FINSAT6{0}.FINSAT6{0}.DTF WITH(NOLOCK) WHERE(CikDepo = '{2}') AND(Durum = 0) AND(MalKodu = DST.MalKodu)) AS Depo2GunesStok
                                         FROM FINSAT6{0}.FINSAT6{0}.STK AS STK WITH(NOLOCK) LEFT OUTER JOIN
@@ -218,7 +218,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             foreach (var item in transfer.Transfer_Detay)
             {
                 //çapraz stok kontrol
-                string sql = string.Format(@"SELECT STK.MalKodu, wms.fnGetStock('{2}', STK.MalKodu, STK.Birim1) AS Depo2WmsStok, 
+                string sql = string.Format(@"SELECT STK.MalKodu, wms.fnGetStock('{2}', STK.MalKodu, STK.Birim1, 0) AS Depo2WmsStok, 
                                                             ISNULL(DST.DvrMiktar, 0) + ISNULL(DST.GirMiktar, 0) - ISNULL(DST.CikMiktar, 0) -
                                                              (SELECT        ISNULL(SUM(Miktar - TeslimMiktar), 0) AS Miktar FROM            FINSAT6{0}.FINSAT6{0}.DTF WITH(NOLOCK) WHERE(CikDepo = '{2}') AND(Durum = 0) AND(MalKodu = DST.MalKodu)) AS Depo2GunesStok
                                         FROM FINSAT6{0}.FINSAT6{0}.STK AS STK WITH(NOLOCK) LEFT OUTER JOIN
