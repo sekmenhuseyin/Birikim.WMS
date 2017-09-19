@@ -357,7 +357,7 @@
             this.label14.Location = new System.Drawing.Point(3, 47);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(110, 21);
-            this.label14.Text = "Malzeme No Okut";
+            this.label14.Text = "Makara Okut";
             this.label14.Visible = false;
             // 
             // frmxOps

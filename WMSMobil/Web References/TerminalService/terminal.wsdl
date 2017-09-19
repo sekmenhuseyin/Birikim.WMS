@@ -347,6 +347,7 @@
           <s:element minOccurs="0" maxOccurs="1" name="MalAdi" type="s:string" />
           <s:element minOccurs="0" maxOccurs="1" name="Birim" type="s:string" />
           <s:element minOccurs="0" maxOccurs="1" name="Barkod" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Kod1" type="s:string" />
         </s:sequence>
       </s:complexType>
       <s:element name="IfExistsRaf">

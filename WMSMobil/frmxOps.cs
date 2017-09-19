@@ -431,6 +431,7 @@ namespace WMSMobil
             //MalKabulde okutulan mala ait listede bulunan kayıt sayısı
             int cokluMalSayisi = 0, sonucID = 0;
             string mal = txtBarkod.Text;
+            string makaraNo= txtMakaraBarkod.Text;
             if (mal == "")
             {
                 Mesaj.Hata(null, "Malzemeyi okutun");
@@ -444,6 +445,14 @@ namespace WMSMobil
                 txtRafBarkod.Focus();
                 return;
             }
+
+            if (raf != "" && txtRafBarkod.Visible == true && mal != "" && makaraNo == "" && txtMakaraBarkod.Visible == true)
+            {
+                Mesaj.Hata(null, "Makara Numarasını okutun");
+                txtRafBarkod.Focus();
+                return;
+            }
+
             if (txtRafBarkod.Visible == true)
             {
                 var kontrol = Servis.IfExistsRaf(Ayarlar.Kullanici.DepoID, raf, Ayarlar.Kullanici.ID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid);
@@ -485,7 +494,18 @@ namespace WMSMobil
 
                     if (Ayarlar.MenuTip == MenuType.KontrollüSayım) {
                         var malbilgileri = Servis.GetMalzemeFromBarcode("", mal, GorevID, Ayarlar.Kullanici.ID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid);
-                        if (itemPanel.Controls[0].Text == malbilgileri.Barkod)
+                        if (itemPanel.Controls[0].Text == malbilgileri.Barkod && malbilgileri.Kod1=="KKABLO")
+                        {
+                            mal_var = true;
+                            if (itemPanel.Raf == raf && itemPanel.MakaraNo == makaraNo)
+                            {
+                                raf_var = true;
+                                itemPanel.Controls[7].Text = (itemPanel.Controls[7].Text.ToDecimal() + 1).ToString();
+                                foreach (Control item in itemPanel.Controls)
+                                    item.BackColor = Color.DarkOrange;
+                            }
+                        }
+                        else if (itemPanel.Controls[0].Text == malbilgileri.Barkod)
                         {
                             mal_var = true;
                             if (itemPanel.Raf == raf)

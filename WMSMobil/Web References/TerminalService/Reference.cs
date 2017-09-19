@@ -1223,6 +1223,8 @@ namespace WMSMobil.TerminalService {
         
         private string barkodField;
         
+        private string kod1Field;
+        
         /// <remarks/>
         public string MalKodu {
             get {
@@ -1260,6 +1262,16 @@ namespace WMSMobil.TerminalService {
             }
             set {
                 this.barkodField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string Kod1 {
+            get {
+                return this.kod1Field;
+            }
+            set {
+                this.kod1Field = value;
             }
         }
     }
