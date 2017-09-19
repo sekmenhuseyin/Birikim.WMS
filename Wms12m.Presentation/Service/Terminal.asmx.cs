@@ -1391,11 +1391,19 @@ namespace Wms12m
                     var katID = db.GetHucreKatID(mGorev.DepoID, item.RafNo).FirstOrDefault();
                     if (katID != null)
                     {
-                        var yert = db.Yers.Where(m => m.KatID == katID && m.MalKodu == item.MalKodu).FirstOrDefault();
+                        var yert = new Yer();
+                        if (item.MakaraNo.Length > 0)
+                        {
+                            yert = db.Yers.Where(m => m.KatID == katID && m.MalKodu == item.MalKodu && m.MakaraNo == item.MakaraNo).FirstOrDefault();
+                        }
+                        else
+                        {
+                            yert = db.Yers.Where(m => m.KatID == katID && m.MalKodu == item.MalKodu).FirstOrDefault();
+                        }
                         if (yert == null)
                         {
 
-                            yert = new Yer() { KatID = katID.Value, MalKodu = item.MalKodu, Birim = item.Birim, Miktar = 0 };
+                            yert = new Yer() { KatID = katID.Value, MalKodu = item.MalKodu, Birim = item.Birim, Miktar = 0, MakaraNo = item.MakaraNo };
                             db.Yers.Add(yert);
                             db.SaveChanges();
                         }
