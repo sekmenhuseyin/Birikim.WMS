@@ -355,7 +355,6 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             {
                 if (item.Miktar != item.Miktar2)
                 {
-                    //TODO: burada hata var
                     var sti = new STI();
                     sti.DefaultValueSet();
                     sti.IslemTur = item.IslemTur;

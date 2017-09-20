@@ -19,7 +19,6 @@ namespace WMSMobil
         int GorevID, IrsaliyeID, GorevTip;
         string FocusPanelName = "";
         int Sayac = 0;
-        decimal carpim = Ayarlar.KatSayi;
         List<PanelEx> PanelVeriList = new List<PanelEx>();
         /// <summary>
         /// form load
@@ -999,16 +998,6 @@ namespace WMSMobil
         private void btnBack_Click(object sender, EventArgs e)
         {
             this.Close();
-        }
-
-        private void frmxOps_KeyDown(object sender, KeyEventArgs e)
-        {
-
-        }
-
-        private void txtMakaraBarkod_TextChanged(object sender, EventArgs e)
-        {
-
         }
 
         private void txtBarkod_TextChanged(object sender, EventArgs e)

@@ -374,7 +374,6 @@
             this.Name = "frmxOps";
             this.Text = "MalKabul";
             this.Closing += new System.ComponentModel.CancelEventHandler(this.MalzemeIslemleri_Closing);
-            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.frmxOps_KeyDown);
             this.panelUst.ResumeLayout(false);
             this.panelOrta.ResumeLayout(false);
             this.panelAlt.ResumeLayout(false);

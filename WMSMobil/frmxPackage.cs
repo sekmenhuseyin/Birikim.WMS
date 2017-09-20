@@ -17,7 +17,6 @@ namespace WMSMobil
         private Barcode2 Barkod;
         List<PanelEx> PanelVeriList = new List<PanelEx>();
         int Sayac = 0;
-        decimal carpim = Ayarlar.KatSayi;
         /// <summary>
         /// form load
         /// </summary>
@@ -101,8 +100,8 @@ namespace WMSMobil
                 Font font = new Font("Tahoma", 8, FontStyle.Regular);
                 PanelEx panelSatir = new PanelEx();
                 panelSatir.Name = Sayac.ToString();
-                panelSatir.Location = new Point(0, (Sayac * 20 * carpim).ToInt32());
-                panelSatir.Size = new Size((240 * carpim).ToInt32(), (20 * carpim).ToInt32());
+                panelSatir.Location = new Point(0, (Sayac * 20).Carpim());
+                panelSatir.Size = new Size(240.Carpim(), 20.Carpim());
 
                 TextBox tBarkod = new TextBox();
                 tBarkod.Visible = false;
@@ -113,31 +112,31 @@ namespace WMSMobil
 
                 TextBox tMalKodu = new TextBox();
                 tMalKodu.Font = font;
-                tMalKodu.Width = (60 * carpim).ToInt32();
-                tMalKodu.Location = new Point((3 * carpim).ToInt32(), 0);
+                tMalKodu.Width = 60.Carpim();
+                tMalKodu.Location = new Point(3.Carpim(), 0);
                 tMalKodu.ReadOnly = true;
                 tMalKodu.Name = "txtMalKodu";
                 tMalKodu.GotFocus += new EventHandler(TextBoxlar_GotFocus);
 
                 TextBox tMalAdi = new TextBox();
                 tMalAdi.Font = font;
-                tMalAdi.Width = (80 * carpim).ToInt32();
-                tMalAdi.Location = new Point((64 * carpim).ToInt32(), 0);
+                tMalAdi.Width = 80.Carpim();
+                tMalAdi.Location = new Point(64.Carpim(), 0);
                 tMalAdi.ReadOnly = true;
                 tMalAdi.GotFocus += new EventHandler(TextBoxlar_GotFocus);
 
                 TextBox tMiktar = new TextBox();
                 tMiktar.Font = font;
-                tMiktar.Width = (53 * carpim).ToInt32();
-                tMiktar.Location = new Point((145 * carpim).ToInt32(), 0);
+                tMiktar.Width = 53.Carpim();
+                tMiktar.Location = new Point(145.Carpim(), 0);
                 tMiktar.ReadOnly = true;
                 tMiktar.TextAlign = HorizontalAlignment.Right;
                 tMiktar.GotFocus += new EventHandler(TextBoxlar_GotFocus);
 
                 TextBox tBirim = new TextBox();
                 tBirim.Font = font;
-                tBirim.Width = (39 * carpim).ToInt32();
-                tBirim.Location = new Point((199 * carpim).ToInt32(), 0);
+                tBirim.Width = 39.Carpim();
+                tBirim.Location = new Point(199.Carpim(), 0);
                 tBirim.ReadOnly = true;
                 tBirim.GotFocus += new EventHandler(TextBoxlar_GotFocus);
                 //renkler

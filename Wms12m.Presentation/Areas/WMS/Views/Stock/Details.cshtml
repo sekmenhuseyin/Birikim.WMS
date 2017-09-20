@@ -8,11 +8,11 @@
                     <h4>İrsaliye Ayrıntı</h4>
                     @foreach (var item in Model.IRS)
                     {
-                        <table class="table table-bordered table-condensed m-t-20">
+                        <table class="table table-bordered table-condensed m-t-40">
                             <thead><tr><th>Şirket</th><th>İşlem Türü</th><th>Evrak No</th><th>Hesap Kodu</th><th>Tarih</th></tr></thead>
                             <tbody><tr><td>@item.SirketKod</td><td>@{if (item.IslemTur == false) {<text>Giriş</text>}else{<text>Çıkış </text>}}</td><td>@item.EvrakNo</td><td>@item.HesapKodu</td><td>@item.Tarih.FromOaDate()</td></tr></tbody>
                         </table>
-                        <table>
+                        <table class="m-b-40">
                             <thead><tr><th>Mal Kodu</th><th>Mal Adı</th><th>Miktar</th><th>Birim</th></tr></thead>
                             <tbody>
                                 @foreach (var itemx in item.IRS_Detay) {<tr><td>@itemx.MalKodu</td><td>@itemx.MalKodu.GetMalAdi(item.SirketKod)</td><td align="right">@String.Format("{0:n}", itemx.Miktar)</td><td>@itemx.Birim</td></tr>}

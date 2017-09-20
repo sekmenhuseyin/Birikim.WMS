@@ -820,6 +820,12 @@ namespace Wms12m
                     return new Result(false, sonuc.Message);
             }
             //yerleştirmeden düşülür
+
+
+
+
+            ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            //TODO: burada her irsaliye için 
             var yerleştirilen = db.Database.SqlQuery<frmSiparisToplayerlestirilen>(@"SELECT        YerID, SUM(YerlestirmeMiktari) AS YerlestirmeMiktari, MalKodu, Birim
                                                                                     FROM            wms.GorevYer WITH (nolock)
                                                                                     WHERE        GorevID =  " + GorevID + " GROUP BY YerID, MalKodu, Birim").ToList();
@@ -831,6 +837,11 @@ namespace Wms12m
                     dusulecek.MakaraDurum = false;
                     yerleştirme.Update(dusulecek, mGorev.IrsaliyeID.Value, KullID, true, item2.YerlestirmeMiktari);
                 }
+            ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
             //finish gorev
             db.TerminalFinishGorev(GorevID, mGorev.IrsaliyeID, "", tarih, saat, kull.Kod, "", ComboItems.SiparişTopla.ToInt32(), 0).FirstOrDefault();
             //görev user tablosu
