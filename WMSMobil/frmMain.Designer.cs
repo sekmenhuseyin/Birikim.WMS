@@ -218,6 +218,7 @@
             this.btnBack.Name = "btnBack";
             this.btnBack.Size = new System.Drawing.Size(70, 23);
             this.btnBack.TabIndex = 9;
+            this.btnBack.Tag = "0";
             this.btnBack.Text = "Kapat";
             this.btnBack.Click += new System.EventHandler(this.btnBack_Click);
             // 
@@ -230,6 +231,7 @@
             this.btnRefresh.Name = "btnRefresh";
             this.btnRefresh.Size = new System.Drawing.Size(95, 22);
             this.btnRefresh.TabIndex = 0;
+            this.btnRefresh.Tag = "0";
             this.btnRefresh.Text = "Güncelle";
             this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
             // 
