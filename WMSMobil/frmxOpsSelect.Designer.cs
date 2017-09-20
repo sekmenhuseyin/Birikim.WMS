@@ -42,6 +42,7 @@
             this.columnHeader8 = new System.Windows.Forms.ColumnHeader();
             this.btnSec = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // listView1
@@ -59,7 +60,7 @@
             this.listView1.FullRowSelect = true;
             this.listView1.Location = new System.Drawing.Point(0, 38);
             this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(240, 168);
+            this.listView1.Size = new System.Drawing.Size(240, 227);
             this.listView1.TabIndex = 0;
             this.listView1.SelectedIndexChanged += new System.EventHandler(this.listView1_SelectedIndexChanged);
             // 
@@ -112,31 +113,40 @@
             // 
             this.btnSec.BackColor = System.Drawing.Color.SteelBlue;
             this.btnSec.ForeColor = System.Drawing.SystemColors.Window;
-            this.btnSec.Location = new System.Drawing.Point(168, 222);
+            this.btnSec.Location = new System.Drawing.Point(1, 268);
             this.btnSec.Name = "btnSec";
-            this.btnSec.Size = new System.Drawing.Size(72, 20);
+            this.btnSec.Size = new System.Drawing.Size(236, 23);
             this.btnSec.TabIndex = 1;
             this.btnSec.Text = "Seç";
             this.btnSec.Click += new System.EventHandler(this.btnSec_Click);
             // 
             // label1
             // 
-            this.label1.ForeColor = System.Drawing.Color.Red;
+            this.label1.BackColor = System.Drawing.Color.CadetBlue;
+            this.label1.ForeColor = System.Drawing.Color.White;
             this.label1.Location = new System.Drawing.Point(0, 10);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(240, 20);
             this.label1.Text = "Güncellemek istediğiniz malkodunu seçiniz";
+            // 
+            // label2
+            // 
+            this.label2.BackColor = System.Drawing.Color.CadetBlue;
+            this.label2.ForeColor = System.Drawing.Color.White;
+            this.label2.Location = new System.Drawing.Point(0, 0);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(240, 38);
             // 
             // frmxOpsSelect
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.AutoScroll = true;
-            this.ClientSize = new System.Drawing.Size(240, 268);
+            this.ClientSize = new System.Drawing.Size(240, 294);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.btnSec);
             this.Controls.Add(this.listView1);
-            this.Menu = this.mainMenu1;
+            this.Controls.Add(this.label2);
             this.Name = "frmxOpsSelect";
             this.Text = "Malzeme Seçimi";
             this.Closing += new System.ComponentModel.CancelEventHandler(this.frmxOpsSelect_Closing);
@@ -158,5 +168,6 @@
         private System.Windows.Forms.ColumnHeader columnHeader8;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ColumnHeader columnHeader9;
+        private System.Windows.Forms.Label label2;
     }
 }

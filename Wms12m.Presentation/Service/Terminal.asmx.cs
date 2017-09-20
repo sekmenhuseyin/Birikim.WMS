@@ -189,11 +189,13 @@ namespace Wms12m
             {
                 string sql = string.Format("SELECT Gorev.ID, ISNULL(Gorev.IrsaliyeID, 0) as IrsaliyeID, wms.fnFormatDateFromInt(Gorev.OlusturmaTarihi) AS OlusturmaTarihi, Gorev.Bilgi, Gorev.Aciklama, Gorev.GorevNo, ISNULL(wms.IRS.EvrakNo, '') as EvrakNo, wms.Depo.DepoKodu, Gorev.Atayan, Gorev.Gorevli, ComboItem_Name.[Name] AS Durum " +
                                         "FROM wms.Gorev WITH (nolock) INNER JOIN wms.Depo WITH (nolock) ON Gorev.DepoID = wms.Depo.ID INNER JOIN ComboItem_Name WITH (nolock) ON Gorev.DurumID = ComboItem_Name.ID LEFT OUTER JOIN wms.GorevUsers WITH (nolock) ON wms.Gorev.ID = wms.GorevUsers.GorevID LEFT OUTER JOIN usr.Users WITH (nolock) ON Gorev.Gorevli = usr.Users.Kod LEFT OUTER JOIN wms.IRS WITH (nolock) ON Gorev.IrsaliyeID = wms.IRS.ID " +
-                                        "WHERE (wms.GorevUsers.BitisTarihi IS NULL) AND (wms.Depo.ID = {3}) and " +
-                                        "case when ({0}>0) then case when (Gorev.GorevTipiID = {0}) then 1 else 0 end else 0 end = 1 AND " +
-                                        "(CASE WHEN ('{1}' <> '') THEN CASE WHEN (wms.GorevUsers.UserName = '{1}' OR wms.GorevUsers.UserName IS NULL) THEN 1 ELSE 0 END ELSE 1 END = 1) AND " +
-                                        "case when ('{1}' <> '') then case when (usr.Users.Kod = '{1}') then 1 else 0 end else 1 end = 1 AND  " +
-                                        "case when ({2}>0) then case when (Gorev.DurumID = {2}) then 1 else 0 end else 1 end = 1", gorevtipi, gorevli, durum, DepoID);
+                                        "WHERE (wms.Depo.ID = {3}) and " +
+                                                "case when ({0}>0) then case when (Gorev.GorevTipiID = {0}) then 1 else 0 end else 0 end = 1 AND " +
+                                                "(CASE WHEN ('{1}' <> '') THEN CASE WHEN (wms.GorevUsers.UserName = '{1}' OR wms.GorevUsers.UserName IS NULL) THEN 1 ELSE 0 END ELSE 1 END = 1) AND " +
+                                                "case when ('{1}' <> '') then case when (usr.Users.Kod = '{1}') then 1 else 0 end else 1 end = 1 AND  " +
+                                                "case when ({2}>0) then case when (Gorev.DurumID = {2}) then 1 else 0 end else 1 end = 1 " +
+                                        "GROUP BY wms.Gorev.ID, ISNULL(wms.Gorev.IrsaliyeID, 0), wms.fnFormatDateFromInt(wms.Gorev.OlusturmaTarihi), wms.Gorev.Bilgi, wms.Gorev.Aciklama, wms.Gorev.GorevNo, ISNULL(wms.IRS.EvrakNo, ''), wms.Depo.DepoKodu, wms.Gorev.Atayan, wms.Gorev.Gorevli, ComboItem_Name.Name" +
+                                        "", gorevtipi, gorevli, durum, DepoID);
                 return db.Database.SqlQuery<Tip_GOREV>(sql).ToList();
             }
             return new List<Tip_GOREV>();
@@ -302,7 +304,15 @@ namespace Wms12m
                     else
                         sql += "HAVING (wms.IRS_Detay.Miktar <> ISNULL(YerlestirmeMiktari,0))";
             }
-            return db.Database.SqlQuery<Tip_STI>(sql).ToList();
+            try
+            {
+                return db.Database.SqlQuery<Tip_STI>(sql).ToList();
+            }
+            catch (Exception ex)
+            {
+                Logger(KullID.ToString(), "Terminal", ex, "Service/Terminal/GetMalzemes");
+                return new List<Tip_STI>();
+            }
         }
         /// <summary>
         /// malzemeyi barkoda göre bulur
@@ -772,6 +782,9 @@ namespace Wms12m
                 return new Result(false, "Bu kullanıcıya ait seri nolar hatalı ! Lütfen terminal yetkilerinden seriyi değiştirin yada Güneşten seçili seri için bir değer verin.");
             if (kull.UserDetail.SatisFaturaSeri.Value < 1 || kull.UserDetail.SatisFaturaSeri.Value > 199 || kull.UserDetail.SatisIrsaliyeSeri.Value < 1 || kull.UserDetail.SatisIrsaliyeSeri.Value > 199)
                 return new Result(false, "Bu kullanıcıya ait seri nolar hatalı ! Lütfen terminal yetkilerinden seriyi değiştirin yada Güneşten seçili seri için bir değer verin.");
+            ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            //TODO: burada satış siparişinin bilgileri değişmiş mi kontrol etmesi lazım
+            ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
             //değiş saat kontrol
             //string sql = string.Format("SELECT wms.GorevIRS.GorevID " +
             //            "FROM wms.IRS_Detay INNER JOIN FINSAT6{0}.FINSAT6{0}.SPI ON wms.IRS_Detay.KynkSiparisID = FINSAT6{0}.FINSAT6{0}.SPI.ROW_ID AND wms.IRS_Detay.KynkSiparisNo = FINSAT6{0}.FINSAT6{0}.SPI.EvrakNo AND wms.IRS_Detay.KynkSiparisSiraNo = FINSAT6{0}.FINSAT6{0}.SPI.SiraNo AND wms.IRS_Detay.KynkSiparisTarih = FINSAT6{0}.FINSAT6{0}.SPI.Tarih AND " +
@@ -780,6 +793,7 @@ namespace Wms12m
             //var kontrol= db.Database.SqlQuery<int>(sql).ToList();
             //if (kontrol.Count != 0)
             //    return new Result(false, "Bu göreve ait siparişler değişmiş, Lütfen bir daha oluşturun");
+            ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
             //liste getirilir
             string sql = string.Format("SELECT wms.IRS.SirketKod, wms.GorevIRS.IrsaliyeID, wms.IRS.Tarih, wms.IRS.HesapKodu, wms.IRS.TeslimCHK, ISNULL(wms.IRS.ValorGun,0) as ValorGun, wms.IRS.EvrakNo " +
                         "FROM wms.GorevIRS INNER JOIN wms.IRS ON wms.GorevIRS.IrsaliyeID = wms.IRS.ID " +
@@ -823,7 +837,15 @@ namespace Wms12m
 
 
 
-
+//            var list1 = db.Database.SqlQuery<IRS_Detay>(@"SELECT wms.IRS_Detay.* FROM wms.GorevIRS INNER JOIN  wms.IRS_Detay ON wms.GorevIRS.IrsaliyeID = wms.IRS_Detay.IrsaliyeID WHERE wms.GorevIRS.GorevID = " + GorevID).ToList();
+//            foreach (var item in list1)
+//            {
+//                if (item.MakaraNo == null)
+//                    sql = @"SELECT        wms.GorevYer.Miktar, wms.Yer.KatID
+//FROM            wms.GorevYer INNER JOIN
+//                         wms.Yer ON wms.GorevYer.YerID = wms.Yer.ID
+//WHERE        (wms.GorevYer.GorevID = 1) AND (wms.GorevYer.MalKodu = '1') AND (wms.GorevYer.Birim = '1') AND (wms.GorevYer.MakaraNo = '1')";
+//            }
             ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
             //TODO: burada her irsaliye için 
             var yerleştirilen = db.Database.SqlQuery<frmSiparisToplayerlestirilen>(@"SELECT        YerID, SUM(YerlestirmeMiktari) AS YerlestirmeMiktari, MalKodu, Birim

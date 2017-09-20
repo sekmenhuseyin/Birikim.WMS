@@ -35,7 +35,7 @@ namespace WMSMobil
             Barkod.DeviceType = Symbol.Barcode2.DEVICETYPES.FIRSTAVAILABLE;
             try
             {
-                //Barkod.EnableScanner = true;
+                Barkod.EnableScanner = true;
             }
             catch (Exception)
             {

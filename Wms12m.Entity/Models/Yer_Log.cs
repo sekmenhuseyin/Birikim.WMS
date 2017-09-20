@@ -27,6 +27,7 @@ namespace Wms12m.Entity.Models
         public Nullable<int> IrsaliyeID { get; set; }
         public Nullable<int> DepoID { get; set; }
         public string MakaraNo { get; set; }
+        public string IslemTipi { get; set; }
     
         public virtual Kat Kat { get; set; }
         public virtual IR IR { get; set; }

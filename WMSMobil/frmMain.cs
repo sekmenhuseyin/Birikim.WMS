@@ -22,6 +22,14 @@ namespace WMSMobil
         {
             InitializeComponent();
             Servis.Url = Ayarlar.ServisURL;
+            //change size
+            if (Ayarlar.KatSayi < 1)
+            {
+                foreach (Control item in this.Controls)
+                {
+                    item.Top = item.Top.Carpim();
+                }
+            }
         }
         /// <summary>
         /// her form aktif olduğunda görevleri güncelle
