@@ -19,7 +19,6 @@ namespace WMSMobil
         int GorevID, IrsaliyeID, GorevTip;
         string FocusPanelName = "";
         int Sayac = 0;
-        decimal carpim = Ayarlar.KatSayi;
         List<PanelEx> PanelVeriList = new List<PanelEx>();
         /// <summary>
         /// form load
