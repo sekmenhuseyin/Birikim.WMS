@@ -772,6 +772,9 @@ namespace Wms12m
                 return new Result(false, "Bu kullanıcıya ait seri nolar hatalı ! Lütfen terminal yetkilerinden seriyi değiştirin yada Güneşten seçili seri için bir değer verin.");
             if (kull.UserDetail.SatisFaturaSeri.Value < 1 || kull.UserDetail.SatisFaturaSeri.Value > 199 || kull.UserDetail.SatisIrsaliyeSeri.Value < 1 || kull.UserDetail.SatisIrsaliyeSeri.Value > 199)
                 return new Result(false, "Bu kullanıcıya ait seri nolar hatalı ! Lütfen terminal yetkilerinden seriyi değiştirin yada Güneşten seçili seri için bir değer verin.");
+            ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            //TODO: burada satış siparişinin bilgileri değişmiş mi kontrol etmesi lazım
+            ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
             //değiş saat kontrol
             //string sql = string.Format("SELECT wms.GorevIRS.GorevID " +
             //            "FROM wms.IRS_Detay INNER JOIN FINSAT6{0}.FINSAT6{0}.SPI ON wms.IRS_Detay.KynkSiparisID = FINSAT6{0}.FINSAT6{0}.SPI.ROW_ID AND wms.IRS_Detay.KynkSiparisNo = FINSAT6{0}.FINSAT6{0}.SPI.EvrakNo AND wms.IRS_Detay.KynkSiparisSiraNo = FINSAT6{0}.FINSAT6{0}.SPI.SiraNo AND wms.IRS_Detay.KynkSiparisTarih = FINSAT6{0}.FINSAT6{0}.SPI.Tarih AND " +
@@ -780,6 +783,7 @@ namespace Wms12m
             //var kontrol= db.Database.SqlQuery<int>(sql).ToList();
             //if (kontrol.Count != 0)
             //    return new Result(false, "Bu göreve ait siparişler değişmiş, Lütfen bir daha oluşturun");
+            ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
             //liste getirilir
             string sql = string.Format("SELECT wms.IRS.SirketKod, wms.GorevIRS.IrsaliyeID, wms.IRS.Tarih, wms.IRS.HesapKodu, wms.IRS.TeslimCHK, ISNULL(wms.IRS.ValorGun,0) as ValorGun, wms.IRS.EvrakNo " +
                         "FROM wms.GorevIRS INNER JOIN wms.IRS ON wms.GorevIRS.IrsaliyeID = wms.IRS.ID " +
@@ -823,7 +827,15 @@ namespace Wms12m
 
 
 
-
+//            var list1 = db.Database.SqlQuery<IRS_Detay>(@"SELECT wms.IRS_Detay.* FROM wms.GorevIRS INNER JOIN  wms.IRS_Detay ON wms.GorevIRS.IrsaliyeID = wms.IRS_Detay.IrsaliyeID WHERE wms.GorevIRS.GorevID = " + GorevID).ToList();
+//            foreach (var item in list1)
+//            {
+//                if (item.MakaraNo == null)
+//                    sql = @"SELECT        wms.GorevYer.Miktar, wms.Yer.KatID
+//FROM            wms.GorevYer INNER JOIN
+//                         wms.Yer ON wms.GorevYer.YerID = wms.Yer.ID
+//WHERE        (wms.GorevYer.GorevID = 1) AND (wms.GorevYer.MalKodu = '1') AND (wms.GorevYer.Birim = '1') AND (wms.GorevYer.MakaraNo = '1')";
+//            }
             ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
             //TODO: burada her irsaliye için 
             var yerleştirilen = db.Database.SqlQuery<frmSiparisToplayerlestirilen>(@"SELECT        YerID, SUM(YerlestirmeMiktari) AS YerlestirmeMiktari, MalKodu, Birim
