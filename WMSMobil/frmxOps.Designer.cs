@@ -35,6 +35,7 @@
             this.txtBarkod = new System.Windows.Forms.TextBox();
             this.btnEkle = new System.Windows.Forms.Button();
             this.label7 = new System.Windows.Forms.Label();
+            this.label14 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
             this.txtEvrakno = new System.Windows.Forms.TextBox();
@@ -57,7 +58,6 @@
             this.panelAlt = new System.Windows.Forms.Panel();
             this.btnBack = new System.Windows.Forms.Button();
             this.btnKaydet = new System.Windows.Forms.Button();
-            this.label14 = new System.Windows.Forms.Label();
             this.panelUst.SuspendLayout();
             this.panelOrta.SuspendLayout();
             this.panelAlt.SuspendLayout();
@@ -134,6 +134,17 @@
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(70, 21);
             this.label7.Text = "Raf Okut";
+            // 
+            // label14
+            // 
+            this.label14.BackColor = System.Drawing.Color.CadetBlue;
+            this.label14.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
+            this.label14.ForeColor = System.Drawing.SystemColors.Window;
+            this.label14.Location = new System.Drawing.Point(3, 47);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(110, 21);
+            this.label14.Text = "Makara Okut";
+            this.label14.Visible = false;
             // 
             // label4
             // 
@@ -237,7 +248,7 @@
             this.panelOrta.Controls.Add(this.label8);
             this.panelOrta.Location = new System.Drawing.Point(0, 112);
             this.panelOrta.Name = "panelOrta";
-            this.panelOrta.Size = new System.Drawing.Size(240, 169);
+            this.panelOrta.Size = new System.Drawing.Size(240, 148);
             // 
             // label13
             // 
@@ -348,17 +359,6 @@
             this.btnKaydet.TabIndex = 0;
             this.btnKaydet.Text = "Kaydet";
             this.btnKaydet.Click += new System.EventHandler(this.btnKaydet_Click);
-            // 
-            // label14
-            // 
-            this.label14.BackColor = System.Drawing.Color.CadetBlue;
-            this.label14.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
-            this.label14.ForeColor = System.Drawing.SystemColors.Window;
-            this.label14.Location = new System.Drawing.Point(3, 47);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(110, 21);
-            this.label14.Text = "Makara Okut";
-            this.label14.Visible = false;
             // 
             // frmxOps
             // 

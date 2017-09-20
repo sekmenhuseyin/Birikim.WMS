@@ -24,7 +24,7 @@ namespace WMSMobil
             InitializeComponent();
             Cursor.Current = Cursors.WaitCursor;
             Ayarlar.KatSayi = (decimal)Screen.PrimaryScreen.Bounds.Height / (decimal)360;
-            if (Ayarlar.KatSayi > 4) Ayarlar.KatSayi = 1;
+            if (Ayarlar.KatSayi > 2) Ayarlar.KatSayi = 1;
             //create if file doesnt exists
             if (!File.Exists(@"\WMSMobil-ip.txt"))
                 using (var Dosya = new FileStream(@"\WMSMobil-ip.txt", FileMode.OpenOrCreate, FileAccess.Write))
