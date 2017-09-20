@@ -54,7 +54,9 @@
                                     <td align="right">@String.Format("{0:n}", item.Miktar)</td>
                                     <td align="right">@String.Format("{0:n}", item.Stok)</td>
                                     <td align="right">@String.Format("{0:n}", item.WmsStok)</td>
-                                    <td align="right">@String.Format("{0:n}", item.WmsRezerv)</td>
+                                    @*<td align="right">@String.Format("{0:n}", item.WmsRezerv)</td>*@
+                                    <td>@if (item.WmsRezerv != 0)
+                                    {<a class="btn btn-default input-circle" onclick="Rezervler('@item.MalKodu','@item.Birim','@ViewBag.DepoID')"> @item.WmsRezerv </a>}</td>
                                     <td>@Html.DisplayFor(modelItem => item.Birim)</td>
                                 </tr>
                             }
@@ -129,6 +131,15 @@
         if ($(row).hasClass('selected') == true) selected = selected + id + "#";
         else selected = selected.replace(id + "#", "");
         $("#checkboxes").val(selected);
+    }
+
+    function Rezervler(malKodu, depo, birim) {
+        editInModal2('/WMS/Sales/GetRezerv', { MalKodu: malKodu, Depo: depo, Birim:birim})
+        $('#modalEditPage').modal('toggle');
+
+        console.log(malKodu);
+        console.log(depo);
+        console.log(birim);
     }
 </script>
 }

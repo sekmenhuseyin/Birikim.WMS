@@ -448,6 +448,7 @@
     <Content Include="Areas\ToDo\Views\User\Edit.cshtml" />
     <Content Include="Areas\ToDo\Views\User\Index.cshtml" />
     <Content Include="Areas\ToDo\Views\User\List.cshtml" />
+    <Content Include="Areas\WMS\Views\Sales\Rezervler.cshtml" />
     <None Include="bundleconfig.json" />
     <Content Include="Content\SizeSablon.xlsx" />
     <Content Include="Content\StockSablon.xlsx" />
