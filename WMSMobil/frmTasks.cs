@@ -16,7 +16,7 @@ namespace WMSMobil
         Terminal Servis = new Terminal();
         Control focusPanel = new Control();
         int Sayac = 0, GorevID = 0, IrsaliyeID = 0;
-        bool aktif;
+        bool isReady = false;
         /// <summary>
         /// form load
         /// </summary>
@@ -56,7 +56,6 @@ namespace WMSMobil
                 default:
                     break;
             }
-            aktif = true;
             try
             {
                 //görevliler
@@ -77,33 +76,36 @@ namespace WMSMobil
             }
             Cursor.Current = Cursors.Default;
             //click listele
-            btnListele_Click(null,null);
+            isReady = true;
+            btnListele_Click(null, null);
         }
         /// <summary>
         /// listeden bir eleman seçince
         /// </summary>
         void TextBoxlar_GotFocus(object sender, EventArgs e)
         {
-            if (aktif == false)
+            if (isReady == false)
+                return;
+            focusPanel = (sender as TextBox).Parent;
+            string[] tmp = focusPanel.Tag.ToString().Split('-');
+            GorevID = tmp[0].ToInt32();
+            IrsaliyeID = tmp[1].ToInt32();
+            foreach (var itemPanel in PanelVeriList)
             {
-                focusPanel = (sender as TextBox).Parent;
-                string[] tmp = focusPanel.Tag.ToString().Split('-');
-                GorevID = tmp[0].ToInt32();
-                IrsaliyeID = tmp[1].ToInt32();
-                foreach (var itemPanel in PanelVeriList)
-                {
-                    foreach (Control item in itemPanel.Controls)
-                        item.BackColor = Color.FromArgb(206, 223, 239);
-                }
-                foreach (Control itemSecili in focusPanel.Controls)
-                    itemSecili.BackColor = Color.DarkOrange;
+                foreach (Control item in itemPanel.Controls)
+                    item.BackColor = Color.FromArgb(206, 223, 239);
             }
+            foreach (Control itemSecili in focusPanel.Controls)
+                itemSecili.BackColor = Color.DarkOrange;
         }
         /// <summary>
         /// listele tuluna basınca ve görevli veya durumu değiştirince
         /// </summary>
         private void btnListele_Click(object sender, EventArgs e)
         {
+            if (isReady == false)
+                return;
+            isReady = false;
             Cursor.Current = Cursors.WaitCursor;
             Ayarlar.Gorevler = new List<Tip_GOREV>(Servis.GetGorevList(cmbGorevli.Text.Replace(" Tümü", ""), cmbDurum.SelectedValue.ToInt32(), Ayarlar.MenuTip.ToInt32(), Ayarlar.Kullanici.DepoID, Ayarlar.Kullanici.ID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid));
             Sayac = 0;
@@ -167,7 +169,7 @@ namespace WMSMobil
                 panelOrta.Controls.Add(panelSatir);
                 PanelVeriList.Add(panelSatir);
             }
-            aktif = false;
+            isReady = true;
             Cursor.Current = Cursors.Default;
         }
         /// <summary>
