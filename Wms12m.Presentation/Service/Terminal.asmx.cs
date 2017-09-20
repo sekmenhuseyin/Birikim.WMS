@@ -1407,7 +1407,7 @@ namespace Wms12m
                             db.Yers.Add(yert);
                             db.SaveChanges();
                         }
-                        tbl2 = new GorevYer() { GorevID = GorevID, MalKodu = item.MalKodu, Birim = item.Birim, Miktar = item.Miktar, YerlestirmeMiktari = item.Miktar, GC = false, YerID = yert.ID };
+                        tbl2 = new GorevYer() { GorevID = GorevID, MalKodu = item.MalKodu, Birim = item.Birim, Miktar = item.Miktar, YerlestirmeMiktari = item.Miktar, GC = false, YerID = yert.ID, MakaraNo = item.MakaraNo };
                         db.GorevYers.Add(tbl2);
                     }
                 }

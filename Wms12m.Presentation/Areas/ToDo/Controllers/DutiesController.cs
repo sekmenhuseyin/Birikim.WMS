@@ -74,7 +74,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                 var durum = db.ComboItem_Name.Where(a => a.ComboID == id && a.Name == "Onay Ver").FirstOrDefault();
                 var tipId = Combos.GörevYönetimTipleri.ToInt32();
                 var gorevTipleri = db.ComboItem_Name.Where(a => a.ComboID == tipId && a.Name == "Kalite Kontrol").FirstOrDefault();
-                list = db.Gorevlers.Where(a => a.AktifPasif == tip && a.DurumID == durum.ID && (((a.Sorumlu == vUser.UserName || a.Sorumlu2 == vUser.UserName || a.Sorumlu3 == vUser.UserName) && a.GorevTipiID != gorevTipleri.ID) || (a.KaliteKontrol == vUser.UserName && a.GorevTipiID == gorevTipleri.ID))).OrderBy(a => a.OncelikID).ToList();
+                list = db.Gorevlers.Where(a => a.AktifPasif == tip && a.DurumID == durum.ID && (((a.Sorumlu == vUser.UserName || a.Sorumlu2 == vUser.UserName || a.Sorumlu3 == vUser.UserName) && a.GorevTipiID != gorevTipleri.ID) || (a.KaliteKontrol == vUser.UserName && (a.GorevTipiID == gorevTipleri.ID || a.GorevToDoLists.Select(c => c.Kontrol == true && c.KontrolOnay == false).Count() > 0)))).OrderBy(a => a.OncelikID).ToList();
             }
             else
             {
@@ -84,11 +84,11 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                 var gorevTipleri = db.ComboItem_Name.Where(a => a.ComboID == tipId && a.Name == "Kalite Kontrol").FirstOrDefault();
                 if (tip == true)
                 {
-                    list = db.Gorevlers.Where(a => a.AktifPasif == tip && a.DurumID != durum.ID && (((a.Sorumlu == vUser.UserName || a.Sorumlu2 == vUser.UserName || a.Sorumlu3 == vUser.UserName) && a.GorevTipiID != gorevTipleri.ID) || (a.KaliteKontrol == vUser.UserName && a.GorevTipiID == gorevTipleri.ID))).OrderBy(a => a.OncelikID).ToList();
+                    list = db.Gorevlers.Where(a => a.AktifPasif == tip && a.DurumID != durum.ID && (((a.Sorumlu == vUser.UserName || a.Sorumlu2 == vUser.UserName || a.Sorumlu3 == vUser.UserName) && a.GorevTipiID != gorevTipleri.ID) || (a.KaliteKontrol == vUser.UserName && (a.GorevTipiID == gorevTipleri.ID || a.GorevToDoLists.Select(c => c.Kontrol == true && c.KontrolOnay == false).Count() > 0)))).OrderBy(a => a.OncelikID).ToList();
                 }
                 else
                 {
-                    list = db.Gorevlers.Where(a => a.AktifPasif == tip && (((a.Sorumlu == vUser.UserName || a.Sorumlu2 == vUser.UserName || a.Sorumlu3 == vUser.UserName) && a.GorevTipiID != gorevTipleri.ID) || (a.KaliteKontrol == vUser.UserName && a.GorevTipiID == gorevTipleri.ID))).OrderBy(a => a.OncelikID).ToList();
+                    list = db.Gorevlers.Where(a => a.AktifPasif == tip && (((a.Sorumlu == vUser.UserName || a.Sorumlu2 == vUser.UserName || a.Sorumlu3 == vUser.UserName) && a.GorevTipiID != gorevTipleri.ID) || (a.KaliteKontrol == vUser.UserName && (a.GorevTipiID == gorevTipleri.ID || a.GorevToDoLists.Select(c => c.Kontrol == true && c.KontrolOnay == false).Count() > 0)))).OrderBy(a => a.OncelikID).ToList();
                 }
 
             }
@@ -165,7 +165,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                             onayVerID = item.ID;
                         }
                     }
-                    var maxSira = db.Gorevlers.Where(a=>a.ID>0).ToList().Max(p => p.OncelikID);
+                    var maxSira = db.Gorevlers.Where(a => a.ID > 0).ToList().Max(p => p.OncelikID);
                     gorevler.Degistiren = vUser.UserName;
                     gorevler.Kaydeden = vUser.UserName;
                     gorevler.DegisTarih = DateTime.Now;
