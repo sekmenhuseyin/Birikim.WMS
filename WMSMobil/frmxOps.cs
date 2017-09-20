@@ -1001,16 +1001,6 @@ namespace WMSMobil
             this.Close();
         }
 
-        private void frmxOps_KeyDown(object sender, KeyEventArgs e)
-        {
-
-        }
-
-        private void txtMakaraBarkod_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
         private void txtBarkod_TextChanged(object sender, EventArgs e)
         {
             if (txtBarkod.Text.Length == 11)
