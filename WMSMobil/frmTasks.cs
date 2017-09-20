@@ -74,6 +74,14 @@ namespace WMSMobil
             {
                 Mesaj.Hata(ex);
             }
+            //change size
+            if (Ayarlar.KatSayi < 1)
+            {
+                foreach (Control item in this.Controls)
+                {
+                    item.Top = item.Top.Carpim();
+                }
+            }
             Cursor.Current = Cursors.Default;
             //click listele
             isReady = true;
