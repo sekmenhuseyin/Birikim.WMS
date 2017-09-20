@@ -837,5 +837,22 @@ namespace Wms12m.Entity.Models
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("WMSEntities.f_Sıfırla");
         }
+    
+        public virtual ObjectResult<GetStockRezerv_Result> GetStockRezerv(string depoKodu, string malKodu, string birim)
+        {
+            var depoKoduParameter = depoKodu != null ?
+                new ObjectParameter("DepoKodu", depoKodu) :
+                new ObjectParameter("DepoKodu", typeof(string));
+    
+            var malKoduParameter = malKodu != null ?
+                new ObjectParameter("MalKodu", malKodu) :
+                new ObjectParameter("MalKodu", typeof(string));
+    
+            var birimParameter = birim != null ?
+                new ObjectParameter("Birim", birim) :
+                new ObjectParameter("Birim", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetStockRezerv_Result>("WMSEntities.GetStockRezerv", depoKoduParameter, malKoduParameter, birimParameter);
+        }
     }
 }
