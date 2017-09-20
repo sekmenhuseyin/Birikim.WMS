@@ -510,8 +510,6 @@
     <Compile Include="Areas\System\Controllers\SettingsController.cs" />
     <Compile Include="Areas\System\SystemAreaRegistration.cs" />
     <Compile Include="Areas\ToDo\Controllers\GorevTakvimiController.cs" />
-    <Compile Include="Areas\ToDo\Controllers\KullaniciController.cs" />
-    <Compile Include="Areas\ToDo\Controllers\UserController.cs" />
     <Compile Include="Areas\ToDo\ToDoAreaRegistration.cs" />
     <Compile Include="Areas\WMS\WMSAreaRegistration.cs" />
     <Compile Include="Areas\ToDo\Controllers\DutiesController.cs" />
