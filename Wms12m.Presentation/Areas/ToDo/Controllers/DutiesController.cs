@@ -201,16 +201,18 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
 
                     foreach (var item in gorevler.work)
                     {
-                        GorevToDoList grvTDL = new GorevToDoList();
-                        grvTDL.Aciklama = item;
-                        grvTDL.AktifPasif = true;
-                        grvTDL.DegisTarih = DateTime.Now;
-                        grvTDL.Degistiren = vUser.UserName;
-                        grvTDL.KayitTarih = DateTime.Now;
-                        grvTDL.Kaydeden = vUser.UserName;
-                        grvTDL.Gorevler = gorevler;
-                        grvTDL.OnayDurum = kontDur;
-                        grvTDL.Kontrol = kontDur;
+                        GorevToDoList grvTDL = new GorevToDoList
+                        {
+                            Aciklama = item,
+                            AktifPasif = true,
+                            DegisTarih = DateTime.Now,
+                            Degistiren = vUser.UserName,
+                            KayitTarih = DateTime.Now,
+                            Kaydeden = vUser.UserName,
+                            Gorevler = gorevler,
+                            OnayDurum = kontDur,
+                            Kontrol = kontDur
+                        };
 
                         db.GorevToDoLists.Add(grvTDL);
                     }
@@ -260,14 +262,16 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                     {
                         if (gorevler.todo[i] == 0)
                         {
-                            GorevToDoList grvTDL = new GorevToDoList();
-                            grvTDL.Aciklama = gorevler.work[i];
-                            grvTDL.AktifPasif = true;
-                            grvTDL.DegisTarih = DateTime.Now;
-                            grvTDL.Degistiren = vUser.UserName;
-                            grvTDL.KayitTarih = DateTime.Now;
-                            grvTDL.Kaydeden = vUser.UserName;
-                            grvTDL.Gorevler = tbl;
+                            GorevToDoList grvTDL = new GorevToDoList
+                            {
+                                Aciklama = gorevler.work[i],
+                                AktifPasif = true,
+                                DegisTarih = DateTime.Now,
+                                Degistiren = vUser.UserName,
+                                KayitTarih = DateTime.Now,
+                                Kaydeden = vUser.UserName,
+                                Gorevler = tbl
+                            };
 
                             db.GorevToDoLists.Add(grvTDL);
                         }
@@ -281,14 +285,16 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                                 grv.DegisTarih = DateTime.Now;
                                 grv.Degistiren = vUser.UserName;
 
-                                GorevToDoList grvTDL = new GorevToDoList();
-                                grvTDL.Aciklama = gorevler.work[i];
-                                grvTDL.AktifPasif = true;
-                                grvTDL.DegisTarih = DateTime.Now;
-                                grvTDL.Degistiren = vUser.UserName;
-                                grvTDL.KayitTarih = DateTime.Now;
-                                grvTDL.Kaydeden = vUser.UserName;
-                                grvTDL.Gorevler = tbl;
+                                GorevToDoList grvTDL = new GorevToDoList
+                                {
+                                    Aciklama = gorevler.work[i],
+                                    AktifPasif = true,
+                                    DegisTarih = DateTime.Now,
+                                    Degistiren = vUser.UserName,
+                                    KayitTarih = DateTime.Now,
+                                    Kaydeden = vUser.UserName,
+                                    Gorevler = tbl
+                                };
 
                                 db.GorevToDoLists.Add(grvTDL);
                             }

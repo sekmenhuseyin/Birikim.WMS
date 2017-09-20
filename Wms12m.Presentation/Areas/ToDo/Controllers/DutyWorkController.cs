@@ -26,9 +26,10 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             ViewBag.id = ID;
             ViewBag.RoleName = vUser.RoleName;
             ViewBag.GorevID = new SelectList(db.Gorevlers.Where(a => (a.Sorumlu == vUser.UserName || a.Sorumlu2 == vUser.UserName || a.Sorumlu3 == vUser.UserName || (a.Kontrol == true && a.KaliteKontrol == vUser.UserName)) && a.ID == ID).ToList(), "ID", "Gorev");
-            GorevCalisma aa = new GorevCalisma();
-
-            aa.Gorevler = gorev;
+            GorevCalisma aa = new GorevCalisma
+            {
+                Gorevler = gorev
+            };
             return PartialView(aa);
         }
 
@@ -194,11 +195,13 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             List<frmGorevTodos> aa = new List<frmGorevTodos>();
             foreach (GorevToDoList item in grvToDO)
             {
-                frmGorevTodos a = new frmGorevTodos();
-                a.ID = item.ID;
-                a.AktifPasif = item.AktifPasif;
-                a.Aciklama = item.Aciklama;
-                a.OnayDurum = item.OnayDurum;
+                frmGorevTodos a = new frmGorevTodos
+                {
+                    ID = item.ID,
+                    AktifPasif = item.AktifPasif,
+                    Aciklama = item.Aciklama,
+                    OnayDurum = item.OnayDurum
+                };
 
                 aa.Add(a);
 
