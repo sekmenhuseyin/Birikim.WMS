@@ -11,7 +11,7 @@ namespace Wms12m.Entity.Models
 {
     using System;
     using System.Collections.Generic;
-
+    
     public partial class Gorevler
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -20,7 +20,7 @@ namespace Wms12m.Entity.Models
             this.GorevCalismas = new HashSet<GorevCalisma>();
             this.GorevToDoLists = new HashSet<GorevToDoList>();
         }
-
+    
         public int ID { get; set; }
         public int ProjeFormID { get; set; }
         public string Sorumlu { get; set; }
@@ -43,11 +43,7 @@ namespace Wms12m.Entity.Models
         public System.DateTime DegisTarih { get; set; }
         public bool Kontrol { get; set; }
         public bool AktifPasif { get; set; }
-
-        public string[] work { get; set; }
-        public int[] todo { get; set; }
-        public string silinenler { get; set; }
-
+    
         public virtual ComboItem_Name ComboItem_Name { get; set; }
         public virtual ComboItem_Name ComboItem_Name1 { get; set; }
         public virtual ComboItem_Name ComboItem_Name2 { get; set; }
