@@ -302,7 +302,15 @@ namespace Wms12m
                     else
                         sql += "HAVING (wms.IRS_Detay.Miktar <> ISNULL(YerlestirmeMiktari,0))";
             }
-            return db.Database.SqlQuery<Tip_STI>(sql).ToList();
+            try
+            {
+                return db.Database.SqlQuery<Tip_STI>(sql).ToList();
+            }
+            catch (Exception ex)
+            {
+                Logger(KullID.ToString(), "Terminal", ex, "Service/Terminal/GetMalzemes");
+                return new List<Tip_STI>();
+            }
         }
         /// <summary>
         /// malzemeyi barkoda göre bulur
