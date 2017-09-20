@@ -40,6 +40,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                 if (ids[2] != "0" && ids[2] != "null" && ids[2].ToString2() != "") //bir kattaki ait malzemeler
                 {
                     ViewBag.Manual = ids[3].ToBool();
+
                     return PartialView("List", Yerlestirme.GetList(ids[2].ToInt32()));
                 }
                 else if (ids[1] != "0" && ids[1] != "null" && ids[1].ToString2() != "") //bir raftaki ait malzemeler
@@ -60,7 +61,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         public PartialViewResult List2(string Id)
         {
             if (CheckPerm(Perms.Stok, PermTypes.Reading) == false) return null;
-            var list = db.Database.SqlQuery<frmStokList2>(string.Format("SELECT wms.Depo.DepoAd, wms.Depo.ID, SUM(wms.Yer.Miktar) AS Miktar FROM wms.Yer INNER JOIN wms.Depo ON wms.Yer.DepoID = wms.Depo.ID WHERE (wms.Yer.MalKodu = '{0}') GROUP BY wms.Depo.DepoAd, wms.Depo.ID", Id)).ToList();
+            var list = db.Database.SqlQuery<frmStokList2>(string.Format("SELECT wms.fnGetRezervStock(wms.Depo.DepoKodu,wms.Yer.MalKodu,wms.Yer.Birim) AS WmsRezerv,wms.Depo.DepoAd, wms.Depo.ID, SUM(wms.Yer.Miktar) AS Miktar FROM wms.Yer INNER JOIN wms.Depo ON wms.Yer.DepoID = wms.Depo.ID WHERE (wms.Yer.MalKodu = '{0}') GROUP BY wms.Depo.DepoAd, wms.Depo.ID,wms.fnGetRezervStock(wms.Depo.DepoKodu,wms.Yer.MalKodu,wms.Yer.Birim)", Id)).ToList();
             return PartialView("List2", list);
         }
         /// <summary>

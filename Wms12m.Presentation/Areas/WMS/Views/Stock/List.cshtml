@@ -1,5 +1,5 @@
 ﻿@model IEnumerable<Yer>
-@{ string tmp; List<string> Sirket = ViewBag.Sirket; var malkod = new List<String>(); var malad = new List<String>(); bool ellemi = ViewBag.Manual; }
+@{ string tmp; List<string> Sirket = ViewBag.Sirket; var malkod = new List<String>(); var malad = new List<String>(); bool ellemi = ViewBag.Manual; var depoID = new List<Int32?>(); var depoKod = new List<String>(); }
 <table class="table table-striped table-bordered" id="sample_1">
     <thead>
         <tr>
@@ -29,6 +29,18 @@
             {
                 tmp = malad[malkod.IndexOf(item.MalKodu)];
             }
+
+            //if (depoID.Contains(item.DepoID) == false)
+            //{
+            //    tmp = item.DepoID.GetDepoKodu(Sirket[0]);
+            //    if (tmp == null || tmp == "") { tmp = item.MalKodu.GetMalAdi(Sirket[1]); }
+            //    malkod.Add(item.MalKodu);
+            //    malad.Add(tmp);
+            //}
+            //else
+            //{
+            //    tmp = malad[malkod.IndexOf(item.MalKodu)];
+            //}
             <tr>
                 <td></td>
                 <td>@item.HucreAd</td>

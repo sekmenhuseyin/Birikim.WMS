@@ -1014,7 +1014,7 @@ namespace WMSMobil
 
         private void txtBarkod_TextChanged(object sender, EventArgs e)
         {
-            if (txtBarkod.Text.Length == 11)
+            if (txtBarkod.Text.Length == 8)
             {
                 var malbilgileri = Servis.GetMalzemeFromBarcode("", txtBarkod.Text, GorevID, Ayarlar.Kullanici.ID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid);
                 if (malbilgileri.Kod1 == "KKABLO")

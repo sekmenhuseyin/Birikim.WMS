@@ -98,6 +98,7 @@ namespace Wms12m.Entity
         public int ID { get; set; }
         public string DepoAd { get; set; }
         public decimal Miktar { get; set; }
+        public decimal WmsRezerv { get; set; }
     }
     /// <summary>
     /// şirket
