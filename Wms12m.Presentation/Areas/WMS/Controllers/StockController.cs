@@ -167,6 +167,8 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             //return
             var list = db.Yer_Log.Where(m => m.MalKodu == kod && m.DepoID == depoID).OrderBy(m => m.KayitTarihi).ThenBy(m => m.KayitSaati).ThenBy(m => m.ID).ToList();
             ViewBag.Stok = db.Database.SqlQuery<decimal>(sql).FirstOrDefault();
+            var sql2 = string.Format("SELECT wms.fnGetRezervStock('{0}','{1}','{2}')", depoKodu,kod,list[0].Birim);
+            ViewBag.RezervMiktar = db.Database.SqlQuery<decimal>(sql2).FirstOrDefault();
             return PartialView("HistoryList", list);
         }
         /// <summary>

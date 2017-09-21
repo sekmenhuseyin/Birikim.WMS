@@ -442,7 +442,7 @@ namespace WMSMobil
             //MalKabulde okutulan mala ait listede bulunan kayıt sayısı
             int cokluMalSayisi = 0, sonucID = 0;
             string mal = txtBarkod.Text;
-            string makaraNo= txtMakaraBarkod.Text;
+            string makaraNo = txtMakaraBarkod.Text;
             if (mal == "")
             {
                 Mesaj.Hata(null, "Malzemeyi okutun");
@@ -503,11 +503,12 @@ namespace WMSMobil
                 if (Ayarlar.MenuTip == MenuType.MalKabul || Ayarlar.MenuTip == MenuType.Paketle || Ayarlar.MenuTip == MenuType.Sevkiyat || Ayarlar.MenuTip == MenuType.KontrollüSayım)
                 {
 
-                    if (Ayarlar.MenuTip == MenuType.KontrollüSayım) {
+                    if (Ayarlar.MenuTip == MenuType.KontrollüSayım)
+                    {
                         var malbilgileri = Servis.GetMalzemeFromBarcode("", mal, GorevID, Ayarlar.Kullanici.ID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid);
-                        if (itemPanel.Controls[0].Text == malbilgileri.Barkod && malbilgileri.Kod1=="KKABLO")
+                        if (itemPanel.Controls[0].Text == malbilgileri.Barkod && malbilgileri.Kod1 == "KKABLO")
                         {
-                           
+
                             if (itemPanel.Raf == raf && itemPanel.MakaraNo == makaraNo)
                             {
                                 mal_var = true;
@@ -545,7 +546,7 @@ namespace WMSMobil
                         //}
 
 
-                            //diğer görevlerde sadece sayıyı arttır
+                        //diğer görevlerde sadece sayıyı arttır
                         if (Ayarlar.MenuTip == MenuType.MalKabul)
                         {
                             if (cokluMalSayisi == 1 || (cokluMalSayisi > 1 && sonucID == itemPanel.Controls[1].Tag.ToInt32()))
@@ -737,12 +738,12 @@ namespace WMSMobil
                     tBirim.Left += tRaf.Width + 1;
                     tMakaraNo.Left += tRaf.Width + 1;
                 }
-                
+
                 // yeni eklenen satırı en üste atma
-                var tempSayac = PanelVeriList.Count()+1;
+                var tempSayac = PanelVeriList.Count() + 1;
                 foreach (PanelEx pnlItem in PanelVeriList)
                 {
-                    
+
                     pnlItem.Location = new Point(0, (tempSayac * 21).Carpim());
                     tempSayac--;
                 }
@@ -1014,21 +1015,23 @@ namespace WMSMobil
 
         private void txtBarkod_TextChanged(object sender, EventArgs e)
         {
-            if (txtBarkod.Text.Length == 8)
+
+            var malbilgileri = Servis.GetMalzemeFromBarcode("", txtBarkod.Text, GorevID, Ayarlar.Kullanici.ID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid);
+            if (malbilgileri != null)
             {
-                var malbilgileri = Servis.GetMalzemeFromBarcode("", txtBarkod.Text, GorevID, Ayarlar.Kullanici.ID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid);
                 if (malbilgileri.Kod1 == "KKABLO")
                 {
                     txtMakaraBarkod.Visible = true;
                     label14.Visible = true;
                 }
-                else 
+                else
                 {
                     txtMakaraBarkod.Visible = false;
                     label14.Visible = false;
                 }
             }
-            else {
+            else
+            {
                 txtMakaraBarkod.Visible = false;
                 label14.Visible = false;
             }
