@@ -721,7 +721,8 @@ namespace Wms12m
                     var kat = db.GetHucreKatID(item.DepoID, item.RafNo).FirstOrDefault();
                     if (kat != null)
                     {
-                        var grvYer = new GorevYer() { GorevID = GorevID, YerID = kat.Value, MalKodu = item.MalKodu, Miktar = 0, YerlestirmeMiktari = item.Miktar, Birim = item.Birim, GC = true };
+                        var tmptable = db.Yers.Where(m => m.KatID == kat.Value && m.MalKodu == item.MalKodu && m.Birim == item.Birim).FirstOrDefault();
+                        var grvYer = new GorevYer() { GorevID = GorevID, YerID = tmptable.ID, MalKodu = item.MalKodu, Miktar = 0, YerlestirmeMiktari = item.Miktar, Birim = item.Birim, GC = true };
                         db.GorevYers.Add(grvYer);
                         db.SaveChanges();
                     }
@@ -735,7 +736,8 @@ namespace Wms12m
                         var grvYer = db.GorevYers.Where(m => m.ID == GorevYerID).FirstOrDefault();
                         if (grvYer == null)//new gorev yer satırı
                         {
-                            grvYer = new GorevYer() { GorevID = GorevID, YerID = kat.Value, MalKodu = item.MalKodu, Miktar = 0, YerlestirmeMiktari = item.Miktar, Birim = item.Birim, GC = true };
+                            var tmptable = db.Yers.Where(m => m.KatID == kat.Value && m.MalKodu == item.MalKodu && m.Birim == item.Birim).FirstOrDefault();
+                            grvYer = new GorevYer() { GorevID = GorevID, YerID = tmptable.ID, MalKodu = item.MalKodu, Miktar = 0, YerlestirmeMiktari = item.Miktar, Birim = item.Birim, GC = true };
                             db.GorevYers.Add(grvYer);
                         }
                         else//update gorevyer satırı
@@ -837,29 +839,40 @@ namespace Wms12m
 
 
 
-            ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-            ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-            //gorev yer miktar update
-            //for loop 1: irs detay
-            //for detay 2: gorev yer
-            //update yer
-
-            ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-            ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-            //            var list1 = db.Database.SqlQuery<IRS_Detay>(@"SELECT wms.IRS_Detay.* FROM wms.GorevIRS INNER JOIN  wms.IRS_Detay ON wms.GorevIRS.IrsaliyeID = wms.IRS_Detay.IrsaliyeID WHERE wms.GorevIRS.GorevID = " + GorevID).ToList();
-            //            foreach (var item in list1)
-            //            {
-            //                if (item.MakaraNo == null)
-            //                    sql = @"SELECT        wms.GorevYer.Miktar, wms.Yer.KatID
-            //FROM            wms.GorevYer INNER JOIN
-            //                         wms.Yer ON wms.GorevYer.YerID = wms.Yer.ID
-            //WHERE        (wms.GorevYer.GorevID = 1) AND (wms.GorevYer.MalKodu = '1') AND (wms.GorevYer.Birim = '1') AND (wms.GorevYer.MakaraNo = '1')";
-            //            }
-            ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
             //TODO: burada her irsaliye için 
+            ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            ////gorev yer miktar update
+            //db.Database.ExecuteSqlCommand("UPDATE wms.GorevYer SET Miktar = YerlestirmeMiktari WHERE GorevID = " + GorevID);
+            ////for loop 1: irs detay
+            //var list1 = db.Database.SqlQuery<IRS_Detay>(@"SELECT wms.IRS_Detay.* FROM wms.GorevIRS INNER JOIN  wms.IRS_Detay ON wms.GorevIRS.IrsaliyeID = wms.IRS_Detay.IrsaliyeID WHERE wms.GorevIRS.GorevID = " + GorevID).ToList();
+            //foreach (var item1 in list1)
+            //{
+            //    var gerekenMiktar = item1.Miktar;
+            //    //for detay 2: gorev yer
+            //    var list2 = db.Database.SqlQuery<GorevYer>("SELECT ID, GorevID, YerID, MalKodu, Miktar, YerlestirmeMiktari, MakaraNo, Birim, GC, Sira FROM wms.GorevYer WHERE (Miktar < YerlestirmeMiktari) AND GorevID = " + GorevID).ToList();
+            //    foreach (var item2 in list2)
+            //    {
+            //        if (gerekenMiktar <= item2.YerlestirmeMiktari)
+            //        {
+            //            item2.Miktar = gerekenMiktar;
+            //            gerekenMiktar -= item2.Miktar;
+            //            //update yer
+            //            break;
+            //        }
+            //        else
+            //        {
+            //            item2.Miktar = item2.YerlestirmeMiktari.Value;
+            //            gerekenMiktar -= item2.YerlestirmeMiktari.Value;
+            //            //update yer
+            //        }
+            //    }
+            //}
+            /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+            //eski
+            ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
             var yerleştirilen = db.Database.SqlQuery<frmSiparisToplayerlestirilen>(@"SELECT        YerID, SUM(YerlestirmeMiktari) AS YerlestirmeMiktari, MalKodu, Birim
                                                                                     FROM            wms.GorevYer WITH (nolock)
                                                                                     WHERE        GorevID =  " + GorevID + " GROUP BY YerID, MalKodu, Birim").ToList();
