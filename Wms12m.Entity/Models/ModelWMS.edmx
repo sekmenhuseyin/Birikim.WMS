@@ -155,8 +155,8 @@
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Firma" Type="varchar" MaxLength="20" Nullable="false" />
-          <Property Name="Unvan" Type="varchar" MaxLength="80" Nullable="false" />
-          <Property Name="Aciklama" Type="varchar" MaxLength="300" />
+          <Property Name="Unvan" Type="nvarchar" MaxLength="80" Nullable="false" />
+          <Property Name="Aciklama" Type="nvarchar" MaxLength="300" />
           <Property Name="Email" Type="varchar" MaxLength="80" />
           <Property Name="Tel1" Type="varchar" MaxLength="15" />
           <Property Name="Tel2" Type="varchar" MaxLength="15" />
@@ -1919,12 +1919,7 @@
             <End Role="User" EntitySet="Users" />
             <End Role="UserDevice" EntitySet="UserDevices" />
           </AssociationSet>
-          <EntitySet Name="Musteris" EntityType="MModel.Musteri" />
           <EntitySet Name="ProjeForms" EntityType="MModel.ProjeForm" />
-          <AssociationSet Name="FK_Proje_Musteri" Association="MModel.FK_Proje_Musteri">
-            <End Role="Musteri" EntitySet="Musteris" />
-            <End Role="ProjeForm" EntitySet="ProjeForms" />
-          </AssociationSet>
           <AssociationSet Name="FK_ProjeForm_ProjeForm" Association="MModel.FK_ProjeForm_ProjeForm">
             <End Role="ProjeForm" EntitySet="ProjeForms" />
             <End Role="ProjeForm1" EntitySet="ProjeForms" />
@@ -2158,6 +2153,11 @@
           <AssociationSet Name="FK_GorevToDoList_Gorevler" Association="MModel.FK_GorevToDoList_Gorevler">
             <End Role="Gorevler" EntitySet="Gorevlers" />
             <End Role="GorevToDoList" EntitySet="GorevToDoLists" />
+          </AssociationSet>
+          <EntitySet Name="Musteris" EntityType="MModel.Musteri" />
+          <AssociationSet Name="FK_Proje_Musteri" Association="MModel.FK_Proje_Musteri">
+            <End Role="Musteri" EntitySet="Musteris" />
+            <End Role="ProjeForm" EntitySet="ProjeForms" />
           </AssociationSet>
           </EntityContainer>
         <ComplexType Name="GetSirkets_Result">
@@ -2917,25 +2917,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="Musteri">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Firma" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="Unvan" Type="String" Nullable="false" MaxLength="80" FixedLength="false" Unicode="false" />
-          <Property Name="Aciklama" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
-          <Property Name="Email" Type="String" MaxLength="80" FixedLength="false" Unicode="false" />
-          <Property Name="Tel1" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
-          <Property Name="Tel2" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
-          <Property Name="MesaiKontrol" Type="Boolean" Nullable="false" />
-          <Property Name="MesaiKota" Type="Int32" />
-          <Property Name="Kaydeden" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="KayitTarih" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="Degistiren" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="DegisTarih" Type="DateTime" Nullable="false" Precision="0" />
-          <NavigationProperty Name="ProjeForms" Relationship="MModel.FK_Proje_Musteri" FromRole="Musteri" ToRole="ProjeForm" />
-        </EntityType>
         <EntityType Name="ProjeForm">
           <Key>
             <PropertyRef Name="ID" />
@@ -2955,23 +2936,11 @@
           <Property Name="KayitTarih" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="Degistiren" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
           <Property Name="DegisTarih" Type="DateTime" Nullable="false" Precision="0" />
-          <NavigationProperty Name="Musteri" Relationship="MModel.FK_Proje_Musteri" FromRole="ProjeForm" ToRole="Musteri" />
           <NavigationProperty Name="ProjeForm1" Relationship="MModel.FK_ProjeForm_ProjeForm" FromRole="ProjeForm" ToRole="ProjeForm1" />
           <NavigationProperty Name="ProjeForm2" Relationship="MModel.FK_ProjeForm_ProjeForm" FromRole="ProjeForm1" ToRole="ProjeForm" />
           <NavigationProperty Name="Gorevlers" Relationship="MModel.FK_Gorevler_ProjeForm" FromRole="ProjeForm" ToRole="Gorevler" />
+          <NavigationProperty Name="Musteri" Relationship="MModel.FK_Proje_Musteri" FromRole="ProjeForm" ToRole="Musteri" />
         </EntityType>
-        <Association Name="FK_Proje_Musteri">
-          <End Type="MModel.Musteri" Role="Musteri" Multiplicity="1" />
-          <End Type="MModel.ProjeForm" Role="ProjeForm" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Musteri">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="ProjeForm">
-              <PropertyRef Name="MusteriID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_ProjeForm_ProjeForm">
           <End Type="MModel.ProjeForm" Role="ProjeForm" Multiplicity="0..1" />
           <End Type="MModel.ProjeForm" Role="ProjeForm1" Multiplicity="*" />
@@ -3617,6 +3586,37 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Musteri">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Firma" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Unvan" Type="String" Nullable="false" MaxLength="80" FixedLength="false" Unicode="true" />
+          <Property Name="Aciklama" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="80" FixedLength="false" Unicode="false" />
+          <Property Name="Tel1" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="Tel2" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="MesaiKontrol" Type="Boolean" Nullable="false" />
+          <Property Name="MesaiKota" Type="Int32" />
+          <Property Name="Kaydeden" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="KayitTarih" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Degistiren" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="DegisTarih" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="ProjeForms" Relationship="MModel.FK_Proje_Musteri" FromRole="Musteri" ToRole="ProjeForm" />
+        </EntityType>
+        <Association Name="FK_Proje_Musteri">
+          <End Type="MModel.Musteri" Role="Musteri" Multiplicity="1" />
+          <End Type="MModel.ProjeForm" Role="ProjeForm" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Musteri">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ProjeForm">
+              <PropertyRef Name="MusteriID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -4056,25 +4056,6 @@
                 <ScalarProperty Name="FirsLoginDate" ColumnName="FirsLoginDate" />
                 <ScalarProperty Name="Device" ColumnName="Device" />
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Musteris">
-            <EntityTypeMapping TypeName="MModel.Musteri">
-              <MappingFragment StoreEntitySet="Musteri">
-                <ScalarProperty Name="DegisTarih" ColumnName="DegisTarih" />
-                <ScalarProperty Name="Degistiren" ColumnName="Degistiren" />
-                <ScalarProperty Name="KayitTarih" ColumnName="KayitTarih" />
-                <ScalarProperty Name="Kaydeden" ColumnName="Kaydeden" />
-                <ScalarProperty Name="MesaiKota" ColumnName="MesaiKota" />
-                <ScalarProperty Name="MesaiKontrol" ColumnName="MesaiKontrol" />
-                <ScalarProperty Name="Tel2" ColumnName="Tel2" />
-                <ScalarProperty Name="Tel1" ColumnName="Tel1" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="Aciklama" ColumnName="Aciklama" />
-                <ScalarProperty Name="Unvan" ColumnName="Unvan" />
-                <ScalarProperty Name="Firma" ColumnName="Firma" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -4565,6 +4546,25 @@
                 <ScalarProperty Name="AktifPasif" ColumnName="AktifPasif" />
                 <ScalarProperty Name="Aciklama" ColumnName="Aciklama" />
                 <ScalarProperty Name="GorevID" ColumnName="GorevID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Musteris">
+            <EntityTypeMapping TypeName="MModel.Musteri">
+              <MappingFragment StoreEntitySet="Musteri">
+                <ScalarProperty Name="DegisTarih" ColumnName="DegisTarih" />
+                <ScalarProperty Name="Degistiren" ColumnName="Degistiren" />
+                <ScalarProperty Name="KayitTarih" ColumnName="KayitTarih" />
+                <ScalarProperty Name="Kaydeden" ColumnName="Kaydeden" />
+                <ScalarProperty Name="MesaiKota" ColumnName="MesaiKota" />
+                <ScalarProperty Name="MesaiKontrol" ColumnName="MesaiKontrol" />
+                <ScalarProperty Name="Tel2" ColumnName="Tel2" />
+                <ScalarProperty Name="Tel1" ColumnName="Tel1" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Aciklama" ColumnName="Aciklama" />
+                <ScalarProperty Name="Unvan" ColumnName="Unvan" />
+                <ScalarProperty Name="Firma" ColumnName="Firma" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
