@@ -837,15 +837,27 @@ namespace Wms12m
 
 
 
-//            var list1 = db.Database.SqlQuery<IRS_Detay>(@"SELECT wms.IRS_Detay.* FROM wms.GorevIRS INNER JOIN  wms.IRS_Detay ON wms.GorevIRS.IrsaliyeID = wms.IRS_Detay.IrsaliyeID WHERE wms.GorevIRS.GorevID = " + GorevID).ToList();
-//            foreach (var item in list1)
-//            {
-//                if (item.MakaraNo == null)
-//                    sql = @"SELECT        wms.GorevYer.Miktar, wms.Yer.KatID
-//FROM            wms.GorevYer INNER JOIN
-//                         wms.Yer ON wms.GorevYer.YerID = wms.Yer.ID
-//WHERE        (wms.GorevYer.GorevID = 1) AND (wms.GorevYer.MalKodu = '1') AND (wms.GorevYer.Birim = '1') AND (wms.GorevYer.MakaraNo = '1')";
-//            }
+            ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+            //gorev yer miktar update
+            //for loop 1: irs detay
+            //for detay 2: gorev yer
+            //update yer
+
+            ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+            //            var list1 = db.Database.SqlQuery<IRS_Detay>(@"SELECT wms.IRS_Detay.* FROM wms.GorevIRS INNER JOIN  wms.IRS_Detay ON wms.GorevIRS.IrsaliyeID = wms.IRS_Detay.IrsaliyeID WHERE wms.GorevIRS.GorevID = " + GorevID).ToList();
+            //            foreach (var item in list1)
+            //            {
+            //                if (item.MakaraNo == null)
+            //                    sql = @"SELECT        wms.GorevYer.Miktar, wms.Yer.KatID
+            //FROM            wms.GorevYer INNER JOIN
+            //                         wms.Yer ON wms.GorevYer.YerID = wms.Yer.ID
+            //WHERE        (wms.GorevYer.GorevID = 1) AND (wms.GorevYer.MalKodu = '1') AND (wms.GorevYer.Birim = '1') AND (wms.GorevYer.MakaraNo = '1')";
+            //            }
             ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
             //TODO: burada her irsaliye için 
             var yerleştirilen = db.Database.SqlQuery<frmSiparisToplayerlestirilen>(@"SELECT        YerID, SUM(YerlestirmeMiktari) AS YerlestirmeMiktari, MalKodu, Birim
