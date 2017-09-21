@@ -414,7 +414,7 @@
     <Content Include="Areas\Approvals\Views\Wood\TahsisliIsletmeKasasi.cshtml" />
     <Content Include="Areas\Approvals\Views\Wood\TahsisliIsletmeKasasi_List.cshtml" />
     <Content Include="Areas\WMS\Views\Cable\Step3Details.cshtml" />
-    <Content Include="Areas\ToDo\Views\GorevTakvimi\GorevTakvimi.cshtml" />
+    <Content Include="Areas\ToDo\Views\GorevTakvimi\Index.cshtml" />
     <Content Include="Areas\ToDo\Views\ProjectForm\FormList.cshtml" />
     <Content Include="Areas\ToDo\Views\ProjectForm\FormEdit.cshtml" />
     <Content Include="Areas\ToDo\Views\ProjectForm\FormIndex.cshtml" />
@@ -436,18 +436,9 @@
     <Content Include="Areas\WMS\Views\Transfer\SummaryEdit.cshtml" />
     <Content Include="Areas\YN\Views\OnayBekleyenler\Teklif.cshtml" />
     <Content Include="Areas\YN\Views\OnayBekleyenler\Teklif_Details.cshtml" />
-    <Content Include="Areas\ToDo\Views\Kullanici\Create.cshtml" />
-    <Content Include="Areas\ToDo\Views\Kullanici\Delete.cshtml" />
-    <Content Include="Areas\ToDo\Views\Kullanici\Details.cshtml" />
-    <Content Include="Areas\ToDo\Views\Kullanici\Edit.cshtml" />
-    <Content Include="Areas\ToDo\Views\Kullanici\Index.cshtml" />
     <Content Include="Areas\YN\Views\OnayBekleyenler\Fatura.cshtml" />
     <Content Include="Areas\YN\Views\OnayBekleyenler\Fatura_Details.cshtml" />
     <Content Include="Areas\YN\Views\OnayBekleyenler\Transfer_Details.cshtml" />
-    <Content Include="Areas\ToDo\Views\User\Delete.cshtml" />
-    <Content Include="Areas\ToDo\Views\User\Edit.cshtml" />
-    <Content Include="Areas\ToDo\Views\User\Index.cshtml" />
-    <Content Include="Areas\ToDo\Views\User\List.cshtml" />
     <Content Include="Areas\WMS\Views\Sales\Rezervler.cshtml" />
     <Content Include="Areas\WMS\Views\Cable\Rezervler.cshtml" />
     <None Include="bundleconfig.json" />
@@ -753,7 +744,6 @@
     <Content Include="Areas\ToDo\Views\SubProjectForm\FormIndex.cshtml" />
     <Content Include="Areas\ToDo\Views\Duties\Edit.cshtml" />
     <Content Include="Areas\ToDo\Views\Duties\Index.cshtml" />
-    <Content Include="Areas\ToDo\Views\DutyWork\Create.cshtml" />
     <Content Include="Areas\ToDo\Views\DutyWork\Edit.cshtml" />
     <Content Include="Areas\ToDo\Views\DutyWork\Index.cshtml" />
     <Content Include="Areas\ToDo\Views\ProjectForm\List.cshtml" />

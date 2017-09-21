@@ -8,72 +8,63 @@
         </div>
         <div class="portlet-body form">
             @using (Ajax.BeginForm("Save", "Customer", new { area = "ToDo" }, new AjaxOptions { InsertionMode = InsertionMode.Replace, OnFailure = "Modaldialog('Lütfen Tekrar Deneyin', 'Hata', 'Tamam', 'btn-danger');", OnSuccess = "CreateEdit('kayit');" }, new { @class = "form-horizontal" }))
-        {
-            @Html.HiddenFor(model => model.ID)
-            @Html.AntiForgeryToken()
-            @Html.ValidationSummary(true)
-            <div class="form-body">
-                <div class="form-group row">
-                    @Html.LabelFor(model => model.Firma, htmlAttributes: new { @class = "control-label col-md-4" })
-                    <div class="col-md-4">
-                        @Html.EditorFor(model => model.Firma, new { htmlAttributes = new { @class = "form-control input-circle", required = "required" } })
-                        @Html.ValidationMessageFor(model => model.Firma, "", new { @class = "text-danger" })
+            {
+                @Html.HiddenFor(model => model.ID)
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true)
+                <div class="form-body">
+                    <div class="form-group row">
+                        @Html.LabelFor(model => model.Firma, htmlAttributes: new { @class = "control-label col-md-4" })
+                        <div class="col-md-4">
+                            @Html.EditorFor(model => model.Firma, new { htmlAttributes = new { @class = "form-control input-circle", required = "required" } })
+                            @Html.ValidationMessageFor(model => model.Firma, "", new { @class = "text-danger" })
+                        </div>
                     </div>
-                </div>
-
-                <div class="form-group row">
-                    @Html.LabelFor(model => model.Unvan, htmlAttributes: new { @class = "control-label col-md-4" })
-                    <div class="col-md-4">
-                        @Html.EditorFor(model => model.Unvan, new { htmlAttributes = new { @class = "form-control input-circle", required = "required" } })
-                        @Html.ValidationMessageFor(model => model.Unvan, "", new { @class = "text-danger" })
+                    <div class="form-group row">
+                        @Html.LabelFor(model => model.Unvan, htmlAttributes: new { @class = "control-label col-md-4" })
+                        <div class="col-md-4">
+                            @Html.EditorFor(model => model.Unvan, new { htmlAttributes = new { @class = "form-control input-circle", required = "required" } })
+                            @Html.ValidationMessageFor(model => model.Unvan, "", new { @class = "text-danger" })
+                        </div>
                     </div>
-                </div>
-
-                <div class="form-group row">
-                    @Html.LabelFor(model => model.Aciklama, htmlAttributes: new { @class = "control-label col-md-4" })
-                    <div class="col-md-4">
-                        @Html.EditorFor(model => model.Aciklama, new { htmlAttributes = new { @class = "form-control input-circle" } })
-                        @Html.ValidationMessageFor(model => model.Aciklama, "", new { @class = "text-danger" })
+                    <div class="form-group row">
+                        @Html.LabelFor(model => model.Aciklama, htmlAttributes: new { @class = "control-label col-md-4" })
+                        <div class="col-md-4">
+                            @Html.EditorFor(model => model.Aciklama, new { htmlAttributes = new { @class = "form-control input-circle" } })
+                            @Html.ValidationMessageFor(model => model.Aciklama, "", new { @class = "text-danger" })
+                        </div>
                     </div>
-                </div>
-
-                <div class="form-group row">
-                    @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-4" })
-                    <div class="col-md-4">
-                        @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control input-circle", required = "required", @type = "email", @maxlength = "100" } })
-                        @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
-                        @*@Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control input-circle" } })
-                        @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })*@
+                    <div class="form-group row">
+                        @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-4" })
+                        <div class="col-md-4">
+                            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control input-circle", required = "required", @type = "email", @maxlength = "100" } })
+                            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                        </div>
                     </div>
-                </div>
-
-                <div class="form-group row">
-                    @Html.LabelFor(model => model.MesaiKontrol, htmlAttributes: new { @class = "control-label col-md-4" })
-                    <div class="col-md-4">
-                        @Html.CheckBoxFor(model => model.MesaiKontrol, new { id = "MesaiKontrol", @class = "make-switch", @data_size = "normal", @data_on_color = "success", @data_off_text = "Pasif", @data_on_text = "Aktif", @data_off_color = "danger" })
-                        @Html.ValidationMessageFor(model => model.MesaiKontrol, "", new { @class = "text-danger" })
-
+                    <div class="form-group row">
+                        @Html.LabelFor(model => model.MesaiKontrol, htmlAttributes: new { @class = "control-label col-md-4" })
+                        <div class="col-md-4">
+                            @Html.CheckBoxFor(model => model.MesaiKontrol, new { id = "MesaiKontrol", @class = "make-switch", @data_size = "normal", @data_on_color = "success", @data_off_text = "Pasif", @data_on_text = "Aktif", @data_off_color = "danger" })
+                            @Html.ValidationMessageFor(model => model.MesaiKontrol, "", new { @class = "text-danger" })
+                        </div>
                     </div>
-                </div>
-                <div class="form-group row">
-                    @Html.LabelFor(model => model.MesaiKota, htmlAttributes: new { @class = "control-label col-md-4" })
-                    <div class="col-md-4">
-                        @Html.EditorFor(model => model.MesaiKota, new { htmlAttributes = new { id = "MesaiKota", @class = "form-control input-circle", @readonly = "readonly" } })
-                        @Html.ValidationMessageFor(model => model.MesaiKota, "", new { @class = "text-danger" })
+                    <div class="form-group row">
+                        @Html.LabelFor(model => model.MesaiKota, htmlAttributes: new { @class = "control-label col-md-4" })
+                        <div class="col-md-4">
+                            @Html.EditorFor(model => model.MesaiKota, new { htmlAttributes = new { id = "MesaiKota", @class = "form-control input-circle", @readonly = "readonly" } })
+                            @Html.ValidationMessageFor(model => model.MesaiKota, "", new { @class = "text-danger" })
+                        </div>
                     </div>
-                </div>
-                <div class="form-actions">
-                    <div class="row">
-                        <div class="col-md-offset-3 col-md-9">
-                            <button type="submit" class="btn btn-circle green">@(Model.ID > 0 ? "Düzenle" : "Ekle")</button>
-                            <button type="button" class="btn btn-circle grey-salsa btn-outline" onclick="CreateEdit('0')">Temizle</button>
-                            @*<input type="submit" value="Kaydet" class="btn btn-circle green" />
-                                <button type="button" class="btn btn-circle grey-salsa btn-outline" onclick="CreateEdit('0')">Temizle</button>*@
+                    <div class="form-actions">
+                        <div class="row">
+                            <div class="col-md-offset-3 col-md-9">
+                                <button type="submit" class="btn btn-circle green">@(Model.ID > 0 ? "Düzenle" : "Ekle")</button>
+                                <button type="button" class="btn btn-circle grey-salsa btn-outline" onclick="CreateEdit('0')">Temizle</button>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        }
+            }
         </div>
     </div>
 </div>

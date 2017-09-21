@@ -7,35 +7,8 @@
     </div>
     <div class="portlet-body form p-40">
         <table class="table table-striped table-bordered table-hover" id="sample_1">
-            <thead>
-                <tr>
-                    <th>
-                        Firma
-                    </th>
-                    <th>
-                        Proje
-                    </th>
-                    <th>
-                        Sorumlu
-                    </th>
-                    <th>
-                        Karşı Sorumlu
-                    </th>
-                    <th>
-                        Açıklama
-                    </th>
-                    <th>
-                        Mesai Kontrol
-                    </th>
-                    <th>
-                        Mesai Kota
-                    </th>
-                    <th></th>
-                </tr>
-
-            </thead>
+            <thead><tr><th>Firma</th><th>Proje</th><th>Sorumlu</th><th>Karşı Sorumlu</th><th>Açıklama</th><th>Mesai Kontrol</th><th>Mesai Kota</th><th></th></tr></thead>
             <tbody>
-
                 @foreach (var item in Model)
                 {
                     <tr>
@@ -55,16 +28,7 @@
                             @Html.DisplayFor(modelItem => item.Aciklama)
                         </td>
                         <td>
-                            @if (item.MesaiKontrol == true)
-                            {
-                                @("Var");
-                            }
-                            else
-                            {
-                                @("Yok");
-                            }
-
-
+                            @if (item.MesaiKontrol == true) { @("Var"); } else { @("Yok"); }
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.MesaiKota)
@@ -77,9 +41,7 @@
                     </tr>
                 }
             </tbody>
-
         </table>
     </div>
 </div>
-
 <script>$(document).ready(function () { $('#sample_1').DataTable({ "pagingType": "full_numbers", "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" } }); });</script>

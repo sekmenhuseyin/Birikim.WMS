@@ -10,9 +10,9 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
 {
     public class ProjectFormController : RootController
     {
-
-
-        // GET: MainProjectForm/Create
+        /// <summary>
+        /// proje sayfası
+        /// </summary>
         public ActionResult Index()
         {
             ViewBag.MusteriID = new SelectList(db.Musteris.ToList(), "ID", "Firma");
@@ -20,15 +20,18 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             ViewBag.Sorumlu = new SelectList(db.Users.ToList(), "Kod", "AdSoyad");
             return View(new ProjeForm());
         }
-
+        /// <summary>
+        /// liste
+        /// </summary>
         public PartialViewResult List()
         {
             var projeForms = db.ProjeForms.Include(p => p.Musteri).Include(p => p.ProjeForm2);
             // return PartialView(projeForms.ToList());
             return PartialView(projeForms.Where(a => a.PID == null).ToList());
         }
-
-        // GET: MainProjectForm/Edit/5
+        /// <summary>
+        /// düzeneleme sayfası
+        /// </summary>
         public PartialViewResult Edit(int? id)
         {
 
@@ -39,10 +42,10 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             ViewBag.Sorumlu = new SelectList(db.Users.ToList(), "Kod", "AdSoyad");
             return PartialView(projeForm);
         }
-
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        /// <summary>
+        /// kaydet
+        /// </summary>
+        [HttpPost, ValidateAntiForgeryToken]
         public JsonResult Save([Bind(Include = "ID,MusteriID,Proje,Form,Sorumlu,KarsiSorumlu,Aciklama,MesaiKontrol,MesaiKota,PID,Durum,Kaydeden,KayitTarih,Degistiren,DegisTarih")] ProjeForm projeForm)
         {
             if (ModelState.IsValid)
@@ -89,8 +92,9 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
 
 
         }
-
-
+        /// <summary>
+        /// sil
+        /// </summary>
         public JsonResult Delete(string Id)
         {
             ProjeForm projeform = db.ProjeForms.Find(Id.ToInt32());
@@ -101,7 +105,9 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             return Json(_Result, JsonRequestBehavior.AllowGet);
 
         }
-
+        /// <summary>
+        /// silme kontrolü
+        /// </summary>
         public JsonResult DeleteKontrol(string Id)
         {
             Result _Result = new Result();
@@ -120,8 +126,9 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             return Json(_Result, JsonRequestBehavior.AllowGet);
 
         }
-
-
+        /// <summary>
+        /// formlar
+        /// </summary>
         public ActionResult FormIndex()
         {
             var id = Url.RequestContext.RouteData.Values["id"];
@@ -141,7 +148,9 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             //ViewBag.PID = new SelectList(db.ProjeForms.Where(x => x.PID == null).ToList(), "ID", "Proje");
             //return View(new ProjeForm());
         }
-
+        /// <summary>
+        /// form listesi
+        /// </summary>
         public PartialViewResult FormList()
         {
 
@@ -149,7 +158,9 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             //ViewBag.id = ID;
             return PartialView(projeForms.Where(a => a.PID != null).ToList());
         }
-
+        /// <summary>
+        /// alt lsite
+        /// </summary>
         public PartialViewResult ListAlt()
         {
             var id = Url.RequestContext.RouteData.Values["id"];
@@ -158,8 +169,9 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             ViewBag.id = ID;
             return PartialView("FormList", projeForms.Where(a => a.PID == ID).ToList());
         }
-
-        // GET: MainProjectForm/Edit/5
+        /// <summary>
+        /// form edit
+        /// </summary>
         public PartialViewResult FormEdit(int? id)
         {
 
@@ -169,9 +181,10 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             ViewBag.PID = new SelectList(db.ProjeForms.Where(x => x.PID == null).ToList(), "ID", "Proje", projeForm.PID);
             return PartialView(projeForm);
         }
-
-
-        public PartialViewResult EditAlt()//ProjectForm'dan gelen veriyi alır. Form ekler.
+        /// <summary>
+        /// ProjectForm'dan gelen veriyi alır. Form ekler.
+        /// </summary>
+        public PartialViewResult EditAlt()
         {
             var id = Url.RequestContext.RouteData.Values["id"];
             var ID = id.ToInt32();
@@ -181,12 +194,10 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             ViewBag.PID = new SelectList(db.ProjeForms.Where(x => x.PID == null).ToList(), "ID", "Proje", projeForm.ID);
             return PartialView(projeForm);
         }
-
-
-
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        /// <summary>
+        /// form kaydeder
+        /// </summary>
+        [HttpPost, ValidateAntiForgeryToken]
         public JsonResult FormSave([Bind(Include = "ID,MusteriID,Proje,Form,PID,Durum,Kaydeden,KayitTarih,Degistiren,DegisTarih")] ProjeForm projeForm)
         {
             if (ModelState.IsValid)

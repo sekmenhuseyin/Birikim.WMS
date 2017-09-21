@@ -4,9 +4,6 @@
         <div class="caption">
             <i class="fa fa-gift"></i>Görevler Listesi
         </div>
-        @*<div class="col-md-2 pull-right m-t-5">
-            <a class="btn btn-default pull-right input-circle" href="#modalEditPage" data-toggle="modal" onclick="editInModal('/ToDo/Duties/New')"> Yeni </a>
-        </div>*@
     </div>
     <div class="portlet-body form p-40">
         <table class="table table-bordered table-striped table-condensed" id="sample_1">
@@ -20,7 +17,6 @@
                     <th>Form</th>
                     <th>Görev</th>
                     <th>Sorumlular</th>
-                    @*<th>Öncelik</th>*@
                     <th>Durum</th>
                     <th>Görev Tipi</th>
                     <th>Departman</th>
@@ -57,8 +53,6 @@
                                 }
                             }
                         </td>
-
-                        @*<td>@item.ComboItem_Name3.Name</td>*@
                         <td>@item.ComboItem_Name1.Name</td>
                         <td>
                             @if (item.ComboItem_Name2 != null)
@@ -125,7 +119,6 @@
             }
         });
         var table = $('#sample_1').DataTable({
-            //"pagingType": "full_numbers",
             "paging": false,
             "ordering": false,
             "columnDefs": [
@@ -173,7 +166,6 @@
             return;
         }
         else {
-            console.log(ID);
 
             editInModal('/ToDo/DutyWork/NewWork/' + ID);
         }
