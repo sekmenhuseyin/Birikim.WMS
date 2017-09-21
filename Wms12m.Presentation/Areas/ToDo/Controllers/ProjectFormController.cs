@@ -115,20 +115,15 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         {
             var id = Url.RequestContext.RouteData.Values["id"];
             var ID = id.ToInt32();
-
             ProjeForm projeForm = db.ProjeForms.Find(ID);
             ViewBag.id = ID;
-            ViewBag.MusteriID = new SelectList(db.Musteris.ToList(), "ID", "Firma", projeForm.MusteriID);
+            ViewBag.MusteriID = new SelectList(db.Musteris.Where(m => m.ID == ID).ToList(), "ID", "Firma", projeForm.MusteriID);
             ViewBag.PID = new SelectList(db.ProjeForms.Where(x => x.PID == null).ToList(), "ID", "Proje", projeForm.ID);
-            var proje = projeForm.Proje;
             projeForm = new ProjeForm
             {
-                Proje = proje
+                Proje = projeForm.Proje
             };
             return PartialView(projeForm);
-            //ViewBag.MusteriID = new SelectList(db.Musteris.ToList(), "ID", "Firma");
-            //ViewBag.PID = new SelectList(db.ProjeForms.Where(x => x.PID == null).ToList(), "ID", "Proje");
-            //return View(new ProjeForm());
         }
         /// <summary>
         /// form listesi

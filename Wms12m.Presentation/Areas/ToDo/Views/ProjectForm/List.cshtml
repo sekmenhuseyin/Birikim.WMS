@@ -20,9 +20,9 @@
                         <td>@if (item.MesaiKontrol == true) { @("Var"); } else { @("Yok"); }</td>
                         <td>@Html.DisplayFor(modelItem => item.MesaiKota)</td>
                         <td>
-                            <a class="btn btn-primary input-circle" href="#modalEditPage" data-toggle="modal" onclick="editInModal('/ToDo/ProjectForm/FormIndex/@item.ID')"> Form Ekle </a>
-                            <a class="btn btn-default input-circle" href="javascript:;" onclick="CreateEdit('@item.ID')"> Düzenle </a>
-                            <a class="btn btn-danger input-circle" href="javascript:;" onclick="Delete('@item.ID','/ToDo/ProjectForm/List','liste','')"> Sil </a>
+                            <a class="btn btn-primary" href="#modalEditPage" data-toggle="modal" onclick="editInModal('/ToDo/ProjectForm/FormIndex/@item.ID')"> Form Ekle </a>
+                            <a class="btn btn-default" href="javascript:;" onclick="CreateEdit('@item.ID')"> Düzenle </a>
+                            <a class="btn btn-danger" href="javascript:;" onclick="Delete('@item.ID','/ToDo/ProjectForm/List','liste','')"> Sil </a>
                         </td>
                     </tr>
                 }

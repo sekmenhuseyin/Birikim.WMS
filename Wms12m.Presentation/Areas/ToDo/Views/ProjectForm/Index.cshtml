@@ -123,7 +123,10 @@
             PartialView("/ToDo/ProjectForm/List", 'liste');
         }
         else
+        {
+            $("html, body").animate({ scrollTop: 0 }, "slow");
             PartialView("/ToDo/ProjectForm/Edit", 'CreateEdit', JSON.stringify({ Id: Id }));
+        }
     }
 </script>
 }
