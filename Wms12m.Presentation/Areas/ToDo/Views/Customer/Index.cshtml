@@ -39,7 +39,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    @Html.LabelFor(model => model.Aciklama, htmlAttributes: new { @class = "control-label col-md-4" })
+                                    @Html.LabelFor(model => model.Aciklama, "Açıklama", htmlAttributes: new { @class = "control-label col-md-4" })
                                     <div class="col-md-4">
                                         @Html.EditorFor(model => model.Aciklama, new { htmlAttributes = new { @class = "form-control input-circle" } })
                                         @Html.ValidationMessageFor(model => model.Aciklama, "", new { @class = "text-danger" })
@@ -53,14 +53,14 @@
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    @Html.LabelFor(model => model.MesaiKontrol, htmlAttributes: new { @class = "control-label col-md-4" })
+                                    @Html.LabelFor(model => model.MesaiKontrol, "Mesai Kontrol", htmlAttributes: new { @class = "control-label col-md-4" })
                                     <div class="col-md-4">
                                         @Html.CheckBoxFor(model => model.MesaiKontrol, new { id = "MesaiKontrol", @class = "make-switch", @data_size = "normal", @data_on_color = "success", @data_off_text = "Pasif", @data_on_text = "Aktif", @data_off_color = "danger" })
                                         @Html.ValidationMessageFor(model => model.MesaiKontrol, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    @Html.LabelFor(model => model.MesaiKota, htmlAttributes: new { @class = "control-label col-md-4" })
+                                    @Html.LabelFor(model => model.MesaiKota, "Mesai Kota", htmlAttributes: new { @class = "control-label col-md-4" })
                                     <div class="col-md-4">
                                         @Html.EditorFor(model => model.MesaiKota, new { htmlAttributes = new { id = "MesaiKota", @class = "form-control input-circle", @readonly = "readonly" } })
                                         @Html.ValidationMessageFor(model => model.MesaiKota, "", new { @class = "text-danger" })
