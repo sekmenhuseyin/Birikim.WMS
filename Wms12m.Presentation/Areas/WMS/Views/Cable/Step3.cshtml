@@ -105,6 +105,7 @@
     $(".submit").click(function () {
         var selected = ""; var result = false, cont = true;
         table.rows(".selected").every(function (rowIdx, tableLoop, rowLoop) {
+
             if (this.data()[10] == "" && cont == true) {
                 Modaldialog("Lütfen makara seçin", "Hata", "Tamam", "btn-danger");
                 cont = false;
@@ -147,8 +148,7 @@
                                 className: 'btn-success',
                                 callback: function () {
                                     if (mno == "") mno = "Seçildi";
-                                    this.data()[10] = id;
-                                    this.data()[11] = mktr;
+                                    SelectMakara2(id, row, mno, mktr);
                                     $("#mkr" + row).html(mno);
                                     $("#mktr" + row).html(parseFloat(mktr).formatMoney(2));
                                 }
@@ -164,6 +164,15 @@
                     this.data()[10] = id;
                     $("#mkr" + row).html(mno);
                 }
+            }
+        });
+    }
+    function SelectMakara2(id, row, mno, mktr) {
+        table.rows().every(function (rowIdx, tableLoop, rowLoop) {
+            if (this.data()[14] == row) {
+                this.data()[10] = id;
+                this.data()[11] = parseFloat(mktr);
+                list[this.data()[14]] = parseFloat(mktr);
             }
         });
     }

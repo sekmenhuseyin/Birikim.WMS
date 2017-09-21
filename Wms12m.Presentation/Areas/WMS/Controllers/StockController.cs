@@ -320,11 +320,13 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             }
             else
             {
-                if (tbl.MakaraNo == "")
+                if (tbl.MakaraNo == "" || tbl.MakaraNo == null)
                 {
                     var tmp2 = Yerlestirme.Detail(tbl.KatID, tbl.MalKodu, tbl.Birim);
                     if (tmp2 == null)
                         return Json(new Result(false, "Seçili yerde bu ürün bulunamadı."), JsonRequestBehavior.AllowGet);
+                    if (tmp2.Miktar < tbl.Miktar)
+                        return Json(new Result(false, "Seçili yerde çıkış yapılmak istenilen sayıda ürün yok"), JsonRequestBehavior.AllowGet);
                     tmp2.Miktar -= tbl.Miktar;
                     Yerlestirme.Update(tmp2, 0, vUser.Id, true, tbl.Miktar);
                 }
@@ -333,6 +335,8 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                     var tmp2 = db.Yers.Where(m => m.KatID == tbl.KatID && m.MalKodu == tbl.MalKodu && m.Birim == tbl.Birim && m.MakaraNo == tbl.MakaraNo).FirstOrDefault();
                     if (tmp2 == null)
                         return Json(new Result(false, "Seçili yerde bu ürün bulunamadı."), JsonRequestBehavior.AllowGet);
+                    if (tmp2.Miktar < tbl.Miktar)
+                        return Json(new Result(false, "Seçili yerde çıkış yapılmak istenilen sayıda ürün yok"), JsonRequestBehavior.AllowGet);
                     tmp2.Miktar -= tbl.Miktar;
                     Yerlestirme.Update(tmp2, 0, vUser.Id, true, tbl.Miktar);
                 }

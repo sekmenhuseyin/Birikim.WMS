@@ -176,6 +176,7 @@
                     return;
                 }
                 cells.forEach(function (item) {
+                    console.log(item[2]);
                     if (item[2] == 0) {
                         Modaldialog(item[0] + " için stok bulunmamaktadır.", "Hata", "Tamam", "btn-danger");
                         result = true;
