@@ -126,9 +126,8 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         /// <summary>
         /// kaydetme
         /// </summary>
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public JsonResult Save([Bind(Include = "ID,ProjeFormID,Sorumlu,Sorumlu2,Sorumlu3,KaliteKontrol,Gorev,Aciklama,OncelikID,DurumID,GorevTipiID,DepartmanID,TahminiBitis,BitisTarih,IslemTip,IslemSira,Kaydeden,KayitTarih,Degistiren,DegisTarih,work,todo,silinenler")] Gorevler gorevler)
+        [HttpPost, ValidateAntiForgeryToken]
+        public JsonResult Save([Bind(Include = "ID,ProjeFormID,Sorumlu,Sorumlu2,Sorumlu3,KaliteKontrol,Gorev,Aciklama,OncelikID,DurumID,GorevTipiID,DepartmanID,TahminiBitis,BitisTarih,IslemTip,IslemSira,work,todo,silinenler")] Gorevler gorevler)
         {
             if (ModelState.IsValid)
             {
@@ -256,6 +255,8 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                     tbl.GorevTipiID = gorevler.GorevTipiID;
                     tbl.DepartmanID = gorevler.DepartmanID;
                     tbl.TahminiBitis = gorevler.TahminiBitis;
+                    tbl.Degistiren = vUser.UserName;
+                    tbl.DegisTarih = DateTime.Now;
                     tbl.BitisTarih = null;
                     tbl.IslemTip = 0;
                     tbl.IslemSira = null;
@@ -317,14 +318,13 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                     db.SaveChanges();
                     return Json(new Result(true, gorevler.ID), JsonRequestBehavior.AllowGet);
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
+                    Logger(ex, "ToDo/Duties/Save");
+                    return Json(new Result(false, "Kayıt hatası. Sayfayı yenileyin"), JsonRequestBehavior.AllowGet);
                 }
             }
-            ViewBag.ProjeFormID = new SelectList(db.ProjeForms, "ID", "Proje", gorevler.ProjeFormID);
-            return Json(new Result(false, "Hata oldu"), JsonRequestBehavior.AllowGet);
-
-
+            return Json(new Result(false, "Form hatalı. Sayfayı yenileyin"), JsonRequestBehavior.AllowGet);
         }
         /// <summary>
         /// sil
@@ -446,7 +446,9 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             }
 
         }
-
+        /// <summary>
+        /// görev ret
+        /// </summary>
         public string GorevOnayla(int Data)
         {
 
