@@ -162,10 +162,20 @@ namespace WMSMobil
                 foreach (Control item in this.Controls)
                 {
                     item.Top = item.Top.Carpim();
+                    item.Height = item.Height.Carpim();
                 }
                 foreach (Control item in this.panelUst.Controls)
                 {
                     item.Top = item.Top.Carpim();
+                    item.Height = item.Height.Carpim();
+                    item.Width = item.Width.Carpim();
+                    item.Left = item.Left.Carpim();
+                }
+                foreach (Control item in this.panelOrta.Controls)
+                {
+                    item.Height = item.Height.Carpim();
+                    item.Width = item.Width.Carpim();
+                    item.Left = item.Left.Carpim();
                 }
             }
             Cursor.Current = Cursors.Default;

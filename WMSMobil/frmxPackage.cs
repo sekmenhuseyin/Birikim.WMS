@@ -35,6 +35,28 @@ namespace WMSMobil
             {
             }
             Barkod.OnScan += new Barcode2.OnScanEventHandler(Barkod_OnScan);
+            //change size
+            if (Ayarlar.KatSayi < 1)
+            {
+                foreach (Control item in this.Controls)
+                {
+                    item.Top = item.Top.Carpim();
+                    item.Height = item.Height.Carpim();
+                }
+                foreach (Control item in this.panelUst.Controls)
+                {
+                    item.Top = item.Top.Carpim();
+                    item.Height = item.Height.Carpim();
+                    item.Width = item.Width.Carpim();
+                    item.Left = item.Left.Carpim();
+                }
+                foreach (Control item in this.panelOrta.Controls)
+                {
+                    item.Height = item.Height.Carpim();
+                    item.Width = item.Width.Carpim();
+                    item.Left = item.Left.Carpim();
+                }
+            }
         }
         /// <summary>
         /// barkod okursa

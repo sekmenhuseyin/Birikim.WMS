@@ -58,6 +58,7 @@
             this.panel2.Location = new System.Drawing.Point(0, 0);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(240, 50);
+            this.panel2.Tag = "2";
             // 
             // label9
             // 
@@ -103,6 +104,7 @@
             this.panelOrta.Location = new System.Drawing.Point(0, 50);
             this.panelOrta.Name = "panelOrta";
             this.panelOrta.Size = new System.Drawing.Size(240, 208);
+            this.panelOrta.Tag = "2";
             // 
             // label8
             // 
@@ -112,6 +114,7 @@
             this.label8.Location = new System.Drawing.Point(203, 0);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(70, 18);
+            this.label8.Tag = "1";
             this.label8.Text = "Oluşturma";
             // 
             // label4
@@ -122,6 +125,7 @@
             this.label4.Location = new System.Drawing.Point(157, 0);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(45, 18);
+            this.label4.Tag = "1";
             this.label4.Text = "Görevli";
             // 
             // label3
@@ -132,6 +136,7 @@
             this.label3.Location = new System.Drawing.Point(56, 0);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(100, 18);
+            this.label3.Tag = "1";
             this.label3.Text = "Bilgiler";
             // 
             // label2
@@ -142,6 +147,7 @@
             this.label2.Location = new System.Drawing.Point(0, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(55, 18);
+            this.label2.Tag = "1";
             this.label2.Text = "GörevNo";
             // 
             // panel1
