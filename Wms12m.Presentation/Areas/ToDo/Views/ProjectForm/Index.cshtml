@@ -1,12 +1,12 @@
 ﻿@model ProjeForm
 @{
-    ViewBag.Title = "ProjeForm işlemleri";
+    ViewBag.Title = "Proje İşlemleri";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }@section Styles{<link href="~/Content/assets/global/plugins/bootstrap-touchspin/jquery.bootstrap-touchspin.css" rel="stylesheet" type="text/css" />
 <link href="~/Content/assets/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css" rel="stylesheet" type="text/css" />
 <style>.control-label {text-align: right;color: black;}</style>
-}<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><span>Proje Form İşlemleri</span></li></ul></div>
-<h1 class="page-title">Proje Form İşlemleri</h1>
+}<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><span>Proje İşlemleri</span></li></ul></div>
+<h1 class="page-title">Proje İşlemleri</h1>
 <div class="row">
     <div class="col-md-12">
         <div class="row" id="CreateEdit">
@@ -18,7 +18,7 @@
                         </div>
                     </div>
                     <div class="portlet-body form">
-                        @using (Ajax.BeginForm("Save", "ProjectForm", new { area = "ToDo" }, new AjaxOptions { InsertionMode = InsertionMode.Replace, OnFailure = "Modaldialog('Lütfen Tekrar Deneyin', 'Hata', 'Tamam', 'btn-danger');", OnSuccess = "CreateEdit('kayit');" }, new { @class = "form-horizontal" }))
+                        @using (Ajax.BeginForm("Save", "ProjectForm", new { area = "ToDo" }, new AjaxOptions { InsertionMode = InsertionMode.Replace, OnFailure = "Modaldialog('Lütfen Tekrar Deneyin', 'Hata', 'Tamam', 'btn-danger');", OnSuccess = "CreateEdit('0');" }, new { @class = "form-horizontal" }))
                         {
                             @Html.HiddenFor(model => model.ID)
                             @Html.AntiForgeryToken()
@@ -27,7 +27,7 @@
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.MusteriID, "Müşteri", htmlAttributes: new { @class = "control-label col-md-3" })
                                     <div class="col-md-4">
-                                        @Html.DropDownList("MusteriID", null, htmlAttributes: new { @class = "form-control input-circle", required = "required" })
+                                        @Html.DropDownList("MusteriID", null, htmlAttributes: new { @class = "form-control input-circle satirekle", required = "required" })
                                         @Html.ValidationMessageFor(model => model.MusteriID, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -41,7 +41,7 @@
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.Sorumlu, htmlAttributes: new { @class = "control-label col-md-3" })
                                     <div class="col-md-4">
-                                        @Html.DropDownList("Sorumlu", null, htmlAttributes: new { @class = "form-control input-circle" })
+                                        @Html.DropDownList("Sorumlu", null, htmlAttributes: new { @class = "form-control input-circle satirekle" })
                                         @Html.ValidationMessageFor(model => model.Sorumlu, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -92,8 +92,10 @@
 <script src="~/Content/assets/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js" type="text/javascript"></script>
 <script src="~/Content/assets/global/plugins/bootstrap-touchspin/jquery.bootstrap-touchspin.js" type="text/javascript"></script>
 <script type="text/javascript">
-    $("#MesaiKontrol").bootstrapSwitch();
+    var DeleteFunctionUrl = '/ToDo/ProjectForm/Delete';
     $(document).ready(function () {
+        $(".satirekle").prepend("<option value=''>Seçiniz !!!</option>"); $(".satirekle")[0].selectedIndex = 0; $(".satirekle")[1].selectedIndex = 0;
+        $("#MesaiKontrol").bootstrapSwitch();
         $('#MesaiKontrol').on('switchChange.bootstrapSwitch', function (e, data) {
             var state = $(this).bootstrapSwitch('state');//returns true or false dfdfd
             if (state) {
@@ -105,11 +107,9 @@
                 $('#MesaiKota').removeAttr("required")
             }
         });
+        PartialView("/ToDo/ProjectForm/List", 'liste');
     });
-    var DeleteFunctionUrl = '/ToDo/ProjectForm/Delete';
-    PartialView("/ToDo/ProjectForm/List", 'liste');
     function CreateEdit(Id) {
-        $("html, body").animate({ scrollTop: 0 }, "slow");
         if (Id == 0) {
             $("#ID").val("0");
             $("#Proje").val("");
@@ -119,14 +119,10 @@
             $("#MesaiKota").val("");
             $("#CreateEdit .caption").text("Proje Ekle");
             $("#CreateEdit [type='submit']").text("Ekle");
-        }
-        else if (Id == "kayit") {
             PartialView("/ToDo/ProjectForm/List", 'liste');
         }
         else
-        {
             PartialView("/ToDo/ProjectForm/Edit", 'CreateEdit', JSON.stringify({ Id: Id }));
-        }
     }
 </script>
 }
