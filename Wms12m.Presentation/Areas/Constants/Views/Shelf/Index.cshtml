@@ -157,7 +157,10 @@
             $("#RafAd").val("");
         }
         else
+        {
+            $("html, body").animate({ scrollTop: 0 }, "slow");
             PartialView(ShelfDetailUrl, 'CreateEdit', JSON.stringify({ Id: Id == null ? '' : Id }));
+        }
     }
 </script>
 }

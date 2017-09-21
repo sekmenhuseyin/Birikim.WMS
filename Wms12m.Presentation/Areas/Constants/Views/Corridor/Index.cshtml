@@ -130,6 +130,7 @@
             $("#KoridorAd").val("");
         }
         else{
+            $("html, body").animate({ scrollTop: 0 }, "slow");
             PartialView(CorridorDetailUrl, 'CreateEdit', JSON.stringify({ Id: Id == null ? '' : Id }));
         }
     }

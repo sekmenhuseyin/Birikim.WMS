@@ -166,7 +166,10 @@
             $("#BolumAd").val("");
         }
         else
+        {
+            $("html, body").animate({ scrollTop: 0 }, "slow");
             PartialView(SectionDetailUrl, 'CreateEdit', JSON.stringify({ Id: Id == null ? '' : Id }));
+        }
     }
 </script>
 }

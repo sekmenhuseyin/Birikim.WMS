@@ -15,8 +15,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         /// </summary>
         public ActionResult Index()
         {
-            ViewBag.MusteriID = new SelectList(db.Musteris.OrderBy(m => m.Firma).ToList(), "ID", "Firma");
-            ViewBag.PID = new SelectList(db.ProjeForms.Where(x => x.PID != null).OrderBy(m => m.Proje).ToList(), "ID", "Proje");
+            ViewBag.MusteriID = new SelectList(db.Musteris.OrderBy(m => m.Unvan).ToList(), "ID", "Unvan ");
             ViewBag.Sorumlu = new SelectList(Persons.GetList(), "Kod", "AdSoyad");
             return View(new ProjeForm());
         }
