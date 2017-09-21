@@ -15,9 +15,9 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         /// </summary>
         public ActionResult Index()
         {
-            ViewBag.MusteriID = new SelectList(db.Musteris.ToList(), "ID", "Firma");
-            ViewBag.PID = new SelectList(db.ProjeForms.Where(x => x.PID != null).ToList(), "ID", "Proje");
-            ViewBag.Sorumlu = new SelectList(db.Users.ToList(), "Kod", "AdSoyad");
+            ViewBag.MusteriID = new SelectList(db.Musteris.OrderBy(m => m.Firma).ToList(), "ID", "Firma");
+            ViewBag.PID = new SelectList(db.ProjeForms.Where(x => x.PID != null).OrderBy(m => m.Proje).ToList(), "ID", "Proje");
+            ViewBag.Sorumlu = new SelectList(Persons.GetList(), "Kod", "AdSoyad");
             return View(new ProjeForm());
         }
         /// <summary>
@@ -99,32 +99,15 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         {
             ProjeForm projeform = db.ProjeForms.Find(Id.ToInt32());
             db.ProjeForms.Remove(projeform);
-            db.SaveChanges();
-
-            Result _Result = new Result(true, Id.ToInt32());
-            return Json(_Result, JsonRequestBehavior.AllowGet);
-
-        }
-        /// <summary>
-        /// silme kontrolü
-        /// </summary>
-        public JsonResult DeleteKontrol(string Id)
-        {
-            Result _Result = new Result();
-            var musteri = db.Database.SqlQuery<ProjeForm>(string.Format("SELECT * FROM BIRIKIM.ong.ProjeForm where PID='{0}'", Id)).ToList();
-            if (musteri.Count() > 0)
+            try
             {
-                _Result.Status = false;
-                _Result.Id = Id.ToInt32();
-                _Result.Message = "Projeye ait form bulunduğu için silme işlemi gerçekleştirilememiştir.";
+                db.SaveChanges();
+                return Json(new Result(true, Id.ToInt32()), JsonRequestBehavior.AllowGet);
             }
-            else
+            catch (Exception)
             {
-                _Result.Status = true;
-                _Result.Id = Id.ToInt32();
+                return Json(new Result(false, "Projeye ait form bulunduğu için silme işlemi gerçekleştirilememiştir."), JsonRequestBehavior.AllowGet);
             }
-            return Json(_Result, JsonRequestBehavior.AllowGet);
-
         }
         /// <summary>
         /// formlar

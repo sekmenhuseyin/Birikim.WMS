@@ -40,10 +40,8 @@
                             @Html.CheckBoxFor(a => a.Aktif, new { @checked = Model.Aktif ? "checked" : string.Empty, @class = "make-switch", @data_size = "normal", @data_on_color = "success", @data_off_text = "Pasif", @data_on_text = "Aktif", @data_off_color = "danger" })
                         </div>
                     </div>
-                </div>
-                <div class="form-actions">
-                    <div class="row">
-                        <div class="col-md-offset-3 col-md-9">
+                    <div class="form-group">
+                        <div class="col-md-3 col-md-offset-3">
                             <button type="submit" class="btn btn-circle green">@(Model.ID > 0 ? "Düzenle" : "Ekle")</button>
                             <button type="button" class="btn btn-circle grey-salsa btn-outline" onclick="CreateEdit('0')">Temizle</button>
                         </div>

@@ -77,30 +77,15 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         {
             Musteri musteri = db.Musteris.Find(Id.ToInt32());
             db.Musteris.Remove(musteri);
-            db.SaveChanges();
-            Result _Result = new Result(true, Id.ToInt32());
-            return Json(_Result, JsonRequestBehavior.AllowGet);
-        }
-        /// <summary>
-        /// silme kontorlü
-        /// </summary>
-        public JsonResult DeleteKontrol(string Id)
-        {
-            Result _Result = new Result();
-            var musteri = db.Database.SqlQuery<ProjeForm>(string.Format("SELECT * FROM BIRIKIM.ong.ProjeForm where MusteriID='{0}'", Id)).ToList();
-            if (musteri.Count() > 0)
+            try
             {
-                _Result.Status = false;
-                _Result.Id = Id.ToInt32();
-                _Result.Message = "Firmaya ait proje bulunduğu için silme işlemi gerçekleştirilememiştir.";
+                db.SaveChanges();
+                return Json(new Result(true, Id.ToInt32()), JsonRequestBehavior.AllowGet);
             }
-            else
+            catch (Exception)
             {
-                _Result.Status = true;
-                _Result.Id = Id.ToInt32();
+                return Json(new Result(false, "Firmaya ait proje bulunduğu için silme işlemi gerçekleştirilememiştir."), JsonRequestBehavior.AllowGet);
             }
-            return Json(_Result, JsonRequestBehavior.AllowGet);
-
         }
     }
 }
