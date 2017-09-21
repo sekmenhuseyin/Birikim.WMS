@@ -193,7 +193,10 @@
             $("#Agirlik").val("");
         }
         else
+        {
+            $("html, body").animate({ scrollTop: 0 }, "slow");
             PartialView("/Constants/Size/Edit", 'CreateEdit', JSON.stringify({ Id: Id }));
+        }
     }
     function ClearPoints() {
         $("#Boy").val($("#Boy").val().replace(".", ","));

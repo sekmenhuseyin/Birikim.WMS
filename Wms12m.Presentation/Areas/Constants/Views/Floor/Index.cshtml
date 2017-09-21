@@ -138,7 +138,10 @@
             $("#Aciklama").val("");
         }
         else
+        {
+            $("html, body").animate({ scrollTop: 0 }, "slow");
             PartialView(FloorDetailUrl, 'CreateEdit', JSON.stringify({ Id: Id == null ? '' : Id }));
+        }
     }
     function InsertRefresh() {
         PartialView(FloorDetailUrl, "CreateEdit", '0');

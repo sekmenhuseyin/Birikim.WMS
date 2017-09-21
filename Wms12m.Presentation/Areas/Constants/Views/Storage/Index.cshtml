@@ -137,6 +137,7 @@
 		CreateEdit('0');
 	}
 	function CreateEdit(Id) {
+        $("html, body").animate({ scrollTop: 0 }, "slow");
 		PartialView(StoreDetailUrl, 'CreateEdit', JSON.stringify({ Id: Id }));
 	}
 	function FuncSearchBtn() {
