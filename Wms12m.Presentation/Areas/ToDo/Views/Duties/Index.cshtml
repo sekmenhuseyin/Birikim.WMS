@@ -4,34 +4,14 @@
 }@section Styles{<link href="~/Content/assets/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css" rel="stylesheet" type="text/css" />
 <style>
     .control-label {text-align: right;color: black;}
-    textarea#Aciklama {
-        border-radius: 1rem !important;
-        width: 100% !important;
-        height: 100px !important;
-    }
-    .item-up:hover {
-        color: #1fe21f !important;
-    }
-    .item-down:hover {
-        color: #f31414 !important;
-    }
-    .list-up-down {
-        margin-left: 5px;
-        background-color: white;
-        line-height: 40px !important;
-        font-size: 18px; 
-    }
-        .list-up-down:hover {
-            cursor:pointer;
-        }
-        #Calisma {
-        border-radius: 1rem !important;
-        width: 100% !important;
-        height: 100px !important;
-    }
+    textarea#Aciklama {border-radius: 1rem !important;width: 100% !important;height: 100px !important;}
+    .item-up:hover {color: #1fe21f !important;}
+    .item-down:hover {color: #f31414 !important;}
+    .list-up-down {margin-left: 5px;background-color: white;line-height: 40px !important;font-size: 18px; }
+    .list-up-down:hover {cursor:pointer;}
+    #Calisma {border-radius: 1rem !important;width: 100% !important;height: 100px !important;}
     td.details-control {background: url('/Content/assets/global/plugins/datatables/images/details_open.png') no-repeat center center;cursor: pointer;}
     tr.shown td.details-control {background: url('/Content/assets/global/plugins/datatables/images/details_close.png') no-repeat center center;}
-
     .last-work {line-height: 32px !important;color: #86d8ea;font-size: 24px;margin-left:5px;}
     .delete-icn {line-height: 32px !important;color: #ec4646;font-size: 24px;}
     .txt-aciklama.dx-texteditor.dx-widget.dx-textbox {border-radius: 30px !important;border: .7px solid #bdb7b7;}
@@ -42,15 +22,11 @@
 <div class="row m-10">
     <div class="rdgrpOnayRed col-md-4"></div>
     <div class="col-md-8">
-        <div class="col-md-3"><button class="btn btn-primary pull-right input-circle yeni-gorev-buton glyphicon glyphicon-refresh" href="#modalEditPage" data-toggle="modal" style="width:100%"> Yeni Görev </button></div>
-        <div class="col-md-3"><button class="btn btn btn-lg yellow pull-right input-circle oncelik-kayit-buton glyphicon glyphicon-ok" style="display:none;width:100%"> Öncelik Kaydet </button></div>
+        <div class="col-md-3 col-md-offset-3"><button class="btn btn btn-lg yellow pull-right input-circle oncelik-kayit-buton glyphicon glyphicon-ok" style="display:none;width:100%"> Öncelik Kaydet </button></div>
         <div class="col-md-2"><button class="btn btn btn-lg yellow pull-right input-circle onayla-buton glyphicon glyphicon-ok" style="display:none;width:100%"> Onayla </button></div>
         <div class="col-md-2"><button class="btn btn btn-lg yellow pull-right input-circle reddet-buton glyphicon glyphicon-ok" style="display:none;width:100%"> Reddet </button></div>
         <div class="col-md-2"><button class="btn btn-success pull-right input-circle yenile-buton glyphicon glyphicon-refresh" style="width:100%"> Yenile </button></div>
-        
     </div>
-    
-    
 </div>
 <div class="row">
     <div class="col-md-12">
@@ -62,123 +38,119 @@
 <script src="~/Content/assets/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js" type="text/javascript"></script>
 <script src="~/Content/assets/global/plugins/datatables/extensions/RowReorder/js/dataTables.rowReorder.js"></script>
 <script type="text/javascript">
+    var aktifPasif = "@ViewBag.AktifPasif";
+    var rdrValue = aktifPasif;
+    var radioGroupItems = [
+        { text: "Aktif", value: "Aktif" },
+        { text: "Tamamlananlar", value: "Pasif" }
+        @{if(ViewBag.Yetki == "Admin") {<text>, { text: "Onay Bekleyenler", value: "Onay" } </text>}}
+    ];
+    var DeleteFunctionUrl = '/ToDo/Duties/Delete';
+    PartialView("/ToDo/Duties/List", 'liste', JSON.stringify({ Tip: rdrValue }));
     $(document).ready(function () {
         $('.date-picker').datepicker();
         $(".form-rounded").css("border-radius", "1rem");
     });
-       var aktifPasif = "@ViewBag.AktifPasif";
-       var rdrValue = aktifPasif;
-        var radioGroupItems = [
-            { text: "Aktif", value: "Aktif" },
-            { text: "Tamamlananlar", value: "Pasif" },
-            { text: "Onay Bekleyenler", value: "Onay" }
-       ];
-        $(function () {
-            $(".rdgrpOnayRed").dxRadioGroup({
-                dataSource: radioGroupItems,
-                displayExpr: "text",
-                valueExpr: "value",
-                value: rdrValue,
-                layout: "horizontal",
-                onValueChanged: function (e) {
-                    rdrValue = e.value;
-                    if (rdrValue == "Pasif") {
-                        $(".oncelik-kayit-buton").css("display", "none");
-                        $(".onayla-buton").css("display", "none");
-                        $(".reddet-buton").css("display", "none");
-                    }
-                    else if (rdrValue == "Onay") {
-                        $(".onayla-buton").css("display", "block");
-                        $(".reddet-buton").css("display", "block");
-                    }
-                    else {
-                        $(".onayla-buton").css("display", "none");
-                        $(".reddet-buton").css("display", "none");
-                    }
-
-                    PartialView("/ToDo/Duties/List", 'liste', JSON.stringify({ Tip: rdrValue }));
+    $(function () {
+        $(".rdgrpOnayRed").dxRadioGroup({
+            dataSource: radioGroupItems,
+            displayExpr: "text",
+            valueExpr: "value",
+            value: rdrValue,
+            layout: "horizontal",
+            onValueChanged: function (e) {
+                rdrValue = e.value;
+                if (rdrValue == "Pasif") {
+                    $(".oncelik-kayit-buton").css("display", "none");
+                    $(".onayla-buton").css("display", "none");
+                    $(".reddet-buton").css("display", "none");
                 }
-            });
+                else if (rdrValue == "Onay") {
+                    $(".onayla-buton").css("display", "block");
+                    $(".reddet-buton").css("display", "block");
+                }
+                else {
+                    $(".onayla-buton").css("display", "none");
+                    $(".reddet-buton").css("display", "none");
+                }
+
+                PartialView("/ToDo/Duties/List", 'liste', JSON.stringify({ Tip: rdrValue }));
+            }
         });
-        var DeleteFunctionUrl = '/ToDo/Duties/Delete';
-    PartialView("/ToDo/Duties/List", 'liste', JSON.stringify({ Tip: rdrValue }));
+    });
     function CreateEdit(Id) {
         if (Id == 0) {
             $("#ID").val("0");
             $("#Gorev").val("");
             $("#Aciklama").val("");
             $("#TahminiBitis").val("");
-            setTimeout(function () { window.location.reload(); }, 500);
-            //PartialView("/ToDo/Duties/List", 'liste');
+            $('#modalEditPage').modal('toggle');
+            PartialView("/ToDo/Duties/List", 'liste', JSON.stringify({ Tip: rdrValue }));
         }
         else
-        { PartialView('/ToDo/Duties/Edit', 'CreateEdit', JSON.stringify({ Id: Id })); }
-
-        }
-        function newrow(id) { return "<table style='background:transparent;' id='new" + id + "'></table>"; }
-        function format(d) {
-            var html = "<tr style='background: transparent;'><th>Tarih</th > <th>Çalışma Süre</th><th>Çalışma</th><th>Sorumlu</th></tr >";
-            $.ajax({
-                type: 'POST',
-                url: '/ToDo/Duties/Duty_Details',
-                data: { "ID": d },
-                dataType: "html",
-                success: function (data) {
-                    $('#new' + d).html(data);
+            PartialView('/ToDo/Duties/Edit', 'CreateEdit', JSON.stringify({ Id: Id }));
+    }
+    function newrow(id) { return "<table style='background:transparent;' id='new" + id + "'></table>"; }
+    function format(d) {
+        var html = "<tr style='background: transparent;'><th>Tarih</th > <th>Çalışma Süre</th><th>Çalışma</th><th>Sorumlu</th></tr >";
+        $.ajax({
+            type: 'POST',
+            url: '/ToDo/Duties/Duty_Details',
+            data: { "ID": d },
+            dataType: "html",
+            success: function (data) {
+                $('#new' + d).html(data);
+            }
+        });
+    }
+    function getProje(id, what, what2) {
+        $("#" + what + " option").remove();
+        $("#" + what2 + " option").remove();
+        $.ajax({
+            url: "/ToDo/Duties/ProjeListesi/" + id,
+            type: 'POST',
+            dataType: "json",
+            contentType: 'application/json; charset=utf-8',
+            success: function (data) {
+                if (data != "") {
+                    $.each(data, function (i, item) {
+                        $('#' + what).append($('<option>', { value: item.Value, text: item.Text }));
+                    });
+                    $("#" + what).prepend("<option value=''>Seçiniz !!!</option>"); $("#" + what)[0].selectedIndex = 0;
                 }
-            });
-        }
-        function getProje(id, what, what2) {
-            $("#" + what + " option").remove();
-            $("#" + what2 + " option").remove();
-            $.ajax({
-                url: "/ToDo/Duties/ProjeListesi/" + id,
-                type: 'POST',
-                dataType: "json",
-                contentType: 'application/json; charset=utf-8',
-                success: function (data) {
-                    if (data != "") {
-                        $.each(data, function (i, item) {
-                            $('#' + what).append($('<option>', { value: item.Value, text: item.Text }));
-                        });
-                        $("#" + what).prepend("<option value=''>Seçiniz !!!</option>"); $("#" + what)[0].selectedIndex = 0;
-                    }
+            }
+        });
+    }
+    function getForm(id, what) {
+        $("#" + what + " option").remove();
+        $.ajax({
+            url: "/ToDo/Duties/FormListesi/" + id,
+            type: 'POST',
+            dataType: "json",
+            contentType: 'application/json; charset=utf-8',
+            success: function (data) {
+                if (data != "") {
+                    $.each(data, function (i, item) {
+                        $('#' + what).append($('<option>', { value: item.Value, text: item.Text }));
+                    });
+                    $("#" + what).prepend("<option value=''>Seçiniz !!!</option>"); $("#" + what)[0].selectedIndex = 0;
                 }
-            });
-        }
-        function getForm(id, what) {
-            $("#" + what + " option").remove();
-            $.ajax({
-                url: "/ToDo/Duties/FormListesi/" + id,
-                type: 'POST',
-                dataType: "json",
-                contentType: 'application/json; charset=utf-8',
-                success: function (data) {
-                    if (data != "") {
-                        $.each(data, function (i, item) {
-                            $('#' + what).append($('<option>', { value: item.Value, text: item.Text }));
-                        });
-                        $("#" + what).prepend("<option value=''>Seçiniz !!!</option>"); $("#" + what)[0].selectedIndex = 0;
-                    }
-                }
-            });
-        }
-        $('.yeni-gorev-buton').click(function () {
-            editInModal('/ToDo/Duties/New');
+            }
         });
-        $('.yenile-buton').click(function () {
-            PartialView("/ToDo/Duties/List", 'liste', JSON.stringify({ Tip: rdrValue }));
-        });
+    }
+    $('.yenile-buton').click(function () {
+        PartialView("/ToDo/Duties/List", 'liste', JSON.stringify({ Tip: rdrValue }));
+    });
 
-        $('.oncelik-kayit-buton').click(function () {
-            OncelikKaydet();
-        });
-        $('.onayla-buton').click(function () {
-            GorevOnayla();
-        });
-        $('.reddet-buton').click(function () {
-            GorevReddet();
-        });
+    $('.oncelik-kayit-buton').click(function () {
+        OncelikKaydet();
+    });
+    $('.onayla-buton').click(function () {
+        GorevOnayla();
+    });
+    $('.reddet-buton').click(function () {
+        GorevReddet();
+    });
 
-    </script>
+</script>
 }

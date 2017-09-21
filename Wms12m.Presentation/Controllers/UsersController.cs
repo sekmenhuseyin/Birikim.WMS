@@ -26,11 +26,7 @@ namespace Wms12m.Presentation.Controllers
         public PartialViewResult List()
         {
             if (CheckPerm(Perms.Kullanıcılar, PermTypes.Reading) == false) return null;
-            List<User> list;
-            if (vUser.Id == 1)
-                list = db.Users.Where(m => m.Sirket == "" && m.Tip == 0).ToList();
-            else
-                list = db.Users.Where(m => m.Sirket == "" && m.Tip == 0 && m.ID > 1).ToList();
+            var list = db.Users.Where(m => m.Sirket == "" && m.Tip == 0 && m.ID > 1).ToList();
             ViewBag.Yetki = CheckPerm(Perms.Kullanıcılar, PermTypes.Writing);
             ViewBag.UserID = vUser.Id;
             return PartialView("List", list);

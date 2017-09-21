@@ -22,7 +22,7 @@ namespace Wms12m.Entity.Models
         public string Kaydeden { get; set; }
         public System.DateTime KayitTarih { get; set; }
         public string Degistiren { get; set; }
-        public Nullable<System.DateTime> DegisTarih { get; set; }
+        public System.DateTime DegisTarih { get; set; }
         public bool Kontrol { get; set; }
         public bool KontrolOnay { get; set; }
     

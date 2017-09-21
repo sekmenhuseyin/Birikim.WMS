@@ -20,13 +20,9 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         public ActionResult Index(string aktifPasif)
         {
             if (aktifPasif == null)
-            {
-                ViewBag.AktifPasif = "Aktif";
-            }
-            else
-            {
-                ViewBag.AktifPasif = aktifPasif;
-            }
+                aktifPasif = "Aktif";
+            ViewBag.AktifPasif = aktifPasif;
+            ViewBag.Yetki = vUser.RoleName;
             return View();
         }
         /// <summary>
@@ -38,10 +34,9 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             ViewBag.OncelikID = new SelectList(ComboSub.GetList(Combos.Öncelik.ToInt32()), "ID", "Name");
             ViewBag.GorevTipiID = new SelectList(ComboSub.GetList(Combos.GörevYönetimTipleri.ToInt32()), "ID", "Name", "");
             ViewBag.DepartmanID = new SelectList(ComboSub.GetList(Combos.Departman.ToInt32()), "ID", "Name", "");
-            //ViewBag.ProjeFormID = new SelectList(db.ProjeForms, "ID", "Proje");
             ViewBag.MusteriID = new SelectList(db.Musteris.ToList(), "ID", "Firma");
-            ViewBag.Sorumlu = new SelectList(db.Users.ToList(), "Kod", "AdSoyad");
-            ViewBag.KaliteKontrol = new SelectList(db.Users.Where(m => m.RoleName == "Destek").ToList(), "Kod", "AdSoyad");
+            ViewBag.Sorumlu = new SelectList(Persons.GetList(), "Kod", "AdSoyad");
+            ViewBag.KaliteKontrol = new SelectList(Persons.GetList("Destek"), "Kod", "AdSoyad");
             ViewBag.Sorumlu2 = ViewBag.Sorumlu;
             ViewBag.Sorumlu3 = ViewBag.Sorumlu;
             return PartialView(new Gorevler());
@@ -54,9 +49,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         {
             var gorevCalismas = db.GorevCalismas.Include(g => g.Gorevler);
             var list = gorevCalismas.Where(a => a.GorevID == ID).ToList();
-
             return PartialView("Duty_Details", list);
-
         }
         /// <summary>
         /// liste
@@ -98,7 +91,6 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                 {
                     list = db.Gorevlers.Where(a => a.AktifPasif == tip && (((a.Sorumlu == vUser.UserName || a.Sorumlu2 == vUser.UserName || a.Sorumlu3 == vUser.UserName) && a.GorevTipiID != gorevTipleri.ID) || (a.KaliteKontrol == vUser.UserName && (a.GorevTipiID == gorevTipleri.ID || a.GorevToDoLists.Select(c => c.Kontrol == true && c.KontrolOnay == false).Count() > 0)))).OrderBy(a => a.OncelikID).ToList();
                 }
-
             }
             return PartialView(list);
         }
@@ -108,27 +100,22 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         public PartialViewResult Edit(int? id)
         {
             var tbl = db.Gorevlers.Find(id);
-            Gorevler gorevler = db.Gorevlers.Find(id);
-            ProjeForm projeForm = db.ProjeForms.Find(gorevler.ProjeFormID);
-
-            ViewBag.MusteriID = new SelectList(db.Musteris.ToList(), "ID", "Firma", projeForm.MusteriID);
-            ViewBag.Proje = new SelectList(db.ProjeForms.Where(m => m.MusteriID == projeForm.MusteriID && m.PID == null).ToList(), "ID", "Proje", projeForm.PID);
-            ViewBag.ProjeFormID = new SelectList(db.ProjeForms.Where(m => m.PID == projeForm.PID).ToList(), "ID", "Form", projeForm.ID);
+            ViewBag.MusteriID = new SelectList(db.Musteris.ToList(), "ID", "Firma", tbl.ProjeForm.MusteriID);
+            ViewBag.Proje = new SelectList(db.ProjeForms.Where(m => m.MusteriID == tbl.ProjeForm.MusteriID && m.PID == null).ToList(), "ID", "Proje", tbl.ProjeForm.PID);
+            ViewBag.ProjeFormID = new SelectList(db.ProjeForms.Where(m => m.PID == tbl.ProjeForm.PID).ToList(), "ID", "Form", tbl.ProjeForm.ID);
             ViewBag.DurumID = new SelectList(ComboSub.GetList(Combos.GörevYönetimDurumları.ToInt32()), "ID", "Name");
             ViewBag.OncelikID = new SelectList(ComboSub.GetList(Combos.Öncelik.ToInt32()), "ID", "Name");
             ViewBag.GorevTipiID = new SelectList(ComboSub.GetList(Combos.GörevYönetimTipleri.ToInt32()), "ID", "Name");
             ViewBag.DepartmanID = new SelectList(ComboSub.GetList(Combos.Departman.ToInt32()), "ID", "Name");
-
-            ViewBag.ID = projeForm.PID;
-            ViewBag.PFID = projeForm.ID;
+            ViewBag.ID = tbl.ProjeForm.PID;
+            ViewBag.PFID = tbl.ProjeForm.ID;
             return PartialView("Edit", tbl);
         }
         /// <summary>
         /// kaydetme
         /// </summary>
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public JsonResult Save([Bind(Include = "ID,ProjeFormID,Sorumlu,Sorumlu2,Sorumlu3,KaliteKontrol,Gorev,Aciklama,OncelikID,DurumID,GorevTipiID,DepartmanID,TahminiBitis,BitisTarih,IslemTip,IslemSira,Kaydeden,KayitTarih,Degistiren,DegisTarih,work,todo,silinenler")] Gorevler gorevler)
+        [HttpPost, ValidateAntiForgeryToken]
+        public JsonResult Save([Bind(Include = "ID,ProjeFormID,Sorumlu,Sorumlu2,Sorumlu3,KaliteKontrol,Gorev,Aciklama,OncelikID,DurumID,GorevTipiID,DepartmanID,TahminiBitis,BitisTarih,IslemTip,IslemSira,work,todo,silinenler")] Gorevler gorevler)
         {
             if (ModelState.IsValid)
             {
@@ -256,6 +243,8 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                     tbl.GorevTipiID = gorevler.GorevTipiID;
                     tbl.DepartmanID = gorevler.DepartmanID;
                     tbl.TahminiBitis = gorevler.TahminiBitis;
+                    tbl.Degistiren = vUser.UserName;
+                    tbl.DegisTarih = DateTime.Now;
                     tbl.BitisTarih = null;
                     tbl.IslemTip = 0;
                     tbl.IslemSira = null;
@@ -317,30 +306,32 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                     db.SaveChanges();
                     return Json(new Result(true, gorevler.ID), JsonRequestBehavior.AllowGet);
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
+                    Logger(ex, "ToDo/Duties/Save");
+                    return Json(new Result(false, "Kayıt hatası. Sayfayı yenileyin"), JsonRequestBehavior.AllowGet);
                 }
             }
-            ViewBag.ProjeFormID = new SelectList(db.ProjeForms, "ID", "Proje", gorevler.ProjeFormID);
-            return Json(new Result(false, "Hata oldu"), JsonRequestBehavior.AllowGet);
-
-
+            return Json(new Result(false, "Form hatalı. Sayfayı yenileyin"), JsonRequestBehavior.AllowGet);
         }
         /// <summary>
         /// sil
         /// </summary>
         public JsonResult Delete(string Id)
         {
-            Gorevler gorev = db.Gorevlers.Find(Id.ToInt32());
-            gorev.AktifPasif = false;
-
-            db.Database.ExecuteSqlCommand(string.Format("UPDATE [BIRIKIM].[ong].[GorevTodoList] SET AktifPasif=0 WHERE  GorevID = {0}", Id.ToInt32()));
-
-            db.SaveChanges();
-
-            Result _Result = new Result(true, Id.ToInt32());
-            return Json(_Result, JsonRequestBehavior.AllowGet);
-
+            try
+            {
+                Gorevler gorev = db.Gorevlers.Find(Id.ToInt32());
+                gorev.AktifPasif = false;
+                db.Database.ExecuteSqlCommand(string.Format("UPDATE [BIRIKIM].[ong].[GorevTodoList] SET AktifPasif=0 WHERE  GorevID = {0}", Id.ToInt32()));
+                db.SaveChanges();
+                return Json(new Result(true, Id.ToInt32()), JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Logger(ex, "ToDo/Duties/Delete");
+                return Json(new Result(false, "Hata oldu"), JsonRequestBehavior.AllowGet);
+            }
         }
         /// <summary>
         /// projeler
@@ -446,7 +437,9 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             }
 
         }
-
+        /// <summary>
+        /// görev ret
+        /// </summary>
         public string GorevOnayla(int Data)
         {
 
