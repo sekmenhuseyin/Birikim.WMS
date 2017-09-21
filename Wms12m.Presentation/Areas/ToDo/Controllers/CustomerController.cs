@@ -8,34 +8,32 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
 {
     public class CustomerController : RootController
     {
-      
-
-
-
-
-
-        // GET: Customer/Create
+        /// <summary>
+        /// müşteriler
+        /// </summary>
         public ActionResult Index()
         {
             return View(new Musteri());
         }
-
-        // GET: Customer
+        /// <summary>
+        /// liste
+        /// </summary>
         public PartialViewResult List()
         {
             return PartialView(db.Musteris.ToList());
         }
-
-        // GET: Customer/Edit/5
+        /// <summary>
+        /// düzenleme sayfası
+        /// </summary>
         public PartialViewResult Edit(int? id)
         {
             Musteri musteri = db.Musteris.Find(id);
             return PartialView(musteri);
         }
-
-        // POST: Customer/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        /// <summary>
+        /// kaydet
+        /// </summary>
+        [HttpPost, ValidateAntiForgeryToken]
         public JsonResult Save([Bind(Include = "ID,Firma,Unvan,Aciklama,Email,Tel1,Tel2,MesaiKontrol,MesaiKota")] Musteri musteri)
         {
             if (ModelState.IsValid)
@@ -72,18 +70,20 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             }
             return Json(new Result(false, "Hata oldu"), JsonRequestBehavior.AllowGet);
         }
-
+        /// <summary>
+        /// sil
+        /// </summary>
         public JsonResult Delete(string Id)
         {
             Musteri musteri = db.Musteris.Find(Id.ToInt32());
             db.Musteris.Remove(musteri);
             db.SaveChanges();
-
             Result _Result = new Result(true, Id.ToInt32());
             return Json(_Result, JsonRequestBehavior.AllowGet);
-
         }
-
+        /// <summary>
+        /// silme kontorlü
+        /// </summary>
         public JsonResult DeleteKontrol(string Id)
         {
             Result _Result = new Result();
@@ -102,8 +102,5 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             return Json(_Result, JsonRequestBehavior.AllowGet);
 
         }
-
-
-
     }
 }

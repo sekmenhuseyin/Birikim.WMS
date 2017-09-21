@@ -10,14 +10,17 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
 {
     public class DutyWorkController : RootController
     {
-
-
+        /// <summary>
+        /// çalışmalar
+        /// </summary>
         public ActionResult Index()
         {
             ViewBag.GorevID = new SelectList(db.Gorevlers.Where(a => a.Sorumlu == vUser.UserName || a.Sorumlu2 == vUser.UserName || a.Sorumlu3 == vUser.UserName || a.KaliteKontrol == vUser.UserName).ToList(), "ID", "Gorev");
             return View(new GorevCalisma());
         }
-
+        /// <summary>
+        /// yeni çalışma
+        /// </summary>
         public PartialViewResult NewWork()
         {
             var id = Url.RequestContext.RouteData.Values["id"];
@@ -32,13 +35,17 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             };
             return PartialView(aa);
         }
-
+        /// <summary>
+        /// liste
+        /// </summary>
         public PartialViewResult List()
         {
             List<GorevCalisma> gorevCalismas = db.GorevCalismas.Where(a => a.Gorevler.Sorumlu == vUser.UserName || a.Gorevler.Sorumlu2 == vUser.UserName || a.Gorevler.Sorumlu3 == vUser.UserName || a.Gorevler.KaliteKontrol == vUser.UserName).ToList();
             return PartialView(gorevCalismas);
         }
-
+        /// <summary>
+        /// düzenle
+        /// </summary>
         public PartialViewResult Edit(int? id)
         {
             GorevCalisma gorevCalisma = db.GorevCalismas.Find(id);
@@ -49,9 +56,12 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             ViewBag.TodoList = db.GorevToDoLists.Where(x => ((x.OnayDurum == false) && (x.AktifPasif == true) && (x.GorevID == gorevCalisma.GorevID)) || ids.Contains(x.ID.ToString())).ToList();
             return PartialView(gorevCalisma);
         }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        /// <summary>
+        /// kaydet
+        /// </summary>
+        /// <param name="gorevCalisma"></param>
+        /// <returns></returns>
+        [HttpPost, ValidateAntiForgeryToken]
         public JsonResult Save([Bind(Include = "ID,GorevID,Tarih,CalismaSure,Calisma,Kaydeden,KayitTarih,Degistiren,DegisTarih,work,checkitem,todo")] GorevCalisma gorevCalisma)
         {
             var sayac = 0;
@@ -176,6 +186,9 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
 
 
         }
+        /// <summary>
+        /// sil
+        /// </summary>
         public JsonResult Delete(string Id)
         {
             GorevCalisma gorevcalisma = db.GorevCalismas.Find(Id.ToInt32());
@@ -186,7 +199,9 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             return Json(_Result, JsonRequestBehavior.AllowGet);
 
         }
-
+        /// <summary>
+        /// iş listesi
+        /// </summary>
         public string GorevToDoList()
         {
             var id = Url.RequestContext.RouteData.Values["id"];
@@ -210,6 +225,5 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             return json;
 
         }
-
     }
 }

@@ -14,7 +14,9 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
 {
     public class DutiesController : RootController
     {
-        // GET: MainProjectForm/Create
+        /// <summary>
+        /// görevler sayfası
+        /// </summary>
         public ActionResult Index(string aktifPasif)
         {
             if (aktifPasif == null)
@@ -27,7 +29,9 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             }
             return View();
         }
-
+        /// <summary>
+        /// yenbi görev sayfası
+        /// </summary>
         public PartialViewResult New()
         {
             ViewBag.DurumID = new SelectList(ComboSub.GetList(Combos.GörevYönetimDurumları.ToInt32()), "ID", "Name");
@@ -42,7 +46,9 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             ViewBag.Sorumlu3 = ViewBag.Sorumlu;
             return PartialView(new Gorevler());
         }
-
+        /// <summary>
+        /// ayrıntılar
+        /// </summary>
         [HttpPost]
         public PartialViewResult Duty_Details(int ID)
         {
@@ -52,7 +58,9 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             return PartialView("Duty_Details", list);
 
         }
-
+        /// <summary>
+        /// liste
+        /// </summary>
         public PartialViewResult List(string Tip)
         {
             ViewBag.RoleName = vUser.RoleName;
@@ -94,8 +102,9 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             }
             return PartialView(list);
         }
-
-        // GET: MainProjectForm/Edit/5
+        /// <summary>
+        /// düzenleme sayfası
+        /// </summary>
         public PartialViewResult Edit(int? id)
         {
             var tbl = db.Gorevlers.Find(id);
@@ -114,8 +123,9 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             ViewBag.PFID = projeForm.ID;
             return PartialView("Edit", tbl);
         }
-
-
+        /// <summary>
+        /// kaydetme
+        /// </summary>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public JsonResult Save([Bind(Include = "ID,ProjeFormID,Sorumlu,Sorumlu2,Sorumlu3,KaliteKontrol,Gorev,Aciklama,OncelikID,DurumID,GorevTipiID,DepartmanID,TahminiBitis,BitisTarih,IslemTip,IslemSira,Kaydeden,KayitTarih,Degistiren,DegisTarih,work,todo,silinenler")] Gorevler gorevler)
@@ -316,8 +326,9 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
 
 
         }
-
-
+        /// <summary>
+        /// sil
+        /// </summary>
         public JsonResult Delete(string Id)
         {
             Gorevler gorev = db.Gorevlers.Find(Id.ToInt32());
@@ -331,7 +342,9 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             return Json(_Result, JsonRequestBehavior.AllowGet);
 
         }
-
+        /// <summary>
+        /// projeler
+        /// </summary>
         public JsonResult ProjeListesi()
         {
             var id = Url.RequestContext.RouteData.Values["id"];
@@ -350,7 +363,9 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             return Json(List.Select(x => new { Value = x.Value, Text = x.Text, Selected = x.Selected }), JsonRequestBehavior.AllowGet);
 
         }
-
+        /// <summary>
+        /// formlar
+        /// </summary>
         public JsonResult FormListesi()
         {
             var id = Url.RequestContext.RouteData.Values["id"];
@@ -369,7 +384,9 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             return Json(List.Select(x => new { Value = x.Value, Text = x.Text, Selected = x.Selected }), JsonRequestBehavior.AllowGet);
 
         }
-
+        /// <summary>
+        /// sorumlular
+        /// </summary>
         public string SorumluListesi()
         {
             List<frmUserss> usr = db.Users.Where(a => a.Aktif == true).Select(m => new frmUserss { ID = m.ID, Kod = m.Kod, AdSoyad = m.AdSoyad, RoleName = m.RoleName }).ToList();
@@ -377,7 +394,9 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             return json;
 
         }
-
+        /// <summary>
+        /// öncelik update
+        /// </summary>
         public string OncelikGuncelle(string Data)
         {
             if (CheckPerm(Perms.SözleşmeTanim, PermTypes.Writing) == false) return null;
@@ -405,7 +424,9 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                 return "NO";
             }
         }
-
+        /// <summary>
+        /// görev onay
+        /// </summary>
         public string GorevReddet(int Data)
         {
 
