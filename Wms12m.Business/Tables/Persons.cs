@@ -80,7 +80,7 @@ namespace Wms12m.Business
             try
             {
                 db.SaveChanges();
-                LogActions("Business", "Persons", "Operation", eklemi == true ? ComboItems.alEkle : ComboItems.alDüzenle, tbl.ID, tbl.AdSoyad+", "+tbl.Email + ", " + tbl.RoleName + ", " + tbl.Kod);
+                LogActions("Business", "Persons", "Operation", eklemi == true ? ComboItems.alEkle : ComboItems.alDüzenle, tbl.ID, tbl.AdSoyad + ", " + tbl.Email + ", " + tbl.RoleName + ", " + tbl.Kod);
                 //result
                 _Result.Id = tbl.ID;
                 _Result.Message = "İşlem Başarılı !!!";
@@ -230,7 +230,7 @@ namespace Wms12m.Business
         /// </summary>
         public override List<User> GetList()
         {
-            return db.Users.OrderBy(m => m.AdSoyad).ToList();
+            return db.Users.Where(m => m.ID > 1).OrderBy(m => m.AdSoyad).ToList();
         }
         /// <summary>
         /// yetkiye sahip kişiler
