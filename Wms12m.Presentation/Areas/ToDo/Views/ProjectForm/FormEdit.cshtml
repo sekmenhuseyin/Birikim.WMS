@@ -3,52 +3,48 @@
     <div class="portlet box green">
         <div class="portlet-title">
             <div class="caption">
-                <i class="fa fa-gift"></i>@(Model.ID > 0 ? Model.Form + " Formu Düzenle" : "Form Ekle")
+                <i class="fa fa-gift"></i>@(Model.ID > 0 ? "Form Düzenle" : "Form Ekle")
             </div>
         </div>
         <div class="portlet-body form">
-            @using (Ajax.BeginForm("FormSave", "ProjectForm", new { area = "ToDo" }, new AjaxOptions { InsertionMode = InsertionMode.Replace, OnFailure = "Modaldialog('Lütfen Tekrar Deneyin', 'Hata', 'Tamam', 'btn-danger');", OnSuccess = "CreateEditAltF('kayit');" }, new { @class = "form-horizontal" }))
+            @using (Ajax.BeginForm("FormSave", "ProjectForm", new { area = "ToDo" }, new AjaxOptions { OnFailure = "Modaldialog('Lütfen Tekrar Deneyin', 'Hata', 'Tamam', 'btn-danger');", OnSuccess = "CreateEditAltF('0');" }, new { @class = "form-horizontal" }))
             {
-                @Html.HiddenFor(model => model.ID)
                 @Html.AntiForgeryToken()
                 @Html.ValidationSummary(true)
                 <div class="form-body">
-                    <div class="form-group row">
-                        @Html.LabelFor(model => model.MusteriID, "MusteriID", htmlAttributes: new { @class = "control-label col-md-4" })
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.MusteriID, "Müşteri", htmlAttributes: new { @class = "control-label col-md-3" })
                         <div class="col-md-4">
                             @Html.DropDownList("MusteriID", null, htmlAttributes: new { @class = "form-control input-circle", @readonly = "readonly" })
                             @Html.ValidationMessageFor(model => model.MusteriID, "", new { @class = "text-danger" })
                         </div>
                     </div>
-                    <div class="form-group row" style="display:none">
-                        @Html.LabelFor(model => model.PID, "PID", htmlAttributes: new { @class = "control-label col-md-4" })
+                    <div class="form-group" style="display:none">
+                        @Html.LabelFor(model => model.PID, "Proje", htmlAttributes: new { @class = "control-label col-md-3" })
                         <div class="col-md-4">
                             @Html.DropDownList("PID", null, htmlAttributes: new { @class = "form-control input-circle", @readonly = "readonly" })
                             @Html.ValidationMessageFor(model => model.PID, "", new { @class = "text-danger" })
                         </div>
                     </div>
-                    <div class="form-group row">
-                        @Html.LabelFor(model => model.Proje, htmlAttributes: new { @class = "control-label col-md-4" })
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Proje, htmlAttributes: new { @class = "control-label col-md-3" })
                         <div class="col-md-4">
                             @Html.EditorFor(model => model.Proje, new { htmlAttributes = new { @class = "form-control input-circle", required = "required", @readonly = "readonly" } })
                             @Html.ValidationMessageFor(model => model.Proje, "", new { @class = "text-danger" })
                         </div>
                     </div>
 
-                    <div class="form-group row">
-                        @Html.LabelFor(model => model.Form, htmlAttributes: new { @class = "control-label col-md-4" })
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Form, htmlAttributes: new { @class = "control-label col-md-3" })
                         <div class="col-md-4">
                             @Html.EditorFor(model => model.Form, new { htmlAttributes = new { @class = "form-control input-circle", required = "required" } })
                             @Html.ValidationMessageFor(model => model.Form, "", new { @class = "text-danger" })
                         </div>
                     </div>
-
-                    <div class="form-actions">
-                        <div class="row">
-                            <div class="col-md-offset-3 col-md-9">
-                                <button type="submit" class="btn btn-circle green">@(Model.ID > 0 ? "Düzenle" : "Ekle")</button>
-                                <button type="button" class="btn btn-circle grey-salsa btn-outline" onclick="CreateEditAltF('0')">Temizle</button>
-                            </div>
+                    <div class="form-group">
+                        <div class="col-md-offset-3 col-md-9">
+                            <button type="submit" class="btn btn-circle green">@(Model.ID > 0 ? "Düzenle" : "Ekle")</button>
+                            <button type="button" class="btn btn-circle grey-salsa btn-outline" onclick="CreateEditAltF('0')">Temizle</button>
                         </div>
                     </div>
                 </div>
