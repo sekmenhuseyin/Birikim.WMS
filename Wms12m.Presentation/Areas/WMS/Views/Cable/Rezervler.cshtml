@@ -11,7 +11,7 @@
                     <h4>Rezerv Ayrıntı</h4>
                     <table class="table table-bordered table-condensed m-t-20">
                         <thead>
-                            <tr><th>Evrak No</th><th>HesapKodu</th><th>Unvan</th><th>Mal Kodu</th><th>Mal Adı</th><th>Rezerv Miktar</th><th>Birim</th>@*<th>Güneş Stok</th><th>WMS Stok</th>*@</tr>
+                            <tr><th>Görev No</th><th>Evrak No</th><th>HesapKodu</th><th>Unvan</th><th>Mal Kodu</th><th>Mal Adı</th><th>Rezerv Miktar</th><th>Birim</th><th>Makara No</th>@*<th>Güneş Stok</th><th>WMS Stok</th>*@</tr>
                         </thead>
 
                         <tbody>
@@ -39,13 +39,15 @@
                                     tmpUnvan = unvan[hesapKod.IndexOf(item.HesapKodu)];
                                 }
                                 <tr>
-                                    <td>@item.EvrakNo</td>
+                                    <td>@item.GorevNo</td>
+                                    <td>@item.KynkSiparisNo</td>
                                     <td>@item.HesapKodu</td>
                                     <td>@tmpUnvan</td>
                                     <td>@item.MalKodu</td>
                                     <td>@tmp</td>
                                     <td>@item.Miktar</td>
                                     <td>@item.Birim</td>
+                                    <td>@item.MakaraNo</td>
                                     @*<td>@item</td></tr></tbody>*@
                                 </tr>
 

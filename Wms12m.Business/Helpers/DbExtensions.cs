@@ -3,9 +3,6 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
 using Wms12m.Entity;
 using Wms12m.Entity.Models;
 using Wms12m.Entity.Mysql;
@@ -127,6 +124,24 @@ namespace Wms12m
                 barcode = Mmst.GetBuffer();
                 BarCodeImage = barcode != null ? "data:image/jpg;base64," + Convert.ToBase64String(barcode) : "";
                 return BarCodeImage;
+            }
+        }
+        /// <summary>
+        /// gets finsat chk unvan from hesapkodu
+        /// </summary>
+        public static string GetDepoKod(this Int32? value, string SirketKodu)
+        {
+            try
+            {
+                using (WMSEntities db = new WMSEntities())
+                {
+                    string sql = String.Format("SELECT DepoKodu FROM BIRIKIM.wms.Depo WHERE ID='{0}'", value);
+                    return db.Database.SqlQuery<String>(sql).FirstOrDefault();
+                }
+            }
+            catch (Exception)
+            {
+                return "";
             }
         }
     }
