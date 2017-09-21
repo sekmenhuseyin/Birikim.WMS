@@ -21,14 +21,6 @@
                     <div class="form-body">
                         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                         @Html.HiddenFor(model => model.ID)
-
-                        @*<div class="form-group row" style="display:none">
-                                @Html.LabelFor(model => model.ProjeFormID, "ProjeFormID", htmlAttributes: new { @class = "control-label col-md-4" })
-                                <div class="col-md-4">
-                                    @Html.DropDownList("ProjeFormID", null, htmlAttributes: new { @class = "form-control input-circle" })
-                                    @Html.ValidationMessageFor(model => model.ProjeFormID, "", new { @class = "text-danger" })
-                                </div>
-                            </div>*@
                         <div class="form-group row">
                             <label class="col-md-1 control-label">Firma</label>
                             <div class="col-md-10">
@@ -66,36 +58,6 @@
                             <div class="col-md-1" style="text-align:right;">Kalite Kontrol</div>
                             <div class="col-md-10"><div class="slct-kalite-kontrol"></div></div>
                         </div>
-                        @*<div class="form-group row">
-                                @Html.LabelFor(model => model.Sorumlu, htmlAttributes: new { @class = "control-label col-md-1" })
-                                <div class="col-md-10">
-                                    @Html.DropDownList("Sorumlu", null, Model.Sorumlu, htmlAttributes: new { @id = "ddSorumlu", @class = "form-control input-circle" })
-                                    @Html.ValidationMessageFor(model => model.Sorumlu, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-
-                            <div class="form-group row">
-                                @Html.LabelFor(model => model.Sorumlu2, htmlAttributes: new { @class = "control-label col-md-1" })
-                                <div class="col-md-10">
-                                    @Html.DropDownList("Sorumlu2", null, Model.Sorumlu2, htmlAttributes: new { @id = "ddSorumlu2", @class = "form-control input-circle" })
-                                    @Html.ValidationMessageFor(model => model.Sorumlu2, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-
-                            <div class="form-group row">
-                                @Html.LabelFor(model => model.Sorumlu3, htmlAttributes: new { @class = "control-label col-md-1" })
-                                <div class="col-md-10">
-                                    @Html.DropDownList("Sorumlu3", null, Model.Sorumlu3, htmlAttributes: new { @id = "ddSorumlu3", @class = "form-control input-circle" })
-                                    @Html.ValidationMessageFor(model => model.Sorumlu3, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                @Html.LabelFor(model => model.KaliteKontrol, htmlAttributes: new { @class = "control-label col-md-1" })
-                                <div class="col-md-10">
-                                    @Html.DropDownList("KaliteKontrol", null, Model.KaliteKontrol, htmlAttributes: new { @id = "ddKaliteKontrol", @class = "form-control input-circle" })
-                                    @Html.ValidationMessageFor(model => model.KaliteKontrol, "", new { @class = "text-danger" })
-                                </div>
-                            </div>*@
                         <div class="form-group row">
                             @Html.LabelFor(model => model.Gorev, htmlAttributes: new { @class = "control-label col-md-1" })
                             <div class="col-md-10">
@@ -111,22 +73,6 @@
                                 @Html.ValidationMessageFor(model => model.Aciklama, "", new { @class = "text-danger" })
                             </div>
                         </div>
-
-                        @*<div class="form-group row">
-                            @Html.LabelFor(model => model.OncelikID, htmlAttributes: new { @class = "control-label col-md-1" })
-                            <div class="col-md-10">
-                                @Html.DropDownList("OncelikID", null, htmlAttributes: new { @class = "form-control input-circle" })
-                                @Html.ValidationMessageFor(model => model.OncelikID, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            @Html.LabelFor(model => model.DurumID, htmlAttributes: new { @class = "control-label col-md-1" })
-                            <div class="col-md-10">
-                                @Html.DropDownList("DurumID", null, htmlAttributes: new { @class = "form-control input-circle" })
-                                @Html.ValidationMessageFor(model => model.DurumID, "", new { @class = "text-danger" })
-                            </div>
-                        </div>*@
                         <div class="form-group row">
                             @Html.LabelFor(model => model.GorevTipiID, htmlAttributes: new { @class = "control-label col-md-1" })
                             <div class="col-md-10">
@@ -157,7 +103,6 @@
                             <div class="row">
                                 <div class="col-md-offset-5 col-md-7">
                                     <input type="submit" value="Kaydet" class="btn btn-circle green" style="display:none;" />
-                                    @*<button type="button" class="btn btn-circle grey-salsa btn-outline">Kaydet</button>*@
                                     <button type="button" class="btn btn-circle grey-salsa btn-outline" onclick="CreateEdit('0')">Temizle</button>
                                 </div>
                             </div>
@@ -177,8 +122,6 @@
     var ID = '@ViewBag.ID';
     var PFID = '@ViewBag.PFID';
     var KaliteKontrol = new Array();
-    //$("#ddSorumlu2").prepend("<option value=''>Seçiniz !!!</option>");
-    //$("#ddSorumlu3").prepend("<option value=''>Seçiniz !!!</option>");
     $.ajax({
         url: "/ToDo/Duties/SorumluListesi",
         data: {},
@@ -258,8 +201,6 @@
             $(".todo-id" + index).dxTextBox("instance").option({ name: "todo", value: value.ID });
         }
     });
-    //getProje(ID, 'ProjeList', 'FormList');
-    //getForm(ID, 'FormList', PFID);
     $(document).ready(function () {
         $('.date-picker').datepicker();
     });

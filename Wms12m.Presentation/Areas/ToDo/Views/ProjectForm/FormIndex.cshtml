@@ -16,14 +16,6 @@
                             @Html.AntiForgeryToken()
                             @Html.ValidationSummary(true)
                             <div class="form-body">
-                                @*<div class="form-group row" style="display:none">
-                                    @Html.LabelFor(model => model.PID, "PID", htmlAttributes: new { @class = "control-label col-md-4" })
-                                    <div class="col-md-4">
-                                        @Html.DropDownList("PID", null, htmlAttributes: new { @class = "form-control input-circle", @readonly = "readonly" })
-                                        @Html.ValidationMessageFor(model => model.PID, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>*@
-
                                 <div class="form-group row">
                                     @Html.LabelFor(model => model.MusteriID, "MusteriID", htmlAttributes: new { @class = "control-label col-md-4" })
                                     <div class="col-md-4">
@@ -59,9 +51,6 @@
                                         <div class="col-md-offset-3 col-md-9">
                                             <button type="submit" class="btn btn-circle green">@(Model.ID > 0 ? "Düzenle" : "Ekle")</button>
                                             <button type="button" class="btn btn-circle grey-salsa btn-outline" onclick="CreateEditAltF('0')">Temizle</button>
-                                            @*<input type="submit" value="Ekle" class="btn btn-circle green" />
-                                            <button type="button" class="btn btn-circle grey-salsa btn-outline" onclick="CreateEditAltF('0')">Temizle</button>*@
-
                                         </div>
                                     </div>
                                 </div>
@@ -73,7 +62,6 @@
         </div>
         <div id="listealt"></div>
     </div>
-
 </div>
 <script type="text/javascript">
     var DeleteFunctionUrl = '/ToDo/ProjectForm/Delete';
