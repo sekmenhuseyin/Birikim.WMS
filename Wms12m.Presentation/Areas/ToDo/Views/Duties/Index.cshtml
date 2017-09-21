@@ -42,8 +42,8 @@
     var rdrValue = aktifPasif;
     var radioGroupItems = [
         { text: "Aktif", value: "Aktif" },
-        { text: "Tamamlananlar", value: "Pasif" },
-        { text: "Onay Bekleyenler", value: "Onay" }
+        { text: "Tamamlananlar", value: "Pasif" }
+        @{if(ViewBag.Yetki == "Admin") {<text>, { text: "Onay Bekleyenler", value: "Onay" } </text>}}
     ];
     var DeleteFunctionUrl = '/ToDo/Duties/Delete';
     PartialView("/ToDo/Duties/List", 'liste', JSON.stringify({ Tip: rdrValue }));

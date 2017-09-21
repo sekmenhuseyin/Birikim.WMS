@@ -20,13 +20,9 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         public ActionResult Index(string aktifPasif)
         {
             if (aktifPasif == null)
-            {
-                ViewBag.AktifPasif = "Aktif";
-            }
-            else
-            {
-                ViewBag.AktifPasif = aktifPasif;
-            }
+                aktifPasif = "Aktif";
+            ViewBag.AktifPasif = aktifPasif;
+            ViewBag.Yetki = vUser.RoleName;
             return View();
         }
         /// <summary>

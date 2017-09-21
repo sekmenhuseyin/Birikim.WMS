@@ -24,60 +24,19 @@
                         <td nowrap>@item.ProjeForm.Form</td>
 
                         <td nowrap>@item.Gorev</td>
-                        <td nowrap>
-                            @{
-                                if (item.Sorumlu2.IsNullEmpty())
-                                {
-                                    @item.Sorumlu
-                                }
-                                else if (item.Sorumlu3.IsNullEmpty())
-                                {
-                                    @(item.Sorumlu + " - " + item.Sorumlu2)
-                                }
-                                else
-                                {
-                                    @(item.Sorumlu + " - " + item.Sorumlu2 + " - " + item.Sorumlu3)
-                                }
-                            }
-                        </td>
+                        <td nowrap> @{ if (item.Sorumlu2.IsNullEmpty()) { @item.Sorumlu } else if (item.Sorumlu3.IsNullEmpty()) { @(item.Sorumlu + " - " + item.Sorumlu2) } else { @(item.Sorumlu + " - " + item.Sorumlu2 + " - " + item.Sorumlu3) } } </td>
                         <td>@item.ComboItem_Name1.Name</td>
-                        <td>
-                            @if (item.ComboItem_Name2 != null)
-                        { @item.ComboItem_Name2.Name}
-                    </td>
-                    <td>
-                        @if (item.ComboItem_Name != null)
-                    { @item.ComboItem_Name.Name}
-                </td>
-                <td>
-                    @if (item.TahminiBitis != null)
-                { @item.TahminiBitis.Value.ToString("dd-MM-yyyy")}
-            </td>
-            <td nowrap>
-                <a class="btn btn-info" href="#modalEditPage" data-toggle="modal" onclick="DuzenleModal('@item.AktifPasif.ToString()' , '@item.ID')"><span class="glyphicon glyphicon-floppy-save"></span>Çalışma</a>
-                <a class="btn btn-danger" href="javascript:;" onclick="SilModal('@item.AktifPasif.ToString()' ,'@item.ID')"> Sil </a>
-            </td>
-        </tr>
-                                }
+                        <td> @if (item.ComboItem_Name2 != null) { @item.ComboItem_Name2.Name} </td>
+                        <td> @if (item.ComboItem_Name != null) { @item.ComboItem_Name.Name} </td>
+                        <td> @if (item.TahminiBitis != null) { @item.TahminiBitis.Value.ToString("dd-MM-yyyy")} </td>
+                        <td nowrap>
+                            <a class="btn btn-info" href="#modalEditPage" data-toggle="modal" onclick="DuzenleModal('@item.AktifPasif.ToString()' , '@item.ID')"><span class="glyphicon glyphicon-floppy-save"></span>Çalışma</a>
+                            <a class="btn btn-danger" href="javascript:;" onclick="SilModal('@item.AktifPasif.ToString()' ,'@item.ID')"> Sil </a>
+                        </td>
+                    </tr>
+                }
             </tbody>
-            <tfoot class="tf-search">
-                <tr>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th> 
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                </tr>
-            </tfoot>
-
+            <tfoot class="tf-search"><tr><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th> <th></th><th></th><th></th><th></th><th></th></tr></tfoot>
         </table>
     </div>
 </div>
