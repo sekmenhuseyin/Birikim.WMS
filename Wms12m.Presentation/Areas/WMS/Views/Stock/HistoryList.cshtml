@@ -30,6 +30,7 @@
                 <th>Makara No</th>
                 <th>Birim</th>
                 <th class="text-right">Miktar</th>
+                <th class="text-right">Rezerv Miktar</th>
                 <th class="text-right">Stok</th>
             </tr>
         </thead>
@@ -47,6 +48,7 @@
                     <td>@Html.DisplayFor(modelItem => item.MakaraNo)</td>
                     <td>@Html.DisplayFor(modelItem => item.Birim)</td>
                     <td align="right">@String.Format("{0:n}", item.Miktar)</td>
+                    <td align="right">@String.Format("{0:n}", ViewBag.RezervMiktar)</td>
                     <td align="right">@String.Format("{0:n}", i)</td>
                 </tr>
             }
