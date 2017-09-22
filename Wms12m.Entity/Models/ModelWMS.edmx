@@ -173,11 +173,11 @@
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="MusteriID" Type="int" Nullable="false" />
-          <Property Name="Proje" Type="varchar" MaxLength="20" Nullable="false" />
-          <Property Name="Form" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Proje" Type="varchar" MaxLength="120" Nullable="false" />
+          <Property Name="Form" Type="varchar" MaxLength="250" Nullable="false" />
           <Property Name="Sorumlu" Type="varchar" MaxLength="5" />
           <Property Name="KarsiSorumlu" Type="varchar" MaxLength="50" />
-          <Property Name="Aciklama" Type="varchar" MaxLength="300" />
+          <Property Name="Aciklama" Type="varchar(max)" />
           <Property Name="MesaiKontrol" Type="bit" Nullable="false" />
           <Property Name="MesaiKota" Type="int" />
           <Property Name="PID" Type="int" />
@@ -1919,11 +1919,6 @@
             <End Role="User" EntitySet="Users" />
             <End Role="UserDevice" EntitySet="UserDevices" />
           </AssociationSet>
-          <EntitySet Name="ProjeForms" EntityType="MModel.ProjeForm" />
-          <AssociationSet Name="FK_ProjeForm_ProjeForm" Association="MModel.FK_ProjeForm_ProjeForm">
-            <End Role="ProjeForm" EntitySet="ProjeForms" />
-            <End Role="ProjeForm1" EntitySet="ProjeForms" />
-          </AssociationSet>
           <FunctionImport Name="UpdateUserDevice">
             <Parameter Name="UserID" Mode="In" Type="Int32" />
             <Parameter Name="Device" Mode="In" Type="String" />
@@ -2117,9 +2112,17 @@
           <FunctionImport Name="DeleteIrsaliye">
           <Parameter Name="IrsaliyeID" Mode="In" Type="Int32" />
           </FunctionImport>
-          <EntitySet Name="GorevCalismas" EntityType="MModel.GorevCalisma" />
           <FunctionImport Name="f_Sıfırla" />
+          <FunctionImport Name="GetStockRezerv" ReturnType="Collection(MModel.GetStockRezerv_Result)">
+            <Parameter Name="DepoKodu" Mode="In" Type="String" />
+            <Parameter Name="MalKodu" Mode="In" Type="String" />
+            <Parameter Name="Birim" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="GorevCalismas" EntityType="MModel.GorevCalisma" />
           <EntitySet Name="Gorevlers" EntityType="MModel.Gorevler" />
+          <EntitySet Name="GorevToDoLists" EntityType="MModel.GorevToDoList" />
+          <EntitySet Name="Musteris" EntityType="MModel.Musteri" />
+          <EntitySet Name="ProjeForms" EntityType="MModel.ProjeForm" />
           <AssociationSet Name="FK_Gorevler_ComboItem_Name_Departman" Association="MModel.FK_Gorevler_ComboItem_Name_Departman">
             <End Role="ComboItem_Name" EntitySet="ComboItem_Name" />
             <End Role="Gorevler" EntitySet="Gorevlers" />
@@ -2144,20 +2147,17 @@
             <End Role="ProjeForm" EntitySet="ProjeForms" />
             <End Role="Gorevler" EntitySet="Gorevlers" />
           </AssociationSet>
-          <FunctionImport Name="GetStockRezerv" ReturnType="Collection(MModel.GetStockRezerv_Result)">
-            <Parameter Name="DepoKodu" Mode="In" Type="String" />
-            <Parameter Name="MalKodu" Mode="In" Type="String" />
-            <Parameter Name="Birim" Mode="In" Type="String" />
-          </FunctionImport>
-          <EntitySet Name="GorevToDoLists" EntityType="MModel.GorevToDoList" />
           <AssociationSet Name="FK_GorevToDoList_Gorevler" Association="MModel.FK_GorevToDoList_Gorevler">
             <End Role="Gorevler" EntitySet="Gorevlers" />
             <End Role="GorevToDoList" EntitySet="GorevToDoLists" />
           </AssociationSet>
-          <EntitySet Name="Musteris" EntityType="MModel.Musteri" />
           <AssociationSet Name="FK_Proje_Musteri" Association="MModel.FK_Proje_Musteri">
             <End Role="Musteri" EntitySet="Musteris" />
             <End Role="ProjeForm" EntitySet="ProjeForms" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProjeForm_ProjeForm" Association="MModel.FK_ProjeForm_ProjeForm">
+            <End Role="ProjeForm" EntitySet="ProjeForms" />
+            <End Role="ProjeForm1" EntitySet="ProjeForms" />
           </AssociationSet>
           </EntityContainer>
         <ComplexType Name="GetSirkets_Result">
@@ -2917,42 +2917,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="ProjeForm">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="MusteriID" Type="Int32" Nullable="false" />
-          <Property Name="Proje" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="Form" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Sorumlu" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="KarsiSorumlu" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Aciklama" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
-          <Property Name="MesaiKontrol" Type="Boolean" Nullable="false" />
-          <Property Name="MesaiKota" Type="Int32" />
-          <Property Name="PID" Type="Int32" />
-          <Property Name="Durum" Type="Int16" />
-          <Property Name="Kaydeden" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="KayitTarih" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="Degistiren" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="DegisTarih" Type="DateTime" Nullable="false" Precision="0" />
-          <NavigationProperty Name="ProjeForm1" Relationship="MModel.FK_ProjeForm_ProjeForm" FromRole="ProjeForm" ToRole="ProjeForm1" />
-          <NavigationProperty Name="ProjeForm2" Relationship="MModel.FK_ProjeForm_ProjeForm" FromRole="ProjeForm1" ToRole="ProjeForm" />
-          <NavigationProperty Name="Gorevlers" Relationship="MModel.FK_Gorevler_ProjeForm" FromRole="ProjeForm" ToRole="Gorevler" />
-          <NavigationProperty Name="Musteri" Relationship="MModel.FK_Proje_Musteri" FromRole="ProjeForm" ToRole="Musteri" />
-        </EntityType>
-        <Association Name="FK_ProjeForm_ProjeForm">
-          <End Type="MModel.ProjeForm" Role="ProjeForm" Multiplicity="0..1" />
-          <End Type="MModel.ProjeForm" Role="ProjeForm1" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ProjeForm">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="ProjeForm1">
-              <PropertyRef Name="PID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="IRS_Detay">
           <Key>
             <PropertyRef Name="ID" />
@@ -3417,6 +3381,24 @@
           <Property Name="Aktif" Type="Boolean" Nullable="false" />
           <Property Name="SiparisOnayParametre" Type="Boolean" Nullable="false" />
         </EntityType>
+        <ComplexType Name="GetStockRezerv_Result">
+          <Property Type="String" Name="GorevNo" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="OlusturmaTarihi" Nullable="false" />
+          <Property Type="String" Name="Bilgi" Nullable="true" />
+          <Property Type="String" Name="SirketKod" Nullable="false" MaxLength="2" />
+          <Property Type="String" Name="EvrakNo" Nullable="false" MaxLength="16" />
+          <Property Type="String" Name="HesapKodu" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="MalKodu" Nullable="false" MaxLength="30" />
+          <Property Type="Decimal" Name="Miktar" Nullable="false" Precision="25" Scale="6" />
+          <Property Type="String" Name="Birim" Nullable="false" MaxLength="4" />
+          <Property Type="String" Name="MakaraNo" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="KynkSiparisID" Nullable="true" />
+          <Property Type="String" Name="KynkSiparisNo" Nullable="true" MaxLength="16" />
+          <Property Type="Int16" Name="KynkSiparisSiraNo" Nullable="true" />
+          <Property Type="Int32" Name="KynkSiparisTarih" Nullable="true" />
+          <Property Type="Decimal" Name="KynkSiparisMiktar" Nullable="true" Precision="25" Scale="6" />
+          <Property Type="String" Name="DepoKodu" Nullable="false" MaxLength="5" />
+        </ComplexType>
         <EntityType Name="GorevCalisma">
           <Key>
             <PropertyRef Name="ID" />
@@ -3466,6 +3448,66 @@
           <NavigationProperty Name="GorevCalismas" Relationship="MModel.FK_GorevCalisma_Gorevler" FromRole="Gorevler" ToRole="GorevCalisma" />
           <NavigationProperty Name="ProjeForm" Relationship="MModel.FK_Gorevler_ProjeForm" FromRole="Gorevler" ToRole="ProjeForm" />
           <NavigationProperty Name="GorevToDoLists" Relationship="MModel.FK_GorevToDoList_Gorevler" FromRole="Gorevler" ToRole="GorevToDoList" />
+        </EntityType>
+        <EntityType Name="GorevToDoList">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="GorevID" Type="Int32" Nullable="false" />
+          <Property Name="Aciklama" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="AktifPasif" Type="Boolean" Nullable="false" />
+          <Property Name="OnayDurum" Type="Boolean" Nullable="false" />
+          <Property Name="Kaydeden" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="KayitTarih" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Degistiren" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="DegisTarih" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Kontrol" Type="Boolean" Nullable="false" />
+          <Property Name="KontrolOnay" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Gorevler" Relationship="MModel.FK_GorevToDoList_Gorevler" FromRole="GorevToDoList" ToRole="Gorevler" />
+        </EntityType>
+        <EntityType Name="Musteri">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Firma" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Unvan" Type="String" Nullable="false" MaxLength="80" FixedLength="false" Unicode="true" />
+          <Property Name="Aciklama" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="80" FixedLength="false" Unicode="false" />
+          <Property Name="Tel1" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="Tel2" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="MesaiKontrol" Type="Boolean" Nullable="false" />
+          <Property Name="MesaiKota" Type="Int32" />
+          <Property Name="Kaydeden" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="KayitTarih" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Degistiren" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="DegisTarih" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="ProjeForms" Relationship="MModel.FK_Proje_Musteri" FromRole="Musteri" ToRole="ProjeForm" />
+        </EntityType>
+        <EntityType Name="ProjeForm">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MusteriID" Type="Int32" Nullable="false" />
+          <Property Name="Proje" Type="String" Nullable="false" MaxLength="120" FixedLength="false" Unicode="false" />
+          <Property Name="Form" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Sorumlu" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="KarsiSorumlu" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Aciklama" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="MesaiKontrol" Type="Boolean" Nullable="false" />
+          <Property Name="MesaiKota" Type="Int32" />
+          <Property Name="PID" Type="Int32" />
+          <Property Name="Durum" Type="Int16" />
+          <Property Name="Kaydeden" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="KayitTarih" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Degistiren" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="DegisTarih" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="Gorevlers" Relationship="MModel.FK_Gorevler_ProjeForm" FromRole="ProjeForm" ToRole="Gorevler" />
+          <NavigationProperty Name="Musteri" Relationship="MModel.FK_Proje_Musteri" FromRole="ProjeForm" ToRole="Musteri" />
+          <NavigationProperty Name="ProjeForm1" Relationship="MModel.FK_ProjeForm_ProjeForm" FromRole="ProjeForm" ToRole="ProjeForm1" />
+          <NavigationProperty Name="ProjeForm2" Relationship="MModel.FK_ProjeForm_ProjeForm" FromRole="ProjeForm1" ToRole="ProjeForm" />
         </EntityType>
         <Association Name="FK_Gorevler_ComboItem_Name_Departman">
           <End Type="MModel.ComboItem_Name" Role="ComboItem_Name" Multiplicity="0..1" />
@@ -3539,41 +3581,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <ComplexType Name="GetStockRezerv_Result">
-          <Property Type="String" Name="GorevNo" Nullable="false" MaxLength="50" />
-          <Property Type="Int32" Name="OlusturmaTarihi" Nullable="false" />
-          <Property Type="String" Name="Bilgi" Nullable="true" />
-          <Property Type="String" Name="SirketKod" Nullable="false" MaxLength="2" />
-          <Property Type="String" Name="EvrakNo" Nullable="false" MaxLength="16" />
-          <Property Type="String" Name="HesapKodu" Nullable="false" MaxLength="20" />
-          <Property Type="String" Name="MalKodu" Nullable="false" MaxLength="30" />
-          <Property Type="Decimal" Name="Miktar" Nullable="false" Precision="25" Scale="6" />
-          <Property Type="String" Name="Birim" Nullable="false" MaxLength="4" />
-          <Property Type="String" Name="MakaraNo" Nullable="true" MaxLength="50" />
-          <Property Type="Int32" Name="KynkSiparisID" Nullable="true" />
-          <Property Type="String" Name="KynkSiparisNo" Nullable="true" MaxLength="16" />
-          <Property Type="Int16" Name="KynkSiparisSiraNo" Nullable="true" />
-          <Property Type="Int32" Name="KynkSiparisTarih" Nullable="true" />
-          <Property Type="Decimal" Name="KynkSiparisMiktar" Nullable="true" Precision="25" Scale="6" />
-          <Property Type="String" Name="DepoKodu" Nullable="false" MaxLength="5" />
-        </ComplexType>
-        <EntityType Name="GorevToDoList">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="GorevID" Type="Int32" Nullable="false" />
-          <Property Name="Aciklama" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="AktifPasif" Type="Boolean" Nullable="false" />
-          <Property Name="OnayDurum" Type="Boolean" Nullable="false" />
-          <Property Name="Kaydeden" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="KayitTarih" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="Degistiren" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="DegisTarih" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="Kontrol" Type="Boolean" Nullable="false" />
-          <Property Name="KontrolOnay" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="Gorevler" Relationship="MModel.FK_GorevToDoList_Gorevler" FromRole="GorevToDoList" ToRole="Gorevler" />
-        </EntityType>
         <Association Name="FK_GorevToDoList_Gorevler">
           <End Type="MModel.Gorevler" Role="Gorevler" Multiplicity="1" />
           <End Type="MModel.GorevToDoList" Role="GorevToDoList" Multiplicity="*" />
@@ -3586,25 +3593,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="Musteri">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Firma" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="Unvan" Type="String" Nullable="false" MaxLength="80" FixedLength="false" Unicode="true" />
-          <Property Name="Aciklama" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
-          <Property Name="Email" Type="String" MaxLength="80" FixedLength="false" Unicode="false" />
-          <Property Name="Tel1" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
-          <Property Name="Tel2" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
-          <Property Name="MesaiKontrol" Type="Boolean" Nullable="false" />
-          <Property Name="MesaiKota" Type="Int32" />
-          <Property Name="Kaydeden" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="KayitTarih" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="Degistiren" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="DegisTarih" Type="DateTime" Nullable="false" Precision="0" />
-          <NavigationProperty Name="ProjeForms" Relationship="MModel.FK_Proje_Musteri" FromRole="Musteri" ToRole="ProjeForm" />
-        </EntityType>
         <Association Name="FK_Proje_Musteri">
           <End Type="MModel.Musteri" Role="Musteri" Multiplicity="1" />
           <End Type="MModel.ProjeForm" Role="ProjeForm" Multiplicity="*" />
@@ -3614,6 +3602,18 @@
             </Principal>
             <Dependent Role="ProjeForm">
               <PropertyRef Name="MusteriID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProjeForm_ProjeForm">
+          <End Type="MModel.ProjeForm" Role="ProjeForm" Multiplicity="0..1" />
+          <End Type="MModel.ProjeForm" Role="ProjeForm1" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProjeForm">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ProjeForm1">
+              <PropertyRef Name="PID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -4059,27 +4059,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="ProjeForms">
-            <EntityTypeMapping TypeName="MModel.ProjeForm">
-              <MappingFragment StoreEntitySet="ProjeForm">
-                <ScalarProperty Name="DegisTarih" ColumnName="DegisTarih" />
-                <ScalarProperty Name="Degistiren" ColumnName="Degistiren" />
-                <ScalarProperty Name="KayitTarih" ColumnName="KayitTarih" />
-                <ScalarProperty Name="Kaydeden" ColumnName="Kaydeden" />
-                <ScalarProperty Name="Durum" ColumnName="Durum" />
-                <ScalarProperty Name="PID" ColumnName="PID" />
-                <ScalarProperty Name="MesaiKota" ColumnName="MesaiKota" />
-                <ScalarProperty Name="MesaiKontrol" ColumnName="MesaiKontrol" />
-                <ScalarProperty Name="Aciklama" ColumnName="Aciklama" />
-                <ScalarProperty Name="KarsiSorumlu" ColumnName="KarsiSorumlu" />
-                <ScalarProperty Name="Sorumlu" ColumnName="Sorumlu" />
-                <ScalarProperty Name="Form" ColumnName="Form" />
-                <ScalarProperty Name="Proje" ColumnName="Proje" />
-                <ScalarProperty Name="MusteriID" ColumnName="MusteriID" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="UpdateUserDevice" FunctionName="MModel.Store.UpdateUserDevice" />
           <FunctionImportMapping FunctionImportName="LogActions" FunctionName="MModel.Store.LogActions" />
           <FunctionImportMapping FunctionImportName="GetKynkEvrakNosForGorev" FunctionName="MModel.Store.GetKynkEvrakNosForGorev" />
@@ -4466,6 +4445,29 @@
           </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="DeleteTransfer" FunctionName="MModel.Store.DeleteTransfer" />
           <FunctionImportMapping FunctionImportName="DeleteIrsaliye" FunctionName="MModel.Store.DeleteIrsaliye" />
+          <FunctionImportMapping FunctionImportName="f_Sıfırla" FunctionName="MModel.Store.f_Sıfırla" />
+          <FunctionImportMapping FunctionImportName="GetStockRezerv" FunctionName="MModel.Store.GetStockRezerv">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MModel.GetStockRezerv_Result">
+                <ScalarProperty Name="GorevNo" ColumnName="GorevNo" />
+                <ScalarProperty Name="OlusturmaTarihi" ColumnName="OlusturmaTarihi" />
+                <ScalarProperty Name="Bilgi" ColumnName="Bilgi" />
+                <ScalarProperty Name="SirketKod" ColumnName="SirketKod" />
+                <ScalarProperty Name="EvrakNo" ColumnName="EvrakNo" />
+                <ScalarProperty Name="HesapKodu" ColumnName="HesapKodu" />
+                <ScalarProperty Name="MalKodu" ColumnName="MalKodu" />
+                <ScalarProperty Name="Miktar" ColumnName="Miktar" />
+                <ScalarProperty Name="Birim" ColumnName="Birim" />
+                <ScalarProperty Name="MakaraNo" ColumnName="MakaraNo" />
+                <ScalarProperty Name="KynkSiparisID" ColumnName="KynkSiparisID" />
+                <ScalarProperty Name="KynkSiparisNo" ColumnName="KynkSiparisNo" />
+                <ScalarProperty Name="KynkSiparisSiraNo" ColumnName="KynkSiparisSiraNo" />
+                <ScalarProperty Name="KynkSiparisTarih" ColumnName="KynkSiparisTarih" />
+                <ScalarProperty Name="KynkSiparisMiktar" ColumnName="KynkSiparisMiktar" />
+                <ScalarProperty Name="DepoKodu" ColumnName="DepoKodu" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           <EntitySetMapping Name="GorevCalismas">
             <EntityTypeMapping TypeName="MModel.GorevCalisma">
               <MappingFragment StoreEntitySet="GorevCalisma">
@@ -4482,7 +4484,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="f_Sıfırla" FunctionName="MModel.Store.f_Sıfırla" />
           <EntitySetMapping Name="Gorevlers">
             <EntityTypeMapping TypeName="MModel.Gorevler">
               <MappingFragment StoreEntitySet="Gorevler">
@@ -4511,28 +4512,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="GetStockRezerv" FunctionName="MModel.Store.GetStockRezerv">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="MModel.GetStockRezerv_Result">
-                <ScalarProperty Name="GorevNo" ColumnName="GorevNo" />
-                <ScalarProperty Name="OlusturmaTarihi" ColumnName="OlusturmaTarihi" />
-                <ScalarProperty Name="Bilgi" ColumnName="Bilgi" />
-                <ScalarProperty Name="SirketKod" ColumnName="SirketKod" />
-                <ScalarProperty Name="EvrakNo" ColumnName="EvrakNo" />
-                <ScalarProperty Name="HesapKodu" ColumnName="HesapKodu" />
-                <ScalarProperty Name="MalKodu" ColumnName="MalKodu" />
-                <ScalarProperty Name="Miktar" ColumnName="Miktar" />
-                <ScalarProperty Name="Birim" ColumnName="Birim" />
-                <ScalarProperty Name="MakaraNo" ColumnName="MakaraNo" />
-                <ScalarProperty Name="KynkSiparisID" ColumnName="KynkSiparisID" />
-                <ScalarProperty Name="KynkSiparisNo" ColumnName="KynkSiparisNo" />
-                <ScalarProperty Name="KynkSiparisSiraNo" ColumnName="KynkSiparisSiraNo" />
-                <ScalarProperty Name="KynkSiparisTarih" ColumnName="KynkSiparisTarih" />
-                <ScalarProperty Name="KynkSiparisMiktar" ColumnName="KynkSiparisMiktar" />
-                <ScalarProperty Name="DepoKodu" ColumnName="DepoKodu" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <EntitySetMapping Name="GorevToDoLists">
             <EntityTypeMapping TypeName="MModel.GorevToDoList">
               <MappingFragment StoreEntitySet="GorevToDoList">
@@ -4565,6 +4544,27 @@
                 <ScalarProperty Name="Aciklama" ColumnName="Aciklama" />
                 <ScalarProperty Name="Unvan" ColumnName="Unvan" />
                 <ScalarProperty Name="Firma" ColumnName="Firma" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProjeForms">
+            <EntityTypeMapping TypeName="MModel.ProjeForm">
+              <MappingFragment StoreEntitySet="ProjeForm">
+                <ScalarProperty Name="DegisTarih" ColumnName="DegisTarih" />
+                <ScalarProperty Name="Degistiren" ColumnName="Degistiren" />
+                <ScalarProperty Name="KayitTarih" ColumnName="KayitTarih" />
+                <ScalarProperty Name="Kaydeden" ColumnName="Kaydeden" />
+                <ScalarProperty Name="Durum" ColumnName="Durum" />
+                <ScalarProperty Name="PID" ColumnName="PID" />
+                <ScalarProperty Name="MesaiKota" ColumnName="MesaiKota" />
+                <ScalarProperty Name="MesaiKontrol" ColumnName="MesaiKontrol" />
+                <ScalarProperty Name="Aciklama" ColumnName="Aciklama" />
+                <ScalarProperty Name="KarsiSorumlu" ColumnName="KarsiSorumlu" />
+                <ScalarProperty Name="Sorumlu" ColumnName="Sorumlu" />
+                <ScalarProperty Name="Form" ColumnName="Form" />
+                <ScalarProperty Name="Proje" ColumnName="Proje" />
+                <ScalarProperty Name="MusteriID" ColumnName="MusteriID" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
