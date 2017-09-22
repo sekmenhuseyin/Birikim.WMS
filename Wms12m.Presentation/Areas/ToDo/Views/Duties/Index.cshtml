@@ -18,12 +18,12 @@
     .txt-aciklama .dx-texteditor-container {border-radius: 30px !important;}
 </style>
 }<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><span>Görevler</span></li></ul></div>
-<h1 class="page-title">Görevler</h1>
+<h1 class="page-title">Görevler</h1>@if(ViewBag.Yetki == "Admin" || ViewBag.Yetki == " ") { 
 <div class="row m-10">
-    <div class="col-md-2 pull-right m-t-5"><button class="btn btn-default pull-right input-circle oncelik-kayit-buton glyphicon glyphicon-ok hidden"> Öncelik Kaydet </button></div>
-    <div class="col-md-2 pull-right m-t-5"><button class="btn btn-success pull-right input-circle onayla-buton glyphicon glyphicon-ok hidden""> Onayla </button></div>
-    <div class="col-md-2 pull-right m-t-5"><button class="btn btn-danger pull-right input-circle reddet-buton glyphicon glyphicon-remove hidden""> Reddet </button></div>
-</div>
+    <div class="col-md-2 pull-right m-t-5"><button class="btn btn-default pull-right input-circle oncelik-kayit-buton glyphicon glyphicon-ok hidden" onclick="OncelikKaydet();"> Öncelik Kaydet </button></div>
+    <div class="col-md-2 pull-right m-t-5"><button class="btn btn-success pull-right input-circle onayla-buton glyphicon glyphicon-ok hidden" onclick="GorevOnayla();"> Onayla </button></div>
+    <div class="col-md-2 pull-right m-t-5"><button class="btn btn-danger pull-right input-circle reddet-buton glyphicon glyphicon-remove hidden" onclick="GorevReddet();"> Reddet </button></div>
+</div>}
 <div class="row">
     <div class="col-md-12">
         <div id="CreateEdit"></div>
@@ -135,15 +135,5 @@
             }
         });
     }
-    $('.oncelik-kayit-buton').click(function () {
-        OncelikKaydet();
-    });
-    $('.onayla-buton').click(function () {
-        GorevOnayla();
-    });
-    $('.reddet-buton').click(function () {
-        GorevReddet();
-    });
-
 </script>
 }

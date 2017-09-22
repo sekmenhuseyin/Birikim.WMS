@@ -17,11 +17,8 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         /// <summary>
         /// görevler sayfası
         /// </summary>
-        public ActionResult Index(string aktifPasif)
+        public ActionResult Index()
         {
-            if (aktifPasif == null)
-                aktifPasif = "Aktif";
-            ViewBag.AktifPasif = aktifPasif;
             ViewBag.Yetki = vUser.RoleName;
             return View();
         }
