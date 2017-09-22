@@ -21,7 +21,8 @@
             if (malkod.Contains(item.MalKodu) == false)
             {
                 tmp = item.MalKodu.GetMalAdi(Sirket[0]);
-                if (tmp == null || tmp == "") { tmp = item.MalKodu.GetMalAdi(Sirket[1]); }
+                if ((tmp == null || tmp == "") && Sirket.Count>1) { tmp = item.MalKodu.GetMalAdi(Sirket[1]); }
+                if (tmp == null) { tmp = ""; }
                 malkod.Add(item.MalKodu);
                 malad.Add(tmp);
             }

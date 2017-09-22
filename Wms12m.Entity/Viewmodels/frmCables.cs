@@ -1,4 +1,6 @@
-﻿namespace Wms12m.Entity
+﻿using System;
+
+namespace Wms12m.Entity
 {
     /// <summary>
     /// kablo siparişi için stk sütunları
@@ -64,5 +66,26 @@
         public string cins { get; set; }
         public string kesit { get; set; }
         public string renk { get; set; }
+    }
+
+    /// <summary>
+    /// Sipariş Planlama Görev Yer Düzenleme İçin
+    /// </summary>
+    public partial class frmTempGorevYer
+    {
+        public int ID { get; set; }
+        public int GorevID { get; set; }
+        public int YerID { get; set; }
+        public int IrsaliyeID { get; set; }
+        public string MalKodu { get; set; }
+        public decimal Miktar { get; set; }
+        public Nullable<decimal> YerlestirmeMiktari { get; set; }
+        public string Birim { get; set; }
+        public bool GC { get; set; }
+        public Nullable<int> Sira { get; set; }
+        public string MakaraNo { get; set; }
+        public Nullable<int> PID { get; set; }
+        public Nullable<bool> IU { get; set; }
+        public bool Aktif { get; set; }
     }
 }
