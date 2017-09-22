@@ -170,7 +170,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                 try
                 {
                     db.SaveChanges();
-                    return Json(new Result(true, projeForm.ID), JsonRequestBehavior.AllowGet);
+                    return Json(new Result(true, projeForm.PID.Value), JsonRequestBehavior.AllowGet);
                 }
                 catch (Exception)
                 {

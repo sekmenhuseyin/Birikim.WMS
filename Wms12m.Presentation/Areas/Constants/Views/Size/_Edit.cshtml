@@ -76,7 +76,9 @@
                 if (data != "")
                 {
                     var tmp = data.split(",");
-                    $("#MalAdi").val(tmp[1].replace("value", "").replace(":", ""));
+                    if (tmp[1] != undefined) {
+                        $("#MalAdi").val(tmp[1].replace("value", "").replace(":", ""));
+                    }
                     $("#MalAdi").val(replaceAll($("#MalAdi").val(), '"', ""));
                 }
             }
