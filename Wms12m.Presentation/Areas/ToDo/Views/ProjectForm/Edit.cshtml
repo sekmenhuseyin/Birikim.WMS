@@ -9,7 +9,7 @@
         <div class="portlet-body form">
             @using (Ajax.BeginForm("Save", "ProjectForm", new { area = "ToDo" }, new AjaxOptions { InsertionMode = InsertionMode.Replace, OnFailure = "Modaldialog('Lütfen Tekrar Deneyin', 'Hata', 'Tamam', 'btn-danger');", OnSuccess = "CreateEdit('0');" }, new { @class = "form-horizontal" }))
             {
-                @Html.HiddenFor(model => model.ID)
+                @Html.HiddenFor(model => model.ID, new { @class = "ID" })
                 @Html.AntiForgeryToken()
                 @Html.ValidationSummary(true)
                 <div class="form-body">

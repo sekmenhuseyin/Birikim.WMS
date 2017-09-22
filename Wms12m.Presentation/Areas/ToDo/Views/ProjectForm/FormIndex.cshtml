@@ -11,8 +11,9 @@
                         </div>
                     </div>
                     <div class="portlet-body form">
-                        @using (Ajax.BeginForm("FormSave", "ProjectForm", new { area = "ToDo" }, new AjaxOptions { OnFailure = "Modaldialog('Lütfen Tekrar Deneyin', 'Hata', 'Tamam', 'btn-danger');", OnSuccess = "CreateEditAltF('0');" }, new { @class = "form-horizontal" }))
+                        @using (Ajax.BeginForm("FormSave", "ProjectForm", new { area = "ToDo" }, new AjaxOptions { OnFailure = "Modaldialog('Lütfen Tekrar Deneyin', 'Hata', 'Tamam', 'btn-danger');", OnSuccess = "getresult2" }, new { @class = "form-horizontal" }))
                         {
+                            @Html.HiddenFor(model => model.ID, new { @class="ID2" })
                             @Html.AntiForgeryToken()
                             @Html.ValidationSummary(true)
                             <div class="form-body">
@@ -60,22 +61,4 @@
         <div id="listealt"></div>
     </div>
 </div>
-<script type="text/javascript">
-    var DeleteFunctionUrl = '/ToDo/ProjectForm/Delete';
-    PartialView("/ToDo/ProjectForm/ListAlt/@ViewBag.id", 'listealt');
-    function CreateEditAltF(Id) {
-        $("#modalEditPage").animate({ scrollTop: 0 }, "slow");
-        if (Id == 0) {
-            $("#ID").val("0");
-            $("#Form").val("");
-            $("#CreateEditAlt .caption").text("Form Ekle");
-            $("#CreateEditAlt [type='submit']").text("Ekle");
-            editInModal('/ToDo/ProjectForm/FormIndex/@ViewBag.id');
-        }
-        else
-        {
-            PartialView("/ToDo/ProjectForm/FormEdit", 'CreateEditAlt', JSON.stringify({ Id: Id }));
-        }
-
-    }
-</script>
+<script type="text/javascript">PartialView("/ToDo/ProjectForm/FormList/@ViewBag.id", 'listealt');</script>

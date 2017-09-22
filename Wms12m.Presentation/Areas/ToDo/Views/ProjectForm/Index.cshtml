@@ -18,9 +18,9 @@
                         </div>
                     </div>
                     <div class="portlet-body form">
-                        @using (Ajax.BeginForm("Save", "ProjectForm", new { area = "ToDo" }, new AjaxOptions { OnFailure = "Modaldialog('Lütfen Tekrar Deneyin', 'Hata', 'Tamam', 'btn-danger');", OnSuccess = "CreateEdit('0');" }, new { @class = "form-horizontal" }))
+                        @using (Ajax.BeginForm("Save", "ProjectForm", new { area = "ToDo" }, new AjaxOptions { OnFailure = "Modaldialog('Lütfen Tekrar Deneyin', 'Hata', 'Tamam', 'btn-danger');", OnSuccess = "getresult" }, new { @class = "form-horizontal" }))
                         {
-                            @Html.HiddenFor(model => model.ID)
+                            @Html.HiddenFor(model => model.ID, new { @class = "ID" })
                             @Html.AntiForgeryToken()
                             @Html.ValidationSummary(true)
                             <div class="form-body">
@@ -109,9 +109,38 @@
         });
         PartialView("/ToDo/ProjectForm/List", 'liste');
     });
+    function getresult(data) {
+        if (data.Status == false)
+            Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
+        else {
+            Modaldialog("Kaydedildi", "Başarı", "Tamam", "btn-success");
+            CreateEdit('0');
+        }
+    };
+    function getresult2(data) {
+        if (data.Status == false)
+            Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
+        else {
+            Modaldialog("Kaydedildi", "Başarı", "Tamam", "btn-success");
+            CreateEditAltF('0');
+        }
+    };
+    function CreateEditAltF(Id) {
+        if (Id == 0) {
+            $(".ID2").val("0");
+            $("#Form").val("");
+            $("#CreateEditAlt .caption").text("Form Ekle");
+            $("#CreateEditAlt [type='submit']").text("Ekle");
+        }
+        else
+        {
+            $("#modalEditPage").animate({ scrollTop: 0 }, "slow");
+            PartialView("/ToDo/ProjectForm/FormEdit", 'CreateEditAlt', JSON.stringify({ Id: Id }));
+        }
+    }
     function CreateEdit(Id) {
         if (Id == 0) {
-            $("#ID").val("0");
+            $(".ID").val("0");
             $("#MusteriID").val("");
             $("#Proje").val("");
             $("#Sorumlu").val("");
@@ -120,7 +149,6 @@
             $("#MesaiKota").val("");
             $("#CreateEdit .caption").text("Proje Ekle");
             $("#CreateEdit [type='submit']").text("Ekle");
-            PartialView("/ToDo/ProjectForm/List", 'liste');
         }
         else
         {

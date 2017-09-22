@@ -130,21 +130,10 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         /// </summary>
         public PartialViewResult FormList()
         {
-
-            var projeForms = db.ProjeForms.Include(p => p.Musteri).Include(p => p.ProjeForm2);
-            //ViewBag.id = ID;
-            return PartialView(projeForms.Where(a => a.PID != null).ToList());
-        }
-        /// <summary>
-        /// alt lsite
-        /// </summary>
-        public PartialViewResult ListAlt()
-        {
             var id = Url.RequestContext.RouteData.Values["id"];
             var ID = id.ToInt32();
-            var projeForms = db.ProjeForms.Include(p => p.Musteri).Include(p => p.ProjeForm2);
             ViewBag.id = ID;
-            return PartialView("FormList", projeForms.Where(a => a.PID == ID).ToList());
+            return PartialView("FormList", db.ProjeForms.Where(a => a.PID == ID).ToList());
         }
         /// <summary>
         /// form edit
@@ -154,19 +143,6 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             ProjeForm projeForm = db.ProjeForms.Find(id);
             ViewBag.MusteriID = new SelectList(db.Musteris.Where(m => m.ID == projeForm.MusteriID).ToList(), "ID", "Unvan", projeForm.MusteriID);
             ViewBag.PID = new SelectList(db.ProjeForms.Where(x => x.PID == null).ToList(), "ID", "Proje", projeForm.PID);
-            return PartialView(projeForm);
-        }
-        /// <summary>
-        /// ProjectForm'dan gelen veriyi alır. Form ekler.
-        /// </summary>
-        public PartialViewResult EditAlt()
-        {
-            var id = Url.RequestContext.RouteData.Values["id"];
-            var ID = id.ToInt32();
-            ProjeForm projeForm = db.ProjeForms.Find(ID);
-            ViewBag.id = ID;
-            ViewBag.MusteriID = new SelectList(db.Musteris.ToList(), "ID", "Firma", projeForm.MusteriID);
-            ViewBag.PID = new SelectList(db.ProjeForms.Where(x => x.PID == null).ToList(), "ID", "Proje", projeForm.ID);
             return PartialView(projeForm);
         }
         /// <summary>
@@ -184,13 +160,12 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                     projeForm.DegisTarih = DateTime.Now;
                     projeForm.KayitTarih = projeForm.DegisTarih;
                     projeForm.Durum = null;
-
                     db.ProjeForms.Add(projeForm);
                 }
                 else
                 {
                     var tbl = db.ProjeForms.Where(m => m.ID == projeForm.ID).FirstOrDefault();
-                    tbl.Form = projeForm.Form;//
+                    tbl.Form = projeForm.Form;
                 }
                 try
                 {
@@ -201,11 +176,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                 {
                 }
             }
-            ViewBag.MusteriID = new SelectList(db.Musteris, "ID", "Firma", projeForm.MusteriID);
-            ViewBag.PID = new SelectList(db.ProjeForms, "ID", "Proje", projeForm.PID);
             return Json(new Result(false, "Hata oldu"), JsonRequestBehavior.AllowGet);
-
-
         }
     }
 }
