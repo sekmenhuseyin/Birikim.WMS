@@ -36,7 +36,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
 
             ProjeForm projeForm = db.ProjeForms.Find(id);
 
-            ViewBag.MusteriID = new SelectList(db.Musteris.ToList(), "ID", "Firma", projeForm.MusteriID);
+            ViewBag.MusteriID = new SelectList(db.Musteris.OrderBy(m => m.Unvan).ToList(), "ID", "Firma", projeForm.MusteriID);
             ViewBag.PID = new SelectList(db.ProjeForms.Where(x => x.PID != null).ToList(), "ID", "Proje", projeForm.PID);
             ViewBag.Sorumlu = new SelectList(db.Users.ToList(), "Kod", "AdSoyad");
             return PartialView(projeForm);

@@ -34,7 +34,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             ViewBag.OncelikID = new SelectList(ComboSub.GetList(Combos.Öncelik.ToInt32()), "ID", "Name");
             ViewBag.GorevTipiID = new SelectList(ComboSub.GetList(Combos.GörevYönetimTipleri.ToInt32()), "ID", "Name", "");
             ViewBag.DepartmanID = new SelectList(ComboSub.GetList(Combos.Departman.ToInt32()), "ID", "Name", "");
-            ViewBag.MusteriID = new SelectList(db.Musteris.ToList(), "ID", "Firma");
+            ViewBag.MusteriID = new SelectList(db.Musteris.OrderBy(m => m.Unvan).ToList(), "ID", "Unvan");
             ViewBag.Sorumlu = new SelectList(Persons.GetList(), "Kod", "AdSoyad");
             ViewBag.KaliteKontrol = new SelectList(Persons.GetList("Destek"), "Kod", "AdSoyad");
             ViewBag.Sorumlu2 = ViewBag.Sorumlu;
@@ -100,7 +100,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         public PartialViewResult Edit(int? id)
         {
             var tbl = db.Gorevlers.Find(id);
-            ViewBag.MusteriID = new SelectList(db.Musteris.ToList(), "ID", "Firma", tbl.ProjeForm.MusteriID);
+            ViewBag.MusteriID = new SelectList(db.Musteris.OrderBy(m => m.Unvan).ToList(), "ID", "Unvan", tbl.ProjeForm.MusteriID);
             ViewBag.Proje = new SelectList(db.ProjeForms.Where(m => m.MusteriID == tbl.ProjeForm.MusteriID && m.PID == null).ToList(), "ID", "Proje", tbl.ProjeForm.PID);
             ViewBag.ProjeFormID = new SelectList(db.ProjeForms.Where(m => m.PID == tbl.ProjeForm.PID).ToList(), "ID", "Form", tbl.ProjeForm.ID);
             ViewBag.DurumID = new SelectList(ComboSub.GetList(Combos.GörevYönetimDurumları.ToInt32()), "ID", "Name");
@@ -122,47 +122,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                 if (gorevler.ID == 0)
                 {
                     var kontDur = false;
-                    var onayVerID = 0;
-                    var atandıID = 0;
-                    var gelistirmeID = 0;
-                    var bilgiTalebiID = 0;
-                    var kritikHataID = 0;
-                    var kaliteKontrolID = 0;
-                    var tipId = Combos.GörevYönetimTipleri.ToInt32();
-                    var durumId = Combos.GörevYönetimDurumları.ToInt32();
-                    var gorevTipleri = db.ComboItem_Name.Where(a => a.ComboID == tipId).ToList();
-                    var gorevDurumları = db.ComboItem_Name.Where(a => a.ComboID == durumId).ToList();
-                    foreach (var item in gorevTipleri)
-                    {
-                        if (item.Name == "Kritik Hata")
-                        {
-                            kritikHataID = item.ID;
-                        }
-                        else if (item.Name == "Bilgi Talebi")
-                        {
-                            bilgiTalebiID = item.ID;
-                        }
-                        else if (item.Name == "Geliştirme")
-                        {
-                            gelistirmeID = item.ID;
-                        }
-                        else if (item.Name == "Kalite Kontrol")
-                        {
-                            kaliteKontrolID = item.ID;
-                        }
-                    }
-                    foreach (var item in gorevDurumları)
-                    {
-                        if (item.Name == "Atandı")
-                        {
-                            atandıID = item.ID;
-                        }
-                        else if (item.Name == "Onay Ver")
-                        {
-                            onayVerID = item.ID;
-                        }
-                    }
-                    var maxSira = db.Gorevlers.Where(a => a.ID > 0).ToList().Max(p => p.OncelikID);
+                    var maxSira = db.Database.SqlQuery<int>("SELECT ISNULL(MAX(OncelikID), 0) AS Expr1 FROM ong.Gorevler").FirstOrDefault();
                     gorevler.Degistiren = vUser.UserName;
                     gorevler.Kaydeden = vUser.UserName;
                     gorevler.DegisTarih = DateTime.Now;
@@ -172,30 +132,25 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                     gorevler.IslemSira = null;
                     gorevler.AktifPasif = true;
                     gorevler.OncelikID = maxSira + 1;
-                    if ((gorevler.GorevTipiID == bilgiTalebiID || gorevler.GorevTipiID == gelistirmeID) && vUser.RoleName != "Admin")
+                    if ((gorevler.GorevTipiID == ComboItems.gytBilgiTalebi.ToInt32() || gorevler.GorevTipiID == ComboItems.gytGeliştirme.ToInt32()) && vUser.RoleName != "Admin" && vUser.RoleName != " ")
                     {
-                        gorevler.DurumID = onayVerID;
+                        gorevler.DurumID = ComboItems.gydOnayVer.ToInt32();
                     }
-                    else if (gorevler.GorevTipiID == kaliteKontrolID)
+                    else if (gorevler.GorevTipiID == ComboItems.gytKaliteKontrol.ToInt32())
                     {
-                        if (vUser.RoleName == "Admin")
-                        {
-                            gorevler.DurumID = atandıID;
-                        }
+                        if (vUser.RoleName == "Admin" || vUser.RoleName == " ")
+                            gorevler.DurumID = ComboItems.gydAtandı.ToInt32();
                         else
-                        {
-                            gorevler.DurumID = onayVerID;
-                        }
-
+                            gorevler.DurumID = ComboItems.gydOnayVer.ToInt32();
                         gorevler.Kontrol = true;
                         kontDur = true;
                     }
                     else
                     {
-                        gorevler.DurumID = atandıID;
+                        gorevler.DurumID = ComboItems.gydAtandı.ToInt32();
                     }
                     db.Gorevlers.Add(gorevler);
-
+                    //todo lists
                     foreach (var item in gorevler.work)
                     {
                         GorevToDoList grvTDL = new GorevToDoList
@@ -210,12 +165,8 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                             OnayDurum = kontDur,
                             Kontrol = kontDur
                         };
-
                         db.GorevToDoLists.Add(grvTDL);
                     }
-
-
-
                 }
                 else
                 {
@@ -224,7 +175,6 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                     {
                         sl = gorevler.silinenler.Split(',');
                     }
-
                     var tbl = db.Gorevlers.Where(m => m.ID == gorevler.ID).FirstOrDefault();
                     tbl.Sorumlu = gorevler.Sorumlu;
                     tbl.Sorumlu2 = gorevler.Sorumlu2;
@@ -233,12 +183,10 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                     tbl.Gorev = gorevler.Gorev;
                     tbl.Aciklama = gorevler.Aciklama;
                     tbl.OncelikID = gorevler.OncelikID;
-
                     tbl.DurumID = gorevler.DurumID;
                     tbl.GorevTipiID = gorevler.GorevTipiID;
                     tbl.DepartmanID = gorevler.DepartmanID;
                     tbl.TahminiBitis = gorevler.TahminiBitis;
-
                     tbl.DurumID = gorevler.DurumID;
                     tbl.GorevTipiID = gorevler.GorevTipiID;
                     tbl.DepartmanID = gorevler.DepartmanID;
@@ -248,7 +196,6 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                     tbl.BitisTarih = null;
                     tbl.IslemTip = 0;
                     tbl.IslemSira = null;
-
                     for (int j = 0; j < sl.Length - 1; j++)
                     {
                         var idd = Convert.ToInt32(sl[j]);
@@ -271,7 +218,6 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                                 Kaydeden = vUser.UserName,
                                 Gorevler = tbl
                             };
-
                             db.GorevToDoLists.Add(grvTDL);
                         }
                         else
@@ -283,7 +229,6 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                                 grv.AktifPasif = false;
                                 grv.DegisTarih = DateTime.Now;
                                 grv.Degistiren = vUser.UserName;
-
                                 GorevToDoList grvTDL = new GorevToDoList
                                 {
                                     Aciklama = gorevler.work[i],
@@ -294,12 +239,10 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                                     Kaydeden = vUser.UserName,
                                     Gorevler = tbl
                                 };
-
                                 db.GorevToDoLists.Add(grvTDL);
                             }
                         }
                     }
-
                 }
                 try
                 {
