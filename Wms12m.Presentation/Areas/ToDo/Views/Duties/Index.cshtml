@@ -67,6 +67,14 @@
         $('#liste').html("");
         PartialView("/ToDo/Duties/List", 'liste', JSON.stringify({ Tip: $('#DurumID').val() }));
     }
+    function getresult(data) {
+        if (data.Status == false)
+            Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
+        else {
+            Modaldialog("Kaydedildi", "Başarı", "Tamam", "btn-success");
+            CreateEdit('0');
+        }
+    };
     function CreateEdit(Id) {
         if (Id == 0) {
             $("#ID").val("0");
@@ -74,7 +82,7 @@
             $("#Aciklama").val("");
             $("#TahminiBitis").val("");
             $('#modalEditPage').modal('toggle');
-            PartialView("/ToDo/Duties/List", 'liste', JSON.stringify({ Tip: rdrValue }));
+            PartialView("/ToDo/Duties/List", 'liste', JSON.stringify({ Tip: $('#DurumID').val() }));
         }
         else
             PartialView('/ToDo/Duties/Edit', 'CreateEdit', JSON.stringify({ Id: Id }));

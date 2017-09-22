@@ -20,7 +20,7 @@
                 <td> @if (item.ComboItem_Name != null) { @item.ComboItem_Name.Name} </td>
                 <td> @if (item.TahminiBitis != null) { @item.TahminiBitis.Value.ToString("dd-MM-yyyy")} </td>
                 <td nowrap>
-                    <a class="btn btn-info" href="#modalEditPage" data-toggle="modal" onclick="DuzenleModal('@item.AktifPasif.ToString()' , '@item.ID')"><span class="glyphicon glyphicon-floppy-save"></span>Çalışma</a>
+                    <a class="btn btn-info" href="#modalEditPage" data-toggle="modal" onclick="DuzenleModal('@item.AktifPasif.ToString()'s, '@item.ID')"><span class="glyphicon glyphicon-floppy-save"></span>Çalışma</a>
                     <a class="btn btn-danger" href="javascript:;" onclick="SilModal('@item.AktifPasif.ToString()' ,'@item.ID')"> Sil </a>
                 </td>
             </tr>
