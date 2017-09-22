@@ -20,12 +20,9 @@
 }<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><span>Görevler</span></li></ul></div>
 <h1 class="page-title">Görevler</h1>
 <div class="row m-10">
-    <div class="rdgrpOnayRed col-md-4"></div>
-    <div class="col-md-8">
-        <div class="col-md-3 col-md-offset-3"><button class="btn btn btn-lg yellow pull-right input-circle oncelik-kayit-buton glyphicon glyphicon-ok" style="display:none;width:100%"> Öncelik Kaydet </button></div>
-        <div class="col-md-2"><button class="btn btn btn-lg yellow pull-right input-circle onayla-buton glyphicon glyphicon-ok" style="display:none;width:100%"> Onayla </button></div>
-        <div class="col-md-2"><button class="btn btn btn-lg yellow pull-right input-circle reddet-buton glyphicon glyphicon-ok" style="display:none;width:100%"> Reddet </button></div>
-    </div>
+    <div class="col-md-2 pull-right m-t-5"><button class="btn btn-default pull-right input-circle oncelik-kayit-buton glyphicon glyphicon-ok hidden"> Öncelik Kaydet </button></div>
+    <div class="col-md-2 pull-right m-t-5"><button class="btn btn-success pull-right input-circle onayla-buton glyphicon glyphicon-ok hidden""> Onayla </button></div>
+    <div class="col-md-2 pull-right m-t-5"><button class="btn btn-danger pull-right input-circle reddet-buton glyphicon glyphicon-remove hidden""> Reddet </button></div>
 </div>
 <div class="row">
     <div class="col-md-12">
@@ -47,7 +44,7 @@
                             <div class="col-sm-4">
                                 <select class="form-control input-circle" id="DurumID" name="DurumID" onchange="FuncSearchBtn();">
                                     <option value="Aktif">Aktif</option>
-                                    @{if(ViewBag.Yetki == "Admin" || ViewBag.Yetki == "") {<text><option value="Onay">Onayda Bekleyen</option></text>}}
+                                    @{if(ViewBag.Yetki == "Admin" || ViewBag.Yetki == " ") {<text><option value="Onay">Onayda Bekleyen</option></text>}}
                                     <option value="Pasif">Tamamlanan</option>
                                 </select>
                             </div>
