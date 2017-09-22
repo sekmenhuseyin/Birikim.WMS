@@ -21,59 +21,59 @@
                     <div class="form-body">
                         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                         @Html.HiddenFor(model => model.ID)
-                        <div class="form-group row">
+                        <div class="form-group">
                             <label class="col-md-1 control-label">Firma</label>
                             <div class="col-md-10">
                                 @Html.DropDownList("MusteriID", null, string.Empty, htmlAttributes: new { @class = "form-control input-circle MusteriID", @onchange = "getProje(this.value,'ProjeList', 'FormList');", required = "required" })
                                 <span class="field-validation-valid" data-valmsg-for="MusteriID" data-valmsg-replace="true" style="color:red;"></span>
                             </div>
                         </div>
-                        <div class="form-group row">
+                        <div class="form-group">
                             <label class="col-md-1 control-label">Proje</label>
                             <div class="col-md-10">
                                 @Html.DropDownList("Proje", null, string.Empty, htmlAttributes: new { @class = "form-control input-circle Proje", @id = "ProjeList", @onchange = "getForm(this.value, 'FormList');", required = "required" })
                                 <span class="field-validation-valid" data-valmsg-for="MusteriID" data-valmsg-replace="Proje" style="color:red;"></span>
                             </div>
                         </div>
-                        <div class="form-group row">
+                        <div class="form-group">
                             <label class="col-md-1 control-label">Form</label>
                             <div class="col-md-10">
                                 @Html.DropDownList("ProjeFormID", null, string.Empty, htmlAttributes: new { @class = "form-control input-circle ProjeFormID", @id = "FormList", required = "required" })
                                 <span class="field-validation-valid" data-valmsg-for="ProjeFormID" data-valmsg-replace="true" style="color:red;"></span>
                             </div>
                         </div>
-                        <div class="form-group row">
+                        <div class="form-group">
                             <div class="col-md-1" style="text-align:right;">Sorumlu</div>
                             <div class="col-md-10"><div class="slct-sorumlu"></div></div>
                         </div>
-                        <div class="form-group row">
+                        <div class="form-group">
                             <div class="col-md-1" style="text-align:right;">Sorumlu2</div>
                             <div class="col-md-10"><div class="slct-sorumlu2"></div></div>
                         </div>
-                        <div class="form-group row">
+                        <div class="form-group">
                             <div class="col-md-1" style="text-align:right;">Sorumlu3</div>
                             <div class="col-md-10"><div class="slct-sorumlu3"></div></div>
                         </div>
-                        <div class="form-group row">
+                        <div class="form-group">
                             <div class="col-md-1" style="text-align:right;">Kalite Kontrol</div>
                             <div class="col-md-10"><div class="slct-kalite-kontrol"></div></div>
                         </div>
-                        <div class="form-group row">
+                        <div class="form-group">
                             @Html.LabelFor(model => model.Gorev, htmlAttributes: new { @class = "control-label col-md-1" })
                             <div class="col-md-10">
-                                @Html.EditorFor(model => model.Gorev, new { htmlAttributes = new { @class = "form-control input-circle", required = "required" } })
+                                @Html.TextBoxFor(a => a.Gorev, new { @class = "form-control input-circle", @required = "required" })
                                 @Html.ValidationMessageFor(model => model.Gorev, "", new { @class = "text-danger" })
                             </div>
                         </div>
 
-                        <div class="form-group row pointer">
+                        <div class="form-group pointer">
                             @Html.LabelFor(model => model.Aciklama, htmlAttributes: new { @class = "control-label col-md-1" })
                             <div class="col-md-10">
                                 @Html.TextAreaFor(model => model.Aciklama, 10, 55, new { htmlAttributes = new { @class = "form-control form-rounded" }, required = "required" })
                                 @Html.ValidationMessageFor(model => model.Aciklama, "", new { @class = "text-danger" })
                             </div>
                         </div>
-                        <div class="form-group row">
+                        <div class="form-group">
                             @Html.LabelFor(model => model.GorevTipiID, htmlAttributes: new { @class = "control-label col-md-1" })
                             <div class="col-md-10">
                                 @Html.DropDownList("GorevTipiID", null, htmlAttributes: new { @class = "form-control input-circle" })
@@ -81,7 +81,7 @@
                             </div>
                         </div>
 
-                        <div class="form-group row">
+                        <div class="form-group">
                             @Html.LabelFor(model => model.DepartmanID, htmlAttributes: new { @class = "control-label col-md-1" })
                             <div class="col-md-10">
                                 @Html.DropDownList("DepartmanID", null, htmlAttributes: new { @class = "form-control input-circle" })
@@ -89,14 +89,14 @@
                             </div>
                         </div>
 
-                        <div class="form-group row">
+                        <div class="form-group">
                             @Html.LabelFor(model => model.TahminiBitis, htmlAttributes: new { @class = "control-label col-md-1" })
                             <div class="col-md-10">
                                 @Html.EditorFor(model => model.TahminiBitis, new { htmlAttributes = new { @class = "form-control input-circle date-picker" } })
                                 @Html.ValidationMessageFor(model => model.TahminiBitis, "", new { @class = "text-danger" })
                             </div>
                         </div>
-                        <div class="form-group row" style="display:none">
+                        <div class="form-group" style="display:none">
                             <div class="silinenler"></div>
                         </div>
                         <div class="form-actions">
@@ -184,7 +184,7 @@
             $(".last-work").removeClass("fa fa-plus-circle");
             $(".insert-work-icon i").removeClass("last-work");
             $(".delete-icn").css("display", "initial");
-            var newElement = $("<div>").addClass("form-group row todo-content");
+            var newElement = $("<div>").addClass("form-group todo-content");
             newElement.append("<div class='todo-text todo-id" + index + "' style='display:none'></div> <div class='control-label col-md-1'><span class='work-index'>" + index + "</span > <span>-</span></div><div class='col-md-10'><div class='txt-aciklama work-" + index + "'></div></div><div class='insert-work-icon col-md-1'><i class='fa fa-minus-circle delete-icn' style='display:none' onclick='DeleteElement(this," + value.ID + ")' style='margin- left:5px;'></i><i class='fa fa-plus-circle last-work' onclick='NewElement()' style='margin-left:5px;'></i></div>");
             newElement.addClass("index" + index);
 
@@ -218,7 +218,7 @@
         $(".last-work").removeClass("fa fa-plus-circle");
         $(".insert-work-icon i").removeClass("last-work");
         $(".delete-icn").css("display", "initial");
-        var newElement = $("<div>").addClass("form-group row todo-content");
+        var newElement = $("<div>").addClass("form-group todo-content");
         newElement.append("<div class='todo-text todo-id" + index + "' style='display:none'></div><div class='control-label col-md-1'><span class='work-index'>" + index + "</span > <span>-</span></div><div class='col-md-10'><div class='txt-aciklama work-" + index + "'></div></div><div class='insert-work-icon col-md-1'><i class='fa fa-minus-circle delete-icn' onclick='DeleteElement(this, " + 0 +")' style='margin- left:5px;'></i><i class='fa fa-plus-circle last-work' onclick='NewElement()' style='margin-left:5px;'></i></div>");
         newElement.addClass("index" + index);
         newElement.insertAfter(".todo-content:last");

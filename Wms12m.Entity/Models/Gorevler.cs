@@ -11,7 +11,7 @@ namespace Wms12m.Entity.Models
 {
     using System;
     using System.Collections.Generic;
-    
+
     public partial class Gorevler
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -20,7 +20,7 @@ namespace Wms12m.Entity.Models
             this.GorevCalismas = new HashSet<GorevCalisma>();
             this.GorevToDoLists = new HashSet<GorevToDoList>();
         }
-    
+
         public int ID { get; set; }
         public int ProjeFormID { get; set; }
         public string Sorumlu { get; set; }

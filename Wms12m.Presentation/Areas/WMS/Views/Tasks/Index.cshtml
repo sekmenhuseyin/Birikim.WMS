@@ -38,7 +38,7 @@
     function FuncSearchBtn() {
         $('#GorevGrid').html("");
         DuzenleIptal();
-        setTimeout(PartialView('/WMS/Tasks/List', 'GorevGrid', JSON.stringify({ Id: $('#DurumID').val() })), 500);
+        PartialView('/WMS/Tasks/List', 'GorevGrid', JSON.stringify({ Id: $('#DurumID').val() }));
     }
     function newrow(id) { return "<div id='new" + id +"'></div>"; }
     function format(d) {

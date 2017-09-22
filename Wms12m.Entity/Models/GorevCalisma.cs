@@ -9,9 +9,6 @@
 
 namespace Wms12m.Entity.Models
 {
-    using System;
-    using System.Collections.Generic;
-    
     public partial class GorevCalisma
     {
         public int ID { get; set; }
