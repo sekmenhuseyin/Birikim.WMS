@@ -1,9 +1,7 @@
 ﻿@{
     ViewBag.Title = "Görevler";
     Layout = "~/Views/Shared/_Layout.cshtml";
-}@section Styles{<link href="~/Content/assets/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css" rel="stylesheet" type="text/css" />
-<style>
-    .control-label {text-align: right;color: black;}
+}@section Styles{<style>
     textarea#Aciklama {border-radius: 1rem !important;width: 100% !important;height: 100px !important;}
     .item-up:hover {color: #1fe21f !important;}
     .item-down:hover {color: #f31414 !important;}
@@ -58,8 +56,7 @@
         </div>
     </div>
 </div>
-@section Scripts{<script src="~/Content/assets/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js" type="text/javascript"></script>
-<script src="~/Content/assets/global/plugins/datatables/extensions/RowReorder/js/dataTables.rowReorder.js"></script>
+@section Scripts{<script src="~/Content/assets/global/plugins/datatables/extensions/RowReorder/js/dataTables.rowReorder.js"></script>
 <script type="text/javascript">
     var DeleteFunctionUrl = '/ToDo/Duties/Delete';
     PartialView("/ToDo/Duties/List", 'liste', JSON.stringify({ Tip: $('#DurumID').val() }));
@@ -69,14 +66,15 @@
         $(".onayla-buton").addClass('hidden');
         $(".reddet-buton").addClass('hidden');
         $(".oncelik-kayit-buton").addClass('hidden');
-    PartialView("/ToDo/Duties/List", 'liste', JSON.stringify({ Tip: $('#DurumID').val() }));
+        PartialView("/ToDo/Duties/List", 'liste', JSON.stringify({ Tip: $('#DurumID').val() }));
     }
     function getresult(data) {
         if (data.Status == false)
             Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
         else {
             Modaldialog("Kaydedildi", "Başarı", "Tamam", "btn-success");
-            CreateEdit('0');
+            $('#modalEditPage').modal('toggle');
+            FuncSearchBtn();
         }
     };
     function CreateEdit(Id) {
@@ -85,8 +83,6 @@
             $("#Gorev").val("");
             $("#Aciklama").val("");
             $("#TahminiBitis").val("");
-            $('#modalEditPage').modal('toggle');
-            PartialView("/ToDo/Duties/List", 'liste', JSON.stringify({ Tip: $('#DurumID').val() }));
         }
         else
             PartialView('/ToDo/Duties/Edit', 'CreateEdit', JSON.stringify({ Id: Id }));

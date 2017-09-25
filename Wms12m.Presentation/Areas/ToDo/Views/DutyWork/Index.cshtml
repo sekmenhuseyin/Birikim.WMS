@@ -88,6 +88,15 @@
             PartialView("/ToDo/DutyWork/Edit", 'CreateEdit', JSON.stringify({ Id: Id }));
         }
     }
+    function getresult(data) {
+        if (data.Status == false)
+            Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
+        else {
+            Modaldialog("Kaydedildi", "Başarı", "Tamam", "btn-success");
+            $('#modalEditPage').modal('toggle');
+            PartialView("/ToDo/DutyWork/List", 'liste');
+        }
+    };
     function getToDo(id) {
         $.ajax({
             url: "/ToDo/DutyWork/GorevToDoList/" + id,

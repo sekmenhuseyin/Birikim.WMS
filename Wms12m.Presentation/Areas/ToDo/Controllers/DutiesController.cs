@@ -173,12 +173,6 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                     tbl.KaliteKontrol = gorevler.KaliteKontrol ?? "";
                     tbl.Gorev = gorevler.Gorev;
                     tbl.Aciklama = gorevler.Aciklama ?? "";
-                    tbl.OncelikID = gorevler.OncelikID;
-                    tbl.DurumID = gorevler.DurumID;
-                    tbl.GorevTipiID = gorevler.GorevTipiID;
-                    tbl.DepartmanID = gorevler.DepartmanID;
-                    tbl.TahminiBitis = gorevler.TahminiBitis;
-                    tbl.DurumID = gorevler.DurumID;
                     tbl.GorevTipiID = gorevler.GorevTipiID;
                     tbl.DepartmanID = gorevler.DepartmanID;
                     tbl.TahminiBitis = gorevler.TahminiBitis;

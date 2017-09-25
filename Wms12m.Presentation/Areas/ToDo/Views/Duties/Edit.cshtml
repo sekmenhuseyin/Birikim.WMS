@@ -9,7 +9,7 @@
                 </div>
             </div>
             <div class="portlet-body form">
-                @using (Ajax.BeginForm("Save", "Duties", new { area = "ToDo" }, new AjaxOptions { InsertionMode = InsertionMode.Replace, OnFailure = "Modaldialog('Lütfen Tekrar Deneyin', 'Hata', 'Tamam', 'btn-danger');", OnSuccess = "CreateEdit('0');" }, new { @class = "form-horizontal" }))
+                @using (Ajax.BeginForm("Save", "Duties", new { area = "ToDo" }, new AjaxOptions { OnSuccess = "getresult", OnFailure = "Modaldialog('Lütfen Tekrar Deneyin', 'Hata', 'Tamam', 'btn-danger');" }, new { @class = "form-horizontal" }))
                 {
                     @Html.HiddenFor(model => model.ID)
                     @Html.AntiForgeryToken()
@@ -60,14 +60,14 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            @Html.LabelFor(model => model.KaliteKontrol, "KaliteKontrol", htmlAttributes: new { @class = "control-label col-md-2" })
+                            @Html.LabelFor(model => model.KaliteKontrol, "Kontrol Eden", htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-10">
                                 @Html.DropDownList("KaliteKontrol", null, htmlAttributes: new { @class = "form-control input-circle satirekle" })
                                 @Html.ValidationMessageFor(model => model.KaliteKontrol, "", new { @class = "text-danger" })
                             </div>
                         </div>
                         <div class="form-group">
-                            @Html.LabelFor(model => model.Gorev, htmlAttributes: new { @class = "control-label col-md-2" })
+                            @Html.LabelFor(model => model.Gorev, "Görev", htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-10">
                                 @Html.TextBoxFor(a => a.Gorev, new { @class = "form-control input-circle", @required = "required" })
                                 @Html.ValidationMessageFor(model => model.Gorev, "", new { @class = "text-danger" })
@@ -75,14 +75,14 @@
                         </div>
 
                         <div class="form-group pointer">
-                            @Html.LabelFor(model => model.Aciklama, htmlAttributes: new { @class = "control-label col-md-2" })
+                            @Html.LabelFor(model => model.Aciklama, "Açıklama", htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-10">
                                 @Html.TextAreaFor(model => model.Aciklama, 10, 55, new { htmlAttributes = new { @class = "form-control form-rounded" } })
                                 @Html.ValidationMessageFor(model => model.Aciklama, "", new { @class = "text-danger" })
                             </div>
                         </div>
                         <div class="form-group">
-                            @Html.LabelFor(model => model.GorevTipiID, htmlAttributes: new { @class = "control-label col-md-2" })
+                            @Html.LabelFor(model => model.GorevTipiID, "Görev Tipi", htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-10">
                                 @Html.DropDownList("GorevTipiID", null, htmlAttributes: new { @class = "form-control input-circle", required = "required" })
                                 @Html.ValidationMessageFor(model => model.GorevTipiID, "", new { @class = "text-danger" })
@@ -90,7 +90,7 @@
                         </div>
 
                         <div class="form-group">
-                            @Html.LabelFor(model => model.DepartmanID, htmlAttributes: new { @class = "control-label col-md-2" })
+                            @Html.LabelFor(model => model.DepartmanID, "Departman", htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-10">
                                 @Html.DropDownList("DepartmanID", null, htmlAttributes: new { @class = "form-control input-circle", required = "required" })
                                 @Html.ValidationMessageFor(model => model.DepartmanID, "", new { @class = "text-danger" })
@@ -98,7 +98,7 @@
                         </div>
 
                         <div class="form-group">
-                            @Html.LabelFor(model => model.TahminiBitis, htmlAttributes: new { @class = "control-label col-md-2" })
+                            @Html.LabelFor(model => model.TahminiBitis, "Tamini Bitiş", htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-10">
                                 @Html.EditorFor(model => model.TahminiBitis, new { htmlAttributes = new { @class = "form-control input-circle date-picker", required = "required" } })
                                 @Html.ValidationMessageFor(model => model.TahminiBitis, "", new { @class = "text-danger" })
@@ -139,7 +139,7 @@
             $(".insert-work-icon i").removeClass("last-work");
             $(".delete-icn").css("display", "initial");
             var newElement = $("<div>").addClass("form-group todo-content");
-            newElement.append("<div class='todo-text todo-id" + index + "' style='display:none'></div> <div class='control-label col-md-2'><span class='work-index'>" + index + "</span > <span>-</span></div><div class='col-md-10'><div class='txt-aciklama work-" + index + "'></div></div><div class='insert-work-icon col-md-2'><i class='fa fa-minus-circle delete-icn' style='display:none' onclick='DeleteElement(this," + value.ID + ")' style='margin- left:5px;'></i><i class='fa fa-plus-circle last-work' onclick='NewElement()' style='margin-left:5px;'></i></div>");
+            newElement.append("<div class='todo-text todo-id" + index + "' style='display:none'></div> <div class='control-label col-md-2'><span class='work-index'>" + index + "</span > <span>-</span></div><div class='col-md-9'><div class='txt-aciklama work-" + index + "'></div></div><div class='insert-work-icon col-md-1'><i class='fa fa-minus-circle delete-icn' style='display:none' onclick='DeleteElement(this," + value.ID + ")' style='margin- left:5px;'></i><i class='fa fa-plus-circle last-work' onclick='NewElement()' style='margin-left:5px;'></i></div>");
             newElement.addClass("index" + index);
 
 
