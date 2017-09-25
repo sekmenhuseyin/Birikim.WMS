@@ -757,7 +757,7 @@
     </Content>
     <Content Include="Areas\ToDo\Views\Duties\List.cshtml" />
     <Content Include="Areas\ToDo\Views\Duties\New.cshtml" />
-    <Content Include="Areas\ToDo\Views\DutyWork\NewWork.cshtml" />
+    <Content Include="Areas\ToDo\Views\DutyWork\New.cshtml" />
     <Content Include="Areas\ToDo\Views\DutyWork\List.cshtml" />
     <Content Include="Areas\ToDo\Views\Duties\Duty_Details.cshtml" />
     <Content Include="Views\Help\Index.cshtml" />
