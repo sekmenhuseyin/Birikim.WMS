@@ -842,48 +842,104 @@ namespace Wms12m
             //TODO: burada her irsaliye için 
             ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
             ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-            ////gorev yer miktar update
-            //db.Database.ExecuteSqlCommand("UPDATE wms.GorevYer SET Miktar = YerlestirmeMiktari WHERE GorevID = " + GorevID);
-            ////for loop 1: irs detay
-            //var list1 = db.Database.SqlQuery<IRS_Detay>(@"SELECT wms.IRS_Detay.* FROM wms.GorevIRS INNER JOIN  wms.IRS_Detay ON wms.GorevIRS.IrsaliyeID = wms.IRS_Detay.IrsaliyeID WHERE wms.GorevIRS.GorevID = " + GorevID).ToList();
-            //foreach (var item1 in list1)
-            //{
-            //    var gerekenMiktar = item1.Miktar;
-            //    //for detay 2: gorev yer
-            //    var list2 = db.Database.SqlQuery<GorevYer>("SELECT ID, GorevID, YerID, MalKodu, Miktar, YerlestirmeMiktari, MakaraNo, Birim, GC, Sira FROM wms.GorevYer WHERE (Miktar < YerlestirmeMiktari) AND GorevID = " + GorevID).ToList();
-            //    foreach (var item2 in list2)
-            //    {
-            //        if (gerekenMiktar <= item2.YerlestirmeMiktari)
-            //        {
-            //            item2.Miktar = gerekenMiktar;
-            //            gerekenMiktar -= item2.Miktar;
-            //            //update yer
-            //            break;
-            //        }
-            //        else
-            //        {
-            //            item2.Miktar = item2.YerlestirmeMiktari.Value;
-            //            gerekenMiktar -= item2.YerlestirmeMiktari.Value;
-            //            //update yer
-            //        }
-            //    }
-            //}
+            //gorev yer miktar update
+            db.Database.ExecuteSqlCommand("UPDATE wms.GorevYer SET Miktar = YerlestirmeMiktari WHERE GorevID = " + GorevID);
+            //for loop 1: irs detay
+            var list1 = db.Database.SqlQuery<IRS_Detay>(@"SELECT wms.IRS_Detay.* FROM wms.GorevIRS INNER JOIN  wms.IRS_Detay ON wms.GorevIRS.IrsaliyeID = wms.IRS_Detay.IrsaliyeID WHERE wms.GorevIRS.GorevID = " + GorevID).ToList();
+            var list2 = db.Database.SqlQuery<GorevYer>("SELECT ID, GorevID, YerID, MalKodu, Miktar, YerlestirmeMiktari, MakaraNo, Birim, GC, Sira FROM wms.GorevYer WHERE (Miktar > 0) AND GorevID = " + GorevID).ToList();
+            List<frmTempGorevYer> tempGorevYer = new List<frmTempGorevYer>();
+            foreach (var item3 in list2)
+            {
+                frmTempGorevYer aa = new frmTempGorevYer();
+                aa.ID = item3.ID;
+                aa.Aktif = true;
+                aa.Birim = item3.Birim;
+                aa.GC = item3.GC;
+                aa.GorevID = item3.GorevID;
+                aa.MakaraNo = item3.MakaraNo;
+                aa.MalKodu = item3.MalKodu;
+                aa.Miktar = item3.Miktar;
+                aa.YerID = item3.YerID;
+                aa.YerlestirmeMiktari = item3.YerlestirmeMiktari;
+                tempGorevYer.Add(aa);
+            }
+            using (var yerleştirme = new Yerlestirme())
+                foreach (var item1 in list1)
+                {
+                    var gerekenMiktar = item1.Miktar;
+                    //for detay 2: gorev yer
+
+                    foreach (var item2 in tempGorevYer)
+                    {
+                        if (gerekenMiktar > 0)
+                        {
+                            if (item2.Aktif == true && item2.MalKodu == item2.MalKodu && gerekenMiktar >= item2.Miktar)
+                            {
+                                item2.Aktif = false;
+                                item2.MakaraNo = item1.MakaraNo;
+                                item2.IrsaliyeID = item1.IrsaliyeID;
+                                gerekenMiktar -= item2.Miktar;
+                            }
+                            else if (item2.Aktif == true && item2.MalKodu == item2.MalKodu && gerekenMiktar < item2.Miktar)
+                            {
+                                item2.Aktif = true;
+                                item2.Miktar = item2.Miktar - gerekenMiktar;
+                                item2.YerlestirmeMiktari = item2.Miktar - gerekenMiktar;
+                                item2.MakaraNo = item1.MakaraNo;
+                                item2.IrsaliyeID = item1.IrsaliyeID;
+
+                                frmTempGorevYer tmp = new frmTempGorevYer();
+                                tmp = item2;
+                                tmp.Miktar = gerekenMiktar;
+                                tmp.YerlestirmeMiktari = gerekenMiktar;
+                                tmp.Aktif = false;
+
+                                tempGorevYer.Add(tmp);
+                                gerekenMiktar = 0;
+                            }
+                        }
+                    }
+                    //foreach (var item2 in list2)
+                    //{
+                    //    if (gerekenMiktar <= item2.Miktar)
+                    //    {
+                    //        item2.Miktar -= gerekenMiktar;
+                    //        //update yer
+                    //        var dusulecek = yerleştirme.Detail(item2.YerID);
+                    //        dusulecek.Miktar -= gerekenMiktar;
+                    //        dusulecek.MakaraDurum = false;
+                    //        yerleştirme.Update(dusulecek, mGorev.IrsaliyeID.Value, KullID, true, gerekenMiktar);
+                    //        gerekenMiktar = 0;
+                    //        break;
+                    //    }
+                    //    else
+                    //    {
+                    //        item2.Miktar -= item2.YerlestirmeMiktari.Value;
+                    //        gerekenMiktar -= item2.YerlestirmeMiktari.Value;
+                    //        //update yer
+                    //        var dusulecek = yerleştirme.Detail(item2.YerID);
+                    //        dusulecek.Miktar -= item2.YerlestirmeMiktari.Value;
+                    //        dusulecek.MakaraDurum = false;
+                    //        yerleştirme.Update(dusulecek, mGorev.IrsaliyeID.Value, KullID, true, item2.YerlestirmeMiktari.Value);
+                    //    }
+                    //}
+                }
             /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
             ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
             //eski
             ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-            var yerleştirilen = db.Database.SqlQuery<frmSiparisToplayerlestirilen>(@"SELECT        YerID, SUM(YerlestirmeMiktari) AS YerlestirmeMiktari, MalKodu, Birim
-                                                                                    FROM            wms.GorevYer WITH (nolock)
-                                                                                    WHERE        GorevID =  " + GorevID + " GROUP BY YerID, MalKodu, Birim").ToList();
-            using (var yerleştirme = new Yerlestirme())
-                foreach (var item2 in yerleştirilen)
-                {
-                    var dusulecek = yerleştirme.Detail(item2.YerID);
-                    dusulecek.Miktar -= item2.YerlestirmeMiktari;
-                    dusulecek.MakaraDurum = false;
-                    yerleştirme.Update(dusulecek, mGorev.IrsaliyeID.Value, KullID, true, item2.YerlestirmeMiktari);
-                }
+            //var yerleştirilen = db.Database.SqlQuery<frmSiparisToplayerlestirilen>(@"SELECT        YerID, SUM(YerlestirmeMiktari) AS YerlestirmeMiktari, MalKodu, Birim
+            //                                                                        FROM            wms.GorevYer WITH (nolock)
+            //                                                                        WHERE        GorevID =  " + GorevID + " GROUP BY YerID, MalKodu, Birim").ToList();
+            //using (var yerleştirme = new Yerlestirme())
+            //    foreach (var item2 in yerleştirilen)
+            //    {
+            //        var dusulecek = yerleştirme.Detail(item2.YerID);
+            //        dusulecek.Miktar -= item2.YerlestirmeMiktari;
+            //        dusulecek.MakaraDurum = false;
+            //        yerleştirme.Update(dusulecek, mGorev.IrsaliyeID.Value, KullID, true, item2.YerlestirmeMiktari);
+            //    }
             ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 

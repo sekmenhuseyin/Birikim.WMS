@@ -53,7 +53,7 @@ namespace Wms12m
                     return db.Database.SqlQuery<String>(sql).FirstOrDefault();
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 return "";
             }
