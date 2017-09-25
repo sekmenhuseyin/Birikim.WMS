@@ -67,17 +67,18 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             }
             else if (Tip == "Onay")
             {
-                list = db.Gorevlers.Where(a => a.AktifPasif == tip && a.DurumID == durum && (((a.Sorumlu == vUser.UserName || a.Sorumlu2 == vUser.UserName || a.Sorumlu3 == vUser.UserName) && a.GorevTipiID != gorevTipleri) || (a.KaliteKontrol == vUser.UserName && (a.GorevTipiID == gorevTipleri || a.GorevToDoLists.Select(c => c.Kontrol == true && c.KontrolOnay == false).Count() > 0)))).OrderBy(a => a.OncelikID).ToList();
+                list = db.Gorevlers.Where(a => a.AktifPasif == tip && a.DurumID == durum && (((a.Sorumlu == vUser.UserName || a.Sorumlu2 == vUser.UserName || a.Sorumlu3 == vUser.UserName || a.Kaydeden == vUser.UserName) && a.GorevTipiID != gorevTipleri) || (a.KaliteKontrol == vUser.UserName && (a.GorevTipiID == gorevTipleri || a.GorevToDoLists.Select(c => c.Kontrol == true && c.KontrolOnay == false).Count() > 0)))).OrderBy(a => a.OncelikID).ToList();
             }
             else if (tip == true)
             {
-                list = db.Gorevlers.Where(a => a.AktifPasif == tip && a.DurumID != durum && (((a.Sorumlu == vUser.UserName || a.Sorumlu2 == vUser.UserName || a.Sorumlu3 == vUser.UserName) && a.GorevTipiID != gorevTipleri) || (a.KaliteKontrol == vUser.UserName && (a.GorevTipiID == gorevTipleri || a.GorevToDoLists.Select(c => c.Kontrol == true && c.KontrolOnay == false).Count() > 0)))).OrderBy(a => a.OncelikID).ToList();
+                list = db.Gorevlers.Where(a => a.AktifPasif == tip && a.DurumID != durum && (((a.Sorumlu == vUser.UserName || a.Sorumlu2 == vUser.UserName || a.Sorumlu3 == vUser.UserName || a.Kaydeden == vUser.UserName) && a.GorevTipiID != gorevTipleri) || (a.KaliteKontrol == vUser.UserName && (a.GorevTipiID == gorevTipleri || a.GorevToDoLists.Select(c => c.Kontrol == true && c.KontrolOnay == false).Count() > 0)))).OrderBy(a => a.OncelikID).ToList();
             }
             else
             {
-                list = db.Gorevlers.Where(a => a.AktifPasif == tip && (((a.Sorumlu == vUser.UserName || a.Sorumlu2 == vUser.UserName || a.Sorumlu3 == vUser.UserName) && a.GorevTipiID != gorevTipleri) || (a.KaliteKontrol == vUser.UserName && (a.GorevTipiID == gorevTipleri || a.GorevToDoLists.Select(c => c.Kontrol == true && c.KontrolOnay == false).Count() > 0)))).OrderBy(a => a.OncelikID).ToList();
+                list = db.Gorevlers.Where(a => a.AktifPasif == tip && (((a.Sorumlu == vUser.UserName || a.Sorumlu2 == vUser.UserName || a.Sorumlu3 == vUser.UserName || a.Kaydeden == vUser.UserName) && a.GorevTipiID != gorevTipleri) || (a.KaliteKontrol == vUser.UserName && (a.GorevTipiID == gorevTipleri || a.GorevToDoLists.Select(c => c.Kontrol == true && c.KontrolOnay == false).Count() > 0)))).OrderBy(a => a.OncelikID).ToList();
             }
             ViewBag.RoleName = vUser.RoleName;
+            ViewBag.Tip = Tip;
             return PartialView(list);
         }
         /// <summary>

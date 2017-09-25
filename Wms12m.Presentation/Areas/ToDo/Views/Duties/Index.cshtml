@@ -44,7 +44,7 @@
                             <div class="col-sm-4">
                                 <select class="form-control input-circle" id="DurumID" name="DurumID" onchange="FuncSearchBtn();">
                                     <option value="Aktif">Aktif</option>
-                                    @{if(ViewBag.Yetki == "Admin" || ViewBag.Yetki == " ") {<text><option value="Onay">Onayda Bekleyen</option></text>}}
+                                    @{if(ViewBag.Yetki == "Admin" || ViewBag.Yetki == " " || ViewBag.Yetki == "Destek") {<text><option value="Onay">Onayda Bekleyen</option></text>}}
                                     <option value="Pasif">Tamamlanan</option>
                                 </select>
                             </div>

@@ -48,15 +48,56 @@
         var row = table.row(tr);
         if (row.child.isShown()) { row.child.hide(); tr.removeClass('shown'); }
         else { row.child(newrow(tr.data('id'))).show(); format(tr.data('id')); tr.addClass('shown'); }
-    });
+    });@if (ViewBag.Tip == "Onay")
+    {<text>
     $('#sample_1 tbody').on('click', 'tr', function () {
-        if ($('#DurumID').val() != "Onay") { return; }
         table.rows('.selected').nodes().to$().removeClass('selected');
         $("tr").find('td').not(".degisim").css('background-color', 'transparent');
         $(".degisim").css('background-color', '#f9df63');
         $(this).find('td').css('background-color', '#B0BED9');
         $(this).toggleClass('selected');
     });
+    function GorevOnayla() {
+        var id = 0;
+        var x = table.rows('.selected').data();
+        for (var i = 0; i < x.length; i++) { id = x[i][1]; }
+        $.ajax({
+            url: window.location.origin + "/ToDo/Duties/GorevOnayla",
+            data: { Data: id },
+            type: "post",
+            success: function (data) {
+                if (data == "OK") {
+                    Modaldialog("İşlem Başarılı", "Onaylama İşlemi", "Tamam", "Onaylama");
+                    FuncSearchBtn();
+                }
+                else {
+                    Modaldialog("Hata Oluştu", "Hata", "Tamam", "btn-danger");
+                }
+
+            }
+        });
+    }
+    function GorevReddet() {
+        var id = 0;
+        var x = table.rows('.selected').data();
+        for (var i = 0; i < x.length; i++) { id = x[i][1]; }
+        $.ajax({
+            url: window.location.origin + "/ToDo/Duties/GorevReddet",
+            data: { Data: id },
+            type: "post",
+            success: function (data) {
+                if (data == "OK") {
+                    Modaldialog("İşlem Başarılı", "Onaylama İşlemi", "Tamam", "Onaylama");
+                    FuncSearchBtn();
+                }
+                else {
+                    Modaldialog("Hata Oluştu", "Hata", "Tamam", "btn-danger");
+                }
+
+            }
+        });
+    }
+    </text>}
     //tarih
     $.datepicker.setDefaults($.datepicker.regional["tr"]);
     $(".tarih").datepicker();
@@ -64,16 +105,15 @@
         <text>function showEdit(ID) {
             $('#modalEditPage').modal('toggle');
             editInModal('/ToDo/Duties/Edit/' + ID);
-        }</text>
+    }</text>
     }
     else
     {
           <text>table.columns([0]).visible(false, false);</text>
     }
+    @if (ViewBag.Tip != "Pasif")
+    {<text>
     function RowUp(item) {
-        if ($('#DurumID').val() == "Pasif") {
-            return;
-        }
         var sayac = 0;
         yeniData = [];
         if ($(item).closest('tr').prev().length == 1) {
@@ -84,11 +124,10 @@
         }
         $("tbody tr").each(function (index) { yeniData.push($(this).find("td").eq(0).attr("data-id")); });
         $.each(yeniData, function (index, value) { if (yeniData[index] != eskiData[index]) { sayac++; } });
-        if (sayac > 0) { $(".oncelik-kayit-buton").css("display","block"); }
+        if (sayac > 0) { $(".oncelik-kayit-buton").css("display", "block"); }
         else { $(".oncelik-kayit-buton").css("display", "none"); }
     }
     function RowDown(item) {
-        if ($('#DurumID').val() == "Pasif") { return; }
         var sayac = 0;
         yeniData = [];
         if ($(item).closest('tr').next().length == 1) {
@@ -103,7 +142,6 @@
         else { $(".oncelik-kayit-buton").css("display", "none"); }
     }
     function OncelikKaydet() {
-        if ($('#DurumID').val() == "Pasif") { return; }
         secili_table = [];
         $("tbody tr").each(function (index) {
             var jObject = {};
@@ -128,46 +166,5 @@
             }
         });
     }
-    function GorevOnayla() {
-        if ($('#DurumID').val() == "Pasif" || $('#DurumID').val() == "Aktif") { return; }
-        var id = 0;
-        var x = table.rows('.selected').data();
-        for (var i = 0; i < x.length; i++) { id = x[i][1]; }
-        $.ajax({
-            url: window.location.origin + "/ToDo/Duties/GorevOnayla",
-            data: { Data: id },
-            type: "post",
-            success: function (data) {
-                if (data == "OK") {
-                    Modaldialog("İşlem Başarılı", "Onaylama İşlemi", "Tamam", "Onaylama");
-                    FuncSearchBtn();
-                }
-                else {
-                    Modaldialog("Hata Oluştu", "Hata", "Tamam", "btn-danger");
-                }
-
-            }
-        });
-    }
-    function GorevReddet() {
-        if ($('#DurumID').val() == "Pasif" || $('#DurumID').val() == "Aktif") { return; }
-        var id = 0;
-        var x = table.rows('.selected').data();
-        for (var i = 0; i < x.length; i++) { id = x[i][1]; }
-        $.ajax({
-            url: window.location.origin + "/ToDo/Duties/GorevReddet",
-            data: { Data: id },
-            type: "post",
-            success: function (data) {
-                if (data == "OK") {
-                    Modaldialog("İşlem Başarılı", "Onaylama İşlemi", "Tamam", "Onaylama");
-                    FuncSearchBtn();
-                }
-                else {
-                    Modaldialog("Hata Oluştu", "Hata", "Tamam", "btn-danger");
-                }
-
-            }
-        });
-    }
+    </text>}
 </script>
