@@ -26,7 +26,6 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             var id = Url.RequestContext.RouteData.Values["id"];
             var ID = id.ToInt32();
             Gorevler gorev = db.Gorevlers.Find(ID);
-            ViewBag.id = ID;
             ViewBag.RoleName = vUser.RoleName;
             ViewBag.GorevID = new SelectList(db.Gorevlers.Where(m => m.ID == ID).ToList(), "ID", "Gorev");
             GorevCalisma grv = new GorevCalisma
@@ -182,7 +181,6 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                 {
                 }
             }
-            ViewBag.GorevID = new SelectList(db.Gorevlers, "ID", "Gorev", gorevCalisma.GorevID);
             return Json(new Result(false, "Hata oldu"), JsonRequestBehavior.AllowGet);
 
 
@@ -194,11 +192,16 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         {
             GorevCalisma gorevcalisma = db.GorevCalismas.Find(Id.ToInt32());
             db.GorevCalismas.Remove(gorevcalisma);
-            db.SaveChanges();
-
-            Result _Result = new Result(true, Id.ToInt32());
-            return Json(_Result, JsonRequestBehavior.AllowGet);
-
+            try
+            {
+                db.SaveChanges();
+                return Json(new Result(true, Id.ToInt32()), JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Logger(ex, "/ToDo/DutyWork/Delete");
+                return Json(new Result(false, "Hata oldu"), JsonRequestBehavior.AllowGet);
+            }
         }
         /// <summary>
         /// iş listesi

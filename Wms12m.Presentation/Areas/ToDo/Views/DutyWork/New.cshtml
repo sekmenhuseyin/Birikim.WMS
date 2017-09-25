@@ -25,14 +25,14 @@
                         <div class="form-group">
                             @Html.LabelFor(model => model.Tarih, htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-8">
-                                @Html.EditorFor(model => model.Tarih, new { id = "Tarih", @class = "form-control input-circle date-picker", @Value = DateTime.Today.ToShortDateString(), required = "required" })
+                                @Html.EditorFor(model => model.Tarih, new { @class = "form-control input-circle date-picker", @value = DateTime.Today.ToShortDateString(), required = "required" })
                                 @Html.ValidationMessageFor(model => model.Tarih, "", new { @class = "text-danger" })
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="control-label col-md-2">Çalışma Süresi</div>
                             <div class="col-md-8">
-                                @Html.EditorFor(model => model.CalismaSure, new { @class = "form-control input-circle", @Value = "540", required = "required" })
+                                @Html.EditorFor(model => model.CalismaSure, new { @class = "form-control input-circle", @value = "540", required = "required" })
                                 @Html.ValidationMessageFor(model => model.CalismaSure, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -57,6 +57,7 @@
 
 <script type="text/javascript">
     DevExpress.ui.dxOverlay.baseZIndex(20000);
+    $(document).ready(function () { $('.date-picker').datepicker(); });
     sayac = 1;
     @if (ViewBag.RoleName=="Destek" && Model.Gorevler.Kontrol == true)
     {
@@ -77,7 +78,6 @@
             }
         }
     }
-    $(document).ready(function () { $('.date-picker').datepicker(); });
     function GorevList(Aciklama, ID) {
         var index = sayac++;
         var newElement = "";
