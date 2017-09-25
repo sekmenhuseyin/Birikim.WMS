@@ -350,45 +350,35 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         /// <summary>
         /// görev onay
         /// </summary>
-        public string GorevReddet(int Data)
+        public JsonResult GorevReddet(int Id)
         {
-
             try
             {
-                var durumId = Combos.GörevYönetimDurumları.ToInt32();
-                var gorevDurumları = db.ComboItem_Name.Where(a => a.ComboID == durumId && a.Name == "Reddedildi").FirstOrDefault();
-                db.Database.ExecuteSqlCommand(string.Format("UPDATE [BIRIKIM].[ong].[GorevTodoList] SET AktifPasif=0  WHERE  GorevID = {0}", Data));
-                db.Database.ExecuteSqlCommand(string.Format("UPDATE [BIRIKIM].[ong].[Gorevler] SET AktifPasif=0 , DurumID={0} WHERE ID = {1}", gorevDurumları.ID, Data));
-                db.SaveChanges();
-                return "OK";
+                db.Database.ExecuteSqlCommand(string.Format("UPDATE [BIRIKIM].[ong].[GorevTodoList] SET AktifPasif = 0  WHERE  GorevID = {0}", Id));
+                db.Database.ExecuteSqlCommand(string.Format("UPDATE [BIRIKIM].[ong].[Gorevler] SET AktifPasif = 0, DurumID={0} WHERE ID = {1}", ComboItems.gydReddedildi.ToInt32(), Id));
+                return Json(new Result(true, Id), JsonRequestBehavior.AllowGet);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
-                return "NO";
+                Logger(ex, "ToDo/Duties/GorevReddet");
+                return Json(new Result(false, "Hata oldu"), JsonRequestBehavior.AllowGet);
             }
-
         }
         /// <summary>
         /// görev ret
         /// </summary>
-        public string GorevOnayla(int Data)
+        public JsonResult GorevOnayla(int Id)
         {
-
             try
             {
-                var durumId = Combos.GörevYönetimDurumları.ToInt32();
-                var gorevDurumları = db.ComboItem_Name.Where(a => a.ComboID == durumId && a.Name == "Atandı").FirstOrDefault();
-                db.Database.ExecuteSqlCommand(string.Format("UPDATE [BIRIKIM].[ong].[Gorevler] SET DurumID={0} WHERE  ID = {1}", gorevDurumları.ID, Data));
-                db.SaveChanges();
-                return "OK";
+                db.Database.ExecuteSqlCommand(string.Format("UPDATE [BIRIKIM].[ong].[Gorevler] SET DurumID = {0} WHERE  ID = {1}", ComboItems.gydAtandı.ToInt32(), Id));
+                return Json(new Result(true, Id), JsonRequestBehavior.AllowGet);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
-                return "NO";
+                Logger(ex, "ToDo/Duties/GorevOnayla");
+                return Json(new Result(false, "Hata oldu"), JsonRequestBehavior.AllowGet);
             }
-
         }
     }
 }
