@@ -880,6 +880,7 @@ namespace Wms12m
                                 item2.Aktif = false;
                                 item2.MakaraNo = item1.MakaraNo;
                                 item2.IrsaliyeID = item1.IrsaliyeID;
+                                item2.YerlestirmeMiktari = item2.Miktar;
                                 gerekenMiktar -= item2.Miktar;
                             }
                             else if (item2.Aktif == true && item2.MalKodu == item2.MalKodu && gerekenMiktar < item2.Miktar)
@@ -898,8 +899,12 @@ namespace Wms12m
 
                                 tempGorevYer.Add(tmp);
                                 gerekenMiktar = 0;
+
+                                break;
                             }
                         }
+
+
                     }
 
 

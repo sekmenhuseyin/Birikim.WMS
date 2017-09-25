@@ -438,5 +438,6 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             if (CheckPerm(Perms.Stok, PermTypes.Reading) == false) return null;
             return PartialView("Details2", Yerlestirme.GetMalListFromDepo(DepoID, MalKodu));
         }
+
     }
 }
