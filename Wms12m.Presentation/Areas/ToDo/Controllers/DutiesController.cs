@@ -63,7 +63,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             }
             else if (vUser.RoleName == "Admin" || vUser.RoleName == " ")
             {
-                list = db.Gorevlers.Where(a => a.AktifPasif == tip).OrderBy(a => a.OncelikID).ToList();
+                list = db.Gorevlers.Where(a => a.AktifPasif == tip && a.DurumID != durum).OrderBy(a => a.OncelikID).ToList();
             }
             else if (Tip == "Onay")
             {

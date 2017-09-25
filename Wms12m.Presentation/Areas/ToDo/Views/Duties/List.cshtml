@@ -18,7 +18,7 @@
                 <td>@if (item.ComboItem_Name != null) { @item.ComboItem_Name.Name} </td>
                 <td>@if (item.TahminiBitis != null) { @item.TahminiBitis.Value.ToString("dd.MM.yyyy")} </td>
                 <td nowrap>
-                    @if (item.AktifPasif == true) {<a class="btn btn-info" href="#modalEditPage" data-toggle="modal" onclick="editInModal('/ToDo/DutyWork/NewWork/@item.ID');"><span class="glyphicon glyphicon-floppy-save"></span>Çalışma</a>}
+                    @if (item.AktifPasif == true && item.DurumID != ComboItems.gydOnayVer.ToInt32()) {<a class="btn btn-info" href="#modalEditPage" data-toggle="modal" onclick="editInModal('/ToDo/DutyWork/NewWork/@item.ID');"><span class="glyphicon glyphicon-floppy-save"></span>Çalışma</a>}
                     @if (ViewBag.RoleName == "Admin" || ViewBag.RoleName == " ") {<a class="btn btn-danger" href="javascript:;" onclick="Delete('@item.ID', '/ToDo/Duties/List', 'liste', '')"> Sil </a>}
                 </td>
             </tr>
@@ -27,13 +27,8 @@
     <tfoot class="tf-search"><tr><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr></tfoot>
 </table>
 <script language="text/javascript">
-    var secili_table = new Array();
-    var eskiData = new Array();
-    var yeniData = new Array();
-    var roleName = "@ViewBag.RoleName";
-    $("tbody tr").each(function () {
-        eskiData.push($(this).children("td").eq(1).text());
-    });
+    var secili_table = new Array(); var eskiData = new Array(); var yeniData = new Array();
+    $("tbody tr").each(function () { eskiData.push($(this).children("td").eq(1).text()); });
     var table = $('#sample_1').DataTable({
         "paging": false,
         "ordering": false,
@@ -55,14 +50,8 @@
         else { row.child(newrow(tr.data('id'))).show(); format(tr.data('id')); tr.addClass('shown'); }
     });
     $('#sample_1 tbody').on('click', 'tr', function () {
-        if ($('#DurumID').val() != "Onay") {
-            return;
-        }
-        table
-            .rows('.selected')
-            .nodes()
-            .to$()      // Convert to a jQuery object
-            .removeClass('selected');
+        if ($('#DurumID').val() != "Onay") { return; }
+        table.rows('.selected').nodes().to$().removeClass('selected');
         $("tr").find('td').not(".degisim").css('background-color', 'transparent');
         $(".degisim").css('background-color', '#f9df63');
         $(this).find('td').css('background-color', '#B0BED9');
@@ -93,25 +82,13 @@
             $(item).closest('tr').find("td").eq(0).attr("data", tempOnc);
             $(item).closest('tr').insertBefore($(item).closest('tr').prev())
         }
-        $("tbody tr").each(function (index) {
-            yeniData.push($(this).find("td").eq(0).attr("data-id"));
-        });
-        $.each(yeniData, function (index, value) {
-            if (yeniData[index] != eskiData[index]) {
-                sayac++;
-            }
-        });
-        if (sayac > 0) {
-            $(".oncelik-kayit-buton").css("display","block");
-        }
-        else {
-            $(".oncelik-kayit-buton").css("display", "none");
-        }
+        $("tbody tr").each(function (index) { yeniData.push($(this).find("td").eq(0).attr("data-id")); });
+        $.each(yeniData, function (index, value) { if (yeniData[index] != eskiData[index]) { sayac++; } });
+        if (sayac > 0) { $(".oncelik-kayit-buton").css("display","block"); }
+        else { $(".oncelik-kayit-buton").css("display", "none"); }
     }
     function RowDown(item) {
-        if ($('#DurumID').val() == "Pasif") {
-            return;
-        }
+        if ($('#DurumID').val() == "Pasif") { return; }
         var sayac = 0;
         yeniData = [];
         if ($(item).closest('tr').next().length == 1) {
@@ -120,25 +97,13 @@
             $(item).closest('tr').find("td").eq(0).attr("data", tempOnc);
             $(item).closest('tr').insertAfter($(item).closest('tr').next())
         }
-        $("tbody tr").each(function (index) {
-            yeniData.push($(this).find("td").eq(0).attr("data-id"));
-        });
-        $.each(yeniData, function (index, value) {
-            if (yeniData[index] != eskiData[index]) {
-                sayac++;
-            }
-        });
-        if (sayac > 0) {
-            $(".oncelik-kayit-buton").css("display", "block");
-        }
-        else {
-            $(".oncelik-kayit-buton").css("display", "none");
-        }
+        $("tbody tr").each(function (index) { yeniData.push($(this).find("td").eq(0).attr("data-id")); });
+        $.each(yeniData, function (index, value) { if (yeniData[index] != eskiData[index]) { sayac++; } });
+        if (sayac > 0) { $(".oncelik-kayit-buton").css("display", "block"); }
+        else { $(".oncelik-kayit-buton").css("display", "none"); }
     }
     function OncelikKaydet() {
-        if ($('#DurumID').val() == "Pasif") {
-            return;
-        }
+        if ($('#DurumID').val() == "Pasif") { return; }
         secili_table = [];
         $("tbody tr").each(function (index) {
             var jObject = {};
@@ -153,7 +118,7 @@
             success: function (data) {
                 if (data == "OK") {
                     Modaldialog("İşlem Başarılı", "Güncelleme İşlemi", "Tamam", "Güncelleme");
-                    setTimeout(function () { window.location.reload(); }, 500);
+                    FuncSearchBtn();
                 }
 
                 else {
@@ -164,54 +129,42 @@
         });
     }
     function GorevOnayla() {
-        if ($('#DurumID').val() == "Pasif" || $('#DurumID').val() == "Aktif") {
-            return;
-        }
+        if ($('#DurumID').val() == "Pasif" || $('#DurumID').val() == "Aktif") { return; }
         var id = 0;
-    var x = table.rows('.selected').data();
-    for (var i = 0; i < x.length; i++) {
-        id = x[i][1];
-    }
+        var x = table.rows('.selected').data();
+        for (var i = 0; i < x.length; i++) { id = x[i][1]; }
         $.ajax({
             url: window.location.origin + "/ToDo/Duties/GorevOnayla",
             data: { Data: id },
             type: "post",
-
             success: function (data) {
                 if (data == "OK") {
                     Modaldialog("İşlem Başarılı", "Onaylama İşlemi", "Tamam", "Onaylama");
-                   setTimeout(function () { window.location.reload(); }, 500);
+                    FuncSearchBtn();
                 }
                 else {
                     Modaldialog("Hata Oluştu", "Hata", "Tamam", "btn-danger");
-                   setTimeout(function () { window.location.reload(); }, 500);
                 }
 
             }
         });
     }
     function GorevReddet() {
-        if ($('#DurumID').val() == "Pasif" || $('#DurumID').val() == "Aktif") {
-            return;
-        }
+        if ($('#DurumID').val() == "Pasif" || $('#DurumID').val() == "Aktif") { return; }
         var id = 0;
         var x = table.rows('.selected').data();
-        for (var i = 0; i < x.length; i++) {
-            id = x[i][1];
-        }
+        for (var i = 0; i < x.length; i++) { id = x[i][1]; }
         $.ajax({
             url: window.location.origin + "/ToDo/Duties/GorevReddet",
             data: { Data: id },
             type: "post",
-
             success: function (data) {
                 if (data == "OK") {
                     Modaldialog("İşlem Başarılı", "Onaylama İşlemi", "Tamam", "Onaylama");
-                    setTimeout(function () { window.location.reload(); }, 500);
+                    FuncSearchBtn();
                 }
                 else {
                     Modaldialog("Hata Oluştu", "Hata", "Tamam", "btn-danger");
-                    setTimeout(function () { window.location.reload(); }, 500);
                 }
 
             }
