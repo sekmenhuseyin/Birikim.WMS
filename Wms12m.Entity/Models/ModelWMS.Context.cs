@@ -854,5 +854,22 @@ namespace Wms12m.Entity.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetStockRezerv_Result>("WMSEntities.GetStockRezerv", depoKoduParameter, malKoduParameter, birimParameter);
         }
+    
+        public virtual ObjectResult<GetStockRezerv2_Result> GetStockRezerv2(Nullable<int> depoKodu, string malKodu, string birim)
+        {
+            var depoKoduParameter = depoKodu.HasValue ?
+                new ObjectParameter("DepoKodu", depoKodu) :
+                new ObjectParameter("DepoKodu", typeof(int));
+    
+            var malKoduParameter = malKodu != null ?
+                new ObjectParameter("MalKodu", malKodu) :
+                new ObjectParameter("MalKodu", typeof(string));
+    
+            var birimParameter = birim != null ?
+                new ObjectParameter("Birim", birim) :
+                new ObjectParameter("Birim", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetStockRezerv2_Result>("WMSEntities.GetStockRezerv2", depoKoduParameter, malKoduParameter, birimParameter);
+        }
     }
 }

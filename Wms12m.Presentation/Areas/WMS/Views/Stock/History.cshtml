@@ -43,20 +43,20 @@
 </div>
 @section Scripts{<script type="text/javascript">
     $("#DepoID").prepend("<option value=''>Seçiniz !!!</option>"); $("#DepoID")[0].selectedIndex = 0;
+    var birim = "";
     function FuncSearchBtn() {
         if ($("#MalKodu").val() == "" || $("#DepoID").val() == "") return;
         $('#Grid').html("");
         PartialView('/WMS/Stock/HistoryList', 'Grid', JSON.stringify({ Id: $("#MalKodu").val() + "#" + $("#DepoID").val() }));
     }
-    //function Rezervler() {
-    //    editInModal2('/WMS/Sales/GetRezerv', { MalKodu: $("#MalKodu").val(), Depo: $("#DepoID").val(), Birim: birim })
-    //    $('#modalEditPage').modal('toggle');
-    //}
+    function Rezervler() {
+        editInModal2('/WMS/Stock/GetRezerv2', { MalKodu: $("#MalKodu").val(), Depo: $("#DepoID").val(), Birim: birim })
+        $('#modalEditPage').modal('toggle');
+    }
     $("#MalKodu").autocomplete({
         source: "/WMS/Purchase/getMalzemebyCode/0",
         minLength: 2,
         select: function (event, ui) {
-            console.log(ui.item.value);
             getBirims(ui.item.id);
             $("#MalAdi").val(ui.item.value);
         }
@@ -65,7 +65,6 @@
         source: "/WMS/Purchase/GetMalzemebyName/0",
         minLength: 2,
         select: function (event, ui) {
-            console.log(ui.item.value);
             getBirims(ui.item.id);
             $("#MalAdi").val(ui.item.value);
         }
@@ -79,6 +78,7 @@
             dataType: "json",
             contentType: 'application/json; charset=utf-8',
             success: function (data) {
+                birim = data[0].Birim1;
                 $("#MalKodu").val(id);
                 FuncSearchBtn();
             }

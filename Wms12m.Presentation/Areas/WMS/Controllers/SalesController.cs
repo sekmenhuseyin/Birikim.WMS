@@ -412,5 +412,6 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                 return null;
             return PartialView("Rezervler", list);
         }
+
     }
 }
