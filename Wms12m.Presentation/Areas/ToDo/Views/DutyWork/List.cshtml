@@ -7,79 +7,41 @@
     </div>
     <div class="portlet-body form p-40">
         <table class="table table-striped table-bordered table-hover" id="sample_1">
-            <thead>
-                <tr>
-                    <th>
-                        Tarih
-                    </th>
-                    <th>
-                        Çalışma Süre
-                    </th>
-                    <th>
-                         Çalışma
-                    </th>
-                    <th>
-                       Sorumlu
-                    </th>
-
-                    <th></th>
-                </tr>
-
-            </thead>
+            <thead><tr><th>Tarih</th><th>Çalışma Süre</th><th>Çalışma</th><th>Sorumlu</th><th></th></tr></thead>
             <tbody>
-
                 @foreach (var item in Model)
                 {
                     <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Tarih)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.CalismaSure)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Calisma)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Gorevler.Sorumlu)
-                        </td>
+                        <td>@item.Tarih</td>
+                        <td>@item.CalismaSure</td>
+                        <td>@item.Calisma</td>
+                        <td>@item.Gorevler.Sorumlu</td>
                         <td>
                             <a class="btn btn-default" href="javascript:;" onclick="CreateEdit('@item.ID')"> Düzenle </a>
-                            <a class="btn btn-danger" href="javascript:;" onclick="Delete('@item.ID','/ToDo/DutyWork/List','liste','@item.ID','/ToDo/DutyWork/Delete')"> Sil </a>
+                            @if(ViewBag.Yetki == "Admin" || ViewBag.Yetki == " ") {<a class="btn btn-danger" href="javascript:;" onclick="Delete('@item.ID','/ToDo/DutyWork/List','liste','@item.ID','/ToDo/DutyWork/Delete')"> Sil </a>}
                         </td>
                     </tr>
                 }
             </tbody>
-            <tfoot class="tf-search">
-                <tr>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                </tr>
-            </tfoot>
+            <tfoot class="tf-search"><tr><th></th><th></th><th></th><th></th><th></th></tr></tfoot>
+            <tfoot><tr><th></th><th></th><th></th><th></th><th></th></tr></tfoot>
         </table>
     </div>
 </div>
 <script>
     $(document).ready(function () {
-        $('#sample_1 .tf-search th').each(function () {
-            var title = $('#sample_1 thead th').eq($(this).index()).text();
-            if (title != "" && title != "Çalışma") {
-                $(this).html('<input type="text" placeholder="' + title.trim() + ' Ara" />');
-            }
-        });
         var table = $('#sample_1').DataTable({
             "pagingType": "full_numbers",
             "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" }
         });
-        $("#sample_1 tfoot input").on('keyup change', function () {
-            table
-                .column($(this).parent().index() + ':visible')
-                .search(this.value)
-                .draw();
-        });
+        $("#sample_1 tfoot input").on('keyup change', function () { table.column($(this).parent().index() + ':visible').search(this.value).draw(); });
         $('#sample_1 .tf-search tr').insertAfter($('#sample_1 thead tr'))
+        $('#sample_1 .tf-search th').each(function () {
+            var title = $('#sample_1 thead th').eq($(this).index()).text();
+            if (title != "" && title.indexOf("Tarih") !== -1)
+                $(this).html('<input class="form-control input-circle tarih" type="text" placeholder="Ara" />');
+            else if (title != "" && title != "Çalışma" && title != "Sıra")
+                $(this).html('<input class="form-control input-circle" type="text" placeholder="Ara" />');
+        });
     });
 </script>
