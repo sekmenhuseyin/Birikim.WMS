@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DevHelper;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Configuration;
@@ -864,6 +865,7 @@ namespace Wms12m
                 tempGorevYer.Add(aa);
             }
             using (var yerleştirme = new Yerlestirme())
+            {
                 foreach (var item1 in list1)
                 {
                     var gerekenMiktar = item1.Miktar;
@@ -889,7 +891,7 @@ namespace Wms12m
                                 item2.IrsaliyeID = item1.IrsaliyeID;
 
                                 frmTempGorevYer tmp = new frmTempGorevYer();
-                                tmp = item2;
+                                tmp.Set(item2);
                                 tmp.Miktar = gerekenMiktar;
                                 tmp.YerlestirmeMiktari = gerekenMiktar;
                                 tmp.Aktif = false;
@@ -899,6 +901,8 @@ namespace Wms12m
                             }
                         }
                     }
+
+
                     //foreach (var item2 in list2)
                     //{
                     //    if (gerekenMiktar <= item2.Miktar)
@@ -924,6 +928,14 @@ namespace Wms12m
                     //    }
                     //}
                 }
+                foreach (var item2 in tempGorevYer)
+                {
+                    var dusulecek = yerleştirme.Detail(item2.YerID);
+                    dusulecek.Miktar -= item2.YerlestirmeMiktari.Value;
+                    dusulecek.MakaraDurum = false;
+                    yerleştirme.Update(dusulecek, item2.IrsaliyeID, KullID, true, item2.YerlestirmeMiktari.Value);
+                }
+            }
             /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
             ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
