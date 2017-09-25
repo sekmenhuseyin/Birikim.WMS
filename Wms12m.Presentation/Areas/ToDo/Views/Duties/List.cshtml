@@ -4,7 +4,7 @@
     <tbody>
         @foreach (var item in Model)
         {
-            <tr data-ID="@item.ID"@if (ViewBag.Tip == "Onay" && (ViewBag.RoleName == "Admin" || ViewBag.RoleName == " ")) {<text> ondblclick = "showEdit(@item.ID)" class = "clickable"</text>}>
+            <tr data-ID="@item.ID"@if (ViewBag.RoleName == "Admin" || ViewBag.RoleName == " ") {<text> ondblclick = "showEdit(@item.ID)" class = "clickable"</text>}>
                 <td data="@item.OncelikID" data-id="@item.ID"><div style="display:flex;"><i class='fa fa-arrow-up list-up-down item-up' onclick='RowUp(this)' style='color:#a0e4a0;'></i><i class='fa fa-arrow-down list-up-down item-down' onclick='RowDown(this)'  style='color:#ec9696;'></i></div></td>
                 <td nowrap>@item.ID</td>
                 <td class="details-control"></td>

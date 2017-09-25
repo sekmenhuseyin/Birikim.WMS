@@ -1,8 +1,4 @@
 ﻿@model Gorevler
-@{
-    System.Web.Script.Serialization.JavaScriptSerializer serializer = new System.Web.Script.Serialization.JavaScriptSerializer();
-    serializer.MaxJsonLength = Int32.MaxValue;
-}
 <div class="modal-content">
     <div class="close-modal" data-dismiss="modal"><div class="lr"><div class="rl"></div></div></div>
     <div class="container">
@@ -22,44 +18,56 @@
                         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                         @Html.HiddenFor(model => model.ID)
                         <div class="form-group">
-                            <label class="col-md-1 control-label">Firma</label>
+                            <label class="col-md-2 control-label">Firma</label>
                             <div class="col-md-10">
                                 @Html.DropDownList("MusteriID", null, string.Empty, htmlAttributes: new { @class = "form-control input-circle MusteriID", @onchange = "getProje(this.value,'ProjeList', 'FormList');", required = "required" })
                                 <span class="field-validation-valid" data-valmsg-for="MusteriID" data-valmsg-replace="true" style="color:red;"></span>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-md-1 control-label">Proje</label>
+                            <label class="col-md-2 control-label">Proje</label>
                             <div class="col-md-10">
                                 @Html.DropDownList("Proje", null, string.Empty, htmlAttributes: new { @class = "form-control input-circle Proje", @id = "ProjeList", @onchange = "getForm(this.value, 'FormList');", required = "required" })
                                 <span class="field-validation-valid" data-valmsg-for="MusteriID" data-valmsg-replace="Proje" style="color:red;"></span>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-md-1 control-label">Form</label>
+                            <label class="col-md-2 control-label">Form</label>
                             <div class="col-md-10">
                                 @Html.DropDownList("ProjeFormID", null, string.Empty, htmlAttributes: new { @class = "form-control input-circle ProjeFormID", @id = "FormList", required = "required" })
                                 <span class="field-validation-valid" data-valmsg-for="ProjeFormID" data-valmsg-replace="true" style="color:red;"></span>
                             </div>
                         </div>
                         <div class="form-group">
-                            <div class="col-md-1" style="text-align:right;">Sorumlu</div>
-                            <div class="col-md-10"><div class="slct-sorumlu"></div></div>
+                            @Html.LabelFor(model => model.Sorumlu, "Sorumlu", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.DropDownList("Sorumlu", null, htmlAttributes: new { @class = "form-control input-circle satirekle", required = "required" })
+                                @Html.ValidationMessageFor(model => model.Sorumlu, "", new { @class = "text-danger" })
+                            </div>
                         </div>
                         <div class="form-group">
-                            <div class="col-md-1" style="text-align:right;">Sorumlu2</div>
-                            <div class="col-md-10"><div class="slct-sorumlu2"></div></div>
+                            @Html.LabelFor(model => model.Sorumlu2, "Sorumlu 2", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.DropDownList("Sorumlu2", null, htmlAttributes: new { @class = "form-control input-circle satirekle" })
+                                @Html.ValidationMessageFor(model => model.Sorumlu2, "", new { @class = "text-danger" })
+                            </div>
                         </div>
                         <div class="form-group">
-                            <div class="col-md-1" style="text-align:right;">Sorumlu3</div>
-                            <div class="col-md-10"><div class="slct-sorumlu3"></div></div>
+                            @Html.LabelFor(model => model.Sorumlu3, "Sorumlu 3", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.DropDownList("Sorumlu3", null, htmlAttributes: new { @class = "form-control input-circle satirekle" })
+                                @Html.ValidationMessageFor(model => model.Sorumlu3, "", new { @class = "text-danger" })
+                            </div>
                         </div>
                         <div class="form-group">
-                            <div class="col-md-1" style="text-align:right;">Kalite Kontrol</div>
-                            <div class="col-md-10"><div class="slct-kalite-kontrol"></div></div>
+                            @Html.LabelFor(model => model.KaliteKontrol, "KaliteKontrol", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.DropDownList("KaliteKontrol", null, htmlAttributes: new { @class = "form-control input-circle satirekle" })
+                                @Html.ValidationMessageFor(model => model.KaliteKontrol, "", new { @class = "text-danger" })
+                            </div>
                         </div>
                         <div class="form-group">
-                            @Html.LabelFor(model => model.Gorev, htmlAttributes: new { @class = "control-label col-md-1" })
+                            @Html.LabelFor(model => model.Gorev, htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-10">
                                 @Html.TextBoxFor(a => a.Gorev, new { @class = "form-control input-circle", @required = "required" })
                                 @Html.ValidationMessageFor(model => model.Gorev, "", new { @class = "text-danger" })
@@ -67,14 +75,14 @@
                         </div>
 
                         <div class="form-group pointer">
-                            @Html.LabelFor(model => model.Aciklama, htmlAttributes: new { @class = "control-label col-md-1" })
+                            @Html.LabelFor(model => model.Aciklama, htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-10">
                                 @Html.TextAreaFor(model => model.Aciklama, 10, 55, new { htmlAttributes = new { @class = "form-control form-rounded" }, required = "required" })
                                 @Html.ValidationMessageFor(model => model.Aciklama, "", new { @class = "text-danger" })
                             </div>
                         </div>
                         <div class="form-group">
-                            @Html.LabelFor(model => model.GorevTipiID, htmlAttributes: new { @class = "control-label col-md-1" })
+                            @Html.LabelFor(model => model.GorevTipiID, htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-10">
                                 @Html.DropDownList("GorevTipiID", null, htmlAttributes: new { @class = "form-control input-circle" })
                                 @Html.ValidationMessageFor(model => model.GorevTipiID, "", new { @class = "text-danger" })
@@ -82,7 +90,7 @@
                         </div>
 
                         <div class="form-group">
-                            @Html.LabelFor(model => model.DepartmanID, htmlAttributes: new { @class = "control-label col-md-1" })
+                            @Html.LabelFor(model => model.DepartmanID, htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-10">
                                 @Html.DropDownList("DepartmanID", null, htmlAttributes: new { @class = "form-control input-circle" })
                                 @Html.ValidationMessageFor(model => model.DepartmanID, "", new { @class = "text-danger" })
@@ -90,7 +98,7 @@
                         </div>
 
                         <div class="form-group">
-                            @Html.LabelFor(model => model.TahminiBitis, htmlAttributes: new { @class = "control-label col-md-1" })
+                            @Html.LabelFor(model => model.TahminiBitis, htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-10">
                                 @Html.EditorFor(model => model.TahminiBitis, new { htmlAttributes = new { @class = "form-control input-circle date-picker" } })
                                 @Html.ValidationMessageFor(model => model.TahminiBitis, "", new { @class = "text-danger" })
@@ -117,67 +125,10 @@
     DevExpress.ui.dxOverlay.baseZIndex(20000);
     var silinenler = "";
     var sayac = 1;
-    var Proje = '@ViewBag.Proje';
-    var Form = '@ViewBag.Form';
-    var ID = '@ViewBag.ID';
-    var PFID = '@ViewBag.PFID';
-    var KaliteKontrol = new Array();
-    $.ajax({
-        url: "/ToDo/Duties/SorumluListesi",
-        data: {},
-        type: "post",
-        success: function (data) {
-            var result = JSON.parse(data);
-            $.each(result, function (index, value) {
-                if (value.RoleName == "Destek") {
-                    KaliteKontrol.push(value);
-                }
-            });
-            $(".slct-kalite-kontrol").dxSelectBox({
-                dataSource: KaliteKontrol,
-                value: '@Model.KaliteKontrol',
-                name: "KaliteKontrol",
-                valueExpr: 'Kod',
-                displayExpr: 'AdSoyad',
-                onValueChanged: function (e) {
-
-                }
-            });
-            $(".slct-sorumlu").dxSelectBox({
-                dataSource: result,
-                value:'@Model.Sorumlu',
-                name: "Sorumlu",
-                valueExpr: 'Kod',
-                displayExpr: 'AdSoyad',
-                onValueChanged: function (e) {
-
-                }
-            });
-            $(".slct-sorumlu2").dxSelectBox({
-                dataSource: result,
-                value:'@Model.Sorumlu2',
-                name: "Sorumlu2",
-                valueExpr: 'Kod',
-                displayExpr: 'AdSoyad',
-                onValueChanged: function (e) {
-
-                }
-            });
-            $(".slct-sorumlu3").dxSelectBox({
-                dataSource: result,
-                value:'@Model.Sorumlu3',
-                name: "Sorumlu3",
-                valueExpr: 'Kod',
-                displayExpr: 'AdSoyad',
-                onValueChanged: function (e) {
-
-                }
-            });
-        }
-    });
     $(".silinenler").dxTextBox();
     $(".silinenler").dxTextBox("instance").option({ name: "silinenler"});
-   var model = @Html.Raw(Json.Encode(Model.GorevToDoLists.Select(m=> new frmGorevTodos { ID=m.ID, Aciklama=m.Aciklama, AktifPasif=m.AktifPasif }).ToList()));
+    $(document).ready(function () { $('.date-picker').datepicker(); });
+    var model = @Html.Raw(Json.Encode(Model.GorevToDoLists.Select(m=> new frmGorevTodos { ID=m.ID, Aciklama=m.Aciklama, AktifPasif=m.AktifPasif }).ToList()));
     $.each(model, function (index, value) {
         if (value.AktifPasif == true) {
             var index = sayac++;
@@ -185,7 +136,7 @@
             $(".insert-work-icon i").removeClass("last-work");
             $(".delete-icn").css("display", "initial");
             var newElement = $("<div>").addClass("form-group todo-content");
-            newElement.append("<div class='todo-text todo-id" + index + "' style='display:none'></div> <div class='control-label col-md-1'><span class='work-index'>" + index + "</span > <span>-</span></div><div class='col-md-10'><div class='txt-aciklama work-" + index + "'></div></div><div class='insert-work-icon col-md-1'><i class='fa fa-minus-circle delete-icn' style='display:none' onclick='DeleteElement(this," + value.ID + ")' style='margin- left:5px;'></i><i class='fa fa-plus-circle last-work' onclick='NewElement()' style='margin-left:5px;'></i></div>");
+            newElement.append("<div class='todo-text todo-id" + index + "' style='display:none'></div> <div class='control-label col-md-2'><span class='work-index'>" + index + "</span > <span>-</span></div><div class='col-md-10'><div class='txt-aciklama work-" + index + "'></div></div><div class='insert-work-icon col-md-2'><i class='fa fa-minus-circle delete-icn' style='display:none' onclick='DeleteElement(this," + value.ID + ")' style='margin- left:5px;'></i><i class='fa fa-plus-circle last-work' onclick='NewElement()' style='margin-left:5px;'></i></div>");
             newElement.addClass("index" + index);
 
 
@@ -201,41 +152,32 @@
             $(".todo-id" + index).dxTextBox("instance").option({ name: "todo", value: value.ID });
         }
     });
-    $(document).ready(function () {
-        $('.date-picker').datepicker();
-    });
-
     function ClearControl() {
         $("#ddSorumlu").val("");
         $("#ddSorumlu2").val("");
         $("#ddSorumlu3").val("");
         $("#ddKaliteKontrol").val("");
-
     }
-
     function NewElement() {
         var index = sayac++;
         $(".last-work").removeClass("fa fa-plus-circle");
         $(".insert-work-icon i").removeClass("last-work");
         $(".delete-icn").css("display", "initial");
         var newElement = $("<div>").addClass("form-group todo-content");
-        newElement.append("<div class='todo-text todo-id" + index + "' style='display:none'></div><div class='control-label col-md-1'><span class='work-index'>" + index + "</span > <span>-</span></div><div class='col-md-10'><div class='txt-aciklama work-" + index + "'></div></div><div class='insert-work-icon col-md-1'><i class='fa fa-minus-circle delete-icn' onclick='DeleteElement(this, " + 0 +")' style='margin- left:5px;'></i><i class='fa fa-plus-circle last-work' onclick='NewElement()' style='margin-left:5px;'></i></div>");
+        newElement.append("<div class='todo-text todo-id" + index + "' style='display:none'></div><div class='control-label col-md-2'><span class='work-index'>" + index + "</span > <span>-</span></div><div class='col-md-10'><div class='txt-aciklama work-" + index + "'></div></div><div class='insert-work-icon col-md-2'><i class='fa fa-minus-circle delete-icn' onclick='DeleteElement(this, " + 0 +")' style='margin- left:5px;'></i><i class='fa fa-plus-circle last-work' onclick='NewElement()' style='margin-left:5px;'></i></div>");
         newElement.addClass("index" + index);
         newElement.insertAfter(".todo-content:last");
         $(".work-" + index).dxTextArea();
         $(".work-" + index).dxTextArea("instance").option({ name:"work", maxHeight: 80 });
         $(".todo-id" + index).dxTextBox();
         $(".todo-id" + index).dxTextBox("instance").option({ name: "todo", value: 0 });
-
     };
-
     function DeleteElement(secili,id) {
         sayac--;
         if (id != 0) {
             silinenler+= id+","
         }
         $(".silinenler").dxTextBox("instance").option({ value: silinenler});
-
         $(secili).closest(".form-group").remove();
         $(".todo-content .work-index").each(function (index) {
             $(this).text(index + 1)
@@ -249,8 +191,6 @@
 
             $(".insert-work-icon i:last").addClass("last-work");
             $(".last-work").addClass("fa fa-plus-circle");
-        }
-
-
+        
     };
 </script>

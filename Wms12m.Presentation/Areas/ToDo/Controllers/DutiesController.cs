@@ -90,12 +90,14 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             ViewBag.MusteriID = new SelectList(db.Musteris.OrderBy(m => m.Unvan).ToList(), "ID", "Unvan", tbl.ProjeForm.MusteriID);
             ViewBag.Proje = new SelectList(db.ProjeForms.Where(m => m.MusteriID == tbl.ProjeForm.MusteriID && m.PID == null).ToList(), "ID", "Proje", tbl.ProjeForm.PID);
             ViewBag.ProjeFormID = new SelectList(db.ProjeForms.Where(m => m.PID == tbl.ProjeForm.PID).ToList(), "ID", "Form", tbl.ProjeForm.ID);
-            ViewBag.DurumID = new SelectList(ComboSub.GetList(Combos.GörevYönetimDurumları.ToInt32()), "ID", "Name");
-            ViewBag.OncelikID = new SelectList(ComboSub.GetList(Combos.Öncelik.ToInt32()), "ID", "Name");
-            ViewBag.GorevTipiID = new SelectList(ComboSub.GetList(Combos.GörevYönetimTipleri.ToInt32()), "ID", "Name");
-            ViewBag.DepartmanID = new SelectList(ComboSub.GetList(Combos.Departman.ToInt32()), "ID", "Name");
-            ViewBag.ID = tbl.ProjeForm.PID;
-            ViewBag.PFID = tbl.ProjeForm.ID;
+            ViewBag.DurumID = new SelectList(ComboSub.GetList(Combos.GörevYönetimDurumları.ToInt32()), "ID", "Name", tbl.DurumID);
+            ViewBag.OncelikID = new SelectList(ComboSub.GetList(Combos.Öncelik.ToInt32()), "ID", "Name", tbl.OncelikID);
+            ViewBag.GorevTipiID = new SelectList(ComboSub.GetList(Combos.GörevYönetimTipleri.ToInt32()), "ID", "Name", tbl.GorevTipiID);
+            ViewBag.DepartmanID = new SelectList(ComboSub.GetList(Combos.Departman.ToInt32()), "ID", "Name", tbl.DepartmanID);
+            ViewBag.Sorumlu = new SelectList(Persons.GetList(), "Kod", "AdSoyad", tbl.Sorumlu);
+            ViewBag.Sorumlu2 = new SelectList(Persons.GetList(), "Kod", "AdSoyad", tbl.Sorumlu2);
+            ViewBag.Sorumlu3 = new SelectList(Persons.GetList(), "Kod", "AdSoyad", tbl.Sorumlu3);
+            ViewBag.KaliteKontrol = new SelectList(Persons.GetList("Destek"), "Kod", "AdSoyad", tbl.KaliteKontrol);
             return PartialView("Edit", tbl);
         }
         /// <summary>
