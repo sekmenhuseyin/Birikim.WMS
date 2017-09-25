@@ -1523,25 +1523,42 @@ namespace Wms12m
                     var katID = db.GetHucreKatID(mGorev.DepoID, item.RafNo).FirstOrDefault();
                     if (katID != null)
                     {
-                        var yert = new Yer();
-                        if (item.MakaraNo.Length > 0)
-                        {
-                            yert = db.Yers.Where(m => m.KatID == katID && m.MalKodu == item.MalKodu && m.MakaraNo == item.MakaraNo).FirstOrDefault();
-                        }
-                        else
-                        {
-                            yert = db.Yers.Where(m => m.KatID == katID && m.MalKodu == item.MalKodu).FirstOrDefault();
-                        }
+                        var yert = db.Yers.Where(m => m.KatID == katID && m.MalKodu == item.MalKodu).FirstOrDefault();
                         if (yert == null)
                         {
-
-                            yert = new Yer() { KatID = katID.Value, MalKodu = item.MalKodu, Birim = item.Birim, Miktar = 0, MakaraNo = item.MakaraNo };
+                            yert = new Yer() { KatID = katID.Value, MalKodu = item.MalKodu, Birim = item.Birim, Miktar = 0 };
                             db.Yers.Add(yert);
                             db.SaveChanges();
                         }
-                        tbl2 = new GorevYer() { GorevID = GorevID, MalKodu = item.MalKodu, Birim = item.Birim, Miktar = item.Miktar, YerlestirmeMiktari = item.Miktar, GC = false, YerID = yert.ID, MakaraNo = item.MakaraNo };
+                        tbl2 = new GorevYer() { GorevID = GorevID, MalKodu = item.MalKodu, Birim = item.Birim, Miktar = item.Miktar, YerlestirmeMiktari = item.Miktar, GC = false, YerID = yert.ID };
                         db.GorevYers.Add(tbl2);
                     }
+                    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                    //TODO: buranın kontrol edilmesi lazım
+                    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                    //var katID = db.GetHucreKatID(mGorev.DepoID, item.RafNo).FirstOrDefault();
+                    //if (katID != null)
+                    //{
+                    //    var yert = new Yer();
+                    //    if (item.MakaraNo.Length > 0)
+                    //    {
+                    //        yert = db.Yers.Where(m => m.KatID == katID && m.MalKodu == item.MalKodu && m.MakaraNo == item.MakaraNo).FirstOrDefault();
+                    //    }
+                    //    else
+                    //    {
+                    //        yert = db.Yers.Where(m => m.KatID == katID && m.MalKodu == item.MalKodu).FirstOrDefault();
+                    //    }
+                    //    if (yert == null)
+                    //    {
+
+                    //        yert = new Yer() { KatID = katID.Value, MalKodu = item.MalKodu, Birim = item.Birim, Miktar = 0, MakaraNo = item.MakaraNo };
+                    //        db.Yers.Add(yert);
+                    //        db.SaveChanges();
+                    //    }
+                    //    tbl2 = new GorevYer() { GorevID = GorevID, MalKodu = item.MalKodu, Birim = item.Birim, Miktar = item.Miktar, YerlestirmeMiktari = item.Miktar, GC = false, YerID = yert.ID, MakaraNo = item.MakaraNo };
+                    //    db.GorevYers.Add(tbl2);
+                    //}
+                    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                 }
                 else
                 {
