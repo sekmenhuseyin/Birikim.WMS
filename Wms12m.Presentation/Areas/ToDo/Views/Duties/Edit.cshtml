@@ -77,14 +77,14 @@
                         <div class="form-group pointer">
                             @Html.LabelFor(model => model.Aciklama, htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-10">
-                                @Html.TextAreaFor(model => model.Aciklama, 10, 55, new { htmlAttributes = new { @class = "form-control form-rounded" }, required = "required" })
+                                @Html.TextAreaFor(model => model.Aciklama, 10, 55, new { htmlAttributes = new { @class = "form-control form-rounded" } })
                                 @Html.ValidationMessageFor(model => model.Aciklama, "", new { @class = "text-danger" })
                             </div>
                         </div>
                         <div class="form-group">
                             @Html.LabelFor(model => model.GorevTipiID, htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-10">
-                                @Html.DropDownList("GorevTipiID", null, htmlAttributes: new { @class = "form-control input-circle" })
+                                @Html.DropDownList("GorevTipiID", null, htmlAttributes: new { @class = "form-control input-circle", required = "required" })
                                 @Html.ValidationMessageFor(model => model.GorevTipiID, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -92,7 +92,7 @@
                         <div class="form-group">
                             @Html.LabelFor(model => model.DepartmanID, htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-10">
-                                @Html.DropDownList("DepartmanID", null, htmlAttributes: new { @class = "form-control input-circle" })
+                                @Html.DropDownList("DepartmanID", null, htmlAttributes: new { @class = "form-control input-circle", required = "required" })
                                 @Html.ValidationMessageFor(model => model.DepartmanID, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -100,19 +100,16 @@
                         <div class="form-group">
                             @Html.LabelFor(model => model.TahminiBitis, htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-10">
-                                @Html.EditorFor(model => model.TahminiBitis, new { htmlAttributes = new { @class = "form-control input-circle date-picker" } })
+                                @Html.EditorFor(model => model.TahminiBitis, new { htmlAttributes = new { @class = "form-control input-circle date-picker", required = "required" } })
                                 @Html.ValidationMessageFor(model => model.TahminiBitis, "", new { @class = "text-danger" })
                             </div>
                         </div>
                         <div class="form-group" style="display:none">
                             <div class="silinenler"></div>
                         </div>
-                        <div class="form-actions">
-                            <div class="row">
-                                <div class="col-md-offset-5 col-md-7">
-                                    <input type="submit" value="Kaydet" class="btn btn-circle green" style="display:none;" />
-                                    <button type="button" class="btn btn-circle grey-salsa btn-outline" onclick="CreateEdit('0')">Temizle</button>
-                                </div>
+                        <div class="form-group">
+                            <div class="col-md-offset-5 col-md-7">
+                                <input type="submit" value="Kaydet" class="btn btn-circle green" />
                             </div>
                         </div>
                     </div>
@@ -127,7 +124,13 @@
     var sayac = 1;
     $(".silinenler").dxTextBox();
     $(".silinenler").dxTextBox("instance").option({ name: "silinenler"});
-    $(document).ready(function () { $('.date-picker').datepicker(); });
+    $(document).ready(function () {
+        $(".satirekle").prepend("<option value=''>Seçiniz !!!</option>");
+        @if (Model.Sorumlu2 == null || Model.Sorumlu2 == "") { <text>$(".satirekle")[1].selectedIndex = 0;</text> }
+        @if (Model.Sorumlu3 == null || Model.Sorumlu3 == "") { <text>$(".satirekle")[2].selectedIndex = 0;</text> }
+        @if (Model.KaliteKontrol == null || Model.KaliteKontrol == "") { <text>$(".satirekle")[3].selectedIndex = 0;</text> }
+        $('.date-picker').datepicker();
+        });
     var model = @Html.Raw(Json.Encode(Model.GorevToDoLists.Select(m=> new frmGorevTodos { ID=m.ID, Aciklama=m.Aciklama, AktifPasif=m.AktifPasif }).ToList()));
     $.each(model, function (index, value) {
         if (value.AktifPasif == true) {
@@ -191,6 +194,6 @@
 
             $(".insert-work-icon i:last").addClass("last-work");
             $(".last-work").addClass("fa fa-plus-circle");
-        
+        }
     };
 </script>
