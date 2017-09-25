@@ -23,7 +23,7 @@ namespace WMSMobil
         {
             InitializeComponent();
             Cursor.Current = Cursors.WaitCursor;
-            Ayarlar.KatSayi = (decimal)Screen.PrimaryScreen.Bounds.Height / (decimal)360;
+            Ayarlar.KatSayi = (decimal)Screen.PrimaryScreen.Bounds.Height / (decimal)320;
             if (Ayarlar.KatSayi > 2) Ayarlar.KatSayi = 1;
             //create if file doesnt exists
             if (!File.Exists(@"\WMSMobil-ip.txt"))
