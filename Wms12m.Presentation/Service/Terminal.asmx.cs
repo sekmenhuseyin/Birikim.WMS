@@ -1514,6 +1514,12 @@ namespace Wms12m
                 GorevYer tbl2;
                 if (item.IrsDetayID == 0)
                 {
+                    var kontrol = db.GorevYers.Where(m => m.GorevID == GorevID && m.MalKodu == item.MalKodu && m.Yer.HucreAd == item.RafNo).FirstOrDefault();
+                    if (kontrol != null)
+                        item.IrsDetayID = kontrol.ID;
+                }
+                if (item.IrsDetayID == 0)
+                {
                     var katID = db.GetHucreKatID(mGorev.DepoID, item.RafNo).FirstOrDefault();
                     if (katID != null)
                     {
