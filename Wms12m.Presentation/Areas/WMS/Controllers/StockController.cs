@@ -108,7 +108,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             try
             {
                 sql = string.Format("SELECT wms.Yer.ID, wms.Yer.KatID, wms.Yer.DepoID, wms.Yer.HucreAd, wms.Yer.MalKodu, wms.Yer.Miktar, wms.Yer.Birim, wms.Yer.MakaraNo, FINSAT6{0}.FINSAT6{0}.STK.MalAdi4 as Marka, FINSAT6{0}.FINSAT6{0}.STK.Nesne2 as Cins, FINSAT6{0}.FINSAT6{0}.STK.Kod15 as Kesit " +
-                    "FROM wms.Yer WITH(NOLOCK) INNER JOIN wms.Kat WITH(NOLOCK) ON wms.Yer.KatID = wms.Kat.ID INNER JOIN wms.Bolum WITH(NOLOCK) ON wms.Kat.BolumID = wms.Bolum.ID INNER JOIN wms.Raf WITH(NOLOCK) ON wms.Bolum.RafID = wms.Raf.ID INNER JOIN wms.Koridor WITH(NOLOCK) ON wms.Raf.KoridorID = wms.Koridor.ID INNER JOIN FINSAT633.FINSAT633.STK WITH(NOLOCK) ON wms.Yer.MalKodu = FINSAT633.FINSAT633.STK.MalKodu " +
+                    "FROM wms.Yer WITH(NOLOCK) INNER JOIN wms.Kat WITH(NOLOCK) ON wms.Yer.KatID = wms.Kat.ID INNER JOIN wms.Bolum WITH(NOLOCK) ON wms.Kat.BolumID = wms.Bolum.ID INNER JOIN wms.Raf WITH(NOLOCK) ON wms.Bolum.RafID = wms.Raf.ID INNER JOIN wms.Koridor WITH(NOLOCK) ON wms.Raf.KoridorID = wms.Koridor.ID INNER JOIN FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) ON wms.Yer.MalKodu = FINSAT6{0}.FINSAT6{0}.STK.MalKodu " +
                     "WHERE (FINSAT6{0}.FINSAT6{0}.STK.Kod1 = 'KKABLO') AND {1} = {2}", sirketkodu, sql, var);
                 var lst = db.Database.SqlQuery<frmCableStok>(sql).ToList();
                 return PartialView("CableList", lst);
@@ -424,7 +424,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             if (CheckPerm(Perms.Stok, PermTypes.Reading) == false) return null;
             var ID = id.ToInt32();
             //listeyi getir
-            var list = db.Gorevs.Where(m => m.IrsaliyeID == ID).FirstOrDefault();
+            var list = db.IRS.Where(m => m.ID == ID).FirstOrDefault();
             if (list == null)
                 return null;
             return PartialView("Details", list);

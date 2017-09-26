@@ -21,27 +21,28 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         /// <summary>
         /// yeni çalışma
         /// </summary>
-        public PartialViewResult NewWork()
+        public PartialViewResult New()
         {
             var id = Url.RequestContext.RouteData.Values["id"];
             var ID = id.ToInt32();
             Gorevler gorev = db.Gorevlers.Find(ID);
             ViewBag.id = ID;
             ViewBag.RoleName = vUser.RoleName;
-            ViewBag.GorevID = new SelectList(db.Gorevlers.Where(a => (a.Sorumlu == vUser.UserName || a.Sorumlu2 == vUser.UserName || a.Sorumlu3 == vUser.UserName || (a.Kontrol == true && a.KaliteKontrol == vUser.UserName)) && a.ID == ID).ToList(), "ID", "Gorev");
-            GorevCalisma aa = new GorevCalisma
+            ViewBag.GorevID = new SelectList(db.Gorevlers.Where(m => m.ID == ID).ToList(), "ID", "Gorev");
+            GorevCalisma grv = new GorevCalisma
             {
                 Gorevler = gorev
             };
-            return PartialView(aa);
+            return PartialView(grv);
         }
         /// <summary>
         /// liste
         /// </summary>
         public PartialViewResult List()
         {
-            List<GorevCalisma> gorevCalismas = db.GorevCalismas.Where(a => a.Gorevler.Sorumlu == vUser.UserName || a.Gorevler.Sorumlu2 == vUser.UserName || a.Gorevler.Sorumlu3 == vUser.UserName || a.Gorevler.KaliteKontrol == vUser.UserName).ToList();
-            return PartialView(gorevCalismas);
+            var gorevCalismas = db.GorevCalismas.Where(a => a.Gorevler.Sorumlu == vUser.UserName || a.Gorevler.Sorumlu2 == vUser.UserName || a.Gorevler.Sorumlu3 == vUser.UserName || a.Gorevler.KaliteKontrol == vUser.UserName).ToList();
+            ViewBag.Yetki = vUser.RoleName;
+            return PartialView("List", gorevCalismas);
         }
         /// <summary>
         /// düzenle

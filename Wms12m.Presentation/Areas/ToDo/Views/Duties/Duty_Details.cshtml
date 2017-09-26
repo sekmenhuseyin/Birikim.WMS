@@ -6,18 +6,10 @@
             @foreach (var item in Model)
             {
                 <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.KayitTarih)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.CalismaSure)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Calisma)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Gorevler.Sorumlu)
-                    </td>
+                    <td>@item.KayitTarih</td>
+                    <td>@item.CalismaSure</td>
+                    <td>@item.Calisma</td>
+                    <td>@item.Gorevler.Sorumlu</td>
                     <td><a class="btn btn-info" href="#modalEditPage" data-toggle="modal" onclick="editInModal('/ToDo/DutyWork/Edit/@item.ID')">Düzenle</a></td>
                 </tr>
             }
