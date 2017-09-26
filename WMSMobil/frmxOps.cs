@@ -195,17 +195,27 @@ namespace WMSMobil
                 this.Invoke((MethodInvoker)delegate()
                 {
                     string okunan = scanDataCollection.GetFirst.Text;
-                    if (okunan.Length < 13)
-                    {
-                        txtRafBarkod.Text = okunan;
-                        txtBarkod.Focus();
-                        txtBarkod.Text = "";
-                    }
-                    else
-                    {
+                    if (okunan.Length > 20) {
+                        okunan = okunan.Substring(3, 13);
                         txtBarkod.Text = okunan;
                         if (txtRafBarkod.Visible == true && txtRafBarkod.Text == "") txtRafBarkod.Focus();
                         else btnUygula_Click(Barkod, null);//uygula
+
+                    }
+                    else
+                    {
+                        if (okunan.Length < 13)
+                        {
+                            txtRafBarkod.Text = okunan;
+                            txtBarkod.Focus();
+                            txtBarkod.Text = "";
+                        }
+                        else
+                        {
+                            txtBarkod.Text = okunan;
+                            if (txtRafBarkod.Visible == true && txtRafBarkod.Text == "") txtRafBarkod.Focus();
+                            else btnUygula_Click(Barkod, null);//uygula
+                        }
                     }
                 });
             }
@@ -452,6 +462,13 @@ namespace WMSMobil
             //MalKabulde okutulan mala ait listede bulunan kayıt sayısı
             int cokluMalSayisi = 0, sonucID = 0;
             string mal = txtBarkod.Text;
+            if (mal.Length > 20)
+            {
+                mal = mal.Substring(3, 13);
+                txtBarkod.Text = mal;
+                if (txtRafBarkod.Visible == true && txtRafBarkod.Text == "") txtRafBarkod.Focus();
+
+            }
             string makaraNo = txtMakaraBarkod.Text;
             if (mal == "")
             {
@@ -1027,6 +1044,7 @@ namespace WMSMobil
         {
 
             var malbilgileri = Servis.GetMalzemeFromBarcode("", txtBarkod.Text, GorevID, Ayarlar.Kullanici.ID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid);
+
             if (malbilgileri != null)
             {
                 if (malbilgileri.Kod1 == "KKABLO")

@@ -438,5 +438,19 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             if (CheckPerm(Perms.Stok, PermTypes.Reading) == false) return null;
             return PartialView("Details2", Yerlestirme.GetMalListFromDepo(DepoID, MalKodu));
         }
+
+        [HttpPost]
+        public PartialViewResult GetRezerv2(string MalKodu, int Depo, string Birim)
+        {
+
+            if (CheckPerm(Perms.GenelSipariş, PermTypes.Reading) == false) return null;
+
+            var list = db.GetStockRezerv2(Depo, MalKodu, Birim).ToList();
+
+            if (list == null)
+                return null;
+            return PartialView("Rezervler", list);
+        }
+
     }
 }

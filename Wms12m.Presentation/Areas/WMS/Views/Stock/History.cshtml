@@ -43,10 +43,15 @@
 </div>
 @section Scripts{<script type="text/javascript">
     $("#DepoID").prepend("<option value=''>Seçiniz !!!</option>"); $("#DepoID")[0].selectedIndex = 0;
+    var birim = "";
     function FuncSearchBtn() {
         if ($("#MalKodu").val() == "" || $("#DepoID").val() == "") return;
         $('#Grid').html("");
         PartialView('/WMS/Stock/HistoryList', 'Grid', JSON.stringify({ Id: $("#MalKodu").val() + "#" + $("#DepoID").val() }));
+    }
+    function Rezervler() {
+        editInModal2('/WMS/Stock/GetRezerv2', { MalKodu: $("#MalKodu").val(), Depo: $("#DepoID").val(), Birim: birim })
+        $('#modalEditPage').modal('toggle');
     }
     $("#MalKodu").autocomplete({
         source: "/WMS/Purchase/getMalzemebyCode/0",
@@ -73,6 +78,7 @@
             dataType: "json",
             contentType: 'application/json; charset=utf-8',
             success: function (data) {
+                birim = data[0].Birim1;
                 $("#MalKodu").val(id);
                 FuncSearchBtn();
             }
