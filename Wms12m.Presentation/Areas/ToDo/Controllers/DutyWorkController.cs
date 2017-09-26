@@ -65,13 +65,12 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             var sayac = 0;
             if (ModelState.IsValid)
             {
+                //yeni çalışma girerken
                 if (gorevCalisma.ID == 0)
                 {
                     var kontOnay = false;
                     if (vUser.RoleName == "Destek")
-                    {
                         kontOnay = true;
-                    }
                     gorevCalisma.ToDoListID = "";
                     var grv = db.Gorevlers.Where(a => a.ID == gorevCalisma.GorevID).FirstOrDefault();
                     for (int i = 0; i < gorevCalisma.work.Length; i++)
@@ -84,7 +83,6 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                             grvtodo.OnayDurum = true;
                             grvtodo.Kontrol = true;
                             grvtodo.KontrolOnay = kontOnay;
-
                             grv.Kontrol = true;
                         }
                     }
@@ -107,17 +105,14 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                             var gorevTipleri = db.ComboItem_Name.Where(a => a.ComboID == tipId && a.Name == "Kalite Kontrol").FirstOrDefault();
                             grv.GorevTipiID = gorevTipleri.ID;
                         }
-                        //grv.Sorumlu = grv.KaliteKontrol;
-                        //grv.Sorumlu2 = grv.KaliteKontrol;
-                        //grv.Sorumlu3 = grv.KaliteKontrol;
                     }
                     gorevCalisma.Degistiren = vUser.UserName;
                     gorevCalisma.Kaydeden = vUser.UserName;
                     gorevCalisma.DegisTarih = DateTime.Now;
                     gorevCalisma.KayitTarih = gorevCalisma.DegisTarih;
-
                     db.GorevCalismas.Add(gorevCalisma);
                 }
+                //çalışma güncelleme
                 else
                 {
                     var tbl = db.GorevCalismas.Where(m => m.ID == gorevCalisma.ID).FirstOrDefault();
@@ -145,9 +140,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                                 sayac++;
                                 grv.Kontrol = true;
                                 grv.KontrolOnay = false;
-
                                 gr.Kontrol = true;
-
                             }
                             else
                             {
@@ -161,15 +154,10 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                                         gr.Kontrol = false;
                                     }
                                 }
-
                             }
-
                         }
                     }
-
-
                 }
-
                 try
                 {
                     db.SaveChanges();
