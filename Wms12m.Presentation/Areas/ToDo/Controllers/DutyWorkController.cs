@@ -35,6 +35,15 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             return PartialView(grv);
         }
         /// <summary>
+        /// yeni çalışma
+        /// </summary>
+        public PartialViewResult NewAll()
+        {
+            ViewBag.RoleName = vUser.RoleName;
+            ViewBag.GorevID = new SelectList(db.Gorevlers.Where(m => m.Sorumlu == vUser.UserName || m.Sorumlu2 == vUser.UserName || m.Sorumlu3 == vUser.UserName || m.KaliteKontrol == vUser.UserName).ToList(), "ID", "Gorev");
+            return PartialView(new GorevCalisma());
+        }
+        /// <summary>
         /// liste
         /// </summary>
         public PartialViewResult List()
@@ -46,9 +55,9 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         /// <summary>
         /// düzenle
         /// </summary>
-        public PartialViewResult Edit(int? id)
+        public PartialViewResult Edit(int Id)
         {
-            GorevCalisma gorevCalisma = db.GorevCalismas.Find(id);
+            GorevCalisma gorevCalisma = db.GorevCalismas.Find(Id);
             var ids = gorevCalisma.ToDoListID.Split(',');
             ViewBag.GorevID = new SelectList(db.Gorevlers.Where(a => a.Sorumlu == vUser.UserName || a.Sorumlu2 == vUser.UserName || a.Sorumlu3 == vUser.UserName).ToList(), "ID", "Gorev", gorevCalisma.GorevID);
             ViewBag.TodoList = db.GorevToDoLists.Where(x => ((x.OnayDurum == false) && (x.AktifPasif == true) && (x.GorevID == gorevCalisma.GorevID)) || ids.Contains(x.ID.ToString())).ToList();
