@@ -53,14 +53,12 @@
         </div>
     </div>
 </div>
-
 <script type="text/javascript">
     sayac = 1;
     $(document).ready(function () { $('.date-picker').datepicker(); });
      var model = @Html.Raw(Json.Encode(tbl.Select(m=> new frmGorevTodos { ID=m.ID, Aciklama=m.Aciklama, AktifPasif=m.AktifPasif, OnayDurum=m.OnayDurum }).ToList()));
      $.each(model, function (indexx, value) {
          var index = sayac++;
-
          var newElement = $("<div>").addClass("form-group row todo-content");
          newElement.append("<div class='todo-text todo-id" + index + "' style='display:none'></div><div class='control-label col-md-1'><div class='checkitem" + index + "'></div></div><div class='col-md-10'><div class='txt-aciklama work-" + index + "' style='border-color: #ece7e7'></div></div>");
          newElement.addClass("index" + index);
@@ -70,7 +68,6 @@
          else {
              newElement.insertAfter(".todo-content:last");
          }
-
          $(".work-" + index).dxTextArea();
          $(".work-" + index).dxTextArea("instance").option({ name: "work", value: value.Aciklama, maxHeight: 80, readOnly: true });
          $(".todo-id" + index).dxTextBox();
@@ -80,13 +77,11 @@
              name: "checkitem",
              onValueChanged: function (e) {
 
-             },
-            
+             },            
          });
          if (value.AktifPasif == false) {
              $(".checkitem" + index).dxCheckBox("instance").option({ readOnly: true });
              $(".checkitem" + index + " .dx-checkbox-icon").css("color", "red");
          }
-
      });
 </script>
