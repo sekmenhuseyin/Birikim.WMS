@@ -156,7 +156,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                             OnayDurum = kontDur,
                             Kontrol = kontDur
                         };
-                        db.GorevToDoLists.Add(grvTDL);
+                        if (grvTDL.Aciklama.Trim() != "") db.GorevToDoLists.Add(grvTDL);
                     }
                 }
                 else
@@ -203,7 +203,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                                 Kaydeden = vUser.UserName,
                                 Gorevler = tbl
                             };
-                            db.GorevToDoLists.Add(grvTDL);
+                            if (grvTDL.Aciklama.Trim() != "") db.GorevToDoLists.Add(grvTDL);
                         }
                         else
                         {
@@ -224,7 +224,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                                     Kaydeden = vUser.UserName,
                                     Gorevler = tbl
                                 };
-                                db.GorevToDoLists.Add(grvTDL);
+                                if (grvTDL.Aciklama.Trim() != "") db.GorevToDoLists.Add(grvTDL);
                             }
                         }
                     }

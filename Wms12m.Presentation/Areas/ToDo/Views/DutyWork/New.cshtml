@@ -32,7 +32,7 @@
                         <div class="form-group">
                             <div class="control-label col-md-2">Çalışma Süresi</div>
                             <div class="col-md-8">
-                                @Html.TextBoxFor(model => model.CalismaSure, new { @class = "form-control input-circle", @Value = "540", required = "required" })
+                                @Html.TextBoxFor(model => model.CalismaSure, new { @class = "form-control input-circle", min = "1", max = "540", required = "required" })
                                 @Html.ValidationMessageFor(model => model.CalismaSure, "", new { @class = "text-danger" })
                             </div>
                         </div>
