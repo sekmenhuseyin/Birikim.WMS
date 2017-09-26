@@ -18,36 +18,23 @@ namespace Wms12m.Presentation.Controllers
             var SirketKodu = db.GetSirketDBs().FirstOrDefault();
             Setting setts = ViewBag.settings;
             BekleyenOnaylar bo = new BekleyenOnaylar();
+            var tbl = db.GetHomeSummary(vUser.UserName, vUser.Id).FirstOrDefault();
             //Bekleyen Onaylar
             if (setts.OnayCek == true || setts.OnayFiyat == true || setts.OnayRisk == true || setts.OnaySiparis == true || setts.OnaySozlesme == true || setts.OnayStok == true || setts.OnayTekno == true || setts.OnayTeminat == true)
                 try
                 {
-                    bo = db.Database.SqlQuery<BekleyenOnaylar>(string.Format("[FINSAT6{0}].[wms].[DB_BekleyenOnaylar]", SirketKodu)).FirstOrDefault();
+                    var tmp = new Charts();
+                    bo = tmp.BekleyenOnaylar(SirketKodu, tbl.yetki.Contains("'DashboardKasa'"));
                 }
                 catch (Exception ex)
                 {
                     Logger(ex, "Home/Index");
                 }
-            //kasa miktarları
-            try
-            {
-                ViewBag.MevcudBanka = db.Database.SqlQuery<decimal>(string.Format("[FINSAT6{0}].[wms].[MevcudBanka]", SirketKodu)).FirstOrDefault();
-                ViewBag.MevcudCek = db.Database.SqlQuery<decimal>(string.Format("[FINSAT6{0}].[wms].[MevcudCek]", SirketKodu)).FirstOrDefault();
-                ViewBag.MevcudKasa = db.Database.SqlQuery<decimal>(string.Format("[FINSAT6{0}].[wms].[MevcudKasa]", SirketKodu)).FirstOrDefault();
-                ViewBag.MevcudPOS = db.Database.SqlQuery<decimal>(string.Format("[FINSAT6{0}].[wms].[MevcudPOS]", SirketKodu)).FirstOrDefault();
-            }
-            catch (Exception)
-            {
-                ViewBag.MevcudBanka = 0;
-                ViewBag.MevcudCek = 0;
-                ViewBag.MevcudKasa = 0;
-                ViewBag.MevcudPOS = 0;
-            }
             //return
             ViewBag.SirketKodu = SirketKodu;
             ViewBag.BekleyenOnaylar = bo;
             ViewBag.RoleName = vUser.RoleName;
-            return View("Index", db.GetHomeSummary(vUser.UserName, vUser.Id).FirstOrDefault());
+            return View("Index", tbl);
         }
         /// <summary>
         /// child view for menu
@@ -79,7 +66,8 @@ namespace Wms12m.Presentation.Controllers
             List<ChartBaglantiZaman> BUGS;
             try
             {
-                BUGS = db.Database.SqlQuery<ChartBaglantiZaman>(string.Format("[FINSAT6{0}].[wms].[DB_GunlukSatisGetir]", SirketKodu)).ToList();
+                var tmp = new Charts();
+                BUGS = tmp.ChartBaglantiZaman(SirketKodu);
             }
             catch (Exception ex)
             {
