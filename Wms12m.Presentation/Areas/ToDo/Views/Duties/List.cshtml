@@ -6,7 +6,7 @@
         {
             <tr data-ID="@item.ID"@if (ViewBag.RoleName == "Admin" || ViewBag.RoleName == " ") {<text> ondblclick = "showEdit(@item.ID)" class = "clickable"</text>}>
                 <td data="@item.OncelikID" data-id="@item.ID"><div style="display:flex;"><i class='fa fa-arrow-up list-up-down item-up' onclick='RowUp(this)' style='color:#a0e4a0;'></i><i class='fa fa-arrow-down list-up-down item-down' onclick='RowDown(this)'  style='color:#ec9696;'></i></div></td>
-                <td nowrap>@item.ID</td>
+                <td></td>
                 <td class="details-control"></td>
                 <td nowrap>@item.ProjeForm.Musteri.Firma</td>
                 <td nowrap>@item.ProjeForm.Proje</td>
@@ -34,6 +34,11 @@
         "ordering": false,
         "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" }
     });
+    table.on('order.dt search.dt', function () {
+        table.column(1, { search: 'applied', order: 'applied' }).nodes().each(function (cell, i) {
+            cell.innerHTML = i + 1;
+        });
+    }).draw();
     $('#sample_1 .tf-search th').each(function () {
         var title = $('#sample_1 thead th').eq($(this).index()).text();
         if (title != "" && title.indexOf("Tarih") !== -1)
@@ -106,12 +111,12 @@
                 type: "post",
                 success: function (data) {
                     if (data == "OK") {
-                        Modaldialog("İşlem Başarılı", "Güncelleme İşlemi", "Tamam", "Güncelleme");
+                        Modaldialog("İşlem Başarılı", "Güncelleme İşlemi", "Tamam", "btn-success");
                         FuncSearchBtn();
                     }
 
                     else {
-                        Modaldialog("Hata Oluştu.", "Güncelleme İşlemi", "Tamam", "Güncelleme");
+                        Modaldialog("Hata Oluştu.", "Güncelleme İşlemi", "Tamam", "btn-danger");
                     }
 
                 }

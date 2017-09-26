@@ -167,7 +167,7 @@
         $(".insert-work-icon i").removeClass("last-work");
         $(".delete-icn").css("display", "initial");
         var newElement = $("<div>").addClass("form-group todo-content");
-        newElement.append("<div class='todo-text todo-id" + index + "' style='display:none'></div><div class='control-label col-md-2'><span class='work-index'>" + index + "</span > <span>-</span></div><div class='col-md-10'><div class='txt-aciklama work-" + index + "'></div></div><div class='insert-work-icon col-md-2'><i class='fa fa-minus-circle delete-icn' onclick='DeleteElement(this, " + 0 +")' style='margin- left:5px;'></i><i class='fa fa-plus-circle last-work' onclick='NewElement()' style='margin-left:5px;'></i></div>");
+        newElement.append("<div class='todo-text todo-id" + index + "' style='display:none'></div><div class='control-label col-md-2'><span class='work-index'>" + index + "</span > <span>-</span></div><div class='col-md-9'><div class='txt-aciklama work-" + index + "'></div></div><div class='insert-work-icon col-md-1'><i class='fa fa-minus-circle delete-icn' onclick='DeleteElement(this, " + 0 +")' style='margin- left:5px;'></i><i class='fa fa-plus-circle last-work' onclick='NewElement()' style='margin-left:5px;'></i></div>");
         newElement.addClass("index" + index);
         newElement.insertAfter(".todo-content:last");
         $(".work-" + index).dxTextArea();
