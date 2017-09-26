@@ -15,6 +15,7 @@ namespace Wms12m.Business
         {
             _Result = new Result();
             //stok
+            if (tbl.MakaraNo == "") tbl.MakaraNo = null;
             db.Yers.Add(tbl);
             //log
             Yer_Log yerLog = new Yer_Log()

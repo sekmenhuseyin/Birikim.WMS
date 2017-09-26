@@ -30,7 +30,7 @@
 <body class="login">
     @RenderBody()
     <div id="div_loading" class="loader"></div>
-    @Scripts.Render(BundleConfig.JsBundle)
+    @Scripts.Render(BundleConfig.LoginBundle)
     <script src="~/Content/assets/global/plugins/devtools-detect.js"></script><script>window.addEventListener('devtoolschange', function (e) { if (e.detail.open == true) { console.clear(); window.location.reload(); } });</script>
     @RenderSection("Scripts", required: false)
 </body>

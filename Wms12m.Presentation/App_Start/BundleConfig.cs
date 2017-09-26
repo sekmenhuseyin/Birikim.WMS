@@ -6,6 +6,7 @@ namespace Wms12m.Presentation
     {
         // For more information on bundling, visit http://go.microsoft.com/fwlink/?LinkId=301862
         public static string JsBundle = "~/Content/Scripts/bundle";
+        public static string LoginBundle = "~/Content/Scripts/bundle2";
         public static string CssBundle = "~/Content/Styles/bundle";
         /// <summary>
         /// register
@@ -13,6 +14,7 @@ namespace Wms12m.Presentation
         public static void RegisterBundles(BundleCollection bundles)
         {
             var scriptBundle = new ScriptBundle(JsBundle);
+            var scriptBundle2 = new ScriptBundle(LoginBundle);
             var styleBundle = new StyleBundle(CssBundle);
             // scripts
             scriptBundle
@@ -64,6 +66,21 @@ namespace Wms12m.Presentation
                 .Include("~/Content/Scripts/MessageBox.min.js")
                 .Include("~/Content/Scripts/Functions.js")
                 ;
+            scriptBundle2
+                .Include("~/Content/assets/global/plugins/jquery/jquery-3.1.1.min.js")
+                .Include("~/Content/assets/global/plugins/jquery/jquery-migrate-3.0.0.min.js")
+                .Include("~/Content/assets/global/plugins/jquery-validation/jquery.validate.min.js")
+                .Include("~/Content/assets/global/plugins/jquery-validation/jquery.validate.unobtrusive.min.js")
+                .Include("~/Content/assets/global/plugins/jquery-validation/jquery.unobtrusive-ajax.min.js")
+                .Include("~/Content/assets/global/plugins/jquery-validation/additional-methods.min.js")
+                .Include("~/Content/assets/global/plugins/bootstrap/js/bootstrap.min.js")
+                .Include("~/Content/assets/global/plugins/js.cookie.min.js")
+                .Include("~/Content/assets/global/scripts/app.min.js")
+                .Include("~/Content/assets/layouts/layout/scripts/layout.min.js")
+                .Include("~/Content/Scripts/Operation.min.js")
+                .Include("~/Content/Scripts/MessageBox.min.js")
+                .Include("~/Content/Scripts/Functions.js")
+                ;
             // styles
             styleBundle
                 //jquery
@@ -85,6 +102,7 @@ namespace Wms12m.Presentation
                 ;
             // bundle
             bundles.Add(scriptBundle);
+            bundles.Add(scriptBundle2);
             bundles.Add(styleBundle);
             // EnableOptimizations
 #if DEBUG
