@@ -74,6 +74,8 @@ namespace Wms12m.Presentation
                 .Include("~/Content/assets/global/plugins/jquery-validation/jquery.unobtrusive-ajax.min.js")
                 .Include("~/Content/assets/global/plugins/jquery-validation/additional-methods.min.js")
                 .Include("~/Content/assets/global/plugins/bootstrap/js/bootstrap.min.js")
+                .Include("~/Content/assets/global/plugins/Numeral/numeral.js")
+                .Include("~/Content/assets/global/plugins/bootbox/bootbox.min.js")
                 .Include("~/Content/assets/global/plugins/js.cookie.min.js")
                 .Include("~/Content/assets/global/scripts/app.min.js")
                 .Include("~/Content/assets/layouts/layout/scripts/layout.min.js")
