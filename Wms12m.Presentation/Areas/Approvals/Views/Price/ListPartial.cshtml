@@ -30,6 +30,31 @@
                                     <th>Birim3</th>
                                 </tr>
                             </thead>
+                            @*<tfoot>
+                                <tr>
+                                    <th colspan="14"></th>
+
+                                </tr>
+                            </tfoot>*@
+                            <tfoot class="tf-search">
+                                <tr>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                            </tfoot>
+                           
                         </table>
 
                     </div>
@@ -42,6 +67,18 @@
 <script type="text/javascript">
     $('#x-modal-teminatdurbun').modal("hide");
     var secili_satir = new Array();
+    $('#sample_1 .tf-search th').each(function () {
+        var title = $('#sample_1 thead th').eq($(this).index()).text();
+        if (title != "" && title != "Detay" && title != "Hareket") {
+            $(this).html('<input type="text" placeholder="' + title + ' Ara" />');
+        }
+    });
+    $("#sample_1 tfoot input").on('keyup change', function () {
+        table
+            .column($(this).parent().index() + ':visible')
+            .search(this.value)
+            .draw();
+    });
     var table = $('#sample_1').DataTable({
         "sDom": 'l<"H"Rf>t<"F"ip>',
         "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
@@ -163,6 +200,8 @@
     $('#sample_1 tbody').on('click', 'tr', function () {
         $(this).toggleClass('selected');
     });
+
+    setTimeout(function () { $(".dataTables_scrollFoot").insertAfter(".dataTables_scrollHead"); }, 500);
 
     function satisFiyatClear() {
         $(".numb_onc_satisfiyati").dxTextBox("instance").option("value", "");
