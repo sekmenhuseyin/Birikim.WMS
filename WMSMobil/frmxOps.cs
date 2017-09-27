@@ -501,7 +501,6 @@ namespace WMSMobil
                     return;
                 }
             }
-            Cursor.Current = Cursors.WaitCursor;
             bool mal_var = false;
             bool raf_var = false;
             string tmpMalKod = "";
@@ -636,7 +635,6 @@ namespace WMSMobil
                 var malbilgileri = Servis.GetMalzemeFromBarcode("", mal, GorevID, Ayarlar.Kullanici.ID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid);
                 if (malbilgileri == null)
                 {
-                    Cursor.Current = Cursors.Default;
                     Mesaj.Uyari("Sistemde böyle bir barkod bulunamadı");
                     return;
                 }
@@ -930,16 +928,13 @@ namespace WMSMobil
                 }
                 else
                 {
-                    Cursor.Current = Cursors.Default;
                     Mesaj.Uyari("Göreve ait böyle bir ürün bulunmamaktadır.");
                 }
             }
             else if (!mal_var)
             {
-                Cursor.Current = Cursors.Default;
                 Mesaj.Uyari("Göreve ait böyle bir ürün bulunmamaktadır.");
             }
-            Cursor.Current = Cursors.Default;
         }
         /// <summary>
         /// veritabanına kaydeder

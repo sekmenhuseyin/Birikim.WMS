@@ -32,6 +32,7 @@
             <tr>
                 <th></th>
                 <th>Girdi-Çıktı</th>
+                <th>İşlem Tipi</th>
                 <th>Tarih</th>
                 <th>Saat</th>
                 <th>Evrak No</th>
@@ -42,13 +43,14 @@
                 <th class="text-right">Stok</th>
             </tr>
         </thead>
-        <tfoot><tr><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr></tfoot>
-        <tfoot class="tf-search"><tr><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr></tfoot>
+        <tfoot><tr><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr></tfoot>
+        <tfoot class="tf-search"><tr><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr></tfoot>
         <tbody>
             @foreach (var item in Model) {
                 <tr>
                     <td></td>
                     <td>@if (item.GC == true) { i = i - item.Miktar; <text>Çıktı</text> }else{ i = i + item.Miktar; <text>Girdi</text> }</td>
+                    <td>@item.IslemTipi</td>
                     <td>@item.KayitTarihi.FromOADateInt()</td>
                     <td>@item.KayitSaati.FromOaTime()</td>
                     <td>@if (item.IR != null) {<a class="btn btn-default input-circle" href="#modalEditPage" data-toggle="modal" onclick="editInModal('/WMS/Stock/Details/@item.IR.ID')"> @item.IR.EvrakNo </a>}</td>
