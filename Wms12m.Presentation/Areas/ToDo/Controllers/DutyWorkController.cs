@@ -110,9 +110,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                         }
                         else
                         {
-                            var tipId = Combos.GörevYönetimTipleri.ToInt32();
-                            var gorevTipleri = db.ComboItem_Name.Where(a => a.ComboID == tipId && a.Name == "Kalite Kontrol").FirstOrDefault();
-                            grv.GorevTipiID = gorevTipleri.ID;
+                            grv.GorevTipiID = ComboItems.gytKaliteKontrol.ToInt32();
                         }
                     }
                     gorevCalisma.Degistiren = vUser.UserName;
