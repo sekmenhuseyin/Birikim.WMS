@@ -95,7 +95,8 @@ namespace Wms12m.Presentation.Areas.YN.Controllers
                                                                                     SUM(Miktar) AS Miktar,Kaydeden,
                                                                                     CONVERT(VARCHAR(15), CAST(KayitTarih - 2 AS datetime), 104) AS KayitTarihi,
                                                                                     CONVERT(VARCHAR(15), CAST(TeklifTarihi - 2 AS datetime), 104) AS TeklifTarihi
-                                                                                      FROM [YNS{0}].[YNS{0}].[Teklif]
+                                                                                    FROM [YNS{0}].[YNS{0}].[Teklif]
+                                                                                    WHERE OnayDurumu=0
                                                                                       GROUP BY TeklifNo,TeklifTarihi,HesapKodu,KayitTarih,Kaydeden", "0TEST")).ToList();
                 var json = new JavaScriptSerializer().Serialize(list);
                 return json;
@@ -118,7 +119,7 @@ namespace Wms12m.Presentation.Areas.YN.Controllers
                                                                                   INNER JOIN
                                                                                   YNS{0}.CAR002 ON HesapKodu = YNS{0}.CAR002.CAR002_HesapKodu
                                                                                   INNER JOIN
-                                                                                  YNS{0}.STK004 ON MalKodu = YNS{0}.STK004.STK004_MalKodu WHERE TeklifNo='{1}'", "0TEST", ID)).ToList();
+                                                                                  YNS{0}.STK004 ON MalKodu = YNS{0}.STK004.STK004_MalKodu WHERE TeklifNo='{1}' AND OnayDurumu=0", "0TEST", ID)).ToList();
                 return PartialView("Teklif_Details", list);
             }
         }
