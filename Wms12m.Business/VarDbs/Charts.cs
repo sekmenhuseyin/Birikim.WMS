@@ -73,5 +73,53 @@ namespace Wms12m
             using (var db = new WMSEntities())
                 return db.Database.SqlQuery<GetCachedChartMonthly_Result>(string.Format("[FINSAT6{0}].[wms].[DB_Aylik_SatisAnalizi]", SirketKodu)).ToList();
         }
+        /// <summary>
+        /// Home / PartialAylikSatisCHKAnaliziBar
+        /// </summary>
+        public List<ChartAylikSatisAnalizi> ChartAylikSatisAnalizi(string SirketKodu, string chk)
+        {
+            using (var db = new WMSEntities())
+                return db.Database.SqlQuery<ChartAylikSatisAnalizi>(string.Format("[FINSAT6{0}].[wms].[DB_Aylik_SatisAnalizi_CHK] @chk='{1}'", SirketKodu, chk)).ToList();
+        }
+        /// <summary>
+        /// Home / PartialAylikSatisAnaliziKodTipDovizBar
+        /// </summary>
+        public List<GetCachedChartMonthlyByKriter_Result> GetCachedChartMonthlyByKriter_Result(string SirketKodu, string kod, int islemtip, string doviz)
+        {
+            using (var db = new WMSEntities())
+                return db.Database.SqlQuery<GetCachedChartMonthlyByKriter_Result>(string.Format("[FINSAT6{0}].[wms].[DB_Aylik_SatisAnalizi_Tip_Kod_Doviz] @Grup = '{1}', @Kriter = '{2}', @IslemTip = {3}", SirketKodu, kod, doviz, islemtip)).ToList();
+        }
+        /// <summary>
+        /// Home / PartialUrunGrubuSatis
+        /// </summary>
+        public List<GetCachedChartUrunGrubu_Result> GetCachedChartUrunGrubu_Result(string SirketKodu, short tarih)
+        {
+            using (var db = new WMSEntities())
+                return db.Database.SqlQuery<GetCachedChartUrunGrubu_Result>(string.Format("[FINSAT6{0}].[wms].[DB_UrunGrubu_SatisAnalizi] @Ay = {1}", SirketKodu, tarih)).ToList();
+        }
+        /// <summary>
+        /// Home / PartialUrunGrubuSatisKriter
+        /// </summary>
+        public List<GetCachedChartUrunGrubuKriter_Result> GetCachedChartUrunGrubuKriter_Result(string SirketKodu, short tarih, string kriter)
+        {
+            using (var db = new WMSEntities())
+                return db.Database.SqlQuery<GetCachedChartUrunGrubuKriter_Result>(string.Format("[FINSAT6{0}].[wms].[DB_UrunGrubu_SatisAnalizi_Kriter] @Ay = {1}, @Kriter='{2}'", SirketKodu, tarih, kriter)).ToList();
+        }
+        /// <summary>
+        /// Home / PartialLokasyonSatis
+        /// </summary>
+        public List<GetCachedChartLocation_Result> GetCachedChartLocation_Result(string SirketKodu, short tarih)
+        {
+            using (var db = new WMSEntities())
+                return db.Database.SqlQuery<GetCachedChartLocation_Result>(string.Format("[FINSAT6{0}].[wms].[DB_LokasyonBazli_SatisAnalizi] @Ay = {1}", SirketKodu, tarih)).ToList();
+        }
+        /// <summary>
+        /// Home / PartialLokasyonSatisKriter
+        /// </summary>
+        public List<GetCachedChartLocationKriter_Result> GetCachedChartLocationKriter_Result(string SirketKodu, int tarih, string kriter)
+        {
+            using (var db = new WMSEntities())
+                return db.Database.SqlQuery<GetCachedChartLocationKriter_Result>(string.Format("[FINSAT6{0}].[wms].[DB_LokasyonBazli_SatisAnalizi_Kriter] @Ay = {1}, @Kriter='{2}'", SirketKodu, tarih, kriter)).ToList();
+        }
     }
 }
