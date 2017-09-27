@@ -12,7 +12,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         /// </summary>
         public ActionResult Index()
         {
-            var list = db.Database.SqlQuery<GorevCalisma>(string.Format("SELECT * FROM BIRIKIM.ong.GorevCalisma", "17")).ToList();
+            var list = db.GorevlerCalismas.ToList();
             return View(list);
         }
         /// <summary>

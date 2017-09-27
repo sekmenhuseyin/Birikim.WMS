@@ -14,31 +14,41 @@
                                 <td>@Model.SirketKod</td>
                                 <td>
                                     @{if (Model.IslemTur == false)
-                                    {<text>Giriş</text>}
-                                    else
-                                    {<text>Çıkış </text>}}
-                            </td>
-                            <td>@Model.EvrakNo</td>
-                            <td>@Model.HesapKodu</td>
-                            <td>@Model.Tarih.FromOaDate()</td>
-                        </tr>
-                    </tbody>
-                </table>
-                <div class="col-lg-6" style="padding:0">
-                    <table class="table table-bordered table-condensed">
-                        <thead><tr><th>Mal Kodu</th><th>Mal Adı</th><th>Miktar</th><th>Birim</th></tr></thead>
-                        <tbody>
-                            @foreach (var item in Model.IRS_Detay)
-                            {
-                                <tr><td>@item.MalKodu</td><td>@item.MalKodu.GetMalAdi(Model.SirketKod)</td><td align="right">@String.Format("{0:n}", item.Miktar)</td><td>@item.Birim</td></tr>}
+                                        {<text>Giriş</text>}
+                                        else
+                                        {<text>Çıkış </text>}}
+                                </td>
+                                <td>@Model.EvrakNo</td>
+                                <td>@Model.HesapKodu</td>
+                                <td>@Model.Tarih.FromOaDate()</td>
+                            </tr>
                         </tbody>
                     </table>
+                    <div class="col-lg-6" style="padding:0">
+                        <table class="table table-bordered table-condensed">
+                            <thead><tr><th>Mal Kodu</th><th>Mal Adı</th><th class="text-right">Miktar</th><th>Birim</th></tr></thead>
+                            <tbody>
+                                @if (Model.IRS_Detay.Count > 0)
+                                {
+                                    foreach (var item in Model.IRS_Detay)
+                                    {
+                                        <tr><td>@item.MalKodu</td><td>@item.MalKodu.GetMalAdi(Model.SirketKod)</td><td align="right">@String.Format("{0:n}", item.Miktar)</td><td>@item.Birim</td></tr>}
+                                }
+                                else
+                                {
+                                    foreach (var item in Model.Gorevs1.FirstOrDefault().GorevYers)
+                                    {
+                                        <tr><td>@item.MalKodu</td><td>@item.MalKodu.GetMalAdi(Model.SirketKod)</td><td align="right">@String.Format("{0:n}", item.Miktar)</td><td>@item.Birim</td></tr>}
+
+                                }
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-            </div>
-            <div class="col-md-12">
-                <button type="button" class="btn btn-danger pull-right" data-dismiss="modal"><i class="fa fa-times"></i> Kapat</button>
+                <div class="col-md-12">
+                    <button type="button" class="btn btn-danger pull-right" data-dismiss="modal"><i class="fa fa-times"></i> Kapat</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
 </div>

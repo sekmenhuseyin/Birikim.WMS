@@ -3,7 +3,6 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.Entity;
 using System.Linq;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
@@ -44,8 +43,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         [HttpPost]
         public PartialViewResult Duty_Details(int ID)
         {
-            var gorevCalismas = db.GorevCalismas.Include(g => g.Gorevler);
-            var list = gorevCalismas.Where(a => a.GorevID == ID).ToList();
+            var list = db.GorevlerCalismas.Where(a => a.GorevID == ID).ToList();
             return PartialView("Duty_Details", list);
         }
         /// <summary>
@@ -59,23 +57,19 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             var list = new List<Gorevler>();
             if ((vUser.RoleName == "Admin" || vUser.RoleName == " ") && Tip == "Onay")
             {
-                list = db.Gorevlers.Where(a => a.AktifPasif == true && a.DurumID == durum).OrderBy(a => a.OncelikID).ToList();
+                list = db.Gorevlers.Where(a => a.DurumID == durum).OrderBy(a => a.OncelikID).ToList();
             }
             else if (vUser.RoleName == "Admin" || vUser.RoleName == " ")
             {
-                list = db.Gorevlers.Where(a => a.AktifPasif == tip && a.DurumID != durum).OrderBy(a => a.OncelikID).ToList();
+                list = db.Gorevlers.Where(a => a.DurumID != durum).OrderBy(a => a.OncelikID).ToList();
             }
             else if (Tip == "Onay")
             {
-                list = db.Gorevlers.Where(a => a.AktifPasif == tip && a.DurumID == durum && (((a.Sorumlu == vUser.UserName || a.Sorumlu2 == vUser.UserName || a.Sorumlu3 == vUser.UserName || a.Kaydeden == vUser.UserName) && a.GorevTipiID != gorevTipleri) || (a.KaliteKontrol == vUser.UserName && (a.GorevTipiID == gorevTipleri || a.GorevToDoLists.Select(c => c.Kontrol == true && c.KontrolOnay == false).Count() > 0)))).OrderBy(a => a.OncelikID).ToList();
-            }
-            else if (tip == true)
-            {
-                list = db.Gorevlers.Where(a => a.AktifPasif == tip && a.DurumID != durum && (((a.Sorumlu == vUser.UserName || a.Sorumlu2 == vUser.UserName || a.Sorumlu3 == vUser.UserName || a.Kaydeden == vUser.UserName) && a.GorevTipiID != gorevTipleri) || (a.KaliteKontrol == vUser.UserName && (a.GorevTipiID == gorevTipleri || a.GorevToDoLists.Select(c => c.Kontrol == true && c.KontrolOnay == false).Count() > 0)))).OrderBy(a => a.OncelikID).ToList();
+                list = db.Gorevlers.Where(a => a.DurumID == durum && (((a.Sorumlu == vUser.UserName || a.Sorumlu2 == vUser.UserName || a.Sorumlu3 == vUser.UserName || a.Kaydeden == vUser.UserName) && a.GorevTipiID != gorevTipleri) || (a.KontrolSorumlusu == vUser.UserName && (a.GorevTipiID == gorevTipleri || a.GorevlerToDoLists.Select(c => c.Onay == true && c.KontrolOnay == false).Count() > 0)))).OrderBy(a => a.OncelikID).ToList();
             }
             else
             {
-                list = db.Gorevlers.Where(a => a.AktifPasif == tip && (((a.Sorumlu == vUser.UserName || a.Sorumlu2 == vUser.UserName || a.Sorumlu3 == vUser.UserName || a.Kaydeden == vUser.UserName) && a.GorevTipiID != gorevTipleri) || (a.KaliteKontrol == vUser.UserName && (a.GorevTipiID == gorevTipleri || a.GorevToDoLists.Select(c => c.Kontrol == true && c.KontrolOnay == false).Count() > 0)))).OrderBy(a => a.OncelikID).ToList();
+                list = db.Gorevlers.Where(a => (((a.Sorumlu == vUser.UserName || a.Sorumlu2 == vUser.UserName || a.Sorumlu3 == vUser.UserName || a.Kaydeden == vUser.UserName) && a.GorevTipiID != gorevTipleri) || (a.KontrolSorumlusu == vUser.UserName && (a.GorevTipiID == gorevTipleri || a.GorevlerToDoLists.Select(c => c.Onay == true && c.KontrolOnay == false).Count() > 0)))).OrderBy(a => a.OncelikID).ToList();
             }
             ViewBag.RoleName = vUser.RoleName;
             ViewBag.Tip = Tip;
@@ -97,31 +91,27 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             ViewBag.Sorumlu = new SelectList(Persons.GetList(), "Kod", "AdSoyad", tbl.Sorumlu);
             ViewBag.Sorumlu2 = new SelectList(Persons.GetList(), "Kod", "AdSoyad", tbl.Sorumlu2);
             ViewBag.Sorumlu3 = new SelectList(Persons.GetList(), "Kod", "AdSoyad", tbl.Sorumlu3);
-            ViewBag.KaliteKontrol = new SelectList(Persons.GetList("Destek"), "Kod", "AdSoyad", tbl.KaliteKontrol);
+            ViewBag.KaliteKontrol = new SelectList(Persons.GetList("Destek"), "Kod", "AdSoyad", tbl.KontrolSorumlusu);
             return PartialView("Edit", tbl);
         }
         /// <summary>
         /// kaydetme
         /// </summary>
         [HttpPost, ValidateAntiForgeryToken]
-        public JsonResult Save([Bind(Include = "ID,ProjeFormID,Sorumlu,Sorumlu2,Sorumlu3,KaliteKontrol,Gorev,Aciklama,OncelikID,DurumID,GorevTipiID,DepartmanID,TahminiBitis,BitisTarih,IslemTip,IslemSira")] Gorevler gorevler, string[] work, string silinenler, string[] todo)
+        public JsonResult Save(Gorevler gorevler, string[] work, string silinenler, string[] todo)
         {
             if (ModelState.IsValid)
             {
                 if (gorevler.ID == 0)
                 {
-                    var kontDur = false;
                     var maxSira = db.Database.SqlQuery<int>("SELECT ISNULL(MAX(OncelikID), 0) AS Expr1 FROM ong.Gorevler").FirstOrDefault();
-                    gorevler.KaliteKontrol = gorevler.KaliteKontrol ?? "";
+                    gorevler.KontrolSorumlusu = gorevler.KontrolSorumlusu ?? "";
                     gorevler.Aciklama = gorevler.Aciklama ?? "";
                     gorevler.Degistiren = vUser.UserName;
                     gorevler.Kaydeden = vUser.UserName;
                     gorevler.DegisTarih = DateTime.Now;
                     gorevler.KayitTarih = gorevler.DegisTarih;
-                    gorevler.IslemTip = 0;
                     gorevler.BitisTarih = null;
-                    gorevler.IslemSira = null;
-                    gorevler.AktifPasif = true;
                     gorevler.OncelikID = maxSira + 1;
                     if ((gorevler.GorevTipiID == ComboItems.gytBilgiTalebi.ToInt32() || gorevler.GorevTipiID == ComboItems.gytGeliştirme.ToInt32()) && vUser.RoleName != "Admin" && vUser.RoleName != " ")
                     {
@@ -133,8 +123,6 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                             gorevler.DurumID = ComboItems.gydAtandı.ToInt32();
                         else
                             gorevler.DurumID = ComboItems.gydOnayVer.ToInt32();
-                        gorevler.Kontrol = true;
-                        kontDur = true;
                     }
                     else
                     {
@@ -145,19 +133,16 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                     if (work != null)
                         foreach (var item in work)
                         {
-                            GorevToDoList grvTDL = new GorevToDoList
+                            GorevlerToDoList grvTDL = new GorevlerToDoList
                             {
                                 Aciklama = item,
-                                AktifPasif = true,
                                 DegisTarih = DateTime.Now,
                                 Degistiren = vUser.UserName,
                                 KayitTarih = DateTime.Now,
                                 Kaydeden = vUser.UserName,
-                                Gorevler = gorevler,
-                                OnayDurum = kontDur,
-                                Kontrol = kontDur
+                                Gorevler = gorevler
                             };
-                            if (grvTDL.Aciklama.Trim() != "") db.GorevToDoLists.Add(grvTDL);
+                            if (grvTDL.Aciklama.Trim() != "") db.GorevlerToDoLists.Add(grvTDL);
                         }
                 }
                 else
@@ -171,7 +156,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                     tbl.Sorumlu = gorevler.Sorumlu;
                     tbl.Sorumlu2 = gorevler.Sorumlu2;
                     tbl.Sorumlu3 = gorevler.Sorumlu3;
-                    tbl.KaliteKontrol = gorevler.KaliteKontrol ?? "";
+                    tbl.KontrolSorumlusu = gorevler.KontrolSorumlusu ?? "";
                     tbl.Gorev = gorevler.Gorev;
                     tbl.Aciklama = gorevler.Aciklama ?? "";
                     tbl.GorevTipiID = gorevler.GorevTipiID;
@@ -180,13 +165,10 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                     tbl.Degistiren = vUser.UserName;
                     tbl.DegisTarih = DateTime.Now;
                     tbl.BitisTarih = null;
-                    tbl.IslemTip = 0;
-                    tbl.IslemSira = null;
                     for (int j = 0; j < sl.Length - 1; j++)
                     {
-                        var idd = Convert.ToInt32(sl[j]);
-                        var silGrv = db.GorevToDoLists.Where(m => m.ID == idd).FirstOrDefault();
-                        silGrv.AktifPasif = false;
+                        var idx = Convert.ToInt32(sl[j]);
+                        var silGrv = db.GorevlerToDoLists.Where(m => m.ID == idx).FirstOrDefault();
                         silGrv.DegisTarih = DateTime.Now;
                         silGrv.Degistiren = vUser.UserName;
                     }
@@ -195,38 +177,35 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                         {
                             if (todo[i] == "0")
                             {
-                                GorevToDoList grvTDL = new GorevToDoList
+                                GorevlerToDoList grvTDL = new GorevlerToDoList
                                 {
                                     Aciklama = work[i],
-                                    AktifPasif = true,
                                     DegisTarih = DateTime.Now,
                                     Degistiren = vUser.UserName,
                                     KayitTarih = DateTime.Now,
                                     Kaydeden = vUser.UserName,
                                     Gorevler = tbl
                                 };
-                                if (grvTDL.Aciklama.Trim() != "") db.GorevToDoLists.Add(grvTDL);
+                                if (grvTDL.Aciklama.Trim() != "") db.GorevlerToDoLists.Add(grvTDL);
                             }
                             else
                             {
                                 var id2 = Convert.ToInt32(todo[i]);
-                                var grv = db.GorevToDoLists.Where(m => m.ID == id2).FirstOrDefault();
+                                var grv = db.GorevlerToDoLists.Where(m => m.ID == id2).FirstOrDefault();
                                 if (grv.Aciklama.Trim() != work[i])
                                 {
-                                    grv.AktifPasif = false;
                                     grv.DegisTarih = DateTime.Now;
                                     grv.Degistiren = vUser.UserName;
-                                    GorevToDoList grvTDL = new GorevToDoList
+                                    GorevlerToDoList grvTDL = new GorevlerToDoList
                                     {
                                         Aciklama = work[i],
-                                        AktifPasif = true,
                                         DegisTarih = DateTime.Now,
                                         Degistiren = vUser.UserName,
                                         KayitTarih = DateTime.Now,
                                         Kaydeden = vUser.UserName,
                                         Gorevler = tbl
                                     };
-                                    if (grvTDL.Aciklama.Trim() != "") db.GorevToDoLists.Add(grvTDL);
+                                    if (grvTDL.Aciklama.Trim() != "") db.GorevlerToDoLists.Add(grvTDL);
                                 }
                             }
                         }
@@ -251,9 +230,8 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         {
             try
             {
+                //TODO:
                 Gorevler gorev = db.Gorevlers.Find(Id.ToInt32());
-                gorev.AktifPasif = false;
-                db.Database.ExecuteSqlCommand(string.Format("UPDATE [BIRIKIM].[ong].[GorevTodoList] SET AktifPasif=0 WHERE  GorevID = {0}", Id.ToInt32()));
                 db.SaveChanges();
                 return Json(new Result(true, Id.ToInt32()), JsonRequestBehavior.AllowGet);
             }

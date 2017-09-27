@@ -18,7 +18,7 @@
                 <td>@if (item.ComboItem_Name != null) { @item.ComboItem_Name.Name} </td>
                 <td>@if (item.TahminiBitis != null) { @item.TahminiBitis.Value.ToString("dd.MM.yyyy")} </td>
                 <td nowrap>
-                    @if (item.AktifPasif == true && item.DurumID != ComboItems.gydOnayVer.ToInt32()) {<a class="btn btn-info" href="#modalEditPage" data-toggle="modal" onclick="editInModal('/ToDo/DutyWork/New/@item.ID');"><span class="glyphicon glyphicon-floppy-save"></span>Çalışma</a>}
+                    @if (item.DurumID != ComboItems.gydOnayVer.ToInt32()) {<a class="btn btn-info" href="#modalEditPage" data-toggle="modal" onclick="editInModal('/ToDo/DutyWork/New/@item.ID');"><span class="glyphicon glyphicon-floppy-save"></span>Çalışma</a>}
                     @if (ViewBag.RoleName == "Admin" || ViewBag.RoleName == " ") {<a class="btn btn-danger" href="javascript:;" onclick="Delete('@item.ID', '/ToDo/Duties/List', 'liste', '')"> Sil </a>}
                 </td>
             </tr>
