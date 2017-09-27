@@ -44,7 +44,7 @@ namespace Wms12m.Entity
         public int TechnoIKOnay_USGMY { get; set; }
         public int TechnoIKOnay_MIGMY { get; set; }
         public int TechnoIKOnay_YKU { get; set; }
-        
+
         public decimal MevcudBanka { get; set; }
         public decimal MevcudCek { get; set; }
         public decimal MevcudKasa { get; set; }
@@ -262,20 +262,6 @@ namespace Wms12m.Entity
         public string Birim2 { get; set; }
         public Nullable<decimal> StokMiktarBirim3 { get; set; }
         public string Birim3 { get; set; }
-    }
-    public class RaporToplamRiskBakiyesi1
-    {
-        private string _HesapKodu;
-
-        private string _Ünvan;
-
-        private decimal _Borç;
-
-        private decimal _Alacak;
-
-        private decimal _Bakiye;
-
-        private System.Nullable<decimal> _ToplamBakiye;
     }
     public class RaporToplamRiskBakiyesi
     {

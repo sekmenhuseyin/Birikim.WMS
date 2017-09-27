@@ -81,7 +81,7 @@ namespace Wms12m
                     row.Tutar = (decimal)item.DovizTutar;
                 row.Birim = item.Birim.ToString();
 
-                row.Vade = item.Vade != null ? (short)item.Vade : (short)0;
+                row.Vade = item.Vade;// != null ? (short)item.Vade : (short)0;
                 row.TeslimYeri = item.TeslimYeri != null ? item.TeslimYeri.ToString() : "";
 
                 row.FTDMalBedeli = ftdMalBedeli;

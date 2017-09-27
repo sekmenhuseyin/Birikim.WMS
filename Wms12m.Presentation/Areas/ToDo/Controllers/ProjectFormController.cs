@@ -45,7 +45,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         /// kaydet
         /// </summary>
         [HttpPost, ValidateAntiForgeryToken]
-        public JsonResult Save([Bind(Include = "ID,MusteriID,Proje,Form,Sorumlu,KarsiSorumlu,Aciklama,MesaiKontrol,MesaiKota,PID,Durum,Kaydeden,KayitTarih,Degistiren,DegisTarih")] ProjeForm projeForm)
+        public JsonResult Save(ProjeForm projeForm)
         {
             if (ModelState.IsValid)
             {
@@ -56,25 +56,19 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                     projeForm.DegisTarih = DateTime.Now;
                     projeForm.KayitTarih = projeForm.DegisTarih;
                     projeForm.Form = "";
-                    projeForm.Durum = null;
                     db.ProjeForms.Add(projeForm);
                 }
                 else
                 {
                     var tbl = db.ProjeForms.Where(m => m.ID == projeForm.ID).FirstOrDefault();
-                    tbl.Aciklama = projeForm.Aciklama;//
-                    tbl.Durum = projeForm.Durum;//
-                    tbl.Form = projeForm.Form;//
-                    tbl.KarsiSorumlu = projeForm.KarsiSorumlu;//
-                    tbl.MesaiKontrol = projeForm.MesaiKontrol;//
-                    tbl.MesaiKota = projeForm.MesaiKota;//
-
-                    tbl.Proje = projeForm.Proje;//
-                    tbl.Sorumlu = projeForm.Sorumlu;//
+                    tbl.Aciklama = projeForm.Aciklama;
+                    tbl.Form = projeForm.Form;
+                    tbl.KarsiSorumlu = projeForm.KarsiSorumlu;
+                    tbl.MesaiKontrol = projeForm.MesaiKontrol;
+                    tbl.MesaiKota = projeForm.MesaiKota;
+                    tbl.Proje = projeForm.Proje;
+                    tbl.Sorumlu = projeForm.Sorumlu;
                     tbl.Form = "";
-                    tbl.Durum = null;
-
-
                 }
                 try
                 {
@@ -85,11 +79,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                 {
                 }
             }
-            ViewBag.MusteriID = new SelectList(db.Musteris, "ID", "Firma", projeForm.MusteriID);
-            ViewBag.PID = new SelectList(db.ProjeForms, "ID", "Proje", projeForm.PID);
             return Json(new Result(false, "Hata oldu"), JsonRequestBehavior.AllowGet);
-
-
         }
         /// <summary>
         /// sil
@@ -149,7 +139,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         /// form kaydeder
         /// </summary>
         [HttpPost, ValidateAntiForgeryToken]
-        public JsonResult FormSave([Bind(Include = "ID,MusteriID,Proje,Form,PID,Durum,Kaydeden,KayitTarih,Degistiren,DegisTarih")] ProjeForm projeForm)
+        public JsonResult FormSave(ProjeForm projeForm)
         {
             if (ModelState.IsValid)
             {
@@ -159,7 +149,6 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                     projeForm.Kaydeden = vUser.UserName;
                     projeForm.DegisTarih = DateTime.Now;
                     projeForm.KayitTarih = projeForm.DegisTarih;
-                    projeForm.Durum = null;
                     db.ProjeForms.Add(projeForm);
                 }
                 else
