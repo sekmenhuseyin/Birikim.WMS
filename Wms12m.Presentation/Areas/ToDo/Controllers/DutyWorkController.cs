@@ -69,7 +69,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         /// <param name="gorevCalisma"></param>
         /// <returns></returns>
         [HttpPost, ValidateAntiForgeryToken]
-        public JsonResult Save([Bind(Include = "ID,GorevID,Tarih,CalismaSure,Calisma,Kaydeden,KayitTarih,Degistiren,DegisTarih,work,checkitem,todo")] GorevCalisma gorevCalisma)
+        public JsonResult Save([Bind(Include = "ID,GorevID,Tarih,CalismaSure,Calisma,Kaydeden,KayitTarih,Degistiren,DegisTarih")] GorevCalisma gorevCalisma, string[] work, string[] checkitem, string[] todo)
         {
             var sayac = 0;
             if (ModelState.IsValid)
@@ -82,22 +82,22 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                         kontOnay = true;
                     gorevCalisma.ToDoListID = "";
                     var grv = db.Gorevlers.Where(a => a.ID == gorevCalisma.GorevID).FirstOrDefault();
-                    for (int i = 0; i < gorevCalisma.work.Length; i++)
+                    for (int i = 0; i < work.Length; i++)
                     {
-                        if (gorevCalisma.checkitem[i] == "true")
+                        if (checkitem[i] == "true")
                         {
-                            gorevCalisma.ToDoListID += gorevCalisma.todo[i] + ",";
-                            var idd = gorevCalisma.todo[i];
-                            var grvtodo = db.GorevToDoLists.Where(m => m.ID == idd).FirstOrDefault();
+                            gorevCalisma.ToDoListID += todo[i] + ",";
+                            var idx = todo[i].ToInt32();
+                            var grvtodo = db.GorevToDoLists.Where(m => m.ID == idx).FirstOrDefault();
                             grvtodo.OnayDurum = true;
                             grvtodo.Kontrol = true;
                             grvtodo.KontrolOnay = kontOnay;
                             grv.Kontrol = true;
                         }
                     }
-                    for (int i = 0; i < gorevCalisma.checkitem.Length; i++)
+                    for (int i = 0; i < checkitem.Length; i++)
                     {
-                        if (gorevCalisma.checkitem[i] == "false")
+                        if (checkitem[i] == "false")
                         {
                             sayac++;
                         }
@@ -129,20 +129,20 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                     tbl.CalismaSure = gorevCalisma.CalismaSure;//
                     tbl.Calisma = gorevCalisma.Calisma;//
                     tbl.ToDoListID = "";
-                    for (int i = 0; i < gorevCalisma.work.Length; i++)
+                    for (int i = 0; i < work.Length; i++)
                     {
-                        if (Convert.ToBoolean(gorevCalisma.checkitem[i]) == true)
+                        if (Convert.ToBoolean(checkitem[i]) == true)
                         {
-                            tbl.ToDoListID += gorevCalisma.todo[i] + ",";
+                            tbl.ToDoListID += todo[i] + ",";
                         }
-                        var id2 = Convert.ToInt32(gorevCalisma.todo[i]);
+                        var id2 = Convert.ToInt32(todo[i]);
                         var grv = db.GorevToDoLists.Where(m => m.ID == id2).FirstOrDefault();
-                        if (grv.OnayDurum != Convert.ToBoolean(gorevCalisma.checkitem[i]) && grv.AktifPasif != false)
+                        if (grv.OnayDurum != Convert.ToBoolean(checkitem[i]) && grv.AktifPasif != false)
                         {
                             var gr = db.Gorevlers.Where(a => a.ID == grv.GorevID).FirstOrDefault();
                             grv.DegisTarih = DateTime.Now;
                             grv.Degistiren = vUser.UserName;
-                            grv.OnayDurum = Convert.ToBoolean(gorevCalisma.checkitem[i]);
+                            grv.OnayDurum = Convert.ToBoolean(checkitem[i]);
 
                             if (grv.OnayDurum == true)
                             {
