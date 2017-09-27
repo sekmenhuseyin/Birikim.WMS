@@ -142,22 +142,23 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                     }
                     db.Gorevlers.Add(gorevler);
                     //todo lists
-                    foreach (var item in work)
-                    {
-                        GorevToDoList grvTDL = new GorevToDoList
+                    if (work != null)
+                        foreach (var item in work)
                         {
-                            Aciklama = item,
-                            AktifPasif = true,
-                            DegisTarih = DateTime.Now,
-                            Degistiren = vUser.UserName,
-                            KayitTarih = DateTime.Now,
-                            Kaydeden = vUser.UserName,
-                            Gorevler = gorevler,
-                            OnayDurum = kontDur,
-                            Kontrol = kontDur
-                        };
-                        if (grvTDL.Aciklama.Trim() != "") db.GorevToDoLists.Add(grvTDL);
-                    }
+                            GorevToDoList grvTDL = new GorevToDoList
+                            {
+                                Aciklama = item,
+                                AktifPasif = true,
+                                DegisTarih = DateTime.Now,
+                                Degistiren = vUser.UserName,
+                                KayitTarih = DateTime.Now,
+                                Kaydeden = vUser.UserName,
+                                Gorevler = gorevler,
+                                OnayDurum = kontDur,
+                                Kontrol = kontDur
+                            };
+                            if (grvTDL.Aciklama.Trim() != "") db.GorevToDoLists.Add(grvTDL);
+                        }
                 }
                 else
                 {

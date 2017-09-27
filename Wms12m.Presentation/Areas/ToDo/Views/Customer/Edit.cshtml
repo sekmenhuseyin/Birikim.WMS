@@ -37,7 +37,7 @@
                     <div class="form-group row">
                         @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-3" })
                         <div class="col-md-4">
-                            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control input-circle", required = "required", @type = "email", @maxlength = "100" } })
+                            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control input-circle", @type = "email", @maxlength = "80" } })
                             @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
                         </div>
                     </div>
