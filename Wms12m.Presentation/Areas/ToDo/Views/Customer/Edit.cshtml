@@ -37,7 +37,7 @@
                     <div class="form-group row">
                         @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-3" })
                         <div class="col-md-4">
-                            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control input-circle", required = "required", @type = "email", @maxlength = "100" } })
+                            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control input-circle", @type = "email", @maxlength = "80" } })
                             @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -69,16 +69,17 @@
 <script type="text/javascript">
     $("#MesaiKontrol").bootstrapSwitch();
     $(document).ready(function () {
+        @if (Model.MesaiKontrol == true) { <text>$('#MesaiKota').prop("readonly", false); $('#MesaiKota').prop("required", true);</text> }
         $('#MesaiKontrol').on('switchChange.bootstrapSwitch', function (e, data) {
             var state = $(this).bootstrapSwitch('state');//returns true or false
-
             if (state) {
-                $('#MesaiKota').prop("readonly", false)
-                $('#MesaiKota').prop("required", true)
+                $('#MesaiKota').prop("readonly", false);
+                $('#MesaiKota').prop("required", true);
             }
             else {
-                $('#MesaiKota').prop("readonly", true)
-                $('#MesaiKota').removeAttr("required")
+                $('#MesaiKota').prop("readonly", true);
+                $('#MesaiKota').val("");
+                $('#MesaiKota').removeAttr("required");
             }
         });
     });

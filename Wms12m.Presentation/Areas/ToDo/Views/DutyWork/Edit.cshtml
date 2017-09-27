@@ -27,7 +27,7 @@
                         <div class="form-group">
                             @Html.LabelFor(model => model.Tarih, htmlAttributes: new { @class = "control-label col-md-1" })
                             <div class="col-md-10">
-                                @Html.EditorFor(model => model.Tarih, new { @Value = Model.Tarih.ToString("dd.MM.yyyy"), id = "Tarih", @class = "form-control input-circle date-picker", required = "required" })
+                                @Html.TextBoxFor(model => model.Tarih, new { @Value = Model.Tarih.ToString("dd.MM.yyyy"), id = "Tarih", @class = "form-control input-circle date-picker", required = "required" })
                                 @Html.ValidationMessageFor(model => model.Tarih, "", new { @class = "text-danger" })
                             </div>
                         </div>

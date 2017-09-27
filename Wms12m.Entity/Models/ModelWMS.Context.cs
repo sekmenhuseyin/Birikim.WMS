@@ -57,9 +57,10 @@ namespace Wms12m.Entity.Models
         public virtual DbSet<UserDetail> UserDetails { get; set; }
         public virtual DbSet<Yer> Yers { get; set; }
         public virtual DbSet<Setting> Settings { get; set; }
-        public virtual DbSet<GorevCalisma> GorevCalismas { get; set; }
         public virtual DbSet<Gorevler> Gorevlers { get; set; }
-        public virtual DbSet<GorevToDoList> GorevToDoLists { get; set; }
+        public virtual DbSet<GorevlerCalisma> GorevlerCalismas { get; set; }
+        public virtual DbSet<GorevlerCalismaToDoList> GorevlerCalismaToDoLists { get; set; }
+        public virtual DbSet<GorevlerToDoList> GorevlerToDoLists { get; set; }
         public virtual DbSet<Musteri> Musteris { get; set; }
         public virtual DbSet<ProjeForm> ProjeForms { get; set; }
     

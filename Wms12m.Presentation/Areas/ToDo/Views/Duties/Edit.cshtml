@@ -60,10 +60,10 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            @Html.LabelFor(model => model.KaliteKontrol, "Kontrol Eden", htmlAttributes: new { @class = "control-label col-md-2" })
+                            @Html.LabelFor(model => model.KontrolSorumlusu, "Kontrol Sorumlusu", htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-10">
-                                @Html.DropDownList("KaliteKontrol", null, htmlAttributes: new { @class = "form-control input-circle satirekle" })
-                                @Html.ValidationMessageFor(model => model.KaliteKontrol, "", new { @class = "text-danger" })
+                                @Html.DropDownList("KontrolSorumlusu", null, htmlAttributes: new { @class = "form-control input-circle satirekle" })
+                                @Html.ValidationMessageFor(model => model.KontrolSorumlusu, "", new { @class = "text-danger" })
                             </div>
                         </div>
                         <div class="form-group">
@@ -128,32 +128,30 @@
         $(".satirekle").prepend("<option value=''>Seçiniz !!!</option>");
         @if (Model.Sorumlu2 == null || Model.Sorumlu2 == "") { <text>$(".satirekle")[1].selectedIndex = 0;</text> }
         @if (Model.Sorumlu3 == null || Model.Sorumlu3 == "") { <text>$(".satirekle")[2].selectedIndex = 0;</text> }
-        @if (Model.KaliteKontrol == null || Model.KaliteKontrol == "") { <text>$(".satirekle")[3].selectedIndex = 0;</text> }
+        @if (Model.KontrolSorumlusu == null || Model.KontrolSorumlusu == "") { <text>$(".satirekle")[3].selectedIndex = 0;</text> }
         $('.date-picker').datepicker();
         });
-    var model = @Html.Raw(Json.Encode(Model.GorevToDoLists.Select(m=> new frmGorevTodos { ID=m.ID, Aciklama=m.Aciklama, AktifPasif=m.AktifPasif }).ToList()));
+    var model = @Html.Raw(Json.Encode(Model.GorevlerToDoLists.Select(m=> new frmGorevTodos { ID=m.ID, Aciklama=m.Aciklama }).ToList()));
     $.each(model, function (index, value) {
-        if (value.AktifPasif == true) {
-            var index = sayac++;
-            $(".last-work").removeClass("fa fa-plus-circle");
-            $(".insert-work-icon i").removeClass("last-work");
-            $(".delete-icn").css("display", "initial");
-            var newElement = $("<div>").addClass("form-group todo-content");
-            newElement.append("<div class='todo-text todo-id" + index + "' style='display:none'></div> <div class='control-label col-md-2'><span class='work-index'>" + index + "</span > <span>-</span></div><div class='col-md-9'><div class='txt-aciklama work-" + index + "'></div></div><div class='insert-work-icon col-md-1'><i class='fa fa-minus-circle delete-icn' style='display:none' onclick='DeleteElement(this," + value.ID + ")' style='margin- left:5px;'></i><i class='fa fa-plus-circle last-work' onclick='NewElement()' style='margin-left:5px;'></i></div>");
-            newElement.addClass("index" + index);
+        var index = sayac++;
+        $(".last-work").removeClass("fa fa-plus-circle");
+        $(".insert-work-icon i").removeClass("last-work");
+        $(".delete-icn").css("display", "initial");
+        var newElement = $("<div>").addClass("form-group todo-content");
+        newElement.append("<div class='todo-text todo-id" + index + "' style='display:none'></div> <div class='control-label col-md-2'><span class='work-index'>" + index + "</span > <span>-</span></div><div class='col-md-9'><div class='txt-aciklama work-" + index + "'></div></div><div class='insert-work-icon col-md-1'><i class='fa fa-minus-circle delete-icn' style='display:none' onclick='DeleteElement(this," + value.ID + ")' style='margin- left:5px;'></i><i class='fa fa-plus-circle last-work' onclick='NewElement()' style='margin-left:5px;'></i></div>");
+        newElement.addClass("index" + index);
 
 
-            if (index == 1) {
-                newElement.insertAfter(".pointer");
-            }
-            else {
-                newElement.insertAfter(".todo-content:last");
-            }
-            $(".work-" + index).dxTextArea();
-            $(".work-" + index).dxTextArea("instance").option({ name: "work", value: value.Aciklama, maxHeight: 80 });
-            $(".todo-id" + index).dxTextBox();
-            $(".todo-id" + index).dxTextBox("instance").option({ name: "todo", value: value.ID });
+        if (index == 1) {
+            newElement.insertAfter(".pointer");
         }
+        else {
+            newElement.insertAfter(".todo-content:last");
+        }
+        $(".work-" + index).dxTextArea();
+        $(".work-" + index).dxTextArea("instance").option({ name: "work", value: value.Aciklama, maxHeight: 80 });
+        $(".todo-id" + index).dxTextBox();
+        $(".todo-id" + index).dxTextBox("instance").option({ name: "todo", value: value.ID });
     });
     function ClearControl() {
         $("#ddSorumlu").val("");
