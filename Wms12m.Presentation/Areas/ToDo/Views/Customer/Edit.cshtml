@@ -69,16 +69,17 @@
 <script type="text/javascript">
     $("#MesaiKontrol").bootstrapSwitch();
     $(document).ready(function () {
+        @if (Model.MesaiKontrol == true) { <text>$('#MesaiKota').prop("readonly", false); $('#MesaiKota').prop("required", true);</text> }
         $('#MesaiKontrol').on('switchChange.bootstrapSwitch', function (e, data) {
             var state = $(this).bootstrapSwitch('state');//returns true or false
-
             if (state) {
-                $('#MesaiKota').prop("readonly", false)
-                $('#MesaiKota').prop("required", true)
+                $('#MesaiKota').prop("readonly", false);
+                $('#MesaiKota').prop("required", true);
             }
             else {
-                $('#MesaiKota').prop("readonly", true)
-                $('#MesaiKota').removeAttr("required")
+                $('#MesaiKota').prop("readonly", true);
+                $('#MesaiKota').val("");
+                $('#MesaiKota').removeAttr("required");
             }
         });
     });

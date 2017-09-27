@@ -116,6 +116,7 @@
             $("#Aciklama").val("");
             $("#Email").val("");
             $("#MesaiKota").val("");
+            $("#MesaiKontrol").bootstrapSwitch('state', false);
             $("#CreateEdit .caption").text("Müşteri Ekle");
             $("#CreateEdit [type='submit']").text("Ekle");
             PartialView("/ToDo/Customer/List", 'liste');
