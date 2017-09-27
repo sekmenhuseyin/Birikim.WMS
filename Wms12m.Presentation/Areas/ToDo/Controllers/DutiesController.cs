@@ -19,6 +19,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         public ActionResult Index()
         {
             ViewBag.Yetki = vUser.RoleName;
+            ViewBag.DurumID = new SelectList(ComboSub.GetList(Combos.GörevYönetimDurumları.ToInt32()), "ID", "Name");
             return View();
         }
         /// <summary>
@@ -26,13 +27,11 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         /// </summary>
         public PartialViewResult New()
         {
-            ViewBag.DurumID = new SelectList(ComboSub.GetList(Combos.GörevYönetimDurumları.ToInt32()), "ID", "Name");
-            ViewBag.OncelikID = new SelectList(ComboSub.GetList(Combos.Öncelik.ToInt32()), "ID", "Name");
             ViewBag.GorevTipiID = new SelectList(ComboSub.GetList(Combos.GörevYönetimTipleri.ToInt32()), "ID", "Name", "");
             ViewBag.DepartmanID = new SelectList(ComboSub.GetList(Combos.Departman.ToInt32()), "ID", "Name", "");
             ViewBag.MusteriID = new SelectList(db.Musteris.OrderBy(m => m.Unvan).ToList(), "ID", "Unvan");
             ViewBag.Sorumlu = new SelectList(Persons.GetList(), "Kod", "AdSoyad");
-            ViewBag.KaliteKontrol = new SelectList(Persons.GetList("Destek"), "Kod", "AdSoyad");
+            ViewBag.KontrolSorumlusu = new SelectList(Persons.GetList("Destek"), "Kod", "AdSoyad");
             ViewBag.Sorumlu2 = ViewBag.Sorumlu;
             ViewBag.Sorumlu3 = ViewBag.Sorumlu;
             return PartialView(new Gorevler());
@@ -49,30 +48,18 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         /// <summary>
         /// liste
         /// </summary>
-        public PartialViewResult List(string Tip)
+        public PartialViewResult List(int Tip)
         {
-            var tip = Tip == "Aktif" || Tip == "Onay" ? true : false;
-            var durum = ComboItems.gydOnayVer.ToInt32();
-            var gorevTipleri = ComboItems.gytKaliteKontrol.ToInt32();
             var list = new List<Gorevler>();
-            if ((vUser.RoleName == "Admin" || vUser.RoleName == " ") && Tip == "Onay")
+            if (vUser.RoleName == "Admin" || vUser.RoleName == " ")
             {
-                list = db.Gorevlers.Where(a => a.DurumID == durum).OrderBy(a => a.OncelikID).ToList();
-            }
-            else if (vUser.RoleName == "Admin" || vUser.RoleName == " ")
-            {
-                list = db.Gorevlers.Where(a => a.DurumID != durum).OrderBy(a => a.OncelikID).ToList();
-            }
-            else if (Tip == "Onay")
-            {
-                list = db.Gorevlers.Where(a => a.DurumID == durum && (((a.Sorumlu == vUser.UserName || a.Sorumlu2 == vUser.UserName || a.Sorumlu3 == vUser.UserName || a.Kaydeden == vUser.UserName) && a.GorevTipiID != gorevTipleri) || (a.KontrolSorumlusu == vUser.UserName && (a.GorevTipiID == gorevTipleri || a.GorevlerToDoLists.Select(c => c.Onay == true && c.KontrolOnay == false).Count() > 0)))).OrderBy(a => a.OncelikID).ToList();
+                list = db.Gorevlers.Where(a => a.DurumID == Tip).OrderBy(a => a.OncelikID).ToList();
             }
             else
             {
-                list = db.Gorevlers.Where(a => (((a.Sorumlu == vUser.UserName || a.Sorumlu2 == vUser.UserName || a.Sorumlu3 == vUser.UserName || a.Kaydeden == vUser.UserName) && a.GorevTipiID != gorevTipleri) || (a.KontrolSorumlusu == vUser.UserName && (a.GorevTipiID == gorevTipleri || a.GorevlerToDoLists.Select(c => c.Onay == true && c.KontrolOnay == false).Count() > 0)))).OrderBy(a => a.OncelikID).ToList();
+                list = db.Gorevlers.Where(a => a.DurumID == Tip && (a.Sorumlu == vUser.UserName || a.Sorumlu2 == vUser.UserName || a.Sorumlu3 == vUser.UserName || a.KontrolSorumlusu == vUser.UserName || a.Kaydeden == vUser.UserName)).OrderBy(a => a.OncelikID).ToList();
             }
             ViewBag.RoleName = vUser.RoleName;
-            ViewBag.Tip = Tip;
             return PartialView(list);
         }
         /// <summary>
@@ -84,14 +71,12 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             ViewBag.MusteriID = new SelectList(db.Musteris.OrderBy(m => m.Unvan).ToList(), "ID", "Unvan", tbl.ProjeForm.MusteriID);
             ViewBag.Proje = new SelectList(db.ProjeForms.Where(m => m.MusteriID == tbl.ProjeForm.MusteriID && m.PID == null).ToList(), "ID", "Proje", tbl.ProjeForm.PID);
             ViewBag.ProjeFormID = new SelectList(db.ProjeForms.Where(m => m.PID == tbl.ProjeForm.PID).ToList(), "ID", "Form", tbl.ProjeForm.ID);
-            ViewBag.DurumID = new SelectList(ComboSub.GetList(Combos.GörevYönetimDurumları.ToInt32()), "ID", "Name", tbl.DurumID);
-            ViewBag.OncelikID = new SelectList(ComboSub.GetList(Combos.Öncelik.ToInt32()), "ID", "Name", tbl.OncelikID);
             ViewBag.GorevTipiID = new SelectList(ComboSub.GetList(Combos.GörevYönetimTipleri.ToInt32()), "ID", "Name", tbl.GorevTipiID);
             ViewBag.DepartmanID = new SelectList(ComboSub.GetList(Combos.Departman.ToInt32()), "ID", "Name", tbl.DepartmanID);
             ViewBag.Sorumlu = new SelectList(Persons.GetList(), "Kod", "AdSoyad", tbl.Sorumlu);
             ViewBag.Sorumlu2 = new SelectList(Persons.GetList(), "Kod", "AdSoyad", tbl.Sorumlu2);
             ViewBag.Sorumlu3 = new SelectList(Persons.GetList(), "Kod", "AdSoyad", tbl.Sorumlu3);
-            ViewBag.KaliteKontrol = new SelectList(Persons.GetList("Destek"), "Kod", "AdSoyad", tbl.KontrolSorumlusu);
+            ViewBag.KontrolSorumlusu = new SelectList(Persons.GetList("Destek"), "Kod", "AdSoyad", tbl.KontrolSorumlusu);
             return PartialView("Edit", tbl);
         }
         /// <summary>
@@ -105,7 +90,6 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                 if (gorevler.ID == 0)
                 {
                     var maxSira = db.Database.SqlQuery<int>("SELECT ISNULL(MAX(OncelikID), 0) AS Expr1 FROM ong.Gorevler").FirstOrDefault();
-                    gorevler.KontrolSorumlusu = gorevler.KontrolSorumlusu ?? "";
                     gorevler.Aciklama = gorevler.Aciklama ?? "";
                     gorevler.Degistiren = vUser.UserName;
                     gorevler.Kaydeden = vUser.UserName;
@@ -113,21 +97,12 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                     gorevler.KayitTarih = gorevler.DegisTarih;
                     gorevler.BitisTarih = null;
                     gorevler.OncelikID = maxSira + 1;
-                    if ((gorevler.GorevTipiID == ComboItems.gytBilgiTalebi.ToInt32() || gorevler.GorevTipiID == ComboItems.gytGeliştirme.ToInt32()) && vUser.RoleName != "Admin" && vUser.RoleName != " ")
-                    {
-                        gorevler.DurumID = ComboItems.gydOnayVer.ToInt32();
-                    }
-                    else if (gorevler.GorevTipiID == ComboItems.gytKaliteKontrol.ToInt32())
-                    {
-                        if (vUser.RoleName == "Admin" || vUser.RoleName == " ")
-                            gorevler.DurumID = ComboItems.gydAtandı.ToInt32();
-                        else
-                            gorevler.DurumID = ComboItems.gydOnayVer.ToInt32();
-                    }
-                    else
-                    {
+                    if (vUser.RoleName == "Admin" || vUser.RoleName == " ")
                         gorevler.DurumID = ComboItems.gydAtandı.ToInt32();
-                    }
+                    else if (gorevler.GorevTipiID == ComboItems.gytBilgiTalebi.ToInt32() || gorevler.GorevTipiID == ComboItems.gytGeliştirme.ToInt32() || gorevler.GorevTipiID == ComboItems.gytKaliteKontrol.ToInt32())
+                        gorevler.DurumID = ComboItems.gydOnayVer.ToInt32();
+                    else
+                        gorevler.DurumID = ComboItems.gydAtandı.ToInt32();
                     db.Gorevlers.Add(gorevler);
                     //todo lists
                     if (work != null)
@@ -156,7 +131,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                     tbl.Sorumlu = gorevler.Sorumlu;
                     tbl.Sorumlu2 = gorevler.Sorumlu2;
                     tbl.Sorumlu3 = gorevler.Sorumlu3;
-                    tbl.KontrolSorumlusu = gorevler.KontrolSorumlusu ?? "";
+                    tbl.KontrolSorumlusu = gorevler.KontrolSorumlusu;
                     tbl.Gorev = gorevler.Gorev;
                     tbl.Aciklama = gorevler.Aciklama ?? "";
                     tbl.GorevTipiID = gorevler.GorevTipiID;
