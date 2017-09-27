@@ -31,7 +31,6 @@ namespace Wms12m.Entity.Models
         public bool MesaiKontrol { get; set; }
         public Nullable<int> MesaiKota { get; set; }
         public Nullable<int> PID { get; set; }
-        public Nullable<short> Durum { get; set; }
         public string Kaydeden { get; set; }
         public System.DateTime KayitTarih { get; set; }
         public string Degistiren { get; set; }

@@ -91,21 +91,6 @@
           <Property Name="MenuID" Type="smallint" Nullable="false" />
           <Property Name="RoleName" Type="varchar" MaxLength="20" Nullable="false" />
         </EntityType>
-        <EntityType Name="GorevCalisma">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="GorevID" Type="int" Nullable="false" />
-          <Property Name="Tarih" Type="smalldatetime" Nullable="false" />
-          <Property Name="CalismaSure" Type="int" Nullable="false" />
-          <Property Name="Calisma" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="ToDoListID" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="Kaydeden" Type="varchar" MaxLength="5" Nullable="false" />
-          <Property Name="KayitTarih" Type="smalldatetime" Nullable="false" />
-          <Property Name="Degistiren" Type="varchar" MaxLength="5" Nullable="false" />
-          <Property Name="DegisTarih" Type="smalldatetime" Nullable="false" />
-        </EntityType>
         <EntityType Name="Gorevler">
           <Key>
             <PropertyRef Name="ID" />
@@ -115,8 +100,8 @@
           <Property Name="Sorumlu" Type="varchar" MaxLength="5" Nullable="false" />
           <Property Name="Sorumlu2" Type="varchar" MaxLength="5" />
           <Property Name="Sorumlu3" Type="varchar" MaxLength="5" />
-          <Property Name="KaliteKontrol" Type="varchar" MaxLength="5" Nullable="false" />
-          <Property Name="Gorev" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="KontrolSorumlusu" Type="varchar" MaxLength="5" />
+          <Property Name="Gorev" Type="nvarchar" MaxLength="250" Nullable="false" />
           <Property Name="Aciklama" Type="nvarchar(max)" Nullable="false" />
           <Property Name="OncelikID" Type="int" Nullable="false" />
           <Property Name="DurumID" Type="int" Nullable="false" />
@@ -124,30 +109,48 @@
           <Property Name="DepartmanID" Type="int" />
           <Property Name="TahminiBitis" Type="smalldatetime" />
           <Property Name="BitisTarih" Type="smalldatetime" />
-          <Property Name="IslemTip" Type="smallint" />
-          <Property Name="IslemSira" Type="int" />
+          <Property Name="Onay" Type="bit" Nullable="false" />
+          <Property Name="KontrolOnay" Type="bit" Nullable="false" />
           <Property Name="Kaydeden" Type="varchar" MaxLength="5" Nullable="false" />
           <Property Name="KayitTarih" Type="smalldatetime" Nullable="false" />
           <Property Name="Degistiren" Type="varchar" MaxLength="5" Nullable="false" />
           <Property Name="DegisTarih" Type="smalldatetime" Nullable="false" />
-          <Property Name="Kontrol" Type="bit" Nullable="false" />
-          <Property Name="AktifPasif" Type="bit" Nullable="false" />
         </EntityType>
-        <EntityType Name="GorevToDoList">
+        <EntityType Name="GorevlerCalisma">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="GorevID" Type="int" Nullable="false" />
-          <Property Name="Aciklama" Type="varchar(max)" Nullable="false" />
-          <Property Name="AktifPasif" Type="bit" Nullable="false" />
-          <Property Name="OnayDurum" Type="bit" Nullable="false" />
+          <Property Name="Tarih" Type="smalldatetime" Nullable="false" />
+          <Property Name="Sure" Type="int" Nullable="false" />
+          <Property Name="Calisma" Type="nvarchar(max)" Nullable="false" />
           <Property Name="Kaydeden" Type="varchar" MaxLength="5" Nullable="false" />
           <Property Name="KayitTarih" Type="smalldatetime" Nullable="false" />
           <Property Name="Degistiren" Type="varchar" MaxLength="5" Nullable="false" />
           <Property Name="DegisTarih" Type="smalldatetime" Nullable="false" />
-          <Property Name="Kontrol" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="GorevlerCalismaToDoList">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="GorevlerCalismaID" Type="int" Nullable="false" />
+          <Property Name="Aciklama" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="GorevlerToDoList">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="GorevID" Type="int" Nullable="false" />
+          <Property Name="Aciklama" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Onay" Type="bit" Nullable="false" />
           <Property Name="KontrolOnay" Type="bit" Nullable="false" />
+          <Property Name="Kaydeden" Type="varchar" MaxLength="5" Nullable="false" />
+          <Property Name="KayitTarih" Type="smalldatetime" Nullable="false" />
+          <Property Name="Degistiren" Type="varchar" MaxLength="5" Nullable="false" />
+          <Property Name="DegisTarih" Type="smalldatetime" Nullable="false" />
         </EntityType>
         <EntityType Name="Musteri">
           <Key>
@@ -181,7 +184,6 @@
           <Property Name="MesaiKontrol" Type="bit" Nullable="false" />
           <Property Name="MesaiKota" Type="int" />
           <Property Name="PID" Type="int" />
-          <Property Name="Durum" Type="smallint" />
           <Property Name="Kaydeden" Type="varchar" MaxLength="5" Nullable="false" />
           <Property Name="KayitTarih" Type="smalldatetime" Nullable="false" />
           <Property Name="Degistiren" Type="varchar" MaxLength="5" Nullable="false" />
@@ -660,18 +662,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_GorevCalisma_Gorevler">
-          <End Role="Gorevler" Type="Self.Gorevler" Multiplicity="1" />
-          <End Role="GorevCalisma" Type="Self.GorevCalisma" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Gorevler">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="GorevCalisma">
-              <PropertyRef Name="GorevID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_GorevIRS_Gorev">
           <End Role="Gorev" Type="Self.Gorev" Multiplicity="1" />
           <End Role="GorevIRS" Type="Self.GorevIRS" Multiplicity="*" />
@@ -756,6 +746,42 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_GorevlerCalisma_Gorevler">
+          <End Role="Gorevler" Type="Self.Gorevler" Multiplicity="1" />
+          <End Role="GorevlerCalisma" Type="Self.GorevlerCalisma" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Gorevler">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="GorevlerCalisma">
+              <PropertyRef Name="GorevID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GorevlerCalismaToDoList_GorevlerCalisma">
+          <End Role="GorevlerCalisma" Type="Self.GorevlerCalisma" Multiplicity="1" />
+          <End Role="GorevlerCalismaToDoList" Type="Self.GorevlerCalismaToDoList" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GorevlerCalisma">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="GorevlerCalismaToDoList">
+              <PropertyRef Name="GorevlerCalismaID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GorevlerToDoList_Gorevler">
+          <End Role="Gorevler" Type="Self.Gorevler" Multiplicity="1" />
+          <End Role="GorevlerToDoList" Type="Self.GorevlerToDoList" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Gorevler">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="GorevlerToDoList">
+              <PropertyRef Name="GorevID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_GorevListesi_IRS">
           <End Role="IRS" Type="Self.IRS" Multiplicity="0..1" />
           <End Role="Gorev" Type="Self.Gorev" Multiplicity="*" />
@@ -813,18 +839,6 @@
             </Principal>
             <Dependent Role="GorevPaketNo">
               <PropertyRef Name="DepoID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_GorevToDoList_Gorevler">
-          <End Role="Gorevler" Type="Self.Gorevler" Multiplicity="1" />
-          <End Role="GorevToDoList" Type="Self.GorevToDoList" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Gorevler">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="GorevToDoList">
-              <PropertyRef Name="GorevID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1450,9 +1464,10 @@
           <EntitySet Name="Simge" EntityType="Self.Simge" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="WebMenu" EntityType="Self.WebMenu" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="WebMenuRol" EntityType="Self.WebMenuRol" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="GorevCalisma" EntityType="Self.GorevCalisma" Schema="ong" store:Type="Tables" />
           <EntitySet Name="Gorevler" EntityType="Self.Gorevler" Schema="ong" store:Type="Tables" />
-          <EntitySet Name="GorevToDoList" EntityType="Self.GorevToDoList" Schema="ong" store:Type="Tables" />
+          <EntitySet Name="GorevlerCalisma" EntityType="Self.GorevlerCalisma" Schema="ong" store:Type="Tables" />
+          <EntitySet Name="GorevlerCalismaToDoList" EntityType="Self.GorevlerCalismaToDoList" Schema="ong" store:Type="Tables" />
+          <EntitySet Name="GorevlerToDoList" EntityType="Self.GorevlerToDoList" Schema="ong" store:Type="Tables" />
           <EntitySet Name="Musteri" EntityType="Self.Musteri" Schema="ong" store:Type="Tables" />
           <EntitySet Name="ProjeForm" EntityType="Self.ProjeForm" Schema="ong" store:Type="Tables" />
           <EntitySet Name="Perm" EntityType="Self.Perm" Schema="usr" store:Type="Tables" />
@@ -1509,10 +1524,6 @@
             <End Role="Depo" EntitySet="Depo" />
             <End Role="Gorev" EntitySet="Gorev" />
           </AssociationSet>
-          <AssociationSet Name="FK_GorevCalisma_Gorevler" Association="Self.FK_GorevCalisma_Gorevler">
-            <End Role="Gorevler" EntitySet="Gorevler" />
-            <End Role="GorevCalisma" EntitySet="GorevCalisma" />
-          </AssociationSet>
           <AssociationSet Name="FK_GorevIRS_Gorev" Association="Self.FK_GorevIRS_Gorev">
             <End Role="Gorev" EntitySet="Gorev" />
             <End Role="GorevIRS" EntitySet="GorevIRS" />
@@ -1541,6 +1552,18 @@
             <End Role="ProjeForm" EntitySet="ProjeForm" />
             <End Role="Gorevler" EntitySet="Gorevler" />
           </AssociationSet>
+          <AssociationSet Name="FK_GorevlerCalisma_Gorevler" Association="Self.FK_GorevlerCalisma_Gorevler">
+            <End Role="Gorevler" EntitySet="Gorevler" />
+            <End Role="GorevlerCalisma" EntitySet="GorevlerCalisma" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GorevlerCalismaToDoList_GorevlerCalisma" Association="Self.FK_GorevlerCalismaToDoList_GorevlerCalisma">
+            <End Role="GorevlerCalisma" EntitySet="GorevlerCalisma" />
+            <End Role="GorevlerCalismaToDoList" EntitySet="GorevlerCalismaToDoList" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GorevlerToDoList_Gorevler" Association="Self.FK_GorevlerToDoList_Gorevler">
+            <End Role="Gorevler" EntitySet="Gorevler" />
+            <End Role="GorevlerToDoList" EntitySet="GorevlerToDoList" />
+          </AssociationSet>
           <AssociationSet Name="FK_GorevListesi_IRS" Association="Self.FK_GorevListesi_IRS">
             <End Role="IRS" EntitySet="IRS" />
             <End Role="Gorev" EntitySet="Gorev" />
@@ -1560,10 +1583,6 @@
           <AssociationSet Name="FK_GorevPaketNo_Depo" Association="Self.FK_GorevPaketNo_Depo">
             <End Role="Depo" EntitySet="Depo" />
             <End Role="GorevPaketNo" EntitySet="GorevPaketNo" />
-          </AssociationSet>
-          <AssociationSet Name="FK_GorevToDoList_Gorevler" Association="Self.FK_GorevToDoList_Gorevler">
-            <End Role="Gorevler" EntitySet="Gorevler" />
-            <End Role="GorevToDoList" EntitySet="GorevToDoList" />
           </AssociationSet>
           <AssociationSet Name="FK_GorevUsers_Gorev" Association="Self.FK_GorevUsers_Gorev">
             <End Role="Gorev" EntitySet="Gorev" />
@@ -2123,11 +2142,16 @@
             <Parameter Name="MalKodu" Mode="In" Type="String" />
             <Parameter Name="Birim" Mode="In" Type="String" />
           </FunctionImport>
-          <EntitySet Name="GorevCalismas" EntityType="MModel.GorevCalisma" />
+          <FunctionImport Name="GetStockRezerv2" ReturnType="Collection(MModel.GetStockRezerv2_Result)">
+            <Parameter Name="DepoKodu" Mode="In" Type="Int32" />
+            <Parameter Name="MalKodu" Mode="In" Type="String" />
+            <Parameter Name="Birim" Mode="In" Type="String" />
+          </FunctionImport>
           <EntitySet Name="Gorevlers" EntityType="MModel.Gorevler" />
-          <EntitySet Name="GorevToDoLists" EntityType="MModel.GorevToDoList" />
+          <EntitySet Name="GorevlerCalismas" EntityType="MModel.GorevlerCalisma" />
+          <EntitySet Name="GorevlerCalismaToDoLists" EntityType="MModel.GorevlerCalismaToDoList" />
+          <EntitySet Name="GorevlerToDoLists" EntityType="MModel.GorevlerToDoList" />
           <EntitySet Name="Musteris" EntityType="MModel.Musteri" />
-          <EntitySet Name="ProjeForms" EntityType="MModel.ProjeForm" />
           <AssociationSet Name="FK_Gorevler_ComboItem_Name_Departman" Association="MModel.FK_Gorevler_ComboItem_Name_Departman">
             <End Role="ComboItem_Name" EntitySet="ComboItem_Name" />
             <End Role="Gorevler" EntitySet="Gorevlers" />
@@ -2144,17 +2168,22 @@
             <End Role="ComboItem_Name" EntitySet="ComboItem_Name" />
             <End Role="Gorevler" EntitySet="Gorevlers" />
           </AssociationSet>
-          <AssociationSet Name="FK_GorevCalisma_Gorevler" Association="MModel.FK_GorevCalisma_Gorevler">
+          <AssociationSet Name="FK_GorevlerCalisma_Gorevler" Association="MModel.FK_GorevlerCalisma_Gorevler">
             <End Role="Gorevler" EntitySet="Gorevlers" />
-            <End Role="GorevCalisma" EntitySet="GorevCalismas" />
+            <End Role="GorevlerCalisma" EntitySet="GorevlerCalismas" />
           </AssociationSet>
+          <AssociationSet Name="FK_GorevlerToDoList_Gorevler" Association="MModel.FK_GorevlerToDoList_Gorevler">
+            <End Role="Gorevler" EntitySet="Gorevlers" />
+            <End Role="GorevlerToDoList" EntitySet="GorevlerToDoLists" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GorevlerCalismaToDoList_GorevlerCalisma" Association="MModel.FK_GorevlerCalismaToDoList_GorevlerCalisma">
+            <End Role="GorevlerCalisma" EntitySet="GorevlerCalismas" />
+            <End Role="GorevlerCalismaToDoList" EntitySet="GorevlerCalismaToDoLists" />
+          </AssociationSet>
+          <EntitySet Name="ProjeForms" EntityType="MModel.ProjeForm" />
           <AssociationSet Name="FK_Gorevler_ProjeForm" Association="MModel.FK_Gorevler_ProjeForm">
             <End Role="ProjeForm" EntitySet="ProjeForms" />
             <End Role="Gorevler" EntitySet="Gorevlers" />
-          </AssociationSet>
-          <AssociationSet Name="FK_GorevToDoList_Gorevler" Association="MModel.FK_GorevToDoList_Gorevler">
-            <End Role="Gorevler" EntitySet="Gorevlers" />
-            <End Role="GorevToDoList" EntitySet="GorevToDoLists" />
           </AssociationSet>
           <AssociationSet Name="FK_Proje_Musteri" Association="MModel.FK_Proje_Musteri">
             <End Role="Musteri" EntitySet="Musteris" />
@@ -2164,11 +2193,6 @@
             <End Role="ProjeForm" EntitySet="ProjeForms" />
             <End Role="ProjeForm1" EntitySet="ProjeForms" />
           </AssociationSet>
-          <FunctionImport Name="GetStockRezerv2" ReturnType="Collection(MModel.GetStockRezerv2_Result)">
-            <Parameter Name="DepoKodu" Mode="In" Type="Int32" />
-            <Parameter Name="MalKodu" Mode="In" Type="String" />
-            <Parameter Name="Birim" Mode="In" Type="String" />
-          </FunctionImport>
           </EntityContainer>
         <ComplexType Name="GetSirkets_Result">
           <Property Type="String" Name="Kod" Nullable="false" MaxLength="2" />
@@ -3409,22 +3433,24 @@
           <Property Type="Decimal" Name="KynkSiparisMiktar" Nullable="true" Precision="25" Scale="6" />
           <Property Type="String" Name="DepoKodu" Nullable="false" MaxLength="5" />
         </ComplexType>
-        <EntityType Name="GorevCalisma">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="GorevID" Type="Int32" Nullable="false" />
-          <Property Name="Tarih" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="CalismaSure" Type="Int32" Nullable="false" />
-          <Property Name="Calisma" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="ToDoListID" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Kaydeden" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="KayitTarih" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="Degistiren" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="DegisTarih" Type="DateTime" Nullable="false" Precision="0" />
-          <NavigationProperty Name="Gorevler" Relationship="MModel.FK_GorevCalisma_Gorevler" FromRole="GorevCalisma" ToRole="Gorevler" />
-        </EntityType>
+        <ComplexType Name="GetStockRezerv2_Result">
+          <Property Type="String" Name="GorevNo" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="OlusturmaTarihi" Nullable="false" />
+          <Property Type="String" Name="Bilgi" Nullable="true" />
+          <Property Type="String" Name="SirketKod" Nullable="false" MaxLength="2" />
+          <Property Type="String" Name="EvrakNo" Nullable="false" MaxLength="16" />
+          <Property Type="String" Name="HesapKodu" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="MalKodu" Nullable="false" MaxLength="30" />
+          <Property Type="Decimal" Name="Miktar" Nullable="false" Precision="25" Scale="6" />
+          <Property Type="String" Name="Birim" Nullable="false" MaxLength="4" />
+          <Property Type="String" Name="MakaraNo" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="KynkSiparisID" Nullable="true" />
+          <Property Type="String" Name="KynkSiparisNo" Nullable="true" MaxLength="16" />
+          <Property Type="Int16" Name="KynkSiparisSiraNo" Nullable="true" />
+          <Property Type="Int32" Name="KynkSiparisTarih" Nullable="true" />
+          <Property Type="Decimal" Name="KynkSiparisMiktar" Nullable="true" Precision="25" Scale="6" />
+          <Property Type="String" Name="DepoKodu" Nullable="false" MaxLength="5" />
+        </ComplexType>
         <EntityType Name="Gorevler">
           <Key>
             <PropertyRef Name="ID" />
@@ -3434,8 +3460,8 @@
           <Property Name="Sorumlu" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
           <Property Name="Sorumlu2" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
           <Property Name="Sorumlu3" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="KaliteKontrol" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="Gorev" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="KontrolSorumlusu" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="Gorev" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
           <Property Name="Aciklama" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="OncelikID" Type="Int32" Nullable="false" />
           <Property Name="DurumID" Type="Int32" Nullable="false" />
@@ -3443,38 +3469,59 @@
           <Property Name="DepartmanID" Type="Int32" />
           <Property Name="TahminiBitis" Type="DateTime" Precision="0" />
           <Property Name="BitisTarih" Type="DateTime" Precision="0" />
-          <Property Name="IslemTip" Type="Int16" />
-          <Property Name="IslemSira" Type="Int32" />
+          <Property Name="Onay" Type="Boolean" Nullable="false" />
+          <Property Name="KontrolOnay" Type="Boolean" Nullable="false" />
           <Property Name="Kaydeden" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
           <Property Name="KayitTarih" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="Degistiren" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
           <Property Name="DegisTarih" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="Kontrol" Type="Boolean" Nullable="false" />
-          <Property Name="AktifPasif" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="ComboItem_Name" Relationship="MModel.FK_Gorevler_ComboItem_Name_Departman" FromRole="Gorevler" ToRole="ComboItem_Name" />
           <NavigationProperty Name="ComboItem_Name1" Relationship="MModel.FK_Gorevler_ComboItem_Name_Durum" FromRole="Gorevler" ToRole="ComboItem_Name" />
           <NavigationProperty Name="ComboItem_Name2" Relationship="MModel.FK_Gorevler_ComboItem_Name_GorevTipi" FromRole="Gorevler" ToRole="ComboItem_Name" />
           <NavigationProperty Name="ComboItem_Name3" Relationship="MModel.FK_Gorevler_ComboItem_Name_Oncelik" FromRole="Gorevler" ToRole="ComboItem_Name" />
-          <NavigationProperty Name="GorevCalismas" Relationship="MModel.FK_GorevCalisma_Gorevler" FromRole="Gorevler" ToRole="GorevCalisma" />
+          <NavigationProperty Name="GorevlerCalismas" Relationship="MModel.FK_GorevlerCalisma_Gorevler" FromRole="Gorevler" ToRole="GorevlerCalisma" />
+          <NavigationProperty Name="GorevlerToDoLists" Relationship="MModel.FK_GorevlerToDoList_Gorevler" FromRole="Gorevler" ToRole="GorevlerToDoList" />
           <NavigationProperty Name="ProjeForm" Relationship="MModel.FK_Gorevler_ProjeForm" FromRole="Gorevler" ToRole="ProjeForm" />
-          <NavigationProperty Name="GorevToDoLists" Relationship="MModel.FK_GorevToDoList_Gorevler" FromRole="Gorevler" ToRole="GorevToDoList" />
         </EntityType>
-        <EntityType Name="GorevToDoList">
+        <EntityType Name="GorevlerCalisma">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="GorevID" Type="Int32" Nullable="false" />
-          <Property Name="Aciklama" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="AktifPasif" Type="Boolean" Nullable="false" />
-          <Property Name="OnayDurum" Type="Boolean" Nullable="false" />
+          <Property Name="Tarih" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Sure" Type="Int32" Nullable="false" />
+          <Property Name="Calisma" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Kaydeden" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
           <Property Name="KayitTarih" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="Degistiren" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
           <Property Name="DegisTarih" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="Kontrol" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Gorevler" Relationship="MModel.FK_GorevlerCalisma_Gorevler" FromRole="GorevlerCalisma" ToRole="Gorevler" />
+          <NavigationProperty Name="GorevlerCalismaToDoLists" Relationship="MModel.FK_GorevlerCalismaToDoList_GorevlerCalisma" FromRole="GorevlerCalisma" ToRole="GorevlerCalismaToDoList" />
+        </EntityType>
+        <EntityType Name="GorevlerCalismaToDoList">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="GorevlerCalismaID" Type="Int32" Nullable="false" />
+          <Property Name="Aciklama" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="GorevlerCalisma" Relationship="MModel.FK_GorevlerCalismaToDoList_GorevlerCalisma" FromRole="GorevlerCalismaToDoList" ToRole="GorevlerCalisma" />
+        </EntityType>
+        <EntityType Name="GorevlerToDoList">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="GorevID" Type="Int32" Nullable="false" />
+          <Property Name="Aciklama" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Onay" Type="Boolean" Nullable="false" />
           <Property Name="KontrolOnay" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="Gorevler" Relationship="MModel.FK_GorevToDoList_Gorevler" FromRole="GorevToDoList" ToRole="Gorevler" />
+          <Property Name="Kaydeden" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="KayitTarih" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Degistiren" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="DegisTarih" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="Gorevler" Relationship="MModel.FK_GorevlerToDoList_Gorevler" FromRole="GorevlerToDoList" ToRole="Gorevler" />
         </EntityType>
         <EntityType Name="Musteri">
           <Key>
@@ -3494,30 +3541,6 @@
           <Property Name="Degistiren" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
           <Property Name="DegisTarih" Type="DateTime" Nullable="false" Precision="0" />
           <NavigationProperty Name="ProjeForms" Relationship="MModel.FK_Proje_Musteri" FromRole="Musteri" ToRole="ProjeForm" />
-        </EntityType>
-        <EntityType Name="ProjeForm">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="MusteriID" Type="Int32" Nullable="false" />
-          <Property Name="Proje" Type="String" Nullable="false" MaxLength="120" FixedLength="false" Unicode="false" />
-          <Property Name="Form" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
-          <Property Name="Sorumlu" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="KarsiSorumlu" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Aciklama" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="MesaiKontrol" Type="Boolean" Nullable="false" />
-          <Property Name="MesaiKota" Type="Int32" />
-          <Property Name="PID" Type="Int32" />
-          <Property Name="Durum" Type="Int16" />
-          <Property Name="Kaydeden" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="KayitTarih" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="Degistiren" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="DegisTarih" Type="DateTime" Nullable="false" Precision="0" />
-          <NavigationProperty Name="Gorevlers" Relationship="MModel.FK_Gorevler_ProjeForm" FromRole="ProjeForm" ToRole="Gorevler" />
-          <NavigationProperty Name="Musteri" Relationship="MModel.FK_Proje_Musteri" FromRole="ProjeForm" ToRole="Musteri" />
-          <NavigationProperty Name="ProjeForm1" Relationship="MModel.FK_ProjeForm_ProjeForm" FromRole="ProjeForm" ToRole="ProjeForm1" />
-          <NavigationProperty Name="ProjeForm2" Relationship="MModel.FK_ProjeForm_ProjeForm" FromRole="ProjeForm1" ToRole="ProjeForm" />
         </EntityType>
         <Association Name="FK_Gorevler_ComboItem_Name_Departman">
           <End Type="MModel.ComboItem_Name" Role="ComboItem_Name" Multiplicity="0..1" />
@@ -3567,18 +3590,65 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_GorevCalisma_Gorevler">
+        <Association Name="FK_GorevlerCalisma_Gorevler">
           <End Type="MModel.Gorevler" Role="Gorevler" Multiplicity="1" />
-          <End Type="MModel.GorevCalisma" Role="GorevCalisma" Multiplicity="*" />
+          <End Type="MModel.GorevlerCalisma" Role="GorevlerCalisma" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Gorevler">
               <PropertyRef Name="ID" />
             </Principal>
-            <Dependent Role="GorevCalisma">
+            <Dependent Role="GorevlerCalisma">
               <PropertyRef Name="GorevID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_GorevlerToDoList_Gorevler">
+          <End Type="MModel.Gorevler" Role="Gorevler" Multiplicity="1" />
+          <End Type="MModel.GorevlerToDoList" Role="GorevlerToDoList" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Gorevler">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="GorevlerToDoList">
+              <PropertyRef Name="GorevID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GorevlerCalismaToDoList_GorevlerCalisma">
+          <End Type="MModel.GorevlerCalisma" Role="GorevlerCalisma" Multiplicity="1" />
+          <End Type="MModel.GorevlerCalismaToDoList" Role="GorevlerCalismaToDoList" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GorevlerCalisma">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="GorevlerCalismaToDoList">
+              <PropertyRef Name="GorevlerCalismaID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="ProjeForm">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MusteriID" Type="Int32" Nullable="false" />
+          <Property Name="Proje" Type="String" Nullable="false" MaxLength="120" FixedLength="false" Unicode="false" />
+          <Property Name="Form" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Sorumlu" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="KarsiSorumlu" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Aciklama" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="MesaiKontrol" Type="Boolean" Nullable="false" />
+          <Property Name="MesaiKota" Type="Int32" />
+          <Property Name="PID" Type="Int32" />
+          <Property Name="Kaydeden" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="KayitTarih" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Degistiren" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="DegisTarih" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="Gorevlers" Relationship="MModel.FK_Gorevler_ProjeForm" FromRole="ProjeForm" ToRole="Gorevler" />
+          <NavigationProperty Name="Musteri" Relationship="MModel.FK_Proje_Musteri" FromRole="ProjeForm" ToRole="Musteri" />
+          <NavigationProperty Name="ProjeForm1" Relationship="MModel.FK_ProjeForm_ProjeForm" FromRole="ProjeForm" ToRole="ProjeForm1" />
+          <NavigationProperty Name="ProjeForm2" Relationship="MModel.FK_ProjeForm_ProjeForm" FromRole="ProjeForm1" ToRole="ProjeForm" />
+        </EntityType>
         <Association Name="FK_Gorevler_ProjeForm">
           <End Type="MModel.ProjeForm" Role="ProjeForm" Multiplicity="1" />
           <End Type="MModel.Gorevler" Role="Gorevler" Multiplicity="*" />
@@ -3588,18 +3658,6 @@
             </Principal>
             <Dependent Role="Gorevler">
               <PropertyRef Name="ProjeFormID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_GorevToDoList_Gorevler">
-          <End Type="MModel.Gorevler" Role="Gorevler" Multiplicity="1" />
-          <End Type="MModel.GorevToDoList" Role="GorevToDoList" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Gorevler">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="GorevToDoList">
-              <PropertyRef Name="GorevID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -3627,24 +3685,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <ComplexType Name="GetStockRezerv2_Result">
-          <Property Type="String" Name="GorevNo" Nullable="false" MaxLength="50" />
-          <Property Type="Int32" Name="OlusturmaTarihi" Nullable="false" />
-          <Property Type="String" Name="Bilgi" Nullable="true" />
-          <Property Type="String" Name="SirketKod" Nullable="false" MaxLength="2" />
-          <Property Type="String" Name="EvrakNo" Nullable="false" MaxLength="16" />
-          <Property Type="String" Name="HesapKodu" Nullable="false" MaxLength="20" />
-          <Property Type="String" Name="MalKodu" Nullable="false" MaxLength="30" />
-          <Property Type="Decimal" Name="Miktar" Nullable="false" Precision="25" Scale="6" />
-          <Property Type="String" Name="Birim" Nullable="false" MaxLength="4" />
-          <Property Type="String" Name="MakaraNo" Nullable="true" MaxLength="50" />
-          <Property Type="Int32" Name="KynkSiparisID" Nullable="true" />
-          <Property Type="String" Name="KynkSiparisNo" Nullable="true" MaxLength="16" />
-          <Property Type="Int16" Name="KynkSiparisSiraNo" Nullable="true" />
-          <Property Type="Int32" Name="KynkSiparisTarih" Nullable="true" />
-          <Property Type="Decimal" Name="KynkSiparisMiktar" Nullable="true" Precision="25" Scale="6" />
-          <Property Type="String" Name="DepoKodu" Nullable="false" MaxLength="5" />
-        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -4496,33 +4536,37 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <EntitySetMapping Name="GorevCalismas">
-            <EntityTypeMapping TypeName="MModel.GorevCalisma">
-              <MappingFragment StoreEntitySet="GorevCalisma">
-                <ScalarProperty Name="DegisTarih" ColumnName="DegisTarih" />
-                <ScalarProperty Name="Degistiren" ColumnName="Degistiren" />
-                <ScalarProperty Name="KayitTarih" ColumnName="KayitTarih" />
-                <ScalarProperty Name="Kaydeden" ColumnName="Kaydeden" />
-                <ScalarProperty Name="ToDoListID" ColumnName="ToDoListID" />
-                <ScalarProperty Name="Calisma" ColumnName="Calisma" />
-                <ScalarProperty Name="CalismaSure" ColumnName="CalismaSure" />
-                <ScalarProperty Name="Tarih" ColumnName="Tarih" />
-                <ScalarProperty Name="GorevID" ColumnName="GorevID" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="GetStockRezerv2" FunctionName="MModel.Store.GetStockRezerv2">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MModel.GetStockRezerv2_Result">
+                <ScalarProperty Name="GorevNo" ColumnName="GorevNo" />
+                <ScalarProperty Name="OlusturmaTarihi" ColumnName="OlusturmaTarihi" />
+                <ScalarProperty Name="Bilgi" ColumnName="Bilgi" />
+                <ScalarProperty Name="SirketKod" ColumnName="SirketKod" />
+                <ScalarProperty Name="EvrakNo" ColumnName="EvrakNo" />
+                <ScalarProperty Name="HesapKodu" ColumnName="HesapKodu" />
+                <ScalarProperty Name="MalKodu" ColumnName="MalKodu" />
+                <ScalarProperty Name="Miktar" ColumnName="Miktar" />
+                <ScalarProperty Name="Birim" ColumnName="Birim" />
+                <ScalarProperty Name="MakaraNo" ColumnName="MakaraNo" />
+                <ScalarProperty Name="KynkSiparisID" ColumnName="KynkSiparisID" />
+                <ScalarProperty Name="KynkSiparisNo" ColumnName="KynkSiparisNo" />
+                <ScalarProperty Name="KynkSiparisSiraNo" ColumnName="KynkSiparisSiraNo" />
+                <ScalarProperty Name="KynkSiparisTarih" ColumnName="KynkSiparisTarih" />
+                <ScalarProperty Name="KynkSiparisMiktar" ColumnName="KynkSiparisMiktar" />
+                <ScalarProperty Name="DepoKodu" ColumnName="DepoKodu" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           <EntitySetMapping Name="Gorevlers">
             <EntityTypeMapping TypeName="MModel.Gorevler">
               <MappingFragment StoreEntitySet="Gorevler">
-                <ScalarProperty Name="AktifPasif" ColumnName="AktifPasif" />
-                <ScalarProperty Name="Kontrol" ColumnName="Kontrol" />
                 <ScalarProperty Name="DegisTarih" ColumnName="DegisTarih" />
                 <ScalarProperty Name="Degistiren" ColumnName="Degistiren" />
                 <ScalarProperty Name="KayitTarih" ColumnName="KayitTarih" />
                 <ScalarProperty Name="Kaydeden" ColumnName="Kaydeden" />
-                <ScalarProperty Name="IslemSira" ColumnName="IslemSira" />
-                <ScalarProperty Name="IslemTip" ColumnName="IslemTip" />
+                <ScalarProperty Name="KontrolOnay" ColumnName="KontrolOnay" />
+                <ScalarProperty Name="Onay" ColumnName="Onay" />
                 <ScalarProperty Name="BitisTarih" ColumnName="BitisTarih" />
                 <ScalarProperty Name="TahminiBitis" ColumnName="TahminiBitis" />
                 <ScalarProperty Name="DepartmanID" ColumnName="DepartmanID" />
@@ -4531,7 +4575,7 @@
                 <ScalarProperty Name="OncelikID" ColumnName="OncelikID" />
                 <ScalarProperty Name="Aciklama" ColumnName="Aciklama" />
                 <ScalarProperty Name="Gorev" ColumnName="Gorev" />
-                <ScalarProperty Name="KaliteKontrol" ColumnName="KaliteKontrol" />
+                <ScalarProperty Name="KontrolSorumlusu" ColumnName="KontrolSorumlusu" />
                 <ScalarProperty Name="Sorumlu3" ColumnName="Sorumlu3" />
                 <ScalarProperty Name="Sorumlu2" ColumnName="Sorumlu2" />
                 <ScalarProperty Name="Sorumlu" ColumnName="Sorumlu" />
@@ -4540,17 +4584,39 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="GorevToDoLists">
-            <EntityTypeMapping TypeName="MModel.GorevToDoList">
-              <MappingFragment StoreEntitySet="GorevToDoList">
-                <ScalarProperty Name="KontrolOnay" ColumnName="KontrolOnay" />
-                <ScalarProperty Name="Kontrol" ColumnName="Kontrol" />
+          <EntitySetMapping Name="GorevlerCalismas">
+            <EntityTypeMapping TypeName="MModel.GorevlerCalisma">
+              <MappingFragment StoreEntitySet="GorevlerCalisma">
                 <ScalarProperty Name="DegisTarih" ColumnName="DegisTarih" />
                 <ScalarProperty Name="Degistiren" ColumnName="Degistiren" />
                 <ScalarProperty Name="KayitTarih" ColumnName="KayitTarih" />
                 <ScalarProperty Name="Kaydeden" ColumnName="Kaydeden" />
-                <ScalarProperty Name="OnayDurum" ColumnName="OnayDurum" />
-                <ScalarProperty Name="AktifPasif" ColumnName="AktifPasif" />
+                <ScalarProperty Name="Calisma" ColumnName="Calisma" />
+                <ScalarProperty Name="Sure" ColumnName="Sure" />
+                <ScalarProperty Name="Tarih" ColumnName="Tarih" />
+                <ScalarProperty Name="GorevID" ColumnName="GorevID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GorevlerCalismaToDoLists">
+            <EntityTypeMapping TypeName="MModel.GorevlerCalismaToDoList">
+              <MappingFragment StoreEntitySet="GorevlerCalismaToDoList">
+                <ScalarProperty Name="Aciklama" ColumnName="Aciklama" />
+                <ScalarProperty Name="GorevlerCalismaID" ColumnName="GorevlerCalismaID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GorevlerToDoLists">
+            <EntityTypeMapping TypeName="MModel.GorevlerToDoList">
+              <MappingFragment StoreEntitySet="GorevlerToDoList">
+                <ScalarProperty Name="DegisTarih" ColumnName="DegisTarih" />
+                <ScalarProperty Name="Degistiren" ColumnName="Degistiren" />
+                <ScalarProperty Name="KayitTarih" ColumnName="KayitTarih" />
+                <ScalarProperty Name="Kaydeden" ColumnName="Kaydeden" />
+                <ScalarProperty Name="KontrolOnay" ColumnName="KontrolOnay" />
+                <ScalarProperty Name="Onay" ColumnName="Onay" />
                 <ScalarProperty Name="Aciklama" ColumnName="Aciklama" />
                 <ScalarProperty Name="GorevID" ColumnName="GorevID" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
@@ -4583,7 +4649,6 @@
                 <ScalarProperty Name="Degistiren" ColumnName="Degistiren" />
                 <ScalarProperty Name="KayitTarih" ColumnName="KayitTarih" />
                 <ScalarProperty Name="Kaydeden" ColumnName="Kaydeden" />
-                <ScalarProperty Name="Durum" ColumnName="Durum" />
                 <ScalarProperty Name="PID" ColumnName="PID" />
                 <ScalarProperty Name="MesaiKota" ColumnName="MesaiKota" />
                 <ScalarProperty Name="MesaiKontrol" ColumnName="MesaiKontrol" />
@@ -4597,28 +4662,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="GetStockRezerv2" FunctionName="MModel.Store.GetStockRezerv2">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="MModel.GetStockRezerv2_Result">
-                <ScalarProperty Name="GorevNo" ColumnName="GorevNo" />
-                <ScalarProperty Name="OlusturmaTarihi" ColumnName="OlusturmaTarihi" />
-                <ScalarProperty Name="Bilgi" ColumnName="Bilgi" />
-                <ScalarProperty Name="SirketKod" ColumnName="SirketKod" />
-                <ScalarProperty Name="EvrakNo" ColumnName="EvrakNo" />
-                <ScalarProperty Name="HesapKodu" ColumnName="HesapKodu" />
-                <ScalarProperty Name="MalKodu" ColumnName="MalKodu" />
-                <ScalarProperty Name="Miktar" ColumnName="Miktar" />
-                <ScalarProperty Name="Birim" ColumnName="Birim" />
-                <ScalarProperty Name="MakaraNo" ColumnName="MakaraNo" />
-                <ScalarProperty Name="KynkSiparisID" ColumnName="KynkSiparisID" />
-                <ScalarProperty Name="KynkSiparisNo" ColumnName="KynkSiparisNo" />
-                <ScalarProperty Name="KynkSiparisSiraNo" ColumnName="KynkSiparisSiraNo" />
-                <ScalarProperty Name="KynkSiparisTarih" ColumnName="KynkSiparisTarih" />
-                <ScalarProperty Name="KynkSiparisMiktar" ColumnName="KynkSiparisMiktar" />
-                <ScalarProperty Name="DepoKodu" ColumnName="DepoKodu" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

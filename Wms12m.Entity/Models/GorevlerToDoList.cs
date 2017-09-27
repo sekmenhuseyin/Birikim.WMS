@@ -9,19 +9,21 @@
 
 namespace Wms12m.Entity.Models
 {
-    public partial class GorevCalisma
+    using System;
+    using System.Collections.Generic;
+    
+    public partial class GorevlerToDoList
     {
         public int ID { get; set; }
         public int GorevID { get; set; }
-        public System.DateTime Tarih { get; set; }
-        public int CalismaSure { get; set; }
-        public string Calisma { get; set; }
-        public string ToDoListID { get; set; }
+        public string Aciklama { get; set; }
+        public bool Onay { get; set; }
+        public bool KontrolOnay { get; set; }
         public string Kaydeden { get; set; }
         public System.DateTime KayitTarih { get; set; }
         public string Degistiren { get; set; }
         public System.DateTime DegisTarih { get; set; }
-
+    
         public virtual Gorevler Gorevler { get; set; }
     }
 }
