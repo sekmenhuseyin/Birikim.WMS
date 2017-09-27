@@ -30,7 +30,7 @@ namespace Wms12m.Presentation.Areas.YN.Controllers
                                                                                              AS Tarih
                                                                     FROM            YNS{0}.STK002 INNER JOIN
                                                                                              YNS{0}.CAR002 ON YNS{0}.STK002.STK002_CariHesapKodu = YNS{0}.CAR002.CAR002_HesapKodu
-                                                                    WHERE        (YNS{0}.STK002.STK002_GC = 1) AND (YNS{0}.STK002.STK002_SipDurumu = 0)
+                                                                    WHERE        (YNS{0}.STK002.STK002_GC = 1) AND (YNS{0}.STK002.STK002_SipDurumu = 0) AND (YNS{0}.STK002.STK002_Kod10 = 'Onay Bekliyor')
                                                                     GROUP BY YNS{0}.STK002.STK002_CariHesapKodu, YNS{0}.CAR002.CAR002_Unvan1, YNS{0}.STK002.STK002_EvrakSeriNo, YNS{0}.STK002.STK002_GirenKodu, CONVERT(VARCHAR(15), 
                                                                                              CAST(YNS{0}.STK002.STK002_GirenTarih - 2 AS datetime), 104)", "0TEST")).ToList();
                 var json = new JavaScriptSerializer().Serialize(list);
@@ -51,7 +51,7 @@ namespace Wms12m.Presentation.Areas.YN.Controllers
                                                                 FROM            YNS{0}.STK002 INNER JOIN
                                                                                             YNS{0}.CAR002 ON YNS{0}.STK002.STK002_CariHesapKodu = YNS{0}.CAR002.CAR002_HesapKodu INNER JOIN
                                                                                             YNS{0}.STK004 ON YNS{0}.STK002.STK002_MalKodu = YNS{0}.STK004.STK004_MalKodu
-                                                                WHERE        (YNS{0}.STK002.STK002_GC = 1) AND (YNS{0}.STK002.STK002_SipDurumu = 0) AND YNS{0}.STK002.STK002_EvrakSeriNo = '{1}'", "0TEST", ID)).ToList();
+                                                                WHERE        (YNS{0}.STK002.STK002_GC = 1) AND (YNS{0}.STK002.STK002_SipDurumu = 0)  AND (YNS{0}.STK002.STK002_Kod10 = 'Onay Bekliyor') AND  YNS{0}.STK002.STK002_EvrakSeriNo = '{1}'", "0TEST", ID)).ToList();
                 return PartialView("Siparis_Details", list);
             }
         }
@@ -63,10 +63,11 @@ namespace Wms12m.Presentation.Areas.YN.Controllers
         {
             try
             {
+
                 using (YNSEntities dby = new YNSEntities())
-                {
-                }
-                return Json(new Result(true), JsonRequestBehavior.AllowGet);
+                    dby.Database.ExecuteSqlCommand(string.Format("UPDATE [YNS{0}].[YNS{0}].[STK002] SET STK002_Kod10 = '{1}' WHERE STK002_EvrakSeriNo='{2}'", "0TEST", Onay == true ? "Onaylandı" : "Reddedildi", ID));
+                return Json(new Result(true, 1), JsonRequestBehavior.AllowGet);
+
             }
             catch (Exception ex)
             {
