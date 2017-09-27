@@ -41,11 +41,7 @@
                         <div class="form-group">
                             <div class="col-sm-3 control-label">Görev Durumu</div>
                             <div class="col-sm-4">
-                                <select class="form-control input-circle" id="DurumID" name="DurumID" onchange="FuncSearchBtn();">
-                                    <option value="Aktif">Aktif</option>
-                                    @{if(ViewBag.Yetki == "Admin" || ViewBag.Yetki == " " || ViewBag.Yetki == "Destek") {<text><option value="Onay">Onayda Bekleyen</option></text>}}
-                                    <option value="Pasif">Tamamlanan</option>
-                                </select>
+                                @Html.DropDownList("DurumID", null, htmlAttributes: new { @class = "form-control input-circle", @onchange = "FuncSearchBtn()" })
                             </div>
                             <div class="col-sm-1"><button type="button" class="btn btn-circle green" onclick="FuncSearchBtn();"><i class="icon-refresh"></i></button></div>
                         </div>
@@ -59,7 +55,7 @@
 @section Scripts{<script src="~/Content/assets/global/plugins/datatables/extensions/RowReorder/js/dataTables.rowReorder.js"></script>
 <script type="text/javascript">
     var DeleteFunctionUrl = '/ToDo/Duties/Delete';
-    PartialView("/ToDo/Duties/List", 'liste', JSON.stringify({ Tip: $('#DurumID').val() }));
+    FuncSearchBtn();
     function FuncSearchBtn() {
         $('#CreateEdit').html("");
         $('#liste').html("");
@@ -103,6 +99,7 @@
     function getProje(id, what, what2) {
         $("#" + what + " option").remove();
         $("#" + what2 + " option").remove();
+        if (id == "") return;
         $.ajax({
             url: "/ToDo/Duties/ProjeListesi/" + id,
             type: 'POST',
@@ -120,6 +117,7 @@
     }
     function getForm(id, what) {
         $("#" + what + " option").remove();
+        if (id == "") return;
         $.ajax({
             url: "/ToDo/Duties/FormListesi/" + id,
             type: 'POST',

@@ -47,6 +47,7 @@
         $('.onay-buton').click(function () {
             $.ajax({
                 url: window.location.origin + "/YN/OnayBekleyenler/Teklif_Onay",
+                type: 'POST',
                 data: { "ID": selected, "Onay": true },
                 dataType: "json",
                 success: function (data) {
@@ -65,6 +66,7 @@
         $('.reddet-buton').click(function () {
             $.ajax({
                 url: window.location.origin + "/YN/OnayBekleyenler/Teklif_Red",
+                type: 'POST',
                 data: { "ID": selected, "Onay": true },
                 dataType: "json",
                 success: function (data) {

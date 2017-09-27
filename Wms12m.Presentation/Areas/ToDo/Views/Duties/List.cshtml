@@ -59,68 +59,63 @@
     $(".tarih").datepicker();
     @if (ViewBag.RoleName == "Admin" || ViewBag.RoleName == " ") {<text>
         function showEdit(ID) {
-                $('#modalEditPage').modal('toggle');
-                editInModal('/ToDo/Duties/Edit/' + ID);
+            $('#modalEditPage').modal('toggle');
+            editInModal('/ToDo/Duties/Edit/' + ID);
         }
     </text>}
     else
     {<text>
         table.columns([0]).visible(false, false);
     </text>}
-    @if (ViewBag.Tip != "Pasif")
-    {<text>
-        function RowUp(item) {
-            var sayac = 0;
-            yeniData = [];
-            if ($(item).closest('tr').prev().length == 1) {
-                var tempOnc = $(item).closest('tr').prev().find("td").eq(0).attr("data");
-                $(item).closest('tr').prev().find("td").eq(0).attr("data", $(item).closest('tr').find("td").eq(0).attr("data"));
-                $(item).closest('tr').find("td").eq(0).attr("data", tempOnc);
-                $(item).closest('tr').insertBefore($(item).closest('tr').prev())
-            }
-            $("tbody tr").each(function (index) { yeniData.push($(this).find("td").eq(0).attr("data-id")); });
-            $.each(yeniData, function (index, value) { if (yeniData[index] != eskiData[index]) { sayac++; } });
-            if (sayac > 0) { $(".oncelik-kayit-buton").removeClass('hidden'); }
-            else { $(".oncelik-kayit-buton").addClass('hidden') }
+    function RowUp(item) {
+        var sayac = 0;
+        yeniData = [];
+        if ($(item).closest('tr').prev().length == 1) {
+            var tempOnc = $(item).closest('tr').prev().find("td").eq(0).attr("data");
+            $(item).closest('tr').prev().find("td").eq(0).attr("data", $(item).closest('tr').find("td").eq(0).attr("data"));
+            $(item).closest('tr').find("td").eq(0).attr("data", tempOnc);
+            $(item).closest('tr').insertBefore($(item).closest('tr').prev())
         }
-        function RowDown(item) {
-            var sayac = 0;
-            yeniData = [];
-            if ($(item).closest('tr').next().length == 1) {
-                var tempOnc = $(item).closest('tr').next().find("td").eq(0).attr("data");
-                $(item).closest('tr').next().find("td").eq(0).attr("data", $(item).closest('tr').find("td").eq(0).attr("data"));
-                $(item).closest('tr').find("td").eq(0).attr("data", tempOnc);
-                $(item).closest('tr').insertAfter($(item).closest('tr').next())
-            }
-            $("tbody tr").each(function (index) { yeniData.push($(this).find("td").eq(0).attr("data-id")); });
-            $.each(yeniData, function (index, value) { if (yeniData[index] != eskiData[index]) { sayac++; } });
-            if (sayac > 0) { $(".oncelik-kayit-buton").removeClass('hidden'); }
-            else { $(".oncelik-kayit-buton").addClass('hidden') }
+        $("tbody tr").each(function (index) { yeniData.push($(this).find("td").eq(0).attr("data-id")); });
+        $.each(yeniData, function (index, value) { if (yeniData[index] != eskiData[index]) { sayac++; } });
+        if (sayac > 0) { $(".oncelik-kayit-buton").removeClass('hidden'); }
+        else { $(".oncelik-kayit-buton").addClass('hidden') }
+    }
+    function RowDown(item) {
+        var sayac = 0;
+        yeniData = [];
+        if ($(item).closest('tr').next().length == 1) {
+            var tempOnc = $(item).closest('tr').next().find("td").eq(0).attr("data");
+            $(item).closest('tr').next().find("td").eq(0).attr("data", $(item).closest('tr').find("td").eq(0).attr("data"));
+            $(item).closest('tr').find("td").eq(0).attr("data", tempOnc);
+            $(item).closest('tr').insertAfter($(item).closest('tr').next())
         }
-        function OncelikKaydet() {
-            secili_table = [];
-            $("tbody tr").each(function (index) {
-                var jObject = {};
-                jObject["ID"] = $(this).find("td").eq(0).attr("data-id");
-                jObject["OncelikID"] = $(this).find("td").eq(0).attr("data");
-                secili_table.push(jObject);
-            });
-            $.ajax({
-                url: window.location.origin + "/ToDo/Duties/OncelikGuncelle",
-                data: { Data: JSON.stringify(secili_table) },
-                type: "post",
-                success: function (data) {
-                    if (data == "OK") {
-                        Modaldialog("İşlem Başarılı", "Güncelleme İşlemi", "Tamam", "btn-success");
-                        FuncSearchBtn();
-                    }
-
-                    else {
-                        Modaldialog("Hata Oluştu.", "Güncelleme İşlemi", "Tamam", "btn-danger");
-                    }
-
+        $("tbody tr").each(function (index) { yeniData.push($(this).find("td").eq(0).attr("data-id")); });
+        $.each(yeniData, function (index, value) { if (yeniData[index] != eskiData[index]) { sayac++; } });
+        if (sayac > 0) { $(".oncelik-kayit-buton").removeClass('hidden'); }
+        else { $(".oncelik-kayit-buton").addClass('hidden') }
+    }
+    function OncelikKaydet() {
+        secili_table = [];
+        $("tbody tr").each(function (index) {
+            var jObject = {};
+            jObject["ID"] = $(this).find("td").eq(0).attr("data-id");
+            jObject["OncelikID"] = $(this).find("td").eq(0).attr("data");
+            secili_table.push(jObject);
+        });
+        $.ajax({
+            url: window.location.origin + "/ToDo/Duties/OncelikGuncelle",
+            data: { Data: JSON.stringify(secili_table) },
+            type: "post",
+            success: function (data) {
+                if (data == "OK") {
+                    Modaldialog("İşlem Başarılı", "Güncelleme İşlemi", "Tamam", "btn-success");
+                    FuncSearchBtn();
                 }
-            });
-        }
-    </text>}
+                else {
+                    Modaldialog("Hata Oluştu.", "Güncelleme İşlemi", "Tamam", "btn-danger");
+                }
+            }
+        });
+    }
 </script>
