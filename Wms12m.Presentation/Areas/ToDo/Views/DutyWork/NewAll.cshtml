@@ -18,7 +18,7 @@
                         <div class="form-group pointer">
                             <div class="control-label col-md-2">Görev</div>
                             <div class="col-md-8">
-                                @Html.DropDownList("GorevID", null, htmlAttributes: new { @class = "form-control input-circle", @readonly = "readonly", required = "required" })
+                                @Html.DropDownList("GorevID", null, htmlAttributes: new { @class = "form-control input-circle satirekle", required = "required", @onchange = "getToDo(this.value);" })
                                 @Html.ValidationMessageFor(model => model.GorevID, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -58,27 +58,11 @@
 
 <script type="text/javascript">
     DevExpress.ui.dxOverlay.baseZIndex(20000);
-    $(document).ready(function () { $('.date-picker').datepicker(); });
+    $(document).ready(function () {
+        $(".satirekle").prepend("<option value=''>Seçiniz !!!</option>"); $(".satirekle")[0].selectedIndex = 0;
+        $('.date-picker').datepicker();
+    });
     sayac = 1;
-    @if (ViewBag.RoleName=="Destek" && Model.Gorevler.Kontrol == true)
-    {
-        foreach (var item in Model.Gorevler.GorevToDoLists.ToList())
-        {
-            if (item.AktifPasif == true && item.OnayDurum == true && item.Kontrol == true && item.KontrolOnay == false)
-            {
-                <text>GorevList('@item.Aciklama',@item.ID)</text>
-            }
-        }
-    }
-    else {
-        foreach (var item in Model.Gorevler.GorevToDoLists.ToList())
-        {
-            if (item.AktifPasif == true && item.OnayDurum == false)
-            {
-                <text>GorevList('@item.Aciklama',@item.ID)</text>
-            }
-        }
-    }
     function GorevList(Aciklama, ID) {
         var index = sayac++;
         var newElement = "";

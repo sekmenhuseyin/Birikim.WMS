@@ -104,7 +104,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         /// kaydetme
         /// </summary>
         [HttpPost, ValidateAntiForgeryToken]
-        public JsonResult Save([Bind(Include = "ID,ProjeFormID,Sorumlu,Sorumlu2,Sorumlu3,KaliteKontrol,Gorev,Aciklama,OncelikID,DurumID,GorevTipiID,DepartmanID,TahminiBitis,BitisTarih,IslemTip,IslemSira,work,todo,silinenler")] Gorevler gorevler)
+        public JsonResult Save([Bind(Include = "ID,ProjeFormID,Sorumlu,Sorumlu2,Sorumlu3,KaliteKontrol,Gorev,Aciklama,OncelikID,DurumID,GorevTipiID,DepartmanID,TahminiBitis,BitisTarih,IslemTip,IslemSira")] Gorevler gorevler, string[] work, string silinenler, string[] todo)
         {
             if (ModelState.IsValid)
             {
@@ -142,7 +142,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                     }
                     db.Gorevlers.Add(gorevler);
                     //todo lists
-                    foreach (var item in gorevler.work)
+                    foreach (var item in work)
                     {
                         GorevToDoList grvTDL = new GorevToDoList
                         {
@@ -156,15 +156,15 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                             OnayDurum = kontDur,
                             Kontrol = kontDur
                         };
-                        db.GorevToDoLists.Add(grvTDL);
+                        if (grvTDL.Aciklama.Trim() != "") db.GorevToDoLists.Add(grvTDL);
                     }
                 }
                 else
                 {
                     string[] sl = new string[0];
-                    if (gorevler.silinenler != null)
+                    if (silinenler != null)
                     {
-                        sl = gorevler.silinenler.Split(',');
+                        sl = silinenler.Split(',');
                     }
                     var tbl = db.Gorevlers.Where(m => m.ID == gorevler.ID).FirstOrDefault();
                     tbl.Sorumlu = gorevler.Sorumlu;
@@ -189,34 +189,14 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                         silGrv.DegisTarih = DateTime.Now;
                         silGrv.Degistiren = vUser.UserName;
                     }
-                    for (int i = 0; i < gorevler.work.Length; i++)
-                    {
-                        if (gorevler.todo[i] == 0)
+                    if (work != null)
+                        for (int i = 0; i < work.Length; i++)
                         {
-                            GorevToDoList grvTDL = new GorevToDoList
+                            if (todo[i] == "0")
                             {
-                                Aciklama = gorevler.work[i],
-                                AktifPasif = true,
-                                DegisTarih = DateTime.Now,
-                                Degistiren = vUser.UserName,
-                                KayitTarih = DateTime.Now,
-                                Kaydeden = vUser.UserName,
-                                Gorevler = tbl
-                            };
-                            db.GorevToDoLists.Add(grvTDL);
-                        }
-                        else
-                        {
-                            var id2 = Convert.ToInt32(gorevler.todo[i]);
-                            var grv = db.GorevToDoLists.Where(m => m.ID == id2).FirstOrDefault();
-                            if (grv.Aciklama.Trim() != gorevler.work[i])
-                            {
-                                grv.AktifPasif = false;
-                                grv.DegisTarih = DateTime.Now;
-                                grv.Degistiren = vUser.UserName;
                                 GorevToDoList grvTDL = new GorevToDoList
                                 {
-                                    Aciklama = gorevler.work[i],
+                                    Aciklama = work[i],
                                     AktifPasif = true,
                                     DegisTarih = DateTime.Now,
                                     Degistiren = vUser.UserName,
@@ -224,10 +204,31 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                                     Kaydeden = vUser.UserName,
                                     Gorevler = tbl
                                 };
-                                db.GorevToDoLists.Add(grvTDL);
+                                if (grvTDL.Aciklama.Trim() != "") db.GorevToDoLists.Add(grvTDL);
+                            }
+                            else
+                            {
+                                var id2 = Convert.ToInt32(todo[i]);
+                                var grv = db.GorevToDoLists.Where(m => m.ID == id2).FirstOrDefault();
+                                if (grv.Aciklama.Trim() != work[i])
+                                {
+                                    grv.AktifPasif = false;
+                                    grv.DegisTarih = DateTime.Now;
+                                    grv.Degistiren = vUser.UserName;
+                                    GorevToDoList grvTDL = new GorevToDoList
+                                    {
+                                        Aciklama = work[i],
+                                        AktifPasif = true,
+                                        DegisTarih = DateTime.Now,
+                                        Degistiren = vUser.UserName,
+                                        KayitTarih = DateTime.Now,
+                                        Kaydeden = vUser.UserName,
+                                        Gorevler = tbl
+                                    };
+                                    if (grvTDL.Aciklama.Trim() != "") db.GorevToDoLists.Add(grvTDL);
+                                }
                             }
                         }
-                    }
                 }
                 try
                 {

@@ -44,6 +44,11 @@ namespace Wms12m.Entity
         public int TechnoIKOnay_USGMY { get; set; }
         public int TechnoIKOnay_MIGMY { get; set; }
         public int TechnoIKOnay_YKU { get; set; }
+        
+        public decimal MevcudBanka { get; set; }
+        public decimal MevcudCek { get; set; }
+        public decimal MevcudKasa { get; set; }
+        public decimal MevcudPOS { get; set; }
     }
     public class RaporVadesiGelmemisCekler
     {
