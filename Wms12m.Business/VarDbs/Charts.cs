@@ -7,6 +7,14 @@ namespace Wms12m
 {
     public class Charts
     {
+        private string Veritabani { get; set; }
+        /// <summary>
+        /// constructor
+        /// </summary>
+        public Charts(string veritabani = "FINSAT")
+        {
+            Veritabani = veritabani;
+        }
         /// <summary>
         /// Home / Index
         /// </summary>
@@ -32,6 +40,38 @@ namespace Wms12m
         {
             using (var db = new WMSEntities())
                 return db.Database.SqlQuery<ChartBaglantiZaman>(string.Format("[FINSAT6{0}].[wms].[DB_GunlukSatisGetir]", SirketKodu)).ToList();
+        }
+        /// <summary>
+        /// Home / PartialGunlukSatis
+        /// </summary>
+        public List<ChartGunlukSatisAnalizi> ChartGunlukSatisAnalizi(string SirketKodu, int tarih)
+        {
+            using (var db = new WMSEntities())
+                return db.Database.SqlQuery<ChartGunlukSatisAnalizi>(string.Format("[FINSAT6{0}].[wms].[DB_GunlukSatisAnalizi] @Tarih = {1}", SirketKodu, tarih)).ToList();
+        }
+        /// <summary>
+        /// Home / PartialGunlukSatisYearToDay
+        /// </summary>
+        public List<GetCachedChartYear2Day_Result> GetCachedChartYear2Day_Result(string SirketKodu)
+        {
+            using (var db = new WMSEntities())
+                return db.Database.SqlQuery<GetCachedChartYear2Day_Result>(string.Format("[FINSAT6{0}].[wms].[DB_GunlukSatisAnaliziYearToDay]", SirketKodu)).ToList();
+        }
+        /// <summary>
+        /// Home / PartialGunlukSatisDoubleKriter
+        /// </summary>
+        public List<ChartGunlukSatisAnalizi> ChartGunlukSatisAnalizi(string SirketKodu, string kod, int islemtip, int tarih)
+        {
+            using (var db = new WMSEntities())
+                return db.Database.SqlQuery<ChartGunlukSatisAnalizi>(string.Format("[FINSAT6{0}].[wms].[DB_GunlukSatisAnaliziDoubleKriter] @Tarih = {1}, @IslemTip = {2}, @Grup = '{3}'", SirketKodu, tarih, islemtip, kod)).ToList();
+        }
+        /// <summary>
+        /// Home / PartialAylikSatisAnaliziBar
+        /// </summary>
+        public List<GetCachedChartMonthly_Result> GetCachedChartMonthly_Result(string SirketKodu)
+        {
+            using (var db = new WMSEntities())
+                return db.Database.SqlQuery<GetCachedChartMonthly_Result>(string.Format("[FINSAT6{0}].[wms].[DB_Aylik_SatisAnalizi]", SirketKodu)).ToList();
         }
     }
 }
