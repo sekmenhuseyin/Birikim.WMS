@@ -240,7 +240,10 @@ namespace Wms12m.Presentation.Areas.YN.Controllers
                     if (Onay == true)
                     {
                         var list = dby.TempFaturas.Where(m => m.IslemDurumu == 0 && m.EvrakNo == ID).Select(m => new SepetUrun { SatirTip = 1, UrunKodu = m.UrunKodu, HesapKodu = m.HesapKodu, Birim = m.Birim, Fiyat = m.Fiyat.ToString(), Miktar = m.Miktar.ToString(), Depo = m.Depo, ParaCinsi = m.ParaCinsi, KullaniciKodu = vUser.UserName }).ToList();
-                        var yns = new YeniNesil(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "MTEST");
+
+                     
+
+                        var yns = new YeniNesil(ConfigurationManager.ConnectionStrings["YNSEntities"].ConnectionString, "MTEST");
                         var sepetIslemleri = yns.FaturaKaydet(list);
                         result = new Result(true, 1);
                     }
