@@ -12,6 +12,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         /// </summary>
         public ActionResult Index()
         {
+            if (CheckPerm(Perms.TodoTakvim, PermTypes.Reading) == false) return Redirect("/");
             var list = db.GorevlerCalismas.ToList();
             return View(list);
         }

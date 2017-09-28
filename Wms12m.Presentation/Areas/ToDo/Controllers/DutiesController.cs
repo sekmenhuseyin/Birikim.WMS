@@ -18,6 +18,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         /// </summary>
         public ActionResult Index()
         {
+            if (CheckPerm(Perms.TodoGörevler, PermTypes.Reading) == false) return Redirect("/");
             ViewBag.Yetki = vUser.RoleName;
             ViewBag.DurumID = new SelectList(ComboSub.GetList(Combos.GörevYönetimDurumları.ToInt32()), "ID", "Name");
             return View();
@@ -80,11 +81,129 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             return PartialView("Edit", tbl);
         }
         /// <summary>
+        /// projeler
+        /// </summary>
+        public JsonResult ProjeListesi()
+        {
+            var id = Url.RequestContext.RouteData.Values["id"];
+            var ID = id.ToInt32();
+            List<ProjeForm> Prj = db.ProjeForms.Where(m => m.MusteriID == ID && m.PID == null).ToList();
+            List<SelectListItem> List = new List<SelectListItem>();
+            foreach (ProjeForm item in Prj)
+            {
+                List.Add(new SelectListItem
+                {
+                    Selected = false,
+                    Text = item.Proje,
+                    Value = item.ID.ToString()
+                });
+            }
+            return Json(List.Select(x => new { Value = x.Value, Text = x.Text, Selected = x.Selected }), JsonRequestBehavior.AllowGet);
+
+        }
+        /// <summary>
+        /// formlar
+        /// </summary>
+        public JsonResult FormListesi()
+        {
+            var id = Url.RequestContext.RouteData.Values["id"];
+            var ID = id.ToInt32();
+            List<ProjeForm> Prj = db.ProjeForms.Where(m => m.PID == ID).ToList();
+            List<SelectListItem> List = new List<SelectListItem>();
+            foreach (ProjeForm item in Prj)
+            {
+                List.Add(new SelectListItem
+                {
+                    Selected = false,
+                    Text = item.Form,
+                    Value = item.ID.ToString()
+                });
+            }
+            return Json(List.Select(x => new { Value = x.Value, Text = x.Text, Selected = x.Selected }), JsonRequestBehavior.AllowGet);
+
+        }
+        /// <summary>
+        /// sorumlular
+        /// </summary>
+        public string SorumluListesi()
+        {
+            List<frmUserss> usr = db.Users.Where(a => a.Aktif == true).Select(m => new frmUserss { ID = m.ID, Kod = m.Kod, AdSoyad = m.AdSoyad, RoleName = m.RoleName }).ToList();
+            var json = new JavaScriptSerializer().Serialize(usr);
+            return json;
+
+        }
+        /// <summary>
+        /// öncelik update
+        /// </summary>
+        public JsonResult OncelikGuncelle(string Data)
+        {
+            if (CheckPerm(Perms.SözleşmeTanim, PermTypes.Writing) == false) return null;
+            JArray parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
+            foreach (JObject bds in parameters)
+            {
+                var id = bds["ID"].ToInt32();
+                List<Gorevler> grv = db.Gorevlers.ToList();
+                foreach (Gorevler item in grv)
+                {
+                    if (item.ID == id)
+                    {
+                        item.OncelikID = bds["OncelikID"].ToInt32();
+                    }
+                }
+            }
+            try
+            {
+                var x = db.SaveChanges();
+                return Json(new Result(true, 1), JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Logger(ex, "ToDo/Duties/OncelikGuncelle");
+                return Json(new Result(false, "Hata oldu"), JsonRequestBehavior.AllowGet);
+            }
+        }
+        /// <summary>
+        /// görev onay
+        /// </summary>
+        public JsonResult GorevReddet(int Id)
+        {
+            if (CheckPerm(Perms.TodoGörevler, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
+            try
+            {
+                db.Database.ExecuteSqlCommand(string.Format("UPDATE [BIRIKIM].[ong].[GorevTodoList] SET AktifPasif = 0  WHERE  GorevID = {0}", Id));
+                db.Database.ExecuteSqlCommand(string.Format("UPDATE [BIRIKIM].[ong].[Gorevler] SET AktifPasif = 0, DurumID={0} WHERE ID = {1}", ComboItems.gydReddedildi.ToInt32(), Id));
+                return Json(new Result(true, Id), JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Logger(ex, "ToDo/Duties/GorevReddet");
+                return Json(new Result(false, "Hata oldu"), JsonRequestBehavior.AllowGet);
+            }
+        }
+        /// <summary>
+        /// görev ret
+        /// </summary>
+        public JsonResult GorevOnayla(int Id)
+        {
+            if (CheckPerm(Perms.TodoGörevler, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
+            try
+            {
+                db.Database.ExecuteSqlCommand(string.Format("UPDATE [BIRIKIM].[ong].[Gorevler] SET DurumID = {0} WHERE  ID = {1}", ComboItems.gydAtandı.ToInt32(), Id));
+                return Json(new Result(true, Id), JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Logger(ex, "ToDo/Duties/GorevOnayla");
+                return Json(new Result(false, "Hata oldu"), JsonRequestBehavior.AllowGet);
+            }
+        }
+        /// <summary>
         /// kaydetme
         /// </summary>
         [HttpPost, ValidateAntiForgeryToken]
         public JsonResult Save(Gorevler gorevler, string[] work, string silinenler, string[] todo)
         {
+            if (CheckPerm(Perms.TodoGörevler, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             if (ModelState.IsValid)
             {
                 if (gorevler.ID == 0)
@@ -203,6 +322,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         /// </summary>
         public JsonResult Delete(string Id)
         {
+            if (CheckPerm(Perms.TodoGörevler, PermTypes.Deleting) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             try
             {
                 //TODO:
@@ -213,121 +333,6 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             catch (Exception ex)
             {
                 Logger(ex, "ToDo/Duties/Delete");
-                return Json(new Result(false, "Hata oldu"), JsonRequestBehavior.AllowGet);
-            }
-        }
-        /// <summary>
-        /// projeler
-        /// </summary>
-        public JsonResult ProjeListesi()
-        {
-            var id = Url.RequestContext.RouteData.Values["id"];
-            var ID = id.ToInt32();
-            List<ProjeForm> Prj = db.ProjeForms.Where(m => m.MusteriID == ID && m.PID == null).ToList();
-            List<SelectListItem> List = new List<SelectListItem>();
-            foreach (ProjeForm item in Prj)
-            {
-                List.Add(new SelectListItem
-                {
-                    Selected = false,
-                    Text = item.Proje,
-                    Value = item.ID.ToString()
-                });
-            }
-            return Json(List.Select(x => new { Value = x.Value, Text = x.Text, Selected = x.Selected }), JsonRequestBehavior.AllowGet);
-
-        }
-        /// <summary>
-        /// formlar
-        /// </summary>
-        public JsonResult FormListesi()
-        {
-            var id = Url.RequestContext.RouteData.Values["id"];
-            var ID = id.ToInt32();
-            List<ProjeForm> Prj = db.ProjeForms.Where(m => m.PID == ID).ToList();
-            List<SelectListItem> List = new List<SelectListItem>();
-            foreach (ProjeForm item in Prj)
-            {
-                List.Add(new SelectListItem
-                {
-                    Selected = false,
-                    Text = item.Form,
-                    Value = item.ID.ToString()
-                });
-            }
-            return Json(List.Select(x => new { Value = x.Value, Text = x.Text, Selected = x.Selected }), JsonRequestBehavior.AllowGet);
-
-        }
-        /// <summary>
-        /// sorumlular
-        /// </summary>
-        public string SorumluListesi()
-        {
-            List<frmUserss> usr = db.Users.Where(a => a.Aktif == true).Select(m => new frmUserss { ID = m.ID, Kod = m.Kod, AdSoyad = m.AdSoyad, RoleName = m.RoleName }).ToList();
-            var json = new JavaScriptSerializer().Serialize(usr);
-            return json;
-
-        }
-        /// <summary>
-        /// öncelik update
-        /// </summary>
-        public string OncelikGuncelle(string Data)
-        {
-            if (CheckPerm(Perms.SözleşmeTanim, PermTypes.Writing) == false) return null;
-            JArray parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
-            foreach (JObject bds in parameters)
-            {
-                var id = bds["ID"].ToInt32();
-                List<Gorevler> grv = db.Gorevlers.ToList();
-                foreach (Gorevler item in grv)
-                {
-                    if (item.ID == id)
-                    {
-                        item.OncelikID = bds["OncelikID"].ToInt32();
-                    }
-                }
-
-            }
-            try
-            {
-                var x = db.SaveChanges();
-                return "OK";
-            }
-            catch (Exception)
-            {
-                return "NO";
-            }
-        }
-        /// <summary>
-        /// görev onay
-        /// </summary>
-        public JsonResult GorevReddet(int Id)
-        {
-            try
-            {
-                db.Database.ExecuteSqlCommand(string.Format("UPDATE [BIRIKIM].[ong].[GorevTodoList] SET AktifPasif = 0  WHERE  GorevID = {0}", Id));
-                db.Database.ExecuteSqlCommand(string.Format("UPDATE [BIRIKIM].[ong].[Gorevler] SET AktifPasif = 0, DurumID={0} WHERE ID = {1}", ComboItems.gydReddedildi.ToInt32(), Id));
-                return Json(new Result(true, Id), JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception ex)
-            {
-                Logger(ex, "ToDo/Duties/GorevReddet");
-                return Json(new Result(false, "Hata oldu"), JsonRequestBehavior.AllowGet);
-            }
-        }
-        /// <summary>
-        /// görev ret
-        /// </summary>
-        public JsonResult GorevOnayla(int Id)
-        {
-            try
-            {
-                db.Database.ExecuteSqlCommand(string.Format("UPDATE [BIRIKIM].[ong].[Gorevler] SET DurumID = {0} WHERE  ID = {1}", ComboItems.gydAtandı.ToInt32(), Id));
-                return Json(new Result(true, Id), JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception ex)
-            {
-                Logger(ex, "ToDo/Duties/GorevOnayla");
                 return Json(new Result(false, "Hata oldu"), JsonRequestBehavior.AllowGet);
             }
         }

@@ -190,6 +190,7 @@
         TodoMüşteri,
         TodoProje,
         TodoTakvim,
-        TodoÇalışma
+        TodoÇalışma,
+        TodoGörevler
     }
 }

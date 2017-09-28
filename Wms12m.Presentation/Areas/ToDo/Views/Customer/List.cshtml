@@ -19,8 +19,8 @@
                         <td>@if (item.MesaiKontrol == true) { @item.MesaiKota } else { @("-"); }</td>
                         <td>@item.ProjeForms.Where(m => m.PID == null).ToList().Count</td>
                         <td>
-                            <a class="btn btn-default" href="javascript:;" onclick="CreateEdit('@item.ID')"> Düzenle </a>
-                            <a class="btn btn-danger" href="javascript:;" onclick="Delete('@item.ID','/ToDo/Customer/List','liste','')"> Sil </a>
+                            @if (ViewBag.Yetki == true) {<a class="btn btn-default" href="javascript:;" onclick="CreateEdit('@item.ID')"> Düzenle </a>}
+                            @if (ViewBag.Yetki2 == true) {<a class="btn btn-danger" href="javascript:;" onclick="Delete('@item.ID','/ToDo/Customer/List','liste','')"> Sil </a>}
                         </td>
                     </tr>
                 }
