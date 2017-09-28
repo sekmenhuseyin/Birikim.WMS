@@ -1,7 +1,5 @@
-﻿@model GorevCalisma
-@{
-    List<GorevToDoList> tbl = ViewBag.TodoList;
-}<div class="modal-content">
+﻿@model GorevlerCalisma
+<div class="modal-content">
     <div class="close-modal" data-dismiss="modal"><div class="lr"><div class="rl"></div></div></div>
     <div class="container">
         <div class="portlet box green">
@@ -60,7 +58,7 @@
 <script type="text/javascript">
     sayac = 1;
     $(document).ready(function () { $('.date-picker').datepicker(); });
-     var model = @Html.Raw(Json.Encode(tbl.Select(m=> new frmGorevTodos { ID=m.ID, Aciklama=m.Aciklama, AktifPasif=m.AktifPasif, OnayDurum=m.OnayDurum }).ToList()));
+     var model = @Html.Raw(Json.Encode(tbl.Select(m=> new frmGorevTodos { ID=m.ID, Aciklama=m.Aciklama, OnayDurum=m.Onay }).ToList()));
      $.each(model, function (indexx, value) {
          var index = sayac++;
          var newElement = $("<div>").addClass("form-group row todo-content");

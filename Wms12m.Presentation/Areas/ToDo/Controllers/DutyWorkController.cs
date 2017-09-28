@@ -16,7 +16,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         public ActionResult Index()
         {
             ViewBag.GorevID = new SelectList(db.Gorevlers.Where(a => a.Sorumlu == vUser.UserName || a.Sorumlu2 == vUser.UserName || a.Sorumlu3 == vUser.UserName || a.KontrolSorumlusu == vUser.UserName).ToList(), "ID", "Gorev");
-            return View(new GorevlerCalisma());
+            return View();
         }
         /// <summary>
         /// yeni çalışma
@@ -59,9 +59,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         {
             //TODO:
             var gorevCalisma = db.GorevlerCalismas.Find(Id);
-
             ViewBag.GorevID = new SelectList(db.Gorevlers.Where(a => a.Sorumlu == vUser.UserName || a.Sorumlu2 == vUser.UserName || a.Sorumlu3 == vUser.UserName).ToList(), "ID", "Gorev", gorevCalisma.GorevID);
-
             return PartialView(gorevCalisma);
         }
         /// <summary>
@@ -181,9 +179,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                     ID = item.ID,
                     Aciklama = item.Aciklama
                 };
-
                 aa.Add(a);
-
             }
             var json = new JavaScriptSerializer().Serialize(aa);
             return json;
