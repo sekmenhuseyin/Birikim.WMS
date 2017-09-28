@@ -187,5 +187,9 @@
         ChartGunlukMDFUretimi,
         ChartBaglantiZamanCizelgesi,
         ChartBolgeBazliSatisAnalizi,
+        TodoMüşteri,
+        TodoProje,
+        TodoTakvim,
+        TodoÇalışma
     }
 }
