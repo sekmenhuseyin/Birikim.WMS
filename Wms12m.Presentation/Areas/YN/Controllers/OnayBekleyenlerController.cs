@@ -274,5 +274,56 @@ namespace Wms12m.Presentation.Areas.YN.Controllers
             }
         }
         #endregion
+
+        #region Sipariş
+        /// <summary>
+        /// tahsilat onayı bekleyenler sayfası
+        /// </summary>
+        public ActionResult Tahsilat()
+        {
+            return View("Tahsilat");
+        }
+        // <summary>
+        // tahsilat onayı bekleyenler listesi
+        // </summary>
+        public string Tahsilat_List()
+        {
+            using (YNSEntities dby = new YNSEntities())
+            {
+                var list = dby.Database.SqlQuery<frmOnayTahsilatList>(string.Format(@"
+                SELECT TahsilatNo, HesapKodu, YNS{0}.CAR002.CAR002_Unvan1 AS Unvan,
+                        CONVERT(VARCHAR(15), CAST(TahsilatTarihi - 2 AS datetime), 104) as Tarih,
+                        CASE IslemTuru WHEN 0 THEN 'Tahsilat' WHEN 1 THEN 'İskonto' END as IslemTuru,
+	                    CASE OdemeTuru WHEN 0 THEN 'Nakit' WHEN 1 THEN 'Kredi Kartı' END as OdemeTuru,
+	                    Tutar, DovizCinsi, KapatilanTL, KapatilanUSD, KapatilanEUR, Kaydeden, Aciklama
+                FROM YNS{0}.TahsilatMobil(NOLOCK)
+                LEFT JOIN YNS{0}.CAR002 ON YNS{0}.TahsilatMobil.HesapKodu = YNS{0}.CAR002.CAR002_HesapKodu
+                WHERE IslemDurumu=0", "0TEST")).ToList();
+
+                var json = new JavaScriptSerializer().Serialize(list);
+                return json;
+            }
+        }
+        /// <summary>
+        /// onayla veya reddet
+        /// </summary>
+        [HttpPost]
+        public JsonResult Tahsilat_Onay(string ID, bool Onay)
+        {
+            try
+            {
+                using (YNSEntities dby = new YNSEntities())
+                    dby.Database.ExecuteSqlCommand(string.Format("UPDATE [YNS{0}].[YNS{0}].[TahsilatMobil] SET IslemDurumu = '{1}' WHERE TahsilatNo='{2}'", "0TEST", Onay == true ? 1 : 2, ID));
+                return Json(new Result(true, 1), JsonRequestBehavior.AllowGet);
+
+            }
+            catch (Exception ex)
+            {
+                Logger(ex, "YN/OnayBekleyenler/Tahsilat_Onay");
+                return Json(new Result(false, "Hata Oluştu"), JsonRequestBehavior.AllowGet);
+            }
+        }
+        #endregion
+
     }
 }
