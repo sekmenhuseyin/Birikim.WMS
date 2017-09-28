@@ -5,7 +5,7 @@
     <tbody>
         @foreach (var item in Model)
         {
-            <tr data-ID="@item.ID"@if (ViewBag.RoleName == "Admin" || ViewBag.RoleName == " ") {<text> ondblclick = "showEdit(@item.ID)" class = "clickable"</text>}>
+            <tr data-ID="@item.ID"@if (ViewBag.Yetki == true) {<text> ondblclick = "showEdit(@item.ID)" class = "clickable"</text>}>
                 <td data="@item.OncelikID" data-id="@item.ID"><div style="display:flex;"><i class='fa fa-arrow-up list-up-down item-up' onclick='RowUp(this)' style='color:#a0e4a0;'></i><i class='fa fa-arrow-down list-up-down item-down' onclick='RowDown(this)'  style='color:#ec9696;'></i></div></td>
                 <td></td>
                 <td class="details-control"></td>
@@ -19,8 +19,8 @@
                 <td>@if (item.ComboItem_Name != null) { @item.ComboItem_Name.Name} </td>
                 <td>@if (item.TahminiBitis != null) { @item.TahminiBitis.Value.ToString("dd.MM.yyyy")} </td>
                 <td nowrap>
-                    @if (item.DurumID != ComboItems.gydOnayVer.ToInt32()) {<a class="btn btn-info" href="#modalEditPage" data-toggle="modal" onclick="editInModal('/ToDo/DutyWork/New/@item.ID');"><span class="glyphicon glyphicon-floppy-save"></span>Çalışma</a>}
-                    @if (ViewBag.RoleName == "Admin" || ViewBag.RoleName == " ") {<a class="btn btn-danger" href="javascript:;" onclick="Delete('@item.ID', '/ToDo/Duties/List', 'liste', '')"> Sil </a>}
+                    @if (item.DurumID != ComboItems.gydReddedildi.ToInt32()) {<a class="btn btn-info" href="#modalEditPage" data-toggle="modal" onclick="editInModal('/ToDo/DutyWork/New/@item.ID');"><span class="glyphicon glyphicon-floppy-save"></span>Çalışma</a>}
+                    @if (ViewBag.Yetki2 == true) {<a class="btn btn-danger" href="javascript:;" onclick="Delete('@item.ID', '/ToDo/Duties/List', 'liste', '')"> Sil </a>}
                 </td>
             </tr>
         }
@@ -54,7 +54,7 @@
     //tarih
     $.datepicker.setDefaults($.datepicker.regional["tr"]);
     $(".tarih").datepicker();
-    @if (ViewBag.RoleName == "Admin" || ViewBag.RoleName == " ") {<text>
+    @if (ViewBag.Yetki == true) {<text>
         function showEdit(ID) {
             $('#modalEditPage').modal('toggle');
             editInModal('/ToDo/Duties/Edit/' + ID);

@@ -19,7 +19,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         public ActionResult Index()
         {
             if (CheckPerm(Perms.TodoGörevler, PermTypes.Reading) == false) return Redirect("/");
-            ViewBag.Yetki = vUser.RoleName;
+            ViewBag.Yetki = CheckPerm(Perms.TodoGörevler, PermTypes.Writing);
             ViewBag.DurumID = new SelectList(ComboSub.GetList(Combos.GörevYönetimDurumları.ToInt32()), "ID", "Name");
             return View();
         }
@@ -28,6 +28,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         /// </summary>
         public PartialViewResult New()
         {
+            if (CheckPerm(Perms.TodoGörevler, PermTypes.Writing) == false) return null;
             ViewBag.GorevTipiID = new SelectList(ComboSub.GetList(Combos.GörevYönetimTipleri.ToInt32()), "ID", "Name", "");
             ViewBag.DepartmanID = new SelectList(ComboSub.GetList(Combos.Departman.ToInt32()), "ID", "Name", "");
             ViewBag.MusteriID = new SelectList(db.Musteris.OrderBy(m => m.Unvan).ToList(), "ID", "Unvan");
@@ -52,7 +53,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         public PartialViewResult List(int Tip)
         {
             var list = new List<Gorevler>();
-            if (vUser.RoleName == "Admin" || vUser.RoleName == " ")
+            if (CheckPerm(Perms.TodoGörevler, PermTypes.Writing) == true)
             {
                 list = db.Gorevlers.Where(a => a.DurumID == Tip).OrderBy(a => a.OncelikID).ToList();
             }
@@ -60,7 +61,8 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             {
                 list = db.Gorevlers.Where(a => a.DurumID == Tip && (a.Sorumlu == vUser.UserName || a.Sorumlu2 == vUser.UserName || a.Sorumlu3 == vUser.UserName || a.KontrolSorumlusu == vUser.UserName || a.Kaydeden == vUser.UserName)).OrderBy(a => a.OncelikID).ToList();
             }
-            ViewBag.RoleName = vUser.RoleName;
+            ViewBag.Yetki = CheckPerm(Perms.TodoGörevler, PermTypes.Writing);
+            ViewBag.Yetki2 = CheckPerm(Perms.TodoGörevler, PermTypes.Deleting);
             return PartialView(list);
         }
         /// <summary>
@@ -68,6 +70,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         /// </summary>
         public PartialViewResult Edit(int? id)
         {
+            if (CheckPerm(Perms.TodoGörevler, PermTypes.Writing) == false) return null;
             var tbl = db.Gorevlers.Find(id);
             ViewBag.MusteriID = new SelectList(db.Musteris.OrderBy(m => m.Unvan).ToList(), "ID", "Unvan", tbl.ProjeForm.MusteriID);
             ViewBag.Proje = new SelectList(db.ProjeForms.Where(m => m.MusteriID == tbl.ProjeForm.MusteriID && m.PID == null).ToList(), "ID", "Proje", tbl.ProjeForm.PID);
@@ -216,7 +219,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                     gorevler.KayitTarih = gorevler.DegisTarih;
                     gorevler.BitisTarih = null;
                     gorevler.OncelikID = maxSira + 1;
-                    if (vUser.RoleName == "Admin" || vUser.RoleName == " ")
+                    if (CheckPerm(Perms.TodoGörevler, PermTypes.Writing) == true)
                         gorevler.DurumID = ComboItems.gydAtandı.ToInt32();
                     else if (gorevler.GorevTipiID == ComboItems.gytBilgiTalebi.ToInt32() || gorevler.GorevTipiID == ComboItems.gytGeliştirme.ToInt32() || gorevler.GorevTipiID == ComboItems.gytKaliteKontrol.ToInt32())
                         gorevler.DurumID = ComboItems.gydOnayVer.ToInt32();
