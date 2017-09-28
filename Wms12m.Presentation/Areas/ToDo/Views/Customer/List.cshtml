@@ -7,7 +7,7 @@
     </div>
     <div class="portlet-body form p-40">
         <table class="table table-striped table-bordered table-hover" id="sample_1">
-            <thead><tr><th>Firma</th><th>Ünvan</th><th>Açıklama</th><th>Email</th><th>Mesai Kontrol</th><th>Mesai Kota</th><th></th></tr></thead>
+            <thead><tr><th>Firma</th><th>Ünvan</th><th>Açıklama</th><th>Email</th><th>Mesai Kota</th><th>Proje Sayısı</th><th></th></tr></thead>
             <tbody>
                 @foreach (var item in Model)
                 {
@@ -16,8 +16,8 @@
                         <td>@item.Unvan</td>
                         <td>@item.Aciklama</td>
                         <td>@item.Email</td>
-                        <td>@if (item.MesaiKontrol == true) { @("Var"); } else { @("Yok"); }</td>
-                        <td>@item.MesaiKota</td>
+                        <td>@if (item.MesaiKontrol == true) { @item.MesaiKota } else { @("-"); }</td>
+                        <td>@item.ProjeForms.Where(m => m.PID == null).ToList().Count</td>
                         <td>
                             <a class="btn btn-default" href="javascript:;" onclick="CreateEdit('@item.ID')"> Düzenle </a>
                             <a class="btn btn-danger" href="javascript:;" onclick="Delete('@item.ID','/ToDo/Customer/List','liste','')"> Sil </a>
