@@ -245,13 +245,6 @@ namespace WMSMobil
                 panelSatir.Name = Sayac.ToString();
                 panelSatir.Location = new Point(0, (Sayac * 21).Carpim());
 
-                TextBox tBarkod = new TextBox();
-                tBarkod.Visible = false;
-                tBarkod.Width = 3.Carpim();
-                tBarkod.Location = new Point(0, 0);
-                tBarkod.ReadOnly = true;
-                tBarkod.Name = "txtMalKodu";
-
                 TextBox tMalKodu = new TextBox();
                 tMalKodu.Font = font;
                 tMalKodu.Width = 60.Carpim();
@@ -375,7 +368,6 @@ namespace WMSMobil
                 tMakaraNo.BackColor = Color.FromArgb(206, 223, 239);
                 tMalAdi.BackColor = Color.FromArgb(206, 223, 239);
                 //yazı ve tag
-                tBarkod.Text = stiItem.Barkod;
                 tMalKodu.Text = stiItem.MalKodu;
                 tBirim.Text = stiItem.Birim;
                 tMakaraNo.Text = stiItem.MakaraNo;
@@ -384,14 +376,12 @@ namespace WMSMobil
                 tMiktar.Text = stiItem.Miktar.ToDecimal().ToString("N2");
                 tMiktar.Tag = stiItem.Miktar.ToDecimal();
                 //panel ekle
-                panelSatir.Barkod = stiItem.Barkod;
                 panelSatir.MalAdi = stiItem.MalAdi;
                 panelSatir.MalKodu = stiItem.MalKodu;
                 panelSatir.Miktar = stiItem.Miktar;
                 panelSatir.Birim = stiItem.Birim;
                 panelSatir.MakaraNo = stiItem.MakaraNo;
                 //add controls
-                panelSatir.Controls.Add(tBarkod);
                 panelSatir.Controls.Add(tMalKodu);
                 panelSatir.Controls.Add(tMalAdi);
                 panelSatir.Controls.Add(tMiktar);
@@ -503,12 +493,14 @@ namespace WMSMobil
             }
             bool mal_var = false;
             bool raf_var = false;
-            string tmpMalKod = "";
+           
+            var malInfo = Servis.GetMalzemeFromBarcode("", mal, GorevID, Ayarlar.Kullanici.ID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid);
+            string tmpMalKod = malInfo.MalKodu;
             Tip_STI temp_sti = new Tip_STI();
             //tüm sayırları eski rengine döndür
             foreach (var itemPanel in PanelVeriList)
             {
-                if (itemPanel.Controls[0].Text == mal)
+                if (itemPanel.Controls[1].Text == tmpMalKod)
                 {
                     cokluMalSayisi++;
                     tmpMalKod = itemPanel.Controls[1].Text;
@@ -531,8 +523,7 @@ namespace WMSMobil
 
                     if (Ayarlar.MenuTip == MenuType.KontrollüSayım)
                     {
-                        var malbilgileri = Servis.GetMalzemeFromBarcode("", mal, GorevID, Ayarlar.Kullanici.ID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid);
-                        if (itemPanel.Controls[0].Text == malbilgileri.Barkod && malbilgileri.Kod1 == "KKABLO")
+                        if (itemPanel.Controls[1].Text == malInfo.MalKodu && malInfo.Kod1 == "KKABLO")
                         {
 
                             if (itemPanel.Raf == raf && itemPanel.MakaraNo == makaraNo)
@@ -544,7 +535,7 @@ namespace WMSMobil
                                     item.BackColor = Color.DarkOrange;
                             }
                         }
-                        else if (itemPanel.Controls[0].Text == malbilgileri.Barkod)
+                        else if (itemPanel.Controls[1].Text == malInfo.MalKodu)
                         {
                             mal_var = true;
                             if (itemPanel.Raf == raf)
@@ -556,7 +547,7 @@ namespace WMSMobil
                             }
                         }
                     }
-                    else if (itemPanel.Controls[0].Text == mal)
+                    else if (itemPanel.Controls[1].Text == malInfo.MalKodu)
                     {
                         mal_var = true;
                         //eğer kontrollü sayım ise rafı da doğru olmalı ki sayıyı arttırsın
@@ -604,12 +595,11 @@ namespace WMSMobil
                 }
                 else if (Ayarlar.MenuTip == MenuType.RafaYerlestirme || Ayarlar.MenuTip == MenuType.SiparisToplama || Ayarlar.MenuTip == MenuType.TransferÇıkış || Ayarlar.MenuTip == MenuType.TransferGiriş)
                 {
-                    if (itemPanel.Controls[0].Text == mal)
+                    if (itemPanel.Controls[1].Text == malInfo.MalKodu)
                     {
                         mal_var = true;
                         temp_sti.YerlestirmeMiktari = itemPanel.Controls[6].Text.ToDecimal();
                         temp_sti.Miktar = itemPanel.Controls[3].Text.ToDecimal();
-                        temp_sti.Barkod = itemPanel.Controls[0].Text;
                         temp_sti.MalKodu = itemPanel.Controls[1].Text;
                         temp_sti.Raf = raf;
                         temp_sti.Birim = itemPanel.Controls[4].Text;
@@ -632,8 +622,8 @@ namespace WMSMobil
             //kontorllü sayımda sadece satır ekle
             if (Ayarlar.MenuTip == MenuType.KontrollüSayım && raf_var == false)
             {
-                var malbilgileri = Servis.GetMalzemeFromBarcode("", mal, GorevID, Ayarlar.Kullanici.ID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid);
-                if (malbilgileri == null)
+
+                if (malInfo == null)
                 {
                     Mesaj.Uyari("Sistemde böyle bir barkod bulunamadı");
                     return;
@@ -646,13 +636,6 @@ namespace WMSMobil
                 panelSatir.Name = Sayac.ToString();
                 panelSatir.Size = new Size(627.Carpim(), 20.Carpim());
                 panelSatir.Location = new Point(1, (Sayac * 21).Carpim());
-
-                TextBox tBarkod = new TextBox();
-                tBarkod.Visible = false;
-                tBarkod.Width = 3;
-                tBarkod.Location = new Point(0, 0);
-                tBarkod.ReadOnly = true;
-                tBarkod.Name = "txtMalKodu";
 
                 TextBox tMalKodu = new TextBox();
                 tMalKodu.Font = font;
@@ -723,10 +706,9 @@ namespace WMSMobil
                 tIslemMiktar.BackColor = Color.DarkOrange;
                 tYerlestirmeMiktari.BackColor = Color.DarkOrange;
 
-                tBarkod.Text = malbilgileri.Barkod;
-                tMalKodu.Text = malbilgileri.MalKodu;
-                tMalAdi.Text = malbilgileri.MalAdi;
-                tBirim.Text = malbilgileri.Birim;
+                tMalKodu.Text = malInfo.MalKodu;
+                tMalAdi.Text = malInfo.MalAdi;
+                tBirim.Text = malInfo.Birim;
                 tMakaraNo.Text = txtMakaraBarkod.Text;
                 tRaf.Text = raf;
                 tMiktar.Text = "0";
@@ -735,16 +717,14 @@ namespace WMSMobil
 
                 tMalKodu.Tag = "0";
 
-                panelSatir.Barkod = tBarkod.Text;
                 panelSatir.MalAdi = tMalAdi.Text;
                 panelSatir.MalKodu = tMalKodu.Text;
                 panelSatir.Miktar = 0;
-                panelSatir.Birim = malbilgileri.Birim;
+                panelSatir.Birim = malInfo.Birim;
                 panelSatir.MakaraNo = txtMakaraBarkod.Text;
                 panelSatir.YerlestirmeMiktari = 0;
                 panelSatir.Raf = raf;
 
-                panelSatir.Controls.Add(tBarkod);
                 panelSatir.Controls.Add(tMalKodu);
                 panelSatir.Controls.Add(tMalAdi);
                 panelSatir.Controls.Add(tMiktar);
@@ -795,13 +775,6 @@ namespace WMSMobil
                     panelSatir.Name = Sayac.ToString();
                     panelSatir.Size = new Size(627.Carpim(), 20.Carpim());
                     panelSatir.Location = new Point(1, (Sayac * 21).Carpim());
-
-                    TextBox tBarkod = new TextBox();
-                    tBarkod.Visible = false;
-                    tBarkod.Width = 3;
-                    tBarkod.Location = new Point(0, 0);
-                    tBarkod.ReadOnly = true;
-                    tBarkod.Name = "txtMalKodu";
 
                     TextBox tMalKodu = new TextBox();
                     tMalKodu.Font = font;
@@ -876,7 +849,6 @@ namespace WMSMobil
                     tIslemMiktar.BackColor = Color.DarkOrange;
 
                     tMiktar.Text = temp_sti.Miktar.ToString("N2");
-                    tBarkod.Text = temp_sti.Barkod;
                     tMalKodu.Text = temp_sti.MalKodu;
                     tBirim.Text = temp_sti.Birim;
                     tMakaraNo.Text = "";
@@ -890,7 +862,6 @@ namespace WMSMobil
                     else
                         tMalKodu.Tag = temp_sti.ID.ToInt32();
 
-                    panelSatir.Barkod = temp_sti.Barkod;
                     panelSatir.MalAdi = temp_sti.MalAdi;
                     panelSatir.MalKodu = temp_sti.MalKodu;
                     panelSatir.Miktar = temp_sti.Miktar;
@@ -900,7 +871,6 @@ namespace WMSMobil
                     panelSatir.YerlestirmeMiktari = (sender == btnUygula) ? tMiktar.Text.ToInt32() : 1;
                     panelSatir.Raf = temp_sti.Raf;
 
-                    panelSatir.Controls.Add(tBarkod);
                     panelSatir.Controls.Add(tMalKodu);
                     panelSatir.Controls.Add(tMalAdi);
                     panelSatir.Controls.Add(tMiktar);
