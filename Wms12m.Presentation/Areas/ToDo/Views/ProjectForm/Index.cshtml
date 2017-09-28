@@ -8,7 +8,7 @@
 }<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><span>Proje İşlemleri</span></li></ul></div>
 <h1 class="page-title">Proje İşlemleri</h1>
 <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-12">@if (ViewBag.Yetki == true) {
         <div class="row" id="CreateEdit">
             <div class="col-md-12">
                 <div class="portlet box green">
@@ -84,17 +84,16 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> }
         <div id="liste"></div>
     </div>
 </div>
-@section Scripts{
-<script src="~/Content/assets/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js" type="text/javascript"></script>
+@section Scripts{<script src="~/Content/assets/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js" type="text/javascript"></script>
 <script src="~/Content/assets/global/plugins/bootstrap-touchspin/jquery.bootstrap-touchspin.js" type="text/javascript"></script>
 <script type="text/javascript">
     var DeleteFunctionUrl = '/ToDo/ProjectForm/Delete';
     $(document).ready(function () {
-        $(".satirekle").prepend("<option value=''>Seçiniz !!!</option>"); $(".satirekle")[0].selectedIndex = 0; $(".satirekle")[1].selectedIndex = 0;
+        @if (ViewBag.Yetki == true) {<text>$(".satirekle").prepend("<option value=''>Seçiniz !!!</option>"); $(".satirekle")[0].selectedIndex = 0; $(".satirekle")[1].selectedIndex = 0;</text>}
         $("#MesaiKontrol").bootstrapSwitch();
         $('#MesaiKontrol').on('switchChange.bootstrapSwitch', function (e, data) {
             var state = $(this).bootstrapSwitch('state');//returns true or false dfdfd
@@ -127,7 +126,7 @@
             PartialView("/ToDo/ProjectForm/FormList/" + data.Id, 'listealt');
         }
     };
-    function CreateEditAltF(Id) {
+    function CreateEditAltF(Id) {@if (ViewBag.Yetki == true) {<text>
         if (Id == 0) {
             $(".ID2").val("0");
             $("#Form").val("");
@@ -139,8 +138,8 @@
             $("#modalEditPage").animate({ scrollTop: 0 }, "slow");
             PartialView("/ToDo/ProjectForm/FormEdit", 'CreateEditAlt', JSON.stringify({ Id: Id }));
         }
-    }
-    function CreateEdit(Id) {
+    </text>} }
+    function CreateEdit(Id) {@if (ViewBag.Yetki == true) {<text>
         if (Id == 0) {
             $(".ID").val("0");
             $("#MusteriID").val("");
@@ -157,6 +156,6 @@
             $("html, body").animate({ scrollTop: 0 }, "slow");
             PartialView("/ToDo/ProjectForm/Edit", 'CreateEdit', JSON.stringify({ Id: Id }));
         }
-    }
+    </text>} }
 </script>
 }

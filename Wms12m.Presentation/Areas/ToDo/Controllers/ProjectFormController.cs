@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Data;
-using System.Data.Entity;
 using System.Linq;
 using System.Web.Mvc;
 using Wms12m.Entity;
@@ -18,7 +17,8 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             if (CheckPerm(Perms.TodoProje, PermTypes.Reading) == false) return Redirect("/");
             ViewBag.MusteriID = new SelectList(db.Musteris.OrderBy(m => m.Unvan).ToList(), "ID", "Unvan ");
             ViewBag.Sorumlu = new SelectList(Persons.GetList(), "Kod", "AdSoyad");
-            return View(new ProjeForm());
+            ViewBag.Yetki = CheckPerm(Perms.TodoProje, PermTypes.Writing);
+            return View("Index", new ProjeForm());
         }
         /// <summary>
         /// liste
@@ -26,8 +26,9 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         public PartialViewResult List()
         {
             if (CheckPerm(Perms.TodoProje, PermTypes.Reading) == false) return null;
-            var projeForms = db.ProjeForms.Include(p => p.Musteri).Include(p => p.ProjeForm2);
-            return PartialView(projeForms.Where(a => a.PID == null).ToList());
+            ViewBag.Yetki = CheckPerm(Perms.TodoProje, PermTypes.Writing);
+            ViewBag.Yetki2 = CheckPerm(Perms.TodoProje, PermTypes.Deleting);
+            return PartialView("List", db.ProjeForms.Where(a => a.PID == null).ToList());
         }
         /// <summary>
         /// düzeneleme sayfası
@@ -117,6 +118,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             {
                 Proje = projeForm.Proje
             };
+            ViewBag.Yetki = CheckPerm(Perms.TodoProje, PermTypes.Writing);
             return PartialView(projeForm);
         }
         /// <summary>
@@ -128,6 +130,8 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             var id = Url.RequestContext.RouteData.Values["id"];
             var ID = id.ToInt32();
             ViewBag.id = ID;
+            ViewBag.Yetki = CheckPerm(Perms.TodoProje, PermTypes.Writing);
+            ViewBag.Yetki2 = CheckPerm(Perms.TodoProje, PermTypes.Deleting);
             return PartialView("FormList", db.ProjeForms.Where(a => a.PID == ID).ToList());
         }
         /// <summary>
