@@ -25,13 +25,13 @@ namespace Wms12m.Presentation.Areas.YN.Controllers
         {
             using (YNSEntities dby = new YNSEntities())
             {
-                var list = dby.Database.SqlQuery<frmOnaySiparisList>(string.Format(@"SELECT        YNS{0}.STK002.STK002_EvrakSeriNo AS EvrakSeriNo, YNS{0}.STK002.STK002_CariHesapKodu AS HesapKodu, YNS{0}.CAR002.CAR002_Unvan1 AS Unvan, COUNT(YNS{0}.STK002.STK002_MalKodu) 
+                var list = dby.Database.SqlQuery<frmOnaySiparisList>(string.Format(@"SELECT        YNS{0}.STK002.STK002_EvrakSeriNo AS EvrakSeriNo, YNS{0}.CAR002.CAR002_BankaHesapKodu AS HesapKodu, YNS{0}.CAR002.CAR002_Unvan1 AS Unvan, COUNT(YNS{0}.STK002.STK002_MalKodu) 
                                                                                              AS Cesit, SUM(YNS{0}.STK002.STK002_Miktari) AS Miktar, YNS{0}.STK002.STK002_GirenKodu AS Kaydeden, CONVERT(VARCHAR(15), CAST(YNS{0}.STK002.STK002_GirenTarih - 2 AS datetime), 104) 
                                                                                              AS Tarih
                                                                     FROM            YNS{0}.STK002 INNER JOIN
                                                                                              YNS{0}.CAR002 ON YNS{0}.STK002.STK002_CariHesapKodu = YNS{0}.CAR002.CAR002_HesapKodu
                                                                     WHERE        (YNS{0}.STK002.STK002_GC = 1) AND (YNS{0}.STK002.STK002_SipDurumu = 0) AND (YNS{0}.STK002.STK002_Kod10 = 'Onay Bekliyor')
-                                                                    GROUP BY YNS{0}.STK002.STK002_CariHesapKodu, YNS{0}.CAR002.CAR002_Unvan1, YNS{0}.STK002.STK002_EvrakSeriNo, YNS{0}.STK002.STK002_GirenKodu, CONVERT(VARCHAR(15), 
+                                                                    GROUP BY YNS{0}.CAR002.CAR002_BankaHesapKodu, YNS{0}.CAR002.CAR002_Unvan1, YNS{0}.STK002.STK002_EvrakSeriNo, YNS{0}.STK002.STK002_GirenKodu, CONVERT(VARCHAR(15), 
                                                                                              CAST(YNS{0}.STK002.STK002_GirenTarih - 2 AS datetime), 104)", "MTEST")).ToList();
                 var json = new JavaScriptSerializer().Serialize(list);
                 return json;
@@ -217,7 +217,7 @@ namespace Wms12m.Presentation.Areas.YN.Controllers
             using (YNSEntities dby = new YNSEntities())
             {
                 var list = dby.Database.SqlQuery<frmOnayFatura>(string.Format(@"SELECT        YNS{0}.TempFatura.EvrakNo, YNS{0}.TempFatura.HesapKodu, YNS{0}.TempFatura.Depo, COUNT(YNS{0}.TempFatura.ID) AS Cesit, 
-                                                                                                 SUM(YNS{0}.TempFatura.Miktar) AS Miktar, YNS{0}.TempFatura.Kaydeden, YNS{0}.TempFatura.KayitTarih, YNS{0}.CAR002.CAR002_Unvan1 AS Unvan
+                                                                                                 SUM(YNS{0}.TempFatura.Miktar) AS Miktar, YNS{0}.TempFatura.Kaydeden, CONVERT(VARCHAR(15), CAST(YNS{0}.TempFatura.KayitTarih - 2 AS datetime), 104) as KayitTarih, YNS{0}.CAR002.CAR002_Unvan1 AS Unvan
                                                                         FROM            YNS{0}.TempFatura INNER JOIN
                                                                                                  YNS{0}.CAR002 ON YNS{0}.TempFatura.HesapKodu = YNS{0}.CAR002.CAR002_HesapKodu
                                                                         WHERE        (YNS{0}.TempFatura.IslemDurumu = 0)
@@ -243,7 +243,7 @@ namespace Wms12m.Presentation.Areas.YN.Controllers
 
                      
 
-                        var yns = new YeniNesil(ConfigurationManager.ConnectionStrings["YNSEntities"].ConnectionString, "MTEST");
+                        var yns = new YeniNesil(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "MTEST");
                         var sepetIslemleri = yns.FaturaKaydet(list);
                         result = new Result(true, 1);
                     }
@@ -267,7 +267,9 @@ namespace Wms12m.Presentation.Areas.YN.Controllers
             {
                 var list = dby.Database.SqlQuery<frmOnayFatura>(string.Format(@"SELECT        YNS{0}.TempFatura.ID, YNS{0}.TempFatura.EvrakNo, YNS{0}.TempFatura.SiraNo, YNS{0}.TempFatura.HesapKodu, YNS{0}.TempFatura.UrunKodu AS MalKodu, YNS{0}.TempFatura.Depo, 
                                                                                                          YNS{0}.TempFatura.ParaCinsi, YNS{0}.TempFatura.Birim, YNS{0}.TempFatura.Miktar, YNS{0}.TempFatura.Fiyat, YNS{0}.TempFatura.IslemDurumu, YNS{0}.TempFatura.Kaydeden, 
-                                                                                                         YNS{0}.TempFatura.KayitTarih, YNS{0}.TempFatura.KayitSaat, YNS{0}.TempFatura.Degistiren, YNS{0}.TempFatura.DegisTarih, YNS{0}.TempFatura.DegisSaat, YNS{0}.CAR002.CAR002_Unvan1 AS Unvan, 
+                                                                                                         CONVERT(VARCHAR(15), CAST(YNS{0}.TempFatura.KayitTarih - 2 AS datetime), 104) as KayitTarih, YNS{0}.TempFatura.KayitSaat, YNS{0}.TempFatura.Degistiren, 
+                                                                                                         CONVERT(VARCHAR(15), CAST(YNS{0}.TempFatura.DegisTarih - 2 AS datetime), 104) as DegisTarih,
+                                                                                                          YNS{0}.TempFatura.DegisSaat, YNS{0}.CAR002.CAR002_Unvan1 AS Unvan, 
                                                                                                          YNS{0}.STK004.STK004_Aciklama AS MalAdi
                                                                                 FROM            YNS{0}.TempFatura INNER JOIN
                                                                                                          YNS{0}.CAR002 ON YNS{0}.TempFatura.HesapKodu = YNS{0}.CAR002.CAR002_HesapKodu INNER JOIN
@@ -278,7 +280,7 @@ namespace Wms12m.Presentation.Areas.YN.Controllers
         }
         #endregion
 
-        #region Sipariş
+        #region Tahsilat
         /// <summary>
         /// tahsilat onayı bekleyenler sayfası
         /// </summary>

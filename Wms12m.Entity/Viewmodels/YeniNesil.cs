@@ -88,10 +88,10 @@
         public string Birim { get; set; }
         public short IslemDurumu { get; set; }
         public string Kaydeden { get; set; }
-        public int KayitTarih { get; set; }
+        public string KayitTarih { get; set; }
         public string KayitSaat { get; set; }
         public string Degistiren { get; set; }
-        public int DegisTarih { get; set; }
+        public string DegisTarih { get; set; }
         public string DegisSaat { get; set; }
     }
 

@@ -66,6 +66,7 @@ namespace Wms12m
                 fatura.STK005_VadeTarihi = fatura.STK005_IslemTarihi + 60;  ///Default 60 gün vade 
                 fatura.STK005_DovizCinsi = item.ParaCinsi;
                 fatura.STK005_Depo = item.Depo;
+                fatura.STK005_RafKodu = item.Depo + "-A0";
                 fatura.STK005_MaliyetMuhasebelesmeSekli = 1;
                 fatura.STK005_Not5 = "AndMobil - " + item.KullaniciKodu;   ///Log amaçlı bilgi
 
@@ -224,14 +225,16 @@ namespace Wms12m
             format = string.Format(format, seri, no + 1);
             return format;
         }
-        private void EvrakNolari_YukleAyarla()
+         private void EvrakNolari_YukleAyarla()
         {
-            var evrakBilgiList = new List<STIEvrakBilgi>();
+            List<STIEvrakBilgi> evrakBilgiList = new List<STIEvrakBilgi>();
             SqlExper Exper = new SqlExper(ConStr, SirketKodu);
+
             evrakBilgiList = Exper.SelectList<STIEvrakBilgi>(string.Format(@"
             SELECT 0 as Tip, * FROM (
             SELECT TOP 1 STK005_EvrakSeriNo as EvrakNo, STK005_SEQNo as SiraNo  
             FROM YNS{0}.YNS{0}.STK005(NOLOCK)
+            WHERE STK005_EvrakTipi=11
             ORDER BY STK005_Row_ID DESC) Fatura
             UNION ALL
             SELECT 1 as Tip, * FROM (
@@ -244,26 +247,44 @@ namespace Wms12m
             SELECT TOP 1 TeklifNo as EvrakNo, 0 as SiraNo  
             FROM YNS{0}.YNS{0}.Teklif(NOLOCK)
             WHERE IslemTur=1
-            ORDER BY ID DESC) Teklif", SirketKodu));
-            if (evrakBilgiList.IsNull() || evrakBilgiList.Count != 3)
+            ORDER BY ID DESC) Teklif
+            UNION ALL
+            SELECT 3 as Tip, * FROM (
+            SELECT TOP 1 EvrakNo, 0 as SiraNo  
+            FROM YNS{0}.YNS{0}.TempFatura(NOLOCK)
+            ORDER BY ID DESC) TempFatura", SirketKodu));
+
+           
+            if (evrakBilgiList.IsNull() || evrakBilgiList.Count != 4)
             {
-                throw new Exception(@"Sipariş ve/veya fatura için son evrak numarası bulunamadı. Lütfen STK002 ve STK005 tablolarını inceleyin");
+                throw new Exception(@"Sipariş ve/veya fatura için son evrak numarası bulunamadı. Lütfen STK002, STK005, Teklif ve TempFatura tablolarını inceleyin");
             }
+
+            List<string> tabloList = new List<string> { "STK005", "STK002", "Teklif", "Fatura" };
+
             EvrakNoList = new List<STIEvrakBilgi>();
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < 4; i++)
             {
                 string evrakNo = "";
                 string seri = "";
                 int siraNo = 0;
                 evrakNo = evrakBilgiList[i].EvrakNo;
                 siraNo = evrakBilgiList[i].SiraNo;
+
+                if (evrakNo.Length < 4)
+                    throw new Exception(string.Format(@"Son evrak numarası geçersiz lütfen {0} tablosundaki son evrak numarasını kontrol edin !", tabloList[i]));
+
                 seri = evrakNo.Substring(0, 2);
                 evrakNo = evrakNo.Remove(0, 2);
                 int no = evrakNo.ToInt32();
+
                 evrakNo = EvrakNoOlustur(8, seri, no);
+
                 EvrakNoList.Add(new STIEvrakBilgi { EvrakNo = evrakNo, SiraNo = siraNo, Tip = evrakBilgiList[i].Tip });
             }
+
         }
+
         /// <summary>
         /// hesap listesi
         /// </summary>
