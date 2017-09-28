@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmTasks));
-            this.panel2 = new System.Windows.Forms.Panel();
+            this.panelUst = new System.Windows.Forms.Panel();
             this.label9 = new System.Windows.Forms.Label();
             this.cmbDurum = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -39,26 +39,26 @@
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.panel1 = new System.Windows.Forms.Panel();
+            this.panelAlt = new System.Windows.Forms.Panel();
             this.btnBack = new System.Windows.Forms.Button();
             this.btnLinkeAktar = new System.Windows.Forms.Button();
             this.btnIslemYap = new System.Windows.Forms.Button();
-            this.panel2.SuspendLayout();
+            this.panelUst.SuspendLayout();
             this.panelOrta.SuspendLayout();
-            this.panel1.SuspendLayout();
+            this.panelAlt.SuspendLayout();
             this.SuspendLayout();
             // 
-            // panel2
+            // panelUst
             // 
-            this.panel2.BackColor = System.Drawing.Color.White;
-            this.panel2.Controls.Add(this.label9);
-            this.panel2.Controls.Add(this.cmbDurum);
-            this.panel2.Controls.Add(this.label1);
-            this.panel2.Controls.Add(this.cmbGorevli);
-            this.panel2.Location = new System.Drawing.Point(0, 0);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(240, 50);
-            this.panel2.Tag = "2";
+            this.panelUst.BackColor = System.Drawing.Color.White;
+            this.panelUst.Controls.Add(this.label9);
+            this.panelUst.Controls.Add(this.cmbDurum);
+            this.panelUst.Controls.Add(this.label1);
+            this.panelUst.Controls.Add(this.cmbGorevli);
+            this.panelUst.Location = new System.Drawing.Point(0, 0);
+            this.panelUst.Name = "panelUst";
+            this.panelUst.Size = new System.Drawing.Size(240, 50);
+            this.panelUst.Tag = "2";
             // 
             // label9
             // 
@@ -150,14 +150,14 @@
             this.label2.Tag = "1";
             this.label2.Text = "GörevNo";
             // 
-            // panel1
+            // panelAlt
             // 
-            this.panel1.Controls.Add(this.btnBack);
-            this.panel1.Controls.Add(this.btnLinkeAktar);
-            this.panel1.Controls.Add(this.btnIslemYap);
-            this.panel1.Location = new System.Drawing.Point(0, 264);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(240, 30);
+            this.panelAlt.Controls.Add(this.btnBack);
+            this.panelAlt.Controls.Add(this.btnLinkeAktar);
+            this.panelAlt.Controls.Add(this.btnIslemYap);
+            this.panelAlt.Location = new System.Drawing.Point(0, 264);
+            this.panelAlt.Name = "panelAlt";
+            this.panelAlt.Size = new System.Drawing.Size(240, 30);
             // 
             // btnBack
             // 
@@ -201,24 +201,24 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.AutoScroll = true;
             this.ClientSize = new System.Drawing.Size(240, 294);
-            this.Controls.Add(this.panel1);
-            this.Controls.Add(this.panel2);
+            this.Controls.Add(this.panelAlt);
+            this.Controls.Add(this.panelUst);
             this.Controls.Add(this.panelOrta);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
             this.Name = "frmTasks";
             this.Text = "WMS Mobil - Görevler";
             this.Closing += new System.ComponentModel.CancelEventHandler(this.frmTasks_Closing);
-            this.panel2.ResumeLayout(false);
+            this.panelUst.ResumeLayout(false);
             this.panelOrta.ResumeLayout(false);
-            this.panel1.ResumeLayout(false);
+            this.panelAlt.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.Panel panelUst;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.ComboBox cmbDurum;
         private System.Windows.Forms.Label label1;
@@ -227,7 +227,7 @@
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Panel panelAlt;
         private System.Windows.Forms.Button btnIslemYap;
         private System.Windows.Forms.Button btnLinkeAktar;
         private System.Windows.Forms.Label label4;

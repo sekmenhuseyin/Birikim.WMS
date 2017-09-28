@@ -22,6 +22,13 @@ namespace WMSMobil
             InitializeComponent();
             Servis.Url = Ayarlar.ServisURL;
             GorevID = gorevID;
+            //change size
+            if (Screen.PrimaryScreen.Bounds.Height == Screen.PrimaryScreen.Bounds.Width)
+            {
+                int eksik = 320 - Screen.PrimaryScreen.WorkingArea.Height;
+                btnBack.Height -= eksik;
+                btnKaydet.Height -= eksik;
+            }
             //paket tipi
             Ayarlar.GorevDurumlari = Servis.GetPaketTip(Ayarlar.Kullanici.ID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid).ToList();
             txtTip.ValueMember = "ID";

@@ -157,26 +157,11 @@ namespace WMSMobil
                 Mesaj.Hata(ex);
             }
             //change size
-            if (Ayarlar.KatSayi < 1)
+            if (Screen.PrimaryScreen.Bounds.Height == Screen.PrimaryScreen.Bounds.Width)
             {
-                foreach (Control item in this.Controls)
-                {
-                    item.Top = item.Top.Carpim();
-                    item.Height = item.Height.Carpim();
-                }
-                foreach (Control item in this.panelUst.Controls)
-                {
-                    item.Top = item.Top.Carpim();
-                    item.Height = item.Height.Carpim();
-                    item.Width = item.Width.Carpim();
-                    item.Left = item.Left.Carpim();
-                }
-                foreach (Control item in this.panelOrta.Controls)
-                {
-                    item.Height = item.Height.Carpim();
-                    item.Width = item.Width.Carpim();
-                    item.Left = item.Left.Carpim();
-                }
+                int eksik = 320 - Screen.PrimaryScreen.WorkingArea.Height;
+                panelOrta.Height -= eksik;
+                panelAlt.Top -= eksik;
             }
             Cursor.Current = Cursors.Default;
             //end
