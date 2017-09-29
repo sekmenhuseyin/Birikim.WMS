@@ -34,6 +34,16 @@ namespace WMSMobil
             catch (Exception)
             {                
             }
+            //change size
+            if (Screen.PrimaryScreen.Bounds.Height == Screen.PrimaryScreen.Bounds.Width)
+            {
+                decimal crpm = (decimal)(Screen.PrimaryScreen.WorkingArea.Height - 20) / (decimal)320;
+                foreach (Control item in this.Controls)
+                {
+                    item.Top = (item.Top * crpm).ToInt32();
+                    item.Height = (item.Height * crpm).ToInt32();
+                }
+            }
         }
 
         private void listView1_SelectedIndexChanged(object sender, EventArgs e)

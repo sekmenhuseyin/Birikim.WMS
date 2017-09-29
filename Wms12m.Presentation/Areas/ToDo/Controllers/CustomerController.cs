@@ -13,6 +13,8 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         /// </summary>
         public ActionResult Index()
         {
+            if (CheckPerm(Perms.TodoMüşteri, PermTypes.Reading) == false) return Redirect("/");
+            ViewBag.Yetki = CheckPerm(Perms.TodoMüşteri, PermTypes.Writing);
             return View(new Musteri());
         }
         /// <summary>
@@ -20,6 +22,9 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         /// </summary>
         public PartialViewResult List()
         {
+            if (CheckPerm(Perms.TodoMüşteri, PermTypes.Reading) == false) return null;
+            ViewBag.Yetki = CheckPerm(Perms.TodoMüşteri, PermTypes.Writing);
+            ViewBag.Yetki2 = CheckPerm(Perms.TodoMüşteri, PermTypes.Deleting);
             return PartialView(db.Musteris.ToList());
         }
         /// <summary>
@@ -36,6 +41,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         [HttpPost, ValidateAntiForgeryToken]
         public JsonResult Save([Bind(Include = "ID,Firma,Unvan,Aciklama,Email,Tel1,Tel2,MesaiKontrol,MesaiKota")] Musteri musteri)
         {
+            if (CheckPerm(Perms.TodoMüşteri, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             if (ModelState.IsValid)
             {
                 if (musteri.ID == 0)
@@ -75,6 +81,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         /// </summary>
         public JsonResult Delete(string Id)
         {
+            if (CheckPerm(Perms.TodoMüşteri, PermTypes.Deleting) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             Musteri musteri = db.Musteris.Find(Id.ToInt32());
             db.Musteris.Remove(musteri);
             try

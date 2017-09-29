@@ -23,8 +23,9 @@ namespace WMSMobil
         {
             InitializeComponent();
             Cursor.Current = Cursors.WaitCursor;
+            /*bizim proje 240*320 olarak planlandı ama bazı terminaller daha yüksek çözünürlüklü onlar için direk Carpim metodu ile düzeltiyoruz.*/
             Ayarlar.KatSayi = (decimal)Screen.PrimaryScreen.Bounds.Height / (decimal)320;
-            if (Ayarlar.KatSayi > 2) Ayarlar.KatSayi = 1;
+            if (Ayarlar.KatSayi > 2) Ayarlar.KatSayi = 1;//burası bilgisayarda çalışırken boyutu değiştirmesin diye
             //create if file doesnt exists
             if (!File.Exists(@"\WMSMobil-ip.txt"))
                 using (var Dosya = new FileStream(@"\WMSMobil-ip.txt", FileMode.OpenOrCreate, FileAccess.Write))

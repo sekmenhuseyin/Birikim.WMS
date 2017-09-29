@@ -54,7 +54,7 @@
                 dataType: "json",
                 success: function (data) {
                     if (data.Status == true) {
-                        Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "Guncel");
+                        Modaldialog("İşlem Tamamlandı", 'Onaylandı', 'Tamam', 'btn-success');
                         $('#modalEditPage').modal('toggle');
                         $('.yenile-buton').click();
                     }
@@ -62,6 +62,9 @@
                         Modaldialog(data.Message, 'Hata', 'Tamam', 'btn-danger');
                     else
                         Modaldialog("Hata oldu", 'Hata', 'Tamam', 'btn-danger');
+                },
+                error: function (data) {
+                    Modaldialog("Hata oldu", 'Hata', 'Tamam', 'btn-danger');
                 }
             });
         });
@@ -73,7 +76,7 @@
                 dataType: "json",
                 success: function (data) {
                     if (data.Status == true) {
-                        Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "Guncel");
+                        Modaldialog("İşlem Tamamlandı", 'Onaylandı', 'Tamam', 'btn-success');
                         $('#modalEditPage').modal('toggle');
                         $('.yenile-buton').click();
                     }
@@ -81,6 +84,9 @@
                         Modaldialog(data.Message, 'Hata', 'Tamam', 'btn-danger');
                     else
                         Modaldialog("Hata oldu", 'Hata', 'Tamam', 'btn-danger');
+                },
+                error: function (data) {
+                    Modaldialog("Hata oldu", 'Hata', 'Tamam', 'btn-danger');
                 }
             });
         });

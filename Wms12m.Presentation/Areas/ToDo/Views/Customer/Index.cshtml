@@ -8,7 +8,7 @@
 }<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><span>Müşteri İşlemleri</span></li></ul></div>
 <h1 class="page-title">Müşteri İşlemleri</h1>
 <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-12">@if (ViewBag.Yetki == true) {
         <div class="row" id="CreateEdit">
             <div class="col-md-12">
                 <div class="portlet box green">
@@ -77,7 +77,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> }
         <div id="liste"></div>
     </div>
 </div>
@@ -108,7 +108,7 @@
             CreateEdit('0');
         }
     };
-    function CreateEdit(Id) {
+    function CreateEdit(Id) {@if (ViewBag.Yetki == true) {<text>
         if (Id == 0) {
             $("#ID").val("0");
             $("#Unvan").val("");
@@ -125,7 +125,7 @@
         {
             $("html, body").animate({ scrollTop: 0 }, "slow");
             PartialView("/ToDo/Customer/Edit", 'CreateEdit', JSON.stringify({ Id: Id }));
-        }
-    }
+        } 
+    </text>} }
 </script>
 }

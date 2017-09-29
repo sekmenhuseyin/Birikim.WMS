@@ -15,8 +15,9 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         /// </summary>
         public ActionResult Index()
         {
+            if (CheckPerm(Perms.TodoÇalışma, PermTypes.Reading) == false) return Redirect("/");
             ViewBag.GorevID = new SelectList(db.Gorevlers.Where(a => a.Sorumlu == vUser.UserName || a.Sorumlu2 == vUser.UserName || a.Sorumlu3 == vUser.UserName || a.KontrolSorumlusu == vUser.UserName).ToList(), "ID", "Gorev");
-            return View(new GorevlerCalisma());
+            return View();
         }
         /// <summary>
         /// yeni çalışma
@@ -48,9 +49,11 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         /// </summary>
         public PartialViewResult List()
         {
-            var gorevCalismas = db.GorevlerCalismas.Where(a => a.Kaydeden == vUser.UserName || a.Gorevler.Sorumlu == vUser.UserName || a.Gorevler.Sorumlu2 == vUser.UserName || a.Gorevler.Sorumlu3 == vUser.UserName || a.Gorevler.KontrolSorumlusu == vUser.UserName).OrderByDescending(m => m.Tarih).ToList();
-            ViewBag.Yetki = vUser.RoleName;
-            return PartialView("List", gorevCalismas);
+            var gorevCalismas = db.GorevlerCalismas.Where(m => m.ID > 0);
+            if (CheckPerm(Perms.TodoÇalışma, PermTypes.Deleting) == false)
+                gorevCalismas = gorevCalismas.Where(a => a.Kaydeden == vUser.UserName);
+            ViewBag.Yetki2 = CheckPerm(Perms.TodoÇalışma, PermTypes.Deleting);
+            return PartialView("List", gorevCalismas.OrderByDescending(m => m.Tarih).ToList());
         }
         /// <summary>
         /// düzenle
@@ -59,9 +62,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         {
             //TODO:
             var gorevCalisma = db.GorevlerCalismas.Find(Id);
-
             ViewBag.GorevID = new SelectList(db.Gorevlers.Where(a => a.Sorumlu == vUser.UserName || a.Sorumlu2 == vUser.UserName || a.Sorumlu3 == vUser.UserName).ToList(), "ID", "Gorev", gorevCalisma.GorevID);
-
             return PartialView(gorevCalisma);
         }
         /// <summary>
@@ -72,61 +73,52 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         [HttpPost, ValidateAntiForgeryToken]
         public JsonResult Save(GorevlerCalisma gorevCalisma, string[] work, string[] checkitem, string[] todo)
         {
+            if (CheckPerm(Perms.TodoÇalışma, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             var sayac = 0;
             if (ModelState.IsValid)
             {
                 //yeni çalışma girerken
                 if (gorevCalisma.ID == 0)
                 {
-                    var kontOnay = false;
-                    if (vUser.RoleName == "Destek")
-                        kontOnay = true;
                     var grv = db.Gorevlers.Where(a => a.ID == gorevCalisma.GorevID).FirstOrDefault();
-                    //TODO:
-                    //TODO:
+                    //todo list için bir döngü yap
                     for (int i = 0; i < work.Length; i++)
                     {
                         if (checkitem[i] == "true")
                         {
-                            //TODO:
                             var idx = todo[i].ToInt32();
-                        }
-                    }
-                    for (int i = 0; i < checkitem.Length; i++)
-                    {
-                        if (checkitem[i] == "false")
-                        {
-                            sayac++;
-                        }
-                    }
-                    if (sayac == 0)
-                    {
-                        if (kontOnay == true)
-                        {
+                            var tbl = new GorevlerCalismaToDoList()
+                            {
+                                GorevlerCalisma = gorevCalisma,
+                                Aciklama = work[i]
+                            };
+                            db.GorevlerCalismaToDoLists.Add(tbl);
                         }
                         else
-                        {
-                            grv.GorevTipiID = ComboItems.gytKaliteKontrol.ToInt32();
-                        }
+                            sayac++;
                     }
-                    gorevCalisma.Degistiren = vUser.UserName;
+                    //eğer 
+                    if (sayac == 0)
+                    {
+                        grv.GorevTipiID = ComboItems.gytKaliteKontrol.ToInt32();
+                    }
                     gorevCalisma.Kaydeden = vUser.UserName;
-                    gorevCalisma.DegisTarih = DateTime.Now;
-                    gorevCalisma.KayitTarih = gorevCalisma.DegisTarih;
+                    gorevCalisma.KayitTarih = DateTime.Now;
+                    gorevCalisma.DegisTarih = gorevCalisma.KayitTarih;
+                    gorevCalisma.Degistiren = vUser.UserName;
                     db.GorevlerCalismas.Add(gorevCalisma);
                 }
                 //çalışma güncelleme
                 else
                 {
                     var tbl = db.GorevlerCalismas.Where(m => m.ID == gorevCalisma.ID).FirstOrDefault();
-                    tbl.Tarih = gorevCalisma.Tarih;//
-                    tbl.Sure = gorevCalisma.Sure;//
-                    tbl.Calisma = gorevCalisma.Calisma;//
+                    tbl.Tarih = gorevCalisma.Tarih;
+                    tbl.Sure = gorevCalisma.Sure;
+                    tbl.Calisma = gorevCalisma.Calisma;
+                    tbl.DegisTarih = DateTime.Now;
+                    tbl.Degistiren = vUser.UserName;
                     for (int i = 0; i < work.Length; i++)
                     {
-                        //TODO:
-                        //TODO:
-                        //TODO:
                         if (Convert.ToBoolean(checkitem[i]) == true)
                         {
                         }
@@ -144,14 +136,13 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                 }
             }
             return Json(new Result(false, "Hata oldu"), JsonRequestBehavior.AllowGet);
-
-
         }
         /// <summary>
         /// sil
         /// </summary>
         public JsonResult Delete(string Id)
         {
+            if (CheckPerm(Perms.TodoÇalışma, PermTypes.Deleting) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             GorevlerCalisma gorevcalisma = db.GorevlerCalismas.Find(Id.ToInt32());
             db.GorevlerCalismas.Remove(gorevcalisma);
             try
@@ -181,9 +172,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                     ID = item.ID,
                     Aciklama = item.Aciklama
                 };
-
                 aa.Add(a);
-
             }
             var json = new JavaScriptSerializer().Serialize(aa);
             return json;
