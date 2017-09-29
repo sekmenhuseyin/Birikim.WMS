@@ -444,6 +444,7 @@
     <Content Include="Areas\WMS\Views\Stock\Rezervler.cshtml" />
     <Content Include="Areas\ToDo\Views\DutyWork\NewAll.cshtml" />
     <Content Include="Areas\ToDo\Views\DutyWork\ToDos.cshtml" />
+    <Content Include="Areas\ToDo\Views\DutyWork\ToDosList.cshtml" />
     <None Include="bundleconfig.json" />
     <Content Include="Content\SizeSablon.xlsx" />
     <Content Include="Content\StockSablon.xlsx" />

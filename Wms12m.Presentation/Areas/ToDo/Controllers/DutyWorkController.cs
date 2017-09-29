@@ -183,5 +183,36 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             if (CheckPerm(Perms.TodoÇalışma, PermTypes.Reading) == false) return Redirect("/");
             return View();
         }
+        /// <summary>
+        /// liste
+        /// </summary>
+        public PartialViewResult ToDosList(bool Tip)
+        {
+            var list = db.GorevlerToDoLists.Where(m => m.ID > 0);
+            if (Tip == false)
+            {
+                if (vUser.RoleName == "Admin" || vUser.RoleName == " ")
+                {
+                    list = list.Where(m => m.Onay == true && m.KontrolOnay == true);
+                }
+                else if (vUser.RoleName == "Admin" || vUser.RoleName == " ")
+                {
+                    list = list.Where(m => m.Onay == true && m.KontrolOnay == false);
+                }
+                else
+                {
+                    list = list.Where(m => m.Onay == false);
+                }
+            }
+            else
+            {
+                if (vUser.RoleName != "Admin" && vUser.RoleName != " ")
+                {
+                    list = list.Where(m => m.Kaydeden == vUser.UserName || m.Degistiren == vUser.UserName || m.Gorevler.Sorumlu == vUser.UserName || m.Gorevler.Sorumlu2 == vUser.UserName || m.Gorevler.Sorumlu3 == vUser.UserName || m.Gorevler.KontrolSorumlusu == vUser.UserName);
+                }
+            }
+            ViewBag.Yetki = CheckPerm(Perms.TodoGörevler, PermTypes.Writing);
+            return PartialView("ToDosList", list.ToList());
+        }
     }
 }
