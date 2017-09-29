@@ -526,10 +526,10 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         }
 
         /// <summary>
-        /// sayım fişi kaydeder
+        /// sayım fişi iptal
         /// </summary>
         [HttpPost]
-        public JsonResult CountBack(int GorevID, bool Tip)
+        public JsonResult CountBack(int GorevID)
         {
             //kontrols
             if (CheckPerm(Perms.GörevListesi, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
@@ -538,94 +538,20 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             var mGorev = db.Gorevs.Where(m => m.ID == GorevID && m.GorevTipiID == tipID && m.DurumID == durumID).FirstOrDefault();
             if (mGorev.IsNull())
                 return Json(new Result(false, "Görev bulunamadı!"), JsonRequestBehavior.AllowGet);
-            if (mGorev.IR.Onay == true)
-                return Json(new Result(false, "Sayım fişi daha önce oluşturulmuş!"), JsonRequestBehavior.AllowGet);
-            //seri kontrol
-            var details = db.UserDetails.Where(m => m.UserID == vUser.Id).FirstOrDefault();
-            if (details == null)
-                return Json(new Result(false, "Seri hatası!"), JsonRequestBehavior.AllowGet);
-            if (details.SayimSeri == null)
-                return Json(new Result(false, "Seri hatası!"), JsonRequestBehavior.AllowGet);
-            if (details.SayimSeri.Value < 1 || details.SayimSeri.Value > 199)
-                return Json(new Result(false, "Seri hatası!"), JsonRequestBehavior.AllowGet);
+            if (mGorev.IR.Onay == false)
+                return Json(new Result(false, "Sayım fişi bulunamadı!"), JsonRequestBehavior.AllowGet);
             //variables
-            int tarih = fn.ToOADate();
-            short sirano = 0;
-            List<STI> stiList = new List<STI>();
-            //loop malkods
-            string sql = string.Format("SELECT MalKodu, MalAdi, Birim, Miktar, GunesStok, WmsStok FROM (" +
-                                            "SELECT wms.GorevYer.MalKodu, wms.GorevYer.Birim, SUM(wms.GorevYer.Miktar) AS Miktar, " +
-                                                    "(SELECT FINSAT6{0}.FINSAT6{0}.STK.MalAdi from FINSAT6{0}.FINSAT6{0}.STK WHERE FINSAT6{0}.FINSAT6{0}.STK.MalKodu = wms.GorevYer.MalKodu) as MalAdi, " +
-                                                    "FINSAT6{0}.wms.getStockByDepo(wms.GorevYer.MalKodu, '{1}') as GunesStok, [wms].fnGetStockByID(wms.Gorev.DepoID, wms.GorevYer.MalKodu, wms.GorevYer.Birim) as WmsStok " +
-                                            "FROM wms.Gorev WITH(NOLOCK) INNER JOIN wms.GorevYer WITH(NOLOCK) ON wms.Gorev.ID = wms.GorevYer.GorevID " +
-                                            "WHERE (wms.Gorev.ID = {2}) GROUP BY wms.Gorev.DepoID, wms.GorevYer.MalKodu, wms.GorevYer.Birim" +
-                                        ") AS t", mGorev.IR.SirketKod, mGorev.Depo.DepoKodu, GorevID);
-            var list = db.Database.SqlQuery<frmSiparisMalzemeDetay>(sql).ToList();
-            foreach (var item in list)
-            {
-                var sti = new STI();
-                sti.DefaultValueSet();
-                if (item.Miktar > item.GunesStok)//olması gerekenden fazlaysa giriş yapılacak
-                    sti.IslemTur = 0;
-                else//eğer olması gerekenden az varsa çıkış yapılacak
-                    sti.IslemTur = 1;
-                sti.Tarih = tarih;
-                sti.KynkEvrakTip = 95;//"Sayım Sonuç Fişi" from finsat.COMBOITEM_NAME
-                sti.SiraNo = sirano;
-                sti.IslemTip = 18;//"Sayım Sonuç Fişi" from finsat.COMBOITEM_NAME
-                sti.MalKodu = item.MalKodu;
-                sti.Miktar = item.Miktar;
-                sti.Miktar2 = item.GunesStok;
-                sti.Birim = item.Birim;
-                sti.BirimMiktar = item.Miktar;
-                sti.Depo = mGorev.Depo.DepoKodu;
-                sti.VadeTarih = tarih;
-                sti.EvrakTarih = tarih;
-                sti.AnaEvrakTip = 95;//"Sayım Sonuç Fişi" from finsat.COMBOITEM_NAME
-                stiList.Add(sti);
-                sirano++;
-            }
-            //eğer eksik listesi de atılacaksa sayım fişine biraz daha ekle
-            if (Tip == true)
-            {
-                sql = string.Format(@"SELECT FINSAT6{0}.FINSAT6{0}.STK.MalKodu, FINSAT6{0}.FINSAT6{0}.STK.MalAdi, FINSAT6{0}.FINSAT6{0}.STK.Birim1 as Birim, CAST(0 as DECIMAL) as Miktar, FINSAT6{0}.wms.getStockByDepo(FINSAT6{0}.FINSAT6{0}.STK.MalKodu, '{1}') AS GunesStok, 
-                                                ISNULL([wms].fnGetStockByID({3}, FINSAT6{0}.FINSAT6{0}.STK.MalKodu, FINSAT6{0}.FINSAT6{0}.STK.Birim1), 0) AS WmsStok
-                                    FROM FINSAT6{0}.FINSAT6{0}.STK INNER JOIN FINSAT6{0}.FINSAT6{0}.DST ON FINSAT6{0}.FINSAT6{0}.STK.MalKodu = FINSAT6{0}.FINSAT6{0}.DST.MalKodu
-                                    WHERE        (FINSAT6{0}.FINSAT6{0}.DST.Depo = '{1}') AND (FINSAT6{0}.wms.getStockByDepo(FINSAT6{0}.FINSAT6{0}.STK.MalKodu, '{1}') <> ISNULL([wms].fnGetStockByID({3}, FINSAT6{0}.FINSAT6{0}.STK.MalKodu, FINSAT6{0}.FINSAT6{0}.STK.Birim1), 0)) AND 
-                                                FINSAT6{0}.FINSAT6{0}.STK.MalKodu NOT IN (SELECT MalKodu FROM wms.GorevYer WHERE (GorevID = {2}))", mGorev.IR.SirketKod, mGorev.Depo.DepoKodu, GorevID, mGorev.DepoID);
-                list = db.Database.SqlQuery<frmSiparisMalzemeDetay>(sql).ToList();
-                foreach (var item in list)
-                {
-                    var sti = new STI();
-                    sti.DefaultValueSet();
-                    if (item.Miktar > item.GunesStok)//olması gerekenden fazlaysa giriş yapılacak
-                        sti.IslemTur = 0;
-                    else//eğer olması gerekenden az varsa çıkış yapılacak
-                        sti.IslemTur = 1;
-                    sti.Tarih = tarih;
-                    sti.KynkEvrakTip = 95;//"Sayım Sonuç Fişi" from finsat.COMBOITEM_NAME
-                    sti.SiraNo = sirano;
-                    sti.IslemTip = 18;//"Sayım Sonuç Fişi" from finsat.COMBOITEM_NAME
-                    sti.MalKodu = item.MalKodu;
-                    sti.Miktar = item.Miktar;
-                    sti.Miktar2 = item.GunesStok;
-                    sti.Birim = item.Birim;
-                    sti.BirimMiktar = item.Miktar;
-                    sti.Depo = mGorev.Depo.DepoKodu;
-                    sti.VadeTarih = tarih;
-                    sti.EvrakTarih = tarih;
-                    sti.AnaEvrakTip = 95;//"Sayım Sonuç Fişi" from finsat.COMBOITEM_NAME
-                    stiList.Add(sti);
-                    sirano++;
-                }
-            }
-            //finsat tanımlama
-            int EvrakSeriNo = 7100 + details.SayimSeri.Value - 1;
+            string sql = string.Format("DELETE FROM FINSAT6{0}.FINSAT6{0}.STI WHERE (EvrakNo = '{1}') AND (KynkEvrakTip = 95) AND (IslemTip = 18);",
+mGorev.IR.SirketKod, mGorev.IR.EvrakNo);
+            db.Database.ExecuteSqlCommand(sql);
+            mGorev.IR.EvrakNo = mGorev.GorevNo;
+            mGorev.IR.Onay = false;
+            db.SaveChanges();
 
-            return Json("", JsonRequestBehavior.AllowGet);
+            return Json(new Result(true, mGorev.ID, "İşlem tamlandı!"), JsonRequestBehavior.AllowGet);
         }
         /// <summary>
-        /// sayım fark fişi kaydeder
+        /// sayım fark fişi iptal
         /// </summary>
         [HttpPost]
         public JsonResult CountBackDiff(int GorevID)
@@ -637,18 +563,18 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             var mGorev = db.Gorevs.Where(m => m.ID == GorevID && m.GorevTipiID == tipID && m.DurumID == durumID).FirstOrDefault();
             if (mGorev.IsNull())
                 return Json(new Result(false, "Görev bulunamadı!"), JsonRequestBehavior.AllowGet);
-
-            var details = db.UserDetails.Where(m => m.UserID == vUser.Id).FirstOrDefault();
+            if (mGorev.IR.LinkEvrakNo == null)
+                return Json(new Result(false, "Fark fişi bulunamadı!"), JsonRequestBehavior.AllowGet);
 
             //variables
             int tarih = fn.ToOADate();
             int saat = fn.ToOATime();
-            short sirano = 0;
             List<STI> stiList = new List<STI>();
             //loop malkods
             string sql = string.Format("SELECT IslemTur, MalKodu, Miktar, Miktar2, Birim, Depo FROM FINSAT6{0}.FINSAT6{0}.STI " +
-                                        "WHERE (EvrakNo = '{1}') AND (KynkEvrakTip = 95) AND (IslemTip = 18)", mGorev.IR.SirketKod, mGorev.IR.EvrakNo);
+                                        "WHERE (EvrakNo = '{1}') AND (KynkEvrakTip = 100) AND (IslemTip = 20)", mGorev.IR.SirketKod, mGorev.IR.LinkEvrakNo);
             var list = db.Database.SqlQuery<frmGorevSayimFisi>(sql).ToList();
+            sql = "";
             foreach (var item in list)
             {
                 if (item.IslemTur == 0)//giriş
@@ -670,9 +596,9 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                         "WHERE(MalKodu = '{1}');", mGorev.IR.SirketKod, item.MalKodu, (item.Miktar2 - item.Miktar).ToDot(), vUser.UserName, tarih, saat);
                 }
             }
-            db.Database.ExecuteSqlCommand(sql);
 
-            sql = string.Format("DELETE FROM FINSAT6{0}.FINSAT6{0}.STI WHERE (EvrakNo = '{1}') AND (KynkEvrakTip = 95) AND (IslemTip = 18)", mGorev.IR.SirketKod, mGorev.IR.EvrakNo);
+            sql += string.Format("DELETE FROM FINSAT6{0}.FINSAT6{0}.STI WHERE (EvrakNo = '{1}') AND (KynkEvrakTip = 100) AND (IslemTip = 20);",
+            mGorev.IR.SirketKod, mGorev.IR.LinkEvrakNo);
             db.Database.ExecuteSqlCommand(sql);
 
             var yl = db.Yer_Log.Where(a => a.IrsaliyeID == mGorev.IR.ID).ToList();
@@ -693,7 +619,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             mGorev.IR.LinkEvrakNo = null;
             db.SaveChanges();
 
-            return Json("", JsonRequestBehavior.AllowGet);
+            return Json(new Result(true, mGorev.ID, "İşlem tamlandı!"), JsonRequestBehavior.AllowGet);
         }
     }
 }
