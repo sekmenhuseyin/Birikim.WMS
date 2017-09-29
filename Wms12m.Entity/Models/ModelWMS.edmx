@@ -147,6 +147,7 @@
           <Property Name="Aciklama" Type="nvarchar(max)" Nullable="false" />
           <Property Name="Onay" Type="bit" Nullable="false" />
           <Property Name="KontrolOnay" Type="bit" Nullable="false" />
+          <Property Name="AdminOnay" Type="bit" Nullable="false" />
           <Property Name="Kaydeden" Type="varchar" MaxLength="5" Nullable="false" />
           <Property Name="KayitTarih" Type="smalldatetime" Nullable="false" />
           <Property Name="Degistiren" Type="varchar" MaxLength="5" Nullable="false" />
@@ -3523,6 +3524,7 @@
           <Property Name="Degistiren" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
           <Property Name="DegisTarih" Type="DateTime" Nullable="false" Precision="0" />
           <NavigationProperty Name="Gorevler" Relationship="MModel.FK_GorevlerToDoList_Gorevler" FromRole="GorevlerToDoList" ToRole="Gorevler" />
+          <Property Name="AdminOnay" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="Musteri">
           <Key>
@@ -4613,6 +4615,7 @@
           <EntitySetMapping Name="GorevlerToDoLists">
             <EntityTypeMapping TypeName="MModel.GorevlerToDoList">
               <MappingFragment StoreEntitySet="GorevlerToDoList">
+                <ScalarProperty Name="AdminOnay" ColumnName="AdminOnay" />
                 <ScalarProperty Name="DegisTarih" ColumnName="DegisTarih" />
                 <ScalarProperty Name="Degistiren" ColumnName="Degistiren" />
                 <ScalarProperty Name="KayitTarih" ColumnName="KayitTarih" />
