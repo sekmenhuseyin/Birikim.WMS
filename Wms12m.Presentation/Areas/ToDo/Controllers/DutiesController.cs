@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Web.Mvc;
-using System.Web.Script.Serialization;
 using Wms12m.Entity;
 using Wms12m.Entity.Models;
 
@@ -57,7 +56,11 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             {
                 list = db.Gorevlers.Where(a => a.DurumID == Tip).OrderBy(a => a.OncelikID).ToList();
             }
-            else
+            else if (vUser.RoleName == "Destek")
+            {
+                list = db.Gorevlers.Where(a => a.DurumID == Tip && (a.Sorumlu == vUser.UserName || a.Sorumlu2 == vUser.UserName || a.Sorumlu3 == vUser.UserName || a.KontrolSorumlusu == vUser.UserName || a.Kaydeden == vUser.UserName)).OrderBy(a => a.OncelikID).ToList();
+            }
+            else if (Tip != ComboItems.gydOnayVer.ToInt32() && Tip != ComboItems.gydReddedildi.ToInt32() && Tip != ComboItems.gydDurduruldu.ToInt32() && Tip != ComboItems.gydBeklemede.ToInt32())
             {
                 list = db.Gorevlers.Where(a => a.DurumID == Tip && (a.Sorumlu == vUser.UserName || a.Sorumlu2 == vUser.UserName || a.Sorumlu3 == vUser.UserName || a.KontrolSorumlusu == vUser.UserName || a.Kaydeden == vUser.UserName)).OrderBy(a => a.OncelikID).ToList();
             }
@@ -126,16 +129,6 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
 
         }
         /// <summary>
-        /// sorumlular
-        /// </summary>
-        public string SorumluListesi()
-        {
-            List<frmUserss> usr = db.Users.Where(a => a.Aktif == true).Select(m => new frmUserss { ID = m.ID, Kod = m.Kod, AdSoyad = m.AdSoyad, RoleName = m.RoleName }).ToList();
-            var json = new JavaScriptSerializer().Serialize(usr);
-            return json;
-
-        }
-        /// <summary>
         /// öncelik update
         /// </summary>
         public JsonResult OncelikGuncelle(string Data)
@@ -166,15 +159,14 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             }
         }
         /// <summary>
-        /// görev onay
+        /// görev ret
         /// </summary>
         public JsonResult GorevReddet(int Id)
         {
             if (CheckPerm(Perms.TodoGörevler, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             try
             {
-                db.Database.ExecuteSqlCommand(string.Format("UPDATE [BIRIKIM].[ong].[GorevTodoList] SET AktifPasif = 0  WHERE  GorevID = {0}", Id));
-                db.Database.ExecuteSqlCommand(string.Format("UPDATE [BIRIKIM].[ong].[Gorevler] SET AktifPasif = 0, DurumID={0} WHERE ID = {1}", ComboItems.gydReddedildi.ToInt32(), Id));
+                db.Database.ExecuteSqlCommand(string.Format("UPDATE [BIRIKIM].[ong].[Gorevler] SET DurumID={0} WHERE ID = {1}", ComboItems.gydReddedildi.ToInt32(), Id));
                 return Json(new Result(true, Id), JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
@@ -184,7 +176,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             }
         }
         /// <summary>
-        /// görev ret
+        /// görev onay
         /// </summary>
         public JsonResult GorevOnayla(int Id)
         {
@@ -219,9 +211,9 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                     gorevler.KayitTarih = gorevler.DegisTarih;
                     gorevler.BitisTarih = null;
                     gorevler.OncelikID = maxSira + 1;
-                    if (CheckPerm(Perms.TodoGörevler, PermTypes.Writing) == true)
+                    if (vUser.RoleName == "Admin" || vUser.RoleName == " ")
                         gorevler.DurumID = ComboItems.gydAtandı.ToInt32();
-                    else if (gorevler.GorevTipiID == ComboItems.gytBilgiTalebi.ToInt32() || gorevler.GorevTipiID == ComboItems.gytGeliştirme.ToInt32() || gorevler.GorevTipiID == ComboItems.gytKaliteKontrol.ToInt32())
+                    else if (gorevler.GorevTipiID == ComboItems.gytGeliştirme.ToInt32())
                         gorevler.DurumID = ComboItems.gydOnayVer.ToInt32();
                     else
                         gorevler.DurumID = ComboItems.gydAtandı.ToInt32();

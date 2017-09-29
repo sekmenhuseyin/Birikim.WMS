@@ -60,24 +60,16 @@
     DevExpress.ui.dxOverlay.baseZIndex(20000);
     $(document).ready(function () { $('.date-picker').datepicker(); });
     sayac = 1;
-    @if (ViewBag.RoleName=="Destek" && Model.Gorevler.KontrolOnay == true)
+    @if (ViewBag.RoleName == "Admin" || ViewBag.RoleName == " ")
     {
-        foreach (var item in Model.Gorevler.GorevlerToDoLists.ToList())
-        {
-            if (item.Onay == true && item.KontrolOnay == true && item.KontrolOnay == false)
-            {
-                <text>GorevList('@item.Aciklama',@item.ID)</text>
-            }
-        }
+        foreach (var item in Model.Gorevler.GorevlerToDoLists.Where(m => m.Onay == true && m.KontrolOnay == true).ToList()) { <text>GorevList('@item.Aciklama',@item.ID);</text> }
+    }
+    else if (ViewBag.RoleName == "Destek")
+    {
+        foreach (var item in Model.Gorevler.GorevlerToDoLists.Where(m => m.Onay == true && m.KontrolOnay == false).ToList()) { <text>GorevList('@item.Aciklama',@item.ID);</text> }
     }
     else {
-        foreach (var item in Model.Gorevler.GorevlerToDoLists.ToList())
-        {
-            if (item.Onay == false)
-            {
-                <text>GorevList('@item.Aciklama',@item.ID)</text>
-            }
-        }
+        foreach (var item in Model.Gorevler.GorevlerToDoLists.Where(m => m.Onay == false).ToList()) { <text>GorevList('@item.Aciklama',@item.ID);</text> }
     }
     function GorevList(Aciklama, ID) {
         var index = sayac++;

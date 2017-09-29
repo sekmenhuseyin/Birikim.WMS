@@ -1,0 +1,51 @@
+﻿@{
+    ViewBag.Title = "İş Listesi";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><a href="/ToDo/Duties">Görevler</a><i class="fa fa-circle"></i></li><li><span>İş Listesi</span></li></ul></div>
+<h1 class="page-title">İş Listesi</h1>
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet box green">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-gift"></i>İş Listesi
+                </div>
+            </div>
+            <div class="portlet-body form">
+                <div class="form-horizontal">
+                    <div class="form-body">
+                        <div class="form-group">
+                            <div class="col-sm-3 control-label">Görev Durumu</div>
+                            <div class="col-sm-4">
+                                <select class="form-control input-circle" id="DurumID" name="DurumID" onchange="FuncSearchBtn()">
+                                    <option value="false">Bana Ait</option>
+                                    <option value="true">Hepsi</option>
+                                </select>                                
+                            </div>
+                            <div class="col-sm-1"><button type="button" class="btn btn-circle green" onclick="FuncSearchBtn();"><i class="icon-refresh"></i></button></div>
+                        </div>
+                    </div>
+                </div>
+                <div id="liste" class="p-30"></div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+<script type="text/javascript">
+    FuncSearchBtn();
+    function FuncSearchBtn() {
+        $('#liste').html("");
+        PartialView("/ToDo/DutyWork/ToDosList", 'liste', JSON.stringify({ Tip: $('#DurumID').val() }));
+    }
+    function getresult(data) {
+        if (data.Status == false)
+            Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
+        else {
+            Modaldialog("Kaydedildi", "Başarı", "Tamam", "btn-success");
+            $('#modalEditPage').modal('toggle');
+            FuncSearchBtn();
+        }
+    };
+</script>
+}
