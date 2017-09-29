@@ -327,10 +327,32 @@ namespace Wms12m
             var tbl = db.Users.Where(m => m.ID == KullID && m.Guid.ToString() == Guid).FirstOrDefault();
             if (tbl == null) return new Tip_Malzeme();
             //return
-            var sirketkodu = db.Gorevs.Where(m => m.ID == GorevID).Select(m => m.IR.SirketKod).FirstOrDefault();
-            string sql = string.Format("SELECT MalKodu, MalAdi, Birim1 as Birim, Kod1, case when Barkod1='' then case when Barkod2='' then  Barkod3 else Barkod2 end else Barkod1 end Barkod FROM FINSAT6{0}.FINSAT6{0}.STK WHERE MalAdi<>'' AND ", sirketkodu);
-            if (malkodu != "") sql += string.Format("(MalKodu = '{0}')", malkodu);
-            else sql += string.Format("(BarKod1 = '{0}') OR (BarKod2 = '{0}') OR (BarKod3 = '{0}')", barkod);
+            string sql = "";
+            var tip = db.Gorevs.Where(m => m.ID == GorevID).Select(m => m.GorevTipiID).FirstOrDefault();
+            if (tip == ComboItems.SiparişTopla.ToInt32())
+            {
+                var dbs = db.GetSirketDBs();
+                foreach (var item in dbs)
+                {
+                    if (sql != "")
+                    {
+                        sql += " UNION "; 
+                    }
+                    sql += string.Format("SELECT MalKodu, MalAdi, Birim1 as Birim, Kod1, case when Barkod1='' then case when Barkod2='' then  Barkod3 else Barkod2 end else Barkod1 end Barkod FROM FINSAT6{0}.FINSAT6{0}.STK WHERE MalAdi<>'' AND ", item);
+                    if (malkodu != "") sql += string.Format("(MalKodu = '{0}')", malkodu);
+                    else sql += string.Format("(BarKod1 = '{0}') OR (BarKod2 = '{0}') OR (BarKod3 = '{0}')", barkod);
+
+                }
+            }
+            else
+            {
+                var sirketkodu = db.Gorevs.Where(m => m.ID == GorevID).Select(m => m.IR.SirketKod).FirstOrDefault();
+                sql = string.Format("SELECT MalKodu, MalAdi, Birim1 as Birim, Kod1, case when Barkod1='' then case when Barkod2='' then  Barkod3 else Barkod2 end else Barkod1 end Barkod FROM FINSAT6{0}.FINSAT6{0}.STK WHERE MalAdi<>'' AND ", sirketkodu);
+                if (malkodu != "") sql += string.Format("(MalKodu = '{0}')", malkodu);
+                else sql += string.Format("(BarKod1 = '{0}') OR (BarKod2 = '{0}') OR (BarKod3 = '{0}')", barkod);
+            }
+           
+           
             try
             {
                 return db.Database.SqlQuery<Tip_Malzeme>(sql).FirstOrDefault();

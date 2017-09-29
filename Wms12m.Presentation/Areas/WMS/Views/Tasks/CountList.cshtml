@@ -44,6 +44,7 @@
                                 <button type="button" class="btn btn-primary input-circle" onclick="frmSubmit();">Sayım FİŞİ Oluştur</button>
                             }
                         }
+
                         if (item.IR.LinkEvrakNo == null)
                         {
                             using (Ajax.BeginForm("CountCreateDiff", "Tasks", new { area = "WMS" }, new AjaxOptions { InsertionMode = InsertionMode.Replace, OnSuccess = "getresult", OnFailure = "Modaldialog('Lütfen Tekrar Deneyin', 'Hata', 'Tamam', 'btn-danger');" }, new { @class = "pull-left" }))
@@ -51,6 +52,25 @@
                                 @Html.AntiForgeryToken()
                                 <input name="GorevID" type="hidden" value="@item.ID" />
                                 <input type="submit" class="btn btn-primary input-circle" value="Fark FİŞİ Oluştur" />
+                            }
+                            if (item.IR.Onay == true)
+                            {
+                                using (Ajax.BeginForm("CountBack", "Tasks", new { area = "WMS" }, new AjaxOptions { InsertionMode = InsertionMode.Replace, OnSuccess = "getresult", OnFailure = "Modaldialog('Lütfen Tekrar Deneyin', 'Hata', 'Tamam', 'btn-danger');" }, new { @class = "pull-left", @id = "frmBack" }))
+                                {
+                                    @Html.AntiForgeryToken()
+                                    <input name="GorevID" type="hidden" value="@item.ID" />
+                                    <input name="Tip" id="txtCountCreateTip" type="hidden" value="" />
+                                    <input type="submit" class="btn btn-danger input-circle" value="Sayım FİŞİ İptal" />
+                                }
+                            }
+                        }
+                        else
+                        {
+                            using (Ajax.BeginForm("CountBackDiff", "Tasks", new { area = "WMS" }, new AjaxOptions { InsertionMode = InsertionMode.Replace, OnSuccess = "getresult", OnFailure = "Modaldialog('Lütfen Tekrar Deneyin', 'Hata', 'Tamam', 'btn-danger');" }, new { @class = "pull-left" }))
+                            {
+                                @Html.AntiForgeryToken()
+                                <input name="GorevID" type="hidden" value="@item.ID" />
+                                <input type="submit" class="btn btn-danger input-circle" value="Fark FİŞİ İptal" />
                             }
                         }
                     }
