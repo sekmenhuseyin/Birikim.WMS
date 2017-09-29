@@ -188,15 +188,27 @@ namespace Wms12m
             var yetkikontrol = db.GetPermissionFor(KullID, tbl.RoleName, gtipi, "WMS", "Reading").FirstOrDefault().Value;
             if (yetkikontrol == true)
             {
+                string tempCase = "";
+                if (gorevtipi == ComboItems.KontrolSayım.ToInt32())
+                {
+                    if (durum == ComboItems.Açık.ToInt32())
+                    { 
+                    tempCase = " AND wms.GorevUsers.BitisTarihi IS NULL";
+                    }
+                    else if (durum == ComboItems.Tamamlanan.ToInt32())
+                    {
+                        tempCase = " OR wms.GorevUsers.BitisTarihi IS NOT NULL";
+                    }
+                }
                 string sql = string.Format("SELECT Gorev.ID, ISNULL(Gorev.IrsaliyeID, 0) as IrsaliyeID, wms.fnFormatDateFromInt(Gorev.OlusturmaTarihi) AS OlusturmaTarihi, Gorev.Bilgi, Gorev.Aciklama, Gorev.GorevNo, ISNULL(wms.IRS.EvrakNo, '') as EvrakNo, wms.Depo.DepoKodu, Gorev.Atayan, Gorev.Gorevli, ComboItem_Name.[Name] AS Durum " +
                                         "FROM wms.Gorev WITH (nolock) INNER JOIN wms.Depo WITH (nolock) ON Gorev.DepoID = wms.Depo.ID INNER JOIN ComboItem_Name WITH (nolock) ON Gorev.DurumID = ComboItem_Name.ID LEFT OUTER JOIN wms.GorevUsers WITH (nolock) ON wms.Gorev.ID = wms.GorevUsers.GorevID LEFT OUTER JOIN usr.Users WITH (nolock) ON Gorev.Gorevli = usr.Users.Kod LEFT OUTER JOIN wms.IRS WITH (nolock) ON Gorev.IrsaliyeID = wms.IRS.ID " +
                                         "WHERE (wms.Depo.ID = {3}) and " +
                                                 "case when ({0}>0) then case when (Gorev.GorevTipiID = {0}) then 1 else 0 end else 0 end = 1 AND " +
                                                 "(CASE WHEN ('{1}' <> '') THEN CASE WHEN (wms.GorevUsers.UserName = '{1}' OR wms.GorevUsers.UserName IS NULL) THEN 1 ELSE 0 END ELSE 1 END = 1) AND " +
-                                                "case when ('{1}' <> '') then case when (usr.Users.Kod = '{1}') then 1 else 0 end else 1 end = 1 AND  " +
-                                                "case when ({2}>0) then case when (Gorev.DurumID = {2}) then 1 else 0 end else 1 end = 1 " +
+                                                "case when ('{1}' <> '') then case when (usr.Users.Kod = '{1}') then 1 else 0 end else 1 end = 1 AND  (" +
+                                                "case when ({2}>0) then case when (Gorev.DurumID = {2}) then 1 else 0 end else 1 end = 1  {4})" +
                                         "GROUP BY wms.Gorev.ID, ISNULL(wms.Gorev.IrsaliyeID, 0), wms.fnFormatDateFromInt(wms.Gorev.OlusturmaTarihi), wms.Gorev.Bilgi, wms.Gorev.Aciklama, wms.Gorev.GorevNo, ISNULL(wms.IRS.EvrakNo, ''), wms.Depo.DepoKodu, wms.Gorev.Atayan, wms.Gorev.Gorevli, ComboItem_Name.Name" +
-                                        "", gorevtipi, gorevli, durum, DepoID);
+                                        "", gorevtipi, gorevli, durum, DepoID, tempCase);
                 return db.Database.SqlQuery<Tip_GOREV>(sql).ToList();
             }
             return new List<Tip_GOREV>();
@@ -336,7 +348,7 @@ namespace Wms12m
                 {
                     if (sql != "")
                     {
-                        sql += " UNION "; 
+                        sql += " UNION ";
                     }
                     sql += string.Format("SELECT MalKodu, MalAdi, Birim1 as Birim, Kod1, case when Barkod1='' then case when Barkod2='' then  Barkod3 else Barkod2 end else Barkod1 end Barkod FROM FINSAT6{0}.FINSAT6{0}.STK WHERE MalAdi<>'' AND ", item);
                     if (malkodu != "") sql += string.Format("(MalKodu = '{0}')", malkodu);
@@ -351,8 +363,8 @@ namespace Wms12m
                 if (malkodu != "") sql += string.Format("(MalKodu = '{0}')", malkodu);
                 else sql += string.Format("(BarKod1 = '{0}') OR (BarKod2 = '{0}') OR (BarKod3 = '{0}')", barkod);
             }
-           
-           
+
+
             try
             {
                 return db.Database.SqlQuery<Tip_Malzeme>(sql).FirstOrDefault();

@@ -14,13 +14,7 @@
                 <thead>
                     <tr>
 
-                        <th>
-                            <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
-                                <input type="checkbox" class="group-checkable" data-set="#sample_1 .checkboxes" />
-                                <span></span>
-                            </label>
-                        </th>
-
+                        <th></th>
                         <th>Liste No</th>
                         <th>Sıra No</th>
                         <th>Bağlantı Kodu</th>
@@ -46,6 +40,8 @@
                         <th>Toplam Tahsilat</th>
                     </tr>
                 </thead>
+                <tfoot><tr><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr></tfoot>
+                <tfoot class="tf-search"><tr><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr></tfoot>
             </table>
 
         </div>
@@ -108,6 +104,18 @@
                 }
                 return nRow;
             }
+        });
+        $('#sample_1 .tf-search th').each(function () {
+            var title = $('#sample_1 thead th').eq($(this).index()).text();
+            if (title != "" && title.length < 100) {
+                $(this).html('<input type="text" placeholder="Ara" />');
+            }
+        });
+        $("#sample_1 tfoot input").on('keyup change', function () {
+            table
+                .column($(this).parent().index() + ':visible')
+                .search(this.value)
+                .draw();
         });
         var buttons = new $.fn.dataTable.Buttons(table, {
             buttons: [

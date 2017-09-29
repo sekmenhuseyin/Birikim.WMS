@@ -62,12 +62,7 @@
                                         <thead>
                                             <tr>
                                                 <th></th>
-                                                <th>
-                                                    <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
-                                                        <input type="checkbox" class="group-checkable" data-set="#sample_1 .checkboxes" />
-                                                        <span></span>
-                                                    </label>
-                                                </th>
+                                                <th></th>
                                                 <th> Evrak No </th>
                                                 <th> Veren </th>
                                                 <th> Ünvan </th>
@@ -77,14 +72,11 @@
                                                 <th> Tutar</th>
                                                 <th> Bağlantı Tutar</th>
                                                 <th> Bağlantının Ortalama Vadesi</th>
-                                                <th>
-                                                    <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
-                                                        <input type="checkbox" class="group-checkable" data-set="#sample_1 .checkboxes" />
-                                                        <span></span>
-                                                    </label>
-                                                </th>
+                                                <th></th>
                                             </tr>
                                         </thead>
+                                        <tfoot><tr><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr></tfoot>
+                                        <tfoot class="tf-search"><tr><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr></tfoot>
                                     </table>
 
                                 </div>
@@ -134,7 +126,7 @@
         },
         "pagingType": "full_numbers",
         "fixedHeader": true,
-        "columnDefs": [{ "visible": false, "targets": 0 }, { "type": "num-fmt", "className": "dt-right", "targets": [7, 8] }],
+        "columnDefs": [{ "visible": true, "targets": 0 }, { "type": "num-fmt", "className": "dt-right", "targets": [7, 8] }],
         "columns": [
             { "data": "ID" },
             { "data": null, "defaultContent": '', "className": 'select-checkbox', "orderable": false },
@@ -155,10 +147,24 @@
             return nRow;
         }
     });
+    $('#sample_1 .tf-search th').each(function () {
+        var title = $('#sample_1 thead th').eq($(this).index()).text();
+        if (title != "" && title.length < 100) {
+            $(this).html('<input type="text" placeholder="Ara" />');
+        }
+        table.columns([0]).visible(false, false);
+    });
+    $("#sample_1 tfoot input").on('keyup change', function () {
+        table
+            .column($(this).parent().index() + ':visible')
+            .search(this.value)
+            .draw();
+    });
 
     $('#sample_1 tbody').on('click', 'tr', function () {
         $(this).toggleClass('selected');
     });
+
     $('#sample_1 tbody').on('click', '.details-control', function () {
         var tr = $(this).closest('tr');
         var unvan = "";
@@ -273,7 +279,8 @@
     });
 
     $('.yenile-buton').click(function () {
-        setTimeout(function () { window.location.reload(); }, 500);
+        table.ajax.reload();
+        //setTimeout(function () { window.location.reload(); }, 500);
     });
     var buttons = new $.fn.dataTable.Buttons(table, {
         buttons: [
