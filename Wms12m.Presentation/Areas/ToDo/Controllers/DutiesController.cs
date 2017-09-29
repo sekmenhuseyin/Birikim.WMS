@@ -159,7 +159,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             }
         }
         /// <summary>
-        /// görev onay
+        /// görev ret
         /// </summary>
         public JsonResult GorevReddet(int Id)
         {
@@ -176,7 +176,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             }
         }
         /// <summary>
-        /// görev ret
+        /// görev onay
         /// </summary>
         public JsonResult GorevOnayla(int Id)
         {

@@ -195,13 +195,13 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                 {
                     list = list.Where(m => m.Onay == true && m.KontrolOnay == true);
                 }
-                else if (vUser.RoleName == "Admin" || vUser.RoleName == " ")
+                else if (vUser.RoleName == "Destek")
                 {
                     list = list.Where(m => m.Onay == true && m.KontrolOnay == false);
                 }
                 else
                 {
-                    list = list.Where(m => m.Onay == false);
+                    list = list.Where(m => (m.Kaydeden == vUser.UserName || m.Degistiren == vUser.UserName || m.Gorevler.Sorumlu == vUser.UserName || m.Gorevler.Sorumlu2 == vUser.UserName || m.Gorevler.Sorumlu3 == vUser.UserName || m.Gorevler.KontrolSorumlusu == vUser.UserName) && m.Onay == false);
                 }
             }
             else
@@ -212,7 +212,37 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                 }
             }
             ViewBag.Yetki = CheckPerm(Perms.TodoGörevler, PermTypes.Writing);
+            ViewBag.Tip = Tip;
             return PartialView("ToDosList", list.ToList());
+        }
+        /// <summary>
+        /// ToDos onay / ret
+        /// </summary>
+        public JsonResult ToDosOnay(int Id, bool Onay)
+        {
+            if (CheckPerm(Perms.TodoGörevler, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
+            try
+            {
+                string sql = "UPDATE [BIRIKIM].[ong].[GorevlerToDoList] SET ";
+                if (vUser.RoleName == "Destek")
+                    if (Onay == true)
+                        sql += "KontrolOnay = 1";
+                    else
+                        sql += "Onay = 0";
+                else if (Onay == true)
+                    sql += "AdminOnay = 1";
+                else
+                    sql += "Onay = 0 AND KontrolOnay = 0";
+
+                sql += " WHERE  ID = {0}";
+                db.Database.ExecuteSqlCommand(sql, Id);
+                return Json(new Result(true, Id), JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Logger(ex, "ToDo/Duties/ToDosOnay");
+                return Json(new Result(false, "Hata oldu"), JsonRequestBehavior.AllowGet);
+            }
         }
     }
 }

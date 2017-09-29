@@ -2,6 +2,7 @@
 <table class="table table-bordered table-striped table-condensed" id="sample_1">
     <thead>
         <tr>
+            <th>Proje</th>
             <th>Görevler</th>
             <th>Açıklama</th>
             <th>Kayıt Tarihi</th>
@@ -13,11 +14,15 @@
         @foreach (var item in Model)
         {
             <tr>
+                <td>@item.Gorevler.ProjeForm.Proje</td>
                 <td>@item.Gorevler.Gorev</td>
                 <td>@item.Aciklama</td>
                 <td>@item.KayitTarih.ToShortDateString()</td>
                 <td>@item.DegisTarih.ToShortDateString()</td>
-                <td></td>
+                <td>@if(ViewBag.Yetki == true && ViewBag.Tip == false) {
+                    <a class="btn btn-primary input-circle" href="javascript:;" onclick="Onay(@item.ID, true);"> Onayla </a>
+                    <a class="btn btn-danger input-circle" href="javascript:;" onclick="Onay(@item.ID, false);"> Reddet </a>
+                }</td>
             </tr>
         }
     </tbody>
@@ -28,5 +33,26 @@
         "ordering": false,
         "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" }
     });
-
+    function Onay(id, tip)
+    {
+        $.ajax({
+            type: 'POST',
+            url: '/ToDo/DutyWork/ToDosOnay',
+            data: { "Id": id, "Onay": tip },
+            dataType: "json",
+            success: function (data) {
+                if (data.Status == true) {
+                    Modaldialog("İşlem Tamamlandı", 'Onaylandı', 'Tamam', 'btn-success');
+                    FuncSearchBtn();
+                }
+                else if (data.Message != "" && data.Message != null)
+                    Modaldialog(data.Message, 'Hata', 'Tamam', 'btn-danger');
+                else
+                    Modaldialog("Hata oldu", 'Hata', 'Tamam', 'btn-danger');
+            },
+            error: function (data) {
+                Modaldialog("Hata oldu", 'Hata', 'Tamam', 'btn-danger');
+            }
+        });
+}
 </script>
