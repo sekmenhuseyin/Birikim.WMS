@@ -211,9 +211,9 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                     gorevler.KayitTarih = gorevler.DegisTarih;
                     gorevler.BitisTarih = null;
                     gorevler.OncelikID = maxSira + 1;
-                    if (vUser.RoleName == "Admin")
+                    if (vUser.RoleName == "Admin" || vUser.RoleName == " ")
                         gorevler.DurumID = ComboItems.gydAtandı.ToInt32();
-                    else if (vUser.RoleName == "Destek" && gorevler.GorevTipiID == ComboItems.gytGeliştirme.ToInt32())
+                    else if (gorevler.GorevTipiID == ComboItems.gytGeliştirme.ToInt32())
                         gorevler.DurumID = ComboItems.gydOnayVer.ToInt32();
                     else
                         gorevler.DurumID = ComboItems.gydAtandı.ToInt32();

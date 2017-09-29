@@ -165,20 +165,23 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         {
             var id = Url.RequestContext.RouteData.Values["id"];
             var ID = id.ToInt32();
-            List<GorevlerToDoList> grvToDO = db.GorevlerToDoLists.Where(m => m.GorevID == ID).ToList();
-            List<frmGorevTodos> aa = new List<frmGorevTodos>();
+            var grvToDO = db.GorevlerToDoLists.Where(m => m.GorevID == ID).ToList();
+            var list = new List<frmGorevTodos>();
             foreach (GorevlerToDoList item in grvToDO)
             {
-                frmGorevTodos a = new frmGorevTodos
-                {
-                    ID = item.ID,
-                    Aciklama = item.Aciklama
-                };
-                aa.Add(a);
+                list.Add(new frmGorevTodos { ID = item.ID, Aciklama = item.Aciklama });
             }
-            var json = new JavaScriptSerializer().Serialize(aa);
+            var json = new JavaScriptSerializer().Serialize(list);
             return json;
 
+        }
+        /// <summary>
+        /// todo lists page
+        /// </summary>
+        public ActionResult ToDos()
+        {
+            if (CheckPerm(Perms.TodoÇalışma, PermTypes.Reading) == false) return Redirect("/");
+            return View();
         }
     }
 }
