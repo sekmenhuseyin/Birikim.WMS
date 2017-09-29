@@ -19,10 +19,10 @@
                 <td>@item.Aciklama</td>
                 <td>@item.KayitTarih.ToShortDateString()</td>
                 <td>@item.DegisTarih.ToShortDateString()</td>
-                <td>@if(ViewBag.Yetki == true && ViewBag.Tip == false) {
-                    <a class="btn btn-primary input-circle" href="javascript:;" onclick="Onay(@item.ID, true);"> Onayla </a>
-                    <a class="btn btn-danger input-circle" href="javascript:;" onclick="Onay(@item.ID, false);"> Reddet </a>
-                }</td>
+                <td>
+                    @if(ViewBag.Tip == false) {<a class="btn btn-primary input-circle" href="javascript:;" onclick="Onay(@item.ID, true);"> Onayla </a>}
+                    @if(ViewBag.Yetki == true && ViewBag.Tip == false) {<a class="btn btn-danger input-circle" href="javascript:;" onclick="Onay(@item.ID, false);"> Reddet </a>}
+                </td>
             </tr>
         }
     </tbody>
