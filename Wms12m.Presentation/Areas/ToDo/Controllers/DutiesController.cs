@@ -126,16 +126,6 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
 
         }
         /// <summary>
-        /// sorumlular
-        /// </summary>
-        public string SorumluListesi()
-        {
-            List<frmUserss> usr = db.Users.Where(a => a.Aktif == true).Select(m => new frmUserss { ID = m.ID, Kod = m.Kod, AdSoyad = m.AdSoyad, RoleName = m.RoleName }).ToList();
-            var json = new JavaScriptSerializer().Serialize(usr);
-            return json;
-
-        }
-        /// <summary>
         /// öncelik update
         /// </summary>
         public JsonResult OncelikGuncelle(string Data)
@@ -173,8 +163,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             if (CheckPerm(Perms.TodoGörevler, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             try
             {
-                db.Database.ExecuteSqlCommand(string.Format("UPDATE [BIRIKIM].[ong].[GorevTodoList] SET AktifPasif = 0  WHERE  GorevID = {0}", Id));
-                db.Database.ExecuteSqlCommand(string.Format("UPDATE [BIRIKIM].[ong].[Gorevler] SET AktifPasif = 0, DurumID={0} WHERE ID = {1}", ComboItems.gydReddedildi.ToInt32(), Id));
+                db.Database.ExecuteSqlCommand(string.Format("UPDATE [BIRIKIM].[ong].[Gorevler] SET DurumID={0} WHERE ID = {1}", ComboItems.gydReddedildi.ToInt32(), Id));
                 return Json(new Result(true, Id), JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
@@ -219,9 +208,9 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                     gorevler.KayitTarih = gorevler.DegisTarih;
                     gorevler.BitisTarih = null;
                     gorevler.OncelikID = maxSira + 1;
-                    if (CheckPerm(Perms.TodoGörevler, PermTypes.Writing) == true)
+                    if (vUser.RoleName == "Admin")
                         gorevler.DurumID = ComboItems.gydAtandı.ToInt32();
-                    else if (gorevler.GorevTipiID == ComboItems.gytBilgiTalebi.ToInt32() || gorevler.GorevTipiID == ComboItems.gytGeliştirme.ToInt32() || gorevler.GorevTipiID == ComboItems.gytKaliteKontrol.ToInt32())
+                    else if (vUser.RoleName == "Destek" && gorevler.GorevTipiID == ComboItems.gytGeliştirme.ToInt32())
                         gorevler.DurumID = ComboItems.gydOnayVer.ToInt32();
                     else
                         gorevler.DurumID = ComboItems.gydAtandı.ToInt32();

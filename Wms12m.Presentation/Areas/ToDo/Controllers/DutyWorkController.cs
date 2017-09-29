@@ -74,7 +74,6 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         public JsonResult Save(GorevlerCalisma gorevCalisma, string[] work, string[] checkitem, string[] todo)
         {
             if (CheckPerm(Perms.TodoÇalışma, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
-            var sayac = 0;
             if (ModelState.IsValid)
             {
                 //yeni çalışma girerken
@@ -93,14 +92,17 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                                 Aciklama = work[i]
                             };
                             db.GorevlerCalismaToDoLists.Add(tbl);
+                            var c = grv.GorevlerToDoLists.Where(m => m.ID == idx).FirstOrDefault();
+                            if (vUser.RoleName == "Destek") c.KontrolOnay = true;
+                            else c.Onay = true;
                         }
-                        else
-                            sayac++;
                     }
                     //eğer 
-                    if (sayac == 0)
+                    if (vUser.RoleName == "Developer")
                     {
-                        grv.GorevTipiID = ComboItems.gytKaliteKontrol.ToInt32();
+                        var c = grv.GorevlerToDoLists.Where(m => m.Onay == false).FirstOrDefault();
+                        if (c == null)
+                            grv.GorevTipiID = ComboItems.gytKaliteKontrol.ToInt32();
                     }
                     gorevCalisma.Kaydeden = vUser.UserName;
                     gorevCalisma.KayitTarih = DateTime.Now;
