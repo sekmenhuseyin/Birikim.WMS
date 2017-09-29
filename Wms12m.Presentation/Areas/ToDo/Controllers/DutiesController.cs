@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Web.Mvc;
-using System.Web.Script.Serialization;
 using Wms12m.Entity;
 using Wms12m.Entity.Models;
 
@@ -57,7 +56,11 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             {
                 list = db.Gorevlers.Where(a => a.DurumID == Tip).OrderBy(a => a.OncelikID).ToList();
             }
-            else
+            else if (vUser.RoleName == "Destek")
+            {
+                list = db.Gorevlers.Where(a => a.DurumID == Tip && (a.Sorumlu == vUser.UserName || a.Sorumlu2 == vUser.UserName || a.Sorumlu3 == vUser.UserName || a.KontrolSorumlusu == vUser.UserName || a.Kaydeden == vUser.UserName)).OrderBy(a => a.OncelikID).ToList();
+            }
+            else if (Tip != ComboItems.gydOnayVer.ToInt32() && Tip != ComboItems.gydReddedildi.ToInt32() && Tip != ComboItems.gydDurduruldu.ToInt32() && Tip != ComboItems.gydBeklemede.ToInt32())
             {
                 list = db.Gorevlers.Where(a => a.DurumID == Tip && (a.Sorumlu == vUser.UserName || a.Sorumlu2 == vUser.UserName || a.Sorumlu3 == vUser.UserName || a.KontrolSorumlusu == vUser.UserName || a.Kaydeden == vUser.UserName)).OrderBy(a => a.OncelikID).ToList();
             }
