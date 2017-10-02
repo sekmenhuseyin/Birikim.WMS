@@ -79,6 +79,9 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                 //yeni çalışma girerken
                 if (gorevCalisma.ID == 0)
                 {
+                    var kontrol = db.GorevlerCalismas.Where(m => m.GorevID == gorevCalisma.GorevID && m.Tarih == gorevCalisma.Tarih && m.Kaydeden == vUser.UserName).FirstOrDefault();
+                    if (kontrol != null)
+                        return Json(new Result(false, "Bu gün için daha önce çalışma kaydetmişsiniz"), JsonRequestBehavior.AllowGet);
                     var grv = db.Gorevlers.Where(a => a.ID == gorevCalisma.GorevID).FirstOrDefault();
                     //todo list için bir döngü yap
                     for (int i = 0; i < work.Length; i++)
@@ -133,7 +136,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                     db.SaveChanges();
                     return Json(new Result(true, gorevCalisma.ID), JsonRequestBehavior.AllowGet);
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
                 }
             }
@@ -193,11 +196,11 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             {
                 if (vUser.RoleName == "Admin" || vUser.RoleName == " ")
                 {
-                    list = list.Where(m => m.Onay == true && m.KontrolOnay == true);
+                    list = list.Where(m => m.Onay == true && m.KontrolOnay == true && m.AdminOnay == false);
                 }
                 else if (vUser.RoleName == "Destek")
                 {
-                    list = list.Where(m => m.Onay == true && m.KontrolOnay == false);
+                    list = list.Where(m => m.Onay == true && m.KontrolOnay == false && (m.Gorevler.KontrolSorumlusu == vUser.UserName || m.Gorevler.KontrolSorumlusu == null));
                 }
                 else
                 {
@@ -206,9 +209,11 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             }
             else
             {
-                if (vUser.RoleName != "Admin" && vUser.RoleName != " ")
+                if (vUser.RoleName == "Destek")
+                    list = list.Where(m => m.Kaydeden == vUser.UserName || m.Degistiren == vUser.UserName || m.Gorevler.Sorumlu == vUser.UserName || m.Gorevler.Sorumlu2 == vUser.UserName || m.Gorevler.Sorumlu3 == vUser.UserName || m.Gorevler.KontrolSorumlusu == vUser.UserName || m.Gorevler.KontrolSorumlusu == null);
+                else if (vUser.RoleName != "Admin" && vUser.RoleName != " ")
                 {
-                    list = list.Where(m => m.Kaydeden == vUser.UserName || m.Degistiren == vUser.UserName || m.Gorevler.Sorumlu == vUser.UserName || m.Gorevler.Sorumlu2 == vUser.UserName || m.Gorevler.Sorumlu3 == vUser.UserName || m.Gorevler.KontrolSorumlusu == vUser.UserName);
+                    list = list.Where(m => m.Kaydeden == vUser.UserName || m.Degistiren == vUser.UserName || m.Gorevler.Sorumlu == vUser.UserName || m.Gorevler.Sorumlu2 == vUser.UserName || m.Gorevler.Sorumlu3 == vUser.UserName);
                 }
             }
             ViewBag.Yetki = CheckPerm(Perms.TodoGörevler, PermTypes.Writing);
@@ -220,11 +225,12 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         /// </summary>
         public JsonResult ToDosOnay(int Id, bool Onay)
         {
-            if (CheckPerm(Perms.TodoGörevler, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             try
             {
                 string sql = "UPDATE [BIRIKIM].[ong].[GorevlerToDoList] SET ";
-                if (vUser.RoleName == "Destek")
+                if (vUser.RoleName == "Developer" && Onay == true)
+                    sql += "Onay = 1";
+                else if (vUser.RoleName == "Destek")
                     if (Onay == true)
                         sql += "KontrolOnay = 1";
                     else

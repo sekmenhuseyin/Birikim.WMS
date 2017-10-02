@@ -66,6 +66,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             }
             ViewBag.Yetki = CheckPerm(Perms.TodoGörevler, PermTypes.Writing);
             ViewBag.Yetki2 = CheckPerm(Perms.TodoGörevler, PermTypes.Deleting);
+            ViewBag.Tip = Tip;
             return PartialView(list);
         }
         /// <summary>
@@ -159,36 +160,19 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             }
         }
         /// <summary>
-        /// görev ret
+        /// görev onay / ret
         /// </summary>
-        public JsonResult GorevReddet(int Id)
+        public JsonResult GorevOnay(int Id, bool Tip)
         {
             if (CheckPerm(Perms.TodoGörevler, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             try
             {
-                db.Database.ExecuteSqlCommand(string.Format("UPDATE [BIRIKIM].[ong].[Gorevler] SET DurumID={0} WHERE ID = {1}", ComboItems.gydReddedildi.ToInt32(), Id));
+                db.Database.ExecuteSqlCommand(string.Format("UPDATE [BIRIKIM].[ong].[Gorevler] SET DurumID = {0} WHERE ID = {1}", Tip == true ? ComboItems.gydAtandı.ToInt32() : ComboItems.gydReddedildi.ToInt32(), Id));
                 return Json(new Result(true, Id), JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
-                Logger(ex, "ToDo/Duties/GorevReddet");
-                return Json(new Result(false, "Hata oldu"), JsonRequestBehavior.AllowGet);
-            }
-        }
-        /// <summary>
-        /// görev onay
-        /// </summary>
-        public JsonResult GorevOnayla(int Id)
-        {
-            if (CheckPerm(Perms.TodoGörevler, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
-            try
-            {
-                db.Database.ExecuteSqlCommand(string.Format("UPDATE [BIRIKIM].[ong].[Gorevler] SET DurumID = {0} WHERE  ID = {1}", ComboItems.gydAtandı.ToInt32(), Id));
-                return Json(new Result(true, Id), JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception ex)
-            {
-                Logger(ex, "ToDo/Duties/GorevOnayla");
+                Logger(ex, "ToDo/Duties/GorevOnay");
                 return Json(new Result(false, "Hata oldu"), JsonRequestBehavior.AllowGet);
             }
         }
@@ -302,6 +286,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                 try
                 {
                     db.SaveChanges();
+                    LogActions("ToDo", "Duties", "Save", ComboItems.alEkle, gorevler.ID, "Gorev: " + gorevler.Gorev);
                     return Json(new Result(true, gorevler.ID), JsonRequestBehavior.AllowGet);
                 }
                 catch (Exception ex)
@@ -322,6 +307,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             {
                 //TODO:
                 Gorevler gorev = db.Gorevlers.Find(Id.ToInt32());
+                LogActions("ToDo", "Duties", "Delete", ComboItems.alSil, Id.ToInt32());
                 db.SaveChanges();
                 return Json(new Result(true, Id.ToInt32()), JsonRequestBehavior.AllowGet);
             }

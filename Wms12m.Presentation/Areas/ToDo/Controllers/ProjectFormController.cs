@@ -76,6 +76,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                 try
                 {
                     db.SaveChanges();
+                    LogActions("ToDo", "ProjectForm", "Save", ComboItems.alEkle, projeForm.ID, "Proje: " + projeForm.Proje);
                     return Json(new Result(true, projeForm.ID), JsonRequestBehavior.AllowGet);
                 }
                 catch (Exception)
@@ -95,6 +96,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             try
             {
                 db.SaveChanges();
+                LogActions("ToDo", "ProjectForm", "Delete", ComboItems.alSil, Id.ToInt32());
                 return Json(new Result(true, Id.ToInt32()), JsonRequestBehavior.AllowGet);
             }
             catch (Exception)
@@ -169,6 +171,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                 try
                 {
                     db.SaveChanges();
+                    LogActions("ToDo", "ProjectForm", "FormSave", ComboItems.alEkle, projeForm.ID, "Form: " + projeForm.Form);
                     return Json(new Result(true, projeForm.PID.Value), JsonRequestBehavior.AllowGet);
                 }
                 catch (Exception)
