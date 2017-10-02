@@ -54,4 +54,19 @@
         public string YetkiliEMail { get; set; }
         public string Parola { get; set; }
     }
+    /// <summary>
+    /// sipariş onay
+    /// </summary>
+    public class SipOnayYetkiler
+    {
+        public int UserID { get; set; }
+        public string Kod { get; set; }
+        public string AdSoyad { get; set; }
+        public string RoleName { get; set; }
+        public string GosterilecekSirket { get; set; }
+        public string GostCHKKodAlani { get; set; }
+        public string GostSTKDeger { get; set; }
+        public string GostRiskDeger { get; set; }
+        public string GostKod3OrtBakiye { get; set; }
+    }
 }
