@@ -192,8 +192,8 @@ namespace Wms12m
                 if (gorevtipi == ComboItems.KontrolSayım.ToInt32())
                 {
                     if (durum == ComboItems.Açık.ToInt32())
-                    { 
-                    tempCase = " AND wms.GorevUsers.BitisTarihi IS NULL";
+                    {
+                        tempCase = " AND wms.GorevUsers.BitisTarihi IS NULL";
                     }
                     else if (durum == ComboItems.Tamamlanan.ToInt32())
                     {
