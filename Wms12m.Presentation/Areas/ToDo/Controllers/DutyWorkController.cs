@@ -229,7 +229,23 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             {
                 string sql = "UPDATE [BIRIKIM].[ong].[GorevlerToDoList] SET ";
                 if (vUser.RoleName == "Developer" && Onay == true)
+                {
                     sql += "Onay = 1";
+                    //var calisma = db.Database.SqlQuery<frmGorevli>(string.Format(@"SELECT ong.GorevlerCalisma.ID, ong.GorevlerToDoList.Aciklama as Gorevli
+                    //                                        FROM ong.GorevlerToDoList INNER JOIN ong.GorevlerCalisma ON ong.GorevlerToDoList.GorevID = ong.GorevlerCalisma.GorevID
+                    //                                        WHERE(ong.GorevlerToDoList.ID = {0}) AND(ong.GorevlerCalisma.Tarih = {1}) AND(ong.GorevlerCalisma.Kaydeden = '{2}')", Id, fn.ToOATime(), vUser.UserName)).FirstOrDefault();
+                    //if (calisma == null)
+                    //{
+                    //    var tbl=new GorevlerCalisma() {  }
+                    //}
+                    //var tbl = new GorevlerCalismaToDoList() { GorevlerCalismaID = calisma.ID, Aciklama = calisma.Gorevli };
+                    //db.GorevlerCalismaToDoLists.Add(tbl);
+                    //else
+                    //{
+                    //    var tbl = db.GorevlerCalismaToDoLists.Where(m => m.GorevlerCalismaID == calisma.ID).FirstOrDefault();
+                    //    tbl.Aciklama += ", " + calisma.Gorevli;
+                    //}
+                }
                 else if (vUser.RoleName == "Destek")
                     if (Onay == true)
                         sql += "KontrolOnay = 1";
@@ -242,6 +258,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
 
                 sql += " WHERE  ID = {0}";
                 db.Database.ExecuteSqlCommand(sql, Id);
+                if (vUser.RoleName == "Developer" && Onay == true) db.SaveChanges();
                 return Json(new Result(true, Id), JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
