@@ -839,27 +839,6 @@ namespace Wms12m.Entity.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("WMSEntities.f_Sıfırla");
         }
     
-        public virtual int GetSTIList(Nullable<bool> devamMi, string gorevTip, Nullable<int> gorevID, Nullable<int> transferCount)
-        {
-            var devamMiParameter = devamMi.HasValue ?
-                new ObjectParameter("devamMi", devamMi) :
-                new ObjectParameter("devamMi", typeof(bool));
-    
-            var gorevTipParameter = gorevTip != null ?
-                new ObjectParameter("gorevTip", gorevTip) :
-                new ObjectParameter("gorevTip", typeof(string));
-    
-            var gorevIDParameter = gorevID.HasValue ?
-                new ObjectParameter("gorevID", gorevID) :
-                new ObjectParameter("gorevID", typeof(int));
-    
-            var transferCountParameter = transferCount.HasValue ?
-                new ObjectParameter("transferCount", transferCount) :
-                new ObjectParameter("transferCount", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("WMSEntities.GetSTIList", devamMiParameter, gorevTipParameter, gorevIDParameter, transferCountParameter);
-        }
-    
         public virtual ObjectResult<GetStockRezerv_Result> GetStockRezerv(string depoKodu, string malKodu, string birim)
         {
             var depoKoduParameter = depoKodu != null ?
@@ -892,6 +871,69 @@ namespace Wms12m.Entity.Models
                 new ObjectParameter("Birim", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetStockRezerv2_Result>("WMSEntities.GetStockRezerv2", depoKoduParameter, malKoduParameter, birimParameter);
+        }
+    
+        public virtual int GetSTIList(Nullable<bool> devamMi, string gorevTip, Nullable<int> gorevID, Nullable<int> transferCount)
+        {
+            var devamMiParameter = devamMi.HasValue ?
+                new ObjectParameter("devamMi", devamMi) :
+                new ObjectParameter("devamMi", typeof(bool));
+    
+            var gorevTipParameter = gorevTip != null ?
+                new ObjectParameter("gorevTip", gorevTip) :
+                new ObjectParameter("gorevTip", typeof(string));
+    
+            var gorevIDParameter = gorevID.HasValue ?
+                new ObjectParameter("gorevID", gorevID) :
+                new ObjectParameter("gorevID", typeof(int));
+    
+            var transferCountParameter = transferCount.HasValue ?
+                new ObjectParameter("transferCount", transferCount) :
+                new ObjectParameter("transferCount", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("WMSEntities.GetSTIList", devamMiParameter, gorevTipParameter, gorevIDParameter, transferCountParameter);
+        }
+    
+        public virtual int GetSTIList1(Nullable<bool> devamMi, string gorevTip, Nullable<int> gorevID, Nullable<int> transferCount)
+        {
+            var devamMiParameter = devamMi.HasValue ?
+                new ObjectParameter("devamMi", devamMi) :
+                new ObjectParameter("devamMi", typeof(bool));
+    
+            var gorevTipParameter = gorevTip != null ?
+                new ObjectParameter("gorevTip", gorevTip) :
+                new ObjectParameter("gorevTip", typeof(string));
+    
+            var gorevIDParameter = gorevID.HasValue ?
+                new ObjectParameter("gorevID", gorevID) :
+                new ObjectParameter("gorevID", typeof(int));
+    
+            var transferCountParameter = transferCount.HasValue ?
+                new ObjectParameter("transferCount", transferCount) :
+                new ObjectParameter("transferCount", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("WMSEntities.GetSTIList1", devamMiParameter, gorevTipParameter, gorevIDParameter, transferCountParameter);
+        }
+    
+        public virtual int GetSTIList2(Nullable<bool> devamMi, string gorevTip, Nullable<int> gorevID, Nullable<int> transferCount)
+        {
+            var devamMiParameter = devamMi.HasValue ?
+                new ObjectParameter("devamMi", devamMi) :
+                new ObjectParameter("devamMi", typeof(bool));
+    
+            var gorevTipParameter = gorevTip != null ?
+                new ObjectParameter("gorevTip", gorevTip) :
+                new ObjectParameter("gorevTip", typeof(string));
+    
+            var gorevIDParameter = gorevID.HasValue ?
+                new ObjectParameter("gorevID", gorevID) :
+                new ObjectParameter("gorevID", typeof(int));
+    
+            var transferCountParameter = transferCount.HasValue ?
+                new ObjectParameter("transferCount", transferCount) :
+                new ObjectParameter("transferCount", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("WMSEntities.GetSTIList2", devamMiParameter, gorevTipParameter, gorevIDParameter, transferCountParameter);
         }
     }
 }
