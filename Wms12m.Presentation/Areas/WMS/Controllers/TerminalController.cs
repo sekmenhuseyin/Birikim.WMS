@@ -68,6 +68,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         {
             if (CheckPerm(Perms.TerminalİçinYetkilendirme, PermTypes.Writing) == false) return Redirect("/");
             Result _Result = PersonDetails.Operation(tbl);
+            LogActions("WMS", "Terminal", "Save", ComboItems.alEkle, tbl.UserID, "User: " + tbl.User.Kod + ", Depo: " + tbl.Depo.DepoKodu);
             return RedirectToAction("Index");
         }
         /// <summary>
@@ -78,6 +79,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         {
             if (CheckPerm(Perms.TerminalİçinYetkilendirme, PermTypes.Deleting) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             Result _Result = PersonDetails.Delete(Id);
+            LogActions("WMS", "Terminal", "Delete", ComboItems.alSil, Id);
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
     }

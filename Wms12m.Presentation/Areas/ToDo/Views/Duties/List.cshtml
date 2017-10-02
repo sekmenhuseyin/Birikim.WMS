@@ -54,6 +54,15 @@
     //tarih
     $.datepicker.setDefaults($.datepicker.regional["tr"]);
     $(".tarih").datepicker();
+    @if (ViewBag.Yetki == true && ViewBag.Tip == ComboItems.gydOnayVer.ToInt32()) {<text>
+        $('#sample_1 tbody').on('click', 'tr', function () {
+            table.rows('.selected').nodes().to$().removeClass('selected');
+            $(this).toggleClass('selected');
+            selected = $(this).closest('tr').data('id');
+            $(".onayla-buton").removeClass('hidden');
+            $(".reddet-buton").removeClass('hidden');
+        });
+    </text>}
     @if (ViewBag.Yetki == true) {<text>
         function showEdit(ID) {
             $('#modalEditPage').modal('toggle');
@@ -105,13 +114,38 @@
             data: { Data: JSON.stringify(secili_table) },
             type: "post",
             success: function (data) {
-                if (data == "OK") {
+                if (data.Status == true) {
                     Modaldialog("İşlem Başarılı", "Güncelleme İşlemi", "Tamam", "btn-success");
                     FuncSearchBtn();
                 }
-                else {
-                    Modaldialog("Hata Oluştu.", "Güncelleme İşlemi", "Tamam", "btn-danger");
+                else if (data.Message != "" && data.Message != null)
+                    Modaldialog(data.Message, 'Hata', 'Tamam', 'btn-danger');
+                else
+                    Modaldialog("Hata oldu", 'Hata', 'Tamam', 'btn-danger');
+            },
+            error: function (data) {
+                Modaldialog("Hata oldu", 'Hata', 'Tamam', 'btn-danger');
+            }
+        });
+    }
+    function GorevOnay(tip) {
+        if (selected == 0) return;
+        $.ajax({
+            url: window.location.origin + "/ToDo/Duties/GorevOnay",
+            data: { Id: selected, Tip: tip },
+            type: "post",
+            success: function (data) {
+                if (data.Status == true) {
+                    Modaldialog("İşlem Başarılı", "Güncelleme İşlemi", "Tamam", "btn-success");
+                    FuncSearchBtn();
                 }
+                else if (data.Message != "" && data.Message != null)
+                    Modaldialog(data.Message, 'Hata', 'Tamam', 'btn-danger');
+                else
+                    Modaldialog("Hata oldu", 'Hata', 'Tamam', 'btn-danger');
+            },
+            error: function (data) {
+                Modaldialog("Hata oldu", 'Hata', 'Tamam', 'btn-danger');
             }
         });
     }

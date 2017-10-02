@@ -339,6 +339,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                 grv.DurumID = ComboItems.Açık.ToInt32();
                 grv.OlusturmaTarihi = fn.ToOADate();
                 grv.OlusturmaSaati = fn.ToOATime();
+                LogActions("WMS", "Cable", "Approve", ComboItems.alEkle, GorevID, "Firma: " + grv.IR.HesapKodu);
                 db.SaveChanges();
             }
             //görevlere git
