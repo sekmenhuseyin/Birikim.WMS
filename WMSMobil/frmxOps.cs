@@ -494,7 +494,7 @@ namespace WMSMobil
             //tüm sayırları eski rengine döndür
             foreach (var itemPanel in PanelVeriList)
             {
-                if (itemPanel.Controls[0].Text == mal)
+                if (itemPanel.Controls[0].Text.Contains(";"+mal+";") && mal!="")
                 {
                     cokluMalSayisi++;
                     tmpMalKod = itemPanel.Controls[1].Text;
@@ -521,7 +521,7 @@ namespace WMSMobil
 
                     if (Ayarlar.MenuTip == MenuType.KontrollüSayım)
                     {
-                        if (itemPanel.Controls[0].Text == malInfo.Barkod && malInfo.Kod1 == "KKABLO")
+                        if (itemPanel.Controls[0].Text.Contains(";" + malInfo.Barkod + ";") && malInfo.Kod1 == "KKABLO")
                         {
 
                             if (itemPanel.Raf == raf && itemPanel.MakaraNo == makaraNo)
@@ -533,7 +533,7 @@ namespace WMSMobil
                                     item.BackColor = Color.DarkOrange;
                             }
                         }
-                        else if (itemPanel.Controls[0].Text == malInfo.Barkod)
+                        else if (itemPanel.Controls[0].Text.Contains(";" + malInfo.Barkod + ";"))
                         {
                             mal_var = true;
                             if (itemPanel.Raf == raf)
@@ -545,7 +545,7 @@ namespace WMSMobil
                             }
                         }
                     }
-                    else if (itemPanel.Controls[0].Text == mal)
+                    else if (itemPanel.Controls[0].Text.Contains(";" + mal + ";") && mal != "")
                     {
                         mal_var = true;
                         //eğer kontrollü sayım ise rafı da doğru olmalı ki sayıyı arttırsın
@@ -593,7 +593,7 @@ namespace WMSMobil
                 }
                 else if (Ayarlar.MenuTip == MenuType.RafaYerlestirme || Ayarlar.MenuTip == MenuType.SiparisToplama || Ayarlar.MenuTip == MenuType.TransferÇıkış || Ayarlar.MenuTip == MenuType.TransferGiriş)
                 {
-                    if (itemPanel.Controls[0].Text == mal)
+                    if (itemPanel.Controls[0].Text.Contains(";" + mal + ";") && mal != "")
                     {
                         mal_var = true;
                         temp_sti.YerlestirmeMiktari = itemPanel.Controls[6].Text.ToDecimal();
@@ -712,7 +712,7 @@ namespace WMSMobil
                 tIslemMiktar.BackColor = Color.DarkOrange;
                 tYerlestirmeMiktari.BackColor = Color.DarkOrange;
 
-                tBarkod.Text = malbilgileri.Barkod;
+                tBarkod.Text = malInfo.Barkod;
                 tMalKodu.Text = malInfo.MalKodu;
                 tMalAdi.Text = malInfo.MalAdi;
                 tBirim.Text = malInfo.Birim;

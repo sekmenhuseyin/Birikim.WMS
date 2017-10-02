@@ -1392,6 +1392,12 @@
         <Function Name="GetKynkTarihsForGorev" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="wms">
           <Parameter Name="GorevID" Type="int" Mode="In" />
         </Function>
+        <Function Name="GetSTIList" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="wms">
+          <Parameter Name="devamMi" Type="bit" Mode="In" />
+          <Parameter Name="gorevTip" Type="varchar" Mode="In" />
+          <Parameter Name="gorevID" Type="int" Mode="In" />
+          <Parameter Name="transferCount" Type="int" Mode="In" />
+        </Function>
         <Function Name="GetStock" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="wms">
           <Parameter Name="DepoID" Type="int" Mode="In" />
           <Parameter Name="MalKodu" Type="varchar" Mode="In" />
@@ -2139,12 +2145,6 @@
           <Parameter Name="IrsaliyeID" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="f_Sıfırla" />
-          <FunctionImport Name="GetSTIList">
-            <Parameter Name="devamMi" Mode="In" Type="Boolean" />
-            <Parameter Name="gorevTip" Mode="In" Type="String" />
-            <Parameter Name="gorevID" Mode="In" Type="Int32" />
-            <Parameter Name="transferCount" Mode="In" Type="Int32" />
-          </FunctionImport>
           <FunctionImport Name="GetStockRezerv" ReturnType="Collection(MModel.GetStockRezerv_Result)">
             <Parameter Name="DepoKodu" Mode="In" Type="String" />
             <Parameter Name="MalKodu" Mode="In" Type="String" />
@@ -2201,6 +2201,36 @@
             <End Role="ProjeForm" EntitySet="ProjeForms" />
             <End Role="ProjeForm1" EntitySet="ProjeForms" />
           </AssociationSet>
+          <FunctionImport Name="GetSTIList">
+            <Parameter Name="devamMi" Mode="In" Type="Boolean" />
+            <Parameter Name="gorevTip" Mode="In" Type="String" />
+            <Parameter Name="gorevID" Mode="In" Type="Int32" />
+            <Parameter Name="transferCount" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="GetSTIList1">
+            <Parameter Name="devamMi" Mode="In" Type="Boolean" />
+            <Parameter Name="gorevTip" Mode="In" Type="String" />
+            <Parameter Name="gorevID" Mode="In" Type="Int32" />
+            <Parameter Name="transferCount" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="GetSTIList2">
+            <Parameter Name="devamMi" Mode="In" Type="Boolean" />
+            <Parameter Name="gorevTip" Mode="In" Type="String" />
+            <Parameter Name="gorevID" Mode="In" Type="Int32" />
+            <Parameter Name="transferCount" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="GetSTIList3">
+            <Parameter Name="devamMi" Mode="In" Type="Boolean" />
+            <Parameter Name="gorevTip" Mode="In" Type="String" />
+            <Parameter Name="gorevID" Mode="In" Type="Int32" />
+            <Parameter Name="transferCount" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="GetSTIList4">
+            <Parameter Name="devamMi" Mode="In" Type="Boolean" />
+            <Parameter Name="gorevTip" Mode="In" Type="String" />
+            <Parameter Name="gorevID" Mode="In" Type="Int32" />
+            <Parameter Name="transferCount" Mode="In" Type="Int32" />
+          </FunctionImport>
           </EntityContainer>
         <ComplexType Name="GetSirkets_Result">
           <Property Type="String" Name="Kod" Nullable="false" MaxLength="2" />
@@ -4674,6 +4704,7 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="GetSTIList4" FunctionName="MModel.Store.GetSTIList" />
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
