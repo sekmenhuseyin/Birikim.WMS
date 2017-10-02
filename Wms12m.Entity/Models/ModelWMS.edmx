@@ -2219,6 +2219,18 @@
             <Parameter Name="gorevID" Mode="In" Type="Int32" />
             <Parameter Name="transferCount" Mode="In" Type="Int32" />
           </FunctionImport>
+          <FunctionImport Name="GetSTIList3">
+            <Parameter Name="devamMi" Mode="In" Type="Boolean" />
+            <Parameter Name="gorevTip" Mode="In" Type="String" />
+            <Parameter Name="gorevID" Mode="In" Type="Int32" />
+            <Parameter Name="transferCount" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="GetSTIList4">
+            <Parameter Name="devamMi" Mode="In" Type="Boolean" />
+            <Parameter Name="gorevTip" Mode="In" Type="String" />
+            <Parameter Name="gorevID" Mode="In" Type="Int32" />
+            <Parameter Name="transferCount" Mode="In" Type="Int32" />
+          </FunctionImport>
           </EntityContainer>
         <ComplexType Name="GetSirkets_Result">
           <Property Type="String" Name="Kod" Nullable="false" MaxLength="2" />
@@ -4692,7 +4704,7 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="GetSTIList2" FunctionName="MModel.Store.GetSTIList" />
+          <FunctionImportMapping FunctionImportName="GetSTIList4" FunctionName="MModel.Store.GetSTIList" />
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

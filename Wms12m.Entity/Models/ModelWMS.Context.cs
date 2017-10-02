@@ -935,5 +935,47 @@ namespace Wms12m.Entity.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("WMSEntities.GetSTIList2", devamMiParameter, gorevTipParameter, gorevIDParameter, transferCountParameter);
         }
+    
+        public virtual int GetSTIList3(Nullable<bool> devamMi, string gorevTip, Nullable<int> gorevID, Nullable<int> transferCount)
+        {
+            var devamMiParameter = devamMi.HasValue ?
+                new ObjectParameter("devamMi", devamMi) :
+                new ObjectParameter("devamMi", typeof(bool));
+    
+            var gorevTipParameter = gorevTip != null ?
+                new ObjectParameter("gorevTip", gorevTip) :
+                new ObjectParameter("gorevTip", typeof(string));
+    
+            var gorevIDParameter = gorevID.HasValue ?
+                new ObjectParameter("gorevID", gorevID) :
+                new ObjectParameter("gorevID", typeof(int));
+    
+            var transferCountParameter = transferCount.HasValue ?
+                new ObjectParameter("transferCount", transferCount) :
+                new ObjectParameter("transferCount", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("WMSEntities.GetSTIList3", devamMiParameter, gorevTipParameter, gorevIDParameter, transferCountParameter);
+        }
+    
+        public virtual int GetSTIList4(Nullable<bool> devamMi, string gorevTip, Nullable<int> gorevID, Nullable<int> transferCount)
+        {
+            var devamMiParameter = devamMi.HasValue ?
+                new ObjectParameter("devamMi", devamMi) :
+                new ObjectParameter("devamMi", typeof(bool));
+    
+            var gorevTipParameter = gorevTip != null ?
+                new ObjectParameter("gorevTip", gorevTip) :
+                new ObjectParameter("gorevTip", typeof(string));
+    
+            var gorevIDParameter = gorevID.HasValue ?
+                new ObjectParameter("gorevID", gorevID) :
+                new ObjectParameter("gorevID", typeof(int));
+    
+            var transferCountParameter = transferCount.HasValue ?
+                new ObjectParameter("transferCount", transferCount) :
+                new ObjectParameter("transferCount", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("WMSEntities.GetSTIList4", devamMiParameter, gorevTipParameter, gorevIDParameter, transferCountParameter);
+        }
     }
 }
