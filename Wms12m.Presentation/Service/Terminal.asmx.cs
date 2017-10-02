@@ -274,7 +274,7 @@ namespace Wms12m
             string sql = "", sql2 = "";
             if (mGorev.GorevTipiID == ComboItems.SiparişTopla.ToInt32() || mGorev.GorevTipiID == ComboItems.TransferÇıkış.ToInt32() || mGorev.GorevTipiID == ComboItems.KontrolSayım.ToInt32())
             {
-                list = db.GetSTIList(devamMi, mGorev.ComboItem_Name1.Name, GorevID, mGorev.Transfers.Count);
+                var hlist = db.GetSTIList(devamMi, mGorev.ComboItem_Name1.Name, GorevID, mGorev.Transfers.Count);
                 var dbs = db.GetSirketDBs();
                 foreach (var item in dbs)
                 {

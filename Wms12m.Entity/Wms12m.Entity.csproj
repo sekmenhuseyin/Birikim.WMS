@@ -166,6 +166,18 @@
     <Compile Include="Models\Gorev.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Gorevler.cs">
+      <DependentUpon>ModelWMS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GorevlerCalisma.cs">
+      <DependentUpon>ModelWMS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GorevlerCalismaToDoList.cs">
+      <DependentUpon>ModelWMS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GorevlerToDoList.cs">
+      <DependentUpon>ModelWMS.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\GorevNo.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
     </Compile>
@@ -235,10 +247,16 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ModelYeniNesil.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\Musteri.cs">
+      <DependentUpon>ModelWMS.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Olcu.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Perm.cs">
+      <DependentUpon>ModelWMS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ProjeForm.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Raf.cs">
