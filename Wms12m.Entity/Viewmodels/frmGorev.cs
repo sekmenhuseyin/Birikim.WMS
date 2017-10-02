@@ -8,6 +8,19 @@ using Wms12m.Entity.Models;
 namespace Wms12m.Entity
 {
     /// <summary>
+    /// görev çalışmaları
+    /// </summary>
+    public class frmGorevlerCalismalar
+    {
+        public int ID { get; set; }
+        public int GorevID { get; set; }
+        public string Gorev { get; set; }
+        public DateTime Tarih { get; set; }
+        public int Sure { get; set; }
+        public string Calisma { get; set; }
+        public string Kaydeden { get; set; }
+    }
+    /// <summary>
     /// sayım fişi getirir
     /// </summary>
     public class frmGorevSayimFisi
