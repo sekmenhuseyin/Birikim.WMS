@@ -143,6 +143,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                 grv = db.Gorevs.Where(m => m.ID == cevap.GorevID).FirstOrDefault();
                 grv.DurumID = açık;
                 db.SaveChanges();
+                LogActions("WMS", "Tasks", "SaveNew", ComboItems.alEkle, grv.ID, "Sayım: " + grv.IR.HesapKodu);
                 _Result = new Result(true);
             }
             else
@@ -158,6 +159,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                     grv = db.Gorevs.Where(m => m.ID == cevap.GorevID).FirstOrDefault();
                     grv.DurumID = açık;
                     db.SaveChanges();
+                    LogActions("WMS", "Tasks", "SaveNew", ComboItems.alEkle, grv.ID, "Sayım: " + grv.IR.HesapKodu);
                     _Result = new Result(true);
                 }
             }
@@ -314,6 +316,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                 mGorev.IR.Onay = true;
                 db.SaveChanges();
                 sonuc.Message = "İşlem tamlandı!";
+                LogActions("WMS", "Tasks", "CountCreate", ComboItems.alEkle, mGorev.ID, "Sayım Fişi: " + mGorev.IR.EvrakNo);
             }
             return Json(sonuc, JsonRequestBehavior.AllowGet);
         }
@@ -383,6 +386,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             if (sonuc.Status == true)
             {
                 mGorev.IR.LinkEvrakNo = sonuc.Message;
+                LogActions("WMS", "Tasks", "CountCreateDiff", ComboItems.alEkle, mGorev.ID, "Sayım Fark Fişi: " + mGorev.IR.LinkEvrakNo);
                 db.SaveChanges();
                 //finsat dst & stk update
                 sql = string.Format("UPDATE FINSAT6{0}.FINSAT6{0}.STI SET KaynakIrsEvrakNo='{1}' WHERE EvrakNo = '{2}' AND KynkEvrakTip = 95;", mGorev.IR.SirketKod, sonuc.Message, mGorev.IR.EvrakNo);
@@ -541,13 +545,12 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             if (mGorev.IR.Onay == false)
                 return Json(new Result(false, "Sayım fişi bulunamadı!"), JsonRequestBehavior.AllowGet);
             //variables
-            string sql = string.Format("DELETE FROM FINSAT6{0}.FINSAT6{0}.STI WHERE (EvrakNo = '{1}') AND (KynkEvrakTip = 95) AND (IslemTip = 18);",
-mGorev.IR.SirketKod, mGorev.IR.EvrakNo);
+            string sql = string.Format("DELETE FROM FINSAT6{0}.FINSAT6{0}.STI WHERE (EvrakNo = '{1}') AND (KynkEvrakTip = 95) AND (IslemTip = 18);", mGorev.IR.SirketKod, mGorev.IR.EvrakNo);
             db.Database.ExecuteSqlCommand(sql);
             mGorev.IR.EvrakNo = mGorev.GorevNo;
             mGorev.IR.Onay = false;
             db.SaveChanges();
-
+            LogActions("WMS", "Tasks", "CountBack", ComboItems.alSil, mGorev.ID, "Sayım Fişi İptal: " + mGorev.IR.EvrakNo);
             return Json(new Result(true, mGorev.ID, "İşlem tamlandı!"), JsonRequestBehavior.AllowGet);
         }
         /// <summary>
@@ -600,6 +603,7 @@ mGorev.IR.SirketKod, mGorev.IR.EvrakNo);
             sql += string.Format("DELETE FROM FINSAT6{0}.FINSAT6{0}.STI WHERE (EvrakNo = '{1}') AND (KynkEvrakTip = 100) AND (IslemTip = 20);",
             mGorev.IR.SirketKod, mGorev.IR.LinkEvrakNo);
             db.Database.ExecuteSqlCommand(sql);
+            LogActions("WMS", "Tasks", "CountBackDiff", ComboItems.alSil, mGorev.ID, "Sayım Fark Fişi İptal: " + mGorev.IR.LinkEvrakNo);
 
             var yl = db.Yer_Log.Where(a => a.IrsaliyeID == mGorev.IR.ID).ToList();
             foreach (var item in yl)

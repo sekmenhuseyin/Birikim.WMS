@@ -340,12 +340,16 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         public ActionResult Approve(int GorevID)
         {
             if (CheckPerm(Perms.GenelSipariş, PermTypes.Writing) == false) return Redirect("/");
-            //görevi aç
             Gorev grv = db.Gorevs.Where(m => m.ID == GorevID).FirstOrDefault();
-            grv.DurumID = ComboItems.Açık.ToInt32();
-            grv.OlusturmaTarihi = fn.ToOADate();
-            grv.OlusturmaSaati = fn.ToOATime();
-            db.SaveChanges();
+            if (grv.DurumID == ComboItems.Başlamamış.ToInt32())
+            {
+                //görevi aç
+                grv.DurumID = ComboItems.Açık.ToInt32();
+                grv.OlusturmaTarihi = fn.ToOADate();
+                grv.OlusturmaSaati = fn.ToOATime();
+                db.SaveChanges();
+                LogActions("WMS", "Sales", "Approve", ComboItems.alEkle, GorevID, "Firma: " + grv.IR.HesapKodu);
+            }
             //görevlere git
             return Redirect("/WMS/Tasks");
         }
