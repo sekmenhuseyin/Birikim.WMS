@@ -218,7 +218,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             }
             ViewBag.Yetki = CheckPerm(Perms.TodoGörevler, PermTypes.Writing);
             ViewBag.Tip = Tip;
-            return PartialView("ToDosList", list.ToList());
+            return PartialView("ToDosList", list.OrderBy(m => m.Gorevler.OncelikID).ToList());
         }
         /// <summary>
         /// ToDos onay / ret
@@ -231,20 +231,6 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                 if (vUser.RoleName == "Developer" && Onay == true)
                 {
                     sql += "Onay = 1";
-                    //var calisma = db.Database.SqlQuery<frmGorevli>(string.Format(@"SELECT ong.GorevlerCalisma.ID, ong.GorevlerToDoList.Aciklama as Gorevli
-                    //                                        FROM ong.GorevlerToDoList INNER JOIN ong.GorevlerCalisma ON ong.GorevlerToDoList.GorevID = ong.GorevlerCalisma.GorevID
-                    //                                        WHERE(ong.GorevlerToDoList.ID = {0}) AND(ong.GorevlerCalisma.Tarih = {1}) AND(ong.GorevlerCalisma.Kaydeden = '{2}')", Id, fn.ToOATime(), vUser.UserName)).FirstOrDefault();
-                    //if (calisma == null)
-                    //{
-                    //    var tbl=new GorevlerCalisma() {  }
-                    //}
-                    //var tbl = new GorevlerCalismaToDoList() { GorevlerCalismaID = calisma.ID, Aciklama = calisma.Gorevli };
-                    //db.GorevlerCalismaToDoLists.Add(tbl);
-                    //else
-                    //{
-                    //    var tbl = db.GorevlerCalismaToDoLists.Where(m => m.GorevlerCalismaID == calisma.ID).FirstOrDefault();
-                    //    tbl.Aciklama += ", " + calisma.Gorevli;
-                    //}
                 }
                 else if (vUser.RoleName == "Destek")
                     if (Onay == true)

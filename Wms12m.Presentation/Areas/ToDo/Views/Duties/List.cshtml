@@ -1,6 +1,8 @@
 ﻿@model IEnumerable<Gorevler>
 <table class="table table-bordered table-striped table-condensed" id="sample_1">
     <thead class="flip-content"><tr><th></th><th></th><th>Çalışma</th><th>Firma</th><th>Proje</th><th>Form</th><th>Görev</th><th>Sorumlular</th><th>Durum</th><th>Görev Tipi</th><th>Departman</th><th>Tahmini Bitiş<span class="hidden">Tarih</span></th><th></th></tr></thead>
+    <tfoot><tr><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr></tfoot>
+    <tfoot class="tf-search"><tr><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr></tfoot>
     <tbody>
         @foreach (var item in Model)
         {
@@ -8,24 +10,19 @@
                 <td data="@item.OncelikID" data-id="@item.ID"><div style="display:flex;"><i class='fa fa-arrow-up list-up-down item-up' onclick='RowUp(this)' style='color:#a0e4a0;'></i><i class='fa fa-arrow-down list-up-down item-down' onclick='RowDown(this)'  style='color:#ec9696;'></i></div></td>
                 <td></td>
                 <td class="details-control"></td>
-                <td nowrap>@item.ProjeForm.Musteri.Firma</td>
-                <td nowrap>@item.ProjeForm.Proje</td>
-                <td nowrap>@item.ProjeForm.Form</td>
-                <td nowrap>@item.Gorev</td>
+                <td>@item.ProjeForm.Musteri.Firma</td>
+                <td>@item.ProjeForm.Proje</td>
+                <td>@item.ProjeForm.Form</td>
+                <td>@item.Gorev</td>
                 <td nowrap>@item.Sorumlu @if (item.Sorumlu2 != null) { @(", " + item.Sorumlu2) } @if (item.Sorumlu3 != null) { @(", " + item.Sorumlu3) } </td>
                 <td>@item.ComboItem_Name1.Name</td>
                 <td>@if (item.ComboItem_Name2 != null) { @item.ComboItem_Name2.Name} </td>
                 <td>@if (item.ComboItem_Name != null) { @item.ComboItem_Name.Name} </td>
                 <td>@if (item.TahminiBitis != null) { @item.TahminiBitis.Value.ToString("dd.MM.yyyy")} </td>
-                <td nowrap>
-                    @if (item.DurumID != ComboItems.gydReddedildi.ToInt32() && item.DurumID != ComboItems.gydOnayVer.ToInt32() && item.DurumID != ComboItems.gydDurduruldu.ToInt32() && item.DurumID != ComboItems.gydBitti.ToInt32())
-                        {<a class="btn btn-info" href="#modalEditPage" data-toggle="modal" onclick="editInModal('/ToDo/DutyWork/New/@item.ID');"><span class="glyphicon glyphicon-floppy-save"></span>Çalışma</a>}
-                    @if (ViewBag.Yetki2 == true) {<a class="btn btn-danger" href="javascript:;" onclick="Delete('@item.ID', '/ToDo/Duties/List', 'liste', '')"> Sil </a>}
-                </td>
+                <td>@if (ViewBag.Yetki2 == true) {<a class="btn btn-danger" href="javascript:;" onclick="Delete('@item.ID', '/ToDo/Duties/List', 'liste', '')"> Sil </a>}</td>
             </tr>
         }
     </tbody>
-    <tfoot class="tf-search"><tr><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr></tfoot>
 </table>
 <script language="text/javascript">
     var secili_table = new Array(); var eskiData = new Array(); var yeniData = new Array(); var selected = 0;
@@ -44,7 +41,6 @@
             $(this).html('<input class="form-control input-circle" type="text" placeholder="Ara" />');
     });
     $("#sample_1 tfoot input").on('keyup change', function () { table.column($(this).parent().index() + ':visible').search(this.value).draw(); });
-    $('#sample_1 .tf-search tr').insertAfter($('#sample_1 thead tr'))
     $('#sample_1 tbody').on('click', 'td.details-control', function () {
         var tr = $(this).closest('tr');
         var row = table.row(tr);
@@ -54,7 +50,8 @@
     //tarih
     $.datepicker.setDefaults($.datepicker.regional["tr"]);
     $(".tarih").datepicker();
-    @if (ViewBag.Yetki == true && ViewBag.Tip == ComboItems.gydOnayVer.ToInt32()) {<text>
+    @if (ViewBag.Yetki == true) {
+        if (ViewBag.Tip == ComboItems.gydOnayVer.ToInt32()) {<text>
         $('#sample_1 tbody').on('click', 'tr', function () {
             table.rows('.selected').nodes().to$().removeClass('selected');
             $(this).toggleClass('selected');
@@ -62,17 +59,11 @@
             $(".onayla-buton").removeClass('hidden');
             $(".reddet-buton").removeClass('hidden');
         });
-    </text>}
-    @if (ViewBag.Yetki == true) {<text>
-        function showEdit(ID) {
-            $('#modalEditPage').modal('toggle');
-            editInModal('/ToDo/Duties/Edit/' + ID);
-        }
-    </text>}
-    else
-    {<text>
-        table.columns([0]).visible(false, false);
-    </text>}
+        </text>}<text>
+    function showEdit(ID) {
+        $('#modalEditPage').modal('toggle');
+        editInModal('/ToDo/Duties/Edit/' + ID);
+    }
     function RowUp(item) {
         var sayac = 0;
         yeniData = [];
@@ -149,4 +140,9 @@
             }
         });
     }
+    </text>}
+    else
+    {<text>
+        table.columns([0]).visible(false, false);
+    </text>}
 </script>
