@@ -59,8 +59,8 @@
     var sirketlist = new Array();
     var tiplist = new Array();
     if (model.GosterilecekSirket != null && model.GosterilecekSirket!=""){
-    sirketlist = model.GosterilecekSirket.split(";");
-    sirketlist.pop();
+        sirketlist = model.GosterilecekSirket.split(";");
+        sirketlist.pop();
     }
     if (model.GostSTKDeger != null && model.GostSTKDeger != "") {
         tiplist = model.GostSTKDeger.split(";");
@@ -371,23 +371,19 @@
     $('.save-buton').click(function () {
         secilikod3 += secilikod32;
         secilirisk += secilirisk2;
-      $.ajax({
-         url: window.location.origin + "/Users/ParametreUpdate",
-         data: { CHKAraligi: secilichk, Sirketler: secilisirket, Tipler: secilitipkod, Kod3: secilikod3, Risk: secilirisk, ID :ID},
-         type: "post",
-         success: function (data) {
-         if (data.Status == true) {
-             Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "Güncelleme");
-             setTimeout(function () { window.location.reload(); }, 500);
-         }
-         else {
-             Modaldialog(data.Message, "Kayıt İşlemi", "Tamam", "Uyarı");
-         }
-
-         }
-     });
+        $.ajax({
+            url: window.location.origin + "/Users/ParametreUpdate",
+            data: { CHKAraligi: secilichk, Sirketler: secilisirket, Tipler: secilitipkod, Kod3: secilikod3, Risk: secilirisk, ID :ID},
+            type: "post",
+            success: function (data) {
+                if (data.Status == true) {
+                    Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "btn-success");
+                    setTimeout(function () { window.location.reload(); }, 500);
+                }
+                else {
+                    Modaldialog(data.Message, "Kayıt İşlemi", "Tamam", "btn-danger");
+                }
+            }
+        });
     });
-
 </script>
-
-

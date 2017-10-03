@@ -1,5 +1,6 @@
 ﻿@{
-    int id = ViewBag.UserID;
+    string id = ViewBag.Guid;
+    if (id == "" || id == null) { id = "0"; }
     Setting setts = ViewBag.settings;
     if (ViewBag.Title != "") { ViewBag.Title += " | " + setts.SiteName; }
     else { ViewBag.Title = setts.SiteName; }

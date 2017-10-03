@@ -526,13 +526,11 @@ namespace Wms12m.Presentation.Controllers
             //dosya tipini bul
             if (!file.FileName.EndsWith(".jpg") && !file.FileName.EndsWith(".png"))
                 return Json(_Result, JsonRequestBehavior.AllowGet);
-
-
-
-            _Result.Message = "";
-            _Result.Status = true;
-            _Result.Id = 1;
-            return Json(_Result, JsonRequestBehavior.AllowGet);
+            //if exists delete
+            if (System.IO.File.Exists(Server.MapPath("/Uploads/" + ID + ".jpg")) == true) System.IO.File.Delete(Server.MapPath("/Uploads/" + ID + ".jpg"));
+            file.SaveAs(Server.MapPath("/Uploads/" + ID + ".jpg"));
+            //return
+            return Json(new Result(true, ID.ToInt32()), JsonRequestBehavior.AllowGet);
         }
     }
 }
