@@ -24,7 +24,7 @@
             <tbody>
                 @foreach (var item in Model)
                 {
-                    <tr data-ID="@item.SirketID-@ViewBag.Depo-@item.EvrakNo" style="cursor:pointer;" onclick="toggle(this, '@item.SirketID-@item.EvrakNo')">
+                    <tr data-ID="@item.SirketID-@ViewBag.Depo-@item.EvrakNo-@item.Chk" style="cursor:pointer;" onclick="toggle(this, '@item.SirketID-@item.EvrakNo')">
                         <td style="width:20px!important;"></td>
                         <td style="width:20px!important;" class="details-control"></td>
                         <td>@Html.DisplayFor(modelItem => item.EvrakNo)</td>
@@ -116,7 +116,7 @@
         var html = "<tr style='background: transparent;'><th>Mal Kodu</th><th>Mal Adı</th><th>Miktar</th><th>Birim</th><th>Güneş Stok</th><th>Wms Stok</th><th>Durum</th></tr>";
         $.ajax({
             type: 'POST',
-            url: '/WMS/Sales/Details',
+            url: '/WMS/Refund/Details',
             data: { "ID": d },
             dataType: "json",
             success: function (data) {
