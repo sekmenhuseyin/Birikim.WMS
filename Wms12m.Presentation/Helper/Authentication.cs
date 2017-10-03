@@ -65,8 +65,8 @@ namespace Wms12m
                 {
                     UserName = person.Kod,
                     RoleName = person.RoleName,
-                    LogonUserName = person.AdSoyad,
                     FirstName = person.AdSoyad,
+                    Guid = person.Guid.ToString(),
                     Id = person.ID
                 },
                 Action = new ActionIdentity()

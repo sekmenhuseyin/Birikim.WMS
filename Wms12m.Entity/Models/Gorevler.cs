@@ -31,8 +31,8 @@ namespace Wms12m.Entity.Models
         public string Aciklama { get; set; }
         public int OncelikID { get; set; }
         public int DurumID { get; set; }
-        public Nullable<int> GorevTipiID { get; set; }
-        public Nullable<int> DepartmanID { get; set; }
+        public int GorevTipiID { get; set; }
+        public int DepartmanID { get; set; }
         public Nullable<System.DateTime> TahminiBitis { get; set; }
         public Nullable<System.DateTime> BitisTarih { get; set; }
         public bool Onay { get; set; }
@@ -45,7 +45,6 @@ namespace Wms12m.Entity.Models
         public virtual ComboItem_Name ComboItem_Name { get; set; }
         public virtual ComboItem_Name ComboItem_Name1 { get; set; }
         public virtual ComboItem_Name ComboItem_Name2 { get; set; }
-        public virtual ComboItem_Name ComboItem_Name3 { get; set; }
         public virtual ProjeForm ProjeForm { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<GorevlerCalisma> GorevlerCalismas { get; set; }

@@ -1,13 +1,27 @@
 ﻿using System.Web.Mvc;
+using Wms12m.Entity;
 
 namespace Wms12m.Presentation.Controllers
 {
     public class MyAccountController : RootController
     {
-        // GET: MyAccount
+        /// <summary>
+        /// hesabım sayfası
+        /// </summary>
         public ActionResult Index()
         {
             return View("Index", Persons.Detail(vUser.Id));
+        }
+        /// <summary>
+        /// resim sil
+        /// </summary>
+        public JsonResult RemoveImage(string ID)
+        {
+            if (CheckPerm(Perms.Kullanıcılar, PermTypes.Deleting) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
+            //if exists delete
+            if (System.IO.File.Exists(Server.MapPath("/Uploads/" + ID + ".jpg")) == true) System.IO.File.Delete(Server.MapPath("/Uploads/" + ID + ".jpg"));
+            //return
+            return Json(new Result(true, 1), JsonRequestBehavior.AllowGet);
         }
     }
 }

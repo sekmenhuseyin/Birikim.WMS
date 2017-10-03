@@ -1,25 +1,19 @@
 ﻿@model IEnumerable<GorevlerToDoList>
 <table class="table table-bordered table-striped table-condensed" id="sample_1">
-    <thead>
-        <tr>
-            <th>Proje</th>
-            <th>Görevler</th>
-            <th>Açıklama</th>
-            <th>Kayıt Tarihi</th>
-            <th>Değiş Tarihi</th>
-            <th></th>
-        </tr>
-    </thead>
+    <thead><tr><th>Proje</th><th>Görevler</th><th>Açıklama</th><th>Kayıt Tarihi</th><th>Değiş Tarihi</th><th></th></tr></thead>
+    <tfoot><tr><th></th><th></th><th></th><th></th><th></th><th></th></tr></tfoot>
+    <tfoot class="tf-search"><tr><th></th><th></th><th></th><th></th><th></th><th></th></tr></tfoot>
     <tbody>
         @foreach (var item in Model)
         {
             <tr>
-                <td>@item.Gorevler.ProjeForm.Proje</td>
-                <td>@item.Gorevler.Gorev</td>
+                <td nowrap>@item.Gorevler.ProjeForm.Proje</td>
+                <td nowrap>@item.Gorevler.Gorev</td>
                 <td>@item.Aciklama</td>
                 <td>@item.KayitTarih.ToShortDateString()</td>
                 <td>@item.DegisTarih.ToShortDateString()</td>
-                <td>
+                <td nowrap>
+                    <a class="btn btn-info input-circle" href="#modalEditPage" data-toggle="modal" onclick="editInModal('/ToDo/DutyWork/New/@item.ID');"><span class="glyphicon glyphicon-floppy-save"></span>Çalışma</a>
                     @if(ViewBag.Tip == false) {<a class="btn btn-primary input-circle" href="javascript:;" onclick="Onay(@item.ID, true);"> Onayla </a>}
                     @if(ViewBag.Yetki == true && ViewBag.Tip == false) {<a class="btn btn-danger input-circle" href="javascript:;" onclick="Onay(@item.ID, false);"> Reddet </a>}
                 </td>
@@ -28,10 +22,19 @@
     </tbody>
 </table>
 <script language="text/javascript">
-    var table = $('#sample_1').DataTable({
-        "paging": false,
-        "ordering": false,
-        "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" }
+    $(document).ready(function () {
+        var table = $('#sample_1').DataTable({ "pagingType": "full_numbers", "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" } });
+        $("#sample_1 tfoot input").on('keyup change', function () { table.column($(this).parent().index() + ':visible').search(this.value).draw(); });
+        $('#sample_1 .tf-search th').each(function () {
+            var title = $('#sample_1 thead th').eq($(this).index()).text();
+            if (title != "" && title.indexOf("Tarih") !== -1)
+                $(this).html('<input class="form-control input-circle tarih" type="text" placeholder="Ara" />');
+            else if (title != "" && title != "Çalışma" && title != "Sıra")
+                $(this).html('<input class="form-control input-circle" type="text" placeholder="Ara" />');
+        });
+        //tarih
+        $.datepicker.setDefaults($.datepicker.regional["tr"]);
+        $(".tarih").datepicker();
     });
     function Onay(id, tip)
     {

@@ -51,23 +51,20 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         /// </summary>
         public PartialViewResult List(int Tip)
         {
-            var list = new List<Gorevler>();
-            if (CheckPerm(Perms.TodoGörevler, PermTypes.Writing) == true)
+            var list = db.Gorevlers.Where(m => m.ID > 0);
+            if (Tip==0)
             {
-                list = db.Gorevlers.Where(a => a.DurumID == Tip).OrderBy(a => a.OncelikID).ToList();
+                var tip1 = ComboItems.gydReddedildi.ToInt32();
+                var tip2 = ComboItems.gydOnaylandı.ToInt32();
+                var tip3 = ComboItems.gydBeklemede.ToInt32();
+                list = list.Where(m => m.DurumID != tip1 && m.DurumID != tip2 && m.DurumID != tip3);
             }
-            else if (vUser.RoleName == "Destek")
-            {
-                list = db.Gorevlers.Where(a => a.DurumID == Tip && (a.Sorumlu == vUser.UserName || a.Sorumlu2 == vUser.UserName || a.Sorumlu3 == vUser.UserName || a.KontrolSorumlusu == vUser.UserName || a.Kaydeden == vUser.UserName)).OrderBy(a => a.OncelikID).ToList();
-            }
-            else if (Tip != ComboItems.gydOnayVer.ToInt32() && Tip != ComboItems.gydReddedildi.ToInt32() && Tip != ComboItems.gydDurduruldu.ToInt32() && Tip != ComboItems.gydBeklemede.ToInt32())
-            {
-                list = db.Gorevlers.Where(a => a.DurumID == Tip && (a.Sorumlu == vUser.UserName || a.Sorumlu2 == vUser.UserName || a.Sorumlu3 == vUser.UserName || a.KontrolSorumlusu == vUser.UserName || a.Kaydeden == vUser.UserName)).OrderBy(a => a.OncelikID).ToList();
-            }
+            else
+                list = list.Where(m => m.DurumID == Tip);
             ViewBag.Yetki = CheckPerm(Perms.TodoGörevler, PermTypes.Writing);
             ViewBag.Yetki2 = CheckPerm(Perms.TodoGörevler, PermTypes.Deleting);
             ViewBag.Tip = Tip;
-            return PartialView(list);
+            return PartialView(list.OrderBy(m => m.OncelikID).ToList());
         }
         /// <summary>
         /// düzenleme sayfası
