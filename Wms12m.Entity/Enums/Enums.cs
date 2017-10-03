@@ -133,6 +133,8 @@
         GenelSipariş,
         KabloSiparişi,
         KontrollüSayım,
+        AlimdanIade,
+        SatistanIade,
         Stok,
         Transfer,
         SiparişOnaylama,
