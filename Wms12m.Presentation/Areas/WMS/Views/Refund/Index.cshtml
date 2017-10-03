@@ -11,6 +11,14 @@
         tr.shown td.details-control {
             background: url('/Content/assets/global/plugins/datatables/images/details_close.png') no-repeat center center;
         }
+        .ui-autocomplete {
+            max-height: 200px;
+            overflow-y: auto;
+            /* prevent horizontal scrollbar */
+            overflow-x: hidden;
+            /* add padding to account for vertical scrollbar */
+            padding-right: 20px;
+        }
     </style>
 }<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><span>Alımdan İade</span></li></ul></div>
 <h1 class="page-title">Alımdan İade</h1>
@@ -100,7 +108,8 @@
     $("#SirketID").prepend("<option value=''>Seçiniz !!!</option>");
     $("#DepoID").prepend("<option value=''>Seçiniz !!!</option>");
     $("#txtHesapBas").attr("disabled", true);
-    
+    $.datepicker.setDefaults($.datepicker.regional["tr"]);
+    $(".daters").datepicker();
     var sirket = 0;
     CreateNew(0);
 
@@ -136,6 +145,7 @@
         }
     }
      function FuncSearchBtn() {
+         console.log("aa");
          $("#liste").html("");
          if ($("#SirketID").val()==0 || $('#DepoID').val() == 0 || $('#Starts').val() == "" || $('#Ends').val() == "") return;
          $.ajax({

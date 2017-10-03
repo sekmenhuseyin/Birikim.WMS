@@ -759,7 +759,7 @@ namespace Wms12m
                 return new Result(false, "İrsaliye bulunamadı !");
 
             //yeterince okutulmuş mu kontrol edilir
-            var kontrol1 = db.Database.SqlQuery<frmSiparisToplaKontrol>(@"SELECT        SUM(wms.GorevYer.Miktar) AS Miktar, SUM(wms.GorevYer.YerlestirmeMiktari) AS YerlestirmeMiktari, wms.GorevYer.MalKodu
+            var kontrol1 = db.Database.SqlQuery<frmSiparisToplaKontrol>(@"SELECT        SUM(wms.GorevYer.Miktar) AS Miktar, ISNULL(SUM(wms.GorevYer.YerlestirmeMiktari),0) AS YerlestirmeMiktari, wms.GorevYer.MalKodu
                                                                         FROM            wms.GorevYer WITH (nolock) INNER JOIN
                                                                                                  wms.Yer WITH (nolock) ON wms.GorevYer.YerID = wms.Yer.ID
                                                                         WHERE        wms.GorevYer.GorevID = " + GorevID + " GROUP BY wms.GorevYer.MalKodu").ToList();
