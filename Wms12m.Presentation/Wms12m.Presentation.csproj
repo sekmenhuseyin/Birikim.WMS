@@ -453,6 +453,7 @@
     <None Include="Properties\PublishProfiles\local.pubxml" />
     <None Include="Properties\PublishProfiles\WmsPublish.pubxml" />
     <Content Include="Service\Terminal.asmx" />
+    <Content Include="Uploads\0.jpg" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\_PartialAylikSatisAnaliziBar.cshtml" />
     <Content Include="Views\Home\_PartialAylikSatisCHKAnaliziBar.cshtml" />
@@ -514,6 +515,7 @@
     <Compile Include="Controllers\HelpController.cs" />
     <Compile Include="Areas\System\Controllers\LogsController.cs" />
     <Compile Include="Areas\Approvals\Controllers\WoodController.cs" />
+    <Compile Include="Helper\HtmlHelperExtensions.cs" />
     <Compile Include="Reports\ByteArrayToImage.cs" />
     <Compile Include="Reports\DsSatinalma.Designer.cs">
       <AutoGen>True</AutoGen>

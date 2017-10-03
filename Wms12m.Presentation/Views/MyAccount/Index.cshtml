@@ -11,7 +11,7 @@
         <div class="profile-sidebar">
             <div class="portlet light profile-sidebar-portlet ">
                 <div class="profile-userpic">
-                    <img src="/Uploads/1.jpg" class="img-responsive" alt="@Model.AdSoyad">
+                    <img src="@Html.ImageOrDefault(Model.ID.ToString())" class="img-responsive" alt="@Model.AdSoyad">
                 </div>
                 <div class="row">
                     <div class="col-md-12 p-40">
