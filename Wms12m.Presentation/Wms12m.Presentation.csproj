@@ -451,7 +451,8 @@
     <Content Include="Content\STISablon.xlsx" />
     <Content Include="Content\KatSablon.xlsx" />
     <None Include="Properties\PublishProfiles\local.pubxml" />
-    <None Include="Properties\PublishProfiles\WmsPublish.pubxml" />
+    <None Include="Properties\PublishProfiles\SqlServer.pubxml" />
+    <None Include="Properties\PublishProfiles\TestServer.pubxml" />
     <Content Include="Service\Terminal.asmx" />
     <Content Include="Uploads\0.jpg" />
     <Content Include="Views\Home\Index.cshtml" />
