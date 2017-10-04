@@ -1,21 +1,23 @@
 ﻿@model IEnumerable<GorevlerToDoList>
 <table class="table table-bordered table-striped table-condensed" id="sample_1">
-    <thead><tr><th>Proje</th><th>Görevler</th><th>Açıklama</th><th>Kayıt Tarihi</th><th>Değiş Tarihi</th><th></th></tr></thead>
-    <tfoot><tr><th></th><th></th><th></th><th></th><th></th><th></th></tr></tfoot>
-    <tfoot class="tf-search"><tr><th></th><th></th><th></th><th></th><th></th><th></th></tr></tfoot>
+    <thead><tr><th></th><th>Proje</th><th>Görevler</th><th>Todo List</th><th>İşlem Yapan</th><th>Kayıt Tarihi</th><th>Değiş Tarihi</th><th></th></tr></thead>
+    <tfoot><tr><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr></tfoot>
+    <tfoot class="tf-search"><tr><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr></tfoot>
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
+            <tr data-ID="@item.GorevID">
+                <td class="details-control"></td>
                 <td nowrap>@item.Gorevler.ProjeForm.Proje</td>
                 <td nowrap>@item.Gorevler.Gorev</td>
                 <td>@item.Aciklama</td>
+                <td>@if (item.Onay == true) { @item.Onaylayan }@if (item.KontrolOnay == true) { @(", ") @item.KontrolEden }</td>
                 <td>@item.KayitTarih.ToShortDateString()</td>
                 <td>@item.DegisTarih.ToShortDateString()</td>
                 <td nowrap>
                     <a class="btn btn-info input-circle" href="#modalEditPage" data-toggle="modal" onclick="editInModal('/ToDo/DutyWork/New/@item.ID');"><span class="glyphicon glyphicon-floppy-save"></span>Çalışma</a>
                     @if(ViewBag.Tip == false) {<a class="btn btn-primary input-circle" href="javascript:;" onclick="Onay(@item.ID, true);"> Onayla </a>}
-                    @if(ViewBag.Yetki == true && ViewBag.Tip == false) {<a class="btn btn-danger input-circle" href="javascript:;" onclick="Onay(@item.ID, false);"> Reddet </a>}
+                    @if(ViewBag.Yetki == true && ViewBag.Tip == false && item.Onay == true) {<a class="btn btn-danger input-circle" href="javascript:;" onclick="Onay(@item.ID, false);"> Reddet </a>}
                 </td>
             </tr>
         }
@@ -23,8 +25,12 @@
 </table>
 <script language="text/javascript">
     $(document).ready(function () {
-        var table = $('#sample_1').DataTable({ "pagingType": "full_numbers", "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" } });
-        $("#sample_1 tfoot input").on('keyup change', function () { table.column($(this).parent().index() + ':visible').search(this.value).draw(); });
+        var table = $('#sample_1').DataTable({
+            "pagingType": "full_numbers",
+            "order": [[1, "asc"]],
+            "columnDefs": [{ "targets": [0], "orderable": false }],
+            "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" }
+        });
         $('#sample_1 .tf-search th').each(function () {
             var title = $('#sample_1 thead th').eq($(this).index()).text();
             if (title != "" && title.indexOf("Tarih") !== -1)
@@ -32,16 +38,36 @@
             else if (title != "" && title != "Çalışma" && title != "Sıra")
                 $(this).html('<input class="form-control input-circle" type="text" placeholder="Ara" />');
         });
+        $("#sample_1 tfoot input").on('keyup change', function () { table.column($(this).parent().index() + ':visible').search(this.value).draw(); });
+        $('#sample_1 tbody').on('click', 'td.details-control', function () {
+            var tr = $(this).closest('tr');
+            var row = table.row(tr);
+            if (row.child.isShown()) { row.child.hide(); tr.removeClass('shown'); }
+            else { row.child(newrow(tr.data('id'))).show(); format(tr.data('id')); tr.addClass('shown'); }
+        });
         //tarih
         $.datepicker.setDefaults($.datepicker.regional["tr"]);
         $(".tarih").datepicker();
     });
     function Onay(id, tip)
     {
+        @if (ViewBag.RoleName == "Admin" || ViewBag.RoleName == " ") { <text>Onayla(id, tip, 0);</text> }
+        else {<text>
+        bootbox.prompt({
+            title: "Onaylamak için çalıştığınız süreyi dakika olarak yazınız!",
+            inputType: 'number',
+            callback: function (result) {
+                if (result > 0)
+                    Onayla(id, tip, result);
+            }
+        });
+        </text>}
+    }
+    function Onayla(id, tip, sure) {
         $.ajax({
             type: 'POST',
             url: '/ToDo/DutyWork/ToDosOnay',
-            data: { "Id": id, "Onay": tip },
+            data: { "Id": id, "Onay": tip, "Sure": sure },
             dataType: "json",
             success: function (data) {
                 if (data.Status == true) {
@@ -57,5 +83,5 @@
                 Modaldialog("Hata oldu", 'Hata', 'Tamam', 'btn-danger');
             }
         });
-}
+    }
 </script>

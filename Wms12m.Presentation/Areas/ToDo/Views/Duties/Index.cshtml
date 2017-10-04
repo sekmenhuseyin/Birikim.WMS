@@ -85,7 +85,6 @@
     }
     function newrow(id) { return "<table style='background:transparent;' id='new" + id + "'></table>"; }
     function format(d) {
-        var html = "<tr style='background: transparent;'><th>Tarih</th><th>Çalışma Süre</th><th>Çalışma</th><th>Sorumlu</th></tr >";
         $.ajax({
             type: 'POST',
             url: '/ToDo/Duties/Duty_Details',

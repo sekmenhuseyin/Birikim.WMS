@@ -50,8 +50,6 @@
         PartialView('/WMS/Stock/HistoryList', 'Grid', JSON.stringify({ Id: $("#MalKodu").val() + "#" + $("#DepoID").val() }));
     }
     function Rezervler() {
-
-        console.log("aaa");
         editInModal2('/WMS/Stock/GetRezerv2', { MalKodu: $("#MalKodu").val(), Depo: $("#DepoID").val(), Birim: birim })
         $('#modalEditPage').modal('toggle');
     }

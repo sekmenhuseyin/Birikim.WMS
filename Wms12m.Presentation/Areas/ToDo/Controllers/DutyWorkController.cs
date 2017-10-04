@@ -168,9 +168,9 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         {
             var id = Url.RequestContext.RouteData.Values["id"];
             var ID = id.ToInt32();
-            var grvToDO = db.GorevlerToDoLists.Where(m => m.GorevID == ID).ToList();
+            var grvToDO = db.GorevlerToDoLists.Where(m => m.GorevID == ID);
             var list = new List<frmGorevTodos>();
-            foreach (GorevlerToDoList item in grvToDO)
+            foreach (GorevlerToDoList item in grvToDO.ToList())
             {
                 list.Add(new frmGorevTodos { ID = item.ID, Aciklama = item.Aciklama });
             }
@@ -200,11 +200,11 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                 }
                 else if (vUser.RoleName == "Destek")
                 {
-                    list = list.Where(m => m.Onay == true && m.KontrolOnay == false && (m.Gorevler.KontrolSorumlusu == vUser.UserName || m.Gorevler.KontrolSorumlusu == null));
+                    list = list.Where(m => ((m.Gorevler.Sorumlu == vUser.UserName || m.Gorevler.Sorumlu2 == vUser.UserName || m.Gorevler.Sorumlu3 == vUser.UserName) && m.Onay == false) || (m.Onay == true && m.KontrolOnay == false && (m.Gorevler.KontrolSorumlusu == vUser.UserName || m.Gorevler.KontrolSorumlusu == null)));
                 }
                 else
                 {
-                    list = list.Where(m => (m.Kaydeden == vUser.UserName || m.Degistiren == vUser.UserName || m.Gorevler.Sorumlu == vUser.UserName || m.Gorevler.Sorumlu2 == vUser.UserName || m.Gorevler.Sorumlu3 == vUser.UserName || m.Gorevler.KontrolSorumlusu == vUser.UserName) && m.Onay == false);
+                    list = list.Where(m => (m.Gorevler.Sorumlu == vUser.UserName || m.Gorevler.Sorumlu2 == vUser.UserName || m.Gorevler.Sorumlu3 == vUser.UserName) && m.Onay == false);
                 }
             }
             else
@@ -218,33 +218,78 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             }
             ViewBag.Yetki = CheckPerm(Perms.TodoGörevler, PermTypes.Writing);
             ViewBag.Tip = Tip;
-            return PartialView("ToDosList", list.OrderBy(m => m.Gorevler.OncelikID).ToList());
+            ViewBag.RoleName = vUser.RoleName;
+            return PartialView("ToDosList", list.OrderBy(m => m.Gorevler.OncelikID).ThenBy(m => m.ID).ToList());
         }
         /// <summary>
         /// ToDos onay / ret
         /// </summary>
-        public JsonResult ToDosOnay(int Id, bool Onay)
+        public JsonResult ToDosOnay(int Id, bool Onay, int Sure)
         {
+            var tbl = db.GorevlerToDoLists.Where(m => m.ID == Id).FirstOrDefault();
+            //kontrol
+            string sql = string.Format("SELECT ISNULL(SUM(Sure), 0) AS Expr1 FROM ong.GorevlerCalisma WHERE (GorevID = {0}) AND (Tarih = '{1}') AND (Kaydeden = '{2}')", tbl.GorevID, DateTime.Now.ToString("yyyy-MM-dd"), vUser.UserName);
+            var kontrol = db.Database.SqlQuery<int>(sql).FirstOrDefault();
+            if ((kontrol + Sure) > 540)
+                return Json(new Result(false, "Bugün bu görev için çok fazla çalışma yazılmış. Daha fazla çalışma giremezsiniz."), JsonRequestBehavior.AllowGet);
+            //getir
+            tbl.DegisTarih = DateTime.Now;
+            tbl.Degistiren = vUser.UserName;
+            if (Onay == true)
+            {
+                //onaylamalar
+                if (tbl.Onay == false && (tbl.Gorevler.Sorumlu == vUser.UserName || tbl.Gorevler.Sorumlu2 == vUser.UserName || tbl.Gorevler.Sorumlu3 == vUser.UserName))
+                {
+                    tbl.Onay = true;
+                    tbl.Onaylayan = vUser.UserName;
+                }
+                else if (tbl.Onay == true && vUser.RoleName == "Destek")
+                {
+                    tbl.KontrolOnay = true;
+                    tbl.KontrolEden = vUser.UserName;
+                }
+                else if (tbl.Onay == true && tbl.KontrolOnay == true && CheckPerm(Perms.TodoÇalışma, PermTypes.Deleting) == true)
+                {
+                    tbl.AdminOnay = true;
+                }
+                //çalışma gir
+                if (Sure > 0)
+                {
+                    var calisma = new GorevlerCalisma()
+                    {
+                        GorevID = tbl.GorevID,
+                        Tarih = DateTime.Now,
+                        Sure = Sure,
+                        Calisma = "",
+                        KayitTarih = DateTime.Now,
+                        Kaydeden = vUser.UserName,
+                        Degistiren = vUser.UserName,
+                        DegisTarih = DateTime.Now,
+                    };
+                    var todo = new GorevlerCalismaToDoList()
+                    {
+                        GorevlerCalisma = calisma,
+                        Aciklama = tbl.Aciklama
+                    };
+                    db.GorevlerCalismas.Add(calisma);
+                    db.GorevlerCalismaToDoLists.Add(todo);
+                }
+            }
+            else
+            {
+                if ((tbl.Onay == true && tbl.KontrolOnay == true && CheckPerm(Perms.TodoÇalışma, PermTypes.Deleting) == true) || (tbl.Onay == true && vUser.RoleName == "Destek"))
+                {
+                    tbl.AdminOnay = false;
+                    tbl.KontrolOnay = false;
+                    tbl.KontrolEden = "";
+                    tbl.Onay = false;
+                    tbl.Onaylayan = "";
+                }
+            }
+            //kaydet
             try
             {
-                string sql = "UPDATE [BIRIKIM].[ong].[GorevlerToDoList] SET ";
-                if (vUser.RoleName == "Developer" && Onay == true)
-                {
-                    sql += "Onay = 1";
-                }
-                else if (vUser.RoleName == "Destek")
-                    if (Onay == true)
-                        sql += "KontrolOnay = 1";
-                    else
-                        sql += "Onay = 0";
-                else if (Onay == true)
-                    sql += "AdminOnay = 1";
-                else
-                    sql += "Onay = 0 AND KontrolOnay = 0";
-
-                sql += " WHERE  ID = {0}";
-                db.Database.ExecuteSqlCommand(sql, Id);
-                if (vUser.RoleName == "Developer" && Onay == true) db.SaveChanges();
+                db.SaveChanges();
                 return Json(new Result(true, Id), JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
@@ -252,6 +297,13 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                 Logger(ex, "ToDo/Duties/ToDosOnay");
                 return Json(new Result(false, "Hata oldu"), JsonRequestBehavior.AllowGet);
             }
+        }
+        /// <summary>
+        /// ayrıntı
+        /// </summary>
+        public PartialViewResult ToDosDetails(int ID)
+        {
+            return PartialView("ToDosDetails", db.Gorevlers.Where(m => m.ID == ID).FirstOrDefault());
         }
     }
 }

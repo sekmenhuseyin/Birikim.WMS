@@ -1,6 +1,10 @@
 ﻿@{
     ViewBag.Title = "Onay Listesi";
     Layout = "~/Views/Shared/_Layout.cshtml";
+}@section Styles{<style>
+    td.details-control {background: url('/Content/assets/global/plugins/datatables/images/details_open.png') no-repeat center center;cursor: pointer;}
+    tr.shown td.details-control {background: url('/Content/assets/global/plugins/datatables/images/details_close.png') no-repeat center center;}
+</style>
 }<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><a href="/ToDo/Duties">Görevler</a><i class="fa fa-circle"></i></li><li><span>Onay Listesi</span></li></ul></div>
 <h1 class="page-title">Onay Listesi</h1>
 <div class="row">
@@ -47,5 +51,17 @@
             FuncSearchBtn();
         }
     };
+    function newrow(id) { return "<div id='new" + id + "'></div>"; }
+    function format(d) {
+        $.ajax({
+            type: 'POST',
+            url: '/ToDo/DutyWork/ToDosDetails',
+            data: { "ID": d },
+            dataType: "html",
+            success: function (data) {
+                $('#new' + d).html(data);
+            }
+        });
+    }
 </script>
 }

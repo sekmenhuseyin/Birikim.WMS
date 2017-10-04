@@ -17,8 +17,8 @@ namespace Wms12m.Entity.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Gorevler()
         {
-            this.GorevlerCalismas = new HashSet<GorevlerCalisma>();
             this.GorevlerToDoLists = new HashSet<GorevlerToDoList>();
+            this.GorevlerCalismas = new HashSet<GorevlerCalisma>();
         }
     
         public int ID { get; set; }
@@ -47,8 +47,8 @@ namespace Wms12m.Entity.Models
         public virtual ComboItem_Name ComboItem_Name2 { get; set; }
         public virtual ProjeForm ProjeForm { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<GorevlerCalisma> GorevlerCalismas { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<GorevlerToDoList> GorevlerToDoLists { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<GorevlerCalisma> GorevlerCalismas { get; set; }
     }
 }
