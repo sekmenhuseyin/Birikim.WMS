@@ -19,9 +19,9 @@
                     <tr>
                         <td>@item.Gorevler.ProjeForm.Proje</td>
                         <td>@item.Gorevler.Gorev</td>
-                        <td>@item.Tarih.ToShortDateString()</td>
+                        <td><div class="hidden">@item.Tarih.ToOADateInt()</div>@item.Tarih.ToShortDateString()</td>
                         <td>@item.Sure</td>
-                        <td>@item.Calisma</td>
+                        <td>@if (item.Calisma == "") { @item.GorevlerCalismaToDoLists.FirstOrDefault().Aciklama } else { @item.Calisma }</td>
                         <td>@item.Kaydeden</td>
                         <td>
                             <a class="btn btn-default" href="#modalEditPage" data-toggle="modal" onclick="editInModal2('/ToDo/DutyWork/Edit', { Id: @item.ID })"> Düzenle </a>
@@ -36,7 +36,7 @@
 <script>
     $(document).ready(function () {
         var table = $('#sample_1').DataTable({
-            "order": [[0, "desc"]],
+            "order": [[2, "desc"]],
             "pagingType": "full_numbers",
             "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" }
         });
