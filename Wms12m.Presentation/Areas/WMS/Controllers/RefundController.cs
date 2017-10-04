@@ -129,6 +129,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             try
             {
                 var list = db.Database.SqlQuery<frmSiparisler>(sql).ToList();
+
                 return PartialView("SiparisList", list);
             }
             catch (Exception ex)
@@ -149,6 +150,19 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             string sql = String.Format("FINSAT6{0}.wms.AlimIptalDetail @DepoKodu = '{1}', @EvrakNo = '{2}', @CHK='{3}'", tmp[0], tmp[1], tmp[2], tmp[3]);
             var list = db.Database.SqlQuery<frmSiparisMalzeme>(sql).ToList();
             return Json(list, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public PartialViewResult GetRezerv(string MalKodu, string Depo, string Birim)
+        {
+
+            if (CheckPerm(Perms.GenelSipariş, PermTypes.Reading) == false) return null;
+
+            var list = db.GetStockRezerv(Birim, MalKodu, Depo).ToList();
+
+            if (list == null)
+                return null;
+            return PartialView("Rezervler", list);
         }
     }
 

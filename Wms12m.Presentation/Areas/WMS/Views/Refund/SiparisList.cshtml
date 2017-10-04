@@ -103,6 +103,11 @@
         $(".submit").click(function () {
             var result = false;
             table.rows(".selected").every(function (rowIdx, tableLoop, rowLoop) {
+                var deg = $("#checkboxes").val();
+                deg = deg.substring(0,deg.length - 1);
+                var degs = deg.split("-");
+                degs.push("@ViewBag.Depo");
+
                 result = true;
             });
             if (result == true) $("#submit").click();

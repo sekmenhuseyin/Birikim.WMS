@@ -89,7 +89,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             ViewBag.EvrakNos = tbl.checkboxes;
             ViewBag.DepoID = tbl.DepoID;
             ViewBag.Hatali = sifirStok + hataliStok + "<br /><br />";
-            ViewBag.hataliStok = hataliStok == "" ? true : false;
+            ViewBag.hataliStok = hataliStok == "" && list.Count>0 ? true : false;
             return View("Step2", list);
         }
         /// <summary>

@@ -40,7 +40,7 @@
             <div class="portlet-title"><div class="caption"><i class="fa fa-gift"></i>Sipariş Seçimi</div></div>
             <div class="portlet-body form p-30">
                 <p class="bold color-red">@Html.Raw(ViewBag.Hatali)</p>
-                @using (Html.BeginForm("Step3", "Sales", new { area = "WMS" }, FormMethod.Post, new { @class = "form-horizontal" }))
+                @using (Html.BeginForm("Step3", "Refund", new { area = "WMS" }, FormMethod.Post, new { @class = "form-horizontal" }))
                 {
                     @Html.AntiForgeryToken()
                     @Html.ValidationSummary(true)
@@ -70,8 +70,8 @@
                         <div class="col-md-2">
                             <button type="button" class="btn btn-default btn-block" onclick="window.history.back();"><<< Geri</button>
                         </div>
-                        <div class="col-md-1 col-md-offset-7">
-                            <button type="button" class="btn btn-default m-r-20" id="selector">Hepsini Seç</button>
+                        <div class="col-md-2 col-md-offset-6">
+                            <button type="button" class="btn btn-default m-r-20" id="selector"  style="width:100%;">Hepsini Seç</button>
                         </div>
                         <div class="col-md-2">
                             <input type="hidden" name="DepoID" value="@ViewBag.DepoID" />
@@ -177,7 +177,7 @@
     }
 
     function Rezervler(malKodu, depo, birim) {
-        editInModal2('/WMS/Sales/GetRezerv', { MalKodu: malKodu, Depo: depo, Birim:birim})
+        editInModal2('/WMS/Refund/GetRezerv', { MalKodu: malKodu, Depo: depo, Birim:birim})
         $('#modalEditPage').modal('toggle');
     }
     </script>
