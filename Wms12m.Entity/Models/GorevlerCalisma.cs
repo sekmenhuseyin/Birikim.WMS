@@ -30,8 +30,8 @@ namespace Wms12m.Entity.Models
         public string Degistiren { get; set; }
         public System.DateTime DegisTarih { get; set; }
     
+        public virtual Gorevler Gorevler { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<GorevlerCalismaToDoList> GorevlerCalismaToDoLists { get; set; }
-        public virtual Gorevler Gorevler { get; set; }
     }
 }

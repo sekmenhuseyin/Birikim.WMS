@@ -227,6 +227,12 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         public JsonResult ToDosOnay(int Id, bool Onay, int Sure)
         {
             var tbl = db.GorevlerToDoLists.Where(m => m.ID == Id).FirstOrDefault();
+            //kontrol
+            var bugun = DateTime.Now.Date;
+            var kontrol = db.GorevlerCalismas.Where(m => m.Tarih == bugun && m.Kaydeden == vUser.UserName && m.GorevID == tbl.GorevID).Sum(m => m.Sure);
+            if ((kontrol + Sure) > 540)
+                return Json(new Result(false, "Bugün bu görev için çok fazla çalışma yazılmış. Daha fazla çalışma giremezsiniz."), JsonRequestBehavior.AllowGet);
+            //getir
             tbl.DegisTarih = DateTime.Now;
             tbl.Degistiren = vUser.UserName;
             if (Onay == true)
