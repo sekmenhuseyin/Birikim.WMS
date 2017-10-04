@@ -168,9 +168,9 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         {
             var id = Url.RequestContext.RouteData.Values["id"];
             var ID = id.ToInt32();
-            var grvToDO = db.GorevlerToDoLists.Where(m => m.GorevID == ID).ToList();
+            var grvToDO = db.GorevlerToDoLists.Where(m => m.GorevID == ID);
             var list = new List<frmGorevTodos>();
-            foreach (GorevlerToDoList item in grvToDO)
+            foreach (GorevlerToDoList item in grvToDO.ToList())
             {
                 list.Add(new frmGorevTodos { ID = item.ID, Aciklama = item.Aciklama });
             }
@@ -200,11 +200,11 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                 }
                 else if (vUser.RoleName == "Destek")
                 {
-                    list = list.Where(m => m.Onay == true && m.KontrolOnay == false && (m.Gorevler.KontrolSorumlusu == vUser.UserName || m.Gorevler.KontrolSorumlusu == null));
+                    list = list.Where(m => ((m.Gorevler.Sorumlu == vUser.UserName || m.Gorevler.Sorumlu2 == vUser.UserName || m.Gorevler.Sorumlu3 == vUser.UserName) && m.Onay == false) || (m.Onay == true && m.KontrolOnay == false && (m.Gorevler.KontrolSorumlusu == vUser.UserName || m.Gorevler.KontrolSorumlusu == null)));
                 }
                 else
                 {
-                    list = list.Where(m => (m.Kaydeden == vUser.UserName || m.Degistiren == vUser.UserName || m.Gorevler.Sorumlu == vUser.UserName || m.Gorevler.Sorumlu2 == vUser.UserName || m.Gorevler.Sorumlu3 == vUser.UserName || m.Gorevler.KontrolSorumlusu == vUser.UserName) && m.Onay == false);
+                    list = list.Where(m => (m.Gorevler.Sorumlu == vUser.UserName || m.Gorevler.Sorumlu2 == vUser.UserName || m.Gorevler.Sorumlu3 == vUser.UserName) && m.Onay == false);
                 }
             }
             else
@@ -218,7 +218,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             }
             ViewBag.Yetki = CheckPerm(Perms.TodoGörevler, PermTypes.Writing);
             ViewBag.Tip = Tip;
-            return PartialView("ToDosList", list.OrderBy(m => m.Gorevler.OncelikID).ToList());
+            return PartialView("ToDosList", list.OrderBy(m => m.Gorevler.OncelikID).ThenBy(m => m.ID).ToList());
         }
         /// <summary>
         /// ToDos onay / ret
@@ -252,6 +252,13 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                 Logger(ex, "ToDo/Duties/ToDosOnay");
                 return Json(new Result(false, "Hata oldu"), JsonRequestBehavior.AllowGet);
             }
+        }
+        /// <summary>
+        /// ayrıntı
+        /// </summary>
+        public PartialViewResult ToDosDetails(int ID)
+        {
+            return PartialView("ToDosDetails", db.Gorevlers.Where(m => m.ID == ID).FirstOrDefault());
         }
     }
 }

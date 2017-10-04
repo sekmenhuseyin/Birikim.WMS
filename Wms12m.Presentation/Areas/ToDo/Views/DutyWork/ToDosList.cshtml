@@ -1,12 +1,12 @@
 ﻿@model IEnumerable<GorevlerToDoList>
 <table class="table table-bordered table-striped table-condensed" id="sample_1">
-    <thead><tr><th></th><th>Proje</th><th>Görevler</th><th>Todo List</th><th>Kayıt Tarihi</th><th>Değiş Tarihi</th><th></th></tr></thead>
-    <tfoot><tr><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr></tfoot>
-    <tfoot class="tf-search"><tr><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr></tfoot>
+    <thead><tr><th></th><th>Proje</th><th>Görevler</th><th>Todo List</th><th>İşlem Yapan</th><th>Kayıt Tarihi</th><th>Değiş Tarihi</th><th></th></tr></thead>
+    <tfoot><tr><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr></tfoot>
+    <tfoot class="tf-search"><tr><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr></tfoot>
     <tbody>
         @foreach (var item in Model)
         {
-            <tr data-ID="@item.ID">
+            <tr data-ID="@item.GorevID">
                 <td class="details-control"></td>
                 <td nowrap>@item.Gorevler.ProjeForm.Proje</td>
                 <td nowrap>@item.Gorevler.Gorev</td>
@@ -16,7 +16,7 @@
                 <td nowrap>
                     <a class="btn btn-info input-circle" href="#modalEditPage" data-toggle="modal" onclick="editInModal('/ToDo/DutyWork/New/@item.ID');"><span class="glyphicon glyphicon-floppy-save"></span>Çalışma</a>
                     @if(ViewBag.Tip == false) {<a class="btn btn-primary input-circle" href="javascript:;" onclick="Onay(@item.ID, true);"> Onayla </a>}
-                    @if(ViewBag.Yetki == true && ViewBag.Tip == false) {<a class="btn btn-danger input-circle" href="javascript:;" onclick="Onay(@item.ID, false);"> Reddet </a>}
+                    @if(ViewBag.Yetki == true && ViewBag.Tip == false && item.Onay == true) {<a class="btn btn-danger input-circle" href="javascript:;" onclick="Onay(@item.ID, false);"> Reddet </a>}
                 </td>
             </tr>
         }
@@ -24,7 +24,12 @@
 </table>
 <script language="text/javascript">
     $(document).ready(function () {
-        var table = $('#sample_1').DataTable({ "pagingType": "full_numbers", "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" } });
+        var table = $('#sample_1').DataTable({
+            "pagingType": "full_numbers",
+            "order": [[1, "asc"]],
+            "columnDefs": [{ "targets": [0], "orderable": false }],
+            "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" }
+        });
         $("#sample_1 tfoot input").on('keyup change', function () { table.column($(this).parent().index() + ':visible').search(this.value).draw(); });
         $('#sample_1 .tf-search th').each(function () {
             var title = $('#sample_1 thead th').eq($(this).index()).text();

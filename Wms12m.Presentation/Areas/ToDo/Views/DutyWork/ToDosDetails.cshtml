@@ -1,0 +1,19 @@
+﻿@model Gorevler
+<table>
+    <thead><tr><th>Müşteri</th><th>Proje-Form</th><th>Görev Tipi</th><th>Görev Durumu</th><th>Sorumlular</th><th>Oluşturulma Tarihi</th><th>Tah. Bitiş Tarihi</th></tr></thead>
+    <tbody>
+        <tr>
+            <td>@Model.ProjeForm.Musteri.Unvan</td>
+            <td>@Model.ProjeForm.Proje - @Model.ProjeForm.Form</td>
+            <td>@Model.ComboItem_Name2.Name</td>
+            <td>@Model.ComboItem_Name1.Name</td>
+            <td>@Model.Sorumlu @if (Model.Sorumlu2 != null) { @Model.Sorumlu2 } @if (Model.Sorumlu3 != null) { @Model.Sorumlu3 }</td>
+            <td>@Model.KayitTarih.ToShortDateString()</td>
+            <td>@if (Model.TahminiBitis != null) { @Model.TahminiBitis.Value.ToShortDateString() }</td>
+        </tr>
+        <tr>
+            <td><strong>Açıklama:</strong></td>
+            <td colspan="6">@Model.Aciklama</td>
+        </tr>
+    </tbody>
+</table>
