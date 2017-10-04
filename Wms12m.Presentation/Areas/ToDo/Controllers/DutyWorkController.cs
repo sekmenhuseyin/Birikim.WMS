@@ -227,6 +227,8 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         public JsonResult ToDosOnay(int Id, bool Onay, int Sure)
         {
             var tbl = db.GorevlerToDoLists.Where(m => m.ID == Id).FirstOrDefault();
+            tbl.DegisTarih = DateTime.Now;
+            tbl.Degistiren = vUser.UserName;
             if (Onay == true)
             {
                 //onaylamalar
@@ -247,7 +249,24 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                 //çalışma gir
                 if (Sure > 0)
                 {
-
+                    var calisma = new GorevlerCalisma()
+                    {
+                        GorevID = tbl.GorevID,
+                        Tarih = DateTime.Now,
+                        Sure = Sure,
+                        Calisma = "",
+                        KayitTarih = DateTime.Now,
+                        Kaydeden = vUser.UserName,
+                        Degistiren = vUser.UserName,
+                        DegisTarih = DateTime.Now,
+                    };
+                    var todo = new GorevlerCalismaToDoList()
+                    {
+                        GorevlerCalisma = calisma,
+                        Aciklama = tbl.Aciklama
+                    };
+                    db.GorevlerCalismas.Add(calisma);
+                    db.GorevlerCalismaToDoLists.Add(todo);
                 }
             }
             else
