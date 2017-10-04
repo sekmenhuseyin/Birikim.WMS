@@ -1,12 +1,13 @@
 ﻿@model IEnumerable<GorevlerToDoList>
 <table class="table table-bordered table-striped table-condensed" id="sample_1">
-    <thead><tr><th>Proje</th><th>Görevler</th><th>Açıklama</th><th>Kayıt Tarihi</th><th>Değiş Tarihi</th><th></th></tr></thead>
-    <tfoot><tr><th></th><th></th><th></th><th></th><th></th><th></th></tr></tfoot>
-    <tfoot class="tf-search"><tr><th></th><th></th><th></th><th></th><th></th><th></th></tr></tfoot>
+    <thead><tr><th></th><th>Proje</th><th>Görevler</th><th>Todo List</th><th>Kayıt Tarihi</th><th>Değiş Tarihi</th><th></th></tr></thead>
+    <tfoot><tr><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr></tfoot>
+    <tfoot class="tf-search"><tr><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr></tfoot>
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
+            <tr data-ID="@item.ID">
+                <td class="details-control"></td>
                 <td nowrap>@item.Gorevler.ProjeForm.Proje</td>
                 <td nowrap>@item.Gorevler.Gorev</td>
                 <td>@item.Aciklama</td>
@@ -31,6 +32,12 @@
                 $(this).html('<input class="form-control input-circle tarih" type="text" placeholder="Ara" />');
             else if (title != "" && title != "Çalışma" && title != "Sıra")
                 $(this).html('<input class="form-control input-circle" type="text" placeholder="Ara" />');
+        });
+        $('#sample_1 tbody').on('click', 'td.details-control', function () {
+            var tr = $(this).closest('tr');
+            var row = table.row(tr);
+            if (row.child.isShown()) { row.child.hide(); tr.removeClass('shown'); }
+            else { row.child(newrow(tr.data('id'))).show(); format(tr.data('id')); tr.addClass('shown'); }
         });
         //tarih
         $.datepicker.setDefaults($.datepicker.regional["tr"]);
