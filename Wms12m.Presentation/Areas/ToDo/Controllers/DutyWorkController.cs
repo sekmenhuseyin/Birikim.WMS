@@ -218,33 +218,53 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             }
             ViewBag.Yetki = CheckPerm(Perms.TodoGörevler, PermTypes.Writing);
             ViewBag.Tip = Tip;
+            ViewBag.RoleName = vUser.RoleName;
             return PartialView("ToDosList", list.OrderBy(m => m.Gorevler.OncelikID).ThenBy(m => m.ID).ToList());
         }
         /// <summary>
         /// ToDos onay / ret
         /// </summary>
-        public JsonResult ToDosOnay(int Id, bool Onay)
+        public JsonResult ToDosOnay(int Id, bool Onay, int Sure)
         {
+            var tbl = db.GorevlerToDoLists.Where(m => m.ID == Id).FirstOrDefault();
+            if (Onay == true)
+            {
+                //onaylamalar
+                if (tbl.Onay == false && (tbl.Gorevler.Sorumlu == vUser.UserName || tbl.Gorevler.Sorumlu2 == vUser.UserName || tbl.Gorevler.Sorumlu3 == vUser.UserName))
+                {
+                    tbl.Onay = true;
+                    tbl.Onaylayan = vUser.UserName;
+                }
+                else if (tbl.Onay == true && vUser.RoleName == "Destek")
+                {
+                    tbl.KontrolOnay = true;
+                    tbl.KontrolEden = vUser.UserName;
+                }
+                else if (tbl.Onay == true && tbl.KontrolOnay == true && CheckPerm(Perms.TodoÇalışma, PermTypes.Deleting) == true)
+                {
+                    tbl.AdminOnay = true;
+                }
+                //çalışma gir
+                if (Sure > 0)
+                {
+
+                }
+            }
+            else
+            {
+                if ((tbl.Onay == true && tbl.KontrolOnay == true && CheckPerm(Perms.TodoÇalışma, PermTypes.Deleting) == true) || (tbl.Onay == true && vUser.RoleName == "Destek"))
+                {
+                    tbl.AdminOnay = false;
+                    tbl.KontrolOnay = false;
+                    tbl.KontrolEden = "";
+                    tbl.Onay = false;
+                    tbl.Onaylayan = "";
+                }
+            }
+            //kaydet
             try
             {
-                string sql = "UPDATE [BIRIKIM].[ong].[GorevlerToDoList] SET ";
-                if (vUser.RoleName == "Developer" && Onay == true)
-                {
-                    sql += "Onay = 1";
-                }
-                else if (vUser.RoleName == "Destek")
-                    if (Onay == true)
-                        sql += "KontrolOnay = 1";
-                    else
-                        sql += "Onay = 0";
-                else if (Onay == true)
-                    sql += "AdminOnay = 1";
-                else
-                    sql += "Onay = 0 AND KontrolOnay = 0";
-
-                sql += " WHERE  ID = {0}";
-                db.Database.ExecuteSqlCommand(sql, Id);
-                if (vUser.RoleName == "Developer" && Onay == true) db.SaveChanges();
+                db.SaveChanges();
                 return Json(new Result(true, Id), JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)

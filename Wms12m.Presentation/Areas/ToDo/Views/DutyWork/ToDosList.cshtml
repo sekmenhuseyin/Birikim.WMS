@@ -11,6 +11,7 @@
                 <td nowrap>@item.Gorevler.ProjeForm.Proje</td>
                 <td nowrap>@item.Gorevler.Gorev</td>
                 <td>@item.Aciklama</td>
+                <td>@if (item.Onay == true) { @item.Onaylayan }@if (item.KontrolOnay == true) { @(", ") @item.KontrolEden }</td>
                 <td>@item.KayitTarih.ToShortDateString()</td>
                 <td>@item.DegisTarih.ToShortDateString()</td>
                 <td nowrap>
@@ -50,10 +51,23 @@
     });
     function Onay(id, tip)
     {
+        @if (ViewBag.RoleName == "Admin" || ViewBag.RoleName == " ") { <text>Onayla(id, tip, 0);</text> }
+        else {<text>
+        bootbox.prompt({
+            title: "Onaylamak için çalıştığınız süreyi dakika olarak yazınız!",
+            inputType: 'number',
+            callback: function (result) {
+                if (result > 0)
+                    Onayla(id, tip, sure);
+            }
+        });
+        </text>}
+    }
+    function Onayla(id, tip, sure) {
         $.ajax({
             type: 'POST',
             url: '/ToDo/DutyWork/ToDosOnay',
-            data: { "Id": id, "Onay": tip },
+            data: { "Id": id, "Onay": tip, "Sure": sure },
             dataType: "json",
             success: function (data) {
                 if (data.Status == true) {
@@ -69,5 +83,5 @@
                 Modaldialog("Hata oldu", 'Hata', 'Tamam', 'btn-danger');
             }
         });
-}
+    }
 </script>
