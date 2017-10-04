@@ -124,7 +124,7 @@
                 minLength: 2,
                 select: function (event, ui) {
                     setTimeout(function () {
-                        $("#txtHesapBas").val(ui.item.value.substring(ui.item.id.length + 1));
+                        $("#txtHesapBas").val(ui.item.id);
                         FuncSearchBtn();
                     }, 0);
 

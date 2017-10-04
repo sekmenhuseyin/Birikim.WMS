@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
 using Wms12m.Business;
@@ -361,8 +362,8 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         {
             //ilk kontrol
             if (DepoID == "0") return null;
-            bool tarihler = DateTime.TryParse(Starts, out DateTime StartDate); if (tarihler == false) return null;
-            tarihler = DateTime.TryParse(Ends, out DateTime EndDate); if (tarihler == false) return null;
+            bool tarihler = DateTime.TryParse(Starts,CultureInfo.InvariantCulture,DateTimeStyles.None, out DateTime StartDate); if (tarihler == false) return null;
+            tarihler = DateTime.TryParse(Ends, CultureInfo.InvariantCulture,DateTimeStyles.None, out DateTime EndDate); if (tarihler == false) return null;
             if (StartDate > EndDate) return null;
             //perm kontrol
             if (CheckPerm(Perms.GenelSipariş, PermTypes.Reading) == false) return null;

@@ -1,6 +1,6 @@
-﻿ @model IEnumerable<frmSiparisMalzeme>
+﻿@model IEnumerable<frmSiparisMalzeme>
 @{
-    ViewBag.Title = "Sipariş Planlama - 2. Adım";
+    ViewBag.Title = "Alım İade - 2. Adım";
     Layout = "~/Views/Shared/_Layout.cshtml";
     string[] list; list = new string[Model.Count()]; int x = 0;
 }<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><a href="/WMS/Sales">Sipariş Planlama</a><i class="fa fa-circle"></i></li><li><span>2. Adım</span></li></ul></div>
@@ -88,7 +88,8 @@
         </div>
     </div>
 </div>
-@section Scripts{<script>
+@section Scripts{
+    <script>
     var selected = ""; var selectall = true;
     var list = [@{for (int i = 0; i < Model.Count(); i++){ if(i>0){<text>,</text>} <text>"</text>@list[i]<text>"</text> }}];
     $(document).ready(function () {
@@ -179,5 +180,5 @@
         editInModal2('/WMS/Sales/GetRezerv', { MalKodu: malKodu, Depo: depo, Birim:birim})
         $('#modalEditPage').modal('toggle');
     }
-</script>
+    </script>
 }

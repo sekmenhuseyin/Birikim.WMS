@@ -24,7 +24,7 @@
             <tbody>
                 @foreach (var item in Model)
                 {
-                    <tr data-ID="@item.SirketID-@ViewBag.Depo-@item.EvrakNo-@item.Chk" style="cursor:pointer;" onclick="toggle(this, '@item.SirketID-@item.EvrakNo')">
+                    <tr data-ID="@item.SirketID-@ViewBag.Depo-@item.EvrakNo-@item.Chk" style="cursor:pointer;" onclick="toggle(this, '@item.SirketID-@item.EvrakNo-@item.Chk')">
                         <td style="width:20px!important;"></td>
                         <td style="width:20px!important;" class="details-control"></td>
                         <td>@Html.DisplayFor(modelItem => item.EvrakNo)</td>
@@ -113,7 +113,7 @@
         return "<table style='background:transparent;' id='new" + id.replaceAll(" ", "") + "'></table>";
     }
     function format(d) {
-        var html = "<tr style='background: transparent;'><th>Mal Kodu</th><th>Mal Adı</th><th>Miktar</th><th>Birim</th><th>Güneş Stok</th><th>Wms Stok</th><th>Durum</th></tr>";
+        var html = "<tr style='background: transparent;'><th>Mal Kodu</th><th>Mal Adı</th><th>Miktar</th><th>Birim</th><th>Güneş Stok</th><th>Wms Stok</th><th>Rezerv Stok</th><th>Durum</th></tr>";
         $.ajax({
             type: 'POST',
             url: '/WMS/Refund/Details',
@@ -121,13 +121,16 @@
             dataType: "json",
             success: function (data) {
                 for (var i in data) {
-                    html += '<tr style="background:transparent;"><td>' + data[i].MalKodu + '</td><td>' + data[i].MalAdi + '</td><td align=right>' + data[i].Miktar.formatMoney(2) + '</td><td>' + data[i].Birim + '</td><td align=right>' + data[i].Stok.formatMoney(2) + '</td><td align=right>' + data[i].WmsStok.formatMoney(2) + '</td><td>' + data[i].HucreAd + '</td></tr>';
+                    html += '<tr style="background:transparent;"><td>' + data[i].MalKodu + '</td><td>' + data[i].MalAdi + '</td><td align=right>' + data[i].Miktar.formatMoney(2) + '</td><td>' + data[i].Birim + '</td><td align=right>' + data[i].Stok.formatMoney(2) + '</td><td align=right>' + data[i].WmsStok.formatMoney(2) + '</td><td align=right>' + data[i].WmsRezerv.formatMoney(2) + '</td><td>' + data[i].HucreAd + '</td></tr>';
                 };
                 $('#new' + d.replaceAll(" ", "")).html(html);
             }
         });
     }
     function toggle(row, id) {
+        console.log(id);
+        selected = "";
+        $("tr").removeClass('selected');
         $(row).toggleClass('selected');
         if ($(row).hasClass('selected') == true) selected = selected + id + "#";
         else selected = selected.replace(id + "#", "");

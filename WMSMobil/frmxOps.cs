@@ -461,7 +461,7 @@ namespace WMSMobil
                 txtBarkod.Focus();
                 return;
             }
-            string raf = txtRafBarkod.Text;
+            string raf = txtRafBarkod.Text.ToUpper();
             if (raf == "" && txtRafBarkod.Visible == true)
             {
                 Mesaj.Hata(null, "Rafı okutun");
