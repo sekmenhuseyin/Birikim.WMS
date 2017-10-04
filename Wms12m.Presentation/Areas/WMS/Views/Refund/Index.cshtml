@@ -112,15 +112,12 @@
     $(".daters").datepicker();
     var sirket = 0;
     CreateNew(0);
-
     function sirketKod() {
         sirket = $("#SirketID").val();
-        console.log(sirket);
         if (sirket > 0) {
             $("#txtHesapBas").attr("disabled", false);
             $("#txtHesapBas").autocomplete({
                 source: "/WMS/Refund/GetChKCode/" + $("#SirketID").val(),
-                //data: JSON.stringify({ id: sirket }),
                 minLength: 2,
                 select: function (event, ui) {
                     setTimeout(function () {
@@ -145,7 +142,6 @@
         }
     }
      function FuncSearchBtn() {
-         console.log("aa");
          $("#liste").html("");
          if ($("#SirketID").val()==0 || $('#DepoID').val() == 0 || $('#Starts').val() == "" || $('#Ends').val() == "") return;
          $.ajax({
