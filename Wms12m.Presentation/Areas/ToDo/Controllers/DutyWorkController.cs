@@ -228,8 +228,8 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         {
             var tbl = db.GorevlerToDoLists.Where(m => m.ID == Id).FirstOrDefault();
             //kontrol
-            var bugun = DateTime.Now.Date;
-            var kontrol = db.GorevlerCalismas.Where(m => m.Tarih == bugun && m.Kaydeden == vUser.UserName && m.GorevID == tbl.GorevID).Sum(m => m.Sure);
+            string sql = string.Format("SELECT ISNULL(SUM(Sure), 0) AS Expr1 FROM ong.GorevlerCalisma WHERE (GorevID = {0}) AND (Tarih = '{1}') AND (Kaydeden = '{2}')", tbl.GorevID, DateTime.Now.ToString("yyyy-MM-dd"), vUser.UserName);
+            var kontrol = db.Database.SqlQuery<int>(sql).FirstOrDefault();
             if ((kontrol + Sure) > 540)
                 return Json(new Result(false, "Bugün bu görev için çok fazla çalışma yazılmış. Daha fazla çalışma giremezsiniz."), JsonRequestBehavior.AllowGet);
             //getir
