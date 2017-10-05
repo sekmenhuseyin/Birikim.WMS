@@ -59,7 +59,8 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                 var tip3 = ComboItems.gydBeklemede.ToInt32();
                 var tip4 = ComboItems.gydOnayVer.ToInt32();
                 var tip5 = ComboItems.gydBitti.ToInt32();
-                list = list.Where(m => m.DurumID != tip1 && m.DurumID != tip2 && m.DurumID != tip3 && m.DurumID != tip4 && m.DurumID != tip5);
+                var tip6 = ComboItems.gydDurduruldu.ToInt32();
+                list = list.Where(m => m.DurumID != tip1 && m.DurumID != tip2 && m.DurumID != tip3 && m.DurumID != tip4 && m.DurumID != tip5 && m.DurumID != tip6);
             }
             else
                 list = list.Where(m => m.DurumID == Tip);

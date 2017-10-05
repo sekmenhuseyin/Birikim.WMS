@@ -74,7 +74,7 @@
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.Aciklama, "Açıklama", htmlAttributes: new { @class = "control-label col-md-2" })
                                     <div class="col-md-10">
-                                        @Html.TextAreaFor(model => model.Aciklama, 10, 55, new { htmlAttributes = new { @class = "form-control form-rounded" } })
+                                        @Html.TextAreaFor(model => model.Aciklama, 10, 55, new { @class = "form-control input-circle" })
                                         @Html.ValidationMessageFor(model => model.Aciklama, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -84,28 +84,28 @@
                                         <input class="form-control input-circle work-1" type="text" name="work" required = "required">
                                     </div>
                                     <div class="insert-work-icon col-md-1">
-                                        <i class="fa fa-plus-circle last-work m-l-5" onclick="NewElement()"></i>
+                                        <i class="fa fa-plus-circle last-work m-l-5 pull-right" onclick="NewElement()"></i>
                                         <i class="fa fa-minus-circle delete-icn m-l-5" onclick="DeleteElement(this)" style="display:none;"></i>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.GorevTipiID, "Görev Tipi", htmlAttributes: new { @class = "control-label col-md-2" })
                                     <div class="col-md-10">
-                                        @Html.DropDownList("GorevTipiID", null, string.Empty, htmlAttributes: new { @class = "form-control input-circle", required = "required" })
+                                        @Html.DropDownList("GorevTipiID", null, "", htmlAttributes: new { @class = "form-control input-circle", required = "required" })
                                         @Html.ValidationMessageFor(model => model.GorevTipiID, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.DepartmanID, "Departman", htmlAttributes: new { @class = "control-label col-md-2" })
                                     <div class="col-md-10">
-                                        @Html.DropDownList("DepartmanID", null, string.Empty, htmlAttributes: new { @class = "form-control input-circle", required = "required" })
+                                        @Html.DropDownList("DepartmanID", null, "", htmlAttributes: new { @class = "form-control input-circle", required = "required" })
                                         @Html.ValidationMessageFor(model => model.DepartmanID, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.TahminiBitis, "Tahmini Bitiş", htmlAttributes: new { @class = "control-label col-md-2" })
                                     <div class="col-md-10">
-                                        @Html.EditorFor(model => model.TahminiBitis, new { htmlAttributes = new { @class = "form-control input-circle date-picker", required = "required" } })
+                                        @Html.TextBoxFor(model => model.TahminiBitis, new { @class = "form-control input-circle date-picker", required = "required" })
                                         @Html.ValidationMessageFor(model => model.TahminiBitis, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -128,7 +128,7 @@
     $(document).ready(function () {
         $('.date-picker').datepicker();
         $(".satirekle").prepend("<option value=''>Seçiniz !!!</option>");
-        $(".satirekle")[0].selectedIndex = 0; $(".satirekle")[1].selectedIndex = 0; $(".satirekle")[2].selectedIndex = 0; $(".satirekle")[3].selectedIndex = 0; $(".satirekle")[4].selectedIndex = 0;
+        $(".satirekle")[0].selectedIndex = 0; $(".satirekle")[1].selectedIndex = 0; $(".satirekle")[2].selectedIndex = 0; $(".satirekle")[3].selectedIndex = 0; $(".satirekle")[4].selectedIndex = 0; $(".satirekle")[5].selectedIndex = 0;
     });
     sayac = 1;
     function NewElement() {
@@ -137,14 +137,13 @@
         $(".insert-work-icon i").removeClass("last-work");
         $(".delete-icn").css("display", "initial");
         var newElement = $("<div>").addClass("form-group todo-content");
-        newElement.append("<div class='control-label col-md-2'>" +
-            "<span class='work-index'>" + index + "</span > <span>-</span></div>" +
+        newElement.append("<div class='control-label col-md-2'><span class='work-index'>" + index + "</span > <span>-</span></div>" +
             "<div class='col-md-9'>" +
-            "<input class='form-control input-circle work-" + index + "' type='text' name='work' required = 'required'>" +
+                "<input class='form-control input-circle' type='text' name='work' required = 'required'>" +
             "</div>" +
             "<div class='insert-work-icon col-md-1'>" +
-            "<i class='fa fa-plus-circle last-work m-l-5' onclick='NewElement()'></i>" +
-            "<i class='fa fa-minus-circle delete-icn m-l-5' onclick='DeleteElement(this)''></i>" +
+                "<i class='fa fa-plus-circle last-work m-l-5 pull-right' onclick='NewElement()'></i>" +
+                "<i class='fa fa-minus-circle delete-icn m-l-5' onclick='DeleteElement(this)''></i>" +
             "</div>");
         newElement.addClass("index" + index);
         newElement.insertAfter(".todo-content:last");
