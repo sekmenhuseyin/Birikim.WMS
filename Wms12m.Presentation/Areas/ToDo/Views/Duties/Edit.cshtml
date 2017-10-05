@@ -77,7 +77,7 @@
                         <div class="form-group pointer">
                             @Html.LabelFor(model => model.Aciklama, "Açıklama", htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-10">
-                                @Html.TextAreaFor(model => model.Aciklama, 10, 55, new { htmlAttributes = new { @class = "form-control form-rounded" } })
+                                @Html.TextAreaFor(model => model.Aciklama, 10, 55, new { @class = "form-control input-circle" })
                                 @Html.ValidationMessageFor(model => model.Aciklama, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -100,12 +100,12 @@
                         <div class="form-group">
                             @Html.LabelFor(model => model.TahminiBitis, "Tamini Bitiş", htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-10">
-                                @Html.EditorFor(model => model.TahminiBitis, new { htmlAttributes = new { @Value = Model.TahminiBitis == null ? "" : Model.TahminiBitis.Value.ToString("dd.MM.yyyy"), @class = "form-control input-circle date-picker", required = "required" } })
+                                @Html.TextBoxFor(model => model.TahminiBitis, new { @Value = Model.TahminiBitis == null ? "" : Model.TahminiBitis.Value.ToString("dd.MM.yyyy"), @class = "form-control input-circle date-picker", required = "required" })
                                 @Html.ValidationMessageFor(model => model.TahminiBitis, "", new { @class = "text-danger" })
                             </div>
                         </div>
-                        <div class="form-group" style="display:none">
-                            <div class="silinenler"></div>
+                        <div class="form-group hidden">
+                            <input name="silinenler" type="text" value="" />
                         </div>
                         <div class="form-group">
                             <div class="col-md-offset-5 col-md-7">
@@ -119,45 +119,36 @@
     </div>
 </div>
 <script type="text/javascript">
-    DevExpress.ui.dxOverlay.baseZIndex(20000);
-    var silinenler = "";
-    var sayac = 1;
-    $(".silinenler").dxTextBox();
-    $(".silinenler").dxTextBox("instance").option({ name: "silinenler"});
+    var silinenler = ""; var sayac = 1;
     $(document).ready(function () {
         $(".satirekle").prepend("<option value=''>Seçiniz !!!</option>");
         @if (Model.Sorumlu2 == null || Model.Sorumlu2 == "") { <text>$(".satirekle")[1].selectedIndex = 0;</text> }
         @if (Model.Sorumlu3 == null || Model.Sorumlu3 == "") { <text>$(".satirekle")[2].selectedIndex = 0;</text> }
         @if (Model.KontrolSorumlusu == null || Model.KontrolSorumlusu == "") { <text>$(".satirekle")[3].selectedIndex = 0;</text> }
         $('.date-picker').datepicker();
-        });
+    });
     var model = @Html.Raw(Json.Encode(Model.GorevlerToDoLists.Select(m=> new frmGorevTodos { ID=m.ID, Aciklama=m.Aciklama }).ToList()));
     $.each(model, function (index, value) {
         var index = sayac++;
         $(".last-work").removeClass("fa fa-plus-circle");
         $(".insert-work-icon i").removeClass("last-work");
-        $(".delete-icn").css("display", "initial");
         var newElement = $("<div>").addClass("form-group todo-content");
-        newElement.append("<div class='todo-text todo-id" + index + "' style='display:none'></div> <div class='control-label col-md-2'><span class='work-index'>" + index + "</span > <span>-</span></div><div class='col-md-9'><div class='txt-aciklama work-" + index + "'></div></div><div class='insert-work-icon col-md-1'><i class='fa fa-minus-circle delete-icn' style='display:none' onclick='DeleteElement(this," + value.ID + ")' style='margin- left:5px;'></i><i class='fa fa-plus-circle last-work' onclick='NewElement()' style='margin-left:5px;'></i></div>");
+        newElement.append("<div class='control-label col-md-2'><span class='work-index'>" + index + "</span > <span>-</span></div>" +
+            "<div class='col-md-9'>" +
+                "<input class='hidden' type='text' name='todo' required = 'required' value='" + value.ID + "'>" +
+                "<input class='form-control input-circle' type='text' name='work' required = 'required' value='" + value.Aciklama + "'>" +
+            "</div>" +
+            "<div class='insert-work-icon col-md-1'>" +
+                "<i class='fa fa-minus-circle delete-icn m-l-5' onclick='DeleteElement(this," + value.ID + ")'></i>" +
+                "<i class='fa fa-plus-circle last-work m-l-5 pull-right' onclick='NewElement()'></i>" +
+            "</div>");
         newElement.addClass("index" + index);
-
-
-        if (index == 1) {
-            newElement.insertAfter(".pointer");
-        }
-        else {
-            newElement.insertAfter(".todo-content:last");
-        }
-        $(".work-" + index).dxTextArea();
-        $(".work-" + index).dxTextArea("instance").option({ name: "work", value: value.Aciklama, maxHeight: 80 });
-        $(".todo-id" + index).dxTextBox();
-        $(".todo-id" + index).dxTextBox("instance").option({ name: "todo", value: value.ID });
+        if (index == 1) { newElement.insertAfter(".pointer"); } else { newElement.insertAfter(".todo-content:last"); }
     });
-    function ClearControl() {
-        $("#ddSorumlu").val("");
-        $("#ddSorumlu2").val("");
-        $("#ddSorumlu3").val("");
-        $("#ddKaliteKontrol").val("");
+    if (sayac == 2) {
+        $(".delete-icn").css("display", "none");
+        $(".insert-work-icon i:last").addClass("last-work");
+        $(".last-work").addClass("fa fa-plus-circle");
     }
     function NewElement() {
         var index = sayac++;
@@ -165,20 +156,22 @@
         $(".insert-work-icon i").removeClass("last-work");
         $(".delete-icn").css("display", "initial");
         var newElement = $("<div>").addClass("form-group todo-content");
-        newElement.append("<div class='todo-text todo-id" + index + "' style='display:none'></div><div class='control-label col-md-2'><span class='work-index'>" + index + "</span > <span>-</span></div><div class='col-md-9'><div class='txt-aciklama work-" + index + "'></div></div><div class='insert-work-icon col-md-1'><i class='fa fa-minus-circle delete-icn' onclick='DeleteElement(this, " + 0 +")' style='margin- left:5px;'></i><i class='fa fa-plus-circle last-work' onclick='NewElement()' style='margin-left:5px;'></i></div>");
+        newElement.append("<div class='control-label col-md-2'><span class='work-index'>" + index + "</span > <span>-</span></div>" +
+            "<div class='col-md-9'>" +
+                "<input class='hidden' type='text' name='todo' required = 'required' value='0'>" +
+                "<input class='form-control input-circle' type='text' name='work' required = 'required' value=''>" +
+            "</div>" +
+            "<div class='insert-work-icon col-md-1'>" +
+                "<i class='fa fa-minus-circle delete-icn m-l-5' onclick='DeleteElement(this, 0)'></i>" +
+                "<i class='fa fa-plus-circle last-work m-l-5 pull-right' onclick='NewElement()'></i>" +
+            "</div>");
         newElement.addClass("index" + index);
         newElement.insertAfter(".todo-content:last");
-        $(".work-" + index).dxTextArea();
-        $(".work-" + index).dxTextArea("instance").option({ name:"work", maxHeight: 80 });
-        $(".todo-id" + index).dxTextBox();
-        $(".todo-id" + index).dxTextBox("instance").option({ name: "todo", value: 0 });
     };
     function DeleteElement(secili,id) {
         sayac--;
-        if (id != 0) {
-            silinenler+= id+","
-        }
-        $(".silinenler").dxTextBox("instance").option({ value: silinenler});
+        if (id != 0) { silinenler+= id+"," }
+        $("#silinenler").val(silinenler);
         $(secili).closest(".form-group").remove();
         $(".todo-content .work-index").each(function (index) {
             $(this).text(index + 1)
@@ -189,7 +182,6 @@
         }
         if (sayac == 2) {
             $(".delete-icn").css("display", "none");
-
             $(".insert-work-icon i:last").addClass("last-work");
             $(".last-work").addClass("fa fa-plus-circle");
         }

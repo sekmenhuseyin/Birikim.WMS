@@ -54,7 +54,6 @@ namespace Wms12m.Entity.Models
         public virtual DbSet<GorevPaketler> GorevPaketlers { get; set; }
         public virtual DbSet<GorevPaketNo> GorevPaketNoes { get; set; }
         public virtual DbSet<WebMenu> WebMenus { get; set; }
-        public virtual DbSet<UserDetail> UserDetails { get; set; }
         public virtual DbSet<Yer> Yers { get; set; }
         public virtual DbSet<Setting> Settings { get; set; }
         public virtual DbSet<GorevlerToDoList> GorevlerToDoLists { get; set; }
@@ -62,6 +61,7 @@ namespace Wms12m.Entity.Models
         public virtual DbSet<ProjeForm> ProjeForms { get; set; }
         public virtual DbSet<GorevlerCalisma> GorevlerCalismas { get; set; }
         public virtual DbSet<Gorevler> Gorevlers { get; set; }
+        public virtual DbSet<UserDetail> UserDetails { get; set; }
     
         public virtual ObjectResult<string> GetSirketDBs()
         {

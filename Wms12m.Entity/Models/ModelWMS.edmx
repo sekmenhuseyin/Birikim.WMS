@@ -539,7 +539,7 @@
           <Property Name="GostRiskDeger" Type="varchar" MaxLength="150" />
           <Property Name="GostKod3OrtBakiye" Type="varchar" MaxLength="150" />
           <Property Name="EvrakSeri" Type="int" />
-          <Property Name="UretimDurum" Type="bit" />
+          <Property Name="UretimDurum" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="Yer">
           <Key>
@@ -2080,15 +2080,6 @@
             <Parameter Name="table" Mode="In" Type="String" />
             <Parameter Name="ID" Mode="In" Type="String" />
           </FunctionImport>
-          <EntitySet Name="UserDetails" EntityType="MModel.UserDetail" />
-          <AssociationSet Name="FK_Depo_Users_Users" Association="MModel.FK_Depo_Users_Users">
-            <End Role="User" EntitySet="Users" />
-            <End Role="UserDetail" EntitySet="UserDetails" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Depo_Users_Depo" Association="MModel.FK_Depo_Users_Depo">
-            <End Role="Depo" EntitySet="Depoes" />
-            <End Role="UserDetail" EntitySet="UserDetails" />
-          </AssociationSet>
           <EntitySet Name="Yers" EntityType="MModel.Yer" />
           <AssociationSet Name="FK_GorevYer_Yer" Association="MModel.FK_GorevYer_Yer">
             <End Role="Yer" EntitySet="Yers" />
@@ -2182,6 +2173,15 @@
           <AssociationSet Name="FK_GorevlerToDoList_Gorevler" Association="MModel.FK_GorevlerToDoList_Gorevler">
             <End Role="Gorevler" EntitySet="Gorevlers" />
             <End Role="GorevlerToDoList" EntitySet="GorevlerToDoLists" />
+          </AssociationSet>
+          <EntitySet Name="UserDetails" EntityType="MModel.UserDetail" />
+          <AssociationSet Name="FK_Depo_Users_Users" Association="MModel.FK_Depo_Users_Users">
+            <End Role="User" EntitySet="Users" />
+            <End Role="UserDetail" EntitySet="UserDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Depo_Users_Depo" Association="MModel.FK_Depo_Users_Depo">
+            <End Role="Depo" EntitySet="Depoes" />
+            <End Role="UserDetail" EntitySet="UserDetails" />
           </AssociationSet>
           </EntityContainer>
         <ComplexType Name="GetSirkets_Result">
@@ -3278,55 +3278,6 @@
           <Property Type="String" Name="GorevSayilari" Nullable="true" />
           <Property Type="String" Name="yetki" Nullable="false" />
         </ComplexType>
-        <EntityType Name="UserDetail">
-          <Key>
-            <PropertyRef Name="UserID" />
-          </Key>
-          <Property Name="UserID" Type="Int32" Nullable="false" />
-          <Property Name="DepoID" Type="Int32" />
-          <Property Name="SatisIrsaliyeSeri" Type="Int32" />
-          <Property Name="SatisFaturaSeri" Type="Int32" />
-          <Property Name="TransferInSeri" Type="Int32" />
-          <Property Name="TransferOutSeri" Type="Int32" />
-          <Property Name="SayimSeri" Type="Int32" />
-          <Property Name="GosterilecekSirket" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="GosterilecekDepo" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="PasifKartlariGoster" Type="Boolean" Nullable="false" />
-          <Property Name="GostCHKKodAlani" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="GostCHKDeger" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
-          <Property Name="GostSTKKodAlani" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="GostSTKDeger" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
-          <Property Name="GostRiskDeger" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
-          <Property Name="GostKod3OrtBakiye" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="User" Relationship="MModel.FK_Depo_Users_Users" FromRole="UserDetail" ToRole="User" />
-          <NavigationProperty Name="Depo" Relationship="MModel.FK_Depo_Users_Depo" FromRole="UserDetail" ToRole="Depo" />
-          <Property Name="EvrakSeri" Type="Int32" />
-          <Property Name="UretimDurum" Type="Boolean" />
-        </EntityType>
-        <Association Name="FK_Depo_Users_Users">
-          <End Type="MModel.User" Role="User" Multiplicity="1" />
-          <End Type="MModel.UserDetail" Role="UserDetail" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="User">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="UserDetail">
-              <PropertyRef Name="UserID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Depo_Users_Depo">
-          <End Type="MModel.Depo" Role="Depo" Multiplicity="0..1" />
-          <End Type="MModel.UserDetail" Role="UserDetail" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Depo">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="UserDetail">
-              <PropertyRef Name="DepoID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="Yer">
           <Key>
             <PropertyRef Name="ID" />
@@ -3640,6 +3591,55 @@
             </Principal>
             <Dependent Role="GorevlerToDoList">
               <PropertyRef Name="GorevID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="UserDetail">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <Property Name="DepoID" Type="Int32" />
+          <Property Name="SatisIrsaliyeSeri" Type="Int32" />
+          <Property Name="SatisFaturaSeri" Type="Int32" />
+          <Property Name="TransferInSeri" Type="Int32" />
+          <Property Name="TransferOutSeri" Type="Int32" />
+          <Property Name="SayimSeri" Type="Int32" />
+          <Property Name="GosterilecekSirket" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="GosterilecekDepo" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="PasifKartlariGoster" Type="Boolean" Nullable="false" />
+          <Property Name="GostCHKKodAlani" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="GostCHKDeger" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="GostSTKKodAlani" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="GostSTKDeger" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="GostRiskDeger" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="GostKod3OrtBakiye" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="EvrakSeri" Type="Int32" />
+          <Property Name="UretimDurum" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="User" Relationship="MModel.FK_Depo_Users_Users" FromRole="UserDetail" ToRole="User" />
+          <NavigationProperty Name="Depo" Relationship="MModel.FK_Depo_Users_Depo" FromRole="UserDetail" ToRole="Depo" />
+        </EntityType>
+        <Association Name="FK_Depo_Users_Users">
+          <End Type="MModel.User" Role="User" Multiplicity="1" />
+          <End Type="MModel.UserDetail" Role="UserDetail" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UserDetail">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Depo_Users_Depo">
+          <End Type="MModel.Depo" Role="Depo" Multiplicity="0..1" />
+          <End Type="MModel.UserDetail" Role="UserDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Depo">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UserDetail">
+              <PropertyRef Name="DepoID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -4392,30 +4392,6 @@
             </ResultMapping>
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="DeleteLog" FunctionName="MModel.Store.DeleteLog" />
-          <EntitySetMapping Name="UserDetails">
-            <EntityTypeMapping TypeName="MModel.UserDetail">
-              <MappingFragment StoreEntitySet="UserDetails">
-                <ScalarProperty Name="UretimDurum" ColumnName="UretimDurum" />
-                <ScalarProperty Name="EvrakSeri" ColumnName="EvrakSeri" />
-                <ScalarProperty Name="GostKod3OrtBakiye" ColumnName="GostKod3OrtBakiye" />
-                <ScalarProperty Name="GostRiskDeger" ColumnName="GostRiskDeger" />
-                <ScalarProperty Name="GostSTKDeger" ColumnName="GostSTKDeger" />
-                <ScalarProperty Name="GostSTKKodAlani" ColumnName="GostSTKKodAlani" />
-                <ScalarProperty Name="GostCHKDeger" ColumnName="GostCHKDeger" />
-                <ScalarProperty Name="GostCHKKodAlani" ColumnName="GostCHKKodAlani" />
-                <ScalarProperty Name="PasifKartlariGoster" ColumnName="PasifKartlariGoster" />
-                <ScalarProperty Name="GosterilecekDepo" ColumnName="GosterilecekDepo" />
-                <ScalarProperty Name="GosterilecekSirket" ColumnName="GosterilecekSirket" />
-                <ScalarProperty Name="SayimSeri" ColumnName="SayimSeri" />
-                <ScalarProperty Name="TransferOutSeri" ColumnName="TransferOutSeri" />
-                <ScalarProperty Name="TransferInSeri" ColumnName="TransferInSeri" />
-                <ScalarProperty Name="SatisFaturaSeri" ColumnName="SatisFaturaSeri" />
-                <ScalarProperty Name="SatisIrsaliyeSeri" ColumnName="SatisIrsaliyeSeri" />
-                <ScalarProperty Name="DepoID" ColumnName="DepoID" />
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Yers">
             <EntityTypeMapping TypeName="MModel.Yer">
               <MappingFragment StoreEntitySet="Yer">
@@ -4613,6 +4589,30 @@
                 <ScalarProperty Name="Sorumlu" ColumnName="Sorumlu" />
                 <ScalarProperty Name="ProjeFormID" ColumnName="ProjeFormID" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserDetails">
+            <EntityTypeMapping TypeName="MModel.UserDetail">
+              <MappingFragment StoreEntitySet="UserDetails">
+                <ScalarProperty Name="UretimDurum" ColumnName="UretimDurum" />
+                <ScalarProperty Name="EvrakSeri" ColumnName="EvrakSeri" />
+                <ScalarProperty Name="GostKod3OrtBakiye" ColumnName="GostKod3OrtBakiye" />
+                <ScalarProperty Name="GostRiskDeger" ColumnName="GostRiskDeger" />
+                <ScalarProperty Name="GostSTKDeger" ColumnName="GostSTKDeger" />
+                <ScalarProperty Name="GostSTKKodAlani" ColumnName="GostSTKKodAlani" />
+                <ScalarProperty Name="GostCHKDeger" ColumnName="GostCHKDeger" />
+                <ScalarProperty Name="GostCHKKodAlani" ColumnName="GostCHKKodAlani" />
+                <ScalarProperty Name="PasifKartlariGoster" ColumnName="PasifKartlariGoster" />
+                <ScalarProperty Name="GosterilecekDepo" ColumnName="GosterilecekDepo" />
+                <ScalarProperty Name="GosterilecekSirket" ColumnName="GosterilecekSirket" />
+                <ScalarProperty Name="SayimSeri" ColumnName="SayimSeri" />
+                <ScalarProperty Name="TransferOutSeri" ColumnName="TransferOutSeri" />
+                <ScalarProperty Name="TransferInSeri" ColumnName="TransferInSeri" />
+                <ScalarProperty Name="SatisFaturaSeri" ColumnName="SatisFaturaSeri" />
+                <ScalarProperty Name="SatisIrsaliyeSeri" ColumnName="SatisIrsaliyeSeri" />
+                <ScalarProperty Name="DepoID" ColumnName="DepoID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
