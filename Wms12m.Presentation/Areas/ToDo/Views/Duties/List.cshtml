@@ -2,7 +2,7 @@
 <table class="table table-bordered table-striped table-condensed" id="sample_1">
     <thead class="flip-content"><tr><th></th><th></th><th>Çalışma</th><th>Firma</th><th>Proje</th><th>Form</th><th>Görev</th><th>Sorumlular</th><th>Durum</th><th>Görev Tipi</th><th>Departman</th><th>Tahmini Bitiş<span class="hidden">Tarih</span></th><th></th></tr></thead>
     <tfoot><tr><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr></tfoot>
-    <tfoot class="tf-search"><tr><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr></tfoot>
+    <tfoot class="tf-search"><tr>@if (ViewBag.Yetki == true) {<th></th>}<th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr></tfoot>
     <tbody>
         @foreach (var item in Model)
         {
@@ -34,12 +34,12 @@
     });
     table.on('order.dt search.dt', function () { table.column(1, { search: 'applied', order: 'applied' }).nodes().each(function (cell, i) { cell.innerHTML = i + 1; }); }).draw();
     $('#sample_1 .tf-search th').each(function () {
-        var title = $('#sample_1 thead th').eq($(this).index()).text();
+        var title = $('#sample_1 thead th').eq($(this).index()@if (ViewBag.Yetki != true) { @("+1") }).text();
         if (title != "" && title.indexOf("Tarih") !== -1)
             $(this).html('<input class="form-control input-circle tarih" type="text" placeholder="Ara" />');
         else if (title != "" && title != "Çalışma" && title != "Sıra")
             $(this).html('<input class="form-control input-circle" type="text" placeholder="Ara" />');
-    });
+        });
     $("#sample_1 tfoot input").on('keyup change', function () { table.column($(this).parent().index() + ':visible').search(this.value).draw(); });
     $('#sample_1 tbody').on('click', 'td.details-control', function () {
         var tr = $(this).closest('tr');
