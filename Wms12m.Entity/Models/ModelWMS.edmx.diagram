@@ -76,7 +76,6 @@
         <AssociationConnector Association="MModel.FK_GorevYer_Yer" />
         <AssociationConnector Association="MModel.FK_Yer_Kat" />
         <EntityTypeShape EntityType="MModel.Setting" Width="1.5" PointX="0.75" PointY="5.75" />
-        <EntityTypeShape EntityType="MModel.GorevlerCalismaToDoList" Width="1.5" PointX="32.875" PointY="7.75" />
         <EntityTypeShape EntityType="MModel.GorevlerToDoList" Width="1.5" PointX="29.125" PointY="7.25" />
         <EntityTypeShape EntityType="MModel.Musteri" Width="1.5" PointX="35.375" PointY="1.5" />
         <EntityTypeShape EntityType="MModel.ProjeForm" Width="1.5" PointX="32.75" PointY="1.125" />
@@ -90,7 +89,6 @@
         <AssociationConnector Association="MModel.FK_GorevlerToDoList_Gorevler" />
         <EntityTypeShape EntityType="MModel.GorevlerCalisma" Width="1.5" PointX="31" PointY="7.25" />
         <AssociationConnector Association="MModel.FK_GorevlerCalisma_Gorevler" />
-        <AssociationConnector Association="MModel.FK_GorevlerCalismaToDoList_GorevlerCalisma" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

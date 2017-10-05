@@ -130,14 +130,6 @@
           <Property Name="Degistiren" Type="varchar" MaxLength="5" Nullable="false" />
           <Property Name="DegisTarih" Type="smalldatetime" Nullable="false" />
         </EntityType>
-        <EntityType Name="GorevlerCalismaToDoList">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="GorevlerCalismaID" Type="int" Nullable="false" />
-          <Property Name="Aciklama" Type="nvarchar(max)" Nullable="false" />
-        </EntityType>
         <EntityType Name="GorevlerToDoList">
           <Key>
             <PropertyRef Name="ID" />
@@ -747,18 +739,6 @@
             </Principal>
             <Dependent Role="GorevlerCalisma">
               <PropertyRef Name="GorevID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_GorevlerCalismaToDoList_GorevlerCalisma">
-          <End Role="GorevlerCalisma" Type="Self.GorevlerCalisma" Multiplicity="1" />
-          <End Role="GorevlerCalismaToDoList" Type="Self.GorevlerCalismaToDoList" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="GorevlerCalisma">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="GorevlerCalismaToDoList">
-              <PropertyRef Name="GorevlerCalismaID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1464,7 +1444,6 @@
           <EntitySet Name="WebMenuRol" EntityType="Self.WebMenuRol" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Gorevler" EntityType="Self.Gorevler" Schema="ong" store:Type="Tables" />
           <EntitySet Name="GorevlerCalisma" EntityType="Self.GorevlerCalisma" Schema="ong" store:Type="Tables" />
-          <EntitySet Name="GorevlerCalismaToDoList" EntityType="Self.GorevlerCalismaToDoList" Schema="ong" store:Type="Tables" />
           <EntitySet Name="GorevlerToDoList" EntityType="Self.GorevlerToDoList" Schema="ong" store:Type="Tables" />
           <EntitySet Name="Musteri" EntityType="Self.Musteri" Schema="ong" store:Type="Tables" />
           <EntitySet Name="ProjeForm" EntityType="Self.ProjeForm" Schema="ong" store:Type="Tables" />
@@ -1549,10 +1528,6 @@
           <AssociationSet Name="FK_GorevlerCalisma_Gorevler" Association="Self.FK_GorevlerCalisma_Gorevler">
             <End Role="Gorevler" EntitySet="Gorevler" />
             <End Role="GorevlerCalisma" EntitySet="GorevlerCalisma" />
-          </AssociationSet>
-          <AssociationSet Name="FK_GorevlerCalismaToDoList_GorevlerCalisma" Association="Self.FK_GorevlerCalismaToDoList_GorevlerCalisma">
-            <End Role="GorevlerCalisma" EntitySet="GorevlerCalisma" />
-            <End Role="GorevlerCalismaToDoList" EntitySet="GorevlerCalismaToDoList" />
           </AssociationSet>
           <AssociationSet Name="FK_GorevlerToDoList_Gorevler" Association="Self.FK_GorevlerToDoList_Gorevler">
             <End Role="Gorevler" EntitySet="Gorevler" />
@@ -2141,7 +2116,6 @@
             <Parameter Name="MalKodu" Mode="In" Type="String" />
             <Parameter Name="Birim" Mode="In" Type="String" />
           </FunctionImport>
-          <EntitySet Name="GorevlerCalismaToDoLists" EntityType="MModel.GorevlerCalismaToDoList" />
           <EntitySet Name="GorevlerToDoLists" EntityType="MModel.GorevlerToDoList" />
           <EntitySet Name="Musteris" EntityType="MModel.Musteri" />
           <EntitySet Name="ProjeForms" EntityType="MModel.ProjeForm" />
@@ -2208,10 +2182,6 @@
           <AssociationSet Name="FK_GorevlerCalisma_Gorevler" Association="MModel.FK_GorevlerCalisma_Gorevler">
             <End Role="Gorevler" EntitySet="Gorevlers" />
             <End Role="GorevlerCalisma" EntitySet="GorevlerCalismas" />
-          </AssociationSet>
-          <AssociationSet Name="FK_GorevlerCalismaToDoList_GorevlerCalisma" Association="MModel.FK_GorevlerCalismaToDoList_GorevlerCalisma">
-            <End Role="GorevlerCalisma" EntitySet="GorevlerCalismas" />
-            <End Role="GorevlerCalismaToDoList" EntitySet="GorevlerCalismaToDoLists" />
           </AssociationSet>
           </EntityContainer>
         <ComplexType Name="GetSirkets_Result">
@@ -3470,15 +3440,6 @@
           <Property Type="Decimal" Name="KynkSiparisMiktar" Nullable="true" Precision="25" Scale="6" />
           <Property Type="String" Name="DepoKodu" Nullable="false" MaxLength="5" />
         </ComplexType>
-        <EntityType Name="GorevlerCalismaToDoList">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="GorevlerCalismaID" Type="Int32" Nullable="false" />
-          <Property Name="Aciklama" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="GorevlerCalisma" Relationship="MModel.FK_GorevlerCalismaToDoList_GorevlerCalisma" FromRole="GorevlerCalismaToDoList" ToRole="GorevlerCalisma" />
-        </EntityType>
         <EntityType Name="GorevlerToDoList">
           <Key>
             <PropertyRef Name="ID" />
@@ -3669,7 +3630,6 @@
           <Property Name="Degistiren" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
           <Property Name="DegisTarih" Type="DateTime" Nullable="false" Precision="0" />
           <NavigationProperty Name="Gorevler" Relationship="MModel.FK_GorevlerCalisma_Gorevler" FromRole="GorevlerCalisma" ToRole="Gorevler" />
-          <NavigationProperty Name="GorevlerCalismaToDoLists" Relationship="MModel.FK_GorevlerCalismaToDoList_GorevlerCalisma" FromRole="GorevlerCalisma" ToRole="GorevlerCalismaToDoList" />
         </EntityType>
         <Association Name="FK_GorevlerCalisma_Gorevler">
           <End Type="MModel.Gorevler" Role="Gorevler" Multiplicity="1" />
@@ -3680,18 +3640,6 @@
             </Principal>
             <Dependent Role="GorevlerCalisma">
               <PropertyRef Name="GorevID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_GorevlerCalismaToDoList_GorevlerCalisma">
-          <End Type="MModel.GorevlerCalisma" Role="GorevlerCalisma" Multiplicity="1" />
-          <End Type="MModel.GorevlerCalismaToDoList" Role="GorevlerCalismaToDoList" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="GorevlerCalisma">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="GorevlerCalismaToDoList">
-              <PropertyRef Name="GorevlerCalismaID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -4568,15 +4516,6 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <EntitySetMapping Name="GorevlerCalismaToDoLists">
-            <EntityTypeMapping TypeName="MModel.GorevlerCalismaToDoList">
-              <MappingFragment StoreEntitySet="GorevlerCalismaToDoList">
-                <ScalarProperty Name="Aciklama" ColumnName="Aciklama" />
-                <ScalarProperty Name="GorevlerCalismaID" ColumnName="GorevlerCalismaID" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="GorevlerToDoLists">
             <EntityTypeMapping TypeName="MModel.GorevlerToDoList">
               <MappingFragment StoreEntitySet="GorevlerToDoList">
