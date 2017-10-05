@@ -826,12 +826,6 @@ namespace Wms12m
                     return new Result(false, sonuc.Message);
             }
             //yerleştirmeden düşülür
-
-
-
-            //TODO: burada her irsaliye için 
-            ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-            ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
             //gorev yer miktar update
             db.Database.ExecuteSqlCommand("UPDATE wms.GorevYer SET Miktar = YerlestirmeMiktari WHERE GorevID = " + GorevID);
             //for loop 1: irs detay
@@ -840,26 +834,26 @@ namespace Wms12m
             List<frmTempGorevYer> tempGorevYer = new List<frmTempGorevYer>();
             foreach (var item3 in list2)
             {
-                frmTempGorevYer aa = new frmTempGorevYer();
-                aa.ID = item3.ID;
-                aa.Aktif = true;
-                aa.Birim = item3.Birim;
-                aa.GC = item3.GC;
-                aa.GorevID = item3.GorevID;
-                aa.MakaraNo = item3.MakaraNo;
-                aa.MalKodu = item3.MalKodu;
-                aa.Miktar = item3.Miktar;
-                aa.YerID = item3.YerID;
-                aa.YerlestirmeMiktari = item3.YerlestirmeMiktari;
-                tempGorevYer.Add(aa);
+                frmTempGorevYer tmpTbl = new frmTempGorevYer
+                {
+                    ID = item3.ID,
+                    Aktif = true,
+                    Birim = item3.Birim,
+                    GC = item3.GC,
+                    GorevID = item3.GorevID,
+                    MakaraNo = item3.MakaraNo,
+                    MalKodu = item3.MalKodu,
+                    Miktar = item3.Miktar,
+                    YerID = item3.YerID,
+                    YerlestirmeMiktari = item3.YerlestirmeMiktari
+                };
+                tempGorevYer.Add(tmpTbl);
             }
             using (var yerleştirme = new Yerlestirme())
             {
                 foreach (var item1 in list1)
                 {
                     var gerekenMiktar = item1.Miktar;
-                    //for detay 2: gorev yer
-
                     foreach (var item2 in tempGorevYer)
                     {
                         if (gerekenMiktar > 0)
@@ -896,31 +890,6 @@ namespace Wms12m
 
                     }
 
-
-                    //foreach (var item2 in list2)
-                    //{
-                    //    if (gerekenMiktar <= item2.Miktar)
-                    //    {
-                    //        item2.Miktar -= gerekenMiktar;
-                    //        //update yer
-                    //        var dusulecek = yerleştirme.Detail(item2.YerID);
-                    //        dusulecek.Miktar -= gerekenMiktar;
-                    //        dusulecek.MakaraDurum = false;
-                    //        yerleştirme.Update(dusulecek, mGorev.IrsaliyeID.Value, KullID, true, gerekenMiktar);
-                    //        gerekenMiktar = 0;
-                    //        break;
-                    //    }
-                    //    else
-                    //    {
-                    //        item2.Miktar -= item2.YerlestirmeMiktari.Value;
-                    //        gerekenMiktar -= item2.YerlestirmeMiktari.Value;
-                    //        //update yer
-                    //        var dusulecek = yerleştirme.Detail(item2.YerID);
-                    //        dusulecek.Miktar -= item2.YerlestirmeMiktari.Value;
-                    //        dusulecek.MakaraDurum = false;
-                    //        yerleştirme.Update(dusulecek, mGorev.IrsaliyeID.Value, KullID, true, item2.YerlestirmeMiktari.Value);
-                    //    }
-                    //}
                 }
                 foreach (var item2 in tempGorevYer)
                 {
@@ -930,27 +899,6 @@ namespace Wms12m
                     yerleştirme.Update(dusulecek, item2.IrsaliyeID, KullID, true, item2.YerlestirmeMiktari.Value);
                 }
             }
-            /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-            ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-            //eski
-            ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-            //var yerleştirilen = db.Database.SqlQuery<frmSiparisToplayerlestirilen>(@"SELECT        YerID, SUM(YerlestirmeMiktari) AS YerlestirmeMiktari, MalKodu, Birim
-            //                                                                        FROM            wms.GorevYer WITH (nolock)
-            //                                                                        WHERE        GorevID =  " + GorevID + " GROUP BY YerID, MalKodu, Birim").ToList();
-            //using (var yerleştirme = new Yerlestirme())
-            //    foreach (var item2 in yerleştirilen)
-            //    {
-            //        var dusulecek = yerleştirme.Detail(item2.YerID);
-            //        dusulecek.Miktar -= item2.YerlestirmeMiktari;
-            //        dusulecek.MakaraDurum = false;
-            //        yerleştirme.Update(dusulecek, mGorev.IrsaliyeID.Value, KullID, true, item2.YerlestirmeMiktari);
-            //    }
-            ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-
-
             //finish gorev
             db.TerminalFinishGorev(GorevID, mGorev.IrsaliyeID, "", tarih, saat, kull.Kod, "", ComboItems.SiparişTopla.ToInt32(), 0).FirstOrDefault();
             //görev user tablosu
@@ -1527,32 +1475,6 @@ namespace Wms12m
                         tbl2 = new GorevYer() { GorevID = GorevID, MalKodu = item.MalKodu, Birim = item.Birim, Miktar = item.Miktar, YerlestirmeMiktari = item.Miktar, GC = false, YerID = yert.ID };
                         db.GorevYers.Add(tbl2);
                     }
-                    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                    //TODO: buranın kontrol edilmesi lazım
-                    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                    //var katID = db.GetHucreKatID(mGorev.DepoID, item.RafNo).FirstOrDefault();
-                    //if (katID != null)
-                    //{
-                    //    var yert = new Yer();
-                    //    if (item.MakaraNo.Length > 0)
-                    //    {
-                    //        yert = db.Yers.Where(m => m.KatID == katID && m.MalKodu == item.MalKodu && m.MakaraNo == item.MakaraNo).FirstOrDefault();
-                    //    }
-                    //    else
-                    //    {
-                    //        yert = db.Yers.Where(m => m.KatID == katID && m.MalKodu == item.MalKodu).FirstOrDefault();
-                    //    }
-                    //    if (yert == null)
-                    //    {
-
-                    //        yert = new Yer() { KatID = katID.Value, MalKodu = item.MalKodu, Birim = item.Birim, Miktar = 0, MakaraNo = item.MakaraNo };
-                    //        db.Yers.Add(yert);
-                    //        db.SaveChanges();
-                    //    }
-                    //    tbl2 = new GorevYer() { GorevID = GorevID, MalKodu = item.MalKodu, Birim = item.Birim, Miktar = item.Miktar, YerlestirmeMiktari = item.Miktar, GC = false, YerID = yert.ID, MakaraNo = item.MakaraNo };
-                    //    db.GorevYers.Add(tbl2);
-                    //}
-                    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                 }
                 else
                 {
