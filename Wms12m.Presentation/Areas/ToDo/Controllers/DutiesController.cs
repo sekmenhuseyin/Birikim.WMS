@@ -184,36 +184,37 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                 return Json(new Result(false, "Form hatalı. Sayfayı yenileyin"), JsonRequestBehavior.AllowGet);
             if (gorevler.ID == 0)
             {
+                if (work == null)
+                    return Json(new Result(false, "Lütfen bir madde yazınız!"), JsonRequestBehavior.AllowGet);
+                if (work[0] == null || work[0] == "")
+                    return Json(new Result(false, "Lütfen bir madde yazınız!"), JsonRequestBehavior.AllowGet);
+                //set
                 var maxSira = db.Database.SqlQuery<int>("SELECT ISNULL(MAX(OncelikID), 0) AS Expr1 FROM ong.Gorevler").FirstOrDefault();
                 gorevler.Aciklama = gorevler.Aciklama ?? "";
                 gorevler.Degistiren = vUser.UserName;
-                gorevler.Kaydeden = vUser.UserName;
                 gorevler.DegisTarih = DateTime.Now;
+                gorevler.Kaydeden = vUser.UserName;
                 gorevler.KayitTarih = gorevler.DegisTarih;
-                gorevler.BitisTarih = null;
                 gorevler.OncelikID = maxSira + 1;
-                if (vUser.RoleName == "Admin" || vUser.RoleName == " ")
-                    gorevler.DurumID = ComboItems.gydAtandı.ToInt32();
-                else if (gorevler.GorevTipiID == ComboItems.gytGeliştirme.ToInt32())
+                if (vUser.RoleName == "Destek" && gorevler.GorevTipiID == ComboItems.gytGeliştirme.ToInt32())
                     gorevler.DurumID = ComboItems.gydOnayVer.ToInt32();
                 else
                     gorevler.DurumID = ComboItems.gydAtandı.ToInt32();
                 db.Gorevlers.Add(gorevler);
                 //todo lists
-                if (work != null)
-                    foreach (var item in work)
+                foreach (var item in work)
+                {
+                    GorevlerToDoList grvTDL = new GorevlerToDoList
                     {
-                        GorevlerToDoList grvTDL = new GorevlerToDoList
-                        {
-                            Aciklama = item,
-                            DegisTarih = DateTime.Now,
-                            Degistiren = vUser.UserName,
-                            KayitTarih = DateTime.Now,
-                            Kaydeden = vUser.UserName,
-                            Gorevler = gorevler
-                        };
-                        if (grvTDL.Aciklama.Trim() != "") db.GorevlerToDoLists.Add(grvTDL);
-                    }
+                        Aciklama = item,
+                        DegisTarih = DateTime.Now,
+                        Degistiren = vUser.UserName,
+                        KayitTarih = DateTime.Now,
+                        Kaydeden = vUser.UserName,
+                        Gorevler = gorevler
+                    };
+                    if (grvTDL.Aciklama.Trim() != "") db.GorevlerToDoLists.Add(grvTDL);
+                }
             }
             else
             {
@@ -234,13 +235,11 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                 tbl.TahminiBitis = gorevler.TahminiBitis;
                 tbl.Degistiren = vUser.UserName;
                 tbl.DegisTarih = DateTime.Now;
-                tbl.BitisTarih = null;
                 for (int j = 0; j < sl.Length - 1; j++)
                 {
                     var idx = Convert.ToInt32(sl[j]);
                     var silGrv = db.GorevlerToDoLists.Where(m => m.ID == idx).FirstOrDefault();
-                    silGrv.DegisTarih = DateTime.Now;
-                    silGrv.Degistiren = vUser.UserName;
+                    db.GorevlerToDoLists.Remove(silGrv);
                 }
                 if (work != null)
                     for (int i = 0; i < work.Length; i++)
@@ -262,12 +261,9 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                         {
                             var id2 = Convert.ToInt32(todo[i]);
                             var grv = db.GorevlerToDoLists.Where(m => m.ID == id2).FirstOrDefault();
-                            if (grv.Aciklama.Trim() != work[i])
-                            {
-                                grv.DegisTarih = DateTime.Now;
-                                grv.Degistiren = vUser.UserName;
-                                grv.Aciklama = work[i].ToString2();
-                            }
+                            grv.Aciklama = work[i].ToString2();
+                            grv.DegisTarih = DateTime.Now;
+                            grv.Degistiren = vUser.UserName;
                         }
                     }
             }
