@@ -103,15 +103,33 @@
         $(".submit").click(function () {
             var result = false;
             table.rows(".selected").every(function (rowIdx, tableLoop, rowLoop) {
+                result = true;
                 var deg = $("#checkboxes").val();
                 deg = deg.substring(0,deg.length - 1);
                 var degs = deg.split("-");
                 degs.push("@ViewBag.Depo");
-
-                result = true;
+                $.ajax({
+                    url: window.location.origin + "/WMS/Refund/StokKontrol",
+                    data: {Sirket:degs[0], EvrakNo:degs[1], CHK:degs[2], Depo:degs[3]},
+                    type: "post",
+                    success: function (data) {
+                        var hata = data.split("##");
+                        if (hata[1].length > 0) {
+                            Modaldialog(hata[0], "Hata", "Tamam", "btn-danger")
+                        }
+                        else if (hata[0].length > 0) {
+                            frmAlimIade(hata[0]);
+                        }
+                        else {
+                            $("#submit").click();
+                        }
+                        
+                    }
+                });
+             
             });
-            if (result == true) $("#submit").click();
-            else Modaldialog("Lütfen sipariş seçin", "Hata", "Tamam", "btn-danger");
+            if (result == false) Modaldialog("Lütfen sipariş seçin", "Hata", "Tamam", "btn-danger");
+    
         });
     });
     function newrow(id) {
