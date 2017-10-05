@@ -1,19 +1,53 @@
 ﻿@{
-    ViewBag.Title = "Görev Çalışma işlemleri";
+    ViewBag.Title = "Çalışma Listesi";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }@section Styles{<link href="~/Content/assets/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css" rel="stylesheet" type="text/css" />
 <style>#Calisma {border-radius: 1rem !important;width: 100% !important;height: 100px !important;}</style>
-}<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><span>Görev Çalışma İşlemleri</span></li></ul></div>
-<h1 class="page-title">Görev Çalışma İşlemleri</h1>
+}<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><span>Çalışma Listesi</span></li></ul></div>
+<h1 class="page-title">Çalışma Listesi</h1>
+<div class="row">
+    <div class="col-md-12">
+        <div id="CreateEdit"></div>
+        <div class="portlet box green">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-gift"></i>Çalışma Listesi
+                </div>
+                <div class="col-md-2 pull-right m-t-5">
+                    <a class="btn btn-default pull-right input-circle" href="#modalEditPage" data-toggle="modal" onclick="editInModal('/ToDo/DutyWork/NewAll')"> Yeni </a>
+                </div>
+            </div>
+            <div class="portlet-body form">
+                <div class="form-horizontal">
+                    <div class="form-body">
+                        <div class="form-group">
+                            <div class="col-sm-3 control-label">Görev Tipi</div>
+                            <div class="col-sm-4">
+                                <select class="form-control input-circle" id="DurumID" name="DurumID" onchange="FuncSearchBtn()">
+                                    <option value="false">Bana Ait</option>
+                                    <option value="true">Hepsi</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-1"><button type="button" class="btn btn-circle green" onclick="FuncSearchBtn();"><i class="icon-refresh"></i></button></div>
+                        </div>
+                    </div>
+                </div>
+                <div id="liste" class="p-30"></div>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="row">
     <div class="col-md-12" id="liste"></div>
 </div>
 @section Scripts{<script src="~/Content/assets/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js" type="text/javascript"></script>
 <script type="text/javascript">
     var DeleteFunctionUrl = '/ToDo/DutyWork/Delete';
-    $(document).ready(function () {
-        PartialView("/ToDo/DutyWork/List", 'liste');
-    });
+    FuncSearchBtn();
+    function FuncSearchBtn() {
+        $('#liste').html("");
+        PartialView("/ToDo/DutyWork/List", 'liste', JSON.stringify({ Tip: $('#DurumID').val() }));
+    }
     function CreateEdit(Id) {
         if (Id == 0) {
             $("#ID").val("0");
@@ -33,7 +67,7 @@
         else {
             Modaldialog("Kaydedildi", "Başarı", "Tamam", "btn-success");
             $('#modalEditPage').modal('toggle');
-            PartialView("/ToDo/DutyWork/List", 'liste');
+            FuncSearchBtn();
         }
     };
     function getToDo(id) {

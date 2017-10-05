@@ -2,7 +2,7 @@
     ViewBag.Title = "Onay Listesi";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }@section Styles{<style>
-    td.details-control {background: url('/Content/assets/global/plugins/datatables/images/details_open.png') no-repeat center center;cursor: pointer;}
+    td.details-control {background: url('/Content/assets/global/plugins/datatables/images/details_open.png') no-repeat center center;cursor: pointer;max-width:20px;}
     tr.shown td.details-control {background: url('/Content/assets/global/plugins/datatables/images/details_close.png') no-repeat center center;}
 </style>
 }<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><a href="/ToDo/Duties">Görevler</a><i class="fa fa-circle"></i></li><li><span>Onay Listesi</span></li></ul></div>
@@ -14,12 +14,15 @@
                 <div class="caption">
                     <i class="fa fa-gift"></i>Onay Listesi
                 </div>
+                <div class="col-md-2 pull-right m-t-5">
+                    <a class="btn btn-default pull-right input-circle" href="#modalEditPage" data-toggle="modal" onclick="editInModal('/ToDo/DutyWork/NewAll')"> Yeni Çalışma </a>
+                </div>
             </div>
             <div class="portlet-body form">
                 <div class="form-horizontal">
                     <div class="form-body">
                         <div class="form-group">
-                            <div class="col-sm-3 control-label">Görev Durumu</div>
+                            <div class="col-sm-3 control-label">Onay Tipi</div>
                             <div class="col-sm-4">
                                 <select class="form-control input-circle" id="DurumID" name="DurumID" onchange="FuncSearchBtn()">
                                     <option value="false">Bana Ait</option>

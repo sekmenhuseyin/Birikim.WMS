@@ -52,7 +52,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         public PartialViewResult List(int Tip)
         {
             var list = db.Gorevlers.Where(m => m.ID > 0);
-            if (Tip==0)
+            if (Tip == 0)
             {
                 var tip1 = ComboItems.gydReddedildi.ToInt32();
                 var tip2 = ComboItems.gydOnaylandı.ToInt32();
@@ -180,119 +180,108 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         public JsonResult Save(Gorevler gorevler, string[] work, string silinenler, string[] todo)
         {
             if (CheckPerm(Perms.TodoGörevler, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
+                return Json(new Result(false, "Form hatalı. Sayfayı yenileyin"), JsonRequestBehavior.AllowGet);
+            if (gorevler.ID == 0)
             {
-                if (gorevler.ID == 0)
+                var maxSira = db.Database.SqlQuery<int>("SELECT ISNULL(MAX(OncelikID), 0) AS Expr1 FROM ong.Gorevler").FirstOrDefault();
+                gorevler.Aciklama = gorevler.Aciklama ?? "";
+                gorevler.Degistiren = vUser.UserName;
+                gorevler.Kaydeden = vUser.UserName;
+                gorevler.DegisTarih = DateTime.Now;
+                gorevler.KayitTarih = gorevler.DegisTarih;
+                gorevler.BitisTarih = null;
+                gorevler.OncelikID = maxSira + 1;
+                if (vUser.RoleName == "Admin" || vUser.RoleName == " ")
+                    gorevler.DurumID = ComboItems.gydAtandı.ToInt32();
+                else if (gorevler.GorevTipiID == ComboItems.gytGeliştirme.ToInt32())
+                    gorevler.DurumID = ComboItems.gydOnayVer.ToInt32();
+                else
+                    gorevler.DurumID = ComboItems.gydAtandı.ToInt32();
+                db.Gorevlers.Add(gorevler);
+                //todo lists
+                if (work != null)
+                    foreach (var item in work)
+                    {
+                        GorevlerToDoList grvTDL = new GorevlerToDoList
+                        {
+                            Aciklama = item,
+                            DegisTarih = DateTime.Now,
+                            Degistiren = vUser.UserName,
+                            KayitTarih = DateTime.Now,
+                            Kaydeden = vUser.UserName,
+                            Gorevler = gorevler
+                        };
+                        if (grvTDL.Aciklama.Trim() != "") db.GorevlerToDoLists.Add(grvTDL);
+                    }
+            }
+            else
+            {
+                string[] sl = new string[0];
+                if (silinenler != null)
                 {
-                    var maxSira = db.Database.SqlQuery<int>("SELECT ISNULL(MAX(OncelikID), 0) AS Expr1 FROM ong.Gorevler").FirstOrDefault();
-                    gorevler.Aciklama = gorevler.Aciklama ?? "";
-                    gorevler.Degistiren = vUser.UserName;
-                    gorevler.Kaydeden = vUser.UserName;
-                    gorevler.DegisTarih = DateTime.Now;
-                    gorevler.KayitTarih = gorevler.DegisTarih;
-                    gorevler.BitisTarih = null;
-                    gorevler.OncelikID = maxSira + 1;
-                    if (vUser.RoleName == "Admin" || vUser.RoleName == " ")
-                        gorevler.DurumID = ComboItems.gydAtandı.ToInt32();
-                    else if (gorevler.GorevTipiID == ComboItems.gytGeliştirme.ToInt32())
-                        gorevler.DurumID = ComboItems.gydOnayVer.ToInt32();
-                    else
-                        gorevler.DurumID = ComboItems.gydAtandı.ToInt32();
-                    db.Gorevlers.Add(gorevler);
-                    //todo lists
-                    if (work != null)
-                        foreach (var item in work)
+                    sl = silinenler.Split(',');
+                }
+                var tbl = db.Gorevlers.Where(m => m.ID == gorevler.ID).FirstOrDefault();
+                tbl.Sorumlu = gorevler.Sorumlu;
+                tbl.Sorumlu2 = gorevler.Sorumlu2;
+                tbl.Sorumlu3 = gorevler.Sorumlu3;
+                tbl.KontrolSorumlusu = gorevler.KontrolSorumlusu;
+                tbl.Gorev = gorevler.Gorev;
+                tbl.Aciklama = gorevler.Aciklama ?? "";
+                tbl.GorevTipiID = gorevler.GorevTipiID;
+                tbl.DepartmanID = gorevler.DepartmanID;
+                tbl.TahminiBitis = gorevler.TahminiBitis;
+                tbl.Degistiren = vUser.UserName;
+                tbl.DegisTarih = DateTime.Now;
+                tbl.BitisTarih = null;
+                for (int j = 0; j < sl.Length - 1; j++)
+                {
+                    var idx = Convert.ToInt32(sl[j]);
+                    var silGrv = db.GorevlerToDoLists.Where(m => m.ID == idx).FirstOrDefault();
+                    silGrv.DegisTarih = DateTime.Now;
+                    silGrv.Degistiren = vUser.UserName;
+                }
+                if (work != null)
+                    for (int i = 0; i < work.Length; i++)
+                    {
+                        if (todo[i] == "0")
                         {
                             GorevlerToDoList grvTDL = new GorevlerToDoList
                             {
-                                Aciklama = item,
-                                DegisTarih = DateTime.Now,
-                                Degistiren = vUser.UserName,
-                                KayitTarih = DateTime.Now,
+                                Aciklama = work[i],
                                 Kaydeden = vUser.UserName,
-                                Gorevler = gorevler
+                                KayitTarih = DateTime.Now,
+                                Degistiren = vUser.UserName,
+                                DegisTarih = DateTime.Now,
+                                Gorevler = tbl
                             };
                             if (grvTDL.Aciklama.Trim() != "") db.GorevlerToDoLists.Add(grvTDL);
                         }
-                }
-                else
-                {
-                    string[] sl = new string[0];
-                    if (silinenler != null)
-                    {
-                        sl = silinenler.Split(',');
-                    }
-                    var tbl = db.Gorevlers.Where(m => m.ID == gorevler.ID).FirstOrDefault();
-                    tbl.Sorumlu = gorevler.Sorumlu;
-                    tbl.Sorumlu2 = gorevler.Sorumlu2;
-                    tbl.Sorumlu3 = gorevler.Sorumlu3;
-                    tbl.KontrolSorumlusu = gorevler.KontrolSorumlusu;
-                    tbl.Gorev = gorevler.Gorev;
-                    tbl.Aciklama = gorevler.Aciklama ?? "";
-                    tbl.GorevTipiID = gorevler.GorevTipiID;
-                    tbl.DepartmanID = gorevler.DepartmanID;
-                    tbl.TahminiBitis = gorevler.TahminiBitis;
-                    tbl.Degistiren = vUser.UserName;
-                    tbl.DegisTarih = DateTime.Now;
-                    tbl.BitisTarih = null;
-                    for (int j = 0; j < sl.Length - 1; j++)
-                    {
-                        var idx = Convert.ToInt32(sl[j]);
-                        var silGrv = db.GorevlerToDoLists.Where(m => m.ID == idx).FirstOrDefault();
-                        silGrv.DegisTarih = DateTime.Now;
-                        silGrv.Degistiren = vUser.UserName;
-                    }
-                    if (work != null)
-                        for (int i = 0; i < work.Length; i++)
+                        else
                         {
-                            if (todo[i] == "0")
+                            var id2 = Convert.ToInt32(todo[i]);
+                            var grv = db.GorevlerToDoLists.Where(m => m.ID == id2).FirstOrDefault();
+                            if (grv.Aciklama.Trim() != work[i])
                             {
-                                GorevlerToDoList grvTDL = new GorevlerToDoList
-                                {
-                                    Aciklama = work[i],
-                                    DegisTarih = DateTime.Now,
-                                    Degistiren = vUser.UserName,
-                                    KayitTarih = DateTime.Now,
-                                    Kaydeden = vUser.UserName,
-                                    Gorevler = tbl
-                                };
-                                if (grvTDL.Aciklama.Trim() != "") db.GorevlerToDoLists.Add(grvTDL);
-                            }
-                            else
-                            {
-                                var id2 = Convert.ToInt32(todo[i]);
-                                var grv = db.GorevlerToDoLists.Where(m => m.ID == id2).FirstOrDefault();
-                                if (grv.Aciklama.Trim() != work[i])
-                                {
-                                    grv.DegisTarih = DateTime.Now;
-                                    grv.Degistiren = vUser.UserName;
-                                    GorevlerToDoList grvTDL = new GorevlerToDoList
-                                    {
-                                        Aciklama = work[i],
-                                        DegisTarih = DateTime.Now,
-                                        Degistiren = vUser.UserName,
-                                        KayitTarih = DateTime.Now,
-                                        Kaydeden = vUser.UserName,
-                                        Gorevler = tbl
-                                    };
-                                    if (grvTDL.Aciklama.Trim() != "") db.GorevlerToDoLists.Add(grvTDL);
-                                }
+                                grv.DegisTarih = DateTime.Now;
+                                grv.Degistiren = vUser.UserName;
+                                grv.Aciklama = work[i].ToString2();
                             }
                         }
-                }
-                try
-                {
-                    db.SaveChanges();
-                    LogActions("ToDo", "Duties", "Save", ComboItems.alEkle, gorevler.ID, "Gorev: " + gorevler.Gorev);
-                    return Json(new Result(true, gorevler.ID), JsonRequestBehavior.AllowGet);
-                }
-                catch (Exception ex)
-                {
-                    Logger(ex, "ToDo/Duties/Save");
-                    return Json(new Result(false, "Kayıt hatası. Sayfayı yenileyin"), JsonRequestBehavior.AllowGet);
-                }
+                    }
             }
-            return Json(new Result(false, "Form hatalı. Sayfayı yenileyin"), JsonRequestBehavior.AllowGet);
+            try
+            {
+                db.SaveChanges();
+                LogActions("ToDo", "Duties", "Save", ComboItems.alEkle, gorevler.ID, "Gorev: " + gorevler.Gorev);
+                return Json(new Result(true, gorevler.ID), JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Logger(ex, "ToDo/Duties/Save");
+                return Json(new Result(false, "Kayıt hatası. Sayfayı yenileyin"), JsonRequestBehavior.AllowGet);
+            }
         }
         /// <summary>
         /// sil
@@ -300,10 +289,11 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         public JsonResult Delete(string Id)
         {
             if (CheckPerm(Perms.TodoGörevler, PermTypes.Deleting) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
+            Gorevler gorev = db.Gorevlers.Find(Id.ToInt32());
+            if (gorev.GorevlerCalismas.FirstOrDefault() != null)
+                return Json(new Result(false, "Bu göreve çalışma kaydedildiği için silinemez"), JsonRequestBehavior.AllowGet);
             try
             {
-                //TODO:
-                Gorevler gorev = db.Gorevlers.Find(Id.ToInt32());
                 LogActions("ToDo", "Duties", "Delete", ComboItems.alSil, Id.ToInt32());
                 db.SaveChanges();
                 return Json(new Result(true, Id.ToInt32()), JsonRequestBehavior.AllowGet);
