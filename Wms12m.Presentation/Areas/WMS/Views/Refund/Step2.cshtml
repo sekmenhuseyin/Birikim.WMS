@@ -74,7 +74,7 @@
                             <button type="button" class="btn btn-default btn-block" onclick="window.history.back();"><<< Geri</button>
                         </div>
                         <div class="col-md-2 col-md-offset-6">
-                            <button type="button" class="btn btn-default m-r-20" id="selector"  style="width:100%;">Hepsini Seç</button>
+                            <button type="button" class="btn btn-default m-r-20" id="selector" style="width:100%;">Hepsini Seç</button>
                         </div>
                         <div class="col-md-2">
                             <input type="hidden" name="DepoID" value="@ViewBag.DepoID" />
@@ -93,10 +93,11 @@
 </div>
 @section Scripts{
     <script>
-    var selected = ""; var selectall = true;
+        var selected = ""; var selectall = true;
+        var table = "";
     var list = [@{for (int i = 0; i < Model.Count(); i++){ if(i>0){<text>,</text>} <text>"</text>@list[i]<text>"</text> }}];
     $(document).ready(function () {
-        var table = $('#sample_2').DataTable({
+        table = $('#sample_2').DataTable({
             "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
             initComplete: function () {
                 this.api().columns([0, 1]).every(function () {
@@ -127,7 +128,7 @@
             $("#checkboxes").val(selected);
         });
         $(".submit").click(function () {
-            //var result = false;
+            var iade = false;
             //table.rows(".selected").every(function (rowIdx, tableLoop, rowLoop) {
             //    result = true;
             //});
@@ -135,6 +136,11 @@
             //else Modaldialog("Lütfen sipariş seçin", "Hata", "Tamam", "btn-danger");
             var cells = [, ,]; var result = false;
             table.rows(".selected").every(function (rowIdx, tableLoop, rowLoop) {
+                var kont = parseFloat(table.cell(rowIdx, 7).data().replace(".", "").replace(",", "."));
+                if (kont <= 0)
+                {
+                    iade = true;
+                }
                 var rezerv = 0;
                 if (this.data()[5] != "") {
                     rezerv = parseFloat($(this.data()[5]).text().replace(".", "").replace(",", "."));
@@ -167,15 +173,22 @@
                     return;
                 }
             });
+            if (iade == true) {
+                Modaldialog("Seçili satırların iade miktarı 0'dan büyük olmalıdır.", "Uyarı", "Tamam", "btn-danger");
+                return;
+            }
             $("#checkboxes").val(selected);
-            if (result == false) $("#submit").click();
+         
+            //if (result == false) $("#submit").click();
         });
     });
-    function toggle(row, id) {
+        function toggle(row, id) {
+        
         $(row).toggleClass('selected');
         if ($(row).hasClass('selected') == true) selected = selected + id + "#";
         else selected = selected.replace(id + "#", "");
         $("#checkboxes").val(selected);
+        console.log($("#checkboxes").val(selected));
     }
 
     function Rezervler(malKodu, depo, birim) {
@@ -224,6 +237,7 @@
                 $(td).css("background-color", "#f56681");
                 $(td).parent("tr").removeClass("iadevar");
             }
+            table.cell(id, 7).data(yeni.formatMoney(2));
             $(td).html(yeni.formatMoney(2));
         }
     </script>
