@@ -112,15 +112,19 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                 //eğer 
                 if (vUser.RoleName == "Developer")
                 {
+                    //eğer tüm maddeler onaylandıysa kontrol onay yap yoksa başlandı yap
                     var c = grv.GorevlerToDoLists.Where(m => m.Onay == false).FirstOrDefault();
                     if (c == null)
                         grv.GorevTipiID = ComboItems.gydKaliteKontrol.ToInt32();
+                    else
+                        grv.DurumID = ComboItems.gydBaşlandı.ToInt32();
                 }
-                else if (vUser.RoleName == "Destek")
+                else if (vUser.RoleName == "Admin" || vUser.RoleName == " ")
                 {
-                    var c = grv.GorevlerToDoLists.Where(m => m.KontrolOnay == false).FirstOrDefault();
+                    //eğer admin tüm maddeleri onaylarsa durum değişsin
+                    var c = grv.GorevlerToDoLists.Where(m => m.AdminOnay == false).FirstOrDefault();
                     if (c == null)
-                        grv.GorevTipiID = ComboItems.gydBeklemede.ToInt32();
+                        grv.GorevTipiID = ComboItems.gydOnaylandı.ToInt32();
                 }
                 db.GorevlerCalismas.Add(gorevCalisma);
             }
@@ -219,10 +223,10 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             else
             {
                 if (vUser.RoleName == "Destek")
-                    list = list.Where(m => m.Kaydeden == vUser.UserName || m.Degistiren == vUser.UserName || m.Gorevler.Sorumlu == vUser.UserName || m.Gorevler.Sorumlu2 == vUser.UserName || m.Gorevler.Sorumlu3 == vUser.UserName || m.Gorevler.KontrolSorumlusu == vUser.UserName || m.Gorevler.KontrolSorumlusu == null);
+                    list = list.Where(m => m.AdminOnay == false && (m.Kaydeden == vUser.UserName || m.Degistiren == vUser.UserName || m.Gorevler.Sorumlu == vUser.UserName || m.Gorevler.Sorumlu2 == vUser.UserName || m.Gorevler.Sorumlu3 == vUser.UserName || m.Gorevler.KontrolSorumlusu == vUser.UserName || m.Gorevler.KontrolSorumlusu == null));
                 else if (vUser.RoleName != "Admin" && vUser.RoleName != " ")
                 {
-                    list = list.Where(m => m.Kaydeden == vUser.UserName || m.Degistiren == vUser.UserName || m.Gorevler.Sorumlu == vUser.UserName || m.Gorevler.Sorumlu2 == vUser.UserName || m.Gorevler.Sorumlu3 == vUser.UserName);
+                    list = list.Where(m => m.AdminOnay == false && (m.Kaydeden == vUser.UserName || m.Degistiren == vUser.UserName || m.Gorevler.Sorumlu == vUser.UserName || m.Gorevler.Sorumlu2 == vUser.UserName || m.Gorevler.Sorumlu3 == vUser.UserName));
                 }
             }
             ViewBag.Yetki = CheckPerm(Perms.TodoGörevler, PermTypes.Writing);
@@ -283,12 +287,14 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                     var c = db.GorevlerToDoLists.Where(m => m.GorevID == tbl.GorevID && m.Onay == false).FirstOrDefault();
                     if (c == null)
                         tbl.Gorevler.GorevTipiID = ComboItems.gydKaliteKontrol.ToInt32();
+                    else
+                        tbl.Gorevler.DurumID = ComboItems.gydBaşlandı.ToInt32();
                 }
-                else if (vUser.RoleName == "Destek")
+                else if (vUser.RoleName == "Admin" || vUser.RoleName == " ")
                 {
                     var c = db.GorevlerToDoLists.Where(m => m.GorevID == tbl.GorevID && m.KontrolOnay == false).FirstOrDefault();
                     if (c == null)
-                        tbl.Gorevler.GorevTipiID = ComboItems.gydBeklemede.ToInt32();
+                        tbl.Gorevler.GorevTipiID = ComboItems.gydOnaylandı.ToInt32();
                 }
             }
             else
@@ -300,7 +306,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                     tbl.KontrolEden = null;
                     tbl.Onay = false;
                     tbl.Onaylayan = null;
-                    tbl.Gorevler.GorevTipiID = ComboItems.gydAtandı.ToInt32();
+                    tbl.Gorevler.GorevTipiID = ComboItems.gydBaşlandı.ToInt32();
                 }
             }
             //kaydet
