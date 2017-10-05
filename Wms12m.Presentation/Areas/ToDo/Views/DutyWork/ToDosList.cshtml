@@ -8,8 +8,8 @@
         {
             <tr data-ID="@item.GorevID">
                 <td class="details-control"></td>
-                <td nowrap>@item.Gorevler.ProjeForm.Proje</td>
-                <td nowrap>@item.Gorevler.Gorev</td>
+                <td>@item.Gorevler.ProjeForm.Proje</td>
+                <td>@item.Gorevler.Gorev</td>
                 <td>@item.Aciklama</td>
                 <td>@if (item.Onay == true) { @item.Onaylayan }@if (item.KontrolOnay == true) { @(", ") @item.KontrolEden }</td>
                 <td>@item.KayitTarih.ToShortDateString()</td>

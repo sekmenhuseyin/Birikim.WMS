@@ -9,7 +9,7 @@
             <tr>
                 <td>@item.Gorevler.ProjeForm.Proje</td>
                 <td>@item.Gorevler.Gorev</td>
-                <td><div class="hidden">@item.Tarih.ToOADateInt()</div>@item.Tarih.ToShortDateString()</td>
+                <td><div class="hidden">@item.Tarih.ToOADateInt()</div>@item.Tarih.ToString("dd.MM.yyyy")</td>
                 <td>@item.Sure</td>
                 <td>@if (item.Calisma == "") { @item.GorevlerCalismaToDoLists.FirstOrDefault().Aciklama } else { @item.Calisma }</td>
                 <td>@item.Kaydeden</td>
