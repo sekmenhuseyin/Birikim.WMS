@@ -16,7 +16,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         public ActionResult Index()
         {
             if (CheckPerm(Perms.TodoÇalışma, PermTypes.Reading) == false) return Redirect("/");
-            ViewBag.GorevID = new SelectList(db.Gorevlers.Where(a => a.Sorumlu == vUser.UserName || a.Sorumlu2 == vUser.UserName || a.Sorumlu3 == vUser.UserName || a.KontrolSorumlusu == vUser.UserName).ToList(), "ID", "Gorev");
+            ViewBag.GorevID = new SelectList(db.Gorevlers.Where(m => m.Sorumlu == vUser.UserName || m.Sorumlu2 == vUser.UserName || m.Sorumlu3 == vUser.UserName || m.KontrolSorumlusu == vUser.UserName).ToList(), "ID", "Gorev");
             return View();
         }
         /// <summary>
@@ -47,12 +47,23 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         /// <summary>
         /// liste
         /// </summary>
-        public PartialViewResult List()
+        public PartialViewResult List(bool Tip)
         {
             var gorevCalismas = db.GorevlerCalismas.Where(m => m.ID > 0);
-            if (CheckPerm(Perms.TodoÇalışma, PermTypes.Deleting) == false)
-                gorevCalismas = gorevCalismas.Where(a => a.Kaydeden == vUser.UserName);
-            ViewBag.Yetki2 = CheckPerm(Perms.TodoÇalışma, PermTypes.Deleting);
+            var yetki = CheckPerm(Perms.TodoÇalışma, PermTypes.Deleting);
+            if (yetki == true)//admin ise filtre yapma hepsini gör
+            {
+
+            }
+            else if (Tip == false)//bana ait
+            {
+                gorevCalismas = gorevCalismas.Where(m => m.Kaydeden == vUser.UserName);
+            }
+            else
+            {
+                gorevCalismas = gorevCalismas.Where(m => m.Kaydeden == vUser.UserName || m.Gorevler.Sorumlu == vUser.UserName || m.Gorevler.Sorumlu2 == vUser.UserName || m.Gorevler.Sorumlu3 == vUser.UserName || m.Gorevler.KontrolSorumlusu == vUser.UserName || m.Gorevler.Kaydeden == vUser.UserName);
+            }
+            ViewBag.Yetki2 = yetki;
             return PartialView("List", gorevCalismas.OrderByDescending(m => m.Tarih).ToList());
         }
         /// <summary>
@@ -62,7 +73,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         {
             //TODO:
             var gorevCalisma = db.GorevlerCalismas.Find(Id);
-            ViewBag.GorevID = new SelectList(db.Gorevlers.Where(a => a.Sorumlu == vUser.UserName || a.Sorumlu2 == vUser.UserName || a.Sorumlu3 == vUser.UserName).ToList(), "ID", "Gorev", gorevCalisma.GorevID);
+            ViewBag.GorevID = new SelectList(db.Gorevlers.Where(m => m.Sorumlu == vUser.UserName || m.Sorumlu2 == vUser.UserName || m.Sorumlu3 == vUser.UserName).ToList(), "ID", "Gorev", gorevCalisma.GorevID);
             return PartialView(gorevCalisma);
         }
         /// <summary>
@@ -82,7 +93,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                     var kontrol = db.GorevlerCalismas.Where(m => m.GorevID == gorevCalisma.GorevID && m.Tarih == gorevCalisma.Tarih && m.Kaydeden == vUser.UserName).FirstOrDefault();
                     if (kontrol != null)
                         return Json(new Result(false, "Bu gün için daha önce çalışma kaydetmişsiniz"), JsonRequestBehavior.AllowGet);
-                    var grv = db.Gorevlers.Where(a => a.ID == gorevCalisma.GorevID).FirstOrDefault();
+                    var grv = db.Gorevlers.Where(m => m.ID == gorevCalisma.GorevID).FirstOrDefault();
                     //todo list için bir döngü yap
                     for (int i = 0; i < work.Length; i++)
                     {
