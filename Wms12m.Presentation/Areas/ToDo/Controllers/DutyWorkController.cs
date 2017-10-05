@@ -26,14 +26,14 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         {
             var id = Url.RequestContext.RouteData.Values["id"];
             var ID = id.ToInt32();
-            Gorevler gorev = db.Gorevlers.Find(ID);
-            ViewBag.RoleName = vUser.RoleName;
-            ViewBag.GorevID = new SelectList(db.Gorevlers.Where(m => m.ID == ID).ToList(), "ID", "Gorev");
-            GorevlerCalisma grv = new GorevlerCalisma
+            var TodoItem = db.GorevlerToDoLists.Find(ID);
+            ViewBag.GorevID = new SelectList(db.Gorevlers.Where(m => m.ID == TodoItem.GorevID).ToList(), "ID", "Gorev", TodoItem.GorevID);
+            var tbl = new GorevlerCalisma
             {
-                Gorevler = gorev
+                Calisma = TodoItem.Aciklama,
+                GorevID = TodoItem.GorevID
             };
-            return PartialView(grv);
+            return PartialView("New", tbl);
         }
         /// <summary>
         /// yeni çalışma
@@ -93,6 +93,8 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             if (CheckPerm(Perms.TodoÇalışma, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             if (!ModelState.IsValid)
                 return Json(new Result(false, "Hata oldu. Sayfayı yenileyin"), JsonRequestBehavior.AllowGet);
+            if (gorevCalisma.Sure < 0 || gorevCalisma.Sure > 540)
+                return Json(new Result(false, "Çalışma süresini doğru yazınız"), JsonRequestBehavior.AllowGet);
             //yeni çalışma girerken
             if (gorevCalisma.ID == 0)
             {
@@ -100,8 +102,13 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                 string sql = string.Format("SELECT ISNULL(SUM(Sure), 0) AS Expr1 FROM ong.GorevlerCalisma WHERE (GorevID = {0}) AND (Tarih = '{1}') AND (Kaydeden = '{2}')", gorevCalisma.GorevID, DateTime.Now.ToString("yyyy-MM-dd"), vUser.UserName);
                 var kontrol = db.Database.SqlQuery<int>(sql).FirstOrDefault();
                 if ((kontrol + gorevCalisma.Sure) > 540)
-                    return Json(new Result(false, "Bugün bu görev için çok fazla çalışma yazılmış. Daha fazla çalışma giremezsiniz."), JsonRequestBehavior.AllowGet);
+                    return Json(new Result(false, "Seçili görev ve tarih için 540 dakikadan daha fazla çalışma girilemez."), JsonRequestBehavior.AllowGet);
+                //update
                 var grv = db.Gorevlers.Where(m => m.ID == gorevCalisma.GorevID).FirstOrDefault();
+                gorevCalisma.Kaydeden = vUser.UserName;
+                gorevCalisma.KayitTarih = DateTime.Now;
+                gorevCalisma.Degistiren = vUser.UserName;
+                gorevCalisma.DegisTarih = gorevCalisma.KayitTarih;
                 //eğer 
                 if (vUser.RoleName == "Developer")
                 {
@@ -115,15 +122,17 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                     if (c == null)
                         grv.GorevTipiID = ComboItems.gydBeklemede.ToInt32();
                 }
-                gorevCalisma.Kaydeden = vUser.UserName;
-                gorevCalisma.KayitTarih = DateTime.Now;
-                gorevCalisma.Degistiren = vUser.UserName;
-                gorevCalisma.DegisTarih = gorevCalisma.KayitTarih;
                 db.GorevlerCalismas.Add(gorevCalisma);
             }
             //çalışma güncelleme
             else
             {
+                //kontrol
+                string sql = string.Format("SELECT ISNULL(SUM(Sure), 0) AS Expr1 FROM ong.GorevlerCalisma WHERE (GorevID = {0}) AND (Tarih = '{1}') AND (Kaydeden = '{2}') AND (ID <> {3})", gorevCalisma.GorevID, DateTime.Now.ToString("yyyy-MM-dd"), vUser.UserName, gorevCalisma.ID);
+                var kontrol = db.Database.SqlQuery<int>(sql).FirstOrDefault();
+                if ((kontrol + gorevCalisma.Sure) > 540)
+                    return Json(new Result(false, "Seçili görev ve tarih için 540 dakikadan daha fazla çalışma girilemez."), JsonRequestBehavior.AllowGet);
+                //update
                 var tbl = db.GorevlerCalismas.Where(m => m.ID == gorevCalisma.ID).FirstOrDefault();
                 tbl.Tarih = gorevCalisma.Tarih;
                 tbl.Sure = gorevCalisma.Sure;
@@ -231,7 +240,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             string sql = string.Format("SELECT ISNULL(SUM(Sure), 0) AS Expr1 FROM ong.GorevlerCalisma WHERE (GorevID = {0}) AND (Tarih = '{1}') AND (Kaydeden = '{2}')", tbl.GorevID, DateTime.Now.ToString("yyyy-MM-dd"), vUser.UserName);
             var kontrol = db.Database.SqlQuery<int>(sql).FirstOrDefault();
             if ((kontrol + Sure) > 540)
-                return Json(new Result(false, "Bugün bu görev için çok fazla çalışma yazılmış. Daha fazla çalışma giremezsiniz."), JsonRequestBehavior.AllowGet);
+                return Json(new Result(false, "Seçili görev ve tarih için 540 dakikadan daha fazla çalışma girilemez."), JsonRequestBehavior.AllowGet);
             //getir
             tbl.DegisTarih = DateTime.Now;
             tbl.Degistiren = vUser.UserName;

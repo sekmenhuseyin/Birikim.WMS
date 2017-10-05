@@ -17,6 +17,7 @@
                 <td nowrap>
                     @if (ViewBag.Tip == false)
                     {
+                        <a class="btn btn-info input-circle" href="#modalEditPage" data-toggle="modal" onclick="editInModal('/ToDo/DutyWork/New/@item.ID');"><span class="glyphicon glyphicon-floppy-save"></span>Çalışma</a>
                         <a class="btn btn-primary input-circle" href="javascript:;" onclick="Onay(@item.ID, true);"> Onayla </a>
                         if(ViewBag.Yetki == true && item.Onay == true) {<a class="btn btn-danger input-circle" href="javascript:;" onclick="Onay(@item.ID, false);"> Reddet </a>}
                     }
