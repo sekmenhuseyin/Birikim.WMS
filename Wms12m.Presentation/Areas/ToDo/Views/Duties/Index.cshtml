@@ -41,7 +41,7 @@
                         <div class="form-group">
                             <div class="col-sm-3 control-label">Görev Durumu</div>
                             <div class="col-sm-4">
-                                @Html.DropDownList("DurumID", null, htmlAttributes: new { @class = "form-control input-circle", @onchange = "FuncSearchBtn()" })
+                                @Html.DropDownList("DurumID", null, htmlAttributes: new { @class = "form-control input-circle satirekle", @onchange = "FuncSearchBtn()" })
                             </div>
                             <div class="col-sm-1"><button type="button" class="btn btn-circle green" onclick="FuncSearchBtn();"><i class="icon-refresh"></i></button></div>
                         </div>
@@ -55,6 +55,7 @@
 @section Scripts{<script src="~/Content/assets/global/plugins/datatables/extensions/RowReorder/js/dataTables.rowReorder.js"></script>
 <script type="text/javascript">
     var DeleteFunctionUrl = '/ToDo/Duties/Delete';
+    $(".satirekle").prepend("<option value='0'>TÜM AKTİF OLANLAR</option>"); $(".satirekle")[0].selectedIndex = 0;
     FuncSearchBtn();
     function FuncSearchBtn() {
         $('#CreateEdit').html("");

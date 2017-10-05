@@ -81,11 +81,11 @@
                                 <div class="form-group todo-content">
                                     <div class="control-label col-md-2"><span class="work-index">1</span><span>-</span></div>
                                     <div class="col-md-9">
-                                        <div class="txt-aciklama work-1"></div>
+                                        <input class="form-control input-circle work-1" type="text" name="work" required = "required">
                                     </div>
                                     <div class="insert-work-icon col-md-1">
-                                        <i class="fa fa-minus-circle delete-icn" onclick="DeleteElement(this)" style="display:none;"></i>
-                                        <i class="fa fa-plus-circle last-work" onclick="NewElement()" style="margin-left:5px;"></i>
+                                        <i class="fa fa-plus-circle last-work m-l-5" onclick="NewElement()"></i>
+                                        <i class="fa fa-minus-circle delete-icn m-l-5" onclick="DeleteElement(this)" style="display:none;"></i>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -127,8 +127,6 @@
     DevExpress.ui.dxOverlay.baseZIndex(20000);
     $(document).ready(function () {
         $('.date-picker').datepicker();
-        $(".work-1").dxTextBox();
-        $(".work-1").dxTextBox("instance").option("name", "work");
         $(".satirekle").prepend("<option value=''>Seçiniz !!!</option>");
         $(".satirekle")[0].selectedIndex = 0; $(".satirekle")[1].selectedIndex = 0; $(".satirekle")[2].selectedIndex = 0; $(".satirekle")[3].selectedIndex = 0; $(".satirekle")[4].selectedIndex = 0;
     });
@@ -139,11 +137,17 @@
         $(".insert-work-icon i").removeClass("last-work");
         $(".delete-icn").css("display", "initial");
         var newElement = $("<div>").addClass("form-group todo-content");
-        newElement.append("<div class='control-label col-md-2'><span class='work-index'>" + index + "</span > <span>-</span></div><div class='col-md-9'><div class='txt-aciklama work-" + index + "'></div></div><div class='insert-work-icon col-md-1'><i class='fa fa-minus-circle delete-icn' onclick='DeleteElement(this)' style='margin- left:5px;'></i><i class='fa fa-plus-circle last-work' onclick='NewElement()' style='margin-left:5px;'></i></div>");
+        newElement.append("<div class='control-label col-md-2'>" +
+            "<span class='work-index'>" + index + "</span > <span>-</span></div>" +
+            "<div class='col-md-9'>" +
+            "<input class='form-control input-circle work-" + index + "' type='text' name='work' required = 'required'>" +
+            "</div>" +
+            "<div class='insert-work-icon col-md-1'>" +
+            "<i class='fa fa-plus-circle last-work m-l-5' onclick='NewElement()'></i>" +
+            "<i class='fa fa-minus-circle delete-icn m-l-5' onclick='DeleteElement(this)''></i>" +
+            "</div>");
         newElement.addClass("index" + index);
         newElement.insertAfter(".todo-content:last");
-        $(".work-" + index).dxTextBox();
-        $(".work-" + index).dxTextBox("instance").option("name", "work");
     };
     function DeleteElement(secili) {
         sayac--;

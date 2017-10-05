@@ -57,7 +57,9 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                 var tip1 = ComboItems.gydReddedildi.ToInt32();
                 var tip2 = ComboItems.gydOnaylandı.ToInt32();
                 var tip3 = ComboItems.gydBeklemede.ToInt32();
-                list = list.Where(m => m.DurumID != tip1 && m.DurumID != tip2 && m.DurumID != tip3);
+                var tip4 = ComboItems.gydOnayVer.ToInt32();
+                var tip5 = ComboItems.gydBitti.ToInt32();
+                list = list.Where(m => m.DurumID != tip1 && m.DurumID != tip2 && m.DurumID != tip3 && m.DurumID != tip4 && m.DurumID != tip5);
             }
             else
                 list = list.Where(m => m.DurumID == Tip);
@@ -164,7 +166,11 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             if (CheckPerm(Perms.TodoGörevler, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             try
             {
-                db.Database.ExecuteSqlCommand(string.Format("UPDATE [BIRIKIM].[ong].[Gorevler] SET DurumID = {0} WHERE ID = {1}", Tip == true ? ComboItems.gydAtandı.ToInt32() : ComboItems.gydReddedildi.ToInt32(), Id));
+                var satir = db.Gorevlers.Where(m => m.ID == Id).FirstOrDefault();
+                satir.DurumID = Tip == true ? ComboItems.gydAtandı.ToInt32() : ComboItems.gydReddedildi.ToInt32();
+                satir.Degistiren = vUser.UserName;
+                satir.DegisTarih = DateTime.Now;
+                db.SaveChanges();
                 return Json(new Result(true, Id), JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
