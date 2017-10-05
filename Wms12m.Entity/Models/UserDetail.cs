@@ -31,7 +31,7 @@ namespace Wms12m.Entity.Models
         public string GostRiskDeger { get; set; }
         public string GostKod3OrtBakiye { get; set; }
         public Nullable<int> EvrakSeri { get; set; }
-        public Nullable<bool> UretimDurum { get; set; }
+        public bool UretimDurum { get; set; }
     
         public virtual User User { get; set; }
         public virtual Depo Depo { get; set; }

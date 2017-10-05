@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="425b037492ed4a51bcc4f7bc9c8f38f9" Name="Diagram1" ZoomLevel="55">
+      <Diagram DiagramId="425b037492ed4a51bcc4f7bc9c8f38f9" Name="Diagram1" ZoomLevel="72">
         <EntityTypeShape EntityType="MModel.Simge" Width="1.5" PointX="25.25" PointY="5.875" />
         <EntityTypeShape EntityType="MModel.Perm" Width="1.5" PointX="27.625" PointY="14" />
         <EntityTypeShape EntityType="MModel.RolePerm" Width="1.5" PointX="25.125" PointY="11.375" />
@@ -69,9 +69,6 @@
         <AssociationConnector Association="MModel.FK_WebMenu_Simge" />
         <AssociationConnector Association="MModel.FK_WebMenu_WebMenu" />
         <AssociationConnector Association="MModel.WebMenuRol" />
-        <EntityTypeShape EntityType="MModel.UserDetail" Width="1.5" PointX="20" PointY="6.375" />
-        <AssociationConnector Association="MModel.FK_Depo_Users_Users" />
-        <AssociationConnector Association="MModel.FK_Depo_Users_Depo" />
         <EntityTypeShape EntityType="MModel.Yer" Width="1.5" PointX="3.625" PointY="24.5" />
         <AssociationConnector Association="MModel.FK_GorevYer_Yer" />
         <AssociationConnector Association="MModel.FK_Yer_Kat" />
@@ -89,6 +86,9 @@
         <AssociationConnector Association="MModel.FK_Gorevler_ProjeForm" />
         <AssociationConnector Association="MModel.FK_GorevlerCalisma_Gorevler" />
         <AssociationConnector Association="MModel.FK_GorevlerToDoList_Gorevler" />
+        <EntityTypeShape EntityType="MModel.UserDetail" Width="1.5" PointX="19.75" PointY="6.25" />
+        <AssociationConnector Association="MModel.FK_Depo_Users_Users" />
+        <AssociationConnector Association="MModel.FK_Depo_Users_Depo" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
