@@ -24,8 +24,8 @@
 </div>
 @section Scripts{<script>
     $(document).ready(function () {
-        var basTarih = '@if (ViewBag.id == "0") { @DateTime.Today.AddYears(-10).ToShortDateString() }else if(ViewBag.id == "1") { @DateTime.Today.AddDays(-7).ToShortDateString() }else{ @DateTime.Today.ToShortDateString() }';
-        var bitTarih = '@DateTime.Today.ToShortDateString()';
+        var basTarih = '@if (ViewBag.id == "0") { @DateTime.Today.AddYears(-10).ToString("dd.MM.yyyy")}else if(ViewBag.id == "1") { @DateTime.Today.AddDays(-7).ToString("dd.MM.yyyy") }else{ @DateTime.Today.ToString("dd.MM.yyyy") }';
+        var bitTarih = '@DateTime.Today.ToString("dd.MM.yyyy")';
         $("#txtBaslangic").val(basTarih);
         $("#txtBitis").val(bitTarih);
         $.datepicker.setDefaults($.datepicker.regional["tr"]);

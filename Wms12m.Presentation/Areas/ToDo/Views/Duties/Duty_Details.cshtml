@@ -6,7 +6,7 @@
             @foreach (var item in Model)
             {
                 <tr>
-                    <td>@item.KayitTarih.ToShortDateString()</td>
+                    <td>@item.KayitTarih.ToString("dd.MM.yyyy")</td>
                     <td>@item.Sure</td>
                     <td>@item.Calisma</td>
                     <td>@item.Kaydeden</td>

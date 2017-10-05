@@ -73,7 +73,7 @@ namespace Wms12m
 
                 row.Aciklama = item.Aciklama.ToString();
 
-                row.OnaylananTarih = new DateTime(1900, 1, 1).AddDays((int)item.Tarih - 2).ToShortDateString();
+                row.OnaylananTarih = new DateTime(1900, 1, 1).AddDays((int)item.Tarih - 2).ToString("dd.MM.yyyy");
                 row.Miktar = (decimal)item.BirimMiktar;
                 row.Fiyat = (decimal)item.BirimFiyat;
                 row.Tutar = (decimal)item.Tutar;
@@ -111,7 +111,7 @@ namespace Wms12m
                 foreach (var item in dset.Siparis)
                 {
                     if (talep.IstenenTarih != null)
-                        item.IstenenTarih = ((DateTime)talep.IstenenTarih).ToShortDateString();
+                        item.IstenenTarih = ((DateTime)talep.IstenenTarih).ToString("dd.MM.yyyy");
                 }
 
             }
@@ -188,7 +188,7 @@ namespace Wms12m
                     rep.lblEmail.Text = chk.SatAlmaIslemEMail; //chk.SirketEMail;
                     rep.lblOrderDate.Text = dset.Siparis[0].OnaylananTarih;
                     rep.lblOrderNo.Text = sipEvrakNo;
-                    rep.lblOrderDate.Text = sipTarih == null ? "" : ((DateTime)sipTarih).ToShortDateString();
+                    rep.lblOrderDate.Text = sipTarih == null ? "" : ((DateTime)sipTarih).ToString("dd.MM.yyyy");
 
                     rep.DataSource = dset;
 
@@ -253,7 +253,7 @@ namespace Wms12m
                     rep.lblEmail.Text = chk.SatAlmaIslemEMail;//chk.SirketEMail;
                     rep.lblOrderDate.Text = dset.Siparis[0].OnaylananTarih;
                     rep.lblOrderNo.Text = sipEvrakNo;
-                    rep.lblOrderDate.Text = sipTarih == null ? "" : ((DateTime)sipTarih).ToShortDateString();
+                    rep.lblOrderDate.Text = sipTarih == null ? "" : ((DateTime)sipTarih).ToString("dd.MM.yyyy");
 
                     rep.DataSource = dset;
 

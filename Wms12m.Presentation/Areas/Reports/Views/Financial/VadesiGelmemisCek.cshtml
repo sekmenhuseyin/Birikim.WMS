@@ -9,8 +9,8 @@
 </div>
 <div class="row m-t-20">
     <div class="col-md-2 text-right p-0 m-t-5 color-blue-light bold">Vade Tarihi: </div>
-    <div class="col-md-2 p-l-5 p-r-0"><input class="form-control dateboxbg" type="text" id="txtBaslangic" value="@DateTime.Today.AddMonths(-1).ToShortDateString()" /></div>
-    <div class="col-md-2 p-l-5 p-r-0"><input class="form-control dateboxbg" type="text" id="txtBitis" value="@DateTime.Today.ToShortDateString()" /></div>
+    <div class="col-md-2 p-l-5 p-r-0"><input class="form-control dateboxbg" type="text" id="txtBaslangic" value="@DateTime.Today.AddMonths(-1).ToString("dd.MM.yyyy")" /></div>
+    <div class="col-md-2 p-l-5 p-r-0"><input class="form-control dateboxbg" type="text" id="txtBitis" value="@DateTime.Today.ToString("dd.MM.yyyy")" /></div>
     <div class="col-md-2"><button id="btnListele" class="btn btn-block green">Listele<i class="fa fa-check"></i></button></div>
 </div>
 <div class="row m-t-20" id="vade-cek-grid"></div>
