@@ -16,35 +16,35 @@
                     @Html.ValidationSummary(true)
                     <div class="form-body">
                         <div class="form-group row pointer">
-                            <div class="control-label col-md-1">Görev</div>
-                            <div class="col-md-10">
-                                @Html.DropDownList("GorevID", null, htmlAttributes: new { @class = "form-control input-circle", @disabled = false, required = "required" })
+                            @Html.LabelFor(model => model.GorevID, "Görev", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-8">
+                                @Html.DropDownList("GorevID", null, htmlAttributes: new { @class = "form-control input-circle", @readonly = "readonly", required = "required" })
                                 @Html.ValidationMessageFor(model => model.GorevID, "", new { @class = "text-danger" })
                             </div>
                         </div>
                         <div class="form-group">
-                            @Html.LabelFor(model => model.Tarih, htmlAttributes: new { @class = "control-label col-md-1" })
-                            <div class="col-md-10">
+                            @Html.LabelFor(model => model.Tarih, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-8">
                                 @Html.TextBoxFor(model => model.Tarih, new { @Value = Model.Tarih.ToString("dd.MM.yyyy"), id = "Tarih", @class = "form-control input-circle date-picker", required = "required" })
                                 @Html.ValidationMessageFor(model => model.Tarih, "", new { @class = "text-danger" })
                             </div>
                         </div>
                         <div class="form-group">
-                            <div class="control-label col-md-1">Çalışma Süresi</div>
-                            <div class="col-md-10">
-                                @Html.EditorFor(model => model.Sure, new { htmlAttributes = new { @class = "form-control input-circle", required = "required" } })
+                            @Html.LabelFor(model => model.Sure, "Çalışma Süresi", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-8">
+                                @Html.TextBoxFor(model => model.Sure, new { @class = "form-control input-circle", min = "1", max = "540", required = "required" })
                                 @Html.ValidationMessageFor(model => model.Sure, "", new { @class = "text-danger" })
                             </div>
                         </div>
                         <div class="form-group">
-                            <div class="control-label col-md-1">Çalışma</div>
-                            <div class="col-md-10">
-                                @Html.TextAreaFor(model => model.Calisma, 10, 100, new { htmlAttributes = new { @class = "form-control input-circle txar-cal", required = "required" } })
+                            @Html.LabelFor(model => model.Calisma, "Çalışma", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-8">
+                                @Html.TextAreaFor(model => model.Calisma, 10, 55, new { htmlAttributes = new { @class = "form-control input-circle txar-cal", required = "required" } })
                                 @Html.ValidationMessageFor(model => model.Calisma, "", new { @class = "text-danger" })
                             </div>
                         </div>
                         <div class="form-group">
-                            <div class="col-md-offset-2 col-md-7">
+                            <div class="col-md-offset-2 col-md-8">
                                 <button type="button" class="btn btn-danger pull-left" data-dismiss="modal"><i class="fa fa-times"></i> Kapat</button>
                                 <input type="submit" value="Kaydet" class="btn green pull-right" />
                             </div>
@@ -55,31 +55,4 @@
         </div>
     </div>
 </div>
-<script type="text/javascript">
-    sayac = 1;
-    $(document).ready(function () { $('.date-picker').datepicker(); });
-     var model = @Html.Raw(Json.Encode(Model.GorevlerCalismaToDoLists.Select(m=> new frmGorevTodos { ID=m.ID, Aciklama=m.Aciklama }).ToList()));
-     $.each(model, function (indexx, value) {
-         var index = sayac++;
-         var newElement = $("<div>").addClass("form-group row todo-content");
-         newElement.append("<div class='todo-text todo-id" + index + "' style='display:none'></div><div class='control-label col-md-1'><div class='checkitem" + index + "'></div></div><div class='col-md-10'><div class='txt-aciklama work-" + index + "' style='border-color: #ece7e7'></div></div>");
-         newElement.addClass("index" + index);
-         if (index == 1) {
-             newElement.insertAfter(".pointer");
-         }
-         else {
-             newElement.insertAfter(".todo-content:last");
-         }
-         $(".work-" + index).dxTextArea();
-         $(".work-" + index).dxTextArea("instance").option({ name: "work", value: value.Aciklama, maxHeight: 80, readOnly: true });
-         $(".todo-id" + index).dxTextBox();
-         $(".todo-id" + index).dxTextBox("instance").option({ name: "todo", value: value.ID });
-         $(".checkitem" + index).dxCheckBox({
-             value: true,
-             name: "checkitem",
-             onValueChanged: function (e) {
-
-             },            
-         });
-     });
-</script>
+<script type="text/javascript">$(document).ready(function () { $('.date-picker').datepicker(); });</script>
