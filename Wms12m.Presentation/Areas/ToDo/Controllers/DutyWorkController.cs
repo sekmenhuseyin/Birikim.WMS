@@ -41,7 +41,13 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         public PartialViewResult NewAll()
         {
             ViewBag.RoleName = vUser.RoleName;
-            ViewBag.GorevID = new SelectList(db.Gorevlers.Where(m => m.Sorumlu == vUser.UserName || m.Sorumlu2 == vUser.UserName || m.Sorumlu3 == vUser.UserName || m.KontrolSorumlusu == vUser.UserName).ToList(), "ID", "Gorev");
+            var durum = ComboItems.gydAtandı.ToInt32();
+            var list = db.Gorevlers.Where(m => m.DurumID == durum);
+            if (vUser.RoleName == "Destek")
+                list = list.Where(m => m.Sorumlu == vUser.UserName || m.Sorumlu2 == vUser.UserName || m.Sorumlu3 == vUser.UserName || m.KontrolSorumlusu == vUser.UserName || m.KontrolSorumlusu == null);
+            else
+                list = list.Where(m => m.Sorumlu == vUser.UserName || m.Sorumlu2 == vUser.UserName || m.Sorumlu3 == vUser.UserName);
+            ViewBag.GorevID = new SelectList(list.ToList(), "ID", "Gorev");
             return PartialView(new GorevlerCalisma());
         }
         /// <summary>
@@ -292,9 +298,9 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                 {
                     tbl.AdminOnay = false;
                     tbl.KontrolOnay = false;
-                    tbl.KontrolEden = "";
+                    tbl.KontrolEden = null;
                     tbl.Onay = false;
-                    tbl.Onaylayan = "";
+                    tbl.Onaylayan = null;
                 }
             }
             //kaydet
