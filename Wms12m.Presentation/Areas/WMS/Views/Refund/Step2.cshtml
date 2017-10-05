@@ -45,7 +45,7 @@
                     @Html.AntiForgeryToken()
                     @Html.ValidationSummary(true)
                     <table class="table table-striped table-bordered table-condensed" id="sample_2">
-                        <thead><tr><th>Mal Kodu</th><th>Mal Adı</th><th class="text-right">Miktar</th><th class="text-right">Stok</th><th class="text-right">Wms Stok</th><th class="text-right">Wms Rezerv</th><th>Birim</th></tr></thead>
+                        <thead><tr><th>Mal Kodu</th><th>Mal Adı</th><th class="text-right">Miktar</th><th class="text-right">Stok</th><th class="text-right">Wms Stok</th><th class="text-right">Wms Rezerv</th><th>Birim</th><th>İade Miktarı</th></tr></thead>
                         <tbody>
                             @foreach (var item in Model)
                             {
@@ -62,7 +62,10 @@
                                         {<a class="btn btn-default input-circle" onclick="Rezervler('@item.MalKodu','@item.Birim','@ViewBag.DepoID')"> @item.WmsRezerv </a>}
                                     </td>
                                     <td>@Html.DisplayFor(modelItem => item.Birim)</td>
+                                    <td ondblclick="ChangeMiktar(this, '@item.MalKodu', '@x')" align="right" style="background-color:#f56681; color:Window; ">@String.Format("{0:n}", 0)</td>
                                 </tr>
+
+                                x++;
                             }
                         </tbody>
                     </table>
@@ -157,7 +160,6 @@
                 result = true;
                 return;
             }
-            console.log(cells);
             cells.forEach(function (item) {
                 if (item[2]==0) {
                     Modaldialog(item[0] + " için stok bulunmamaktadır.", "Hata", "Tamam", "btn-danger");
@@ -180,5 +182,49 @@
         editInModal2('/WMS/Refund/GetRezerv', { MalKodu: malKodu, Depo: depo, Birim:birim})
         $('#modalEditPage').modal('toggle');
     }
+
+        function ChangeMiktar(td, mal, id) {
+            var miktar = 0, stok = 0, rezerv = 0;
+            var yeni = prompt(mal + " için yeni miktarı giriniz", parseFloat($(td).text().replace(",", ".")).formatMoney(2));
+            if (yeni == null || yeni == undefined) return;
+            yeni = yeni.replace(",", ".");
+            yeni = parseFloat(yeni);
+            list[id] = yeni;
+            var par = $(td).parent("tr");
+            if ($(par).find("td").eq(2).text().trim() != "")
+            {
+                miktar = parseFloat($(par).find("td").eq(2).text().replace(",", "."));
+            }
+            if ($(par).find("td").eq(4).text().trim() != "") {
+                stok = parseFloat($(par).find("td").eq(4).text().replace(",", "."));
+            }
+            if ($(par).find("td").eq(5).text().trim() != "") {
+                rezerv = parseFloat($(par).find("td").eq(5).text().replace(",", "."));
+            }
+
+            // kontroller
+
+            if ((yeni > (stok - rezerv)) || (stok == 0))
+            {
+                Modaldialog("Yeterli stok bulunmamaktadır.", "Uyarı", "Tamam", "btn-danger");
+                return;
+            }
+            if (yeni > miktar)
+            {
+                Modaldialog("İade miktarı alım miktarını geçmemelidir.", "Uyarı", "Tamam", "btn-danger");
+                return;
+            }
+
+            if (yeni > 0)
+            {
+                $(td).css("background-color", "#32c5d2");
+                $(td).parent("tr").addClass("iadevar");
+            }
+            else {
+                $(td).css("background-color", "#f56681");
+                $(td).parent("tr").removeClass("iadevar");
+            }
+            $(td).html(yeni.formatMoney(2));
+        }
     </script>
 }

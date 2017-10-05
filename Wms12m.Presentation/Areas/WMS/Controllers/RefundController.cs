@@ -164,6 +164,32 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                 return null;
             return PartialView("Rezervler", list);
         }
+
+        [HttpPost]
+        public string StokKontrol(string Sirket, string EvrakNo, string CHK, string Depo)
+        {
+            string sql = String.Format("FINSAT6{0}.wms.AlimIptalDetail @DepoKodu = '{1}', @EvrakNo = '{2}', @CHK='{3}'", Sirket, Depo, EvrakNo, CHK);
+            var list = db.Database.SqlQuery<frmSiparisMalzeme>(sql).ToList();
+            string hataliStok = "##", sifirStok = ""; 
+            foreach (var item in list)
+            {
+                if (item.WmsStok == 0)
+                {
+                    if (sifirStok != "") sifirStok += ", ";
+                    sifirStok += item.MalKodu;
+                }
+                else if (item.Stok != item.WmsStok)
+                {
+                    if (hataliStok != "") hataliStok += ", ";
+                    hataliStok += item.MalKodu;
+                }
+            }
+            if (sifirStok != "")
+                sifirStok += " için stok bulunamadı.";
+            if (hataliStok != "##")
+                hataliStok += " için stok miktarları uyuşmuyor.";
+            return sifirStok + hataliStok;
+        }
     }
 
 

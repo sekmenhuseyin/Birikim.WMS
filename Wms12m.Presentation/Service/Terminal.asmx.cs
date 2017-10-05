@@ -353,7 +353,7 @@ namespace Wms12m
             int durumID = ComboItems.Açık.ToInt32();
             var mGorev = db.Gorevs.Where(m => m.ID == GorevID && m.DurumID == durumID).FirstOrDefault();
             if (mGorev.IsNull())
-                return new Result(false, "İrsaliye bulunamadı!");
+                return new Result(false, "Görevi kontrol ediniz!");
             //return
             //add to gorev user table
             var tbl = db.GorevUsers.Where(m => m.GorevID == GorevID && m.UserName == tblx.Kod).FirstOrDefault();
@@ -401,7 +401,7 @@ namespace Wms12m
             int durumID = ComboItems.Açık.ToInt32();
             var mGorev = db.Gorevs.Where(m => m.ID == GorevID && m.DurumID == durumID).FirstOrDefault();
             if (mGorev.IsNull())
-                return new Result(false, "İrsaliye bulunamadı !");
+                return new Result(false, "Görevi kontrol ediniz!");
             //return
             string sql = string.Format("SELECT COUNT(wms.IRS_Detay.OkutulanMiktar) as Bitmeyen " +
                 "FROM wms.GorevIRS INNER JOIN wms.IRS_Detay ON wms.GorevIRS.IrsaliyeID = wms.IRS_Detay.IrsaliyeID " +
@@ -425,7 +425,7 @@ namespace Wms12m
             int durumID = ComboItems.Açık.ToInt32();
             var mGorev = db.Gorevs.Where(m => m.ID == GorevID && m.DurumID == durumID).FirstOrDefault();
             if (mGorev.IsNull())
-                return new Result(false, "İrsaliye bulunamadı !");
+                return new Result(false, "Görevi kontrol ediniz !");
             //variables
             string gorevNo = db.SettingsGorevNo(DateTime.Today.ToOADateInt(), mGorev.DepoID).FirstOrDefault();
             var kull = db.Users.Where(m => m.ID == KullID).Select(m => m.Kod).FirstOrDefault();
@@ -566,7 +566,7 @@ namespace Wms12m
             int durumID = ComboItems.Açık.ToInt32();
             var mGorev = db.Gorevs.Where(m => m.ID == GorevID && m.DurumID == durumID).FirstOrDefault();
             if (mGorev.IsNull())
-                return new Result(false, "İrsaliye bulunamadı !");
+                return new Result(false, "Görevi kontrol ediniz!");
             //add to gorev user table
             var tbl = db.GorevUsers.Where(m => m.GorevID == GorevID && m.UserName == tblx.Kod).FirstOrDefault();
             if (tbl == null)
@@ -658,7 +658,7 @@ namespace Wms12m
             int durumID = ComboItems.Açık.ToInt32();
             var mGorev = db.Gorevs.Where(m => m.ID == GorevID && m.DurumID == durumID).FirstOrDefault();
             if (mGorev.IsNull())
-                return new Result(false, "İrsaliye bulunamadı !");
+                return new Result(false, "Görevi kontrol ediniz !");
             var list = mGorev.IR.IRS_Detay.Where(m => m.IrsaliyeID == mGorev.IrsaliyeID && (m.YerlestirmeMiktari != m.Miktar || m.YerlestirmeMiktari == null)).FirstOrDefault();
             if (list.IsNotNull())
                 return new Result(false, "İşlem bitmemiş !");
@@ -686,7 +686,7 @@ namespace Wms12m
             int durumID = ComboItems.Açık.ToInt32();
             var mGorev = db.Gorevs.Where(m => m.ID == GorevID && m.DurumID == durumID).FirstOrDefault();
             if (mGorev.IsNull())
-                return new Result(false, "İrsaliye bulunamadı !");
+                return new Result(false, "Görevi kontrol ediniz !");
             //add to gorev user table
             var tbl = db.GorevUsers.Where(m => m.GorevID == GorevID && m.UserName == tblx.Kod).FirstOrDefault();
             if (tbl == null)
@@ -756,7 +756,7 @@ namespace Wms12m
             int durumID = ComboItems.Açık.ToInt32();
             var mGorev = db.Gorevs.Where(m => m.ID == GorevID && m.DurumID == durumID).FirstOrDefault();
             if (mGorev.IsNull())
-                return new Result(false, "İrsaliye bulunamadı !");
+                return new Result(false, "Görevi kontrol ediniz!");
 
             //yeterince okutulmuş mu kontrol edilir
             var kontrol1 = db.Database.SqlQuery<frmSiparisToplaKontrol>(@"SELECT        SUM(wms.GorevYer.Miktar) AS Miktar, ISNULL(SUM(wms.GorevYer.YerlestirmeMiktari),0) AS YerlestirmeMiktari, wms.GorevYer.MalKodu
@@ -1021,7 +1021,7 @@ namespace Wms12m
             int durumID = ComboItems.Açık.ToInt32();
             var mGorev = db.Gorevs.Where(m => m.ID == GorevID && m.DurumID == durumID).FirstOrDefault();
             if (mGorev.IsNull())
-                return new Result(false, "İrsaliye bulunamadı !");
+                return new Result(false, "Görevi kontrol ediniz!");
             //add to gorev user table
             var tbl = db.GorevUsers.Where(m => m.GorevID == GorevID && m.UserName == tblx.Kod).FirstOrDefault();
             if (tbl == null)
@@ -1342,7 +1342,7 @@ namespace Wms12m
             int durumID = ComboItems.Açık.ToInt32();
             var mGorev = db.Gorevs.Where(m => m.ID == GorevID && m.DurumID == durumID).FirstOrDefault();
             if (mGorev.IsNull())
-                return new Result(false, "İrsaliye bulunamadı !");
+                return new Result(false, "Görevi kontrol ediniz!");
             //add to gorev user table
             var tbl = db.GorevUsers.Where(m => m.GorevID == GorevID && m.UserName == tblx.Kod).FirstOrDefault();
             if (tbl == null)
