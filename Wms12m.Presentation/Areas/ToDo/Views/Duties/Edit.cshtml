@@ -139,7 +139,7 @@
                 "<input class='form-control input-circle' type='text' name='work' required = 'required' value='" + value.Aciklama + "'>" +
             "</div>" +
             "<div class='insert-work-icon col-md-1'>" +
-                "<i class='fa fa-minus-circle delete-icn m-l-5' onclick='DeleteElement(this," + value.ID + ")'></i>" +
+                "<i class='fa fa-minus-circle delete-icn m-l-5' onclick='DeleteElement(this, " + value.ID + ")'></i>" +
                 "<i class='fa fa-plus-circle last-work m-l-5 pull-right' onclick='NewElement()'></i>" +
             "</div>");
         newElement.addClass("index" + index);
@@ -168,14 +168,13 @@
         newElement.addClass("index" + index);
         newElement.insertAfter(".todo-content:last");
     };
-    function DeleteElement(secili,id) {
+    function DeleteElement(secili, id) {
+        alert(id);
         sayac--;
-        if (id != 0) { silinenler+= id+"," }
+        if (id != 0) { silinenler += id + ","; }
         $("#silinenler").val(silinenler);
         $(secili).closest(".form-group").remove();
-        $(".todo-content .work-index").each(function (index) {
-            $(this).text(index + 1)
-        });
+        $(".todo-content .work-index").each(function (index) { $(this).text(index + 1) });
         if (!$(".last-work").length) {
             $(".todo-content i:last").addClass("last-work");
             $(".last-work").addClass("fa fa-plus-circle");

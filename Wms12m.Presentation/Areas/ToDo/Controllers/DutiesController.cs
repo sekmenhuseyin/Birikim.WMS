@@ -189,6 +189,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             if (CheckPerm(Perms.TodoGörevler, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             if (!ModelState.IsValid)
                 return Json(new Result(false, "Form hatalı. Sayfayı yenileyin"), JsonRequestBehavior.AllowGet);
+            //yeni görev ekle
             if (gorevler.ID == 0)
             {
                 if (work == null)
@@ -223,13 +224,22 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                     if (grvTDL.Aciklama.Trim() != "") db.GorevlerToDoLists.Add(grvTDL);
                 }
             }
+            //görev güncelle
             else
             {
+                //sil
                 string[] sl = new string[0];
                 if (silinenler != null)
                 {
                     sl = silinenler.Split(',');
                 }
+                for (int j = 0; j < sl.Length - 1; j++)
+                {
+                    var idx = Convert.ToInt32(sl[j]);
+                    var silGrv = db.GorevlerToDoLists.Where(m => m.ID == idx).FirstOrDefault();
+                    db.GorevlerToDoLists.Remove(silGrv);
+                }
+                //görevi bul ve değiştir
                 var tbl = db.Gorevlers.Where(m => m.ID == gorevler.ID).FirstOrDefault();
                 tbl.Sorumlu = gorevler.Sorumlu;
                 tbl.Sorumlu2 = gorevler.Sorumlu2;
@@ -242,15 +252,10 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                 tbl.TahminiBitis = gorevler.TahminiBitis;
                 tbl.Degistiren = vUser.UserName;
                 tbl.DegisTarih = DateTime.Now;
-                for (int j = 0; j < sl.Length - 1; j++)
-                {
-                    var idx = Convert.ToInt32(sl[j]);
-                    var silGrv = db.GorevlerToDoLists.Where(m => m.ID == idx).FirstOrDefault();
-                    db.GorevlerToDoLists.Remove(silGrv);
-                }
                 if (work != null)
                     for (int i = 0; i < work.Length; i++)
                     {
+                        //yeni madde ekle
                         if (todo[i] == "0")
                         {
                             GorevlerToDoList grvTDL = new GorevlerToDoList
@@ -264,10 +269,13 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                             };
                             if (grvTDL.Aciklama.Trim() != "") db.GorevlerToDoLists.Add(grvTDL);
                         }
+                        //maddeyi güncelle
                         else
                         {
                             var id2 = Convert.ToInt32(todo[i]);
                             var grv = db.GorevlerToDoLists.Where(m => m.ID == id2).FirstOrDefault();
+                            if (grv.Onay == true && grv.Aciklama != work[i].ToString2())
+                                return Json(new Result(false, "Tamamlanan maddeleri değiştiremezsiniz"), JsonRequestBehavior.AllowGet);
                             grv.Aciklama = work[i].ToString2();
                             grv.DegisTarih = DateTime.Now;
                             grv.Degistiren = vUser.UserName;
