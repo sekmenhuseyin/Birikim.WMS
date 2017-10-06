@@ -41,7 +41,7 @@
                         <div class="form-group">
                             @Html.LabelFor(model => model.Sorumlu, "Sorumlu", htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-10">
-                                @Html.DropDownList("Sorumlu", null, htmlAttributes: new { @class = "form-control input-circle satirekle", required = "required" })
+                                @Html.DropDownList("Sorumlu", null, htmlAttributes: new { @class = "form-control input-circle", required = "required" })
                                 @Html.ValidationMessageFor(model => model.Sorumlu, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -122,9 +122,9 @@
     var silinenler = ""; var sayac = 1;
     $(document).ready(function () {
         $(".satirekle").prepend("<option value=''>Seçiniz !!!</option>");
-        @if (Model.Sorumlu2 == null || Model.Sorumlu2 == "") { <text>$(".satirekle")[1].selectedIndex = 0;</text> }
-        @if (Model.Sorumlu3 == null || Model.Sorumlu3 == "") { <text>$(".satirekle")[2].selectedIndex = 0;</text> }
-        @if (Model.KontrolSorumlusu == null || Model.KontrolSorumlusu == "") { <text>$(".satirekle")[3].selectedIndex = 0;</text> }
+        @if (Model.Sorumlu2.ToString2().Length == 0) { <text>$(".satirekle")[0].selectedIndex = 0;</text> }
+        @if (Model.Sorumlu3.ToString2().Length == 0) { <text>$(".satirekle")[1].selectedIndex = 0;</text> }
+        @if (Model.KontrolSorumlusu.ToString2().Length == 0) { <text>$(".satirekle")[2].selectedIndex = 0;</text> }
         $('.date-picker').datepicker();
     });
     var model = @Html.Raw(Json.Encode(Model.GorevlerToDoLists.Select(m=> new frmGorevTodos { ID=m.ID, Aciklama=m.Aciklama }).ToList()));

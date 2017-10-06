@@ -7,7 +7,7 @@
             <td>@Model.ProjeForm.Proje - @Model.ProjeForm.Form</td>
             <td>@Model.ComboItem_Name2.Name</td>
             <td>@Model.ComboItem_Name1.Name</td>
-            <td>@Model.Sorumlu @if (Model.Sorumlu2 != null) { @Model.Sorumlu2 } @if (Model.Sorumlu3 != null) { @Model.Sorumlu3 }</td>
+            <td>@Model.Sorumlu @if (Model.Sorumlu2 != null) { @Model.Sorumlu2 } @if (Model.Sorumlu3 != null) { @Model.Sorumlu3 } @if (Model.KontrolSorumlusu != null) { @Model.KontrolSorumlusu }</td>
             <td>@Model.KayitTarih.ToString("dd.MM.yyyy")</td>
             <td>@if (Model.TahminiBitis != null) { @Model.TahminiBitis.Value.ToString("dd.MM.yyyy") }</td>
         </tr>
