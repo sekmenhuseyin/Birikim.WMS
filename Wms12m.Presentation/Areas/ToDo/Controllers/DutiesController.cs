@@ -43,7 +43,8 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         [HttpPost]
         public PartialViewResult Duty_Details(int ID)
         {
-            var list = db.GorevlerCalismas.Where(a => a.GorevID == ID).ToList();
+            var list = db.GorevlerCalismas.Where(a => a.GorevID == ID).OrderByDescending(m => m.Tarih).ToList();
+            ViewBag.ID = ID;
             return PartialView("Duty_Details", list);
         }
         /// <summary>

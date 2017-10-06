@@ -1,7 +1,7 @@
 ﻿$(function () { $("#div_loading").hide(); });
 $(document).ajaxStart(function () { $("#div_loading").show(); });
 $(document).ajaxStop(function () { $("#div_loading").hide(); });
-var $buoop = { vs: { i: 10, f: -8, o: -8, s: 8, c: -8 }, api: 4 };
+var $buoop = { vs: { i: 40, f: -8, o: -8, s: 8, c: -8 }, api: 4 };
 function $buo_f() {
     var e = document.createElement("script");
     e.src = "//browser-update.org/update.min.js";
