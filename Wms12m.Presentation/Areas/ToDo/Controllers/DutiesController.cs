@@ -139,7 +139,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             foreach (JObject bds in parameters)
             {
                 var id = bds["ID"].ToInt32();
-                List<Gorevler> grv = db.Gorevlers.ToList();
+                var grv = db.Gorevlers.ToList();
                 foreach (Gorevler item in grv)
                 {
                     if (item.ID == id)
@@ -150,7 +150,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             }
             try
             {
-                var x = db.SaveChanges();
+                db.SaveChanges();
                 return Json(new Result(true, 1), JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)

@@ -6,8 +6,8 @@
     <tbody>
         @foreach (var item in Model)
         {
-            <tr data-ID="@item.ID"@if (ViewBag.Yetki == true) {<text> ondblclick = "showEdit(@item.ID)" class = "clickable"</text>}>
-                <td data="@item.OncelikID" data-id="@item.ID"><div style="display:flex;"><i class='fa fa-arrow-up list-up-down item-up' onclick='RowUp(this)' style='color:#a0e4a0;'></i><i class='fa fa-arrow-down list-up-down item-down' onclick='RowDown(this)'  style='color:#ec9696;'></i></div></td>
+            <tr data-id="@item.ID" data-order="@item.OncelikID"@if (ViewBag.Yetki == true) {<text> ondblclick = "showEdit(@item.ID)" class = "clickable"</text>}>
+                <td><div style="display:flex;"><i class='fa fa-arrow-up list-up-down item-up' onclick='RowUp(this)' style='color:#a0e4a0;'></i><i class='fa fa-arrow-down list-up-down item-down' onclick='RowDown(this)'  style='color:#ec9696;'></i></div></td>
                 <td></td>
                 <td class="details-control"></td>
                 <td>@item.ProjeForm.Musteri.Firma</td>
@@ -68,12 +68,12 @@
         var sayac = 0;
         yeniData = [];
         if ($(item).closest('tr').prev().length == 1) {
-            var tempOnc = $(item).closest('tr').prev().find("td").eq(0).attr("data");
-            $(item).closest('tr').prev().find("td").eq(0).attr("data", $(item).closest('tr').find("td").eq(0).attr("data"));
-            $(item).closest('tr').find("td").eq(0).attr("data", tempOnc);
+            var tempOnc = $(item).closest('tr').prev().attr("data-order");
+            $(item).closest('tr').prev().attr("data-order", $(item).closest('tr').attr("data-order"));
+            $(item).closest('tr').attr("data-order", tempOnc);
             $(item).closest('tr').insertBefore($(item).closest('tr').prev())
         }
-        $("tbody tr").each(function (index) { yeniData.push($(this).find("td").eq(0).attr("data-id")); });
+        $("tbody tr").each(function (index) { yeniData.push($(this).attr("data-id")); });
         $.each(yeniData, function (index, value) { if (yeniData[index] != eskiData[index]) { sayac++; } });
         if (sayac > 0) { $(".oncelik-kayit-buton").removeClass('hidden'); }
         else { $(".oncelik-kayit-buton").addClass('hidden') }
@@ -82,12 +82,12 @@
         var sayac = 0;
         yeniData = [];
         if ($(item).closest('tr').next().length == 1) {
-            var tempOnc = $(item).closest('tr').next().find("td").eq(0).attr("data");
-            $(item).closest('tr').next().find("td").eq(0).attr("data", $(item).closest('tr').find("td").eq(0).attr("data"));
-            $(item).closest('tr').find("td").eq(0).attr("data", tempOnc);
+            var tempOnc = $(item).closest('tr').next().attr("data-order");
+            $(item).closest('tr').next().attr("data-order", $(item).closest('tr').attr("data-order"));
+            $(item).closest('tr').attr("data-order", tempOnc);
             $(item).closest('tr').insertAfter($(item).closest('tr').next())
         }
-        $("tbody tr").each(function (index) { yeniData.push($(this).find("td").eq(0).attr("data-id")); });
+        $("tbody tr").each(function (index) { yeniData.push($(this).attr("data-id")); });
         $.each(yeniData, function (index, value) { if (yeniData[index] != eskiData[index]) { sayac++; } });
         if (sayac > 0) { $(".oncelik-kayit-buton").removeClass('hidden'); }
         else { $(".oncelik-kayit-buton").addClass('hidden') }
@@ -96,8 +96,8 @@
         secili_table = [];
         $("tbody tr").each(function (index) {
             var jObject = {};
-            jObject["ID"] = $(this).find("td").eq(0).attr("data-id");
-            jObject["OncelikID"] = $(this).find("td").eq(0).attr("data");
+            jObject["ID"] = $(this).attr("data-id");
+            jObject["OncelikID"] = $(this).attr("data-order");
             secili_table.push(jObject);
         });
         $.ajax({
