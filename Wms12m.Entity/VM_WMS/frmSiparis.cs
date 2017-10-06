@@ -18,6 +18,7 @@ namespace Wms12m.Entity
         public string Aciklama { get; set; }
         public int Çeşit { get; set; }
         public decimal Miktar { get; set; }
+        public int ROW_ID { get; set; }
     }
     /// <summary>
     /// sipariş listesi onay

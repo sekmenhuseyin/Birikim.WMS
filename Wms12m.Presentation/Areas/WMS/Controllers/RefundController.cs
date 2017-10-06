@@ -87,14 +87,17 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             return View("Step2", list);
         }
 
+        /// <summary>
+        /// adım 4: yerleştirme kaydet
+        /// </summary>
         [HttpPost, ValidateAntiForgeryToken]
-        public ActionResult Step3(frmSiparisOnay tbl)
+        public ActionResult Step4(frmSiparisOnay tbl)
         {
             if (tbl.DepoID == "0" || tbl.EvrakNos == "" || tbl.checkboxes == "")
                 return RedirectToAction("Index");
-            if (CheckPerm(Perms.GenelSipariş, PermTypes.Writing) == false) return Redirect("/");
+            if (CheckPerm(Perms.AlimdanIade, PermTypes.Writing) == false) return Redirect("/");
             tbl.checkboxes = tbl.checkboxes.Left(tbl.checkboxes.Length - 1);
-            var sirketler = new List<string>();
+            var sirket = new List<string>();
             var evraklar = new List<string>();
             var ids = new List<string>();
             var miktars = new List<decimal>();
@@ -104,10 +107,10 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             foreach (var item in tmp)
             {
                 string[] tmp2 = item.Split('-');
-                if (sirketler.Contains(tmp2[0]) == false) { sirketler.Add(tmp2[0]); evraklar.Add("'" + tmp2[1] + "'"); ids.Add("0"); }//eğer şirket yoksa ekle
+                if (sirket.Contains(tmp2[0]) == false) { evraklar.Add("'" + tmp2[1] + "'"); ids.Add("0"); }//eğer şirket yoksa ekle
                 else
                 {
-                    i = sirketler.FindIndex(m => m.Contains(tmp2[0]));
+                    i = sirket.FindIndex(m => m.Contains(tmp2[0]));
                     if (evraklar[i] != "") evraklar[i] += ",";
                     evraklar[i] += "'" + tmp2[1] + "'";
                 }
@@ -117,24 +120,19 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             foreach (var item in tmp)
             {
                 string[] tmp2 = item.Split('-');
-                i = sirketler.FindIndex(m => m.Contains(tmp2[0]));
+                i = sirket.FindIndex(m => m.Contains(tmp2[0]));
                 ids[i] += ",'" + tmp2[1] + "'";
                 miktars.Add(tmp2[2].Replace(".", ",").ToDecimal());
             }
             //sql oluştur
             string sql = ""; i = 0;
-            foreach (var item in sirketler)
+
+            if (ids[i] != "0")
             {
-                if (ids[i] != "0")
-                {
-                    if (sql != "") sql += " UNION ";
-                    sql += String.Format("SELECT '{0}' as SirketID, FINSAT6{0}.FINSAT6{0}.SPI.ROW_ID, '{0}-'+CONVERT(VARCHAR(10),FINSAT6{0}.FINSAT6{0}.SPI.ROW_ID) as ID, FINSAT6{0}.FINSAT6{0}.SPI.EvrakNo, FINSAT6{0}.FINSAT6{0}.SPI.Tarih, FINSAT6{0}.FINSAT6{0}.SPI.KayitSaat as Saat, FINSAT6{0}.FINSAT6{0}.SPI.DegisSaat, FINSAT6{0}.FINSAT6{0}.SPI.SiraNo, FINSAT6{0}.FINSAT6{0}.SPI.Chk, FINSAT6{0}.FINSAT6{0}.SPI.MalKodu, FINSAT6{0}.FINSAT6{0}.SPI.Birim, FINSAT6{0}.FINSAT6{0}.CHK.Unvan1 as Unvan, FINSAT6{0}.FINSAT6{0}.SPI.BirimMiktar, (FINSAT6{0}.FINSAT6{0}.SPI.BirimMiktar - FINSAT6{0}.FINSAT6{0}.SPI.TeslimMiktar - FINSAT6{0}.FINSAT6{0}.SPI.KapatilanMiktar) AS Miktar, FINSAT6{0}.FINSAT6{0}.SPI.ValorGun, FINSAT6{0}.FINSAT6{0}.SPI.TeslimChk " +
-                                        "FROM FINSAT6{0}.FINSAT6{0}.SPI WITH(NOLOCK) INNER JOIN FINSAT6{0}.FINSAT6{0}.CHK WITH(NOLOCK) ON FINSAT6{0}.FINSAT6{0}.SPI.Chk = FINSAT6{0}.FINSAT6{0}.CHK.HesapKodu " +
-                                        "WHERE (FINSAT6{0}.FINSAT6{0}.SPI.Depo = '{1}') AND (FINSAT6{0}.FINSAT6{0}.SPI.KynkEvrakTip = 62) AND (FINSAT6{0}.FINSAT6{0}.SPI.SiparisDurumu = 0) AND (FINSAT6{0}.FINSAT6{0}.SPI.EvrakNo IN ({2})) AND (FINSAT6{0}.FINSAT6{0}.SPI.ROW_ID IN ({3})) AND (FINSAT6{0}.FINSAT6{0}.SPI.Kod10 IN ('Terminal', 'Onaylandı')) ", item, tbl.DepoID, evraklar[i], ids[i]);
-                }
-                i++;
+                sql += String.Format("SELECT '{0}' as SirketID, FINSAT6{0}.FINSAT6{0}.SPI.ROW_ID, '{0}-'+CONVERT(VARCHAR(10),FINSAT6{0}.FINSAT6{0}.SPI.ROW_ID) as ID, FINSAT6{0}.FINSAT6{0}.SPI.EvrakNo, FINSAT6{0}.FINSAT6{0}.SPI.Tarih, FINSAT6{0}.FINSAT6{0}.SPI.KayitSaat as Saat, FINSAT6{0}.FINSAT6{0}.SPI.DegisSaat, FINSAT6{0}.FINSAT6{0}.SPI.SiraNo, FINSAT6{0}.FINSAT6{0}.SPI.Chk, FINSAT6{0}.FINSAT6{0}.SPI.MalKodu, FINSAT6{0}.FINSAT6{0}.SPI.Birim, FINSAT6{0}.FINSAT6{0}.CHK.Unvan1 as Unvan, FINSAT6{0}.FINSAT6{0}.SPI.BirimMiktar, (FINSAT6{0}.FINSAT6{0}.SPI.BirimMiktar - FINSAT6{0}.FINSAT6{0}.SPI.TeslimMiktar - FINSAT6{0}.FINSAT6{0}.SPI.KapatilanMiktar) AS Miktar, FINSAT6{0}.FINSAT6{0}.SPI.ValorGun, FINSAT6{0}.FINSAT6{0}.SPI.TeslimChk " +
+                                    "FROM FINSAT6{0}.FINSAT6{0}.SPI WITH(NOLOCK) INNER JOIN FINSAT6{0}.FINSAT6{0}.CHK WITH(NOLOCK) ON FINSAT6{0}.FINSAT6{0}.SPI.Chk = FINSAT6{0}.FINSAT6{0}.CHK.HesapKodu " +
+                                    "WHERE (FINSAT6{0}.FINSAT6{0}.SPI.Depo = '{1}') AND (FINSAT6{0}.FINSAT6{0}.SPI.KynkEvrakTip = 62) AND (FINSAT6{0}.FINSAT6{0}.SPI.SiparisDurumu = 0) AND (FINSAT6{0}.FINSAT6{0}.SPI.EvrakNo IN ({2})) AND (FINSAT6{0}.FINSAT6{0}.SPI.ROW_ID IN ({3})) AND (FINSAT6{0}.FINSAT6{0}.SPI.Kod10 IN ('Terminal', 'Onaylandı')) ORDER BY Tarih, Saat", sirket, tbl.DepoID, evraklar[i], ids[i]);
             }
-            sql += "ORDER BY Tarih,Saat";
             var list = db.Database.SqlQuery<frmSiparisMalzemeOnay>(sql).ToList();
             if (list == null)
                 return RedirectToAction("Index");
@@ -334,7 +332,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                 }
                 else if (item.Stok != item.WmsStok)
                 {
-                    if (hataliStok != "") hataliStok += ", ";
+                    if (hataliStok != "##") hataliStok += ", ";
                     hataliStok += item.MalKodu;
                 }
             }
