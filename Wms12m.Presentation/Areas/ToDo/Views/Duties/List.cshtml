@@ -1,13 +1,13 @@
 ﻿@model IEnumerable<Gorevler>
 <table class="table table-bordered table-striped table-condensed" id="sample_1">
-    <thead class="flip-content"><tr><th></th><th></th><th>Çalışma</th><th>Firma</th><th>Proje</th><th>Form</th><th>Görev</th><th>Sorumlular</th><th>Durum</th><th>Görev Tipi</th><th>Departman</th><th>Tahmini Bitiş<span class="hidden">Tarih</span></th><th></th></tr></thead>
-    <tfoot><tr><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr></tfoot>
-    <tfoot class="tf-search"><tr>@if (ViewBag.Yetki == true) {<th></th>}<th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr></tfoot>
+    <thead class="flip-content"><tr><th></th><th></th><th>Çalışma</th><th>Firma</th><th>Proje</th><th>Form</th><th>Görev</th><th>Sorumlular</th><th>Durum</th><th>Görev Tipi</th><th>Departman</th><th>Oluşturma Tarihi</th><th>Tahmini Bitiş<span class="hidden">Tarih</span></th><th></th></tr></thead>
+    <tfoot><tr><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr></tfoot>
+    <tfoot class="tf-search"><tr>@if (ViewBag.Yetki == true) {<th></th>}<th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr></tfoot>
     <tbody>
         @foreach (var item in Model)
         {
-            <tr data-ID="@item.ID"@if (ViewBag.Yetki == true) {<text> ondblclick = "showEdit(@item.ID)" class = "clickable"</text>}>
-                <td data="@item.OncelikID" data-id="@item.ID"><div style="display:flex;"><i class='fa fa-arrow-up list-up-down item-up' onclick='RowUp(this)' style='color:#a0e4a0;'></i><i class='fa fa-arrow-down list-up-down item-down' onclick='RowDown(this)'  style='color:#ec9696;'></i></div></td>
+            <tr data-id="@item.ID" data-order="@item.OncelikID"@if (ViewBag.Yetki == true) {<text> ondblclick = "showEdit(@item.ID)" class = "clickable"</text>}>
+                <td><div style="display:flex;"><i class='fa fa-arrow-up list-up-down item-up' onclick='RowUp(this)' style='color:#a0e4a0;'></i><i class='fa fa-arrow-down list-up-down item-down' onclick='RowDown(this)'  style='color:#ec9696;'></i></div></td>
                 <td></td>
                 <td class="details-control"></td>
                 <td>@item.ProjeForm.Musteri.Firma</td>
@@ -18,8 +18,13 @@
                 <td>@item.ComboItem_Name1.Name</td>
                 <td>@if (item.ComboItem_Name2 != null) { @item.ComboItem_Name2.Name} </td>
                 <td>@if (item.ComboItem_Name != null) { @item.ComboItem_Name.Name} </td>
-                <td>@if (item.TahminiBitis != null) { @item.TahminiBitis.Value.ToString("dd.MM.yyyy")} </td>
-                <td>@if (ViewBag.Yetki2 == true) {<a class="btn btn-danger" href="javascript:;" onclick="Delete('@item.ID', '/ToDo/Duties/List', 'liste', '')"> Sil </a>}</td>
+                <td>@item.KayitTarih.ToString("dd.MM.yyyy")</td>
+                <td>@if (item.TahminiBitis != null) { @item.TahminiBitis.Value.ToString("dd.MM.yyyy")}</td>
+                <td nowrap>@if (ViewBag.Yetki == true) {
+                    if (ViewBag.Tip != ComboItems.gydDurduruldu.ToInt32() && ViewBag.Tip != ComboItems.gydReddedildi.ToInt32()) {<a class="btn btn-warning" href="javascript:;" onclick="Stopper(2, @item.ID)"> Durdur </a>}
+                    else {<a class="btn btn-primary" href="javascript:;" onclick="Stopper(3, @item.ID)"> Başlat </a>}
+                    <a class="btn btn-danger" href="javascript:;" onclick="Delete('@item.ID', '/ToDo/Duties/List', 'liste', '')"> Sil </a>
+                }</td>
             </tr>
         }
     </tbody>
@@ -50,7 +55,7 @@
     //tarih
     $.datepicker.setDefaults($.datepicker.regional["tr"]);
     $(".tarih").datepicker();
-    @if (ViewBag.Yetki == true) {
+   @if (ViewBag.Yetki == true) {
         if (ViewBag.Tip == ComboItems.gydOnayVer.ToInt32()) {<text>
         $('#sample_1 tbody').on('click', 'tr', function () {
             table.rows('.selected').nodes().to$().removeClass('selected');
@@ -58,8 +63,15 @@
             selected = $(this).closest('tr').data('id');
             $(".onayla-buton").removeClass('hidden');
             $(".reddet-buton").removeClass('hidden');
-        });
-        </text>}<text>
+        });</text>
+        }
+        else
+        {<text>
+        $('#sample_1 tbody').on('click', 'tr', function () {
+            table.rows('.selected').nodes().to$().removeClass('selected');
+            $(this).toggleClass('selected');
+        });</text>
+        }<text>
     function showEdit(ID) {
         $('#modalEditPage').modal('toggle');
         editInModal('/ToDo/Duties/Edit/' + ID);
@@ -68,12 +80,12 @@
         var sayac = 0;
         yeniData = [];
         if ($(item).closest('tr').prev().length == 1) {
-            var tempOnc = $(item).closest('tr').prev().find("td").eq(0).attr("data");
-            $(item).closest('tr').prev().find("td").eq(0).attr("data", $(item).closest('tr').find("td").eq(0).attr("data"));
-            $(item).closest('tr').find("td").eq(0).attr("data", tempOnc);
+            var tempOnc = $(item).closest('tr').prev().attr("data-order");
+            $(item).closest('tr').prev().attr("data-order", $(item).closest('tr').attr("data-order"));
+            $(item).closest('tr').attr("data-order", tempOnc);
             $(item).closest('tr').insertBefore($(item).closest('tr').prev())
         }
-        $("tbody tr").each(function (index) { yeniData.push($(this).find("td").eq(0).attr("data-id")); });
+        $("tbody tr").each(function (index) { yeniData.push($(this).attr("data-id")); });
         $.each(yeniData, function (index, value) { if (yeniData[index] != eskiData[index]) { sayac++; } });
         if (sayac > 0) { $(".oncelik-kayit-buton").removeClass('hidden'); }
         else { $(".oncelik-kayit-buton").addClass('hidden') }
@@ -82,12 +94,12 @@
         var sayac = 0;
         yeniData = [];
         if ($(item).closest('tr').next().length == 1) {
-            var tempOnc = $(item).closest('tr').next().find("td").eq(0).attr("data");
-            $(item).closest('tr').next().find("td").eq(0).attr("data", $(item).closest('tr').find("td").eq(0).attr("data"));
-            $(item).closest('tr').find("td").eq(0).attr("data", tempOnc);
+            var tempOnc = $(item).closest('tr').next().attr("data-order");
+            $(item).closest('tr').next().attr("data-order", $(item).closest('tr').attr("data-order"));
+            $(item).closest('tr').attr("data-order", tempOnc);
             $(item).closest('tr').insertAfter($(item).closest('tr').next())
         }
-        $("tbody tr").each(function (index) { yeniData.push($(this).find("td").eq(0).attr("data-id")); });
+        $("tbody tr").each(function (index) { yeniData.push($(this).attr("data-id")); });
         $.each(yeniData, function (index, value) { if (yeniData[index] != eskiData[index]) { sayac++; } });
         if (sayac > 0) { $(".oncelik-kayit-buton").removeClass('hidden'); }
         else { $(".oncelik-kayit-buton").addClass('hidden') }
@@ -96,8 +108,8 @@
         secili_table = [];
         $("tbody tr").each(function (index) {
             var jObject = {};
-            jObject["ID"] = $(this).find("td").eq(0).attr("data-id");
-            jObject["OncelikID"] = $(this).find("td").eq(0).attr("data");
+            jObject["ID"] = $(this).attr("data-id");
+            jObject["OncelikID"] = $(this).attr("data-order");
             secili_table.push(jObject);
         });
         $.ajax({
@@ -119,11 +131,12 @@
             }
         });
     }
-    function GorevOnay(tip) {
-        if (selected == 0) return;
+    function GorevOnay(tip, id) {
+        var tmp = 0; if (id > 0) tmp = id; else tmp = selected;
+        if (tmp == 0) return;
         $.ajax({
             url: window.location.origin + "/ToDo/Duties/GorevOnay",
-            data: { Id: selected, Tip: tip },
+            data: { Id: tmp, Tip: tip },
             type: "post",
             success: function (data) {
                 if (data.Status == true) {
@@ -137,6 +150,25 @@
             },
             error: function (data) {
                 Modaldialog("Hata oldu", 'Hata', 'Tamam', 'btn-danger');
+            }
+        });
+    }
+    function Stopper(tip, ID) {
+        bootbox.dialog({
+            message: tip === 2 ? 'Görev durdurulacak' : 'Görev başlatılacak',
+            title: 'Devam edilsin mi?',
+            buttons: {
+                save: {
+                    label: "Evet",
+                    className: 'btn-success',
+                    callback: function () {
+                        GorevOnay(tip, ID);
+                    }
+                },
+                cancel: {
+                    label: 'Hayır',
+                    className: 'btn-warning'
+                }
             }
         });
     }

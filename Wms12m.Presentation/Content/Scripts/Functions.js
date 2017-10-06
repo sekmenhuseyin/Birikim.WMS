@@ -4,7 +4,6 @@ numeral.locale('tr');
 String.prototype.addAt = function (index, character) {
     return this.substr(0, index) + character + this.substr(index + character.length - 1);
 }
-
 //dxTextBoxları NumberBox'a çevirme
 function NumbBox(cls, readOnly,ond) {
     $(cls).dxTextBox({

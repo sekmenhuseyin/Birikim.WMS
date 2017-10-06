@@ -1,19 +1,20 @@
 ﻿@model IEnumerable<GorevlerCalisma>
 <table class="table table-striped table-bordered table-hover" id="sample_1">
-    <thead><tr><th>Proje</th><th>Görev</th><th>Tarih</th><th>Süre</th><th>Çalışma</th><th>Kaydeden</th><th></th></tr></thead>
-    <tfoot><tr><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr></tfoot>
-    <tfoot class="tf-search"><tr><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr></tfoot>
+    <thead><tr><th>Firma</th><th>Proje</th><th>Görev</th><th>Tarih</th><th>Süre</th><th>Çalışma</th><th>Kaydeden</th><th></th></tr></thead>
+    <tfoot><tr><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr></tfoot>
+    <tfoot class="tf-search"><tr><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr></tfoot>
     <tbody>
         @foreach (var item in Model)
         {
             <tr>
+                <td nowrap>@item.Gorevler.ProjeForm.Musteri.Unvan</td>
                 <td>@item.Gorevler.ProjeForm.Proje</td>
                 <td>@item.Gorevler.Gorev</td>
-                <td><div class="hidden">@item.Tarih.ToOADateInt()</div>@item.Tarih.ToString("dd.MM.yyyy")</td>
-                <td>@item.Sure</td>
+                <td nowrap><div class="hidden">@item.Tarih.ToOADateInt()</div>@item.Tarih.ToString("dd.MM.yyyy")</td>
+                <td nowrap>@item.Sure</td>
                 <td>@item.Calisma</td>
-                <td>@item.Kaydeden</td>
-                <td>
+                <td nowrap>@item.Kaydeden</td>
+                <td nowrap>
                     <a class="btn btn-default" href="#modalEditPage" data-toggle="modal" onclick="editInModal2('/ToDo/DutyWork/Edit', { Id: @item.ID })"> Düzenle </a>
                     @if(ViewBag.Yetki2 == true) {<a class="btn btn-danger" href="javascript:;" onclick="Delete('@item.ID','/ToDo/DutyWork/List','liste','@item.ID','/ToDo/DutyWork/Delete')"> Sil </a>}
                 </td>

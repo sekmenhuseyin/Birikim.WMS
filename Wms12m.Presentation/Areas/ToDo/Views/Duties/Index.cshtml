@@ -16,8 +16,8 @@
 <div class="row m-10">
     <div class="col-md-2 m-t-5 p-t-15">&nbsp;</div>
     <div class="col-md-2 pull-right m-t-5"><button class="btn btn-default pull-right input-circle oncelik-kayit-buton glyphicon glyphicon-ok hidden" onclick="OncelikKaydet();"> Öncelik Kaydet </button></div>
-    <div class="col-md-2 pull-right m-t-5"><button class="btn btn-success pull-right input-circle onayla-buton glyphicon glyphicon-ok hidden" onclick="GorevOnay(true);"> Onayla </button></div>
-    <div class="col-md-2 pull-right m-t-5"><button class="btn btn-danger pull-right input-circle reddet-buton glyphicon glyphicon-remove hidden" onclick="GorevOnay(false);"> Reddet </button></div>
+    <div class="col-md-2 pull-right m-t-5"><button class="btn btn-success pull-right input-circle onayla-buton glyphicon glyphicon-ok hidden" onclick="GorevOnay(0, 0);"> Onayla </button></div>
+    <div class="col-md-2 pull-right m-t-5"><button class="btn btn-danger pull-right input-circle reddet-buton glyphicon glyphicon-remove hidden" onclick="GorevOnay(1, 0);"> Reddet </button></div>
 </div>}
 <div class="row">
     <div class="col-md-12">
@@ -51,7 +51,7 @@
 @section Scripts{<script src="~/Content/assets/global/plugins/datatables/extensions/RowReorder/js/dataTables.rowReorder.js"></script>
 <script type="text/javascript">
     var DeleteFunctionUrl = '/ToDo/Duties/Delete';
-    $(".satireklex").prepend("<option value='0'>AKTİF OLANLAR</option>"); $(".satireklex")[0].selectedIndex = 0;
+    $(".satireklex").prepend("<option value='0'>AKTİF GÖREVLER</option>"); $(".satireklex")[0].selectedIndex = 0;
     FuncSearchBtn();
     function FuncSearchBtn() {
         $('#CreateEdit').html("");

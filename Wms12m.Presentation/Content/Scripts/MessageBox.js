@@ -52,8 +52,6 @@ function ModalConfirmClick(Message, Title, YesLabel, YesClass, Yescallback, NoLa
         }
     });
 }
-
-
 function Modaldialog(message, title, label, className) {
     bootbox.dialog({
         message: message,
@@ -70,7 +68,6 @@ function Modaldialog(message, title, label, className) {
         }
     });
 }
-
 function ModalPrompt(title, defaultvalue, YesLabel, NoLabel)
 {
     bootbox.prompt({

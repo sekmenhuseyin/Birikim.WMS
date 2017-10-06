@@ -527,8 +527,8 @@ namespace Wms12m.Presentation.Controllers
             if (!file.FileName.EndsWith(".jpg") && !file.FileName.EndsWith(".png"))
                 return Json(_Result, JsonRequestBehavior.AllowGet);
             //if exists delete
-            if (System.IO.File.Exists(Server.MapPath("/Uploads/" + ID + ".jpg")) == true) System.IO.File.Delete(Server.MapPath("/Uploads/" + ID + ".jpg"));
-            file.SaveAs(Server.MapPath("/Uploads/" + ID + ".jpg"));
+            if (System.IO.File.Exists(Server.MapPath("/Content/Uploads/" + ID + ".jpg")) == true) System.IO.File.Delete(Server.MapPath("/Content/Uploads/" + ID + ".jpg"));
+            file.SaveAs(Server.MapPath("/Content/Uploads/" + ID + ".jpg"));
             //return
             return Json(new Result(true, ID.ToInt32()), JsonRequestBehavior.AllowGet);
         }

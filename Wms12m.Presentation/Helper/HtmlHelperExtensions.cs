@@ -6,8 +6,8 @@ namespace Wms12m
 {
     public static class HtmlHelperExtensions
     {
-        private static string defaultImage = "/Uploads/0.jpg";
-        private static string uploadsDirectory = "/Uploads/";
+        private static string defaultImage = "/Content/Uploads/0.jpg";
+        private static string uploadsDirectory = "/Content/Uploads/";
         /// <summary>
         /// stackoverflow.com/questions/19931698/how-to-display-a-default-image-in-case-the-source-does-not-exists
         /// eğer istenen resim yoksa varsayılan resim gösterilecek

@@ -43,7 +43,8 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         [HttpPost]
         public PartialViewResult Duty_Details(int ID)
         {
-            var list = db.GorevlerCalismas.Where(a => a.GorevID == ID).ToList();
+            var list = db.GorevlerCalismas.Where(a => a.GorevID == ID).OrderByDescending(m => m.Tarih).ToList();
+            ViewBag.ID = ID;
             return PartialView("Duty_Details", list);
         }
         /// <summary>
@@ -64,8 +65,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             }
             else
                 list = list.Where(m => m.DurumID == Tip);
-            ViewBag.Yetki = CheckPerm(Perms.TodoGörevler, PermTypes.Writing);
-            ViewBag.Yetki2 = CheckPerm(Perms.TodoGörevler, PermTypes.Deleting);
+            ViewBag.Yetki = CheckPerm(Perms.TodoGörevler, PermTypes.Deleting);
             ViewBag.Tip = Tip;
             return PartialView(list.OrderBy(m => m.OncelikID).ToList());
         }
@@ -139,7 +139,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             foreach (JObject bds in parameters)
             {
                 var id = bds["ID"].ToInt32();
-                List<Gorevler> grv = db.Gorevlers.ToList();
+                var grv = db.Gorevlers.ToList();
                 foreach (Gorevler item in grv)
                 {
                     if (item.ID == id)
@@ -150,7 +150,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             }
             try
             {
-                var x = db.SaveChanges();
+                db.SaveChanges();
                 return Json(new Result(true, 1), JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
@@ -160,15 +160,15 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             }
         }
         /// <summary>
-        /// görev onay / ret
+        /// görev onay / ret / durdur
         /// </summary>
-        public JsonResult GorevOnay(int Id, bool Tip)
+        public JsonResult GorevOnay(int Id, int Tip)
         {
-            if (CheckPerm(Perms.TodoGörevler, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
+            if (CheckPerm(Perms.TodoGörevler, PermTypes.Deleting) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);//sadece admin onaylayabilsin diye silme yetkisine bakıyorum
             try
             {
                 var satir = db.Gorevlers.Where(m => m.ID == Id).FirstOrDefault();
-                satir.DurumID = Tip == true ? ComboItems.gydAtandı.ToInt32() : ComboItems.gydReddedildi.ToInt32();
+                satir.DurumID = Tip == 0 ? ComboItems.gydAtandı.ToInt32() : (Tip == 1 ? ComboItems.gydReddedildi.ToInt32() : (Tip == 2 ? ComboItems.gydDurduruldu.ToInt32() : ComboItems.gydAtandı.ToInt32()));
                 satir.Degistiren = vUser.UserName;
                 satir.DegisTarih = DateTime.Now;
                 db.SaveChanges();
@@ -189,6 +189,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             if (CheckPerm(Perms.TodoGörevler, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             if (!ModelState.IsValid)
                 return Json(new Result(false, "Form hatalı. Sayfayı yenileyin"), JsonRequestBehavior.AllowGet);
+            //yeni görev ekle
             if (gorevler.ID == 0)
             {
                 if (work == null)
@@ -223,13 +224,22 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                     if (grvTDL.Aciklama.Trim() != "") db.GorevlerToDoLists.Add(grvTDL);
                 }
             }
+            //görev güncelle
             else
             {
+                //sil
                 string[] sl = new string[0];
                 if (silinenler != null)
                 {
                     sl = silinenler.Split(',');
                 }
+                for (int j = 0; j < sl.Length - 1; j++)
+                {
+                    var idx = Convert.ToInt32(sl[j]);
+                    var silGrv = db.GorevlerToDoLists.Where(m => m.ID == idx).FirstOrDefault();
+                    db.GorevlerToDoLists.Remove(silGrv);
+                }
+                //görevi bul ve değiştir
                 var tbl = db.Gorevlers.Where(m => m.ID == gorevler.ID).FirstOrDefault();
                 tbl.Sorumlu = gorevler.Sorumlu;
                 tbl.Sorumlu2 = gorevler.Sorumlu2;
@@ -242,15 +252,10 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                 tbl.TahminiBitis = gorevler.TahminiBitis;
                 tbl.Degistiren = vUser.UserName;
                 tbl.DegisTarih = DateTime.Now;
-                for (int j = 0; j < sl.Length - 1; j++)
-                {
-                    var idx = Convert.ToInt32(sl[j]);
-                    var silGrv = db.GorevlerToDoLists.Where(m => m.ID == idx).FirstOrDefault();
-                    db.GorevlerToDoLists.Remove(silGrv);
-                }
                 if (work != null)
                     for (int i = 0; i < work.Length; i++)
                     {
+                        //yeni madde ekle
                         if (todo[i] == "0")
                         {
                             GorevlerToDoList grvTDL = new GorevlerToDoList
@@ -264,10 +269,13 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                             };
                             if (grvTDL.Aciklama.Trim() != "") db.GorevlerToDoLists.Add(grvTDL);
                         }
+                        //maddeyi güncelle
                         else
                         {
                             var id2 = Convert.ToInt32(todo[i]);
                             var grv = db.GorevlerToDoLists.Where(m => m.ID == id2).FirstOrDefault();
+                            if (grv.Onay == true && grv.Aciklama != work[i].ToString2())
+                                return Json(new Result(false, "Tamamlanan maddeleri değiştiremezsiniz"), JsonRequestBehavior.AllowGet);
                             grv.Aciklama = work[i].ToString2();
                             grv.DegisTarih = DateTime.Now;
                             grv.Degistiren = vUser.UserName;

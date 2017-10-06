@@ -1,13 +1,13 @@
 ﻿@model IEnumerable<GorevlerToDoList>
 <table class="table table-bordered table-striped table-condensed" id="sample_1">
-    <thead><tr><th></th><th>Proje</th><th>Görevler</th><th>Todo List</th><th>Sorumlular</th><th>İşlem Yapan</th><th>Kayıt Tarihi</th><th>Değiş Tarihi</th><th></th></tr></thead>
-    <tfoot><tr><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr></tfoot>
-    <tfoot class="tf-search"><tr><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr></tfoot>
+    <thead><tr><th style="max-width:20px;"></th><th>Proje</th><th>Görevler</th><th>Todo List</th><th>Sorumlular</th><th>İşlem Yapan</th><th>Kayıt Tarihi</th><th>Değiş Tarihi</th><th></th></tr></thead>
+    <tfoot><tr><th style="max-width:20px;"></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr></tfoot>
+    <tfoot class="tf-search"><tr><th style="max-width:20px;"></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr></tfoot>
     <tbody>
         @foreach (var item in Model)
         {
             <tr data-ID="@item.GorevID">
-                <td class="details-control"></td>
+                <td class="details-control" style="max-width:20px;"></td>
                 <td>@item.Gorevler.ProjeForm.Proje</td>
                 <td>@item.Gorevler.Gorev</td>
                 <td>@item.Aciklama</td>

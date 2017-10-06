@@ -222,9 +222,13 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             }
             else
             {
-                if (vUser.RoleName == "Destek")
+                if (vUser.RoleName == "Admin" && vUser.RoleName == " ")
+                {
+                    list = list.Where(m => m.AdminOnay == false || m.KontrolOnay == false || m.Onay == false);
+                }
+                else if (vUser.RoleName == "Destek")
                     list = list.Where(m => m.AdminOnay == false && (m.Kaydeden == vUser.UserName || m.Degistiren == vUser.UserName || m.Gorevler.Sorumlu == vUser.UserName || m.Gorevler.Sorumlu2 == vUser.UserName || m.Gorevler.Sorumlu3 == vUser.UserName || m.Gorevler.KontrolSorumlusu == vUser.UserName || m.Gorevler.KontrolSorumlusu == null));
-                else if (vUser.RoleName != "Admin" && vUser.RoleName != " ")
+                else 
                 {
                     list = list.Where(m => m.AdminOnay == false && (m.Kaydeden == vUser.UserName || m.Degistiren == vUser.UserName || m.Gorevler.Sorumlu == vUser.UserName || m.Gorevler.Sorumlu2 == vUser.UserName || m.Gorevler.Sorumlu3 == vUser.UserName));
                 }
