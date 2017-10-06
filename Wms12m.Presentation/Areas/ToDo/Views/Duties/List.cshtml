@@ -19,7 +19,10 @@
                 <td>@if (item.ComboItem_Name2 != null) { @item.ComboItem_Name2.Name} </td>
                 <td>@if (item.ComboItem_Name != null) { @item.ComboItem_Name.Name} </td>
                 <td>@if (item.TahminiBitis != null) { @item.TahminiBitis.Value.ToString("dd.MM.yyyy")} </td>
-                <td>@if (ViewBag.Yetki2 == true) {<a class="btn btn-danger" href="javascript:;" onclick="Delete('@item.ID', '/ToDo/Duties/List', 'liste', '')"> Sil </a>}</td>
+                <td nowrap>@if (ViewBag.Yetki == true) {
+                    if (ViewBag.Tip != ComboItems.gydDurduruldu.ToInt32() && ViewBag.Tip != ComboItems.gydReddedildi.ToInt32()) {<a class="btn btn-warning" href="javascript:;" onclick="GorevOnay(2, @item.ID)"> Durdur </a>}
+                    <a class="btn btn-danger" href="javascript:;" onclick="Delete('@item.ID', '/ToDo/Duties/List', 'liste', '')"> Sil </a>
+                }</td>
             </tr>
         }
     </tbody>
@@ -50,7 +53,7 @@
     //tarih
     $.datepicker.setDefaults($.datepicker.regional["tr"]);
     $(".tarih").datepicker();
-    @if (ViewBag.Yetki == true) {
+   @if (ViewBag.Yetki == true) {
         if (ViewBag.Tip == ComboItems.gydOnayVer.ToInt32()) {<text>
         $('#sample_1 tbody').on('click', 'tr', function () {
             table.rows('.selected').nodes().to$().removeClass('selected');
@@ -58,8 +61,15 @@
             selected = $(this).closest('tr').data('id');
             $(".onayla-buton").removeClass('hidden');
             $(".reddet-buton").removeClass('hidden');
-        });
-        </text>}<text>
+        });</text>
+        }
+        else
+        {<text>
+        $('#sample_1 tbody').on('click', 'tr', function () {
+            table.rows('.selected').nodes().to$().removeClass('selected');
+            $(this).toggleClass('selected');
+        });</text>
+        }<text>
     function showEdit(ID) {
         $('#modalEditPage').modal('toggle');
         editInModal('/ToDo/Duties/Edit/' + ID);
@@ -119,15 +129,37 @@
             }
         });
     }
-    function GorevOnay(tip) {
-        if (selected == 0) return;
+    function GorevOnay(tip, id) {
+        var tmp = 0; if (id > 0) tmp = id; else tmp = selected;
+        if (tmp == 0) return;
         $.ajax({
             url: window.location.origin + "/ToDo/Duties/GorevOnay",
-            data: { Id: selected, Tip: tip },
+            data: { Id: tmp, Tip: tip },
             type: "post",
             success: function (data) {
                 if (data.Status == true) {
                     Modaldialog("İşlem Başarılı", "Güncelleme İşlemi", "Tamam", "btn-success");
+                    FuncSearchBtn();
+                }
+                else if (data.Message != "" && data.Message != null)
+                    Modaldialog(data.Message, 'Hata', 'Tamam', 'btn-danger');
+                else
+                    Modaldialog("Hata oldu", 'Hata', 'Tamam', 'btn-danger');
+            },
+            error: function (data) {
+                Modaldialog("Hata oldu", 'Hata', 'Tamam', 'btn-danger');
+            }
+        });
+    }
+    function Stopper(ID) {
+        ModalYesNoClick('Görev durdurulacak. Devam edilsin mi?', 'Durdurma İşlemi', "Evet", 'btn-success', DeleteTriger, 'Hayır', 'btn-warning', null);
+        $.ajax({
+            url: window.location.origin + "/ToDo/Duties/GorevDurdur",
+            data: { Id: ID },
+            type: "post",
+            success: function (data) {
+                if (data.Status == true) {
+                    Modaldialog("İşlem Başarılı", "Durdurma İşlemi", "Tamam", "btn-success");
                     FuncSearchBtn();
                 }
                 else if (data.Message != "" && data.Message != null)

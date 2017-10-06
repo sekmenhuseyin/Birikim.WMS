@@ -83,7 +83,7 @@ function FunctionDelete(URL, deleteId) {
 }
 // silme işleminde method silinecek nesne ile ilgili method belirtiyor,divname ise günceleme sonrası hangi div veya elementi güncelleyecegini belirliyor
 function Delete(deleteId, Method, DivName, extraId, URL) {
-    ModalYesNoClick('Kaydı silmek istediğinizden eminmisiniz !!!', ' İşlemi', "Evet", 'btn-success', DeleteTriger, 'Hayır', 'btn-warning', null);
+    ModalYesNoClick('Kaydı silmek istediğinizden eminmisiniz !!!', 'Silme İşlemi', "Evet", 'btn-success', DeleteTriger, 'Hayır', 'btn-warning', null);
     URL = URL || DeleteFunctionUrl;
     function DeleteTriger() {
         var Status = FunctionDelete(URL, deleteId);
@@ -98,7 +98,7 @@ function Delete(deleteId, Method, DivName, extraId, URL) {
     }
 }
 function DeleteCallBack(deleteId) {
-    ModalYesNoClick('Kaydı silmek istediğinizden eminmisiniz !!!', ' İşlemi', "Evet", 'btn-success', DeleteTriger, 'Hayır', 'btn-warning', null);
+    ModalYesNoClick('Kaydı silmek istediğinizden eminmisiniz !!!', 'Silme İşlemi', "Evet", 'btn-success', DeleteTriger, 'Hayır', 'btn-warning', null);
     function DeleteTriger() {
         var Status = FunctionDelete(DeleteFunctionUrl, deleteId);
         if (Status) {
@@ -106,23 +106,24 @@ function DeleteCallBack(deleteId) {
         }
     }
 }
-
-function DeleteKontrol(deleteId, Method, DivName, KontrolMetod, extraId, URL) {
-    URL = URL || DeleteFunctionUrl;
+//url:method adresi ,div:render edeceği div,Id:detay için id göndere bilir
+function AjaxCall(Url, Data, successTriger) {
     $.ajax({
-        url: window.location.origin + KontrolMetod,
-        data: { Id: deleteId.toString() },
-        type: "post",
+        url: Url,
+        type: 'POST',
+        data: Data,
         success: function (data) {
-            if (data.Status == false) {
-                Modaldialog(data.Message, "Silme İşlemi", "Tamam", "Sil");
+            if (data.Status == true) {
+                Modaldialog("İşlem Başarılı", "Başarılı", "Tamam", "btn-success");
+                successTriger();
             }
-            else {
-                Delete(deleteId, Method, DivName, extraId, URL)
-                CreateEdit('0');
-            }
+            else if (data.Message != "" && data.Message != null)
+                Modaldialog(data.Message, 'Hata', 'Tamam', 'btn-danger');
+            else
+                Modaldialog("Hata oldu", 'Hata', 'Tamam', 'btn-danger');
+        },
+        error: function (data) {
+            Modaldialog("Hata oldu", 'Hata', 'Tamam', 'btn-danger');
         }
     });
 }
-
-

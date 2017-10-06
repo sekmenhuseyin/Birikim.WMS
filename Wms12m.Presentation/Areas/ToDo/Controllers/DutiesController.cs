@@ -64,8 +64,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             }
             else
                 list = list.Where(m => m.DurumID == Tip);
-            ViewBag.Yetki = CheckPerm(Perms.TodoGörevler, PermTypes.Writing);
-            ViewBag.Yetki2 = CheckPerm(Perms.TodoGörevler, PermTypes.Deleting);
+            ViewBag.Yetki = CheckPerm(Perms.TodoGörevler, PermTypes.Deleting);
             ViewBag.Tip = Tip;
             return PartialView(list.OrderBy(m => m.OncelikID).ToList());
         }
@@ -160,15 +159,15 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             }
         }
         /// <summary>
-        /// görev onay / ret
+        /// görev onay / ret / durdur
         /// </summary>
-        public JsonResult GorevOnay(int Id, bool Tip)
+        public JsonResult GorevOnay(int Id, int Tip)
         {
-            if (CheckPerm(Perms.TodoGörevler, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
+            if (CheckPerm(Perms.TodoGörevler, PermTypes.Deleting) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);//sadece admin onaylayabilsin diye silme yetkisine bakıyorum
             try
             {
                 var satir = db.Gorevlers.Where(m => m.ID == Id).FirstOrDefault();
-                satir.DurumID = Tip == true ? ComboItems.gydAtandı.ToInt32() : ComboItems.gydReddedildi.ToInt32();
+                satir.DurumID = Tip == 0 ? ComboItems.gydAtandı.ToInt32() : (Tip == 1 ? ComboItems.gydReddedildi.ToInt32() : ComboItems.gydDurduruldu.ToInt32());
                 satir.Degistiren = vUser.UserName;
                 satir.DegisTarih = DateTime.Now;
                 db.SaveChanges();
