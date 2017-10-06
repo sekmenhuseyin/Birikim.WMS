@@ -115,7 +115,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                     //eğer tüm maddeler onaylandıysa kontrol onay yap yoksa başlandı yap
                     var c = grv.GorevlerToDoLists.Where(m => m.Onay == false).FirstOrDefault();
                     if (c == null)
-                        grv.GorevTipiID = ComboItems.gydKaliteKontrol.ToInt32();
+                        grv.DurumID = ComboItems.gydKaliteKontrol.ToInt32();
                     else
                         grv.DurumID = ComboItems.gydBaşlandı.ToInt32();
                 }
@@ -124,7 +124,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                     //eğer admin tüm maddeleri onaylarsa durum değişsin
                     var c = grv.GorevlerToDoLists.Where(m => m.AdminOnay == false).FirstOrDefault();
                     if (c == null)
-                        grv.GorevTipiID = ComboItems.gydOnaylandı.ToInt32();
+                        grv.DurumID = ComboItems.gydOnaylandı.ToInt32();
                 }
                 db.GorevlerCalismas.Add(gorevCalisma);
             }
@@ -286,7 +286,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                 {
                     var c = db.GorevlerToDoLists.Where(m => m.GorevID == tbl.GorevID && m.Onay == false).FirstOrDefault();
                     if (c == null)
-                        tbl.Gorevler.GorevTipiID = ComboItems.gydKaliteKontrol.ToInt32();
+                        tbl.Gorevler.DurumID = ComboItems.gydKaliteKontrol.ToInt32();
                     else
                         tbl.Gorevler.DurumID = ComboItems.gydBaşlandı.ToInt32();
                 }
@@ -294,7 +294,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                 {
                     var c = db.GorevlerToDoLists.Where(m => m.GorevID == tbl.GorevID && m.KontrolOnay == false).FirstOrDefault();
                     if (c == null)
-                        tbl.Gorevler.GorevTipiID = ComboItems.gydOnaylandı.ToInt32();
+                        tbl.Gorevler.DurumID = ComboItems.gydOnaylandı.ToInt32();
                 }
             }
             else
@@ -306,7 +306,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                     tbl.KontrolEden = null;
                     tbl.Onay = false;
                     tbl.Onaylayan = null;
-                    tbl.Gorevler.GorevTipiID = ComboItems.gydBaşlandı.ToInt32();
+                    tbl.Gorevler.DurumID = ComboItems.gydBaşlandı.ToInt32();
                 }
             }
             //kaydet

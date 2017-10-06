@@ -122,9 +122,9 @@
     var silinenler = ""; var sayac = 1;
     $(document).ready(function () {
         $(".satirekle").prepend("<option value=''>Seçiniz !!!</option>");
-        @if (Model.Sorumlu2 == null || Model.Sorumlu2 == "") { <text>$(".satirekle")[0].selectedIndex = 0;</text> }
-        @if (Model.Sorumlu3 == null || Model.Sorumlu3 == "") { <text>$(".satirekle")[1].selectedIndex = 0;</text> }
-        @if (Model.KontrolSorumlusu == null || Model.KontrolSorumlusu == "") { <text>$(".satirekle")[2].selectedIndex = 0;</text> }
+        @if (Model.Sorumlu2.ToString2().Length == 0) { <text>$(".satirekle")[0].selectedIndex = 0;</text> }
+        @if (Model.Sorumlu3.ToString2().Length == 0) { <text>$(".satirekle")[1].selectedIndex = 0;</text> }
+        @if (Model.KontrolSorumlusu.ToString2().Length == 0) { <text>$(".satirekle")[2].selectedIndex = 0;</text> }
         $('.date-picker').datepicker();
     });
     var model = @Html.Raw(Json.Encode(Model.GorevlerToDoLists.Select(m=> new frmGorevTodos { ID=m.ID, Aciklama=m.Aciklama }).ToList()));
