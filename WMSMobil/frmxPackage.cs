@@ -119,31 +119,31 @@ namespace WMSMobil
 
                 TextBox tMalKodu = new TextBox();
                 tMalKodu.Font = font;
-                tMalKodu.Width = 60.Carpim();
-                tMalKodu.Location = new Point(3.Carpim(), 0);
+                tMalKodu.Width = lblMalkodu.Width;
+                tMalKodu.Location = new Point(lblMalkodu.Left, 0);
                 tMalKodu.ReadOnly = true;
                 tMalKodu.Name = "txtMalKodu";
                 tMalKodu.GotFocus += new EventHandler(TextBoxlar_GotFocus);
 
                 TextBox tMalAdi = new TextBox();
                 tMalAdi.Font = font;
-                tMalAdi.Width = 80.Carpim();
-                tMalAdi.Location = new Point(64.Carpim(), 0);
+                tMalAdi.Width = lblMalzeme.Width;
+                tMalAdi.Location = new Point(lblMalzeme.Left, 0);
                 tMalAdi.ReadOnly = true;
                 tMalAdi.GotFocus += new EventHandler(TextBoxlar_GotFocus);
 
                 TextBox tMiktar = new TextBox();
                 tMiktar.Font = font;
-                tMiktar.Width = 53.Carpim();
-                tMiktar.Location = new Point(145.Carpim(), 0);
+                tMiktar.Width = lblMiktar.Width;
+                tMiktar.Location = new Point(lblMiktar.Left, 0);
                 tMiktar.ReadOnly = true;
                 tMiktar.TextAlign = HorizontalAlignment.Right;
                 tMiktar.GotFocus += new EventHandler(TextBoxlar_GotFocus);
 
                 TextBox tBirim = new TextBox();
                 tBirim.Font = font;
-                tBirim.Width = 39.Carpim();
-                tBirim.Location = new Point(199.Carpim(), 0);
+                tBirim.Width = lblBirim.Width;
+                tBirim.Location = new Point(lblBirim.Left, 0);
                 tBirim.ReadOnly = true;
                 tBirim.GotFocus += new EventHandler(TextBoxlar_GotFocus);
                 //renkler
@@ -195,7 +195,9 @@ namespace WMSMobil
         {
             this.Close();
         }
-
+        /// <summary>
+        /// form clkose
+        /// </summary>
         private void frmxPackage_Closing(object sender, CancelEventArgs e)
         {
             try

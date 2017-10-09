@@ -6,7 +6,7 @@
     <tbody>
         @foreach (var item in Model)
         {
-            <tr data-id="@item.ID" data-order="@item.OncelikID"@if (ViewBag.Yetki == true) {<text> ondblclick = "showEdit(@item.ID)" class = "clickable"</text>}>
+            <tr data-id="@item.ID" data-order="@item.OncelikID"@if (ViewBag.Yetki1 == true) {<text> ondblclick = "showEdit(@item.ID)" class = "clickable"</text>}>
                 <td><div style="display:flex;"><i class='fa fa-arrow-up list-up-down item-up' onclick='RowUp(this)' style='color:#a0e4a0;'></i><i class='fa fa-arrow-down list-up-down item-down' onclick='RowDown(this)'  style='color:#ec9696;'></i></div></td>
                 <td></td>
                 <td class="details-control"></td>
@@ -55,6 +55,12 @@
     //tarih
     $.datepicker.setDefaults($.datepicker.regional["tr"]);
     $(".tarih").datepicker();
+   @if (ViewBag.Yetki1 == true) {<text>
+    function showEdit(ID) {
+        $('#modalEditPage').modal('toggle');
+        editInModal('/ToDo/Duties/Edit/' + ID);
+    }</text>
+    }
    @if (ViewBag.Yetki == true) {
         if (ViewBag.Tip == ComboItems.gydOnayVer.ToInt32()) {<text>
         $('#sample_1 tbody').on('click', 'tr', function () {
@@ -72,10 +78,6 @@
             $(this).toggleClass('selected');
         });</text>
         }<text>
-    function showEdit(ID) {
-        $('#modalEditPage').modal('toggle');
-        editInModal('/ToDo/Duties/Edit/' + ID);
-    }
     function RowUp(item) {
         var sayac = 0;
         yeniData = [];

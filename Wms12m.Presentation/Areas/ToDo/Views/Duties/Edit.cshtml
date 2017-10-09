@@ -109,7 +109,7 @@
                         </div>
                         <div class="form-group">
                             <div class="col-md-offset-5 col-md-7">
-                                <input type="submit" value="Kaydet" class="btn btn-circle green" />
+                                @if (Model.DurumID == ComboItems.gydAtandı.ToInt32() || Model.DurumID == ComboItems.gydBaşlandı.ToInt32() || Model.DurumID == ComboItems.gydOnayVer.ToInt32()) {<input type="submit" value="Kaydet" class="btn btn-circle green" />}
                             </div>
                         </div>
                     </div>
