@@ -44,7 +44,6 @@
             this.txtUnvan = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.label15 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.panelOrta = new System.Windows.Forms.Panel();
             this.lblMakarano = new System.Windows.Forms.Label();
@@ -80,7 +79,6 @@
             this.panelUst.Controls.Add(this.txtUnvan);
             this.panelUst.Controls.Add(this.label3);
             this.panelUst.Controls.Add(this.label2);
-            this.panelUst.Controls.Add(this.label15);
             this.panelUst.Controls.Add(this.label1);
             this.panelUst.Location = new System.Drawing.Point(0, 0);
             this.panelUst.Name = "panelUst";
@@ -140,9 +138,9 @@
             this.label14.BackColor = System.Drawing.Color.CadetBlue;
             this.label14.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
             this.label14.ForeColor = System.Drawing.SystemColors.Window;
-            this.label14.Location = new System.Drawing.Point(3, 47);
+            this.label14.Location = new System.Drawing.Point(3, 46);
             this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(110, 21);
+            this.label14.Size = new System.Drawing.Size(88, 21);
             this.label14.Text = "Makara Okut";
             this.label14.Visible = false;
             // 
@@ -180,9 +178,9 @@
             // 
             // txtMakaraBarkod
             // 
-            this.txtMakaraBarkod.Location = new System.Drawing.Point(114, 46);
+            this.txtMakaraBarkod.Location = new System.Drawing.Point(92, 46);
             this.txtMakaraBarkod.Name = "txtMakaraBarkod";
-            this.txtMakaraBarkod.Size = new System.Drawing.Size(125, 21);
+            this.txtMakaraBarkod.Size = new System.Drawing.Size(147, 21);
             this.txtMakaraBarkod.TabIndex = 3;
             this.txtMakaraBarkod.Visible = false;
             // 
@@ -214,24 +212,14 @@
             this.label2.Size = new System.Drawing.Size(70, 21);
             this.label2.Text = "HesapKodu";
             // 
-            // label15
-            // 
-            this.label15.BackColor = System.Drawing.Color.Teal;
-            this.label15.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
-            this.label15.ForeColor = System.Drawing.SystemColors.Window;
-            this.label15.Location = new System.Drawing.Point(3, 25);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(70, 21);
-            this.label15.Text = "Unvan";
-            // 
             // label1
             // 
             this.label1.BackColor = System.Drawing.Color.Teal;
             this.label1.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
             this.label1.ForeColor = System.Drawing.SystemColors.Window;
-            this.label1.Location = new System.Drawing.Point(3, 69);
+            this.label1.Location = new System.Drawing.Point(3, 68);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(70, 20);
+            this.label1.Size = new System.Drawing.Size(70, 21);
             this.label1.Text = "Unvan";
             // 
             // panelOrta
@@ -410,7 +398,6 @@
         private System.Windows.Forms.Button btnUygula;
         private System.Windows.Forms.Label lblMakarano;
         private System.Windows.Forms.TextBox txtMakaraBarkod;
-        private System.Windows.Forms.Label label15;
         private System.Windows.Forms.Label label14;
     }
 }
