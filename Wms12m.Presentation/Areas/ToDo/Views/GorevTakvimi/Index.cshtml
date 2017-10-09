@@ -2,6 +2,7 @@
 @{
     ViewBag.Title = "Görev Takvimi";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var tarihler = new List<int>();
 }@section Styles{<link href="~/Content/assets/global/plugins/fullcalendar/fullcalendar.min.css" rel="stylesheet" />
 }<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><span>Görev Takvimi</span></li></ul></div>
 <h1 class="page-title">Görev Takvimi</h1>
@@ -40,8 +41,16 @@
                 center: '',
                 right: 'prev,next today'
             },
-            navLinks: false, 
-            events: [ @foreach (var item in Model) { <text>{ title: '@item.Sure', start: '@item.Tarih.ToString("yyyy-MM-dd")', backgroundColor: App.getBrandColor('grey') },</text> } ]
+            navLinks: false,
+            events: [
+                @foreach (var item in Model) { tarihler.Add(item.Tarih.ToOADateInt()); <text>{ id: '@item.Tarih.ToOADateInt()', title: '@item.Sure', start: '@item.Tarih.ToString("yyyy-MM-dd")', backgroundColor: App.getBrandColor('@if (item.Sure == 540) {@("green")} else  {@("yellow")}') },</text> }
+                @for (int i = 42850; i <= DateTime.Today.ToOADateInt(); i++) { if(tarihler.Contains(i) == false){<text>{ id: '@i', title: '0', start: '@i.FromOaDate().ToString("yyyy-MM-dd")', backgroundColor: App.getBrandColor('red') },</text>} }
+            ],
+            eventClick: function (calEvent, jsEvent, view) {
+
+                    alert('Event: ' + calEvent.id);
+
+                }
         });
     });
 </script>
