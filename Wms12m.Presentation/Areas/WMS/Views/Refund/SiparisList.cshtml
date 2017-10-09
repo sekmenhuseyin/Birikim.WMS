@@ -113,9 +113,10 @@
                     data: {Sirket:degs[0], EvrakNo:degs[1], CHK:degs[2], Depo:degs[3]},
                     type: "post",
                     success: function (data) {
+                    
                         var hata = data.split("##");
                         if (hata[1].length > 0) {
-                            Modaldialog(hata[0], "Hata", "Tamam", "btn-danger")
+                            Modaldialog(hata[1].toString(), "Hata", "Tamam", "btn-danger")
                         }
                         else if (hata[0].length > 0) {
                             frmAlimIade(hata[0]);
@@ -157,5 +158,28 @@
         if ($(row).hasClass('selected') == true) selected = selected + id + "#";
         else selected = selected.replace(id + "#", "");
         $("#checkboxes").val(selected);
+    }
+
+    function frmAlimIade(hata) {
+        console.log(hata);
+        var dialog = bootbox.dialog({
+            title: 'Alım İadesi',
+            message: "<p>" + hata + " Devam etmek istiyormusunuz?</p>",
+            buttons: {
+                yes: {
+                    label: "Evet",
+                    className: 'btn-info',
+                    callback: function () {
+                        $("#submit").click();
+                    }
+                },
+                no: {
+                    label: "Hayır",
+                    className: 'btn-danger',
+                    callback: function () {
+                    }
+                }
+            }
+        });
     }
 </script>
