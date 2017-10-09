@@ -101,7 +101,7 @@
             this.label4.Location = new System.Drawing.Point(0, 4);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(240, 18);
-            this.label4.Text = "WMS Mobil v.1.71.006";
+            this.label4.Text = "WMS Mobil v.1.71.009";
             this.label4.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // panel1
@@ -165,7 +165,7 @@
             this.Controls.Add(this.panel1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmLogin";
-            this.Text = "WMS Mobil - Giriş";
+            this.Text = "Giriş - WMS Mobil";
             this.Closing += new System.ComponentModel.CancelEventHandler(this.GirisForm_Closing);
             this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
