@@ -450,6 +450,8 @@
     <Content Include="Areas\WMS\Views\Refund\Step2.cshtml" />
     <Content Include="Areas\ToDo\Views\DutyWork\ToDosDetails.cshtml" />
     <Content Include="Areas\WMS\Views\Refund\Rezervler.cshtml" />
+    <Content Include="Areas\WMS\Views\Refund\Step3.cshtml" />
+    <Content Include="Areas\WMS\Views\Refund\Step4.cshtml" />
     <None Include="bundleconfig.json" />
     <Content Include="Content\SizeSablon.xlsx" />
     <Content Include="Content\StockSablon.xlsx" />

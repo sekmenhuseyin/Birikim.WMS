@@ -8,7 +8,7 @@ namespace WMSMobil
 {
     public enum MenuType
     {
-        None = 0, MalKabul = 1, RafaYerlestirme = 2, SiparisToplama = 3, KabloSiparis = 4, Paketle = 6, Sevkiyat = 7, KontrollüSayım = 8, TransferÇıkış = 19, TransferGiriş = 20
+        None = 0, MalKabul = 1, RafaYerlestirme = 2, SiparisToplama = 3, KabloSiparis = 4, Paketle = 6, Sevkiyat = 7, KontrollüSayım = 8, TransferÇıkış = 19, TransferGiriş = 20, Alımdanİade = 72, Satıştanİade = 73
     }
 
     public class Ayarlar

@@ -730,6 +730,41 @@
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:element name="AlimdanIade">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="YerlestirmeList" type="tns:ArrayOfFrmYerlesme" />
+            <s:element minOccurs="1" maxOccurs="1" name="KullID" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="GorevID" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="AuthGiven" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Guid" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AlimdanIadeResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AlimdanIadeResult" type="tns:Result" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AlimdanIade_GoreviTamamla">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GorevID" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="KullID" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="AuthGiven" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Guid" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AlimdanIade_GoreviTamamlaResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AlimdanIade_GoreviTamamlaResult" type="tns:Result" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
     </s:schema>
   </wsdl:types>
   <wsdl:message name="LoginKontrolSoapIn">
@@ -918,6 +953,18 @@
   <wsdl:message name="KontrolluSay_GoreviTamamlaSoapOut">
     <wsdl:part name="parameters" element="tns:KontrolluSay_GoreviTamamlaResponse" />
   </wsdl:message>
+  <wsdl:message name="AlimdanIadeSoapIn">
+    <wsdl:part name="parameters" element="tns:AlimdanIade" />
+  </wsdl:message>
+  <wsdl:message name="AlimdanIadeSoapOut">
+    <wsdl:part name="parameters" element="tns:AlimdanIadeResponse" />
+  </wsdl:message>
+  <wsdl:message name="AlimdanIade_GoreviTamamlaSoapIn">
+    <wsdl:part name="parameters" element="tns:AlimdanIade_GoreviTamamla" />
+  </wsdl:message>
+  <wsdl:message name="AlimdanIade_GoreviTamamlaSoapOut">
+    <wsdl:part name="parameters" element="tns:AlimdanIade_GoreviTamamlaResponse" />
+  </wsdl:message>
   <wsdl:portType name="TerminalSoap">
     <wsdl:operation name="LoginKontrol">
       <wsdl:input message="tns:LoginKontrolSoapIn" />
@@ -1042,6 +1089,14 @@
     <wsdl:operation name="KontrolluSay_GoreviTamamla">
       <wsdl:input message="tns:KontrolluSay_GoreviTamamlaSoapIn" />
       <wsdl:output message="tns:KontrolluSay_GoreviTamamlaSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="AlimdanIade">
+      <wsdl:input message="tns:AlimdanIadeSoapIn" />
+      <wsdl:output message="tns:AlimdanIadeSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="AlimdanIade_GoreviTamamla">
+      <wsdl:input message="tns:AlimdanIade_GoreviTamamlaSoapIn" />
+      <wsdl:output message="tns:AlimdanIade_GoreviTamamlaSoapOut" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="TerminalSoap" type="tns:TerminalSoap">
@@ -1325,6 +1380,24 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="AlimdanIade">
+      <soap:operation soapAction="http://www.12mconsulting.com.tr/AlimdanIade" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AlimdanIade_GoreviTamamla">
+      <soap:operation soapAction="http://www.12mconsulting.com.tr/AlimdanIade_GoreviTamamla" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
   </wsdl:binding>
   <wsdl:binding name="TerminalSoap12" type="tns:TerminalSoap">
     <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
@@ -1600,6 +1673,24 @@
     </wsdl:operation>
     <wsdl:operation name="KontrolluSay_GoreviTamamla">
       <soap12:operation soapAction="http://www.12mconsulting.com.tr/KontrolluSay_GoreviTamamla" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AlimdanIade">
+      <soap12:operation soapAction="http://www.12mconsulting.com.tr/AlimdanIade" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AlimdanIade_GoreviTamamla">
+      <soap12:operation soapAction="http://www.12mconsulting.com.tr/AlimdanIade_GoreviTamamla" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

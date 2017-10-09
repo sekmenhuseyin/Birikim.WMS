@@ -1,10 +1,10 @@
 ﻿@model IEnumerable<frmSiparisMalzemeDetay>
 @{
-    ViewBag.Title = "Alım İade - 2. Adım";
+    ViewBag.Title = "Alımdan İade - 2. Adım";
     Layout = "~/Views/Shared/_Layout.cshtml";
     string[] list; list = new string[Model.Count()]; int x = 0;
-}<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><a href="/WMS/Sales">Sipariş Planlama</a><i class="fa fa-circle"></i></li><li><span>2. Adım</span></li></ul></div>
-<h1 class="page-title">Sipariş Planlama- 2. Adım</h1>
+}<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><a href="/WMS/Refund">Alımdan İade</a><i class="fa fa-circle"></i></li><li><span>2. Adım</span></li></ul></div>
+<h1 class="page-title">Alımdan İade- 2. Adım</h1>
 <div class="row">
     <div class="col-md-12">
         <div class="mt-element-step">
@@ -21,16 +21,11 @@
                 </div>
                 <div class="col-md-2 mt-step-col">
                     <div class="mt-step-number bg-white">3</div>
-                    <div class="mt-step-title uppercase font-grey-cascade">SİPARİŞ Detayları</div>
-                    <div class="mt-step-content font-grey-cascade">Detaylardan Seçin</div>
-                </div>
-                <div class="col-md-2 mt-step-col">
-                    <div class="mt-step-number bg-white">4</div>
                     <div class="mt-step-title uppercase font-grey-cascade">Toplama Planı</div>
                     <div class="mt-step-content font-grey-cascade">Kontrol</div>
                 </div>
                 <div class="col-md-2 mt-step-col last">
-                    <div class="mt-step-number bg-white">5</div>
+                    <div class="mt-step-number bg-white">4</div>
                     <div class="mt-step-title uppercase font-grey-cascade">ONAY</div>
                     <div class="mt-step-content font-grey-cascade">Onaylayın</div>
                 </div>
@@ -143,7 +138,7 @@
                 }
                 var miktar = parseFloat(this.data()[2].replace(".", "").replace(",", "."));
                 var stok = parseFloat(this.data()[4].replace(".", "").replace(",", ".")) - rezerv;
-                selected = selected + this.data()[0] +'-' + kont + "#";
+                selected = selected + this.data()[0] + '-' + this.data()[6] + '-' + kont + "#";
                 //aynı  malları grupla
                 if (cells.length > 2) {
                     for (var i = 2, len = cells.length; i < len; i++) {
@@ -175,7 +170,7 @@
             }
             $("#checkboxes").val(selected);
          
-            //if (result == false) $("#submit").click();
+            if (result == false) $("#submit").click();
         });
     });
     //    function toggle(row, id) {

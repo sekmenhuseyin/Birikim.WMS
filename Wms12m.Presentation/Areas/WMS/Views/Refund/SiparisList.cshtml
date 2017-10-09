@@ -107,6 +107,7 @@
             table.rows(".selected").every(function (rowIdx, tableLoop, rowLoop) {
                 result = true;
                 var deg = $("#checkboxes").val();
+                console.log(deg);
                 deg = deg.substring(0,deg.length - 1);
                 var degs = deg.split("-");
                 degs.push("@ViewBag.Depo");
