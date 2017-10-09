@@ -168,7 +168,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             try
             {
                 var satir = db.Gorevlers.Where(m => m.ID == Id).FirstOrDefault();
-                satir.DurumID = Tip == 0 ? ComboItems.gydAtandı.ToInt32() : (Tip == 1 ? ComboItems.gydReddedildi.ToInt32() : (Tip == 2 ? ComboItems.gydDurduruldu.ToInt32() : ComboItems.gydAtandı.ToInt32()));
+                satir.DurumID = Tip == 0 ? ComboItems.gydAtandı.ToInt32() : (Tip == 1 ? ComboItems.gydReddedildi.ToInt32() : (Tip == 2 ? ComboItems.gydDurduruldu.ToInt32() : ComboItems.gydBaşlandı.ToInt32()));
                 satir.Degistiren = vUser.UserName;
                 satir.DegisTarih = DateTime.Now;
                 db.SaveChanges();

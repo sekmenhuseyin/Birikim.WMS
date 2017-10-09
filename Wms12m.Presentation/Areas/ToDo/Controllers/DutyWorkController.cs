@@ -294,7 +294,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                 //eğer 
                 if (vUser.RoleName == "Developer")
                 {
-                    var c = db.GorevlerToDoLists.Where(m => m.GorevID == tbl.GorevID && m.Onay == false).FirstOrDefault();
+                    var c = db.GorevlerToDoLists.Where(m => m.GorevID == tbl.GorevID && m.Onay == false && m.ID != Id).FirstOrDefault();
                     if (c == null)
                         tbl.Gorevler.DurumID = ComboItems.gydKaliteKontrol.ToInt32();
                     else
@@ -302,7 +302,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                 }
                 else if (vUser.RoleName == "Admin" || vUser.RoleName == " ")
                 {
-                    var c = db.GorevlerToDoLists.Where(m => m.GorevID == tbl.GorevID && m.KontrolOnay == false).FirstOrDefault();
+                    var c = db.GorevlerToDoLists.Where(m => m.GorevID == tbl.GorevID && m.AdminOnay == false && m.ID != Id).FirstOrDefault();
                     if (c == null)
                         tbl.Gorevler.DurumID = ComboItems.gydOnaylandı.ToInt32();
                 }
