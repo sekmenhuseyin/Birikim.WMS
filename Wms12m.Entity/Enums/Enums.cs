@@ -83,7 +83,9 @@
         ptPoşetPaket = 68,
         ptPalet = 69,
         Bakır = 70,
-        KüçükRaf = 71
+        KüçükRaf = 71,
+        Alımdanİade=72,
+        Satıştanİade=73
     }
     /// <summary>
     /// combo item names
