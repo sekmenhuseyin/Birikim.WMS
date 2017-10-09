@@ -41,13 +41,6 @@ namespace WMSMobil
             {
             }
             Barkod.OnScan += new Barcode2.OnScanEventHandler(Barkod_OnScan);
-            //gizle göster
-            label1.Visible = true;
-            label2.Visible = true;
-            label3.Visible = true;
-            txtUnvan.Visible = true;
-            txtHesapKodu.Visible = true;
-            txtEvrakno.Visible = true;
             //places
             if (gorevtip == 1 || gorevtip == 6 || gorevtip == 7)
             {
@@ -87,6 +80,8 @@ namespace WMSMobil
                 txtUnvan.Visible = false;
                 txtHesapKodu.Visible = false;
                 txtEvrakno.Visible = false;
+                panelOrta.Top -= 44;
+                panelOrta.Height += 44;
             }
             else if (gorevtip == 6)
             {
@@ -115,6 +110,8 @@ namespace WMSMobil
                 txtUnvan.Visible = false;
                 txtHesapKodu.Visible = false;
                 txtEvrakno.Visible = false;
+                panelOrta.Top -= 44;
+                panelOrta.Height += 44;
             }
             else// if (gorevtip == 19 || gorevtip == 20)
             {
@@ -126,6 +123,8 @@ namespace WMSMobil
                 txtUnvan.Visible = false;
                 txtHesapKodu.Visible = false;
                 txtEvrakno.Visible = false;
+                panelOrta.Top -= 44;
+                panelOrta.Height += 44;
             }
             try
             {
@@ -187,20 +186,17 @@ namespace WMSMobil
                         else btnUygula_Click(Barkod, null);//uygula
 
                     }
+                    else if (okunan.Length < 13)
+                    {
+                        txtRafBarkod.Text = okunan;
+                        txtBarkod.Focus();
+                        txtBarkod.Text = "";
+                    }
                     else
                     {
-                        if (okunan.Length < 13)
-                        {
-                            txtRafBarkod.Text = okunan;
-                            txtBarkod.Focus();
-                            txtBarkod.Text = "";
-                        }
-                        else
-                        {
-                            txtBarkod.Text = okunan;
-                            if (txtRafBarkod.Visible == true && txtRafBarkod.Text == "") txtRafBarkod.Focus();
-                            else btnUygula_Click(Barkod, null);//uygula
-                        }
+                        txtBarkod.Text = okunan;
+                        if (txtRafBarkod.Visible == true && txtRafBarkod.Text == "") txtRafBarkod.Focus();
+                        else btnUygula_Click(Barkod, null);//uygula
                     }
                 });
             }

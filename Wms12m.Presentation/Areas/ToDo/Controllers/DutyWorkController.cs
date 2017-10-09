@@ -204,12 +204,18 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         /// </summary>
         public PartialViewResult ToDosList(bool Tip)
         {
-            var list = db.GorevlerToDoLists.Where(m => m.ID > 0);
+            var tip1 = ComboItems.gydReddedildi.ToInt32();
+            var tip2 = ComboItems.gydOnaylandı.ToInt32();
+            var tip3 = ComboItems.gydBeklemede.ToInt32();
+            var tip4 = ComboItems.gydOnayVer.ToInt32();
+            var tip5 = ComboItems.gydBitti.ToInt32();
+            var tip6 = ComboItems.gydDurduruldu.ToInt32();
+            var list = db.GorevlerToDoLists.Where(m => m.AdminOnay == false && m.Gorevler.DurumID != tip1 && m.Gorevler.DurumID != tip2 && m.Gorevler.DurumID != tip3 && m.Gorevler.DurumID != tip4 && m.Gorevler.DurumID != tip5 && m.Gorevler.DurumID != tip6);
             if (Tip == false)
             {
                 if (vUser.RoleName == "Admin" || vUser.RoleName == " ")
                 {
-                    list = list.Where(m => m.Onay == true && m.KontrolOnay == true && m.AdminOnay == false);
+                    list = list.Where(m => m.Onay == true && m.KontrolOnay == true);
                 }
                 else if (vUser.RoleName == "Destek")
                 {
@@ -224,13 +230,13 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             {
                 if (vUser.RoleName == "Admin" && vUser.RoleName == " ")
                 {
-                    list = list.Where(m => m.AdminOnay == false || m.KontrolOnay == false || m.Onay == false);
+                    list = list.Where(m => m.KontrolOnay == false || m.Onay == false);
                 }
                 else if (vUser.RoleName == "Destek")
-                    list = list.Where(m => m.AdminOnay == false && (m.Kaydeden == vUser.UserName || m.Degistiren == vUser.UserName || m.Gorevler.Sorumlu == vUser.UserName || m.Gorevler.Sorumlu2 == vUser.UserName || m.Gorevler.Sorumlu3 == vUser.UserName || m.Gorevler.KontrolSorumlusu == vUser.UserName || m.Gorevler.KontrolSorumlusu == null));
-                else 
+                    list = list.Where(m => (m.Kaydeden == vUser.UserName || m.Degistiren == vUser.UserName || m.Gorevler.Sorumlu == vUser.UserName || m.Gorevler.Sorumlu2 == vUser.UserName || m.Gorevler.Sorumlu3 == vUser.UserName || m.Gorevler.KontrolSorumlusu == vUser.UserName || m.Gorevler.KontrolSorumlusu == null));
+                else
                 {
-                    list = list.Where(m => m.AdminOnay == false && (m.Kaydeden == vUser.UserName || m.Degistiren == vUser.UserName || m.Gorevler.Sorumlu == vUser.UserName || m.Gorevler.Sorumlu2 == vUser.UserName || m.Gorevler.Sorumlu3 == vUser.UserName));
+                    list = list.Where(m => (m.Kaydeden == vUser.UserName || m.Degistiren == vUser.UserName || m.Gorevler.Sorumlu == vUser.UserName || m.Gorevler.Sorumlu2 == vUser.UserName || m.Gorevler.Sorumlu3 == vUser.UserName));
                 }
             }
             ViewBag.Yetki = CheckPerm(Perms.TodoGörevler, PermTypes.Writing);
