@@ -56,6 +56,10 @@ namespace WMSMobil
                     Ayarlar.menuTip = MenuType.KontrollüSayım;
                 else if (value == 19)
                     Ayarlar.menuTip = MenuType.TransferÇıkış;
+                else if (value == 72)
+                    Ayarlar.menuTip = MenuType.Alımdanİade;
+                else if (value == 73)
+                    Ayarlar.menuTip = MenuType.Satıştanİade;
                 else// if (value == 20)
                     Ayarlar.menuTip = MenuType.TransferGiriş;
             }

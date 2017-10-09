@@ -195,6 +195,8 @@
         TodoProje,
         TodoTakvim,
         TodoÇalışma,
-        TodoGörevler
+        TodoGörevler,
+        TerminalAlimdanİade,
+        TerminalSatıştanİade
     }
 }
