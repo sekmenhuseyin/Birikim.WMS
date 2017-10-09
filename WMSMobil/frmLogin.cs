@@ -77,7 +77,7 @@ namespace WMSMobil
                     }
                 });
             }
-            catch (Exception ex)
+            catch (Exception)
             {
             }
         }
@@ -111,7 +111,7 @@ namespace WMSMobil
                     Mesaj.Uyari(login.AdSoyad);
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 this.Enabled = true;
                 Cursor.Current = Cursors.Default;

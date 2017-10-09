@@ -12,13 +12,8 @@ namespace Wms12m.Entity
     /// </summary>
     public class frmGorevlerCalismalar
     {
-        public int ID { get; set; }
-        public int GorevID { get; set; }
-        public string Gorev { get; set; }
         public DateTime Tarih { get; set; }
         public int Sure { get; set; }
-        public string Calisma { get; set; }
-        public string Kaydeden { get; set; }
     }
     /// <summary>
     /// sayım fişi getirir
@@ -172,14 +167,14 @@ namespace Wms12m.Entity
     {
         public int ID { get; set; }
         public int GorevID { get; set; }
-        public System.DateTime Tarih { get; set; }
+        public DateTime Tarih { get; set; }
         public int CalismaSure { get; set; }
         public string Calisma { get; set; }
         public string ToDoListID { get; set; }
         public string Kaydeden { get; set; }
-        public System.DateTime KayitTarih { get; set; }
+        public DateTime KayitTarih { get; set; }
         public string Degistiren { get; set; }
-        public System.DateTime DegisTarih { get; set; }
+        public DateTime DegisTarih { get; set; }
     }
 
     public class frmUserss

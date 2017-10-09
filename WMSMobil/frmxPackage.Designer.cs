@@ -284,7 +284,7 @@
             this.Controls.Add(this.panelUst);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmxPackage";
-            this.Text = "WMS Mobil - Paket Oku";
+            this.Text = "Paket Oku - WMS Mobil";
             this.Closing += new System.ComponentModel.CancelEventHandler(this.frmxPackage_Closing);
             this.panelUst.ResumeLayout(false);
             this.panelOrta.ResumeLayout(false);
