@@ -700,17 +700,6 @@ namespace WMSMobil
                 panelSatir.Controls.Add(tYerlestirmeMiktari);
                 panelSatir.Controls.Add(tIslemMiktar);
                 panelSatir.Controls.Add(tMakaraNo);
-                //change places
-                if (GorevTip != 1 && GorevTip != 6 && GorevTip != 7)
-                {
-                    tRaf.Left = tMalKodu.Left;
-                    tMalKodu.Left += tRaf.Width + 1;
-                    tMalAdi.Left += tRaf.Width + 1;
-                    tMiktar.Left += tRaf.Width + 1;
-                    tBirim.Left += tRaf.Width + 1;
-                    tMakaraNo.Left += tRaf.Width + 1;
-                }
-
                 // yeni eklenen satırı en üste atma
                 var tempSayac = PanelVeriList.Count() + 1;
                 foreach (PanelEx pnlItem in PanelVeriList)
@@ -850,16 +839,6 @@ namespace WMSMobil
                     panelSatir.Controls.Add(tYerlestirmeMiktari);
                     panelSatir.Controls.Add(tIslemMiktar);
                     panelSatir.Controls.Add(tMakaraNo);
-                    //change places
-                    if (GorevTip != 1 && GorevTip != 6 && GorevTip != 7)
-                    {
-                        tRaf.Left = tMalKodu.Left;
-                        tMalKodu.Left += tRaf.Width + 1;
-                        tMalAdi.Left += tRaf.Width + 1;
-                        tMiktar.Left += tRaf.Width + 1;
-                        tBirim.Left += tRaf.Width + 1;
-                        tMakaraNo.Left += tRaf.Width + 1;
-                    }
                     panelOrta.Controls.Add(panelSatir);
                     PanelVeriList.Add(panelSatir);
                     // Scrollu sağa kaydırma
