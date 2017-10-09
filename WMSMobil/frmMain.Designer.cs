@@ -259,9 +259,9 @@
             this.btnAlim.Name = "btnAlim";
             this.btnAlim.Size = new System.Drawing.Size(115, 50);
             this.btnAlim.TabIndex = 8;
-            this.btnAlim.Tag = "6";
+            this.btnAlim.Tag = "72";
             this.btnAlim.Text = "Alımda İade";
-            this.btnAlim.Click += new System.EventHandler(this.btnBarcode_Click);
+            this.btnAlim.Click += new System.EventHandler(this.btns_Click);
             // 
             // btnSatis
             // 
@@ -271,9 +271,9 @@
             this.btnSatis.Name = "btnSatis";
             this.btnSatis.Size = new System.Drawing.Size(115, 50);
             this.btnSatis.TabIndex = 8;
-            this.btnSatis.Tag = "6";
+            this.btnSatis.Tag = "73";
             this.btnSatis.Text = "Satıştan İade";
-            this.btnSatis.Click += new System.EventHandler(this.btnBarcode_Click);
+            this.btnSatis.Click += new System.EventHandler(this.btns_Click);
             // 
             // lblAlim
             // 
