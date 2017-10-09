@@ -860,6 +860,60 @@ namespace WMSMobil.TerminalService {
             object[] results = this.EndInvoke(asyncResult);
             return ((Result)(results[0]));
         }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.12mconsulting.com.tr/AlimdanIade", RequestNamespace="http://www.12mconsulting.com.tr/", ResponseNamespace="http://www.12mconsulting.com.tr/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public Result AlimdanIade(frmYerlesme[] YerlestirmeList, int KullID, int GorevID, string AuthGiven, string Guid) {
+            object[] results = this.Invoke("AlimdanIade", new object[] {
+                        YerlestirmeList,
+                        KullID,
+                        GorevID,
+                        AuthGiven,
+                        Guid});
+            return ((Result)(results[0]));
+        }
+        
+        /// <remarks/>
+        public System.IAsyncResult BeginAlimdanIade(frmYerlesme[] YerlestirmeList, int KullID, int GorevID, string AuthGiven, string Guid, System.AsyncCallback callback, object asyncState) {
+            return this.BeginInvoke("AlimdanIade", new object[] {
+                        YerlestirmeList,
+                        KullID,
+                        GorevID,
+                        AuthGiven,
+                        Guid}, callback, asyncState);
+        }
+        
+        /// <remarks/>
+        public Result EndAlimdanIade(System.IAsyncResult asyncResult) {
+            object[] results = this.EndInvoke(asyncResult);
+            return ((Result)(results[0]));
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.12mconsulting.com.tr/AlimdanIade_GoreviTamamla", RequestNamespace="http://www.12mconsulting.com.tr/", ResponseNamespace="http://www.12mconsulting.com.tr/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public Result AlimdanIade_GoreviTamamla(int GorevID, int KullID, string AuthGiven, string Guid) {
+            object[] results = this.Invoke("AlimdanIade_GoreviTamamla", new object[] {
+                        GorevID,
+                        KullID,
+                        AuthGiven,
+                        Guid});
+            return ((Result)(results[0]));
+        }
+        
+        /// <remarks/>
+        public System.IAsyncResult BeginAlimdanIade_GoreviTamamla(int GorevID, int KullID, string AuthGiven, string Guid, System.AsyncCallback callback, object asyncState) {
+            return this.BeginInvoke("AlimdanIade_GoreviTamamla", new object[] {
+                        GorevID,
+                        KullID,
+                        AuthGiven,
+                        Guid}, callback, asyncState);
+        }
+        
+        /// <remarks/>
+        public Result EndAlimdanIade_GoreviTamamla(System.IAsyncResult asyncResult) {
+            object[] results = this.EndInvoke(asyncResult);
+            return ((Result)(results[0]));
+        }
     }
     
     /// <remarks/>

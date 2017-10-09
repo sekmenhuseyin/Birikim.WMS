@@ -53,6 +53,12 @@ namespace WMSMobil
                 case MenuType.KontrollüSayım:
                     btnLinkeAktar.Text = "Görevi Sonlandır";
                     break;
+                case MenuType.Alımdanİade:
+                    btnLinkeAktar.Text = "Linke Aktar";
+                    break;
+                case MenuType.Satıştanİade:
+                    btnLinkeAktar.Text = "Görevi Sonlandır";
+                    break;
                 default:
                     break;
             }
@@ -227,6 +233,8 @@ namespace WMSMobil
                     sonuc = Servis.RafaKaldir_GoreviTamamla(GorevID, Ayarlar.Kullanici.ID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid);
                 else if (Ayarlar.MenuTip == MenuType.SiparisToplama)
                     sonuc = Servis.SiparisTopla_GoreviTamamla(GorevID, Ayarlar.Kullanici.ID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid);
+                else if (Ayarlar.MenuTip == MenuType.SiparisToplama)
+                    sonuc = Servis.AlimdanIade_GoreviTamamla(GorevID, Ayarlar.Kullanici.ID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid);
                 else if (Ayarlar.MenuTip == MenuType.Paketle)
                     sonuc = Servis.Paketle_GoreviTamamla(GorevID, IrsaliyeID, Ayarlar.Kullanici.ID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid);
                 else if (Ayarlar.MenuTip == MenuType.Sevkiyat)

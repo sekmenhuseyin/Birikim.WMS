@@ -113,6 +113,19 @@ namespace WMSMobil
                 panelOrta.Top -= 44;
                 panelOrta.Height += 44;
             }
+            else if (gorevtip == 72)
+            {
+                this.Text = "Alımdan İade - WMS Mobil";
+                lblOkutulanMiktar.Text = "Raf";
+                label1.Visible = false;
+                label2.Visible = false;
+                label3.Visible = false;
+                txtUnvan.Visible = false;
+                txtHesapKodu.Visible = false;
+                txtEvrakno.Visible = false;
+                panelOrta.Top -= 44;
+                panelOrta.Height += 44;
+            }
             else// if (gorevtip == 19 || gorevtip == 20)
             {
                 this.Text = "Transfer - WMS Mobil";

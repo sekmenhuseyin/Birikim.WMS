@@ -44,7 +44,7 @@ namespace WMSMobil
             Cursor.Current = Cursors.WaitCursor;
             try
             {
-                lblMalKabul.Text = ""; lblRafKaldirma.Text = ""; lblSiparisToplama.Text = ""; lblSayim.Text = ""; lblPaketleme.Text = ""; lblTransferIn.Text = ""; lblTransferOut.Text = "";
+                lblMalKabul.Text = ""; lblRafKaldirma.Text = ""; lblSiparisToplama.Text = ""; lblSayim.Text = ""; lblPaketleme.Text = ""; lblTransferIn.Text = ""; lblTransferOut.Text = ""; lblAlim.Text = ""; lblSatis.Text = "";
                 var tbl = Servis.GetGorevOzet(Ayarlar.Kullanici.DepoID, Ayarlar.Kullanici.ID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid).ToList();
                 foreach (var item in tbl)
                 {
@@ -55,6 +55,8 @@ namespace WMSMobil
                     else if (item.ID == 8) { lblSayim.Text = "[" + item.Sayi.ToString() + "]"; }
                     else if (item.ID == 19) { lblTransferOut.Text = "[" + item.Sayi.ToString() + "]"; }
                     else if (item.ID == 20) { lblTransferIn.Text = "[" + item.Sayi.ToString() + "]"; }
+                    else if (item.ID == 72) { lblAlim.Text = "[" + item.Sayi.ToString() + "]"; }
+                    else if (item.ID == 73) { lblSatis.Text = "[" + item.Sayi.ToString() + "]"; }
                 }
             }
             catch (Exception)
