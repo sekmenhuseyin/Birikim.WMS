@@ -1,4 +1,4 @@
-﻿@model IEnumerable<frmSiparisMalzeme>
+﻿@model IEnumerable<frmSiparisMalzemeDetay>
 @{
     ViewBag.Title = "Alım İade - 2. Adım";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -45,16 +45,16 @@
                     @Html.AntiForgeryToken()
                     @Html.ValidationSummary(true)
                     <table class="table table-striped table-bordered table-condensed" id="sample_2">
-                        <thead><tr><th>Mal Kodu</th><th>Mal Adı</th><th class="text-right">Miktar</th><th class="text-right">Stok</th><th class="text-right">Wms Stok</th><th class="text-right">Wms Rezerv</th><th>Birim</th><th>İade Miktarı</th></tr></thead>
+                        <thead><tr><th>Mal Kodu</th><th>Mal Adı</th><th class="text-right">Miktar</th><th class="text-right">Stok</th><th class="text-right">Wms Stok</th><th class="text-right">Wms Rezerv</th><th>Birim</th><th>İade Miktarı</th><th>ID</th></tr></thead>
                         <tbody>
                             @foreach (var item in Model)
                             {
                                 list[x] = item.Miktar.ToString();
-                                <tr style="cursor:pointer;" onclick="toggle(this,'@item.MalKodu')">
+                                <tr style="cursor:pointer;" onclick="$(this).toggleClass('selected');">
                                     <td>@Html.DisplayFor(modelItem => item.MalKodu)</td>
                                     <td>@item.MalKodu.GetMalAdi(item.SirketID)</td>
                                     <td align="right">@String.Format("{0:n}", item.Miktar)</td>
-                                    <td align="right">@String.Format("{0:n}", item.Stok)</td>
+                                    <td align="right">@String.Format("{0:n}", item.GunesStok)</td>
                                     <td align="right">@String.Format("{0:n}", item.WmsStok)</td>
                                     @*<td align="right">@String.Format("{0:n}", item.WmsRezerv)</td>*@
                                     <td style="text-align:center">
@@ -63,6 +63,7 @@
                                     </td>
                                     <td>@Html.DisplayFor(modelItem => item.Birim)</td>
                                     <td ondblclick="ChangeMiktar(this, '@item.MalKodu', '@x')" align="right" style="background-color:#f56681; color:Window; ">@String.Format("{0:n}", 0)</td>
+                                    <td>@item.SirketID-@item.ID</td>
                                 </tr>
 
                                 x++;
@@ -93,7 +94,7 @@
 </div>
 @section Scripts{
     <script>
-        var selected = ""; var selectall = true;
+        var selectall = true;
         var table = "";
     var list = [@{for (int i = 0; i < Model.Count(); i++){ if(i>0){<text>,</text>} <text>"</text>@list[i]<text>"</text> }}];
     $(document).ready(function () {
@@ -113,19 +114,14 @@
             }
         });
         $("#selector").click(function () {
-            selected = "";
             if (selectall == true) {
                 $("#selector").text("Seçimi İptal Et"); selectall = false;
-                table.rows({ filter: 'applied' }).every(function (rowIdx, tableLoop, rowLoop) {
-                    selected = selected + this.data()[0] + "#";
-                    this.select();
-                });
+                table.rows({ filter: 'applied' }).every(function (rowIdx, tableLoop, rowLoop) { this.select(); });
             }
             else {
                 $("#selector").text("Hepsini Seç"); selectall = true;
                 table.rows().every(function (rowIdx, tableLoop, rowLoop) { this.deselect(); });
             }
-            $("#checkboxes").val(selected);
         });
         $(".submit").click(function () {
             var iade = false;
@@ -134,7 +130,7 @@
             //});
             //if (result == true) $("#submit").click();
             //else Modaldialog("Lütfen sipariş seçin", "Hata", "Tamam", "btn-danger");
-            var cells = [, ,]; var result = false;
+            var selected = "";var cells = [, ,]; var result = false;
             table.rows(".selected").every(function (rowIdx, tableLoop, rowLoop) {
                 var kont = parseFloat(table.cell(rowIdx, 7).data().replace(".", "").replace(",", "."));
                 if (kont <= 0)
@@ -147,18 +143,18 @@
                 }
                 var miktar = parseFloat(this.data()[2].replace(".", "").replace(",", "."));
                 var stok = parseFloat(this.data()[4].replace(".", "").replace(",", ".")) - rezerv;
-                selected = selected + this.data()[0] + "#";
+                selected = selected + this.data()[0] +'-' + kont + "#";
                 //aynı  malları grupla
                 if (cells.length > 2) {
                     for (var i = 2, len = cells.length; i < len; i++) {
                         if (cells[i][0] === this.data()[0]) {
-                            cells[i][1] += miktar;
+                            cells[i][1] += kont;
                             result = true;
                             break;
                         }
                     }
                 }
-                if (result == false) cells.push([this.data()[0], miktar, stok]);
+                if (result == false) cells.push([this.data()[0], kont, stok]);
             });
             result = false;
             if (cells.length == 2) {
@@ -182,13 +178,13 @@
             //if (result == false) $("#submit").click();
         });
     });
-        function toggle(row, id) {
+    //    function toggle(row, id) {
         
-        $(row).toggleClass('selected');
-        if ($(row).hasClass('selected') == true) selected = selected + id + "#";
-        else selected = selected.replace(id + "#", "");
-        $("#checkboxes").val(selected);
-    }
+    //    $(row).toggleClass('selected');
+    //    if ($(row).hasClass('selected') == true) selected = selected + id + "#";
+    //    else selected = selected.replace(id + "#", "");
+    //    $("#checkboxes").val(selected);
+    //}
 
     function Rezervler(malKodu, depo, birim) {
         editInModal2('/WMS/Refund/GetRezerv', { MalKodu: malKodu, Depo: depo, Birim:birim})

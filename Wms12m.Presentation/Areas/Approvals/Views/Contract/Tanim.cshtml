@@ -3,9 +3,9 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }@section Styles{<link href="~/Content/assets/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css" rel="stylesheet" type="text/css" />
 <style>
-    .input_content {margin-bottom: 3px;height: 40px;line-height: 20px;}
-    .input_label {width: 35%;font-weight: bold;color: #5bc8d2;font-size: 11px;padding-top: 4px;}
-    .input {width: 60%;font-size: 10px;height: 30px;}
+    .input_content {margin-bottom: 15px;height: 40px;line-height: 20px;}
+    .input_label {width: 90%;font-weight: bold;color: #5bc8d2;font-size: 11px;padding-top: 4px;}
+    .input {width: 90%;font-size: 10px;height: 30px;}
     .input_style {background-color: white; padding: 10px;margin: 0;}
     .dx-header-row {background-color: #86d8ea;color: window;}
     .dx-state-readonly {background-color: #e0dede !important;}
@@ -303,28 +303,28 @@
             $(".date_baslangic_tarihi").dxDateBox({
                 dataType: 'date',
                 formatString: 'dd/MM/yyyy',
-                width: "60%",
+                width: "90%",
                 onValueChanged: function (e) {
                 }
             });
             $(".date_bitis_tarihi").dxDateBox({
                 dataType: 'date',
                 formatString: 'dd/MM/yyyy',
-                width: "60%",
+                width: "90%",
                 onValueChanged: function (e) {
                 }
             });
             $(".date_vade_tarihi").dxDateBox({
                 dataType: 'date',
                 formatString: 'dd/MM/yyyy',
-                width: "60%",
+                width: "90%",
                 onValueChanged: function (e) {
                 }
             });
             $(".date_alinan_cek_ort_vade").dxDateBox({
                 dataType: 'date',
                 formatString: 'dd/MM/yyyy',
-                width: "60%",
+                width: "90%",
                 onValueChanged: function (e) {
                 }
             });
@@ -333,7 +333,7 @@
                 onText: "Onaylanmış",
                 offText: "Onaylanmamış",
                 value: true,
-                width: "25%",
+                width: "50%",
                 onValueChanged: function (data) {
                     inputClear();
                     //showToast();
@@ -373,7 +373,7 @@
                 onText: "Vade Tarihi",
                 offText: "Valor Gün",
                 value: true,
-                width: "25%",
+                width: "50%",
                 onValueChanged: function (data) {
                     if (data.value == true) {
                         $(".valor_content").css("display", "none");
@@ -391,7 +391,7 @@
                 onText: "Aktif",
                 offText: "Pasif",
                 value: true,
-                width: "25%"
+                width: "50%"
             });
 
             $(".txt_sira_no").dxTextBox("instance").option("value", srNo);
@@ -674,6 +674,7 @@
                         type: "post",
                         success: function (data) {
                             var result = JSON.parse(data);
+                            console.log(result[0].KrediLimiti);
                             $(".numb_kredi_limiti").dxTextBox("instance").option("value", result[0].KrediLimiti);
                             $(".numb_bakiye").dxTextBox("instance").option("value", result[0].Bakiye);
                             $(".numb_toplam_bakiye").dxTextBox("instance").option("value", result[0].ToplamBakiye);
@@ -871,7 +872,7 @@
                 formatString: 'dd/MM/yyyy',
                 value: bas_tarih,
                 readOnly: true,
-                //width: "60%",
+                //width: "90%",
                 onValueChanged: function (e) {
                 }
             });
@@ -885,7 +886,7 @@
             $(".date_yeni_bitis_tarihi").dxDateBox({
                 dataType: 'date',
                 formatString: 'dd/MM/yyyy',
-                //width: "60%",
+                //width: "90%",
                 onValueChanged: function (e) {
                     YeniBitisTarihi = Math.ceil((e.value - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000));
                 }

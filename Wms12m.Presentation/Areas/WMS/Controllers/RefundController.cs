@@ -52,12 +52,12 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             string sql = ""; i = 0;
             foreach (var item in sirketler)
             {
-                 sql = String.Format("FINSAT6{0}.wms.AlimIptalDetail @DepoKodu = '{1}', @EvrakNo = {2}, @CHK={3}", item, tbl.DepoID, evraklar[i], chk);
+                 sql = String.Format("FINSAT6{0}.wms.AlimIptalSecimList @DepoKodu = '{1}', @EvrakNo = {2}, @CHK={3}", item, tbl.DepoID, evraklar[i], chk);
             }  
             //listeyi getir
-            var list = db.Database.SqlQuery<frmSiparisMalzeme>(sql).ToList();
+            var list = db.Database.SqlQuery<frmSiparisMalzemeDetay>(sql).ToList();
             //çapraz stok kontrol
-            string hataliStok = "", sifirStok = ""; var newList = new List<frmSiparisMalzeme>();
+            string hataliStok = "", sifirStok = ""; var newList = new List<frmSiparisMalzemeDetay>();
             foreach (var item in list)
             {
                 if (item.WmsStok == 0)
@@ -66,7 +66,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                     sifirStok += item.MalKodu;
                     newList.Add(item);
                 }
-                else if (item.Stok != item.WmsStok)
+                else if (item.GunesStok != item.WmsStok)
                 {
                     if (hataliStok != "") hataliStok += ", ";
                     hataliStok += item.MalKodu;
@@ -91,7 +91,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         /// adım 4: yerleştirme kaydet
         /// </summary>
         [HttpPost, ValidateAntiForgeryToken]
-        public ActionResult Step4(frmSiparisOnay tbl)
+        public ActionResult Step3(frmSiparisOnay tbl)
         {
             if (tbl.DepoID == "0" || tbl.EvrakNos == "" || tbl.checkboxes == "")
                 return RedirectToAction("Index");
