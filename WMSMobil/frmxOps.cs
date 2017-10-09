@@ -59,7 +59,7 @@ namespace WMSMobil
             //visibilities
             if (gorevtip == 1)
             {
-                this.Text = "WMS Mobil - Mal Kabulü";
+                this.Text = "Mal Kabulü - WMS Mobil";
                 label5.Text = "Okutulan Miktar";
                 txtRafBarkod.Visible = false;
                 label7.Visible = false;
@@ -67,12 +67,12 @@ namespace WMSMobil
             }
             else if (gorevtip == 2)
             {
-                this.Text = "WMS Mobil - Rafa Yerleştirme";
+                this.Text = "Rafa Yerleştirme - WMS Mobil";
                 label5.Text = "Raf";
             }
             else if (gorevtip == 3)
             {
-                this.Text = "WMS Mobil - Sipariş Toplama";
+                this.Text = "Sipariş Toplama - WMS Mobil";
                 label5.Text = "Raf";
                 label1.Visible = false;
                 label2.Visible = false;
@@ -85,7 +85,7 @@ namespace WMSMobil
             }
             else if (gorevtip == 6)
             {
-                this.Text = "WMS Mobil - Paketle";
+                this.Text = "Paketle - WMS Mobil";
                 label5.Text = "Okutulan Miktar";
                 txtRafBarkod.Visible = false;
                 label7.Visible = false;
@@ -93,7 +93,7 @@ namespace WMSMobil
             }
             else if (gorevtip == 7)
             {
-                this.Text = "WMS Mobil - Sevkiyat";
+                this.Text = "Sevkiyat - WMS Mobil";
                 label5.Text = "Okutulan Miktar";
                 txtRafBarkod.Visible = false;
                 label7.Visible = false;
@@ -101,7 +101,7 @@ namespace WMSMobil
             }
             else if (gorevtip == 8)
             {
-                this.Text = "WMS Mobil - Kontrollü Sayım";
+                this.Text = "Kontrollü Sayım - WMS Mobil";
                 label5.Text = "Raf";
                 label6.Text = "Okutulan Miktar";
                 label1.Visible = false;
@@ -115,7 +115,7 @@ namespace WMSMobil
             }
             else// if (gorevtip == 19 || gorevtip == 20)
             {
-                this.Text = "WMS Mobil - Transfer";
+                this.Text = "Transfer - WMS Mobil";
                 label5.Text = "Raf";
                 label1.Visible = false;
                 label2.Visible = false;

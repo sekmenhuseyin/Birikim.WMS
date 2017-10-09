@@ -30,15 +30,15 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmTasks));
             this.panelUst = new System.Windows.Forms.Panel();
-            this.label9 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
             this.cmbDurum = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.cmbGorevli = new System.Windows.Forms.ComboBox();
             this.panelOrta = new System.Windows.Forms.Panel();
-            this.label8 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
+            this.lblTarih = new System.Windows.Forms.Label();
+            this.lblGorevli = new System.Windows.Forms.Label();
+            this.lblBilgiler = new System.Windows.Forms.Label();
+            this.lblGorevNo = new System.Windows.Forms.Label();
             this.panelAlt = new System.Windows.Forms.Panel();
             this.btnBack = new System.Windows.Forms.Button();
             this.btnLinkeAktar = new System.Windows.Forms.Button();
@@ -51,7 +51,7 @@
             // panelUst
             // 
             this.panelUst.BackColor = System.Drawing.Color.White;
-            this.panelUst.Controls.Add(this.label9);
+            this.panelUst.Controls.Add(this.label2);
             this.panelUst.Controls.Add(this.cmbDurum);
             this.panelUst.Controls.Add(this.label1);
             this.panelUst.Controls.Add(this.cmbGorevli);
@@ -60,14 +60,14 @@
             this.panelUst.Size = new System.Drawing.Size(240, 50);
             this.panelUst.Tag = "2";
             // 
-            // label9
+            // label2
             // 
-            this.label9.BackColor = System.Drawing.Color.CadetBlue;
-            this.label9.ForeColor = System.Drawing.SystemColors.Window;
-            this.label9.Location = new System.Drawing.Point(125, 3);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(112, 18);
-            this.label9.Text = "Durum";
+            this.label2.BackColor = System.Drawing.Color.CadetBlue;
+            this.label2.ForeColor = System.Drawing.SystemColors.Window;
+            this.label2.Location = new System.Drawing.Point(125, 3);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(112, 18);
+            this.label2.Text = "Durum";
             // 
             // cmbDurum
             // 
@@ -97,58 +97,58 @@
             // panelOrta
             // 
             this.panelOrta.AutoScroll = true;
-            this.panelOrta.Controls.Add(this.label8);
-            this.panelOrta.Controls.Add(this.label4);
-            this.panelOrta.Controls.Add(this.label3);
-            this.panelOrta.Controls.Add(this.label2);
+            this.panelOrta.Controls.Add(this.lblTarih);
+            this.panelOrta.Controls.Add(this.lblGorevli);
+            this.panelOrta.Controls.Add(this.lblBilgiler);
+            this.panelOrta.Controls.Add(this.lblGorevNo);
             this.panelOrta.Location = new System.Drawing.Point(0, 50);
             this.panelOrta.Name = "panelOrta";
             this.panelOrta.Size = new System.Drawing.Size(240, 208);
             this.panelOrta.Tag = "2";
             // 
-            // label8
+            // lblTarih
             // 
-            this.label8.BackColor = System.Drawing.Color.CadetBlue;
-            this.label8.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
-            this.label8.ForeColor = System.Drawing.SystemColors.Window;
-            this.label8.Location = new System.Drawing.Point(203, 0);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(70, 18);
-            this.label8.Tag = "1";
-            this.label8.Text = "Oluşturma";
+            this.lblTarih.BackColor = System.Drawing.Color.CadetBlue;
+            this.lblTarih.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
+            this.lblTarih.ForeColor = System.Drawing.SystemColors.Window;
+            this.lblTarih.Location = new System.Drawing.Point(203, 0);
+            this.lblTarih.Name = "lblTarih";
+            this.lblTarih.Size = new System.Drawing.Size(70, 18);
+            this.lblTarih.Tag = "1";
+            this.lblTarih.Text = "Oluşturma";
             // 
-            // label4
+            // lblGorevli
             // 
-            this.label4.BackColor = System.Drawing.Color.CadetBlue;
-            this.label4.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
-            this.label4.ForeColor = System.Drawing.SystemColors.Window;
-            this.label4.Location = new System.Drawing.Point(157, 0);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(45, 18);
-            this.label4.Tag = "1";
-            this.label4.Text = "Görevli";
+            this.lblGorevli.BackColor = System.Drawing.Color.CadetBlue;
+            this.lblGorevli.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
+            this.lblGorevli.ForeColor = System.Drawing.SystemColors.Window;
+            this.lblGorevli.Location = new System.Drawing.Point(157, 0);
+            this.lblGorevli.Name = "lblGorevli";
+            this.lblGorevli.Size = new System.Drawing.Size(45, 18);
+            this.lblGorevli.Tag = "1";
+            this.lblGorevli.Text = "Görevli";
             // 
-            // label3
+            // lblBilgiler
             // 
-            this.label3.BackColor = System.Drawing.Color.CadetBlue;
-            this.label3.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
-            this.label3.ForeColor = System.Drawing.SystemColors.Window;
-            this.label3.Location = new System.Drawing.Point(56, 0);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(100, 18);
-            this.label3.Tag = "1";
-            this.label3.Text = "Bilgiler";
+            this.lblBilgiler.BackColor = System.Drawing.Color.CadetBlue;
+            this.lblBilgiler.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
+            this.lblBilgiler.ForeColor = System.Drawing.SystemColors.Window;
+            this.lblBilgiler.Location = new System.Drawing.Point(56, 0);
+            this.lblBilgiler.Name = "lblBilgiler";
+            this.lblBilgiler.Size = new System.Drawing.Size(100, 18);
+            this.lblBilgiler.Tag = "1";
+            this.lblBilgiler.Text = "Bilgiler";
             // 
-            // label2
+            // lblGorevNo
             // 
-            this.label2.BackColor = System.Drawing.Color.CadetBlue;
-            this.label2.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
-            this.label2.ForeColor = System.Drawing.SystemColors.Window;
-            this.label2.Location = new System.Drawing.Point(0, 0);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(55, 18);
-            this.label2.Tag = "1";
-            this.label2.Text = "GörevNo";
+            this.lblGorevNo.BackColor = System.Drawing.Color.CadetBlue;
+            this.lblGorevNo.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
+            this.lblGorevNo.ForeColor = System.Drawing.SystemColors.Window;
+            this.lblGorevNo.Location = new System.Drawing.Point(0, 0);
+            this.lblGorevNo.Name = "lblGorevNo";
+            this.lblGorevNo.Size = new System.Drawing.Size(55, 18);
+            this.lblGorevNo.Tag = "1";
+            this.lblGorevNo.Text = "GörevNo";
             // 
             // panelAlt
             // 
@@ -207,7 +207,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
             this.Name = "frmTasks";
-            this.Text = "WMS Mobil - Görevler";
+            this.Text = "Görevler - WMS Mobil";
             this.Closing += new System.ComponentModel.CancelEventHandler(this.frmTasks_Closing);
             this.panelUst.ResumeLayout(false);
             this.panelOrta.ResumeLayout(false);
@@ -219,18 +219,18 @@
         #endregion
 
         private System.Windows.Forms.Panel panelUst;
-        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Label label2;
         private System.Windows.Forms.ComboBox cmbDurum;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ComboBox cmbGorevli;
         private System.Windows.Forms.Panel panelOrta;
-        private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label lblTarih;
+        private System.Windows.Forms.Label lblBilgiler;
+        private System.Windows.Forms.Label lblGorevNo;
         private System.Windows.Forms.Panel panelAlt;
         private System.Windows.Forms.Button btnIslemYap;
         private System.Windows.Forms.Button btnLinkeAktar;
-        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label lblGorevli;
         private System.Windows.Forms.Button btnBack;
 
     }

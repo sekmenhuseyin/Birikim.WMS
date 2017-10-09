@@ -372,7 +372,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
             this.Name = "frmxOps";
-            this.Text = "MalKabul";
+            this.Text = "WMS Mobil";
             this.Closing += new System.ComponentModel.CancelEventHandler(this.MalzemeIslemleri_Closing);
             this.panelUst.ResumeLayout(false);
             this.panelOrta.ResumeLayout(false);
