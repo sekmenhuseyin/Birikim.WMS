@@ -456,6 +456,86 @@ namespace WMSMobil.TerminalService {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.12mconsulting.com.tr/SatistanIade", RequestNamespace="http://www.12mconsulting.com.tr/", ResponseNamespace="http://www.12mconsulting.com.tr/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public Result SatistanIade(frmMalKabul[] StiList, int GorevID, int KullID, string AuthGiven, string Guid) {
+            object[] results = this.Invoke("SatistanIade", new object[] {
+                        StiList,
+                        GorevID,
+                        KullID,
+                        AuthGiven,
+                        Guid});
+            return ((Result)(results[0]));
+        }
+        
+        /// <remarks/>
+        public System.IAsyncResult BeginSatistanIade(frmMalKabul[] StiList, int GorevID, int KullID, string AuthGiven, string Guid, System.AsyncCallback callback, object asyncState) {
+            return this.BeginInvoke("SatistanIade", new object[] {
+                        StiList,
+                        GorevID,
+                        KullID,
+                        AuthGiven,
+                        Guid}, callback, asyncState);
+        }
+        
+        /// <remarks/>
+        public Result EndSatistanIade(System.IAsyncResult asyncResult) {
+            object[] results = this.EndInvoke(asyncResult);
+            return ((Result)(results[0]));
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.12mconsulting.com.tr/SatistanIade_GorevKontrol", RequestNamespace="http://www.12mconsulting.com.tr/", ResponseNamespace="http://www.12mconsulting.com.tr/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public Result SatistanIade_GorevKontrol(int GorevID, int KullID, string AuthGiven, string Guid) {
+            object[] results = this.Invoke("SatistanIade_GorevKontrol", new object[] {
+                        GorevID,
+                        KullID,
+                        AuthGiven,
+                        Guid});
+            return ((Result)(results[0]));
+        }
+        
+        /// <remarks/>
+        public System.IAsyncResult BeginSatistanIade_GorevKontrol(int GorevID, int KullID, string AuthGiven, string Guid, System.AsyncCallback callback, object asyncState) {
+            return this.BeginInvoke("SatistanIade_GorevKontrol", new object[] {
+                        GorevID,
+                        KullID,
+                        AuthGiven,
+                        Guid}, callback, asyncState);
+        }
+        
+        /// <remarks/>
+        public Result EndSatistanIade_GorevKontrol(System.IAsyncResult asyncResult) {
+            object[] results = this.EndInvoke(asyncResult);
+            return ((Result)(results[0]));
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.12mconsulting.com.tr/SatistanIade_GoreviTamamla", RequestNamespace="http://www.12mconsulting.com.tr/", ResponseNamespace="http://www.12mconsulting.com.tr/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public Result SatistanIade_GoreviTamamla(int GorevID, int KullID, string AuthGiven, string Guid) {
+            object[] results = this.Invoke("SatistanIade_GoreviTamamla", new object[] {
+                        GorevID,
+                        KullID,
+                        AuthGiven,
+                        Guid});
+            return ((Result)(results[0]));
+        }
+        
+        /// <remarks/>
+        public System.IAsyncResult BeginSatistanIade_GoreviTamamla(int GorevID, int KullID, string AuthGiven, string Guid, System.AsyncCallback callback, object asyncState) {
+            return this.BeginInvoke("SatistanIade_GoreviTamamla", new object[] {
+                        GorevID,
+                        KullID,
+                        AuthGiven,
+                        Guid}, callback, asyncState);
+        }
+        
+        /// <remarks/>
+        public Result EndSatistanIade_GoreviTamamla(System.IAsyncResult asyncResult) {
+            object[] results = this.EndInvoke(asyncResult);
+            return ((Result)(results[0]));
+        }
+        
+        /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.12mconsulting.com.tr/Rafa_Kaldir", RequestNamespace="http://www.12mconsulting.com.tr/", ResponseNamespace="http://www.12mconsulting.com.tr/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public Result Rafa_Kaldir(frmYerlesme[] YerlestirmeList, int KullID, int GorevID, string AuthGiven, string Guid) {
             object[] results = this.Invoke("Rafa_Kaldir", new object[] {
