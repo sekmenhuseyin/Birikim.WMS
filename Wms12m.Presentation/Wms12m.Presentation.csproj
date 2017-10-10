@@ -802,6 +802,7 @@
     <Content Include="Views\Home\Satis\GunlukSatisZamanCizelgesi.cshtml" />
     <Content Include="Views\Users\YetkiDuzenle.cshtml" />
     <Content Include="Views\Home\GorevProjesi\GunlukCalisma.cshtml" />
+    <Content Include="Views\Home\GorevProjesi\GunlukCalismaPie.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

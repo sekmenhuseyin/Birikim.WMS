@@ -663,7 +663,7 @@ namespace Wms12m.Presentation.Controllers
         /// <summary>
         /// Görev projesi raporları
         /// </summary>
-        public PartialViewResult GorevGunlukCalisma(string user, int tarih)
+        public PartialViewResult GorevGunlukCalisma(string user, int tarih, string tip)
         {
             ViewBag.tarih = tarih;
             ViewBag.tarih2 = tarih.FromOADateInt();
@@ -673,9 +673,11 @@ namespace Wms12m.Presentation.Controllers
                     FROM ong.GorevlerCalisma INNER JOIN ong.Gorevler ON ong.GorevlerCalisma.GorevID = ong.Gorevler.ID INNER JOIN ong.ProjeForm ON ong.Gorevler.ProjeFormID = ong.ProjeForm.ID
                     WHERE (ong.GorevlerCalisma.Tarih = '{0}') AND (case when '{1}' <> '' then case when (ong.GorevlerCalisma.Kaydeden = '{1}') then 1 else 0 end else 1 end = 1) 
                     GROUP BY ong.ProjeForm.Proje", tarih.FromOaDate().ToString("yyyy-MM-dd"), user)).ToList();
-            return PartialView("GorevProjesi/GunlukCalisma", liste);
+            if (tip == "Pie")
+                return PartialView("GorevProjesi/GunlukCalismaPie", liste);
+            else
+                return PartialView("GorevProjesi/GunlukCalisma", liste);
         }
-
         /// <summary>
         /// xrtas
         /// </summary>
