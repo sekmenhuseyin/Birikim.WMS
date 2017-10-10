@@ -13,7 +13,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         // GET: WMS/Refund
         public ActionResult Index()
         {
-            if (CheckPerm(Perms.MalKabul, PermTypes.Reading) == false) return Redirect("/");
+            if (CheckPerm(Perms.AlimdanIade, PermTypes.Reading) == false) return Redirect("/");
             ViewBag.SirketID = new SelectList(db.GetSirkets().ToList(), "Kod", "Ad");
             ViewBag.DepoID = new SelectList(Store.GetList(vUser.DepoId), "DepoKodu", "DepoAd");
             //ViewBag.DepoID = new SelectList(Store.GetList(vUser.DepoId), "ID", "DepoAd");
@@ -263,7 +263,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                 grv.OlusturmaTarihi = fn.ToOADate();
                 grv.OlusturmaSaati = fn.ToOATime();
                 db.SaveChanges();
-                LogActions("WMS", "Refund", "Approve", ComboItems.alEkle, GorevID, "Firma: " + grv.IR.HesapKodu);
+                LogActions("WMS", "ReturnSale", "Approve", ComboItems.alEkle, GorevID, "Firma: " + grv.IR.HesapKodu);
             }
             //görevlere git
             return Redirect("/WMS/Tasks");

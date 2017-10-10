@@ -1,10 +1,10 @@
 ﻿@model IEnumerable<frmSiparisMalzemeDetay>
 @{
-    ViewBag.Title = "Alımdan İade - 2. Adım";
+    ViewBag.Title = "Satıştan İade - 2. Adım";
     Layout = "~/Views/Shared/_Layout.cshtml";
     string[] list; list = new string[Model.Count()]; int x = 0;
-}<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><a href="/WMS/Refund">Alımdan İade</a><i class="fa fa-circle"></i></li><li><span>2. Adım</span></li></ul></div>
-<h1 class="page-title">Alımdan İade- 2. Adım</h1>
+}<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><a href="/WMS/ReturnSale">Satıştan İade</a><i class="fa fa-circle"></i></li><li><span>2. Adım</span></li></ul></div>
+<h1 class="page-title">Satıştan İade- 2. Adım</h1>
 <div class="row">
     <div class="col-md-12">
         <div class="mt-element-step">
@@ -19,13 +19,8 @@
                     <div class="mt-step-title uppercase font-grey-cascade">MALZEME SEÇİMİ</div>
                     <div class="mt-step-content font-grey-cascade">Malzemeleri Seçin</div>
                 </div>
-                <div class="col-md-2 mt-step-col">
-                    <div class="mt-step-number bg-white">3</div>
-                    <div class="mt-step-title uppercase font-grey-cascade">Toplama Planı</div>
-                    <div class="mt-step-content font-grey-cascade">Kontrol</div>
-                </div>
                 <div class="col-md-2 mt-step-col last">
-                    <div class="mt-step-number bg-white">4</div>
+                    <div class="mt-step-number bg-white">3</div>
                     <div class="mt-step-title uppercase font-grey-cascade">ONAY</div>
                     <div class="mt-step-content font-grey-cascade">Onaylayın</div>
                 </div>
@@ -35,7 +30,7 @@
             <div class="portlet-title"><div class="caption"><i class="fa fa-gift"></i>Sipariş Seçimi</div></div>
             <div class="portlet-body form p-30">
                 <p class="bold color-red">@Html.Raw(ViewBag.Hatali)</p>
-                @using (Html.BeginForm("Step3", "Refund", new { area = "WMS" }, FormMethod.Post, new { @class = "form-horizontal" }))
+                @using (Html.BeginForm("Step3", "ReturnSale", new { area = "WMS" }, FormMethod.Post, new { @class = "form-horizontal" }))
                 {
                     @Html.AntiForgeryToken()
                     @Html.ValidationSummary(true)
@@ -75,11 +70,9 @@
                         <div class="col-md-2">
                             <input type="hidden" name="DepoID" value="@ViewBag.DepoID" />
                             <input type="hidden" name="EvrakNos" value="@ViewBag.EvrakNos" />
-                            <input type="hidden" name="checkboxes" id="checkboxes" value="" />@if (ViewBag.hataliStok == true)
-                            {
-                                <input type="submit" class="hide hidden" value="submit" name="submit" id="submit" />
-                                <input type="button" class="btn btn-primary btn-block green submit" value="İleri >>>" />
-                            }
+                            <input type="hidden" name="checkboxes" id="checkboxes" value="" />
+                            <input type="submit" class="hide hidden" value="submit" name="submit" id="submit" />
+                            <input type="button" class="btn btn-primary btn-block green submit" value="İleri >>>" />
                         </div>
                     </div>
                 }
@@ -95,7 +88,7 @@
     $(document).ready(function () {
         table = $('#sample_2').DataTable({
             "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
-            "columnDefs": [{ "targets": [8], "visible": false, "searchable": false }],
+                   "columnDefs": [{ "targets": [8], "visible": false, "searchable": false }],
             initComplete: function () {
                 this.api().columns([0, 1]).every(function () {
                     var column = this;
@@ -170,12 +163,12 @@
                 return;
             }
             $("#checkboxes").val(selected);
-         
+
             if (result == false) $("#submit").click();
         });
     });
     //    function toggle(row, id) {
-        
+
     //    $(row).toggleClass('selected');
     //    if ($(row).hasClass('selected') == true) selected = selected + id + "#";
     //    else selected = selected.replace(id + "#", "");
@@ -183,7 +176,7 @@
     //}
 
     function Rezervler(malKodu, depo, birim) {
-        editInModal2('/WMS/Refund/GetRezerv', { MalKodu: malKodu, Depo: depo, Birim:birim})
+        editInModal2('/WMS/ReturnSale/GetRezerv', { MalKodu: malKodu, Depo: depo, Birim:birim})
         $('#modalEditPage').modal('toggle');
     }
 
@@ -208,14 +201,9 @@
 
             // kontroller
 
-            if ((yeni > (stok - rezerv)) || (stok == 0))
-            {
-                Modaldialog("Yeterli stok bulunmamaktadır.", "Uyarı", "Tamam", "btn-danger");
-                return;
-            }
             if (yeni > miktar)
             {
-                Modaldialog("İade miktarı alım miktarını geçmemelidir.", "Uyarı", "Tamam", "btn-danger");
+                Modaldialog("İade miktarı satış miktarını geçmemelidir.", "Uyarı", "Tamam", "btn-danger");
                 return;
             }
 

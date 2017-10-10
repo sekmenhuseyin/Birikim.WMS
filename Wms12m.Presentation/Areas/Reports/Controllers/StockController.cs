@@ -114,6 +114,15 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
             var GS = db.Database.SqlQuery<RaporGunlukSatis>(string.Format("[FINSAT6{0}].[wms].[GunlukSatisRaporu] @BasTarih = {1}, @BitTarih = {2}", "17", bastarih, bittarih)).ToList();
             return json.Serialize(GS);
         }
+        public string GerceklesenSevkiyatList(int bastarih, int bittarih)
+        {
+            JavaScriptSerializer json = new JavaScriptSerializer()
+            {
+                MaxJsonLength = int.MaxValue
+            };
+            var SU = db.Database.SqlQuery<GerceklesenSevkiyatPlani>(string.Format("[FINSAT6{0}].[wms].[GerceklesenSevkiyatRaporu] @BasTarih={1}, @BitTarih={2}", "17", bastarih, bittarih)).ToList();
+            return json.Serialize(SU);
+        }
         /// <summary>
         /// kampanyalı satış
         /// </summary>
@@ -154,17 +163,17 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
         public PartialViewResult GerceklesenSevkiyatPlaniList(int bastarih, int bittarih)
         {
             if (CheckPerm(Perms.Raporlar, PermTypes.Reading) == false) return null;
-            List<GerceklesenSevkiyatPlani> SU;
-            try
-            {
-                SU = db.Database.SqlQuery<GerceklesenSevkiyatPlani>(string.Format("[FINSAT6{0}].[wms].[GerceklesenSevkiyatRaporu] @BasTarih={1}, @BitTarih={2}", "17", bastarih, bittarih)).ToList();
-            }
-            catch (Exception ex)
-            {
-                Logger(ex, "/Reports/Stock/GerceklesenSevkiyatPlaniList");
-                SU = new List<GerceklesenSevkiyatPlani>();
-            }
-            return PartialView("GerceklesenSevkiyatPlaniList", SU);
+            //List<GerceklesenSevkiyatPlani> SU;
+            //try
+            //{
+            //    SU = db.Database.SqlQuery<GerceklesenSevkiyatPlani>(string.Format("[FINSAT6{0}].[wms].[GerceklesenSevkiyatRaporu] @BasTarih={1}, @BitTarih={2}", "17", bastarih, bittarih)).ToList();
+            //}
+            //catch (Exception ex)
+            //{
+            //    Logger(ex, "/Reports/Stock/GerceklesenSevkiyatPlaniList");
+            //    SU = new List<GerceklesenSevkiyatPlani>();
+            //}
+            return PartialView("GerceklesenSevkiyatPlaniList");
         }
 
         public ActionResult SiparisOnayRapor(string onayRed)
