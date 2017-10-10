@@ -806,6 +806,8 @@
     <Content Include="Views\Home\GorevProjesi\AylikCalisma.cshtml" />
     <Content Include="Views\Home\GorevProjesi\MusteriAnalizi.cshtml" />
     <Content Include="Views\Home\GorevProjesi\MusteriAnaliziPie.cshtml" />
+    <Content Include="Views\Home\GorevProjesi\CalismaAnalizi.cshtml" />
+    <Content Include="Views\Home\GorevProjesi\ProjeAnalizi.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

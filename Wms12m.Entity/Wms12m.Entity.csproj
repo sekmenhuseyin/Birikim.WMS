@@ -383,10 +383,10 @@
     <Compile Include="VM_WMS\frmCables.cs" />
     <Compile Include="VM_WMS\frmTransfer.cs" />
     <Compile Include="VM_Finsat\Fiyat.cs" />
-    <Compile Include="VM_WMS\frmWood.cs" />
+    <Compile Include="VM_Finsat\frmWood.cs" />
     <Compile Include="VM_Finsat\FYT.cs" />
-    <Compile Include="VM_WMS\GenelAyarVeParam.cs" />
-    <Compile Include="VM_WMS\Invoce.cs" />
+    <Compile Include="VM_Finsat\GenelAyarVeParam.cs" />
+    <Compile Include="VM_Finsat\Invoice.cs" />
     <Compile Include="VM_Finsat\ISS.cs" />
     <Compile Include="VM_Finsat\ISS_Temp.cs" />
     <Compile Include="VM_WMS\Reports.cs" />

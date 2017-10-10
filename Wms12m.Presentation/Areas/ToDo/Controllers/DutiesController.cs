@@ -1,7 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Web.Mvc;
@@ -95,18 +94,8 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         {
             var id = Url.RequestContext.RouteData.Values["id"];
             var ID = id.ToInt32();
-            List<ProjeForm> Prj = db.ProjeForms.Where(m => m.MusteriID == ID && m.PID == null).ToList();
-            List<SelectListItem> List = new List<SelectListItem>();
-            foreach (ProjeForm item in Prj)
-            {
-                List.Add(new SelectListItem
-                {
-                    Selected = false,
-                    Text = item.Proje,
-                    Value = item.ID.ToString()
-                });
-            }
-            return Json(List.Select(x => new { Value = x.Value, Text = x.Text, Selected = x.Selected }), JsonRequestBehavior.AllowGet);
+            var list = db.ProjeForms.Where(m => m.MusteriID == ID && m.PID == null).Select(m => new SelectListItem { Selected = false, Text = m.Proje, Value = m.ID.ToString() }).OrderBy(m => m.Text).ToList();
+            return Json(list, JsonRequestBehavior.AllowGet);
 
         }
         /// <summary>
@@ -116,18 +105,8 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         {
             var id = Url.RequestContext.RouteData.Values["id"];
             var ID = id.ToInt32();
-            List<ProjeForm> Prj = db.ProjeForms.Where(m => m.PID == ID).ToList();
-            List<SelectListItem> List = new List<SelectListItem>();
-            foreach (ProjeForm item in Prj)
-            {
-                List.Add(new SelectListItem
-                {
-                    Selected = false,
-                    Text = item.Form,
-                    Value = item.ID.ToString()
-                });
-            }
-            return Json(List.Select(x => new { Value = x.Value, Text = x.Text, Selected = x.Selected }), JsonRequestBehavior.AllowGet);
+            var list = db.ProjeForms.Where(m => m.PID == ID).Select(m => new SelectListItem { Selected = false, Text = m.Form, Value = m.ID.ToString() }).OrderBy(m => m.Text).ToList();
+            return Json(list, JsonRequestBehavior.AllowGet);
 
         }
         /// <summary>

@@ -691,7 +691,7 @@ namespace Wms12m.Presentation.Controllers
             else
                 return PartialView("GorevProjesi/AylikCalisma", liste);
         }
-        public PartialViewResult GorevMusteriAnalizi(int musteri, string proje, int tarihStart, int tarihEnd, string tip)
+        public PartialViewResult GorevMusteriAnalizi(int musteri, int proje, int tarihStart, int tarihEnd, string tip)
         {
             ViewBag.tarihStart = tarihStart;
             ViewBag.tarihStart2 = tarihStart.FromOADateInt();
@@ -699,10 +699,14 @@ namespace Wms12m.Presentation.Controllers
             ViewBag.tarihEnd2 = tarihEnd.FromOADateInt();
             ViewBag.musteri = musteri;
             ViewBag.proje = proje;
-            ViewBag.userID = new SelectList(db.Musteris.OrderBy(m => m.Unvan).ToList(), "ID", "Unvan", musteri);
+            ViewBag.MusteriID = new SelectList(db.Musteris.OrderBy(m => m.Unvan).ToList(), "ID", "Unvan", musteri);
+            if (musteri == 0)
+                ViewBag.ProjeID = new SelectList(new List<ProjeForm>(), "ID", "Proje");
+            else
+                ViewBag.ProjeID = new SelectList(db.ProjeForms.Where(m => m.MusteriID == musteri && m.PID == null).OrderBy(m => m.Proje).ToList(), "ID", "Proje", proje);
             string sql = "";
             if (musteri > 0) sql += " AND ong.ProjeForm.MusteriID = " + musteri;
-            if (proje != "") sql += " AND ong.ProjeForm.Proje = '" + proje + "'";
+            if (proje > 0) sql += " AND ong.ProjeForm.PID = " + proje;
             var liste = db.Database.SqlQuery<chartGorevCalisma>(string.Format(@"SELECT ong.GorevlerCalisma.Kaydeden AS Proje, SUM(ong.GorevlerCalisma.Sure) AS Sure
                     FROM ong.GorevlerCalisma INNER JOIN ong.Gorevler ON ong.GorevlerCalisma.GorevID = ong.Gorevler.ID INNER JOIN ong.ProjeForm ON ong.Gorevler.ProjeFormID = ong.ProjeForm.ID
                     WHERE (ong.GorevlerCalisma.Tarih > '{0}') AND (ong.GorevlerCalisma.Tarih < '{1}'){2}
@@ -711,6 +715,48 @@ namespace Wms12m.Presentation.Controllers
                 return PartialView("GorevProjesi/MusteriAnaliziPie", liste);
             else
                 return PartialView("GorevProjesi/MusteriAnalizi", liste);
+        }
+        public PartialViewResult GorevProjeAnalizi(int musteri, int proje, int tarihStart, int tarihEnd, string tip)
+        {
+            ViewBag.tarihStart = tarihStart;
+            ViewBag.tarihStart2 = tarihStart.FromOADateInt();
+            ViewBag.tarihEnd = tarihEnd;
+            ViewBag.tarihEnd2 = tarihEnd.FromOADateInt();
+            ViewBag.musteri = musteri;
+            ViewBag.proje = proje;
+
+            ViewBag.DropDownList1 = EnumHelperExtension.SelectListFor<Aylar>();
+            ViewBag.DropDownList2 = EnumHelperExtension.SelectListFor((Aylar)1);
+
+
+            ViewBag.MusteriID = new SelectList(db.Musteris.OrderBy(m => m.Unvan).ToList(), "ID", "Unvan", musteri);
+            if (musteri == 0)
+                ViewBag.ProjeID = new SelectList(new List<ProjeForm>(), "ID", "Proje");
+            else
+                ViewBag.ProjeID = new SelectList(db.ProjeForms.Where(m => m.MusteriID == musteri && m.PID == null).OrderBy(m => m.Proje).ToList(), "ID", "Proje", proje);
+            string sql = "";
+            if (musteri > 0) sql += " AND ong.ProjeForm.MusteriID = " + musteri;
+            if (proje > 0) sql += " AND ong.ProjeForm.PID = " + proje;
+            var liste = db.Database.SqlQuery<chartGorevCalisma>(string.Format(@"SELECT ong.GorevlerCalisma.Kaydeden AS Proje, SUM(ong.GorevlerCalisma.Sure) AS Sure
+                    FROM ong.GorevlerCalisma INNER JOIN ong.Gorevler ON ong.GorevlerCalisma.GorevID = ong.Gorevler.ID INNER JOIN ong.ProjeForm ON ong.Gorevler.ProjeFormID = ong.ProjeForm.ID
+                    WHERE (ong.GorevlerCalisma.Tarih > '{0}') AND (ong.GorevlerCalisma.Tarih < '{1}'){2}
+                    GROUP BY ong.GorevlerCalisma.Kaydeden", tarihStart.FromOaDate().ToString("yyyy-MM-dd"), tarihEnd.FromOaDate().ToString("yyyy-MM-dd"), sql)).ToList();
+            if (tip == "Pie")
+                return PartialView("GorevProjesi/ProjeAnaliziPie", liste);
+            else
+                return PartialView("GorevProjesi/ProjeAnalizi", liste);
+        }
+        public PartialViewResult GorevCalismaAnalizi(int tarihStart, int tarihEnd)
+        {
+            ViewBag.tarihStart = tarihStart;
+            ViewBag.tarihStart2 = tarihStart.FromOADateInt();
+            ViewBag.tarihEnd = tarihEnd;
+            ViewBag.tarihEnd2 = tarihEnd.FromOADateInt();
+            var liste = db.Database.SqlQuery<chartGorevCalismaAnaliz>(string.Format(@"SELECT ong.Musteri.Unvan, ong.ProjeForm.Proje, ong.Gorevler.Gorev, ong.GorevlerToDoList.Aciklama, ong.GorevlerCalisma.Kaydeden, SUM(ong.GorevlerCalisma.Sure) AS Sure, ong.GorevlerCalisma.Tarih
+                    FROM ong.GorevlerCalisma INNER JOIN ong.Gorevler ON ong.GorevlerCalisma.GorevID = ong.Gorevler.ID INNER JOIN ong.ProjeForm ON ong.Gorevler.ProjeFormID = ong.ProjeForm.ID INNER JOIN ong.Musteri ON ong.ProjeForm.MusteriID = ong.Musteri.ID INNER JOIN ong.GorevlerToDoList ON ong.Gorevler.ID = ong.GorevlerToDoList.GorevID AND ong.GorevlerCalisma.Calisma = ong.GorevlerToDoList.Aciklama
+                    WHERE (ong.GorevlerCalisma.Tarih > '{0}') AND (ong.GorevlerCalisma.Tarih < '{1}')
+                    GROUP BY ong.GorevlerCalisma.Kaydeden, ong.Musteri.Unvan, ong.ProjeForm.Proje, ong.Gorevler.Gorev, ong.GorevlerToDoList.Aciklama, ong.GorevlerCalisma.Tarih", tarihStart.FromOaDate().ToString("yyyy-MM-dd"), tarihEnd.FromOaDate().ToString("yyyy-MM-dd"))).ToList();
+            return PartialView("GorevProjesi/CalismaAnalizi", liste);
         }
         /// <summary>
         /// xrtas

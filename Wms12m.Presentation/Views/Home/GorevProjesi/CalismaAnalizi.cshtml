@@ -1,0 +1,70 @@
+﻿@model List<chartGorevCalismaAnaliz>
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet light bordered">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="icon-bar-chart font-green-haze"></i>
+                    <span class="caption-subject bold uppercase font-green-haze"> Günlük Çalışma Analizi <span style="color:#8888a7;">3D CHART</span></span>
+                </div>
+                <div class="col-md-2">
+                    <input type="text" class="form-control dateboxbg" id="gorevcalismatarih51" value="@ViewBag.tarihStart2" />
+                </div>
+                <div class="col-md-2">
+                    <input type="text" class="form-control dateboxbg" id="gorevcalismatarih52" value="@ViewBag.tarihEnd2" />
+                </div>
+                <div class="tools">
+                    <a href="javascript:;" class="collapse"> </a>
+                    <a href="javascript:;" class="fullscreen"> </a>
+                    <a href="javascript:;" class="reload" onclick="ReloadGorev5(@ViewBag.tarihStart, @ViewBag.tarihEnd);"> </a>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <table class="table table-striped table-bordered table-hover" id="tblGorevCalismaAnaliz">
+                    <thead><tr><th>Firma</th><th>Proje</th><th>Görev</th><th>Açıklama</th><th>Kaydeden</th><th>Tarih</th><th>Süre</th></tr></thead>
+                    <tfoot><tr><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr></tfoot>
+                    <tfoot class="tf-search"><tr><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr></tfoot>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.Unvan</td>
+                                <td>@item.Proje</td>
+                                <td>@item.Gorev</td>
+                                <td>@item.Aciklama</td>
+                                <td>@item.Kaydeden</td>
+                                <td><div class="hidden">@item.Tarih.ToOADateInt()</div>@item.Tarih.ToShortDateString()</td>
+                                <td>@item.Sure</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function ReloadGorev5(Start, End) {
+        PartialView('/Home/GorevCalismaAnalizi', 'gorev_calisma_analizi', JSON.stringify({ tarihStart: Start, tarihEnd: End }));
+    }
+    $(document).ready(function (e) {
+        $.datepicker.setDefaults($.datepicker.regional["tr"]);
+        $("#gorevcalismatarih51").datepicker().on("change", function (e) {
+            ReloadGorev5(toOADateFromString(e.target.value), @ViewBag.tarihEnd);
+        });
+        $("#gorevcalismatarih52").datepicker().on("change", function (e) {
+            ReloadGorev5(@ViewBag.tarihStart, toOADateFromString(e.target.value));
+        });
+        var table = $('#tblGorevCalismaAnaliz').DataTable({
+            "pagingType": "full_numbers",
+            "order": [[5, "desc"]],
+            "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" }
+        });
+        $('#tblGorevCalismaAnaliz .tf-search th').each(function () {
+            var title = $('#tblGorevCalismaAnaliz thead th').eq($(this).index()).text();
+            if (title != "" && title != "Detay" && title != "Hareket")
+                $(this).html('<input class="form-control input-circle" type="text" placeholder="Ara" />');
+        });
+        $("#tblGorevCalismaAnaliz tfoot input").on('keyup change', function () { table.column($(this).parent().index() + ':visible').search(this.value).draw(); });
+    });
+</script>
