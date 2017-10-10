@@ -229,6 +229,17 @@ namespace WMSMobil
                     }
                     if (sonuc.Status == true) sonuc = Servis.MalKabul_GoreviTamamla(GorevID, Ayarlar.Kullanici.ID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid);
                 }
+                else if (Ayarlar.MenuTip == MenuType.Satıştanİade)
+                {
+                    sonuc = Servis.SatistanIade_GorevKontrol(GorevID, Ayarlar.Kullanici.ID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid);
+                    if (sonuc.Status == false && sonuc.Id == -1)
+                    {
+                        Cursor.Current = Cursors.Default;
+                        if (Mesaj.Soru("Okunan mal miktarları tutarsız. Yine de devam etmek istiyor musunuz?") == DialogResult.Yes)
+                            sonuc.Status = true;
+                    }
+                    if (sonuc.Status == true) sonuc = Servis.SatistanIade_GoreviTamamla(GorevID, Ayarlar.Kullanici.ID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid);
+                }
                 else if (Ayarlar.MenuTip == MenuType.RafaYerlestirme)
                     sonuc = Servis.RafaKaldir_GoreviTamamla(GorevID, Ayarlar.Kullanici.ID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid);
                 else if (Ayarlar.MenuTip == MenuType.SiparisToplama)
