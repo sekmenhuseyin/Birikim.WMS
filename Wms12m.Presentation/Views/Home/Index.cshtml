@@ -403,6 +403,7 @@ if (tst.CrmOzet == true)
     </div>
 }
 }</div>
+<div id="gorev_gunluk_calisma"></div>
 <div id="gunluk_satis"></div><div id="gunluk_satis_pie"></div><div id="gunluk_satis_zaman_cizelgesi"></div><div id="gunluk_satis_yeartoday"></div>
 <div id="gunluk_satis_yeartoday_pie"></div><div id="gunluk_satis_double_kriter"></div><div id="gunluk_satis_double_kriter_pie"></div>
 <div id="aylik_satis_bar"></div><div id="aylik_satis_chk_bar"></div><div id="aylik_satis_kod_tip_doviz_bar"></div>
@@ -420,6 +421,7 @@ if (tst.CrmOzet == true)
 <script src="~/Content/assets/global/plugins/echarts/echarts.js"></script>
 <script src="~/Content/assets/global/plugins/bootstrap-toggle/js/bootstrap-toggle.min.js"></script><script>var dateVal = new Date(); dateVal.setHours(0, 0, 0); var oaDate = Math.ceil((dateVal - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000));
     $(document).ready(function (e) {@{
+    if (tst.GorevProjesi == true){<text>PartialView('/Home/GorevGunlukCalisma', 'gorev_gunluk_calisma', JSON.stringify({ user: '', tarih: oaDate }));</text>}
     if (Model.yetki.Contains("'ChartGunlukSatis'") == true){<text>PartialView('/Home/PartialGunlukSatis', 'gunluk_satis', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', tarih: oaDate }));</text>}
     if (Model.yetki.Contains("'ChartGunlukSatis'") == true){<text>PartialView('/Home/PartialGunlukSatisPie', 'gunluk_satis_pie', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', tarih: oaDate }));</text>}
     if (Model.yetki.Contains("'ChartGunlukSatis'") == true){<text>PartialView('/Home/PartialGunlukSatisZamanCizelgesi', 'gunluk_satis_zaman_cizelgesi', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', tarih: oaDate }));</text>}
