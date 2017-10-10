@@ -102,6 +102,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             var malkodlari = new List<string>();
             var birimler = new List<string>();
             var miktars = new List<decimal>();
+            var rowID = new List<int>();
             int i = 0;
 
 
@@ -115,6 +116,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                     malkodlari.Add(tmp2[0]);
                     birimler.Add(tmp2[1]);
                     miktars.Add(tmp2[2].Replace(".", ",").ToDecimal());
+                    rowID.Add(tmp2[4].Replace(".", ",").ToInt32());
                 }
             }
 
@@ -142,7 +144,8 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                         MalKodu = malkodlari[i],
                         Birim = birimler[i],
                         Miktar = miktars[i] <= stokMiktari.Value ? miktars[i] : stokMiktari.Value,
-                        KynkSiparisNo = evrak
+                        KynkSiparisNo = evrak,
+                        KynkSiparisID = rowID[i]
                     };
                     var op2 = new IrsaliyeDetay();
                     _Result = op2.Operation(sti);

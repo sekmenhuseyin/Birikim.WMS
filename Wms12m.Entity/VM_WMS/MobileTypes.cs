@@ -123,6 +123,8 @@
         public float? IskontoOran1 { get; set; }
         public float? KdvOran { get; set; }
         public decimal? Fiyat { get; set; }
+        public decimal? ErekIIFMiktar { get; set; }
+        public int? Row_ID { get; set; }
     }
 
 

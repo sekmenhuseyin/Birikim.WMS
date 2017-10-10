@@ -649,7 +649,7 @@ namespace Wms12m
                 if (KatID == null)
                     return new Result(false, "Deponun rezerv katı bulunamadı");
                 //send to finsat
-                //var sonuc = finsat.MalKabul(item, KullID);
+                var sonuc = finsat.SatisIade(item, KullID);
                 //if (sonuc.Status == true)
                 //{
                 //    //finish
@@ -751,13 +751,14 @@ namespace Wms12m
                 //}
                 //else
                 //    return new Result(false, sonuc.Message);
+                return new Result(false, sonuc.Message);
             }
             //return if all true: tüm israliyeler biterse görevi kapat
             //görev user ve görev tablosu
-            //var tbl2 = db.GorevUsers.Where(m => m.GorevID == GorevID && m.UserName == tblx.Kod).FirstOrDefault();
-            //tbl2.BitisTarihi = DateTime.Today.ToOADateInt();
-            //mGorev.DurumID = ComboItems.Tamamlanan.ToInt32();
-            //db.SaveChanges();
+            var tbl2 = db.GorevUsers.Where(m => m.GorevID == GorevID && m.UserName == tblx.Kod).FirstOrDefault();
+            tbl2.BitisTarihi = DateTime.Today.ToOADateInt();
+            mGorev.DurumID = ComboItems.Tamamlanan.ToInt32();
+            db.SaveChanges();
             return new Result(true);
         }
         /// <summary>
