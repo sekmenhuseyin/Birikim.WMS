@@ -678,6 +678,40 @@ namespace Wms12m.Presentation.Controllers
             else
                 return PartialView("GorevProjesi/GunlukCalisma", liste);
         }
+        public PartialViewResult GorevAylikCalisma(string user, string tip)
+        {
+            ViewBag.user = user;
+            ViewBag.userID = new SelectList(Persons.GetList(), "Kod", "AdSoyad", user);
+            var liste = db.Database.SqlQuery<chartGorevCalisma>(string.Format(@"SELECT ong.ProjeForm.Proje, SUM(ong.GorevlerCalisma.Sure) AS Sure
+                    FROM ong.GorevlerCalisma INNER JOIN ong.Gorevler ON ong.GorevlerCalisma.GorevID = ong.Gorevler.ID INNER JOIN ong.ProjeForm ON ong.Gorevler.ProjeFormID = ong.ProjeForm.ID
+                    WHERE (ong.GorevlerCalisma.Tarih = '{0}') AND (case when '{1}' <> '' then case when (ong.GorevlerCalisma.Kaydeden = '{1}') then 1 else 0 end else 1 end = 1) 
+                    GROUP BY ong.ProjeForm.Proje", user)).ToList();
+            if (tip == "Pie")
+                return PartialView("GorevProjesi/AylikCalismaPie", liste);
+            else
+                return PartialView("GorevProjesi/AylikCalisma", liste);
+        }
+        public PartialViewResult GorevMusteriAnalizi(int musteri, string proje, int tarihStart, int tarihEnd, string tip)
+        {
+            ViewBag.tarihStart = tarihStart;
+            ViewBag.tarihStart2 = tarihStart.FromOADateInt();
+            ViewBag.tarihEnd = tarihEnd;
+            ViewBag.tarihEnd2 = tarihEnd.FromOADateInt();
+            ViewBag.musteri = musteri;
+            ViewBag.proje = proje;
+            ViewBag.userID = new SelectList(db.Musteris.OrderBy(m => m.Unvan).ToList(), "ID", "Unvan", musteri);
+            string sql = "";
+            if (musteri > 0) sql += " AND ong.ProjeForm.MusteriID = " + musteri;
+            if (proje != "") sql += " AND ong.ProjeForm.Proje = '" + proje + "'";
+            var liste = db.Database.SqlQuery<chartGorevCalisma>(string.Format(@"SELECT ong.GorevlerCalisma.Kaydeden AS Proje, SUM(ong.GorevlerCalisma.Sure) AS Sure
+                    FROM ong.GorevlerCalisma INNER JOIN ong.Gorevler ON ong.GorevlerCalisma.GorevID = ong.Gorevler.ID INNER JOIN ong.ProjeForm ON ong.Gorevler.ProjeFormID = ong.ProjeForm.ID
+                    WHERE (ong.GorevlerCalisma.Tarih > '{0}') AND (ong.GorevlerCalisma.Tarih < '{1}'){2}
+                    GROUP BY ong.GorevlerCalisma.Kaydeden", tarihStart.FromOaDate().ToString("yyyy-MM-dd"), tarihEnd.FromOaDate().ToString("yyyy-MM-dd"), sql)).ToList();
+            if (tip == "Pie")
+                return PartialView("GorevProjesi/MusteriAnaliziPie", liste);
+            else
+                return PartialView("GorevProjesi/MusteriAnalizi", liste);
+        }
         /// <summary>
         /// xrtas
         /// </summary>
