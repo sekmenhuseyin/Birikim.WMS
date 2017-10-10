@@ -14,19 +14,19 @@
                     <input type="text" class="form-control dateboxbg" id="gorevcalismatarih32" value="@ViewBag.tarihEnd2" />
                 </div>
                 <div class="col-md-2">
-                    @Html.DropDownList("userID", null, htmlAttributes: new { @class = "form-control satirekle3", @onchange = "ReloadGorev3(this.value, '" + ViewBag.proje + "', " + ViewBag.tarihStart + ", " + ViewBag.tarihEnd + ")" })
+                    @Html.DropDownList("MusteriID", null, htmlAttributes: new { @class = "form-control satirekle3", @onchange = "ReloadGorev3(this.value, 0, " + ViewBag.tarihStart + ", " + ViewBag.tarihEnd + ")" })
                 </div>
                 <div class="col-md-2">
-                    <select class="form-control" id="userID" name="userID" onchange="ReloadGorev3(@ViewBag.musteri, this.value, @ViewBag.tarihStart, @ViewBag.tarihEnd)"></select>
+                    @Html.DropDownList("ProjeID", null, htmlAttributes: new { @class = "form-control satirekle31", @onchange = "ReloadGorev3(" + ViewBag.musteri + ", this.value, " + ViewBag.tarihStart + ", " + ViewBag.tarihEnd + ")" })
                 </div>
                 <div class="tools">
                     <a href="javascript:;" class="collapse"> </a>
                     <a href="javascript:;" class="fullscreen"> </a>
-                    <a href="javascript:;" class="reload" onclick="ReloadGorev3(@ViewBag.musteri, '@ViewBag.proje', @ViewBag.tarihStart, @ViewBag.tarihEnd);"> </a>
+                    <a href="javascript:;" class="reload" onclick="ReloadGorev3(@ViewBag.musteri, @ViewBag.proje, @ViewBag.tarihStart, @ViewBag.tarihEnd);"> </a>
                 </div>
             </div>
             <div class="portlet-body">
-                <div id="chart_gorev_1" class="chart" style="height: 400px;"> </div>
+                <div id="chart_gorev_3" class="chart" style="height: 400px;"> </div>
             </div>
         </div>
     </div>
@@ -39,23 +39,23 @@
     $(document).ready(function (e) {
         $(".satirekle3").prepend("<option value='0'>Hepsi</option>");
         @if (ViewBag.musteri == 0) { <text>$(".satirekle3")[0].selectedIndex = 0;</text> }
+        else { <text>$(".satirekle31").prepend("<option value='0'>Hepsi</option>");</text> }
+        @if (ViewBag.proje == 0) { <text>$(".satirekle31")[0].selectedIndex = 0;</text> }
         $.datepicker.setDefaults($.datepicker.regional["tr"]);
         $("#gorevcalismatarih31").datepicker().on("change", function (e) {
-            ReloadGorev3(@ViewBag.musteri, '@ViewBag.proje', toOADateFromString(e.target.value), @ViewBag.tarihEnd);
-            var oaDate = toOADateFromString(e.target.value);
+            ReloadGorev3(@ViewBag.musteri, @ViewBag.proje, toOADateFromString(e.target.value), @ViewBag.tarihEnd);
         });
         $("#gorevcalismatarih32").datepicker().on("change", function (e) {
-            ReloadGorev3(@ViewBag.musteri, '@ViewBag.proje', @ViewBag.tarihStart, toOADateFromString(e.target.value));
-            var oaDate = toOADateFromString(e.target.value);
+            ReloadGorev3(@ViewBag.musteri, @ViewBag.proje, @ViewBag.tarihStart, toOADateFromString(e.target.value));
         });
         var model = @Html.Raw(Json.Encode(Model));
         var color = ["#FF0F00","#FF6600","#FF9E01","#FCD202","#F8FF01","#B0DE09","#04D215","#0D8ECF","#0D52D1","#2A0CD0","#8A0CCF","#CD0D74","#754DEB","#DDDDDD","#999999","#333333","#000000"];
         for (var i = 0; i < model.length; i++) {
             $.extend(model[i],{ color: color[i%color.length] });
         }
-        var ChartsGorev1 = function () {
-            var initChartGorev1 = function () {
-                var chart = AmCharts.makeChart("chart_gorev_1", {
+        var ChartsGorev3 = function () {
+            var initChartGorev3 = function () {
+                var chart = AmCharts.makeChart("chart_gorev_3", {
                     "theme": "light",
                     "type": "serial",
                     "startDuration": 2,
@@ -110,18 +110,18 @@
                 chart.dataProvider = model;
                 chart.validateData();
                 chart.animateAgain();
-                $('#chart_gorev_1').closest('.portlet').find('.fullscreen').click(function () {
+                $('#chart_gorev_3').closest('.portlet').find('.fullscreen').click(function () {
                     chart.invalidateSize();
                 });
             }
             return {
                 init: function () {
-                    initChartGorev1();
+                    initChartGorev3();
                 }
             };
         }();
         jQuery(document).ready(function () {
-            ChartsGorev1.init();
+            ChartsGorev3.init();
         });
     });
 </script>

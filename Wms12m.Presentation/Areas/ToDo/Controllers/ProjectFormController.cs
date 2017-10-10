@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Web.Mvc;
@@ -180,13 +179,6 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                 }
             }
             return Json(new Result(false, "Hata oldu"), JsonRequestBehavior.AllowGet);
-        }
-        /// <summary>
-        /// müşteriye ait olanları getir
-        /// </summary>
-        public List<Durum> GetList(int MusteriID)
-        {
-            return db.ProjeForms.Where(m => m.MusteriID == MusteriID).Select(m => new Durum { ID = m.ID, Name = m.Proje }).ToList();
         }
     }
 }
