@@ -106,12 +106,12 @@
             var result = false;
             table.rows(".selected").every(function (rowIdx, tableLoop, rowLoop) {
                 result = true;
-                @*var deg = $("#checkboxes").val();
+                var deg = $("#checkboxes").val();
                 deg = deg.substring(0,deg.length - 1);
                 var degs = deg.split("-");
                 degs.push("@ViewBag.Depo");
                 $.ajax({
-                    url: window.location.origin + "/WMS/Refund/StokKontrol",
+                    url: window.location.origin + "/WMS/ReturnSale/StokKontrol",
                     data: {Sirket:degs[0], EvrakNo:degs[1], CHK:degs[2], Depo:degs[3]},
                     type: "post",
                     success: function (data) {
@@ -120,16 +120,13 @@
                         if (hata[1].length > 0) {
                             Modaldialog(hata[1].toString(), "Hata", "Tamam", "btn-danger")
                         }
-                        else if (hata[0].length > 0) {
-                            frmAlimIade(hata[0]);
-                        }
                         else {
                             $("#submit").click();
                         }
 
                     }
-                });*@
-                $("#submit").click();
+                });
+                //$("#submit").click();
 
             });
             if (result == false) Modaldialog("Lütfen sipariş seçin", "Hata", "Tamam", "btn-danger");
@@ -143,7 +140,7 @@
         var html = "<tr style='background: transparent;'><th>Mal Kodu</th><th>Mal Adı</th><th>Miktar</th><th>Birim</th><th>Güneş Stok</th><th>Wms Stok</th><th>Rezerv Stok</th><th>Durum</th></tr>";
         $.ajax({
             type: 'POST',
-            url: '/WMS/Refund/Details',
+            url: '/WMS/ReturnSale/Details',
             data: { "ID": d },
             dataType: "json",
             success: function (data) {

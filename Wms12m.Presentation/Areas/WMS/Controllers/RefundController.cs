@@ -127,10 +127,10 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             int idDepo = db.Depoes.Where(m => m.DepoKodu == tbl.DepoID).Select(m => m.ID).FirstOrDefault();
             string GorevNo = db.SettingsGorevNo(today, idDepo).FirstOrDefault();
             string evraknolar = "", alıcılar = "";
-            InsertIrsaliye_Result cevap = new InsertIrsaliye_Result();
+            InsertIadeIrsaliye_Result cevap = new InsertIadeIrsaliye_Result();
             Result _Result;
             //loop the list
-            cevap = db.InsertIrsaliye(sirket, idDepo, GorevNo, GorevNo, today, "", true, ComboItems.SiparişTopla.ToInt32(), vUser.UserName, today, time, hesapKodu , hesapKodu, 0, evrak).FirstOrDefault();
+            cevap = db.InsertIadeIrsaliye(sirket, idDepo, GorevNo, GorevNo, today, "", true, ComboItems.SiparişTopla.ToInt32(), vUser.UserName, today, time, hesapKodu , hesapKodu, 0, evrak).FirstOrDefault();
             foreach (var item in checkList)
             {
 
