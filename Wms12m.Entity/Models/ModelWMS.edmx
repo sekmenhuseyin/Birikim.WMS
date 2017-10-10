@@ -1385,6 +1385,23 @@
           <Parameter Name="MalKodu" Type="varchar" Mode="In" />
           <Parameter Name="Birim" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="InsertIadeIrsaliye" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="wms">
+          <Parameter Name="SirketKod" Type="varchar" Mode="In" />
+          <Parameter Name="DepoID" Type="int" Mode="In" />
+          <Parameter Name="GorevNo" Type="varchar" Mode="In" />
+          <Parameter Name="IrsEvrakNo" Type="varchar" Mode="In" />
+          <Parameter Name="IrsTarih" Type="int" Mode="In" />
+          <Parameter Name="GorevBilgi" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="IrsIslemTur" Type="bit" Mode="In" />
+          <Parameter Name="GorevTipiID" Type="int" Mode="In" />
+          <Parameter Name="Olusturan" Type="varchar" Mode="In" />
+          <Parameter Name="OlusturmaTarihi" Type="int" Mode="In" />
+          <Parameter Name="OlusturmaSaati" Type="int" Mode="In" />
+          <Parameter Name="HesapKodu" Type="varchar" Mode="In" />
+          <Parameter Name="TeslimCHK" Type="varchar" Mode="In" />
+          <Parameter Name="ValorGun" Type="smallint" Mode="In" />
+          <Parameter Name="LinkEvrakNo" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="InsertIrsaliye" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="wms">
           <Parameter Name="SirketKod" Type="varchar" Mode="In" />
           <Parameter Name="DepoID" Type="int" Mode="In" />
@@ -2119,36 +2136,6 @@
             <End Role="ProjeForm" EntitySet="ProjeForms" />
             <End Role="ProjeForm1" EntitySet="ProjeForms" />
           </AssociationSet>
-          <FunctionImport Name="GetSTIList">
-            <Parameter Name="devamMi" Mode="In" Type="Boolean" />
-            <Parameter Name="gorevTip" Mode="In" Type="String" />
-            <Parameter Name="gorevID" Mode="In" Type="Int32" />
-            <Parameter Name="transferCount" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="GetSTIList1">
-            <Parameter Name="devamMi" Mode="In" Type="Boolean" />
-            <Parameter Name="gorevTip" Mode="In" Type="String" />
-            <Parameter Name="gorevID" Mode="In" Type="Int32" />
-            <Parameter Name="transferCount" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="GetSTIList2">
-            <Parameter Name="devamMi" Mode="In" Type="Boolean" />
-            <Parameter Name="gorevTip" Mode="In" Type="String" />
-            <Parameter Name="gorevID" Mode="In" Type="Int32" />
-            <Parameter Name="transferCount" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="GetSTIList3">
-            <Parameter Name="devamMi" Mode="In" Type="Boolean" />
-            <Parameter Name="gorevTip" Mode="In" Type="String" />
-            <Parameter Name="gorevID" Mode="In" Type="Int32" />
-            <Parameter Name="transferCount" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="GetSTIList4">
-            <Parameter Name="devamMi" Mode="In" Type="Boolean" />
-            <Parameter Name="gorevTip" Mode="In" Type="String" />
-            <Parameter Name="gorevID" Mode="In" Type="Int32" />
-            <Parameter Name="transferCount" Mode="In" Type="Int32" />
-          </FunctionImport>
           <EntitySet Name="GorevlerCalismas" EntityType="MModel.GorevlerCalisma" />
           <EntitySet Name="Gorevlers" EntityType="MModel.Gorevler" />
           <AssociationSet Name="FK_Gorevler_ComboItem_Name_Departman" Association="MModel.FK_Gorevler_ComboItem_Name_Departman">
@@ -2184,6 +2171,29 @@
             <End Role="Depo" EntitySet="Depoes" />
             <End Role="UserDetail" EntitySet="UserDetails" />
           </AssociationSet>
+          <FunctionImport Name="GetSTIList">
+            <Parameter Name="devamMi" Mode="In" Type="Boolean" />
+            <Parameter Name="gorevTip" Mode="In" Type="String" />
+            <Parameter Name="gorevID" Mode="In" Type="Int32" />
+            <Parameter Name="transferCount" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="InsertIadeIrsaliye" ReturnType="Collection(MModel.InsertIadeIrsaliye_Result)">
+            <Parameter Name="SirketKod" Mode="In" Type="String" />
+            <Parameter Name="DepoID" Mode="In" Type="Int32" />
+            <Parameter Name="GorevNo" Mode="In" Type="String" />
+            <Parameter Name="IrsEvrakNo" Mode="In" Type="String" />
+            <Parameter Name="IrsTarih" Mode="In" Type="Int32" />
+            <Parameter Name="GorevBilgi" Mode="In" Type="String" />
+            <Parameter Name="IrsIslemTur" Mode="In" Type="Boolean" />
+            <Parameter Name="GorevTipiID" Mode="In" Type="Int32" />
+            <Parameter Name="Olusturan" Mode="In" Type="String" />
+            <Parameter Name="OlusturmaTarihi" Mode="In" Type="Int32" />
+            <Parameter Name="OlusturmaSaati" Mode="In" Type="Int32" />
+            <Parameter Name="HesapKodu" Mode="In" Type="String" />
+            <Parameter Name="TeslimCHK" Mode="In" Type="String" />
+            <Parameter Name="ValorGun" Mode="In" Type="Int16" />
+            <Parameter Name="LinkEvrakNo" Mode="In" Type="String" />
+          </FunctionImport>
           </EntityContainer>
         <ComplexType Name="GetSirkets_Result">
           <Property Type="String" Name="Kod" Nullable="false" MaxLength="2" />
@@ -3645,6 +3655,11 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <ComplexType Name="InsertIadeIrsaliye_Result">
+          <Property Type="Int32" Name="IrsaliyeID" Nullable="true" />
+          <Property Type="Int32" Name="GorevID" Nullable="true" />
+          <Property Type="Boolean" Name="Onay" Nullable="true" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -4555,7 +4570,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="GetSTIList4" FunctionName="MModel.Store.GetSTIList" />
           <EntitySetMapping Name="GorevlerCalismas">
             <EntityTypeMapping TypeName="MModel.GorevlerCalisma">
               <MappingFragment StoreEntitySet="GorevlerCalisma">
@@ -4619,6 +4633,16 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="GetSTIList" FunctionName="MModel.Store.GetSTIList" />
+          <FunctionImportMapping FunctionImportName="InsertIadeIrsaliye" FunctionName="MModel.Store.InsertIadeIrsaliye">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MModel.InsertIadeIrsaliye_Result">
+                <ScalarProperty Name="IrsaliyeID" ColumnName="IrsaliyeID" />
+                <ScalarProperty Name="GorevID" ColumnName="GorevID" />
+                <ScalarProperty Name="Onay" ColumnName="Onay" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

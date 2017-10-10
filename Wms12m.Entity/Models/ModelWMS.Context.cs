@@ -893,88 +893,69 @@ namespace Wms12m.Entity.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("WMSEntities.GetSTIList", devamMiParameter, gorevTipParameter, gorevIDParameter, transferCountParameter);
         }
     
-        public virtual int GetSTIList1(Nullable<bool> devamMi, string gorevTip, Nullable<int> gorevID, Nullable<int> transferCount)
+        public virtual ObjectResult<InsertIadeIrsaliye_Result> InsertIadeIrsaliye(string sirketKod, Nullable<int> depoID, string gorevNo, string irsEvrakNo, Nullable<int> irsTarih, string gorevBilgi, Nullable<bool> irsIslemTur, Nullable<int> gorevTipiID, string olusturan, Nullable<int> olusturmaTarihi, Nullable<int> olusturmaSaati, string hesapKodu, string teslimCHK, Nullable<short> valorGun, string linkEvrakNo)
         {
-            var devamMiParameter = devamMi.HasValue ?
-                new ObjectParameter("devamMi", devamMi) :
-                new ObjectParameter("devamMi", typeof(bool));
+            var sirketKodParameter = sirketKod != null ?
+                new ObjectParameter("SirketKod", sirketKod) :
+                new ObjectParameter("SirketKod", typeof(string));
     
-            var gorevTipParameter = gorevTip != null ?
-                new ObjectParameter("gorevTip", gorevTip) :
-                new ObjectParameter("gorevTip", typeof(string));
+            var depoIDParameter = depoID.HasValue ?
+                new ObjectParameter("DepoID", depoID) :
+                new ObjectParameter("DepoID", typeof(int));
     
-            var gorevIDParameter = gorevID.HasValue ?
-                new ObjectParameter("gorevID", gorevID) :
-                new ObjectParameter("gorevID", typeof(int));
+            var gorevNoParameter = gorevNo != null ?
+                new ObjectParameter("GorevNo", gorevNo) :
+                new ObjectParameter("GorevNo", typeof(string));
     
-            var transferCountParameter = transferCount.HasValue ?
-                new ObjectParameter("transferCount", transferCount) :
-                new ObjectParameter("transferCount", typeof(int));
+            var irsEvrakNoParameter = irsEvrakNo != null ?
+                new ObjectParameter("IrsEvrakNo", irsEvrakNo) :
+                new ObjectParameter("IrsEvrakNo", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("WMSEntities.GetSTIList1", devamMiParameter, gorevTipParameter, gorevIDParameter, transferCountParameter);
-        }
+            var irsTarihParameter = irsTarih.HasValue ?
+                new ObjectParameter("IrsTarih", irsTarih) :
+                new ObjectParameter("IrsTarih", typeof(int));
     
-        public virtual int GetSTIList2(Nullable<bool> devamMi, string gorevTip, Nullable<int> gorevID, Nullable<int> transferCount)
-        {
-            var devamMiParameter = devamMi.HasValue ?
-                new ObjectParameter("devamMi", devamMi) :
-                new ObjectParameter("devamMi", typeof(bool));
+            var gorevBilgiParameter = gorevBilgi != null ?
+                new ObjectParameter("GorevBilgi", gorevBilgi) :
+                new ObjectParameter("GorevBilgi", typeof(string));
     
-            var gorevTipParameter = gorevTip != null ?
-                new ObjectParameter("gorevTip", gorevTip) :
-                new ObjectParameter("gorevTip", typeof(string));
+            var irsIslemTurParameter = irsIslemTur.HasValue ?
+                new ObjectParameter("IrsIslemTur", irsIslemTur) :
+                new ObjectParameter("IrsIslemTur", typeof(bool));
     
-            var gorevIDParameter = gorevID.HasValue ?
-                new ObjectParameter("gorevID", gorevID) :
-                new ObjectParameter("gorevID", typeof(int));
+            var gorevTipiIDParameter = gorevTipiID.HasValue ?
+                new ObjectParameter("GorevTipiID", gorevTipiID) :
+                new ObjectParameter("GorevTipiID", typeof(int));
     
-            var transferCountParameter = transferCount.HasValue ?
-                new ObjectParameter("transferCount", transferCount) :
-                new ObjectParameter("transferCount", typeof(int));
+            var olusturanParameter = olusturan != null ?
+                new ObjectParameter("Olusturan", olusturan) :
+                new ObjectParameter("Olusturan", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("WMSEntities.GetSTIList2", devamMiParameter, gorevTipParameter, gorevIDParameter, transferCountParameter);
-        }
+            var olusturmaTarihiParameter = olusturmaTarihi.HasValue ?
+                new ObjectParameter("OlusturmaTarihi", olusturmaTarihi) :
+                new ObjectParameter("OlusturmaTarihi", typeof(int));
     
-        public virtual int GetSTIList3(Nullable<bool> devamMi, string gorevTip, Nullable<int> gorevID, Nullable<int> transferCount)
-        {
-            var devamMiParameter = devamMi.HasValue ?
-                new ObjectParameter("devamMi", devamMi) :
-                new ObjectParameter("devamMi", typeof(bool));
+            var olusturmaSaatiParameter = olusturmaSaati.HasValue ?
+                new ObjectParameter("OlusturmaSaati", olusturmaSaati) :
+                new ObjectParameter("OlusturmaSaati", typeof(int));
     
-            var gorevTipParameter = gorevTip != null ?
-                new ObjectParameter("gorevTip", gorevTip) :
-                new ObjectParameter("gorevTip", typeof(string));
+            var hesapKoduParameter = hesapKodu != null ?
+                new ObjectParameter("HesapKodu", hesapKodu) :
+                new ObjectParameter("HesapKodu", typeof(string));
     
-            var gorevIDParameter = gorevID.HasValue ?
-                new ObjectParameter("gorevID", gorevID) :
-                new ObjectParameter("gorevID", typeof(int));
+            var teslimCHKParameter = teslimCHK != null ?
+                new ObjectParameter("TeslimCHK", teslimCHK) :
+                new ObjectParameter("TeslimCHK", typeof(string));
     
-            var transferCountParameter = transferCount.HasValue ?
-                new ObjectParameter("transferCount", transferCount) :
-                new ObjectParameter("transferCount", typeof(int));
+            var valorGunParameter = valorGun.HasValue ?
+                new ObjectParameter("ValorGun", valorGun) :
+                new ObjectParameter("ValorGun", typeof(short));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("WMSEntities.GetSTIList3", devamMiParameter, gorevTipParameter, gorevIDParameter, transferCountParameter);
-        }
+            var linkEvrakNoParameter = linkEvrakNo != null ?
+                new ObjectParameter("LinkEvrakNo", linkEvrakNo) :
+                new ObjectParameter("LinkEvrakNo", typeof(string));
     
-        public virtual int GetSTIList4(Nullable<bool> devamMi, string gorevTip, Nullable<int> gorevID, Nullable<int> transferCount)
-        {
-            var devamMiParameter = devamMi.HasValue ?
-                new ObjectParameter("devamMi", devamMi) :
-                new ObjectParameter("devamMi", typeof(bool));
-    
-            var gorevTipParameter = gorevTip != null ?
-                new ObjectParameter("gorevTip", gorevTip) :
-                new ObjectParameter("gorevTip", typeof(string));
-    
-            var gorevIDParameter = gorevID.HasValue ?
-                new ObjectParameter("gorevID", gorevID) :
-                new ObjectParameter("gorevID", typeof(int));
-    
-            var transferCountParameter = transferCount.HasValue ?
-                new ObjectParameter("transferCount", transferCount) :
-                new ObjectParameter("transferCount", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("WMSEntities.GetSTIList4", devamMiParameter, gorevTipParameter, gorevIDParameter, transferCountParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<InsertIadeIrsaliye_Result>("WMSEntities.InsertIadeIrsaliye", sirketKodParameter, depoIDParameter, gorevNoParameter, irsEvrakNoParameter, irsTarihParameter, gorevBilgiParameter, irsIslemTurParameter, gorevTipiIDParameter, olusturanParameter, olusturmaTarihiParameter, olusturmaSaatiParameter, hesapKoduParameter, teslimCHKParameter, valorGunParameter, linkEvrakNoParameter);
         }
     }
 }
