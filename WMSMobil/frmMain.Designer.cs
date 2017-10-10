@@ -184,7 +184,7 @@
             this.lblTransferIn.BackColor = System.Drawing.Color.SteelBlue;
             this.lblTransferIn.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold);
             this.lblTransferIn.ForeColor = System.Drawing.Color.White;
-            this.lblTransferIn.Location = new System.Drawing.Point(45, 170);
+            this.lblTransferIn.Location = new System.Drawing.Point(45, 169);
             this.lblTransferIn.Name = "lblTransferIn";
             this.lblTransferIn.Size = new System.Drawing.Size(32, 14);
             this.lblTransferIn.Tag = "";
@@ -195,7 +195,7 @@
             this.lblTransferOut.BackColor = System.Drawing.Color.Olive;
             this.lblTransferOut.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold);
             this.lblTransferOut.ForeColor = System.Drawing.Color.White;
-            this.lblTransferOut.Location = new System.Drawing.Point(165, 170);
+            this.lblTransferOut.Location = new System.Drawing.Point(165, 169);
             this.lblTransferOut.Name = "lblTransferOut";
             this.lblTransferOut.Size = new System.Drawing.Size(32, 14);
             this.lblTransferOut.Tag = "";
@@ -280,7 +280,7 @@
             this.lblAlim.BackColor = System.Drawing.Color.DarkCyan;
             this.lblAlim.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold);
             this.lblAlim.ForeColor = System.Drawing.Color.White;
-            this.lblAlim.Location = new System.Drawing.Point(45, 275);
+            this.lblAlim.Location = new System.Drawing.Point(45, 273);
             this.lblAlim.Name = "lblAlim";
             this.lblAlim.Size = new System.Drawing.Size(32, 14);
             this.lblAlim.Tag = "";
@@ -291,7 +291,7 @@
             this.lblSatis.BackColor = System.Drawing.Color.CornflowerBlue;
             this.lblSatis.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold);
             this.lblSatis.ForeColor = System.Drawing.Color.White;
-            this.lblSatis.Location = new System.Drawing.Point(164, 275);
+            this.lblSatis.Location = new System.Drawing.Point(164, 273);
             this.lblSatis.Name = "lblSatis";
             this.lblSatis.Size = new System.Drawing.Size(32, 14);
             this.lblSatis.Tag = "";
