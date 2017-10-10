@@ -43,8 +43,6 @@
         for (var i = 0; i < model.length; i++) {
             $.extend(model[i],{ color: color[i%color.length] });
         }
-        if (model.length == 0 && model[0].Sure==null)
-            model = @Html.Raw(Json.Encode(null));
         var ChartsGorev1 = function () {
             var initChartGorev1 = function () {
                 var chart = AmCharts.makeChart("chart_gorev_1", {
