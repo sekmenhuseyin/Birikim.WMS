@@ -53,7 +53,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             string sql = ""; i = 0;
             foreach (var item in sirketler)
             {
-                sql = String.Format("FINSAT6{0}.wms.AlimIptalSecimList @DepoKodu = '{1}', @EvrakNo = {2}, @CHK={3}", item, tbl.DepoID, evraklar[i], chk);
+                sql = String.Format("FINSAT6{0}.wms.SatisIptalSecimList @DepoKodu = '{1}', @EvrakNo = {2}, @CHK={3}", item, tbl.DepoID, evraklar[i], chk);
             }
             //listeyi getir
             var list = db.Database.SqlQuery<frmSiparisMalzemeDetay>(sql).ToList();
@@ -210,7 +210,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             if (StartDate > EndDate) return null;
             //perm kontrol
             if (CheckPerm(Perms.GenelSipariş, PermTypes.Reading) == false) return null;
-            string sql = String.Format("FINSAT6{0}.wms.AlimIptalSiparisList @DepoKodu = '{1}', @CHK='{2}', @BasTarih = {3}, @BitTarih= {4}", Sirket, DepoID.ToString(), CHK, StartDate.ToOADateInt(), EndDate.ToOADateInt());
+            string sql = String.Format("FINSAT6{0}.wms.SatisIptalSiparisList @DepoKodu = '{1}', @CHK='{2}', @BasTarih = {3}, @BitTarih= {4}", Sirket, DepoID.ToString(), CHK, StartDate.ToOADateInt(), EndDate.ToOADateInt());
 
             //return list
             ViewBag.Depo = DepoID;
@@ -227,6 +227,16 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                 Logger(ex, "Refund/GetSiparis");
                 return PartialView("SiparisList", new List<frmSiparisler>());
             }
+        }
+
+        [HttpPost]
+        public JsonResult Details(string ID)
+        {
+            if (CheckPerm(Perms.GenelSipariş, PermTypes.Reading) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
+            string[] tmp = ID.Split('-');
+            string sql = String.Format("FINSAT6{0}.wms.SatisIptalDetail @DepoKodu = '{1}', @EvrakNo = '{2}', @CHK='{3}'", tmp[0], tmp[1], tmp[2], tmp[3]);
+            var list = db.Database.SqlQuery<frmSiparisMalzeme>(sql).ToList();
+            return Json(list, JsonRequestBehavior.AllowGet);
         }
 
 
@@ -264,6 +274,25 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             if (list == null)
                 return null;
             return PartialView("Rezervler", list);
+        }
+
+        [HttpPost]
+        public string StokKontrol(string Sirket, string EvrakNo, string CHK, string Depo)
+        {
+            string sql = String.Format("FINSAT6{0}.wms.SatisIptalDetail @DepoKodu = '{1}', @EvrakNo = '{2}', @CHK='{3}'", Sirket, Depo, EvrakNo, CHK);
+            var list = db.Database.SqlQuery<frmSiparisMalzeme>(sql).ToList();
+            string hataliStok = "##";
+            foreach (var item in list)
+            {
+                if (item.Stok != item.WmsStok)
+                {
+                    if (hataliStok != "##") hataliStok += ", ";
+                    hataliStok += item.MalKodu;
+                }
+            }
+            if (hataliStok != "##")
+                hataliStok += " için stok miktarları uyuşmuyor.";
+            return hataliStok;
         }
 
     }
