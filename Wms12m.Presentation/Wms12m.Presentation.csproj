@@ -801,6 +801,8 @@
     <Content Include="Views\Users\B2BNew.cshtml" />
     <Content Include="Views\Home\Satis\GunlukSatisZamanCizelgesi.cshtml" />
     <Content Include="Views\Users\YetkiDuzenle.cshtml" />
+    <Content Include="Views\Home\GorevProjesi\GunlukCalisma.cshtml" />
+    <Content Include="Views\Home\GorevProjesi\GunlukCalismaPie.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -837,9 +839,7 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Views\Home\GorevProjesi\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

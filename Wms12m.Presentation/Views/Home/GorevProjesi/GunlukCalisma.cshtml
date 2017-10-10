@@ -1,0 +1,119 @@
+﻿@model List<chartGorevCalisma>
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet light bordered">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="icon-bar-chart font-green-haze"></i>
+                    <span class="caption-subject bold uppercase font-green-haze"> Günlük Çalışma Analizi <span style="color:#8888a7;">3D CHART</span></span>
+                </div>
+                <div class="col-md-2">
+                    <input type="text" class="form-control dateboxbg" id="gorevcalismatarih1" value="@ViewBag.tarih2" />
+                </div>
+                <div class="col-md-2">
+                    @Html.DropDownList("userID", null, htmlAttributes: new { @class = "form-control satirekle1", @onchange = "ReloadGorev1(this.value)" })
+                </div>
+                <div class="tools">
+                    <a href="javascript:;" class="collapse"> </a>
+                    <a href="javascript:;" class="fullscreen"> </a>
+                    <a href="javascript:;" class="reload" onclick="ReloadGorev1('@ViewBag.user');"> </a>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div id="chart_gorev_1" class="chart" style="height: 400px;"> </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function ReloadGorev1(v)
+    {
+        PartialView('/Home/GorevGunlukCalisma', 'gorev_gunluk_calisma', JSON.stringify({ user: v, tarih: @ViewBag.tarih, tip: '' }));
+    }
+    $(document).ready(function (e) {
+        $(".satirekle1").prepend("<option value=''>Hepsi</option>");
+        @if (ViewBag.user == "") { <text>$(".satirekle1")[0].selectedIndex = 0;</text> }
+        $.datepicker.setDefaults($.datepicker.regional["tr"]);
+        $("#gorevcalismatarih1").datepicker().on("change", function (e) {
+            var oaDate = toOADateFromString(e.target.value);
+            PartialView("/Home/GorevGunlukCalisma", 'gorev_gunluk_calisma', JSON.stringify({ user: '@ViewBag.user', tarih: oaDate, tip: '' }));
+        });
+        var model = @Html.Raw(Json.Encode(Model));
+        var color = ["#FF0F00","#FF6600","#FF9E01","#FCD202","#F8FF01","#B0DE09","#04D215","#0D8ECF","#0D52D1","#2A0CD0","#8A0CCF","#CD0D74","#754DEB","#DDDDDD","#999999","#333333","#000000"];
+        for (var i = 0; i < model.length; i++) {
+            $.extend(model[i],{ color: color[i%color.length] });
+        }
+        if (model.length == 0 && model[0].Sure==null)
+            model = @Html.Raw(Json.Encode(null));
+        var ChartsGorev1 = function () {
+            var initChartGorev1 = function () {
+                var chart = AmCharts.makeChart("chart_gorev_1", {
+                    "theme": "light",
+                    "type": "serial",
+                    "startDuration": 2,
+                    "titleRotation":10,
+                    "fontFamily": 'Open Sans',
+                    "color": '#888',
+                    "valueAxes": [{
+                        "position": "left",
+                        "axisAlpha": 0,
+                        "gridAlpha": 0
+
+                    }],
+                    "graphs": [{
+                        "balloonText": "[[category]]: <b>[[value]]</b>",
+                        "colorField": "color",
+                        "fillAlphas": 0.85,
+                        "lineAlpha": 0.1,
+                        "type": "column",
+                        "topRadius": 1,
+                        "valueField": "Sure",
+                        "fixedColumnWidth": 40,
+                        "labelText": "[[value]]",
+                        "labelRotation":315,
+                        "color":"grey",
+                        "labelOffset":30
+                    }],
+                    "depth3D": 40,
+                    "angle": 30,
+                    "chartCursor": {
+                        "categoryBalloonEnabled": false,
+                        "cursorAlpha": 0,
+                        "zoomable": false
+                    },
+                    "categoryField": "Proje",
+                    "categoryAxis": {
+                        "gridPosition": "start",
+                        "axisAlpha": 0,
+                        "gridAlpha": 0,
+                        "labelRotation": 45
+
+                    },
+                    "exportConfig": {
+                        "menuTop": "20px",
+                        "menuRight": "20px",
+                        "menuItems": [{
+                            "icon": '/lib/3/images/export.png',
+                            "format": 'png'
+
+                        }]
+                    }
+                }, 0);
+                chart.dataProvider = model;
+                chart.validateData();
+                chart.animateAgain();
+                $('#chart_gorev_1').closest('.portlet').find('.fullscreen').click(function () {
+                    chart.invalidateSize();
+                });
+            }
+            return {
+                init: function () {
+                    initChartGorev1();
+                }
+            };
+        }();
+        jQuery(document).ready(function () {
+            ChartsGorev1.init();
+        });
+    });
+</script>

@@ -56,7 +56,7 @@ namespace Wms12m.Presentation.Controllers
             return PartialView("../Shared/_MenuList", tablo);
         }
         /// <summary>
-        /////////////////////////////////////////////// partials
+        /// satış raporları
         /// </summary>
         public PartialViewResult PartialGunlukSatisZamanCizelgesi(string SirketKodu)
         {
@@ -76,7 +76,6 @@ namespace Wms12m.Presentation.Controllers
             }
             return PartialView("Satis/GunlukSatisZamanCizelgesi", liste);
         }
-
         public PartialViewResult PartialGunlukSatis(string SirketKodu, int tarih)
         {
             ViewBag.tarih = tarih;
@@ -96,7 +95,6 @@ namespace Wms12m.Presentation.Controllers
             }
             return PartialView("Satis/GunlukSatis", liste);
         }
-
         public PartialViewResult PartialGunlukSatisPie(string SirketKodu, int tarih)
         {
             ViewBag.tarih = tarih;
@@ -116,7 +114,6 @@ namespace Wms12m.Presentation.Controllers
             }
             return PartialView("Satis/GunlukSatisPie", liste);
         }
-
         public PartialViewResult PartialGunlukSatisYearToDay(string SirketKodu)
         {
             ViewBag.SirketKodu = SirketKodu;
@@ -136,7 +133,6 @@ namespace Wms12m.Presentation.Controllers
                 }
             return PartialView("Satis/GunlukSatısAnaliziYearToDay", liste);
         }
-
         public PartialViewResult PartialGunlukSatisYearToDayPie(string SirketKodu)
         {
             ViewBag.SirketKodu = SirketKodu;
@@ -156,7 +152,6 @@ namespace Wms12m.Presentation.Controllers
                 }
             return PartialView("Satis/GunlukSatısAnaliziYearToDayPie", liste);
         }
-
         public PartialViewResult PartialGunlukSatisDoubleKriter(string SirketKodu, string kod, int islemtip, int tarih)
         {
             ViewBag.IslemTip = islemtip;
@@ -178,7 +173,6 @@ namespace Wms12m.Presentation.Controllers
             }
             return PartialView("Satis/GunlukSatisAnaliziDoubleKriter", liste);
         }
-
         public PartialViewResult PartialGunlukSatisDoubleKriterPie(string SirketKodu, string kod, int islemtip, int tarih)
         {
             ViewBag.IslemTip = islemtip;
@@ -220,7 +214,6 @@ namespace Wms12m.Presentation.Controllers
                 }
             return PartialView("Satis/AylikSatisAnaliziBar", liste);
         }
-
         public PartialViewResult PartialAylikSatisCHKAnaliziBar(string SirketKodu, string chk)
         {
             ViewBag.CHK = chk;
@@ -250,7 +243,6 @@ namespace Wms12m.Presentation.Controllers
                 }
             return PartialView("Satis/AylikSatisCHKAnaliziBar", liste);
         }
-
         public PartialViewResult PartialAylikSatisAnaliziKodTipDovizBar(string SirketKodu, string kod, int islemtip, string doviz)
         {
             ViewBag.Doviz = doviz;
@@ -293,7 +285,6 @@ namespace Wms12m.Presentation.Controllers
                 }
             return PartialView("Satis/UrunGrubuSatis", liste);
         }
-
         public PartialViewResult PartialUrunGrubuSatisKriter(string SirketKodu, short tarih, string kriter)
         {
             ViewBag.Tarih = tarih;
@@ -334,7 +325,6 @@ namespace Wms12m.Presentation.Controllers
                 }
             return PartialView("Satis/LokasyonSatis", liste);
         }
-
         public PartialViewResult PartialLokasyonSatisKriter(string SirketKodu, int tarih, string kriter)
         {
             ViewBag.Tarih = tarih;
@@ -354,24 +344,6 @@ namespace Wms12m.Presentation.Controllers
                     liste = new List<GetCachedChartLocationKriter_Result>();
                 }
             return PartialView("Satis/LokasyonSatisKriter", liste);
-        }
-
-        public PartialViewResult PartialBakiyeRiskAnalizi(string SirketKodu)
-        {
-            ViewBag.SirketKodu = SirketKodu;
-            ViewBag.SirketID = new SelectList(db.GetSirkets().ToList(), "Kod", "Ad");
-            if (CheckPerm(Perms.ChartBakiyeRiskAnalizi, PermTypes.Reading) == false) return PartialView("Satis/BakiyeRiskAnalizi", new List<GetCachedChartBakiyeRisk_Result>());
-            var BRA = db.GetCachedChartBakiyeRisk(SirketKodu).ToList();
-            if (BRA.Count == 0)
-                try
-                {
-                    BRA = db.Database.SqlQuery<GetCachedChartBakiyeRisk_Result>(string.Format("[FINSAT6{0}].[wms].[DB_BakiyeRiskAnalizi]", SirketKodu)).ToList();
-                }
-                catch (Exception)
-                {
-                    BRA = new List<GetCachedChartBakiyeRisk_Result>();
-                }
-            return PartialView("Satis/BakiyeRiskAnalizi", BRA);
         }
 
         public PartialViewResult PartialBekleyenSiparisUrunGrubu(string SirketKodu, int bastarih, int bittarih)
@@ -395,7 +367,6 @@ namespace Wms12m.Presentation.Controllers
             }
             return PartialView("Satis/BekleyenSiparisUrunGrubu", BSUG);
         }
-
         public PartialViewResult PartialBekleyenSiparisUrunGrubuMiktar(string SirketKodu, bool miktarTutar)
         {
             ViewBag.SirketKodu = SirketKodu;
@@ -433,7 +404,6 @@ namespace Wms12m.Presentation.Controllers
             }
             return PartialView("Satis/BekleyenSiparisUrunGrubuMiktar", BSUG);
         }
-
         public PartialViewResult PartialBekleyenSiparisUrunGrubuMiktarPie(string SirketKodu, bool miktarTutar)
         {
             ViewBag.SirketKodu = SirketKodu;
@@ -471,7 +441,6 @@ namespace Wms12m.Presentation.Controllers
             }
             return PartialView("Satis/BekleyenSiparisUrunGrubuMiktarPie", BSUG);
         }
-
         public PartialViewResult PartialBekleyenSiparisUrunGrubuMiktarKriter(string SirketKodu, string kriter)
         {
             ViewBag.SirketKodu = SirketKodu;
@@ -490,7 +459,6 @@ namespace Wms12m.Presentation.Controllers
             }
             return PartialView("Satis/BekleyenSiparisUrunGrubuMiktarKriter", BSUG);
         }
-
         public PartialViewResult PartialBekleyenSiparisUrunGrubuMiktarKriterPie(string SirketKodu, string kriter)
         {
             ViewBag.SirketKodu = SirketKodu;
@@ -509,7 +477,6 @@ namespace Wms12m.Presentation.Controllers
             }
             return PartialView("Satis/BekleyenSiparisUrunGrubuMiktarKriterPie", BSUG);
         }
-
         public PartialViewResult PartialBekleyenSiparisMusteriAnalizi(string SirketKodu, string kod, string doviz)
         {
             ViewBag.SirketKodu = SirketKodu;
@@ -527,25 +494,6 @@ namespace Wms12m.Presentation.Controllers
                 liste = new List<ChartBekleyenSiparisUrunGrubu>();
             }
             return PartialView("Satis/BekleyenSiparisMusteriAnalizi", liste);
-        }
-
-        public PartialViewResult PartialSatisTemsilcisiAylikSatisAnalizi(string SirketKodu, string kod, short tarih)
-        {
-            ViewBag.Tarih = tarih;
-            ViewBag.Kriter = kod;
-            ViewBag.SirketKodu = SirketKodu;
-            ViewBag.SirketID = new SelectList(db.GetSirkets().ToList(), "Kod", "Ad");
-            if (CheckPerm(Perms.ChartSatisTemsilcisiAylikSatisAnalizi, PermTypes.Reading) == false) return PartialView("Satis/SatisTemsilcisi_AylikSatisAnalizi", new List<ChartSatisTemsilcisiAylikSatisAnalizi>());
-            List<ChartSatisTemsilcisiAylikSatisAnalizi> list;
-            try
-            {
-                list = db.Database.SqlQuery<ChartSatisTemsilcisiAylikSatisAnalizi>(string.Format("[FINSAT6{0}].[wms].[SatisTemsilcisi_AylikSatisAnalizi] @Ay = '{1}', @Kriter = '{2}'", SirketKodu, tarih, kod)).ToList();
-            }
-            catch (Exception)
-            {
-                list = new List<ChartSatisTemsilcisiAylikSatisAnalizi>();
-            }
-            return PartialView("Satis/SatisTemsilcisi_AylikSatisAnalizi", list);
         }
 
         public PartialViewResult PartialBaglantiUrunGrubu(string SirketKodu)
@@ -566,7 +514,6 @@ namespace Wms12m.Presentation.Controllers
                 }
             return PartialView("Satis/BaglantiUrunGrubu", BUGS);
         }
-
         public PartialViewResult PartialBaglantiUrunGrubuPie(string SirketKodu)
         {
             ViewBag.SirketKodu = SirketKodu;
@@ -604,7 +551,6 @@ namespace Wms12m.Presentation.Controllers
             }
             return PartialView("Satis/GunlukMDFUretim", UGS);
         }
-
         public PartialViewResult PartialGunlukMDFUretimiPie(string SirketKodu, int tarih)
         {
             ViewBag.SirketKodu = SirketKodu;
@@ -624,23 +570,6 @@ namespace Wms12m.Presentation.Controllers
             return PartialView("Satis/GunlukMDFUretimPie", GSA);
         }
 
-        public PartialViewResult PartialBaglantiZamanCizelgesi(string SirketKodu)
-        {
-            ViewBag.SirketKodu = SirketKodu;
-            ViewBag.SirketID = new SelectList(db.GetSirkets().ToList(), "Kod", "Ad");
-            if (CheckPerm(Perms.ChartBaglantiZamanCizelgesi, PermTypes.Reading) == false) return PartialView("Satis/BaglantiZamanCizelgesi", new List<ChartBaglantiZaman>());
-            List<ChartBaglantiZaman> BUGS;
-            try
-            {
-                BUGS = db.Database.SqlQuery<ChartBaglantiZaman>(string.Format("[FINSAT6{0}].[wms].[DB_BaglantiLogGetir]", SirketKodu)).ToList();
-            }
-            catch (Exception ex)
-            {
-                Logger(ex, "Home/PartialBaglantiZamanCizelgesi");
-                BUGS = new List<ChartBaglantiZaman>();
-            }
-            return PartialView("Satis/BaglantiZamanCizelgesi", BUGS);
-        }
 
         public PartialViewResult PartialBolgeBazliSatisAnalizi(string SirketKodu, int ay, string kriter)
         {
@@ -660,7 +589,6 @@ namespace Wms12m.Presentation.Controllers
             }
             return PartialView("Satis/BolgeBazliSatisAnalizi", BSUG);
         }
-
         public PartialViewResult PartialBolgeBazliSatisAnaliziPie(string SirketKodu, int ay, string kriter)
         {
             ViewBag.Ay = ay;
@@ -680,6 +608,76 @@ namespace Wms12m.Presentation.Controllers
             return PartialView("Satis/BolgeBazliSatisAnaliziPie", BSUG);
         }
 
+        public PartialViewResult PartialBaglantiZamanCizelgesi(string SirketKodu)
+        {
+            ViewBag.SirketKodu = SirketKodu;
+            ViewBag.SirketID = new SelectList(db.GetSirkets().ToList(), "Kod", "Ad");
+            if (CheckPerm(Perms.ChartBaglantiZamanCizelgesi, PermTypes.Reading) == false) return PartialView("Satis/BaglantiZamanCizelgesi", new List<ChartBaglantiZaman>());
+            List<ChartBaglantiZaman> BUGS;
+            try
+            {
+                BUGS = db.Database.SqlQuery<ChartBaglantiZaman>(string.Format("[FINSAT6{0}].[wms].[DB_BaglantiLogGetir]", SirketKodu)).ToList();
+            }
+            catch (Exception ex)
+            {
+                Logger(ex, "Home/PartialBaglantiZamanCizelgesi");
+                BUGS = new List<ChartBaglantiZaman>();
+            }
+            return PartialView("Satis/BaglantiZamanCizelgesi", BUGS);
+        }
+        public PartialViewResult PartialBakiyeRiskAnalizi(string SirketKodu)
+        {
+            ViewBag.SirketKodu = SirketKodu;
+            ViewBag.SirketID = new SelectList(db.GetSirkets().ToList(), "Kod", "Ad");
+            if (CheckPerm(Perms.ChartBakiyeRiskAnalizi, PermTypes.Reading) == false) return PartialView("Satis/BakiyeRiskAnalizi", new List<GetCachedChartBakiyeRisk_Result>());
+            var BRA = db.GetCachedChartBakiyeRisk(SirketKodu).ToList();
+            if (BRA.Count == 0)
+                try
+                {
+                    BRA = db.Database.SqlQuery<GetCachedChartBakiyeRisk_Result>(string.Format("[FINSAT6{0}].[wms].[DB_BakiyeRiskAnalizi]", SirketKodu)).ToList();
+                }
+                catch (Exception)
+                {
+                    BRA = new List<GetCachedChartBakiyeRisk_Result>();
+                }
+            return PartialView("Satis/BakiyeRiskAnalizi", BRA);
+        }
+        public PartialViewResult PartialSatisTemsilcisiAylikSatisAnalizi(string SirketKodu, string kod, short tarih)
+        {
+            ViewBag.Tarih = tarih;
+            ViewBag.Kriter = kod;
+            ViewBag.SirketKodu = SirketKodu;
+            ViewBag.SirketID = new SelectList(db.GetSirkets().ToList(), "Kod", "Ad");
+            if (CheckPerm(Perms.ChartSatisTemsilcisiAylikSatisAnalizi, PermTypes.Reading) == false) return PartialView("Satis/SatisTemsilcisi_AylikSatisAnalizi", new List<ChartSatisTemsilcisiAylikSatisAnalizi>());
+            List<ChartSatisTemsilcisiAylikSatisAnalizi> list;
+            try
+            {
+                list = db.Database.SqlQuery<ChartSatisTemsilcisiAylikSatisAnalizi>(string.Format("[FINSAT6{0}].[wms].[SatisTemsilcisi_AylikSatisAnalizi] @Ay = '{1}', @Kriter = '{2}'", SirketKodu, tarih, kod)).ToList();
+            }
+            catch (Exception)
+            {
+                list = new List<ChartSatisTemsilcisiAylikSatisAnalizi>();
+            }
+            return PartialView("Satis/SatisTemsilcisi_AylikSatisAnalizi", list);
+        }
+        /// <summary>
+        /// Görev projesi raporları
+        /// </summary>
+        public PartialViewResult GorevGunlukCalisma(string user, int tarih, string tip)
+        {
+            ViewBag.tarih = tarih;
+            ViewBag.tarih2 = tarih.FromOADateInt();
+            ViewBag.user = user;
+            ViewBag.userID = new SelectList(Persons.GetList(), "Kod", "AdSoyad", user);
+            var liste = db.Database.SqlQuery<chartGorevCalisma>(string.Format(@"SELECT ong.ProjeForm.Proje, SUM(ong.GorevlerCalisma.Sure) AS Sure
+                    FROM ong.GorevlerCalisma INNER JOIN ong.Gorevler ON ong.GorevlerCalisma.GorevID = ong.Gorevler.ID INNER JOIN ong.ProjeForm ON ong.Gorevler.ProjeFormID = ong.ProjeForm.ID
+                    WHERE (ong.GorevlerCalisma.Tarih = '{0}') AND (case when '{1}' <> '' then case when (ong.GorevlerCalisma.Kaydeden = '{1}') then 1 else 0 end else 1 end = 1) 
+                    GROUP BY ong.ProjeForm.Proje", tarih.FromOaDate().ToString("yyyy-MM-dd"), user)).ToList();
+            if (tip == "Pie")
+                return PartialView("GorevProjesi/GunlukCalismaPie", liste);
+            else
+                return PartialView("GorevProjesi/GunlukCalisma", liste);
+        }
         /// <summary>
         /// xrtas
         /// </summary>
