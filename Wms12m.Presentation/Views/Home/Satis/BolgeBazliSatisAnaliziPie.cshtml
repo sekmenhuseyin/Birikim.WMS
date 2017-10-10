@@ -28,7 +28,6 @@
     var ay_value= @ViewBag.Ay;
     var kriter_value=@Html.Raw(Json.Encode(ViewBag.Kriter));
     var ay = [{ id: 0, state: "Tümü"},{ id: 1, state: "Ocak"},{ id: 2, state: "Şubat" },{ id: 3, state: "Mart"},{ id: 4, state: "Nisan"},{ id: 5, state: "Mayıs" },{ id: 6, state: "Haziran"},{ id: 7, state: "Temmuz"},{ id: 8, state: "Ağustos" },{ id: 9, state: "Eylül"},{ id: 10, state: "Ekim"},{ id: 11, state: "Kasım" },{ id: 12, state: "Aralik"}];
-    //var kriter = [{ state: "Tümü" }, { state: "Akdeniz Böl." }, { state: "Doğu Anad. Böl." }, { state: "Ege Böl." }, { state: "G.Doğu Anad.Böl." }, { state: "İç Anadolu Böl." }, { state: "Karadeniz Böl." }, { state: "Marmara Böl." }];
     if ($('.SirketIDs option').size() == 1) $(".SirketIDs").hide();
     else $(".SirketIDs").val('@ViewBag.SirketKodu');
     function Reloads(v)
