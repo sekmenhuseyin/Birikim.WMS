@@ -8,15 +8,21 @@
                     <span class="caption-subject bold uppercase font-green-haze"> Müşteri Analizi <span style="color:#8888a7;">3D CHART</span></span>
                 </div>
                 <div class="col-md-2">
-                    <input type="text" class="form-control dateboxbg" id="gorevcalismatarih1" value="@ViewBag.tarih2" />
+                    <input type="text" class="form-control dateboxbg" id="gorevcalismatarih31" value="@ViewBag.tarihStart2" />
                 </div>
                 <div class="col-md-2">
-                    @Html.DropDownList("userID", null, htmlAttributes: new { @class = "form-control satirekle1", @onchange = "ReloadGorev1(this.value)" })
+                    <input type="text" class="form-control dateboxbg" id="gorevcalismatarih32" value="@ViewBag.tarihEnd2" />
+                </div>
+                <div class="col-md-2">
+                    @Html.DropDownList("userID", null, htmlAttributes: new { @class = "form-control satirekle3", @onchange = "ReloadGorev3(this.value, '" + ViewBag.proje + "', " + ViewBag.tarihStart + ", " + ViewBag.tarihEnd + ")" })
+                </div>
+                <div class="col-md-2">
+                    <select class="form-control" id="userID" name="userID" onchange="ReloadGorev3(@ViewBag.musteri, this.value, @ViewBag.tarihStart, @ViewBag.tarihEnd)"></select>
                 </div>
                 <div class="tools">
                     <a href="javascript:;" class="collapse"> </a>
                     <a href="javascript:;" class="fullscreen"> </a>
-                    <a href="javascript:;" class="reload" onclick="ReloadGorev1('@ViewBag.user');"> </a>
+                    <a href="javascript:;" class="reload" onclick="ReloadGorev3(@ViewBag.musteri, '@ViewBag.proje', @ViewBag.tarihStart, @ViewBag.tarihEnd);"> </a>
                 </div>
             </div>
             <div class="portlet-body">
@@ -26,17 +32,21 @@
     </div>
 </div>
 <script>
-    function ReloadGorev1(v)
+    function ReloadGorev3(Musteri, Proje, Start, End)
     {
-        PartialView('/Home/GorevGunlukCalisma', 'gorev_gunluk_calisma', JSON.stringify({ user: v, tarih: @ViewBag.tarih, tip: '' }));
+        PartialView('/Home/GorevMusteriAnalizi', 'gorev_musteri_analizi', JSON.stringify({ musteri: Musteri, proje: Proje, tarihStart: Start, tarihEnd: End, tip: '' }));
     }
     $(document).ready(function (e) {
-        $(".satirekle1").prepend("<option value=''>Hepsi</option>");
-        @if (ViewBag.user == "") { <text>$(".satirekle1")[0].selectedIndex = 0;</text> }
+        $(".satirekle3").prepend("<option value='0'>Hepsi</option>");
+        @if (ViewBag.musteri == 0) { <text>$(".satirekle3")[0].selectedIndex = 0;</text> }
         $.datepicker.setDefaults($.datepicker.regional["tr"]);
-        $("#gorevcalismatarih1").datepicker().on("change", function (e) {
+        $("#gorevcalismatarih31").datepicker().on("change", function (e) {
+            ReloadGorev3(@ViewBag.musteri, '@ViewBag.proje', toOADateFromString(e.target.value), @ViewBag.tarihEnd);
             var oaDate = toOADateFromString(e.target.value);
-            PartialView("/Home/GorevGunlukCalisma", 'gorev_gunluk_calisma', JSON.stringify({ user: '@ViewBag.user', tarih: oaDate, tip: '' }));
+        });
+        $("#gorevcalismatarih32").datepicker().on("change", function (e) {
+            ReloadGorev3(@ViewBag.musteri, '@ViewBag.proje', @ViewBag.tarihStart, toOADateFromString(e.target.value));
+            var oaDate = toOADateFromString(e.target.value);
         });
         var model = @Html.Raw(Json.Encode(Model));
         var color = ["#FF0F00","#FF6600","#FF9E01","#FCD202","#F8FF01","#B0DE09","#04D215","#0D8ECF","#0D52D1","#2A0CD0","#8A0CCF","#CD0D74","#754DEB","#DDDDDD","#999999","#333333","#000000"];
