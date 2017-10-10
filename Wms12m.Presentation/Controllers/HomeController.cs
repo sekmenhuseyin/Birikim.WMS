@@ -678,6 +678,19 @@ namespace Wms12m.Presentation.Controllers
             else
                 return PartialView("GorevProjesi/GunlukCalisma", liste);
         }
+        public PartialViewResult GorevAylikCalisma(string user, string tip)
+        {
+            ViewBag.user = user;
+            ViewBag.userID = new SelectList(Persons.GetList(), "Kod", "AdSoyad", user);
+            var liste = db.Database.SqlQuery<chartGorevCalisma>(string.Format(@"SELECT ong.ProjeForm.Proje, SUM(ong.GorevlerCalisma.Sure) AS Sure
+                    FROM ong.GorevlerCalisma INNER JOIN ong.Gorevler ON ong.GorevlerCalisma.GorevID = ong.Gorevler.ID INNER JOIN ong.ProjeForm ON ong.Gorevler.ProjeFormID = ong.ProjeForm.ID
+                    WHERE (ong.GorevlerCalisma.Tarih = '{0}') AND (case when '{1}' <> '' then case when (ong.GorevlerCalisma.Kaydeden = '{1}') then 1 else 0 end else 1 end = 1) 
+                    GROUP BY ong.ProjeForm.Proje", user)).ToList();
+            if (tip == "Pie")
+                return PartialView("GorevProjesi/AylikCalismaPie", liste);
+            else
+                return PartialView("GorevProjesi/AylikCalisma", liste);
+        }
         /// <summary>
         /// xrtas
         /// </summary>

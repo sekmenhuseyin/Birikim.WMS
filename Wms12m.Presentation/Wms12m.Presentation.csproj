@@ -803,6 +803,7 @@
     <Content Include="Views\Users\YetkiDuzenle.cshtml" />
     <Content Include="Views\Home\GorevProjesi\GunlukCalisma.cshtml" />
     <Content Include="Views\Home\GorevProjesi\GunlukCalismaPie.cshtml" />
+    <Content Include="Views\Home\GorevProjesi\AylikCalisma.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
