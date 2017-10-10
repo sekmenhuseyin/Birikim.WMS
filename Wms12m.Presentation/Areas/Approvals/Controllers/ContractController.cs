@@ -671,7 +671,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             {
                 chkBilgi = db.Database.SqlQuery<SozlesmeCariBilgileri>(string.Format("[FINSAT6{0}].[wms].[SozlesmeCariBilgileri] @HesapKodu='{2}', @ListeNo='{1}'", "17", ListeNo, HesapKodu)).ToList();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 chkBilgi = new List<Entity.SozlesmeCariBilgileri>();
             }

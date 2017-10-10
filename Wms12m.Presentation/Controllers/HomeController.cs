@@ -230,8 +230,10 @@ namespace Wms12m.Presentation.Controllers
             List<ChartAylikSatisAnalizi> liste;
             if (chk == "")
             {
-                liste = new List<ChartAylikSatisAnalizi>();
-                liste.Add(new ChartAylikSatisAnalizi() { Ay = "0", Yil2015 = 0, Yil2016 = 0, Yil2017 = 0 });
+                liste = new List<ChartAylikSatisAnalizi>
+                {
+                    new ChartAylikSatisAnalizi() { Ay = "0", Yil2015 = 0, Yil2016 = 0, Yil2017 = 0 }
+                };
             }
             else
                 try
@@ -241,8 +243,10 @@ namespace Wms12m.Presentation.Controllers
                 }
                 catch (Exception)
                 {
-                    liste = new List<ChartAylikSatisAnalizi>();
-                    liste.Add(new ChartAylikSatisAnalizi() { Ay = "0", Yil2015 = 0, Yil2016 = 0, Yil2017 = 0 });
+                    liste = new List<ChartAylikSatisAnalizi>
+                    {
+                        new ChartAylikSatisAnalizi() { Ay = "0", Yil2015 = 0, Yil2016 = 0, Yil2017 = 0 }
+                    };
                 }
             return PartialView("Satis/AylikSatisCHKAnaliziBar", liste);
         }
