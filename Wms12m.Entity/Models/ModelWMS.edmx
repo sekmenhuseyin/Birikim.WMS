@@ -39,6 +39,7 @@
           <Property Name="SmtpHost" Type="varchar" MaxLength="150" />
           <Property Name="SmtpSSL" Type="bit" Nullable="false" />
           <Property Name="homeDepo" Type="bit" Nullable="false" />
+          <Property Name="GorevProjesi" Type="bit" Nullable="false" />
           <Property Name="homeUser" Type="bit" Nullable="false" />
           <Property Name="homeTask" Type="bit" Nullable="false" />
           <Property Name="OnayStok" Type="bit" Nullable="false" />
@@ -3356,6 +3357,7 @@
           <Property Name="Version" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Aktif" Type="Boolean" Nullable="false" />
           <Property Name="SiparisOnayParametre" Type="Boolean" Nullable="false" />
+          <Property Name="GorevProjesi" Type="Boolean" Nullable="false" />
         </EntityType>
         <ComplexType Name="GetStockRezerv_Result">
           <Property Type="String" Name="GorevNo" Nullable="false" MaxLength="50" />
@@ -4410,6 +4412,7 @@
           <EntitySetMapping Name="Settings">
             <EntityTypeMapping TypeName="MModel.Setting">
               <MappingFragment StoreEntitySet="Settings">
+                <ScalarProperty Name="GorevProjesi" ColumnName="GorevProjesi" />
                 <ScalarProperty Name="SiparisOnayParametre" ColumnName="SiparisOnayParametre" />
                 <ScalarProperty Name="Aktif" ColumnName="Aktif" />
                 <ScalarProperty Name="Version" ColumnName="Version" />
