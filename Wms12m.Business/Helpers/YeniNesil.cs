@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DevHelper;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Wms12m.Entity;
@@ -81,6 +82,13 @@ namespace Wms12m
                 fatura.STK005_DegistirenTarih = DateTime.Today.Date.ToOADate().ToInt32();
                 fatura.STK005_DegistirenSaat = saat;
 
+                fatura.Adres1 = item.Adres1;
+                fatura.Adres2 = item.Adres2;
+                fatura.Adres3 = item.Adres3;
+                fatura.Aciklama1 = item.Aciklama1;
+                fatura.Aciklama2 = item.Aciklama2;
+                fatura.Aciklama3 = item.Aciklama3;
+
                 FaturaSatirlari.Add(fatura);
             }
             foreach (var item in FaturaSatirlari)
@@ -137,6 +145,66 @@ namespace Wms12m
                 fMal.CAR005_EArsivFaturaTeslimSekli = null;
 
                 Sqlexper.Insert(fMal);
+
+                short satirNo = 3;
+                CAR005 fSevkAciklama = new CAR005();
+                fSevkAciklama.Set(fMal);
+                fSevkAciklama.CAR005_SatirTipi = "A";
+                fSevkAciklama.CAR005_Tutar = 0;
+                fSevkAciklama.CAR005_Oran = 0;
+                fSevkAciklama.CAR005_ParaBirimi = 0;
+                fSevkAciklama.CAR005_DovizCinsi = "";
+                fSevkAciklama.CAR005_Secenek = 5;
+
+                if (firstItem.Adres1.IsNotNullEmpty())
+                {
+                    fSevkAciklama.CAR005_SatirNo = satirNo;
+                    fSevkAciklama.CAR005_Filler = firstItem.Adres1.Substring(0, 1);
+                    fSevkAciklama.CAR005_SatirAciklama = firstItem.Adres1.Substring(1, firstItem.Adres1.Length - 1);
+                    Sqlexper.Insert(fSevkAciklama);
+                    satirNo++;
+                }
+                if (firstItem.Adres2.IsNotNullEmpty())
+                {
+                    fSevkAciklama.CAR005_SatirNo = satirNo;
+                    fSevkAciklama.CAR005_Filler = firstItem.Adres2.Substring(0, 1);
+                    fSevkAciklama.CAR005_SatirAciklama = firstItem.Adres2.Substring(1, firstItem.Adres2.Length - 1);
+                    Sqlexper.Insert(fSevkAciklama);
+                    satirNo++;
+                }
+                if (firstItem.Adres3.IsNotNullEmpty())
+                {
+                    fSevkAciklama.CAR005_SatirNo = satirNo;
+                    fSevkAciklama.CAR005_Filler = firstItem.Adres3.Substring(0, 1);
+                    fSevkAciklama.CAR005_SatirAciklama = firstItem.Adres3.Substring(1, firstItem.Adres3.Length - 1);
+                    Sqlexper.Insert(fSevkAciklama);
+                    satirNo++;
+                }
+
+                if (firstItem.Aciklama1.IsNotNullEmpty())
+                {
+                    fSevkAciklama.CAR005_SatirNo = satirNo;
+                    fSevkAciklama.CAR005_Filler = firstItem.Aciklama1.Substring(0, 1);
+                    fSevkAciklama.CAR005_SatirAciklama = firstItem.Aciklama1.Substring(1, firstItem.Aciklama1.Length - 1);
+                    Sqlexper.Insert(fSevkAciklama);
+                    satirNo++;
+                }
+                if (firstItem.Aciklama2.IsNotNullEmpty())
+                {
+                    fSevkAciklama.CAR005_SatirNo = satirNo;
+                    fSevkAciklama.CAR005_Filler = firstItem.Aciklama2.Substring(0, 1);
+                    fSevkAciklama.CAR005_SatirAciklama = firstItem.Aciklama2.Substring(1, firstItem.Aciklama2.Length - 1);
+                    Sqlexper.Insert(fSevkAciklama);
+                    satirNo++;
+                }
+                if (firstItem.Aciklama3.IsNotNullEmpty())
+                {
+                    fSevkAciklama.CAR005_SatirNo = satirNo;
+                    fSevkAciklama.CAR005_Filler = firstItem.Aciklama3.Substring(0, 1);
+                    fSevkAciklama.CAR005_SatirAciklama = firstItem.Aciklama3.Substring(1, firstItem.Aciklama3.Length - 1);
+                    Sqlexper.Insert(fSevkAciklama);
+                    satirNo++;
+                }
 
                 #endregion   FTD INSERT END
 
@@ -225,7 +293,8 @@ namespace Wms12m
             format = string.Format(format, seri, no + 1);
             return format;
         }
-         private void EvrakNolari_YukleAyarla()
+
+        private void EvrakNolari_YukleAyarla()
         {
             List<STIEvrakBilgi> evrakBilgiList = new List<STIEvrakBilgi>();
             SqlExper Exper = new SqlExper(ConStr, SirketKodu);
