@@ -61,19 +61,6 @@
 
                     }],
                     "graphs": [{
-                        "balloonText": "@(DateTime.Today.Year-1): <b>[[value]]</b>",
-                        "colorField": "color",
-                        "fillAlphas": 0.85,
-                        "lineAlpha": 0.1,
-                        "type": "column",
-                        "topRadius": 1,
-                        "valueField": "GecenYil",
-                        "fixedColumnWidth": 40,
-                        "labelText": "[[value]]",
-                        "labelRotation": 315,
-                        "color": "grey",
-                        "labelOffset": 30
-                    },{
                         "balloonText": "@DateTime.Today.Year: <b>[[value]]</b>",
                         "colorField": "color",
                         "fillAlphas": 0.85,
@@ -81,6 +68,19 @@
                         "type": "column",
                         "topRadius": 1,
                         "valueField": "BuYil",
+                        "fixedColumnWidth": 40,
+                        "labelText": "[[value]]",
+                        "labelRotation": 315,
+                        "color": "grey",
+                        "labelOffset": 30
+                    },{
+                        "balloonText": "@(DateTime.Today.Year-1): <b>[[value]]</b>",
+                        "colorField": "color",
+                        "fillAlphas": 0.85,
+                        "lineAlpha": 0.1,
+                        "type": "column",
+                        "topRadius": 1,
+                        "valueField": "GecenYil",
                         "fixedColumnWidth": 40,
                         "labelText": "[[value]]",
                         "labelRotation": 315,
