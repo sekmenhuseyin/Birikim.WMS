@@ -641,117 +641,117 @@ namespace Wms12m
             //loop iraliyes
             foreach (var item in mGorev.IRS.Where(m => m.Onay == true))
             {
-                string sql = string.Format("SELECT EvrakNo FROM FINSAT6{0}.FINSAT6{0}.STI WHERE (EvrakNo = '{1}') AND (KynkEvrakTip = 2) AND (Chk = {2})", item.SirketKod, item.EvrakNo, item.HesapKodu);
-                var sti = db.Database.SqlQuery<string>(sql).FirstOrDefault();
-                if (sti != null)
-                    return new Result(false, item.EvrakNo + " nolu evrak daha önce kullanılmış");
+                //string sql = string.Format("SELECT EvrakNo FROM FINSAT6{0}.FINSAT6{0}.STI WHERE (EvrakNo = '{1}') AND (KynkEvrakTip = 2) AND (Chk = {2})", item.SirketKod, item.EvrakNo, item.HesapKodu);
+                //var sti = db.Database.SqlQuery<string>(sql).FirstOrDefault();
+                //if (sti != null)
+                //    return new Result(false, item.EvrakNo + " nolu evrak daha önce kullanılmış");
+                string sql = "";
                 var KatID = db.GetHucreKatID(item.DepoID, "R-ZR-V").FirstOrDefault();
                 if (KatID == null)
                     return new Result(false, "Deponun rezerv katı bulunamadı");
                 //send to finsat
                 var sonuc = finsat.SatisIade(item, KullID);
-                //if (sonuc.Status == true)
-                //{
-                //    //finish
-                //    db.TerminalFinishGorev(GorevID, item.ID, gorevNo, DateTime.Today.ToOADateInt(), DateTime.Now.ToOaTime(), kull, item.EvrakNo, ComboItems.MalKabul.ToInt32(), ComboItems.RafaKaldır.ToInt32()).FirstOrDefault();
-                //    LogActions(KullID.ToString(), "Terminal", "Service", "Terminal", "MalKabul_GoreviTamamla", ComboItems.alDüzenle, GorevID, "MalKabul => RafaKaldır");
-                //    //add to stok
-                //    var list = db.GetIrsDetayfromGorev(GorevID).ToList();
-                //    foreach (var item2 in list)
-                //    {
-                //        //yerleştirme kaydı yapılır
-                //        var stok = new Yerlestirme();
-                //        var tmp2 = stok.Detail(KatID.Value, item2.MalKodu, item2.Birim);
-                //        if (tmp2 == null)
-                //        {
-                //            tmp2 = new Yer()
-                //            {
-                //                KatID = KatID.Value,
-                //                MalKodu = item2.MalKodu,
-                //                Birim = item2.Birim,
-                //                Miktar = item2.Miktar.Value
-                //            };
-                //            if (item2.MakaraNo != "" || item2.MakaraNo != null) tmp2.MakaraNo = item2.MakaraNo;
-                //            stok.Insert(tmp2, 0, KullID);
-                //        }
-                //        else if (item2.MakaraNo != "" || item2.MakaraNo != null)
-                //            if (tmp2.MakaraNo != item2.MakaraNo)
-                //            {
-                //                tmp2 = new Yer()
-                //                {
-                //                    KatID = KatID.Value,
-                //                    MalKodu = item2.MalKodu,
-                //                    Birim = item2.Birim,
-                //                    Miktar = item2.Miktar.Value
-                //                };
-                //                tmp2.MakaraNo = item2.MakaraNo;
-                //                stok.Insert(tmp2, 0, KullID);
-                //            }
-                //            else
-                //            {
-                //                tmp2.Miktar += item2.Miktar.Value;
-                //                stok.Update(tmp2, 0, KullID, false, item2.Miktar.Value);
-                //            }
-                //    }
-                //    //add to mysql
-                //    if (db.Settings.FirstOrDefault().KabloSiparisMySql == true)
-                //    {
-                //        var listedb = db.GetSirketDBs().ToList();
-                //        sql = "";
-                //        foreach (var itemd in listedb)
-                //        {
-                //            if (sql != "") sql += " UNION ";
-                //            sql = String.Format("SELECT FINSAT6{0}.FINSAT6{0}.STK.MalAdi4 as Marka, FINSAT6{0}.FINSAT6{0}.STK.Nesne2 as Cins, FINSAT6{0}.FINSAT6{0}.STK.Kod15 as Kesit, wms.IRS_Detay.Miktar, wms.IRS_Detay.MakaraNo " +
-                //                                        "FROM wms.IRS_Detay INNER JOIN FINSAT6{0}.FINSAT6{0}.STK ON wms.IRS_Detay.MalKodu = FINSAT6{0}.FINSAT6{0}.STK.MalKodu " +
-                //                                        "WHERE (FINSAT6{0}.FINSAT6{0}.STK.Kod1 = 'KKABLO') AND (wms.IRS_Detay.IrsaliyeID = {1}) AND (wms.IRS_Detay.Birim = FINSAT6{0}.FINSAT6{0}.STK.Birim1 OR wms.IRS_Detay.Birim = FINSAT6{0}.FINSAT6{0}.STK.Birim2)", itemd, mGorev.IrsaliyeID);
-                //        }
-                //        sql = "SELECT * from (" + sql + ") t";
-                //        var stks = db.Database.SqlQuery<frmCableStk>(sql).ToList();
-                //        if (stks.Count > 0)
-                //        {
-                //            try
-                //            {
-                //                using (KabloEntities dbx = new KabloEntities())
-                //                {
-                //                    string depo = dbx.depoes.Where(m => m.id == mGorev.Depo.KabloDepoID).Select(m => m.depo1).FirstOrDefault();
-                //                    foreach (var itemx in stks)
-                //                    {
-                //                        //sid bul
-                //                        int sid = dbx.indices.Where(m => m.cins == itemx.Cins && m.kesit == itemx.Kesit).Select(m => m.id).FirstOrDefault();
-                //                        //stoğa kaydet
-                //                        stok tbls = new stok()
-                //                        {
-                //                            marka = itemx.Marka,
-                //                            cins = itemx.Cins,
-                //                            kesit = itemx.Kesit,
-                //                            sid = sid,
-                //                            depo = depo,
-                //                            renk = "",
-                //                            makara = "KAPALI",
-                //                            rezerve = "0",
-                //                            sure = new TimeSpan(),
-                //                            tarih = DateTime.Now,
-                //                            tip = "",
-                //                            rmiktar = 0,
-                //                            miktar = itemx.Miktar,
-                //                            makarano = itemx.MakaraNo
-                //                        };
-                //                        dbx.stoks.Add(tbls);
-                //                        dbx.SaveChanges();
-                //                    }
-                //                }
-                //            }
-                //            catch (Exception ex)
-                //            {
-                //                Logger(kull, "Terminal", ex, "Service/Terminal/MalKabul_GoreviTamamla");
-                //                //return new Result(false, "Kablo kaydı hariç her şey tamamlandı!");
-                //            }
-                //        }
-                //    }
-                //}
-                //else
-                //    return new Result(false, sonuc.Message);
-                return new Result(false, sonuc.Message);
+                if (sonuc.Status == true)
+                {
+                    //finish
+                    db.TerminalFinishGorev(GorevID, item.ID, gorevNo, DateTime.Today.ToOADateInt(), DateTime.Now.ToOaTime(), kull, item.EvrakNo, ComboItems.Satıştanİade.ToInt32(), ComboItems.RafaKaldır.ToInt32()).FirstOrDefault();
+                    LogActions(KullID.ToString(), "Terminal", "Service", "Terminal", "SatistanIade_GorevKontrol", ComboItems.alDüzenle, GorevID, "Satış İade => RafaKaldır");
+                    //add to stok
+                    var list = db.GetIrsDetayfromGorev(GorevID).ToList();
+                    foreach (var item2 in list)
+                    {
+                        //yerleştirme kaydı yapılır
+                        var stok = new Yerlestirme();
+                        var tmp2 = stok.Detail(KatID.Value, item2.MalKodu, item2.Birim);
+                        if (tmp2 == null)
+                        {
+                            tmp2 = new Yer()
+                            {
+                                KatID = KatID.Value,
+                                MalKodu = item2.MalKodu,
+                                Birim = item2.Birim,
+                                Miktar = item2.Miktar.Value
+                            };
+                            if (item2.MakaraNo != "" || item2.MakaraNo != null) tmp2.MakaraNo = item2.MakaraNo;
+                            stok.Insert(tmp2, 0, KullID);
+                        }
+                        else if (item2.MakaraNo != "" || item2.MakaraNo != null)
+                            if (tmp2.MakaraNo != item2.MakaraNo)
+                            {
+                                tmp2 = new Yer()
+                                {
+                                    KatID = KatID.Value,
+                                    MalKodu = item2.MalKodu,
+                                    Birim = item2.Birim,
+                                    Miktar = item2.Miktar.Value
+                                };
+                                tmp2.MakaraNo = item2.MakaraNo;
+                                stok.Insert(tmp2, 0, KullID);
+                            }
+                            else
+                            {
+                                tmp2.Miktar += item2.Miktar.Value;
+                                stok.Update(tmp2, 0, KullID, false, item2.Miktar.Value);
+                            }
+                    }
+                    //add to mysql
+                    if (db.Settings.FirstOrDefault().KabloSiparisMySql == true)
+                    {
+                        var listedb = db.GetSirketDBs().ToList();
+                        sql = "";
+                        foreach (var itemd in listedb)
+                        {
+                            if (sql != "") sql += " UNION ";
+                            sql = String.Format("SELECT FINSAT6{0}.FINSAT6{0}.STK.MalAdi4 as Marka, FINSAT6{0}.FINSAT6{0}.STK.Nesne2 as Cins, FINSAT6{0}.FINSAT6{0}.STK.Kod15 as Kesit, wms.IRS_Detay.Miktar, wms.IRS_Detay.MakaraNo " +
+                                                        "FROM wms.IRS_Detay INNER JOIN FINSAT6{0}.FINSAT6{0}.STK ON wms.IRS_Detay.MalKodu = FINSAT6{0}.FINSAT6{0}.STK.MalKodu " +
+                                                        "WHERE (FINSAT6{0}.FINSAT6{0}.STK.Kod1 = 'KKABLO') AND (wms.IRS_Detay.IrsaliyeID = {1}) AND (wms.IRS_Detay.Birim = FINSAT6{0}.FINSAT6{0}.STK.Birim1 OR wms.IRS_Detay.Birim = FINSAT6{0}.FINSAT6{0}.STK.Birim2)", itemd, mGorev.IrsaliyeID);
+                        }
+                        sql = "SELECT * from (" + sql + ") t";
+                        var stks = db.Database.SqlQuery<frmCableStk>(sql).ToList();
+                        if (stks.Count > 0)
+                        {
+                            try
+                            {
+                                using (KabloEntities dbx = new KabloEntities())
+                                {
+                                    string depo = dbx.depoes.Where(m => m.id == mGorev.Depo.KabloDepoID).Select(m => m.depo1).FirstOrDefault();
+                                    foreach (var itemx in stks)
+                                    {
+                                        //sid bul
+                                        int sid = dbx.indices.Where(m => m.cins == itemx.Cins && m.kesit == itemx.Kesit).Select(m => m.id).FirstOrDefault();
+                                        //stoğa kaydet
+                                        stok tbls = new stok()
+                                        {
+                                            marka = itemx.Marka,
+                                            cins = itemx.Cins,
+                                            kesit = itemx.Kesit,
+                                            sid = sid,
+                                            depo = depo,
+                                            renk = "",
+                                            makara = "KAPALI",
+                                            rezerve = "0",
+                                            sure = new TimeSpan(),
+                                            tarih = DateTime.Now,
+                                            tip = "",
+                                            rmiktar = 0,
+                                            miktar = itemx.Miktar,
+                                            makarano = itemx.MakaraNo
+                                        };
+                                        dbx.stoks.Add(tbls);
+                                        dbx.SaveChanges();
+                                    }
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                Logger(kull, "Terminal", ex, "Service/Terminal/SatistanIade_GoreviTamamla");
+                                //return new Result(false, "Kablo kaydı hariç her şey tamamlandı!");
+                            }
+                        }
+                    }
+                }
+                else
+                    return new Result(false, sonuc.Message);
             }
             //return if all true: tüm israliyeler biterse görevi kapat
             //görev user ve görev tablosu
@@ -1875,7 +1875,7 @@ namespace Wms12m
                 if (tmp == 1) efatKullanici = true;
                 //listedeki her eleman için döngü yapılır
                 Finsat finsat = new Finsat(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, item.SirketKod);
-                var sonuc = finsat.FaturaKayıt(item.IrsaliyeID, mGorev.Depo.DepoKodu, efatKullanici, item.Tarih, item.HesapKodu, kull.Kod, kull.UserDetail.SatisIrsaliyeSeri.Value, kull.UserDetail.SatisFaturaSeri.Value, yil);
+                var sonuc = finsat.AlımdanIadeFaturaKayıt(item.IrsaliyeID, mGorev.Depo.DepoKodu, efatKullanici, item.Tarih, item.HesapKodu, kull.Kod, kull.UserDetail.SatisIrsaliyeSeri.Value, kull.UserDetail.SatisFaturaSeri.Value, yil);
                 if (sonuc.Status == true)
                 {
                     //update irsaliye

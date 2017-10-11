@@ -214,10 +214,13 @@ namespace Wms12m
                         Miktar = stItem.OkutulanMiktar,
                         Birim = stItem.Birim,
                         Depo = stItem.DepoKodu,
-                        EvrakTipi = STIEvrakTipi.AlimdanIadeFaturasi,
+                        EvrakTipi = STIEvrakTipi.SatistanIadeFaturasi,
                         Kaydeden = kaydeden,
                         KayitSurum = "9.01.028",
                         KayitKaynak = 74,
+                        ErekIIFMiktar = stItem.ErekIIFMiktar,
+                        Row_ID= stItem.Row_ID
+                    
                     };
                     if (stItem.SiparisNo != "")
                     {
@@ -245,16 +248,16 @@ namespace Wms12m
                     STIBaseList.Add(sti);
                 }
             }
-            //Irsaliye_Islemleri IrsIslem = new Irsaliye_Islemleri(irsaliye.SirketKod);
+            Irsaliye_Islemleri IrsIslem = new Irsaliye_Islemleri(irsaliye.SirketKod);
             var Sonuc = new OnikimCore.GunesCore.IslemSonuc(false);
             try
             {
-                //Sonuc = IrsIslem.Irsaliye_Kayit(-1, STIBaseList);
+                Sonuc = IrsIslem.Irsaliye_Kayit(-1, STIBaseList);
             }
             catch (Exception ex)
             {
-                //Sonuc.Basarili = false;
-                //Sonuc.Hata = ex;
+                Sonuc.Basarili = false;
+                Sonuc.Hata = ex;
             }
             //sonuç döner
             if (Sonuc.Hata.IsNull())
@@ -311,7 +314,7 @@ namespace Wms12m
             {
                 if (STIBaseList.Count > 0)
                 {
-                    var sonuc = ftrKayit.FaturaKaydet(STIBaseList, efatKullanici, FaturaSeri, yil);
+                    var sonuc = ftrKayit.FaturaKaydet(STIBaseList, efatKullanici, FaturaSeri, yil, FaturaTipi.SatisFaturası.ToInt32());
                     return new Result(sonuc.Basarili, sonuc.Mesaj);
                 }
                 else
@@ -389,7 +392,7 @@ namespace Wms12m
                 var list = db.Database.SqlQuery<STIMax>(sql).ToList();
                 foreach (STIMax item in list)
                 {
-                    sql = string.Format("SELECT STI.Chk, STI.IslemTip, STI.Miktar, STI.MalKodu, STI.Fiyat, STI.Birim, STI.Depo, STI.ToplamIskonto, STI.KDV, STI.KDVOran, STI.IskontoOran1, STI.IskontoOran2, STI.IskontoOran3, STI.IskontoOran4, STI.IskontoOran5, " +
+                    sql = string.Format("SELECT STI.ROW_ID, STI.Chk, STI.IslemTip, STI.Miktar,STI.Miktar-STI.ErekIIFMiktar AS ErekIIFMiktar, STI.MalKodu, STI.Fiyat, STI.Birim, STI.Depo, STI.ToplamIskonto, STI.KDV, STI.KDVOran, STI.IskontoOran1, STI.IskontoOran2, STI.IskontoOran3, STI.IskontoOran4, STI.IskontoOran5, " +
                                         "STI.EvrakNo as KaynakSiparisNo, STI.Tarih as KaynakSiparisTarih, STI.SiraNo as SiparisSiraNo, STI.Miktar as SiparisMiktar, STI.FytListeNo, STI.ValorGun, STI.Kod1, STI.Kod2, STI.Kod3, STI.Kod10, STI.Kod13, STI.Kod14, STI.KayitKaynak, STI.KayitSurum, STI.DegisKaynak, STI.DegisSurum," +
                                         "CHK.EFatKullanici, ISNULL(BIRIKIM.wms.fnGetSatislarHesabi(STI.MalKodu),'') AS SatislarHesabi, CHK.EArsivTeslimSekli, CHK.MhsKod, CHK.EFatSenaryo " +
                                         "FROM FINSAT6{0}.FINSAT6{0}.STI WITH (NOLOCK) LEFT JOIN FINSAT6{0}.FINSAT6{0}.CHK WITH (NOLOCK) ON STI.Chk=CHK.HesapKodu LEFT JOIN FINSAT6{0}.FINSAT6{0}.STK WITH (NOLOCK) ON STK.MalKodu=STI.MalKodu " +
@@ -413,7 +416,7 @@ namespace Wms12m
             {
                 if (STIBaseList.Count > 0)
                 {
-                    var sonuc = ftrKayit.FaturaKaydet(STIBaseList, efatKullanici, FaturaSeri, yil);
+                    var sonuc = ftrKayit.FaturaKaydet(STIBaseList, efatKullanici, FaturaSeri, yil, FaturaTipi.AlimdanIadeFaturası.ToInt32());
                     return new Result(sonuc.Basarili, sonuc.Mesaj);
                 }
                 else
