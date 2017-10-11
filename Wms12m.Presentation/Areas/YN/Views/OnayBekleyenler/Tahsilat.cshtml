@@ -1,0 +1,116 @@
+﻿@{
+    ViewBag.Title = "Onay Bekleyen Tahsilatlar";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}@section Styles{
+    <style>
+        tr {
+            cursor: pointer;
+        }
+    </style>
+}<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><span>Onay Bekleyen Tahsilatlar</span></li></ul></div>
+<h1 class="page-title">Onay Bekleyen Tahsilatlar</h1>
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet box green">
+            <div class="portlet-title">
+                <div class="caption"><i class="fa fa-gift"></i>Onay Bekleyen Tahsilatlar</div>
+                <div class="col-md-2 pull-right m-t-5"><button class="btn btn-default pull-right input-circle yenile-buton glyphicon glyphicon-refresh"> Yenile </button></div>
+                <div class="col-md-2 pull-right m-t-5"><button class="btn btn-danger pull-right input-circle reddet-buton glyphicon glyphicon-remove"> Reddet </button></div>
+                <div class="col-md-2 pull-right m-t-5"><button class="btn btn-success pull-right input-circle onay-buton glyphicon glyphicon-ok"> Onayla </button></div>
+            </div>
+            <div class="portlet-body form p-30 p-t-15">
+                <table class="table table-striped table-bordered" id="sample_1">
+                    <thead><tr><th>Evrak No</th><th>Hesap Kodu</th><th>Ünvan</th><th>İşlem Türü</th>
+                    <th>Ödeme Türü</th> <th class="text-right">Tutar</th><th>Döviz Cinsi</th>
+                    <th class="text-right">Kapatılan TL</th><th class="text-right">Kapatılan USD</th>
+                    <th class="text-right">Kapatılan EUR</th><th>Tarih</th> <th>Kaydeden</th><th>Açıklama</th></tr></thead>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+<script>
+var selected = "";
+$(document).ready(function () {
+    $('.onay-buton').hide();
+    $('.reddet-buton').hide();
+  var table = $('#sample_1').DataTable({
+        select: true,
+        "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
+        "ordering": false,
+        "ajax": {
+            "url": '/YN/OnayBekleyenler/Tahsilat_List',
+            "dataSrc": function (json) {
+                return json;
+            },
+        },
+        "fixedHeader": true,
+        "columns": [
+            { "data": "TahsilatNo" },
+            { "data": "HesapKodu" },
+            { "data": "Unvan" },
+            { "data": "IslemTuru" },
+            { "data": "OdemeTuru" },
+            { "data": "Tutar", "className": "text-right" },
+            { "data": "DovizCinsi" },
+            { "data": "KapatilanTL", "className": "text-right" },
+            { "data": "KapatilanUSD", "className": "text-right" },
+            { "data": "KapatilanEUR", "className": "text-right" },
+            { "data": "Tarih" },
+            { "data": "Kaydeden" },
+            { "data": "Aciklama" }
+        ]
+    });
+    $('#sample_1 tbody').on('click', 'tr', function () {
+        selected = table.rows('.selected').data()[0]["TahsilatNo"];
+        $('.onay-buton').show();
+        $('.reddet-buton').show();
+    });
+    $('.yenile-buton').click(function () {
+        table.ajax.reload();
+    });
+    $('.onay-buton').click(function () {
+        $.ajax({
+            type: 'POST',
+            url: window.location.origin + "/YN/OnayBekleyenler/Tahsilat_Onay",
+            data: { "ID": selected, "Onay": true },
+            dataType: "json",
+            success: function (data) {
+                if (data.Status == true) {
+                    Modaldialog("İşlem Tamamlandı", 'Onaylandı', 'Tamam', 'btn-success');
+                    $('.yenile-buton').click();
+                }
+                else if (data.Message != "" && data.Message != null)
+                    Modaldialog(data.Message, 'Hata', 'Tamam', 'btn-danger');
+                else
+                    Modaldialog("Hata oldu", 'Hata', 'Tamam', 'btn-danger');
+            },
+            error: function (data) {
+                Modaldialog("Hata oldu", 'Hata', 'Tamam', 'btn-danger');
+            }
+        });
+    });
+    $('.reddet-buton').click(function () {
+        $.ajax({
+            type: 'POST',
+            url: window.location.origin + "/YN/OnayBekleyenler/Tahsilat_Onay",
+            data: { "ID": selected, "Onay": false },
+            dataType: "json",
+            success: function (data) {
+                if (data.Status == true) {
+                    Modaldialog("İşlem Tamamlandı", 'Onaylandı', 'Tamam', 'btn-success');
+                    $('.yenile-buton').click();
+                }
+                else if (data.Message != "" && data.Message != null)
+                    Modaldialog(data.Message, 'Hata', 'Tamam', 'btn-danger');
+                else
+                    Modaldialog("Hata oldu", 'Hata', 'Tamam', 'btn-danger');
+            },
+            error: function (data) {
+                Modaldialog("Hata oldu", 'Hata', 'Tamam', 'btn-danger');
+            }
+        });
+    });
+});
+</script>}

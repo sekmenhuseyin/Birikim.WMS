@@ -88,11 +88,36 @@
         public string Birim { get; set; }
         public short IslemDurumu { get; set; }
         public string Kaydeden { get; set; }
-        public int KayitTarih { get; set; }
+        public string KayitTarih { get; set; }
         public string KayitSaat { get; set; }
         public string Degistiren { get; set; }
-        public int DegisTarih { get; set; }
+        public string DegisTarih { get; set; }
         public string DegisSaat { get; set; }
+    }
+
+    /// <summary>
+    /// onay bekleyen sipariş listesi
+    /// </summary>
+    public class frmOnayTahsilatList
+    {
+        public string TahsilatNo { get; set; }
+        public string Tarih { get; set; }
+
+        public string HesapKodu { get; set; }
+        public string Unvan { get; set; }
+        public string IslemTuru { get; set; }
+        public string OdemeTuru { get; set; }
+      
+        public decimal Tutar { get; set; }
+        public string DovizCinsi { get; set; }
+
+        public decimal KapatilanTL { get; set; }
+        public decimal KapatilanUSD { get; set; }
+        public decimal KapatilanEUR { get; set; }
+
+        public string Kaydeden { get; set; }
+        public string Aciklama { get; set; }
+       
     }
     /// <summary>
     /// fatura kayıt işlemleri için
@@ -108,6 +133,13 @@
         public string Fiyat { get; set; }
         public string Miktar { get; set; }
         public int SatirTip { get; set; }  ///1 Fatura 2 Sipariş 3 Teklif
+        public int OnayaDusme { get; set; }  ///0 Normal  1 Onaya Düşecek
+        public string Adres1 { get; set; }
+        public string Adres2 { get; set; }
+        public string Adres3 { get; set; }
+        public string Aciklama1 { get; set; }
+        public string Aciklama2 { get; set; }
+        public string Aciklama3 { get; set; }
     }
     public class HesapItem
     {

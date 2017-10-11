@@ -218,4 +218,9 @@
         Kasım = 11,
         Aralık = 12
     }
+    public enum FaturaTipi
+    {
+        SatisFaturası = 0,
+        AlimdanIadeFaturası = 1
+    }
 }

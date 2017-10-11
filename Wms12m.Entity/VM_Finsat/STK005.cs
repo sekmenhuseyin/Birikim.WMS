@@ -351,9 +351,18 @@ namespace Wms12m.Entity
         private int? _STK005_FiiliIhracatTarihi; 
         private string _STK005_RafKodu; 
         private int _pk_STK005_Row_ID;
+
+
+        ///EK ALANLAR Sorgulara dahil olmayacak
+        public string Adres1;
+        public string Adres2;
+        public string Adres3;
+        public string Aciklama1;
+        public string Aciklama2;
+        public string Aciklama3;
         #endregion /// Fields
-     
-       
+
+
         /// <summary> INT (4) PrimaryKey IdentityKey * </summary>
         public int STK005_Row_ID 
         {

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DevHelper;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Wms12m.Entity;
@@ -66,6 +67,7 @@ namespace Wms12m
                 fatura.STK005_VadeTarihi = fatura.STK005_IslemTarihi + 60;  ///Default 60 gün vade 
                 fatura.STK005_DovizCinsi = item.ParaCinsi;
                 fatura.STK005_Depo = item.Depo;
+                fatura.STK005_RafKodu = item.Depo + "-A0";
                 fatura.STK005_MaliyetMuhasebelesmeSekli = 1;
                 fatura.STK005_Not5 = "AndMobil - " + item.KullaniciKodu;   ///Log amaçlı bilgi
 
@@ -79,6 +81,13 @@ namespace Wms12m
                 fatura.STK005_DegistirenKodu = item.KullaniciKodu;
                 fatura.STK005_DegistirenTarih = DateTime.Today.Date.ToOADate().ToInt32();
                 fatura.STK005_DegistirenSaat = saat;
+
+                fatura.Adres1 = item.Adres1;
+                fatura.Adres2 = item.Adres2;
+                fatura.Adres3 = item.Adres3;
+                fatura.Aciklama1 = item.Aciklama1;
+                fatura.Aciklama2 = item.Aciklama2;
+                fatura.Aciklama3 = item.Aciklama3;
 
                 FaturaSatirlari.Add(fatura);
             }
@@ -136,6 +145,66 @@ namespace Wms12m
                 fMal.CAR005_EArsivFaturaTeslimSekli = null;
 
                 Sqlexper.Insert(fMal);
+
+                short satirNo = 3;
+                CAR005 fSevkAciklama = new CAR005();
+                fSevkAciklama.Set(fMal);
+                fSevkAciklama.CAR005_SatirTipi = "A";
+                fSevkAciklama.CAR005_Tutar = 0;
+                fSevkAciklama.CAR005_Oran = 0;
+                fSevkAciklama.CAR005_ParaBirimi = 0;
+                fSevkAciklama.CAR005_DovizCinsi = "";
+                fSevkAciklama.CAR005_Secenek = 5;
+
+                if (firstItem.Adres1.IsNotNullEmpty())
+                {
+                    fSevkAciklama.CAR005_SatirNo = satirNo;
+                    fSevkAciklama.CAR005_Filler = firstItem.Adres1.Substring(0, 1);
+                    fSevkAciklama.CAR005_SatirAciklama = firstItem.Adres1.Substring(1, firstItem.Adres1.Length - 1);
+                    Sqlexper.Insert(fSevkAciklama);
+                    satirNo++;
+                }
+                if (firstItem.Adres2.IsNotNullEmpty())
+                {
+                    fSevkAciklama.CAR005_SatirNo = satirNo;
+                    fSevkAciklama.CAR005_Filler = firstItem.Adres2.Substring(0, 1);
+                    fSevkAciklama.CAR005_SatirAciklama = firstItem.Adres2.Substring(1, firstItem.Adres2.Length - 1);
+                    Sqlexper.Insert(fSevkAciklama);
+                    satirNo++;
+                }
+                if (firstItem.Adres3.IsNotNullEmpty())
+                {
+                    fSevkAciklama.CAR005_SatirNo = satirNo;
+                    fSevkAciklama.CAR005_Filler = firstItem.Adres3.Substring(0, 1);
+                    fSevkAciklama.CAR005_SatirAciklama = firstItem.Adres3.Substring(1, firstItem.Adres3.Length - 1);
+                    Sqlexper.Insert(fSevkAciklama);
+                    satirNo++;
+                }
+
+                if (firstItem.Aciklama1.IsNotNullEmpty())
+                {
+                    fSevkAciklama.CAR005_SatirNo = satirNo;
+                    fSevkAciklama.CAR005_Filler = firstItem.Aciklama1.Substring(0, 1);
+                    fSevkAciklama.CAR005_SatirAciklama = firstItem.Aciklama1.Substring(1, firstItem.Aciklama1.Length - 1);
+                    Sqlexper.Insert(fSevkAciklama);
+                    satirNo++;
+                }
+                if (firstItem.Aciklama2.IsNotNullEmpty())
+                {
+                    fSevkAciklama.CAR005_SatirNo = satirNo;
+                    fSevkAciklama.CAR005_Filler = firstItem.Aciklama2.Substring(0, 1);
+                    fSevkAciklama.CAR005_SatirAciklama = firstItem.Aciklama2.Substring(1, firstItem.Aciklama2.Length - 1);
+                    Sqlexper.Insert(fSevkAciklama);
+                    satirNo++;
+                }
+                if (firstItem.Aciklama3.IsNotNullEmpty())
+                {
+                    fSevkAciklama.CAR005_SatirNo = satirNo;
+                    fSevkAciklama.CAR005_Filler = firstItem.Aciklama3.Substring(0, 1);
+                    fSevkAciklama.CAR005_SatirAciklama = firstItem.Aciklama3.Substring(1, firstItem.Aciklama3.Length - 1);
+                    Sqlexper.Insert(fSevkAciklama);
+                    satirNo++;
+                }
 
                 #endregion   FTD INSERT END
 
@@ -224,14 +293,17 @@ namespace Wms12m
             format = string.Format(format, seri, no + 1);
             return format;
         }
+
         private void EvrakNolari_YukleAyarla()
         {
-            var evrakBilgiList = new List<STIEvrakBilgi>();
+            List<STIEvrakBilgi> evrakBilgiList = new List<STIEvrakBilgi>();
             SqlExper Exper = new SqlExper(ConStr, SirketKodu);
+
             evrakBilgiList = Exper.SelectList<STIEvrakBilgi>(string.Format(@"
             SELECT 0 as Tip, * FROM (
             SELECT TOP 1 STK005_EvrakSeriNo as EvrakNo, STK005_SEQNo as SiraNo  
             FROM YNS{0}.YNS{0}.STK005(NOLOCK)
+            WHERE STK005_EvrakTipi=11
             ORDER BY STK005_Row_ID DESC) Fatura
             UNION ALL
             SELECT 1 as Tip, * FROM (
@@ -244,26 +316,44 @@ namespace Wms12m
             SELECT TOP 1 TeklifNo as EvrakNo, 0 as SiraNo  
             FROM YNS{0}.YNS{0}.Teklif(NOLOCK)
             WHERE IslemTur=1
-            ORDER BY ID DESC) Teklif", SirketKodu));
-            if (evrakBilgiList.IsNull() || evrakBilgiList.Count != 3)
+            ORDER BY ID DESC) Teklif
+            UNION ALL
+            SELECT 3 as Tip, * FROM (
+            SELECT TOP 1 EvrakNo, 0 as SiraNo  
+            FROM YNS{0}.YNS{0}.TempFatura(NOLOCK)
+            ORDER BY ID DESC) TempFatura", SirketKodu));
+
+           
+            if (evrakBilgiList.IsNull() || evrakBilgiList.Count != 4)
             {
-                throw new Exception(@"Sipariş ve/veya fatura için son evrak numarası bulunamadı. Lütfen STK002 ve STK005 tablolarını inceleyin");
+                throw new Exception(@"Sipariş ve/veya fatura için son evrak numarası bulunamadı. Lütfen STK002, STK005, Teklif ve TempFatura tablolarını inceleyin");
             }
+
+            List<string> tabloList = new List<string> { "STK005", "STK002", "Teklif", "Fatura" };
+
             EvrakNoList = new List<STIEvrakBilgi>();
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < 4; i++)
             {
                 string evrakNo = "";
                 string seri = "";
                 int siraNo = 0;
                 evrakNo = evrakBilgiList[i].EvrakNo;
                 siraNo = evrakBilgiList[i].SiraNo;
+
+                if (evrakNo.Length < 4)
+                    throw new Exception(string.Format(@"Son evrak numarası geçersiz lütfen {0} tablosundaki son evrak numarasını kontrol edin !", tabloList[i]));
+
                 seri = evrakNo.Substring(0, 2);
                 evrakNo = evrakNo.Remove(0, 2);
                 int no = evrakNo.ToInt32();
+
                 evrakNo = EvrakNoOlustur(8, seri, no);
+
                 EvrakNoList.Add(new STIEvrakBilgi { EvrakNo = evrakNo, SiraNo = siraNo, Tip = evrakBilgiList[i].Tip });
             }
+
         }
+
         /// <summary>
         /// hesap listesi
         /// </summary>

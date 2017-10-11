@@ -190,18 +190,21 @@
             var par = $(td).parent("tr");
             if ($(par).find("td").eq(2).text().trim() != "")
             {
-                miktar = parseFloat($(par).find("td").eq(2).text().replace(",", "."));
+                miktar = parseFloat($(par).find("td").eq(2).text().replace(".", "").replace(",", "."));
             }
             if ($(par).find("td").eq(4).text().trim() != "") {
-                stok = parseFloat($(par).find("td").eq(4).text().replace(",", "."));
+                stok = parseFloat($(par).find("td").eq(4).text().replace(".", "").replace(",", "."));
             }
             if ($(par).find("td").eq(5).text().trim() != "") {
-                rezerv = parseFloat($(par).find("td").eq(5).text().replace(",", "."));
+                rezerv = parseFloat($(par).find("td").eq(5).text().replace(".", "").replace(",", "."));
             }
-
+            console.log(miktar);
+            console.log(stok);
+            console.log(rezerv);
+            console.log(yeni);
             // kontroller
 
-            if (yeni > miktar)
+            if (yeni > parseFloat(miktar))
             {
                 Modaldialog("İade miktarı satış miktarını geçmemelidir.", "Uyarı", "Tamam", "btn-danger");
                 return;

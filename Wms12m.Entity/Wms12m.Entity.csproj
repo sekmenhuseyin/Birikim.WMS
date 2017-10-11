@@ -274,20 +274,11 @@
     <Compile Include="Models\Simge.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\STK002.cs">
-      <DependentUpon>ModelYeniNesil.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Teklif.cs">
-      <DependentUpon>ModelYeniNesil.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\TempFatura.cs">
       <DependentUpon>ModelYeniNesil.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Transfer.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\TransferDepo.cs">
-      <DependentUpon>ModelYeniNesil.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Transfer_Detay.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
