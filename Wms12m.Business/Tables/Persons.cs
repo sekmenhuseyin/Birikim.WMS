@@ -241,11 +241,15 @@ namespace Wms12m.Business
         }
         public List<User> GetList(string RoleName)
         {
-            return db.Users.Where(m => m.RoleName == RoleName).OrderBy(m => m.AdSoyad).ToList();
+            return db.Users.Where(m => m.Sirket == "" && m.RoleName == RoleName).OrderBy(m => m.AdSoyad).ToList();
+        }
+        public List<User> GetList(string[] RoleName)
+        {
+            return db.Users.Where(m => m.Sirket == "" && RoleName.Contains(m.RoleName)).OrderBy(m => m.AdSoyad).ToList();
         }
         public List<User> GetListWithoutTerminal()
         {
-            return db.Users.Where(m => m.UserDetail == null && m.ID > 1).OrderBy(m => m.AdSoyad).ToList();
+            return db.Users.Where(m => m.Sirket == "" && m.UserDetail == null && m.ID > 1).OrderBy(m => m.AdSoyad).ToList();
         }
     }
 }

@@ -31,7 +31,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             ViewBag.DepartmanID = new SelectList(ComboSub.GetList(Combos.Departman.ToInt32()), "ID", "Name", "");
             ViewBag.MusteriID = new SelectList(db.Musteris.OrderBy(m => m.Unvan).ToList(), "ID", "Unvan");
             ViewBag.Sorumlu = new SelectList(Persons.GetList(), "Kod", "AdSoyad");
-            ViewBag.KontrolSorumlusu = new SelectList(Persons.GetList("Destek"), "Kod", "AdSoyad");
+            ViewBag.KontrolSorumlusu = new SelectList(Persons.GetList(new string[]{ "Destek", "Admin" }), "Kod", "AdSoyad");
             ViewBag.Sorumlu2 = ViewBag.Sorumlu;
             ViewBag.Sorumlu3 = ViewBag.Sorumlu;
             return PartialView(new Gorevler());
@@ -84,7 +84,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             ViewBag.Sorumlu = new SelectList(Persons.GetList(), "Kod", "AdSoyad", tbl.Sorumlu);
             ViewBag.Sorumlu2 = new SelectList(Persons.GetList(), "Kod", "AdSoyad", tbl.Sorumlu2);
             ViewBag.Sorumlu3 = new SelectList(Persons.GetList(), "Kod", "AdSoyad", tbl.Sorumlu3);
-            ViewBag.KontrolSorumlusu = new SelectList(Persons.GetList("Destek"), "Kod", "AdSoyad", tbl.KontrolSorumlusu);
+            ViewBag.KontrolSorumlusu = new SelectList(Persons.GetList(new string[] { "Destek", "Admin" }), "Kod", "AdSoyad", tbl.KontrolSorumlusu);
             return PartialView("Edit", tbl);
         }
         /// <summary>
