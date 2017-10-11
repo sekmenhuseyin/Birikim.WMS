@@ -18,6 +18,8 @@ namespace Wms12m.Entity.Models
         public Nullable<int> DepoID { get; set; }
         public Nullable<int> SatisIrsaliyeSeri { get; set; }
         public Nullable<int> SatisFaturaSeri { get; set; }
+        public Nullable<int> AlimdanIadeFaturaSeri { get; set; }
+        public Nullable<int> SatistanIadeIrsaliyeSeri { get; set; }
         public Nullable<int> TransferInSeri { get; set; }
         public Nullable<int> TransferOutSeri { get; set; }
         public Nullable<int> SayimSeri { get; set; }

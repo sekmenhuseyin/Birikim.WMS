@@ -68,7 +68,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         {
             if (CheckPerm(Perms.TerminalİçinYetkilendirme, PermTypes.Writing) == false) return Redirect("/");
             Result _Result = PersonDetails.Operation(tbl);
-            LogActions("WMS", "Terminal", "Save", ComboItems.alEkle, tbl.UserID, "User: " + tbl.User.Kod + ", Depo: " + tbl.Depo.DepoKodu);
+            LogActions("WMS", "Terminal", "Save", ComboItems.alEkle, tbl.UserID);
             return RedirectToAction("Index");
         }
         /// <summary>

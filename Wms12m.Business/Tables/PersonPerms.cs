@@ -34,6 +34,8 @@ namespace Wms12m.Business
                 tmp.SatisFaturaSeri = tbl.SatisFaturaSeri;
                 tmp.TransferInSeri = tbl.TransferInSeri;
                 tmp.TransferOutSeri = tbl.TransferOutSeri;
+                tmp.AlimdanIadeFaturaSeri = tbl.AlimdanIadeFaturaSeri;
+                tmp.SatistanIadeIrsaliyeSeri = tbl.SatistanIadeIrsaliyeSeri;
                 tmp.SayimSeri = tbl.SayimSeri;
             }
             try
