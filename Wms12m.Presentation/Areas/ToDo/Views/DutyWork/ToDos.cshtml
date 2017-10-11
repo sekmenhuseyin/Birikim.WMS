@@ -1,21 +1,25 @@
 ﻿@{
-    ViewBag.Title = "İş Listesi";
+    ViewBag.Title = "Onay Listesi";
     Layout = "~/Views/Shared/_Layout.cshtml";
-}<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><a href="/ToDo/Duties">Görevler</a><i class="fa fa-circle"></i></li><li><span>İş Listesi</span></li></ul></div>
-<h1 class="page-title">İş Listesi</h1>
+}@section Styles{<style>
+    td.details-control {background: url('/Content/assets/global/plugins/datatables/images/details_open.png') no-repeat center center;cursor: pointer;max-width:20px;}
+    tr.shown td.details-control {background: url('/Content/assets/global/plugins/datatables/images/details_close.png') no-repeat center center;}
+</style>
+}<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><a href="/ToDo/Duties">Görevler</a><i class="fa fa-circle"></i></li><li><span>Onay Listesi</span></li></ul></div>
+<h1 class="page-title">Onay Listesi</h1>
 <div class="row">
     <div class="col-md-12">
         <div class="portlet box green">
             <div class="portlet-title">
                 <div class="caption">
-                    <i class="fa fa-gift"></i>İş Listesi
+                    <i class="fa fa-gift"></i>Onay Listesi
                 </div>
             </div>
             <div class="portlet-body form">
                 <div class="form-horizontal">
                     <div class="form-body">
                         <div class="form-group">
-                            <div class="col-sm-3 control-label">Görev Durumu</div>
+                            <div class="col-sm-3 control-label">Onay Tipi</div>
                             <div class="col-sm-4">
                                 <select class="form-control input-circle" id="DurumID" name="DurumID" onchange="FuncSearchBtn()">
                                     <option value="false">Bana Ait</option>
@@ -47,5 +51,17 @@
             FuncSearchBtn();
         }
     };
+    function newrow(id) { return "<div id='new" + id + "'></div>"; }
+    function format(d) {
+        $.ajax({
+            type: 'POST',
+            url: '/ToDo/DutyWork/ToDosDetails',
+            data: { "ID": d },
+            dataType: "html",
+            success: function (data) {
+                $('#new' + d).html(data);
+            }
+        });
+    }
 </script>
 }

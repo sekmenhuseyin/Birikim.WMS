@@ -15,7 +15,7 @@ namespace WMSMobil
     public partial class frmLogin : Form
     {
         Terminal Servis = new Terminal();
-        private Barcode2 Barkod;
+        //private Barcode2 Barkod;
         /// <summary>
         /// load
         /// </summary>
@@ -77,7 +77,7 @@ namespace WMSMobil
                     }
                 });
             }
-            catch (Exception ex)
+            catch (Exception)
             {
             }
         }
@@ -111,7 +111,7 @@ namespace WMSMobil
                     Mesaj.Uyari(login.AdSoyad);
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 this.Enabled = true;
                 Cursor.Current = Cursors.Default;
@@ -155,14 +155,14 @@ namespace WMSMobil
         /// </summary>
         private void GirisForm_Closing(object sender, CancelEventArgs e)
         {
-            try
-            {
-                Barkod.EnableScanner = false;
-                Barkod.Dispose();
-            }
-            catch (Exception)
-            {
-            }
+            //try
+            //{
+            //    Barkod.EnableScanner = false;
+            //    Barkod.Dispose();
+            //}
+            //catch (Exception)
+            //{
+            //}
             Servis.Dispose();
             Application.Exit();
         }

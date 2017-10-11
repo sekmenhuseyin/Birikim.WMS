@@ -53,6 +53,12 @@ namespace WMSMobil
                 case MenuType.KontrollüSayım:
                     btnLinkeAktar.Text = "Görevi Sonlandır";
                     break;
+                case MenuType.Alımdanİade:
+                    btnLinkeAktar.Text = "Linke Aktar";
+                    break;
+                case MenuType.Satıştanİade:
+                    btnLinkeAktar.Text = "Görevi Sonlandır";
+                    break;
                 default:
                     break;
             }
@@ -128,7 +134,7 @@ namespace WMSMobil
                 //sütun gorev no
                 TextBox tGorevNo = new TextBox();
                 tGorevNo.Font = font;
-                tGorevNo.Width = 55.Carpim();
+                tGorevNo.Width = lblGorevNo.Width;
                 tGorevNo.Location = new Point(0, 0);
                 tGorevNo.ReadOnly = true;
                 tGorevNo.BackColor = Color.FromArgb(206, 223, 239);
@@ -136,30 +142,30 @@ namespace WMSMobil
                 //sütun bilgi
                 TextBox tBilgi = new TextBox();
                 tBilgi.Font = font;
-                tBilgi.Width = 100.Carpim();
-                tBilgi.Location = new Point(56.Carpim(), 0);
+                tBilgi.Width = lblBilgiler.Width;
+                tBilgi.Location = new Point(lblBilgiler.Left, 0);
                 tBilgi.ReadOnly = true;
                 tBilgi.BackColor = Color.FromArgb(206, 223, 239);
                 tBilgi.GotFocus += new EventHandler(TextBoxlar_GotFocus);
                 //sütun görevli
                 TextBox tGorevli = new TextBox();
                 tGorevli.Font = font;
-                tGorevli.Width = 45.Carpim();
-                tGorevli.Location = new Point(157.Carpim(), 0);
+                tGorevli.Width = lblGorevli.Width;
+                tGorevli.Location = new Point(lblGorevli.Left, 0);
                 tGorevli.ReadOnly = true;
                 tGorevli.BackColor = Color.FromArgb(206, 223, 239);
                 tGorevli.GotFocus += new EventHandler(TextBoxlar_GotFocus);
                 //sütun oluşturma tarihi
-                TextBox tKayitTarihi = new TextBox();
-                tKayitTarihi.Font = font;
-                tKayitTarihi.Width = 70.Carpim();
-                tKayitTarihi.Location = new Point(203.Carpim(), 0);
-                tKayitTarihi.ReadOnly = true;
-                tKayitTarihi.BackColor = Color.FromArgb(206, 223, 239);
-                tKayitTarihi.GotFocus += new EventHandler(TextBoxlar_GotFocus);
+                TextBox tTarih = new TextBox();
+                tTarih.Font = font;
+                tTarih.Width = lblTarih.Width;
+                tTarih.Location = new Point(lblTarih.Left, 0);
+                tTarih.ReadOnly = true;
+                tTarih.BackColor = Color.FromArgb(206, 223, 239);
+                tTarih.GotFocus += new EventHandler(TextBoxlar_GotFocus);
                 //bilgileri yerleştir
                 tGorevNo.Text = grvItem.GorevNo.ToString();
-                tKayitTarihi.Text = grvItem.OlusturmaTarihi.ToString();
+                tTarih.Text = grvItem.OlusturmaTarihi.ToString();
                 tGorevli.Text = grvItem.Gorevli != null ? grvItem.Gorevli.ToString() : "";
                 tBilgi.Text = grvItem.Bilgi;
                 //panel ekle
@@ -171,7 +177,7 @@ namespace WMSMobil
                 panelSatir.Controls.Add(tGorevNo);
                 panelSatir.Controls.Add(tBilgi);
                 panelSatir.Controls.Add(tGorevli);
-                panelSatir.Controls.Add(tKayitTarihi);
+                panelSatir.Controls.Add(tTarih);
                 //panel
                 panelOrta.Controls.Add(panelSatir);
                 PanelVeriList.Add(panelSatir);
@@ -223,10 +229,23 @@ namespace WMSMobil
                     }
                     if (sonuc.Status == true) sonuc = Servis.MalKabul_GoreviTamamla(GorevID, Ayarlar.Kullanici.ID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid);
                 }
+                else if (Ayarlar.MenuTip == MenuType.Satıştanİade)
+                {
+                    sonuc = Servis.SatistanIade_GorevKontrol(GorevID, Ayarlar.Kullanici.ID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid);
+                    if (sonuc.Status == false && sonuc.Id == -1)
+                    {
+                        Cursor.Current = Cursors.Default;
+                        if (Mesaj.Soru("Okunan mal miktarları tutarsız. Yine de devam etmek istiyor musunuz?") == DialogResult.Yes)
+                            sonuc.Status = true;
+                    }
+                    if (sonuc.Status == true) sonuc = Servis.SatistanIade_GoreviTamamla(GorevID, Ayarlar.Kullanici.ID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid);
+                }
                 else if (Ayarlar.MenuTip == MenuType.RafaYerlestirme)
                     sonuc = Servis.RafaKaldir_GoreviTamamla(GorevID, Ayarlar.Kullanici.ID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid);
                 else if (Ayarlar.MenuTip == MenuType.SiparisToplama)
                     sonuc = Servis.SiparisTopla_GoreviTamamla(GorevID, Ayarlar.Kullanici.ID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid);
+                else if (Ayarlar.MenuTip == MenuType.Alımdanİade)
+                    sonuc = Servis.AlimdanIade_GoreviTamamla(GorevID, Ayarlar.Kullanici.ID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid);
                 else if (Ayarlar.MenuTip == MenuType.Paketle)
                     sonuc = Servis.Paketle_GoreviTamamla(GorevID, IrsaliyeID, Ayarlar.Kullanici.ID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid);
                 else if (Ayarlar.MenuTip == MenuType.Sevkiyat)

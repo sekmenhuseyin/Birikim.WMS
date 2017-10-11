@@ -439,6 +439,58 @@
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:element name="SatistanIade">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="StiList" type="tns:ArrayOfFrmMalKabul" />
+            <s:element minOccurs="1" maxOccurs="1" name="GorevID" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="KullID" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="AuthGiven" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Guid" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SatistanIadeResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SatistanIadeResult" type="tns:Result" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SatistanIade_GorevKontrol">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GorevID" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="KullID" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="AuthGiven" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Guid" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SatistanIade_GorevKontrolResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SatistanIade_GorevKontrolResult" type="tns:Result" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SatistanIade_GoreviTamamla">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GorevID" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="KullID" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="AuthGiven" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Guid" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SatistanIade_GoreviTamamlaResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SatistanIade_GoreviTamamlaResult" type="tns:Result" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
       <s:element name="Rafa_Kaldir">
         <s:complexType>
           <s:sequence>
@@ -730,6 +782,41 @@
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:element name="AlimdanIade">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="YerlestirmeList" type="tns:ArrayOfFrmYerlesme" />
+            <s:element minOccurs="1" maxOccurs="1" name="KullID" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="GorevID" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="AuthGiven" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Guid" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AlimdanIadeResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AlimdanIadeResult" type="tns:Result" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AlimdanIade_GoreviTamamla">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GorevID" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="KullID" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="AuthGiven" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Guid" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AlimdanIade_GoreviTamamlaResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AlimdanIade_GoreviTamamlaResult" type="tns:Result" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
     </s:schema>
   </wsdl:types>
   <wsdl:message name="LoginKontrolSoapIn">
@@ -828,6 +915,24 @@
   <wsdl:message name="MalKabul_GoreviTamamlaSoapOut">
     <wsdl:part name="parameters" element="tns:MalKabul_GoreviTamamlaResponse" />
   </wsdl:message>
+  <wsdl:message name="SatistanIadeSoapIn">
+    <wsdl:part name="parameters" element="tns:SatistanIade" />
+  </wsdl:message>
+  <wsdl:message name="SatistanIadeSoapOut">
+    <wsdl:part name="parameters" element="tns:SatistanIadeResponse" />
+  </wsdl:message>
+  <wsdl:message name="SatistanIade_GorevKontrolSoapIn">
+    <wsdl:part name="parameters" element="tns:SatistanIade_GorevKontrol" />
+  </wsdl:message>
+  <wsdl:message name="SatistanIade_GorevKontrolSoapOut">
+    <wsdl:part name="parameters" element="tns:SatistanIade_GorevKontrolResponse" />
+  </wsdl:message>
+  <wsdl:message name="SatistanIade_GoreviTamamlaSoapIn">
+    <wsdl:part name="parameters" element="tns:SatistanIade_GoreviTamamla" />
+  </wsdl:message>
+  <wsdl:message name="SatistanIade_GoreviTamamlaSoapOut">
+    <wsdl:part name="parameters" element="tns:SatistanIade_GoreviTamamlaResponse" />
+  </wsdl:message>
   <wsdl:message name="Rafa_KaldirSoapIn">
     <wsdl:part name="parameters" element="tns:Rafa_Kaldir" />
   </wsdl:message>
@@ -918,6 +1023,18 @@
   <wsdl:message name="KontrolluSay_GoreviTamamlaSoapOut">
     <wsdl:part name="parameters" element="tns:KontrolluSay_GoreviTamamlaResponse" />
   </wsdl:message>
+  <wsdl:message name="AlimdanIadeSoapIn">
+    <wsdl:part name="parameters" element="tns:AlimdanIade" />
+  </wsdl:message>
+  <wsdl:message name="AlimdanIadeSoapOut">
+    <wsdl:part name="parameters" element="tns:AlimdanIadeResponse" />
+  </wsdl:message>
+  <wsdl:message name="AlimdanIade_GoreviTamamlaSoapIn">
+    <wsdl:part name="parameters" element="tns:AlimdanIade_GoreviTamamla" />
+  </wsdl:message>
+  <wsdl:message name="AlimdanIade_GoreviTamamlaSoapOut">
+    <wsdl:part name="parameters" element="tns:AlimdanIade_GoreviTamamlaResponse" />
+  </wsdl:message>
   <wsdl:portType name="TerminalSoap">
     <wsdl:operation name="LoginKontrol">
       <wsdl:input message="tns:LoginKontrolSoapIn" />
@@ -983,6 +1100,18 @@
       <wsdl:input message="tns:MalKabul_GoreviTamamlaSoapIn" />
       <wsdl:output message="tns:MalKabul_GoreviTamamlaSoapOut" />
     </wsdl:operation>
+    <wsdl:operation name="SatistanIade">
+      <wsdl:input message="tns:SatistanIadeSoapIn" />
+      <wsdl:output message="tns:SatistanIadeSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SatistanIade_GorevKontrol">
+      <wsdl:input message="tns:SatistanIade_GorevKontrolSoapIn" />
+      <wsdl:output message="tns:SatistanIade_GorevKontrolSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SatistanIade_GoreviTamamla">
+      <wsdl:input message="tns:SatistanIade_GoreviTamamlaSoapIn" />
+      <wsdl:output message="tns:SatistanIade_GoreviTamamlaSoapOut" />
+    </wsdl:operation>
     <wsdl:operation name="Rafa_Kaldir">
       <wsdl:input message="tns:Rafa_KaldirSoapIn" />
       <wsdl:output message="tns:Rafa_KaldirSoapOut" />
@@ -1042,6 +1171,14 @@
     <wsdl:operation name="KontrolluSay_GoreviTamamla">
       <wsdl:input message="tns:KontrolluSay_GoreviTamamlaSoapIn" />
       <wsdl:output message="tns:KontrolluSay_GoreviTamamlaSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="AlimdanIade">
+      <wsdl:input message="tns:AlimdanIadeSoapIn" />
+      <wsdl:output message="tns:AlimdanIadeSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="AlimdanIade_GoreviTamamla">
+      <wsdl:input message="tns:AlimdanIade_GoreviTamamlaSoapIn" />
+      <wsdl:output message="tns:AlimdanIade_GoreviTamamlaSoapOut" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="TerminalSoap" type="tns:TerminalSoap">
@@ -1190,6 +1327,33 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="SatistanIade">
+      <soap:operation soapAction="http://www.12mconsulting.com.tr/SatistanIade" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SatistanIade_GorevKontrol">
+      <soap:operation soapAction="http://www.12mconsulting.com.tr/SatistanIade_GorevKontrol" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SatistanIade_GoreviTamamla">
+      <soap:operation soapAction="http://www.12mconsulting.com.tr/SatistanIade_GoreviTamamla" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="Rafa_Kaldir">
       <soap:operation soapAction="http://www.12mconsulting.com.tr/Rafa_Kaldir" style="document" />
       <wsdl:input>
@@ -1318,6 +1482,24 @@
     </wsdl:operation>
     <wsdl:operation name="KontrolluSay_GoreviTamamla">
       <soap:operation soapAction="http://www.12mconsulting.com.tr/KontrolluSay_GoreviTamamla" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AlimdanIade">
+      <soap:operation soapAction="http://www.12mconsulting.com.tr/AlimdanIade" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AlimdanIade_GoreviTamamla">
+      <soap:operation soapAction="http://www.12mconsulting.com.tr/AlimdanIade_GoreviTamamla" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -1472,6 +1654,33 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="SatistanIade">
+      <soap12:operation soapAction="http://www.12mconsulting.com.tr/SatistanIade" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SatistanIade_GorevKontrol">
+      <soap12:operation soapAction="http://www.12mconsulting.com.tr/SatistanIade_GorevKontrol" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SatistanIade_GoreviTamamla">
+      <soap12:operation soapAction="http://www.12mconsulting.com.tr/SatistanIade_GoreviTamamla" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="Rafa_Kaldir">
       <soap12:operation soapAction="http://www.12mconsulting.com.tr/Rafa_Kaldir" style="document" />
       <wsdl:input>
@@ -1600,6 +1809,24 @@
     </wsdl:operation>
     <wsdl:operation name="KontrolluSay_GoreviTamamla">
       <soap12:operation soapAction="http://www.12mconsulting.com.tr/KontrolluSay_GoreviTamamla" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AlimdanIade">
+      <soap12:operation soapAction="http://www.12mconsulting.com.tr/AlimdanIade" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AlimdanIade_GoreviTamamla">
+      <soap12:operation soapAction="http://www.12mconsulting.com.tr/AlimdanIade_GoreviTamamla" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

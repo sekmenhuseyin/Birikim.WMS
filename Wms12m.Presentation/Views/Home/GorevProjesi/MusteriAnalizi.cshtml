@@ -1,0 +1,127 @@
+﻿@model List<chartGorevCalisma>
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet light bordered">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="icon-bar-chart font-green-haze"></i>
+                    <span class="caption-subject bold uppercase font-green-haze"> Müşteri Analizi <span style="color:#8888a7;">3D CHART</span></span>
+                </div>
+                <div class="col-md-2">
+                    <input type="text" class="form-control dateboxbg" id="gorevcalismatarih31" value="@ViewBag.tarihStart2" />
+                </div>
+                <div class="col-md-2">
+                    <input type="text" class="form-control dateboxbg" id="gorevcalismatarih32" value="@ViewBag.tarihEnd2" />
+                </div>
+                <div class="col-md-2">
+                    @Html.DropDownList("MusteriID", null, htmlAttributes: new { @class = "form-control satirekle3", @onchange = "ReloadGorev3(this.value, 0, " + ViewBag.tarihStart + ", " + ViewBag.tarihEnd + ")" })
+                </div>
+                <div class="col-md-2">
+                    @Html.DropDownList("ProjeID", null, htmlAttributes: new { @class = "form-control satirekle31", @onchange = "ReloadGorev3(" + ViewBag.musteri + ", this.value, " + ViewBag.tarihStart + ", " + ViewBag.tarihEnd + ")" })
+                </div>
+                <div class="tools">
+                    <a href="javascript:;" class="collapse"> </a>
+                    <a href="javascript:;" class="fullscreen"> </a>
+                    <a href="javascript:;" class="reload" onclick="ReloadGorev3(@ViewBag.musteri, @ViewBag.proje, @ViewBag.tarihStart, @ViewBag.tarihEnd);"> </a>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div id="chart_gorev_3" class="chart" style="height: 400px;"> </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function ReloadGorev3(Musteri, Proje, Start, End)
+    {
+        PartialView('/Home/GorevMusteriAnalizi', 'gorev_musteri_analizi', JSON.stringify({ musteri: Musteri, proje: Proje, tarihStart: Start, tarihEnd: End, tip: '' }));
+    }
+    $(document).ready(function (e) {
+        $(".satirekle3").prepend("<option value='0'>Hepsi</option>");
+        @if (ViewBag.musteri == 0) { <text>$(".satirekle3")[0].selectedIndex = 0;</text> }
+        else { <text>$(".satirekle31").prepend("<option value='0'>Hepsi</option>");</text> }
+        @if (ViewBag.proje == 0) { <text>$(".satirekle31")[0].selectedIndex = 0;</text> }
+        $.datepicker.setDefaults($.datepicker.regional["tr"]);
+        $("#gorevcalismatarih31").datepicker().on("change", function (e) {
+            ReloadGorev3(@ViewBag.musteri, @ViewBag.proje, toOADateFromString(e.target.value), @ViewBag.tarihEnd);
+        });
+        $("#gorevcalismatarih32").datepicker().on("change", function (e) {
+            ReloadGorev3(@ViewBag.musteri, @ViewBag.proje, @ViewBag.tarihStart, toOADateFromString(e.target.value));
+        });
+        var model = @Html.Raw(Json.Encode(Model));
+        var color = ["#FF0F00","#FF6600","#FF9E01","#FCD202","#F8FF01","#B0DE09","#04D215","#0D8ECF","#0D52D1","#2A0CD0","#8A0CCF","#CD0D74","#754DEB","#DDDDDD","#999999","#333333","#000000"];
+        for (var i = 0; i < model.length; i++) {
+            $.extend(model[i],{ color: color[i%color.length] });
+        }
+        var ChartsGorev3 = function () {
+            var initChartGorev3 = function () {
+                var chart = AmCharts.makeChart("chart_gorev_3", {
+                    "theme": "light",
+                    "type": "serial",
+                    "startDuration": 2,
+                    "titleRotation":10,
+                    "fontFamily": 'Open Sans',
+                    "color": '#888',
+                    "valueAxes": [{
+                        "position": "left",
+                        "axisAlpha": 0,
+                        "gridAlpha": 0
+
+                    }],
+                    "graphs": [{
+                        "balloonText": "[[category]]: <b>[[value]]</b>",
+                        "colorField": "color",
+                        "fillAlphas": 0.85,
+                        "lineAlpha": 0.1,
+                        "type": "column",
+                        "topRadius": 1,
+                        "valueField": "Sure",
+                        "fixedColumnWidth": 40,
+                        "labelText": "[[value]]",
+                        "labelRotation":315,
+                        "color":"grey",
+                        "labelOffset":30
+                    }],
+                    "depth3D": 40,
+                    "angle": 30,
+                    "chartCursor": {
+                        "categoryBalloonEnabled": false,
+                        "cursorAlpha": 0,
+                        "zoomable": false
+                    },
+                    "categoryField": "Proje",
+                    "categoryAxis": {
+                        "gridPosition": "start",
+                        "axisAlpha": 0,
+                        "gridAlpha": 0,
+                        "labelRotation": 45
+
+                    },
+                    "exportConfig": {
+                        "menuTop": "20px",
+                        "menuRight": "20px",
+                        "menuItems": [{
+                            "icon": '/lib/3/images/export.png',
+                            "format": 'png'
+
+                        }]
+                    }
+                }, 0);
+                chart.dataProvider = model;
+                chart.validateData();
+                chart.animateAgain();
+                $('#chart_gorev_3').closest('.portlet').find('.fullscreen').click(function () {
+                    chart.invalidateSize();
+                });
+            }
+            return {
+                init: function () {
+                    initChartGorev3();
+                }
+            };
+        }();
+        jQuery(document).ready(function () {
+            ChartsGorev3.init();
+        });
+    });
+</script>

@@ -19,7 +19,7 @@ namespace Wms12m.Presentation.Controllers
         public JsonResult Malzeme(string SID, int DID, string Hesap, HttpPostedFileBase file)
         {
             if (CheckPerm(Perms.MalKabul, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
-            Result _result = new Result(false, 0, "Hatalı dosya");
+            Result _result = new Result(false, 0, "Hatalı dosya!");
             if (file == null || file.ContentLength == 0) return Json(_result, JsonRequestBehavior.AllowGet);
             //gelen dosyayı oku
             Stream stream = file.InputStream;
@@ -168,7 +168,7 @@ namespace Wms12m.Presentation.Controllers
         public JsonResult Olcu(HttpPostedFileBase file)
         {
             if (CheckPerm(Perms.BoyutKartı, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
-            var _Result = new Result(false, "Hatalı Kayıt !");
+            var _Result = new Result(false, "Hatalı dosya!");
             if (file == null || file.ContentLength == 0) return Json(_Result, JsonRequestBehavior.AllowGet);
             //gelen dosyayı oku
             Stream stream = file.InputStream;
@@ -271,7 +271,7 @@ namespace Wms12m.Presentation.Controllers
         public JsonResult Stock(int DID, HttpPostedFileBase file)
         {
             if (CheckPerm(Perms.Stok, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
-            Result _result = new Result(false, 0, "Hatalı dosya");
+            Result _result = new Result(false, 0, "Hatalı dosya!");
             if (file == null || file.ContentLength == 0) return Json(_result, JsonRequestBehavior.AllowGet);
             //gelen dosyayı oku
             Stream stream = file.InputStream;
@@ -376,7 +376,7 @@ namespace Wms12m.Presentation.Controllers
         public JsonResult Kat(HttpPostedFileBase file)
         {
             if (CheckPerm(Perms.KatKartı, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
-            var _Result = new Result(false, "Hatalı Kayıt !");
+            var _Result = new Result(false, "Hatalı dosya!");
             if (file == null || file.ContentLength == 0) return Json(_Result, JsonRequestBehavior.AllowGet);
             //gelen dosyayı oku
             Stream stream = file.InputStream;
@@ -514,6 +514,23 @@ namespace Wms12m.Presentation.Controllers
             else
                 _Result.Status = true;
             return Json(_Result, JsonRequestBehavior.AllowGet);
+        }
+        /// <summary>
+        /// kullanıcı resmi yükle
+        /// </summary>
+        public JsonResult UserImage(string ID, HttpPostedFileBase file)
+        {
+            if (CheckPerm(Perms.Kullanıcılar, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
+            var _Result = new Result(false, "Hatalı dosya!");
+            if (file == null || file.ContentLength == 0) return Json(_Result, JsonRequestBehavior.AllowGet);
+            //dosya tipini bul
+            if (!file.FileName.EndsWith(".jpg") && !file.FileName.EndsWith(".png"))
+                return Json(_Result, JsonRequestBehavior.AllowGet);
+            //if exists delete
+            if (System.IO.File.Exists(Server.MapPath("/Content/Uploads/" + ID + ".jpg")) == true) System.IO.File.Delete(Server.MapPath("/Content/Uploads/" + ID + ".jpg"));
+            file.SaveAs(Server.MapPath("/Content/Uploads/" + ID + ".jpg"));
+            //return
+            return Json(new Result(true, ID.ToInt32()), JsonRequestBehavior.AllowGet);
         }
     }
 }

@@ -3,6 +3,7 @@
     ViewBag.Title = "Hesabım";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }@section Styles{<link href="~/Content/assets/pages/css/profile.min.css" rel="stylesheet" />
+<link href="~/Content/assets/global/plugins/jquery-file-upload/css/jquery.fileupload.css" rel="stylesheet" />
 }<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><span>Hesabım</span></li></ul></div>
 <h1 class="page-title">Hesabım</h1>
 <div class="row">
@@ -10,11 +11,19 @@
         <div class="profile-sidebar">
             <div class="portlet light profile-sidebar-portlet ">
                 <div class="profile-userpic">
-                    <img src="http://www.placehold.it/200x200/EFEFEF/AAAAAA&amp;text=no+image"" class="img-responsive" alt="">
+                    <img src="@Html.ImageOrDefault(Model.Guid.ToString())" class="img-responsive" alt="@Model.AdSoyad">
                 </div>
-                <div class="profile-usertitle">
-                    <div class="profile-usertitle-name"> @Model.AdSoyad </div>
-                    <div class="profile-usertitle-job"> @Model.RoleName </div>
+                <div class="row">
+                    <div class="col-md-12 p-40">
+                        @using (Ajax.BeginForm("UserImage", "Uploads", new { area = "" }, new AjaxOptions { HttpMethod = "post" }, htmlAttributes: new { @class = "form pull-left", enctype = "multipart/form-data", id = "fileupload", role = "form" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            <a id="linkUpload" class="btn btn-default">Yeni Yükle</a>
+                            <input id="btnUpload" type="file" name="file" />
+                            <input type="hidden" name="ID" id="ID" value="@Model.Guid" />
+                        }
+                        <a href="javascript:;" class="btn btn-danger pull-right" onclick="RemovePicture()"> Kaldır </a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -22,88 +31,60 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="portlet light ">
-                        <div class="portlet-title tabbable-line">
+                        <div class="portlet-title">
                             <div class="caption caption-md">
                                 <i class="icon-globe theme-font hide"></i>
-                                <span class="caption-subject font-blue-madison bold uppercase">Hesabım</span>
+                                <span class="caption-subject font-blue-madison bold uppercase">Kişisel Bilgiler</span>
                             </div>
-                            <ul class="nav nav-tabs">
-                                <li class="active">
-                                    <a href="#tab_1_1" data-toggle="tab" aria-expanded="true">Kişisel Bilgiler</a>
-                                </li>
-                                <li class="">
-                                    <a href="#tab_1_2" data-toggle="tab" aria-expanded="false">Resim Değiştir</a>
-                                </li>
-                                <li class="">
-                                    <a href="#tab_1_3" data-toggle="tab" aria-expanded="false">Şifre Değiştir</a>
-                                </li>
-                            </ul>
                         </div>
                         <div class="portlet-body">
                             <div class="tab-content">
-                                <div class="tab-pane active" id="tab_1_1">
-                                    <form role="form" action="#">
-                                        <div class="form-group">
-                                            <label class="control-label">Ad Soyad</label>
-                                            <input type="text" placeholder="@Model.AdSoyad" class="form-control">
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="control-label">Email</label>
-                                            <input type="text" placeholder="@Model.Email" class="form-control">
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="control-label">Yetki</label>
-                                            <input type="text" placeholder="@Model.RoleName" class="form-control">
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="control-label">Kullanıcı Adı</label>
-                                            <input type="text" placeholder="@Model.Kod" class="form-control">
-                                        </div>
-                                        <div class="margiv-top-10">
-                                            <a href="javascript:;" class="btn green"> Kaydet </a>
-                                        </div>
-                                    </form>
-                                </div>
-
-                                <div class="tab-pane" id="tab_1_2">
-                                    <form action="#" role="form">
-                                        <div class="form-group">
-                                            <div class="fileinput fileinput-new" data-provides="fileinput">
-                                                <div class="fileinput-new thumbnail" style="width: 200px; height: 200px;">
-                                                    <img src="http://www.placehold.it/200x200/EFEFEF/AAAAAA&amp;text=no+image" alt="">
-                                                </div>
-                                                <div>
-                                                    <span class="btn default btn-file">
-                                                        <input type="file" name="...">
-                                                    </span>
-                                                    <a href="javascript:;" class="btn default fileinput-exists" data-dismiss="fileinput"> Kaldır </a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="margin-top-10">
-                                            <a href="javascript:;" class="btn green"> Kaydet </a>
-                                        </div>
-                                    </form>
-                                </div>
-                                <div class="tab-pane" id="tab_1_3">
-                                    <form action="#">
-                                        <div class="form-group">
-                                            <label class="control-label">Şifreniz</label>
-                                            <input type="password" class="form-control">
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="control-label">Yeni Şifre</label>
-                                            <input type="password" class="form-control">
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="control-label">Yeni Şifre</label>
-                                            <input type="password" class="form-control">
-                                        </div>
-                                        <div class="margin-top-10">
-                                            <a href="javascript:;" class="btn green"> Değiştir </a>
-                                        </div>
-                                    </form>
-                                </div>
+                                <form role="form" action="#">
+                                    <div class="form-group">
+                                        <label class="control-label">Ad Soyad</label>
+                                        <input type="text" placeholder="@Model.AdSoyad" class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label">Email</label>
+                                        <input type="text" placeholder="@Model.Email" class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label">Kullanıcı Adı</label>
+                                        <input type="text" placeholder="@Model.Kod" class="form-control">
+                                    </div>
+                                    <div class="margiv-top-10">
+                                        <a href="javascript:;" class="btn green"> Kaydet </a>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="portlet light ">
+                        <div class="portlet-title">
+                            <div class="caption caption-md">
+                                <i class="icon-globe theme-font hide"></i>
+                                <span class="caption-subject font-blue-madison bold uppercase">Şifre Değiştir</span>
+                            </div>
+                        </div>
+                        <div class="portlet-body">
+                            <div class="tab-content">
+                                <form action="#">
+                                    <div class="form-group">
+                                        <label class="control-label">Şifreniz</label>
+                                        <input type="password" class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label">Yeni Şifre</label>
+                                        <input type="password" class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label">Yeni Şifre</label>
+                                        <input type="password" class="form-control">
+                                    </div>
+                                    <div class="margin-top-10">
+                                        <a href="javascript:;" class="btn green"> Değiştir </a>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -112,3 +93,52 @@
         </div>
     </div>
 </div>
+@section Scripts{<script src="~/Content/assets/global/plugins/jquery-file-upload/js/jquery.iframe-transport.js" type="text/javascript"></script>
+<script src="~/Content/assets/global/plugins/jquery-file-upload/js/vendor/jquery.ui.widget.js" type="text/javascript"></script>
+<script src="~/Content/assets/global/plugins/jquery-file-upload/js/jquery.fileupload.js" type="text/javascript"></script>
+<script>
+    function RemovePicture()
+    {
+        $.ajax({
+            url: "/MyAccount/RemoveImage",
+            data: {ID: "@Model.Guid.ToString()"},
+            type: "post",
+            success: function (data) {
+                if (data.Status == true) {
+                    Modaldialog("İşlem Başarıyla gerçekleşti", "Başarı", "Tamam", "btn-success");
+                    window.location.reload();
+                }
+                else if (data.Message != "" && data.Message != null)
+                    Modaldialog(data.Message, 'Hata', 'Tamam', 'btn-danger');
+                else
+                    Modaldialog("Hata oldu", 'Hata', 'Tamam', 'btn-danger');
+            },
+            error: function (data) {
+                Modaldialog("Hata oldu", 'Hata', 'Tamam', 'btn-danger');
+            }
+        });
+    }
+    $(function () {
+        $('#linkUpload').click(function () {
+            $("#btnUpload").click();
+        });
+        $('#fileupload').fileupload({
+            maxFileSize: 2000000,
+            acceptFileTypes: /(\.|\/)(jpg|png)$/i,
+            dataType: 'json',
+            add: function (e, data) { data.submit(); },
+            done: function (e, data) {
+                if (data.result.Status == true) {
+                    Modaldialog("İşlem Başarıyla gerçekleşti", "Başarı", "Tamam", "btn-success");
+                    window.location.reload();
+                }
+                else if (data.result.Message != "" && data.result.Message != null)
+                    Modaldialog(data.result.Message, 'Hata', 'Tamam', 'btn-danger');
+                else
+                    Modaldialog("Hata oldu", 'Hata', 'Tamam', 'btn-danger');
+            },
+            fail: function (e, data) { Modaldialog("Lütfen Tekrar Deneyin", "Hata", "Tamam", "btn-danger"); }
+        });
+    });
+</script>
+}

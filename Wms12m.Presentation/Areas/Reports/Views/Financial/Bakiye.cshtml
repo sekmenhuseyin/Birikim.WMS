@@ -32,13 +32,13 @@
 </div>
 <div class="row m-t-20">
     <div class="col-md-2 text-right p-0 m-t-5 color-blue-light bold">Tarih: </div>
-    <div class="col-md-2 p-l-5 p-r-0"><input class="form-control dateboxbg" type="text" id="txtBaslangic" value="@DateTime.Today.AddMonths(-1).ToShortDateString()" /></div>
-    <div class="col-md-2 p-l-5 p-r-0"><input class="form-control dateboxbg" type="text" id="txtBitis" value="@DateTime.Today.ToShortDateString()" /></div>
+    <div class="col-md-2 p-l-5 p-r-0"><input class="form-control dateboxbg" type="text" id="txtBaslangic" value="@DateTime.Today.AddMonths(-1).ToString("dd.MM.yyyy")" /></div>
+    <div class="col-md-2 p-l-5 p-r-0"><input class="form-control dateboxbg" type="text" id="txtBitis" value="@DateTime.Today.ToString("dd.MM.yyyy")" /></div>
 </div>
 <div class="row m-t-20">
     <div class="col-md-2 text-right p-0 m-t-5 color-blue-light bold">Vade Tarihi: </div>
-    <div class="col-md-2 p-l-5 p-r-0"><input class="form-control dateboxbg" type="text" id="txtTeslimBaslangic" value="@DateTime.Today.AddMonths(-1).ToShortDateString()" /></div>
-    <div class="col-md-2 p-l-5 p-r-0"><input class="form-control dateboxbg" type="text" id="txtTeslimBitis" value="@DateTime.Today.ToShortDateString()" /></div>
+    <div class="col-md-2 p-l-5 p-r-0"><input class="form-control dateboxbg" type="text" id="txtTeslimBaslangic" value="@DateTime.Today.AddMonths(-1).ToString("dd.MM.yyyy")" /></div>
+    <div class="col-md-2 p-l-5 p-r-0"><input class="form-control dateboxbg" type="text" id="txtTeslimBitis" value="@DateTime.Today.ToString("dd.MM.yyyy")" /></div>
 </div>
 <div class="row" id="bakiye-grid" style="margin-top:20px;"></div>
 <div class="modal fade" id="x-modal-bakiye-detay" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="false">
@@ -142,7 +142,6 @@
     });
     function newrow(CHK) { return "<table style='background:transparent;' id='new" + CHK + "'></table>"; }
     function format(d) {
-        var html = "<tr style='background: transparent;'><th>Geçerlilik Ayı</th><th>Geçerlilik Yılı</th><th>Degisim Tarihi</th><th>Ucret Tipi</th><th>Döviz Tipi</th><th>Birim Ücret</th>< th >Genel Aylık Ücret</th><th>Brüt/Net</th></tr >";
         $.ajax({
             type: 'POST',
             url: '/Reports/Financial/BakiyeDetay',

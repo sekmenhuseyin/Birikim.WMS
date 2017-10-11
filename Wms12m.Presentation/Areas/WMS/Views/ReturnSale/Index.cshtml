@@ -1,0 +1,155 @@
+﻿@{
+    ViewBag.Title = "Satıştan İade";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}@section Styles{
+    <style>
+        td.details-control {
+            background: url('/Content/assets/global/plugins/datatables/images/details_open.png') no-repeat center center;
+            cursor: pointer;
+        }
+
+        tr.shown td.details-control {
+            background: url('/Content/assets/global/plugins/datatables/images/details_close.png') no-repeat center center;
+        }
+
+        .ui-autocomplete {
+            max-height: 200px;
+            overflow-y: auto;
+            /* prevent horizontal scrollbar */
+            overflow-x: hidden;
+            /* add padding to account for vertical scrollbar */
+            padding-right: 20px;
+        }
+    </style>
+}<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><span>Satıştan İade</span></li></ul></div>
+<h1 class="page-title">Satıştan İade</h1>
+<div class="row">
+    <div class="col-md-12">
+        <div class="mt-element-step">
+            <div class="row step-line">
+                <div class="col-md-2 col-md-offset-1 mt-step-col first active">
+                    <div class="mt-step-number bg-white">1</div>
+                    <div class="mt-step-title uppercase font-grey-cascade">MÜŞTERİ SEÇİMİ</div>
+                    <div class="mt-step-content font-grey-cascade">Müşteri ve Tarih Seçin</div>
+                </div>
+                <div class="col-md-2 mt-step-col">
+                    <div class="mt-step-number bg-white">2</div>
+                    <div class="mt-step-title uppercase font-grey-cascade">EVRAK SEÇİMİ</div>
+                    <div class="mt-step-content font-grey-cascade">Bir Evrak Seçin</div>
+                </div>
+                <div class="col-md-2 mt-step-col last">
+                    <div class="mt-step-number bg-white">3</div>
+                    <div class="mt-step-title uppercase font-grey-cascade">ONAY</div>
+                    <div class="mt-step-content font-grey-cascade">Onaylayın</div>
+                </div>
+            </div>
+        </div>
+        <div class="portlet box green m-t-30">
+            <div class="portlet-title"><div class="caption"><i class="fa fa-gift"></i>Müşteri Seçimi</div></div>
+            <div class="portlet-body form">
+                @using (Html.BeginForm("Step2", "ReturnSale", new { area = "WMS" }, FormMethod.Post, new { @class = "form-horizontal" }))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true)
+                    <div class="form-body">
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Şirket</label>
+                            <div class="col-md-4">
+                                @Html.DropDownList("SirketID", null, htmlAttributes: new { @class = "form-control input-circle", required = "required", @onchange = "sirketKod()" })
+                                <span class="field-validation-valid" data-valmsg-for="SirketID" data-valmsg-replace="true" style="color:red;"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Depo</label>
+                            <div class="col-md-4">
+                                @Html.DropDownList("DepoID", null, htmlAttributes: new { @class = "form-control input-circle", required = "required" })
+                                <span class="field-validation-valid" data-valmsg-for="DepoID" data-valmsg-replace="true" style="color:red;"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Hesap Kodu</label>
+                            <div class="col-md-4">
+                                <input class="form-control" type="text" id="txtHesapBas" name="CHK" />
+                                <span class="field-validation-valid" data-valmsg-for="CHK" data-valmsg-replace="true" style="color:red;"></span>
+                            </div>
+                            <div class="col-sm-1"><button type="button" class="btn btn-circle green" onclick="FuncSearchBtn();"><i class="icon-refresh"></i></button></div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Başlangıç Tarihi</label>
+                            <div class="col-md-4">
+                                <input type="text" name="Starts" id="Starts" class="form-control input-circle daters dateboxbg" value="@DateTime.Today.AddDays(-7).ToString("dd.MM.yyyy")" />
+                                <span class="field-validation-valid" data-valmsg-for="Starts" data-valmsg-replace="true" style="color:red;"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Bitiş Tarihi</label>
+                            <div class="col-md-4">
+                                <input type="text" name="Ends" id="Ends" class="form-control input-circle daters dateboxbg" value="@DateTime.Today.ToString("dd.MM.yyyy")" />
+                                <span class="field-validation-valid" data-valmsg-for="Ends" data-valmsg-replace="true" style="color:red;"></span>
+                            </div>
+                        </div>
+                        <div class="form-group p-l-30 p-r-30" id="liste"></div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script>
+    $("#SirketID").prepend("<option value=''>Seçiniz !!!</option>");
+    $("#DepoID").prepend("<option value=''>Seçiniz !!!</option>");
+    $("#txtHesapBas").attr("disabled", true);
+    $.datepicker.setDefaults($.datepicker.regional["tr"]);
+    $(".daters").datepicker();
+    var sirket = 0;
+    CreateNew(0);
+    function sirketKod() {
+        sirket = $("#SirketID").val();
+        if (sirket > 0) {
+            $("#txtHesapBas").attr("disabled", false);
+            $("#txtHesapBas").autocomplete({
+                source: "/WMS/ReturnSale/GetChKCode/" + $("#SirketID").val(),
+                minLength: 2,
+                select: function (event, ui) {
+                    setTimeout(function () {
+                        $("#txtHesapBas").val(ui.item.id);
+                        FuncSearchBtn();
+                    }, 0);
+
+                },
+                scroll: true
+            });
+        }
+        else {
+            $("#txtHesapBas").attr("disabled", true);
+        }
+
+    }
+     function CreateNew(ix) {
+        if (ix == 0)
+        {
+            $("#SirketID")[0].selectedIndex = 0;
+            $("#DepoID")[0].selectedIndex = 0;
+        }
+    }
+     function FuncSearchBtn() {
+         $("#liste").html("");
+         if ($("#SirketID").val()==0 || $('#DepoID').val() == 0 || $('#Starts').val() == "" || $('#Ends').val() == "") return;
+         $.ajax({
+             type: 'POST',
+             url: "/WMS/ReturnSale/GetSiparis/",
+             data: { Sirket: $("#SirketID").val(), DepoID: $('#DepoID').val(), CHK: $("#txtHesapBas").val(),  Starts:$("#Starts").val(), Ends: $("#Ends").val() },
+             dataType: "html",
+             success: function (data) {
+                 if (data == "") { Modaldialog("Lütfen Tekrar Deneyin", "Hata", "Tamam", "btn-danger");}
+                 $("#liste").html(data);
+             },
+             error: function (data) {
+                 Modaldialog("Lütfen Tekrar Deneyin", "Hata", "Tamam", "btn-danger");
+             }
+         });
+     }
+
+
+    </script>}

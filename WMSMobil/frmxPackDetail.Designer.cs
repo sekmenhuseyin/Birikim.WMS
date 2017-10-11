@@ -168,7 +168,7 @@
             this.Controls.Add(this.label1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmxPackDetail";
-            this.Text = "WMS Mobil - Paket Bilgileri";
+            this.Text = "Paket Bilgileri - WMS Mobil";
             this.ResumeLayout(false);
 
         }

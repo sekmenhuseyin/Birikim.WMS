@@ -149,7 +149,6 @@
         }
         function newrow(PERSONELID) { return "<table style='background:transparent;' id='new" + PERSONELID + "'></table>"; }
         function format(d) {
-            var html = "<tr style='background: transparent;'><th>Geçerlilik Ayı</th><th>Geçerlilik Yılı</th><th>Degisim Tarihi</th><th>Ucret Tipi</th><th>Döviz Tipi</th><th>Birim Ücret</th>< th >Genel Aylık Ücret</th><th>Brüt/Net</th></tr >";
             $.ajax({
                 type: 'POST',
                 url: '/Approvals/Techno/EskiUcretData',

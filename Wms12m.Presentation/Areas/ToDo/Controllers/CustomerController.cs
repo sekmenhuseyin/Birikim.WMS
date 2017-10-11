@@ -68,6 +68,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                 try
                 {
                     db.SaveChanges();
+                    LogActions("ToDo", "Customer", "Save", ComboItems.alEkle, musteri.ID, "Firma: " + musteri.Firma + ", Unvan: " + musteri.Unvan + ", MesaiKontrol: " + musteri.MesaiKontrol + ", MesaiKota: " + musteri.MesaiKota);
                     return Json(new Result(true, musteri.ID), JsonRequestBehavior.AllowGet);
                 }
                 catch (Exception)
@@ -87,6 +88,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             try
             {
                 db.SaveChanges();
+                LogActions("ToDo", "Customer", "Delete", ComboItems.alSil, musteri.ID);
                 return Json(new Result(true, Id.ToInt32()), JsonRequestBehavior.AllowGet);
             }
             catch (Exception)

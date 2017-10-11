@@ -45,10 +45,10 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.panelOrta = new System.Windows.Forms.Panel();
-            this.label11 = new System.Windows.Forms.Label();
-            this.label10 = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
+            this.lblBirim = new System.Windows.Forms.Label();
+            this.lblMiktar = new System.Windows.Forms.Label();
+            this.lblMalzeme = new System.Windows.Forms.Label();
+            this.lblMalkodu = new System.Windows.Forms.Label();
             this.panelAlt = new System.Windows.Forms.Panel();
             this.btnBack = new System.Windows.Forms.Button();
             this.panelUst.SuspendLayout();
@@ -205,53 +205,53 @@
             // 
             this.panelOrta.AutoScroll = true;
             this.panelOrta.BackColor = System.Drawing.Color.White;
-            this.panelOrta.Controls.Add(this.label11);
-            this.panelOrta.Controls.Add(this.label10);
-            this.panelOrta.Controls.Add(this.label9);
-            this.panelOrta.Controls.Add(this.label8);
+            this.panelOrta.Controls.Add(this.lblBirim);
+            this.panelOrta.Controls.Add(this.lblMiktar);
+            this.panelOrta.Controls.Add(this.lblMalzeme);
+            this.panelOrta.Controls.Add(this.lblMalkodu);
             this.panelOrta.Location = new System.Drawing.Point(0, 92);
             this.panelOrta.Name = "panelOrta";
             this.panelOrta.Size = new System.Drawing.Size(240, 170);
             // 
-            // label11
+            // lblBirim
             // 
-            this.label11.BackColor = System.Drawing.Color.CadetBlue;
-            this.label11.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
-            this.label11.ForeColor = System.Drawing.SystemColors.Window;
-            this.label11.Location = new System.Drawing.Point(199, 0);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(39, 18);
-            this.label11.Text = "Birim";
+            this.lblBirim.BackColor = System.Drawing.Color.CadetBlue;
+            this.lblBirim.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
+            this.lblBirim.ForeColor = System.Drawing.SystemColors.Window;
+            this.lblBirim.Location = new System.Drawing.Point(199, 0);
+            this.lblBirim.Name = "lblBirim";
+            this.lblBirim.Size = new System.Drawing.Size(39, 18);
+            this.lblBirim.Text = "Birim";
             // 
-            // label10
+            // lblMiktar
             // 
-            this.label10.BackColor = System.Drawing.Color.CadetBlue;
-            this.label10.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
-            this.label10.ForeColor = System.Drawing.SystemColors.Window;
-            this.label10.Location = new System.Drawing.Point(145, 0);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(53, 18);
-            this.label10.Text = "Miktar";
+            this.lblMiktar.BackColor = System.Drawing.Color.CadetBlue;
+            this.lblMiktar.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
+            this.lblMiktar.ForeColor = System.Drawing.SystemColors.Window;
+            this.lblMiktar.Location = new System.Drawing.Point(145, 0);
+            this.lblMiktar.Name = "lblMiktar";
+            this.lblMiktar.Size = new System.Drawing.Size(53, 18);
+            this.lblMiktar.Text = "Miktar";
             // 
-            // label9
+            // lblMalzeme
             // 
-            this.label9.BackColor = System.Drawing.Color.CadetBlue;
-            this.label9.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
-            this.label9.ForeColor = System.Drawing.SystemColors.Window;
-            this.label9.Location = new System.Drawing.Point(64, 0);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(80, 18);
-            this.label9.Text = "Malzeme";
+            this.lblMalzeme.BackColor = System.Drawing.Color.CadetBlue;
+            this.lblMalzeme.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
+            this.lblMalzeme.ForeColor = System.Drawing.SystemColors.Window;
+            this.lblMalzeme.Location = new System.Drawing.Point(64, 0);
+            this.lblMalzeme.Name = "lblMalzeme";
+            this.lblMalzeme.Size = new System.Drawing.Size(80, 18);
+            this.lblMalzeme.Text = "Malzeme";
             // 
-            // label8
+            // lblMalkodu
             // 
-            this.label8.BackColor = System.Drawing.Color.CadetBlue;
-            this.label8.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
-            this.label8.ForeColor = System.Drawing.SystemColors.Window;
-            this.label8.Location = new System.Drawing.Point(3, 0);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(60, 18);
-            this.label8.Text = "Mal Kodu";
+            this.lblMalkodu.BackColor = System.Drawing.Color.CadetBlue;
+            this.lblMalkodu.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
+            this.lblMalkodu.ForeColor = System.Drawing.SystemColors.Window;
+            this.lblMalkodu.Location = new System.Drawing.Point(3, 0);
+            this.lblMalkodu.Name = "lblMalkodu";
+            this.lblMalkodu.Size = new System.Drawing.Size(60, 18);
+            this.lblMalkodu.Text = "Mal Kodu";
             // 
             // panelAlt
             // 
@@ -284,7 +284,7 @@
             this.Controls.Add(this.panelUst);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmxPackage";
-            this.Text = "WMS Mobil - Paket Oku";
+            this.Text = "Paket Oku - WMS Mobil";
             this.Closing += new System.ComponentModel.CancelEventHandler(this.frmxPackage_Closing);
             this.panelUst.ResumeLayout(false);
             this.panelOrta.ResumeLayout(false);
@@ -307,10 +307,10 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Panel panelOrta;
-        private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label lblBirim;
+        private System.Windows.Forms.Label lblMiktar;
+        private System.Windows.Forms.Label lblMalzeme;
+        private System.Windows.Forms.Label lblMalkodu;
         private System.Windows.Forms.Panel panelAlt;
         private System.Windows.Forms.Button btnBack;
         private System.Windows.Forms.TextBox txtAgirlik;

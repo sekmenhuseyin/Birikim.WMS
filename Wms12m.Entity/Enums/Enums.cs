@@ -83,7 +83,9 @@
         ptPoşetPaket = 68,
         ptPalet = 69,
         Bakır = 70,
-        KüçükRaf = 71
+        KüçükRaf = 71,
+        Alımdanİade = 72,
+        Satıştanİade = 73
     }
     /// <summary>
     /// combo item names
@@ -133,6 +135,8 @@
         GenelSipariş,
         KabloSiparişi,
         KontrollüSayım,
+        AlimdanIade,
+        SatistanIade,
         Stok,
         Transfer,
         SiparişOnaylama,
@@ -191,6 +195,32 @@
         TodoProje,
         TodoTakvim,
         TodoÇalışma,
-        TodoGörevler
+        TodoGörevler,
+        TerminalAlimdanİade,
+        TerminalSatıştanİade
+    }
+    /// <summary>
+    /// aylar
+    /// </summary>
+    public enum Aylar
+    {
+        Tümü = 0,
+        Ocak = 1,
+        Şubat = 2,
+        Mart = 3,
+        Nisan = 4,
+        Mayıs = 5,
+        Haziran = 6,
+        Temmuz = 7,
+        Ağustos = 8,
+        Eylül = 9,
+        Ekim = 10,
+        Kasım = 11,
+        Aralık = 12
+    }
+    public enum FaturaTipi
+    {
+        SatisFaturası = 0,
+        AlimdanIadeFaturası = 1
     }
 }

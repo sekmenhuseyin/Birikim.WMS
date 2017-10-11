@@ -36,6 +36,7 @@ namespace Wms12m.Presentation.Areas.System.Controllers
                 set.SmtpPort = tbl.SmtpPort;
                 set.SmtpHost = tbl.SmtpHost;
                 set.SmtpSSL = tbl.SmtpSSL;
+                set.GorevProjesi = tbl.GorevProjesi;
                 set.homeDepo = tbl.homeDepo;
                 set.homeUser = tbl.homeUser;
                 set.homeTask = tbl.homeTask;

@@ -2,7 +2,7 @@
 @{ decimal tl = 0, avro = 0, dolar = 0; }
 <div class="modal-content">
     <div class="close-modal" data-dismiss="modal"><div class="lr"><div class="rl"></div></div></div>
-    <div class="p-40">
+    <div class="container">
         <div class="row">
             <div class="col-lg-12">
                 <div class="modal-body">@*Project Details Go Here*@
@@ -35,7 +35,7 @@
                                     <td>@item.ParaCinsi</td>
                                     <td>@item.Depo</td>
                                     <td>@item.Kaydeden</td>
-                                    <td>@item.KayitTarih</td>
+                                    <td>@item.KayitTarih.IntToDate().ToString("dd.MM.yyyy")</td>
                                 </tr>
                             }
                         </tbody>

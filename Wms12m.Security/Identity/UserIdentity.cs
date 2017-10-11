@@ -9,16 +9,13 @@ namespace Wms12m.Security
         public int Id { get; set; }
 
         [DataMember]
-        public string LogonUserName { get; set; }
+        public string Guid { get; set; }
 
         [DataMember]
         public string RoleName { get; set; }
 
         [DataMember]
         public string FirstName { get; set; }
-
-        [DataMember]
-        public string LastName { get; set; }
 
         [DataMember]
         public string UserName { get; set; }

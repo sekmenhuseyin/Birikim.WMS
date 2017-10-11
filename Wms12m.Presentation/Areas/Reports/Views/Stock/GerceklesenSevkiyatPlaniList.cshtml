@@ -1,4 +1,4 @@
-﻿@model List<GerceklesenSevkiyatPlani>
+﻿@*@model List<GerceklesenSevkiyatPlani>*@
 @{
     System.Web.Script.Serialization.JavaScriptSerializer serializer = new System.Web.Script.Serialization.JavaScriptSerializer();
     serializer.MaxJsonLength = Int32.MaxValue;
@@ -38,7 +38,7 @@
                             <th class="text-right"></th>
                         </tr>
                     </tfoot>
-                    <tbody>
+                    @*<tbody>
                         @foreach (var item in Model)
                         {
                             <tr>
@@ -55,7 +55,7 @@
                                 <td nowrap>@item.StokBirim</td>
                             </tr>
                         }
-                    </tbody>
+                    </tbody>*@
                 </table>
             </div>
 
@@ -64,18 +64,43 @@
 </div>
 <script>
     $(document).ready(function () {
-        var model =  @Html.Raw(serializer.Serialize(Model));
+        @*var model =  @Html.Raw(serializer.Serialize(Model));*@
 
         table = $('#sample_1').DataTable({
             "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
-            "pagingType": "full_numbers",
+            //"pagingType": "full_numbers",
+            "ajax": {
+                "url": '/Reports/Stock/GerceklesenSevkiyatList',
+                "data": { bastarih: basTarih, bittarih: bitTarih },
+                "dataSrc": function (json) {
+                    return json;
+                },
+            },
+            "columnDefs": [{ "type": "num-fmt", "className": "dt-right", "targets": [7,9] }],
+            "columns": [
+                { "data": "Tarih", "render": function (data) { if (data != null) return formatDateFromJson(data); else return "&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp;"; }, "sClass": "nowrap" },
+                { "data": "EvrakNo" },
+                { "data": "Chk" },
+                { "data": "Unvan" },
+                { "data": "SatisTemsilcisi" },
+                { "data": "Malkodu" },
+                { "data": "MalAdi" },
+                { "data": "Birimmiktar", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
+                { "data": "Birim" },
+                { "data": "StokMiktar", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
+                { "data": "StokBirim" },
+            ],
+            "fnRowCallback": function (nRow, aData, iDisplayIndex) {
+                $('td', nRow).attr('nowrap', 'nowrap');
+                return nRow;
+            },
             "footerCallback": function (row, data, start, end, display) {
                 var Birimmiktar = 0, StokMiktar = 0;
                 table.rows({ search: 'applied' }).data().each(function (val, index) {
-                    if (val[7] != '' && val[7] != null)
-                    Birimmiktar += jDecimal(val[7]);
-                    if (val[9] != '' && val[9] != null)
-                    StokMiktar += jDecimal(val[9]);
+                    if (val.Birimmiktar != '' && val.Birimmiktar != null)
+                        Birimmiktar += val.Birimmiktar;
+                    if (val.StokMiktar != '' && val.StokMiktar != null)
+                        StokMiktar += val.StokMiktar;
                 });
                 var api = this.api(), data;
                 $(api.column(7).footer()).html(

@@ -18,17 +18,6 @@ namespace Wms12m.Presentation
             var styleBundle = new StyleBundle(CssBundle);
             // scripts
             scriptBundle
-                // CLDR scripts
-                //.Include("~/Content/assets/global/plugins/cldr/cldr.min.js")
-                //.Include("~/Content/assets/global/plugins/cldr/event.min.js")
-                //.Include("~/Content/assets/global/plugins/cldr/supplemental.min.js")
-                //.Include("~/Content/assets/global/plugins/cldr/unresolved.min.js")
-                // Globalize 1.x
-                //.Include("~/Content/assets/global/plugins/globalize/globalize.min.js")
-                //.Include("~/Content/assets/global/plugins/globalize/number.min.js")
-                //.Include("~/Content/assets/global/plugins/globalize/currency.min.js")
-                //.Include("~/Content/assets/global/plugins/globalize/date.min.js")
-                //.Include("~/Content/assets/global/plugins/globalize/message.min.js")
                 //jquery
                 .Include("~/Content/assets/global/plugins/jquery/jquery-3.1.1.min.js")
                 .Include("~/Content/assets/global/plugins/jquery/jquery-migrate-3.0.0.min.js")
@@ -36,7 +25,6 @@ namespace Wms12m.Presentation
                 .Include("~/Content/assets/global/plugins/jquery-ui/datepicker-tr.js")
                 .Include("~/Content/assets/global/plugins/Numeral/numeral.js")
                 .Include("~/Content/assets/global/plugins/Numeral/locales.js")
-
                 //plugins
                 .Include("~/Content/assets/global/plugins/jquery-validation/jquery.validate.min.js")
                 .Include("~/Content/assets/global/plugins/jquery-validation/jquery.validate.unobtrusive.min.js")
@@ -107,9 +95,7 @@ namespace Wms12m.Presentation
             bundles.Add(scriptBundle2);
             bundles.Add(styleBundle);
             // EnableOptimizations
-#if DEBUG
-            BundleTable.EnableOptimizations = false;
-#else
+#if !DEBUG
             BundleTable.EnableOptimizations = true;
 #endif
         }

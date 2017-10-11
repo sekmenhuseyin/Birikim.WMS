@@ -105,8 +105,8 @@
         $('#Kod').focus();
         function ReturnPage(data) {
             if (data.data) {
-                window.location.href = '/';
                 $("#div_loading").show();
+                window.location.href = '/';
             }
             else
                 Modaldialog('Lütfen bilgilerinizi kontrol edin', 'Login İşlemi', 'Kapat', 'btn-warning');

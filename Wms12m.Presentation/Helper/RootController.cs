@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
 using System.Web.Routing;
@@ -81,6 +82,7 @@ namespace Wms12m.Presentation
             }
             ViewBag.User = vUser.FirstName;
             ViewBag.UserID = vUser.Id;
+            ViewBag.Guid = vUser.Guid;
             ViewBag.settings = db.Settings.FirstOrDefault();
             ViewBag.Debug = HttpContext.IsDebuggingEnabled;
             if (ViewBag.settings.Aktif == false && filterContext.ActionDescriptor.ControllerDescriptor.ControllerName != "Maintenance")
@@ -89,6 +91,9 @@ namespace Wms12m.Presentation
                 return;
             }
             db.Database.CommandTimeout = 2000;
+            CultureInfo culture = CultureInfo.GetCultureInfo("tr");
+            System.Threading.Thread.CurrentThread.CurrentCulture = culture;
+            System.Threading.Thread.CurrentThread.CurrentUICulture = culture;
             base.OnActionExecuting(filterContext);
         }
         /// <summary>

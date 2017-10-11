@@ -176,7 +176,7 @@
         $("#HesapKodu").val('');
         $("#Unvan").val('');
         $("#EvrakNo").val('');
-        $("#Tarih").val('@DateTime.Now.ToShortDateString()');
+        $("#Tarih").val('@DateTime.Now.ToString("dd.MM.yyyy")');
         $(".showlater").hide();
         $("#StoreGrid").html('');
         $("#SirketID").attr("readonly", false);

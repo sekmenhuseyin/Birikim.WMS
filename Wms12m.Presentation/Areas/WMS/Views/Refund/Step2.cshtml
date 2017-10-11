@@ -1,0 +1,235 @@
+﻿@model IEnumerable<frmSiparisMalzemeDetay>
+@{
+    ViewBag.Title = "Alımdan İade - 2. Adım";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string[] list; list = new string[Model.Count()]; int x = 0;
+}<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><a href="/WMS/Refund">Alımdan İade</a><i class="fa fa-circle"></i></li><li><span>2. Adım</span></li></ul></div>
+<h1 class="page-title">Alımdan İade- 2. Adım</h1>
+<div class="row">
+    <div class="col-md-12">
+        <div class="mt-element-step">
+            <div class="row step-line">
+                <div class="col-md-2 col-md-offset-1 mt-step-col first done">
+                    <div class="mt-step-number bg-white">1</div>
+                    <div class="mt-step-title uppercase font-grey-cascade">SİPARİŞ SEÇİMİ</div>
+                    <div class="mt-step-content font-grey-cascade">Bir sipariş Seçin</div>
+                </div>
+                <div class="col-md-2 mt-step-col active">
+                    <div class="mt-step-number bg-white">2</div>
+                    <div class="mt-step-title uppercase font-grey-cascade">MALZEME SEÇİMİ</div>
+                    <div class="mt-step-content font-grey-cascade">Malzemeleri Seçin</div>
+                </div>
+                <div class="col-md-2 mt-step-col">
+                    <div class="mt-step-number bg-white">3</div>
+                    <div class="mt-step-title uppercase font-grey-cascade">Toplama Planı</div>
+                    <div class="mt-step-content font-grey-cascade">Kontrol</div>
+                </div>
+                <div class="col-md-2 mt-step-col last">
+                    <div class="mt-step-number bg-white">4</div>
+                    <div class="mt-step-title uppercase font-grey-cascade">ONAY</div>
+                    <div class="mt-step-content font-grey-cascade">Onaylayın</div>
+                </div>
+            </div>
+        </div>
+        <div class="portlet box green m-t-30">
+            <div class="portlet-title"><div class="caption"><i class="fa fa-gift"></i>Sipariş Seçimi</div></div>
+            <div class="portlet-body form p-30">
+                <p class="bold color-red">@Html.Raw(ViewBag.Hatali)</p>
+                @using (Html.BeginForm("Step3", "Refund", new { area = "WMS" }, FormMethod.Post, new { @class = "form-horizontal" }))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true)
+                    <table class="table table-striped table-bordered table-condensed" id="sample_2">
+                        <thead><tr><th>Mal Kodu</th><th>Mal Adı</th><th class="text-right">Miktar</th><th class="text-right">Stok</th><th class="text-right">Wms Stok</th><th class="text-right">Wms Rezerv</th><th>Birim</th><th>İade Miktarı</th><th>ID</th></tr></thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                list[x] = item.Miktar.ToString();
+                                <tr style="cursor:pointer;" onclick="$(this).toggleClass('selected');">
+                                    <td>@Html.DisplayFor(modelItem => item.MalKodu)</td>
+                                    <td>@item.MalKodu.GetMalAdi(item.SirketID)</td>
+                                    <td align="right">@String.Format("{0:n}", item.Miktar)</td>
+                                    <td align="right">@String.Format("{0:n}", item.GunesStok)</td>
+                                    <td align="right">@String.Format("{0:n}", item.WmsStok)</td>
+                                    @*<td align="right">@String.Format("{0:n}", item.WmsRezerv)</td>*@
+                                    <td style="text-align:center">
+                                        @if (item.WmsRezerv != 0)
+                                        {<a class="btn btn-default input-circle" onclick="Rezervler('@item.MalKodu','@item.Birim','@ViewBag.DepoID')"> @item.WmsRezerv </a>}
+                                    </td>
+                                    <td>@Html.DisplayFor(modelItem => item.Birim)</td>
+                                    <td ondblclick="ChangeMiktar(this, '@item.MalKodu', '@x')" align="right" style="background-color:#f56681; color:Window; ">@String.Format("{0:n}", 0)</td>
+                                    <td>@item.SirketID-@item.ID</td>
+                                </tr>
+
+                                x++;
+                            }
+                        </tbody>
+                    </table>
+                    <div class="row m-t-20">
+                        <div class="col-md-2">
+                            <button type="button" class="btn btn-default btn-block" onclick="window.history.back();"><<< Geri</button>
+                        </div>
+                        <div class="col-md-2 col-md-offset-6">
+                            <button type="button" class="btn btn-default m-r-20" id="selector" style="width:100%;">Hepsini Seç</button>
+                        </div>
+                        <div class="col-md-2">
+                            <input type="hidden" name="DepoID" value="@ViewBag.DepoID" />
+                            <input type="hidden" name="EvrakNos" value="@ViewBag.EvrakNos" />
+                            <input type="hidden" name="checkboxes" id="checkboxes" value="" />@if (ViewBag.hataliStok == true)
+                            {
+                                <input type="submit" class="hide hidden" value="submit" name="submit" id="submit" />
+                                <input type="button" class="btn btn-primary btn-block green submit" value="İleri >>>" />
+                            }
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script>
+        var selectall = true;
+        var table = "";
+    var list = [@{for (int i = 0; i < Model.Count(); i++){ if(i>0){<text>,</text>} <text>"</text>@list[i]<text>"</text> }}];
+    $(document).ready(function () {
+        table = $('#sample_2').DataTable({
+            "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
+            "columnDefs": [{ "targets": [8], "visible": false, "searchable": false }],
+            initComplete: function () {
+                this.api().columns([0, 1]).every(function () {
+                    var column = this;
+                    var select = $('<br /><select class="form-control input-circle" style="max-width:100px;"><option value=""></option></select>')
+                        .appendTo($(column.header()))
+                        .on('change', function () {
+                            var val = $.fn.dataTable.util.escapeRegex($(this).val());
+                            column.search(val ? '^' + val + '$' : '', true, false).draw();
+                        });
+                    column.data().unique().sort().each(function (d, j) { select.append('<option value="' + d + '">' + d + '</option>') });
+                });
+            }
+        });
+        $("#selector").click(function () {
+            if (selectall == true) {
+                $("#selector").text("Seçimi İptal Et"); selectall = false;
+                table.rows({ filter: 'applied' }).every(function (rowIdx, tableLoop, rowLoop) { this.select(); });
+            }
+            else {
+                $("#selector").text("Hepsini Seç"); selectall = true;
+                table.rows().every(function (rowIdx, tableLoop, rowLoop) { this.deselect(); });
+            }
+        });
+        $(".submit").click(function () {
+            var iade = false;
+            //table.rows(".selected").every(function (rowIdx, tableLoop, rowLoop) {
+            //    result = true;
+            //});
+            //if (result == true) $("#submit").click();
+            //else Modaldialog("Lütfen sipariş seçin", "Hata", "Tamam", "btn-danger");
+            var selected = "";var cells = [, ,]; var result = false;
+            table.rows(".selected").every(function (rowIdx, tableLoop, rowLoop) {
+                var kont = parseFloat(table.cell(rowIdx, 7).data().replace(".", "").replace(",", "."));
+                if (kont <= 0)
+                {
+                    iade = true;
+                }
+                var rezerv = 0;
+                if (this.data()[5] != "") {
+                    rezerv = parseFloat($(this.data()[5]).text().replace(".", "").replace(",", "."));
+                }
+                var miktar = parseFloat(this.data()[2].replace(".", "").replace(",", "."));
+                var stok = parseFloat(this.data()[4].replace(".", "").replace(",", ".")) - rezerv;
+                selected = selected + this.data()[0] + '-' + this.data()[6] + '-' + kont + '-' + this.data()[8] +"#";
+                //aynı  malları grupla
+                if (cells.length > 2) {
+                    for (var i = 2, len = cells.length; i < len; i++) {
+                        if (cells[i][0] === this.data()[0]) {
+                            cells[i][1] += kont;
+                            result = true;
+                            break;
+                        }
+                    }
+                }
+                if (result == false) cells.push([this.data()[0], kont, stok]);
+            });
+            result = false;
+            if (cells.length == 2) {
+                Modaldialog("Lütfen sipariş seçin", "Hata", "Tamam", "btn-danger");
+                result = true;
+                return;
+            }
+            cells.forEach(function (item) {
+                if (item[2]==0) {
+                    Modaldialog(item[0] + " için stok bulunmamaktadır.", "Hata", "Tamam", "btn-danger");
+                    result = true;
+                    return;
+                }
+            });
+            if (iade == true) {
+                Modaldialog("Seçili satırların iade miktarı 0'dan büyük olmalıdır.", "Uyarı", "Tamam", "btn-danger");
+                return;
+            }
+            $("#checkboxes").val(selected);
+         
+            if (result == false) $("#submit").click();
+        });
+    });
+    //    function toggle(row, id) {
+        
+    //    $(row).toggleClass('selected');
+    //    if ($(row).hasClass('selected') == true) selected = selected + id + "#";
+    //    else selected = selected.replace(id + "#", "");
+    //    $("#checkboxes").val(selected);
+    //}
+
+    function Rezervler(malKodu, depo, birim) {
+        editInModal2('/WMS/Refund/GetRezerv', { MalKodu: malKodu, Depo: depo, Birim:birim})
+        $('#modalEditPage').modal('toggle');
+    }
+
+        function ChangeMiktar(td, mal, id) {
+            var miktar = 0, stok = 0, rezerv = 0;
+            var yeni = prompt(mal + " için yeni miktarı giriniz", parseFloat($(td).text().replace(",", ".")).formatMoney(2));
+            if (yeni == null || yeni == undefined) return;
+            yeni = yeni.replace(",", ".");
+            yeni = parseFloat(yeni);
+            list[id] = yeni;
+            var par = $(td).parent("tr");
+            if ($(par).find("td").eq(2).text().trim() != "")
+            {
+                miktar = parseFloat($(par).find("td").eq(2).text().replace(",", "."));
+            }
+            if ($(par).find("td").eq(4).text().trim() != "") {
+                stok = parseFloat($(par).find("td").eq(4).text().replace(",", "."));
+            }
+            if ($(par).find("td").eq(5).text().trim() != "") {
+                rezerv = parseFloat($(par).find("td").eq(5).text().replace(",", "."));
+            }
+
+            // kontroller
+
+            if ((yeni > (stok - rezerv)) || (stok == 0))
+            {
+                Modaldialog("Yeterli stok bulunmamaktadır.", "Uyarı", "Tamam", "btn-danger");
+                return;
+            }
+            if (yeni > miktar)
+            {
+                Modaldialog("İade miktarı alım miktarını geçmemelidir.", "Uyarı", "Tamam", "btn-danger");
+                return;
+            }
+
+            if (yeni > 0)
+            {
+                $(td).css("background-color", "#32c5d2");
+                $(td).parent("tr").addClass("iadevar");
+            }
+            else {
+                $(td).css("background-color", "#f56681");
+                $(td).parent("tr").removeClass("iadevar");
+            }
+            table.cell(id, 7).data(yeni.formatMoney(2));
+            $(td).html(yeni.formatMoney(2));
+        }
+    </script>
+}

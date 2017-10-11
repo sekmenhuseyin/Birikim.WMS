@@ -44,17 +44,16 @@
             this.txtUnvan = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.label15 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.panelOrta = new System.Windows.Forms.Panel();
-            this.label13 = new System.Windows.Forms.Label();
-            this.label12 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label11 = new System.Windows.Forms.Label();
-            this.label10 = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
+            this.lblMakarano = new System.Windows.Forms.Label();
+            this.lblIslemMiktar = new System.Windows.Forms.Label();
+            this.lblYerlestirmeMiktar = new System.Windows.Forms.Label();
+            this.lblOkutulanMiktar = new System.Windows.Forms.Label();
+            this.lblBirim = new System.Windows.Forms.Label();
+            this.lblMiktar = new System.Windows.Forms.Label();
+            this.lblMalzeme = new System.Windows.Forms.Label();
+            this.lblMalkodu = new System.Windows.Forms.Label();
             this.panelAlt = new System.Windows.Forms.Panel();
             this.btnBack = new System.Windows.Forms.Button();
             this.btnKaydet = new System.Windows.Forms.Button();
@@ -80,7 +79,6 @@
             this.panelUst.Controls.Add(this.txtUnvan);
             this.panelUst.Controls.Add(this.label3);
             this.panelUst.Controls.Add(this.label2);
-            this.panelUst.Controls.Add(this.label15);
             this.panelUst.Controls.Add(this.label1);
             this.panelUst.Location = new System.Drawing.Point(0, 0);
             this.panelUst.Name = "panelUst";
@@ -140,9 +138,9 @@
             this.label14.BackColor = System.Drawing.Color.CadetBlue;
             this.label14.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
             this.label14.ForeColor = System.Drawing.SystemColors.Window;
-            this.label14.Location = new System.Drawing.Point(3, 47);
+            this.label14.Location = new System.Drawing.Point(3, 46);
             this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(110, 21);
+            this.label14.Size = new System.Drawing.Size(88, 21);
             this.label14.Text = "Makara Okut";
             this.label14.Visible = false;
             // 
@@ -180,9 +178,9 @@
             // 
             // txtMakaraBarkod
             // 
-            this.txtMakaraBarkod.Location = new System.Drawing.Point(114, 46);
+            this.txtMakaraBarkod.Location = new System.Drawing.Point(92, 46);
             this.txtMakaraBarkod.Name = "txtMakaraBarkod";
-            this.txtMakaraBarkod.Size = new System.Drawing.Size(125, 21);
+            this.txtMakaraBarkod.Size = new System.Drawing.Size(147, 21);
             this.txtMakaraBarkod.TabIndex = 3;
             this.txtMakaraBarkod.Visible = false;
             // 
@@ -214,118 +212,108 @@
             this.label2.Size = new System.Drawing.Size(70, 21);
             this.label2.Text = "HesapKodu";
             // 
-            // label15
-            // 
-            this.label15.BackColor = System.Drawing.Color.Teal;
-            this.label15.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
-            this.label15.ForeColor = System.Drawing.SystemColors.Window;
-            this.label15.Location = new System.Drawing.Point(3, 25);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(70, 21);
-            this.label15.Text = "Unvan";
-            // 
             // label1
             // 
             this.label1.BackColor = System.Drawing.Color.Teal;
             this.label1.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
             this.label1.ForeColor = System.Drawing.SystemColors.Window;
-            this.label1.Location = new System.Drawing.Point(3, 69);
+            this.label1.Location = new System.Drawing.Point(3, 68);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(70, 20);
+            this.label1.Size = new System.Drawing.Size(70, 21);
             this.label1.Text = "Unvan";
             // 
             // panelOrta
             // 
             this.panelOrta.AutoScroll = true;
             this.panelOrta.BackColor = System.Drawing.Color.White;
-            this.panelOrta.Controls.Add(this.label13);
-            this.panelOrta.Controls.Add(this.label12);
-            this.panelOrta.Controls.Add(this.label6);
-            this.panelOrta.Controls.Add(this.label5);
-            this.panelOrta.Controls.Add(this.label11);
-            this.panelOrta.Controls.Add(this.label10);
-            this.panelOrta.Controls.Add(this.label9);
-            this.panelOrta.Controls.Add(this.label8);
+            this.panelOrta.Controls.Add(this.lblMakarano);
+            this.panelOrta.Controls.Add(this.lblIslemMiktar);
+            this.panelOrta.Controls.Add(this.lblYerlestirmeMiktar);
+            this.panelOrta.Controls.Add(this.lblOkutulanMiktar);
+            this.panelOrta.Controls.Add(this.lblBirim);
+            this.panelOrta.Controls.Add(this.lblMiktar);
+            this.panelOrta.Controls.Add(this.lblMalzeme);
+            this.panelOrta.Controls.Add(this.lblMalkodu);
             this.panelOrta.Location = new System.Drawing.Point(0, 112);
             this.panelOrta.Name = "panelOrta";
             this.panelOrta.Size = new System.Drawing.Size(240, 148);
             // 
-            // label13
+            // lblMakarano
             // 
-            this.label13.BackColor = System.Drawing.Color.CadetBlue;
-            this.label13.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
-            this.label13.ForeColor = System.Drawing.SystemColors.Window;
-            this.label13.Location = new System.Drawing.Point(145, 0);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(72, 18);
-            this.label13.Text = "Makara No";
+            this.lblMakarano.BackColor = System.Drawing.Color.CadetBlue;
+            this.lblMakarano.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
+            this.lblMakarano.ForeColor = System.Drawing.SystemColors.Window;
+            this.lblMakarano.Location = new System.Drawing.Point(145, 0);
+            this.lblMakarano.Name = "lblMakarano";
+            this.lblMakarano.Size = new System.Drawing.Size(72, 18);
+            this.lblMakarano.Text = "Makara No";
             // 
-            // label12
+            // lblIslemMiktar
             // 
-            this.label12.BackColor = System.Drawing.Color.CadetBlue;
-            this.label12.ForeColor = System.Drawing.SystemColors.Window;
-            this.label12.Location = new System.Drawing.Point(556, 0);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(70, 18);
-            this.label12.Text = "İşlemMiktar";
+            this.lblIslemMiktar.BackColor = System.Drawing.Color.CadetBlue;
+            this.lblIslemMiktar.ForeColor = System.Drawing.SystemColors.Window;
+            this.lblIslemMiktar.Location = new System.Drawing.Point(556, 0);
+            this.lblIslemMiktar.Name = "lblIslemMiktar";
+            this.lblIslemMiktar.Size = new System.Drawing.Size(70, 18);
+            this.lblIslemMiktar.Text = "İşlemMiktar";
             // 
-            // label6
+            // lblYerlestirmeMiktar
             // 
-            this.label6.BackColor = System.Drawing.Color.CadetBlue;
-            this.label6.ForeColor = System.Drawing.SystemColors.Window;
-            this.label6.Location = new System.Drawing.Point(450, 0);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(105, 18);
-            this.label6.Text = "Yerleştirme Miktar";
+            this.lblYerlestirmeMiktar.BackColor = System.Drawing.Color.CadetBlue;
+            this.lblYerlestirmeMiktar.ForeColor = System.Drawing.SystemColors.Window;
+            this.lblYerlestirmeMiktar.Location = new System.Drawing.Point(450, 0);
+            this.lblYerlestirmeMiktar.Name = "lblYerlestirmeMiktar";
+            this.lblYerlestirmeMiktar.Size = new System.Drawing.Size(105, 18);
+            this.lblYerlestirmeMiktar.Text = "Yerleştirme Miktar";
             // 
-            // label5
+            // lblOkutulanMiktar
             // 
-            this.label5.BackColor = System.Drawing.Color.CadetBlue;
-            this.label5.ForeColor = System.Drawing.SystemColors.Window;
-            this.label5.Location = new System.Drawing.Point(357, 0);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(92, 18);
-            this.label5.Text = "Okutulan Miktar";
+            this.lblOkutulanMiktar.BackColor = System.Drawing.Color.CadetBlue;
+            this.lblOkutulanMiktar.ForeColor = System.Drawing.SystemColors.Window;
+            this.lblOkutulanMiktar.Location = new System.Drawing.Point(357, 0);
+            this.lblOkutulanMiktar.Name = "lblOkutulanMiktar";
+            this.lblOkutulanMiktar.Size = new System.Drawing.Size(92, 18);
+            this.lblOkutulanMiktar.Text = "Okutulan Miktar";
             // 
-            // label11
+            // lblBirim
             // 
-            this.label11.BackColor = System.Drawing.Color.CadetBlue;
-            this.label11.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
-            this.label11.ForeColor = System.Drawing.SystemColors.Window;
-            this.label11.Location = new System.Drawing.Point(218, 0);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(72, 18);
-            this.label11.Text = "Birim";
+            this.lblBirim.BackColor = System.Drawing.Color.CadetBlue;
+            this.lblBirim.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
+            this.lblBirim.ForeColor = System.Drawing.SystemColors.Window;
+            this.lblBirim.Location = new System.Drawing.Point(218, 0);
+            this.lblBirim.Name = "lblBirim";
+            this.lblBirim.Size = new System.Drawing.Size(72, 18);
+            this.lblBirim.Text = "Birim";
             // 
-            // label10
+            // lblMiktar
             // 
-            this.label10.BackColor = System.Drawing.Color.CadetBlue;
-            this.label10.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
-            this.label10.ForeColor = System.Drawing.SystemColors.Window;
-            this.label10.Location = new System.Drawing.Point(291, 0);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(65, 18);
-            this.label10.Text = "Miktar";
+            this.lblMiktar.BackColor = System.Drawing.Color.CadetBlue;
+            this.lblMiktar.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
+            this.lblMiktar.ForeColor = System.Drawing.SystemColors.Window;
+            this.lblMiktar.Location = new System.Drawing.Point(291, 0);
+            this.lblMiktar.Name = "lblMiktar";
+            this.lblMiktar.Size = new System.Drawing.Size(65, 18);
+            this.lblMiktar.Text = "Miktar";
             // 
-            // label9
+            // lblMalzeme
             // 
-            this.label9.BackColor = System.Drawing.Color.CadetBlue;
-            this.label9.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
-            this.label9.ForeColor = System.Drawing.SystemColors.Window;
-            this.label9.Location = new System.Drawing.Point(64, 0);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(80, 18);
-            this.label9.Text = "Malzeme";
+            this.lblMalzeme.BackColor = System.Drawing.Color.CadetBlue;
+            this.lblMalzeme.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
+            this.lblMalzeme.ForeColor = System.Drawing.SystemColors.Window;
+            this.lblMalzeme.Location = new System.Drawing.Point(64, 0);
+            this.lblMalzeme.Name = "lblMalzeme";
+            this.lblMalzeme.Size = new System.Drawing.Size(80, 18);
+            this.lblMalzeme.Text = "Malzeme";
             // 
-            // label8
+            // lblMalkodu
             // 
-            this.label8.BackColor = System.Drawing.Color.CadetBlue;
-            this.label8.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
-            this.label8.ForeColor = System.Drawing.SystemColors.Window;
-            this.label8.Location = new System.Drawing.Point(3, 0);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(60, 18);
-            this.label8.Text = "Mal Kodu";
+            this.lblMalkodu.BackColor = System.Drawing.Color.CadetBlue;
+            this.lblMalkodu.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
+            this.lblMalkodu.ForeColor = System.Drawing.SystemColors.Window;
+            this.lblMalkodu.Location = new System.Drawing.Point(3, 0);
+            this.lblMalkodu.Name = "lblMalkodu";
+            this.lblMalkodu.Size = new System.Drawing.Size(60, 18);
+            this.lblMalkodu.Text = "Mal Kodu";
             // 
             // panelAlt
             // 
@@ -372,7 +360,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
             this.Name = "frmxOps";
-            this.Text = "MalKabul";
+            this.Text = "WMS Mobil";
             this.Closing += new System.ComponentModel.CancelEventHandler(this.MalzemeIslemleri_Closing);
             this.panelUst.ResumeLayout(false);
             this.panelOrta.ResumeLayout(false);
@@ -392,25 +380,24 @@
         private System.Windows.Forms.TextBox txtHesapKodu;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Panel panelOrta;
-        private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Label lblMalkodu;
+        private System.Windows.Forms.Label lblBirim;
+        private System.Windows.Forms.Label lblMiktar;
+        private System.Windows.Forms.Label lblMalzeme;
         private System.Windows.Forms.Panel panelAlt;
         private System.Windows.Forms.Button btnKaydet;
         private System.Windows.Forms.TextBox txtBarkod;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Button btnEkle;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label lblOkutulanMiktar;
+        private System.Windows.Forms.Label lblYerlestirmeMiktar;
         private System.Windows.Forms.TextBox txtRafBarkod;
         private System.Windows.Forms.Label label7;
-        public System.Windows.Forms.Label label12;
+        public System.Windows.Forms.Label lblIslemMiktar;
         private System.Windows.Forms.Button btnBack;
         private System.Windows.Forms.Button btnUygula;
-        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.Label lblMakarano;
         private System.Windows.Forms.TextBox txtMakaraBarkod;
-        private System.Windows.Forms.Label label15;
         private System.Windows.Forms.Label label14;
     }
 }

@@ -150,7 +150,7 @@
         });
     });
     function ChangeMiktar(td, mal, miktar, id) {
-        var yeni = prompt(mal + " için yeni miktarı giriniz", miktar);
+        var yeni = prompt(mal + " için yeni miktarı giriniz", parseFloat(list[id].toString().replace(",", ".")).formatMoney(2));
         if (yeni == null || yeni == undefined) return;
         yeni = yeni.replace(",", ".");
         yeni = parseFloat(yeni);

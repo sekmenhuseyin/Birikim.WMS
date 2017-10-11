@@ -14,12 +14,6 @@ namespace Wms12m.Entity.Models
     
     public partial class GorevlerCalisma
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public GorevlerCalisma()
-        {
-            this.GorevlerCalismaToDoLists = new HashSet<GorevlerCalismaToDoList>();
-        }
-    
         public int ID { get; set; }
         public int GorevID { get; set; }
         public System.DateTime Tarih { get; set; }
@@ -31,7 +25,5 @@ namespace Wms12m.Entity.Models
         public System.DateTime DegisTarih { get; set; }
     
         public virtual Gorevler Gorevler { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<GorevlerCalismaToDoList> GorevlerCalismaToDoLists { get; set; }
     }
 }

@@ -1,4 +1,6 @@
 ﻿@{
+    string id = ViewBag.Guid;
+    if (id == "" || id == null) { id = "0"; }
     Setting setts = ViewBag.settings;
     if (ViewBag.Title != "") { ViewBag.Title += " | " + setts.SiteName; }
     else { ViewBag.Title = setts.SiteName; }
@@ -26,7 +28,7 @@
     @Styles.Render(BundleConfig.CssBundle)@RenderSection("Styles", required: false)
     @{if (ViewBag.Debug == false) {<style>.dx-scrollbar-vertical.dx-scrollbar-hoverable, .slimScrollBar, .slimScrollRail { width: 15px!important; }</style>@*/*Burası teknoloji özürlüler için eklenmiştir*/*@} }
 </head>
-<body class="page-header-fixed page-sidebar-closed-hide-logo page-content-white page-sidebar-fixed page-md">
+<body class="page-header-fixed page-sidebar-closed-hide-logo page-content-white page-sidebar-fixed page-md page-footer-fixed">
     <div class="page-wrapper">
         <div class="page-header navbar navbar-fixed-top">
             <div class="page-header-inner ">
@@ -38,7 +40,11 @@
                 <div class="top-menu">
                     <ul class="nav navbar-nav pull-right">
                         <li class="dropdown dropdown-user">
-                            <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true"><span class="username username-hide-on-mobile">@ViewBag.User</span><i class="icon-arrow-down"></i></a>
+                            <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+                                <img alt="" class="img-circle" src="@Html.ImageOrDefault(id.ToString())">
+                                <span class="username username-hide-on-mobile">@ViewBag.User</span>
+                                <i class="icon-arrow-down"></i>
+                            </a>
                             <ul class="dropdown-menu dropdown-menu-default">
                                 <li><a href="/MyAccount" title="Profilim"><i class="icon-user"></i> Profilim</a></li>
                                 <li class="divider"> </li>
@@ -46,9 +52,7 @@
                             </ul>
                         </li>
                         <li class="dropdown dropdown-quick-sidebar-toggler">
-                            <a href="/Security/LogOut" class="dropdown-toggle" title="Çıkış Yap">
-                                <i class="icon-logout"></i>
-                            </a>
+                            <a href="/Security/LogOut" class="dropdown-toggle" title="Çıkış Yap"> <i class="icon-logout"></i> </a>
                         </li>
                     </ul>
                 </div>

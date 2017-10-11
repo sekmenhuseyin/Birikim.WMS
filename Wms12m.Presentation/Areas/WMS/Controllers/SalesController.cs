@@ -89,7 +89,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             ViewBag.EvrakNos = tbl.checkboxes;
             ViewBag.DepoID = tbl.DepoID;
             ViewBag.Hatali = sifirStok + hataliStok + "<br /><br />";
-            ViewBag.hataliStok = hataliStok == "" ? true : false;
+            ViewBag.hataliStok = hataliStok == "" && list.Count>0 ? true : false;
             return View("Step2", list);
         }
         /// <summary>
@@ -182,7 +182,6 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             {
                 if (ids[i] != "0")
                 {
-                    if (sql != "") sql += " UNION ";
                     sql += String.Format("SELECT '{0}' as SirketID, FINSAT6{0}.FINSAT6{0}.SPI.ROW_ID, '{0}-'+CONVERT(VARCHAR(10),FINSAT6{0}.FINSAT6{0}.SPI.ROW_ID) as ID, FINSAT6{0}.FINSAT6{0}.SPI.EvrakNo, FINSAT6{0}.FINSAT6{0}.SPI.Tarih, FINSAT6{0}.FINSAT6{0}.SPI.KayitSaat as Saat, FINSAT6{0}.FINSAT6{0}.SPI.DegisSaat, FINSAT6{0}.FINSAT6{0}.SPI.SiraNo, FINSAT6{0}.FINSAT6{0}.SPI.Chk, FINSAT6{0}.FINSAT6{0}.SPI.MalKodu, FINSAT6{0}.FINSAT6{0}.SPI.Birim, FINSAT6{0}.FINSAT6{0}.CHK.Unvan1 as Unvan, FINSAT6{0}.FINSAT6{0}.SPI.BirimMiktar, (FINSAT6{0}.FINSAT6{0}.SPI.BirimMiktar - FINSAT6{0}.FINSAT6{0}.SPI.TeslimMiktar - FINSAT6{0}.FINSAT6{0}.SPI.KapatilanMiktar) AS Miktar, FINSAT6{0}.FINSAT6{0}.SPI.ValorGun, FINSAT6{0}.FINSAT6{0}.SPI.TeslimChk " +
                                         "FROM FINSAT6{0}.FINSAT6{0}.SPI WITH(NOLOCK) INNER JOIN FINSAT6{0}.FINSAT6{0}.CHK WITH(NOLOCK) ON FINSAT6{0}.FINSAT6{0}.SPI.Chk = FINSAT6{0}.FINSAT6{0}.CHK.HesapKodu " +
                                         "WHERE (FINSAT6{0}.FINSAT6{0}.SPI.Depo = '{1}') AND (FINSAT6{0}.FINSAT6{0}.SPI.KynkEvrakTip = 62) AND (FINSAT6{0}.FINSAT6{0}.SPI.SiparisDurumu = 0) AND (FINSAT6{0}.FINSAT6{0}.SPI.EvrakNo IN ({2})) AND (FINSAT6{0}.FINSAT6{0}.SPI.ROW_ID IN ({3})) AND (FINSAT6{0}.FINSAT6{0}.SPI.Kod10 IN ('Terminal', 'Onaylandı')) ", item, tbl.DepoID, evraklar[i], ids[i]);
@@ -340,12 +339,16 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         public ActionResult Approve(int GorevID)
         {
             if (CheckPerm(Perms.GenelSipariş, PermTypes.Writing) == false) return Redirect("/");
-            //görevi aç
             Gorev grv = db.Gorevs.Where(m => m.ID == GorevID).FirstOrDefault();
-            grv.DurumID = ComboItems.Açık.ToInt32();
-            grv.OlusturmaTarihi = fn.ToOADate();
-            grv.OlusturmaSaati = fn.ToOATime();
-            db.SaveChanges();
+            if (grv.DurumID == ComboItems.Başlamamış.ToInt32())
+            {
+                //görevi aç
+                grv.DurumID = ComboItems.Açık.ToInt32();
+                grv.OlusturmaTarihi = fn.ToOADate();
+                grv.OlusturmaSaati = fn.ToOATime();
+                db.SaveChanges();
+                LogActions("WMS", "Sales", "Approve", ComboItems.alEkle, GorevID, "Firma: " + grv.IR.HesapKodu);
+            }
             //görevlere git
             return Redirect("/WMS/Tasks");
         }
@@ -357,15 +360,17 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         {
             //ilk kontrol
             if (DepoID == "0") return null;
-            bool tarihler = DateTime.TryParse(Starts, out DateTime StartDate); if (tarihler == false) return null;
-            tarihler = DateTime.TryParse(Ends, out DateTime EndDate); if (tarihler == false) return null;
+            string[] tmp = Starts.Split('.');
+            DateTime StartDate = new DateTime(tmp[2].ToInt32(), tmp[1].ToInt32(), tmp[0].ToInt32());
+            tmp = Ends.Split('.');
+            DateTime EndDate = new DateTime(tmp[2].ToInt32(), tmp[1].ToInt32(), tmp[0].ToInt32());
             if (StartDate > EndDate) return null;
             //perm kontrol
             if (CheckPerm(Perms.GenelSipariş, PermTypes.Reading) == false) return null;
             string sql = "";
             //loop dbs
-            var tmp = db.GetSirketDBs().ToList();
-            foreach (var item in tmp)
+            var tmps = db.GetSirketDBs().ToList();
+            foreach (var item in tmps)
             {
                 if (sql != "") sql += " union ";
                 sql += String.Format("SELECT '{0}' as SirketID, FINSAT6{0}.FINSAT6{0}.SPI.EvrakNo, FINSAT6{0}.FINSAT6{0}.SPI.Tarih, FINSAT6{0}.FINSAT6{0}.SPI.Chk, FINSAT6{0}.FINSAT6{0}.CHK.Unvan1 AS Unvan, FINSAT6{0}.FINSAT6{0}.CHK.GrupKod, FINSAT6{0}.FINSAT6{0}.CHK.FaturaAdres3 AS FaturaAdres, FINSAT6{0}.FINSAT6{0}.MFK.Aciklama, COUNT(FINSAT6{0}.FINSAT6{0}.SPI.MalKodu) AS Çeşit, SUM(FINSAT6{0}.FINSAT6{0}.SPI.BirimMiktar - FINSAT6{0}.FINSAT6{0}.SPI.TeslimMiktar - FINSAT6{0}.FINSAT6{0}.SPI.KapatilanMiktar) AS Miktar, MIN(FINSAT6{0}.FINSAT6{0}.SPI.KayitSaat) as Saat " +

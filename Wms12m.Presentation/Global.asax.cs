@@ -38,16 +38,25 @@ namespace Wms12m.Presentation
             HttpCookie authCookie = Request.Cookies[FormsAuthentication.FormsCookieName];
             if (authCookie != null)
             {
-                //serialize
-                var serializer = new JavaScriptSerializer();
-                FormsAuthenticationTicket authTicket = FormsAuthentication.Decrypt(authCookie.Value);
-                var serializeModel = serializer.Deserialize<CustomPrincipalSerializeModel>(authTicket.UserData);
-                //create user
-                var newUser = new CustomPrincipal(authTicket.Name)
+                try
                 {
-                    AppIdentity = serializeModel.AppIdentity
-                };
-                HttpContext.Current.User = newUser;
+                    //serialize
+                    var serializer = new JavaScriptSerializer();
+                    FormsAuthenticationTicket authTicket = FormsAuthentication.Decrypt(authCookie.Value);
+                    var serializeModel = serializer.Deserialize<CustomPrincipalSerializeModel>(authTicket.UserData);
+                    //create user
+                    var newUser = new CustomPrincipal(authTicket.Name)
+                    {
+                        AppIdentity = serializeModel.AppIdentity
+                    };
+                    HttpContext.Current.User = newUser;
+                }
+                catch (Exception)
+                {
+                    authCookie = null;
+                    HttpContext.Current.User = null;
+
+                }
             }
         }
     }
