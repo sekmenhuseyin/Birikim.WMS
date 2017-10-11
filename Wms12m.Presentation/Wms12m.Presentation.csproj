@@ -452,6 +452,8 @@
     <Content Include="Areas\WMS\Views\ReturnSale\SiparisList.cshtml" />
     <Content Include="Areas\WMS\Views\ReturnSale\Step2.cshtml" />
     <Content Include="Areas\WMS\Views\ReturnSale\Step3.cshtml" />
+    <Content Include="Areas\ToDo\Views\GorevTakvimi\Details.cshtml" />
+    <Content Include="Areas\YN\Views\OnayBekleyenler\Tahsilat.cshtml" />
     <None Include="bundleconfig.json" />
     <Content Include="Content\SizeSablon.xlsx" />
     <Content Include="Content\StockSablon.xlsx" />
