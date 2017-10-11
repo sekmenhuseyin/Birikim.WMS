@@ -636,7 +636,10 @@ namespace Wms12m
                 return new Result(false, "Görevi kontrol ediniz !");
             //variables
             string gorevNo = db.SettingsGorevNo(DateTime.Today.ToOADateInt(), mGorev.DepoID).FirstOrDefault();
-            var kull = db.Users.Where(m => m.ID == KullID).Select(m => m.Kod).FirstOrDefault();
+            //var kull = db.Users.Where(m => m.ID == KullID).Select(m => m.Kod).FirstOrDefault();
+            var kull = db.Users.Where(m => m.ID == KullID).FirstOrDefault();
+            if (kull.UserDetail.SatisFaturaSeri == null || kull.UserDetail.SatisIrsaliyeSeri == null)
+                return new Result(false, "Bu kullanıcıya ait seri nolar hatalı ! Lütfen terminal yetkilerinden seriyi değiştirin yada Güneşten seçili seri için bir değer verin.");
             Finsat finsat = new Finsat(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, mGorev.IR.SirketKod);
             //loop iraliyes
             foreach (var item in mGorev.IRS.Where(m => m.Onay == true))
@@ -649,12 +652,20 @@ namespace Wms12m
                 var KatID = db.GetHucreKatID(item.DepoID, "R-ZR-V").FirstOrDefault();
                 if (KatID == null)
                     return new Result(false, "Deponun rezerv katı bulunamadı");
+
+                //muhsebe yılı bulunur
+                sql = string.Format("SELECT ISNULL(" +
+                                        "(SELECT TOP 1 YEAR(CAST(SDK.Tarih-2 AS DATETIME)) " +
+                                        "FROM SOLAR6.DBO.SIR(NOLOCK) INNER JOIN SOLAR6.DBO.SDK(NOLOCK) ON SIR.Kod = SDK.SirketKod AND SDK.Tip = 1 " +
+                                        "WHERE SDK.Kod = '{0}' ORDER BY Tarih DESC)" +
+                                    ",Year(GETDATE())) as Yil", item.SirketKod);
+                int yil = db.Database.SqlQuery<int>(sql).FirstOrDefault();
                 //send to finsat
-                var sonuc = finsat.SatisIade(item, KullID);
+                var sonuc = finsat.SatisIade(item, KullID, kull.UserDetail.SatistanIadeIrsaliyeSeri.Value, yil);
                 if (sonuc.Status == true)
                 {
                     //finish
-                    db.TerminalFinishGorev(GorevID, item.ID, gorevNo, DateTime.Today.ToOADateInt(), DateTime.Now.ToOaTime(), kull, item.EvrakNo, ComboItems.Satıştanİade.ToInt32(), ComboItems.RafaKaldır.ToInt32()).FirstOrDefault();
+                    db.TerminalFinishGorev(GorevID, item.ID, gorevNo, DateTime.Today.ToOADateInt(), DateTime.Now.ToOaTime(), kull.Kod, item.EvrakNo, ComboItems.Satıştanİade.ToInt32(), ComboItems.RafaKaldır.ToInt32()).FirstOrDefault();
                     LogActions(KullID.ToString(), "Terminal", "Service", "Terminal", "SatistanIade_GorevKontrol", ComboItems.alDüzenle, GorevID, "Satış İade => RafaKaldır");
                     //add to stok
                     var list = db.GetIrsDetayfromGorev(GorevID).ToList();
@@ -744,7 +755,7 @@ namespace Wms12m
                             }
                             catch (Exception ex)
                             {
-                                Logger(kull, "Terminal", ex, "Service/Terminal/SatistanIade_GoreviTamamla");
+                                Logger(kull.Kod, "Terminal", ex, "Service/Terminal/SatistanIade_GoreviTamamla");
                                 //return new Result(false, "Kablo kaydı hariç her şey tamamlandı!");
                             }
                         }
@@ -1875,7 +1886,7 @@ namespace Wms12m
                 if (tmp == 1) efatKullanici = true;
                 //listedeki her eleman için döngü yapılır
                 Finsat finsat = new Finsat(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, item.SirketKod);
-                var sonuc = finsat.AlımdanIadeFaturaKayıt(item.IrsaliyeID, mGorev.Depo.DepoKodu, efatKullanici, item.Tarih, item.HesapKodu, kull.Kod, kull.UserDetail.SatisIrsaliyeSeri.Value, kull.UserDetail.SatisFaturaSeri.Value, yil);
+                var sonuc = finsat.AlımdanIadeFaturaKayıt(item.IrsaliyeID, mGorev.Depo.DepoKodu, efatKullanici, item.Tarih, item.HesapKodu, kull.Kod, kull.UserDetail.AlimdanIadeFaturaSeri.Value,  yil);
                 if (sonuc.Status == true)
                 {
                     //update irsaliye

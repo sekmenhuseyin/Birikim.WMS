@@ -193,11 +193,22 @@ namespace Wms12m
             else
                 return new Result(false, Sonuc.Hata.Message);
         }
-        public Result SatisIade(IR irsaliye, int kulID)
+        public Result SatisIade(IR irsaliye, int kulID, int IrsaliyeSeri, int yil)
         {
             DevHelper.Ayarlar.SetConStr(ConStr);
             DevHelper.Ayarlar.SirketKodu = irsaliye.SirketKod;
             List<STIBase> STIBaseList = new List<STIBase>();
+
+            var ftrKayit = new FaturaKayit(ConStr, SirketKodu);
+            List<EvrakBilgi> evrkno;
+            try
+            {
+                evrkno = ftrKayit.EvrakNo_Getir(true, IrsaliyeSeri, yil, FaturaTipi.SatistanIadeIrsaliyesi.ToInt32());
+            }
+            catch (Exception ex)
+            {
+                return new Result(false, ex.Message);
+            }
             using (WMSEntities db = new WMSEntities())
             {
                 string kaydeden = db.Users.Where(m => m.ID == kulID).Select(m => m.Kod).FirstOrDefault();
@@ -207,14 +218,14 @@ namespace Wms12m
                 {
                     STIBase sti = new STIBase()
                     {
-                        EvrakNo = stItem.EvrakNo,
+                        EvrakNo = evrkno[0].EvrakNo,
                         HesapKodu = stItem.HesapKodu,
                         Tarih = stItem.Tarih.IntToDate(),
                         MalKodu = stItem.MalKodu,
                         Miktar = stItem.OkutulanMiktar,
                         Birim = stItem.Birim,
                         Depo = stItem.DepoKodu,
-                        EvrakTipi = STIEvrakTipi.SatistanIadeFaturasi,
+                        EvrakTipi = STIEvrakTipi.SatistanIadeIrsaliyesi,
                         Kaydeden = kaydeden,
                         KayitSurum = "9.01.028",
                         KayitKaynak = 74,
@@ -276,7 +287,7 @@ namespace Wms12m
             List<EvrakBilgi> evrkno;
             try
             {
-                evrkno = ftrKayit.EvrakNo_Getir(efatKullanici, IrsaliyeSeri, yil);
+                evrkno = ftrKayit.EvrakNo_Getir(efatKullanici, IrsaliyeSeri, yil, FaturaTipi.SatisFaturası.ToInt32());
             }
             catch (Exception ex)
             {
@@ -370,7 +381,7 @@ namespace Wms12m
         /// <summary>
         /// Alımdan Iade faturası
         /// </summary>
-        public Result AlımdanIadeFaturaKayıt(int irsID, string DepoKodu, bool efatKullanici, int Tarih, string CHK, string kaydeden, int IrsaliyeSeri, int FaturaSeri, int yil)
+        public Result AlımdanIadeFaturaKayıt(int irsID, string DepoKodu, bool efatKullanici, int Tarih, string CHK, string kaydeden, int IrsaliyeSeri, int yil)
         {
             var STIBaseList = new List<ParamSti>();
             //evrak no getir
@@ -378,7 +389,7 @@ namespace Wms12m
             List<EvrakBilgi> evrkno;
             try
             {
-                evrkno = ftrKayit.EvrakNo_Getir(efatKullanici, IrsaliyeSeri, yil);
+                evrkno = ftrKayit.EvrakNo_Getir(efatKullanici, IrsaliyeSeri, yil,FaturaTipi.AlimdanIadeFaturası.ToInt32());
             }
             catch (Exception ex)
             {
@@ -402,7 +413,7 @@ namespace Wms12m
                     {
                         finsat.Miktar = item.Miktar;
                         finsat.EvrakNo = evrkno[0].EvrakNo;
-                        finsat.KaynakIrsEvrakNo = evrkno[1].EvrakNo;
+                        finsat.KaynakIrsEvrakNo = item.EvrakNo;
                         finsat.Tarih = Tarih;
                         finsat.Kaydeden = kaydeden;
                         finsat.KayitSurum = "9.01.028";
@@ -416,7 +427,7 @@ namespace Wms12m
             {
                 if (STIBaseList.Count > 0)
                 {
-                    var sonuc = ftrKayit.FaturaKaydet(STIBaseList, efatKullanici, FaturaSeri, yil, FaturaTipi.AlimdanIadeFaturası.ToInt32());
+                    var sonuc = ftrKayit.FaturaKaydet(STIBaseList, efatKullanici, IrsaliyeSeri, yil, FaturaTipi.AlimdanIadeFaturası.ToInt32());
                     return new Result(sonuc.Basarili, sonuc.Mesaj);
                 }
                 else
