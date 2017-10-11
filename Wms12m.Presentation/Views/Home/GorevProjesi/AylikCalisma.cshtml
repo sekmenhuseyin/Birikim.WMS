@@ -5,47 +5,42 @@
             <div class="portlet-title">
                 <div class="caption">
                     <i class="icon-bar-chart font-green-haze"></i>
-                    <span class="caption-subject bold uppercase font-green-haze"> Günlük Çalışma Analizi <span style="color:#8888a7;">3D CHART</span></span>
+                    <span class="caption-subject bold uppercase font-green-haze"> Aylık Çalışma Analizi <span style="color:#8888a7;">3D CHART</span></span>
                 </div>
                 <div class="col-md-2">
-                    @Html.DropDownList("gorevcalismatarih7", null, htmlAttributes: new { @class = "form-control", @onchange = "ReloadGorev7(this.value, 0, " + ViewBag.tarihStart + ", " + ViewBag.tarihEnd + ")" })
+                    @Html.DropDownList("gorevcalismatarih7", null, htmlAttributes: new { @class = "form-control", @onchange = "ReloadGorev7('" + ViewBag.user + "', this.value)" })
                 </div>
                 <div class="col-md-2">
-                    @Html.DropDownList("userID", null, htmlAttributes: new { @class = "form-control satirekle1", @onchange = "ReloadGorev1(this.value)" })
+                    @Html.DropDownList("userID", null, htmlAttributes: new { @class = "form-control satirekle7", @onchange = "ReloadGorev7(this.value, " + ViewBag.tarihStart + ")" })
                 </div>
                 <div class="tools">
                     <a href="javascript:;" class="collapse"> </a>
                     <a href="javascript:;" class="fullscreen"> </a>
-                    <a href="javascript:;" class="reload" onclick="ReloadGorev1('@ViewBag.user');"> </a>
+                    <a href="javascript:;" class="reload" onclick="ReloadGorev7('@ViewBag.user', @ViewBag.tarihStart);"> </a>
                 </div>
             </div>
             <div class="portlet-body">
-                <div id="chart_gorev_1" class="chart" style="height: 400px;"> </div>
+                <div id="chart_gorev_7" class="chart" style="height: 400px;"> </div>
             </div>
         </div>
     </div>
 </div>
 <script>
-    function ReloadGorev1(v)
+    function ReloadGorev7(user, tarih)
     {
-        PartialView('/Home/GorevGunlukCalisma', 'gorev_gunluk_calisma', JSON.stringify({ user: v, tarih: @ViewBag.tarih, tip: '' }));
+        PartialView('/Home/GorevAylikCalisma', 'gorev_aylik_calisma', JSON.stringify({ user: user, tarihStart: tarih, tip: '' }));
     }
     $(document).ready(function (e) {
-        $(".satirekle1").prepend("<option value=''>Hepsi</option>");
-        @if (ViewBag.user == "") { <text>$(".satirekle1")[0].selectedIndex = 0;</text> }
-        $.datepicker.setDefaults($.datepicker.regional["tr"]);
-        $("#gorevcalismatarih1").datepicker().on("change", function (e) {
-            var oaDate = toOADateFromString(e.target.value);
-            PartialView("/Home/GorevGunlukCalisma", 'gorev_gunluk_calisma', JSON.stringify({ user: '@ViewBag.user', tarih: oaDate, tip: '' }));
-        });
+        $(".satirekle7").prepend("<option value=''>Hepsi</option>");
+        @if (ViewBag.user == "") { <text>$(".satirekle7")[0].selectedIndex = 0;</text> }
         var model = @Html.Raw(Json.Encode(Model));
         var color = ["#FF0F00","#FF6600","#FF9E01","#FCD202","#F8FF01","#B0DE09","#04D215","#0D8ECF","#0D52D1","#2A0CD0","#8A0CCF","#CD0D74","#754DEB","#DDDDDD","#999999","#333333","#000000"];
         for (var i = 0; i < model.length; i++) {
             $.extend(model[i],{ color: color[i%color.length] });
         }
-        var ChartsGorev1 = function () {
-            var initChartGorev1 = function () {
-                var chart = AmCharts.makeChart("chart_gorev_1", {
+        var ChartsGorev7 = function () {
+            var initChartGorev7 = function () {
+                var chart = AmCharts.makeChart("chart_gorev_7", {
                     "theme": "light",
                     "type": "serial",
                     "startDuration": 2,
@@ -100,18 +95,18 @@
                 chart.dataProvider = model;
                 chart.validateData();
                 chart.animateAgain();
-                $('#chart_gorev_1').closest('.portlet').find('.fullscreen').click(function () {
+                $('#chart_gorev_7').closest('.portlet').find('.fullscreen').click(function () {
                     chart.invalidateSize();
                 });
             }
             return {
                 init: function () {
-                    initChartGorev1();
+                    initChartGorev7();
                 }
             };
         }();
         jQuery(document).ready(function () {
-            ChartsGorev1.init();
+            ChartsGorev7.init();
         });
     });
 </script>

@@ -775,14 +775,17 @@ namespace Wms12m.Presentation.Controllers
         public PartialViewResult GorevAylikCalisma(string user, int tarihStart, string tip)
         {
             ViewBag.user = user;
+            ViewBag.tarihStart = tarihStart;
             ViewBag.userID = new SelectList(Persons.GetList(), "Kod", "AdSoyad", user);
             ViewBag.gorevcalismatarih7 = EnumHelperExtension.SelectListFor((Aylar)tarihStart);
+            var yil = DateTime.Today.Year;
+            if (tarihStart > DateTime.Today.Month) yil--;
             string sql = "";
-            if (user != "") sql += "AND ong.ProjeForm.Kaydeden = '" + user + "'";
+            if (user != "") sql += "AND ong.GorevlerCalisma.Kaydeden = '" + user + "'";
             var liste = db.Database.SqlQuery<chartGorevCalisma>(string.Format(@"SELECT ong.ProjeForm.Proje, SUM(ong.GorevlerCalisma.Sure) AS Sure
                     FROM ong.GorevlerCalisma INNER JOIN ong.Gorevler ON ong.GorevlerCalisma.GorevID = ong.Gorevler.ID INNER JOIN ong.ProjeForm ON ong.Gorevler.ProjeFormID = ong.ProjeForm.ID
-                    WHERE (ong.GorevlerCalisma.Tarih = '{0}') {1} 
-                    GROUP BY ong.ProjeForm.Proje", sql)).ToList();
+                    WHERE (ong.GorevlerCalisma.Tarih >= '{0}') AND (ong.GorevlerCalisma.Tarih < '{1}') {2} 
+                    GROUP BY ong.ProjeForm.Proje", new DateTime(yil, tarihStart, 1).ToString("yyyy-MM-dd"), new DateTime(yil, tarihStart, 1).AddMonths(1).ToString("yyyy-MM-dd"), sql)).ToList();
             if (tip == "Pie")
                 return PartialView("GorevProjesi/AylikCalismaPie", liste);
             else
