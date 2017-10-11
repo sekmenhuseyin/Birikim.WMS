@@ -86,7 +86,7 @@
         <AssociationConnector Association="MModel.FK_Gorevler_ProjeForm" />
         <AssociationConnector Association="MModel.FK_GorevlerCalisma_Gorevler" />
         <AssociationConnector Association="MModel.FK_GorevlerToDoList_Gorevler" />
-        <EntityTypeShape EntityType="MModel.UserDetail" Width="1.5" PointX="19.75" PointY="6.25" />
+        <EntityTypeShape EntityType="MModel.UserDetail" Width="1.5" PointX="19.25" PointY="6.25" />
         <AssociationConnector Association="MModel.FK_Depo_Users_Users" />
         <AssociationConnector Association="MModel.FK_Depo_Users_Depo" />
         </Diagram>

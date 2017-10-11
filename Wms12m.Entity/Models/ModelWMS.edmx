@@ -527,6 +527,8 @@
           <Property Name="DepoID" Type="int" />
           <Property Name="SatisIrsaliyeSeri" Type="int" />
           <Property Name="SatisFaturaSeri" Type="int" />
+          <Property Name="AlimdanIadeFaturaSeri" Type="int" />
+          <Property Name="SatistanIadeIrsaliyeSeri" Type="int" />
           <Property Name="TransferInSeri" Type="int" />
           <Property Name="TransferOutSeri" Type="int" />
           <Property Name="SayimSeri" Type="int" />
@@ -2162,15 +2164,6 @@
             <End Role="Gorevler" EntitySet="Gorevlers" />
             <End Role="GorevlerToDoList" EntitySet="GorevlerToDoLists" />
           </AssociationSet>
-          <EntitySet Name="UserDetails" EntityType="MModel.UserDetail" />
-          <AssociationSet Name="FK_Depo_Users_Users" Association="MModel.FK_Depo_Users_Users">
-            <End Role="User" EntitySet="Users" />
-            <End Role="UserDetail" EntitySet="UserDetails" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Depo_Users_Depo" Association="MModel.FK_Depo_Users_Depo">
-            <End Role="Depo" EntitySet="Depoes" />
-            <End Role="UserDetail" EntitySet="UserDetails" />
-          </AssociationSet>
           <FunctionImport Name="GetSTIList">
             <Parameter Name="devamMi" Mode="In" Type="Boolean" />
             <Parameter Name="gorevTip" Mode="In" Type="String" />
@@ -2194,6 +2187,15 @@
             <Parameter Name="ValorGun" Mode="In" Type="Int16" />
             <Parameter Name="LinkEvrakNo" Mode="In" Type="String" />
           </FunctionImport>
+          <EntitySet Name="UserDetails" EntityType="MModel.UserDetail" />
+          <AssociationSet Name="FK_Depo_Users_Users" Association="MModel.FK_Depo_Users_Users">
+            <End Role="User" EntitySet="Users" />
+            <End Role="UserDetail" EntitySet="UserDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Depo_Users_Depo" Association="MModel.FK_Depo_Users_Depo">
+            <End Role="Depo" EntitySet="Depoes" />
+            <End Role="UserDetail" EntitySet="UserDetails" />
+          </AssociationSet>
           </EntityContainer>
         <ComplexType Name="GetSirkets_Result">
           <Property Type="String" Name="Kod" Nullable="false" MaxLength="2" />
@@ -3606,6 +3608,11 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <ComplexType Name="InsertIadeIrsaliye_Result">
+          <Property Type="Int32" Name="IrsaliyeID" Nullable="true" />
+          <Property Type="Int32" Name="GorevID" Nullable="true" />
+          <Property Type="Boolean" Name="Onay" Nullable="true" />
+        </ComplexType>
         <EntityType Name="UserDetail">
           <Key>
             <PropertyRef Name="UserID" />
@@ -3614,6 +3621,8 @@
           <Property Name="DepoID" Type="Int32" />
           <Property Name="SatisIrsaliyeSeri" Type="Int32" />
           <Property Name="SatisFaturaSeri" Type="Int32" />
+          <Property Name="AlimdanIadeFaturaSeri" Type="Int32" />
+          <Property Name="SatistanIadeIrsaliyeSeri" Type="Int32" />
           <Property Name="TransferInSeri" Type="Int32" />
           <Property Name="TransferOutSeri" Type="Int32" />
           <Property Name="SayimSeri" Type="Int32" />
@@ -3655,11 +3664,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <ComplexType Name="InsertIadeIrsaliye_Result">
-          <Property Type="Int32" Name="IrsaliyeID" Nullable="true" />
-          <Property Type="Int32" Name="GorevID" Nullable="true" />
-          <Property Type="Boolean" Name="Onay" Nullable="true" />
-        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -4609,6 +4613,16 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="GetSTIList" FunctionName="MModel.Store.GetSTIList" />
+          <FunctionImportMapping FunctionImportName="InsertIadeIrsaliye" FunctionName="MModel.Store.InsertIadeIrsaliye">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MModel.InsertIadeIrsaliye_Result">
+                <ScalarProperty Name="IrsaliyeID" ColumnName="IrsaliyeID" />
+                <ScalarProperty Name="GorevID" ColumnName="GorevID" />
+                <ScalarProperty Name="Onay" ColumnName="Onay" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           <EntitySetMapping Name="UserDetails">
             <EntityTypeMapping TypeName="MModel.UserDetail">
               <MappingFragment StoreEntitySet="UserDetails">
@@ -4626,6 +4640,8 @@
                 <ScalarProperty Name="SayimSeri" ColumnName="SayimSeri" />
                 <ScalarProperty Name="TransferOutSeri" ColumnName="TransferOutSeri" />
                 <ScalarProperty Name="TransferInSeri" ColumnName="TransferInSeri" />
+                <ScalarProperty Name="SatistanIadeIrsaliyeSeri" ColumnName="SatistanIadeIrsaliyeSeri" />
+                <ScalarProperty Name="AlimdanIadeFaturaSeri" ColumnName="AlimdanIadeFaturaSeri" />
                 <ScalarProperty Name="SatisFaturaSeri" ColumnName="SatisFaturaSeri" />
                 <ScalarProperty Name="SatisIrsaliyeSeri" ColumnName="SatisIrsaliyeSeri" />
                 <ScalarProperty Name="DepoID" ColumnName="DepoID" />
@@ -4633,16 +4649,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="GetSTIList" FunctionName="MModel.Store.GetSTIList" />
-          <FunctionImportMapping FunctionImportName="InsertIadeIrsaliye" FunctionName="MModel.Store.InsertIadeIrsaliye">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="MModel.InsertIadeIrsaliye_Result">
-                <ScalarProperty Name="IrsaliyeID" ColumnName="IrsaliyeID" />
-                <ScalarProperty Name="GorevID" ColumnName="GorevID" />
-                <ScalarProperty Name="Onay" ColumnName="Onay" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
