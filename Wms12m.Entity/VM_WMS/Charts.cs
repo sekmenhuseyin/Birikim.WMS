@@ -55,6 +55,18 @@ namespace Wms12m.Entity
         public string Proje { get; set; }
         public int Sure { get; set; }
     }
+    public class chartGorevProje1
+    {
+        public int Yil { get; set; }
+        public int Ay { get; set; }
+        public int Sure { get; set; }
+    }
+    public class chartGorevProje
+    {
+        public string Ay { get; set; }
+        public int GecenYil { get; set; }
+        public int BuYil { get; set; }
+    }
     public class chartGorevCalismaAnaliz
     {
         public string Unvan { get; set; }
