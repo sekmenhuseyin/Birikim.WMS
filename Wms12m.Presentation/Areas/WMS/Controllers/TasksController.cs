@@ -524,5 +524,102 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             ViewBag.Details = db.Database.SqlQuery<frmPaketBarkod>(string.Format("EXEC [FINSAT6{0}].[wms].[getBarcodeDetails] @SirketKodu = N'{0}', @DepoKodu = N'{1}', @EvrakNo = N'{2}'", tblx.Gorev.IR.SirketKod, tblx.Gorev.Depo.DepoKodu, tblx.Gorev.IR.LinkEvrakNo)).FirstOrDefault();
             return View("BarcodePrint", tblx);
         }
+
+        /// <summary>
+        /// sayım fişi iptal
+        /// </summary>
+        [HttpPost]
+        public JsonResult CountBack(int GorevID)
+        {
+            //kontrols
+            if (CheckPerm(Perms.GörevListesi, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
+            int durumID = ComboItems.Tamamlanan.ToInt32();
+            int tipID = ComboItems.KontrolSayım.ToInt32();
+            var mGorev = db.Gorevs.Where(m => m.ID == GorevID && m.GorevTipiID == tipID && m.DurumID == durumID).FirstOrDefault();
+            if (mGorev.IsNull())
+                return Json(new Result(false, "Görev bulunamadı!"), JsonRequestBehavior.AllowGet);
+            if (mGorev.IR.Onay == false)
+                return Json(new Result(false, "Sayım fişi bulunamadı!"), JsonRequestBehavior.AllowGet);
+            //variables
+            string sql = string.Format("DELETE FROM FINSAT6{0}.FINSAT6{0}.STI WHERE (EvrakNo = '{1}') AND (KynkEvrakTip = 95) AND (IslemTip = 18);",
+mGorev.IR.SirketKod, mGorev.IR.EvrakNo);
+            db.Database.ExecuteSqlCommand(sql);
+            mGorev.IR.EvrakNo = mGorev.GorevNo;
+            mGorev.IR.Onay = false;
+            db.SaveChanges();
+
+            return Json(new Result(true, mGorev.ID, "İşlem tamlandı!"), JsonRequestBehavior.AllowGet);
+        }
+        /// <summary>
+        /// sayım fark fişi iptal
+        /// </summary>
+        [HttpPost]
+        public JsonResult CountBackDiff(int GorevID)
+        {
+            //kontrols
+            if (CheckPerm(Perms.GörevListesi, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
+            int durumID = ComboItems.Tamamlanan.ToInt32();
+            int tipID = ComboItems.KontrolSayım.ToInt32();
+            var mGorev = db.Gorevs.Where(m => m.ID == GorevID && m.GorevTipiID == tipID && m.DurumID == durumID).FirstOrDefault();
+            if (mGorev.IsNull())
+                return Json(new Result(false, "Görev bulunamadı!"), JsonRequestBehavior.AllowGet);
+            if (mGorev.IR.LinkEvrakNo == null)
+                return Json(new Result(false, "Fark fişi bulunamadı!"), JsonRequestBehavior.AllowGet);
+
+            //variables
+            int tarih = fn.ToOADate();
+            int saat = fn.ToOATime();
+            List<STI> stiList = new List<STI>();
+            //loop malkods
+            string sql = string.Format("SELECT IslemTur, MalKodu, Miktar, Miktar2, Birim, Depo FROM FINSAT6{0}.FINSAT6{0}.STI " +
+                                        "WHERE (EvrakNo = '{1}') AND (KynkEvrakTip = 100) AND (IslemTip = 20)", mGorev.IR.SirketKod, mGorev.IR.LinkEvrakNo);
+            var list = db.Database.SqlQuery<frmGorevSayimFisi>(sql).ToList();
+            sql = "";
+            foreach (var item in list)
+            {
+                if (item.IslemTur == 0)//giriş
+                {
+                    sql += string.Format("UPDATE FINSAT6{0}.FINSAT6{0}.DST " +
+                        "SET GirMiktar = GirMiktar - {3},  SonSayimFarki = {3}, Degistiren = '{4}', DegisTarih = {5}, DegisSaat = {6} " +
+                        "WHERE(MalKodu = '{1}') AND(Depo = '{2}');", mGorev.IR.SirketKod, item.MalKodu, mGorev.Depo.DepoKodu, (item.Miktar - item.Miktar2).ToDot(), vUser.UserName, tarih, saat);
+                    sql += string.Format("UPDATE FINSAT6{0}.FINSAT6{0}.STK " +
+                        "SET TahminiStok = TahminiStok - {2}, GirMiktar = GirMiktar - {2},  Degistiren = '{3}', DegisTarih = {4}, DegisSaat = {5} " +
+                        "WHERE(MalKodu = '{1}');", mGorev.IR.SirketKod, item.MalKodu, (item.Miktar - item.Miktar2).ToDot(), vUser.UserName, tarih, saat);
+                }
+                else//çıkış
+                {
+                    sql += string.Format("UPDATE FINSAT6{0}.FINSAT6{0}.DST " +
+                        "SET CikMiktar = CikMiktar - {3}, Degistiren = '{4}', DegisTarih = {5}, DegisSaat = {6} " +
+                        "WHERE(MalKodu = '{1}') AND(Depo = '{2}');", mGorev.IR.SirketKod, item.MalKodu, mGorev.Depo.DepoKodu, (item.Miktar2 - item.Miktar).ToDot(), vUser.UserName, tarih, saat);
+                    sql += string.Format("UPDATE FINSAT6{0}.FINSAT6{0}.STK " +
+                        "SET TahminiStok = TahminiStok + {2}, CikMiktar = CikMiktar - {2}, Degistiren = '{3}', DegisTarih = {4}, DegisSaat = {5} " +
+                        "WHERE(MalKodu = '{1}');", mGorev.IR.SirketKod, item.MalKodu, (item.Miktar2 - item.Miktar).ToDot(), vUser.UserName, tarih, saat);
+                }
+            }
+
+            sql += string.Format("DELETE FROM FINSAT6{0}.FINSAT6{0}.STI WHERE (EvrakNo = '{1}') AND (KynkEvrakTip = 100) AND (IslemTip = 20);",
+            mGorev.IR.SirketKod, mGorev.IR.LinkEvrakNo);
+            db.Database.ExecuteSqlCommand(sql);
+
+            var yl = db.Yer_Log.Where(a => a.IrsaliyeID == mGorev.IR.ID).ToList();
+            foreach (var item in yl)
+            {
+                var tmp2 = Yerlestirme.Detail(item.KatID, item.MalKodu, item.Birim);
+                if (item.GC == true)
+                {
+                    tmp2.Miktar += item.Miktar;
+                    Yerlestirme.Update(tmp2, mGorev.IR.ID, vUser.Id, false, item.Miktar);
+                }
+                else
+                {
+                    tmp2.Miktar -= item.Miktar;
+                    Yerlestirme.Update(tmp2, mGorev.IR.ID, vUser.Id, true, item.Miktar);
+                }
+            }
+            mGorev.IR.LinkEvrakNo = null;
+            db.SaveChanges();
+
+            return Json(new Result(true, mGorev.ID, "İşlem tamlandı!"), JsonRequestBehavior.AllowGet);
+        }
     }
 }

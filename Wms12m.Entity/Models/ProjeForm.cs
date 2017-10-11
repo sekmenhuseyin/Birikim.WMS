@@ -35,6 +35,7 @@ namespace Wms12m.Entity.Models
         public System.DateTime KayitTarih { get; set; }
         public string Degistiren { get; set; }
         public System.DateTime DegisTarih { get; set; }
+        public bool Aktif { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Gorevler> Gorevlers { get; set; }

@@ -188,6 +188,7 @@
           <Property Name="KayitTarih" Type="smalldatetime" Nullable="false" />
           <Property Name="Degistiren" Type="varchar" MaxLength="5" Nullable="false" />
           <Property Name="DegisTarih" Type="smalldatetime" Nullable="false" />
+          <Property Name="Aktif" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="Perm">
           <Key>
@@ -3648,6 +3649,7 @@
           <NavigationProperty Name="Musteri" Relationship="MModel.FK_Proje_Musteri" FromRole="ProjeForm" ToRole="Musteri" />
           <NavigationProperty Name="ProjeForm1" Relationship="MModel.FK_ProjeForm_ProjeForm" FromRole="ProjeForm" ToRole="ProjeForm1" />
           <NavigationProperty Name="ProjeForm2" Relationship="MModel.FK_ProjeForm_ProjeForm" FromRole="ProjeForm1" ToRole="ProjeForm" />
+          <Property Name="Aktif" Type="Boolean" Nullable="false" />
         </EntityType>
         <Association Name="FK_Gorevler_ProjeForm">
           <End Type="MModel.ProjeForm" Role="ProjeForm" Multiplicity="1" />
@@ -4645,6 +4647,7 @@
           <EntitySetMapping Name="ProjeForms">
             <EntityTypeMapping TypeName="MModel.ProjeForm">
               <MappingFragment StoreEntitySet="ProjeForm">
+                <ScalarProperty Name="Aktif" ColumnName="Aktif" />
                 <ScalarProperty Name="DegisTarih" ColumnName="DegisTarih" />
                 <ScalarProperty Name="Degistiren" ColumnName="Degistiren" />
                 <ScalarProperty Name="KayitTarih" ColumnName="KayitTarih" />

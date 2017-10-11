@@ -23,11 +23,13 @@ namespace WMSMobil
             InitializeComponent();
             Servis.Url = Ayarlar.ServisURL;
             //change size
-            if (Ayarlar.KatSayi < 1)
+            if (Screen.PrimaryScreen.Bounds.Height == Screen.PrimaryScreen.Bounds.Width)
             {
+                decimal crpm = (decimal)(Screen.PrimaryScreen.WorkingArea.Height) / (decimal)320;
                 foreach (Control item in this.Controls)
                 {
-                    item.Top = item.Top.Carpim();
+                    item.Top = (item.Top * crpm).ToInt32();
+                    item.Height = (item.Height * crpm).ToInt32();
                 }
             }
         }

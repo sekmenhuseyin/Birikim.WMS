@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Data;
-using System.Data.Entity;
 using System.Linq;
 using System.Web.Mvc;
 using Wms12m.Entity;
@@ -15,18 +14,21 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         /// </summary>
         public ActionResult Index()
         {
+            if (CheckPerm(Perms.TodoProje, PermTypes.Reading) == false) return Redirect("/");
             ViewBag.MusteriID = new SelectList(db.Musteris.OrderBy(m => m.Unvan).ToList(), "ID", "Unvan ");
             ViewBag.Sorumlu = new SelectList(Persons.GetList(), "Kod", "AdSoyad");
-            return View(new ProjeForm());
+            ViewBag.Yetki = CheckPerm(Perms.TodoProje, PermTypes.Writing);
+            return View("Index", new ProjeForm());
         }
         /// <summary>
         /// liste
         /// </summary>
         public PartialViewResult List()
         {
-            var projeForms = db.ProjeForms.Include(p => p.Musteri).Include(p => p.ProjeForm2);
-            // return PartialView(projeForms.ToList());
-            return PartialView(projeForms.Where(a => a.PID == null).ToList());
+            if (CheckPerm(Perms.TodoProje, PermTypes.Reading) == false) return null;
+            ViewBag.Yetki = CheckPerm(Perms.TodoProje, PermTypes.Writing);
+            ViewBag.Yetki2 = CheckPerm(Perms.TodoProje, PermTypes.Deleting);
+            return PartialView("List", db.ProjeForms.Where(a => a.PID == null).ToList());
         }
         /// <summary>
         /// düzeneleme sayfası
@@ -47,6 +49,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         [HttpPost, ValidateAntiForgeryToken]
         public JsonResult Save(ProjeForm projeForm)
         {
+            if (CheckPerm(Perms.TodoProje, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             if (ModelState.IsValid)
             {
                 if (projeForm.ID == 0)
@@ -86,6 +89,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         /// </summary>
         public JsonResult Delete(string Id)
         {
+            if (CheckPerm(Perms.TodoProje, PermTypes.Deleting) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             ProjeForm projeform = db.ProjeForms.Find(Id.ToInt32());
             db.ProjeForms.Remove(projeform);
             try
@@ -101,8 +105,9 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         /// <summary>
         /// formlar
         /// </summary>
-        public ActionResult FormIndex()
+        public PartialViewResult FormIndex()
         {
+            if (CheckPerm(Perms.TodoProje, PermTypes.Reading) == false) return null;
             var id = Url.RequestContext.RouteData.Values["id"];
             var ID = id.ToInt32();
             ProjeForm projeForm = db.ProjeForms.Find(ID);
@@ -113,6 +118,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             {
                 Proje = projeForm.Proje
             };
+            ViewBag.Yetki = CheckPerm(Perms.TodoProje, PermTypes.Writing);
             return PartialView(projeForm);
         }
         /// <summary>
@@ -120,9 +126,12 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         /// </summary>
         public PartialViewResult FormList()
         {
+            if (CheckPerm(Perms.TodoProje, PermTypes.Reading) == false) return null;
             var id = Url.RequestContext.RouteData.Values["id"];
             var ID = id.ToInt32();
             ViewBag.id = ID;
+            ViewBag.Yetki = CheckPerm(Perms.TodoProje, PermTypes.Writing);
+            ViewBag.Yetki2 = CheckPerm(Perms.TodoProje, PermTypes.Deleting);
             return PartialView("FormList", db.ProjeForms.Where(a => a.PID == ID).ToList());
         }
         /// <summary>
@@ -141,6 +150,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         [HttpPost, ValidateAntiForgeryToken]
         public JsonResult FormSave(ProjeForm projeForm)
         {
+            if (CheckPerm(Perms.TodoProje, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             if (ModelState.IsValid)
             {
                 if (projeForm.ID == 0)

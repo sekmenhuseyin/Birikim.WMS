@@ -16,9 +16,8 @@
                         <td>@item.ProjeForm2.Proje</td>
                         <td>@item.Form</td>
                         <td>
-                            <a class="btn btn-default" href="javascript:;" onclick="CreateEditAltF('@item.ID')"> Düzenle </a>
-                            <a class="btn btn-danger" href="javascript:;" onclick="Delete('@item.ID','/ToDo/ProjectForm/FormList/@ViewBag.id','listealt','')"> Sil </a>
-                        
+                            @if (ViewBag.Yetki == true) {<a class="btn btn-default" href="javascript:;" onclick="CreateEditAltF('@item.ID')"> Düzenle </a>}
+                            @if (ViewBag.Yetki2 == true) {<a class="btn btn-danger" href="javascript:;" onclick="Delete('@item.ID','/ToDo/ProjectForm/FormList/@ViewBag.id','listealt','')"> Sil </a>}
                         </td>
                     </tr>
                 }

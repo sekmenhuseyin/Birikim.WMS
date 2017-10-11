@@ -1,7 +1,5 @@
-﻿@model GorevCalisma
-@{
-    List<GorevToDoList> tbl = ViewBag.TodoList;
-}<div class="modal-content">
+﻿@model GorevlerCalisma
+<div class="modal-content">
     <div class="close-modal" data-dismiss="modal"><div class="lr"><div class="rl"></div></div></div>
     <div class="container">
         <div class="portlet box green">
@@ -34,8 +32,8 @@
                         <div class="form-group">
                             <div class="control-label col-md-1">Çalışma Süresi</div>
                             <div class="col-md-10">
-                                @Html.EditorFor(model => model.CalismaSure, new { htmlAttributes = new { @class = "form-control input-circle", required = "required" } })
-                                @Html.ValidationMessageFor(model => model.CalismaSure, "", new { @class = "text-danger" })
+                                @Html.EditorFor(model => model.Sure, new { htmlAttributes = new { @class = "form-control input-circle", required = "required" } })
+                                @Html.ValidationMessageFor(model => model.Sure, "", new { @class = "text-danger" })
                             </div>
                         </div>
                         <div class="form-group">
@@ -60,7 +58,7 @@
 <script type="text/javascript">
     sayac = 1;
     $(document).ready(function () { $('.date-picker').datepicker(); });
-     var model = @Html.Raw(Json.Encode(tbl.Select(m=> new frmGorevTodos { ID=m.ID, Aciklama=m.Aciklama, AktifPasif=m.AktifPasif, OnayDurum=m.OnayDurum }).ToList()));
+     var model = @Html.Raw(Json.Encode(Model.GorevlerCalismaToDoLists.Select(m=> new frmGorevTodos { ID=m.ID, Aciklama=m.Aciklama }).ToList()));
      $.each(model, function (indexx, value) {
          var index = sayac++;
          var newElement = $("<div>").addClass("form-group row todo-content");
@@ -77,15 +75,11 @@
          $(".todo-id" + index).dxTextBox();
          $(".todo-id" + index).dxTextBox("instance").option({ name: "todo", value: value.ID });
          $(".checkitem" + index).dxCheckBox({
-             value: value.OnayDurum,
+             value: true,
              name: "checkitem",
              onValueChanged: function (e) {
 
              },            
          });
-         if (value.AktifPasif == false) {
-             $(".checkitem" + index).dxCheckBox("instance").option({ readOnly: true });
-             $(".checkitem" + index + " .dx-checkbox-icon").css("color", "red");
-         }
      });
 </script>

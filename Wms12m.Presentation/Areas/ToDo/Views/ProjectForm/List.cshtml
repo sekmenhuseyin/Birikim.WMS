@@ -7,22 +7,21 @@
     </div>
     <div class="portlet-body form p-40">
         <table class="table table-striped table-bordered table-hover" id="sample_1">
-            <thead><tr><th>Firma</th><th>Proje</th><th>Sorumlu</th><th>Karşı Sorumlu</th><th>Açıklama</th><th>Mesai Kontrol</th><th>Mesai Kota</th><th></th></tr></thead>
+            <thead><tr><th>Firma</th><th>Proje</th><th>Sorumlu</th><th>Karşı Sorumlu</th><th>Açıklama</th><th>Mesai Kota</th><th></th></tr></thead>
             <tbody>
                 @foreach (var item in Model)
                 {
                     <tr>
-                        <td>@Html.DisplayFor(modelItem => item.Musteri.Unvan)</td>
-                        <td>@Html.DisplayFor(modelItem => item.Proje)</td>
-                        <td>@Html.DisplayFor(modelItem => item.Sorumlu)</td>
-                        <td>@Html.DisplayFor(modelItem => item.KarsiSorumlu)</td>
-                        <td>@Html.DisplayFor(modelItem => item.Aciklama)</td>
-                        <td>@if (item.MesaiKontrol == true) { @("Var"); } else { @("Yok"); }</td>
-                        <td>@Html.DisplayFor(modelItem => item.MesaiKota)</td>
+                        <td>@item.Musteri.Unvan</td>
+                        <td>@item.Proje</td>
+                        <td>@item.Sorumlu</td>
+                        <td>@item.KarsiSorumlu</td>
+                        <td>@item.Aciklama</td>
+                        <td>@if (item.MesaiKontrol == true) { @item.MesaiKota } else { @("-"); }</td>
                         <td>
-                            <a class="btn btn-primary" href="#modalEditPage" data-toggle="modal" onclick="CreateEdit('0');editInModal('/ToDo/ProjectForm/FormIndex/@item.ID')"> Form Ekle </a>
-                            <a class="btn btn-default" href="javascript:;" onclick="CreateEdit('@item.ID')"> Düzenle </a>
-                            <a class="btn btn-danger" href="javascript:;" onclick="Delete('@item.ID','/ToDo/ProjectForm/List','liste','')"> Sil </a>
+                            <a class="btn btn-primary" href="#modalEditPage" data-toggle="modal" onclick="CreateEdit('0');editInModal('/ToDo/ProjectForm/FormIndex/@item.ID')"> Formlar </a>
+                            @if (ViewBag.Yetki == true) {<a class="btn btn-default" href="javascript:;" onclick="CreateEdit('@item.ID')"> Düzenle </a>}
+                            @if (ViewBag.Yetki2 == true) {<a class="btn btn-danger" href="javascript:;" onclick="Delete('@item.ID','/ToDo/ProjectForm/List','liste','')"> Sil </a>}
                         </td>
                     </tr>
                 }

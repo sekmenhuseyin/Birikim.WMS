@@ -85,5 +85,50 @@
             }
         });
     }
+
+    function frmSayimIptal() {
+        var dialog = bootbox.dialog({
+            title: 'Sayım Fişi İptal',
+            message: "<p>Sayım Fişini iptal etmek istediğinize emin misiniz?</p>",
+            buttons: {
+                yes: {
+                    label: "Evet",
+                    className: 'btn-info',
+                    callback: function () {
+                        $('#frmBack').submit();
+                    }
+                },
+                no: {
+                    label: "Hayır",
+                    className: 'btn-danger',
+                    callback: function () {
+                    }
+                }
+            }
+        });
+    }
+
+    function frmFarkIptal() {
+        var dialog = bootbox.dialog({
+            title: 'Fark Fişi İptal',
+            message: "<p>Fark Fişini iptal etmek istediğinize emin misiniz?</p>",
+            buttons: {
+                yes: {
+                    label: "Evet",
+                    className: 'btn-info',
+                    callback: function () {
+                        $('#frmFarkBack').submit();
+                    }
+                },
+                no: {
+                    label: "Hayır",
+                    className: 'btn-danger',
+                    callback: function () {
+                    }
+                }
+            }
+        });
+    }
+    
 </script>
 }

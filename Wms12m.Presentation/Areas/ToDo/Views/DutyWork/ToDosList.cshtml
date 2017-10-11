@@ -1,0 +1,32 @@
+﻿@model IEnumerable<GorevlerToDoList>
+<table class="table table-bordered table-striped table-condensed" id="sample_1">
+    <thead>
+        <tr>
+            <th>Görevler</th>
+            <th>Açıklama</th>
+            <th>Kayıt Tarihi</th>
+            <th>Değiş Tarihi</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Gorevler.Gorev</td>
+                <td>@item.Aciklama</td>
+                <td>@item.KayitTarih.ToShortDateString()</td>
+                <td>@item.DegisTarih.ToShortDateString()</td>
+                <td></td>
+            </tr>
+        }
+    </tbody>
+</table>
+<script language="text/javascript">
+    var table = $('#sample_1').DataTable({
+        "paging": false,
+        "ordering": false,
+        "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" }
+    });
+
+</script>
