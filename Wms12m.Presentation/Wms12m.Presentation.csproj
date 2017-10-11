@@ -454,6 +454,7 @@
     <Content Include="Areas\WMS\Views\ReturnSale\Step3.cshtml" />
     <Content Include="Areas\ToDo\Views\GorevTakvimi\Details.cshtml" />
     <Content Include="Areas\YN\Views\OnayBekleyenler\Tahsilat.cshtml" />
+    <Content Include="Areas\ToDo\Views\GorevTakvimi\List.cshtml" />
     <None Include="bundleconfig.json" />
     <Content Include="Content\SizeSablon.xlsx" />
     <Content Include="Content\StockSablon.xlsx" />

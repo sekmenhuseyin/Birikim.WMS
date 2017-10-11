@@ -1,8 +1,6 @@
-﻿@model List<frmGorevlerCalismalar>
-@{
+﻿@{
     ViewBag.Title = "Görev Takvimi";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    var tarihler = new List<int>();
 }@section Styles{<link href="~/Content/assets/global/plugins/fullcalendar/fullcalendar.min.css" rel="stylesheet" />
 }<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><span>Görev Takvimi</span></li></ul></div>
 <h1 class="page-title">Görev Takvimi</h1>
@@ -23,12 +21,10 @@
             </div>
             <div class="portlet-body">
                 <div class="row">
-                    <div class="col-md-12 col-sm-12">
-                        <div id="calendar" class="has-toolbar"> </div>
-                    </div>
+                    <div id="liste" class="col-md-12 col-sm-12"></div>
                 </div>
             </div>
-            <div id="liste" class="p-40"></div>
+            <div id="details" class="p-40"></div>
         </div>
     </div>
 </div>
@@ -36,38 +32,33 @@
 <script src="~/Content/assets/global/plugins/fullcalendar/fullcalendar.min.js"></script>
 <script src="~/Content/assets/global/plugins/fullcalendar/locale/tr.js"></script>
 <script>
+    var username = "@ViewBag.UserName";
     $(document).ready(function () {
-        $('#calendar').fullCalendar({
-            locale: 'tr',
-            themeSystem: 'bootstrap3',
-            weekends: false,
-            showNonCurrentDates: true,
-            height: 500,
-            header: {
-                left: 'title',
-                center: '',
-                right: 'prev,next today'
-            },
-            navLinks: false,
-            events: [
-                @foreach (var item in Model) { tarihler.Add(item.Tarih.ToOADateInt()); <text>{ id: '@item.Tarih.ToOADateInt()', title: '@item.Sure', start: '@item.Tarih.ToString("yyyy-MM-dd")', backgroundColor: App.getBrandColor('@if (item.Sure == 540) {@("green")} else  {@("yellow")}') },</text> }
-                @for (int i = 42850; i <= DateTime.Today.ToOADateInt(); i++) { if(tarihler.Contains(i) == false){<text>{ id: '@i', title: '0', start: '@i.FromOaDate().ToString("yyyy-MM-dd")', backgroundColor: App.getBrandColor('red') },</text>} }
-            ],
-            eventClick: function (calEvent, jsEvent, view) {
-                format(calEvent.id);
-            }
-        });
+        FuncSearchBtn(username);
     });
-    function format(d) {
+    function FuncSearchBtn(u) {
+        username = u;
+        PartialView("/ToDo/GorevTakvimi/List", 'liste', JSON.stringify({ UserName: u }));
+    }
+    function format(d, u) {
         $.ajax({
             type: 'POST',
             url: '/ToDo/GorevTakvimi/Details',
-            data: { "ID": d, "User": "@ViewBag.UserName" },
+            data: { "ID": d, "User": u },
             dataType: "html",
             success: function (data) {
-                $('#liste').html(data);
+                $('#details').html(data);
             }
         });
     }
+    function getresult(data) {
+        if (data.Status == false)
+            Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
+        else {
+            Modaldialog("Kaydedildi", "Başarı", "Tamam", "btn-success");
+            $('#modalEditPage').modal('toggle');
+            FuncSearchBtn(username);
+        }
+    };
 </script>
 }
