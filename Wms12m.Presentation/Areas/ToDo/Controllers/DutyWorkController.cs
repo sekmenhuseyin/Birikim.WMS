@@ -99,7 +99,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             if (gorevCalisma.ID == 0)
             {
                 //kontrol
-                string sql = string.Format("SELECT ISNULL(SUM(Sure), 0) AS Expr1 FROM ong.GorevlerCalisma WHERE (GorevID = {0}) AND (Tarih = '{1}') AND (Kaydeden = '{2}')", gorevCalisma.GorevID, DateTime.Now.ToString("yyyy-MM-dd"), vUser.UserName);
+                string sql = string.Format("SELECT ISNULL(SUM(Sure), 0) AS Expr1 FROM ong.GorevlerCalisma WHERE (Tarih = '{0}') AND (Kaydeden = '{1}')", DateTime.Now.ToString("yyyy-MM-dd"), vUser.UserName);
                 var kontrol = db.Database.SqlQuery<int>(sql).FirstOrDefault();
                 if ((kontrol + gorevCalisma.Sure) > 540)
                     return Json(new Result(false, "Seçili görev ve tarih için 540 dakikadan daha fazla çalışma girilemez."), JsonRequestBehavior.AllowGet);
@@ -132,7 +132,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             else
             {
                 //kontrol
-                string sql = string.Format("SELECT ISNULL(SUM(Sure), 0) AS Expr1 FROM ong.GorevlerCalisma WHERE (GorevID = {0}) AND (Tarih = '{1}') AND (Kaydeden = '{2}') AND (ID <> {3})", gorevCalisma.GorevID, DateTime.Now.ToString("yyyy-MM-dd"), vUser.UserName, gorevCalisma.ID);
+                string sql = string.Format("SELECT ISNULL(SUM(Sure), 0) AS Expr1 FROM ong.GorevlerCalisma WHERE (Tarih = '{0}') AND (Kaydeden = '{1}') AND (ID <> {2})", gorevCalisma.Tarih.ToString("yyyy-MM-dd"), vUser.UserName, gorevCalisma.ID);
                 var kontrol = db.Database.SqlQuery<int>(sql).FirstOrDefault();
                 if ((kontrol + gorevCalisma.Sure) > 540)
                     return Json(new Result(false, "Seçili görev ve tarih için 540 dakikadan daha fazla çalışma girilemez."), JsonRequestBehavior.AllowGet);
@@ -233,7 +233,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         {
             var tbl = db.GorevlerToDoLists.Where(m => m.ID == Id).FirstOrDefault();
             //kontrol
-            string sql = string.Format("SELECT ISNULL(SUM(Sure), 0) AS Expr1 FROM ong.GorevlerCalisma WHERE (GorevID = {0}) AND (Tarih = '{1}') AND (Kaydeden = '{2}')", tbl.GorevID, DateTime.Now.ToString("yyyy-MM-dd"), vUser.UserName);
+            string sql = string.Format("SELECT ISNULL(SUM(Sure), 0) AS Expr1 FROM ong.GorevlerCalisma WHERE (Tarih = '{0}') AND (Kaydeden = '{1}')", DateTime.Now.ToString("yyyy-MM-dd"), vUser.UserName);
             var kontrol = db.Database.SqlQuery<int>(sql).FirstOrDefault();
             if ((kontrol + Sure) > 540)
                 return Json(new Result(false, "Seçili görev ve tarih için 540 dakikadan daha fazla çalışma girilemez."), JsonRequestBehavior.AllowGet);

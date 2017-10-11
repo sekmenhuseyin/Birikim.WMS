@@ -20,7 +20,7 @@
                 <td>@item.KayitTarih.ToString("dd.MM.yyyy")</td>
                 <td>@if (item.TahminiBitis != null) { @item.TahminiBitis.Value.ToString("dd.MM.yyyy")}</td>
                 <td>
-                    <a class="btn btn-success input-circle" href="javascript:;" onclick="GorevOnay(0, @item.ID);"> Onayla </a>
+                    <a class="btn btn-primary input-circle" href="javascript:;" onclick="GorevOnay(0, @item.ID);"> Onayla </a>
                     <a class="btn btn-danger input-circle" href="javascript:;" onclick="GorevOnay(1, @item.ID);"> Reddet </a>
                 </td>
             </tr>
