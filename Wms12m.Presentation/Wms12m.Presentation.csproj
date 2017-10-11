@@ -454,6 +454,8 @@
     <Content Include="Areas\WMS\Views\ReturnSale\Step3.cshtml" />
     <Content Include="Areas\ToDo\Views\GorevTakvimi\Details.cshtml" />
     <Content Include="Areas\YN\Views\OnayBekleyenler\Tahsilat.cshtml" />
+    <Content Include="Areas\ToDo\Views\GorevTakvimi\List.cshtml" />
+    <Content Include="Areas\ToDo\Views\Duties\ListOnay.cshtml" />
     <None Include="bundleconfig.json" />
     <Content Include="Content\SizeSablon.xlsx" />
     <Content Include="Content\StockSablon.xlsx" />
@@ -777,7 +779,7 @@
     <Content Include="Areas\ToDo\Views\Duties\New.cshtml" />
     <Content Include="Areas\ToDo\Views\DutyWork\New.cshtml" />
     <Content Include="Areas\ToDo\Views\DutyWork\List.cshtml" />
-    <Content Include="Areas\ToDo\Views\Duties\Duty_Details.cshtml" />
+    <Content Include="Areas\ToDo\Views\Duties\Details.cshtml" />
     <Content Include="Views\Help\Index.cshtml" />
     <Content Include="Areas\System\Views\Logs\Index.cshtml" />
     <Content Include="Areas\System\Views\Logs\Login.cshtml" />

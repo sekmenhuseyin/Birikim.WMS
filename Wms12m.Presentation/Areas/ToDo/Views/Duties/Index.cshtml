@@ -21,7 +21,6 @@
 </div>}
 <div class="row">
     <div class="col-md-12">
-        <div id="CreateEdit"></div>
         <div class="portlet box green">
             <div class="portlet-title">
                 <div class="caption">
@@ -84,7 +83,7 @@
     function format(d) {
         $.ajax({
             type: 'POST',
-            url: '/ToDo/Duties/Duty_Details',
+            url: '/ToDo/Duties/Details',
             data: { "ID": d },
             dataType: "html",
             success: function (data) {

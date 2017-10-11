@@ -1,8 +1,8 @@
 ﻿@model IEnumerable<GorevlerToDoList>
 <table class="table table-bordered table-striped table-condensed" id="sample_1">
-    <thead><tr><th style="max-width:20px;"></th><th>Görevler</th><th>Todo List</th><th>Sorumlu</th><th>Yapan</th><th>Tarih</th><th></th></tr></thead>
-    <tfoot><tr><th style="max-width:20px;"></th><th></th><th></th><th></th><th></th><th></th><th></th></tr></tfoot>
-    <tfoot class="tf-search"><tr><th style="max-width:20px;"></th><th></th><th></th><th></th><th></th><th></th><th></th></tr></tfoot>
+    <thead><tr><th style="max-width:20px;"></th><th>Görevler</th><th>Todo List</th><th>Sorumlu</th><th>Çalışan</th><th>Bekleten</th><th>Tarih</th><th></th></tr></thead>
+    <tfoot><tr><th style="max-width:20px;"></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr></tfoot>
+    <tfoot class="tf-search"><tr><th style="max-width:20px;"></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr></tfoot>
     <tbody>
         @foreach (var item in Model)
         {
@@ -12,13 +12,14 @@
                 <td>@item.Aciklama</td>
                 <td nowrap>@item.Gorevler.Sorumlu @if (item.Gorevler.Sorumlu2 != null) { @(", " + item.Gorevler.Sorumlu2) } @if (item.Gorevler.Sorumlu3 != null) { @(", " + item.Gorevler.Sorumlu3) } @if (item.Gorevler.KontrolSorumlusu != null) { @(", " + item.Gorevler.KontrolSorumlusu) }</td>
                 <td>@if (item.Onay == true) { @item.Onaylayan }@if (item.KontrolOnay == true) { @(", ") @item.KontrolEden }</td>
+                <td>@if (item.Onay == false) { @item.Gorevler.Sorumlu } else if (item.KontrolOnay == false) { @item.Gorevler.KontrolSorumlusu }</td>
                 <td>@item.KayitTarih.ToString("dd.MM.yyyy")</td>
 
                 <td>
                     @if (ViewBag.Tip == false)
                     {
                         if(ViewBag.RoleName != "Admin" && ViewBag.RoleName != " ") {<a class="btn btn-info input-circle" href="#modalEditPage" data-toggle="modal" onclick="editInModal('/ToDo/DutyWork/New/@item.ID');"><span class="glyphicon glyphicon-floppy-save"></span>Çalışma</a>}
-                        <a class="btn btn-primary input-circle" href="javascript:;" onclick="Onay(@item.ID, true);"> Onayla </a>
+                        <a class="btn btn-success input-circle" href="javascript:;" onclick="Onay(@item.ID, true);"> Onayla </a>
                         if(ViewBag.Yetki == true && item.Onay == true) {<a class="btn btn-danger input-circle" href="javascript:;" onclick="Onay(@item.ID, false);"> Reddet </a>}
                     }
                 </td>
