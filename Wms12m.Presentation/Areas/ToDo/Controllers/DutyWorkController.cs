@@ -197,6 +197,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         public ActionResult ToDos()
         {
             if (CheckPerm(Perms.TodoÇalışma, PermTypes.Reading) == false) return Redirect("/");
+            ViewBag.Yetki = CheckPerm(Perms.TodoÇalışma, PermTypes.Deleting);
             return View();
         }
         /// <summary>

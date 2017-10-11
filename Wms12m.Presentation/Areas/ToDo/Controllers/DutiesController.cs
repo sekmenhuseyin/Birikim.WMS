@@ -31,7 +31,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             ViewBag.DepartmanID = new SelectList(ComboSub.GetList(Combos.Departman.ToInt32()), "ID", "Name", "");
             ViewBag.MusteriID = new SelectList(db.Musteris.OrderBy(m => m.Unvan).ToList(), "ID", "Unvan");
             ViewBag.Sorumlu = new SelectList(Persons.GetList(), "Kod", "AdSoyad");
-            ViewBag.KontrolSorumlusu = new SelectList(Persons.GetList(new string[]{ "Destek", "Admin" }), "Kod", "AdSoyad");
+            ViewBag.KontrolSorumlusu = new SelectList(Persons.GetList(new string[] { "Destek", "Admin" }), "Kod", "AdSoyad");
             ViewBag.Sorumlu2 = ViewBag.Sorumlu;
             ViewBag.Sorumlu3 = ViewBag.Sorumlu;
             return PartialView(new Gorevler());
@@ -40,11 +40,11 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         /// ayrıntılar
         /// </summary>
         [HttpPost]
-        public PartialViewResult Duty_Details(int ID)
+        public PartialViewResult Details(int ID)
         {
             var list = db.GorevlerCalismas.Where(a => a.GorevID == ID).OrderByDescending(m => m.Tarih).ToList();
             ViewBag.ID = ID;
-            return PartialView("Duty_Details", list);
+            return PartialView("Details", list);
         }
         /// <summary>
         /// liste
@@ -64,6 +64,18 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             }
             else
                 list = list.Where(m => m.DurumID == Tip);
+            ViewBag.Yetki = CheckPerm(Perms.TodoGörevler, PermTypes.Deleting);
+            ViewBag.Yetki1 = CheckPerm(Perms.TodoGörevler, PermTypes.Writing);
+            return PartialView(list.OrderBy(m => m.OncelikID).ToList());
+        }
+        /// <summary>
+        /// sadece onay listesi
+        /// </summary>
+        public PartialViewResult ListOnay()
+        {
+            if (CheckPerm(Perms.TodoGörevler, PermTypes.Deleting) == false) return null;
+            var Tip = ComboItems.gydOnayVer.ToInt32();
+            var list = db.Gorevlers.Where(m => m.DurumID == Tip);
             ViewBag.Yetki = CheckPerm(Perms.TodoGörevler, PermTypes.Deleting);
             ViewBag.Yetki1 = CheckPerm(Perms.TodoGörevler, PermTypes.Writing);
             ViewBag.Tip = Tip;

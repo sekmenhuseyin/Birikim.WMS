@@ -35,12 +35,28 @@
         </div>
     </div>
 </div>
-@section Scripts{
+@if (ViewBag.Yetki == true){
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet box green">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-gift"></i>Görev Listesi
+                </div>
+            </div>
+            <div class="portlet-body form">
+                <div id="listeOnay" class="p-30"></div>
+            </div>
+        </div>
+    </div>
+</div>
+}@section Scripts{
 <script type="text/javascript">
     FuncSearchBtn();
     function FuncSearchBtn() {
         $('#liste').html("");
         PartialView("/ToDo/DutyWork/ToDosList", 'liste', JSON.stringify({ Tip: $('#DurumID').val() }));
+        @if (ViewBag.Yetki == true){<text>PartialView("/ToDo/Duties/ListOnay", 'listeOnay', '');</text>}
     }
     function getresult(data) {
         if (data.Status == false)
@@ -63,5 +79,31 @@
             }
         });
     }
+   @if (ViewBag.Yetki == true){<text>
+    function showEdit(ID) {
+        $('#modalEditPage').modal('toggle');
+        editInModal('/ToDo/Duties/Edit/' + ID);
+    }
+    function GorevOnay(tip, id) {
+        $.ajax({
+            url: window.location.origin + "/ToDo/Duties/GorevOnay",
+            data: { Id: id, Tip: tip },
+            type: "post",
+            success: function (data) {
+                if (data.Status == true) {
+                    Modaldialog("İşlem Başarılı", "Güncelleme İşlemi", "Tamam", "btn-success");
+                    FuncSearchBtn();
+                }
+                else if (data.Message != "" && data.Message != null)
+                    Modaldialog(data.Message, 'Hata', 'Tamam', 'btn-danger');
+                else
+                    Modaldialog("Hata oldu", 'Hata', 'Tamam', 'btn-danger');
+            },
+            error: function (data) {
+                Modaldialog("Hata oldu", 'Hata', 'Tamam', 'btn-danger');
+            }
+        });
+    }
+    </text>}
 </script>
 }

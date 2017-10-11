@@ -33,6 +33,7 @@
 <script src="~/Content/assets/global/plugins/fullcalendar/locale/tr.js"></script>
 <script>
     var username = "@ViewBag.UserName";
+    var id = 0;
     $(document).ready(function () {
         FuncSearchBtn(username);
     });
@@ -41,6 +42,8 @@
         PartialView("/ToDo/GorevTakvimi/List", 'liste', JSON.stringify({ UserName: u }));
     }
     function format(d, u) {
+        id = d;
+        $('#details').html("");
         $.ajax({
             type: 'POST',
             url: '/ToDo/GorevTakvimi/Details',
@@ -58,6 +61,7 @@
             Modaldialog("Kaydedildi", "Başarı", "Tamam", "btn-success");
             $('#modalEditPage').modal('toggle');
             FuncSearchBtn(username);
+            if (id > 0) format(id, username);
         }
     };
 </script>
