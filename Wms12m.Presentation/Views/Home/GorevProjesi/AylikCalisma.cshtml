@@ -8,7 +8,7 @@
                     <span class="caption-subject bold uppercase font-green-haze"> Günlük Çalışma Analizi <span style="color:#8888a7;">3D CHART</span></span>
                 </div>
                 <div class="col-md-2">
-                    <input type="text" class="form-control dateboxbg" id="gorevcalismatarih1" value="@ViewBag.tarih2" />
+                    @Html.DropDownList("gorevcalismatarih7", null, htmlAttributes: new { @class = "form-control", @onchange = "ReloadGorev7(this.value, 0, " + ViewBag.tarihStart + ", " + ViewBag.tarihEnd + ")" })
                 </div>
                 <div class="col-md-2">
                     @Html.DropDownList("userID", null, htmlAttributes: new { @class = "form-control satirekle1", @onchange = "ReloadGorev1(this.value)" })

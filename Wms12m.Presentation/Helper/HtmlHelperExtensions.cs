@@ -65,13 +65,13 @@ namespace Wms12m
         {
             Type t = typeof(T);
             return !t.IsEnum ? null
-                             : new SelectList(BuildSelectListItems(t), "Text", "Value", selected.ToString());
+                             : new SelectList(BuildSelectListItems(t), "Text", "Value", selected.ToInt32());
         }
         private static IEnumerable<SelectListItem> BuildSelectListItems(Type t)
         {
             return Enum.GetValues(t)
                        .Cast<Enum>()
-                       .Select(e => new SelectListItem { Value = e.ToString(), Text = e.GetDescription() });
+                       .Select(e => new SelectListItem { Value = e.ToString(), Text = e.ToInt32().ToString() });
         }
     }
 }

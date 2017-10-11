@@ -62,9 +62,14 @@
         });
         $('#tblGorevCalismaAnaliz .tf-search th').each(function () {
             var title = $('#tblGorevCalismaAnaliz thead th').eq($(this).index()).text();
-            if (title != "" && title != "Detay" && title != "Hareket")
+            if (title != "" && title.indexOf("Tarih") !== -1)
+                $(this).html('<input class="form-control input-circle tarih" type="text" placeholder="Ara" />');
+            else if (title != "")
                 $(this).html('<input class="form-control input-circle" type="text" placeholder="Ara" />');
         });
         $("#tblGorevCalismaAnaliz tfoot input").on('keyup change', function () { table.column($(this).parent().index() + ':visible').search(this.value).draw(); });
+        //tarih
+        $.datepicker.setDefaults($.datepicker.regional["tr"]);
+        $(".tarih").datepicker();
     });
 </script>

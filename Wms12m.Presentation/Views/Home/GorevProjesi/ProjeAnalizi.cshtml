@@ -5,26 +5,18 @@
             <div class="portlet-title">
                 <div class="caption">
                     <i class="icon-bar-chart font-green-haze"></i>
-                    <span class="caption-subject bold uppercase font-green-haze"> Müşteri Analizi <span style="color:#8888a7;">3D CHART</span></span>
+                    <span class="caption-subject bold uppercase font-green-haze"> Proje Analizi <span style="color:#8888a7;">3D CHART</span></span>
                 </div>
                 <div class="col-md-2">
-                    @Html.DropDownList("DropDownList1", null, htmlAttributes: new { @class = "form-control", @onchange = "ReloadGorev6(this.value, 0, " + ViewBag.tarihStart + ", " + ViewBag.tarihEnd + ")" })
-                    @*@Html.DropDownList("Aylar", EnumHelper.GetSelectList(typeof(Aylar)), htmlAttributes: new { @id = "", @class = "form-control", @onchange = "ReloadGorev6(this.value, 0, " + ViewBag.tarihStart + ", " + ViewBag.tarihEnd + ")" })*@
+                    @Html.DropDownList("MusteriID", null, htmlAttributes: new { @class = "form-control satirekle6", @onchange = "ReloadGorev6(this.value, 0)" })
                 </div>
                 <div class="col-md-2">
-                    @Html.DropDownList("DropDownList2", null, htmlAttributes: new { @class = "form-control", @onchange = "ReloadGorev6(this.value, 0, " + ViewBag.tarihStart + ", " + ViewBag.tarihEnd + ")" })
-                    @*@Html.DropDownList("Aylar", EnumHelper.GetSelectList(typeof(Aylar)), htmlAttributes: new { @class = "form-control", @onchange = "ReloadGorev6(" + ViewBag.musteri + ", this.value, " + ViewBag.tarihStart + ", " + ViewBag.tarihEnd + ")" })*@
-                </div>
-                <div class="col-md-2">
-                    @Html.DropDownList("MusteriID", null, htmlAttributes: new { @class = "form-control satirekle6", @onchange = "ReloadGorev6(this.value, 0, " + ViewBag.tarihStart + ", " + ViewBag.tarihEnd + ")" })
-                </div>
-                <div class="col-md-2">
-                    @Html.DropDownList("ProjeID", null, htmlAttributes: new { @class = "form-control satirekle61", @onchange = "ReloadGorev6(" + ViewBag.musteri + ", this.value, " + ViewBag.tarihStart + ", " + ViewBag.tarihEnd + ")" })
+                    @Html.DropDownList("ProjeID", null, htmlAttributes: new { @class = "form-control satirekle61", @onchange = "ReloadGorev6(" + ViewBag.musteri + ", this.value)" })
                 </div>
                 <div class="tools">
                     <a href="javascript:;" class="collapse"> </a>
                     <a href="javascript:;" class="fullscreen"> </a>
-                    <a href="javascript:;" class="reload" onclick="ReloadGorev6(@ViewBag.musteri, @ViewBag.proje, @ViewBag.tarihStart, @ViewBag.tarihEnd);"> </a>
+                    <a href="javascript:;" class="reload" onclick="ReloadGorev6(@ViewBag.musteri, @ViewBag.proje);"> </a>
                 </div>
             </div>
             <div class="portlet-body">
@@ -34,9 +26,9 @@
     </div>
 </div>
 <script>
-    function ReloadGorev6(Musteri, Proje, Start, End)
+    function ReloadGorev6(Musteri, Proje)
     {
-        PartialView('/Home/GorevProjeAnalizi', 'gorev_proje_analizi', JSON.stringify({ musteri: Musteri, proje: Proje, tarihStart: Start, tarihEnd: End, tip: '' }));
+        PartialView('/Home/GorevProjeAnalizi', 'gorev_proje_analizi', JSON.stringify({ musteri: Musteri, proje: Proje }));
     }
     $(document).ready(function (e) {
         $(".satirekle6").prepend("<option value='0'>Hepsi</option>");

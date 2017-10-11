@@ -184,7 +184,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                 gorevler.Kaydeden = vUser.UserName;
                 gorevler.KayitTarih = gorevler.DegisTarih;
                 gorevler.OncelikID = maxSira + 1;
-                if (vUser.RoleName == "Destek" && gorevler.GorevTipiID == ComboItems.gytGeliştirme.ToInt32())
+                if (CheckPerm(Perms.TodoGörevler, PermTypes.Deleting) == false && gorevler.GorevTipiID == ComboItems.gytGeliştirme.ToInt32())
                     gorevler.DurumID = ComboItems.gydOnayVer.ToInt32();
                 else
                     gorevler.DurumID = ComboItems.gydAtandı.ToInt32();
