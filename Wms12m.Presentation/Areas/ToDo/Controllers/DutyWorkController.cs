@@ -220,15 +220,6 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                 else
                     list = list.Where(m => (m.Gorevler.Sorumlu == vUser.UserName || m.Gorevler.Sorumlu2 == vUser.UserName || m.Gorevler.Sorumlu3 == vUser.UserName) && m.Onay == false);
             }
-            else
-            {
-                if (vUser.RoleName == "Admin" && vUser.RoleName == " ")
-                    list = list.Where(m => m.KontrolOnay == false || m.Onay == false);
-                else if (vUser.RoleName == "Destek")
-                    list = list.Where(m => (m.Kaydeden == vUser.UserName || m.Degistiren == vUser.UserName || m.Gorevler.Sorumlu == vUser.UserName || m.Gorevler.Sorumlu2 == vUser.UserName || m.Gorevler.Sorumlu3 == vUser.UserName || m.Gorevler.KontrolSorumlusu == vUser.UserName || m.Gorevler.KontrolSorumlusu == null));
-                else
-                    list = list.Where(m => (m.Kaydeden == vUser.UserName || m.Degistiren == vUser.UserName || m.Gorevler.Sorumlu == vUser.UserName || m.Gorevler.Sorumlu2 == vUser.UserName || m.Gorevler.Sorumlu3 == vUser.UserName));
-            }
             ViewBag.Yetki = CheckPerm(Perms.TodoGörevler, PermTypes.Writing);
             ViewBag.Tip = Tip;
             ViewBag.RoleName = vUser.RoleName;
