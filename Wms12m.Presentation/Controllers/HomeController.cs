@@ -55,9 +55,7 @@ namespace Wms12m.Presentation.Controllers
             var tablo = db.MenuGetirici(ComboItems.WMS.ToInt32(), mYeri, vUser.RoleName, mUstNo, url).ToList();
             return PartialView("../Shared/_MenuList", tablo);
         }
-        /// <summary>
-        /// satış raporları
-        /// </summary>
+        #region Satış Raporları
         public PartialViewResult PartialGunlukSatisZamanCizelgesi(string SirketKodu)
         {
             ViewBag.SirketKodu = SirketKodu;
@@ -661,8 +659,32 @@ namespace Wms12m.Presentation.Controllers
             return PartialView("Satis/SatisTemsilcisi_AylikSatisAnalizi", list);
         }
         /// <summary>
-        /// Görev projesi raporları
+        /// xtras
         /// </summary>
+        public string CHKSelect(string SirketKodu)
+        {
+            var CHK = db.Database.SqlQuery<RaporCHKSelect>(string.Format("[FINSAT6{0}].[wms].[CHKSelectKartTip]", SirketKodu)).ToList();
+            var json = new JavaScriptSerializer().Serialize(CHK);
+            return json;
+        }
+        public string BolgeBazliSatisAnaliziKriter(string SirketKodu)
+        {
+            var Kriter = db.Database.SqlQuery<ChartBolgeBazliSatisAnaliziKriter>(string.Format("[FINSAT6{0}].[wms].[BolgeBazliSatisAnaliziKriterSelect]", SirketKodu)).ToList();
+            var json = new JavaScriptSerializer().Serialize(Kriter);
+            return json;
+        }
+        public string GunlukSatisAnaliziKriterSelect(string SirketKodu)
+        {
+            var Kriter = db.Database.SqlQuery<ChartBolgeBazliSatisAnaliziKriter>(string.Format("[FINSAT6{0}].[wms].[GunlukSatisAnaliziKriterSelect]", SirketKodu)).ToList();
+            var json = new JavaScriptSerializer().Serialize(Kriter);
+            return json;
+        }
+        public string Connection()
+        {
+            return System.Configuration.ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString;
+        }
+        #endregion
+        #region Görev Raporları
         public PartialViewResult GorevGunlukCalisma(string user, int tarih, string tip)
         {
             ViewBag.tarih = tarih;
@@ -727,52 +749,48 @@ namespace Wms12m.Presentation.Controllers
             string sql = "";
             if (musteri > 0) sql += "AND ong.ProjeForm.MusteriID = " + musteri;
             if (proje > 0) sql += "AND ong.ProjeForm.PID = " + proje;
-            var liste = db.Database.SqlQuery<chartGorevCalisma>(string.Format(@"SELECT ong.GorevlerCalisma.Kaydeden AS Proje, SUM(ong.GorevlerCalisma.Sure) AS Sure
-                    FROM ong.GorevlerCalisma INNER JOIN ong.Gorevler ON ong.GorevlerCalisma.GorevID = ong.Gorevler.ID INNER JOIN ong.ProjeForm ON ong.Gorevler.ProjeFormID = ong.ProjeForm.ID
-                    WHERE (ong.GorevlerCalisma.ID > 0){0}
-                    GROUP BY ong.GorevlerCalisma.Kaydeden", sql)).ToList();
-            return PartialView("GorevProjesi/ProjeAnalizi", liste);
+            //listeyi getir
+            var liste = db.Database.SqlQuery<chartGorevProje1>(string.Format(@"SELECT YEAR(ong.GorevlerCalisma.Tarih) AS Yil, MONTH(ong.GorevlerCalisma.Tarih) AS Ay, SUM(ong.GorevlerCalisma.Sure) AS Sure
+                        FROM ong.GorevlerCalisma INNER JOIN ong.Gorevler ON ong.GorevlerCalisma.GorevID = ong.Gorevler.ID INNER JOIN ong.ProjeForm ON ong.Gorevler.ProjeFormID = ong.ProjeForm.ID
+                        WHERE        (ong.GorevlerCalisma.ID > 0) {1}
+                        GROUP BY YEAR(ong.GorevlerCalisma.Tarih), MONTH(ong.GorevlerCalisma.Tarih)
+                        HAVING        (YEAR(ong.GorevlerCalisma.Tarih) > {0})
+                        ORDER BY Yil, Ay", DateTime.Today.Year - 2, sql)).ToList();
+            //yeni liste oluştur
+            var sonliste = new List<chartGorevProje>();
+            for (int i = 0; i < 12; i++)
+            {
+                sonliste.Add(new chartGorevProje() { Ay = ((Aylar)i + 1).ToString(), GecenYil = 0, BuYil = 0 });
+            }
+            //ilk listeyi yeni listeye yaz
+            foreach (var item in liste)
+            {
+                if (item.Yil == DateTime.Today.Year - 1)
+                    sonliste[item.Ay - 1].GecenYil = item.Sure;
+                else
+                    sonliste[item.Ay - 1].BuYil = item.Sure;
+            }
+            return PartialView("GorevProjesi/ProjeAnalizi", sonliste);
         }
         public PartialViewResult GorevAylikCalisma(string user, int tarihStart, string tip)
         {
             ViewBag.user = user;
+            ViewBag.tarihStart = tarihStart;
             ViewBag.userID = new SelectList(Persons.GetList(), "Kod", "AdSoyad", user);
             ViewBag.gorevcalismatarih7 = EnumHelperExtension.SelectListFor((Aylar)tarihStart);
+            var yil = DateTime.Today.Year;
+            if (tarihStart > DateTime.Today.Month) yil--;
             string sql = "";
-            if (user != "") sql += "AND ong.ProjeForm.Kaydeden = '" + user + "'";
+            if (user != "") sql += "AND ong.GorevlerCalisma.Kaydeden = '" + user + "'";
             var liste = db.Database.SqlQuery<chartGorevCalisma>(string.Format(@"SELECT ong.ProjeForm.Proje, SUM(ong.GorevlerCalisma.Sure) AS Sure
                     FROM ong.GorevlerCalisma INNER JOIN ong.Gorevler ON ong.GorevlerCalisma.GorevID = ong.Gorevler.ID INNER JOIN ong.ProjeForm ON ong.Gorevler.ProjeFormID = ong.ProjeForm.ID
-                    WHERE (ong.GorevlerCalisma.Tarih = '{0}') {1} 
-                    GROUP BY ong.ProjeForm.Proje", sql)).ToList();
+                    WHERE (ong.GorevlerCalisma.Tarih >= '{0}') AND (ong.GorevlerCalisma.Tarih < '{1}') {2} 
+                    GROUP BY ong.ProjeForm.Proje", new DateTime(yil, tarihStart, 1).ToString("yyyy-MM-dd"), new DateTime(yil, tarihStart, 1).AddMonths(1).ToString("yyyy-MM-dd"), sql)).ToList();
             if (tip == "Pie")
                 return PartialView("GorevProjesi/AylikCalismaPie", liste);
             else
                 return PartialView("GorevProjesi/AylikCalisma", liste);
         }
-        /// <summary>
-        /// xtras
-        /// </summary>
-        public string CHKSelect(string SirketKodu)
-        {
-            var CHK = db.Database.SqlQuery<RaporCHKSelect>(string.Format("[FINSAT6{0}].[wms].[CHKSelectKartTip]", SirketKodu)).ToList();
-            var json = new JavaScriptSerializer().Serialize(CHK);
-            return json;
-        }
-        public string BolgeBazliSatisAnaliziKriter(string SirketKodu)
-        {
-            var Kriter = db.Database.SqlQuery<ChartBolgeBazliSatisAnaliziKriter>(string.Format("[FINSAT6{0}].[wms].[BolgeBazliSatisAnaliziKriterSelect]", SirketKodu)).ToList();
-            var json = new JavaScriptSerializer().Serialize(Kriter);
-            return json;
-        }
-        public string GunlukSatisAnaliziKriterSelect(string SirketKodu)
-        {
-            var Kriter = db.Database.SqlQuery<ChartBolgeBazliSatisAnaliziKriter>(string.Format("[FINSAT6{0}].[wms].[GunlukSatisAnaliziKriterSelect]", SirketKodu)).ToList();
-            var json = new JavaScriptSerializer().Serialize(Kriter);
-            return json;
-        }
-        public string Connection()
-        {
-            return System.Configuration.ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString;
-        }
+        #endregion
     }
 }

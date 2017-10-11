@@ -16,8 +16,11 @@
             },
             navLinks: false,
             events: [
-                @foreach (var item in Model) { tarihler.Add(item.Tarih.ToOADateInt()); <text>{ id: '@item.Tarih.ToOADateInt()', title: '@item.Sure', start: '@item.Tarih.ToString("yyyy-MM-dd")', backgroundColor: App.getBrandColor('@if (item.Sure == 540) {@("green")} else  {@("yellow")}') },</text> }
-                @for (int i = 42850; i <= DateTime.Today.ToOADateInt(); i++) { if(tarihler.Contains(i) == false){<text>{ id: '@i', title: '0', start: '@i.FromOaDate().ToString("yyyy-MM-dd")', backgroundColor: App.getBrandColor('red') },</text>} }
+                @if (ViewBag.Yetki != "Admin" & ViewBag.Yetki != " ")
+                {
+                    foreach (var item in Model) { tarihler.Add(item.Tarih.ToOADateInt()); <text>{ id: '@item.Tarih.ToOADateInt()', title: '@item.Sure', start: '@item.Tarih.ToString("yyyy-MM-dd")', backgroundColor: App.getBrandColor('@if (item.Sure == 540) {@("green")} else  {@("yellow")}') },</text> }
+                    for (int i = 42850; i <= DateTime.Today.ToOADateInt(); i++) { if(tarihler.Contains(i) == false){<text>{ id: '@i', title: '0', start: '@i.FromOaDate().ToString("yyyy-MM-dd")', backgroundColor: App.getBrandColor('red') },</text>} }
+                }
             ],
             eventClick: function (calEvent, jsEvent, view) {
                 format(calEvent.id, "@ViewBag.UserName");
