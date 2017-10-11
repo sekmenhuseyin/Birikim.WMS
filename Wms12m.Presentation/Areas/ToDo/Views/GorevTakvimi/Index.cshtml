@@ -14,6 +14,12 @@
                     <i class=" icon-layers font-green"></i>
                     <span class="caption-subject font-green sbold uppercase">Calendar</span>
                 </div>
+                <div class="col-md-2 pull-right">
+                    @if (ViewBag.Yetki == "Admin" || ViewBag.Yetki == " ")
+                    {
+                        @Html.DropDownList("UserID", null, htmlAttributes: new { @class = "form-control input-circle", @onchange = "getProje(this.value,'ProjeList', 'FormList');", required = "required" })
+                    }
+                </div>
             </div>
             <div class="portlet-body">
                 <div class="row">
@@ -22,6 +28,7 @@
                     </div>
                 </div>
             </div>
+            <div id="liste" class="p-40"></div>
         </div>
     </div>
 </div>
@@ -47,11 +54,20 @@
                 @for (int i = 42850; i <= DateTime.Today.ToOADateInt(); i++) { if(tarihler.Contains(i) == false){<text>{ id: '@i', title: '0', start: '@i.FromOaDate().ToString("yyyy-MM-dd")', backgroundColor: App.getBrandColor('red') },</text>} }
             ],
             eventClick: function (calEvent, jsEvent, view) {
-
-                    //alert('Event: ' + calEvent.id);
-
-                }
+                format(calEvent.id);
+            }
         });
     });
+    function format(d) {
+        $.ajax({
+            type: 'POST',
+            url: '/ToDo/GorevTakvimi/Details',
+            data: { "ID": d, "User": "@ViewBag.UserName" },
+            dataType: "html",
+            success: function (data) {
+                $('#liste').html(data);
+            }
+        });
+    }
 </script>
 }
