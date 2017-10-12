@@ -18,11 +18,12 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         {
             if (CheckPerm(Perms.TodoGörevler, PermTypes.Reading) == false) return Redirect("/");
             ViewBag.Yetki = CheckPerm(Perms.TodoGörevler, PermTypes.Writing);
+            ViewBag.RoleName = vUser.RoleName;
             ViewBag.DurumID = new SelectList(ComboSub.GetList(Combos.GörevYönetimDurumları.ToInt32()), "ID", "Name");
             return View();
         }
         /// <summary>
-        /// yenbi görev sayfası
+        /// yeni görev sayfası
         /// </summary>
         public PartialViewResult New()
         {
@@ -106,7 +107,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         {
             var id = Url.RequestContext.RouteData.Values["id"];
             var ID = id.ToInt32();
-            var list = db.ProjeForms.Where(m => m.MusteriID == ID && m.PID == null).Select(m => new SelectListItem { Selected = false, Text = m.Proje, Value = m.ID.ToString() }).OrderBy(m => m.Text).ToList();
+            var list = db.ProjeForms.Where(m => m.MusteriID == ID && m.Aktif == true && m.PID == null).Select(m => new SelectListItem { Selected = false, Text = m.Proje, Value = m.ID.ToString() }).OrderBy(m => m.Text).ToList();
             return Json(list, JsonRequestBehavior.AllowGet);
 
         }
@@ -117,7 +118,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         {
             var id = Url.RequestContext.RouteData.Values["id"];
             var ID = id.ToInt32();
-            var list = db.ProjeForms.Where(m => m.PID == ID).Select(m => new SelectListItem { Selected = false, Text = m.Form, Value = m.ID.ToString() }).OrderBy(m => m.Text).ToList();
+            var list = db.ProjeForms.Where(m => m.PID == ID && m.Aktif == true).Select(m => new SelectListItem { Selected = false, Text = m.Form, Value = m.ID.ToString() }).OrderBy(m => m.Text).ToList();
             return Json(list, JsonRequestBehavior.AllowGet);
 
         }

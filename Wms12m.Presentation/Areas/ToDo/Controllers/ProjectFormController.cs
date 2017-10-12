@@ -65,13 +65,14 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                 {
                     var tbl = db.ProjeForms.Where(m => m.ID == projeForm.ID).FirstOrDefault();
                     tbl.Aciklama = projeForm.Aciklama;
-                    tbl.Form = projeForm.Form;
                     tbl.KarsiSorumlu = projeForm.KarsiSorumlu;
                     tbl.MesaiKontrol = projeForm.MesaiKontrol;
                     tbl.MesaiKota = projeForm.MesaiKota;
                     tbl.Proje = projeForm.Proje;
                     tbl.Sorumlu = projeForm.Sorumlu;
-                    tbl.Form = "";
+                    tbl.Degistiren = vUser.UserName;
+                    tbl.DegisTarih = DateTime.Now;
+                    tbl.Aktif = projeForm.Aktif;
                 }
                 try
                 {
@@ -166,6 +167,9 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                 else
                 {
                     var tbl = db.ProjeForms.Where(m => m.ID == projeForm.ID).FirstOrDefault();
+                    tbl.Degistiren = vUser.UserName;
+                    tbl.DegisTarih = DateTime.Now;
+                    tbl.Aktif = projeForm.Aktif;
                     tbl.Form = projeForm.Form;
                 }
                 try

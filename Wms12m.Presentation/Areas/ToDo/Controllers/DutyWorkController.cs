@@ -102,7 +102,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                 string sql = string.Format("SELECT ISNULL(SUM(Sure), 0) AS Expr1 FROM ong.GorevlerCalisma WHERE (Tarih = '{0}') AND (Kaydeden = '{1}')", DateTime.Now.ToString("yyyy-MM-dd"), vUser.UserName);
                 var kontrol = db.Database.SqlQuery<int>(sql).FirstOrDefault();
                 if ((kontrol + gorevCalisma.Sure) > 540)
-                    return Json(new Result(false, "Seçili görev ve tarih için 540 dakikadan daha fazla çalışma girilemez."), JsonRequestBehavior.AllowGet);
+                    return Json(new Result(false, "Seçili tarih için " + (kontrol + gorevCalisma.Sure -540) + " dakika fazla yazdınız."), JsonRequestBehavior.AllowGet);
                 //update
                 var grv = db.Gorevlers.Where(m => m.ID == gorevCalisma.GorevID).FirstOrDefault();
                 gorevCalisma.Kaydeden = vUser.UserName;
@@ -135,7 +135,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                 string sql = string.Format("SELECT ISNULL(SUM(Sure), 0) AS Expr1 FROM ong.GorevlerCalisma WHERE (Tarih = '{0}') AND (Kaydeden = '{1}') AND (ID <> {2})", gorevCalisma.Tarih.ToString("yyyy-MM-dd"), vUser.UserName, gorevCalisma.ID);
                 var kontrol = db.Database.SqlQuery<int>(sql).FirstOrDefault();
                 if ((kontrol + gorevCalisma.Sure) > 540)
-                    return Json(new Result(false, "Seçili görev ve tarih için 540 dakikadan daha fazla çalışma girilemez."), JsonRequestBehavior.AllowGet);
+                    return Json(new Result(false, "Seçili tarih için " + (kontrol + gorevCalisma.Sure - 540) + " dakika fazla yazdınız."), JsonRequestBehavior.AllowGet);
                 //update
                 var tbl = db.GorevlerCalismas.Where(m => m.ID == gorevCalisma.ID).FirstOrDefault();
                 tbl.Tarih = gorevCalisma.Tarih;
@@ -236,7 +236,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             string sql = string.Format("SELECT ISNULL(SUM(Sure), 0) AS Expr1 FROM ong.GorevlerCalisma WHERE (Tarih = '{0}') AND (Kaydeden = '{1}')", DateTime.Now.ToString("yyyy-MM-dd"), vUser.UserName);
             var kontrol = db.Database.SqlQuery<int>(sql).FirstOrDefault();
             if ((kontrol + Sure) > 540)
-                return Json(new Result(false, "Seçili görev ve tarih için 540 dakikadan daha fazla çalışma girilemez."), JsonRequestBehavior.AllowGet);
+                return Json(new Result(false, "Seçili tarih için " + (kontrol + Sure - 540) + " dakika fazla yazdınız."), JsonRequestBehavior.AllowGet);
             //getir
             tbl.DegisTarih = DateTime.Now;
             tbl.Degistiren = vUser.UserName;

@@ -103,6 +103,9 @@
     <Compile Include="Models\ErrorLog.cs">
       <DependentUpon>ModelLog.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Etkinlik.cs">
+      <DependentUpon>ModelWMS.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\GetCachedChartBakiyeRisk_Result.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
     </Compile>
@@ -215,6 +218,9 @@
       <DependentUpon>ModelWMS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\MenuRolGetir_Result.cs">
+      <DependentUpon>ModelWMS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Message.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ModelLog.Context.cs">

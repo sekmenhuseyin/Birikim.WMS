@@ -85,7 +85,12 @@
         Bakır = 70,
         KüçükRaf = 71,
         Alımdanİade = 72,
-        Satıştanİade = 73
+        Satıştanİade = 73,
+        Yıllıkİzin = 74,
+        Mazaretİzni = 75,
+        ResmiTatil = 76,
+        İdariİzin = 77,
+        ÖnemliGün = 78
     }
     /// <summary>
     /// combo item names
@@ -103,7 +108,8 @@
         Departman = 9,
         GörevYönetimTipleri = 10,
         İşlemKayıtTipi = 11,
-        PaketTipi = 12
+        PaketTipi = 12,
+        TatilTipi = 13
     }
     /// <summary>
     /// permission types
@@ -222,6 +228,6 @@
     {
         SatisFaturası = 0,
         AlimdanIadeFaturası = 1,
-        SatistanIadeIrsaliyesi=2
+        SatistanIadeIrsaliyesi = 2
     }
 }
