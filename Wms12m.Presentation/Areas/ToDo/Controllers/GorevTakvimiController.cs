@@ -63,7 +63,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             if (CheckPerm(Perms.TodoTakvim, PermTypes.Writing) == false) return null;
             ViewBag.TatilTipi = new SelectList(ComboSub.GetList(Combos.TatilTipi.ToInt32()), "ID", "Name");
             ViewBag.Username = new SelectList(Persons.GetList(), "Kod", "AdSoyad");
-            ViewBag.New = true;
+            ViewBag.New = 0;
             return PartialView("New", new Tatil());
         }
         /// <summary>
@@ -75,7 +75,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             var tbl = db.Tatils.Where(m => m.ID == Id).FirstOrDefault();
             ViewBag.TatilTipi = new SelectList(ComboSub.GetList(Combos.TatilTipi.ToInt32()), "ID", "Name", tbl.TatilTipi);
             ViewBag.Username = new SelectList(Persons.GetList(), "Kod", "AdSoyad", tbl.Username);
-            ViewBag.New = false;
+            ViewBag.New = 1;
             return PartialView("New", tbl);
         }
         /// <summary>
@@ -88,7 +88,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             tbl.ID = 0;
             ViewBag.TatilTipi = new SelectList(ComboSub.GetList(Combos.TatilTipi.ToInt32()), "ID", "Name", tbl.TatilTipi);
             ViewBag.Username = new SelectList(Persons.GetList(), "Kod", "AdSoyad", tbl.Username);
-            ViewBag.New = false;
+            ViewBag.New = 2;
             return PartialView("New", tbl);
         }
         /// <summary>
