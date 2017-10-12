@@ -87,7 +87,7 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="UserID" Type="int" />
+          <Property Name="Username" Type="varchar" MaxLength="5" />
           <Property Name="TatilTipi" Type="int" Nullable="false" />
           <Property Name="Tarih" Type="date" Nullable="false" />
           <Property Name="Aciklama" Type="nvarchar" MaxLength="250" />
@@ -275,7 +275,7 @@
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID" Type="int" Nullable="false" />
           <Property Name="Guid" Type="uniqueidentifier" Nullable="false" />
           <Property Name="Sirket" Type="varchar" MaxLength="5" Nullable="false" />
           <Property Name="Tip" Type="smallint" Nullable="false" />
@@ -1047,18 +1047,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Tatil_Users">
-          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
-          <End Role="Tatil" Type="Self.Tatil" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Users">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Tatil">
-              <PropertyRef Name="UserID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Transfer_Depo">
           <End Role="Depo" Type="Self.Depo" Multiplicity="1" />
           <End Role="Transfer" Type="Self.Transfer" Multiplicity="*" />
@@ -1713,10 +1701,6 @@
             <End Role="ComboItem_Name" EntitySet="ComboItem_Name" />
             <End Role="Tatil" EntitySet="Tatil" />
           </AssociationSet>
-          <AssociationSet Name="FK_Tatil_Users" Association="Self.FK_Tatil_Users">
-            <End Role="Users" EntitySet="Users" />
-            <End Role="Tatil" EntitySet="Tatil" />
-          </AssociationSet>
           <AssociationSet Name="FK_Transfer_Depo" Association="Self.FK_Transfer_Depo">
             <End Role="Depo" EntitySet="Depo" />
             <End Role="Transfer" EntitySet="Transfer" />
@@ -2284,15 +2268,6 @@
             <End Role="Depo" EntitySet="Depoes" />
             <End Role="UserDetail" EntitySet="UserDetails" />
           </AssociationSet>
-          <EntitySet Name="Tatils" EntityType="MModel.Tatil" />
-          <AssociationSet Name="FK_Tatil_ComboItem_Name" Association="MModel.FK_Tatil_ComboItem_Name">
-            <End Role="ComboItem_Name" EntitySet="ComboItem_Name" />
-            <End Role="Tatil" EntitySet="Tatils" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Tatil_Users" Association="MModel.FK_Tatil_Users">
-            <End Role="User" EntitySet="Users" />
-            <End Role="Tatil" EntitySet="Tatils" />
-          </AssociationSet>
           <EntitySet Name="Messages" EntityType="MModel.Message" />
           <AssociationSet Name="FK_Messages_UsersFrom" Association="MModel.FK_Messages_UsersFrom">
             <End Role="User" EntitySet="Users" />
@@ -2301,6 +2276,11 @@
           <AssociationSet Name="FK_Messages_UsersTo" Association="MModel.FK_Messages_UsersTo">
             <End Role="User" EntitySet="Users" />
             <End Role="Message" EntitySet="Messages" />
+          </AssociationSet>
+          <EntitySet Name="Tatils" EntityType="MModel.Tatil" />
+          <AssociationSet Name="FK_Tatil_ComboItem_Name" Association="MModel.FK_Tatil_ComboItem_Name">
+            <End Role="ComboItem_Name" EntitySet="ComboItem_Name" />
+            <End Role="Tatil" EntitySet="Tatils" />
           </AssociationSet>
           </EntityContainer>
         <ComplexType Name="GetSirkets_Result">
@@ -2401,7 +2381,6 @@
           <NavigationProperty Name="Role" Relationship="MModel.FK_Users_Roles" FromRole="User" ToRole="Role" />
           <NavigationProperty Name="UserDevices" Relationship="MModel.FK_UserDevices_Users" FromRole="User" ToRole="UserDevice" />
           <NavigationProperty Name="UserDetail" Relationship="MModel.FK_Depo_Users_Users" FromRole="User" ToRole="UserDetail" />
-          <NavigationProperty Name="Tatils" Relationship="MModel.FK_Tatil_Users" FromRole="User" ToRole="Tatil" />
           <NavigationProperty Name="Messages" Relationship="MModel.FK_Messages_UsersFrom" FromRole="User" ToRole="Message" />
           <NavigationProperty Name="Messages1" Relationship="MModel.FK_Messages_UsersTo" FromRole="User" ToRole="Message" />
         </EntityType>
@@ -3774,42 +3753,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="Tatil">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="UserID" Type="Int32" />
-          <Property Name="TatilTipi" Type="Int32" Nullable="false" />
-          <Property Name="Tarih" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="Aciklama" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="ComboItem_Name" Relationship="MModel.FK_Tatil_ComboItem_Name" FromRole="Tatil" ToRole="ComboItem_Name" />
-          <NavigationProperty Name="User" Relationship="MModel.FK_Tatil_Users" FromRole="Tatil" ToRole="User" />
-        </EntityType>
-        <Association Name="FK_Tatil_ComboItem_Name">
-          <End Type="MModel.ComboItem_Name" Role="ComboItem_Name" Multiplicity="1" />
-          <End Type="MModel.Tatil" Role="Tatil" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ComboItem_Name">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Tatil">
-              <PropertyRef Name="TatilTipi" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Tatil_Users">
-          <End Type="MModel.User" Role="User" Multiplicity="0..1" />
-          <End Type="MModel.Tatil" Role="Tatil" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="User">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Tatil">
-              <PropertyRef Name="UserID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="Message">
           <Key>
             <PropertyRef Name="ID" />
@@ -3845,6 +3788,29 @@
             </Principal>
             <Dependent Role="Message">
               <PropertyRef Name="ToID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Tatil">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Username" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="TatilTipi" Type="Int32" Nullable="false" />
+          <Property Name="Tarih" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Aciklama" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="ComboItem_Name" Relationship="MModel.FK_Tatil_ComboItem_Name" FromRole="Tatil" ToRole="ComboItem_Name" />
+        </EntityType>
+        <Association Name="FK_Tatil_ComboItem_Name">
+          <End Type="MModel.ComboItem_Name" Role="ComboItem_Name" Multiplicity="1" />
+          <End Type="MModel.Tatil" Role="Tatil" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ComboItem_Name">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Tatil">
+              <PropertyRef Name="TatilTipi" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -4833,17 +4799,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Tatils">
-            <EntityTypeMapping TypeName="MModel.Tatil">
-              <MappingFragment StoreEntitySet="Tatil">
-                <ScalarProperty Name="Aciklama" ColumnName="Aciklama" />
-                <ScalarProperty Name="Tarih" ColumnName="Tarih" />
-                <ScalarProperty Name="TatilTipi" ColumnName="TatilTipi" />
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Messages">
             <EntityTypeMapping TypeName="MModel.Message">
               <MappingFragment StoreEntitySet="Messages">
@@ -4853,6 +4808,17 @@
                 <ScalarProperty Name="Message1" ColumnName="Message" />
                 <ScalarProperty Name="ToID" ColumnName="ToID" />
                 <ScalarProperty Name="FromID" ColumnName="FromID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tatils">
+            <EntityTypeMapping TypeName="MModel.Tatil">
+              <MappingFragment StoreEntitySet="Tatil">
+                <ScalarProperty Name="Aciklama" ColumnName="Aciklama" />
+                <ScalarProperty Name="Tarih" ColumnName="Tarih" />
+                <ScalarProperty Name="TatilTipi" ColumnName="TatilTipi" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>

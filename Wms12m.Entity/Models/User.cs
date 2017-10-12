@@ -18,7 +18,6 @@ namespace Wms12m.Entity.Models
         public User()
         {
             this.UserDevices = new HashSet<UserDevice>();
-            this.Tatils = new HashSet<Tatil>();
             this.Messages = new HashSet<Message>();
             this.Messages1 = new HashSet<Message>();
         }
@@ -52,8 +51,6 @@ namespace Wms12m.Entity.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<UserDevice> UserDevices { get; set; }
         public virtual UserDetail UserDetail { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Tatil> Tatils { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Message> Messages { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

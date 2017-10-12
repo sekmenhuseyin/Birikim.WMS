@@ -27,7 +27,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             if (vUser.RoleName == "Admin" || vUser.RoleName == " ")
                 ViewBag.UserID = new SelectList(Persons.GetList(), "Kod", "AdSoyad");
             var list = db.GorevlerCalismas.Where(m => m.Kaydeden == UserName).GroupBy(m => m.Tarih).Select(m => new frmGorevlerCalismalar { Tarih = m.Key, Sure = m.Sum(n => n.Sure) }).ToList();
-            ViewBag.Tatil= db.Tatils.Where(m=>m.user).ToList();
+            ViewBag.Tatil = db.Tatils.ToList();
             return PartialView("List", list);
         }
         /// <summary>

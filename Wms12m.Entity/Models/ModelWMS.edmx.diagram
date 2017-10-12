@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="425b037492ed4a51bcc4f7bc9c8f38f9" Name="Diagram1" ZoomLevel="72">
+      <Diagram DiagramId="425b037492ed4a51bcc4f7bc9c8f38f9" Name="Diagram1" ZoomLevel="53">
         <EntityTypeShape EntityType="MModel.Simge" Width="1.5" PointX="25.25" PointY="5.875" />
         <EntityTypeShape EntityType="MModel.Perm" Width="1.5" PointX="25" PointY="21.625" />
         <EntityTypeShape EntityType="MModel.RolePerm" Width="1.5" PointX="25" PointY="17.5" />
@@ -89,12 +89,11 @@
         <EntityTypeShape EntityType="MModel.UserDetail" Width="1.5" PointX="19" PointY="10.75" />
         <AssociationConnector Association="MModel.FK_Depo_Users_Users" />
         <AssociationConnector Association="MModel.FK_Depo_Users_Depo" />
-        <EntityTypeShape EntityType="MModel.Tatil" Width="1.5" PointX="20.875" PointY="8.625" />
-        <AssociationConnector Association="MModel.FK_Tatil_ComboItem_Name" />
-        <AssociationConnector Association="MModel.FK_Tatil_Users" />
         <EntityTypeShape EntityType="MModel.Message" Width="1.5" PointX="22.5" PointY="23.375" />
         <AssociationConnector Association="MModel.FK_Messages_UsersFrom" />
         <AssociationConnector Association="MModel.FK_Messages_UsersTo" />
+        <EntityTypeShape EntityType="MModel.Tatil" Width="1.5" PointX="19.625" PointY="0.875" />
+        <AssociationConnector Association="MModel.FK_Tatil_ComboItem_Name" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

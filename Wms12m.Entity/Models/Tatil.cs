@@ -15,12 +15,11 @@ namespace Wms12m.Entity.Models
     public partial class Tatil
     {
         public int ID { get; set; }
-        public Nullable<int> UserID { get; set; }
+        public string Username { get; set; }
         public int TatilTipi { get; set; }
         public System.DateTime Tarih { get; set; }
         public string Aciklama { get; set; }
     
         public virtual ComboItem_Name ComboItem_Name { get; set; }
-        public virtual User User { get; set; }
     }
 }
