@@ -22,7 +22,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             return View();
         }
         /// <summary>
-        /// yenbi görev sayfası
+        /// yeni görev sayfası
         /// </summary>
         public PartialViewResult New()
         {

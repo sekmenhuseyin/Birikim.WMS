@@ -1,53 +1,38 @@
-﻿@model IEnumerable<Gorevler>
-<table class="table table-bordered table-striped table-condensed" id="sample_2">
-    <thead><tr><th></th><th>Çalışma</th><th>Firma</th><th>Proje</th><th>Form</th><th>Görev</th><th>Sorumlular</th><th>Durum</th><th>Görev Tipi</th><th>Departman</th><th>Oluşturma Tarihi</th><th>Tahmini Bitiş<span class="hidden">Tarih</span></th><th></th></tr></thead>
-    <tfoot><tr><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr></tfoot>
-    <tfoot class="tf-search"><tr><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr></tfoot>
+﻿@model IEnumerable<Tatil>
+<table class="table table-bordered table-striped table-condensed" id="tblTatil">
+    <thead><tr><th>Tarih</th><th>Kime</th><th>Tip</th><th>Açıklama</th><th></th></tr></thead>
+    <tfoot><tr><th></th><th></th><th></th><th></th><th></th></tr></tfoot>
+    <tfoot class="tf-search"><tr><th></th><th></th><th></th><th></th><th></th></tr></tfoot>
     <tbody>
         @foreach (var item in Model)
         {
-            <tr data-id="@item.ID" ondblclick="showEdit(@item.ID)" class="clickable">
-                <td></td>
-                <td class="details-control"></td>
-                <td>@item.ProjeForm.Musteri.Firma</td>
-                <td>@item.ProjeForm.Proje</td>
-                <td>@item.ProjeForm.Form</td>
-                <td>@item.Gorev</td>
-                <td nowrap>@item.Sorumlu @if (item.Sorumlu2 != null) { @(", " + item.Sorumlu2) } @if (item.Sorumlu3 != null) { @(", " + item.Sorumlu3) } @if (item.KontrolSorumlusu != null) { @(", " + item.KontrolSorumlusu) }</td>
-                <td>@item.ComboItem_Name1.Name</td>
-                <td>@if (item.ComboItem_Name2 != null) { @item.ComboItem_Name2.Name} </td>
-                <td>@if (item.ComboItem_Name != null) { @item.ComboItem_Name.Name} </td>
-                <td>@item.KayitTarih.ToString("dd.MM.yyyy")</td>
-                <td>@if (item.TahminiBitis != null) { @item.TahminiBitis.Value.ToString("dd.MM.yyyy")}</td>
+            <tr>
+                <td nowrap><div class="hidden">@item.Tarih.ToOADateInt()</div>@item.Tarih.ToString("dd.MM.yyyy")</td>
+                <td nowrap>@if (item.Username == null) {@("Herkes")} else {@item.Username}</td>
+                <td nowrap>@item.ComboItem_Name.Name</td>
+                <td>@item.Aciklama</td>
                 <td>
-                    <a class="btn btn-primary input-circle" href="javascript:;" onclick="GorevOnay(0, @item.ID);"> Onayla </a>
-                    <a class="btn btn-danger input-circle" href="javascript:;" onclick="GorevOnay(1, @item.ID);"> Reddet </a>
+                    <a class="btn btn-default" href="#modalEditPage" data-toggle="modal" onclick="editInModal2('/ToDo/GorevTakvimi/Edit', { Id: @item.ID })"> Düzenle </a>
+                    <a class="btn btn-danger" href="javascript:;" onclick="Delete('@item.ID', '/ToDo/GorevTakvimi/ListTatil', 'listeTatil', '')"> Sil </a>
                 </td>
             </tr>
         }
     </tbody>
 </table>
 <script language="text/javascript">
-    var table = $('#sample_2').DataTable({
-        "paging": false,
-        "ordering": false,
+    var table = $('#tblTatil').DataTable({
+        "order": [[0, "desc"]],
+        "pagingType": "full_numbers",
         "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" }
     });
-    table.on('order.dt search.dt', function () { table.column(1, { search: 'applied', order: 'applied' }).nodes().each(function (cell, i) { cell.innerHTML = i + 1; }); }).draw();
-    $('#sample_2 .tf-search th').each(function () {
-        var title = $('#sample_2 thead th').eq($(this).index()@if (ViewBag.Yetki != true) { @("+1") }).text();
+    $('#tblTatil .tf-search th').each(function () {
+        var title = $('#tblTatil thead th').eq($(this).index()).text();
         if (title != "" && title.indexOf("Tarih") !== -1)
             $(this).html('<input class="form-control input-circle tarih" type="text" placeholder="Ara" />');
-        else if (title != "" && title != "Çalışma" && title != "Sıra")
+        else if (title != "")
             $(this).html('<input class="form-control input-circle" type="text" placeholder="Ara" />');
         });
-    $("#sample_2 tfoot input").on('keyup change', function () { table.column($(this).parent().index() + ':visible').search(this.value).draw(); });
-    $('#sample_2 tbody').on('click', 'td.details-control', function () {
-        var tr = $(this).closest('tr');
-        var row = table.row(tr);
-        if (row.child.isShown()) { row.child.hide(); tr.removeClass('shown'); }
-        else { row.child(newrow(tr.data('id'))).show(); format(tr.data('id')); tr.addClass('shown'); }
-    });
+    $("#tblTatil tfoot input").on('keyup change', function () { table.column($(this).parent().index() + ':visible').search(this.value).draw(); });
     //tarih
     $.datepicker.setDefaults($.datepicker.regional["tr"]);
     $(".tarih").datepicker();

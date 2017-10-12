@@ -2,12 +2,7 @@
     ViewBag.Title = "Görev Takvimi";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }@section Styles{<link href="~/Content/assets/global/plugins/fullcalendar/fullcalendar.min.css" rel="stylesheet" />
-<style>
-    .btn:not(.md-skip):not(.bs-select-all):not(.bs-deselect-all):not(.toggle-on):not(.toggle-off):not(.toggle) {
-        padding: 8px 14px 25px 14px !important;
-        margin-bottom: 15px!important;
-    }
-</style>
+<style>.fc-left > div > .btn, .fc-left > .btn, .fc-right > div > .btn { padding: 8px 14px 25px 14px !important; margin-bottom: 15px!important; }</style>
 }<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><span>Görev Takvimi</span></li></ul></div>
 <h1 class="page-title">Görev Takvimi</h1>
 <div class="row">
@@ -59,14 +54,15 @@
 <script src="~/Content/assets/global/plugins/fullcalendar/fullcalendar.min.js"></script>
 <script src="~/Content/assets/global/plugins/fullcalendar/locale/tr.js"></script>
 <script>
-    var username = "@ViewBag.UserName";
-    var id = 0;
+    var username = "@ViewBag.UserName"; var id = 0;
+    var DeleteFunctionUrl = '/ToDo/GorevTakvimi/Delete';
     $(document).ready(function () {
         FuncSearchBtn(username);
     });
     function FuncSearchBtn(u) {
         username = u;
         PartialView("/ToDo/GorevTakvimi/List", 'liste', JSON.stringify({ UserName: u }));
+        PartialView("/ToDo/GorevTakvimi/ListTatil", 'listeTatil', "");
     }
     function format(d, u) {
         id = d;

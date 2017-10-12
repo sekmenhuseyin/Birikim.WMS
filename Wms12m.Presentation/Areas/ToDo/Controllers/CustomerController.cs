@@ -80,16 +80,16 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         /// <summary>
         /// sil
         /// </summary>
-        public JsonResult Delete(string Id)
+        public JsonResult Delete(int Id)
         {
             if (CheckPerm(Perms.TodoMüşteri, PermTypes.Deleting) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
-            Musteri musteri = db.Musteris.Find(Id.ToInt32());
+            Musteri musteri = db.Musteris.Find(Id);
             db.Musteris.Remove(musteri);
             try
             {
                 db.SaveChanges();
                 LogActions("ToDo", "Customer", "Delete", ComboItems.alSil, musteri.ID);
-                return Json(new Result(true, Id.ToInt32()), JsonRequestBehavior.AllowGet);
+                return Json(new Result(true, Id), JsonRequestBehavior.AllowGet);
             }
             catch (Exception)
             {
