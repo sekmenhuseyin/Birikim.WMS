@@ -2,6 +2,12 @@
     ViewBag.Title = "Görev Takvimi";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }@section Styles{<link href="~/Content/assets/global/plugins/fullcalendar/fullcalendar.min.css" rel="stylesheet" />
+<style>
+    .btn:not(.md-skip):not(.bs-select-all):not(.bs-deselect-all):not(.toggle-on):not(.toggle-off):not(.toggle) {
+        padding: 8px 14px 25px 14px !important;
+        margin-bottom: 15px!important;
+    }
+</style>
 }<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><span>Görev Takvimi</span></li></ul></div>
 <h1 class="page-title">Görev Takvimi</h1>
 <div class="row">
@@ -10,7 +16,7 @@
             <div class="portlet-title">
                 <div class="caption">
                     <i class=" icon-layers font-green"></i>
-                    <span class="caption-subject font-green sbold uppercase">Calendar</span>
+                    <span class="caption-subject font-green sbold uppercase">Takvim</span>
                 </div>
                 <div class="col-md-2 pull-right">
                     @if (ViewBag.Yetki == "Admin" || ViewBag.Yetki == " ")
@@ -37,7 +43,7 @@
                     <i class="fa fa-gift"></i>İzin ve Tatil Listesi
                 </div>
                 <div class="col-md-2 pull-right m-t-5">
-                    <a class="btn btn-default pull-right input-circle" href="#modalEditPage" data-toggle="modal" onclick="editInModal('/ToDo/Duties/New')"> Yeni </a>
+                    <a class="btn btn-default pull-right input-circle" href="#modalEditPage" data-toggle="modal" onclick="editInModal('/ToDo/GorevTakvimi/New')"> Yeni </a>
                 </div>
             </div>
             <div class="portlet-body form">
