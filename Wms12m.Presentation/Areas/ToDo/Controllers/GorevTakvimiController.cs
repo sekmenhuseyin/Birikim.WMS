@@ -28,12 +28,33 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         {
             if (vUser.RoleName != "Admin" && vUser.RoleName != " " && UserName != vUser.UserName)
                 UserName = vUser.UserName;
+            var tblEtki = db.Etkinliks.Where(m => m.Tekrarlayan == false);
+            if (vUser.RoleName != "Admin" && vUser.RoleName != " ")
+                tblEtki.Where(m => m.Username == UserName || m.Username == null);
+            var lstEtkinlik = tblEtki.ToList();
+            var tekrarlayan = db.Etkinliks.Where(m => m.Tekrarlayan == true).ToList();
+            foreach (var item in tekrarlayan)
+            {
+                var fark = DateTime.Today.Year - item.Tarih.Year + 1;
+                for (int i = 0; i <= fark; i++)
+                {
+                    var item2 = new Etkinlik()
+                    {
+                        ID = item.ID,
+                        Username = item.Username,
+                        TatilTipi = item.TatilTipi,
+                        Tarih = item.Tarih.AddYears(i),
+                        Aciklama = item.Aciklama + " ("+i+". Tekrar)",
+                        Tekrarlayan = item.Tekrarlayan,
+                        ComboItem_Name = item.ComboItem_Name
+                    };
+                    lstEtkinlik.Add(item2);
+                }
+            }
+            //return
             ViewBag.UserName = UserName;
             ViewBag.RoleName = vUser.RoleName;
-            if (vUser.RoleName == "Admin" || vUser.RoleName == " ")
-                ViewBag.Tatil = db.Etkinliks.ToList();
-            else
-                ViewBag.Tatil = db.Etkinliks.Where(m => m.Username == UserName || m.Username == null).ToList();
+            ViewBag.Tatil = lstEtkinlik;
             var list = db.GorevlerCalismas.Where(m => m.Kaydeden == UserName).GroupBy(m => m.Tarih).Select(m => new frmGorevlerCalismalar { Tarih = m.Key, Sure = m.Sum(n => n.Sure) }).ToList();
             return PartialView("List", list);
         }
