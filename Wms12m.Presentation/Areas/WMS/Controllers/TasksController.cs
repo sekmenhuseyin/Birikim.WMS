@@ -314,6 +314,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             {
                 mGorev.IR.EvrakNo = sonuc.Message;
                 mGorev.IR.Onay = true;
+                mGorev.IR.ValorGun = (short)(Tip == true ? 1 : 0);
                 db.SaveChanges();
                 sonuc.Message = "İşlem tamlandı!";
                 LogActions("WMS", "Tasks", "CountCreate", ComboItems.alEkle, mGorev.ID, "Sayım Fişi: " + mGorev.IR.EvrakNo);
@@ -414,11 +415,17 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                 db.Database.ExecuteSqlCommand(sql);
                 //son olarak bizim stoka kaydet
                 //get list
-                sql = string.Format(@"SELECT        wms.Yer.KatID, wms.Yer.MalKodu, wms.Yer.Birim, wms.Yer.Miktar AS Stok, 
+                if (mGorev.IR.ValorGun == 1)
+                    sql = string.Format(@"SELECT        wms.Yer.KatID, wms.Yer.MalKodu, wms.Yer.Birim, wms.Yer.Miktar AS Stok, 
                                                         ISNULL((SELECT Sum(Miktar) FROM wms.GorevYer WHERE (GorevID = {0}) AND(MalKodu = wms.Yer.MalKodu) AND (YerID = wms.Yer.ID)), 0) AS Miktar
                                         FROM wms.Yer INNER JOIN wms.Gorev ON wms.Yer.DepoID = wms.Gorev.DepoID
                                         WHERE (wms.Gorev.ID = {0})", GorevID);
-                var list2 = db.Database.SqlQuery<frmSiparisToplama>(sql).ToList();
+                else
+                     sql = string.Format(@"SELECT        wms.Yer.KatID, wms.GorevYer.MalKodu, wms.GorevYer.Birim, wms.Yer.Miktar AS Stok, wms.GorevYer.Miktar
+                                        FROM            wms.GorevYer INNER JOIN
+                                                                    wms.Yer ON wms.GorevYer.YerID = wms.Yer.ID 
+                                        WHERE (wms.GorevYer.GorevID  = {0})", GorevID);
+               var list2 = db.Database.SqlQuery<frmSiparisToplama>(sql).ToList();
                 //loop list
                 foreach (var item in list2)
                 {

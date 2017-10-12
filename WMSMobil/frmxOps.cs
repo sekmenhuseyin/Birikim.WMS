@@ -511,7 +511,7 @@ namespace WMSMobil
                 {
                     if (Ayarlar.MenuTip == MenuType.KontrollüSayım)
                     {
-                        if (itemPanel.Controls[0].Text.Contains(";" + malInfo.Barkod + ";") && malInfo.Kod1 == "KKABLO")
+                        if (itemPanel.Controls[1].Text.Contains(malInfo.MalKodu) && malInfo.Kod1 == "KKABLO")
                         {
                             if (itemPanel.Raf == raf && itemPanel.MakaraNo == makaraNo)
                             {
@@ -522,7 +522,7 @@ namespace WMSMobil
                                     item.BackColor = Color.DarkOrange;
                             }
                         }
-                        else if (itemPanel.Controls[0].Text.Contains(";" + malInfo.Barkod + ";"))
+                        else if (itemPanel.Controls[1].Text.Contains(malInfo.MalKodu))
                         {
                             mal_var = true;
                             if (itemPanel.Raf == raf)
