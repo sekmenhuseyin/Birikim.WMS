@@ -111,6 +111,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                     tbl.Username = satir.Username;
                     tbl.Aciklama = satir.Aciklama;
                     tbl.Tarih = satir.Tarih;
+                    tbl.Tekrarlayan = satir.Tekrarlayan;
                 }
                 try
                 {

@@ -1,8 +1,8 @@
 ﻿@model IEnumerable<Etkinlik>
 <table class="table table-bordered table-striped table-condensed" id="tblTatil">
-    <thead><tr><th>Tarih</th><th>Kime</th><th>Tip</th><th>Açıklama</th><th></th></tr></thead>
-    <tfoot><tr><th></th><th></th><th></th><th></th><th></th></tr></tfoot>
-    <tfoot class="tf-search"><tr><th></th><th></th><th></th><th></th><th></th></tr></tfoot>
+    <thead><tr><th>Tarih</th><th>Kime</th><th>Tip</th><th>Tekrarlayan</th><th>Açıklama</th><th></th></tr></thead>
+    <tfoot><tr><th></th><th></th><th></th><th></th><th></th><th></th></tr></tfoot>
+    <tfoot class="tf-search"><tr><th></th><th></th><th></th><th></th><th></th><th></th></tr></tfoot>
     <tbody>
         @foreach (var item in Model)
         {
@@ -10,6 +10,7 @@
                 <td nowrap><div class="hidden">@item.Tarih.ToOADateInt()</div>@item.Tarih.ToString("dd.MM.yyyy")</td>
                 <td nowrap>@if (item.Username == null) {@("Herkes")} else {@item.Username}</td>
                 <td nowrap>@item.ComboItem_Name.Name</td>
+                <td>@if (item.Tekrarlayan == true) { @("Evet") } else { @("Hayır") }</td>
                 <td>@item.Aciklama</td>
                 <td nowrap>
                     <a class="btn btn-default" href="#modalEditPage" data-toggle="modal" onclick="editInModal2('/ToDo/GorevTakvimi/Dublicate', { Id: @item.ID })"> Çoğalt </a>

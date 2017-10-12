@@ -46,7 +46,7 @@
                         <div class="form-group">
                             @Html.LabelFor(model => model.Tekrarlayan, "Tekrarlayan Mı", htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-8">
-                                @Html.TextBoxFor(model => model.Tekrarlayan, new { @class = "form-control input-circle" })
+                                @Html.CheckBoxFor(model => model.Tekrarlayan, new { @class = "make-switch", @data_size = "normal", @data_on_color = "success", @data_off_text = "Hayır", @data_on_text = "Evet", @data_off_color = "warning" })
                                 @Html.ValidationMessageFor(model => model.Tekrarlayan, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -63,10 +63,10 @@
     </div>
 </div>
 <script type="text/javascript">
+    $("#Tekrarlayan").bootstrapSwitch();
     $(document).ready(function () {
         $(".satirekle").prepend("<option value=''>Herkes</option>"); @if (Model.Username == null) { <text>$(".satirekle")[0].selectedIndex = 0;</text> }
         $(".satirekle1").prepend("<option value=''>Seçiniz !!!</option>"); @if (ViewBag.New == 0) { <text>$(".satirekle1")[0].selectedIndex = 0;</text> }
         $('.date-picker').datepicker();
-        $("#Tekrarlayan").bootstrapSwitch();
     });
 </script>
