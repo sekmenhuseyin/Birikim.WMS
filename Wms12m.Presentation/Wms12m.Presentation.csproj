@@ -456,6 +456,7 @@
     <Content Include="Areas\YN\Views\OnayBekleyenler\Tahsilat.cshtml" />
     <Content Include="Areas\ToDo\Views\GorevTakvimi\List.cshtml" />
     <Content Include="Areas\ToDo\Views\Duties\ListOnay.cshtml" />
+    <Content Include="Areas\ToDo\Views\GorevTakvimi\ListTatil.cshtml" />
     <None Include="bundleconfig.json" />
     <Content Include="Content\SizeSablon.xlsx" />
     <Content Include="Content\StockSablon.xlsx" />
