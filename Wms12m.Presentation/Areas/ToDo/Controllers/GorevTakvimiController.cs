@@ -31,9 +31,9 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             ViewBag.UserName = UserName;
             ViewBag.RoleName = vUser.RoleName;
             if (vUser.RoleName == "Admin" || vUser.RoleName == " ")
-                ViewBag.Tatil = db.Tatils.ToList();
+                ViewBag.Tatil = db.Etkinliks.ToList();
             else
-                ViewBag.Tatil = db.Tatils.Where(m => m.Username == UserName || m.Username == null).ToList();
+                ViewBag.Tatil = db.Etkinliks.Where(m => m.Username == UserName || m.Username == null).ToList();
             var list = db.GorevlerCalismas.Where(m => m.Kaydeden == UserName).GroupBy(m => m.Tarih).Select(m => new frmGorevlerCalismalar { Tarih = m.Key, Sure = m.Sum(n => n.Sure) }).ToList();
             return PartialView("List", list);
         }
@@ -42,7 +42,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         /// </summary>
         public PartialViewResult ListTatil()
         {
-            var list = db.Tatils.OrderByDescending(m => m.Tarih).ToList();
+            var list = db.Etkinliks.OrderByDescending(m => m.Tarih).ToList();
             return PartialView("ListTatil", list);
         }
         /// <summary>
@@ -64,7 +64,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             ViewBag.TatilTipi = new SelectList(ComboSub.GetList(Combos.TatilTipi.ToInt32()), "ID", "Name");
             ViewBag.Username = new SelectList(Persons.GetList(), "Kod", "AdSoyad");
             ViewBag.New = 0;
-            return PartialView("New", new Tatil());
+            return PartialView("New", new Etkinlik());
         }
         /// <summary>
         /// izin düzenleme sayfası
@@ -72,7 +72,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         public PartialViewResult Edit(int Id)
         {
             if (CheckPerm(Perms.TodoTakvim, PermTypes.Writing) == false) return null;
-            var tbl = db.Tatils.Where(m => m.ID == Id).FirstOrDefault();
+            var tbl = db.Etkinliks.Where(m => m.ID == Id).FirstOrDefault();
             ViewBag.TatilTipi = new SelectList(ComboSub.GetList(Combos.TatilTipi.ToInt32()), "ID", "Name", tbl.TatilTipi);
             ViewBag.Username = new SelectList(Persons.GetList(), "Kod", "AdSoyad", tbl.Username);
             ViewBag.New = 1;
@@ -84,7 +84,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         public PartialViewResult Dublicate(int Id)
         {
             if (CheckPerm(Perms.TodoTakvim, PermTypes.Writing) == false) return null;
-            var tbl = db.Tatils.Where(m => m.ID == Id).FirstOrDefault();
+            var tbl = db.Etkinliks.Where(m => m.ID == Id).FirstOrDefault();
             tbl.ID = 0;
             ViewBag.TatilTipi = new SelectList(ComboSub.GetList(Combos.TatilTipi.ToInt32()), "ID", "Name", tbl.TatilTipi);
             ViewBag.Username = new SelectList(Persons.GetList(), "Kod", "AdSoyad", tbl.Username);
@@ -95,18 +95,18 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         /// kaydet
         /// </summary>
         [HttpPost, ValidateAntiForgeryToken]
-        public JsonResult Save(Tatil satir)
+        public JsonResult Save(Etkinlik satir)
         {
             if (CheckPerm(Perms.TodoTakvim, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             if (ModelState.IsValid)
             {
                 if (satir.ID == 0)
                 {
-                    db.Tatils.Add(satir);
+                    db.Etkinliks.Add(satir);
                 }
                 else
                 {
-                    var tbl = db.Tatils.Where(m => m.ID == satir.ID).FirstOrDefault();
+                    var tbl = db.Etkinliks.Where(m => m.ID == satir.ID).FirstOrDefault();
                     tbl.TatilTipi = satir.TatilTipi;
                     tbl.Username = satir.Username;
                     tbl.Aciklama = satir.Aciklama;
@@ -130,8 +130,8 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         public JsonResult Delete(int Id)
         {
             if (CheckPerm(Perms.TodoTakvim, PermTypes.Deleting) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
-            var tbl = db.Tatils.Find(Id);
-            db.Tatils.Remove(tbl);
+            var tbl = db.Etkinliks.Find(Id);
+            db.Etkinliks.Remove(tbl);
             try
             {
                 db.SaveChanges();
