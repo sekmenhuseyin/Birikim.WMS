@@ -18,6 +18,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         {
             if (CheckPerm(Perms.TodoGörevler, PermTypes.Reading) == false) return Redirect("/");
             ViewBag.Yetki = CheckPerm(Perms.TodoGörevler, PermTypes.Writing);
+            ViewBag.RoleName = vUser.RoleName;
             ViewBag.DurumID = new SelectList(ComboSub.GetList(Combos.GörevYönetimDurumları.ToInt32()), "ID", "Name");
             return View();
         }

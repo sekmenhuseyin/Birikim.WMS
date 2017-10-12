@@ -14,6 +14,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         public ActionResult Index()
         {
             if (CheckPerm(Perms.TodoTakvim, PermTypes.Reading) == false) return Redirect("/");
+            ViewBag.Yetki = CheckPerm(Perms.TodoTakvim, PermTypes.Writing);
             ViewBag.UserName = vUser.UserName;
             return View("Index");
         }
