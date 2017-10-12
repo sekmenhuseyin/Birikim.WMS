@@ -18,7 +18,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             ViewBag.UserName = vUser.UserName;
             ViewBag.RoleName = vUser.RoleName;
             if (vUser.RoleName == "Admin" || vUser.RoleName == " ")
-                ViewBag.UserID = new SelectList(Persons.GetList(), "Kod", "AdSoyad", vUser.UserName);
+                ViewBag.UserKod = new SelectList(Persons.GetList(), "Kod", "AdSoyad", vUser.UserName);
             return View("Index");
         }
         /// <summary>
