@@ -89,7 +89,8 @@
         Yıllıkİzin = 74,
         Mazaretİzni = 75,
         ResmiTatil = 76,
-        İdariİzin = 77
+        İdariİzin = 77,
+        ÖnemliGün = 78
     }
     /// <summary>
     /// combo item names
