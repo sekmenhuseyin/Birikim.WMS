@@ -5,7 +5,7 @@
         <div class="portlet box green">
             <div class="portlet-title">
                 <div class="caption">
-                    <i class="fa fa-gift"></i>İzin ve Tatil Ekle
+                    <i class="fa fa-gift"></i>İzin, Tatil ve Etkinlik @if (ViewBag.New == 1) {@("Düzenle")} else {@("Ekle")}
                 </div>
             </div>
             <div class="portlet-body form">
@@ -44,6 +44,13 @@
                             </div>
                         </div>
                         <div class="form-group">
+                            @Html.LabelFor(model => model.Tekrarlayan, "Tekrarlayan Mı", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-8">
+                                @Html.TextBoxFor(model => model.Tekrarlayan, new { @class = "form-control input-circle" })
+                                @Html.ValidationMessageFor(model => model.Tekrarlayan, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
                             <div class="col-md-offset-2 col-md-8">
                                 <button type="button" class="btn btn-danger pull-left" data-dismiss="modal"><i class="fa fa-times"></i> Kapat</button>
                                 <input type="submit" value="Kaydet" class="btn green pull-right" />
@@ -60,5 +67,6 @@
         $(".satirekle").prepend("<option value=''>Herkes</option>"); @if (Model.Username == null) { <text>$(".satirekle")[0].selectedIndex = 0;</text> }
         $(".satirekle1").prepend("<option value=''>Seçiniz !!!</option>"); @if (ViewBag.New == 0) { <text>$(".satirekle1")[0].selectedIndex = 0;</text> }
         $('.date-picker').datepicker();
+        $("#Tekrarlayan").bootstrapSwitch();
     });
 </script>

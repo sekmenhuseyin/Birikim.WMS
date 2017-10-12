@@ -11,7 +11,7 @@
                 <td nowrap>@if (item.Username == null) {@("Herkes")} else {@item.Username}</td>
                 <td nowrap>@item.ComboItem_Name.Name</td>
                 <td>@item.Aciklama</td>
-                <td>
+                <td nowrap>
                     <a class="btn btn-default" href="#modalEditPage" data-toggle="modal" onclick="editInModal2('/ToDo/GorevTakvimi/Dublicate', { Id: @item.ID })"> Çoğalt </a>
                     <a class="btn btn-default" href="#modalEditPage" data-toggle="modal" onclick="editInModal2('/ToDo/GorevTakvimi/Edit', { Id: @item.ID })"> Düzenle </a>
                     <a class="btn btn-danger" href="javascript:;" onclick="Delete('@item.ID', '/ToDo/GorevTakvimi/ListTatil', 'listeTatil', '')"> Sil </a>
