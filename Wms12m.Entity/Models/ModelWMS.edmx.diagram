@@ -44,7 +44,7 @@
         <EntityTypeShape EntityType="MModel.GorevNo" Width="1.5" PointX="6" PointY="7.375" />
         <AssociationConnector Association="MModel.FK_GorevNo_Depo" />
         <EntityTypeShape EntityType="MModel.Combo_Name" Width="1.5" PointX="14.5" PointY="2.625" />
-        <EntityTypeShape EntityType="MModel.ComboItem_Name" Width="1.5" PointX="16.75" PointY="2.625" />
+        <EntityTypeShape EntityType="MModel.ComboItem_Name" Width="1.5" PointX="17.25" PointY="3.75" />
         <EntityTypeShape EntityType="MModel.Role" Width="1.5" PointX="23" PointY="17.125" />
         <AssociationConnector Association="MModel.FK_ComboItemName_ComboName" />
         <AssociationConnector Association="MModel.FK_Gorev_ComboItem_NameDurum" />
@@ -63,7 +63,7 @@
         <AssociationConnector Association="MModel.FK_GorevPaketler_Gorev" />
         <EntityTypeShape EntityType="MModel.GorevPaketNo" Width="1.5" PointX="15" PointY="6.125" />
         <AssociationConnector Association="MModel.FK_GorevPaketNo_Depo" />
-        <EntityTypeShape EntityType="MModel.WebMenu" Width="1.5" PointX="22.75" PointY="3.75" />
+        <EntityTypeShape EntityType="MModel.WebMenu" Width="1.5" PointX="22.75" PointY="4.75" />
         <AssociationConnector Association="MModel.FK_WebMenu_MenuYeri" />
         <AssociationConnector Association="MModel.FK_WebMenu_SiteTipi" />
         <AssociationConnector Association="MModel.FK_WebMenu_Simge" />
@@ -92,7 +92,7 @@
         <EntityTypeShape EntityType="MModel.Message" Width="1.5" PointX="22.5" PointY="23.375" />
         <AssociationConnector Association="MModel.FK_Messages_UsersFrom" />
         <AssociationConnector Association="MModel.FK_Messages_UsersTo" />
-        <EntityTypeShape EntityType="MModel.Tatil" Width="1.5" PointX="19.625" PointY="0.875" />
+        <EntityTypeShape EntityType="MModel.Etkinlik" Width="1.5" PointX="18.125" PointY="0.625" />
         <AssociationConnector Association="MModel.FK_Tatil_ComboItem_Name" />
         </Diagram>
     </edmx:Diagrams>

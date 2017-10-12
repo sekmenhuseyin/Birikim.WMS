@@ -12,13 +12,14 @@ namespace Wms12m.Entity.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Tatil
+    public partial class Etkinlik
     {
         public int ID { get; set; }
         public string Username { get; set; }
         public int TatilTipi { get; set; }
         public System.DateTime Tarih { get; set; }
         public string Aciklama { get; set; }
+        public bool Tekrarlayan { get; set; }
     
         public virtual ComboItem_Name ComboItem_Name { get; set; }
     }

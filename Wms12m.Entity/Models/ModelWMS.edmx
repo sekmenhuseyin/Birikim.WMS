@@ -22,6 +22,17 @@
           <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Visible" Type="bit" Nullable="false" />
         </EntityType>
+        <EntityType Name="Etkinlik">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Username" Type="varchar" MaxLength="5" />
+          <Property Name="TatilTipi" Type="int" Nullable="false" />
+          <Property Name="Tarih" Type="date" Nullable="false" />
+          <Property Name="Aciklama" Type="nvarchar" MaxLength="250" />
+          <Property Name="Tekrarlayan" Type="bit" Nullable="false" />
+        </EntityType>
         <EntityType Name="Messages">
           <Key>
             <PropertyRef Name="ID" />
@@ -81,16 +92,6 @@
           <Property Name="ID" Type="smallint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Ad" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Icon" Type="varchar" MaxLength="150" Nullable="false" />
-        </EntityType>
-        <EntityType Name="Tatil">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Username" Type="varchar" MaxLength="5" />
-          <Property Name="TatilTipi" Type="int" Nullable="false" />
-          <Property Name="Tarih" Type="date" Nullable="false" />
-          <Property Name="Aciklama" Type="nvarchar" MaxLength="250" />
         </EntityType>
         <EntityType Name="WebMenu">
           <Key>
@@ -1037,12 +1038,12 @@
         </Association>
         <Association Name="FK_Tatil_ComboItem_Name">
           <End Role="ComboItem_Name" Type="Self.ComboItem_Name" Multiplicity="1" />
-          <End Role="Tatil" Type="Self.Tatil" Multiplicity="*" />
+          <End Role="Etkinlik" Type="Self.Etkinlik" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="ComboItem_Name">
               <PropertyRef Name="ID" />
             </Principal>
-            <Dependent Role="Tatil">
+            <Dependent Role="Etkinlik">
               <PropertyRef Name="TatilTipi" />
             </Dependent>
           </ReferentialConstraint>
@@ -1516,10 +1517,10 @@
         <EntityContainer Name="MModelStoreContainer">
           <EntitySet Name="Combo_Name" EntityType="Self.Combo_Name" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ComboItem_Name" EntityType="Self.ComboItem_Name" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Etkinlik" EntityType="Self.Etkinlik" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Messages" EntityType="Self.Messages" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Settings" EntityType="Self.Settings" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Simge" EntityType="Self.Simge" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Tatil" EntityType="Self.Tatil" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="WebMenu" EntityType="Self.WebMenu" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="WebMenuRol" EntityType="Self.WebMenuRol" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Gorevler" EntityType="Self.Gorevler" Schema="ong" store:Type="Tables" />
@@ -1699,7 +1700,7 @@
           </AssociationSet>
           <AssociationSet Name="FK_Tatil_ComboItem_Name" Association="Self.FK_Tatil_ComboItem_Name">
             <End Role="ComboItem_Name" EntitySet="ComboItem_Name" />
-            <End Role="Tatil" EntitySet="Tatil" />
+            <End Role="Etkinlik" EntitySet="Etkinlik" />
           </AssociationSet>
           <AssociationSet Name="FK_Transfer_Depo" Association="Self.FK_Transfer_Depo">
             <End Role="Depo" EntitySet="Depo" />
@@ -2277,10 +2278,10 @@
             <End Role="User" EntitySet="Users" />
             <End Role="Message" EntitySet="Messages" />
           </AssociationSet>
-          <EntitySet Name="Tatils" EntityType="MModel.Tatil" />
+          <EntitySet Name="Etkinliks" EntityType="MModel.Etkinlik" />
           <AssociationSet Name="FK_Tatil_ComboItem_Name" Association="MModel.FK_Tatil_ComboItem_Name">
             <End Role="ComboItem_Name" EntitySet="ComboItem_Name" />
-            <End Role="Tatil" EntitySet="Tatils" />
+            <End Role="Etkinlik" EntitySet="Etkinliks" />
           </AssociationSet>
           </EntityContainer>
         <ComplexType Name="GetSirkets_Result">
@@ -2913,7 +2914,7 @@
           <NavigationProperty Name="Gorevlers" Relationship="MModel.FK_Gorevler_ComboItem_Name_Departman" FromRole="ComboItem_Name" ToRole="Gorevler" />
           <NavigationProperty Name="Gorevlers1" Relationship="MModel.FK_Gorevler_ComboItem_Name_Durum" FromRole="ComboItem_Name" ToRole="Gorevler" />
           <NavigationProperty Name="Gorevlers2" Relationship="MModel.FK_Gorevler_ComboItem_Name_GorevTipi" FromRole="ComboItem_Name" ToRole="Gorevler" />
-          <NavigationProperty Name="Tatils" Relationship="MModel.FK_Tatil_ComboItem_Name" FromRole="ComboItem_Name" ToRole="Tatil" />
+          <NavigationProperty Name="Etkinliks" Relationship="MModel.FK_Tatil_ComboItem_Name" FromRole="ComboItem_Name" ToRole="Etkinlik" />
           </EntityType>
         <EntityType Name="Role">
           <Key>
@@ -3791,7 +3792,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="Tatil">
+        <EntityType Name="Etkinlik">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
@@ -3800,16 +3801,17 @@
           <Property Name="TatilTipi" Type="Int32" Nullable="false" />
           <Property Name="Tarih" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="Aciklama" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="ComboItem_Name" Relationship="MModel.FK_Tatil_ComboItem_Name" FromRole="Tatil" ToRole="ComboItem_Name" />
+          <Property Name="Tekrarlayan" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="ComboItem_Name" Relationship="MModel.FK_Tatil_ComboItem_Name" FromRole="Etkinlik" ToRole="ComboItem_Name" />
         </EntityType>
         <Association Name="FK_Tatil_ComboItem_Name">
           <End Type="MModel.ComboItem_Name" Role="ComboItem_Name" Multiplicity="1" />
-          <End Type="MModel.Tatil" Role="Tatil" Multiplicity="*" />
+          <End Type="MModel.Etkinlik" Role="Etkinlik" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="ComboItem_Name">
               <PropertyRef Name="ID" />
             </Principal>
-            <Dependent Role="Tatil">
+            <Dependent Role="Etkinlik">
               <PropertyRef Name="TatilTipi" />
             </Dependent>
           </ReferentialConstraint>
@@ -4812,9 +4814,10 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Tatils">
-            <EntityTypeMapping TypeName="MModel.Tatil">
-              <MappingFragment StoreEntitySet="Tatil">
+          <EntitySetMapping Name="Etkinliks">
+            <EntityTypeMapping TypeName="MModel.Etkinlik">
+              <MappingFragment StoreEntitySet="Etkinlik">
+                <ScalarProperty Name="Tekrarlayan" ColumnName="Tekrarlayan" />
                 <ScalarProperty Name="Aciklama" ColumnName="Aciklama" />
                 <ScalarProperty Name="Tarih" ColumnName="Tarih" />
                 <ScalarProperty Name="TatilTipi" ColumnName="TatilTipi" />
