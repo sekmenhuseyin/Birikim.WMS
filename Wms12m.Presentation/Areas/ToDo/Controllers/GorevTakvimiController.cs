@@ -16,6 +16,9 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             if (CheckPerm(Perms.TodoTakvim, PermTypes.Reading) == false) return Redirect("/");
             ViewBag.Yetki = CheckPerm(Perms.TodoTakvim, PermTypes.Writing);
             ViewBag.UserName = vUser.UserName;
+            ViewBag.RoleName = vUser.RoleName;
+            if (vUser.RoleName == "Admin" || vUser.RoleName == " ")
+                ViewBag.UserID = new SelectList(Persons.GetList(), "Kod", "AdSoyad", vUser.UserName);
             return View("Index");
         }
         /// <summary>
@@ -26,11 +29,12 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             if (vUser.RoleName != "Admin" && vUser.RoleName != " " && UserName != vUser.UserName)
                 UserName = vUser.UserName;
             ViewBag.UserName = UserName;
-            ViewBag.Yetki = vUser.RoleName;
+            ViewBag.RoleName = vUser.RoleName;
             if (vUser.RoleName == "Admin" || vUser.RoleName == " ")
-                ViewBag.UserID = new SelectList(Persons.GetList(), "Kod", "AdSoyad");
+                ViewBag.Tatil = db.Tatils.ToList();
+            else
+                ViewBag.Tatil = db.Tatils.Where(m => m.Username == UserName || m.Username == null).ToList();
             var list = db.GorevlerCalismas.Where(m => m.Kaydeden == UserName).GroupBy(m => m.Tarih).Select(m => new frmGorevlerCalismalar { Tarih = m.Key, Sure = m.Sum(n => n.Sure) }).ToList();
-            ViewBag.Tatil = db.Tatils.Where(m => m.Username == UserName || m.Username == null).ToList();
             return PartialView("List", list);
         }
         /// <summary>

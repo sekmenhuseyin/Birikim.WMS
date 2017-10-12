@@ -16,7 +16,7 @@
                 <div class="col-md-2 pull-right">
                     @if (ViewBag.RoleName == "Admin" || ViewBag.RoleName == " ")
                     {
-                        @Html.DropDownList("UserID", null, htmlAttributes: new { @class = "form-control input-circle", @onchange = "getProje(this.value,'ProjeList', 'FormList');", required = "required" })
+                        @Html.DropDownList("UserID", null, htmlAttributes: new { @class = "form-control input-circle", @onchange = "FuncSearchBtn(this.value);", required = "required" })
                     }
                 </div>
             </div>
@@ -61,11 +61,11 @@
     var DeleteFunctionUrl = '/ToDo/GorevTakvimi/Delete';
     $(document).ready(function () {
         FuncSearchBtn(username);
+        @if (ViewBag.Yetki == true) { <text>PartialView("/ToDo/GorevTakvimi/ListTatil", "listeTatil", "");</text> }
     });
     function FuncSearchBtn(u) {
         username = u;
         PartialView("/ToDo/GorevTakvimi/List", 'liste', JSON.stringify({ UserName: u }));
-        @if (ViewBag.Yetki == true) { <text>PartialView("/ToDo/GorevTakvimi/ListTatil", "listeTatil", "");</text> }
     }
     function format(d, u) {
         id = d;
@@ -87,6 +87,7 @@
             Modaldialog("Kaydedildi", "Başarı", "Tamam", "btn-success");
             $('#modalEditPage').modal('toggle');
             FuncSearchBtn(username);
+            @if (ViewBag.Yetki == true) { <text>PartialView("/ToDo/GorevTakvimi/ListTatil", "listeTatil", "");</text> }
             if (id > 0) format(id, username);
         }
     };
