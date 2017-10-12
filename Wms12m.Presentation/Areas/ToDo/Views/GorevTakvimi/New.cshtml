@@ -58,7 +58,7 @@
 <script type="text/javascript">
     $(document).ready(function () {
         $(".satirekle").prepend("<option value=''>Herkes</option>"); @if (Model.Username == null) { <text>$(".satirekle")[0].selectedIndex = 0;</text> }
-        $(".satirekle1").prepend("<option value=''>Seçiniz !!!</option>"); @if (Model.ID == 0) { <text>$(".satirekle1")[0].selectedIndex = 0;</text> }
+        $(".satirekle1").prepend("<option value=''>Seçiniz !!!</option>"); @if (ViewBag.New == true) { <text>$(".satirekle1")[0].selectedIndex = 0;</text> }
         $('.date-picker').datepicker();
     });
 </script>

@@ -59,6 +59,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             if (CheckPerm(Perms.TodoTakvim, PermTypes.Writing) == false) return null;
             ViewBag.TatilTipi = new SelectList(ComboSub.GetList(Combos.TatilTipi.ToInt32()), "ID", "Name");
             ViewBag.Username = new SelectList(Persons.GetList(), "Kod", "AdSoyad");
+            ViewBag.New = true;
             return PartialView("New", new Tatil());
         }
         /// <summary>
@@ -70,6 +71,20 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             var tbl = db.Tatils.Where(m => m.ID == Id).FirstOrDefault();
             ViewBag.TatilTipi = new SelectList(ComboSub.GetList(Combos.TatilTipi.ToInt32()), "ID", "Name", tbl.TatilTipi);
             ViewBag.Username = new SelectList(Persons.GetList(), "Kod", "AdSoyad", tbl.Username);
+            ViewBag.New = false;
+            return PartialView("New", tbl);
+        }
+        /// <summary>
+        /// izin çoğaltma sayfası
+        /// </summary>
+        public PartialViewResult Dublicate(int Id)
+        {
+            if (CheckPerm(Perms.TodoTakvim, PermTypes.Writing) == false) return null;
+            var tbl = db.Tatils.Where(m => m.ID == Id).FirstOrDefault();
+            tbl.ID = 0;
+            ViewBag.TatilTipi = new SelectList(ComboSub.GetList(Combos.TatilTipi.ToInt32()), "ID", "Name", tbl.TatilTipi);
+            ViewBag.Username = new SelectList(Persons.GetList(), "Kod", "AdSoyad", tbl.Username);
+            ViewBag.New = false;
             return PartialView("New", tbl);
         }
         /// <summary>
