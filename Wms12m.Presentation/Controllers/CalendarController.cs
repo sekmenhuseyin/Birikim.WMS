@@ -30,6 +30,7 @@ namespace Wms12m.Presentation.Controllers
                     liste.Add(item2);
                 }
             }
+            ViewBag.Yetki = CheckPerm(Perms.Kullanıcılar, PermTypes.Deleting);
             return View("Index", liste);
         }
     }
