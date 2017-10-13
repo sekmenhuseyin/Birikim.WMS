@@ -198,10 +198,6 @@
             if ($(par).find("td").eq(5).text().trim() != "") {
                 rezerv = parseFloat($(par).find("td").eq(5).text().replace(".", "").replace(",", "."));
             }
-            console.log(miktar);
-            console.log(stok);
-            console.log(rezerv);
-            console.log(yeni);
             // kontroller
 
             if (yeni > parseFloat(miktar))

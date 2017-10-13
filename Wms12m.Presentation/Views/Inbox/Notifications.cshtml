@@ -13,47 +13,33 @@
                 </div>
             </div>
             <div class="portlet-body form">
-                <div id="liste"></div>
+                <table class="table table-striped table-bordered table-hover" id="sample_1">
+                    <thead><tr><th>Tarih</th><th>Kimden</th><th>Kime</th><th>Mesaj</th><th></th></tr></thead>
+                    <tfoot><tr><th></th><th></th><th></th><th></th><th></th></tr></tfoot>
+                    <tfoot class="tf-search"><tr><th></th><th></th><th></th><th></th><th></th></tr></tfoot>
+                    <tbody>
+
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.Tarih</td>
+                                <td>@item.Kimden</td>
+                                <td>@item.Kime</td>
+                                <td>@item.Mesaj</td>
+                                <td></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
 </div>
-
-<h2>Notifications</h2>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Tarih)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Kimden)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Kime)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Mesaj)
-        </th>
-        <th></th>
-    </tr>
-
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Tarih)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Kimden)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Kime)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Mesaj)
-        </td>
-        <td>
-        </td>
-    </tr>
-}
-
-</table>
+@section Scripts{<script>
+    $(document).ready(function () {
+        var table = $('#sample_1').DataTable({
+            "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
+            "ordering": false,
+        });
+    });
+</script>}

@@ -24,12 +24,5 @@ namespace Wms12m.Presentation.Controllers
             db.SaveChanges();
             return View("Notifications", tbl);
         }
-        /// <summary>
-        /// bildiri listesi
-        /// </summary>
-        public JsonResult NotificationList()
-        {
-            return Json(new Result(false, 0, "yetki hatası"), JsonRequestBehavior.AllowGet);
-        }
     }
 }

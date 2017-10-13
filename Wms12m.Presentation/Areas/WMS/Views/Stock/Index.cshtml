@@ -179,7 +179,6 @@
         source: "/WMS/Purchase/GetMalzemebyName/0",
         minLength: 2,
         select: function (event, ui) {
-            console.log(ui.item.id);
             getBirims(ui.item.id);
             $("#MalAdi").val(ui.item.value);
         }
