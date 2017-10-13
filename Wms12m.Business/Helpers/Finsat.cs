@@ -404,11 +404,11 @@ namespace Wms12m
                 foreach (STIMax item in list)
                 {
                     sql = string.Format("SELECT STI.ROW_ID, STI.Chk,STI.IslemTip,STI.Miktar,STI.Miktar - STI.ErekIIFMiktar AS ErekIIFMiktar,STI.MalKodu,STI.Fiyat,STI.Birim,"+
-                        "STI.Depo,STI.ToplamIskonto,STI.KDV,STI.KDVOran,STI.IskontoOran1,STI.IskontoOran2,STI.IskontoOran3,STI.IskontoOran4,STI.IskontoOran5,STI.EvrakNo as KaynakSiparisNo," +
-                        "STI.KaynakSiparisNo as KaynakSiparisNo2,STI.Tarih as KaynakSiparisTarih,STI.SiraNo as SiparisSiraNo,STI.SiparisSiraNo as SiraNo," +
+                        "STI.Depo,STI.ToplamIskonto,STI.KDV,STI.KDVOran,STI.IskontoOran1,STI.IskontoOran2,STI.IskontoOran3,STI.IskontoOran4,STI.IskontoOran5,STI.EvrakNo as KaynakIIFEvrakNo,STI.KaynakSiparisNo," +
+                        "STI.Tarih as KaynakSiparisTarih,STI.SiraNo,STI.SiparisSiraNo," +
                         "STI.Miktar as SiparisMiktar,STI.FytListeNo,STI.ValorGun,STI.Kod1,STI.Kod2,STI.Kod3,STI.Kod4,STI.Kod5,STI.Kod6,STI.Kod7,STI.Kod8,STI.Kod9,STI.Kod10," +
                         "STI.Kod11,STI.Kod12,STI.Kod13,STI.Kod14,STI.KayitKaynak,STI.KayitSurum,STI.DegisKaynak,STI.DegisSurum,STI.SevkTarih as SevkTarih,STI.KaynakIrsTarih as KaynakIrsTarih," +
-                        "STI.KaynakSiparisTarih as KaynakSiparisTarih2,STI.Kredi_Donem_VadeTarih,CHK.EFatKullanici,ISNULL(BIRIKIM.wms.fnGetSatislarHesabi(STI.MalKodu), '') AS SatislarHesabi," +
+                        "STI.KaynakSiparisTarih as KaynakSiparisTarih2,STI.Kredi_Donem_VadeTarih,STK.AlimdanIade as MhsKod,CHK.EFatKullanici,ISNULL(BIRIKIM.wms.fnGetSatislarHesabi(STI.MalKodu), '') AS SatislarHesabi," +
                         "CHK.EArsivTeslimSekli,CHK.MhsKod,CHK.EFatSenaryo " +
                         "FROM FINSAT6{0}.FINSAT6{0}.STI WITH (NOLOCK) LEFT JOIN FINSAT6{0}.FINSAT6{0}.CHK WITH (NOLOCK) ON STI.Chk=CHK.HesapKodu LEFT JOIN FINSAT6{0}.FINSAT6{0}.STK WITH (NOLOCK) ON STK.MalKodu=STI.MalKodu " +
                         "WHERE (STI.EvrakNo = '{1}') AND (STI.Chk = '{2}') AND (STI.Depo = '{3}') AND (STI.Row_ID = '{4}')  AND (STI.KynkEvrakTip = 4)", SirketKodu, item.EvrakNo, CHK, DepoKodu, item.Row_ID);
