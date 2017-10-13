@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using System.Web.Script.Serialization;
 using Wms12m.Entity;
 using Wms12m.Entity.Models;
 
@@ -102,7 +100,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                 string sql = string.Format("SELECT ISNULL(SUM(Sure), 0) AS Expr1 FROM ong.GorevlerCalisma WHERE (Tarih = '{0}') AND (Kaydeden = '{1}')", DateTime.Now.ToString("yyyy-MM-dd"), vUser.UserName);
                 var kontrol = db.Database.SqlQuery<int>(sql).FirstOrDefault();
                 if ((kontrol + gorevCalisma.Sure) > 540)
-                    return Json(new Result(false, "Seçili tarih için " + (kontrol + gorevCalisma.Sure -540) + " dakika fazla yazdınız."), JsonRequestBehavior.AllowGet);
+                    return Json(new Result(false, "Seçili tarih için " + (kontrol + gorevCalisma.Sure - 540) + " dakika fazla yazdınız."), JsonRequestBehavior.AllowGet);
                 //update
                 var grv = db.Gorevlers.Where(m => m.ID == gorevCalisma.GorevID).FirstOrDefault();
                 gorevCalisma.Kaydeden = vUser.UserName;
@@ -173,23 +171,6 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                 Logger(ex, "/ToDo/DutyWork/Delete");
                 return Json(new Result(false, "Hata oldu"), JsonRequestBehavior.AllowGet);
             }
-        }
-        /// <summary>
-        /// iş listesi
-        /// </summary>
-        public string GorevToDoList()
-        {
-            var id = Url.RequestContext.RouteData.Values["id"];
-            var ID = id.ToInt32();
-            var grvToDO = db.GorevlerToDoLists.Where(m => m.GorevID == ID);
-            var list = new List<frmGorevTodos>();
-            foreach (GorevlerToDoList item in grvToDO.ToList())
-            {
-                list.Add(new frmGorevTodos { ID = item.ID, Aciklama = item.Aciklama });
-            }
-            var json = new JavaScriptSerializer().Serialize(list);
-            return json;
-
         }
         /// <summary>
         /// todo lists page

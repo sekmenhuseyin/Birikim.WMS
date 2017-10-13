@@ -184,5 +184,27 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             }
             return Json(new Result(false, "Hata oldu"), JsonRequestBehavior.AllowGet);
         }
+        /// <summary>
+        /// projeler
+        /// </summary>
+        public JsonResult ProjeListesi()
+        {
+            var id = Url.RequestContext.RouteData.Values["id"];
+            var ID = id.ToInt32();
+            var list = db.ProjeForms.Where(m => m.MusteriID == ID && m.Aktif == true && m.PID == null).Select(m => new SelectListItem { Selected = false, Text = m.Proje, Value = m.ID.ToString() }).OrderBy(m => m.Text).ToList();
+            return Json(list, JsonRequestBehavior.AllowGet);
+
+        }
+        /// <summary>
+        /// formlar
+        /// </summary>
+        public JsonResult FormListesi()
+        {
+            var id = Url.RequestContext.RouteData.Values["id"];
+            var ID = id.ToInt32();
+            var list = db.ProjeForms.Where(m => m.PID == ID && m.Aktif == true).Select(m => new SelectListItem { Selected = false, Text = m.Form, Value = m.ID.ToString() }).OrderBy(m => m.Text).ToList();
+            return Json(list, JsonRequestBehavior.AllowGet);
+
+        }
     }
 }

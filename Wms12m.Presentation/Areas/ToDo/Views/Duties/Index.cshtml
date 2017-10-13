@@ -96,7 +96,7 @@
         $("#" + what2 + " option").remove();
         if (id == "") return;
         $.ajax({
-            url: "/ToDo/Duties/ProjeListesi/" + id,
+            url: "/ToDo/ProjectForm/ProjeListesi/" + id,
             type: 'POST',
             dataType: "json",
             contentType: 'application/json; charset=utf-8',
@@ -114,7 +114,7 @@
         $("#" + what + " option").remove();
         if (id == "") return;
         $.ajax({
-            url: "/ToDo/Duties/FormListesi/" + id,
+            url: "/ToDo/ProjectForm/FormListesi/" + id,
             type: 'POST',
             dataType: "json",
             contentType: 'application/json; charset=utf-8',

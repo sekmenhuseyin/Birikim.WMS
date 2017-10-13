@@ -67,37 +67,5 @@
             FuncSearchBtn();
         }
     };
-    function getToDo(id) {
-        $.ajax({
-            url: "/ToDo/DutyWork/GorevToDoList/" + id,
-            type: 'POST',
-            dataType: "json",
-            contentType: 'application/json; charset=utf-8',
-            success: function (data) {
-                var sayac = 1;
-                if (data != "") {
-                    $.each(data, function (i, item) {
-                        var index = sayac++;
-                        var newElement = "";
-                        newElement = $("<div>").addClass("form-group row todo-content");
-                        newElement.append("<div class='todo-text todo-id" + index + "' style='display:none'></div><div class='checkitem" + index + " col-md-2' style='text-align:right;margin-top: 15px;'></div></div><div class='col-md-8'><div class='txt-aciklama work-" + index + "' style='border-color: #ece7e7'></div></div>");
-                        newElement.addClass("index" + index);
-                        if (index == 1) {
-                            newElement.insertAfter(".pointer");
-                        }
-                        else {
-                            newElement.insertAfter(".todo-content:last");
-                        }
-                        $(".work-" + index).dxTextArea();
-                        $(".work-" + index).dxTextArea("instance").option({ name: "work", value: item.Aciklama, maxHeight: 80, readOnly: true });
-                        $(".todo-id" + index).dxTextBox();
-                        $(".todo-id" + index).dxTextBox("instance").option({ name: "todo", value: item.ID });
-                        $(".checkitem" + index).dxCheckBox({ value: false });
-                        $(".checkitem" + index).dxCheckBox("instance").option({ name: "checkitem" });
-                    });
-                }
-            }
-        });
-    }
 </script>
 }
