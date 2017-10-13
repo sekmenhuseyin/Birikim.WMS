@@ -43,7 +43,7 @@
         <AssociationConnector Association="MModel.GorevIRS" />
         <EntityTypeShape EntityType="MModel.GorevNo" Width="1.5" PointX="6" PointY="7.375" />
         <AssociationConnector Association="MModel.FK_GorevNo_Depo" />
-        <EntityTypeShape EntityType="MModel.Combo_Name" Width="1.5" PointX="14.5" PointY="2.625" />
+        <EntityTypeShape EntityType="MModel.Combo_Name" Width="1.5" PointX="14.25" PointY="2.75" />
         <EntityTypeShape EntityType="MModel.ComboItem_Name" Width="1.5" PointX="17.25" PointY="3.75" />
         <EntityTypeShape EntityType="MModel.Role" Width="1.5" PointX="23" PointY="17.125" />
         <AssociationConnector Association="MModel.FK_ComboItemName_ComboName" />
@@ -85,15 +85,14 @@
         <EntityTypeShape EntityType="MModel.UserDetail" Width="1.5" PointX="19" PointY="10.75" />
         <AssociationConnector Association="MModel.FK_Depo_Users_Users" />
         <AssociationConnector Association="MModel.FK_Depo_Users_Depo" />
-        <EntityTypeShape EntityType="MModel.Message" Width="1.5" PointX="22.5" PointY="23.375" />
-        <AssociationConnector Association="MModel.FK_Messages_UsersFrom" />
-        <AssociationConnector Association="MModel.FK_Messages_UsersTo" />
-        <EntityTypeShape EntityType="MModel.Etkinlik" Width="1.5" PointX="18.125" PointY="0.625" />
+        <EntityTypeShape EntityType="MModel.Etkinlik" Width="1.5" PointX="16.25" PointY="0.625" />
         <AssociationConnector Association="MModel.FK_Tatil_ComboItem_Name" />
         <EntityTypeShape EntityType="MModel.ProjeForm" Width="1.5" PointX="31.375" PointY="1" />
         <AssociationConnector Association="MModel.FK_Gorevler_ProjeForm" />
         <AssociationConnector Association="MModel.FK_Proje_Musteri" />
         <AssociationConnector Association="MModel.FK_ProjeForm_ProjeForm" />
+        <EntityTypeShape EntityType="MModel.Message" Width="1.5" PointX="18.125" PointY="0.5" />
+        <AssociationConnector Association="MModel.FK_Messages_ComboItem_Name" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

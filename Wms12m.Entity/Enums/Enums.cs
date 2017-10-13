@@ -94,7 +94,10 @@
         TeknikDestekYardımı = 79,
         UygulamaTestEdilmesi = 80,
         YerindeDestekYardımı = 81,
-        BilgilendirmeveBilgiAlma = 82
+        BilgilendirmeveBilgiAlma = 82,
+        GrupMesajı = 83,
+        KişiselMesaj = 84,
+        DuyuruMesajı = 85
     }
     /// <summary>
     /// combo item names
@@ -114,7 +117,8 @@
         İşlemKayıtTipi = 11,
         PaketTipi = 12,
         TatilTipi = 13,
-        DestekTipi = 14
+        DestekTipi = 14,
+        MesajTipi = 15
     }
     /// <summary>
     /// permission types

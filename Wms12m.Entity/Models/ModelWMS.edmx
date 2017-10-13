@@ -38,8 +38,9 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="FromID" Type="int" Nullable="false" />
-          <Property Name="ToID" Type="int" />
+          <Property Name="MesajTipi" Type="int" Nullable="false" />
+          <Property Name="Kimden" Type="int" Nullable="false" />
+          <Property Name="Kime" Type="int" />
           <Property Name="Message" Type="nvarchar(max)" Nullable="false" />
           <Property Name="Okundu" Type="bit" Nullable="false" />
           <Property Name="GonderenSildi" Type="bit" Nullable="false" />
@@ -205,8 +206,8 @@
           <Property Name="KayitTarih" Type="smalldatetime" Nullable="false" />
           <Property Name="Degistiren" Type="varchar" MaxLength="5" Nullable="false" />
           <Property Name="DegisTarih" Type="smalldatetime" Nullable="false" />
-          <Property Name="Aktif" Type="bit" Nullable="false" />
           <Property Name="GitDepoAdresi" Type="varchar(max)" />
+          <Property Name="Aktif" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="Perm">
           <Key>
@@ -937,27 +938,15 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Messages_UsersFrom">
-          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+        <Association Name="FK_Messages_ComboItem_Name">
+          <End Role="ComboItem_Name" Type="Self.ComboItem_Name" Multiplicity="1" />
           <End Role="Messages" Type="Self.Messages" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Users">
+            <Principal Role="ComboItem_Name">
               <PropertyRef Name="ID" />
             </Principal>
             <Dependent Role="Messages">
-              <PropertyRef Name="FromID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Messages_UsersTo">
-          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
-          <End Role="Messages" Type="Self.Messages" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Users">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Messages">
-              <PropertyRef Name="ToID" />
+              <PropertyRef Name="MesajTipi" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1667,12 +1656,8 @@
             <End Role="Depo" EntitySet="Depo" />
             <End Role="Koridor" EntitySet="Koridor" />
           </AssociationSet>
-          <AssociationSet Name="FK_Messages_UsersFrom" Association="Self.FK_Messages_UsersFrom">
-            <End Role="Users" EntitySet="Users" />
-            <End Role="Messages" EntitySet="Messages" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Messages_UsersTo" Association="Self.FK_Messages_UsersTo">
-            <End Role="Users" EntitySet="Users" />
+          <AssociationSet Name="FK_Messages_ComboItem_Name" Association="Self.FK_Messages_ComboItem_Name">
+            <End Role="ComboItem_Name" EntitySet="ComboItem_Name" />
             <End Role="Messages" EntitySet="Messages" />
           </AssociationSet>
           <AssociationSet Name="FK_Perm_UserPerm2" Association="Self.FK_Perm_UserPerm2">
@@ -2257,15 +2242,6 @@
             <End Role="Depo" EntitySet="Depoes" />
             <End Role="UserDetail" EntitySet="UserDetails" />
           </AssociationSet>
-          <EntitySet Name="Messages" EntityType="MModel.Message" />
-          <AssociationSet Name="FK_Messages_UsersFrom" Association="MModel.FK_Messages_UsersFrom">
-            <End Role="User" EntitySet="Users" />
-            <End Role="Message" EntitySet="Messages" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Messages_UsersTo" Association="MModel.FK_Messages_UsersTo">
-            <End Role="User" EntitySet="Users" />
-            <End Role="Message" EntitySet="Messages" />
-          </AssociationSet>
           <EntitySet Name="Etkinliks" EntityType="MModel.Etkinlik" />
           <AssociationSet Name="FK_Tatil_ComboItem_Name" Association="MModel.FK_Tatil_ComboItem_Name">
             <End Role="ComboItem_Name" EntitySet="ComboItem_Name" />
@@ -2283,6 +2259,11 @@
           <AssociationSet Name="FK_ProjeForm_ProjeForm" Association="MModel.FK_ProjeForm_ProjeForm">
             <End Role="ProjeForm" EntitySet="ProjeForms" />
             <End Role="ProjeForm1" EntitySet="ProjeForms" />
+          </AssociationSet>
+          <EntitySet Name="Messages" EntityType="MModel.Message" />
+          <AssociationSet Name="FK_Messages_ComboItem_Name" Association="MModel.FK_Messages_ComboItem_Name">
+            <End Role="ComboItem_Name" EntitySet="ComboItem_Name" />
+            <End Role="Message" EntitySet="Messages" />
           </AssociationSet>
           </EntityContainer>
         <ComplexType Name="GetSirkets_Result">
@@ -2383,9 +2364,7 @@
           <NavigationProperty Name="Role" Relationship="MModel.FK_Users_Roles" FromRole="User" ToRole="Role" />
           <NavigationProperty Name="UserDevices" Relationship="MModel.FK_UserDevices_Users" FromRole="User" ToRole="UserDevice" />
           <NavigationProperty Name="UserDetail" Relationship="MModel.FK_Depo_Users_Users" FromRole="User" ToRole="UserDetail" />
-          <NavigationProperty Name="Messages" Relationship="MModel.FK_Messages_UsersFrom" FromRole="User" ToRole="Message" />
-          <NavigationProperty Name="Messages1" Relationship="MModel.FK_Messages_UsersTo" FromRole="User" ToRole="Message" />
-        </EntityType>
+          </EntityType>
         <EntityType Name="Bolum">
           <Key>
             <PropertyRef Name="ID" />
@@ -2916,6 +2895,7 @@
           <NavigationProperty Name="Gorevlers1" Relationship="MModel.FK_Gorevler_ComboItem_Name_Durum" FromRole="ComboItem_Name" ToRole="Gorevler" />
           <NavigationProperty Name="Gorevlers2" Relationship="MModel.FK_Gorevler_ComboItem_Name_GorevTipi" FromRole="ComboItem_Name" ToRole="Gorevler" />
           <NavigationProperty Name="Etkinliks" Relationship="MModel.FK_Tatil_ComboItem_Name" FromRole="ComboItem_Name" ToRole="Etkinlik" />
+          <NavigationProperty Name="Messages" Relationship="MModel.FK_Messages_ComboItem_Name" FromRole="ComboItem_Name" ToRole="Message" />
           </EntityType>
         <EntityType Name="Role">
           <Key>
@@ -3695,44 +3675,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="Message">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="FromID" Type="Int32" Nullable="false" />
-          <Property Name="ToID" Type="Int32" />
-          <Property Name="Message1" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Okundu" Type="Boolean" Nullable="false" />
-          <Property Name="GonderenSildi" Type="Boolean" Nullable="false" />
-          <Property Name="AliciSildi" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="User" Relationship="MModel.FK_Messages_UsersFrom" FromRole="Message" ToRole="User" />
-          <NavigationProperty Name="User1" Relationship="MModel.FK_Messages_UsersTo" FromRole="Message" ToRole="User" />
-        </EntityType>
-        <Association Name="FK_Messages_UsersFrom">
-          <End Type="MModel.User" Role="User" Multiplicity="1" />
-          <End Type="MModel.Message" Role="Message" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="User">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Message">
-              <PropertyRef Name="FromID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Messages_UsersTo">
-          <End Type="MModel.User" Role="User" Multiplicity="0..1" />
-          <End Type="MModel.Message" Role="Message" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="User">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Message">
-              <PropertyRef Name="ToID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="Etkinlik">
           <Key>
             <PropertyRef Name="ID" />
@@ -3815,6 +3757,32 @@
             </Principal>
             <Dependent Role="ProjeForm1">
               <PropertyRef Name="PID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Message">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MesajTipi" Type="Int32" Nullable="false" />
+          <Property Name="Kimden" Type="Int32" Nullable="false" />
+          <Property Name="Kime" Type="Int32" />
+          <Property Name="Message1" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Okundu" Type="Boolean" Nullable="false" />
+          <Property Name="GonderenSildi" Type="Boolean" Nullable="false" />
+          <Property Name="AliciSildi" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="ComboItem_Name" Relationship="MModel.FK_Messages_ComboItem_Name" FromRole="Message" ToRole="ComboItem_Name" />
+        </EntityType>
+        <Association Name="FK_Messages_ComboItem_Name">
+          <End Type="MModel.ComboItem_Name" Role="ComboItem_Name" Multiplicity="1" />
+          <End Type="MModel.Message" Role="Message" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ComboItem_Name">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Message">
+              <PropertyRef Name="MesajTipi" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -4782,19 +4750,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Messages">
-            <EntityTypeMapping TypeName="MModel.Message">
-              <MappingFragment StoreEntitySet="Messages">
-                <ScalarProperty Name="AliciSildi" ColumnName="AliciSildi" />
-                <ScalarProperty Name="GonderenSildi" ColumnName="GonderenSildi" />
-                <ScalarProperty Name="Okundu" ColumnName="Okundu" />
-                <ScalarProperty Name="Message1" ColumnName="Message" />
-                <ScalarProperty Name="ToID" ColumnName="ToID" />
-                <ScalarProperty Name="FromID" ColumnName="FromID" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Etkinliks">
             <EntityTypeMapping TypeName="MModel.Etkinlik">
               <MappingFragment StoreEntitySet="Etkinlik">
@@ -4825,6 +4780,20 @@
                 <ScalarProperty Name="Form" ColumnName="Form" />
                 <ScalarProperty Name="Proje" ColumnName="Proje" />
                 <ScalarProperty Name="MusteriID" ColumnName="MusteriID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Messages">
+            <EntityTypeMapping TypeName="MModel.Message">
+              <MappingFragment StoreEntitySet="Messages">
+                <ScalarProperty Name="AliciSildi" ColumnName="AliciSildi" />
+                <ScalarProperty Name="GonderenSildi" ColumnName="GonderenSildi" />
+                <ScalarProperty Name="Okundu" ColumnName="Okundu" />
+                <ScalarProperty Name="Message1" ColumnName="Message" />
+                <ScalarProperty Name="Kime" ColumnName="Kime" />
+                <ScalarProperty Name="Kimden" ColumnName="Kimden" />
+                <ScalarProperty Name="MesajTipi" ColumnName="MesajTipi" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>

@@ -15,14 +15,14 @@ namespace Wms12m.Entity.Models
     public partial class Message
     {
         public int ID { get; set; }
-        public int FromID { get; set; }
-        public Nullable<int> ToID { get; set; }
+        public int MesajTipi { get; set; }
+        public int Kimden { get; set; }
+        public Nullable<int> Kime { get; set; }
         public string Message1 { get; set; }
         public bool Okundu { get; set; }
         public bool GonderenSildi { get; set; }
         public bool AliciSildi { get; set; }
     
-        public virtual User User { get; set; }
-        public virtual User User1 { get; set; }
+        public virtual ComboItem_Name ComboItem_Name { get; set; }
     }
 }
