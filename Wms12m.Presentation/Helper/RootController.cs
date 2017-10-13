@@ -84,6 +84,7 @@ namespace Wms12m.Presentation
             ViewBag.UserID = vUser.Id;
             ViewBag.Guid = vUser.Guid;
             ViewBag.settings = db.Settings.FirstOrDefault();
+            ViewBag.UnreadMessages = db.Messages.Where(m => m.Kime == vUser.UserName && m.Okundu == false).ToList();
             ViewBag.Debug = HttpContext.IsDebuggingEnabled;
             if (ViewBag.settings.Aktif == false && filterContext.ActionDescriptor.ControllerDescriptor.ControllerName != "Maintenance")
             {
@@ -95,13 +96,6 @@ namespace Wms12m.Presentation
             System.Threading.Thread.CurrentThread.CurrentCulture = culture;
             System.Threading.Thread.CurrentThread.CurrentUICulture = culture;
             base.OnActionExecuting(filterContext);
-        }
-        /// <summary>
-        /// actiondan sonra
-        /// </summary>
-        protected override void OnActionExecuted(ActionExecutedContext filterContext)
-        {
-            base.OnActionExecuted(filterContext);
         }
         /// <summary>
         /// dispose override
