@@ -50,7 +50,20 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                     musteri.Kaydeden = vUser.UserName;
                     musteri.DegisTarih = DateTime.Now;
                     musteri.KayitTarih = musteri.DegisTarih;
-                    db.Musteris.Add(musteri);
+                     db.Musteris.Add(musteri);
+                    //destek projesi
+                    var proje = new ProjeForm()
+                    {
+                        Musteri = musteri,
+                        Proje = "Destek",
+                        Form = "",
+                        MesaiKontrol = false,
+                        Kaydeden = vUser.UserName,
+                        KayitTarih = DateTime.Now,
+                        Degistiren = vUser.UserName,
+                        DegisTarih = DateTime.Now
+                    };
+                    db.ProjeForms.Add(proje);
                 }
                 else
                 {
