@@ -38,14 +38,10 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         /// </summary>
         public PartialViewResult NewAll()
         {
-            ViewBag.RoleName = vUser.RoleName;
-            var durum = ComboItems.gydAtandı.ToInt32();
-            var list = db.Gorevlers.Where(m => m.DurumID == durum);
-            if (vUser.RoleName == "Destek")
-                list = list.Where(m => m.Sorumlu == vUser.UserName || m.Sorumlu2 == vUser.UserName || m.Sorumlu3 == vUser.UserName || m.KontrolSorumlusu == vUser.UserName || m.KontrolSorumlusu == null);
-            else
-                list = list.Where(m => m.Sorumlu == vUser.UserName || m.Sorumlu2 == vUser.UserName || m.Sorumlu3 == vUser.UserName);
-            ViewBag.GorevID = new SelectList(list.ToList(), "ID", "Gorev");
+            ViewBag.GorevTipiID = new SelectList(ComboSub.GetList(Combos.GörevYönetimTipleri.ToInt32()), "ID", "Name", "");
+            ViewBag.DepartmanID = new SelectList(ComboSub.GetList(Combos.Departman.ToInt32()), "ID", "Name", "");
+            ViewBag.MusteriID = new SelectList(db.Musteris.OrderBy(m => m.Unvan).ToList(), "ID", "Unvan");
+            ViewBag.GorevID = new SelectList(ComboSub.GetList(Combos.DestekTipi.ToInt32()), "ID", "Name", "");
             return PartialView(new GorevlerCalisma());
         }
         /// <summary>
@@ -83,8 +79,6 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         /// <summary>
         /// kaydet
         /// </summary>
-        /// <param name="gorevCalisma"></param>
-        /// <returns></returns>
         [HttpPost, ValidateAntiForgeryToken]
         public JsonResult Save(GorevlerCalisma gorevCalisma)
         {
@@ -146,6 +140,80 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             {
                 db.SaveChanges();
                 return Json(new Result(true, gorevCalisma.ID), JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Logger(ex, "ToDo/DutyWork/Save");
+                return Json(new Result(false, "Kayıt hatası"), JsonRequestBehavior.AllowGet);
+            }
+        }
+        /// <summary>
+        /// destek çalışma kaydet
+        /// </summary>
+        [HttpPost, ValidateAntiForgeryToken]
+        public JsonResult SaveAll(frmGorevDestekCalisma tbl)
+        {
+            if (CheckPerm(Perms.TodoÇalışma, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
+            if (!ModelState.IsValid)
+                return Json(new Result(false, "Hata oldu. Sayfayı yenileyin"), JsonRequestBehavior.AllowGet);
+            if (tbl.Sure < 0 || tbl.Sure > 540)
+                return Json(new Result(false, "Çalışma süresini doğru yazınız"), JsonRequestBehavior.AllowGet);
+            //get comboitemname
+            var gtip = db.ComboItem_Name.Where(m => m.ID == tbl.GorevID).Select(m => m.Name).FirstOrDefault();
+            var durum = ComboItems.gydOnaylandı.ToInt32();
+            //add görev
+            var gorev = new Gorevler()
+            {
+                ProjeFormID = tbl.ProjeID,
+                Sorumlu = vUser.UserName,
+                Gorev = gtip,
+                Aciklama = gtip,
+                OncelikID = 1,
+                DurumID = durum,
+                GorevTipiID = tbl.GorevTipiID,
+                DepartmanID = tbl.DepartmanID,
+                Kaydeden = vUser.UserName,
+                KayitTarih = DateTime.Now,
+                Degistiren = vUser.UserName,
+                DegisTarih = DateTime.Now
+
+            };
+            //add todolist
+            var todo = new GorevlerToDoList()
+            {
+                Gorevler = gorev,
+                Aciklama = gtip,
+                Onay = true,
+                KontrolOnay = true,
+                AdminOnay = true,
+                Onaylayan = vUser.UserName,
+                KontrolEden = vUser.UserName,
+                Kaydeden = vUser.UserName,
+                KayitTarih = DateTime.Now,
+                Degistiren = vUser.UserName,
+                DegisTarih = DateTime.Now
+            };
+            //add çalışma
+            var cal = new GorevlerCalisma()
+            {
+                Gorevler = gorev,
+                Calisma = tbl.Calisma,
+                Sure = tbl.Sure,
+                Tarih = DateTime.Now,
+                Kaydeden = vUser.UserName,
+                KayitTarih = DateTime.Now,
+                Degistiren = vUser.UserName,
+                DegisTarih = DateTime.Now
+            };
+            //add
+            db.Gorevlers.Add(gorev);
+            db.GorevlerToDoLists.Add(todo);
+            db.GorevlerCalismas.Add(cal);
+            //save
+            try
+            {
+                db.SaveChanges();
+                return Json(new Result(true, cal.ID), JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {

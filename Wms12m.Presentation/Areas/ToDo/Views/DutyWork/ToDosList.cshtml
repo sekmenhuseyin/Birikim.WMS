@@ -8,7 +8,7 @@
         {
             <tr data-ID="@item.GorevID">
                 <td class="details-control" style="max-width:20px;"></td>
-                <td>@item.Gorevler.Gorev</td>
+                <td><div class="hidden">@item.Gorevler.OncelikID-@item.ID</div>@item.Gorevler.Gorev</td>
                 <td>@item.Aciklama</td>
                 <td nowrap>@item.Gorevler.Sorumlu @if (item.Gorevler.Sorumlu2 != null) { @(", " + item.Gorevler.Sorumlu2) } @if (item.Gorevler.Sorumlu3 != null) { @(", " + item.Gorevler.Sorumlu3) } @if (item.Gorevler.KontrolSorumlusu != null) { @(", " + item.Gorevler.KontrolSorumlusu) }</td>
                 <td>@if (item.Onay == true) { @item.Onaylayan }@if (item.KontrolOnay == true) { @(", ") @item.KontrolEden }</td>

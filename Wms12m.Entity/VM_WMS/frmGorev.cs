@@ -10,6 +10,20 @@ namespace Wms12m.Entity
     /// <summary>
     /// görev çalışmaları
     /// </summary>
+    public class frmGorevDestekCalisma
+    {
+        public int MusteriID { get; set; }
+        public int ProjeID { get; set; }
+        public int GorevID { get; set; }
+        public int GorevTipiID { get; set; }
+        public int DepartmanID { get; set; }
+        public DateTime Tarih { get; set; }
+        public int Sure { get; set; }
+        public string Calisma { get; set; }
+    }
+    /// <summary>
+    /// görev çalışmaları
+    /// </summary>
     public class frmGorevlerCalismalar
     {
         public DateTime Tarih { get; set; }
