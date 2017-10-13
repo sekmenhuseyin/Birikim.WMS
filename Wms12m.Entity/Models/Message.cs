@@ -16,9 +16,10 @@ namespace Wms12m.Entity.Models
     {
         public int ID { get; set; }
         public int MesajTipi { get; set; }
+        public System.DateTime Tarih { get; set; }
         public string Kimden { get; set; }
         public string Kime { get; set; }
-        public string Message1 { get; set; }
+        public string Mesaj { get; set; }
         public bool Okundu { get; set; }
         public bool GonderenSildi { get; set; }
         public bool AliciSildi { get; set; }

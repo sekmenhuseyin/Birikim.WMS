@@ -142,6 +142,44 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                 satir.DurumID = Tip == 0 ? ComboItems.gydAtandı.ToInt32() : (Tip == 1 ? ComboItems.gydReddedildi.ToInt32() : (Tip == 2 ? ComboItems.gydDurduruldu.ToInt32() : ComboItems.gydBaşlandı.ToInt32()));
                 satir.Degistiren = vUser.UserName;
                 satir.DegisTarih = DateTime.Now;
+                //messages
+                if (satir.DurumID == ComboItems.gydAtandı.ToInt32())
+                {
+                    var mesaj = new Message()
+                    {
+                        MesajTipi = ComboItems.DuyuruMesajı.ToInt32(),
+                        Kimden = vUser.UserName,
+                        Kime = satir.Sorumlu,
+                        Tarih = DateTime.Now,
+                        Mesaj = "Size yeni bir görev açıldı"
+                    };
+                    db.Messages.Add(mesaj);
+                    if (satir.Sorumlu2 != null)
+                    {
+                        var mesaj2 = new Message()
+                        {
+                            MesajTipi = ComboItems.DuyuruMesajı.ToInt32(),
+                            Kimden = vUser.UserName,
+                            Kime = satir.Sorumlu2,
+                            Tarih = DateTime.Now,
+                            Mesaj = "Size yeni bir görev açıldı"
+                        };
+                        db.Messages.Add(mesaj2);
+                    }
+                    if (satir.Sorumlu3 != null)
+                    {
+                        var mesaj3 = new Message()
+                        {
+                            MesajTipi = ComboItems.DuyuruMesajı.ToInt32(),
+                            Kimden = vUser.UserName,
+                            Kime = satir.Sorumlu3,
+                            Tarih = DateTime.Now,
+                            Mesaj = "Size yeni bir görev açıldı"
+                        };
+                        db.Messages.Add(mesaj3);
+                    }
+                }
+                //kaydet ve return
                 db.SaveChanges();
                 return Json(new Result(true, Id), JsonRequestBehavior.AllowGet);
             }
@@ -193,6 +231,43 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                         Gorevler = gorevler
                     };
                     if (grvTDL.Aciklama.Trim() != "") db.GorevlerToDoLists.Add(grvTDL);
+                }
+                //messages
+                if (gorevler.DurumID == ComboItems.gydAtandı.ToInt32())
+                {
+                    var mesaj = new Message()
+                    {
+                        MesajTipi = ComboItems.DuyuruMesajı.ToInt32(),
+                        Kimden = vUser.UserName,
+                        Kime = gorevler.Sorumlu,
+                        Tarih = DateTime.Now,
+                        Mesaj = "Size yeni bir görev açıldı"
+                    };
+                    db.Messages.Add(mesaj);
+                    if (gorevler.Sorumlu2 != null)
+                    {
+                        var mesaj2 = new Message()
+                        {
+                            MesajTipi = ComboItems.DuyuruMesajı.ToInt32(),
+                            Kimden = vUser.UserName,
+                            Kime = gorevler.Sorumlu2,
+                            Tarih = DateTime.Now,
+                            Mesaj = "Size yeni bir görev açıldı"
+                        };
+                        db.Messages.Add(mesaj2);
+                    }
+                    if (gorevler.Sorumlu3 != null)
+                    {
+                        var mesaj3 = new Message()
+                        {
+                            MesajTipi = ComboItems.DuyuruMesajı.ToInt32(),
+                            Kimden = vUser.UserName,
+                            Kime = gorevler.Sorumlu3,
+                            Tarih = DateTime.Now,
+                            Mesaj = "Size yeni bir görev açıldı"
+                        };
+                        db.Messages.Add(mesaj3);
+                    }
                 }
             }
             //görev güncelle

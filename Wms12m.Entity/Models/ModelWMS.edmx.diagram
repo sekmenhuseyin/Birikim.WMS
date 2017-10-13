@@ -43,8 +43,8 @@
         <AssociationConnector Association="MModel.GorevIRS" />
         <EntityTypeShape EntityType="MModel.GorevNo" Width="1.5" PointX="6" PointY="7.375" />
         <AssociationConnector Association="MModel.FK_GorevNo_Depo" />
-        <EntityTypeShape EntityType="MModel.Combo_Name" Width="1.5" PointX="14.25" PointY="2.75" />
-        <EntityTypeShape EntityType="MModel.ComboItem_Name" Width="1.5" PointX="17.25" PointY="3.75" />
+        <EntityTypeShape EntityType="MModel.Combo_Name" Width="1.5" PointX="19.75" PointY="6.25" />
+        <EntityTypeShape EntityType="MModel.ComboItem_Name" Width="1.5" PointX="17.25" PointY="4.125" />
         <EntityTypeShape EntityType="MModel.Role" Width="1.5" PointX="23" PointY="17.125" />
         <AssociationConnector Association="MModel.FK_ComboItemName_ComboName" />
         <AssociationConnector Association="MModel.FK_Gorev_ComboItem_NameDurum" />
@@ -58,7 +58,7 @@
         <AssociationConnector Association="MModel.FK_IRS_Detay_IRS" />
         <EntityTypeShape EntityType="MModel.GorevUser" Width="1.5" PointX="4.125" PointY="1.75" />
         <AssociationConnector Association="MModel.FK_GorevUsers_Gorev" />
-        <EntityTypeShape EntityType="MModel.GorevPaketler" Width="1.5" PointX="8.125" PointY="1.5" />
+        <EntityTypeShape EntityType="MModel.GorevPaketler" Width="1.5" PointX="6.875" PointY="1.875" />
         <AssociationConnector Association="MModel.FK_GorevPaketler_ComboItem_Name" />
         <AssociationConnector Association="MModel.FK_GorevPaketler_Gorev" />
         <EntityTypeShape EntityType="MModel.GorevPaketNo" Width="1.5" PointX="15" PointY="6.125" />
@@ -91,7 +91,7 @@
         <AssociationConnector Association="MModel.FK_Gorevler_ProjeForm" />
         <AssociationConnector Association="MModel.FK_Proje_Musteri" />
         <AssociationConnector Association="MModel.FK_ProjeForm_ProjeForm" />
-        <EntityTypeShape EntityType="MModel.Message" Width="1.5" PointX="18.125" PointY="0.625" />
+        <EntityTypeShape EntityType="MModel.Message" Width="1.5" PointX="18" PointY="0.5" />
         <AssociationConnector Association="MModel.FK_Messages_ComboItem_Name" />
         </Diagram>
     </edmx:Diagrams>

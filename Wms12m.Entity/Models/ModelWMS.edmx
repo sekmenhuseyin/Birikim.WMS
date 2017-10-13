@@ -39,9 +39,10 @@
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="MesajTipi" Type="int" Nullable="false" />
+          <Property Name="Tarih" Type="smalldatetime" Nullable="false" />
           <Property Name="Kimden" Type="varchar" MaxLength="5" Nullable="false" />
           <Property Name="Kime" Type="varchar" MaxLength="5" Nullable="false" />
-          <Property Name="Message" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Mesaj" Type="nvarchar(max)" Nullable="false" />
           <Property Name="Okundu" Type="bit" Nullable="false" />
           <Property Name="GonderenSildi" Type="bit" Nullable="false" />
           <Property Name="AliciSildi" Type="bit" Nullable="false" />
@@ -3766,9 +3767,10 @@
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="MesajTipi" Type="Int32" Nullable="false" />
+          <Property Name="Tarih" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="Kimden" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
           <Property Name="Kime" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="Message1" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Mesaj" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Okundu" Type="Boolean" Nullable="false" />
           <Property Name="GonderenSildi" Type="Boolean" Nullable="false" />
           <Property Name="AliciSildi" Type="Boolean" Nullable="false" />
@@ -4790,9 +4792,10 @@
                 <ScalarProperty Name="AliciSildi" ColumnName="AliciSildi" />
                 <ScalarProperty Name="GonderenSildi" ColumnName="GonderenSildi" />
                 <ScalarProperty Name="Okundu" ColumnName="Okundu" />
-                <ScalarProperty Name="Message1" ColumnName="Message" />
+                <ScalarProperty Name="Mesaj" ColumnName="Mesaj" />
                 <ScalarProperty Name="Kime" ColumnName="Kime" />
                 <ScalarProperty Name="Kimden" ColumnName="Kimden" />
+                <ScalarProperty Name="Tarih" ColumnName="Tarih" />
                 <ScalarProperty Name="MesajTipi" ColumnName="MesajTipi" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
