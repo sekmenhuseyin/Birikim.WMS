@@ -45,105 +45,26 @@
                             <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
                                 <i class="icon-bell"></i>@if (tblMessages.Count > 0) {<span class="badge badge-default"> @tblMessages.Count </span>}
                             </a>
-                            <ul class="dropdown-menu">
+                            <ul class="dropdown-menu" style="max-width:500px!important;width:500px!important;">
                                 <li class="external">
-                                    <h3>
-                                        <span class="bold">12 pending</span> notifications
-                                    </h3>
-                                    <a href="page_user_profile_1.html">view all</a>
+                                    <h3><span class="bold">@tblMessages.Count bildiri var</span></h3>
+                                    <a href="page_user_profile_1.html">hepsine bak</a>
                                 </li>
                                 <li>
                                     <ul class="dropdown-menu-list scroller" style="height: 250px;" data-handle-color="#637283">
-                                        <li>
-                                            <a href="javascript:;">
-                                                <span class="time">just now</span>
-                                                <span class="details">
-                                                    <span class="label label-sm label-icon label-success">
-                                                        <i class="fa fa-plus"></i>
-                                                    </span> New user registered.
-                                                </span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="javascript:;">
-                                                <span class="time">3 mins</span>
-                                                <span class="details">
-                                                    <span class="label label-sm label-icon label-danger">
-                                                        <i class="fa fa-bolt"></i>
-                                                    </span> Server #12 overloaded.
-                                                </span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="javascript:;">
-                                                <span class="time">10 mins</span>
-                                                <span class="details">
-                                                    <span class="label label-sm label-icon label-warning">
-                                                        <i class="fa fa-bell-o"></i>
-                                                    </span> Server #2 not responding.
-                                                </span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="javascript:;">
-                                                <span class="time">14 hrs</span>
-                                                <span class="details">
-                                                    <span class="label label-sm label-icon label-info">
-                                                        <i class="fa fa-bullhorn"></i>
-                                                    </span> Application error.
-                                                </span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="javascript:;">
-                                                <span class="time">2 days</span>
-                                                <span class="details">
-                                                    <span class="label label-sm label-icon label-danger">
-                                                        <i class="fa fa-bolt"></i>
-                                                    </span> Database overloaded 68%.
-                                                </span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="javascript:;">
-                                                <span class="time">3 days</span>
-                                                <span class="details">
-                                                    <span class="label label-sm label-icon label-danger">
-                                                        <i class="fa fa-bolt"></i>
-                                                    </span> A user IP blocked.
-                                                </span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="javascript:;">
-                                                <span class="time">4 days</span>
-                                                <span class="details">
-                                                    <span class="label label-sm label-icon label-warning">
-                                                        <i class="fa fa-bell-o"></i>
-                                                    </span> Storage Server #4 not responding dfdfdfd.
-                                                </span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="javascript:;">
-                                                <span class="time">5 days</span>
-                                                <span class="details">
-                                                    <span class="label label-sm label-icon label-info">
-                                                        <i class="fa fa-bullhorn"></i>
-                                                    </span> System Error.
-                                                </span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="javascript:;">
-                                                <span class="time">9 days</span>
-                                                <span class="details">
-                                                    <span class="label label-sm label-icon label-danger">
-                                                        <i class="fa fa-bolt"></i>
-                                                    </span> Storage server failed.
-                                                </span>
-                                            </a>
-                                        </li>
+                                        @foreach (var item in tblMessages)
+                                        {
+                                            <li>
+                                                <a href="javascript:;">
+                                                    <span class="time" style="max-width:200px!important;">@item.Tarih.ToUniversalTime().Humanize()</span>
+                                                    <span class="details">
+                                                        <span class="label label-sm label-icon label-info">
+                                                            <i class="fa fa-bell-o"></i>
+                                                        </span>@item.Mesaj
+                                                    </span>
+                                                </a>
+                                            </li>
+                                        }
                                     </ul>
                                 </li>
                             </ul>
@@ -192,7 +113,7 @@
 @Scripts.Render(BundleConfig.JsBundle)<script src="~/Content/assets/global/plugins/datatables/extensions/Buttons/js/buttons.html5.js"></script>
 <script src="~/Content/assets/global/plugins/datatables/extensions/Buttons/js/buttons.flash.js"></script>@{if (ViewBag.Debug == false && ViewBag.UserID > 1) {
 <script src="~/Content/assets/global/plugins/devtools-detect.js"></script><script>window.addEventListener('devtoolschange', function (e) { if (e.detail.open == true) { console.clear(); window.location.href = "@Request.Url.Scheme://@Request.Url.Authority/"; } });</script> }}
-@RenderSection("Scripts", required: false)<script>
+@RenderSection("Scripts", required: false)@*<script>
     $(document).ready(function (e) {@foreach (var item in tblMessages) {<text>
         toastr["info"]("@item.Mesaj", "@item.ComboItem_Name.Name", {
             "closeButton": false,
@@ -214,6 +135,6 @@
             }
         });
     </text>}});
-</script>
+</script>*@
 </body>
 </html>

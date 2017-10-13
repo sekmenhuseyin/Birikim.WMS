@@ -51,13 +51,13 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         {
             var gorevCalismas = db.GorevlerCalismas.Where(m => m.ID > 0);
             var yetki = CheckPerm(Perms.TodoÇalışma, PermTypes.Deleting);
-            if (yetki == true)//admin ise filtre yapma hepsini gör
-            {
-
-            }
-            else if (Tip == false)//bana ait
+            if (Tip == false)//bana ait
             {
                 gorevCalismas = gorevCalismas.Where(m => m.Kaydeden == vUser.UserName);
+            }
+            else if (yetki == true)//admin ise filtre yapma hepsini gör
+            {
+
             }
             else
             {
