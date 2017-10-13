@@ -810,6 +810,7 @@
     <Content Include="Views\Home\GorevProjesi\MusteriAnaliziPie.cshtml" />
     <Content Include="Views\Home\GorevProjesi\CalismaAnalizi.cshtml" />
     <Content Include="Views\Home\GorevProjesi\ProjeAnalizi.cshtml" />
+    <Content Include="Views\Inbox\Notifications.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

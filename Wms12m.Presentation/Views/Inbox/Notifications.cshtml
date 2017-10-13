@@ -1,0 +1,69 @@
+﻿@model IEnumerable<Message>
+@{
+    ViewBag.Title = "Bildirimler";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Notifications</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Tarih)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Kimden)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Kime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Mesaj)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Okundu)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.GonderenSildi)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AliciSildi)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Tarih)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Kimden)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Kime)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Mesaj)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Okundu)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.GonderenSildi)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AliciSildi)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+        </td>
+    </tr>
+}
+
+</table>
