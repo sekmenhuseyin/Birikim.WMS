@@ -90,7 +90,11 @@
         Mazaretİzni = 75,
         ResmiTatil = 76,
         İdariİzin = 77,
-        ÖnemliGün = 78
+        ÖnemliGün = 78,
+        TeknikDestekYardımı = 79,
+        UygulamaTestEdilmesi = 80,
+        YerindeDestekYardımı = 81,
+        BilgilendirmeveBilgiAlma = 82
     }
     /// <summary>
     /// combo item names
@@ -109,7 +113,8 @@
         GörevYönetimTipleri = 10,
         İşlemKayıtTipi = 11,
         PaketTipi = 12,
-        TatilTipi = 13
+        TatilTipi = 13,
+        DestekTipi = 14
     }
     /// <summary>
     /// permission types
@@ -224,6 +229,9 @@
         Kasım = 11,
         Aralık = 12
     }
+    /// <summary>
+    /// fatura tipleri
+    /// </summary>
     public enum FaturaTipi
     {
         SatisFaturası = 0,
