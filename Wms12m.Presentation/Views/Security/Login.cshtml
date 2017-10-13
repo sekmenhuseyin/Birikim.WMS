@@ -101,17 +101,17 @@
 </div>
 <div class="copyright">@DateTime.Today.Year &copy; <a href="http://www.12mconsulting.com.tr/" title="12M Consulting" target="_blank">12M Consulting</a></div>
 @section scripts {<script src="~/Content/assets/pages/scripts/login.min.js"></script>
-    <script type="text/javascript">
-        $('#Kod').focus();
-        function ReturnPage(data) {
-            if (data.data) {
-                $("#div_loading").show();
-                window.location.href = '/';
-            }
-            else
-                Modaldialog('Lütfen bilgilerinizi kontrol edin', 'Login İşlemi', 'Kapat', 'btn-warning');
+<script type="text/javascript">
+    $('#Kod').focus();
+    function ReturnPage(data) {
+        if (data.data) {
+            $("#div_loading").show();
+            window.location.href = '/';
         }
-        function getresults(data) {
-            Modaldialog(data.Message, data.data, 'Kapat', 'btn-default');
-        }
-    </script>}
+        else
+            Modaldialog('Lütfen bilgilerinizi kontrol edin', 'Login İşlemi', 'Kapat', 'btn-warning');
+    }
+    function getresults(data) {
+        Modaldialog(data.Message, data.data, 'Kapat', 'btn-default');
+    }
+</script>}
