@@ -83,6 +83,23 @@
     @Scripts.Render(BundleConfig.JsBundle)    <script src="~/Content/assets/global/plugins/datatables/extensions/Buttons/js/buttons.html5.js"></script>
     <script src="~/Content/assets/global/plugins/datatables/extensions/Buttons/js/buttons.flash.js"></script>
     @{if (ViewBag.Debug == false && ViewBag.UserID > 1) {    <script src="~/Content/assets/global/plugins/devtools-detect.js"></script><script>window.addEventListener('devtoolschange', function (e) { if (e.detail.open == true) { console.clear(); window.location.href = "@Request.Url.Scheme://@Request.Url.Authority/"; } });</script> }}
-    @RenderSection("Scripts", required: false)
+    @RenderSection("Scripts", required: false)<script>
+        $(document).ready(function (e) {
+            toastr["info"]("mesaj", "title", {
+                "closeButton": false,
+                "debug": false,
+                "positionClass": "toast-top-right",
+                "showDuration": "0",
+                "timeOut": 0,
+                "extendedTimeOut": 0,
+                "showEasing": "swing",
+                "showMethod": "fadeIn",
+                "tapToDismiss": false,
+                onclick: function () {
+                    alert('You can perform some custom action after a toast goes away');
+                }
+            });
+        });
+    </script>
 </body>
 </html>

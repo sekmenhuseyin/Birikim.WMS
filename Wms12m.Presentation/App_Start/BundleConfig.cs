@@ -25,6 +25,7 @@ namespace Wms12m.Presentation
                 .Include("~/Content/assets/global/plugins/jquery-ui/datepicker-tr.js")
                 .Include("~/Content/assets/global/plugins/Numeral/numeral.js")
                 .Include("~/Content/assets/global/plugins/Numeral/locales.js")
+                .Include("~/Content/assets/global/plugins/bootstrap-toastr/toastr.js")
                 //plugins
                 .Include("~/Content/assets/global/plugins/jquery-validation/jquery.validate.min.js")
                 .Include("~/Content/assets/global/plugins/jquery-validation/jquery.validate.unobtrusive.min.js")
@@ -75,6 +76,7 @@ namespace Wms12m.Presentation
             styleBundle
                 //jquery
                 .Include("~/Content/assets/global/plugins/jquery-ui/jquery-ui.min.css")
+                .Include("~/Content/assets/global/plugins/bootstrap-toastr/toastr.css")
                 // DevExtreme
                 .Include("~/Content/assets/global/plugins/DevExtreme/css/dx.common.css")
                 .Include("~/Content/assets/global/plugins/DevExtreme/css/dx.spa.css")
