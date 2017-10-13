@@ -18,6 +18,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             ViewBag.MusteriID = new SelectList(db.Musteris.OrderBy(m => m.Unvan).ToList(), "ID", "Unvan ");
             ViewBag.Sorumlu = new SelectList(Persons.GetList(), "Kod", "AdSoyad");
             ViewBag.Yetki = CheckPerm(Perms.TodoProje, PermTypes.Writing);
+            ViewBag.RoleName = vUser.RoleName;
             return View("Index", new ProjeForm());
         }
         /// <summary>
@@ -28,6 +29,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             if (CheckPerm(Perms.TodoProje, PermTypes.Reading) == false) return null;
             ViewBag.Yetki = CheckPerm(Perms.TodoProje, PermTypes.Writing);
             ViewBag.Yetki2 = CheckPerm(Perms.TodoProje, PermTypes.Deleting);
+            ViewBag.RoleName = vUser.RoleName;
             return PartialView("List", db.ProjeForms.Where(a => a.PID == null).ToList());
         }
         /// <summary>
@@ -41,6 +43,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             ViewBag.MusteriID = new SelectList(db.Musteris.OrderBy(m => m.Unvan).ToList(), "ID", "Firma", projeForm.MusteriID);
             ViewBag.PID = new SelectList(db.ProjeForms.Where(x => x.PID != null).ToList(), "ID", "Proje", projeForm.PID);
             ViewBag.Sorumlu = new SelectList(db.Users.ToList(), "Kod", "AdSoyad");
+            ViewBag.RoleName = vUser.RoleName;
             return PartialView(projeForm);
         }
         /// <summary>
@@ -73,6 +76,8 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                     tbl.Degistiren = vUser.UserName;
                     tbl.DegisTarih = DateTime.Now;
                     tbl.Aktif = projeForm.Aktif;
+                    if (vUser.RoleName == "Admin" || vUser.RoleName == " ")
+                        tbl.GitDepoAdresi = projeForm.GitDepoAdresi;
                 }
                 try
                 {
