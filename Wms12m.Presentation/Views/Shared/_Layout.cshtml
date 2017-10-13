@@ -88,13 +88,18 @@
             toastr["info"]("mesaj", "title", {
                 "closeButton": false,
                 "debug": false,
+                "newestOnTop": false,
+                "progressBar": false,
                 "positionClass": "toast-top-right",
-                "showDuration": "0",
-                "timeOut": 0,
-                "extendedTimeOut": 0,
+                "preventDuplicates": false,
+                "showDuration": "30000",
+                "hideDuration": "1000",
+                "timeOut": "5000",
+                "extendedTimeOut": "1000",
                 "showEasing": "swing",
+                "hideEasing": "linear",
                 "showMethod": "fadeIn",
-                "tapToDismiss": false,
+                "hideMethod": "fadeOut",
                 onclick: function () {
                     alert('You can perform some custom action after a toast goes away');
                 }

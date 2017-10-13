@@ -296,6 +296,19 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                 {
                     tbl.Onay = true;
                     tbl.Onaylayan = vUser.UserName;
+                    //messages
+                    if (tbl.Gorevler.KontrolSorumlusu != null)
+                    {
+                        var mesaj = new Message()
+                        {
+                            MesajTipi = ComboItems.DuyuruMesajı.ToInt32(),
+                            Kimden = vUser.UserName,
+                            Kime = tbl.Gorevler.KontrolSorumlusu,
+                            Tarih = DateTime.Now,
+                            Mesaj = "Onay listenize bir maddde eklendi"
+                        };
+                        db.Messages.Add(mesaj);
+                    }
                 }
                 else if (tbl.Onay == true && vUser.RoleName == "Destek")
                 {
@@ -348,6 +361,40 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                     tbl.Onay = false;
                     tbl.Onaylayan = null;
                     tbl.Gorevler.DurumID = ComboItems.gydBaşlandı.ToInt32();
+                    //messages
+                    var mesaj = new Message()
+                    {
+                        MesajTipi = ComboItems.DuyuruMesajı.ToInt32(),
+                        Kimden = vUser.UserName,
+                        Kime = tbl.Gorevler.Sorumlu,
+                        Tarih = DateTime.Now,
+                        Mesaj = "Onay listenize bir maddde eklendi"
+                    };
+                    db.Messages.Add(mesaj);
+                    if (tbl.Gorevler.Sorumlu2 != null)
+                    {
+                        var mesaj2 = new Message()
+                        {
+                            MesajTipi = ComboItems.DuyuruMesajı.ToInt32(),
+                            Kimden = vUser.UserName,
+                            Kime = tbl.Gorevler.Sorumlu2,
+                            Tarih = DateTime.Now,
+                            Mesaj = "Onay listenize bir maddde eklendi"
+                        };
+                        db.Messages.Add(mesaj2);
+                    }
+                    if (tbl.Gorevler.Sorumlu3 != null)
+                    {
+                        var mesaj3 = new Message()
+                        {
+                            MesajTipi = ComboItems.DuyuruMesajı.ToInt32(),
+                            Kimden = vUser.UserName,
+                            Kime = tbl.Gorevler.Sorumlu3,
+                            Tarih = DateTime.Now,
+                            Mesaj = "Onay listenize bir maddde eklendi"
+                        };
+                        db.Messages.Add(mesaj3);
+                    }
                 }
             }
             //kaydet

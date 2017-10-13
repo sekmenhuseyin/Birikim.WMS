@@ -67,6 +67,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                 list = list.Where(m => m.DurumID == Tip);
             ViewBag.Yetki = CheckPerm(Perms.TodoGörevler, PermTypes.Deleting);
             ViewBag.Yetki1 = CheckPerm(Perms.TodoGörevler, PermTypes.Writing);
+            ViewBag.Tip = Tip;
             return PartialView(list.OrderBy(m => m.OncelikID).ToList());
         }
         /// <summary>
