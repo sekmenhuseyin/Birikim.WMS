@@ -53,7 +53,16 @@ namespace Wms12m.Presentation.Controllers
             url = "/" + url;
             ViewBag.ustMenu = mUstNo;
             var tablo = db.MenuGetirici(ComboItems.WMS.ToInt32(), mYeri, vUser.RoleName, mUstNo, url).ToList();
-            return PartialView("../Shared/_MenuList", tablo);
+            return PartialView("../Shared/Menu", tablo);
+        }
+        /// <summary>
+        /// child view for Notifications
+        /// </summary>
+        [ChildActionOnly]
+        public PartialViewResult Notifications()
+        {
+            var tablo = ViewBag.UnreadMessages;
+            return PartialView("../Shared/Notifications", tablo);
         }
         #region Satış Raporları
         public PartialViewResult PartialGunlukSatisZamanCizelgesi(string SirketKodu)

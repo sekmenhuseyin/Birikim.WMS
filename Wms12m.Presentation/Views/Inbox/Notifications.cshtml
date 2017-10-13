@@ -5,10 +5,6 @@
 }
 
 <h2>Notifications</h2>
-
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
 <table class="table">
     <tr>
         <th>
@@ -22,15 +18,6 @@
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Mesaj)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Okundu)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.GonderenSildi)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.AliciSildi)
         </th>
         <th></th>
     </tr>
@@ -50,18 +37,6 @@
             @Html.DisplayFor(modelItem => item.Mesaj)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Okundu)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.GonderenSildi)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.AliciSildi)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
         </td>
     </tr>
 }

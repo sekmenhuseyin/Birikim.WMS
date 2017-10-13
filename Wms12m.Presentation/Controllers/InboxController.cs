@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System.Linq;
+using System.Web.Mvc;
 using Wms12m.Entity;
 
 namespace Wms12m.Presentation.Controllers
@@ -10,14 +11,18 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public ActionResult Index()
         {
-            return View();
+            return View("Index");
         }
         /// <summary>
         /// gelen bildirimler
         /// </summary>
         public ActionResult Notifications()
         {
-            return View();
+            var tbl = db.Messages.Where(m => m.Kime == vUser.UserName).OrderByDescending(m => m.Tarih).ToList();
+            foreach (var item in tbl)
+                item.Okundu = true;
+            db.SaveChanges();
+            return View("Notifications", tbl);
         }
         /// <summary>
         /// bildiri listesi

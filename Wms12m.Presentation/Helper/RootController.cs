@@ -84,7 +84,7 @@ namespace Wms12m.Presentation
             ViewBag.UserID = vUser.Id;
             ViewBag.Guid = vUser.Guid;
             ViewBag.settings = db.Settings.FirstOrDefault();
-            ViewBag.UnreadMessages = db.Messages.Where(m => m.MesajTipi == 85 && m.Kime == vUser.UserName && m.Okundu == false).ToList();//sadece genel uyarılar
+            ViewBag.UnreadMessages = db.Messages.Where(m => m.MesajTipi == 85 && m.Kime == vUser.UserName && m.Okundu == false).OrderByDescending(m => m.Tarih).ToList();//sadece genel uyarılar
             ViewBag.Debug = HttpContext.IsDebuggingEnabled;
             if (ViewBag.settings.Aktif == false && filterContext.ActionDescriptor.ControllerDescriptor.ControllerName != "Maintenance")
             {
