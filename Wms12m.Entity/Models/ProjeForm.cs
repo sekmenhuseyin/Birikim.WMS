@@ -17,8 +17,8 @@ namespace Wms12m.Entity.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public ProjeForm()
         {
-            this.ProjeForm1 = new HashSet<ProjeForm>();
             this.Gorevlers = new HashSet<Gorevler>();
+            this.ProjeForm1 = new HashSet<ProjeForm>();
         }
     
         public int ID { get; set; }
@@ -36,12 +36,13 @@ namespace Wms12m.Entity.Models
         public string Degistiren { get; set; }
         public System.DateTime DegisTarih { get; set; }
         public bool Aktif { get; set; }
+        public string GitDepoAdresi { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Gorevler> Gorevlers { get; set; }
         public virtual Musteri Musteri { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ProjeForm> ProjeForm1 { get; set; }
         public virtual ProjeForm ProjeForm2 { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Gorevler> Gorevlers { get; set; }
     }
 }
