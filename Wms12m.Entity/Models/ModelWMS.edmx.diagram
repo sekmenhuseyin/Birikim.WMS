@@ -91,7 +91,7 @@
         <AssociationConnector Association="MModel.FK_Gorevler_ProjeForm" />
         <AssociationConnector Association="MModel.FK_Proje_Musteri" />
         <AssociationConnector Association="MModel.FK_ProjeForm_ProjeForm" />
-        <EntityTypeShape EntityType="MModel.Message" Width="1.5" PointX="18.125" PointY="0.5" />
+        <EntityTypeShape EntityType="MModel.Message" Width="1.5" PointX="18.125" PointY="0.625" />
         <AssociationConnector Association="MModel.FK_Messages_ComboItem_Name" />
         </Diagram>
     </edmx:Diagrams>

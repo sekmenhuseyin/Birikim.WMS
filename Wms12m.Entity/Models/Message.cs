@@ -16,8 +16,8 @@ namespace Wms12m.Entity.Models
     {
         public int ID { get; set; }
         public int MesajTipi { get; set; }
-        public int Kimden { get; set; }
-        public Nullable<int> Kime { get; set; }
+        public string Kimden { get; set; }
+        public string Kime { get; set; }
         public string Message1 { get; set; }
         public bool Okundu { get; set; }
         public bool GonderenSildi { get; set; }
