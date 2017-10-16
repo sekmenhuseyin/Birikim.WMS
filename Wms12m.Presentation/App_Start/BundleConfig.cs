@@ -21,6 +21,8 @@ namespace Wms12m.Presentation
                 //jquery
                 .Include("~/Content/assets/global/plugins/jquery/jquery-3.1.1.min.js")
                 .Include("~/Content/assets/global/plugins/jquery/jquery-migrate-3.0.0.min.js")
+                .Include("~/Content/assets/global/plugins/SignalR/jquery.signalR-2.2.2.min.js")
+                //essentials
                 .Include("~/Content/assets/global/plugins/jquery-ui/jquery-ui.min.js")
                 .Include("~/Content/assets/global/plugins/jquery-ui/datepicker-tr.js")
                 .Include("~/Content/assets/global/plugins/Numeral/numeral.js")
@@ -53,7 +55,7 @@ namespace Wms12m.Presentation
                 .Include("~/Content/assets/layouts/layout/scripts/layout.min.js")
                 .Include("~/Content/Scripts/Operation.min.js")
                 .Include("~/Content/Scripts/MessageBox.min.js")
-                .Include("~/Content/Scripts/Functions.js")
+                .Include("~/Content/Scripts/Functions.min.js")
                 ;
             scriptBundle2
                 .Include("~/Content/assets/global/plugins/jquery/jquery-3.1.1.min.js")
@@ -70,7 +72,7 @@ namespace Wms12m.Presentation
                 .Include("~/Content/assets/layouts/layout/scripts/layout.min.js")
                 .Include("~/Content/Scripts/Operation.min.js")
                 .Include("~/Content/Scripts/MessageBox.min.js")
-                .Include("~/Content/Scripts/Functions.js")
+                .Include("~/Content/Scripts/Functions.min.js")
                 ;
             // styles
             styleBundle

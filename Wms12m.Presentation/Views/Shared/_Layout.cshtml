@@ -85,7 +85,8 @@
         <div id="div_loading" class="loader"></div>
         <div class="portfolio-modal modal fade" id="modalEditPage" tabindex="-1" role="dialog" aria-hidden="true"></div>
     </div>
-@Scripts.Render(BundleConfig.JsBundle)<script src="~/Content/assets/global/plugins/datatables/extensions/Buttons/js/buttons.html5.js"></script>
+@Scripts.Render(BundleConfig.JsBundle)<script src="/signalr/hubs"></script>
+<script src="~/Content/assets/global/plugins/datatables/extensions/Buttons/js/buttons.html5.js"></script>
 <script src="~/Content/assets/global/plugins/datatables/extensions/Buttons/js/buttons.flash.js"></script>@{if (ViewBag.Debug == false && ViewBag.UserID > 1) {
 <script src="~/Content/assets/global/plugins/devtools-detect.js"></script><script>window.addEventListener('devtoolschange', function (e) { if (e.detail.open == true) { console.clear(); window.location.href = "@Request.Url.Scheme://@Request.Url.Authority/"; } });</script> }}
 @RenderSection("Scripts", required: false)

@@ -16,9 +16,14 @@ namespace Wms12m.Presentation
         /// </summary>
         protected void Application_Start()
         {
+            //area kayıt
             AreaRegistration.RegisterAllAreas();
+            //route kayıt
             RouteConfig.RegisterRoutes(RouteTable.Routes);
+            //bundle create
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+            //herkesi offline yap bir seferlik
+            Statics.PutUsersOffline();
         }
         /// <summary>
         /// session start for user
@@ -26,9 +31,7 @@ namespace Wms12m.Presentation
         protected void Session_Start(object sender, EventArgs e)
         {
             if (HttpContext.Current.Session["Identity"] == null || HttpContext.Current.Session["Identity"] as Identity == null)
-            {
                 Client.Initialize();
-            }
         }
         /// <summary>
         /// after login
@@ -37,7 +40,6 @@ namespace Wms12m.Presentation
         {
             HttpCookie authCookie = Request.Cookies[FormsAuthentication.FormsCookieName];
             if (authCookie != null)
-            {
                 try
                 {
                     //serialize
@@ -45,19 +47,14 @@ namespace Wms12m.Presentation
                     FormsAuthenticationTicket authTicket = FormsAuthentication.Decrypt(authCookie.Value);
                     var serializeModel = serializer.Deserialize<CustomPrincipalSerializeModel>(authTicket.UserData);
                     //create user
-                    var newUser = new CustomPrincipal(authTicket.Name)
-                    {
-                        AppIdentity = serializeModel.AppIdentity
-                    };
+                    var newUser = new CustomPrincipal(authTicket.Name) { AppIdentity = serializeModel.AppIdentity };
                     HttpContext.Current.User = newUser;
                 }
                 catch (Exception)
                 {
                     authCookie = null;
                     HttpContext.Current.User = null;
-
                 }
-            }
         }
     }
 }
