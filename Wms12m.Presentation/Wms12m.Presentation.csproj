@@ -532,6 +532,7 @@
     <Compile Include="Areas\System\Controllers\LogsController.cs" />
     <Compile Include="Areas\Approvals\Controllers\WoodController.cs" />
     <Compile Include="Helper\HtmlHelperExtensions.cs" />
+    <Compile Include="Helper\Statics.cs" />
     <Compile Include="Reports\ByteArrayToImage.cs" />
     <Compile Include="Reports\DsSatinalma.Designer.cs">
       <AutoGen>True</AutoGen>

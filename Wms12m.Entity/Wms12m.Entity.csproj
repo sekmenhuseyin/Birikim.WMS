@@ -82,6 +82,9 @@
     <Compile Include="Models\Combo_Name.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Connection.cs">
+      <DependentUpon>ModelWMS.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\CRM_GorusmeNotlari_Result.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
     </Compile>
