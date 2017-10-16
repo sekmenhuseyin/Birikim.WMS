@@ -138,8 +138,8 @@ function CT(style, title, message, url) {
         "preventDuplicates": false,
         "showDuration": "30000",
         "hideDuration": "1000",
-        "timeOut": "5000",
-        "extendedTimeOut": "1000",
+        "timeOut": "10000",
+        "extendedTimeOut": "2000",
         "showEasing": "swing",
         "hideEasing": "linear",
         "showMethod": "fadeIn",
@@ -159,7 +159,7 @@ function CheckNtfctn() {
             if (data.length > 1)
                 CT("info", "Bekleyen Mesajlar", data.length + " adet bekleyen mesajınız var", "/Inbox/Notifications");
             else if (data.length == 1)
-                CT("info", data[0].Mesaj, data[0].CmbItemName, "/Inbox/Notifications");
+                CT("info", data[0].Mesaj, data[0].CmbItemName, data[0].URL);
             PartialView("/Home/Notifications", "header_notification_bar", "")
         },
         error: function (data) {

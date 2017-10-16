@@ -92,7 +92,7 @@ namespace Wms12m.Presentation.Controllers
             foreach (var item in tbl)
                 item.Goruldu = true;
             db.SaveChanges();
-            return Json(tbl.Select(m => new frmNotifications { ID = m.ID, Tarih = m.Tarih, Mesaj = m.Mesaj, MesajTipi = m.MesajTipi, Kimden = m.Kimden, Kime = m.Kime, Okundu = m.Okundu, AliciSildi = m.AliciSildi, GonderenSildi = m.GonderenSildi, Goruldu = m.Goruldu, CmbItemName = m.ComboItem_Name.Name }).OrderByDescending(m => m.Tarih), JsonRequestBehavior.AllowGet);
+            return Json(tbl.Select(m => new frmNotifications { Mesaj = m.Mesaj, URL = m.URL, CmbItemName = m.ComboItem_Name.Name, Tarih = m.Tarih }).OrderByDescending(m => m.Tarih), JsonRequestBehavior.AllowGet);
         }
         #region Satış Raporları
         public PartialViewResult PartialGunlukSatisZamanCizelgesi(string SirketKodu)

@@ -84,5 +84,6 @@ namespace Wms12m.Entity
         public bool AliciSildi { get; set; }
         public bool Goruldu { get; set; }
         public string CmbItemName { get; set; }
+        public string URL { get; set; }
     }
 }
