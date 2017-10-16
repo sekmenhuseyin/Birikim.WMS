@@ -30,10 +30,30 @@ namespace Wms12m.Presentation.Controllers
                 {
                     Logger(ex, "Home/Index");
                 }
+            //etkinlikler
+            var tblEtki = db.Etkinliks.Where(m => m.Tekrarlayan == false && (m.TatilTipi == 76 || m.TatilTipi == 78) && m.Tarih == DateTime.Today);
+            var lstEtkinlik = tblEtki.ToList();
+            var tekrarlayan = db.Etkinliks.Where(m => m.Tekrarlayan == true && (m.TatilTipi == 76 || m.TatilTipi == 78) && m.Tarih.Day == DateTime.Today.Day && m.Tarih.Month == DateTime.Today.Month).ToList();
+            foreach (var item in tekrarlayan)
+            {
+                var fark = DateTime.Today.Year - item.Tarih.Year;
+                var item2 = new Etkinlik()
+                {
+                    ID = item.ID,
+                    Username = item.Username,
+                    TatilTipi = item.TatilTipi,
+                    Tarih = item.Tarih.AddYears(fark),
+                    Aciklama = item.Username + " " + item.Aciklama + " (" + fark + ". Tekrar)",
+                    Tekrarlayan = item.Tekrarlayan,
+                    ComboItem_Name = item.ComboItem_Name
+                };
+                lstEtkinlik.Add(item2);
+            }
             //return
             ViewBag.SirketKodu = SirketKodu;
             ViewBag.BekleyenOnaylar = bo;
             ViewBag.RoleName = vUser.RoleName;
+            ViewBag.Tatil = lstEtkinlik;
             return View("Index", tbl);
         }
         /// <summary>
@@ -53,7 +73,26 @@ namespace Wms12m.Presentation.Controllers
             url = "/" + url;
             ViewBag.ustMenu = mUstNo;
             var tablo = db.MenuGetirici(ComboItems.WMS.ToInt32(), mYeri, vUser.RoleName, mUstNo, url).ToList();
-            return PartialView("../Shared/_MenuList", tablo);
+            return PartialView("../Shared/Menu", tablo);
+        }
+        /// <summary>
+        /// child view for Notifications
+        /// </summary>
+        public PartialViewResult Notifications()
+        {
+            var tablo = ViewBag.UnreadMessages;
+            return PartialView("../Shared/Notifications", tablo);
+        }
+        /// <summary>
+        /// yeni bildirimler
+        /// </summary>
+        public JsonResult NewNotifications()
+        {
+            var tbl = db.Messages.Where(m => m.MesajTipi == 85 && m.Kime == vUser.UserName && m.Goruldu == false).ToList();
+            foreach (var item in tbl)
+                item.Goruldu = true;
+            db.SaveChanges();
+            return Json(tbl.Select(m => new frmNotifications { Mesaj = m.Mesaj, URL = m.URL, CmbItemName = m.ComboItem_Name.Name, Tarih = m.Tarih }).OrderByDescending(m => m.Tarih), JsonRequestBehavior.AllowGet);
         }
         #region Satış Raporları
         public PartialViewResult PartialGunlukSatisZamanCizelgesi(string SirketKodu)

@@ -69,48 +69,46 @@
                 </div>
             </div>
         </div>
-        <div>
-            <div class="portlet box green">
-                <div class="portlet-title">
-                    <div class="caption">
-                        <i class="fa fa-gift"></i>Bölüm Listesi
-                    </div>
+        <div class="portlet box green">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-gift"></i>Bölüm Listesi
                 </div>
-                <div class="portlet-body form">
-                    <div class="form-horizontal">
-                        <div class="form-body">
-                            <div class="row">
-                                <label class="col-sm-1">
-                                    <label style="color:#32c5d2;">Durum</label>
-                                </label>
-                                <label class="col-sm-1 radio-inline">
-                                    <input type="radio" name="Locked" value="Locked" /> Aktif
-                                </label>
-                                <label class="col-sm-1 radio-inline">
-                                    <input type="radio" name="Locked" value="noLocked" /> Pasif
-                                </label>
-                                <label class="col-sm-1 radio-inline">
-                                    <input type="radio" name="Locked" value="All" checked /> Tümü
-                                </label>
-                                <div class="col-sm-3 col-sm-offset-4" style="color:#32c5d2;">
-                                    <div class="row">
-                                        <div class="col-sm-4">Depo</div>
-                                        <div class="col-sm-8">
-                                            @Html.DropDownList("DepoID", null, htmlAttributes: new { @class = "form-control StoreListi input-circle DepoID", @onchange = "getShelf(this.value,'ShelfListi');" })
-                                        </div>
+            </div>
+            <div class="portlet-body form">
+                <div class="form-horizontal">
+                    <div class="form-body">
+                        <div class="row">
+                            <label class="col-sm-1">
+                                <label style="color:#32c5d2;">Durum</label>
+                            </label>
+                            <label class="col-sm-1 radio-inline">
+                                <input type="radio" name="Locked" value="Locked" /> Aktif
+                            </label>
+                            <label class="col-sm-1 radio-inline">
+                                <input type="radio" name="Locked" value="noLocked" /> Pasif
+                            </label>
+                            <label class="col-sm-1 radio-inline">
+                                <input type="radio" name="Locked" value="All" checked /> Tümü
+                            </label>
+                            <div class="col-sm-3 col-sm-offset-4" style="color:#32c5d2;">
+                                <div class="row">
+                                    <div class="col-sm-4">Depo</div>
+                                    <div class="col-sm-8">
+                                        @Html.DropDownList("DepoID", null, htmlAttributes: new { @class = "form-control StoreListi input-circle DepoID", @onchange = "getShelf(this.value,'ShelfListi');" })
                                     </div>
-                                    <div class="row">
-                                        <div class="col-sm-4">Raf</div>
-                                        <div class="col-sm-8">
-                                            <select id="ShelfListi" class="form-control input-circle RafID"></select>
-                                        </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-4">Raf</div>
+                                    <div class="col-sm-8">
+                                        <select id="ShelfListi" class="form-control input-circle RafID"></select>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div id="SectionGrid" style="padding:10px;margin-top:30px;"></div>
                 </div>
+                <div id="SectionGrid" style="padding:10px;margin-top:30px;"></div>
             </div>
         </div>
     </div>

@@ -2,12 +2,19 @@
 @{
     ViewBag.Title = "";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    List<Etkinlik> tblEtki = ViewBag.Tatil;
     BekleyenOnaylar tbl = ViewBag.BekleyenOnaylar;
     Setting tst = ViewBag.Settings;
     string[] gorevler = Model.GorevSayilari.Split(',');
 }@section Styles{<link href="~/Content/assets/global/plugins/bootstrap-toggle/css/bootstrap-toggle.min.css" rel="stylesheet" type="text/css" />
 }<div class="page-bar"><ul class="page-breadcrumb"><li><span>Anasayfa</span></li></ul></div>
-<h1 class="page-title">Yönetim Paneli</h1>
+<h1 class="page-title">Yönetim Paneli</h1>@foreach (var item in tblEtki)
+{
+    <div class="m-heading-1 border-green m-bordered">
+        <h3>@item.ComboItem_Name.Name</h3>
+        <p>@item.Aciklama</p>
+    </div>
+}
 <div class="row">@{
 if (tst.homeDepo == true && Model.yetki.Contains("'DashboardDepo'") == true)
 {

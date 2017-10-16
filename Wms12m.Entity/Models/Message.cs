@@ -23,6 +23,8 @@ namespace Wms12m.Entity.Models
         public bool Okundu { get; set; }
         public bool GonderenSildi { get; set; }
         public bool AliciSildi { get; set; }
+        public bool Goruldu { get; set; }
+        public string URL { get; set; }
     
         public virtual ComboItem_Name ComboItem_Name { get; set; }
     }

@@ -51,13 +51,13 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         {
             var gorevCalismas = db.GorevlerCalismas.Where(m => m.ID > 0);
             var yetki = CheckPerm(Perms.TodoÇalışma, PermTypes.Deleting);
-            if (yetki == true)//admin ise filtre yapma hepsini gör
-            {
-
-            }
-            else if (Tip == false)//bana ait
+            if (Tip == false)//bana ait
             {
                 gorevCalismas = gorevCalismas.Where(m => m.Kaydeden == vUser.UserName);
+            }
+            else if (yetki == true)//admin ise filtre yapma hepsini gör
+            {
+
             }
             else
             {
@@ -264,7 +264,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             if (Tip == false)
             {
                 if (vUser.RoleName == "Admin" || vUser.RoleName == " ")
-                    list = list.Where(m => m.Onay == true && m.KontrolOnay == true);
+                    list = list.Where(m => (m.Onay == true && m.KontrolOnay == true) || ((m.Gorevler.Sorumlu == vUser.UserName || m.Gorevler.Sorumlu2 == vUser.UserName || m.Gorevler.Sorumlu3 == vUser.UserName) && m.Onay == false) || (m.Onay == true && m.KontrolOnay == false && m.Gorevler.KontrolSorumlusu == vUser.UserName));
                 else if (vUser.RoleName == "Destek")
                     list = list.Where(m => ((m.Gorevler.Sorumlu == vUser.UserName || m.Gorevler.Sorumlu2 == vUser.UserName || m.Gorevler.Sorumlu3 == vUser.UserName) && m.Onay == false) || (m.Onay == true && m.KontrolOnay == false && (m.Gorevler.KontrolSorumlusu == vUser.UserName || m.Gorevler.KontrolSorumlusu == null)));
                 else
@@ -305,7 +305,8 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                             Kimden = vUser.UserName,
                             Kime = tbl.Gorevler.KontrolSorumlusu,
                             Tarih = DateTime.Now,
-                            Mesaj = "Onay listenize bir maddde eklendi"
+                            Mesaj = "Onay listenize bir maddde eklendi",
+                            URL = "/ToDo/DutyWork/Todos"
                         };
                         db.Messages.Add(mesaj);
                     }
@@ -314,6 +315,20 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                 {
                     tbl.KontrolOnay = true;
                     tbl.KontrolEden = vUser.UserName;
+                    //messages
+                    var kullList = Persons.GetList("Admin");
+                    foreach (var item in kullList)
+                    {
+                        db.Messages.Add(new Message()
+                        {
+                            MesajTipi = ComboItems.DuyuruMesajı.ToInt32(),
+                            Kimden = vUser.UserName,
+                            Kime = item.Kod,
+                            Tarih = DateTime.Now,
+                            Mesaj = "Onay listenize bir maddde eklendi",
+                            URL = "/ToDo/DutyWork/Todos"
+                        });
+                    }
                 }
                 else if (tbl.Onay == true && tbl.KontrolOnay == true && CheckPerm(Perms.TodoÇalışma, PermTypes.Deleting) == true)
                 {
@@ -353,7 +368,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             }
             else
             {
-                if ((tbl.Onay == true && tbl.KontrolOnay == true && CheckPerm(Perms.TodoÇalışma, PermTypes.Deleting) == true) || (tbl.Onay == true && vUser.RoleName == "Destek"))
+                if ((tbl.Onay == true && tbl.KontrolOnay == true && CheckPerm(Perms.TodoÇalışma, PermTypes.Deleting) == true) || (tbl.Onay == true && (tbl.Gorevler.KontrolSorumlusu == vUser.UserName || tbl.Gorevler.KontrolSorumlusu == null)))
                 {
                     tbl.AdminOnay = false;
                     tbl.KontrolOnay = false;
@@ -368,7 +383,8 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                         Kimden = vUser.UserName,
                         Kime = tbl.Gorevler.Sorumlu,
                         Tarih = DateTime.Now,
-                        Mesaj = "Onay listenize bir maddde eklendi"
+                        Mesaj = vUser.UserName + " onay listenizdeki bir maddeyi reddetti",
+                        URL = "/ToDo/DutyWork/Todos"
                     };
                     db.Messages.Add(mesaj);
                     if (tbl.Gorevler.Sorumlu2 != null)
@@ -379,7 +395,8 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                             Kimden = vUser.UserName,
                             Kime = tbl.Gorevler.Sorumlu2,
                             Tarih = DateTime.Now,
-                            Mesaj = "Onay listenize bir maddde eklendi"
+                            Mesaj = vUser.UserName + " onay listenizdeki bir maddeyi reddetti",
+                            URL = "/ToDo/DutyWork/Todos"
                         };
                         db.Messages.Add(mesaj2);
                     }
@@ -391,7 +408,8 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                             Kimden = vUser.UserName,
                             Kime = tbl.Gorevler.Sorumlu3,
                             Tarih = DateTime.Now,
-                            Mesaj = "Onay listenize bir maddde eklendi"
+                            Mesaj = vUser.UserName + " onay listenizdeki bir maddeyi reddetti",
+                            URL = "/ToDo/DutyWork/Todos"
                         };
                         db.Messages.Add(mesaj3);
                     }

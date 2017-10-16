@@ -599,7 +599,7 @@
     </Content>
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Shared\_MenuList.cshtml" />
+    <Content Include="Views\Shared\Menu.cshtml" />
     <Content Include="Areas\Constants\Views\Storage\Index.cshtml" />
     <Content Include="Areas\Constants\Views\Storage\_StoreGridPartial.cshtml" />
     <Content Include="Areas\Constants\Views\Storage\_StoreDetailPartial.cshtml" />
@@ -810,6 +810,8 @@
     <Content Include="Views\Home\GorevProjesi\MusteriAnaliziPie.cshtml" />
     <Content Include="Views\Home\GorevProjesi\CalismaAnalizi.cshtml" />
     <Content Include="Views\Home\GorevProjesi\ProjeAnalizi.cshtml" />
+    <Content Include="Views\Inbox\Notifications.cshtml" />
+    <Content Include="Views\Shared\Notifications.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -1,0 +1,60 @@
+﻿@model IEnumerable<Message>
+@{
+    ViewBag.Title = "Bildirimler";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><span>Bildirimler</span></li></ul></div>
+<h1 class="page-title">Bildirimler</h1>
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet box green">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-gift"></i>Bildirimler
+                </div>
+            </div>
+            <div class="portlet-body form">
+                <div class="form-horizontal">
+                    <div class="form-body">
+                        <table class="table table-striped table-bordered table-hover" id="sample_1">
+                            <thead><tr><th>Tarih</th><th>Kimden</th><th>Kime</th><th>Mesaj</th><th></th></tr></thead>
+                            <tfoot><tr><th></th><th></th><th></th><th></th><th></th></tr></tfoot>
+                            <tfoot class="tf-search"><tr><th></th><th></th><th></th><th></th><th></th></tr></tfoot>
+                            <tbody>
+
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>@item.Tarih</td>
+                                        <td>@item.Kimden</td>
+                                        <td>@item.Kime</td>
+                                        <td>@item.Mesaj</td>
+                                        <td>@if(item.URL != null){<a href="@item.URL" class="btn btn-default">İncele</a>}</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{<script>
+    $(document).ready(function () {
+        var table = $('#sample_1').DataTable({
+            "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
+            "ordering": false,
+        });
+        $('#sample_1 .tf-search th').each(function () {
+            var title = $('#sample_1 thead th').eq($(this).index()).text();
+            if (title != "" && title.indexOf("Tarih") !== -1)
+                $(this).html('<input class="form-control input-circle tarih" type="text" placeholder="Ara" />');
+            else if (title != "")
+                $(this).html('<input class="form-control input-circle" type="text" placeholder="Ara" />');
+        });
+        $("#sample_1 tfoot input").on('keyup change', function () { table.column($(this).parent().index() + ':visible').search(this.value).draw(); });
+        //tarih
+        $.datepicker.setDefaults($.datepicker.regional["tr"]);
+        $(".tarih").datepicker();
+    });
+</script>}
