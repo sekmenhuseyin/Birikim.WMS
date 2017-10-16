@@ -30,10 +30,30 @@ namespace Wms12m.Presentation.Controllers
                 {
                     Logger(ex, "Home/Index");
                 }
+            //etkinlikler
+            var tblEtki = db.Etkinliks.Where(m => m.Tekrarlayan == false && (m.TatilTipi == 76 || m.TatilTipi == 78) && m.Tarih == DateTime.Today);
+            var lstEtkinlik = tblEtki.ToList();
+            var tekrarlayan = db.Etkinliks.Where(m => m.Tekrarlayan == true && (m.TatilTipi == 76 || m.TatilTipi == 78) && m.Tarih.Day == DateTime.Today.Day && m.Tarih.Month == DateTime.Today.Month).ToList();
+            foreach (var item in tekrarlayan)
+            {
+                var fark = DateTime.Today.Year - item.Tarih.Year;
+                var item2 = new Etkinlik()
+                {
+                    ID = item.ID,
+                    Username = item.Username,
+                    TatilTipi = item.TatilTipi,
+                    Tarih = item.Tarih.AddYears(fark),
+                    Aciklama = item.Username + " " + item.Aciklama + " (" + fark + ". Tekrar)",
+                    Tekrarlayan = item.Tekrarlayan,
+                    ComboItem_Name = item.ComboItem_Name
+                };
+                lstEtkinlik.Add(item2);
+            }
             //return
             ViewBag.SirketKodu = SirketKodu;
             ViewBag.BekleyenOnaylar = bo;
             ViewBag.RoleName = vUser.RoleName;
+            ViewBag.Tatil = lstEtkinlik;
             return View("Index", tbl);
         }
         /// <summary>
