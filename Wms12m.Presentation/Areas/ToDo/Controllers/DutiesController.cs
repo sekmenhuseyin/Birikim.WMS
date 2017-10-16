@@ -180,6 +180,18 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                         db.Messages.Add(mesaj3);
                     }
                 }
+                else if (satir.DurumID == ComboItems.gydReddedildi.ToInt32())
+                {
+                    var mesaj = new Message()
+                    {
+                        MesajTipi = ComboItems.DuyuruMesajı.ToInt32(),
+                        Kimden = vUser.UserName,
+                        Kime = satir.Kaydeden,
+                        Tarih = DateTime.Now,
+                        Mesaj = "Açtığınız görev reddedildi"
+                    };
+                    db.Messages.Add(mesaj);
+                }
                 //kaydet ve return
                 db.SaveChanges();
                 return Json(new Result(true, Id), JsonRequestBehavior.AllowGet);
@@ -268,6 +280,21 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                             Mesaj = "Size yeni bir görev açıldı"
                         };
                         db.Messages.Add(mesaj3);
+                    }
+                }
+                else if (gorevler.DurumID == ComboItems.gydOnayVer.ToInt32())
+                {
+                    var kullList = Persons.GetList("Admin");
+                    foreach (var item in kullList)
+                    {
+                        db.Messages.Add(new Message()
+                        {
+                            MesajTipi = ComboItems.DuyuruMesajı.ToInt32(),
+                            Kimden = vUser.UserName,
+                            Kime = item.Kod,
+                            Tarih = DateTime.Now,
+                            Mesaj = "Onayınıza bir görev düştü"
+                        });
                     }
                 }
             }
