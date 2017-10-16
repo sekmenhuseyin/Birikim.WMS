@@ -247,6 +247,19 @@ namespace Wms12m
                         sti.IskontoOran3 = stItem.IskontoOran3;
                         sti.IskontoOran4 = stItem.IskontoOran4;
                         sti.IskontoOran5 = stItem.IskontoOran5;
+
+                        sti.Kod1 = stItem.Kod1;
+                        sti.Kod3 = stItem.Kod3;
+                        sti.ValorGun = stItem.ValorGun;
+                        sti.Operator = stItem.Operator;
+                        sti.KaynakIrsEvrakNo = stItem.KaynakIrsEvrakNo;
+                        sti.KaynakIrsTarih = stItem.KaynakIrsTarih;
+                        sti.KaynakIIFEvrakNo = stItem.KaynakIIFEvrakNo;
+                        sti.KaynakIIFTarih = stItem.KaynakIIFTarih;
+                        sti.KaynakSiparisNo = stItem.KaynakSiparisNo;
+                        sti.MFKAciklama = stItem.MFKAciklama;
+                        sti.MFKTarih = stItem.MFKTarih;
+                        sti.Kredi_Donem_VadeTarih = stItem.Kredi_Donem_VadeTarih;
                     }
                     else
                     {

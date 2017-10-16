@@ -125,6 +125,18 @@
         public decimal? Fiyat { get; set; }
         public decimal? ErekIIFMiktar { get; set; }
         public int? Row_ID { get; set; }
+        public string Kod1 { get; set; }
+        public string Kod3 { get; set; }
+        public short Operator { get; set; }
+        public string KaynakIrsEvrakNo { get; set; }
+        public int? KaynakIrsTarih { get; set; }
+        public string KaynakIIFEvrakNo { get; set; }
+        public int? KaynakIIFTarih { get; set; }
+        public int? Kredi_Donem_VadeTarih { get; set; }
+        public string KaynakSiparisNo { get; set; }
+        public int? MFKTarih { get; set; }
+        public string Aciklama { get; set; }
+        public string MFKAciklama { get; set; }
     }
 
 
