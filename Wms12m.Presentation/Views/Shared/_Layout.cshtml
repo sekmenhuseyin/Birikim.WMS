@@ -1,7 +1,7 @@
 ﻿@{
     Setting setts = ViewBag.settings;
     List<Message> tblMessages = ViewBag.UnreadMessages;
-    string id = ViewBag.Guid;
+    string id = ViewBag.vUser.Guid;
     if (id == "" || id == null) { id = "0"; }
     if (ViewBag.Title != "") { ViewBag.Title += " | " + setts.SiteName; }
     else { ViewBag.Title = setts.SiteName; }
@@ -47,7 +47,7 @@
                         <li class="dropdown dropdown-user">
                             <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
                                 <img alt="" class="img-circle" src="@Html.ImageOrDefault(id.ToString())">
-                                <span class="username username-hide-on-mobile">@ViewBag.User</span>
+                                <span class="username username-hide-on-mobile">@ViewBag.vUser.FirstName</span>
                                 <i class="icon-arrow-down"></i>
                             </a>
                             <ul class="dropdown-menu dropdown-menu-default">
@@ -85,9 +85,9 @@
         <div id="div_loading" class="loader"></div>
         <div class="portfolio-modal modal fade" id="modalEditPage" tabindex="-1" role="dialog" aria-hidden="true"></div>
     </div>
-@Scripts.Render(BundleConfig.JsBundle)<script src="/signalr/hubs"></script>
+@Scripts.Render(BundleConfig.JsBundle)<script src="/signalr/hubs"></script><script>var currentUserName = "";</script>
 <script src="~/Content/assets/global/plugins/datatables/extensions/Buttons/js/buttons.html5.js"></script>
-<script src="~/Content/assets/global/plugins/datatables/extensions/Buttons/js/buttons.flash.js"></script>@{if (ViewBag.Debug == false && ViewBag.UserID > 1) {
+<script src="~/Content/assets/global/plugins/datatables/extensions/Buttons/js/buttons.flash.js"></script>@{if (ViewBag.Debug == false && ViewBag.vUser.Id > 1) {
 <script src="~/Content/assets/global/plugins/devtools-detect.js"></script><script>window.addEventListener('devtoolschange', function (e) { if (e.detail.open == true) { console.clear(); window.location.href = "@Request.Url.Scheme://@Request.Url.Authority/"; } });</script> }}
 @RenderSection("Scripts", required: false)
 </body>

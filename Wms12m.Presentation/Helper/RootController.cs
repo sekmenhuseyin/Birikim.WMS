@@ -80,9 +80,7 @@ namespace Wms12m.Presentation
                 filterContext.Result = new RedirectToRouteResult(new RouteValueDictionary(new { area = "", controller = "Security", action = "Login" }));
                 return;
             }
-            ViewBag.User = vUser.FirstName;
-            ViewBag.UserID = vUser.Id;
-            ViewBag.Guid = vUser.Guid;
+            ViewBag.vUser = vUser;
             ViewBag.settings = db.Settings.FirstOrDefault();
             ViewBag.UnreadMessages = db.Messages.Where(m => m.MesajTipi == 85 && m.Kime == vUser.UserName && m.Okundu == false).OrderByDescending(m => m.Tarih).ToList();//sadece genel uyarılar
             ViewBag.Debug = HttpContext.IsDebuggingEnabled;
