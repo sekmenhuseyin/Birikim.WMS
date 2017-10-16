@@ -368,7 +368,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             }
             else
             {
-                if ((tbl.Onay == true && tbl.KontrolOnay == true && CheckPerm(Perms.TodoÇalışma, PermTypes.Deleting) == true) || (tbl.Onay == true && vUser.RoleName == "Destek"))
+                if ((tbl.Onay == true && tbl.KontrolOnay == true && CheckPerm(Perms.TodoÇalışma, PermTypes.Deleting) == true) || (tbl.Onay == true && (tbl.Gorevler.KontrolSorumlusu == vUser.UserName || tbl.Gorevler.KontrolSorumlusu == null)))
                 {
                     tbl.AdminOnay = false;
                     tbl.KontrolOnay = false;
