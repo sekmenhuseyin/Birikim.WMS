@@ -1,6 +1,5 @@
 ﻿'use strict';
 $(function () {
-    var currentUserName = "";
     var zigChatHubProxy = $.connection.zigChatHub;
 
     zigChatHubProxy.client.updateChat = function (userName, message, isPm) {

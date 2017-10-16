@@ -351,7 +351,7 @@
     <Content Include="Content\images\VezirKopru-Logo-30.png" />
     <Content Include="Content\images\VezirKopru-Logo-90.png" />
     <Content Include="Content\images\VezirKopru-Logo.png" />
-    <Content Include="Content\Scripts\app.js" />
+    <Content Include="Content\Scripts\SignalR.js" />
     <Content Include="Content\Scripts\Functions.js" />
     <Content Include="Content\Scripts\Functions.min.js">
       <DependentUpon>Functions.js</DependentUpon>
