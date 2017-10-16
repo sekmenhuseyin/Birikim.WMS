@@ -160,17 +160,34 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             //get comboitemname
             var gtip = db.ComboItem_Name.Where(m => m.ID == tbl.GorevID).Select(m => m.Name).FirstOrDefault();
             var durum = ComboItems.gydOnaylandı.ToInt32();
+            //projeform
+            var projeid = db.ProjeForms.Where(m => m.Proje == gtip).FirstOrDefault();
+            if (projeid==null)
+            {
+                db.ProjeForms.Add(new ProjeForm()
+                {
+                    MusteriID = tbl.MusteriID,
+                    Proje = gtip,
+                    Form = "",
+                    MesaiKontrol = false,
+                    Kaydeden = vUser.UserName,
+                    KayitTarih = DateTime.Now,
+                    Degistiren = vUser.UserName,
+                    DegisTarih = DateTime.Now,
+                    Aktif = true
+                });
+            }
             //add görev
             var gorev = new Gorevler()
             {
-                ProjeFormID = tbl.ProjeID,
+                ProjeForm = projeid,
                 Sorumlu = vUser.UserName,
                 Gorev = gtip,
                 Aciklama = gtip,
                 OncelikID = 1,
                 DurumID = durum,
-                GorevTipiID = tbl.GorevTipiID,
-                DepartmanID = tbl.DepartmanID,
+                GorevTipiID = 52,
+                DepartmanID = 49,
                 Kaydeden = vUser.UserName,
                 KayitTarih = DateTime.Now,
                 Degistiren = vUser.UserName,

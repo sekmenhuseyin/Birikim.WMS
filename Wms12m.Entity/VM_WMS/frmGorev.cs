@@ -13,10 +13,7 @@ namespace Wms12m.Entity
     public class frmGorevDestekCalisma
     {
         public int MusteriID { get; set; }
-        public int ProjeID { get; set; }
         public int GorevID { get; set; }
-        public int GorevTipiID { get; set; }
-        public int DepartmanID { get; set; }
         public DateTime Tarih { get; set; }
         public int Sure { get; set; }
         public string Calisma { get; set; }

@@ -72,23 +72,5 @@
             FuncSearchBtn();
         }
     };
-    function getProje(id) {
-        $("#ProjeID option").remove();
-        if (id == "") return;
-        $.ajax({
-            url: "/ToDo/ProjectForm/ProjeListesi/" + id,
-            type: 'POST',
-            dataType: "json",
-            contentType: 'application/json; charset=utf-8',
-            success: function (data) {
-                if (data != "") {
-                    $.each(data, function (i, item) {
-                        $('#ProjeID').append($('<option>', { value: item.Value, text: item.Text }));
-                    });
-                    $("#ProjeID").prepend("<option value=''>Seçiniz !!!</option>"); $("#ProjeID")[0].selectedIndex = 0;
-                }
-            }
-        });
-    }
 </script>
 }
