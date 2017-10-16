@@ -15,6 +15,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         {
             if (CheckPerm(Perms.TodoÇalışma, PermTypes.Reading) == false) return Redirect("/");
             ViewBag.GorevID = new SelectList(db.Gorevlers.Where(m => m.Sorumlu == vUser.UserName || m.Sorumlu2 == vUser.UserName || m.Sorumlu3 == vUser.UserName || m.KontrolSorumlusu == vUser.UserName).ToList(), "ID", "Gorev");
+            ViewBag.RoleName = vUser.RoleName;
             return View();
         }
         /// <summary>
@@ -38,8 +39,6 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         /// </summary>
         public PartialViewResult NewAll()
         {
-            ViewBag.GorevTipiID = new SelectList(ComboSub.GetList(Combos.GörevYönetimTipleri.ToInt32()), "ID", "Name", "");
-            ViewBag.DepartmanID = new SelectList(ComboSub.GetList(Combos.Departman.ToInt32()), "ID", "Name", "");
             ViewBag.MusteriID = new SelectList(db.Musteris.OrderBy(m => m.Unvan).ToList(), "ID", "Unvan");
             ViewBag.GorevID = new SelectList(ComboSub.GetList(Combos.DestekTipi.ToInt32()), "ID", "Name", "");
             return PartialView(new GorevlerCalisma());
@@ -247,6 +246,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         {
             if (CheckPerm(Perms.TodoÇalışma, PermTypes.Reading) == false) return Redirect("/");
             ViewBag.Yetki = CheckPerm(Perms.TodoÇalışma, PermTypes.Deleting);
+            ViewBag.RoleName = vUser.RoleName;
             return View();
         }
         /// <summary>
