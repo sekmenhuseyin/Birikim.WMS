@@ -45,7 +45,7 @@ $(function () {
             }
         }
     };
-    $.connection.hub.start();
+    $.connection.hub.start()
         .done(function () {
             var status = zigChatHubProxy.server.connectUser(currentUserName).done(function (data, textStatus, jqXHR) {
                 if (!data.Success) {
