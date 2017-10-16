@@ -1,4 +1,6 @@
-﻿namespace Wms12m.Entity
+﻿using System;
+
+namespace Wms12m.Entity
 {
     /// <summary>
     /// şifre değiştir
@@ -68,5 +70,19 @@
         public string GostSTKDeger { get; set; }
         public string GostRiskDeger { get; set; }
         public string GostKod3OrtBakiye { get; set; }
+    }
+    public class frmNotifications
+    {
+        public int ID { get; set; }
+        public int MesajTipi { get; set; }
+        public DateTime Tarih { get; set; }
+        public string Kimden { get; set; }
+        public string Kime { get; set; }
+        public string Mesaj { get; set; }
+        public bool Okundu { get; set; }
+        public bool GonderenSildi { get; set; }
+        public bool AliciSildi { get; set; }
+        public bool Goruldu { get; set; }
+        public string CmbItemName { get; set; }
     }
 }

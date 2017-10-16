@@ -88,28 +88,6 @@
 @Scripts.Render(BundleConfig.JsBundle)<script src="~/Content/assets/global/plugins/datatables/extensions/Buttons/js/buttons.html5.js"></script>
 <script src="~/Content/assets/global/plugins/datatables/extensions/Buttons/js/buttons.flash.js"></script>@{if (ViewBag.Debug == false && ViewBag.UserID > 1) {
 <script src="~/Content/assets/global/plugins/devtools-detect.js"></script><script>window.addEventListener('devtoolschange', function (e) { if (e.detail.open == true) { console.clear(); window.location.href = "@Request.Url.Scheme://@Request.Url.Authority/"; } });</script> }}
-@RenderSection("Scripts", required: false)@*<script>
-    $(document).ready(function (e) {@foreach (var item in tblMessages) {<text>
-        toastr["info"]("@item.Mesaj", "@item.ComboItem_Name.Name", {
-            "closeButton": false,
-            "debug": false,
-            "newestOnTop": false,
-            "progressBar": false,
-            "positionClass": "toast-top-right",
-            "preventDuplicates": false,
-            "showDuration": "30000",
-            "hideDuration": "1000",
-            "timeOut": "5000",
-            "extendedTimeOut": "1000",
-            "showEasing": "swing",
-            "hideEasing": "linear",
-            "showMethod": "fadeIn",
-            "hideMethod": "fadeOut",
-            onclick: function () {
-                alert('You can perform some custom action after a toast goes away');
-            }
-        });
-    </text>}});
-</script>*@
+@RenderSection("Scripts", required: false)
 </body>
 </html>

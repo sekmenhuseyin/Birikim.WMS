@@ -58,11 +58,21 @@ namespace Wms12m.Presentation.Controllers
         /// <summary>
         /// child view for Notifications
         /// </summary>
-        [ChildActionOnly]
         public PartialViewResult Notifications()
         {
             var tablo = ViewBag.UnreadMessages;
             return PartialView("../Shared/Notifications", tablo);
+        }
+        /// <summary>
+        /// yeni bildirimler
+        /// </summary>
+        public JsonResult NewNotifications()
+        {
+            var tbl = db.Messages.Where(m => m.MesajTipi == 85 && m.Kime == vUser.UserName && m.Goruldu == false).ToList();
+            foreach (var item in tbl)
+                item.Goruldu = true;
+            db.SaveChanges();
+            return Json(tbl.Select(m => new frmNotifications { ID = m.ID, Tarih = m.Tarih, Mesaj = m.Mesaj, MesajTipi = m.MesajTipi, Kimden = m.Kimden, Kime = m.Kime, Okundu = m.Okundu, AliciSildi = m.AliciSildi, GonderenSildi = m.GonderenSildi, Goruldu = m.Goruldu, CmbItemName = m.ComboItem_Name.Name }).OrderByDescending(m => m.Tarih), JsonRequestBehavior.AllowGet);
         }
         #region Satış Raporları
         public PartialViewResult PartialGunlukSatisZamanCizelgesi(string SirketKodu)
