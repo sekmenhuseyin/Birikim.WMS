@@ -152,7 +152,8 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                         Kimden = vUser.UserName,
                         Kime = satir.Sorumlu,
                         Tarih = DateTime.Now,
-                        Mesaj = "Size yeni bir görev açıldı"
+                        Mesaj = "Size yeni bir görev açıldı",
+                        URL= "/ToDo/Duties"
                     };
                     db.Messages.Add(mesaj);
                     if (satir.Sorumlu2 != null)
@@ -163,7 +164,8 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                             Kimden = vUser.UserName,
                             Kime = satir.Sorumlu2,
                             Tarih = DateTime.Now,
-                            Mesaj = "Size yeni bir görev açıldı"
+                            Mesaj = "Size yeni bir görev açıldı",
+                            URL = "/ToDo/Duties"
                         };
                         db.Messages.Add(mesaj2);
                     }
@@ -175,7 +177,8 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                             Kimden = vUser.UserName,
                             Kime = satir.Sorumlu3,
                             Tarih = DateTime.Now,
-                            Mesaj = "Size yeni bir görev açıldı"
+                            Mesaj = "Size yeni bir görev açıldı",
+                            URL = "/ToDo/Duties"
                         };
                         db.Messages.Add(mesaj3);
                     }
@@ -188,7 +191,8 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                         Kimden = vUser.UserName,
                         Kime = satir.Kaydeden,
                         Tarih = DateTime.Now,
-                        Mesaj = "Açtığınız görev reddedildi"
+                        Mesaj = "Açtığınız görev reddedildi",
+                        URL = "/ToDo/Duties"
                     };
                     db.Messages.Add(mesaj);
                 }
@@ -293,7 +297,8 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                             Kimden = vUser.UserName,
                             Kime = item.Kod,
                             Tarih = DateTime.Now,
-                            Mesaj = "Onayınıza bir görev düştü"
+                            Mesaj = "Onayınıza bir görev düştü",
+                            URL = "/ToDo/Duties"
                         });
                     }
                 }
@@ -341,7 +346,49 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                                 DegisTarih = DateTime.Now,
                                 Gorevler = tbl
                             };
-                            if (grvTDL.Aciklama.Trim() != "") db.GorevlerToDoLists.Add(grvTDL);
+                            if (grvTDL.Aciklama.Trim() != "")
+                            {
+                                db.GorevlerToDoLists.Add(grvTDL);
+                                if (tbl.DurumID == ComboItems.gydAtandı.ToInt32())
+                                {
+                                    var mesaj = new Message()
+                                    {
+                                        MesajTipi = ComboItems.DuyuruMesajı.ToInt32(),
+                                        Kimden = vUser.UserName,
+                                        Kime = tbl.Sorumlu,
+                                        Tarih = DateTime.Now,
+                                        Mesaj = "Onay listenize bir maddde eklendi",
+                                        URL = "/ToDo/DutyWork/Todos"
+                                    };
+                                    db.Messages.Add(mesaj);
+                                    if (tbl.Sorumlu2 != null)
+                                    {
+                                        var mesaj2 = new Message()
+                                        {
+                                            MesajTipi = ComboItems.DuyuruMesajı.ToInt32(),
+                                            Kimden = vUser.UserName,
+                                            Kime = tbl.Sorumlu2,
+                                            Tarih = DateTime.Now,
+                                            Mesaj = "Onay listenize bir maddde eklendi",
+                                            URL = "/ToDo/DutyWork/Todos"
+                                        };
+                                        db.Messages.Add(mesaj2);
+                                    }
+                                    if (tbl.Sorumlu3 != null)
+                                    {
+                                        var mesaj3 = new Message()
+                                        {
+                                            MesajTipi = ComboItems.DuyuruMesajı.ToInt32(),
+                                            Kimden = vUser.UserName,
+                                            Kime = tbl.Sorumlu3,
+                                            Tarih = DateTime.Now,
+                                            Mesaj = "Onay listenize bir maddde eklendi",
+                                            URL = "/ToDo/DutyWork/Todos"
+                                        };
+                                        db.Messages.Add(mesaj3);
+                                    }
+                                }
+                            }
                         }
                         //maddeyi güncelle
                         else

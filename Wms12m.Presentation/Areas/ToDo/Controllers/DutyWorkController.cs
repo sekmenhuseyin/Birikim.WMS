@@ -305,7 +305,8 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                             Kimden = vUser.UserName,
                             Kime = tbl.Gorevler.KontrolSorumlusu,
                             Tarih = DateTime.Now,
-                            Mesaj = "Onay listenize bir maddde eklendi"
+                            Mesaj = "Onay listenize bir maddde eklendi",
+                            URL = "/ToDo/DutyWork/Todos"
                         };
                         db.Messages.Add(mesaj);
                     }
@@ -324,7 +325,8 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                             Kimden = vUser.UserName,
                             Kime = item.Kod,
                             Tarih = DateTime.Now,
-                            Mesaj = "Onay listenize bir maddde eklendi"
+                            Mesaj = "Onay listenize bir maddde eklendi",
+                            URL = "/ToDo/DutyWork/Todos"
                         });
                     }
                 }
@@ -381,7 +383,8 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                         Kimden = vUser.UserName,
                         Kime = tbl.Gorevler.Sorumlu,
                         Tarih = DateTime.Now,
-                        Mesaj = vUser.UserName + " onay listenizdeki bir maddeyi reddetti"
+                        Mesaj = vUser.UserName + " onay listenizdeki bir maddeyi reddetti",
+                        URL = "/ToDo/DutyWork/Todos"
                     };
                     db.Messages.Add(mesaj);
                     if (tbl.Gorevler.Sorumlu2 != null)
@@ -392,7 +395,8 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                             Kimden = vUser.UserName,
                             Kime = tbl.Gorevler.Sorumlu2,
                             Tarih = DateTime.Now,
-                            Mesaj = vUser.UserName + " onay listenizdeki bir maddeyi reddetti"
+                            Mesaj = vUser.UserName + " onay listenizdeki bir maddeyi reddetti",
+                            URL = "/ToDo/DutyWork/Todos"
                         };
                         db.Messages.Add(mesaj2);
                     }
@@ -404,7 +408,8 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                             Kimden = vUser.UserName,
                             Kime = tbl.Gorevler.Sorumlu3,
                             Tarih = DateTime.Now,
-                            Mesaj = vUser.UserName + " onay listenizdeki bir maddeyi reddetti"
+                            Mesaj = vUser.UserName + " onay listenizdeki bir maddeyi reddetti",
+                            URL = "/ToDo/DutyWork/Todos"
                         };
                         db.Messages.Add(mesaj3);
                     }

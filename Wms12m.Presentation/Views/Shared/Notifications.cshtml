@@ -13,7 +13,7 @@
             @foreach (var item in Model)
             {
                 <li>
-                    <a href="/Inbox/Notifications">
+                    <a href="@item.URL">
                         <span class="time" style="max-width:200px!important;">@item.Tarih.ToUniversalTime().Humanize()</span>
                         <span class="details">
                             <span class="label label-sm label-icon label-info">
