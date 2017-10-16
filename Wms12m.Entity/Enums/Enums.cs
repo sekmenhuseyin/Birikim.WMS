@@ -91,13 +91,15 @@
         ResmiTatil = 76,
         İdariİzin = 77,
         ÖnemliGün = 78,
-        TeknikDestekYardımı = 79,
-        UygulamaTestEdilmesi = 80,
-        YerindeDestekYardımı = 81,
-        BilgilendirmeveBilgiAlma = 82,
+        LinkGünesDestek = 79,
+        LinkTechnoDestek = 80,
+        LinkYNSDestek = 81,
+        SatınalmaModülüDestek = 82,
         GrupMesajı = 83,
         KişiselMesaj = 84,
-        DuyuruMesajı = 85
+        DuyuruMesajı = 85,
+        UYSModülüDestek = 86,
+        WMSModülüDestek = 87
     }
     /// <summary>
     /// combo item names
