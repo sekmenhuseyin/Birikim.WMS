@@ -43,6 +43,7 @@
           <Property Name="Kimden" Type="varchar" MaxLength="5" Nullable="false" />
           <Property Name="Kime" Type="varchar" MaxLength="5" Nullable="false" />
           <Property Name="Mesaj" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Goruldu" Type="bit" Nullable="false" />
           <Property Name="Okundu" Type="bit" Nullable="false" />
           <Property Name="GonderenSildi" Type="bit" Nullable="false" />
           <Property Name="AliciSildi" Type="bit" Nullable="false" />
@@ -3775,6 +3776,7 @@
           <Property Name="GonderenSildi" Type="Boolean" Nullable="false" />
           <Property Name="AliciSildi" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="ComboItem_Name" Relationship="MModel.FK_Messages_ComboItem_Name" FromRole="Message" ToRole="ComboItem_Name" />
+          <Property Name="Goruldu" Type="Boolean" Nullable="false" />
         </EntityType>
         <Association Name="FK_Messages_ComboItem_Name">
           <End Type="MModel.ComboItem_Name" Role="ComboItem_Name" Multiplicity="1" />
@@ -4789,6 +4791,7 @@
           <EntitySetMapping Name="Messages">
             <EntityTypeMapping TypeName="MModel.Message">
               <MappingFragment StoreEntitySet="Messages">
+                <ScalarProperty Name="Goruldu" ColumnName="Goruldu" />
                 <ScalarProperty Name="AliciSildi" ColumnName="AliciSildi" />
                 <ScalarProperty Name="GonderenSildi" ColumnName="GonderenSildi" />
                 <ScalarProperty Name="Okundu" ColumnName="Okundu" />
