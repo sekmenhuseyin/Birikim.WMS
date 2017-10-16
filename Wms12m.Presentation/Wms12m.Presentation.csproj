@@ -610,7 +610,7 @@
       <DependentUpon>Terminal.asmx</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Startup.cs" />
+    <Compile Include="App_Start\Startup.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\web.config">

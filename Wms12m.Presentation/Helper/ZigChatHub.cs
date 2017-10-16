@@ -27,7 +27,6 @@ namespace Wms12m.Hubs
                     }
                 }
             }
-
             Clients.All.UpdateChat(userName, message);
         }
         /// <summary>
@@ -58,7 +57,6 @@ namespace Wms12m.Hubs
                 {
                     // Check if there if a connection for the specified user name have ever been made
                     var existingConnection = db.Connections.Where(x => x.UserName.ToLower() == userName.ToLower()).SingleOrDefault();
-
                     if (existingConnection != null)
                     {
                         // If there's an old connection only the connection id and the online status are changed.
@@ -70,7 +68,6 @@ namespace Wms12m.Hubs
                         // If not, then a new connection is created
                         db.Connections.Add(new Entity.Models.Connection { ConnectionId = Context.ConnectionId, UserName = userName, IsOnline = true });
                     }
-
                     db.SaveChanges();
                 }
                 UsersOnline();
@@ -89,14 +86,14 @@ namespace Wms12m.Hubs
             using (var db = new WMSEntities())
             {
                 var connection = db.Connections.Where(x => x.ConnectionId == Context.ConnectionId).SingleOrDefault();
-                if (connection == null)
-                    throw new Exception("An attempt to reconnect a non tracked connection id have been made.");
-                connection.IsOnline = true;
-                db.SaveChanges();
+                if (connection != null)
+                {
+                    connection.IsOnline = true;
+                    db.SaveChanges();
+                }
             }
 
             UsersOnline();
-
             return base.OnReconnected();
         }
         /// <summary>
@@ -107,10 +104,11 @@ namespace Wms12m.Hubs
             using (var db = new WMSEntities())
             {
                 var connection = db.Connections.Where(x => x.ConnectionId == Context.ConnectionId).SingleOrDefault();
-                if (connection == null)
-                    throw new Exception("An attempt to disconnect a non tracked connection id have been made.");
-                connection.IsOnline = false;
-                db.SaveChanges();
+                if (connection != null)
+                {
+                    connection.IsOnline = false;
+                    db.SaveChanges();
+                }
             }
             UsersOnline();
             return base.OnDisconnected(stopCalled);
