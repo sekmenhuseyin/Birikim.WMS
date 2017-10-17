@@ -24,6 +24,16 @@ span .green {color:green;}
 .color-green-light {color:green;}
 .color-blue {color:blue;}
 .color-blue-light {color:#5bc8d2;}
+.user {
+    border: 1px solid #337ab7;
+    text-align: center;
+    border-radius: 3px;
+    padding: 4px;
+}
+.user.current {
+    color: white;
+    background-color: #337ab7;
+}
 .dateboxbg {
     background: url('/Content/assets/pages/img/texbox-cal.png') right center no-repeat;
     padding-right: 30px;
