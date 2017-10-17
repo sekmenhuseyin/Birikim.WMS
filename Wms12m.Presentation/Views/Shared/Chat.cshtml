@@ -10,21 +10,21 @@
                     <div style="display: flex; flex-direction: column; justify-content: space-between; height: inherit;">
                         <div class="panel panel-default" style="flex-grow: 1; overflow-y: auto; height: 0px;">
                             <div class="panel-body" id="chat">@foreach (var item in Model)
-                            {
-                                if (item.Kimden == ViewBag.vUser.UserName)
                                 {
-                                    <div class="panel panel-primary" style="margin-left: 7em; background-color: #337ab7;">
-                                        <div style="padding: .5em; color: white; text-align: right;">@item.Mesaj</div>
-                                    </div>
+                                    if (item.Kimden == ViewBag.vUser.UserName)
+                                    {
+                                        <div class="panel panel-primary" style="margin-left: 7em; background-color: #337ab7;">
+                                            <div style="padding: .5em; color: white; text-align: right;">@item.Mesaj</div>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="panel panel-primary" style="margin-right: 7em; background-color: @if (item.MesajTipi==ComboItems.KişiselMesaj.ToInt32()) {@("green")} else {@("#337ab7")};">
+                                            <div style="padding: .5em; color: white; border-bottom: .1em solid white; font-size: 11px;">@item.Kimden</div>
+                                            <div style="padding: .5em; color: white;">@item.Mesaj</div>
+                                        </div>
+                                    }
                                 }
-                                else
-                                {
-                                    <div class="panel panel-primary" style="margin-right: 7em; background-color: @if (item.MesajTipi==ComboItems.KişiselMesaj.ToInt32()) {@("green")} else {@("#337ab7")};">
-                                        <div style="padding: .5em; color: white; border-bottom: .1em solid white; font-size: 11px;">@item.Kimden</div>
-                                        <div style="padding: .5em; color: white;">@item.Mesaj</div>
-                                    </div>
-                                }
-                            }
                             </div>
                         </div>
                         <div class="panel panel-default" style="display: flex; padding: 1em; margin-bottom: 0px;">
@@ -47,4 +47,3 @@
         </div>
     </li>
 </ul>
-<script>$newMessage[0].scrollIntoView(true);</script>
