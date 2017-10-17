@@ -50,7 +50,7 @@
           <Property Name="MesajTipi" Type="int" Nullable="false" />
           <Property Name="Tarih" Type="smalldatetime" Nullable="false" />
           <Property Name="Kimden" Type="varchar" MaxLength="5" Nullable="false" />
-          <Property Name="Kime" Type="varchar" MaxLength="5" Nullable="false" />
+          <Property Name="Kime" Type="varchar" MaxLength="5" />
           <Property Name="Mesaj" Type="nvarchar(max)" Nullable="false" />
           <Property Name="URL" Type="varchar" MaxLength="50" />
           <Property Name="Goruldu" Type="bit" Nullable="false" />
@@ -2273,12 +2273,12 @@
             <End Role="ProjeForm" EntitySet="ProjeForms" />
             <End Role="ProjeForm1" EntitySet="ProjeForms" />
           </AssociationSet>
+          <EntitySet Name="Connections" EntityType="MModel.Connection" />
           <EntitySet Name="Messages" EntityType="MModel.Message" />
           <AssociationSet Name="FK_Messages_ComboItem_Name" Association="MModel.FK_Messages_ComboItem_Name">
             <End Role="ComboItem_Name" EntitySet="ComboItem_Name" />
             <End Role="Message" EntitySet="Messages" />
           </AssociationSet>
-          <EntitySet Name="Connections" EntityType="MModel.Connection" />
           </EntityContainer>
         <ComplexType Name="GetSirkets_Result">
           <Property Type="String" Name="Kod" Nullable="false" MaxLength="2" />
@@ -3774,6 +3774,15 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Connection">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ConnectionId" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="UserName" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="IsOnline" Type="Boolean" Nullable="false" />
+        </EntityType>
         <EntityType Name="Message">
           <Key>
             <PropertyRef Name="ID" />
@@ -3782,14 +3791,14 @@
           <Property Name="MesajTipi" Type="Int32" Nullable="false" />
           <Property Name="Tarih" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="Kimden" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="Kime" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="Kime" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
           <Property Name="Mesaj" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="URL" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Goruldu" Type="Boolean" Nullable="false" />
           <Property Name="Okundu" Type="Boolean" Nullable="false" />
           <Property Name="GonderenSildi" Type="Boolean" Nullable="false" />
           <Property Name="AliciSildi" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="ComboItem_Name" Relationship="MModel.FK_Messages_ComboItem_Name" FromRole="Message" ToRole="ComboItem_Name" />
-          <Property Name="Goruldu" Type="Boolean" Nullable="false" />
-          <Property Name="URL" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
         <Association Name="FK_Messages_ComboItem_Name">
           <End Type="MModel.ComboItem_Name" Role="ComboItem_Name" Multiplicity="1" />
@@ -3803,15 +3812,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="Connection">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ConnectionId" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="UserName" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="IsOnline" Type="Boolean" Nullable="false" />
-        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -4810,29 +4810,29 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Messages">
-            <EntityTypeMapping TypeName="MModel.Message">
-              <MappingFragment StoreEntitySet="Messages">
-                <ScalarProperty Name="URL" ColumnName="URL" />
-                <ScalarProperty Name="Goruldu" ColumnName="Goruldu" />
-                <ScalarProperty Name="AliciSildi" ColumnName="AliciSildi" />
-                <ScalarProperty Name="GonderenSildi" ColumnName="GonderenSildi" />
-                <ScalarProperty Name="Okundu" ColumnName="Okundu" />
-                <ScalarProperty Name="Mesaj" ColumnName="Mesaj" />
-                <ScalarProperty Name="Kime" ColumnName="Kime" />
-                <ScalarProperty Name="Kimden" ColumnName="Kimden" />
-                <ScalarProperty Name="Tarih" ColumnName="Tarih" />
-                <ScalarProperty Name="MesajTipi" ColumnName="MesajTipi" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Connections">
             <EntityTypeMapping TypeName="MModel.Connection">
               <MappingFragment StoreEntitySet="Connections">
                 <ScalarProperty Name="IsOnline" ColumnName="IsOnline" />
                 <ScalarProperty Name="UserName" ColumnName="UserName" />
                 <ScalarProperty Name="ConnectionId" ColumnName="ConnectionId" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Messages">
+            <EntityTypeMapping TypeName="MModel.Message">
+              <MappingFragment StoreEntitySet="Messages">
+                <ScalarProperty Name="AliciSildi" ColumnName="AliciSildi" />
+                <ScalarProperty Name="GonderenSildi" ColumnName="GonderenSildi" />
+                <ScalarProperty Name="Okundu" ColumnName="Okundu" />
+                <ScalarProperty Name="Goruldu" ColumnName="Goruldu" />
+                <ScalarProperty Name="URL" ColumnName="URL" />
+                <ScalarProperty Name="Mesaj" ColumnName="Mesaj" />
+                <ScalarProperty Name="Kime" ColumnName="Kime" />
+                <ScalarProperty Name="Kimden" ColumnName="Kimden" />
+                <ScalarProperty Name="Tarih" ColumnName="Tarih" />
+                <ScalarProperty Name="MesajTipi" ColumnName="MesajTipi" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>

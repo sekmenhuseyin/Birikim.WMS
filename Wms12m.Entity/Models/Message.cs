@@ -20,11 +20,11 @@ namespace Wms12m.Entity.Models
         public string Kimden { get; set; }
         public string Kime { get; set; }
         public string Mesaj { get; set; }
+        public string URL { get; set; }
+        public bool Goruldu { get; set; }
         public bool Okundu { get; set; }
         public bool GonderenSildi { get; set; }
         public bool AliciSildi { get; set; }
-        public bool Goruldu { get; set; }
-        public string URL { get; set; }
     
         public virtual ComboItem_Name ComboItem_Name { get; set; }
     }

@@ -99,7 +99,15 @@
         KişiselMesaj = 84,
         DuyuruMesajı = 85,
         UYSModülüDestek = 86,
-        WMSModülüDestek = 87
+        WMSModülüDestek = 87,
+        SiparişModülüDestek = 88,
+        B2BModülüDestek = 89,
+        LinkCampusDestek = 90,
+        LinkeDefterDestek = 91,
+        LinkeFaturaDestek = 92,
+        BarkodOtomasyonDestek = 93,
+        BackOfficeDestek = 94,
+        ElTerminaliDestek = 95
     }
     /// <summary>
     /// combo item names
