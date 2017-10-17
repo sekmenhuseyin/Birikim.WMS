@@ -32,7 +32,7 @@ $(function () {
 
         for (var user of data.UsersOnline) {
             if (user === currentUserName)
-                $users.append($('<p class="user current">' + user + '</p>'));
+                $users.append($('<p class="user-current">' + user + '</p>'));
             else {
                 var $user = $('<p class="user">' + user + '</p>');
                 $user.click(function () {

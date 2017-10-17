@@ -1,35 +1,31 @@
 ﻿@model IEnumerable<Message>
 <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
-    <i class="icon-speech"></i>
+    <i class="icon-speech"></i><div id="chatCount"></div>
 </a>
-<ul class="dropdown-menu" style="max-width:750px!important;width:750px!important;">
+<ul class="dropdown-menu" style="max-width:100vh!important;width:100vh!important;">
     <li>
-        <div class="dropdown-menu-list scroller" style="height: 550px;padding: 2em;" data-handle-color="#637283">
-            <div class="row" style="height: 50vh;">
+        <div style="overflow: hidden; height: 80vh;padding: 2em;" data-handle-color="#637283" data-close-on-body-click="false">
+            <div class="row" style="height:70vh;">
                 <div class="col-sm-8" style="height: inherit;">
                     <div style="display: flex; flex-direction: column; justify-content: space-between; height: inherit;">
                         <div class="panel panel-default" style="flex-grow: 1; overflow-y: auto; height: 0px;">
                             <div class="panel-body" id="chat">@foreach (var item in Model)
-                            {
-                                if (item.Kimden == ViewBag.vUser.UserName)
                                 {
-                                    <div class="panel panel-primary" style="margin-left: 7em; background-color: #337ab7;">
-                                        <div style="padding: .5em; color: white; text-align: right;">@item.Mesaj</div>
-                                    </div>
+                                    if (item.Kimden == ViewBag.vUser.UserName)
+                                    {
+                                        <div class="panel panel-primary" style="margin-left: 7em; background-color: #337ab7;">
+                                            <div style="padding: .5em; color: white; text-align: right;">@item.Mesaj</div>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="panel panel-primary" style="margin-right: 7em; background-color: @if (item.MesajTipi==ComboItems.KişiselMesaj.ToInt32()) {@("green")} else {@("#337ab7")};">
+                                            <div style="padding: .5em; color: white; border-bottom: .1em solid white; font-size: 11px;">@item.Kimden</div>
+                                            <div style="padding: .5em; color: white;">@item.Mesaj</div>
+                                        </div>
+                                    }
                                 }
-                                else
-                                {
-                                    <div class="panel panel-primary" style="margin-right: 7em; background-color: '@if (item.MesajTipi==ComboItems.KişiselMesaj.ToInt32()) {@("green")} else {@("#337ab7")}';">
-                                <div style="padding: .5em; color: white; border-bottom: .1em solid white; font-size: 11px;">@item.Kimden</div>
-                                <div style="padding: .5em; color: white;">@item.Mesaj</div>
                             </div>
-                                }
-                            }
-                            </div>
-                        </div>
-                        <div class="panel panel-default" style="display: flex; padding: 1em; margin-bottom: 0px;">
-                            <input class="form-control" id="message" type="text" />
-                            <button class="btn btn-primary" id="send" style="margin-left: 1em;"><span class="glyphicon glyphicon-send"></span></button>
                         </div>
                     </div>
                 </div>
@@ -38,10 +34,16 @@
                         <div class="panel panel-default" style="background-color: #337ab7; display: flex; justify-content: center; padding: .5em;">
                             <div style="align-self: center; color: white;">Aktif Kullanıcılar</div>
                         </div>
-                        <div class="panel panel-default" style="flex-grow: 1; overflow-y: auto; height: 0px; margin-bottom: 0px;">
+                        <div class="panel panel-default" style="flex-grow: 1; overflow-y: auto; height: 0px; margin-bottom: 20px;">
                             <div class="panel-body" id="users"></div>
                         </div>
                     </div>
+                </div>
+            </div>
+            <div class="row m-r-20" style="height: 3vh;">
+                <div class="panel panel-default" style="display: flex; padding: 1em; margin-bottom: 0px;">
+                    <input class="form-control" id="message" type="text" />
+                    <button class="btn btn-primary" id="send" style="margin-left: 1em;"><span class="glyphicon glyphicon-send"></span></button>
                 </div>
             </div>
         </div>
