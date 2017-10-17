@@ -27,6 +27,20 @@
     <link href="~/Content/assets/global/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
     <link href="~/Content/assets/global/plugins/simple-line-icons/css/simple-line-icons.min.css" rel="stylesheet" />
     <link href="~/Content/assets/global/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <style type="text/css">
+        .user {
+            border: 1px solid #337ab7;
+            text-align: center;
+            border-radius: 3px;
+            padding: 4px;
+        }
+
+            .user.current {
+                color: white;
+                background-color: #337ab7;
+            }
+    </style>
+
     @Styles.Render(BundleConfig.CssBundle)@RenderSection("Styles", required: false)
     @{if (ViewBag.Debug == false) {<style>.dx-scrollbar-vertical.dx-scrollbar-hoverable, .slimScrollBar, .slimScrollRail { width: 15px!important; }</style>@*/*Burası teknoloji özürlüler için eklenmiştir*/*@} }
 </head>
