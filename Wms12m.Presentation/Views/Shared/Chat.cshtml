@@ -2,10 +2,10 @@
 <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
     <i class="icon-speech"></i>
 </a>
-<ul class="dropdown-menu" style="max-width:750px!important;width:750px!important;">
+<ul class="dropdown-menu" style="max-width:75vh!important;width:75vh!important;">
     <li>
-        <div class="dropdown-menu-list scroller" style="height: 550px;padding: 2em;" data-handle-color="#637283">
-            <div class="row" style="height: 50vh;">
+        <div class="dropdown-menu-list scroller" style="height: 75vh;padding: 2em;" data-handle-color="#637283">
+            <div class="row" style="height: 70vh;">
                 <div class="col-sm-8" style="height: inherit;">
                     <div style="display: flex; flex-direction: column; justify-content: space-between; height: inherit;">
                         <div class="panel panel-default" style="flex-grow: 1; overflow-y: auto; height: 0px;">
@@ -19,10 +19,10 @@
                                 }
                                 else
                                 {
-                                    <div class="panel panel-primary" style="margin-right: 7em; background-color: '@if (item.MesajTipi==ComboItems.KişiselMesaj.ToInt32()) {@("green")} else {@("#337ab7")}';">
-                                <div style="padding: .5em; color: white; border-bottom: .1em solid white; font-size: 11px;">@item.Kimden</div>
-                                <div style="padding: .5em; color: white;">@item.Mesaj</div>
-                            </div>
+                                    <div class="panel panel-primary" style="margin-right: 7em; background-color: @if (item.MesajTipi==ComboItems.KişiselMesaj.ToInt32()) {@("green")} else {@("#337ab7")};">
+                                        <div style="padding: .5em; color: white; border-bottom: .1em solid white; font-size: 11px;">@item.Kimden</div>
+                                        <div style="padding: .5em; color: white;">@item.Mesaj</div>
+                                    </div>
                                 }
                             }
                             </div>
@@ -47,3 +47,4 @@
         </div>
     </li>
 </ul>
+<script>$newMessage[0].scrollIntoView(true);</script>
