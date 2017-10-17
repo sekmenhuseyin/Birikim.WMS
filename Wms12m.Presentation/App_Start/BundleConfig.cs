@@ -21,21 +21,24 @@ namespace Wms12m.Presentation
                 //jquery
                 .Include("~/Content/assets/global/plugins/jquery/jquery-3.1.1.min.js")
                 .Include("~/Content/assets/global/plugins/jquery/jquery-migrate-3.0.0.min.js")
+                .Include("~/Content/assets/global/plugins/bootstrap/js/bootstrap.min.js")
+                .Include("~/Content/assets/global/plugins/SignalR/jquery.signalR-2.2.2.min.js")
+                //validation
+                .Include("~/Content/assets/global/plugins/jquery-validation/jquery.validate.min.js")
+                .Include("~/Content/assets/global/plugins/jquery-validation/jquery.validate.unobtrusive.min.js")
+                .Include("~/Content/assets/global/plugins/jquery-validation/jquery.unobtrusive-ajax.min.js")
+                .Include("~/Content/assets/global/plugins/jquery-validation/additional-methods.min.js")
+                //essentials
                 .Include("~/Content/assets/global/plugins/jquery-ui/jquery-ui.min.js")
                 .Include("~/Content/assets/global/plugins/jquery-ui/datepicker-tr.js")
                 .Include("~/Content/assets/global/plugins/Numeral/numeral.js")
                 .Include("~/Content/assets/global/plugins/Numeral/locales.js")
                 .Include("~/Content/assets/global/plugins/bootstrap-toastr/toastr.js")
-                //plugins
-                .Include("~/Content/assets/global/plugins/jquery-validation/jquery.validate.min.js")
-                .Include("~/Content/assets/global/plugins/jquery-validation/jquery.validate.unobtrusive.min.js")
-                .Include("~/Content/assets/global/plugins/jquery-validation/jquery.unobtrusive-ajax.min.js")
-                .Include("~/Content/assets/global/plugins/jquery-validation/additional-methods.min.js")
-                .Include("~/Content/assets/global/plugins/bootstrap/js/bootstrap.min.js")
                 .Include("~/Content/assets/global/plugins/bootbox/bootbox.min.js")
                 .Include("~/Content/assets/global/plugins/jquery-slimscroll/jquery.slimscroll.min.js")
                 .Include("~/Content/assets/global/plugins/jquery.blockui.min.js")
                 .Include("~/Content/assets/global/plugins/js.cookie.min.js")
+                .Include("~/Content/assets/global/plugins/devextreme/js/dx.all.js")
                 //datatables
                 .Include("~/Content/assets/global/plugins/datatables/dataTables.min.js")
                 .Include("~/Content/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.min.js")
@@ -46,14 +49,12 @@ namespace Wms12m.Presentation
                 .Include("~/Content/assets/global/plugins/jszip.min.js")
                 .Include("~/Content/assets/global/plugins/pdfmake.min.js")
                 .Include("~/Content/assets/global/plugins/vfs_fonts.js")
-                 // dx.web
-                 .Include("~/Content/assets/global/plugins/devextreme/js/dx.all.js")
                 //theme scripts
                 .Include("~/Content/assets/global/scripts/app.min.js")
                 .Include("~/Content/assets/layouts/layout/scripts/layout.min.js")
                 .Include("~/Content/Scripts/Operation.min.js")
                 .Include("~/Content/Scripts/MessageBox.min.js")
-                .Include("~/Content/Scripts/Functions.js")
+                .Include("~/Content/Scripts/Functions.min.js")
                 ;
             scriptBundle2
                 .Include("~/Content/assets/global/plugins/jquery/jquery-3.1.1.min.js")
@@ -70,7 +71,7 @@ namespace Wms12m.Presentation
                 .Include("~/Content/assets/layouts/layout/scripts/layout.min.js")
                 .Include("~/Content/Scripts/Operation.min.js")
                 .Include("~/Content/Scripts/MessageBox.min.js")
-                .Include("~/Content/Scripts/Functions.js")
+                .Include("~/Content/Scripts/Functions.min.js")
                 ;
             // styles
             styleBundle

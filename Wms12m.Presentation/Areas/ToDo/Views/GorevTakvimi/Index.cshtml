@@ -81,8 +81,10 @@
         });
     }
     function getresult(data) {
-        if (data.Status == false)
+        if (data.Status == false) {
             Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
+            $("#btnSubmit").prop('disabled', false);
+        }
         else {
             Modaldialog("Kaydedildi", "Başarı", "Tamam", "btn-success");
             $('#modalEditPage').modal('toggle');

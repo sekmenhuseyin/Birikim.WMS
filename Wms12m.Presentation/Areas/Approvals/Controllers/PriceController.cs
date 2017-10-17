@@ -1233,7 +1233,7 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
         public PartialViewResult SM_List()
         {
             if (CheckPerm(Perms.FiyatOnaylamaSM, PermTypes.Reading) == false) return null;
-            ViewBag.User = vUser.UserName;
+            ViewBag.username = vUser.UserName;
             return PartialView();
         }
         public string SMOnayCek()
