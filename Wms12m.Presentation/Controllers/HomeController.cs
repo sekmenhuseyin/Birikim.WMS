@@ -76,7 +76,7 @@ namespace Wms12m.Presentation.Controllers
             return PartialView("../Shared/Menu", tablo);
         }
         /// <summary>
-        /// child view for Notifications
+        /// Notifications
         /// </summary>
         public PartialViewResult Notifications()
         {
@@ -93,6 +93,13 @@ namespace Wms12m.Presentation.Controllers
                 item.Goruldu = true;
             db.SaveChanges();
             return Json(tbl.Select(m => new frmNotifications { Mesaj = m.Mesaj, URL = m.URL, CmbItemName = m.ComboItem_Name.Name, Tarih = m.Tarih }).OrderByDescending(m => m.Tarih), JsonRequestBehavior.AllowGet);
+        }
+        /// <summary>
+        /// Chat
+        /// </summary>
+        public PartialViewResult Chat()
+        {
+            return PartialView("../Shared/Chat");
         }
         #region Satış Raporları
         public PartialViewResult PartialGunlukSatisZamanCizelgesi(string SirketKodu)
