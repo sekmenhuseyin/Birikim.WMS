@@ -1,7 +1,6 @@
 ﻿@model IEnumerable<Message>
 <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
-    <i class="icon-bell"></i>@if (Model.Count() > 0)
-    {<span class="badge badge-default"> @Model.Count() </span>}
+    <i class="icon-bell"></i>@if (Model.Count() > 0) {<span class="badge badge-default"> @Model.Count() </span>}
 </a>
 <ul class="dropdown-menu" style="max-width:500px!important;width:500px!important;">
     <li class="external">
