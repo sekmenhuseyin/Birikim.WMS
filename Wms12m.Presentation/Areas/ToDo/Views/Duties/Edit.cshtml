@@ -9,7 +9,7 @@
                 </div>
             </div>
             <div class="portlet-body form">
-                @using (Ajax.BeginForm("Save", "Duties", new { area = "ToDo" }, new AjaxOptions { OnSuccess = "getresult", OnFailure = "Modaldialog('Lütfen Tekrar Deneyin', 'Hata', 'Tamam', 'btn-danger');" }, new { @class = "form-horizontal" }))
+                @using (Ajax.BeginForm("Save", "Duties", new { area = "ToDo" }, new AjaxOptions { OnSuccess = "getresult", OnBegin = "$('#btnSubmit').prop('disabled', true);", OnFailure = "Modaldialog('Lütfen Tekrar Deneyin', 'Hata', 'Tamam', 'btn-danger');" }, new { @class = "form-horizontal" }))
                 {
                     @Html.HiddenFor(model => model.ID)
                     @Html.AntiForgeryToken()
@@ -109,7 +109,7 @@
                         </div>
                         <div class="form-group">
                             <div class="col-md-offset-5 col-md-7">
-                                @if (Model.DurumID == ComboItems.gydAtandı.ToInt32() || Model.DurumID == ComboItems.gydBaşlandı.ToInt32() || Model.DurumID == ComboItems.gydOnayVer.ToInt32()) {<input type="submit" value="Kaydet" class="btn btn-circle green" />}
+                                @if (Model.DurumID == ComboItems.gydAtandı.ToInt32() || Model.DurumID == ComboItems.gydBaşlandı.ToInt32() || Model.DurumID == ComboItems.gydOnayVer.ToInt32()) {<input type="submit" value="Kaydet" class="btn btn-circle green" id="btnSubmit" />}
                             </div>
                         </div>
                     </div>

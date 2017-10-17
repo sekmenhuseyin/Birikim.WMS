@@ -9,7 +9,7 @@
                 </div>
             </div>
             <div class="portlet-body form">
-                @using (Ajax.BeginForm("Save", "DutyWork", new { area = "ToDo" }, new AjaxOptions { OnSuccess = "getresult", OnFailure = "Modaldialog('Lütfen Tekrar Deneyin', 'Hata', 'Tamam', 'btn-danger');" }, new { @class = "form-horizontal" }))
+                @using (Ajax.BeginForm("Save", "DutyWork", new { area = "ToDo" }, new AjaxOptions { OnSuccess = "getresult", OnBegin = "$('#btnSubmit').prop('disabled', true);", OnFailure = "Modaldialog('Lütfen Tekrar Deneyin', 'Hata', 'Tamam', 'btn-danger');" }, new { @class = "form-horizontal" }))
                 {
                     @Html.HiddenFor(model => model.ID)
                     @Html.AntiForgeryToken()
@@ -46,7 +46,7 @@
                         <div class="form-group">
                             <div class="col-md-offset-2 col-md-8">
                                 <button type="button" class="btn btn-danger pull-left" data-dismiss="modal"><i class="fa fa-times"></i> Kapat</button>
-                                <input type="submit" value="Ekle" class="btn green pull-right" />
+                                <input type="submit" value="Ekle" class="btn green pull-right" id="btnSubmit" />
                             </div>
                         </div>
                     </div>

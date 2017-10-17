@@ -162,7 +162,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             var durum = ComboItems.gydOnaylandı.ToInt32();
             //projeform
             var projeid = db.ProjeForms.Where(m => m.Proje == gtip).FirstOrDefault();
-            if (projeid==null)
+            if (projeid == null)
             {
                 db.ProjeForms.Add(new ProjeForm()
                 {

@@ -9,7 +9,7 @@
                 </div>
             </div>
             <div class="portlet-body form">
-                @using (Ajax.BeginForm("Save", "Duties", new { area = "ToDo" }, new AjaxOptions { OnSuccess = "getresult", OnFailure = "Modaldialog('Lütfen Tekrar Deneyin', 'Hata', 'Tamam', 'btn-danger');" }, new { @class = "form-horizontal" }))
+                @using (Ajax.BeginForm("Save", "Duties", new { area = "ToDo" }, new AjaxOptions { OnSuccess = "getresult", OnBegin = "$('#btnSubmit').prop('disabled', true);", OnFailure = "Modaldialog('Lütfen Tekrar Deneyin', 'Hata', 'Tamam', 'btn-danger');" }, new { @class = "form-horizontal" }))
                 {
                     @Html.HiddenFor(model => model.ID)
                     @Html.AntiForgeryToken()
@@ -110,7 +110,7 @@
                         <div class="form-group">
                             <div class="col-md-offset-2 col-md-8">
                                 <button type="button" class="btn btn-danger pull-left" data-dismiss="modal"><i class="fa fa-times"></i> Kapat</button>
-                                <input type="submit" value="Kaydet" class="btn green pull-right" />
+                                <input type="submit" value="Kaydet" class="btn green pull-right" id="btnSubmit" />
                             </div>
                         </div>
                     </div>
@@ -124,7 +124,7 @@
     $(document).ready(function () {
         $('.date-picker').datepicker();
         $(".satirekle").prepend("<option value=''>Seçiniz !!!</option>");
-        $(".satirekle")[0].selectedIndex = 0; $(".satirekle")[1].selectedIndex = 0; $(".satirekle")[2].selectedIndex = 0; $(".satirekle")[3].selectedIndex = 0; $(".satirekle")[4].selectedIndex = 0; $(".satirekle")[5].selectedIndex = 0;
+        $(".satirekle")[0].selectedIndex = 0; $(".satirekle")[1].selectedIndex = 0; $(".satirekle")[2].selectedIndex = 0; $(".satirekle")[3].selectedIndex = 0; $(".satirekle")[4].selectedIndex = 0;
     });
     sayac = 1;
     function NewElement() {

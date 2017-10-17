@@ -18,9 +18,9 @@
                 <td>
                     @if (ViewBag.Tip == false)
                     {
-                        if(ViewBag.RoleName != "Admin" && ViewBag.RoleName != " ") {<a class="btn btn-info input-circle" href="#modalEditPage" data-toggle="modal" onclick="editInModal('/ToDo/DutyWork/New/@item.ID');"><span class="glyphicon glyphicon-floppy-save"></span> &nbsp; Çalışma</a>}
-                        <a class="btn btn-primary input-circle" href="javascript:;" onclick="Onay(@item.ID, true);"> Onayla </a>
-                        if(ViewBag.Yetki == true && item.Onay == true) {<a class="btn btn-danger input-circle" href="javascript:;" onclick="Onay(@item.ID, false);"> Reddet </a>}
+                        if (ViewBag.RoleName != "Admin" && ViewBag.RoleName != " ") {<a class="btn btn-info input-circle" href="#modalEditPage" data-toggle="modal" onclick="editInModal('/ToDo/DutyWork/New/@item.ID');"><span class="glyphicon glyphicon-floppy-save"></span> &nbsp; Çalışma</a>}
+                        <a class="btn btn-primary input-circle" href="javascript:;" id="btnOn@{@item.ID}" onclick="Onay(@item.ID, true, 'btnOn@{@item.ID}');"> Onayla </a>
+                        if(ViewBag.Yetki == true && item.Onay == true) {<a class="btn btn-danger input-circle" href="javascript:;" id="btnRe@{@item.ID}" onclick="Onay(@item.ID, false, 'btnRe@{@item.ID}');"> Reddet </a>}
                     }
                 </td>
             </tr>
@@ -53,21 +53,25 @@
         $.datepicker.setDefaults($.datepicker.regional["tr"]);
         $(".tarih").datepicker();
     });
-    function Onay(id, tip)
+    function Onay(id, tip, ne)
     {
-        @if (ViewBag.RoleName == "Admin" || ViewBag.RoleName == " ") { <text>Onayla(id, tip, 0);</text> }
+        @if (ViewBag.RoleName == "Admin" || ViewBag.RoleName == " ") { <text>Onayla(id, tip, 0, ne);</text> }
         else {<text>
         bootbox.prompt({
             title: "Onaylamak için çalıştığınız süreyi dakika olarak yazınız!",
             inputType: 'number',
             callback: function (result) {
-                if (result > 0)
-                    Onayla(id, tip, result);
+                if (result < 0 || result > 540) {
+                    Modaldialog("Süreyi doğru yazınız", 'Hata', 'Tamam', 'btn-danger');
+                }
+                else
+                    Onayla(id, tip, result, ne);
             }
         });
         </text>}
     }
-    function Onayla(id, tip, sure) {
+    function Onayla(id, tip, sure, ne) {
+        $("#" + ne).hide();
         $.ajax({
             type: 'POST',
             url: '/ToDo/DutyWork/ToDosOnay',
@@ -79,12 +83,19 @@
                     FuncSearchBtn();
                 }
                 else if (data.Message != "" && data.Message != null)
+                {
                     Modaldialog(data.Message, 'Hata', 'Tamam', 'btn-danger');
+                    $("#" + ne).show();
+                }
                 else
+                {
                     Modaldialog("Hata oldu", 'Hata', 'Tamam', 'btn-danger');
+                    $("#" + ne).show();
+                }
             },
             error: function (data) {
                 Modaldialog("Hata oldu", 'Hata', 'Tamam', 'btn-danger');
+                $("#" + ne).show();
             }
         });
     }
