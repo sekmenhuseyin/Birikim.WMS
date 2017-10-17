@@ -99,7 +99,8 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public PartialViewResult Chat()
         {
-            return PartialView("../Shared/Chat");
+            var tablo = db.Messages.Where(m => m.MesajTipi != 85 && (m.Kime == vUser.UserName || m.Kimden == vUser.UserName)).OrderByDescending(m => m.Tarih).ToList();
+            return PartialView("../Shared/Chat", tablo);
         }
         #region Satış Raporları
         public PartialViewResult PartialGunlukSatisZamanCizelgesi(string SirketKodu)

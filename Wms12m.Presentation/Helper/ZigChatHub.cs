@@ -14,20 +14,40 @@ namespace Wms12m.Hubs
         /// </summary>
         public void SendMessage(string userName, string message)
         {
-            if (message.StartsWith("@"))
+            using (var db = new WMSEntities())
             {
-                var pmUserName = message.Split(' ')[0].Substring(1);
-                using (var db = new WMSEntities())
+                if (message.StartsWith("@"))
                 {
+                    var pmUserName = message.Split(' ')[0].Substring(1);
                     var pmConnection = db.Connections.Where(x => x.UserName.ToLower() == pmUserName && x.IsOnline).SingleOrDefault();
                     if (pmConnection != null)
                     {
+                        //send to 1 client
+                        db.Messages.Add(new Message()
+                        {
+                            MesajTipi = ComboItems.KişiselMesaj.ToInt32(),
+                            Tarih = DateTime.Now,
+                            Kimden = userName,
+                            Kime = pmUserName,
+                            Mesaj = message
+                        });
+                        db.SaveChanges();
                         Clients.Clients(new List<string> { Context.ConnectionId, pmConnection.ConnectionId }).UpdateChat(userName, message, true);
                         return;
                     }
                 }
+                //send to all clients
+                db.Messages.Add(new Message()
+                {
+                    MesajTipi = ComboItems.GrupMesajı.ToInt32(),
+                    Tarih = DateTime.Now,
+                    Kimden = userName,
+                    Kime = null,
+                    Mesaj = message
+                });
+                db.SaveChanges();
+                Clients.All.UpdateChat(userName, message);
             }
-            Clients.All.UpdateChat(userName, message);
         }
         /// <summary>
         /// update users online
