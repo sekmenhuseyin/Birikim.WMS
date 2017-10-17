@@ -347,6 +347,12 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                         });
                     }
                 }
+                else if (tbl.Onay == true && CheckPerm(Perms.TodoÇalışma, PermTypes.Deleting) == true)
+                {
+                    tbl.KontrolOnay = true;
+                    tbl.KontrolEden = vUser.UserName;
+                    tbl.AdminOnay = true;
+                }
                 else if (tbl.Onay == true && tbl.KontrolOnay == true && CheckPerm(Perms.TodoÇalışma, PermTypes.Deleting) == true)
                 {
                     tbl.AdminOnay = true;
@@ -376,7 +382,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                     else
                         tbl.Gorevler.DurumID = ComboItems.gydBaşlandı.ToInt32();
                 }
-                else if (vUser.RoleName == "Admin" || vUser.RoleName == " ")
+                else if (CheckPerm(Perms.TodoÇalışma, PermTypes.Deleting) == true)
                 {
                     var c = db.GorevlerToDoLists.Where(m => m.GorevID == tbl.GorevID && m.AdminOnay == false && m.ID != Id).FirstOrDefault();
                     if (c == null)
