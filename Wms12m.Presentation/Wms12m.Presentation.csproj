@@ -834,6 +834,7 @@
     <Content Include="Views\Home\GorevProjesi\ProjeAnalizi.cshtml" />
     <Content Include="Views\Inbox\Notifications.cshtml" />
     <Content Include="Views\Shared\Notifications.cshtml" />
+    <Content Include="Views\Shared\Chat.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
