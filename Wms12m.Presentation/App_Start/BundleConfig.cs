@@ -8,8 +8,9 @@ namespace Wms12m.Presentation
     public class BundleConfig
     {
         public static string JsBundle = "~/Content/Scripts/bundle";
-        public static string LoginBundle = "~/Content/Scripts/bundle2";
         public static string CssBundle = "~/Content/Styles/bundle";
+        public static string LoginJs = "~/Content/Scripts/LoginJs";
+        public static string LoginCss = "~/Content/Scripts/LoginCss";
         public static string jquery = "~/Content/Scripts/jquery";
         public static string jqueryUiJs = "~/Content/Scripts/jqueryUI";
         public static string jqueryUiCss = "~/Content/Styles/jqueryUI";
@@ -50,8 +51,9 @@ namespace Wms12m.Presentation
             bundles.Add(new StyleBundle(simpleLineIcons, "https://cdnjs.cloudflare.com/ajax/libs/simple-line-icons/2.4.1/css/simple-line-icons.css").Include("~/Content/assets/global/plugins/simple-line-icons/css/simple-line-icons.min.css"));
             //vars
             var scriptBundle = new ScriptBundle(JsBundle);
-            var scriptBundle2 = new ScriptBundle(LoginBundle);
+            var scriptBundle2 = new ScriptBundle(LoginJs);
             var styleBundle = new StyleBundle(CssBundle);
+            var styleBundle2 = new StyleBundle(LoginCss);
             // scripts
             scriptBundle
                 //jquery
@@ -93,7 +95,6 @@ namespace Wms12m.Presentation
                 .Include("~/Content/assets/layouts/layout/scripts/layout.min.js")
                 .Include("~/Content/Scripts/Operation.min.js")
                 .Include("~/Content/Scripts/MessageBox.min.js")
-                .Include("~/Content/Scripts/Functions.min.js")
                 ;
             // styles
             styleBundle
@@ -111,10 +112,17 @@ namespace Wms12m.Presentation
                 .Include("~/Content/assets/global/plugins/datatables/dataTables.min.css")
                 .Include("~/Content/assets/global/plugins/datatables/extensions/Buttons/css/buttons.dataTables.min.css")
                 ;
+            styleBundle2
+                //theme
+                .Include("~/Content/assets/global/css/components-md.min.css")
+                .Include("~/Content/assets/global/css/plugins-md.min.css")
+                .Include("~/Content/assets/layouts/layout/css/custom.min.css")
+                ;
             // bundle
             bundles.Add(scriptBundle);
             bundles.Add(scriptBundle2);
             bundles.Add(styleBundle);
+            bundles.Add(styleBundle2);
             // EnableOptimizations
 #if !DEBUG
             BundleTable.EnableOptimizations = true;

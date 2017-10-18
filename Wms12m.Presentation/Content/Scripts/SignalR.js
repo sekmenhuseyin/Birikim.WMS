@@ -3,7 +3,8 @@ $(function () {
     var zigChatHubProxy = $.connection.zigChatHub;
 
     zigChatHubProxy.client.updateChat = function (userName, message, isPm) {
-        var $newMessage = $('<div class="panel panel-primary" style="margin-' + currentUserName === userName ? 'left' : 'right' + ': 7em; background-color: #337ab7;">' +
+        var lr = currentUserName === userName ? 'left' : 'right';
+        var $newMessage = $('<div class="panel panel-primary" style="margin-' + lr + ': 7em; background-color: #337ab7;">' +
                                 '<div style="padding: .5em; color: white; border-bottom: .1em solid white; font-size: 11px;">' + userName + ' ' + moment().fromNow() + '</div>' +
                                 '<div style="padding: .5em; color: white; text-align: right;">' + message + '</div>' +
                             '</div>');

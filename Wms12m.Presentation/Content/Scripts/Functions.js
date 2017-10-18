@@ -1,5 +1,6 @@
 ﻿if (top != self) { top.location.replace(document.location); }
 numeral.locale('tr');
+moment.locale('tr');
 // Stringe karakter eklemek için
 String.prototype.addAt = function (index, character) {
     return this.substr(0, index) + character + this.substr(index + character.length - 1);

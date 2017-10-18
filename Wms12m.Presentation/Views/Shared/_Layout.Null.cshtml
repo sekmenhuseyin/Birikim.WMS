@@ -23,9 +23,7 @@
     @Styles.Render(BundleConfig.jqueryUiCss)
     @Styles.Render(BundleConfig.FontAwesome)
     @Styles.Render(BundleConfig.simpleLineIcons)
-    <link href="~/Content/assets/global/css/components-md.min.css" rel="stylesheet" id="style_components" type="text/css" />
-    <link href="~/Content/assets/global/css/plugins-md.min.css" rel="stylesheet" type="text/css" />
-    <link href="~/Content/assets/layouts/layout/css/custom.min.css" rel="stylesheet" type="text/css" />
+    @Styles.Render(BundleConfig.LoginCss)
     @RenderSection("Styles", required: false)
 </head>
 <body class="login">
@@ -34,10 +32,10 @@
     @Scripts.Render(BundleConfig.jquery)
     @Scripts.Render(BundleConfig.jqueryUiJs)
     @Scripts.Render(BundleConfig.bootstrapJs)
-    @Scripts.Render(BundleConfig.numeral)
     @Scripts.Render(BundleConfig.bootbox)
-    @Scripts.Render(BundleConfig.LoginBundle)
-    @{if (ViewBag.Debug == false) {<script src="~/Content/assets/global/plugins/devtools-detect.js"></script><script>window.addEventListener('devtoolschange', function (e) { if (e.detail.open == true) { console.clear(); window.location.reload(); } });</script>}
+    @Scripts.Render(BundleConfig.LoginJs)
+    @if (ViewBag.Debug == false) {<script src="~/Content/assets/global/plugins/devtools-detect.js"></script><script>window.addEventListener('devtoolschange', function (e) { if (e.detail.open == true) { console.clear(); window.location.reload(); } });</script>}
     @RenderSection("Scripts", required: false)
+    <script>if (top != self) { top.location.replace(document.location); }</script>
 </body>
 </html>

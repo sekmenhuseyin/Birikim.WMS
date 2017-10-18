@@ -71,7 +71,7 @@
             },
             navLinks: false,
             events: [
-                @foreach (var item in Model) { <text>{ id: '@item.Aciklama', title: '@if (item.Username != null) { @item.Username @(" - ")}@Html.Raw(item.ComboItem_Name.Name)', start: '@item.Tarih.ToString("yyyy-MM-dd")', backgroundColor: App.getBrandColor('white')@if (item.Aciklama.Contains("Doğumgünü")==true) { <text>, icon: "birthday-cake"</text> } },</text> }
+                @foreach (var item in Model) { <text>{ id: '@item.Aciklama.ToString2()', title: '@if (item.Username != null) { @item.Username @(" - ")}@Html.Raw(item.ComboItem_Name.Name)', start: '@item.Tarih.ToString("yyyy-MM-dd")', backgroundColor: App.getBrandColor('white')@if (item.Aciklama.ToString2().Contains("Doğumgünü")==true) { <text>, icon: "birthday-cake"</text> } },</text> }
             ],
             eventClick: function (calEvent, jsEvent, view) {
                 Modaldialog(calEvent.id, "Açıklama", "Tamam", "btn-primary");
