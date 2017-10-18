@@ -1,85 +1,16 @@
-﻿@model IEnumerable<Message>
+﻿@model IEnumerable<frmMessages>
 <div class="page-quick-sidebar-chat-user-messages" data-height="769" style="overflow: hidden; width: auto; height: 769px;" data-initialized="1">
-    <div class="post out">
-        <img class="avatar" alt="" src="@Html.ImageOrDefault("")">
-        <div class="message">
-            <span class="arrow"></span>
-            <a href="javascript:;" class="name">Bob Nilson</a>
-            <span class="datetime">20:15</span>
-            <span class="body"> When could you send me the report ? </span>
+    @foreach (var item in Model)
+    {
+        <div class="post @if (item.Kod == ViewBag.vUser.UserName) {@("out")} else {@("in")} ">
+            <img class="avatar" alt="" src="@Html.ImageOrDefault(item.ID.ToString())">
+            <div class="message">
+                <span class="arrow"></span>
+                <a href="javascript:;" class="name">@item.AdSoyad</a>
+                <span class="datetime">@item.Tarih.ToUniversalTime().Humanize()</span>
+                <span class="body">@item.Mesaj</span>
+            </div>
         </div>
-    </div>
-    <div class="post in">
-        <img class="avatar" alt="" src="@Html.ImageOrDefault("")">
-        <div class="message">
-            <span class="arrow"></span>
-            <a href="javascript:;" class="name">Ella Wong</a>
-            <span class="datetime">20:15</span>
-            <span class="body"> Its almost done. I will be sending it shortly </span>
-        </div>
-    </div>
-    <div class="post out">
-        <img class="avatar" alt="" src="@Html.ImageOrDefault("")">
-        <div class="message">
-            <span class="arrow"></span>
-            <a href="javascript:;" class="name">Bob Nilson</a>
-            <span class="datetime">20:15</span>
-            <span class="body"> Alright. Thanks! :) </span>
-        </div>
-    </div>
-    <div class="post in">
-        <img class="avatar" alt="" src="@Html.ImageOrDefault("")">
-        <div class="message">
-            <span class="arrow"></span>
-            <a href="javascript:;" class="name">Ella Wong</a>
-            <span class="datetime">20:16</span>
-            <span class="body"> You are most welcome. Sorry for the delay. </span>
-        </div>
-    </div>
-    <div class="post out">
-        <img class="avatar" alt="" src="@Html.ImageOrDefault("")">
-        <div class="message">
-            <span class="arrow"></span>
-            <a href="javascript:;" class="name">Bob Nilson</a>
-            <span class="datetime">20:17</span>
-            <span class="body"> No probs. Just take your time :) </span>
-        </div>
-    </div>
-    <div class="post in">
-        <img class="avatar" alt="" src="@Html.ImageOrDefault("")">
-        <div class="message">
-            <span class="arrow"></span>
-            <a href="javascript:;" class="name">Ella Wong</a>
-            <span class="datetime">20:40</span>
-            <span class="body"> Alright. I just emailed it to you. </span>
-        </div>
-    </div>
-    <div class="post out">
-        <img class="avatar" alt="" src="@Html.ImageOrDefault("")">
-        <div class="message">
-            <span class="arrow"></span>
-            <a href="javascript:;" class="name">Bob Nilson</a>
-            <span class="datetime">20:17</span>
-            <span class="body"> Great! Thanks. Will check it right away. </span>
-        </div>
-    </div>
-    <div class="post in">
-        <img class="avatar" alt="" src="@Html.ImageOrDefault("")">
-        <div class="message">
-            <span class="arrow"></span>
-            <a href="javascript:;" class="name">Ella Wong</a>
-            <span class="datetime">20:40</span>
-            <span class="body"> Please let me know if you have any comment. </span>
-        </div>
-    </div>
-    <div class="post out">
-        <img class="avatar" alt="" src="@Html.ImageOrDefault("")">
-        <div class="message">
-            <span class="arrow"></span>
-            <a href="javascript:;" class="name">Bob Nilson</a>
-            <span class="datetime">20:17</span>
-            <span class="body"> Sure. I will check and buzz you if anything needs to be corrected. </span>
-        </div>
-    </div>
+    }
 </div>
 <div class="slimScrollBar" style="background: rgb(187, 187, 187); width: 7px; position: absolute; top: 0px; opacity: 0.4; display: none; border-radius: 7px; z-index: 99; right: 1px; height: 769px;"></div><div class="slimScrollRail" style="width: 7px; height: 100%; position: absolute; top: 0px; display: none; border-radius: 7px; background: rgb(234, 234, 234); opacity: 0.2; z-index: 90; right: 1px;"></div>

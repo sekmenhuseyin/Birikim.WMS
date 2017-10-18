@@ -40,10 +40,13 @@ var QuickSidebar = function () {
         initChatSlimScroll();
         App.addResizeHandler(initChatSlimScroll); // reinitialize on window resize
 
+        //kullanýcýya týklayýnca sohbet penceresi açýlýyor
         wrapper.find('.page-quick-sidebar-chat-users .media-list > .media').click(function () {
+            PartialView('/Home/UsersChat', 'UsersChat', JSON.stringify({ ID: $(this).find('input').val() }));
             wrapperChat.addClass("page-quick-sidebar-content-item-shown");
         });
 
+        //sohbette geriye basýnca kullanýcýlar geliyor
         wrapper.find('.page-quick-sidebar-chat-user .page-quick-sidebar-back-to-list').click(function () {
             wrapperChat.removeClass("page-quick-sidebar-content-item-shown");
         });
@@ -98,54 +101,12 @@ var QuickSidebar = function () {
         });
     };
 
-    // Handles quick sidebar tasks
-    var handleQuickSidebarAlerts = function () {
-        var wrapper = $('.page-quick-sidebar-wrapper');
-
-        var initAlertsSlimScroll = function () {
-            var alertList = wrapper.find('.page-quick-sidebar-alerts-list');
-            var alertListHeight;
-
-            alertListHeight = wrapper.height() - 80 - wrapper.find('.nav-justified > .nav-tabs').outerHeight();
-
-            // alerts list 
-            App.destroySlimScroll(alertList);
-            alertList.attr("data-height", alertListHeight);
-            App.initSlimScroll(alertList);
-        };
-
-        initAlertsSlimScroll();
-        App.addResizeHandler(initAlertsSlimScroll); // reinitialize on window resize
-    };
-
-    // Handles quick sidebar settings
-    var handleQuickSidebarSettings = function () {
-        var wrapper = $('.page-quick-sidebar-wrapper');
-
-        var initSettingsSlimScroll = function () {
-            var settingsList = wrapper.find('.page-quick-sidebar-settings-list');
-            var settingsListHeight;
-
-            settingsListHeight = wrapper.height() - 80 - wrapper.find('.nav-justified > .nav-tabs').outerHeight();
-           
-            // alerts list 
-            App.destroySlimScroll(settingsList);
-            settingsList.attr("data-height", settingsListHeight);
-            App.initSlimScroll(settingsList);
-        };
-
-        initSettingsSlimScroll();
-        App.addResizeHandler(initSettingsSlimScroll); // reinitialize on window resize
-    };
-
     return {
 
         init: function () {
             //layout handlers
             handleQuickSidebarToggler(); // handles quick sidebar's toggler
             handleQuickSidebarChat(); // handles quick sidebar's chats
-            //handleQuickSidebarAlerts(); // handles quick sidebar's alerts
-            //handleQuickSidebarSettings(); // handles quick sidebar's setting
         }
     };
 

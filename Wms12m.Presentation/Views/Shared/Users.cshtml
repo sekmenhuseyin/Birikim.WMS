@@ -3,6 +3,7 @@
     @foreach (var item in Model)
     {
         <li class="media">
+            <input type="hidden" value="@item.Kod" />
             <img class="media-object" src="@Html.ImageOrDefault(item.Guid.ToString())" alt="@item.AdSoyad">
             <div class="media-body">
                 <h4 class="media-heading">@item.AdSoyad</h4>

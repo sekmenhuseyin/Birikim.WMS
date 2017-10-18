@@ -106,11 +106,13 @@ namespace Wms12m.Presentation.Controllers
         /// <summary>
         /// UsersChat
         /// </summary>
-        public PartialViewResult UsersChat(string to)
+        public PartialViewResult UsersChat(string ID)
         {
-            var mTipi = ComboItems.KişiselMesaj.ToInt32();
-            var tablo = db.Messages.Where(m => m.MesajTipi == mTipi && ((m.Kimden == vUser.UserName && m.Kime == to) || (m.Kimden == to && m.Kime == vUser.UserName))).OrderBy(m => m.Tarih).Take(100).ToList();
-            return PartialView("../Shared/UsersChat", tablo);
+            var list = db.Database.SqlQuery<frmMessages>(string.Format(@"SELECT        TOP (100) usr.Users.AdSoyad, usr.Users.Kod, [Messages].Tarih, [Messages].Mesaj, usr.Users.[Guid] AS [ID]
+                                FROM            [Messages] INNER JOIN usr.Users ON [Messages].Kimden = usr.Users.Kod
+                                WHERE        ([Messages].MesajTipi = {0}) AND (([Messages].Kimden = '{1}') AND ([Messages].Kime = '{2}') OR ([Messages].Kimden = '{2}') AND ([Messages].Kime = '{1}'))
+                                ORDER BY [Messages].Tarih", ComboItems.KişiselMesaj.ToInt32(), vUser.UserName, ID)).ToList();
+            return PartialView("../Shared/UsersChat", list);
         }
         #region Satış Raporları
         public PartialViewResult PartialGunlukSatisZamanCizelgesi(string SirketKodu)

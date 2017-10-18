@@ -3,6 +3,18 @@
 namespace Wms12m.Entity
 {
     /// <summary>
+    /// mesaj tablosu
+    /// </summary>
+    public class frmMessages
+    {
+        public Guid ID { get; set; }
+        public int MesajTipi { get; set; }
+        public DateTime Tarih { get; set; }
+        public string AdSoyad { get; set; }
+        public string Kod { get; set; }
+        public string Mesaj { get; set; }
+    }
+    /// <summary>
     /// şifre değiştir
     /// </summary>
     public class frmUserChangePass
