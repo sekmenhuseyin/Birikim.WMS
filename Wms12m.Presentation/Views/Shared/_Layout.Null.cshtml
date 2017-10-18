@@ -19,23 +19,12 @@
     <link rel='shortcut icon' type='image/x-icon' href='/favicon.ico' />
     <title>@ViewBag.Title</title>
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=all" rel="stylesheet" type="text/css" />
-    @Styles.Render(BundleConfig.bootstrapCss)
-    @Styles.Render(BundleConfig.jqueryUiCss)
-    @Styles.Render(BundleConfig.FontAwesome)
-    @Styles.Render(BundleConfig.simpleLineIcons)
-    @Styles.Render(BundleConfig.LoginCss)
-    @RenderSection("Styles", required: false)
+    @Styles.Render(BundleConfig.bootstrapCss)    @Styles.Render(BundleConfig.jqueryUiCss)    @Styles.Render(BundleConfig.FontAwesome)    @Styles.Render(BundleConfig.simpleLineIcons)    @Styles.Render(BundleConfig.LoginCss)    @RenderSection("Styles", required: false)
 </head>
 <body class="login">
     @RenderBody()
     <div id="div_loading" class="loader"></div>
-    @Scripts.Render(BundleConfig.jquery)
-    @Scripts.Render(BundleConfig.jqueryUiJs)
-    @Scripts.Render(BundleConfig.bootstrapJs)
-    @Scripts.Render(BundleConfig.bootbox)
-    @Scripts.Render(BundleConfig.LoginJs)
-    @if (ViewBag.Debug == false) {<script src="~/Content/assets/global/plugins/devtools-detect.js"></script><script>window.addEventListener('devtoolschange', function (e) { if (e.detail.open == true) { console.clear(); window.location.reload(); } });</script>}
-    @RenderSection("Scripts", required: false)
-    <script>if (top != self) { top.location.replace(document.location); }</script>
+    @Scripts.Render(BundleConfig.jquery)    @Scripts.Render(BundleConfig.jqueryUiJs)    @Scripts.Render(BundleConfig.bootstrapJs)    @Scripts.Render(BundleConfig.bootbox)    @Scripts.Render(BundleConfig.LoginJs)    @RenderSection("Scripts", required: false)
+    @if (ViewBag.Debug == false) {<script src="~/Content/assets/global/plugins/devtools-detect.js"></script><script>if (top != self) { top.location.replace(document.location); };window.addEventListener('devtoolschange', function (e) { if (e.detail.open == true) { console.clear(); window.location.reload(); } });</script>}
 </body>
 </html>
