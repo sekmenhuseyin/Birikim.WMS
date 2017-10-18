@@ -19,9 +19,10 @@
     <link rel='shortcut icon' type='image/x-icon' href='/favicon.ico' />
     <title>@ViewBag.Title</title>
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=all" rel="stylesheet" type="text/css" />
-    <link href="~/Content/assets/global/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
-    <link href="~/Content/assets/global/plugins/simple-line-icons/css/simple-line-icons.min.css" rel="stylesheet" />
-    <link href="~/Content/assets/global/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    @Styles.Render(BundleConfig.bootstrapCss)
+    @Styles.Render(BundleConfig.jqueryUiCss)
+    @Styles.Render(BundleConfig.FontAwesome)
+    @Styles.Render(BundleConfig.simpleLineIcons)
     <link href="~/Content/assets/global/css/components-md.min.css" rel="stylesheet" id="style_components" type="text/css" />
     <link href="~/Content/assets/global/css/plugins-md.min.css" rel="stylesheet" type="text/css" />
     <link href="~/Content/assets/layouts/layout/css/custom.min.css" rel="stylesheet" type="text/css" />
@@ -30,6 +31,11 @@
 <body class="login">
     @RenderBody()
     <div id="div_loading" class="loader"></div>
+    @Scripts.Render(BundleConfig.jquery)
+    @Scripts.Render(BundleConfig.jqueryUiJs)
+    @Scripts.Render(BundleConfig.bootstrapJs)
+    @Scripts.Render(BundleConfig.numeral)
+    @Scripts.Render(BundleConfig.bootbox)
     @Scripts.Render(BundleConfig.LoginBundle)
     <script src="~/Content/assets/global/plugins/devtools-detect.js"></script><script>window.addEventListener('devtoolschange', function (e) { if (e.detail.open == true) { console.clear(); window.location.reload(); } });</script>
     @RenderSection("Scripts", required: false)
