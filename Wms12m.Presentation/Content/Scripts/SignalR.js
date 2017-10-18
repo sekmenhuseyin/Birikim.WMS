@@ -66,8 +66,5 @@ $(function () {
 
                 $message.focus();
             });
-        })
-        .fail(function () {
-            console.log('Could not connect.');
         });
 });
