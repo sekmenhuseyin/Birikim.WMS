@@ -40,7 +40,6 @@
             add: function (e, data) { data.submit(); },
             done: function (e, data) {
                 if (data.result.Status == true) {
-                    Modaldialog("İşlem Başarıyla gerçekleşti", "Başarı", "Tamam", "btn-success");
                     PartialView('/Users/Image/@Model.ID', 'modalEditPage', "");
                 }
                 else if (data.result.Message != "" && data.result.Message != null)
