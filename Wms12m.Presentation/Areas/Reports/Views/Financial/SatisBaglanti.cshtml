@@ -2,15 +2,15 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     ViewBag.Title = "Satış Bağlantı Raporu";
 }@section Styles{<style>
-.input_content {margin-bottom: 3px;height: 40px;line-height: 20px;}
-.input_label {float: left;width: 35%;font-weight: bold;color: #5bc8d2;font-size: 11px;padding-top: 4px;}
-.input {float: left;width: 60%;font-size: 10px;height: 30px;}
-.input_style {background-color:white;padding: 10px;margin: 0;}
-td.details-control {background: url('/Content/assets/global/plugins/datatables/images/details_open.png') no-repeat center center;cursor: pointer;}
-td.hareket-control {background: url('/Content/assets/global/plugins/datatables/images/back_enabled.png') no-repeat center center;cursor: pointer;}
-.btn {width: 120px;text-align: center;}
-.detay:hover {background-color: rgb(176, 190, 217) !important;}
-.sag .dx-texteditor-input {text-align: right;}
+    .input_content {margin-bottom: 3px;height: 40px;line-height: 20px;}
+    .input_label {float: left;width: 35%;font-weight: bold;color: #5bc8d2;font-size: 11px;padding-top: 4px;}
+    .input {float: left;width: 60%;font-size: 10px;height: 30px;}
+    .input_style {background-color:white;padding: 10px;margin: 0;}
+    td.details-control {background: url('/Content/assets/global/plugins/datatables/images/details_open.png') no-repeat center center;cursor: pointer;}
+    td.hareket-control {background: url('/Content/assets/global/plugins/datatables/images/back_enabled.png') no-repeat center center;cursor: pointer;}
+    .btn {width: 120px;text-align: center;}
+    .detay:hover {background-color: rgb(176, 190, 217) !important;}
+    .sag .dx-texteditor-input {text-align: right;}
 </style>
 }<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><span>Raporlar</span><i class="fa fa-circle"></i></li><li><span>Satış Bağlantı Raporu</span></li></ul></div>
 <h1 class="page-title">Satış Bağlantı Raporu</h1>
@@ -145,8 +145,7 @@ td.hareket-control {background: url('/Content/assets/global/plugins/datatables/i
     </div>
 </div>
 <div class="row" id="satis-baglanti-raporu-grid" style="margin-top:10px;"></div>
-@section Scripts{<script src="~/Content/assets/global/plugins/moment/moment.min.js"></script>
-<script>
+@section Scripts{<script>
     var tip = 0;
     var tempTip = 0;
     var radioGroupItems = [

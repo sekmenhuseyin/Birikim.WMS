@@ -12,20 +12,10 @@
         background: -ms-linear-gradient(top, #32c5d2 0%,#2989d8 50%,#207cca 51%,#7db9e8 100%); /* IE10+ */
         background: linear-gradient(to bottom, #32c5d2 0%,#2989d8 50%,#207cca 51%,#7db9e8 100%); /* W3C */
     }
-
-    .dx-datagrid .dx-column-indicators .dx-sort.dx-header-filter:after, .dx-datagrid .dx-column-indicators .dx-header-filter.dx-header-filter:before {
-        color: white;
-    }
-    .btn {
-        width: 120px;
-        text-align: center;
-    }
-    
-</style>}
-
-<div class="page-bar">
-    <ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><span>Raporlar</span><i class="fa fa-circle"></i></li><li><span>Çek Listesi</span></li></ul>
-    </div>
+    .dx-datagrid .dx-column-indicators .dx-sort.dx-header-filter:after, .dx-datagrid .dx-column-indicators .dx-header-filter.dx-header-filter:before {color: white;}
+    .btn {width: 120px;text-align: center;}    
+</style>
+}<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><span>Raporlar</span><i class="fa fa-circle"></i></li><li><span>Çek Listesi</span></li></ul></div>
     <h1 class="page-title">Çek Listesi</h1>
     <div class="control-content row">
         <div style="float:left;">
@@ -66,9 +56,7 @@
     <div class="row" style="margin-top:20px;">
         <div id="cek-listesi-grid"></div>
     </div>
-    @section Scripts{
-        <script src="~/Content/assets/global/plugins/moment/moment.min.js"></script>
-        <script>
+@section Scripts{<script>
     $(document).ready(function () {
         var model = @Html.Raw(Json.Encode(Model));
         var ay, yil, pozisyon;
@@ -126,5 +114,5 @@
         });
 
     });
-        </script>
-    }
+</script>
+}

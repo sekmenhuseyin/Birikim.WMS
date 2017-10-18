@@ -39,6 +39,7 @@ namespace Wms12m.Presentation
                 .Include("~/Content/assets/global/plugins/jquery.blockui.min.js")
                 .Include("~/Content/assets/global/plugins/js.cookie.min.js")
                 .Include("~/Content/assets/global/plugins/devextreme/js/dx.all.js")
+                .Include("~/Content/assets/global/plugins/moment/moment-with-locales.min.js")
                 //datatables
                 .Include("~/Content/assets/global/plugins/datatables/dataTables.min.js")
                 .Include("~/Content/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.min.js")

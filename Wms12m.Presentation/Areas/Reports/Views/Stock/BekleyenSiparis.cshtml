@@ -19,8 +19,7 @@
     <div class="col-md-2 p-l-5 p-r-0"><input class="form-control dateboxbg" type="text" id="txtTeslimBitis" value="@DateTime.Today.ToString("dd.MM.yyyy")" /></div>
 </div>
 <div class="row" id="bekleyen-siparis-grid" style="margin-top:20px;"></div>
-@section Scripts{<script src="~/Content/assets/global/plugins/moment/moment.min.js"></script>
-<script>
+@section Scripts{<script>
     $(document).ready(function () {
         var basTarih = @DateTime.Today.AddMonths(-1).ToOADateInt();
         var bitTarih = @DateTime.Today.ToOADateInt();

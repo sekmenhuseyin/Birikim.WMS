@@ -14,8 +14,7 @@
     <div class="col-md-2"><button id="btnListele" class="btn btn-block green">Listele<i class="fa fa-check"></i></button></div>
 </div>
 <div class="row m-t-20" id="vade-cek-grid"></div>
-@section Scripts{<script src="~/Content/assets/global/plugins/moment/moment.min.js"></script>
-<script>
+@section Scripts{<script>
     $(document).ready(function () {
         var basTarih = @DateTime.Today.ToOADateInt();
         var bitTarih = basTarih;
