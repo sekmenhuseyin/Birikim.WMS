@@ -147,23 +147,3 @@ function CT(style, title, message, url) {
         onclick: function () { if (url != '') window.location.href = url; }
     });
 }
-CheckNtfctn()
-function CheckNtfctn() {
-    $.ajax({
-        type: 'POST',
-        url: "/Home/NewNotifications",
-        dataType: "json",
-        contentType: 'application/json; charset=utf-8',
-        success: function (data) {
-            setTimeout(function () { CheckNtfctn(); }, 60000);
-            if (data.length > 1)
-                CT("info", "Bekleyen Mesajlar", data.length + " adet bekleyen mesajınız var", "/Inbox/Notifications");
-            else if (data.length == 1)
-                CT("info", data[0].Mesaj, data[0].CmbItemName, data[0].URL);
-            PartialView("/Home/Notifications", "header_notification_bar", "")
-        },
-        error: function (data) {
-            setTimeout(function () { CheckNtfctn(); }, 120000);
-        }
-    });
-}
