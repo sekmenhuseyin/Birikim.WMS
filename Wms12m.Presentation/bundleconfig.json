@@ -52,5 +52,11 @@
     "inputFiles": [
       "Content/assets/global/css/components-md.css"
     ]
+  },
+  {
+    "outputFileName": "Content/assets/layouts/global/scripts/quick-sidebar.min.js",
+    "inputFiles": [
+      "Content/assets/layouts/global/scripts/quick-sidebar.js"
+    ]
   }
 ]

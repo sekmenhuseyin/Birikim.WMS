@@ -66,6 +66,7 @@ $(function () {
                 $('#send').click(sendMessage);
 
                 $message.focus();
+
             });
         });
 });

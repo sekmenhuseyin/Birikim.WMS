@@ -99,13 +99,15 @@
                                             <i class="icon-arrow-left"></i>Geri
                                         </a>
                                     </div>
-                                    <div class="slimScrollDiv" style="position: relative; overflow: hidden; width: auto; height: 769px;" id="UsersChat"></div>
+                                    <div class="slimScrollDiv" style="position: relative; overflow: hidden; width: auto; height: 769px;" id="UsersChat">
+                                        @{Html.RenderAction("UsersChat", "Home", new { area = "" }); }@*---------------------------------------Chat users---------------------------------------*@
+                                    </div>
                                     <div class="page-quick-sidebar-chat-user-form">
                                         <div class="input-group">
                                             <input type="text" class="form-control" placeholder="Buraya yazın...">
                                             <div class="input-group-btn">
                                                 <button type="button" class="btn green">
-                                                    <i class="icon-paper-clip"></i>
+                                                    <i class="icon-arrow-right"></i>
                                                 </button>
                                             </div>
                                         </div>

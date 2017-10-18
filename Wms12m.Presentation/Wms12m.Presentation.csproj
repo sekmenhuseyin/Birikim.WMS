@@ -226,6 +226,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\assets\layouts\global\scripts\quick-sidebar.min.js">
+      <DependentUpon>quick-sidebar.js</DependentUpon>
+    </Content>
     <Content Include="Content\assets\pages\img\texbox-cal.png" />
     <Content Include="Content\images\12M-Logo-30.png" />
     <Content Include="Content\images\12M-Logo-90.png" />
@@ -278,14 +281,7 @@
     <Content Include="Content\assets\global\scripts\datatable.min.js">
       <DependentUpon>datatable.js</DependentUpon>
     </Content>
-    <Content Include="Content\assets\layouts\global\scripts\cookie-consent.js" />
-    <Content Include="Content\assets\layouts\global\scripts\cookie-consent.min.js" />
-    <Content Include="Content\assets\layouts\global\scripts\hor-timeline.js" />
-    <Content Include="Content\assets\layouts\global\scripts\hor-timeline.min.js" />
-    <Content Include="Content\assets\layouts\global\scripts\quick-nav.js" />
-    <Content Include="Content\assets\layouts\global\scripts\quick-nav.min.js" />
     <Content Include="Content\assets\layouts\global\scripts\quick-sidebar.js" />
-    <Content Include="Content\assets\layouts\global\scripts\quick-sidebar.min.js" />
     <Content Include="Content\assets\layouts\layout\css\custom.css" />
     <Content Include="Content\assets\layouts\layout\css\custom.min.css">
       <DependentUpon>custom.css</DependentUpon>

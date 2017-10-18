@@ -87,18 +87,6 @@ var QuickSidebar = function () {
             });
 
             input.val("");
-
-            // simulate reply
-            setTimeout(function(){
-                var time = new Date();
-                var message = preparePost('in', (time.getHours() + ':' + time.getMinutes()), "Ella Wong", 'avatar2', 'Lorem ipsum doloriam nibh...');
-                message = $(message);
-                chatContainer.append(message);
-
-                chatContainer.slimScroll({
-                    scrollTo: '1000000px'
-                });
-            }, 3000);
         };
 
         wrapperChat.find('.page-quick-sidebar-chat-user-form .btn').click(handleChatMessagePost);
@@ -156,8 +144,8 @@ var QuickSidebar = function () {
             //layout handlers
             handleQuickSidebarToggler(); // handles quick sidebar's toggler
             handleQuickSidebarChat(); // handles quick sidebar's chats
-            handleQuickSidebarAlerts(); // handles quick sidebar's alerts
-            handleQuickSidebarSettings(); // handles quick sidebar's setting
+            //handleQuickSidebarAlerts(); // handles quick sidebar's alerts
+            //handleQuickSidebarSettings(); // handles quick sidebar's setting
         }
     };
 
