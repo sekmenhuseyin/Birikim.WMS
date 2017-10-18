@@ -100,7 +100,7 @@ namespace Wms12m.Presentation.Controllers
         public PartialViewResult Chat()
         {
             var mTipi = ComboItems.GrupMesajı.ToInt32();
-            var tablo = db.Messages.Where(m => m.MesajTipi == mTipi).OrderByDescending(m => m.Tarih).ToList();
+            var tablo = db.Messages.Where(m => m.MesajTipi == mTipi).OrderBy(m => m.Tarih).Take(100).ToList();
             return PartialView("../Shared/Chat", tablo);
         }
         #region Satış Raporları
