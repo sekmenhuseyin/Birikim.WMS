@@ -114,6 +114,29 @@ namespace Wms12m.Presentation.Controllers
                                 ORDER BY [Messages].Tarih", ComboItems.KişiselMesaj.ToInt32(), vUser.UserName, ID)).ToList();
             return PartialView("../Shared/UsersChat", list);
         }
+        /// <summary>
+        /// yeni mesajı kaydeder
+        /// </summary>
+        public JsonResult NewChat(string Kime, string Mesaj)
+        {
+            try
+            {
+                db.Messages.Add(new Message()
+                {
+                    Tarih = DateTime.Now,
+                    Kimden = vUser.UserName,
+                    Kime = Kime,
+                    Mesaj = Mesaj,
+                    MesajTipi = ComboItems.KişiselMesaj.ToInt32()
+                });
+                db.SaveChanges();
+                return Json(true, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception)
+            {
+                return Json(false, JsonRequestBehavior.AllowGet);
+            }
+        }
         #region Satış Raporları
         public PartialViewResult PartialGunlukSatisZamanCizelgesi(string SirketKodu)
         {

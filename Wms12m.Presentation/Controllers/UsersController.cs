@@ -34,7 +34,7 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public PartialViewResult SharedList()
         {
-            return PartialView("../Shared/Users", Persons.GetList());
+            return PartialView("../Shared/Users", db.Users.Where(m => m.ID > 1 && m.ID != vUser.Id).OrderBy(m => m.AdSoyad).ToList());
         }
         /// <summary>
         /// ayrıntılar

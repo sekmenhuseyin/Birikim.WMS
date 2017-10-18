@@ -3,7 +3,7 @@
     @foreach (var item in Model)
     {
         <div class="post @if (item.Kod == ViewBag.vUser.UserName) {@("out")} else {@("in")} ">
-            <img class="avatar" alt="" src="@Html.ImageOrDefault(item.ID.ToString())">
+            <img class="avatar" alt="@item.AdSoyad" src="@Html.ImageOrDefault(item.ID.ToString())">
             <div class="message">
                 <span class="arrow"></span>
                 <a href="javascript:;" class="name">@item.AdSoyad</a>
