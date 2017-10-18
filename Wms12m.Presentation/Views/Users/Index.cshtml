@@ -52,7 +52,6 @@
             type: "post",
             success: function (data) {
                 if (data.Status == true) {
-                    Modaldialog("İşlem Başarıyla gerçekleşti", "Başarı", "Tamam", "btn-success");
                     PartialView('/Users/Image/' + id, 'modalEditPage', "");
                 }
                 else if (data.Message != "" && data.Message != null)
