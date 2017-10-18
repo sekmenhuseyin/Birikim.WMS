@@ -63,8 +63,8 @@ namespace Wms12m.Entity.Models
         public virtual DbSet<UserDetail> UserDetails { get; set; }
         public virtual DbSet<Etkinlik> Etkinliks { get; set; }
         public virtual DbSet<ProjeForm> ProjeForms { get; set; }
-        public virtual DbSet<Message> Messages { get; set; }
         public virtual DbSet<Connection> Connections { get; set; }
+        public virtual DbSet<Message> Messages { get; set; }
     
         public virtual ObjectResult<string> GetSirketDBs()
         {
