@@ -833,6 +833,7 @@
     <Content Include="Views\Shared\Chat.cshtml" />
     <Content Include="Views\Shared\Users.cshtml" />
     <Content Include="Views\Shared\UsersChat.cshtml" />
+    <Content Include="Views\Users\Image.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

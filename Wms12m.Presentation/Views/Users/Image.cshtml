@@ -1,0 +1,54 @@
+﻿@model User
+<div class="modal-content">
+    <div class="close-modal" data-dismiss="modal"><div class="lr"><div class="rl"></div></div></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="modal-body">
+                    <h4>@Model.AdSoyad</h4>
+                    <div class="portlet light profile-sidebar-portlet ">
+                        <div class="profile-userpic">
+                            <img src="@Html.ImageOrDefault(Model.Guid.ToString())" class="img-responsive" alt="@Model.AdSoyad">
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 p-40">
+                                @using (Ajax.BeginForm("UserImage", "Uploads", new { area = "" }, new AjaxOptions { HttpMethod = "post" }, htmlAttributes: new { @class = "form pull-left", enctype = "multipart/form-data", id = "fileupload", role = "form" }))
+                                {
+                                    @Html.AntiForgeryToken()
+                                    <a id="linkUpload" class="btn btn-default">Yeni Yükle</a>
+                                    <input id="btnUpload" type="file" name="file" />
+                                    <input type="hidden" name="ID" id="ID" value="@Model.Guid" />
+                                }
+                                <a href="javascript:;" class="btn btn-danger pull-right" onclick="RemovePicture('@Model.Guid', '@Model.ID')"> Kaldır </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(function () {
+        $('#linkUpload').click(function () {
+            $("#btnUpload").click();
+        });
+        $('#fileupload').fileupload({
+            maxFileSize: 2000000,
+            acceptFileTypes: /(\.|\/)(jpg|png)$/i,
+            dataType: 'json',
+            add: function (e, data) { data.submit(); },
+            done: function (e, data) {
+                if (data.result.Status == true) {
+                    Modaldialog("İşlem Başarıyla gerçekleşti", "Başarı", "Tamam", "btn-success");
+                    PartialView('/Users/Image/@Model.ID', 'modalEditPage', "");
+                }
+                else if (data.result.Message != "" && data.result.Message != null)
+                    Modaldialog(data.result.Message, 'Hata', 'Tamam', 'btn-danger');
+                else
+                    Modaldialog("Hata oldu", 'Hata', 'Tamam', 'btn-danger');
+            },
+            fail: function (e, data) { Modaldialog("Lütfen Tekrar Deneyin", "Hata", "Tamam", "btn-danger"); }
+        });
+    });
+</script>

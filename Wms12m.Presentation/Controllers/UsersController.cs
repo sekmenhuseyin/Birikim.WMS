@@ -67,6 +67,16 @@ namespace Wms12m.Presentation.Controllers
             return PartialView("Edit", tbl);
         }
         /// <summary>
+        /// resim değiştirme ekranı
+        /// </summary>
+        public PartialViewResult Image()
+        {
+            if (CheckPerm(Perms.Kullanıcılar, PermTypes.Reading) == false) return null;
+            var id = Url.RequestContext.RouteData.Values["id"];
+            if (id == null || id.ToString2() == "") return null;
+            return PartialView("Image", Persons.Detail(id.ToInt32()));
+        }
+        /// <summary>
         /// şifre değiştirme ekranı
         /// </summary>
         public PartialViewResult Pass()
