@@ -108,10 +108,15 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public PartialViewResult UsersChat(string ID)
         {
+            var sql = "";
+            if (ID == "")
+                sql = string.Format("AND ([Messages].Kimden = '' OR [Messages].Kime = '')");
+            else
+                sql = string.Format("AND (([Messages].Kimden = '{1}') AND ([Messages].Kime = '{2}') OR ([Messages].Kimden = '{2}') AND ([Messages].Kime = '{1}'))", vUser.UserName, ID);
             var list = db.Database.SqlQuery<frmMessages>(string.Format(@"SELECT        TOP (100) usr.Users.AdSoyad, usr.Users.Kod, [Messages].Tarih, [Messages].Mesaj, usr.Users.[Guid] AS [ID]
                                 FROM            [Messages] INNER JOIN usr.Users ON [Messages].Kimden = usr.Users.Kod
-                                WHERE        ([Messages].MesajTipi = {0}) AND (([Messages].Kimden = '{1}') AND ([Messages].Kime = '{2}') OR ([Messages].Kimden = '{2}') AND ([Messages].Kime = '{1}'))
-                                ORDER BY [Messages].Tarih", ComboItems.KişiselMesaj.ToInt32(), vUser.UserName, ID)).ToList();
+                                WHERE        ([Messages].MesajTipi = {0}) {1}
+                                ORDER BY [Messages].Tarih", ComboItems.KişiselMesaj.ToInt32(), sql)).ToList();
             return PartialView("../Shared/UsersChat", list);
         }
         /// <summary>
