@@ -25,6 +25,12 @@ namespace Wms12m
             var imageSrc = File.Exists(HttpContext.Current.Server.MapPath(imagePath)) ? imagePath : defaultImage;
             return imageSrc;
         }
+        public static string ImageAddressOrDefault(this HtmlHelper helper, string filename)
+        {
+            var imagePath = uploadsDirectory + filename + ".jpg";
+            var imageSrc = File.Exists(HttpContext.Current.Server.MapPath(imagePath)) ? filename : "0";
+            return imageSrc;
+        }
     }
     /// <summary>
     /// enumdan combobox yapmak için lazım
