@@ -7,7 +7,9 @@ namespace Wms12m.Presentation
     /// </summary>
     public class BundleConfig
     {
-        public static string JsBundle = "~/Content/Scripts/bundle";
+        public static string JsBundle = "~/Content/Scripts/JsBundle";
+        public static string DtBundle = "~/Content/Scripts/DtBundle";
+        public static string StBundle = "~/Content/Scripts/StBundle";
         public static string CssBundle = "~/Content/Styles/bundle";
         public static string LoginJs = "~/Content/Scripts/LoginJs";
         public static string LoginCss = "~/Content/Scripts/LoginCss";
@@ -51,10 +53,12 @@ namespace Wms12m.Presentation
             bundles.Add(new StyleBundle(simpleLineIcons, "https://cdnjs.cloudflare.com/ajax/libs/simple-line-icons/2.4.1/css/simple-line-icons.css").Include("~/Content/assets/global/plugins/simple-line-icons/css/simple-line-icons.min.css"));
             //vars
             var scriptBundle = new ScriptBundle(JsBundle);
-            var scriptBundle2 = new ScriptBundle(LoginJs);
+            var scriptBundle2 = new ScriptBundle(DtBundle);
+            var scriptBundle3 = new ScriptBundle(StBundle);
             var styleBundle = new StyleBundle(CssBundle);
-            var styleBundle2 = new StyleBundle(LoginCss);
-            // scripts
+            var scriptBundleLogin = new ScriptBundle(LoginJs);
+            var styleBundleLogin = new StyleBundle(LoginCss);
+            /////////////////////// scripts
             scriptBundle
                 //jquery
                 .Include("~/Content/assets/global/plugins/jquery/jquery-migrate-3.0.0.min.js")
@@ -67,6 +71,8 @@ namespace Wms12m.Presentation
                 .Include("~/Content/assets/global/plugins/jquery-ui/datepicker-tr.js")
                 .Include("~/Content/assets/global/plugins/Numeral/locales.js")
                 .Include("~/Content/assets/global/plugins/devextreme/js/dx.all.js")
+                ;
+            scriptBundle2
                 //datatables
                 .Include("~/Content/assets/global/plugins/datatables/dataTables.min.js")
                 .Include("~/Content/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.min.js")
@@ -77,6 +83,8 @@ namespace Wms12m.Presentation
                 .Include("~/Content/assets/global/plugins/jszip.min.js")
                 .Include("~/Content/assets/global/plugins/pdfmake.min.js")
                 .Include("~/Content/assets/global/plugins/vfs_fonts.js")
+                ;
+            scriptBundle3
                 //theme scripts
                 .Include("~/Content/assets/global/scripts/app.min.js")
                 .Include("~/Content/assets/layouts/layout/scripts/layout.min.js")
@@ -85,7 +93,8 @@ namespace Wms12m.Presentation
                 .Include("~/Content/Scripts/MessageBox.min.js")
                 .Include("~/Content/Scripts/Functions.min.js")
                 ;
-            scriptBundle2
+            //login bundle
+            scriptBundleLogin
                 .Include("~/Content/assets/global/plugins/jquery/jquery-migrate-3.0.0.min.js")
                 .Include("~/Content/assets/global/plugins/jquery-validation/jquery.validate.min.js")
                 .Include("~/Content/assets/global/plugins/jquery-validation/jquery.validate.unobtrusive.min.js")
@@ -96,7 +105,7 @@ namespace Wms12m.Presentation
                 .Include("~/Content/Scripts/Operation.min.js")
                 .Include("~/Content/Scripts/MessageBox.min.js")
                 ;
-            // styles
+            /////////////////////// styles
             styleBundle
                 // DevExtreme
                 .Include("~/Content/assets/global/plugins/DevExtreme/css/dx.common.css")
@@ -112,7 +121,8 @@ namespace Wms12m.Presentation
                 .Include("~/Content/assets/global/plugins/datatables/dataTables.min.css")
                 .Include("~/Content/assets/global/plugins/datatables/extensions/Buttons/css/buttons.dataTables.min.css")
                 ;
-            styleBundle2
+            //login bundle
+            styleBundleLogin
                 //theme
                 .Include("~/Content/assets/global/css/components-md.min.css")
                 .Include("~/Content/assets/global/css/plugins-md.min.css")
@@ -121,8 +131,10 @@ namespace Wms12m.Presentation
             // bundle
             bundles.Add(scriptBundle);
             bundles.Add(scriptBundle2);
+            bundles.Add(scriptBundle3);
             bundles.Add(styleBundle);
-            bundles.Add(styleBundle2);
+            bundles.Add(scriptBundleLogin);
+            bundles.Add(styleBundleLogin);
             // EnableOptimizations
 #if !DEBUG
             BundleTable.EnableOptimizations = true;
