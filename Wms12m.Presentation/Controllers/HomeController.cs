@@ -103,6 +103,15 @@ namespace Wms12m.Presentation.Controllers
             var tablo = db.Messages.Where(m => m.MesajTipi == mTipi).OrderBy(m => m.Tarih).Take(100).ToList();
             return PartialView("../Shared/Chat", tablo);
         }
+        /// <summary>
+        /// UsersChat
+        /// </summary>
+        public PartialViewResult UsersChat(string to)
+        {
+            var mTipi = ComboItems.KişiselMesaj.ToInt32();
+            var tablo = db.Messages.Where(m => m.MesajTipi == mTipi && ((m.Kimden == vUser.UserName && m.Kime == to) || (m.Kimden == to && m.Kime == vUser.UserName))).OrderBy(m => m.Tarih).Take(100).ToList();
+            return PartialView("../Shared/UsersChat", tablo);
+        }
         #region Satış Raporları
         public PartialViewResult PartialGunlukSatisZamanCizelgesi(string SirketKodu)
         {
