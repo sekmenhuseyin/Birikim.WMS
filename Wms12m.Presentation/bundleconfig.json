@@ -54,9 +54,15 @@
     ]
   },
   {
-    "outputFileName": "Content/assets/layouts/global/scripts/quick-sidebar.min.js",
+    "outputFileName": "Content/Scripts/quick-sidebar.min.js",
     "inputFiles": [
-      "Content/assets/layouts/global/scripts/quick-sidebar.js"
+      "Content/Scripts/quick-sidebar.js"
+    ]
+  },
+  {
+    "outputFileName": "Content/Scripts/SignalR.min.js",
+    "inputFiles": [
+      "Content/Scripts/SignalR.js"
     ]
   }
 ]

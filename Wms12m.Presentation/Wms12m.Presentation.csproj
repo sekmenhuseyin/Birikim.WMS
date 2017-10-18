@@ -226,9 +226,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\assets\layouts\global\scripts\quick-sidebar.min.js">
-      <DependentUpon>quick-sidebar.js</DependentUpon>
-    </Content>
     <Content Include="Content\assets\pages\img\texbox-cal.png" />
     <Content Include="Content\images\12M-Logo-30.png" />
     <Content Include="Content\images\12M-Logo-90.png" />
@@ -281,7 +278,7 @@
     <Content Include="Content\assets\global\scripts\datatable.min.js">
       <DependentUpon>datatable.js</DependentUpon>
     </Content>
-    <Content Include="Content\assets\layouts\global\scripts\quick-sidebar.js" />
+    <Content Include="Content\Scripts\quick-sidebar.js" />
     <Content Include="Content\assets\layouts\layout\css\custom.css" />
     <Content Include="Content\assets\layouts\layout\css\custom.min.css">
       <DependentUpon>custom.css</DependentUpon>
@@ -347,6 +344,9 @@
     <Content Include="Content\images\VezirKopru-Logo-30.png" />
     <Content Include="Content\images\VezirKopru-Logo-90.png" />
     <Content Include="Content\images\VezirKopru-Logo.png" />
+    <Content Include="Content\Scripts\quick-sidebar.min.js">
+      <DependentUpon>quick-sidebar.js</DependentUpon>
+    </Content>
     <Content Include="Content\Scripts\SignalR.js" />
     <Content Include="Content\Scripts\Functions.js" />
     <Content Include="Content\Scripts\Functions.min.js">
@@ -359,6 +359,9 @@
     <Content Include="Content\Scripts\Operation.js" />
     <Content Include="Content\Scripts\Operation.min.js">
       <DependentUpon>Operation.js</DependentUpon>
+    </Content>
+    <Content Include="Content\Scripts\SignalR.min.js">
+      <DependentUpon>SignalR.js</DependentUpon>
     </Content>
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
@@ -870,7 +873,9 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Content\assets\layouts\global\scripts\" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
