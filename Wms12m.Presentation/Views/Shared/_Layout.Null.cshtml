@@ -37,7 +37,7 @@
     @Scripts.Render(BundleConfig.numeral)
     @Scripts.Render(BundleConfig.bootbox)
     @Scripts.Render(BundleConfig.LoginBundle)
-    <script src="~/Content/assets/global/plugins/devtools-detect.js"></script><script>window.addEventListener('devtoolschange', function (e) { if (e.detail.open == true) { console.clear(); window.location.reload(); } });</script>
+    @{if (ViewBag.Debug == false) {<script src="~/Content/assets/global/plugins/devtools-detect.js"></script><script>window.addEventListener('devtoolschange', function (e) { if (e.detail.open == true) { console.clear(); window.location.reload(); } });</script>}
     @RenderSection("Scripts", required: false)
 </body>
 </html>
