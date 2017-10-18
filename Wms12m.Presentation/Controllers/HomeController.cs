@@ -112,7 +112,7 @@ namespace Wms12m.Presentation.Controllers
             if (ID == "")
                 sql = string.Format("AND ([Messages].Kimden = '' OR [Messages].Kime = '')");
             else
-                sql = string.Format("AND (([Messages].Kimden = '{1}') AND ([Messages].Kime = '{2}') OR ([Messages].Kimden = '{2}') AND ([Messages].Kime = '{1}'))", vUser.UserName, ID);
+                sql = string.Format("AND (([Messages].Kimden = '{1}') AND ([Messages].Kime = '{0}') OR ([Messages].Kimden = '{0}') AND ([Messages].Kime = '{1}'))", vUser.UserName, ID);
             var list = db.Database.SqlQuery<frmMessages>(string.Format(@"SELECT        TOP (100) usr.Users.AdSoyad, usr.Users.Kod, [Messages].Tarih, [Messages].Mesaj, usr.Users.[Guid] AS [ID]
                                 FROM            [Messages] INNER JOIN usr.Users ON [Messages].Kimden = usr.Users.Kod
                                 WHERE        ([Messages].MesajTipi = {0}) {1}
