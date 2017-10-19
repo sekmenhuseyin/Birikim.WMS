@@ -10,6 +10,13 @@ namespace Wms12m.Hubs
     public class ZigChatHub : Hub
     {
         /// <summary>
+        /// send notification
+        /// </summary>
+        public void SendNotifications(string title, string message)
+        {
+            Clients.All.receiveNotification(title, message);
+        }
+        /// <summary>
         /// send message
         /// </summary>
         public void SendMessage(string userName, string usersend, string message)

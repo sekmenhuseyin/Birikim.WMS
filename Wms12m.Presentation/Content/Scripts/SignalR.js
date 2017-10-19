@@ -39,8 +39,8 @@ $(function () {
 
     };
     //herkese uyarı gönderme
-    zigChatHubProxy.client.receiveNotification = function (message) {
-
+    zigChatHubProxy.client.receiveNotification = function (title, message) {
+        CT("info", message, title);
     };
     ///online kullanıcıları listeler
     zigChatHubProxy.client.updateUsersOnline = function (data) {
