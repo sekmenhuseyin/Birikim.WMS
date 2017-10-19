@@ -1,7 +1,6 @@
 /**
 Core script to handle the entire theme and core functions
 **/
-var SendMessageTo;
 var QuickSidebar = function () {
 
     // Handles quick sidebar toggler

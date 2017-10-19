@@ -101,13 +101,13 @@ namespace Wms12m.Presentation.Controllers
         {
             var sql = "";
             if (ID == "")
-                sql = string.Format("AND ([Messages].Kimden = '' OR [Messages].Kime = '')");
+                sql = string.Format("[Messages].MesajTipi = " + ComboItems.GrupMesajı.ToInt32());
             else
-                sql = string.Format("AND (([Messages].Kimden = '{1}') AND ([Messages].Kime = '{0}') OR ([Messages].Kimden = '{0}') AND ([Messages].Kime = '{1}'))", vUser.UserName, ID);
+                sql = string.Format("([Messages].MesajTipi = {0}) AND (([Messages].Kimden = '{1}') AND ([Messages].Kime = '{2}') OR ([Messages].Kimden = '{2}') AND ([Messages].Kime = '{1}'))", ComboItems.KişiselMesaj.ToInt32(), vUser.UserName, ID);
             var list = db.Database.SqlQuery<frmMessages>(string.Format(@"SELECT        TOP (100) usr.Users.AdSoyad, usr.Users.Kod, [Messages].Tarih, [Messages].Mesaj, usr.Users.[Guid] AS [ID]
                                 FROM            [Messages] INNER JOIN usr.Users ON [Messages].Kimden = usr.Users.Kod
-                                WHERE        ([Messages].MesajTipi = {0}) {1}
-                                ORDER BY [Messages].Tarih", ComboItems.KişiselMesaj.ToInt32(), sql)).ToList();
+                                WHERE        {0}
+                                ORDER BY [Messages].Tarih", sql)).ToList();
             return PartialView("../Shared/UsersChat", list);
         }
         /// <summary>
@@ -123,7 +123,7 @@ namespace Wms12m.Presentation.Controllers
                     Kimden = vUser.UserName,
                     Kime = Kime,
                     Mesaj = Mesaj,
-                    MesajTipi = ComboItems.KişiselMesaj.ToInt32()
+                    MesajTipi = Kime == "" ? ComboItems.GrupMesajı.ToInt32() : ComboItems.KişiselMesaj.ToInt32()
                 });
                 db.SaveChanges();
                 return Json(true, JsonRequestBehavior.AllowGet);

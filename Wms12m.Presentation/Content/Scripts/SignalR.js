@@ -2,7 +2,10 @@
 $(function () {
     var zigChatHubProxy = $.connection.zigChatHub;
     //chat yazma: bu kısım hubdan çalıştırılıyor
-    zigChatHubProxy.client.updateChat = function (userName, message, isPm) {
+    zigChatHubProxy.client.updateChat = function (userName, message) {
+        var wrapper = $('.page-quick-sidebar-wrapper');
+        var wrapperChat = wrapper.find('.page-quick-sidebar-chat');
+
         var lr = currentUserName === userName ? 'left' : 'right';
         var $newMessage = $('<div class="panel panel-primary" style="margin-' + lr + ': 7em; background-color: #337ab7;">' +
                                 '<div style="padding: .5em; color: white; border-bottom: .1em solid white; font-size: 11px;">' + userName + ' ' + moment().fromNow() + '</div>' +
@@ -10,7 +13,6 @@ $(function () {
                             '</div>');
 
         $('#chat').append($newMessage);
-
         $newMessage[0].scrollIntoView(true);
     };
     ///online kullanıcıları listeler
@@ -25,9 +27,8 @@ $(function () {
         for (var user of data.UsersOnline) {
             if (user === currentUserName)
                 $users.append($('<p class="user-current">' + user + '</p>'));
-            else {
+            else
                 $users.append('<p class="user">' + user + '</p>');
-            }
         }
     };
     //connection başladığında
@@ -42,11 +43,9 @@ $(function () {
                 var $message = $('#message');
                 var sendMessage = function () {
                     $message.focus();
-
-                    if ($message.val() === '')
-                        return;
-
-                    zigChatHubProxy.server.sendMessage(currentUserName, $message.val());
+                    if ($message.val() === '') return;
+                    //send message to server
+                    zigChatHubProxy.server.sendMessage(currentUserName, SendMessageTo, $message.val());
                     $message.val('');
                 };
                 //entera basınca da gönder
@@ -54,9 +53,7 @@ $(function () {
                     if (data.which === 13)
                         sendMessage();
                 });
-
                 $('#send').click(sendMessage);
-
                 $message.focus();
 
             });

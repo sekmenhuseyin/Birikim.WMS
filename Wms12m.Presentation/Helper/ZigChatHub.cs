@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNet.SignalR;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Wms12m.Entity.Models;
@@ -11,20 +12,43 @@ namespace Wms12m.Hubs
         /// <summary>
         /// send message
         /// </summary>
-        public void SendMessage(string userName, string message)
+        public void SendMessage(string userName, string usersend, string message)
         {
             using (var db = new WMSEntities())
             {
-                db.Messages.Add(new Message()
+                if (usersend != "")
                 {
-                    MesajTipi = ComboItems.GrupMesajı.ToInt32(),
-                    Tarih = DateTime.Now,
-                    Kimden = userName,
-                    Kime = null,
-                    Mesaj = message
-                });
-                db.SaveChanges();
-                Clients.All.UpdateChat(userName, message);
+                    var pmConnection = db.Connections.Where(x => x.UserName.ToLower() == usersend && x.IsOnline).SingleOrDefault();
+                    db.Messages.Add(new Message()
+                    {
+                        MesajTipi = ComboItems.KişiselMesaj.ToInt32(),
+                        Tarih = DateTime.Now,
+                        Kimden = userName,
+                        Kime = usersend,
+                        Mesaj = message
+                    });
+                    db.SaveChanges();
+                    //online ise hemen gönder
+                    if (pmConnection != null)
+                    {
+                        Clients.Clients(new List<string> { Context.ConnectionId, pmConnection.ConnectionId }).UpdateChat(userName, message);
+                        return;
+                    }
+                }
+                else
+                {
+                    db.Messages.Add(new Message()
+                    {
+                        MesajTipi = ComboItems.KişiselMesaj.ToInt32(),
+                        Tarih = DateTime.Now,
+                        Kimden = userName,
+                        Kime = null,
+                        Mesaj = message
+                    });
+
+                    db.SaveChanges();
+                    Clients.All.UpdateChat(userName, message);
+                }
             }
         }
         /// <summary>
