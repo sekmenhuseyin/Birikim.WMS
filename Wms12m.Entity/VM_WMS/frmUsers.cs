@@ -3,6 +3,17 @@
 namespace Wms12m.Entity
 {
     /// <summary>
+    /// notifications tablosu
+    /// </summary>
+    public class frmNewNotification
+    {
+        public int ID { get; set; }
+        public string Kime { get; set; }
+        public string Name { get; set; }
+        public string Mesaj { get; set; }
+        public string ConnectionId { get; set; }
+    }
+    /// <summary>
     /// mesaj tablosu
     /// </summary>
     public class frmMessages

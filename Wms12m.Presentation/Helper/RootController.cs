@@ -82,13 +82,14 @@ namespace Wms12m.Presentation
             }
             ViewBag.vUser = vUser;
             ViewBag.settings = db.Settings.FirstOrDefault();
-            ViewBag.UnreadMessages = db.Messages.Where(m => m.MesajTipi == 85 && m.Kime == vUser.UserName && m.Okundu == false).OrderByDescending(m => m.Tarih).ToList();//sadece genel uyarılar
             ViewBag.Debug = HttpContext.IsDebuggingEnabled;
             if (ViewBag.settings.Aktif == false && filterContext.ActionDescriptor.ControllerDescriptor.ControllerName != "Maintenance")
             {
                 filterContext.Result = new RedirectToRouteResult(new RouteValueDictionary(new { area = "", controller = "Maintenance", action = "Index" }));
                 return;
             }
+            //normal settings
+            ViewBag.UnreadMessages = db.Messages.Where(m => m.MesajTipi == 85 && m.Kime == vUser.UserName && m.Okundu == false).OrderByDescending(m => m.Tarih).ToList();//sadece genel uyarılar
             db.Database.CommandTimeout = 2000;
             CultureInfo culture = CultureInfo.GetCultureInfo("tr");
             System.Threading.Thread.CurrentThread.CurrentCulture = culture;

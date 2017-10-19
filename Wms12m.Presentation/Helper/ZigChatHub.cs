@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Wms12m.Entity;
 using Wms12m.Entity.Models;
 
 namespace Wms12m.Hubs
@@ -12,9 +13,24 @@ namespace Wms12m.Hubs
         /// <summary>
         /// send notification
         /// </summary>
-        public void SendNotifications(string title, string message)
+        public void SendNotifications()
         {
-            Clients.All.receiveNotification(title, message);
+            using (var db = new WMSEntities())
+            {
+                var list = db.Database.SqlQuery<frmNewNotification>(@"SELECT        Messages.ID, Messages.Kime, ComboItem_Name.Name, Messages.Mesaj, Connections.ConnectionId
+                                                        FROM            Messages INNER JOIN
+                                                                                    Connections ON Messages.Kime = Connections.UserName INNER JOIN
+                                                                                    ComboItem_Name ON Messages.MesajTipi = ComboItem_Name.ID
+                                                        WHERE        (Connections.IsOnline = 1) AND (Messages.Goruldu = 0) AND (Messages.MesajTipi = 85)").ToList();
+                //eğer liste varsa gönder
+                if (list.Count > 0)
+                    foreach (var item in list)
+                    {
+                        db.Database.ExecuteSqlCommand("UPDATE Messages SET Goruldu = 1 WHERE (ID = " + item.ID + ")");
+                        Clients.Clients(new List<string> { item.ConnectionId }).ReceiveNotification(item.Name, item.Mesaj);
+
+                    }
+            }
         }
         /// <summary>
         /// send message
