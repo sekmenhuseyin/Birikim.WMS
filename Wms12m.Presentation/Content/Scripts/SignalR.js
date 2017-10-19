@@ -68,7 +68,7 @@ $(function () {
             //disconnect on logout
             $('#btnLogout').click(function () {
                 zigChatHubProxy.connection.stop();
-                window.location.href = "Security/LogOut";
+                window.location.href = "/Security/LogOut";
             });
             //send notifications on page load and on new items
             zigChatHubProxy.server.sendNotifications()
