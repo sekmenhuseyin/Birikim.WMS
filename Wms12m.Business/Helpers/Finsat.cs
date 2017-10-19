@@ -276,7 +276,7 @@ namespace Wms12m
             var Sonuc = new OnikimCore.GunesCore.IslemSonuc(false);
             try
             {
-                Sonuc = IrsIslem.Irsaliye_Kayit(-1, STIBaseList);
+                Sonuc = IrsIslem.Irsaliye_Kayit(1, STIBaseList);
             }
             catch (Exception ex)
             {
@@ -416,7 +416,7 @@ namespace Wms12m
                 var list = db.Database.SqlQuery<STIMax>(sql).ToList();
                 foreach (STIMax item in list)
                 {
-                    sql = string.Format("SELECT STI.ROW_ID, STI.Chk,STI.IslemTip,STI.Miktar,STI.Miktar - STI.ErekIIFMiktar AS ErekIIFMiktar,STI.MalKodu,STI.Fiyat,STI.Birim,"+
+                    sql = string.Format("SELECT STI.ROW_ID,STI.Nesne1,STI.Nesne2,STI.Nesne3,STI.miktar3,STI.Tutar3, STI.Chk,STI.IslemTip,STI.Miktar,STI.Miktar - STI.ErekIIFMiktar AS ErekIIFMiktar,STI.MalKodu,STI.Fiyat,STI.Birim," +
                         "STI.Depo,STI.ToplamIskonto,STI.KDV,STI.KDVOran,STI.IskontoOran1,STI.IskontoOran2,STI.IskontoOran3,STI.IskontoOran4,STI.IskontoOran5,STI.EvrakNo as KaynakIIFEvrakNo,STI.KaynakSiparisNo," +
                         "STI.Tarih as KaynakSiparisTarih,STI.SiraNo,STI.SiparisSiraNo," +
                         "STI.Miktar as SiparisMiktar,STI.FytListeNo,STI.ValorGun,STI.Kod1,STI.Kod2,STI.Kod3,STI.Kod4,STI.Kod5,STI.Kod6,STI.Kod7,STI.Kod8,STI.Kod9,STI.Kod10," +
