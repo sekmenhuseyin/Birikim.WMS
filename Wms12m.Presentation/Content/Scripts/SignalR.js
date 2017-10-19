@@ -62,15 +62,6 @@ $(function () {
                     alert(data.ErrorMessage);
                     return;
                 }
-                ////mesaj gönderme fonksiyonu
-                //var $message = $('#message');
-                //var sendMessage = function () {
-                //    if ($message.val() === '') return;
-                //    //send message to server
-                //    zigChatHubProxy.server.sendMessage(currentUserName, SendMessageTo, $message.val());
-                //    $message.val('');
-                //    $message.focus();
-                //};
                 //functions
                 var preparePost = function (dir, time, name, avatar, message) {
                     var tpl = '';
