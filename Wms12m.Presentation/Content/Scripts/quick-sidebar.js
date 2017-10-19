@@ -9,6 +9,9 @@ var QuickSidebar = function () {
         $('.dropdown-quick-sidebar-toggler a, .page-quick-sidebar-toggler, .quick-sidebar-toggler').click(function (e) {
             $('body').toggleClass('page-quick-sidebar-open'); 
         });
+        $('#header_chat_bar').click(function (e) {
+            $('body').toggleClass('page-quick-sidebar-open');
+        });
     };
 
     // Handles quick sidebar chats

@@ -88,7 +88,7 @@ namespace Wms12m.Presentation
                 //theme scripts
                 .Include("~/Content/assets/global/scripts/app.min.js")
                 .Include("~/Content/assets/layouts/layout/scripts/layout.min.js")
-                .Include("~/Content/assets/global/scripts/quick-sidebar.min.js")
+                .Include("~/Content/Scripts/quick-sidebar.min.js")
                 .Include("~/Content/Scripts/Operation.min.js")
                 .Include("~/Content/Scripts/MessageBox.min.js")
                 .Include("~/Content/Scripts/Functions.min.js")

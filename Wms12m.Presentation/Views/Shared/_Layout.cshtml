@@ -37,6 +37,12 @@
                 <a href="javascript:;" class="menu-toggler responsive-toggler" data-toggle="collapse" data-target=".navbar-collapse"><span></span></a>
                 <div class="top-menu">
                     <ul class="nav navbar-nav pull-right">
+                        <li class="dropdown dropdown-extended dropdown-chat" id="header_chat_bar">
+                            <a href="javascript:;" class="dropdown-toggle">
+                                <i class="icon-speech"></i>
+                            </a>
+                            <ul class="dropdown-menu"></ul>
+                        </li>
                         <li class="dropdown dropdown-extended dropdown-notification" id="header_notification_bar">
                             @{Html.RenderAction("Notifications", "Home", new { area = "" }); }@*---------------------------------------Notifications---------------------------------------*@
                         </li>
