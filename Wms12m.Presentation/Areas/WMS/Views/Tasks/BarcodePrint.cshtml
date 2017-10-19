@@ -3,8 +3,8 @@
     ViewBag.Title = "Barcode Print";
     Layout = "~/Views/Shared/_Layout.Null.cshtml";
     frmPaketBarkod frmBarkod = ViewBag.Details;
-}<style>#tblbarcode td{font-size:smaller;}</style>
-<table id="tblbarcode" class="table" style="max-width:20%;">
+}<style>#tblbarcode td{font-size:smaller;padding:4px!important;}</style>
+<table id="tblbarcode" class="table" style="max-width:15%;">
     <tr>
         <td>Sevkiyat No</td>
         <td>@Model.SevkiyatNo</td>
@@ -23,27 +23,27 @@
         <td></td>
         <td></td>
     </tr>
-    <tr class="m-t-20">
+    <tr class="m-t-10">
         <td valign="top">Gönderen</td>
         <td colspan="3">@frmBarkod.GonderenUnvan<br />@frmBarkod.GonderenAdres<br />Tel: @frmBarkod.tel<br />Fax: @frmBarkod.fax</td>
     </tr>
-    <tr class="m-t-20">
+    <tr class="m-t-10">
         <td valign="top">Alıcı</td>
         <td colspan="3">@frmBarkod.Unvan<br />@frmBarkod.FaturaAdres</td>
     </tr>
-    <tr class="m-t-20">
+    <tr class="m-t-10">
         <td valign="top">Sevk Adresi</td>
         <td colspan="3">@frmBarkod.TeslimAdres</td>
     </tr>
-    <tr class="m-t-20">
+    <tr class="m-t-10">
         <td>Paketleme</td>
         <td>@Model.ComboItem_Name.Name</td>
     </tr>
-    <tr class="m-t-20">
+    <tr class="m-t-10">
         <td>Paket No</td>
         <td colspan="3">@Model.PaketNo</td>
     </tr>
-    <tr class="m-t-20">
+    <tr class="m-t-10">
         <td colspan="4"><img src="http://www.barcodes4.me/barcode/c128c/@{@Model.PaketNo.Replace("-","").RemoveFirstCharacter(3)}.png?IsTextDrawn=1" alt="" style="width:100%;" /></td>
     </tr>
 </table>
