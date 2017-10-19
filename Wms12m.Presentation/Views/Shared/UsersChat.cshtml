@@ -1,4 +1,6 @@
 ﻿@model IEnumerable<frmMessages>
+@{string guid = ViewBag.guid;}
+<script>currentUserImage = "@Html.ImageAddressOrDefault(guid)"</script>
 <div class="page-quick-sidebar-chat-user-messages" data-height="769" style="overflow: hidden; width: auto; height: 769px;" data-initialized="1">
     @foreach (var item in Model)
     {

@@ -16,9 +16,11 @@ namespace Wms12m.Hubs
         {
             using (var db = new WMSEntities())
             {
+                var kişi = db.Users.Where(m => m.Kod == userName).FirstOrDefault();
+                var guid = Statics.ImageAddressOrDefault(kişi.Guid.ToString());
                 if (usersend != "")
                 {
-                    var pmConnection = db.Connections.Where(x => x.UserName.ToLower() == usersend && x.IsOnline).SingleOrDefault();
+                    //sadece bir kişiye mesaj gönderiyor
                     db.Messages.Add(new Message()
                     {
                         MesajTipi = ComboItems.KişiselMesaj.ToInt32(),
@@ -29,25 +31,27 @@ namespace Wms12m.Hubs
                     });
                     db.SaveChanges();
                     //online ise hemen gönder
+                    var pmConnection = db.Connections.Where(x => x.UserName.ToLower() == usersend && x.IsOnline).SingleOrDefault();
                     if (pmConnection != null)
                     {
-                        Clients.Clients(new List<string> { Context.ConnectionId, pmConnection.ConnectionId }).UpdateChat(userName, message);
+                        Clients.Clients(new List<string> { Context.ConnectionId, pmConnection.ConnectionId }).UpdateChat(userName, usersend, message, kişi.AdSoyad, guid);
                         return;
                     }
                 }
                 else
                 {
+                    //herkese mesaj gönderiyor
                     db.Messages.Add(new Message()
                     {
-                        MesajTipi = ComboItems.KişiselMesaj.ToInt32(),
+                        MesajTipi = ComboItems.GrupMesajı.ToInt32(),
                         Tarih = DateTime.Now,
                         Kimden = userName,
-                        Kime = null,
+                        Kime = "",
                         Mesaj = message
                     });
-
                     db.SaveChanges();
-                    Clients.All.UpdateChat(userName, message);
+                    //online ise hemen gönder
+                    Clients.All.UpdateChat(userName, usersend, message, kişi.AdSoyad, guid);
                 }
             }
         }

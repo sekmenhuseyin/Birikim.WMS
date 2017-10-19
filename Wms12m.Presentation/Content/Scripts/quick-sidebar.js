@@ -1,3 +1,4 @@
+
 /**
 Core script to handle the entire theme and core functions
 **/
@@ -48,62 +49,51 @@ var QuickSidebar = function () {
             SendMessageTo = $(this).find('input').val();
             PartialView('/Home/UsersChat', 'UsersChat', JSON.stringify({ ID: SendMessageTo }));
             wrapperChat.addClass("page-quick-sidebar-content-item-shown");
+            var input = wrapperChat.find('.page-quick-sidebar-chat-user-form .form-control');
+            var chatContainer = wrapperChat.find(".page-quick-sidebar-chat-user-messages");
+            chatContainer.slimScroll({ scrollTo: '1000000px' });
+            input.focus();
+            initChatSlimScroll();
         });
 
         //sohbette geriye basýnca kullanýcýlar geliyor
         wrapper.find('.page-quick-sidebar-chat-user .page-quick-sidebar-back-to-list').click(function () {
+            SendMessageTo = "x";
             wrapperChat.removeClass("page-quick-sidebar-content-item-shown");
         });
 
-        //////////////////////////////send message
-        var handleChatMessagePost = function (e) {
-            e.preventDefault();
+        ////////////////////////////////send message
+        //var handleChatMessagePost = function (e) {
+        //    e.preventDefault();
 
-            var chatContainer = wrapperChat.find(".page-quick-sidebar-chat-user-messages");
-            var input = wrapperChat.find('.page-quick-sidebar-chat-user-form .form-control');
+        //    var chatContainer = wrapperChat.find(".page-quick-sidebar-chat-user-messages");
+        //    var input = wrapperChat.find('.page-quick-sidebar-chat-user-form .form-control');
 
-            var text = input.val();
-            if (text.length === 0) { return; }
-            //functions
-            var preparePost = function(dir, time, name, avatar, message) {
-                var tpl = '';
-                tpl += '<div class="post '+ dir +'">';
-                tpl += '<img class="avatar" alt="' + name + '" src="/Content/Uploads/' + avatar +'.jpg"/>';
-                tpl += '<div class="message">';
-                tpl += '<span class="arrow"></span>';
-                tpl += '<a href="javascript:;" class="name">' + name + '</a>&nbsp;';
-                tpl += '<span class="datetime">' + time + '</span>';
-                tpl += '<span class="body">';
-                tpl += message;
-                tpl += '</span>';
-                tpl += '</div>';
-                tpl += '</div>';
+        //    var text = input.val();
+        //    if (text.length === 0) { return; }
+        //    // handle post
+        //    var time = new Date();
+        //    var message = preparePost('out', (time.getHours() + ':' + time.getMinutes()), currentUserName, currentUserImage, text);
+        //    message = $(message);
+        //    chatContainer.append(message);
+        //    chatContainer.slimScroll({ scrollTo: '1000000px' });
+        //    input.val("");
+        //    //save 2 db
+        //    $.ajax({
+        //        type: 'POST',
+        //        url: "/Home/NewChat",
+        //        data: { Kime: SendMessageTo, Mesaj: text },
+        //        dataType: "html"
+        //    });
+        //};
 
-                return tpl;
-            };
-            // handle post
-            var time = new Date();
-            var message = preparePost('out', (time.getHours() + ':' + time.getMinutes()), currentUserName, currentUserImage, text);
-            message = $(message);
-            chatContainer.append(message);
-            chatContainer.slimScroll({ scrollTo: '1000000px' });
-            input.val("");
-            //save 2 db
-            $.ajax({
-                type: 'POST',
-                url: "/Home/NewChat",
-                data: { Kime: SendMessageTo, Mesaj: text },
-                dataType: "html"
-            });
-        };
-
-        wrapperChat.find('.page-quick-sidebar-chat-user-form .btn').click(handleChatMessagePost);
-        wrapperChat.find('.page-quick-sidebar-chat-user-form .form-control').keypress(function (e) {
-            if (e.which === 13) {
-                handleChatMessagePost(e);
-                return false;
-            }
-        });
+        //wrapperChat.find('.page-quick-sidebar-chat-user-form .btn').click(handleChatMessagePost);
+        //wrapperChat.find('.page-quick-sidebar-chat-user-form .form-control').keypress(function (e) {
+        //    if (e.which === 13) {
+        //        handleChatMessagePost(e);
+        //        return false;
+        //    }
+        //});
     };
 
     return {

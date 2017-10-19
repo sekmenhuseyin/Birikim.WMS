@@ -101,9 +101,15 @@ namespace Wms12m.Presentation.Controllers
         {
             var sql = "";
             if (ID == "")
+            {
                 sql = string.Format("[Messages].MesajTipi = " + ComboItems.GrupMesajı.ToInt32());
+                ViewBag.guid = "0";
+            }
             else
+            {
                 sql = string.Format("([Messages].MesajTipi = {0}) AND (([Messages].Kimden = '{1}') AND ([Messages].Kime = '{2}') OR ([Messages].Kimden = '{2}') AND ([Messages].Kime = '{1}'))", ComboItems.KişiselMesaj.ToInt32(), vUser.UserName, ID);
+                ViewBag.guid = db.Users.Where(m => m.Kod == ID).Select(m => m.Guid.ToString()).FirstOrDefault();
+            }
             var list = db.Database.SqlQuery<frmMessages>(string.Format(@"SELECT        TOP (100) usr.Users.AdSoyad, usr.Users.Kod, [Messages].Tarih, [Messages].Mesaj, usr.Users.[Guid] AS [ID]
                                 FROM            [Messages] INNER JOIN usr.Users ON [Messages].Kimden = usr.Users.Kod
                                 WHERE        {0}

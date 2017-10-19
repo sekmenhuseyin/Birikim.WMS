@@ -144,6 +144,6 @@ function CT(style, title, message, url) {
         "hideEasing": "linear",
         "showMethod": "fadeIn",
         "hideMethod": "fadeOut",
-        onclick: function () { if (url != '') window.location.href = url; }
+        onclick: function () { if (url != '' && url != null) window.location.href = url; }
     });
 }
