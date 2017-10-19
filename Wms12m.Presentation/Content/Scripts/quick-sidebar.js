@@ -51,7 +51,7 @@ var QuickSidebar = function () {
         //kullanýcýya týklayýnca sohbet penceresi açýlýyor
         wrapper.find('.page-quick-sidebar-chat-users .media-list > .media').click(function () {
             SendMessageTo = $(this).find('input').val();
-            PartialViewClass('/Home/UsersChat', 'slimScrollDiv', JSON.stringify({ ID: SendMessageTo }));
+            PartialViewClass('/Home/UsersChat', 'page-quick-sidebar-chat-user-messages', JSON.stringify({ ID: SendMessageTo }));
             wrapperChat.addClass("page-quick-sidebar-content-item-shown");
             setTimeout(initChatSlimScroll, 500);
         });

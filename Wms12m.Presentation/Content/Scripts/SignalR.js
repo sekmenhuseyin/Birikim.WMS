@@ -100,7 +100,7 @@ $(function () {
             var handleChatMessagePost = function (e) {
                 e.preventDefault();
                 var text = input.val();
-                if (text.length === 0) { return; }
+                if (text.length === 0) { alert("boş"); return; }
                 // handle post
                 var time = new Date();
                 var message = preparePost('out', (time.getHours() + ':' + time.getMinutes()), currentUserName, currentUserImage, text);
