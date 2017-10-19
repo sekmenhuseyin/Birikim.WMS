@@ -218,7 +218,7 @@ namespace Wms12m
                 {
                     STIBase sti = new STIBase()
                     {
-                        EvrakNo = evrkno[0].EvrakNo,
+                        EvrakNo = "xx000030",
                         HesapKodu = stItem.HesapKodu,
                         Tarih = stItem.Tarih.IntToDate(),
                         MalKodu = stItem.MalKodu,
@@ -230,8 +230,8 @@ namespace Wms12m
                         KayitSurum = "9.01.028",
                         KayitKaynak = 74,
                         ErekIIFMiktar = stItem.ErekIIFMiktar,
-                        Row_ID= stItem.Row_ID
-                    
+                        Row_ID = stItem.Row_ID
+
                     };
                     if (stItem.SiparisNo != "")
                     {
