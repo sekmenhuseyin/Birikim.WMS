@@ -1,12 +1,26 @@
 ﻿namespace Wms12m
 {
     /// <summary>
-    /// list status
+    /// combo item names
     /// </summary>
-    public enum GetListStatus
+    public enum Combos
     {
-        Refresh = 0,
-        Close = 1
+        GorevTipleri = 1,
+        GorevDurum = 2,
+        Özellik = 3,
+        EvrakSeriTipi = 4,
+        SiteTipi = 5,
+        MenuYeri = 6,
+        GörevYönetimDurumları = 7,
+        Öncelik = 8,
+        Departman = 9,
+        GörevYönetimTipleri = 10,
+        İşlemKayıtTipi = 11,
+        PaketTipi = 12,
+        TatilTipi = 13,
+        DestekTipi = 14,
+        MesajTipi = 15,
+        FaqTopics = 16
     }
     /// <summary>
     /// combo items
@@ -107,28 +121,18 @@
         LinkeFaturaDestek = 92,
         BarkodOtomasyonDestek = 93,
         BackOfficeDestek = 94,
-        ElTerminaliDestek = 95
+        ElTerminaliDestek = 95,
+        FaqGenel = 96,
+        FaqTeknik = 97,
+        FaqYönetim = 98
     }
     /// <summary>
-    /// combo item names
+    /// list status
     /// </summary>
-    public enum Combos
+    public enum GetListStatus
     {
-        GorevTipleri = 1,
-        GorevDurum = 2,
-        Özellik = 3,
-        EvrakSeriTipi = 4,
-        SiteTipi = 5,
-        MenuYeri = 6,
-        GörevYönetimDurumları = 7,
-        Öncelik = 8,
-        Departman = 9,
-        GörevYönetimTipleri = 10,
-        İşlemKayıtTipi = 11,
-        PaketTipi = 12,
-        TatilTipi = 13,
-        DestekTipi = 14,
-        MesajTipi = 15
+        Refresh = 0,
+        Close = 1
     }
     /// <summary>
     /// permission types
