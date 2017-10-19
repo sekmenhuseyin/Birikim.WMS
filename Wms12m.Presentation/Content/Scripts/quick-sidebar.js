@@ -41,7 +41,6 @@ var QuickSidebar = function () {
             App.initSlimScroll(chatMessages);
         };
 
-        initChatSlimScroll();
         App.addResizeHandler(initChatSlimScroll); // reinitialize on window resize
 
         //kullanýcýya týklayýnca sohbet penceresi açýlýyor
@@ -53,7 +52,7 @@ var QuickSidebar = function () {
             chatContainer.slimScroll({ scrollTo: '1000000px' });
             var input = wrapperChat.find('.page-quick-sidebar-chat-user-form .form-control');
             input.focus();
-            initChatSlimScroll();
+            setTimeout(initChatSlimScroll, 500);
         });
 
         //sohbette geriye basýnca kullanýcýlar geliyor

@@ -327,7 +327,7 @@ function CheckNtfctn() {
         success: function (data) {
             setTimeout(function () { CheckNtfctn(); }, 60000);
             if (data.length > 1)
-                CT("info", "Bekleyen Mesajlar", data.length + " adet bekleyen mesajınız var", "/Inbox/Notifications");
+                CT("info", data.length + " adet bekleyen mesajınız var", "Bekleyen Mesajlar", "/Inbox/Notifications");
             else if (data.length == 1)
                 CT("info", data[0].Mesaj, data[0].CmbItemName, data[0].URL);
             PartialView("/Home/Notifications", "header_notification_bar", "")

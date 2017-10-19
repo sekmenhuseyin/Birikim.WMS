@@ -27,7 +27,7 @@ $(function () {
             var input = wrapperChat.find('.page-quick-sidebar-chat-user-form .form-control');
             // handle post
             var time = new Date();
-            var messages = preparePost(currentUserName != userNameFrom ? 'in' : 'out', (time.getHours() + ':' + time.getMinutes()), userRealName, imageAddress, message);
+            var messages = preparePost(currentUserName !== userNameFrom ? 'in' : 'out', (time.getHours() + ':' + time.getMinutes()), userRealName, imageAddress, message);
             messages = $(messages);
             chatContainer.append(messages);
             chatContainer.slimScroll({ scrollTo: '1000000px' });
@@ -35,7 +35,11 @@ $(function () {
             input.focus();
         }
         else
-            CT("info", userRealName, message);
+            CT("info", message, userRealName);
+
+    };
+    //herkese uyarı gönderme
+    zigChatHubProxy.client.receiveNotification = function (message) {
 
     };
     ///online kullanıcıları listeler
@@ -55,8 +59,7 @@ $(function () {
         }
     };
     //connection başladığında
-    $.connection.hub.start({ transport: 'longPolling' })
-        .done(function () {
+    $.connection.hub.start({ transport: 'longPolling' }).done(function () {
             var status = zigChatHubProxy.server.connectUser(currentUserName).done(function (data, textStatus, jqXHR) {
                 if (!data.Success) {
                     alert(data.ErrorMessage);

@@ -128,8 +128,8 @@ function AjaxCall(Url, Data, successTriger) {
     });
 }
 //toastr mesajı oluştur
-function CT(style, title, message, url) {
-    toastr[style](title, message, {
+function CT(style, message, title, url) {
+    toastr[style](message, title, {
         "closeButton": false,
         "debug": false,
         "newestOnTop": false,
