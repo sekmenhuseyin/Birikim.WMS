@@ -7,7 +7,7 @@ namespace Wms12m.Presentation.Controllers
         // GET: Help
         public ActionResult Index()
         {
-            return View();
+            return View("Index");
         }
     }
 }
