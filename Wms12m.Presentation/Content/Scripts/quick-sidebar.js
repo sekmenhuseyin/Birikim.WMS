@@ -97,7 +97,7 @@ var QuickSidebar = function () {
 
         wrapperChat.find('.page-quick-sidebar-chat-user-form .btn').click(handleChatMessagePost);
         wrapperChat.find('.page-quick-sidebar-chat-user-form .form-control').keypress(function (e) {
-            if (e.which == 13) {
+            if (e.which === 13) {
                 handleChatMessagePost(e);
                 return false;
             }

@@ -95,15 +95,6 @@ namespace Wms12m.Presentation.Controllers
             return Json(tbl.Select(m => new frmNotifications { Mesaj = m.Mesaj, URL = m.URL, CmbItemName = m.ComboItem_Name.Name, Tarih = m.Tarih }).OrderByDescending(m => m.Tarih), JsonRequestBehavior.AllowGet);
         }
         /// <summary>
-        /// Chat
-        /// </summary>
-        public PartialViewResult Chat()
-        {
-            var mTipi = ComboItems.GrupMesajı.ToInt32();
-            var tablo = db.Messages.Where(m => m.MesajTipi == mTipi).OrderBy(m => m.Tarih).Take(100).ToList();
-            return PartialView("../Shared/Chat", tablo);
-        }
-        /// <summary>
         /// UsersChat
         /// </summary>
         public PartialViewResult UsersChat(string ID)

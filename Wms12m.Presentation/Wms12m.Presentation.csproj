@@ -833,7 +833,6 @@
     <Content Include="Views\Home\GorevProjesi\ProjeAnalizi.cshtml" />
     <Content Include="Views\Inbox\Notifications.cshtml" />
     <Content Include="Views\Shared\Notifications.cshtml" />
-    <Content Include="Views\Shared\Chat.cshtml" />
     <Content Include="Views\Shared\Users.cshtml" />
     <Content Include="Views\Shared\UsersChat.cshtml" />
     <Content Include="Views\Users\Image.cshtml" />
