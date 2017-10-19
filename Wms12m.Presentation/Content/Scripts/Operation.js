@@ -55,6 +55,23 @@ function PartialView(Url, Div, Id) {
         }
     });
 }
+function PartialViewClass(Url, Div, Id) {
+    $.ajax({
+        url: Url,
+        type: 'POST',
+        data: Id,
+        cache: false,
+        dataType: "html",
+        contentType: 'application/json; charset=utf-8',
+        success: function (data) {
+            if (data == "") {
+                Modaldialog("Hata oluştu", "Hata", "Tamam", "btn-danger");
+            } else {
+                $('.' + Div).html(data);
+            }
+        }
+    });
+}
 // silme için deleteıd ıd gönderme işlemi
 function FunctionDelete(URL, deleteId) {
     var $Return = false;

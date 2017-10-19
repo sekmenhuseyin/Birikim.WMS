@@ -68,7 +68,7 @@ $(function () {
             //disconnect on logout
             $('#btnLogout').click(function () {
                 zigChatHubProxy.connection.stop();
-                window.location.href = "Security/LogOut";
+                window.location.href = "/Security/LogOut";
             });
             //send notifications on page load and on new items
             zigChatHubProxy.server.sendNotifications()
@@ -100,7 +100,7 @@ $(function () {
             var handleChatMessagePost = function (e) {
                 e.preventDefault();
                 var text = input.val();
-                if (text.length === 0) { return; }
+                if (text.length === 0) { alert("boş"); return; }
                 // handle post
                 var time = new Date();
                 var message = preparePost('out', (time.getHours() + ':' + time.getMinutes()), currentUserName, currentUserImage, text);
