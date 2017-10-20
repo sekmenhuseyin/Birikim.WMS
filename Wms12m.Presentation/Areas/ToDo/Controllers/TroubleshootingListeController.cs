@@ -17,9 +17,16 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         /// <summary>
         /// liste
         /// </summary>
-        public PartialViewResult List()
+        public PartialViewResult List(string search)
         {
-            return PartialView("List", db.Troubleshootings.ToList());
+            object list = new object();
+
+            if (search.IsNotNull())
+                list = db.Troubleshootings.Where(x => x.Konu.Contains(search) || x.Aciklama.Contains(search)).ToList();
+            else
+                list = db.Troubleshootings.ToList();
+
+            return PartialView("List", list);          
         }
 
         public PartialViewResult New()
