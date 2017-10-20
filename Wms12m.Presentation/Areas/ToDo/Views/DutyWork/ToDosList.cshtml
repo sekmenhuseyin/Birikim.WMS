@@ -16,9 +16,9 @@
                 <td>@item.KayitTarih.ToString("dd.MM.yyyy")</td>
 
                 <td>
+                    @if (ViewBag.RoleName != "Admin" && ViewBag.RoleName != " ") {<a class="btn btn-info input-circle" href="#modalEditPage" data-toggle="modal" onclick="editInModal('/ToDo/DutyWork/New/@item.ID');"><span class="glyphicon glyphicon-floppy-save"></span> &nbsp; Çalışma</a>}
                     @if (ViewBag.Tip == false)
                     {
-                        if (ViewBag.RoleName != "Admin" && ViewBag.RoleName != " ") {<a class="btn btn-info input-circle" href="#modalEditPage" data-toggle="modal" onclick="editInModal('/ToDo/DutyWork/New/@item.ID');"><span class="glyphicon glyphicon-floppy-save"></span> &nbsp; Çalışma</a>}
                         <a class="btn btn-primary input-circle" href="javascript:;" id="btnOn@{@item.ID}" onclick="Onay(@item.ID, true, 'btnOn@{@item.ID}');"> Onayla </a>
                         if(ViewBag.Yetki == true && item.Onay == true) {<a class="btn btn-danger input-circle" href="javascript:;" id="btnRe@{@item.ID}" onclick="Onay(@item.ID, false, 'btnRe@{@item.ID}');"> Reddet </a>}
                     }

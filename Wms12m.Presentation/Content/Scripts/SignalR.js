@@ -1,8 +1,10 @@
 ﻿'use strict';
 $(function () {
     var zigChatHubProxy = $.connection.zigChatHub;
+    var currentUserAvatar = currentUserImage;
     //chat yazma: bu kısım hubdan çalıştırılıyor
     zigChatHubProxy.client.updateChat = function (userNameFrom, userNameTo, message, userRealName, imageAddress) {
+        //alert(userNameFrom + ', ' + userNameTo + ', ' + message + ', ' +userRealName + ', ' +imageAddress);
         //functions
         var preparePost = function (dir, time, name, avatar, message) {
             var tpl = '';
@@ -20,7 +22,8 @@ $(function () {
 
             return tpl;
         };
-        if (userNameTo === SendMessageTo) {
+        if (userNameFrom == currentUserName) { }
+        else if (userNameTo === SendMessageTo) {
             var wrapper = $('.page-quick-sidebar-wrapper');
             var wrapperChat = wrapper.find('.page-quick-sidebar-chat');
             var chatContainer = wrapperChat.find(".page-quick-sidebar-chat-user-messages");
@@ -41,6 +44,7 @@ $(function () {
     //herkese uyarı gönderme
     zigChatHubProxy.client.receiveNotification = function (title, message) {
         if (title !== "" && title !== null)CT("info", message, title);
+        PartialView('/Home/Notifications', 'header_notification_bar', "");
     };
     ///online kullanıcıları listeler
     zigChatHubProxy.client.updateUsersOnline = function (data) {
@@ -59,7 +63,7 @@ $(function () {
         }
     };
     //connection başladığında
-    $.connection.hub.start({ transport: 'longPolling' }).done(function () {
+    $.connection.hub.start().done(function () {
         var status = zigChatHubProxy.server.connectUser(currentUserName).done(function (data, textStatus, jqXHR) {
             if (!data.Success) {
                 alert(data.ErrorMessage);
@@ -103,7 +107,7 @@ $(function () {
                 if (text.length === 0) { alert("boş"); return; }
                 // handle post
                 var time = new Date();
-                var message = preparePost('out', (time.getHours() + ':' + time.getMinutes()), currentUserName, currentUserImage, text);
+                var message = preparePost('out', (time.getHours() + ':' + time.getMinutes()), currentRealName, currentUserAvatar, text);
                 message = $(message);
                 chatContainer.append(message);
                 chatContainer.slimScroll({ scrollTo: '1000000px' });

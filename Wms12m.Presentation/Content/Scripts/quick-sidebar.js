@@ -39,21 +39,24 @@ var QuickSidebar = function () {
             App.destroySlimScroll(chatMessages);
             chatMessages.attr("data-height", chatMessagesHeight);
             App.initSlimScroll(chatMessages);
+        };
+        setTimeout(initChatSlimScroll, 500);
+        App.addResizeHandler(initChatSlimScroll); // reinitialize on window resize
+
             //scroll and focus
+        var initChatFocus = function () {
             var chatContainer = wrapperChat.find(".page-quick-sidebar-chat-user-messages");
             chatContainer.slimScroll({ scrollTo: '1000000px' });
             var input = wrapperChat.find('.page-quick-sidebar-chat-user-form .form-control');
             input.focus();
         };
-
-        App.addResizeHandler(initChatSlimScroll); // reinitialize on window resize
-
         //kullanýcýya týklayýnca sohbet penceresi açýlýyor
         wrapper.find('.page-quick-sidebar-chat-users .media-list > .media').click(function () {
             SendMessageTo = $(this).find('input').val();
             PartialViewClass('/Home/UsersChat', 'page-quick-sidebar-chat-user-messages', JSON.stringify({ ID: SendMessageTo }));
             wrapperChat.addClass("page-quick-sidebar-content-item-shown");
             setTimeout(initChatSlimScroll, 500);
+            setTimeout(initChatFocus, 550);
         });
 
         //sohbette geriye basýnca kullanýcýlar geliyor

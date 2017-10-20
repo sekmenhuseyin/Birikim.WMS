@@ -212,13 +212,13 @@ namespace Wms12m
             using (WMSEntities db = new WMSEntities())
             {
                 string kaydeden = db.Users.Where(m => m.ID == kulID).Select(m => m.Kod).FirstOrDefault();
-                var sql = String.Format("FINSAT6{0}.wms.SatisIadeKayitList @IrsaliyeID = '{1}'", irsaliye.SirketKod, irsaliye.ID); 
+                var sql = String.Format("FINSAT6{0}.wms.SatisIadeKayitList @IrsaliyeID = '{1}'", irsaliye.SirketKod, irsaliye.ID);
                 var STList = db.Database.SqlQuery<STIMax>(sql).ToList();
                 foreach (STIMax stItem in STList)
                 {
                     STIBase sti = new STIBase()
                     {
-                        EvrakNo = "xx000030",
+                        EvrakNo = evrkno[0].EvrakNo,
                         HesapKodu = stItem.HesapKodu,
                         Tarih = stItem.Tarih.IntToDate(),
                         MalKodu = stItem.MalKodu,
@@ -236,8 +236,8 @@ namespace Wms12m
                     if (stItem.SiparisNo != "")
                     {
                         sti.KayitTipi = STIKayitTipi.Irsaliye;
-                        sti.KaynakSiparisNo = stItem.KaynakSiparisNo;
-                        sti.KaynakSiparisTarih = stItem.KynkSiparisTarih;
+                        //sti.KaynakSiparisNo = stItem.SiparisNo;
+                        sti.KaynakSiparisTarih = stItem.KaynakSiparisTarih;
                         sti.SiparisSiraNo = stItem.KynkSiparisSiraNo;
                         sti.SiparisMiktar = stItem.KynkSiparisMiktar;
                         sti.Fiyat = stItem.Fiyat;
@@ -249,16 +249,35 @@ namespace Wms12m
                         sti.IskontoOran5 = stItem.IskontoOran5;
 
                         sti.Kod1 = stItem.Kod1;
+                        sti.Kod2 = stItem.Kod2;
                         sti.Kod3 = stItem.Kod3;
+                        sti.Kod4 = stItem.Kod4;
+                        sti.Kod5 = stItem.Kod5;
+                        sti.Kod6 = stItem.Kod6;
+                        sti.Kod7 = stItem.Kod7;
+                        sti.Kod8 = stItem.Kod8;
+                        sti.Kod9 = stItem.Kod9;
+                        sti.Kod10 = stItem.Kod10;
+                        sti.Kod11 = stItem.Kod11;
+                        sti.Kod12 = stItem.Kod12;
+                        sti.Kod13 = stItem.Kod13;
+                        sti.Kod14 = stItem.Kod14;
                         sti.ValorGun = stItem.ValorGun;
                         sti.Operator = stItem.Operator;
                         sti.KaynakIrsEvrakNo = stItem.KaynakIrsEvrakNo;
                         sti.KaynakIrsTarih = stItem.KaynakIrsTarih;
                         sti.KaynakIIFEvrakNo = stItem.KaynakIIFEvrakNo;
                         sti.KaynakIIFTarih = stItem.KaynakIIFTarih;
+                        sti.KaynakSiparisNo = stItem.KaynakSiparisNo;
                         sti.MFKAciklama = stItem.MFKAciklama;
                         sti.MFKTarih = stItem.MFKTarih;
                         sti.Kredi_Donem_VadeTarih = stItem.Kredi_Donem_VadeTarih;
+
+                        sti.Nesne1 = stItem.Nesne1;
+                        sti.Nesne2 = stItem.Nesne2;
+                        sti.Nesne3 = stItem.Nesne3;
+                        sti.Miktar3 = stItem.Miktar3;
+                        sti.Tutar3 = stItem.Tutar3;
                     }
                     else
                     {
@@ -437,6 +456,7 @@ namespace Wms12m
                     }
                 }
             }
+
             //finsat işlemleri
             try
             {
