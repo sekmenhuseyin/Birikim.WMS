@@ -478,8 +478,6 @@
     <Content Include="Areas\ToDo\Views\GorevTakvimi\New.cshtml" />
     <Content Include="Areas\ToDo\Views\Troubleshooting\Index.cshtml" />
     <Content Include="Areas\ToDo\Views\Troubleshooting\List.cshtml" />
-    <Content Include="Areas\ToDo\Views\_ViewStart.cshtml" />
-    <Content Include="Areas\ToDo\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\ToDo\Views\Troubleshooting\New.cshtml" />
     <Content Include="Areas\ToDo\Views\Troubleshooting\FormList.cshtml" />
     <Content Include="Areas\ToDo\Views\Troubleshooting\FormEdit.cshtml" />
