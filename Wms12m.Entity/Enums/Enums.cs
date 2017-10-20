@@ -221,8 +221,10 @@
         TodoTakvim,
         TodoÇalışma,
         TodoGörevler,
+        TodoTroubleshooting,
+        TodoTroubleshootingListe,
         TerminalAlimdanİade,
-        TerminalSatıştanİade
+        TerminalSatıştanİade        
     }
     /// <summary>
     /// aylar
