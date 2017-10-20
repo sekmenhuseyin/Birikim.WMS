@@ -227,8 +227,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\assets\pages\img\texbox-cal.png" />
-    <Content Include="Content\bootstrap.css" />
-    <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\images\12M-Logo-30.png" />
     <Content Include="Content\images\12M-Logo-90.png" />
     <Content Include="Content\images\12M-Logo.png" />
@@ -365,9 +363,7 @@
     <Content Include="Content\Scripts\SignalR.min.js">
       <DependentUpon>SignalR.js</DependentUpon>
     </Content>
-    <Content Include="Content\Site.css" />
     <Content Include="favicon.ico" />
-    <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="robots.txt" />
     <Content Include="humans.txt" />
@@ -492,18 +488,9 @@
     <Content Include="Content\StockSablon.xlsx" />
     <Content Include="Content\STISablon.xlsx" />
     <Content Include="Content\KatSablon.xlsx" />
-    <Content Include="fonts\glyphicons-halflings-regular.woff" />
-    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
-    <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <None Include="Properties\PublishProfiles\local.pubxml" />
     <None Include="Properties\PublishProfiles\SqlServer.pubxml" />
     <None Include="Properties\PublishProfiles\TestServer.pubxml" />
-    <Content Include="Scripts\bootstrap.js" />
-    <Content Include="Scripts\bootstrap.min.js" />
-    <None Include="Scripts\jquery-1.10.2.intellisense.js" />
-    <Content Include="Scripts\jquery-1.10.2.js" />
-    <Content Include="Scripts\jquery-1.10.2.min.js" />
-    <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Service\Terminal.asmx" />
     <Content Include="Content\Uploads\0.jpg" />
     <Content Include="Views\Home\Index.cshtml" />
@@ -857,7 +844,6 @@
     <Content Include="Views\Shared\Users.cshtml" />
     <Content Include="Views\Shared\UsersChat.cshtml" />
     <Content Include="Views\Users\Image.cshtml" />
-    <Content Include="Scripts\jquery-1.10.2.min.map" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
