@@ -236,7 +236,7 @@ namespace Wms12m
                     if (stItem.SiparisNo != "")
                     {
                         sti.KayitTipi = STIKayitTipi.Irsaliye;
-                        sti.KaynakSiparisNo = stItem.SiparisNo;
+                        sti.KaynakSiparisNo = stItem.KaynakSiparisNo;
                         sti.KaynakSiparisTarih = stItem.KynkSiparisTarih;
                         sti.SiparisSiraNo = stItem.KynkSiparisSiraNo;
                         sti.SiparisMiktar = stItem.KynkSiparisMiktar;
@@ -256,7 +256,6 @@ namespace Wms12m
                         sti.KaynakIrsTarih = stItem.KaynakIrsTarih;
                         sti.KaynakIIFEvrakNo = stItem.KaynakIIFEvrakNo;
                         sti.KaynakIIFTarih = stItem.KaynakIIFTarih;
-                        sti.KaynakSiparisNo = stItem.KaynakSiparisNo;
                         sti.MFKAciklama = stItem.MFKAciklama;
                         sti.MFKTarih = stItem.MFKTarih;
                         sti.Kredi_Donem_VadeTarih = stItem.Kredi_Donem_VadeTarih;
