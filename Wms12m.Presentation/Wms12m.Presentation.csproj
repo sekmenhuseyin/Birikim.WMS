@@ -480,14 +480,13 @@
     <Content Include="Areas\ToDo\Views\Duties\ListOnay.cshtml" />
     <Content Include="Areas\ToDo\Views\GorevTakvimi\ListTatil.cshtml" />
     <Content Include="Areas\ToDo\Views\GorevTakvimi\New.cshtml" />
-    <Content Include="Areas\ToDo\Views\Troubleshooting\Index.cshtml" />
-    <Content Include="Areas\ToDo\Views\Troubleshooting\Edit.cshtml" />
-    <Content Include="Areas\ToDo\Views\Troubleshooting\List.cshtml" />
     <Content Include="Areas\ToDo\Views\TroubleshootingListe\Index.cshtml" />
     <Content Include="Areas\ToDo\Views\TroubleshootingListe\List.cshtml" />
     <Content Include="Areas\ToDo\Views\_ViewStart.cshtml" />
     <Content Include="Areas\ToDo\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\ToDo\Views\TroubleshootingListe\New.cshtml" />
+    <Content Include="Areas\ToDo\Views\TroubleshootingListe\FormList.cshtml" />
+    <Content Include="Areas\ToDo\Views\TroubleshootingListe\FormEdit.cshtml" />
     <None Include="bundleconfig.json" />
     <Content Include="Content\SizeSablon.xlsx" />
     <Content Include="Content\StockSablon.xlsx" />

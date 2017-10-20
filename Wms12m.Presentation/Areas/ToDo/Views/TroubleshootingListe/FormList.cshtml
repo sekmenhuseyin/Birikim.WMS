@@ -1,8 +1,9 @@
-﻿@model IEnumerable<Troubleshooting>
+﻿
+@model IEnumerable<Troubleshooting>
 <div class="portlet box green">
     <div class="portlet-title">
         <div class="caption">
-            <i class="fa fa-gift"></i>Troubleshooting Listesi
+            <i class="fa fa-gift"></i>Liste
         </div>
     </div>
     <div class="portlet-body form p-40">
@@ -19,7 +20,7 @@
                         <td>@item.Aciklama</td>
                         <td nowrap>
                             <a class="btn btn-default" href="javascript:;" onclick="CreateEdit('@item.ID')"> Düzenle </a>
-                            <a class="btn btn-danger" href="javascript:;" onclick="Delete('@item.ID','/ToDo/Troubleshooting/List','liste','')"> Sil </a>
+                            <a class="btn btn-danger" href="javascript:;" onclick="Delete('@item.ID','/ToDo/TroubleshootingListe/FormList','liste2','')"> Sil </a>
                         </td>
                     </tr>
                 }
@@ -41,5 +42,6 @@
         //tarih
         $.datepicker.setDefaults($.datepicker.regional["tr"]);
         $(".tarih").datepicker();
+        PartialView("/ToDo/TroubleshootingListe/List", 'liste');
     });
 </script>
