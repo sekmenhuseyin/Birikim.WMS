@@ -52,7 +52,14 @@ namespace Wms12m.Hubs
                         Kime = usersend,
                         Mesaj = message
                     });
-                    db.SaveChanges();
+                    try
+                    {
+                        db.SaveChanges();
+                    }
+                    catch (Exception ex)
+                    {
+                        Logger(ex, "HUB/SendMessage/1", userName);
+                    }
                     //online ise hemen gönder
                     var pmConnection = db.Connections.Where(x => x.UserName.ToLower() == usersend && x.IsOnline).SingleOrDefault();
                     if (pmConnection != null)
@@ -72,7 +79,14 @@ namespace Wms12m.Hubs
                         Kime = "",
                         Mesaj = message
                     });
-                    db.SaveChanges();
+                    try
+                    {
+                        db.SaveChanges();
+                    }
+                    catch (Exception ex)
+                    {
+                        Logger(ex, "HUB/SendMessage/All", userName);
+                    }
                     //online ise hemen gönder
                     Clients.All.UpdateChat(userName, usersend, message, kişi.AdSoyad, guid);
                 }
@@ -161,6 +175,22 @@ namespace Wms12m.Hubs
             }
             UsersOnline();
             return base.OnDisconnected(stopCalled);
+        }
+        /// <summary>
+        /// logging
+        /// </summary>
+        public void Logger(Exception ex, string page, string username)
+        {
+            using (var db = new WMSEntities())
+            {
+                string inner = "";
+                if (ex.InnerException != null)
+                {
+                    inner = ex.InnerException == null ? "" : ex.InnerException.Message;
+                    if (ex.InnerException.InnerException != null) inner += ": " + ex.InnerException.InnerException.Message;
+                }
+                db.Logger(username, "", "", ex.Message, inner, page);
+            }
         }
     }
 }
