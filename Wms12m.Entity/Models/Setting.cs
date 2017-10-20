@@ -49,5 +49,6 @@ namespace Wms12m.Entity.Models
         public bool Aktif { get; set; }
         public bool SiparisOnayParametre { get; set; }
         public bool GorevProjesi { get; set; }
+        public string GitServerAddress { get; set; }
     }
 }

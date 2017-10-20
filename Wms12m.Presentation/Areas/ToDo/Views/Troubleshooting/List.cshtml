@@ -1,45 +1,29 @@
-﻿@model IEnumerable<Troubleshooting>
-<div class="portlet box green">
-    <div class="portlet-title">
-        <div class="caption">
-            <i class="fa fa-gift"></i>Troubleshooting Listesi
-        </div>
-    </div>
-    <div class="portlet-body form p-40">
-        <table class="table table-striped table-bordered table-hover" id="sample_1">
-            <thead><tr><th>Konu</th><th>Açıklama</th><th></th></tr></thead>
+﻿
+@model IEnumerable<Troubleshooting>
+<div class="row">
+    <div class="col-md-15">
+        <div class="faq-section ">
+            <h2 class="faq-title uppercase font-blue">Troubleshootıng</h2>
 
-            <tfoot><tr><th></th><th></th><th></th></tr></tfoot>
-            <tfoot class="tf-search"><tr><th></th><th></th><th></th></tr></tfoot>
-            <tbody>
+            <div class="panel-group accordion faq-content" id="accordion1">
                 @foreach (var item in Model)
                 {
-                    <tr>
-                        <td>@item.Konu</td>
-                        <td>@item.Aciklama</td>
-                        <td nowrap>
-                            <a class="btn btn-default" href="javascript:;" onclick="CreateEdit('@item.ID')"> Düzenle </a>
-                            <a class="btn btn-danger" href="javascript:;" onclick="Delete('@item.ID','/ToDo/Troubleshooting/List','liste','')"> Sil </a>
-                        </td>
-                    </tr>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <i class="fa fa-circle"></i>
+                                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion1" href=#@item.ID> @item.Konu</a>
+                            </h4>
+                        </div>
+                        <div id=@item.ID class="panel-collapse collapse">
+                            <div class="panel-body">
+                                <p> @item.Aciklama </p>
+                            </div>
+                        </div>
+                    </div>
                 }
-            </tbody>
-        </table>
+            </div>
+        </div>
     </div>
 </div>
-<script>
-    $(document).ready(function () {
-        var table = $('#sample_1').DataTable({ "pagingType": "full_numbers", "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" } });
-        $('#sample_1 .tf-search th').each(function () {
-            var title = $('#sample_1 thead th').eq($(this).index()).text();
-            if (title != "" && title.indexOf("Tarih") !== -1)
-                $(this).html('<input class="form-control input-circle tarih" type="text" placeholder="Ara" />');
-            else if (title != "" && title != "Çalışma" && title != "Sıra")
-                $(this).html('<input class="form-control input-circle" type="text" placeholder="Ara" />');
-        });
-        $("#sample_1 tfoot input").on('keyup change', function () { table.column($(this).parent().index() + ':visible').search(this.value).draw(); });
-        //tarih
-        $.datepicker.setDefaults($.datepicker.regional["tr"]);
-        $(".tarih").datepicker();
-    });
-</script>
+

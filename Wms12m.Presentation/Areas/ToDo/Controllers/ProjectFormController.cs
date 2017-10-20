@@ -77,7 +77,10 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                     tbl.DegisTarih = DateTime.Now;
                     tbl.Aktif = projeForm.Aktif;
                     if (vUser.RoleName == "Admin" || vUser.RoleName == " ")
-                        tbl.GitDepoAdresi = projeForm.GitDepoAdresi;
+                    {
+                        tbl.GitAddress = projeForm.GitAddress;
+                        tbl.GitGuid = projeForm.GitGuid;
+                    }
                 }
                 try
                 {
