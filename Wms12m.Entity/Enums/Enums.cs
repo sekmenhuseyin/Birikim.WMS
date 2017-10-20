@@ -226,7 +226,6 @@
         TodoÇalışma,
         TodoGörevler,
         TodoTroubleshooting,
-        TodoTroubleshootingListe,
         TerminalAlimdanİade,
         TerminalSatıştanİade        
     }

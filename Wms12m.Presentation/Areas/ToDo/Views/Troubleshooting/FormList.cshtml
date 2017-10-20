@@ -20,7 +20,7 @@
                         <td>@item.Aciklama</td>
                         <td nowrap>
                             <a class="btn btn-default" href="javascript:;" onclick="CreateEdit('@item.ID')"> Düzenle </a>
-                            <a class="btn btn-danger" href="javascript:;" onclick="Delete('@item.ID','/ToDo/TroubleshootingListe/FormList','liste2','')"> Sil </a>
+                            <a class="btn btn-danger" href="javascript:;" onclick="Delete('@item.ID','/ToDo/Troubleshooting/FormList','liste2','')"> Sil </a>
                         </td>
                     </tr>
                 }
@@ -42,6 +42,6 @@
         //tarih
         $.datepicker.setDefaults($.datepicker.regional["tr"]);
         $(".tarih").datepicker();
-        PartialView("/ToDo/TroubleshootingListe/List", 'liste');
+        PartialView("/ToDo/Troubleshooting/List", 'liste');
     });
 </script>

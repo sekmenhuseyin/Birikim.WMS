@@ -4,7 +4,6 @@ using System.Linq;
 using System.Web.Mvc;
 using Wms12m.Entity;
 using Wms12m.Entity.Models;
-
 namespace Wms12m.Presentation.Areas.ToDo.Controllers
 {
     public class TroubleshootingController : RootController
@@ -18,15 +17,40 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         /// <summary>
         /// liste
         /// </summary>
-        public PartialViewResult List()
-        {           
-            return PartialView("List", db.Troubleshootings.ToList());
+        public PartialViewResult List(string search)
+        {
+            object list = new object();
+
+            if (search.IsNotNull())
+                list = db.Troubleshootings.Where(x => x.Konu.Contains(search) || x.Aciklama.Contains(search)).ToList();
+            else
+                list = db.Troubleshootings.ToList();
+
+            return PartialView("List", list);          
+        }
+
+        public PartialViewResult New()
+        {
+            if (CheckPerm(Perms.TodoTroubleshooting, PermTypes.Writing) == false) return null;
+           
+            return PartialView(new Troubleshooting());
+        }
+
+
+
+
+        /// <summary>
+        /// liste
+        /// </summary>
+        public PartialViewResult FormList()
+        {
+            return PartialView("FormList", db.Troubleshootings.ToList());
         }
 
         /// <summary>
         /// düzenle
         /// </summary>
-        public PartialViewResult Edit(int? id)
+        public PartialViewResult FormEdit(int? id)
         {
             Troubleshooting troubleshooting = db.Troubleshootings.Find(id);
 
@@ -55,7 +79,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                     tbl.Konu = troubleshooting.Konu;
                     tbl.Aciklama = troubleshooting.Aciklama;
                     tbl.Degistiren = vUser.UserName;
-                    tbl.DegisTarih = DateTime.Now;                    
+                    tbl.DegisTarih = DateTime.Now;
                 }
                 try
                 {
@@ -87,5 +111,6 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                 return Json(new Result(false, "Silme işlemi gerçekleştirilemedi."), JsonRequestBehavior.AllowGet);
             }
         }
+
     }
 }
