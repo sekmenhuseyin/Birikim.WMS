@@ -99,6 +99,7 @@
           <Property Name="CrmOzet" Type="bit" Nullable="false" />
           <Property Name="SevkiyatVarmi" Type="bit" Nullable="false" />
           <Property Name="SiparisOnayParametre" Type="bit" Nullable="false" />
+          <Property Name="GitServerAddress" Type="varchar" MaxLength="250" />
           <Property Name="MaliYil" Type="smallint" Nullable="false" />
           <Property Name="MaliYil1" Type="smallint" Nullable="false" />
           <Property Name="MaliYil2" Type="smallint" Nullable="false" />
@@ -224,12 +225,12 @@
           <Property Name="MesaiKontrol" Type="bit" Nullable="false" />
           <Property Name="MesaiKota" Type="int" />
           <Property Name="PID" Type="int" />
+          <Property Name="GitAddress" Type="varchar(max)" />
+          <Property Name="GitGuid" Type="varchar(max)" />
           <Property Name="Kaydeden" Type="varchar" MaxLength="5" Nullable="false" />
           <Property Name="KayitTarih" Type="smalldatetime" Nullable="false" />
           <Property Name="Degistiren" Type="varchar" MaxLength="5" Nullable="false" />
           <Property Name="DegisTarih" Type="smalldatetime" Nullable="false" />
-          <Property Name="GitAddress" Type="varchar(max)" />
-          <Property Name="GitGuid" Type="varchar(max)" />
           <Property Name="Aktif" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="Troubleshooting">
@@ -3503,6 +3504,7 @@
           <Property Name="Aktif" Type="Boolean" Nullable="false" />
           <Property Name="SiparisOnayParametre" Type="Boolean" Nullable="false" />
           <Property Name="GorevProjesi" Type="Boolean" Nullable="false" />
+          <Property Name="GitServerAddress" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
         </EntityType>
         <ComplexType Name="GetStockRezerv_Result">
           <Property Type="String" Name="GorevNo" Nullable="false" MaxLength="50" />
@@ -4663,6 +4665,7 @@
           <EntitySetMapping Name="Settings">
             <EntityTypeMapping TypeName="MModel.Setting">
               <MappingFragment StoreEntitySet="Settings">
+                <ScalarProperty Name="GitServerAddress" ColumnName="GitServerAddress" />
                 <ScalarProperty Name="GorevProjesi" ColumnName="GorevProjesi" />
                 <ScalarProperty Name="SiparisOnayParametre" ColumnName="SiparisOnayParametre" />
                 <ScalarProperty Name="Aktif" ColumnName="Aktif" />
