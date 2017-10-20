@@ -42,6 +42,6 @@
         //tarih
         $.datepicker.setDefaults($.datepicker.regional["tr"]);
         $(".tarih").datepicker();
-        PartialView("/ToDo/Troubleshooting/List", 'liste');
+        PartialView("/ToDo/Troubleshooting/List", 'liste', JSON.stringify({ search: $('#Ara').val() }));
     });
 </script>
