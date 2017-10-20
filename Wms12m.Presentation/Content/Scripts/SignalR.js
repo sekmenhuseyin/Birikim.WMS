@@ -1,6 +1,7 @@
 ﻿'use strict';
 $(function () {
     var zigChatHubProxy = $.connection.zigChatHub;
+    var currentUserAvatar = currentUserImage;
     //chat yazma: bu kısım hubdan çalıştırılıyor
     zigChatHubProxy.client.updateChat = function (userNameFrom, userNameTo, message, userRealName, imageAddress) {
         //alert(userNameFrom + ', ' + userNameTo + ', ' + message + ', ' +userRealName + ', ' +imageAddress);
@@ -21,7 +22,8 @@ $(function () {
 
             return tpl;
         };
-        if (userNameTo === SendMessageTo) {
+        if (userNameFrom == currentUserName) { }
+        else if (userNameTo === SendMessageTo) {
             var wrapper = $('.page-quick-sidebar-wrapper');
             var wrapperChat = wrapper.find('.page-quick-sidebar-chat');
             var chatContainer = wrapperChat.find(".page-quick-sidebar-chat-user-messages");
@@ -103,11 +105,11 @@ $(function () {
                 var text = input.val();
                 if (text.length === 0) { alert("boş"); return; }
                 // handle post
-                //var time = new Date();
-                //var message = preparePost('out', (time.getHours() + ':' + time.getMinutes()), currentUserName, currentUserImage, text);
-                //message = $(message);
-                //chatContainer.append(message);
-                //chatContainer.slimScroll({ scrollTo: '1000000px' });
+                var time = new Date();
+                var message = preparePost('out', (time.getHours() + ':' + time.getMinutes()), currentRealName, currentUserAvatar, text);
+                message = $(message);
+                chatContainer.append(message);
+                chatContainer.slimScroll({ scrollTo: '1000000px' });
                 input.val("");
                 input.focus();
                 //save 2 db
