@@ -96,6 +96,7 @@
         <AssociationConnector Association="MModel.FK_Messages_ComboItem_Name" />
         <EntityTypeShape EntityType="MModel.FAQ" Width="1.5" PointX="0.75" PointY="0.5" />
         <AssociationConnector Association="MModel.FK_FAQ_ComboItem_Name" />
+        <EntityTypeShape EntityType="MModel.Troubleshooting" Width="1.5" PointX="2.75" PointY="1.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

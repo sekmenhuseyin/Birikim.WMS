@@ -477,8 +477,6 @@
     <Content Include="Areas\ToDo\Views\Duties\ListOnay.cshtml" />
     <Content Include="Areas\ToDo\Views\GorevTakvimi\ListTatil.cshtml" />
     <Content Include="Areas\ToDo\Views\GorevTakvimi\New.cshtml" />
-    <Content Include="Areas\ToDo\Views\_ViewStart.cshtml" />
-    <Content Include="Areas\ToDo\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\ToDo\Views\Troubleshooting\Index.cshtml" />
     <Content Include="Areas\ToDo\Views\Troubleshooting\Edit.cshtml" />
     <Content Include="Areas\ToDo\Views\Troubleshooting\List.cshtml" />
