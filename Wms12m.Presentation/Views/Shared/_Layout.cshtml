@@ -77,6 +77,14 @@
             </div>
             <div class="page-content-wrapper">
                 <div class="page-content">
+                    @if (ViewBag.ÇalışmaSüresi < 540)
+                    {
+                    <div class="m-heading-1 border-red m-bordered">
+                        <h3>Eksik Çalışma</h3>
+                        <p>Dün eksik çalışma girmişsiniz. <a href="/ToDo/DutyWork/Todos">Onay sayfasından</a> eksik çalışmalarınzı tamamlayınız.</p>
+                    </div>
+                    <br />
+                    }
                     @RenderBody()
                 </div>
             </div>
