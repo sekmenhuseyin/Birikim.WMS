@@ -10,7 +10,6 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
     {
         public ActionResult Index()
         {
-            if (CheckPerm(Perms.TodoTroubleshooting, PermTypes.Reading) == false) return Redirect("/");
             return View("Index", new Troubleshooting());
         }
 
@@ -31,8 +30,6 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
 
         public PartialViewResult New()
         {
-            if (CheckPerm(Perms.TodoTroubleshooting, PermTypes.Writing) == false) return null;
-           
             return PartialView(new Troubleshooting());
         }
 
