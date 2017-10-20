@@ -76,25 +76,6 @@ namespace Wms12m.Presentation.Controllers
             return PartialView("../Shared/Menu", tablo);
         }
         /// <summary>
-        /// Notifications
-        /// </summary>
-        public PartialViewResult Notifications()
-        {
-            var tablo = ViewBag.UnreadMessages;
-            return PartialView("../Shared/Notifications", tablo);
-        }
-        /// <summary>
-        /// yeni bildirimler
-        /// </summary>
-        public JsonResult NewNotifications()
-        {
-            var tbl = db.Messages.Where(m => m.MesajTipi == 85 && m.Kime == vUser.UserName && m.Goruldu == false).ToList();
-            foreach (var item in tbl)
-                item.Goruldu = true;
-            db.SaveChanges();
-            return Json(tbl.Select(m => new frmNotifications { Mesaj = m.Mesaj, URL = m.URL, CmbItemName = m.ComboItem_Name.Name, Tarih = m.Tarih }).OrderByDescending(m => m.Tarih), JsonRequestBehavior.AllowGet);
-        }
-        /// <summary>
         /// UsersChat
         /// </summary>
         public PartialViewResult UsersChat(string ID)
@@ -115,29 +96,6 @@ namespace Wms12m.Presentation.Controllers
                                 WHERE        {0}
                                 ORDER BY [Messages].Tarih", sql)).ToList();
             return PartialView("../Shared/UsersChat", list);
-        }
-        /// <summary>
-        /// yeni mesajı kaydeder
-        /// </summary>
-        public JsonResult NewChat(string Kime, string Mesaj)
-        {
-            try
-            {
-                db.Messages.Add(new Message()
-                {
-                    Tarih = DateTime.Now,
-                    Kimden = vUser.UserName,
-                    Kime = Kime,
-                    Mesaj = Mesaj,
-                    MesajTipi = Kime == "" ? ComboItems.GrupMesajı.ToInt32() : ComboItems.KişiselMesaj.ToInt32()
-                });
-                db.SaveChanges();
-                return Json(true, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception)
-            {
-                return Json(false, JsonRequestBehavior.AllowGet);
-            }
         }
         #region Satış Raporları
         public PartialViewResult PartialGunlukSatisZamanCizelgesi(string SirketKodu)

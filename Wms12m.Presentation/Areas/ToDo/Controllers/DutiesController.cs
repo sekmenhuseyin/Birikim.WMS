@@ -152,8 +152,8 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                         Kimden = vUser.UserName,
                         Kime = satir.Sorumlu,
                         Tarih = DateTime.Now,
-                        Mesaj = "Size yeni bir görev açıldı",
-                        URL= "/ToDo/Duties"
+                        Mesaj = "Size yeni bir görev açıldı: " + satir.Gorev,
+                        URL = "/ToDo/Duties"
                     };
                     db.Messages.Add(mesaj);
                     if (satir.Sorumlu2 != null)
@@ -164,7 +164,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                             Kimden = vUser.UserName,
                             Kime = satir.Sorumlu2,
                             Tarih = DateTime.Now,
-                            Mesaj = "Size yeni bir görev açıldı",
+                            Mesaj = "Size yeni bir görev açıldı: " + satir.Gorev,
                             URL = "/ToDo/Duties"
                         };
                         db.Messages.Add(mesaj2);
@@ -177,7 +177,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                             Kimden = vUser.UserName,
                             Kime = satir.Sorumlu3,
                             Tarih = DateTime.Now,
-                            Mesaj = "Size yeni bir görev açıldı",
+                            Mesaj = "Size yeni bir görev açıldı: " + satir.Gorev,
                             URL = "/ToDo/Duties"
                         };
                         db.Messages.Add(mesaj3);
@@ -191,7 +191,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                         Kimden = vUser.UserName,
                         Kime = satir.Kaydeden,
                         Tarih = DateTime.Now,
-                        Mesaj = "Açtığınız görev reddedildi",
+                        Mesaj = "Açtığınız görev reddedildi: " + satir.Gorev,
                         URL = "/ToDo/Duties"
                     };
                     db.Messages.Add(mesaj);
@@ -297,7 +297,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                             Kimden = vUser.UserName,
                             Kime = item.Kod,
                             Tarih = DateTime.Now,
-                            Mesaj = "Onayınıza bir görev düştü",
+                            Mesaj = "Onayınıza bir görev düştü: " + gorevler.Gorev,
                             URL = "/ToDo/Duties"
                         });
                     }
@@ -357,7 +357,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                                         Kimden = vUser.UserName,
                                         Kime = tbl.Sorumlu,
                                         Tarih = DateTime.Now,
-                                        Mesaj = "Onay listenize bir maddde eklendi",
+                                        Mesaj = "Onay listenize bir maddde eklendi: " + work[i],
                                         URL = "/ToDo/DutyWork/Todos"
                                     };
                                     db.Messages.Add(mesaj);
@@ -369,7 +369,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                                             Kimden = vUser.UserName,
                                             Kime = tbl.Sorumlu2,
                                             Tarih = DateTime.Now,
-                                            Mesaj = "Onay listenize bir maddde eklendi",
+                                            Mesaj = "Onay listenize bir maddde eklendi: " + work[i],
                                             URL = "/ToDo/DutyWork/Todos"
                                         };
                                         db.Messages.Add(mesaj2);
@@ -382,7 +382,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                                             Kimden = vUser.UserName,
                                             Kime = tbl.Sorumlu3,
                                             Tarih = DateTime.Now,
-                                            Mesaj = "Onay listenize bir maddde eklendi",
+                                            Mesaj = "Onay listenize bir maddde eklendi: " + work[i],
                                             URL = "/ToDo/DutyWork/Todos"
                                         };
                                         db.Messages.Add(mesaj3);
