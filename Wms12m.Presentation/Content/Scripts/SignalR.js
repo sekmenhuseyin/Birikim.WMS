@@ -59,7 +59,7 @@ $(function () {
         }
     };
     //connection başladığında
-    $.connection.hub.start({ transport: 'longPolling' }).done(function () {
+    $.connection.hub.start().done(function () {
         var status = zigChatHubProxy.server.connectUser(currentUserName).done(function (data, textStatus, jqXHR) {
             if (!data.Success) {
                 alert(data.ErrorMessage);
