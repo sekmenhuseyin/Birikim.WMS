@@ -49,6 +49,7 @@ namespace Wms12m.Presentation.Areas.System.Controllers
                 set.OnayCek = tbl.OnayCek;
                 set.OnayTekno = tbl.OnayTekno;
                 set.SevkiyatVarmi = tbl.SevkiyatVarmi;
+                set.GitServerAddress = tbl.GitServerAddress;
                 set.CrmOzet = tbl.CrmOzet;
                 set.MaliYil = tbl.MaliYil;
                 set.MaliYil1 = tbl.MaliYil1;
