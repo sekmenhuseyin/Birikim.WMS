@@ -125,8 +125,20 @@
         public decimal? Fiyat { get; set; }
         public decimal? ErekIIFMiktar { get; set; }
         public int? Row_ID { get; set; }
-        public string Kod1 { get; set; }
-        public string Kod3 { get; set; }
+        public string Kod1 { get; set; } = "";
+        public string Kod2 { get; set; } = "";
+        public string Kod3 { get; set; } = "";
+        public string Kod4 { get; set; } = "";
+        public string Kod5 { get; set; } = "";
+        public string Kod6 { get; set; } = "";
+        public string Kod7 { get; set; } = "";
+        public string Kod8 { get; set; } = "";
+        public string Kod9 { get; set; } = "";
+        public string Kod10 { get; set; } = "";
+        public short Kod11 { get; set; } = 0;
+        public short Kod12 { get; set; } = 0;
+        public decimal Kod13 { get; set; } = 0;
+        public decimal Kod14 { get; set; } = 0;
         public short Operator { get; set; }
         public string KaynakIrsEvrakNo { get; set; }
         public int? KaynakIrsTarih { get; set; }
@@ -134,9 +146,15 @@
         public int? KaynakIIFTarih { get; set; }
         public int? Kredi_Donem_VadeTarih { get; set; }
         public string KaynakSiparisNo { get; set; }
+        public int? KaynakSiparisTarih { get; set; }
         public int? MFKTarih { get; set; }
         public string Aciklama { get; set; }
         public string MFKAciklama { get; set; }
+        public string Nesne1 { get; set; } = "";
+        public string Nesne2 { get; set; } = "";
+        public string Nesne3 { get; set; } = "";
+        public decimal Miktar3 { get; set; } = 0;
+        public decimal Tutar3 { get; set; } = 0;
     }
 
 

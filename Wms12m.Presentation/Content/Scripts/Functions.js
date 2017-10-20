@@ -1,7 +1,7 @@
-﻿if (top != self) { top.location.replace(document.location); }
+﻿if (top !== self) { top.location.replace(document.location); }
 numeral.locale('tr');
 moment.locale('tr');
-CheckNtfctn()
+//CheckNtfctn()
 // Stringe karakter eklemek için
 String.prototype.addAt = function (index, character) {
     return this.substr(0, index) + character + this.substr(index + character.length - 1);
@@ -15,14 +15,14 @@ function NumbBox(cls, readOnly,ond) {
         onKeyPress: function (info) {
             var event = info.jQueryEvent;
 
-            if ((event.keyCode < 48 || event.keyCode > 57) && event.keyCode != 44/* && event.keyCode != 46*/) {
+            if ((event.keyCode < 48 || event.keyCode > 57) && event.keyCode !== 44/* && event.keyCode != 46*/) {
                 var val = info.component.option("text");
                 var deger = ondalikBinlik(val, ond)
                 info.component.option("value", deger);
                 event.stopPropagation();
                 event.preventDefault();
             }
-            else if (event.keyCode == 44) {
+            else if (event.keyCode === 44) {
                 var val = info.component.option("text");
                 if (val.toString().indexOf(",") > 0) {
                     var deger = ondalikBinlik(val, ond)
@@ -34,7 +34,7 @@ function NumbBox(cls, readOnly,ond) {
         },
         onValueChanged: function (e) {
             var xx = e.value;
-            if (e.value == null) {
+            if (e.value === null) {
                 return;
             }
             else if (e.value.toString().split(",").length < 3) {
@@ -49,12 +49,12 @@ function NumbBox(cls, readOnly,ond) {
                 event.stopPropagation();
                 event.preventDefault();
             }
-            else if (e.value.toString().substring(e.value.toString().length - 1, e.value.toString().length) == "," || e.value.toString().substring(e.value.toString().length - 1, e.value.toString().length) == ".") {
+            else if (e.value.toString().substring(e.value.toString().length - 1, e.value.toString().length) === "," || e.value.toString().substring(e.value.toString().length - 1, e.value.toString().length) === ".") {
                 xx = e.value.toString().substring(0, e.value.toString().length - 1)
             }
             if (e.value.toString().indexOf(",") < 0) {
                 var deger = ondalikBinlik(e.value.toString(), ond)
-                if (deger.toString().split(",")[0] == e.value.toString() && deger.toString().split(",")[0]!=0) {
+                if (deger.toString().split(",")[0] === e.value.toString() && deger.toString().split(",")[0] !== 0) {
                     return;
                 }
             }
@@ -66,11 +66,11 @@ function NumbBox(cls, readOnly,ond) {
 
         },
         onFocusIn: function (e) {
-            if (e.component.option("text") == null) {
+            if (e.component.option("text") === null) {
                 return;
             }
             else if (e.component.option("text").toString().indexOf(",") > 0) {
-                if (Number(e.component.option("text").toString().split(",")[1]) == 0) {
+                if (Number(e.component.option("text").toString().split(",")[1]) === 0) {
                     var val = e.component.option("text").toString().split(",")[0];
                     e.component.option("value", val);
                     event.stopPropagation();
@@ -84,7 +84,7 @@ function NumbBox(cls, readOnly,ond) {
 }
 // Sayılara ondalık binlik ayraçları eklemek için
 function ondalikBinlik(Val, Ond) {
-    if (Val == null || Val == undefined || Val == 0 || Val.toString().split(",").length > 2) {
+    if (Val === null || Val === undefined || Val === 0 || Val.toString().split(",").length > 2) {
         //var ond = "";
         //for (var i = 0; i < Ond; i++) {
         //    ond += "0";
@@ -99,10 +99,10 @@ function ondalikBinlik(Val, Ond) {
         var a = detVal.length;
         for (var i = a; i > 0; i = i - 3) {
             var c = i % 3;
-            if (c == 0 && i != 3) {
+            if (c === 0 && i !== 3) {
                 b.push(i - 3);
             }
-            else if (c != 0 && i > 3) {
+            else if (c !== 0 && i > 3) {
                 b.push(i - 3);
             }
         }
@@ -111,7 +111,7 @@ function ondalikBinlik(Val, Ond) {
         });
         var ond = Val.split(",")[1];
         var sayac = Ond - ond.length;
-        if (ond.length < Ond && ond.length != 0) {
+        if (ond.length < Ond && ond.length !== 0) {
             for (var i = 0; i < sayac; i++) {
                 ond += "0";
             }
@@ -119,25 +119,25 @@ function ondalikBinlik(Val, Ond) {
         else if (ond.length > Ond) {
             ond = ond.substring(0, Ond);
         }
-        else if (ond.length == 0 ) {
+        else if (ond.length === 0 ) {
             ond = "";
         }
         detVal += "," + ond;
-        if (detVal.toString().indexOf("-") == 0 && (detVal.toString().indexOf(".") == 1 || detVal.toString().indexOf(",") == 1)) {
+        if (detVal.toString().indexOf("-") === 0 && (detVal.toString().indexOf(".") === 1 || detVal.toString().indexOf(",") === 1)) {
             detVal = detVal.slice(0, 1) + detVal.slice(2);
         }
         return detVal;
     }
     else {
-        if (Val.toString() == "0") {
+        if (Val.toString() === "0") {
             return 0;
         }
         var detVal = "";
         if (Val.toString().split(".").length>2){
             detVal = Number(Val.toString().replace(/\./g, "")).toFixed(Ond).replace(".", ",");
         }
-        else if (Val.toString().split(".").length == 2 && Val.toString().split(".")[1] != undefined) {
-            if (Val.toString().split(".")[1].length==3)
+        else if (Val.toString().split(".").length === 2 && Val.toString().split(".")[1] !== undefined) {
+            if (Val.toString().split(".")[1].length === 3)
                 return ;
             else {
                 detVal = Number(Val.toString()).toFixed(Ond).replace(".", ",");
@@ -155,17 +155,17 @@ function ondalikBinlik(Val, Ond) {
         var a = detVal.split(",")[0].length;
         for (var i = a; i > 0; i = i - 3) {
             var c = i % 3;
-            if (c == 0 && i != 3) {
+            if (c === 0 && i !== 3) {
                 b.push(i - 3);
             }
-            else if (c != 0 && i > 3) {
+            else if (c !== 0 && i > 3) {
                 b.push(i - 3);
             }
         }
         $.each(b, function (index, value) {
             detVal = detVal.addAt(value, '.');
         });
-        if (detVal.toString().indexOf("-") == 0 && (detVal.toString().indexOf(".") == 1 || detVal.toString().indexOf(",") == 1)) {
+        if (detVal.toString().indexOf("-") === 0 && (detVal.toString().indexOf(".") === 1 || detVal.toString().indexOf(",") === 1)) {
             detVal=detVal.slice(0, 1) + detVal.slice(2);
         }
         return detVal;
@@ -206,7 +206,7 @@ function replaceAll(str, find, replace) {
 };
 //www.developer.com/net/dealing-with-json-dates-in-asp.net-mvc.html
 function ToJavaScriptDate(value) {
-    if (value == null) return "";
+    if (value === null) return "";
     var pattern = /Date\(([^)]+)\)/;
     var results = pattern.exec(value);
     var dt = new Date(parseFloat(results[1]));
@@ -225,7 +225,7 @@ function Guid() {
 }
 //türçe tarih formatına çevirir
 function formatDate(date) {
-    if (date == "" || date == null) return "";
+    if (date === "" || date === null) return "";
     var monthNames = ["Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran", "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık"];
     var day = date.getDate();
     var monthIndex = date.getMonth();
@@ -274,8 +274,8 @@ Number.prototype.toHHMMSS = function () {
 Number.prototype.formatMoney = function (c, d, t) {
     var n = this,
         c = isNaN(c = Math.abs(c)) ? 2 : c,
-        d = d == undefined ? "," : d,
-        t = t == undefined ? "." : t,
+        d = d === undefined ? "," : d,
+        t = t === undefined ? "." : t,
         s = n < 0 ? "-" : "",
         i = String(parseInt(n = Math.abs(Number(n) || 0).toFixed(c))),
         j = (j = i.length) > 3 ? j % 3 : 0;
@@ -295,7 +295,7 @@ function getCookie(c_name) {
         x = ARRcookies[i].substr(0, ARRcookies[i].indexOf("="));
         y = ARRcookies[i].substr(ARRcookies[i].indexOf("=") + 1);
         x = x.replace(/^\s+|\s+$/g, "");
-        if (x == c_name) {
+        if (x === c_name) {
             return unescape(y);
         }
     }
@@ -304,7 +304,7 @@ function getCookie(c_name) {
 //get selected option text
 function getSelectedText(elementId) {
     var elt = document.getElementById(elementId);
-    if (elt.selectedIndex == -1)
+    if (elt.selectedIndex === -1)
         return null;
     return elt.options[elt.selectedIndex].text;
 }
@@ -327,8 +327,8 @@ function CheckNtfctn() {
         success: function (data) {
             setTimeout(function () { CheckNtfctn(); }, 60000);
             if (data.length > 1)
-                CT("info", "Bekleyen Mesajlar", data.length + " adet bekleyen mesajınız var", "/Inbox/Notifications");
-            else if (data.length == 1)
+                CT("info", data.length + " adet bekleyen mesajınız var", "Bekleyen Mesajlar", "/Inbox/Notifications");
+            else if (data.length === 1)
                 CT("info", data[0].Mesaj, data[0].CmbItemName, data[0].URL);
             PartialView("/Home/Notifications", "header_notification_bar", "")
         },

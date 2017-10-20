@@ -65,7 +65,7 @@ namespace Wms12m.Entity.Models
         public virtual DbSet<ProjeForm> ProjeForms { get; set; }
         public virtual DbSet<Connection> Connections { get; set; }
         public virtual DbSet<Message> Messages { get; set; }
-        public virtual DbSet<Troubleshooting> Troubleshootings { get; set; }
+        public virtual DbSet<FAQ> FAQs { get; set; }
     
         public virtual ObjectResult<string> GetSirketDBs()
         {

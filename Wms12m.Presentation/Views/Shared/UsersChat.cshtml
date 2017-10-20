@@ -1,16 +1,14 @@
 ﻿@model IEnumerable<frmMessages>
-<div class="page-quick-sidebar-chat-user-messages" data-height="769" style="overflow: hidden; width: auto; height: 769px;" data-initialized="1">
-    @foreach (var item in Model)
-    {
-        <div class="post @if (item.Kod == ViewBag.vUser.UserName) {@("out")} else {@("in")} ">
-            <img class="avatar" alt="@item.AdSoyad" src="@Html.ImageOrDefault(item.ID.ToString())">
-            <div class="message">
-                <span class="arrow"></span>
-                <a href="javascript:;" class="name">@item.AdSoyad</a>
-                <span class="datetime">@item.Tarih.ToUniversalTime().Humanize()</span>
-                <span class="body">@item.Mesaj</span>
-            </div>
+@{string guid = ViewBag.guid;}<script>currentUserImage = "@Html.ImageAddressOrDefault(guid)"</script>
+@foreach (var item in Model)
+{
+    <div class="post @if (item.Kod == ViewBag.vUser.UserName) {@("out")} else {@("in")} ">
+        <img class="avatar" alt="@item.AdSoyad" src="@Html.ImageOrDefault(item.ID.ToString())">
+        <div class="message">
+            <span class="arrow"></span>
+            <a href="javascript:;" class="name">@item.AdSoyad</a>
+            <span class="datetime">@item.Tarih.ToUniversalTime().Humanize()</span>
+            <span class="body">@item.Mesaj</span>
         </div>
-    }
-</div>
-<div class="slimScrollBar" style="background: rgb(187, 187, 187); width: 7px; position: absolute; top: 0px; opacity: 0.4; display: none; border-radius: 7px; z-index: 99; right: 1px; height: 769px;"></div><div class="slimScrollRail" style="width: 7px; height: 100%; position: absolute; top: 0px; display: none; border-radius: 7px; background: rgb(234, 234, 234); opacity: 0.2; z-index: 90; right: 1px;"></div>
+    </div>
+}

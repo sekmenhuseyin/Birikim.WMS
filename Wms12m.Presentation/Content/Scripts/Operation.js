@@ -55,6 +55,23 @@ function PartialView(Url, Div, Id) {
         }
     });
 }
+function PartialViewClass(Url, Div, Id) {
+    $.ajax({
+        url: Url,
+        type: 'POST',
+        data: Id,
+        cache: false,
+        dataType: "html",
+        contentType: 'application/json; charset=utf-8',
+        success: function (data) {
+            if (data == "") {
+                Modaldialog("Hata oluştu", "Hata", "Tamam", "btn-danger");
+            } else {
+                $('.' + Div).html(data);
+            }
+        }
+    });
+}
 // silme için deleteıd ıd gönderme işlemi
 function FunctionDelete(URL, deleteId) {
     var $Return = false;
@@ -128,8 +145,8 @@ function AjaxCall(Url, Data, successTriger) {
     });
 }
 //toastr mesajı oluştur
-function CT(style, title, message, url) {
-    toastr[style](title, message, {
+function CT(style, message, title, url) {
+    toastr[style](message, title, {
         "closeButton": false,
         "debug": false,
         "newestOnTop": false,
@@ -144,6 +161,6 @@ function CT(style, title, message, url) {
         "hideEasing": "linear",
         "showMethod": "fadeIn",
         "hideMethod": "fadeOut",
-        onclick: function () { if (url != '') window.location.href = url; }
+        onclick: function () { if (url != '' && url != null) window.location.href = url; }
     });
 }

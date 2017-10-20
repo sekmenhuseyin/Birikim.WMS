@@ -109,6 +109,9 @@
     <Compile Include="Models\Etkinlik.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\FAQ.cs">
+      <DependentUpon>ModelWMS.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\GetCachedChartBakiyeRisk_Result.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
     </Compile>

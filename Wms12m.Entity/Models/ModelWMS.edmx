@@ -42,6 +42,16 @@
           <Property Name="Aciklama" Type="nvarchar" MaxLength="250" />
           <Property Name="Tekrarlayan" Type="bit" Nullable="false" />
         </EntityType>
+        <EntityType Name="FAQ">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TopicTypeID" Type="int" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="250" Nullable="false" />
+          <Property Name="Detail" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Active" Type="bit" Nullable="false" />
+        </EntityType>
         <EntityType Name="Messages">
           <Key>
             <PropertyRef Name="ID" />
@@ -220,18 +230,6 @@
           <Property Name="DegisTarih" Type="smalldatetime" Nullable="false" />
           <Property Name="GitDepoAdresi" Type="varchar(max)" />
           <Property Name="Aktif" Type="bit" Nullable="false" />
-        </EntityType>
-        <EntityType Name="Troubleshooting">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Konu" Type="varchar(max)" />
-          <Property Name="Aciklama" Type="varchar(max)" />
-          <Property Name="Kaydeden" Type="varchar" MaxLength="5" Nullable="false" />
-          <Property Name="KayitTarih" Type="smalldatetime" Nullable="false" />
-          <Property Name="Degistiren" Type="varchar" MaxLength="5" Nullable="false" />
-          <Property Name="DegisTarih" Type="smalldatetime" Nullable="false" />
         </EntityType>
         <EntityType Name="Perm">
           <Key>
@@ -671,6 +669,18 @@
             </Principal>
             <Dependent Role="UserDetails">
               <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FAQ_ComboItem_Name">
+          <End Role="ComboItem_Name" Type="Self.ComboItem_Name" Multiplicity="1" />
+          <End Role="FAQ" Type="Self.FAQ" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ComboItem_Name">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="FAQ">
+              <PropertyRef Name="TopicTypeID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1533,6 +1543,7 @@
           <EntitySet Name="ComboItem_Name" EntityType="Self.ComboItem_Name" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Connections" EntityType="Self.Connections" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Etkinlik" EntityType="Self.Etkinlik" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FAQ" EntityType="Self.FAQ" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Messages" EntityType="Self.Messages" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Settings" EntityType="Self.Settings" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Simge" EntityType="Self.Simge" Schema="dbo" store:Type="Tables" />
@@ -1543,7 +1554,6 @@
           <EntitySet Name="GorevlerToDoList" EntityType="Self.GorevlerToDoList" Schema="ong" store:Type="Tables" />
           <EntitySet Name="Musteri" EntityType="Self.Musteri" Schema="ong" store:Type="Tables" />
           <EntitySet Name="ProjeForm" EntityType="Self.ProjeForm" Schema="ong" store:Type="Tables" />
-          <EntitySet Name="Troubleshooting" EntityType="Self.Troubleshooting" Schema="ong" store:Type="Tables" />
           <EntitySet Name="Perm" EntityType="Self.Perm" Schema="usr" store:Type="Tables" />
           <EntitySet Name="RolePerm" EntityType="Self.RolePerm" Schema="usr" store:Type="Tables" />
           <EntitySet Name="Roles" EntityType="Self.Roles" Schema="usr" store:Type="Tables" />
@@ -1585,6 +1595,10 @@
           <AssociationSet Name="FK_Depo_Users_Users" Association="Self.FK_Depo_Users_Users">
             <End Role="Users" EntitySet="Users" />
             <End Role="UserDetails" EntitySet="UserDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FAQ_ComboItem_Name" Association="Self.FK_FAQ_ComboItem_Name">
+            <End Role="ComboItem_Name" EntitySet="ComboItem_Name" />
+            <End Role="FAQ" EntitySet="FAQ" />
           </AssociationSet>
           <AssociationSet Name="FK_Gorev_ComboItem_NameDurum" Association="Self.FK_Gorev_ComboItem_NameDurum">
             <End Role="ComboItem_Name" EntitySet="ComboItem_Name" />
@@ -2292,7 +2306,11 @@
             <End Role="ComboItem_Name" EntitySet="ComboItem_Name" />
             <End Role="Message" EntitySet="Messages" />
           </AssociationSet>
-          <EntitySet Name="Troubleshootings" EntityType="MModel.Troubleshooting" />
+          <EntitySet Name="FAQs" EntityType="MModel.FAQ" />
+          <AssociationSet Name="FK_FAQ_ComboItem_Name" Association="MModel.FK_FAQ_ComboItem_Name">
+            <End Role="ComboItem_Name" EntitySet="ComboItem_Name" />
+            <End Role="FAQ" EntitySet="FAQs" />
+          </AssociationSet>
           </EntityContainer>
         <ComplexType Name="GetSirkets_Result">
           <Property Type="String" Name="Kod" Nullable="false" MaxLength="2" />
@@ -2924,6 +2942,7 @@
           <NavigationProperty Name="Gorevlers2" Relationship="MModel.FK_Gorevler_ComboItem_Name_GorevTipi" FromRole="ComboItem_Name" ToRole="Gorevler" />
           <NavigationProperty Name="Etkinliks" Relationship="MModel.FK_Tatil_ComboItem_Name" FromRole="ComboItem_Name" ToRole="Etkinlik" />
           <NavigationProperty Name="Messages" Relationship="MModel.FK_Messages_ComboItem_Name" FromRole="ComboItem_Name" ToRole="Message" />
+          <NavigationProperty Name="FAQs" Relationship="MModel.FK_FAQ_ComboItem_Name" FromRole="ComboItem_Name" ToRole="FAQ" />
           </EntityType>
         <EntityType Name="Role">
           <Key>
@@ -3826,18 +3845,29 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="Troubleshooting">
+        <EntityType Name="FAQ">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Konu" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="Aciklama" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="Kaydeden" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="KayitTarih" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="Degistiren" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="DegisTarih" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="TopicTypeID" Type="Int32" Nullable="false" />
+          <Property Name="Title" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Detail" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Active" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="ComboItem_Name" Relationship="MModel.FK_FAQ_ComboItem_Name" FromRole="FAQ" ToRole="ComboItem_Name" />
         </EntityType>
+        <Association Name="FK_FAQ_ComboItem_Name">
+          <End Type="MModel.ComboItem_Name" Role="ComboItem_Name" Multiplicity="1" />
+          <End Type="MModel.FAQ" Role="FAQ" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ComboItem_Name">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="FAQ">
+              <PropertyRef Name="TopicTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -4863,15 +4893,13 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Troubleshootings">
-            <EntityTypeMapping TypeName="MModel.Troubleshooting">
-              <MappingFragment StoreEntitySet="Troubleshooting">
-                <ScalarProperty Name="DegisTarih" ColumnName="DegisTarih" />
-                <ScalarProperty Name="Degistiren" ColumnName="Degistiren" />
-                <ScalarProperty Name="KayitTarih" ColumnName="KayitTarih" />
-                <ScalarProperty Name="Kaydeden" ColumnName="Kaydeden" />
-                <ScalarProperty Name="Aciklama" ColumnName="Aciklama" />
-                <ScalarProperty Name="Konu" ColumnName="Konu" />
+          <EntitySetMapping Name="FAQs">
+            <EntityTypeMapping TypeName="MModel.FAQ">
+              <MappingFragment StoreEntitySet="FAQ">
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="Detail" ColumnName="Detail" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="TopicTypeID" ColumnName="TopicTypeID" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
