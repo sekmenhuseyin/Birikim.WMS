@@ -153,8 +153,9 @@
         public string Nesne1 { get; set; } = "";
         public string Nesne2 { get; set; } = "";
         public string Nesne3 { get; set; } = "";
-        public decimal Miktar3 { get; set; } = 0;
-        public decimal Tutar3 { get; set; } = 0;
+        public int? SevkTarih { get; set; }
+        public short SiparisSiraNo { get; set; } = 0;
+        public int? EvrakTarih { get; set; }
     }
 
 
