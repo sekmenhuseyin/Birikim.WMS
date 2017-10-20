@@ -97,6 +97,14 @@ namespace Wms12m.Presentation.Controllers
                                 ORDER BY [Messages].Tarih", sql)).ToList();
             return PartialView("../Shared/UsersChat", list);
         }
+        /// <summary>
+        /// Notifications
+        /// </summary>
+        public PartialViewResult Notifications()
+        {
+            var tablo = ViewBag.UnreadMessages;
+            return PartialView("../Shared/Notifications", tablo);
+        }
         #region Satış Raporları
         public PartialViewResult PartialGunlukSatisZamanCizelgesi(string SirketKodu)
         {

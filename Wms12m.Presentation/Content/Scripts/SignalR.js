@@ -44,6 +44,7 @@ $(function () {
     //herkese uyarı gönderme
     zigChatHubProxy.client.receiveNotification = function (title, message) {
         if (title !== "" && title !== null)CT("info", message, title);
+        PartialView('/Home/Notifications', 'header_notification_bar', "");
     };
     ///online kullanıcıları listeler
     zigChatHubProxy.client.updateUsersOnline = function (data) {
