@@ -17,7 +17,8 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public ActionResult Notifications()
         {
-            var tbl = db.Messages.Where(m => m.Kime == vUser.UserName).OrderByDescending(m => m.Tarih).ToList();
+            var tip = ComboItems.DuyuruMesajı.ToInt32();
+            var tbl = db.Messages.Where(m => m.MesajTipi == tip && m.Kime == vUser.UserName).OrderByDescending(m => m.Tarih).ToList();
             foreach (var item in tbl)
                 item.Okundu = true;
             db.SaveChanges();

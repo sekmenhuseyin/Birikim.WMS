@@ -1,7 +1,6 @@
 ﻿if (top !== self) { top.location.replace(document.location); }
 numeral.locale('tr');
 moment.locale('tr');
-//CheckNtfctn()
 // Stringe karakter eklemek için
 String.prototype.addAt = function (index, character) {
     return this.substr(0, index) + character + this.substr(index + character.length - 1);
@@ -316,24 +315,4 @@ function changeUrl(url) {
 function ValidURL(url) {
     var reurl = /^(http[s]?:\/\/){0,1}(www\.){0,1}[a-zA-Z0-9\.\-]+\.[a-zA-Z]{2,5}[\.]{0,1}/;
     return reurl.test(url);
-}
-//check new notifications
-function CheckNtfctn() {
-    $.ajax({
-        type: 'POST',
-        url: "/Home/NewNotifications",
-        dataType: "json",
-        contentType: 'application/json; charset=utf-8',
-        success: function (data) {
-            setTimeout(function () { CheckNtfctn(); }, 60000);
-            if (data.length > 1)
-                CT("info", data.length + " adet bekleyen mesajınız var", "Bekleyen Mesajlar", "/Inbox/Notifications");
-            else if (data.length === 1)
-                CT("info", data[0].Mesaj, data[0].CmbItemName, data[0].URL);
-            PartialView("/Home/Notifications", "header_notification_bar", "")
-        },
-        error: function (data) {
-            setTimeout(function () { CheckNtfctn(); }, 120000);
-        }
-    });
 }
