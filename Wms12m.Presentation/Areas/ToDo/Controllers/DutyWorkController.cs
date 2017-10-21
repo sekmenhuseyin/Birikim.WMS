@@ -84,16 +84,17 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             if (CheckPerm(Perms.TodoÇalışma, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             if (!ModelState.IsValid)
                 return Json(new Result(false, "Hata oldu. Sayfayı yenileyin"), JsonRequestBehavior.AllowGet);
-            if (gorevCalisma.Sure < 0 || gorevCalisma.Sure > 540)
+            //if (gorevCalisma.Sure < 0 || gorevCalisma.Sure > 540)
+            if (gorevCalisma.Sure < 0)
                 return Json(new Result(false, "Çalışma süresini doğru yazınız"), JsonRequestBehavior.AllowGet);
             //yeni çalışma girerken
             if (gorevCalisma.ID == 0)
             {
                 //kontrol
-                string sql = string.Format("SELECT ISNULL(SUM(Sure), 0) AS Expr1 FROM ong.GorevlerCalisma WHERE (Tarih = '{0}') AND (Kaydeden = '{1}')", DateTime.Now.ToString("yyyy-MM-dd"), vUser.UserName);
-                var kontrol = db.Database.SqlQuery<int>(sql).FirstOrDefault();
-                if ((kontrol + gorevCalisma.Sure) > 540)
-                    return Json(new Result(false, "Seçili tarih için " + (kontrol + gorevCalisma.Sure - 540) + " dakika fazla yazdınız."), JsonRequestBehavior.AllowGet);
+                //string sql = string.Format("SELECT ISNULL(SUM(Sure), 0) AS Expr1 FROM ong.GorevlerCalisma WHERE (Tarih = '{0}') AND (Kaydeden = '{1}')", DateTime.Now.ToString("yyyy-MM-dd"), vUser.UserName);
+                //var kontrol = db.Database.SqlQuery<int>(sql).FirstOrDefault();
+                //if ((kontrol + gorevCalisma.Sure) > 540)
+                //    return Json(new Result(false, "Seçili tarih için " + (kontrol + gorevCalisma.Sure - 540) + " dakika fazla yazdınız."), JsonRequestBehavior.AllowGet);
                 //update
                 var grv = db.Gorevlers.Where(m => m.ID == gorevCalisma.GorevID).FirstOrDefault();
                 gorevCalisma.Kaydeden = vUser.UserName;
@@ -123,10 +124,10 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             else
             {
                 //kontrol
-                string sql = string.Format("SELECT ISNULL(SUM(Sure), 0) AS Expr1 FROM ong.GorevlerCalisma WHERE (Tarih = '{0}') AND (Kaydeden = '{1}') AND (ID <> {2})", gorevCalisma.Tarih.ToString("yyyy-MM-dd"), vUser.UserName, gorevCalisma.ID);
-                var kontrol = db.Database.SqlQuery<int>(sql).FirstOrDefault();
-                if ((kontrol + gorevCalisma.Sure) > 540)
-                    return Json(new Result(false, "Seçili tarih için " + (kontrol + gorevCalisma.Sure - 540) + " dakika fazla yazdınız."), JsonRequestBehavior.AllowGet);
+                //string sql = string.Format("SELECT ISNULL(SUM(Sure), 0) AS Expr1 FROM ong.GorevlerCalisma WHERE (Tarih = '{0}') AND (Kaydeden = '{1}') AND (ID <> {2})", gorevCalisma.Tarih.ToString("yyyy-MM-dd"), vUser.UserName, gorevCalisma.ID);
+                //var kontrol = db.Database.SqlQuery<int>(sql).FirstOrDefault();
+                //if ((kontrol + gorevCalisma.Sure) > 540)
+                //    return Json(new Result(false, "Seçili tarih için " + (kontrol + gorevCalisma.Sure - 540) + " dakika fazla yazdınız."), JsonRequestBehavior.AllowGet);
                 //update
                 var tbl = db.GorevlerCalismas.Where(m => m.ID == gorevCalisma.ID).FirstOrDefault();
                 tbl.Tarih = gorevCalisma.Tarih;
@@ -155,7 +156,8 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             if (CheckPerm(Perms.TodoÇalışma, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             if (!ModelState.IsValid)
                 return Json(new Result(false, "Hata oldu. Sayfayı yenileyin"), JsonRequestBehavior.AllowGet);
-            if (tbl.Sure < 0 || tbl.Sure > 540)
+            //if (tbl.Sure < 0 || tbl.Sure > 540)
+            if (tbl.Sure < 0)
                 return Json(new Result(false, "Çalışma süresini doğru yazınız"), JsonRequestBehavior.AllowGet);
             //get comboitemname
             var gtip = db.ComboItem_Name.Where(m => m.ID == tbl.GorevID).Select(m => m.Name).FirstOrDefault();
@@ -299,10 +301,10 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         {
             var tbl = db.GorevlerToDoLists.Where(m => m.ID == Id).FirstOrDefault();
             //kontrol
-            string sql = string.Format("SELECT ISNULL(SUM(Sure), 0) AS Expr1 FROM ong.GorevlerCalisma WHERE (Tarih = '{0}') AND (Kaydeden = '{1}')", DateTime.Now.ToString("yyyy-MM-dd"), vUser.UserName);
-            var kontrol = db.Database.SqlQuery<int>(sql).FirstOrDefault();
-            if ((kontrol + Sure) > 540)
-                return Json(new Result(false, "Seçili tarih için " + (kontrol + Sure - 540) + " dakika fazla yazdınız."), JsonRequestBehavior.AllowGet);
+            //string sql = string.Format("SELECT ISNULL(SUM(Sure), 0) AS Expr1 FROM ong.GorevlerCalisma WHERE (Tarih = '{0}') AND (Kaydeden = '{1}')", DateTime.Now.ToString("yyyy-MM-dd"), vUser.UserName);
+            //var kontrol = db.Database.SqlQuery<int>(sql).FirstOrDefault();
+            //if ((kontrol + Sure) > 540)
+            //    return Json(new Result(false, "Seçili tarih için " + (kontrol + Sure - 540) + " dakika fazla yazdınız."), JsonRequestBehavior.AllowGet);
             //getir
             tbl.DegisTarih = DateTime.Now;
             tbl.Degistiren = vUser.UserName;
