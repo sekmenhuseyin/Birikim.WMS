@@ -1,13 +1,14 @@
 ﻿@model IEnumerable<GorevlerToDoList>
 <table class="table table-bordered table-striped table-condensed" id="sample_1">
-    <thead><tr><th style="max-width:20px;"></th><th>Görevler</th><th>Todo List</th><th>Sorumlu</th><th>Çalışan</th><th>Bekleten</th><th>Tarih</th><th></th></tr></thead>
-    <tfoot><tr><th style="max-width:20px;"></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr></tfoot>
-    <tfoot class="tf-search"><tr><th style="max-width:20px;"></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr></tfoot>
+    <thead><tr><th style="max-width:20px;"></th><th>Müşteri</th><th>Görevler</th><th>Todo List</th><th>Sorumlu</th><th>Çalışan</th><th>Bekleten</th><th>Tarih</th><th></th></tr></thead>
+    <tfoot><tr><th style="max-width:20px;"></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr></tfoot>
+    <tfoot class="tf-search"><tr><th style="max-width:20px;"></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr></tfoot>
     <tbody>
         @foreach (var item in Model)
         {
             <tr data-ID="@item.GorevID">
                 <td class="details-control" style="max-width:20px;"></td>
+                <td>@item.Gorevler.ProjeForm.Musteri.Unvan</td>
                 <td><div class="hidden">@item.Gorevler.OncelikID-@item.ID</div>@item.Gorevler.Gorev</td>
                 <td>@item.Aciklama</td>
                 <td nowrap>@item.Gorevler.Sorumlu @if (item.Gorevler.Sorumlu2 != null) { @(", " + item.Gorevler.Sorumlu2) } @if (item.Gorevler.Sorumlu3 != null) { @(", " + item.Gorevler.Sorumlu3) } @if (item.Gorevler.KontrolSorumlusu != null) { @(", " + item.Gorevler.KontrolSorumlusu) }</td>
