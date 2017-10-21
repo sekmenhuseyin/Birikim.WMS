@@ -1,19 +1,45 @@
 ﻿@model Gorevler
 <table>
-    <thead><tr><th>Müşteri</th><th>Proje-Form</th><th>Görev Tipi</th><th>Görev Durumu</th><th>Sorumlular</th><th>Oluşturulma Tarihi</th><th>Tah. Bitiş Tarihi</th></tr></thead>
+    <thead><tr><th>Müşteri</th><th>Proje-Form</th><th>Görev Tipi</th><th>Görev Durumu</th><th>Sorumlular</th><th>Oluşturulma Tarihi</th><th>Tah. Bitiş Tarihi</th><th></th></tr></thead>
     <tbody>
         <tr>
             <td>@Model.ProjeForm.Musteri.Unvan</td>
             <td>@Model.ProjeForm.Proje - @Model.ProjeForm.Form</td>
             <td>@Model.ComboItem_Name2.Name</td>
             <td>@Model.ComboItem_Name1.Name</td>
-            <td>@Model.Sorumlu @if (Model.Sorumlu2 != null) { @Model.Sorumlu2 } @if (Model.Sorumlu3 != null) { @Model.Sorumlu3 } @if (Model.KontrolSorumlusu != null) { @Model.KontrolSorumlusu }</td>
-            <td>@Model.KayitTarih.ToString("dd.MM.yyyy")</td>
-            <td>@if (Model.TahminiBitis != null) { @Model.TahminiBitis.Value.ToString("dd.MM.yyyy") }</td>
-        </tr>
+            <td>
+                @Model.Sorumlu @if (Model.Sorumlu2 != null)
+            { @Model.Sorumlu2 } @if (Model.Sorumlu3 != null)
+            { @Model.Sorumlu3 } @if (Model.KontrolSorumlusu != null)
+            { @Model.KontrolSorumlusu }
+        </td>
+        <td>@Model.KayitTarih.ToString("dd.MM.yyyy")</td>
+        <td>
+            @if (Model.TahminiBitis != null)
+            { @Model.TahminiBitis.Value.ToString("dd.MM.yyyy") }
+        </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><strong>Açıklama:</strong></td>
+        <td colspan="7">@Model.Aciklama</td>
+    </tr>
+<thead><tr><th>Tarih</th><th>Kaydeden</th><th>Süre</th><th>Çalışma</th><th></th><th></th><th></th></tr></thead>
+
+<tbody>
+    @foreach (var item in @Model.GorevlerCalismas.Where(m => m.GorevID == Model.ID).OrderByDescending(m => m.ID).ToList())
+     {
         <tr>
-            <td><strong>Açıklama:</strong></td>
-            <td colspan="6">@Model.Aciklama</td>
+            <td>@item.Tarih.ToString("dd.MM.yyyy")</td>
+            <td>@item.Kaydeden</td>
+            <td>@item.Sure</td>
+            <td>@item.Calisma</td>
+            <td></td>
+            <td></td>
+            <td></td>
         </tr>
-    </tbody>
+    }
+
+</tbody>
+
 </table>
