@@ -244,8 +244,15 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         /// </summary>
         public JsonResult Delete(string Id)
         {
-            if (CheckPerm(Perms.TodoÇalışma, PermTypes.Deleting) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             GorevlerCalisma gorevcalisma = db.GorevlerCalismas.Find(Id.ToInt32());
+            DateTime KayitTarih = new DateTime();
+
+            if (gorevcalisma.IsNotNull())
+                KayitTarih = gorevcalisma.KayitTarih.Date;
+
+            if (CheckPerm(Perms.TodoÇalışma, PermTypes.Deleting) == false && KayitTarih != DateTime.Today.Date)
+                return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
+            
             db.GorevlerCalismas.Remove(gorevcalisma);
             try
             {
