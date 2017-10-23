@@ -1,19 +1,23 @@
-﻿@model IEnumerable<FAQ>
-@{
+﻿@{
     ViewBag.Title = "Yardım";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }@section Styles{<link href="~/Content/assets/pages/css/faq.min.css" rel="stylesheet" />
     <style>.page-content {background: #eef1f5 !important;}</style>
 }<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><span>Yardım</span></li></ul></div>
-<h1 class="page-title">Yardım</h1>
+<h1 class="page-title">
+    Yardım
+    <div class="col-md-2 pull-right">
+        <a class="btn btn-default pull-right input-circle" href="#modalEditPage" data-toggle="modal" onclick="editInModal('/Help/New')"> Kayıt İşlemleri </a>
+    </div>
+</h1>
 <div class="faq-page faq-content-1">
     <div class="search-bar ">
         <div class="input-group">
-            <input type="text" class="form-control" placeholder="Search for...">
+            <input type="text" name="Ara" id="Ara" class="form-control" placeholder="Ara ..." oninput="FuncSearchBtn();">
         </div>
     </div>
     <div class="faq-content-container">
-        <div class="row">
+        <div class="row" id="liste">
             <div class="col-md-6">
                 <div class="faq-section ">
                     <h2 class="faq-title uppercase font-blue">General</h2>
@@ -415,3 +419,14 @@
         </div>
     </div>
 </div>
+@section Scripts{<script type="text/javascript">
+    var DeleteFunctionUrl = '/Help/Delete';
+    $(document).ready(function () {
+        FuncSearchBtn();
+    });
+    function FuncSearchBtn() {
+        $('#liste').html("");             
+        PartialView("/Help/List", 'liste', JSON.stringify({ search: $('#Ara').val() }));
+    }
+</script>
+}
