@@ -1174,6 +1174,8 @@ namespace WMSMobil.TerminalService {
         
         private decimal miktarField;
         
+        private decimal okutulanMiktarField;
+        
         private string rafNoField;
         
         private string makaraNoField;
@@ -1245,6 +1247,16 @@ namespace WMSMobil.TerminalService {
             }
             set {
                 this.miktarField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public decimal OkutulanMiktar {
+            get {
+                return this.okutulanMiktarField;
+            }
+            set {
+                this.okutulanMiktarField = value;
             }
         }
         

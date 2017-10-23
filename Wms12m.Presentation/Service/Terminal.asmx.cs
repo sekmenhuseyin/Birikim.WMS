@@ -907,6 +907,31 @@ namespace Wms12m
             var mGorev = db.Gorevs.Where(m => m.ID == GorevID && m.DurumID == durumID).FirstOrDefault();
             if (mGorev.IsNull())
                 return new Result(false, "Görevi kontrol ediniz !");
+
+            ////yeterince okutulmuş mu kontrol edilir
+            //var kontrol1 = db.Database.SqlQuery<frmSiparisToplaKontrol>(@"SELECT        SUM(wms.GorevYer.Miktar) AS Miktar, ISNULL(SUM(wms.GorevYer.YerlestirmeMiktari),0) AS YerlestirmeMiktari, wms.GorevYer.MalKodu
+            //                                                            FROM            wms.GorevYer WITH (nolock) INNER JOIN
+            //                                                                                     wms.Yer WITH (nolock) ON wms.GorevYer.YerID = wms.Yer.ID
+            //                                                            WHERE        wms.GorevYer.GorevID = " + GorevID + " GROUP BY wms.GorevYer.MalKodu").ToList();
+            //foreach (var item in kontrol1)
+            //{
+            //    if (item.Miktar != item.YerlestirmeMiktari)
+            //        return new Result(false, "İşlem bitmemiş(Miktar ile Yerleştirme miktarı uyumsuz.)");
+            //}
+
+            var data2 = YerlestirmeList.GroupBy(x => x.MalKodu)
+    .Select(x => new
+    {
+        MalKodu = x.Key,
+        Miktar = x.Sum(y => y.Miktar),
+        OkutulanMiktar = x.Sum(y => y.OkutulanMiktar),
+    }).ToList();
+            foreach (var item in data2)
+            {
+                if (item.Miktar != item.OkutulanMiktar)
+                    return new Result(false, "İşlem bitmemiş(Miktar ile Yerleştirme miktarı uyumsuz.)");
+            }
+
             //add to gorev user table
             var tbl = db.GorevUsers.Where(m => m.GorevID == GorevID && m.UserName == tblx.Kod).FirstOrDefault();
             if (tbl == null)
@@ -1019,7 +1044,7 @@ namespace Wms12m
                 sql = string.Format("SELECT ISNULL(" +
                                         "(SELECT TOP 1 YEAR(CAST(SDK.Tarih-2 AS DATETIME)) " +
                                         "FROM SOLAR6.DBO.SIR(NOLOCK) INNER JOIN SOLAR6.DBO.SDK(NOLOCK) ON SIR.Kod = SDK.SirketKod AND SDK.Tip = 1 " +
-                                        "WHERE SDK.Kod = '{0}' ORDER BY Tarih DESC)" +
+                                        "WHERE SDK.Kod = (SELECT SirketKod FROM SOLAR6.DBO.SDK(NOLOCK) WHERE Kod='{0}' AND Tip = 0) ORDER BY Tarih DESC)" +
                                     ",Year(GETDATE())) as Yil", item.SirketKod);
                 int yil = db.Database.SqlQuery<int>(sql).FirstOrDefault();
                 //efatura kullanıcısı mı bul

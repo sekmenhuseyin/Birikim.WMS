@@ -334,7 +334,7 @@ namespace Wms12m
                 foreach (STIMax item in list)
                 {
                     sql = string.Format("SELECT SPI.Chk, SPI.IslemTip, SPI.Miktar, SPI.MalKodu, SPI.Fiyat, SPI.Birim, SPI.Depo, SPI.ToplamIskonto, SPI.KDV, SPI.KDVOran, SPI.IskontoOran1, SPI.IskontoOran2, SPI.IskontoOran3, SPI.IskontoOran4, SPI.IskontoOran5, " +
-                                        "SPI.EvrakNo as KaynakSiparisNo, SPI.Tarih as KaynakSiparisTarih, SPI.SiraNo as SiparisSiraNo, SPI.Miktar as SiparisMiktar, SPI.TeslimMiktar, SPI.KapatilanMiktar, SPI.FytListeNo, SPI.ValorGun, SPI.Kod1, SPI.Kod2, SPI.Kod3, SPI.Kod10, SPI.Kod13, SPI.Kod14, SPI.KayitKaynak, SPI.KayitSurum, SPI.DegisKaynak, SPI.DegisSurum," +
+                                        "SPI.EvrakNo as KaynakSiparisNo, SPI.Tarih as KaynakSiparisTarih, SPI.SiraNo as SiparisSiraNo, SPI.Miktar as SiparisMiktar, SPI.TeslimMiktar, SPI.KapatilanMiktar, SPI.FytListeNo, SPI.ValorGun, SPI.Kod1, SPI.Kod2, SPI.Kod3, SPI.Kod4, SPI.Kod5, SPI.Kod6, SPI.Kod7, SPI.Kod8, SPI.Kod9, SPI.Kod10, SPI.Kod11, SPI.Kod12, SPI.Kod13, SPI.Kod14, SPI.KayitKaynak, SPI.KayitSurum, SPI.DegisKaynak, SPI.DegisSurum," +
                                         "CHK.EFatKullanici, ISNULL(BIRIKIM.wms.fnGetSatislarHesabi(SPI.MalKodu),'') AS SatislarHesabi, CHK.EArsivTeslimSekli, CHK.MhsKod, CHK.EFatSenaryo " +
                                         "FROM FINSAT6{0}.FINSAT6{0}.SPI WITH (NOLOCK) LEFT JOIN FINSAT6{0}.FINSAT6{0}.CHK WITH (NOLOCK) ON SPI.Chk=CHK.HesapKodu LEFT JOIN FINSAT6{0}.FINSAT6{0}.STK WITH (NOLOCK) ON STK.MalKodu=SPI.MalKodu " +
                                         "WHERE (SPI.EvrakNo = '{1}') AND (SPI.Chk = '{2}') AND (SPI.Depo = '{3}') AND (SPI.Tarih = {4}) AND (SPI.SiraNo = {5}) AND (SPI.KynkEvrakTip = 62) AND (SPI.SiparisDurumu = 0) AND (SPI.Kod10 IN ('Terminal', 'Onaylandı'))", SirketKodu, item.EvrakNo, CHK, DepoKodu, item.KynkSiparisTarih, item.KynkSiparisSiraNo);
@@ -441,7 +441,7 @@ namespace Wms12m
                         "STI.Miktar as SiparisMiktar,STI.FytListeNo,STI.ValorGun,STI.Kod1,STI.Kod2,STI.Kod3,STI.Kod4,STI.Kod5,STI.Kod6,STI.Kod7,STI.Kod8,STI.Kod9,STI.Kod10," +
                         "STI.Kod11,STI.Kod12,STI.Kod13,STI.Kod14,STI.KayitKaynak,STI.KayitSurum,STI.DegisKaynak,STI.DegisSurum,STI.SevkTarih as SevkTarih,STI.KaynakIrsTarih as KaynakIrsTarih," +
                         "STI.KaynakSiparisTarih as KaynakSiparisTarih2,STI.Kredi_Donem_VadeTarih,STI.KaynakIrsEvrakNo,STK.AlimdanIade as MhsKod,CHK.EFatKullanici,ISNULL(BIRIKIM.wms.fnGetSatislarHesabi(STI.MalKodu), '') AS SatislarHesabi," +
-                        "CHK.EArsivTeslimSekli,CHK.MhsKod,CHK.EFatSenaryo " +
+                        "CHK.EArsivTeslimSekli,CHK.MhsKod As CHKMhsKod,CHK.EFatSenaryo " +
                         "FROM FINSAT6{0}.FINSAT6{0}.STI WITH (NOLOCK) LEFT JOIN FINSAT6{0}.FINSAT6{0}.CHK WITH (NOLOCK) ON STI.Chk=CHK.HesapKodu LEFT JOIN FINSAT6{0}.FINSAT6{0}.STK WITH (NOLOCK) ON STK.MalKodu=STI.MalKodu " +
                         "WHERE (STI.EvrakNo = '{1}') AND (STI.Chk = '{2}') AND (STI.Depo = '{3}') AND (STI.Row_ID = '{4}')  AND (STI.KynkEvrakTip = 4)", SirketKodu, item.EvrakNo, CHK, DepoKodu, item.Row_ID);
                     var finsat = db.Database.SqlQuery<ParamSti>(sql).FirstOrDefault();

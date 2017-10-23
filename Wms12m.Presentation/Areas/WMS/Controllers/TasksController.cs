@@ -192,7 +192,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
 
                                 UNION
 
-                                SELECT        MalKodu, '' AS MalAdi, Birim, 0 AS Miktar, ISNULL(FINSAT699.wms.getStockByDepo(MalKodu, '{1}'), 0) AS GunesStok, ISNULL(wms.fnGetStockByID({3}, MalKodu, Birim), 0) AS WmsStok
+                                SELECT        MalKodu, '' AS MalAdi, Birim, 0 AS Miktar, ISNULL(FINSAT6{0}.wms.getStockByDepo(MalKodu, '{1}'), 0) AS GunesStok, ISNULL(wms.fnGetStockByID({3}, MalKodu, Birim), 0) AS WmsStok
                                 FROM            wms.Yer
                                 GROUP BY MalKodu, Birim, ISNULL(FINSAT6{0}.wms.getStockByDepo(MalKodu, '{1}'), 0), ISNULL(wms.fnGetStockByID({3}, MalKodu, Birim), 0)
                                 HAVING        (NOT (MalKodu IN (SELECT MalKodu FROM wms.GorevYer WHERE (GorevID = {2})))) 

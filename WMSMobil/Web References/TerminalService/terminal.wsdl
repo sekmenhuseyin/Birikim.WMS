@@ -516,6 +516,7 @@
           <s:element minOccurs="0" maxOccurs="1" name="MalKodu" type="s:string" />
           <s:element minOccurs="0" maxOccurs="1" name="Birim" type="s:string" />
           <s:element minOccurs="1" maxOccurs="1" name="Miktar" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="OkutulanMiktar" type="s:decimal" />
           <s:element minOccurs="0" maxOccurs="1" name="RafNo" type="s:string" />
           <s:element minOccurs="0" maxOccurs="1" name="MakaraNo" type="s:string" />
         </s:sequence>

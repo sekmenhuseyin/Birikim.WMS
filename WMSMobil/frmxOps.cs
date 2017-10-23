@@ -894,6 +894,7 @@ namespace WMSMobil
                         yer.RafNo = itemPanel.Controls[5].Text;
                         yer.GorevID = GorevID;
                         yer.MakaraNo = itemPanel.Controls[8].Text;
+             
                         YerList.Add(yer);
                     }
                 }
@@ -909,6 +910,7 @@ namespace WMSMobil
                         yer.IrsID = txtEvrakno.Tag.ToInt32();
                         yer.RafNo = itemPanel.Controls[5].Text;
                         yer.GorevID = GorevID;
+                        yer.OkutulanMiktar = itemPanel.Controls[3].Text.ToDecimal();
                         YerList.Add(yer);
                     }
                 }

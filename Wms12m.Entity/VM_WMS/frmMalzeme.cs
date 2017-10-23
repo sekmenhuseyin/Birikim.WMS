@@ -73,6 +73,7 @@ namespace Wms12m.Entity
         public string MalKodu { get; set; }
         public string Birim { get; set; }
         public decimal Miktar { get; set; }
+        public decimal OkutulanMiktar { get; set; }
         public string RafNo { get; set; }
         public string MakaraNo { get; set; }
     }
