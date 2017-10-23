@@ -234,18 +234,6 @@
           <Property Name="DegisTarih" Type="smalldatetime" Nullable="false" />
           <Property Name="Aktif" Type="bit" Nullable="false" />
         </EntityType>
-        <EntityType Name="Troubleshooting">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Konu" Type="varchar(max)" />
-          <Property Name="Aciklama" Type="varchar(max)" />
-          <Property Name="Kaydeden" Type="varchar" MaxLength="5" Nullable="false" />
-          <Property Name="KayitTarih" Type="smalldatetime" Nullable="false" />
-          <Property Name="Degistiren" Type="varchar" MaxLength="5" Nullable="false" />
-          <Property Name="DegisTarih" Type="smalldatetime" Nullable="false" />
-        </EntityType>
         <EntityType Name="Perm">
           <Key>
             <PropertyRef Name="PermName" />
@@ -1569,7 +1557,6 @@
           <EntitySet Name="GorevlerToDoList" EntityType="Self.GorevlerToDoList" Schema="ong" store:Type="Tables" />
           <EntitySet Name="Musteri" EntityType="Self.Musteri" Schema="ong" store:Type="Tables" />
           <EntitySet Name="ProjeForm" EntityType="Self.ProjeForm" Schema="ong" store:Type="Tables" />
-          <EntitySet Name="Troubleshooting" EntityType="Self.Troubleshooting" Schema="ong" store:Type="Tables" />
           <EntitySet Name="Perm" EntityType="Self.Perm" Schema="usr" store:Type="Tables" />
           <EntitySet Name="RolePerm" EntityType="Self.RolePerm" Schema="usr" store:Type="Tables" />
           <EntitySet Name="Roles" EntityType="Self.Roles" Schema="usr" store:Type="Tables" />
@@ -2309,7 +2296,6 @@
             <End Role="ComboItem_Name" EntitySet="ComboItem_Name" />
             <End Role="FAQ" EntitySet="FAQs" />
           </AssociationSet>
-          <EntitySet Name="Troubleshootings" EntityType="MModel.Troubleshooting" />
           <EntitySet Name="ProjeForms" EntityType="MModel.ProjeForm" />
           <AssociationSet Name="FK_Gorevler_ProjeForm" Association="MModel.FK_Gorevler_ProjeForm">
             <End Role="ProjeForm" EntitySet="ProjeForms" />
@@ -3801,18 +3787,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="Troubleshooting">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Konu" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="Aciklama" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="Kaydeden" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="KayitTarih" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="Degistiren" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="DegisTarih" Type="DateTime" Nullable="false" Precision="0" />
-        </EntityType>
         <EntityType Name="ProjeForm">
           <Key>
             <PropertyRef Name="ID" />
@@ -4899,19 +4873,6 @@
                 <ScalarProperty Name="Detail" ColumnName="Detail" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
                 <ScalarProperty Name="TopicTypeID" ColumnName="TopicTypeID" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Troubleshootings">
-            <EntityTypeMapping TypeName="MModel.Troubleshooting">
-              <MappingFragment StoreEntitySet="Troubleshooting">
-                <ScalarProperty Name="DegisTarih" ColumnName="DegisTarih" />
-                <ScalarProperty Name="Degistiren" ColumnName="Degistiren" />
-                <ScalarProperty Name="KayitTarih" ColumnName="KayitTarih" />
-                <ScalarProperty Name="Kaydeden" ColumnName="Kaydeden" />
-                <ScalarProperty Name="Aciklama" ColumnName="Aciklama" />
-                <ScalarProperty Name="Konu" ColumnName="Konu" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
