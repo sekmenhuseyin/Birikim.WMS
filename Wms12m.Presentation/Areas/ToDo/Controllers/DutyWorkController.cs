@@ -51,17 +51,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             var gorevCalismas = db.GorevlerCalismas.Where(m => m.ID > 0);
             var yetki = CheckPerm(Perms.TodoÇalışma, PermTypes.Deleting);
             if (Tip == false)//bana ait
-            {
                 gorevCalismas = gorevCalismas.Where(m => m.Kaydeden == vUser.UserName);
-            }
-            else if (yetki == true)//admin ise filtre yapma hepsini gör
-            {
-
-            }
-            else
-            {
-                gorevCalismas = gorevCalismas.Where(m => m.Kaydeden == vUser.UserName || m.Gorevler.Sorumlu == vUser.UserName || m.Gorevler.Sorumlu2 == vUser.UserName || m.Gorevler.Sorumlu3 == vUser.UserName || m.Gorevler.KontrolSorumlusu == vUser.UserName || m.Gorevler.Kaydeden == vUser.UserName);
-            }
             ViewBag.Yetki2 = yetki;
             return PartialView("List", gorevCalismas.OrderByDescending(m => m.Tarih).ToList());
         }
