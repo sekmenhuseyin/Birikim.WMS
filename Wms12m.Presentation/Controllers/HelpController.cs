@@ -20,10 +20,11 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public PartialViewResult List(string search)
         {
-            var liste = db.FAQs.Where(m => m.ID > 0);
+            ViewBag.Sayi = db.FAQs.Where(m => m.Active == true).GroupBy(m => m.ComboItem_Name).Count();
+            var liste = db.FAQs.Where(m => m.Active == true);
             if (search != "" && search != null)
                 liste = liste.Where(m => m.Title.Contains(search) || m.Detail.Contains(search));
-            return PartialView("List", liste.ToList());
+            return PartialView("List", liste.OrderBy(m => m.TopicTypeID).ThenBy(m => m.Title).ToList());
         }
         /// <summary>
         /// yeni sayfası

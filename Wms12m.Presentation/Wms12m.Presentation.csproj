@@ -847,6 +847,9 @@
     <Content Include="Views\Shared\UsersChat.cshtml" />
     <Content Include="Views\Users\Image.cshtml" />
     <Content Include="Views\Help\List.cshtml" />
+    <Content Include="Views\Help\New.cshtml" />
+    <Content Include="Views\Help\FormList.cshtml" />
+    <Content Include="Views\Help\FormEdit.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
