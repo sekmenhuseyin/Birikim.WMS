@@ -844,6 +844,7 @@
     <Content Include="Views\Help\New.cshtml" />
     <Content Include="Views\Help\FormList.cshtml" />
     <Content Include="Views\Help\FormEdit.cshtml" />
+    <Content Include="Views\Home\GorevProjesi\GunlukGit.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

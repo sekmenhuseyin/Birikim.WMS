@@ -843,7 +843,7 @@ namespace Wms12m.Presentation.Controllers
         }
         public PartialViewResult GorevGit(string projeGuid)
         {
-            return PartialView("GorevProjesi/AylikCalisma");
+            return PartialView("GorevProjesi/GorevGit");
         }
         #endregion
     }
