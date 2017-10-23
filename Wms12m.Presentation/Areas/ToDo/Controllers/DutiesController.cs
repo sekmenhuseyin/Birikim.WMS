@@ -43,7 +43,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         [HttpPost]
         public PartialViewResult Details(int ID)
         {
-            var list = db.GorevlerCalismas.Where(a => a.GorevID == ID).OrderByDescending(m => m.Tarih).ToList();
+            var list = db.GorevlerToDoLists.Where(a => a.GorevID == ID).ToList();
             ViewBag.ID = ID;
             return PartialView("Details", list);
         }
@@ -258,7 +258,8 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                         Kimden = vUser.UserName,
                         Kime = gorevler.Sorumlu,
                         Tarih = DateTime.Now,
-                        Mesaj = "Size yeni bir görev açıldı"
+                        Mesaj = "Size yeni bir görev açıldı: " + gorevler.Gorev,
+                        URL = "/ToDo/Duties"
                     };
                     db.Messages.Add(mesaj);
                     if (gorevler.Sorumlu2 != null)
@@ -269,7 +270,8 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                             Kimden = vUser.UserName,
                             Kime = gorevler.Sorumlu2,
                             Tarih = DateTime.Now,
-                            Mesaj = "Size yeni bir görev açıldı"
+                            Mesaj = "Size yeni bir görev açıldı: " + gorevler.Gorev,
+                            URL = "/ToDo/Duties"
                         };
                         db.Messages.Add(mesaj2);
                     }
@@ -281,7 +283,8 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                             Kimden = vUser.UserName,
                             Kime = gorevler.Sorumlu3,
                             Tarih = DateTime.Now,
-                            Mesaj = "Size yeni bir görev açıldı"
+                            Mesaj = "Size yeni bir görev açıldı: " + gorevler.Gorev,
+                            URL = "/ToDo/Duties"
                         };
                         db.Messages.Add(mesaj3);
                     }
