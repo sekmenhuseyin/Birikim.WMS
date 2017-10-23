@@ -55,7 +55,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             if (kontrol != null)
                 return Json(_Result, JsonRequestBehavior.AllowGet);
             //finsta db kontrol
-            string sql = string.Format("SELECT EvrakNo FROM FINSAT6{0}.FINSAT6{0}.STI WHERE (EvrakNo = '{1}') AND (KynkEvrakTip = 3) AND (Chk = {2})", SirketID, EvrakNo, HesapKodu);
+            string sql = string.Format("SELECT EvrakNo FROM FINSAT6{0}.FINSAT6{0}.STI WHERE (EvrakNo = '{1}') AND (KynkEvrakTip = 3) AND (Chk = '{2}')", SirketID, EvrakNo, HesapKodu);
             var sti = db.Database.SqlQuery<string>(sql).FirstOrDefault();
             if (sti != null)
                 return Json(_Result, JsonRequestBehavior.AllowGet);
@@ -277,18 +277,12 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             //kontrol
             if (CheckPerm(Perms.MalKabul, PermTypes.Writing) == false) return null;
             //yeni kayıtta evrak no spide olmayacak kontrolü
-            string sql = string.Format("SELECT EvrakNo FROM FINSAT6{0}.FINSAT6{0}.STI WHERE (EvrakNo = '{1}') AND (KynkEvrakTip = 3) AND (Chk = {2})", tbl.SirketID, tbl.EvrakNo, tbl.HesapKodu);
-            try
+            string sql = string.Format("SELECT EvrakNo FROM FINSAT6{0}.FINSAT6{0}.STI WHERE (EvrakNo = '{1}') AND (KynkEvrakTip = 3) AND (Chk = '{2}')", tbl.SirketID, tbl.EvrakNo, tbl.HesapKodu);
+            var sti = db.Database.SqlQuery<string>(sql).FirstOrDefault();
+            if (sti != null)
             {
-                var sti = db.Database.SqlQuery<string>(sql).FirstOrDefault();
-                if (sti != null)
-                {
-                    ViewBag.message = "Bu evrak no kullanılıyor";
-                    return PartialView("_GridPartial", new List<IRS_Detay>());
-                }
-            }
-            catch (Exception)
-            {                
+                ViewBag.message = "Bu evrak no kullanılıyor";
+                return PartialView("_GridPartial", new List<IRS_Detay>());
             }
             //yeni kayıt
             string gorevno = db.SettingsGorevNo(DateTime.Today.ToOADateInt(), tbl.DepoID).FirstOrDefault();

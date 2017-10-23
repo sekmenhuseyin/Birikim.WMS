@@ -141,6 +141,18 @@
             PartialView("/ToDo/ProjectForm/FormList/" + data.Id, 'listealt');
         }
     };
+    function newrow(id) { return "<div id='new" + id + "'></div>"; }
+    function format(d) {
+        $.ajax({
+            type: 'POST',
+            url: '/ToDo/ProjectForm/Details',
+            data: { "ID": d },
+            dataType: "html",
+            success: function (data) {
+                $('#new' + d).html(data);
+            }
+        });
+    }
     function CreateEditAltF(Id) {@if (ViewBag.Yetki == true) {<text>
         if (Id == 0) {
             $(".ID2").val("0");
