@@ -26,7 +26,7 @@
                         {
                             <tr>
                                 <td>@Html.Raw(item.ID)</td>
-                                <td>@item.Date</td>
+                                <td><div class="hidden">@item.Date.ToOADateInt()</div>@item.Date</td>
                                 <td>@Html.Raw(item.Name)</td>
                             </tr>
                         }
@@ -46,6 +46,7 @@
         @if (ViewBag.ID == "") { <text>$(".satirekle8")[0].selectedIndex = 0;</text> }
         var table = $('#tblGorevGit').DataTable({
             "pagingType": "full_numbers",
+            "order": [[1, "desc"]],
             "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" }
         });
         $('#tblGorevGit .tf-search th').each(function () {

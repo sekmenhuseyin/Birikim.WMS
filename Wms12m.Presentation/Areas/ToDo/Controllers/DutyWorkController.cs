@@ -233,17 +233,11 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         public JsonResult Delete(string Id)
         {
             GorevlerCalisma gorevcalisma = db.GorevlerCalismas.Find(Id.ToInt32());
-            DateTime KayitTarih = new DateTime();
-
-            if (gorevcalisma.IsNotNull())
-                KayitTarih = gorevcalisma.KayitTarih.Date;
-
-            if (CheckPerm(Perms.TodoÇalışma, PermTypes.Deleting) == false && KayitTarih != DateTime.Today.Date)
+            if (CheckPerm(Perms.TodoÇalışma, PermTypes.Deleting) == false && gorevcalisma.Tarih != DateTime.Today)
                 return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
-            
-            db.GorevlerCalismas.Remove(gorevcalisma);
             try
             {
+                db.GorevlerCalismas.Remove(gorevcalisma);
                 db.SaveChanges();
                 return Json(new Result(true, Id.ToInt32()), JsonRequestBehavior.AllowGet);
             }
