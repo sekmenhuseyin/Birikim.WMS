@@ -1,5 +1,5 @@
 ﻿@model IEnumerable<FAQ>
-@{ var toplam = ViewBag.Sayi; int i = 0; }
+@{ var toplam = (ViewBag.Sayi + 1) / 2; int i = 0; }
 @toplam
 @foreach (var item in Model)
 {
