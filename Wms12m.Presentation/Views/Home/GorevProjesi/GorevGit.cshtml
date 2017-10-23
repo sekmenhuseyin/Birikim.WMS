@@ -42,7 +42,7 @@
         PartialView('/Home/GorevGit', 'gorev_git', JSON.stringify({ ID: v }));
     }
     $(document).ready(function (e) {
-        $(".satirekle8").prepend("<option value=''>Hepsi</option>");
+        $(".satirekle8").prepend("<option value=''>Seçiniz!</option>");
         @if (ViewBag.ID == "") { <text>$(".satirekle8")[0].selectedIndex = 0;</text> }
         var table = $('#tblGorevGit').DataTable({
             "pagingType": "full_numbers",

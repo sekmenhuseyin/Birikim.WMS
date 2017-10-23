@@ -854,7 +854,7 @@ namespace Wms12m.Presentation.Controllers
                 var list = JsonConvert.DeserializeObject<List<ForJson>>(json);
                 ViewBag.ProjeID = new SelectList(list, "Id", "Name", ID);
                 //get details
-                if (ID != "")
+                if (ID != "" && ID != null)
                 {
                     json = wc.DownloadString(ViewBag.settings.GitServerAddress + "Repository/CommitsList/" + ID);
                     liste = JsonConvert.DeserializeObject<List<ForJson>>(json);
