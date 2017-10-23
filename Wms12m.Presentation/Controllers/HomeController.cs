@@ -1,6 +1,8 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
 using Wms12m.Entity;
@@ -841,9 +843,24 @@ namespace Wms12m.Presentation.Controllers
             else
                 return PartialView("GorevProjesi/AylikCalisma", liste);
         }
-        public PartialViewResult GorevGit(string projeGuid)
+        public PartialViewResult GorevGit(string ID)
         {
-            return PartialView("GorevProjesi/GorevGit");
+            ViewBag.ID = ID;
+            var liste = new List<ForJson>();
+            using (WebClient wc = new WebClient())
+            {
+                //get proje list
+                var json = wc.DownloadString(ViewBag.settings.GitServerAddress + "Repository/List/");
+                var list = JsonConvert.DeserializeObject<List<ForJson>>(json);
+                ViewBag.ProjeID = new SelectList(list, "Id", "Name");
+                //get details
+                if (ID != "")
+                {
+                    json = wc.DownloadString(ViewBag.settings.GitServerAddress + "Repository/CommitsList/" + ID);
+                    liste = JsonConvert.DeserializeObject<List<ForJson>>(json);
+                }
+            }
+            return PartialView("GorevProjesi/GorevGit", liste);
         }
         #endregion
     }

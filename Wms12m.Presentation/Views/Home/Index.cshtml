@@ -411,7 +411,7 @@ if (tst.CrmOzet == true)
 }
 }</div>
 <div id="gorev_gunluk_calisma"></div><div id="gorev_gunluk_calisma_pie"></div><div id="gorev_musteri_analizi"></div><div id="gorev_musteri_analizi_pie"></div>
-<div id="gorev_calisma_analizi"></div><div id="gorev_proje_analizi"></div><div id="gorev_aylik_calisma"></div>
+<div id="gorev_calisma_analizi"></div><div id="gorev_proje_analizi"></div><div id="gorev_aylik_calisma"></div><div id="gorev_git"></div>
 <div id="gunluk_satis"></div><div id="gunluk_satis_pie"></div><div id="gunluk_satis_zaman_cizelgesi"></div><div id="gunluk_satis_yeartoday"></div>
 <div id="gunluk_satis_yeartoday_pie"></div><div id="gunluk_satis_double_kriter"></div><div id="gunluk_satis_double_kriter_pie"></div>
 <div id="aylik_satis_bar"></div><div id="aylik_satis_chk_bar"></div><div id="aylik_satis_kod_tip_doviz_bar"></div>
@@ -430,13 +430,14 @@ if (tst.CrmOzet == true)
 <script src="~/Content/assets/global/plugins/bootstrap-toggle/js/bootstrap-toggle.min.js"></script><script>var dateVal = new Date(); dateVal.setHours(0, 0, 0); var oaDate = Math.ceil((dateVal - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000));
     $(document).ready(function (e) {@{
     if (tst.GorevProjesi == true){<text>
-        PartialView('/Home/GorevGunlukCalisma', 'gorev_gunluk_calisma', JSON.stringify({ user: '', tarih: oaDate - 1, tip: '' }));
-        PartialView('/Home/GorevGunlukCalisma', 'gorev_gunluk_calisma_pie', JSON.stringify({ user: '', tarih: oaDate - 1, tip: 'Pie' }));
-        PartialView('/Home/GorevMusteriAnalizi', 'gorev_musteri_analizi', JSON.stringify({ musteri: 0, proje: 0, tarihStart: oaDate - 7, tarihEnd: oaDate, tip: '' }));
-        PartialView('/Home/GorevMusteriAnalizi', 'gorev_musteri_analizi_pie', JSON.stringify({ musteri: 0, proje: 0, tarihStart: oaDate - 7, tarihEnd: oaDate, tip: 'Pie' }));
-        PartialView('/Home/GorevCalismaAnalizi', 'gorev_calisma_analizi', JSON.stringify({ tarihStart: oaDate - 7, tarihEnd: oaDate }));
-        PartialView('/Home/GorevProjeAnalizi', 'gorev_proje_analizi', JSON.stringify({ musteri: 0, proje: 0}));
-        PartialView('/Home/GorevAylikCalisma', 'gorev_aylik_calisma', JSON.stringify({ user: '', tarihStart: dateVal.getMonth(), tip: '' }));
+        //PartialView('/Home/GorevGunlukCalisma', 'gorev_gunluk_calisma', JSON.stringify({ user: '', tarih: oaDate - 1, tip: '' }));
+        //PartialView('/Home/GorevGunlukCalisma', 'gorev_gunluk_calisma_pie', JSON.stringify({ user: '', tarih: oaDate - 1, tip: 'Pie' }));
+        //PartialView('/Home/GorevMusteriAnalizi', 'gorev_musteri_analizi', JSON.stringify({ musteri: 0, proje: 0, tarihStart: oaDate - 7, tarihEnd: oaDate, tip: '' }));
+        //PartialView('/Home/GorevMusteriAnalizi', 'gorev_musteri_analizi_pie', JSON.stringify({ musteri: 0, proje: 0, tarihStart: oaDate - 7, tarihEnd: oaDate, tip: 'Pie' }));
+        //PartialView('/Home/GorevCalismaAnalizi', 'gorev_calisma_analizi', JSON.stringify({ tarihStart: oaDate - 7, tarihEnd: oaDate }));
+        //PartialView('/Home/GorevProjeAnalizi', 'gorev_proje_analizi', JSON.stringify({ musteri: 0, proje: 0}));
+        //PartialView('/Home/GorevAylikCalisma', 'gorev_aylik_calisma', JSON.stringify({ user: '', tarihStart: dateVal.getMonth(), tip: '' }));
+        PartialView('/Home/GorevGit', 'gorev_git', JSON.stringify({ ID: '' }));
     </text>}
     if (Model.yetki.Contains("'ChartGunlukSatis'") == true){<text>
         PartialView('/Home/PartialGunlukSatis', 'gunluk_satis', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', tarih: oaDate }));
