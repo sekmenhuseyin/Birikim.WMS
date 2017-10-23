@@ -19,7 +19,7 @@
                             <div class="form-body">
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.TopicTypeID, "Yardım Türü", htmlAttributes: new { @class = "control-label col-md-2" })
-                                    <div class="col-md-10">
+                                    <div class="col-md-8">
                                         @Html.DropDownList("TopicTypeID", null, htmlAttributes: new { @class = "form-control input-circle satirekle", required = "required" })
                                         @Html.ValidationMessageFor(model => model.TopicTypeID, "", new { @class = "text-danger" })
                                     </div>
@@ -70,9 +70,10 @@
     function CreateEdit(Id) {
         if (Id == 0) {
             $(".ID").val("0");
-            $("#Konu").val("");
-            $("#Aciklama").val("");
-            $("#CreateEdit .caption").text("Troubleshooting Ekle");
+            $("#Title").val("");
+            $("#Detail").val("");
+            $(".satirekle")[0].selectedIndex = 0;
+            $("#CreateEdit .caption").text("Ekle");
             $("#CreateEdit [type='submit']").text("Ekle");
         }
         else {

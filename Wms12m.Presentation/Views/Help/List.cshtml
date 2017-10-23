@@ -1,26 +1,29 @@
 ﻿@model IEnumerable<FAQ>
-@{ var toplam = (ViewBag.Sayi + 1) / 2; int i = 0; }
-@toplam
-@foreach (var item in Model)
+@{ int accID = 1, i = 0; }
+@foreach (frmGorevli item in ViewBag.Topics)
 {
-    i++;
+    accID++;
     <div class="col-md-6">
         <div class="faq-section ">
-            <h2 class="faq-title uppercase font-blue">@item.ComboItem_Name.Name</h2>
-            <div class="panel-group accordion faq-content" id="accordion@{@i}">
+            <h2 class="faq-title uppercase font-blue">@item.Gorevli</h2>
+            <div class="panel-group accordion faq-content" id="accordion@{@accID}">
+                @foreach (var item2 in Model.Where(m => m.TopicTypeID == item.ID).OrderBy(m => m.Title))
+                {
+                    i++;
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <h4 class="panel-title">
                                 <i class="fa fa-circle"></i>
-                                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion@{@i}" href=#collapse_@{@i}> @item.Title</a>
+                                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion@{@accID}" href=#collapse_@{@i}> @item2.Title</a>
                             </h4>
                         </div>
                         <div id="collapse_@{@i}" class="panel-collapse collapse">
                             <div class="panel-body">
-                                <p>@item.Detail</p>
+                                <p>@item2.Detail</p>
                             </div>
                         </div>
                     </div>
+                }
             </div>
         </div>
     </div>
