@@ -41,6 +41,7 @@
           <Property Name="Tarih" Type="date" Nullable="false" />
           <Property Name="Aciklama" Type="nvarchar" MaxLength="250" />
           <Property Name="Tekrarlayan" Type="bit" Nullable="false" />
+          <Property Name="Sure" Type="int" />
         </EntityType>
         <EntityType Name="FAQ">
           <Key>
@@ -2297,11 +2298,6 @@
             <End Role="Depo" EntitySet="Depoes" />
             <End Role="UserDetail" EntitySet="UserDetails" />
           </AssociationSet>
-          <EntitySet Name="Etkinliks" EntityType="MModel.Etkinlik" />
-          <AssociationSet Name="FK_Tatil_ComboItem_Name" Association="MModel.FK_Tatil_ComboItem_Name">
-            <End Role="ComboItem_Name" EntitySet="ComboItem_Name" />
-            <End Role="Etkinlik" EntitySet="Etkinliks" />
-          </AssociationSet>
           <EntitySet Name="Connections" EntityType="MModel.Connection" />
           <EntitySet Name="Messages" EntityType="MModel.Message" />
           <AssociationSet Name="FK_Messages_ComboItem_Name" Association="MModel.FK_Messages_ComboItem_Name">
@@ -2326,6 +2322,11 @@
           <AssociationSet Name="FK_ProjeForm_ProjeForm" Association="MModel.FK_ProjeForm_ProjeForm">
             <End Role="ProjeForm" EntitySet="ProjeForms" />
             <End Role="ProjeForm1" EntitySet="ProjeForms" />
+          </AssociationSet>
+          <EntitySet Name="Etkinliks" EntityType="MModel.Etkinlik" />
+          <AssociationSet Name="FK_Tatil_ComboItem_Name" Association="MModel.FK_Tatil_ComboItem_Name">
+            <End Role="ComboItem_Name" EntitySet="ComboItem_Name" />
+            <End Role="Etkinlik" EntitySet="Etkinliks" />
           </AssociationSet>
           </EntityContainer>
         <ComplexType Name="GetSirkets_Result">
@@ -2956,9 +2957,9 @@
           <NavigationProperty Name="Gorevlers" Relationship="MModel.FK_Gorevler_ComboItem_Name_Departman" FromRole="ComboItem_Name" ToRole="Gorevler" />
           <NavigationProperty Name="Gorevlers1" Relationship="MModel.FK_Gorevler_ComboItem_Name_Durum" FromRole="ComboItem_Name" ToRole="Gorevler" />
           <NavigationProperty Name="Gorevlers2" Relationship="MModel.FK_Gorevler_ComboItem_Name_GorevTipi" FromRole="ComboItem_Name" ToRole="Gorevler" />
-          <NavigationProperty Name="Etkinliks" Relationship="MModel.FK_Tatil_ComboItem_Name" FromRole="ComboItem_Name" ToRole="Etkinlik" />
           <NavigationProperty Name="Messages" Relationship="MModel.FK_Messages_ComboItem_Name" FromRole="ComboItem_Name" ToRole="Message" />
           <NavigationProperty Name="FAQs" Relationship="MModel.FK_FAQ_ComboItem_Name" FromRole="ComboItem_Name" ToRole="FAQ" />
+          <NavigationProperty Name="Etkinliks" Relationship="MModel.FK_Tatil_ComboItem_Name" FromRole="ComboItem_Name" ToRole="Etkinlik" />
           </EntityType>
         <EntityType Name="Role">
           <Key>
@@ -3739,30 +3740,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="Etkinlik">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Username" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="TatilTipi" Type="Int32" Nullable="false" />
-          <Property Name="Tarih" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="Aciklama" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
-          <Property Name="Tekrarlayan" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="ComboItem_Name" Relationship="MModel.FK_Tatil_ComboItem_Name" FromRole="Etkinlik" ToRole="ComboItem_Name" />
-        </EntityType>
-        <Association Name="FK_Tatil_ComboItem_Name">
-          <End Type="MModel.ComboItem_Name" Role="ComboItem_Name" Multiplicity="1" />
-          <End Type="MModel.Etkinlik" Role="Etkinlik" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ComboItem_Name">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Etkinlik">
-              <PropertyRef Name="TatilTipi" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="Connection">
           <Key>
             <PropertyRef Name="ID" />
@@ -3895,6 +3872,31 @@
             </Principal>
             <Dependent Role="ProjeForm1">
               <PropertyRef Name="PID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Etkinlik">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Username" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="TatilTipi" Type="Int32" Nullable="false" />
+          <Property Name="Tarih" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Aciklama" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Tekrarlayan" Type="Boolean" Nullable="false" />
+          <Property Name="Sure" Type="Int32" />
+          <NavigationProperty Name="ComboItem_Name" Relationship="MModel.FK_Tatil_ComboItem_Name" FromRole="Etkinlik" ToRole="ComboItem_Name" />
+        </EntityType>
+        <Association Name="FK_Tatil_ComboItem_Name">
+          <End Type="MModel.ComboItem_Name" Role="ComboItem_Name" Multiplicity="1" />
+          <End Type="MModel.Etkinlik" Role="Etkinlik" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ComboItem_Name">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Etkinlik">
+              <PropertyRef Name="TatilTipi" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -4863,18 +4865,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Etkinliks">
-            <EntityTypeMapping TypeName="MModel.Etkinlik">
-              <MappingFragment StoreEntitySet="Etkinlik">
-                <ScalarProperty Name="Tekrarlayan" ColumnName="Tekrarlayan" />
-                <ScalarProperty Name="Aciklama" ColumnName="Aciklama" />
-                <ScalarProperty Name="Tarih" ColumnName="Tarih" />
-                <ScalarProperty Name="TatilTipi" ColumnName="TatilTipi" />
-                <ScalarProperty Name="Username" ColumnName="Username" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Connections">
             <EntityTypeMapping TypeName="MModel.Connection">
               <MappingFragment StoreEntitySet="Connections">
@@ -4945,6 +4935,19 @@
                 <ScalarProperty Name="Form" ColumnName="Form" />
                 <ScalarProperty Name="Proje" ColumnName="Proje" />
                 <ScalarProperty Name="MusteriID" ColumnName="MusteriID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Etkinliks">
+            <EntityTypeMapping TypeName="MModel.Etkinlik">
+              <MappingFragment StoreEntitySet="Etkinlik">
+                <ScalarProperty Name="Sure" ColumnName="Sure" />
+                <ScalarProperty Name="Tekrarlayan" ColumnName="Tekrarlayan" />
+                <ScalarProperty Name="Aciklama" ColumnName="Aciklama" />
+                <ScalarProperty Name="Tarih" ColumnName="Tarih" />
+                <ScalarProperty Name="TatilTipi" ColumnName="TatilTipi" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
