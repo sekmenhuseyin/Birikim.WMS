@@ -480,11 +480,6 @@
     <Content Include="Areas\ToDo\Views\Duties\ListOnay.cshtml" />
     <Content Include="Areas\ToDo\Views\GorevTakvimi\ListTatil.cshtml" />
     <Content Include="Areas\ToDo\Views\GorevTakvimi\New.cshtml" />
-    <Content Include="Areas\ToDo\Views\Troubleshooting\Index.cshtml" />
-    <Content Include="Areas\ToDo\Views\Troubleshooting\List.cshtml" />
-    <Content Include="Areas\ToDo\Views\Troubleshooting\New.cshtml" />
-    <Content Include="Areas\ToDo\Views\Troubleshooting\FormList.cshtml" />
-    <Content Include="Areas\ToDo\Views\Troubleshooting\FormEdit.cshtml" />
     <None Include="bundleconfig.json" />
     <Content Include="Content\SizeSablon.xlsx" />
     <Content Include="Content\StockSablon.xlsx" />
@@ -547,7 +542,6 @@
     <Compile Include="Areas\System\Controllers\SettingsController.cs" />
     <Compile Include="Areas\System\SystemAreaRegistration.cs" />
     <Compile Include="Areas\ToDo\Controllers\GorevTakvimiController.cs" />
-    <Compile Include="Areas\ToDo\Controllers\TroubleshootingController.cs" />
     <Compile Include="Areas\ToDo\ToDoAreaRegistration.cs" />
     <Compile Include="Areas\WMS\Controllers\RefundController.cs" />
     <Compile Include="Areas\WMS\Controllers\ReturnSaleController.cs" />
