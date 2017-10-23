@@ -15,7 +15,6 @@
                 <td>@if (item.Onay == true) { @item.Onaylayan }@if (item.KontrolOnay == true) { @(", ") @item.KontrolEden }</td>
                 <td>@if (item.Onay == false) { @item.Gorevler.Sorumlu } else if (item.KontrolOnay == false) { @item.Gorevler.KontrolSorumlusu }</td>
                 <td>@item.KayitTarih.ToString("dd.MM.yyyy")</td>
-
                 <td>
                     @if (ViewBag.RoleName != "Admin" && ViewBag.RoleName != " ") {<a class="btn btn-info input-circle" href="#modalEditPage" data-toggle="modal" onclick="editInModal('/ToDo/DutyWork/New/@item.ID');"><span class="glyphicon glyphicon-floppy-save"></span> &nbsp; Çalışma</a>}
                     @if (ViewBag.Tip == false && ViewBag.ÇalışmaSüresi >= 540)
