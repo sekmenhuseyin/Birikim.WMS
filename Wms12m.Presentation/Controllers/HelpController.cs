@@ -20,10 +20,11 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public PartialViewResult List(string search)
         {
-            var liste = db.FAQs.Where(m => m.ID > 0);
+            ViewBag.Topics = db.FAQs.Where(m => m.Active == true).GroupBy(m => new frmGorevli { Gorevli = m.ComboItem_Name.Name, ID = m.TopicTypeID }).Select(m => m.Key).ToList();
+            var liste = db.FAQs.Where(m => m.Active == true);
             if (search != "" && search != null)
                 liste = liste.Where(m => m.Title.Contains(search) || m.Detail.Contains(search));
-            return PartialView("List", liste.ToList());
+            return PartialView("List", liste.OrderBy(m => m.TopicTypeID).ToList());
         }
         /// <summary>
         /// yeni sayfası
@@ -63,7 +64,6 @@ namespace Wms12m.Presentation.Controllers
             }
             return Json(new Result(false, "Hata oldu"), JsonRequestBehavior.AllowGet);
         }
-
         /// <summary>
         /// sil
         /// </summary>
@@ -80,6 +80,22 @@ namespace Wms12m.Presentation.Controllers
             {
                 return Json(new Result(false, "Silme işlemi gerçekleştirilemedi."), JsonRequestBehavior.AllowGet);
             }
+        }
+        /// <summary>
+        /// düzenleme listesi
+        /// </summary>
+        public PartialViewResult FormList()
+        {
+            return PartialView("FormList", db.FAQs.ToList());
+        }
+        /// <summary>
+        /// düzenleme
+        /// </summary>
+        public PartialViewResult FormEdit(int? id)
+        {
+            var tbl = db.FAQs.Find(id);
+            ViewBag.TopicTypeID = new SelectList(ComboSub.GetList(Combos.FaqTopics.ToInt32()), "ID", "Name", tbl.TopicTypeID);
+            return PartialView("FormEdit", tbl);
         }
     }
 }

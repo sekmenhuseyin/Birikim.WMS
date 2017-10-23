@@ -20,6 +20,7 @@ namespace Wms12m.Entity.Models
         public System.DateTime Tarih { get; set; }
         public string Aciklama { get; set; }
         public bool Tekrarlayan { get; set; }
+        public Nullable<int> Sure { get; set; }
     
         public virtual ComboItem_Name ComboItem_Name { get; set; }
     }

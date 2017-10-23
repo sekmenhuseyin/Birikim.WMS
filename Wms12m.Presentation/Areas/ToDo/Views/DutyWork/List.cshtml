@@ -16,7 +16,7 @@
                 <td nowrap>@item.Kaydeden</td>
                 <td nowrap>
                     <a class="btn btn-default" href="#modalEditPage" data-toggle="modal" onclick="editInModal2('/ToDo/DutyWork/Edit', { Id: @item.ID })"> Düzenle </a>
-                    @if (ViewBag.Yetki2 == true || item.Tarih.Date == @DateTime.Today.Date) { <a class="btn btn-danger" href="javascript:;" onclick="Delete('@item.ID','/ToDo/DutyWork/List','liste','@item.ID','/ToDo/DutyWork/Delete')"> Sil </a>}
+                    @if (ViewBag.Yetki2 == true || item.Tarih.Date == @DateTime.Today.Date) { <a class="btn btn-danger" href="javascript:;" onclick="Delete('@item.ID','/ToDo/DutyWork/List','liste','','/ToDo/DutyWork/Delete')"> Sil </a>}
                 </td>
             </tr>
         }

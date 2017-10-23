@@ -45,8 +45,9 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                         TatilTipi = item.TatilTipi,
                         Tarih = item.Tarih.AddYears(i),
                         Aciklama = item.Aciklama + " ("+i+". Tekrar)",
-                        Tekrarlayan = item.Tekrarlayan,
-                        ComboItem_Name = item.ComboItem_Name
+                        Tekrarlayan = item.Tekrarlayan,                        
+                        ComboItem_Name = item.ComboItem_Name,
+                        Sure = item.Sure
                     };
                     lstEtkinlik.Add(item2);
                 }
@@ -133,6 +134,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                     tbl.Aciklama = satir.Aciklama;
                     tbl.Tarih = satir.Tarih;
                     tbl.Tekrarlayan = satir.Tekrarlayan;
+                    tbl.Sure = satir.Sure;
                 }
                 try
                 {

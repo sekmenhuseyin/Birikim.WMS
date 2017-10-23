@@ -8,6 +8,16 @@ using Wms12m.Entity.Models;
 namespace Wms12m.Entity
 {
     /// <summary>
+    /// git json
+    /// </summary>
+    public class ForJson
+    {
+        public Guid Id { get; set; }
+        public string ID { get; set; }
+        public string Name { get; set; }
+        public DateTime Date { get; set; }
+    }
+    /// <summary>
     /// görev çalışmaları
     /// </summary>
     public class frmGorevDestekCalisma

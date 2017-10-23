@@ -46,7 +46,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         /// <summary>
         /// liste
         /// </summary>
-        public PartialViewResult List(bool Tip)
+        public PartialViewResult List(bool Tip = false)
         {
             var gorevCalismas = db.GorevlerCalismas.Where(m => m.ID > 0);
             var yetki = CheckPerm(Perms.TodoÇalışma, PermTypes.Deleting);
@@ -233,17 +233,13 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         public JsonResult Delete(string Id)
         {
             GorevlerCalisma gorevcalisma = db.GorevlerCalismas.Find(Id.ToInt32());
-            DateTime KayitTarih = new DateTime();
-
-            if (gorevcalisma.IsNotNull())
-                KayitTarih = gorevcalisma.KayitTarih.Date;
-
-            if (CheckPerm(Perms.TodoÇalışma, PermTypes.Deleting) == false && KayitTarih != DateTime.Today.Date)
+            if (gorevcalisma == null)
+                return Json(new Result(true, 1), JsonRequestBehavior.AllowGet);
+            if (CheckPerm(Perms.TodoÇalışma, PermTypes.Deleting) == false && gorevcalisma.Tarih != DateTime.Today)
                 return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
-            
-            db.GorevlerCalismas.Remove(gorevcalisma);
             try
             {
+                db.GorevlerCalismas.Remove(gorevcalisma);
                 db.SaveChanges();
                 return Json(new Result(true, Id.ToInt32()), JsonRequestBehavior.AllowGet);
             }
