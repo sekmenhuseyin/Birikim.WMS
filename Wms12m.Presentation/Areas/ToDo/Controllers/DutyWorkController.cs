@@ -53,6 +53,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             if (Tip == false)//bana ait
                 gorevCalismas = gorevCalismas.Where(m => m.Kaydeden == vUser.UserName);
             ViewBag.Yetki2 = yetki;
+            ViewBag.UserName = vUser.UserName;
             return PartialView("List", gorevCalismas.OrderByDescending(m => m.Tarih).ToList());
         }
         /// <summary>
