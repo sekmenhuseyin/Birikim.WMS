@@ -852,7 +852,7 @@ namespace Wms12m.Presentation.Controllers
                 //get proje list
                 var json = wc.DownloadString(ViewBag.settings.GitServerAddress + "Repository/List/");
                 var list = JsonConvert.DeserializeObject<List<ForJson>>(json);
-                ViewBag.ProjeID = new SelectList(list, "Id", "Name");
+                ViewBag.ProjeID = new SelectList(list, "Id", "Name", ID);
                 //get details
                 if (ID != "")
                 {

@@ -20,14 +20,14 @@
                 <table class="table table-striped table-bordered table-hover" id="tblGorevGit">
                     <thead><tr><th>Kaydeden</th><th>Tarih</th><th>Açıklama</th></tr></thead>
                     <tfoot><tr><th></th><th></th><th></th></tr></tfoot>
-                    <tfoot><tr><th></th><th></th><th></th></tr></tfoot>
+                    <tfoot class="tf-search"><tr><th></th><th></th><th></th></tr></tfoot>
                     <tbody>
                         @foreach (var item in Model)
                         {
                             <tr>
-                                <td>@item.ID</td>
-                                <td>@item.Name</td>
+                                <td>@Html.Raw(item.ID)</td>
                                 <td>@item.Date</td>
+                                <td>@Html.Raw(item.Name)</td>
                             </tr>
                         }
                     </tbody>
@@ -43,6 +43,21 @@
     }
     $(document).ready(function (e) {
         $(".satirekle8").prepend("<option value=''>Hepsi</option>");
-        @if (ViewBag.user == "") { <text>$(".satirekle8")[0].selectedIndex = 0;</text> }
+        @if (ViewBag.ID == "") { <text>$(".satirekle8")[0].selectedIndex = 0;</text> }
+        var table = $('#tblGorevGit').DataTable({
+            "pagingType": "full_numbers",
+            "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" }
+        });
+        $('#tblGorevGit .tf-search th').each(function () {
+            var title = $('#tblGorevGit thead th').eq($(this).index()).text();
+            if (title != "" && title.indexOf("Tarih") !== -1)
+                $(this).html('<input class="form-control input-circle tarih" type="text" placeholder="Ara" />');
+            else if (title != "")
+                $(this).html('<input class="form-control input-circle" type="text" placeholder="Ara" />');
+        });
+        $("#tblGorevGit tfoot input").on('keyup change', function () { table.column($(this).parent().index() + ':visible').search(this.value).draw(); });
+        //tarih
+        $.datepicker.setDefaults($.datepicker.regional["tr"]);
+        $(".tarih").datepicker();
     });
 </script>
