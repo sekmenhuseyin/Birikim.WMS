@@ -841,6 +841,10 @@ namespace Wms12m.Presentation.Controllers
             else
                 return PartialView("GorevProjesi/AylikCalisma", liste);
         }
+        public PartialViewResult GorevGit(string projeGuid)
+        {
+            return PartialView("GorevProjesi/AylikCalisma");
+        }
         #endregion
     }
 }

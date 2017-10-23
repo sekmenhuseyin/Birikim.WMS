@@ -90,7 +90,7 @@ namespace Wms12m.Presentation
             }
             //developer ise çalışma kontrol
             if (vUser.RoleName == "Developer")
-                ViewBag.ÇalışmaSüresi = db.Database.SqlQuery<int>(string.Format("SELECT ISNULL(SUM(Sure), 0) AS Expr1 FROM ong.GorevlerCalisma WHERE (Kaydeden = '{0}') AND (Tarih = '{1}')", vUser.UserName, DateTime.Today.AddDays(-1).ToString("yyyy-MM-dd"))).FirstOrDefault();
+                ViewBag.ÇalışmaSüresi = db.Database.SqlQuery<int>(string.Format("SELECT ISNULL(SUM(Sure), 0) AS Expr1 FROM ong.GorevlerCalisma WHERE (Kaydeden = '{0}') AND (Tarih = '{1}')", vUser.UserName, DateTime.Today.DayOfWeek==DayOfWeek.Sunday ? DateTime.Today.AddDays(-2).ToString("yyyy-MM-dd") : DateTime.Today.DayOfWeek == DayOfWeek.Monday ? DateTime.Today.AddDays(-3).ToString("yyyy-MM-dd") : DateTime.Today.AddDays(-1).ToString("yyyy-MM-dd"))).FirstOrDefault();
             else
                 ViewBag.ÇalışmaSüresi = 1000;
             //normal settings
