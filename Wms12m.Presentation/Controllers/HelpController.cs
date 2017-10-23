@@ -64,7 +64,6 @@ namespace Wms12m.Presentation.Controllers
             }
             return Json(new Result(false, "Hata oldu"), JsonRequestBehavior.AllowGet);
         }
-
         /// <summary>
         /// sil
         /// </summary>
@@ -81,6 +80,21 @@ namespace Wms12m.Presentation.Controllers
             {
                 return Json(new Result(false, "Silme işlemi gerçekleştirilemedi."), JsonRequestBehavior.AllowGet);
             }
+        }
+        /// <summary>
+        /// düzenleme listesi
+        /// </summary>
+        public PartialViewResult FormList()
+        {
+            return PartialView("FormList", db.FAQs.ToList());
+        }
+        /// <summary>
+        /// düzenleme
+        /// </summary>
+        public PartialViewResult FormEdit(int? id)
+        {
+
+            return PartialView("FormEdit", db.FAQs.Find(id));
         }
     }
 }

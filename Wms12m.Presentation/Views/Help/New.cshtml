@@ -2,63 +2,60 @@
 <div class="modal-content">
     <div class="close-modal" data-dismiss="modal"><div class="lr"><div class="rl"></div></div></div>
     <div class="container">
-        <div class="row">
+        <div class="row" id="CreateEdit">
             <div class="col-md-12">
-                <div class="row" id="CreateEdit">
-                    <div class="col-md-12">
-                        <div class="portlet box green">
-                            <div class="portlet-title">
-                                <div class="caption">
-                                    <i class="fa fa-gift"></i> Ekle
-                                </div>
-                            </div>
-                            <div class="portlet-body form">
-                                @using (Ajax.BeginForm("Save", "Troubleshooting", new { area = "ToDo" }, new AjaxOptions { OnSuccess = "getresult", HttpMethod = "post", OnFailure = "Modaldialog('Lütfen Tekrar Deneyin', 'Hata', 'Tamam', 'btn-danger');" }, new { @class = "form-horizontal" }))
-                                {
-                                    @Html.HiddenFor(model => model.ID, new { @class = "ID" })
-                                    @Html.AntiForgeryToken()
-                                    @Html.ValidationSummary(true)
-                                    <div class="form-body">
-                                        <div class="form-group">
-                                            @Html.LabelFor(model => model.top, "Yetki", htmlAttributes: new { @class = "control-label col-md-2" })
-                                            <div class="col-md-10">
-                                                @Html.DropDownList("RoleName", null, htmlAttributes: new { @class = "form-control input-circle", required = "required" })
-                                                @Html.ValidationMessageFor(model => model.RoleName, "", new { @class = "text-danger" })
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            @Html.LabelFor(model => model.Konu, "Konu", htmlAttributes: new { @class = "control-label col-md-2" })
-                                            <div class="col-md-8">
-                                                @Html.EditorFor(model => model.Sifre, new { htmlAttributes = new { @class = "form-control input-circle", required = "required", @type = "password" } })
-                                                @Html.ValidationMessageFor(model => model.Konu, "", new { @class = "text-danger" })
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            @Html.LabelFor(model => model.Aciklama, "Açıklama", htmlAttributes: new { @class = "control-label col-md-2" })
-                                            <div class="col-md-8">
-                                                @Html.TextAreaFor(model => model.Aciklama, 6, 55, new { @class = "form-control input-circle txar-cal", required = "required" })
-                                                @Html.ValidationMessageFor(model => model.Aciklama, "", new { @class = "text-danger" })
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="col-md-offset-3 col-md-9">
-                                                <button type="submit" class="btn btn-circle green">@(Model.ID > 0 ? "Düzenle" : "Ekle")</button>
-                                                <button type="button" class="btn btn-circle grey-salsa btn-outline" onclick="CreateEdit('0')">Temizle</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                }
-                            </div>
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <i class="fa fa-gift"></i> Ekle
                         </div>
                     </div>
+                    <div class="portlet-body form">
+                        @using (Ajax.BeginForm("Save", "Troubleshooting", new { area = "ToDo" }, new AjaxOptions { OnSuccess = "getresult", HttpMethod = "post", OnFailure = "Modaldialog('Lütfen Tekrar Deneyin', 'Hata', 'Tamam', 'btn-danger');" }, new { @class = "form-horizontal" }))
+                        {
+                            @Html.HiddenFor(model => model.ID, new { @class = "ID" })
+                            @Html.AntiForgeryToken()
+                            @Html.ValidationSummary(true)
+                            <div class="form-body">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.TopicTypeID, "Yardım Türü", htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.DropDownList("TopicTypeID", null, htmlAttributes: new { @class = "form-control input-circle satirekle", required = "required" })
+                                        @Html.ValidationMessageFor(model => model.TopicTypeID, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Title, "Konu", htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-8">
+                                        @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control input-circle", required = "required" } })
+                                        @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Detail, "Açıklama", htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-8">
+                                        @Html.TextAreaFor(model => model.Detail, 6, 55, new { @class = "form-control input-circle txar-cal", required = "required" })
+                                        @Html.ValidationMessageFor(model => model.Detail, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-offset-3 col-md-9">
+                                        <button type="submit" class="btn btn-circle green">@(Model.ID > 0 ? "Düzenle" : "Ekle")</button>
+                                        <button type="button" class="btn btn-circle grey-salsa btn-outline" onclick="CreateEdit('0')">Temizle</button>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
                 </div>
-                <div id="liste2"></div>
             </div>
         </div>
+        <div id="liste2"></div>
     </div>
 </div>
 <script type="text/javascript">
     $(document).ready(function () {
+        $(".satirekle").prepend("<option value=''>Giriniz !!!</option>");$(".satirekle")[0].selectedIndex = 0;
         PartialView("/Help/FormList", 'liste2');
     });
     function getresult(data) {
