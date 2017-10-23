@@ -928,7 +928,7 @@ namespace Wms12m
     }).ToList();
             foreach (var item in data2)
             {
-                if (item.Miktar != item.OkutulanMiktar)
+                if (item.Miktar > item.OkutulanMiktar)
                     return new Result(false, "İşlem bitmemiş(Miktar ile Yerleştirme miktarı uyumsuz.)");
             }
 
