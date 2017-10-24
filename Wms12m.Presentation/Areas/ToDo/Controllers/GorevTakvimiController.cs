@@ -14,7 +14,6 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         public ActionResult Index()
         {
             if (CheckPerm(Perms.TodoTakvim, PermTypes.Reading) == false) return Redirect("/");
-            ViewBag.Yetki = CheckPerm(Perms.TodoTakvim, PermTypes.Writing);
             ViewBag.UserName = vUser.UserName;
             ViewBag.RoleName = vUser.RoleName;
             if (vUser.RoleName == "Admin" || vUser.RoleName == " ")
@@ -28,7 +27,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         {
             if (vUser.RoleName != "Admin" && vUser.RoleName != " " && UserName != vUser.UserName)
                 UserName = vUser.UserName;
-            var tblEtki = db.Etkinliks.Where(m => m.Tekrarlayan == false);
+            var tblEtki = db.Etkinliks.Where(m => m.Tekrarlayan == false && m.Onay == true);
             if (vUser.RoleName != "Admin" && vUser.RoleName != " ")
                 tblEtki.Where(m => m.Username == UserName || m.Username == null);
             var lstEtkinlik = tblEtki.ToList();
@@ -44,8 +43,8 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                         Username = item.Username,
                         TatilTipi = item.TatilTipi,
                         Tarih = item.Tarih.AddYears(i),
-                        Aciklama = item.Aciklama + " ("+i+". Tekrar)",
-                        Tekrarlayan = item.Tekrarlayan,                        
+                        Aciklama = item.Aciklama + " (" + i + ". Tekrar)",
+                        Tekrarlayan = item.Tekrarlayan,
                         ComboItem_Name = item.ComboItem_Name,
                         Sure = item.Sure
                     };
@@ -65,6 +64,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         public PartialViewResult ListTatil()
         {
             var list = db.Etkinliks.OrderByDescending(m => m.Tarih).ToList();
+            ViewBag.Yetki = CheckPerm(Perms.TodoTakvim, PermTypes.Writing);
             return PartialView("ListTatil", list);
         }
         /// <summary>
@@ -82,9 +82,18 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         /// </summary>
         public PartialViewResult New()
         {
-            if (CheckPerm(Perms.TodoTakvim, PermTypes.Writing) == false) return null;
-            ViewBag.TatilTipi = new SelectList(ComboSub.GetList(Combos.TatilTipi.ToInt32()), "ID", "Name");
-            ViewBag.Username = new SelectList(Persons.GetList(), "Kod", "AdSoyad");
+            if (vUser.RoleName == "Admin" || vUser.RoleName == " ")
+            {
+                ViewBag.Username = new SelectList(Persons.GetList(), "Kod", "AdSoyad");
+                ViewBag.TatilTipi = new SelectList(ComboSub.GetList(Combos.TatilTipi.ToInt32()), "ID", "Name");
+                ViewBag.Yetki = true;
+            }
+            else
+            {
+                ViewBag.Username = new SelectList(Persons.GetList(vUser.Id), "Kod", "AdSoyad", vUser.UserName);
+                ViewBag.TatilTipi = new SelectList(ComboSub.GetList(new int[] { ComboItems.Mazaretİzni.ToInt32(), ComboItems.Yıllıkİzin.ToInt32() }), "ID", "Name");
+                ViewBag.Yetki = false;
+            }
             ViewBag.New = 0;
             return PartialView("New", new Etkinlik());
         }
@@ -119,11 +128,14 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         [HttpPost, ValidateAntiForgeryToken]
         public JsonResult Save(Etkinlik satir)
         {
-            if (CheckPerm(Perms.TodoTakvim, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             if (ModelState.IsValid)
             {
                 if (satir.ID == 0)
                 {
+                    if (satir.TatilTipi == ComboItems.Yıllıkİzin.ToInt32() && vUser.RoleName != "Admin" && vUser.RoleName != " ")
+                        satir.Onay = false;
+                    else
+                        satir.Onay = true;
                     db.Etkinliks.Add(satir);
                 }
                 else

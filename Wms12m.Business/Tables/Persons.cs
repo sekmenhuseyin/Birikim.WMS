@@ -235,9 +235,9 @@ namespace Wms12m.Business
         /// <summary>
         /// yetkiye sahip kişiler
         /// </summary>
-        public override List<User> GetList(int ParentId)
+        public override List<User> GetList(int UserID)
         {
-            return GetList();
+            return db.Users.Where(m => m.ID == UserID).ToList();
         }
         public List<User> GetList(string RoleName)
         {

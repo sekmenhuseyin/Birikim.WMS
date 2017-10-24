@@ -452,5 +452,50 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             return PartialView("Rezervler", list);
         }
 
+
+        public ActionResult Comparison()
+        {
+            //CANDAN
+
+            if (CheckPerm(Perms.Stok, PermTypes.Reading) == false) return Redirect("/");
+            ViewBag.DepoID = new SelectList(Store.GetList(vUser.DepoId), "ID", "DepoAd");
+            return View("Comparison");
+        }
+
+        [HttpPost]
+        public PartialViewResult ComparisonList(string Id)
+        {
+            //CANDAN
+            var ids = Id.Split('#');
+            string BasMalKodu = ids[0];
+            string BitMalKodu = ids[1];
+
+            var depoID = ids[2].ToInt32();
+            var depoKodu = Store.Detail(depoID).DepoKodu;
+
+            string sql = "";
+            
+            var listsirk = db.GetSirketDBs();        
+
+            foreach (var item in listsirk)
+            {
+                if (sql != "") sql += " UNION ";
+                sql += String.Format(@"
+SELECT
+    FINSAT6{0}.FINSAT6{0}.STK.MalKodu, FINSAT6{0}.FINSAT6{0}.STK.MalAdi, FINSAT6{0}.FINSAT6{0}.STK.Birim1 AS Birim,
+	FINSAT6{0}.wms.getStockByDepo(FINSAT6{0}.FINSAT6{0}.STK.MalKodu, '{1}') as Stok,
+	BIRIKIM.wms.fnGetStock('{1}', FINSAT6{0}.FINSAT6{0}.STK.MalKodu,FINSAT6{0}.FINSAT6{0}.STK.Birim1, 0) AS WmsStok
+FROM FINSAT6{0}.FINSAT6{0}.STK(NOLOCK) WHERE (MalKodu BETWEEN '{2}' AND '{3}')", item, depoKodu, BasMalKodu, BitMalKodu);
+            }
+
+            sql = "SELECT MalKodu, MalAdi, Birim, SUM(Stok) AS GunesStok, SUM(WmsStok) AS WmsStok FROM (" + sql + ") AS t1 GROUP BY MalKodu, MalAdi, Birim";
+
+            sql = "SELECT * FROM ( " + sql + " ) AS t2 WHERE t2.GunesStok<>t2.WmsStok ORDER BY MalKodu";
+
+            var list = db.Database.SqlQuery<frmSiparisMalzemeDetay>(sql).ToList();
+
+            return PartialView("ComparisonList", list);
+        }
+
     }
 }

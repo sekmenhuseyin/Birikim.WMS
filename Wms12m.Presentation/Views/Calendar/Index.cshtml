@@ -25,7 +25,7 @@
             </div>
         </div>
     </div>
-</div>@if (ViewBag.Yetki == true){
+</div>
 <div class="row">
     <div class="col-md-12">
         <div id="CreateEdit"></div>
@@ -47,7 +47,7 @@
         </div>
     </div>
 </div>
-}@section Scripts{<script src="~/Content/assets/global/plugins/fullcalendar/fullcalendar.min.js"></script>
+@section Scripts{<script src="~/Content/assets/global/plugins/fullcalendar/fullcalendar.min.js"></script>
 <script src="~/Content/assets/global/plugins/fullcalendar/locale/tr.js"></script>
 <script src="~/Content/assets/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js" type="text/javascript"></script>
 <script>
@@ -82,7 +82,7 @@
                 }
             }
         });
-        @if (ViewBag.Yetki == true) { <text>PartialView("/ToDo/GorevTakvimi/ListTatil", "listeTatil", "");</text> }
+        PartialView("/ToDo/GorevTakvimi/ListTatil", "listeTatil", "");
     });
     function getresult(data) {
         if (data.Status == false)
@@ -90,7 +90,7 @@
         else {
             Modaldialog("Kaydedildi", "Başarı", "Tamam", "btn-success");
             $('#modalEditPage').modal('toggle');
-            @if (ViewBag.Yetki == true) { <text>PartialView("/ToDo/GorevTakvimi/ListTatil", "listeTatil", "");</text> }
+            PartialView("/ToDo/GorevTakvimi/ListTatil", "listeTatil", "");
         }
     };
 </script>

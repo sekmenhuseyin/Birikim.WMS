@@ -10,7 +10,7 @@ namespace Wms12m.Presentation.Controllers
         // GET: Calendar
         public ActionResult Index()
         {
-            var liste = db.Etkinliks.Where(m => m.Tekrarlayan == false).ToList();
+            var liste = db.Etkinliks.Where(m => m.Tekrarlayan == false && m.Onay == true).ToList();
             var tekrarlayan = db.Etkinliks.Where(m => m.Tekrarlayan == true).ToList();
             foreach (var item in tekrarlayan)
             {
@@ -30,7 +30,6 @@ namespace Wms12m.Presentation.Controllers
                     liste.Add(item2);
                 }
             }
-            ViewBag.Yetki = CheckPerm(Perms.Kullanıcılar, PermTypes.Deleting);
             return View("Index", liste);
         }
     }
