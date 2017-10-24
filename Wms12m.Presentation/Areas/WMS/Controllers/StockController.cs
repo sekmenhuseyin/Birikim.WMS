@@ -483,12 +483,14 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                 sql += String.Format(@"
 SELECT
     FINSAT6{0}.FINSAT6{0}.STK.MalKodu, FINSAT6{0}.FINSAT6{0}.STK.MalAdi, FINSAT6{0}.FINSAT6{0}.STK.Birim1 AS Birim,
-	FINSAT6{0}.wms.getStockByDepo(FINSAT6{0}.FINSAT6{0}.STK.MalKodu, '{1}') as Stok,
-	BIRIKIM.wms.fnGetStock('{1}', FINSAT6{0}.FINSAT6{0}.STK.MalKodu,FINSAT6{0}.FINSAT6{0}.STK.Birim1, 0) AS WmsStok
+	FINSAT6{0}.wms.getStockByDepo(FINSAT6{0}.FINSAT6{0}.STK.MalKodu, '{1}') as Stok
 FROM FINSAT6{0}.FINSAT6{0}.STK(NOLOCK) WHERE (MalKodu BETWEEN '{2}' AND '{3}')", item, depoKodu, BasMalKodu, BitMalKodu);
             }
 
-            sql = "SELECT MalKodu, MalAdi, Birim, SUM(Stok) AS GunesStok, SUM(WmsStok) AS WmsStok FROM (" + sql + ") AS t1 GROUP BY MalKodu, MalAdi, Birim";
+            sql = string.Format(@"
+SELECT MalKodu, MalAdi, Birim, SUM(Stok) AS GunesStok, 
+BIRIKIM.wms.fnGetStock('{0}', t1.MalKodu, t1.Birim, 0) AS WmsStok 
+FROM (" + sql + ") AS t1 GROUP BY MalKodu, MalAdi, Birim", depoKodu);
 
             sql = "SELECT * FROM ( " + sql + " ) AS t2 WHERE t2.GunesStok<>t2.WmsStok ORDER BY MalKodu";
 
