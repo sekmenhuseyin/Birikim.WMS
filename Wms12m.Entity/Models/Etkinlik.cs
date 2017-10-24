@@ -21,6 +21,7 @@ namespace Wms12m.Entity.Models
         public string Aciklama { get; set; }
         public bool Tekrarlayan { get; set; }
         public Nullable<int> Sure { get; set; }
+        public bool Onay { get; set; }
     
         public virtual ComboItem_Name ComboItem_Name { get; set; }
     }

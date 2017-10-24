@@ -36,12 +36,13 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Username" Type="varchar" MaxLength="5" />
           <Property Name="TatilTipi" Type="int" Nullable="false" />
           <Property Name="Tarih" Type="date" Nullable="false" />
+          <Property Name="Username" Type="varchar" MaxLength="5" />
           <Property Name="Aciklama" Type="nvarchar" MaxLength="250" />
-          <Property Name="Tekrarlayan" Type="bit" Nullable="false" />
           <Property Name="Sure" Type="int" />
+          <Property Name="Tekrarlayan" Type="bit" Nullable="false" />
+          <Property Name="Onay" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="FAQ">
           <Key>
@@ -3861,6 +3862,7 @@
           <Property Name="Tekrarlayan" Type="Boolean" Nullable="false" />
           <Property Name="Sure" Type="Int32" />
           <NavigationProperty Name="ComboItem_Name" Relationship="MModel.FK_Tatil_ComboItem_Name" FromRole="Etkinlik" ToRole="ComboItem_Name" />
+          <Property Name="Onay" Type="Boolean" Nullable="false" />
         </EntityType>
         <Association Name="FK_Tatil_ComboItem_Name">
           <End Type="MModel.ComboItem_Name" Role="ComboItem_Name" Multiplicity="1" />
@@ -4903,6 +4905,7 @@
           <EntitySetMapping Name="Etkinliks">
             <EntityTypeMapping TypeName="MModel.Etkinlik">
               <MappingFragment StoreEntitySet="Etkinlik">
+                <ScalarProperty Name="Onay" ColumnName="Onay" />
                 <ScalarProperty Name="Sure" ColumnName="Sure" />
                 <ScalarProperty Name="Tekrarlayan" ColumnName="Tekrarlayan" />
                 <ScalarProperty Name="Aciklama" ColumnName="Aciklama" />
