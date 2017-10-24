@@ -53,25 +53,25 @@
         var birim = "";
         function FuncSearchBtn() {
             if ($("#DepoID").val() == "") return;
-            $('#Grid').html("");
+            $('#GridComparison').html("");
             PartialView('/WMS/Stock/ComparisonList', 'GridComparison', JSON.stringify({ Id: $("#BasMalKodu").val() + "#" + $("#BitMalKodu").val() + "#" + $("#DepoID").val() }));
         }
         $("#BasMalKodu").autocomplete({
             source: "/WMS/Purchase/getMalzemebyCode/0",
             minLength: 2,
             select: function (event, ui) {
-                getBirims(ui.item.id);
+                getBirims(ui.item.id, 0);
             }
             });
             $("#BitMalKodu").autocomplete({
                 source: "/WMS/Purchase/getMalzemebyCode/0",
                 minLength: 2,
                 select: function (event, ui) {
-                    getBirims(ui.item.id);
+                    getBirims(ui.item.id, 1);
                 }
             });
 
-        function getBirims(id) {
+        function getBirims(id, tip) {
             $("#Birim option").remove();
             $.ajax({
                 url: "/WMS/Purchase/getBirim",
@@ -81,8 +81,10 @@
                 contentType: 'application/json; charset=utf-8',
                 success: function (data) {
                     birim = data[0].Birim1;
-                    $("#MalKodu").val(id);
-                    FuncSearchBtn();
+                    if (tip == 0)
+                        $("#BasMalKodu").val(id);
+                    else
+                        $("#BitMalKodu").val(id);             
                 }
             });
         }
