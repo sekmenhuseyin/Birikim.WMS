@@ -5,7 +5,7 @@
             <div class="portlet-title">
                 <div class="caption">
                     <i class="icon-bar-chart font-green-haze"></i>
-                    <span class="caption-subject bold uppercase font-green-haze"> Günlük Çalışma Listesi <span style="color:#8888a7;">3D CHART</span></span>
+                    <span class="caption-subject bold uppercase font-green-haze"> Çalışma Listesi <span style="color:#8888a7;">3D CHART</span></span>
                 </div>
                 <div class="col-md-2">
                     <input type="text" class="form-control dateboxbg" id="gorevcalismatarih51" value="@ViewBag.tarihStart2" />
@@ -45,7 +45,7 @@
 </div>
 <script>
     function ReloadGorev5(Start, End) {
-        PartialView('/Home/GorevCalismaAnalizi', 'gorev_calisma_analizi', JSON.stringify({ tarihStart: Start, tarihEnd: End }));
+        PartialView('/Home/GorevCalismaListesi', 'gorev_calisma_analizi', JSON.stringify({ tarihStart: Start, tarihEnd: End }));
     }
     $(document).ready(function (e) {
         $.datepicker.setDefaults($.datepicker.regional["tr"]);

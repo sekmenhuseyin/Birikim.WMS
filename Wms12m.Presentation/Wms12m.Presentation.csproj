@@ -835,7 +835,7 @@
     <Content Include="Views\Home\GorevProjesi\AylikCalisma.cshtml" />
     <Content Include="Views\Home\GorevProjesi\MusteriAnalizi.cshtml" />
     <Content Include="Views\Home\GorevProjesi\MusteriAnaliziPie.cshtml" />
-    <Content Include="Views\Home\GorevProjesi\CalismaAnalizi.cshtml" />
+    <Content Include="Views\Home\GorevProjesi\CalismaListesi.cshtml" />
     <Content Include="Views\Home\GorevProjesi\ProjeAnalizi.cshtml" />
     <Content Include="Views\Inbox\Notifications.cshtml" />
     <Content Include="Views\Shared\Notifications.cshtml" />

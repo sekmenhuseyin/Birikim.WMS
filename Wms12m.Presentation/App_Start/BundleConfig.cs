@@ -46,8 +46,8 @@ namespace Wms12m.Presentation
             bundles.Add(new ScriptBundle(blockui, "https://cdnjs.cloudflare.com/ajax/libs/jquery.blockUI/2.70/jquery.blockUI.min.js").Include("~/Content/assets/global/plugins/jquery.blockui.min.js"));
             //css libraries
             bundles.Add(new StyleBundle(bootstrapCss, "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css").Include("~/Content/assets/global/plugins/bootstrap/css/bootstrap.min.css"));
-            bundles.Add(new ScriptBundle(jqueryUiCss, "https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css").Include("~/Content/assets/global/plugins/jquery-ui/jquery-ui.min.css"));
-            bundles.Add(new ScriptBundle(toastrCss, "https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.3/toastr.min.css").Include("~/Content/assets/global/plugins/toastr/build/toastr.min.css"));
+            bundles.Add(new ScriptBundle(jqueryUiCss, "https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css").Include("~/Content/assets/global/plugins/jquery-ui/jquery-ui.css"));
+            bundles.Add(new ScriptBundle(toastrCss, "https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.3/toastr.min.css").Include("~/Content/assets/global/plugins/toastr/build/toastr.css"));
             bundles.Add(new StyleBundle(FontAwesome, "https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css").Include("~/Content/assets/global/plugins/font-awesome/css/font-awesome.min.css"));
             bundles.Add(new StyleBundle(simpleLineIcons, "https://cdnjs.cloudflare.com/ajax/libs/simple-line-icons/2.4.1/css/simple-line-icons.css").Include("~/Content/assets/global/plugins/simple-line-icons/css/simple-line-icons.min.css"));
             //vars

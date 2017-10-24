@@ -777,7 +777,7 @@ namespace Wms12m.Presentation.Controllers
             else
                 return PartialView("GorevProjesi/MusteriAnalizi", liste);
         }
-        public PartialViewResult GorevCalismaAnalizi(int tarihStart, int tarihEnd)
+        public PartialViewResult GorevCalismaListesi(int tarihStart, int tarihEnd)
         {
             ViewBag.tarihStart = tarihStart;
             ViewBag.tarihStart2 = tarihStart.FromOADateInt();
@@ -787,7 +787,7 @@ namespace Wms12m.Presentation.Controllers
                     FROM ong.GorevlerCalisma INNER JOIN ong.Gorevler ON ong.GorevlerCalisma.GorevID = ong.Gorevler.ID INNER JOIN ong.ProjeForm ON ong.Gorevler.ProjeFormID = ong.ProjeForm.ID INNER JOIN ong.Musteri ON ong.ProjeForm.MusteriID = ong.Musteri.ID INNER JOIN ong.GorevlerToDoList ON ong.Gorevler.ID = ong.GorevlerToDoList.GorevID AND ong.GorevlerCalisma.Calisma = ong.GorevlerToDoList.Aciklama
                     WHERE (ong.GorevlerCalisma.Tarih >= '{0}') AND (ong.GorevlerCalisma.Tarih <= '{1}')
                     GROUP BY ong.GorevlerCalisma.Kaydeden, ong.Musteri.Unvan, ong.ProjeForm.Proje, ong.Gorevler.Gorev, ong.GorevlerToDoList.Aciklama, ong.GorevlerCalisma.Tarih", tarihStart.FromOaDate().ToString("yyyy-MM-dd"), tarihEnd.FromOaDate().ToString("yyyy-MM-dd"))).ToList();
-            return PartialView("GorevProjesi/CalismaAnalizi", liste);
+            return PartialView("GorevProjesi/CalismaListesi", liste);
         }
         public PartialViewResult GorevProjeAnalizi(int musteri, int proje)
         {
