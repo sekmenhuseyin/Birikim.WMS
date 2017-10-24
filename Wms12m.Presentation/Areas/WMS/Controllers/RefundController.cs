@@ -113,7 +113,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             {
                 if(item!="")
                 { 
-                string[] tmp2 = item.Split('-');
+                string[] tmp2 = item.Split('!');
              
                 malkodlari.Add(tmp2[0]);
                 birimler.Add(tmp2[1]);

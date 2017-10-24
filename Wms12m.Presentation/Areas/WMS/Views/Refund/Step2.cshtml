@@ -139,7 +139,7 @@
                 }
                 var miktar = parseFloat(this.data()[2].replace(".", "").replace(",", "."));
                 var stok = parseFloat(this.data()[4].replace(".", "").replace(",", ".")) - rezerv;
-                selected = selected + this.data()[0] + '-' + this.data()[6] + '-' + kont + '-' + this.data()[8] +"#";
+                selected = selected + this.data()[0] + '!' + this.data()[6] + '!' + kont + '!' + this.data()[8].replace("-", "!") +"#";
                 //aynı  malları grupla
                 if (cells.length > 2) {
                     for (var i = 2, len = cells.length; i < len; i++) {
