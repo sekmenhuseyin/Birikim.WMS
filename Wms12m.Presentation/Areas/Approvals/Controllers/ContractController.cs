@@ -679,9 +679,12 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         }
         public string UrunGrupSelect(int Index)
         {
+            JavaScriptSerializer json = new JavaScriptSerializer()
+            {
+                MaxJsonLength = int.MaxValue
+            };
             var FUGS = db.Database.SqlQuery<UrunGrup>(string.Format("[FINSAT6{0}].[wms].[STKSelect2] @Index={1}", "17", Index)).ToList();
-            var json = new JavaScriptSerializer().Serialize(FUGS);
-            return json;
+            return json.Serialize(FUGS);
         }
 
         public int ListeNoKontrol(string ListeNo)

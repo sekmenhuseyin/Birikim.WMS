@@ -1,42 +1,44 @@
 ﻿@model IEnumerable<Etkinlik>
 <table class="table table-bordered table-striped table-condensed" id="tblTatil">
-    <thead><tr><th>Tarih</th><th>Kime</th><th>Tip</th><th>Tekrarlayan</th><th>Açıklama</th><th>Süre(dk)</th><th></th></tr></thead>
-    <tfoot><tr><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr></tfoot>
-    <tfoot class="tf-search"><tr><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr></tfoot>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td nowrap><div class="hidden">@item.Tarih.ToOADateInt()</div>@item.Tarih.ToString("dd.MM.yyyy")</td>
-                <td nowrap>@if (item.Username == null) {@("Herkes")} else {@item.Username}</td>
-                <td nowrap>@item.ComboItem_Name.Name</td>
-                <td>@if (item.Tekrarlayan == true) { @("Evet") } else { @("Hayır") }</td>
-                <td>@item.Aciklama</td>
-                <td>@item.Sure</td>
-                <td nowrap>
-                    <a class="btn btn-default" href="#modalEditPage" data-toggle="modal" onclick="editInModal2('/ToDo/GorevTakvimi/Dublicate', { Id: @item.ID })"> Çoğalt </a>
-                    <a class="btn btn-default" href="#modalEditPage" data-toggle="modal" onclick="editInModal2('/ToDo/GorevTakvimi/Edit', { Id: @item.ID })"> Düzenle </a>
-                    <a class="btn btn-danger" href="javascript:;" onclick="Delete('@item.ID', '/ToDo/GorevTakvimi/ListTatil', 'listeTatil', '')"> Sil </a>
-                </td>
-            </tr>
-        }
-    </tbody>
+	<thead><tr><th>Tarih</th><th>Kime</th><th>Tip</th><th>Tekrarlayan</th><th>Açıklama</th><th>Süre(dk)</th><th></th></tr></thead>
+	<tfoot><tr><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr></tfoot>
+	<tfoot class="tf-search"><tr><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr></tfoot>
+	<tbody>
+		@foreach (var item in Model)
+		{
+			<tr>
+				<td nowrap><div class="hidden">@item.Tarih.ToOADateInt()</div>@item.Tarih.ToString("dd.MM.yyyy")</td>
+				<td nowrap>@if (item.Username == null) {@("Herkes")} else {@item.Username}</td>
+				<td nowrap>@item.ComboItem_Name.Name</td>
+				<td>@if (item.Tekrarlayan == true) { @("Evet") } else { @("Hayır") }</td>
+				<td>@item.Aciklama</td>
+				<td>@item.Sure</td>
+				<td nowrap>@if (ViewBag.Yetki == true)
+				{
+					<a class="btn btn-default" href="#modalEditPage" data-toggle="modal" onclick="editInModal2('/ToDo/GorevTakvimi/Dublicate', { Id: @item.ID })"> Çoğalt </a>
+					<a class="btn btn-default" href="#modalEditPage" data-toggle="modal" onclick="editInModal2('/ToDo/GorevTakvimi/Edit', { Id: @item.ID })"> Düzenle </a>
+					<a class="btn btn-danger" href="javascript:;" onclick="Delete('@item.ID', '/ToDo/GorevTakvimi/ListTatil', 'listeTatil', '')"> Sil </a>
+				}
+				</td>
+			</tr>
+		}
+	</tbody>
 </table>
 <script language="text/javascript">
-    var table = $('#tblTatil').DataTable({
-        "order": [[0, "desc"]],
-        "pagingType": "full_numbers",
-        "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" }
-    });
-    $('#tblTatil .tf-search th').each(function () {
-        var title = $('#tblTatil thead th').eq($(this).index()).text();
-        if (title != "" && title.indexOf("Tarih") !== -1)
-            $(this).html('<input class="form-control input-circle tarih" type="text" placeholder="Ara" />');
-        else if (title != "")
-            $(this).html('<input class="form-control input-circle" type="text" placeholder="Ara" />');
-        });
-    $("#tblTatil tfoot input").on('keyup change', function () { table.column($(this).parent().index() + ':visible').search(this.value).draw(); });
-    //tarih
-    $.datepicker.setDefaults($.datepicker.regional["tr"]);
-    $(".tarih").datepicker();
+	var table = $('#tblTatil').DataTable({
+		"order": [[0, "desc"]],
+		"pagingType": "full_numbers",
+		"language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" }
+	});
+	$('#tblTatil .tf-search th').each(function () {
+		var title = $('#tblTatil thead th').eq($(this).index()).text();
+		if (title != "" && title.indexOf("Tarih") !== -1)
+			$(this).html('<input class="form-control input-circle tarih" type="text" placeholder="Ara" />');
+		else if (title != "")
+			$(this).html('<input class="form-control input-circle" type="text" placeholder="Ara" />');
+		});
+	$("#tblTatil tfoot input").on('keyup change', function () { table.column($(this).parent().index() + ':visible').search(this.value).draw(); });
+	//tarih
+	$.datepicker.setDefaults($.datepicker.regional["tr"]);
+	$(".tarih").datepicker();
 </script>

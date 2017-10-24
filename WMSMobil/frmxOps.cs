@@ -910,7 +910,7 @@ namespace WMSMobil
                         yer.IrsID = txtEvrakno.Tag.ToInt32();
                         yer.RafNo = itemPanel.Controls[5].Text;
                         yer.GorevID = GorevID;
-                        yer.OkutulanMiktar = itemPanel.Controls[3].Text.ToDecimal();
+                        yer.OkutulanMiktar = itemPanel.Controls[3].Text.ToDecimal() - itemPanel.Controls[6].Text.ToDecimal();
                         YerList.Add(yer);
                     }
                 }

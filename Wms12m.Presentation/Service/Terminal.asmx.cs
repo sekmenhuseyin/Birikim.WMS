@@ -433,7 +433,7 @@ namespace Wms12m
             //loop iraliyes
             foreach (var item in mGorev.IRS.Where(m => m.Onay == true && m.LinkEvrakNo == null))
             {
-                string sql = string.Format("SELECT EvrakNo FROM FINSAT6{0}.FINSAT6{0}.STI WHERE (EvrakNo = '{1}') AND (KynkEvrakTip = 3) AND (Chk = {2})", item.SirketKod, item.EvrakNo, item.HesapKodu);
+                string sql = string.Format("SELECT EvrakNo FROM FINSAT6{0}.FINSAT6{0}.STI WHERE (EvrakNo = '{1}') AND (KynkEvrakTip = 3) AND (Chk = '{2}')", item.SirketKod, item.EvrakNo, item.HesapKodu);
                 var sti = db.Database.SqlQuery<string>(sql).FirstOrDefault();
                 if (sti != null)
                     return new Result(false, item.EvrakNo + " nolu evrak daha önce kullanılmış");
@@ -928,7 +928,7 @@ namespace Wms12m
     }).ToList();
             foreach (var item in data2)
             {
-                if (item.Miktar != item.OkutulanMiktar)
+                if (item.Miktar > item.OkutulanMiktar)
                     return new Result(false, "İşlem bitmemiş(Miktar ile Yerleştirme miktarı uyumsuz.)");
             }
 
@@ -1911,7 +1911,7 @@ namespace Wms12m
                 if (tmp == 1) efatKullanici = true;
                 //listedeki her eleman için döngü yapılır
                 Finsat finsat = new Finsat(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, item.SirketKod);
-                var sonuc = finsat.AlımdanIadeFaturaKayıt(item.IrsaliyeID, mGorev.Depo.DepoKodu, efatKullanici, item.Tarih, item.HesapKodu, kull.Kod, kull.UserDetail.AlimdanIadeFaturaSeri.Value,  yil);
+                var sonuc = finsat.AlımdanIadeFaturaKayıt(item.IrsaliyeID, mGorev.Depo.DepoKodu, efatKullanici, item.Tarih, item.HesapKodu, kull.Kod, kull.UserDetail.AlimdanIadeFaturaSeri.Value, yil);
                 if (sonuc.Status == true)
                 {
                     //update irsaliye
