@@ -33,7 +33,6 @@ namespace Wms12m.Presentation
         /// </summary>
         public static void RegisterBundles(BundleCollection bundles)
         {
-            bundles.UseCdn = true;   //enable CDN support
             //js libraries
             bundles.Add(new ScriptBundle(jquery, "https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js").Include("~/Content/assets/global/plugins/jquery/jquery-3.1.1.min.js"));
             bundles.Add(new ScriptBundle(bootstrapJs, "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js").Include("~/Content/assets/global/plugins/bootstrap/js/bootstrap.min.js"));
@@ -138,6 +137,7 @@ namespace Wms12m.Presentation
             // EnableOptimizations
 #if !DEBUG
             BundleTable.EnableOptimizations = true;
+            bundles.UseCdn = true;   //enable CDN support
 #endif
         }
     }
