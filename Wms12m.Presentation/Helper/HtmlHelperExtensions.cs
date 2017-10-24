@@ -1,10 +1,14 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using Wms12m.Entity;
+using Wms12m.Entity.Models;
 
 namespace Wms12m
 {
@@ -30,6 +34,29 @@ namespace Wms12m
             var imagePath = uploadsDirectory + filename + ".jpg";
             var imageSrc = File.Exists(HttpContext.Current.Server.MapPath(imagePath)) ? filename : "0";
             return imageSrc;
+        }
+        /// <summary>
+        /// git serverdan son commit tarihi getirir
+        /// </summary>
+        public static string GetCommitDate(this ProjeForm value, string fullname)
+        {
+            try
+            {
+                using (WMSEntities db = new WMSEntities())
+                {
+                    string serveraddress = db.Database.SqlQuery<string>("SELECT GitServerAddress FROM Settings").FirstOrDefault();
+                    using (WebClient wc = new WebClient())
+                    {
+                        var json = wc.DownloadString(serveraddress + "Repository/CommitFrom/" + value.GitGuid + "?user=" + fullname);
+                        var list = JsonConvert.DeserializeObject<List<ForJson>>(json);
+                        return list.FirstOrDefault().Date.ToShortDateString();
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                return "";
+            }
         }
     }
     /// <summary>
