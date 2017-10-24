@@ -480,6 +480,8 @@
     <Content Include="Areas\ToDo\Views\Duties\ListOnay.cshtml" />
     <Content Include="Areas\ToDo\Views\GorevTakvimi\ListTatil.cshtml" />
     <Content Include="Areas\ToDo\Views\GorevTakvimi\New.cshtml" />
+    <Content Include="Areas\WMS\Views\Stock\Comparison.cshtml" />
+    <Content Include="Areas\WMS\Views\Stock\ComparisonList.cshtml" />
     <None Include="bundleconfig.json" />
     <Content Include="Content\SizeSablon.xlsx" />
     <Content Include="Content\StockSablon.xlsx" />
