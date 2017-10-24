@@ -40,7 +40,7 @@ namespace Wms12m
         /// </summary>
         public static string GetCommitDate(this ProjeForm value, string GitServerAddress, string fullname)
         {
-            if (GitServerAddress == "" || GitServerAddress == null) return "";
+            if (GitServerAddress == "" || GitServerAddress == null || value.GitGuid == "" || value.GitGuid == null || fullname == "" || fullname == null) return "";
             try
             {
                 using (WebClient wc = new WebClient())
