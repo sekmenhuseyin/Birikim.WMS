@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -824,41 +823,38 @@ namespace Wms12m.Presentation.Controllers
             }
             return PartialView("GorevProjesi/ProjeAnalizi", sonliste);
         }
-        public PartialViewResult GorevAylikCalisma(string user, int tarihStart, string tip)
+        public PartialViewResult GorevAylikCalisma(string user, int tarih, string tip)
         {
             ViewBag.user = user;
-            ViewBag.tarihStart = tarihStart;
+            ViewBag.tarih = tarih;
             ViewBag.userID = new SelectList(Persons.GetList(), "Kod", "AdSoyad", user);
-            ViewBag.gorevcalismatarih7 = EnumHelperExtension.SelectListFor((Aylar)tarihStart);
+            ViewBag.gorevcalismatarih7 = EnumHelperExtension.SelectListFor((Aylar)tarih);
             var yil = DateTime.Today.Year;
-            if (tarihStart > DateTime.Today.Month) yil--;
+            if (tarih > DateTime.Today.Month) yil--;
             string sql = "";
             if (user != "") sql += "AND ong.GorevlerCalisma.Kaydeden = '" + user + "'";
             var liste = db.Database.SqlQuery<chartGorevCalisma>(string.Format(@"SELECT ong.ProjeForm.Proje, SUM(ong.GorevlerCalisma.Sure) AS Sure
                     FROM ong.GorevlerCalisma INNER JOIN ong.Gorevler ON ong.GorevlerCalisma.GorevID = ong.Gorevler.ID INNER JOIN ong.ProjeForm ON ong.Gorevler.ProjeFormID = ong.ProjeForm.ID
                     WHERE (ong.GorevlerCalisma.Tarih >= '{0}') AND (ong.GorevlerCalisma.Tarih < '{1}') {2} 
-                    GROUP BY ong.ProjeForm.Proje", new DateTime(yil, tarihStart, 1).ToString("yyyy-MM-dd"), new DateTime(yil, tarihStart, 1).AddMonths(1).ToString("yyyy-MM-dd"), sql)).ToList();
+                    GROUP BY ong.ProjeForm.Proje", new DateTime(yil, tarih, 1).ToString("yyyy-MM-dd"), new DateTime(yil, tarih, 1).AddMonths(1).ToString("yyyy-MM-dd"), sql)).ToList();
             if (tip == "Pie")
                 return PartialView("GorevProjesi/AylikCalismaPie", liste);
             else
                 return PartialView("GorevProjesi/AylikCalisma", liste);
         }
-        public PartialViewResult GorevGit(string ID)
+        public PartialViewResult GorevGit(int tarih)
         {
-            ViewBag.ID = ID;
+            ViewBag.tarih = tarih;
+            ViewBag.tarih2 = tarih.FromOADateInt();
             var liste = new List<ForJson>();
             using (WebClient wc = new WebClient())
             {
-                //get proje list
-                var json = wc.DownloadString(ViewBag.settings.GitServerAddress + "Repository/List/");
-                var list = JsonConvert.DeserializeObject<List<ForJson>>(json);
-                ViewBag.ProjeID = new SelectList(list, "Id", "Name", ID);
-                //get details
-                if (ID != "" && ID != null)
-                {
-                    json = wc.DownloadString(ViewBag.settings.GitServerAddress + "Repository/CommitsList/" + ID);
-                    liste = JsonConvert.DeserializeObject<List<ForJson>>(json);
-                }
+                ////get details
+                //if (ID != "" && ID != null)
+                //{
+                //    json = wc.DownloadString(ViewBag.settings.GitServerAddress + "Repository/CommitsList/" + ID);
+                //    liste = JsonConvert.DeserializeObject<List<ForJson>>(json);
+                //}
             }
             return PartialView("GorevProjesi/GorevGit", liste);
         }

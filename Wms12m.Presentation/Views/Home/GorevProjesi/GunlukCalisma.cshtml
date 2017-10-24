@@ -11,12 +11,12 @@
                     <input type="text" class="form-control dateboxbg" id="gorevcalismatarih1" value="@ViewBag.tarih2" />
                 </div>
                 <div class="col-md-2">
-                    @Html.DropDownList("userID", null, htmlAttributes: new { @class = "form-control satirekle1", @onchange = "ReloadGorev1(this.value)" })
+                    @Html.DropDownList("userID", null, htmlAttributes: new { @class = "form-control satirekle1", @onchange = "ReloadGorev1(this.value, @ViewBag.tarih)" })
                 </div>
                 <div class="tools">
                     <a href="javascript:;" class="collapse"> </a>
                     <a href="javascript:;" class="fullscreen"> </a>
-                    <a href="javascript:;" class="reload" onclick="ReloadGorev1('@ViewBag.user');"> </a>
+                    <a href="javascript:;" class="reload" onclick="ReloadGorev1('@ViewBag.user', @ViewBag.tarih);"> </a>
                 </div>
             </div>
             <div class="portlet-body">
@@ -26,17 +26,16 @@
     </div>
 </div>
 <script>
-    function ReloadGorev1(v)
+    function ReloadGorev1(v, t)
     {
-        PartialView('/Home/GorevGunlukCalisma', 'gorev_gunluk_calisma', JSON.stringify({ user: v, tarih: @ViewBag.tarih, tip: '' }));
+        PartialView('/Home/GorevGunlukCalisma', 'gorev_gunluk_calisma', JSON.stringify({ user: v, tarih: t, tip: '' }));
     }
     $(document).ready(function (e) {
         $(".satirekle1").prepend("<option value=''>Hepsi</option>");
         @if (ViewBag.user == "") { <text>$(".satirekle1")[0].selectedIndex = 0;</text> }
         $.datepicker.setDefaults($.datepicker.regional["tr"]);
         $("#gorevcalismatarih1").datepicker().on("change", function (e) {
-            var oaDate = toOADateFromString(e.target.value);
-            PartialView("/Home/GorevGunlukCalisma", 'gorev_gunluk_calisma', JSON.stringify({ user: '@ViewBag.user', tarih: oaDate, tip: '' }));
+            ReloadGorev1('@ViewBag.user', toOADateFromString(e.target.value));
         });
         var model = @Html.Raw(Json.Encode(Model));
         var color = ["#FF0F00","#FF6600","#FF9E01","#FCD202","#F8FF01","#B0DE09","#04D215","#0D8ECF","#0D52D1","#2A0CD0","#8A0CCF","#CD0D74","#754DEB","#DDDDDD","#999999","#333333","#000000"];

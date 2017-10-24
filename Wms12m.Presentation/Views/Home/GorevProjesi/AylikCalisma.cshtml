@@ -11,12 +11,12 @@
                     @Html.DropDownList("gorevcalismatarih7", null, htmlAttributes: new { @class = "form-control", @onchange = "ReloadGorev7('" + ViewBag.user + "', this.value)" })
                 </div>
                 <div class="col-md-2">
-                    @Html.DropDownList("userID", null, htmlAttributes: new { @class = "form-control satirekle7", @onchange = "ReloadGorev7(this.value, " + ViewBag.tarihStart + ")" })
+                    @Html.DropDownList("userID", null, htmlAttributes: new { @class = "form-control satirekle7", @onchange = "ReloadGorev7(this.value, " + ViewBag.tarih + ")" })
                 </div>
                 <div class="tools">
                     <a href="javascript:;" class="collapse"> </a>
                     <a href="javascript:;" class="fullscreen"> </a>
-                    <a href="javascript:;" class="reload" onclick="ReloadGorev7('@ViewBag.user', @ViewBag.tarihStart);"> </a>
+                    <a href="javascript:;" class="reload" onclick="ReloadGorev7('@ViewBag.user', @ViewBag.tarih);"> </a>
                 </div>
             </div>
             <div class="portlet-body">
@@ -28,7 +28,7 @@
 <script>
     function ReloadGorev7(user, tarih)
     {
-        PartialView('/Home/GorevAylikCalisma', 'gorev_aylik_calisma', JSON.stringify({ user: user, tarihStart: tarih, tip: '' }));
+        PartialView('/Home/GorevAylikCalisma', 'gorev_aylik_calisma', JSON.stringify({ user: user, tarih: tarih, tip: '' }));
     }
     $(document).ready(function (e) {
         $(".satirekle7").prepend("<option value=''>Hepsi</option>");
