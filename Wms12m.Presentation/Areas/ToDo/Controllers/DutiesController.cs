@@ -429,8 +429,9 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                 return Json(new Result(false, "Bu göreve çalışma kaydedildiği için silinemez"), JsonRequestBehavior.AllowGet);
             try
             {
-                LogActions("ToDo", "Duties", "Delete", ComboItems.alSil, Id.ToInt32());
+                db.Gorevlers.Remove(gorev);
                 db.SaveChanges();
+                LogActions("ToDo", "Duties", "Delete", ComboItems.alSil, Id.ToInt32());
                 return Json(new Result(true, Id.ToInt32()), JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)

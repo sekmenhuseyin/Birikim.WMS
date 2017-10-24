@@ -167,11 +167,10 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         {
             if (CheckPerm(Perms.TodoTakvim, PermTypes.Deleting) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             var tbl = db.Etkinliks.Find(Id);
-            db.Etkinliks.Remove(tbl);
             try
             {
+                db.Etkinliks.Remove(tbl);
                 db.SaveChanges();
-                LogActions("ToDo", "GorevTakvimi", "Delete", ComboItems.alSil, Id, "Tatil/İzin");
                 return Json(new Result(true, Id), JsonRequestBehavior.AllowGet);
             }
             catch (Exception)

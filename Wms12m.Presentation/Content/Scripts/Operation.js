@@ -114,15 +114,6 @@ function Delete(deleteId, Method, DivName, extraId, URL) {
         }
     }
 }
-function DeleteCallBack(deleteId) {
-    ModalYesNoClick('Kaydı silmek istediğinizden eminmisiniz !!!', 'Silme İşlemi', "Evet", 'btn-success', DeleteTriger, 'Hayır', 'btn-warning', null);
-    function DeleteTriger() {
-        var Status = FunctionDelete(DeleteFunctionUrl, deleteId);
-        if (Status) {
-            RefreshPage();
-        }
-    }
-}
 //url:method adresi ,div:render edeceği div,Id:detay için id göndere bilir
 function AjaxCall(Url, Data, successTriger) {
     $.ajax({

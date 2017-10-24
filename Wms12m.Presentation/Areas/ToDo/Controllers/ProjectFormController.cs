@@ -101,9 +101,9 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         {
             if (CheckPerm(Perms.TodoProje, PermTypes.Deleting) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             ProjeForm projeform = db.ProjeForms.Find(Id.ToInt32());
-            db.ProjeForms.Remove(projeform);
             try
             {
+                db.ProjeForms.Remove(projeform);
                 db.SaveChanges();
                 LogActions("ToDo", "ProjectForm", "Delete", ComboItems.alSil, Id.ToInt32());
                 return Json(new Result(true, Id.ToInt32()), JsonRequestBehavior.AllowGet);
