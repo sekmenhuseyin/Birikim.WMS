@@ -423,8 +423,8 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         /// </summary>
         public JsonResult Delete(string Id)
         {
-            if (CheckPerm(Perms.TodoGörevler, PermTypes.Deleting) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             Gorevler gorev = db.Gorevlers.Find(Id.ToInt32());
+            if (CheckPerm(Perms.TodoGörevler, PermTypes.Deleting) == false && gorev.Kaydeden != vUser.UserName) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             if (gorev.GorevlerCalismas.FirstOrDefault() != null)
                 return Json(new Result(false, "Bu göreve çalışma kaydedildiği için silinemez"), JsonRequestBehavior.AllowGet);
             try
