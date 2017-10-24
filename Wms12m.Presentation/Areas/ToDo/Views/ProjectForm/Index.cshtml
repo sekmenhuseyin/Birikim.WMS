@@ -3,7 +3,6 @@
     ViewBag.Title = "Proje İşlemleri";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }@section Styles{<link href="~/Content/assets/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css" rel="stylesheet" type="text/css" />
-    <style>.control-label {text-align: right;color: black;}</style>
 }<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><a href="javascript:;">Görevler</a><i class="fa fa-circle"></i></li><li><span>Proje İşlemleri</span></li></ul></div>
 <h1 class="page-title">Proje İşlemleri</h1>
 <div class="row">
@@ -111,7 +110,7 @@
         @if (ViewBag.Yetki == true) {<text>$(".satirekle").prepend("<option value=''>Seçiniz !!!</option>"); $(".satirekle")[0].selectedIndex = 0; $(".satirekle")[1].selectedIndex = 0;</text>}
         $("#MesaiKontrol").bootstrapSwitch();
         $('#MesaiKontrol').on('switchChange.bootstrapSwitch', function (e, data) {
-            var state = $(this).bootstrapSwitch('state');//returns true or false dfdfd
+            var state = $(this).bootstrapSwitch('state');//returns true or false
             if (state) {
                 $('#MesaiKota').prop("readonly", false)
                 $('#MesaiKota').prop("required", true)
@@ -141,18 +140,6 @@
             PartialView("/ToDo/ProjectForm/FormList/" + data.Id, 'listealt');
         }
     };
-    function newrow(id) { return "<div id='new" + id + "'></div>"; }
-    function format(d) {
-        $.ajax({
-            type: 'POST',
-            url: '/ToDo/ProjectForm/Details',
-            data: { "ID": d },
-            dataType: "html",
-            success: function (data) {
-                $('#new' + d).html(data);
-            }
-        });
-    }
     function CreateEditAltF(Id) {@if (ViewBag.Yetki == true) {<text>
         if (Id == 0) {
             $(".ID2").val("0");
