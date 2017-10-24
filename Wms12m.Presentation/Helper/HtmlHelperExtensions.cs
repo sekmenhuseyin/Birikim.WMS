@@ -8,7 +8,6 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Wms12m.Entity;
-using Wms12m.Entity.Models;
 
 namespace Wms12m
 {
@@ -38,14 +37,14 @@ namespace Wms12m
         /// <summary>
         /// git serverdan son commit tarihi getirir
         /// </summary>
-        public static DateTime GetCommitDate(this ProjeForm value, string GitServerAddress, string fullname)
+        public static DateTime GetCommitDate(this string GitGuid, string GitServerAddress, string fullname)
         {
-            if (GitServerAddress == "" || GitServerAddress == null || value.GitGuid == "" || value.GitGuid == null || fullname == "" || fullname == null) return new DateTime();
+            if (GitServerAddress == "" || GitServerAddress == null || GitGuid == "" || GitGuid == null || fullname == "" || fullname == null) return new DateTime();
             try
             {
                 using (WebClient wc = new WebClient())
                 {
-                    var json = wc.DownloadString(GitServerAddress + "Repository/CommitFrom/" + value.GitGuid + "?user=" + fullname);
+                    var json = wc.DownloadString(GitServerAddress + "Repository/CommitFrom/" + GitGuid + "?user=" + fullname);
                     var list = JsonConvert.DeserializeObject<List<ForJson>>(json);
                     return list.FirstOrDefault().Date;
                 }

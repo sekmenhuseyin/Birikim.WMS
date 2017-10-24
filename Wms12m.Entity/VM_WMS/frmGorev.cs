@@ -8,6 +8,15 @@ using Wms12m.Entity.Models;
 namespace Wms12m.Entity
 {
     /// <summary>
+    /// ToDosList.cshtml
+    /// </summary>
+    public class ForToDosList
+    {
+        public string GitGuid { get; set; }
+        public string Kaydeden { get; set; }
+        public DateTime checkin { get; set; }
+    }
+    /// <summary>
     /// git json
     /// </summary>
     public class ForJson

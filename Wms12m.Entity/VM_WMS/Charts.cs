@@ -76,6 +76,7 @@ namespace Wms12m.Entity
         public string Kaydeden { get; set; }
         public int Sure { get; set; }
         public DateTime Tarih { get; set; }
+        public string GitGuid { get; set; }
     }
     /// <summary>
     /// raporlar

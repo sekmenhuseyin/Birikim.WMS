@@ -1,13 +1,34 @@
 ﻿@model IEnumerable<GorevlerToDoList>
-@{ DateTime checkin = new DateTime(); string GitServerAddress = ViewBag.settings.GitServerAddress; bool checkinGoster = ((ViewBag.vUser.RoleName == " " || ViewBag.vUser.RoleName == "Admin") && ViewBag.Tip == false) ? true : false; }
+@{ 
+    DateTime checkin = new DateTime(); string GitServerAddress = ViewBag.settings.GitServerAddress;
+    bool checkinGoster = ((ViewBag.vUser.RoleName == " " || ViewBag.vUser.RoleName == "Admin") && ViewBag.Tip == false) ? true : false;
+    bool varmış = false;
+    var checkinsList = new List<ForToDosList>();
+}
 <table class="table table-bordered table-striped table-condensed" id="sample_1">
-    <thead><tr><th style="max-width:20px;"></th><th>Müşteri</th><th>Görevler</th><th>Todo List</th><th>Sorumlu</th><th>Çalışan</th><th>Bekleten</th><th>Tarih</th>@if(checkinGoster == true){<th>Check In<br />Tarihi</th>}<th></th></tr></thead>
+    <thead><tr><th style="max-width:20px;"></th><th>Müşteri</th><th>Görevler</th><th>Todo List</th><th>Sorumlu</th><th>Çalışan</th><th>Bekleten</th><th>Tarih</th>@if (checkinGoster == true){<th>Check In<br />Tarihi</th>}<th></th></tr></thead>
     <tfoot><tr><th style="max-width:20px;"></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th>@if(checkinGoster == true){<th></th>}<th></th></tr></tfoot>
     <tfoot class="tf-search"><tr><th style="max-width:20px;"></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th>@if(checkinGoster == true){<th></th>}<th></th></tr></tfoot>
     <tbody>
         @foreach (var item in Model)
         {
-            if(checkinGoster == true){ checkin = item.Gorevler.ProjeForm.ProjeForm2.GetCommitDate(GitServerAddress, item.Onaylayan); }
+            varmış = false;
+            if (checkinGoster == true){
+                foreach (var itemx in checkinsList)
+                {
+                    if (itemx.GitGuid == item.Gorevler.ProjeForm.ProjeForm2.GitGuid && itemx.Kaydeden == item.Kaydeden)
+                    {
+                        varmış = true;
+                        checkin = itemx.checkin;
+                        break;
+                    }
+                }
+                if (varmış == false)
+                {
+                    checkin = item.Gorevler.ProjeForm.ProjeForm2.GitGuid.GetCommitDate(GitServerAddress, item.Onaylayan);
+                    checkinsList.Add(new ForToDosList() { GitGuid = item.Gorevler.ProjeForm.ProjeForm2.GitGuid, Kaydeden = item.Kaydeden, checkin = checkin });
+                }
+            }
             <tr data-ID="@item.GorevID" @if (checkinGoster == true && (checkin == new DateTime() || checkin.Date < item.DegisTarih.Date)) {@(" class=font-red")}>
                 <td class="details-control" style="max-width:20px;"></td>
                 <td>@item.Gorevler.ProjeForm.Musteri.Unvan</td>
