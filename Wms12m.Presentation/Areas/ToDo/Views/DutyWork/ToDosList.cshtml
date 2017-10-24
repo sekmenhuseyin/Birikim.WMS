@@ -1,5 +1,5 @@
 ﻿@model IEnumerable<GorevlerToDoList>
-@{ string GitServerAddress = ViewBag.settings.GitServerAddress; bool checkinGoster = ((ViewBag.vUser.RoleName == " " || ViewBag.vUser.RoleName == "Admin") && ViewBag.Tip == false) ? true : false; }
+@{ DateTime checkin = new DateTime(); string GitServerAddress = ViewBag.settings.GitServerAddress; bool checkinGoster = ((ViewBag.vUser.RoleName == " " || ViewBag.vUser.RoleName == "Admin") && ViewBag.Tip == false) ? true : false; }
 <table class="table table-bordered table-striped table-condensed" id="sample_1">
     <thead><tr><th style="max-width:20px;"></th><th>Müşteri</th><th>Görevler</th><th>Todo List</th><th>Sorumlu</th><th>Çalışan</th><th>Bekleten</th><th>Oluşturma<br />Tarihi</th>@if(checkinGoster == true){<th>Check In<br />Tarihi</th>}<th></th></tr></thead>
     <tfoot><tr><th style="max-width:20px;"></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th>@if(checkinGoster == true){<th></th>}<th></th></tr></tfoot>
@@ -7,6 +7,7 @@
     <tbody>
         @foreach (var item in Model)
         {
+            if(checkinGoster == true){ checkin = item.Gorevler.ProjeForm.ProjeForm2.GetCommitDate(GitServerAddress, item.Onaylayan); }
             <tr data-ID="@item.GorevID">
                 <td class="details-control" style="max-width:20px;"></td>
                 <td>@item.Gorevler.ProjeForm.Musteri.Unvan</td>
@@ -16,7 +17,11 @@
                 <td>@if (item.Onay == true) { @item.Onaylayan }@if (item.KontrolOnay == true) { @(", ") @item.KontrolEden }</td>
                 <td>@if (item.Onay == false) { @item.Gorevler.Sorumlu } else if (item.KontrolOnay == false) { @item.Gorevler.KontrolSorumlusu }</td>
                 <td>@item.KayitTarih.ToString("dd.MM.yyyy")</td>
-                @if(checkinGoster == true){<td>@item.Gorevler.ProjeForm.ProjeForm2.GetCommitDate(GitServerAddress, item.Onaylayan)</td>}
+                @if(checkinGoster == true){
+                    if (checkin == new DateTime()) { <td class="font-red"><br /><i class="fa fa-exclamation-triangle fa-2x" aria-hidden="true"></i></td> }
+                    else if (checkin.Date < item.DegisTarih.Date) { <td class="font-red">@checkin</td> }
+                    else { <td>@checkin.ToUniversalTime().Humanize()</td> }                    
+                }
                 <td>
                     @if (ViewBag.RoleName != "Admin" && ViewBag.RoleName != " ") {<a class="btn btn-info input-circle" href="#modalEditPage" data-toggle="modal" onclick="editInModal('/ToDo/DutyWork/New/@item.ID');"><span class="glyphicon glyphicon-floppy-save"></span> &nbsp; Çalışma</a>}
                     @if (ViewBag.Tip == false && ViewBag.ÇalışmaSüresi >= 540)

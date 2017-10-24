@@ -38,21 +38,21 @@ namespace Wms12m
         /// <summary>
         /// git serverdan son commit tarihi getirir
         /// </summary>
-        public static string GetCommitDate(this ProjeForm value, string GitServerAddress, string fullname)
+        public static DateTime GetCommitDate(this ProjeForm value, string GitServerAddress, string fullname)
         {
-            if (GitServerAddress == "" || GitServerAddress == null || value.GitGuid == "" || value.GitGuid == null || fullname == "" || fullname == null) return "";
+            if (GitServerAddress == "" || GitServerAddress == null || value.GitGuid == "" || value.GitGuid == null || fullname == "" || fullname == null) return new DateTime();
             try
             {
                 using (WebClient wc = new WebClient())
                 {
                     var json = wc.DownloadString(GitServerAddress + "Repository/CommitFrom/" + value.GitGuid + "?user=" + fullname);
                     var list = JsonConvert.DeserializeObject<List<ForJson>>(json);
-                    return list.FirstOrDefault().Date.ToShortDateString();
+                    return list.FirstOrDefault().Date;
                 }
             }
             catch (Exception)
             {
-                return "";
+                return new DateTime();
             }
         }
     }
