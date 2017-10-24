@@ -27,7 +27,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         {
             if (vUser.RoleName != "Admin" && vUser.RoleName != " " && UserName != vUser.UserName)
                 UserName = vUser.UserName;
-            var tblEtki = db.Etkinliks.Where(m => m.Tekrarlayan == false);
+            var tblEtki = db.Etkinliks.Where(m => m.Tekrarlayan == false && m.Onay == true);
             if (vUser.RoleName != "Admin" && vUser.RoleName != " ")
                 tblEtki.Where(m => m.Username == UserName || m.Username == null);
             var lstEtkinlik = tblEtki.ToList();

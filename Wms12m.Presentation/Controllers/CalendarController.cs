@@ -10,7 +10,7 @@ namespace Wms12m.Presentation.Controllers
         // GET: Calendar
         public ActionResult Index()
         {
-            var liste = db.Etkinliks.Where(m => m.Tekrarlayan == false).ToList();
+            var liste = db.Etkinliks.Where(m => m.Tekrarlayan == false && m.Onay == true).ToList();
             var tekrarlayan = db.Etkinliks.Where(m => m.Tekrarlayan == true).ToList();
             foreach (var item in tekrarlayan)
             {
