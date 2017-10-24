@@ -84,9 +84,9 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         {
             if (CheckPerm(Perms.TodoMüşteri, PermTypes.Deleting) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             Musteri musteri = db.Musteris.Find(Id);
-            db.Musteris.Remove(musteri);
             try
             {
+                db.Musteris.Remove(musteri);
                 db.SaveChanges();
                 LogActions("ToDo", "Customer", "Delete", ComboItems.alSil, musteri.ID);
                 return Json(new Result(true, Id), JsonRequestBehavior.AllowGet);

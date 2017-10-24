@@ -169,7 +169,7 @@
                     "data": "ID",
                     "render": function (data, type, full, meta) {
                         return @{ if (ViewBag.Yetki == true) { <text>'<a class="btn btn-default input-circle" href="javascript:;" onclick="CreateEdit(' + data + ')"> Düzenle </a>'</text> } else { <text>''</text> } } +
-                                @{ if (ViewBag.YetkiSil == true) { <text>'<a class="btn btn-danger input-circle" href="javascript:;" onclick="DeleteCallBack(' + data +')"> Sil </a>'</text> } else { <text>''</text> } };
+                                @{ if (ViewBag.YetkiSil == true) { <text>'<a class="btn btn-danger input-circle" href="javascript:;" onclick="Delete(' + data +',\'\',\'\',\'\')"> Sil </a>'</text> } else { <text>''</text> } };
                     }
                 }
             ]

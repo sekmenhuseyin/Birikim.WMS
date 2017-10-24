@@ -91,13 +91,13 @@ namespace Wms12m.Presentation
 			//developer ise çalışma kontrol
 			if (vUser.RoleName == "Developer")
 				ViewBag.ÇalışmaSüresi = db.Database.SqlQuery<int>(string.Format(@"
-                    SELECT ISNULL(SUM(Sure),0) AS Expr1  
-                    FROM
-                    (
-	                    SELECT ISNULL(SUM(Sure), 0) AS Sure FROM ong.GorevlerCalisma WHERE (Kaydeden = '{0}') AND (Tarih = '{1}')
-	                    UNION ALL
-	                    SELECT SUM(ISNULL(Sure,0)) AS Sure FROM dbo.Etkinlik WHERE (Username='{0}' OR ISNULL(UserName,'')='') AND Tarih='{1}' AND TatilTipi<>{2}
-                     ) A", vUser.UserName, DateTime.Today.DayOfWeek == DayOfWeek.Sunday ? DateTime.Today.AddDays(-2).ToString("yyyy-MM-dd") : DateTime.Today.DayOfWeek == DayOfWeek.Monday ? DateTime.Today.AddDays(-3).ToString("yyyy-MM-dd") : DateTime.Today.AddDays(-1).ToString("yyyy-MM-dd"), ComboItems.ÖnemliGün.ToInt32())).FirstOrDefault();
+					SELECT ISNULL(SUM(Sure),0) AS Expr1  
+					FROM
+					(
+						SELECT ISNULL(SUM(Sure), 0) AS Sure FROM ong.GorevlerCalisma WHERE (Kaydeden = '{0}') AND (Tarih = '{1}')
+						UNION ALL
+						SELECT SUM(ISNULL(Sure,0)) AS Sure FROM dbo.Etkinlik WHERE (Username='{0}' OR ISNULL(UserName,'')='') AND Tarih='{1}' AND TatilTipi<>{2}
+					 ) A", vUser.UserName, DateTime.Today.DayOfWeek == DayOfWeek.Sunday ? DateTime.Today.AddDays(-2).ToString("yyyy-MM-dd") : DateTime.Today.DayOfWeek == DayOfWeek.Monday ? DateTime.Today.AddDays(-3).ToString("yyyy-MM-dd") : DateTime.Today.AddDays(-1).ToString("yyyy-MM-dd"), ComboItems.ÖnemliGün.ToInt32())).FirstOrDefault();
 			else
 				ViewBag.ÇalışmaSüresi = 1000;
 			//normal settings

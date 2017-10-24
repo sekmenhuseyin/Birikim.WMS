@@ -19,10 +19,10 @@
                 <td>@if (item.ComboItem_Name2 != null) { @item.ComboItem_Name2.Name} </td>
                 <td>@if (item.ComboItem_Name != null) { @item.ComboItem_Name.Name} </td>
                 <td>@item.KayitTarih.ToString("dd.MM.yyyy")</td>
-                <td nowrap>@if (ViewBag.Yetki == true) {
+                <td nowrap>@if (ViewBag.Yetki == true || item.Kaydeden == ViewBag.vUser.UserName) {
                     if (ViewBag.Tip != ComboItems.gydDurduruldu.ToInt32() && ViewBag.Tip != ComboItems.gydReddedildi.ToInt32()) {<a class="btn btn-warning" href="javascript:;" onclick="Stopper(2, @item.ID)"> Durdur </a>}
                     else {<a class="btn btn-primary" href="javascript:;" onclick="Stopper(3, @item.ID)"> Başlat </a>}
-                    <a class="btn btn-danger" href="javascript:;" onclick="Delete('@item.ID', '/ToDo/Duties/List', 'liste', '')"> Sil </a>
+                    <a class="btn btn-danger" href="javascript:;" onclick="Delete('@item.ID', '', '', '')"> Sil </a>
                 }</td>
             </tr>
         }
