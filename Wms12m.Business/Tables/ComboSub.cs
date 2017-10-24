@@ -116,11 +116,15 @@ namespace Wms12m.Business
         /// </summary>
         public override List<ComboItem_Name> GetList(int ParentId)
         {
-            return db.ComboItem_Name.Where(m => m.Visible == true).Where(m => m.ComboID == ParentId).OrderBy(m => m.Name).ToList();
+            return db.ComboItem_Name.Where(m => m.Visible == true && m.ComboID == ParentId).OrderBy(m => m.Name).ToList();
+        }
+        public List<ComboItem_Name> GetList(int[] Id)
+        {
+            return db.ComboItem_Name.Where(m => m.Visible == true && Id.Contains(m.ID)).OrderBy(m => m.Name).ToList();
         }
         public List<ComboItem_Name> GetList(int ParentId, bool visible)
         {
-            return db.ComboItem_Name.Where(m => m.Visible == visible).Where(m => m.ComboID == ParentId).OrderBy(m => m.Name).ToList();
+            return db.ComboItem_Name.Where(m => m.Visible == visible && m.ComboID == ParentId).OrderBy(m => m.Name).ToList();
         }
     }
 }

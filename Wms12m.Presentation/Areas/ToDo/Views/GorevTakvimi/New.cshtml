@@ -24,13 +24,13 @@
                         </div>
                         <div class="form-group">
                             @Html.LabelFor(model => model.TatilTipi, "Tatil Tipi", htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-4">
+                            <div class="col-md-8" id="col1">
                                 @Html.DropDownList("TatilTipi", null, htmlAttributes: new { @class = "form-control input-circle satirekle1", required = "required", @onchange = "CallChangefunc(this.value)" })
                                 @Html.ValidationMessageFor(model => model.TatilTipi, "", new { @class = "text-danger" })
                             </div>
-                                @Html.LabelFor(model => model.Sure, "Süre", htmlAttributes: new { @class = "control-label col-md-1" })
+                            @Html.LabelFor(model => model.Sure, "Süre", htmlAttributes: new { @class = "control-label col-md-1 hidden", @id = "col2" })
                             <div class="col-md-3">
-                                @Html.TextBoxFor(model => model.Sure, new { @class = "form-control input-circle" })
+                                @Html.TextBoxFor(model => model.Sure, new { @class = "form-control input-circle hidden", @id = "col3" })
                                 @Html.ValidationMessageFor(model => model.Sure, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -70,11 +70,20 @@
 <script type="text/javascript">
     $("#Tekrarlayan").bootstrapSwitch();
     $(document).ready(function () {
-        $(".satirekle").prepend("<option value=''>Herkes</option>"); @if (Model.Username == null) { <text>$(".satirekle")[0].selectedIndex = 0;</text> }
+        @if (ViewBag.Yetki == true) {<text>$(".satirekle").prepend("<option value=''>Herkes</option>");</text> if (Model.Username == null) { <text>$(".satirekle")[0].selectedIndex = 0;</text> } }
         $(".satirekle1").prepend("<option value=''>Seçiniz !!!</option>"); @if (ViewBag.New == 0) { <text>$(".satirekle1")[0].selectedIndex = 0;</text> }
         $('.date-picker').datepicker();
     });
     function CallChangefunc(val) {
-        $("#Sure").val(540);       
+        if (val == 75 || val == 77) {
+            $("#col1").removeClass("col-md-8").addClass("col-md-4");
+            $("#col2").removeClass("hidden");
+            $("#col3").removeClass("hidden");
+        }
+        else {
+            $("#col1").addClass("col-md-8").removeClass("col-md-4");
+            $("#col2").addClass("hidden");
+            $("#col3").addClass("hidden");
+        }
     }
 </script>
