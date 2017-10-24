@@ -196,7 +196,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                 Gorevler = gorev,
                 Calisma = tbl.Calisma,
                 Sure = tbl.Sure,
-                Tarih = DateTime.Now,
+                Tarih = tbl.Tarih,
                 Kaydeden = vUser.UserName,
                 KayitTarih = DateTime.Now,
                 Degistiren = vUser.UserName,
@@ -226,7 +226,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             GorevlerCalisma gorevcalisma = db.GorevlerCalismas.Find(Id.ToInt32());
             if (gorevcalisma == null)
                 return Json(new Result(true, 1), JsonRequestBehavior.AllowGet);
-            if (CheckPerm(Perms.TodoÇalışma, PermTypes.Deleting) == false && gorevcalisma.Tarih != DateTime.Today)
+            if (CheckPerm(Perms.TodoÇalışma, PermTypes.Deleting) == false && gorevcalisma.Tarih != DateTime.Today && gorevcalisma.Kaydeden != vUser.UserName)
                 return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             try
             {
