@@ -46,7 +46,7 @@ namespace Wms12m
                 {
                     var json = wc.DownloadString(GitServerAddress + "Repository/CommitFrom/" + GitGuid + "?user=" + fullname);
                     var list = JsonConvert.DeserializeObject<ForJson>(json);
-                    return list.Date.AddHours(2);
+                    return list.Date;
                 }
             }
             catch (Exception)
