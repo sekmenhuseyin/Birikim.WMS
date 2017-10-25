@@ -45,8 +45,8 @@ namespace Wms12m
                 using (WebClient wc = new WebClient())
                 {
                     var json = wc.DownloadString(GitServerAddress + "Repository/CommitFrom/" + GitGuid + "?user=" + fullname);
-                    var list = JsonConvert.DeserializeObject<List<ForJson>>(json);
-                    return list.FirstOrDefault().Date;
+                    var list = JsonConvert.DeserializeObject<ForJson>(json);
+                    return list.Date;
                 }
             }
             catch (Exception)
