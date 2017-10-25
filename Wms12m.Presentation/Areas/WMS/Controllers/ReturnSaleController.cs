@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using Wms12m.Business;
 using Wms12m.Entity;
@@ -11,16 +10,16 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
 {
     public class ReturnSaleController : RootController
     {
-        // GET: WMS/ReturnSale
+        /// <summary>
+        /// ilk sayfa
+        /// </summary>
         public ActionResult Index()
         {
             if (CheckPerm(Perms.AlimdanIade, PermTypes.Reading) == false) return Redirect("/");
             ViewBag.SirketID = new SelectList(db.GetSirkets().ToList(), "Kod", "Ad");
             ViewBag.DepoID = new SelectList(Store.GetList(vUser.DepoId), "DepoKodu", "DepoAd");
-            //ViewBag.DepoID = new SelectList(Store.GetList(vUser.DepoId), "ID", "DepoAd");
             return View("Index");
         }
-
         /// <summary>
         /// seçili malzemeler gruplanmış olarak gelecek
         /// </summary>
@@ -87,7 +86,9 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             //ViewBag.hataliStok = hataliStok == "" ? true : false;
             return View("Step2", list);
         }
-
+        /// <summary>
+        /// step 3
+        /// </summary>
         [HttpPost, ValidateAntiForgeryToken]
         public ActionResult Step3(frmSiparisOnay tbl)
         {
@@ -173,7 +174,6 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             ViewBag.Sirket = liste;
             return View("Step3", list2);
         }
-
         /// <summary>
         /// alımdan iade onaylandı
         /// </summary>
@@ -181,8 +181,8 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         public ActionResult Approve(int GorevID)
         {
             if (CheckPerm(Perms.GenelSipariş, PermTypes.Writing) == false) return Redirect("/");
-         
-            IR ir = db.IRS.Where(a => a.ID == a.Gorevs.Where(n => n.ID == GorevID).Select(n => n.IrsaliyeID).FirstOrDefault()).FirstOrDefault();                                        
+
+            IR ir = db.IRS.Where(a => a.ID == a.Gorevs.Where(n => n.ID == GorevID).Select(n => n.IrsaliyeID).FirstOrDefault()).FirstOrDefault();
             Gorev grv = db.Gorevs.Where(m => m.ID == GorevID).FirstOrDefault();
             if (grv.DurumID == ComboItems.Başlamamış.ToInt32())
             {
@@ -198,8 +198,6 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             //görevlere git
             return Redirect("/WMS/Tasks");
         }
-
-
         ///<summary>
         ///depo ve şirket seçince açık siparişler gelecek
         ///</summary>
@@ -231,7 +229,9 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                 return PartialView("SiparisList", new List<frmSiparisler>());
             }
         }
-
+        /// <summary>
+        /// detaylar
+        /// </summary>
         [HttpPost]
         public JsonResult Details(string ID)
         {
@@ -241,8 +241,9 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             var list = db.Database.SqlQuery<frmSiparisMalzeme>(sql).ToList();
             return Json(list, JsonRequestBehavior.AllowGet);
         }
-
-
+        /// <summary>
+        /// get chk codes
+        /// </summary>
         public JsonResult GetChKCode(string term)
         {
             var id = Url.RequestContext.RouteData.Values["id"];
@@ -264,8 +265,9 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                 return Json(new List<frmJson>(), JsonRequestBehavior.AllowGet);
             }
         }
-
-
+        /// <summary>
+        /// rezerv mallar
+        /// </summary>
         [HttpPost]
         public PartialViewResult GetRezerv(string MalKodu, string Depo, string Birim)
         {
@@ -278,7 +280,9 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                 return null;
             return PartialView("Rezervler", list);
         }
-
+        /// <summary>
+        /// stok kontrol
+        /// </summary>
         [HttpPost]
         public string StokKontrol(string Sirket, string EvrakNo, string CHK, string Depo)
         {

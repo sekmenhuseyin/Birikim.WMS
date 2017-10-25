@@ -11,7 +11,6 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
 {
     public class TasksController : RootController
     {
-
         /// <summary>
         /// görev anasayfa
         /// </summary>
@@ -421,11 +420,11 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                                         FROM wms.Yer INNER JOIN wms.Gorev ON wms.Yer.DepoID = wms.Gorev.DepoID
                                         WHERE (wms.Gorev.ID = {0})", GorevID);
                 else
-                     sql = string.Format(@"SELECT        wms.Yer.KatID, wms.GorevYer.MalKodu, wms.GorevYer.Birim, wms.Yer.Miktar AS Stok, wms.GorevYer.Miktar
+                    sql = string.Format(@"SELECT        wms.Yer.KatID, wms.GorevYer.MalKodu, wms.GorevYer.Birim, wms.Yer.Miktar AS Stok, wms.GorevYer.Miktar
                                         FROM            wms.GorevYer INNER JOIN
                                                                     wms.Yer ON wms.GorevYer.YerID = wms.Yer.ID 
                                         WHERE (wms.GorevYer.GorevID  = {0})", GorevID);
-               var list2 = db.Database.SqlQuery<frmSiparisToplama>(sql).ToList();
+                var list2 = db.Database.SqlQuery<frmSiparisToplama>(sql).ToList();
                 //loop list
                 foreach (var item in list2)
                 {

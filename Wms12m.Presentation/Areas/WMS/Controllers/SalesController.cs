@@ -406,6 +406,9 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             var list = db.Database.SqlQuery<frmSiparisMalzeme>(sql).ToList();
             return Json(list, JsonRequestBehavior.AllowGet);
         }
+        /// <summary>
+        /// get rezerv
+        /// </summary>
         [HttpPost]
         public PartialViewResult GetRezerv(string MalKodu, string Depo, string Birim)
         {
@@ -418,6 +421,5 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                 return null;
             return PartialView("Rezervler", list);
         }
-
     }
 }
