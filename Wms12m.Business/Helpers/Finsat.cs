@@ -444,7 +444,9 @@ namespace Wms12m
                         "STI.Kod11,STI.Kod12,STI.Kod13,STI.Kod14,STI.KayitKaynak,STI.KayitSurum,STI.DegisKaynak,STI.DegisSurum,STI.SevkTarih as SevkTarih,STI.KaynakIrsTarih as KaynakIrsTarih," +
                         "STI.KaynakSiparisTarih as KaynakSiparisTarih2,STI.Kredi_Donem_VadeTarih,STI.KaynakIrsEvrakNo,STK.AlimdanIade as MhsKod,CHK.EFatKullanici,ISNULL(BIRIKIM.wms.fnGetSatislarHesabi(STI.MalKodu), '') AS SatislarHesabi," +
                         "CHK.EArsivTeslimSekli,CHK.MhsKod As CHKMhsKod,CHK.EFatSenaryo " +
+                        ", MFK.Tutar AS MFKTutar, MFK.Aciklama AS MFKAciklama , MFK.Aciklama2 AS MFKAciklama2 , MFK.Aciklama3 AS MFKAciklama3 , MFK.Aciklama4 AS MFKAciklama4 , MFK.Aciklama5  AS MFKAciklama5, MFK.Aciklama6 AS MFKAciklama6 " +
                         "FROM FINSAT6{0}.FINSAT6{0}.STI WITH (NOLOCK) LEFT JOIN FINSAT6{0}.FINSAT6{0}.CHK WITH (NOLOCK) ON STI.Chk=CHK.HesapKodu LEFT JOIN FINSAT6{0}.FINSAT6{0}.STK WITH (NOLOCK) ON STK.MalKodu=STI.MalKodu " +
+                        "LEFT JOIN FINSAT6{0}.FINSAT6{0}.MFK WITH (NOLOCK) ON MFK.EvrakNo=STI.EvrakNo  AND  MFK.KynkEvrakTip=STI.KynkEvrakTip AND  MFK.HesapKod=STI.Chk " +
                         "WHERE (STI.EvrakNo = '{1}') AND (STI.Chk = '{2}') AND (STI.Depo = '{3}') AND (STI.Row_ID = '{4}')  AND (STI.KynkEvrakTip = 4)", SirketKodu, item.EvrakNo, CHK, DepoKodu, item.Row_ID);
                     var finsat = db.Database.SqlQuery<ParamSti>(sql).FirstOrDefault();
                     if (finsat != null)
