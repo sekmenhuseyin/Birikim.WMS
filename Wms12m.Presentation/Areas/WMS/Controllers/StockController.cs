@@ -26,7 +26,6 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         [HttpPost]
         public PartialViewResult List(string Id)
         {
-            if (CheckPerm(Perms.Stok, PermTypes.Reading) == false) return null;
             //dbler tempe aktarılıyor
             var list = db.GetSirketDBs();
             List<string> liste = new List<string>();
@@ -60,7 +59,6 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         [HttpPost]
         public PartialViewResult List2(string Id)
         {
-            if (CheckPerm(Perms.Stok, PermTypes.Reading) == false) return null;
             var list = db.Database.SqlQuery<frmStokList2>(string.Format("SELECT wms.fnGetRezervStock(wms.Depo.DepoKodu,wms.Yer.MalKodu,wms.Yer.Birim) AS WmsRezerv,wms.Depo.DepoAd, wms.Depo.ID, SUM(wms.Yer.Miktar) AS Miktar FROM wms.Yer INNER JOIN wms.Depo ON wms.Yer.DepoID = wms.Depo.ID WHERE (wms.Yer.MalKodu = '{0}') GROUP BY wms.Depo.DepoAd, wms.Depo.ID,wms.fnGetRezervStock(wms.Depo.DepoKodu,wms.Yer.MalKodu,wms.Yer.Birim)", Id)).ToList();
             return PartialView("List2", list);
         }
@@ -79,7 +77,6 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         [HttpPost]
         public PartialViewResult CableList(string Id)
         {
-            if (CheckPerm(Perms.Stok, PermTypes.Reading) == false) return null;
             //dbler tempe aktarılıyor
             var list = db.GetSirketDBs();
             List<string> liste = new List<string>();
@@ -147,7 +144,6 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         [HttpPost]
         public PartialViewResult HistoryList(string Id)
         {
-            if (CheckPerm(Perms.Stok, PermTypes.Reading) == false) return null;
             if (Id.Contains("#") == false) return null;
             var ids = Id.Split('#');
             var depoID = ids[1].ToInt32();
@@ -404,7 +400,6 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         [HttpPost]
         public PartialViewResult ManualNewPlace(int Id)
         {
-            if (CheckPerm(Perms.Stok, PermTypes.Reading) == false) return null;
             var tbl = Yerlestirme.Detail(Id);
             ViewBag.RafID = new SelectList(Shelf.GetListByDepo(tbl.DepoID.Value), "ID", "RafAd");
             ViewBag.BolumID = new SelectList(Section.GetList(0), "ID", "BolumAd");
@@ -421,7 +416,6 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         {
             var id = Url.RequestContext.RouteData.Values["id"];
             if (id == null || id.ToString2() == "") return null;
-            if (CheckPerm(Perms.Stok, PermTypes.Reading) == false) return null;
             var ID = id.ToInt32();
             //listeyi getir
             var list = db.IRS.Where(m => m.ID == ID).FirstOrDefault();
@@ -435,69 +429,59 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         [HttpPost]
         public PartialViewResult Details2(int DepoID, string MalKodu)
         {
-            if (CheckPerm(Perms.Stok, PermTypes.Reading) == false) return null;
             return PartialView("Details2", Yerlestirme.GetMalListFromDepo(DepoID, MalKodu));
         }
-
+        /// <summary>
+        /// rezerv bilgileri
+        /// </summary>
         [HttpPost]
         public PartialViewResult GetRezerv2(string MalKodu, int Depo, string Birim)
         {
-
-            if (CheckPerm(Perms.GenelSipariş, PermTypes.Reading) == false) return null;
-
             var list = db.GetStockRezerv2(Depo, MalKodu, Birim).ToList();
-
             if (list == null)
                 return null;
             return PartialView("Rezervler", list);
         }
-
-
+        /// <summary>
+        /// stok karşılaştırma sayfası
+        /// </summary>
         public ActionResult Comparison()
         {
-            //CANDAN
-
             if (CheckPerm(Perms.Stok, PermTypes.Reading) == false) return Redirect("/");
             ViewBag.DepoID = new SelectList(Store.GetList(vUser.DepoId), "ID", "DepoAd");
             return View("Comparison");
         }
-
+        /// <summary>
+        /// stok karşılaştırma listesi
+        /// </summary>
         [HttpPost]
         public PartialViewResult ComparisonList(string Id)
         {
-            //CANDAN
             var ids = Id.Split('#');
             string BasMalKodu = ids[0];
             string BitMalKodu = ids[1];
-
             var depoID = ids[2].ToInt32();
             var depoKodu = Store.Detail(depoID).DepoKodu;
-
+            //generate sql
             string sql = "";
-            
-            var listsirk = db.GetSirketDBs();        
-
+            var listsirk = db.GetSirketDBs();
             foreach (var item in listsirk)
             {
                 if (sql != "") sql += " UNION ";
                 sql += String.Format(@"
-SELECT
-    FINSAT6{0}.FINSAT6{0}.STK.MalKodu, FINSAT6{0}.FINSAT6{0}.STK.MalAdi, FINSAT6{0}.FINSAT6{0}.STK.Birim1 AS Birim,
-	FINSAT6{0}.wms.getStockByDepo(FINSAT6{0}.FINSAT6{0}.STK.MalKodu, '{1}') as Stok
-FROM FINSAT6{0}.FINSAT6{0}.STK(NOLOCK) WHERE (MalKodu BETWEEN '{2}' AND '{3}')", item, depoKodu, BasMalKodu, BitMalKodu);
+										SELECT
+											FINSAT6{0}.FINSAT6{0}.STK.MalKodu, FINSAT6{0}.FINSAT6{0}.STK.MalAdi, FINSAT6{0}.FINSAT6{0}.STK.Birim1 AS Birim,
+											FINSAT6{0}.wms.getStockByDepo(FINSAT6{0}.FINSAT6{0}.STK.MalKodu, '{1}') as Stok
+										FROM FINSAT6{0}.FINSAT6{0}.STK(NOLOCK) WHERE (MalKodu BETWEEN '{2}' AND '{3}')", item, depoKodu, BasMalKodu, BitMalKodu);
             }
-
             sql = string.Format(@"
-SELECT MalKodu, BIRIKIM.wms.fnGetMalAdi(t1.MalKodu) AS MalAdi, Birim, SUM(Stok) AS GunesStok, 
-BIRIKIM.wms.fnGetStock('{0}', t1.MalKodu, t1.Birim, 0) AS WmsStok 
-FROM (" + sql + ") AS t1 GROUP BY MalKodu, Birim", depoKodu);
-
+									SELECT MalKodu, BIRIKIM.wms.fnGetMalAdi(t1.MalKodu) AS MalAdi, Birim, SUM(Stok) AS GunesStok, 
+									BIRIKIM.wms.fnGetStock('{0}', t1.MalKodu, t1.Birim, 0) AS WmsStok 
+									FROM (" + sql + ") AS t1 GROUP BY MalKodu, Birim", depoKodu);
             sql = "SELECT * FROM ( " + sql + " ) AS t2 WHERE t2.GunesStok<>t2.WmsStok ORDER BY MalKodu";
-
+            //return
             var list = db.Database.SqlQuery<frmSiparisMalzemeDetay>(sql).ToList();
-
             return PartialView("ComparisonList", list);
         }
-
     }
 }
