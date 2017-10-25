@@ -488,9 +488,9 @@ FROM FINSAT6{0}.FINSAT6{0}.STK(NOLOCK) WHERE (MalKodu BETWEEN '{2}' AND '{3}')",
             }
 
             sql = string.Format(@"
-SELECT MalKodu, MalAdi, Birim, SUM(Stok) AS GunesStok, 
+SELECT MalKodu, BIRIKIM.wms.fnGetMalAdi(t1.MalKodu) AS MalAdi, Birim, SUM(Stok) AS GunesStok, 
 BIRIKIM.wms.fnGetStock('{0}', t1.MalKodu, t1.Birim, 0) AS WmsStok 
-FROM (" + sql + ") AS t1 GROUP BY MalKodu, MalAdi, Birim", depoKodu);
+FROM (" + sql + ") AS t1 GROUP BY MalKodu, Birim", depoKodu);
 
             sql = "SELECT * FROM ( " + sql + " ) AS t2 WHERE t2.GunesStok<>t2.WmsStok ORDER BY MalKodu";
 
