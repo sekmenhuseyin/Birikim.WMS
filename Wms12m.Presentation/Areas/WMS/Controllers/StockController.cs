@@ -465,14 +465,23 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             //generate sql
             string sql = "";
             var listsirk = db.GetSirketDBs();
+            string Sart = "";
+
             foreach (var item in listsirk)
             {
+                if (item == "33")
+                    Sart = " (MalKodu BETWEEN 'a' AND 'z') AND ";
+                else if (item == "71")
+                    Sart = " (MalKodu BETWEEN '1' AND '9') AND ";
+                else
+                    Sart = "";
+
                 if (sql != "") sql += " UNION ";
                 sql += String.Format(@"
 										SELECT
 											FINSAT6{0}.FINSAT6{0}.STK.MalKodu, FINSAT6{0}.FINSAT6{0}.STK.MalAdi, FINSAT6{0}.FINSAT6{0}.STK.Birim1 AS Birim,
 											FINSAT6{0}.wms.getStockByDepo(FINSAT6{0}.FINSAT6{0}.STK.MalKodu, '{1}') as Stok
-										FROM FINSAT6{0}.FINSAT6{0}.STK(NOLOCK) WHERE (MalKodu BETWEEN '{2}' AND '{3}')", item, depoKodu, BasMalKodu, BitMalKodu);
+										FROM FINSAT6{0}.FINSAT6{0}.STK(NOLOCK) WHERE {4} (MalKodu BETWEEN '{2}' AND '{3}') ", item, depoKodu, BasMalKodu, BitMalKodu, Sart);
             }
             sql = string.Format(@"
 									SELECT MalKodu, BIRIKIM.wms.fnGetMalAdi(t1.MalKodu) AS MalAdi, Birim, SUM(Stok) AS GunesStok, 
