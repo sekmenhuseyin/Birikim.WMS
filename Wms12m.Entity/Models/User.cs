@@ -21,6 +21,7 @@ namespace Wms12m.Entity.Models
         }
     
         public int ID { get; set; }
+        public System.Guid Guid { get; set; }
         public string Sirket { get; set; }
         public short Tip { get; set; }
         public string Kod { get; set; }
@@ -41,13 +42,12 @@ namespace Wms12m.Entity.Models
         public int DegisSaat { get; set; }
         public short DegisKaynak { get; set; }
         public string DegisSurum { get; set; }
-        public System.Guid Guid { get; set; }
     
-        public virtual User Users1 { get; set; }
-        public virtual User User1 { get; set; }
         public virtual Role Role { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<UserDevice> UserDevices { get; set; }
         public virtual UserDetail UserDetail { get; set; }
+        public virtual User Users1 { get; set; }
+        public virtual User User1 { get; set; }
     }
 }

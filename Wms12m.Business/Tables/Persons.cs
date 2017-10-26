@@ -102,13 +102,18 @@ namespace Wms12m.Business
         {
             _Result = new Result();
             User tbl = db.Users.Where(m => m.ID == Id).FirstOrDefault();
-            if (tbl != null)
-                db.Users.Remove(tbl);
-            else
+            if (tbl == null)
             {
                 _Result.Message = "Kayıt Yok";
                 return _Result;
             }
+            var det = db.UserDetails.Where(m => m.UserID == tbl.ID).FirstOrDefault();
+            if (det != null)
+                db.UserDetails.Remove(det);
+            var dev = db.UserDevices.Where(m => m.UserID == tbl.ID).FirstOrDefault();
+            if (dev != null)
+                db.UserDevices.Remove(dev);
+            db.Users.Remove(tbl);
             try
             {
                 db.SaveChanges();

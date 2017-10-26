@@ -9,9 +9,8 @@
         <EntityTypeShape EntityType="MModel.Perm" Width="1.5" PointX="28" PointY="23.125" />
         <EntityTypeShape EntityType="MModel.RolePerm" Width="1.5" PointX="28" PointY="19" />
         <EntityTypeShape EntityType="MModel.UserPerm" Width="1.5" PointX="25.375" PointY="25" />
-        <EntityTypeShape EntityType="MModel.User" Width="1.5" PointX="23" PointY="19" />
         <EntityTypeShape EntityType="MModel.Bolum" Width="1.5" PointX="19.25" PointY="22.125" />
-        <EntityTypeShape EntityType="MModel.Depo" Width="1.5" PointX="18.625" PointY="9.875" />
+        <EntityTypeShape EntityType="MModel.Depo" Width="1.5" PointX="18.25" PointY="10" />
         <EntityTypeShape EntityType="MModel.Gorev" Width="1.5" PointX="7.5" PointY="6.25" />
         <EntityTypeShape EntityType="MModel.GorevYer" Width="1.5" PointX="6.5" PointY="12.5" />
         <EntityTypeShape EntityType="MModel.Koridor" Width="1.5" PointX="19" PointY="15" />
@@ -22,7 +21,6 @@
         <EntityTypeShape EntityType="MModel.Yer_Log" Width="1.5" PointX="8.625" PointY="24" />
         <AssociationConnector Association="MModel.FK_Perm_UserPerm2" />
         <AssociationConnector Association="MModel.FK_RolePerm_Perm" />
-        <AssociationConnector Association="MModel.FK_Users_Users" />
         <AssociationConnector Association="MModel.FK_Bolum_Raf" />
         <AssociationConnector Association="MModel.FK_Gorev_Depo" />
         <AssociationConnector Association="MModel.FK_Koridor_Depo" />
@@ -51,9 +49,7 @@
         <AssociationConnector Association="MModel.FK_Gorev_ComboItem_NameOzellik" />
         <AssociationConnector Association="MModel.FK_Kat_ComboItem_Name" />
         <AssociationConnector Association="MModel.FK_RolePerm_Roles" />
-        <AssociationConnector Association="MModel.FK_Users_Roles" />
         <EntityTypeShape EntityType="MModel.UserDevice" Width="1.5" PointX="25.375" PointY="22.125" />
-        <AssociationConnector Association="MModel.FK_UserDevices_Users" />
         <EntityTypeShape EntityType="MModel.IRS_Detay" Width="1.5" PointX="10" PointY="18.5" />
         <AssociationConnector Association="MModel.FK_IRS_Detay_IRS" />
         <EntityTypeShape EntityType="MModel.GorevUser" Width="1.5" PointX="7.5" PointY="3.75" />
@@ -83,7 +79,6 @@
         <AssociationConnector Association="MModel.FK_GorevlerCalisma_Gorevler" />
         <AssociationConnector Association="MModel.FK_GorevlerToDoList_Gorevler" />
         <EntityTypeShape EntityType="MModel.UserDetail" Width="1.5" PointX="22" PointY="12.25" />
-        <AssociationConnector Association="MModel.FK_Depo_Users_Users" />
         <AssociationConnector Association="MModel.FK_Depo_Users_Depo" />
         <EntityTypeShape EntityType="MModel.Connection" Width="1.5" PointX="2.75" PointY="6" />
         <EntityTypeShape EntityType="MModel.Message" Width="1.5" PointX="2.5" PointY="1" />
@@ -96,6 +91,11 @@
         <AssociationConnector Association="MModel.FK_ProjeForm_ProjeForm" />
         <EntityTypeShape EntityType="MModel.Etkinlik" Width="1.5" PointX="4.75" PointY="1.75" />
         <AssociationConnector Association="MModel.FK_Tatil_ComboItem_Name" />
+        <EntityTypeShape EntityType="MModel.User" Width="1.5" PointX="22.5" PointY="18.125" />
+        <AssociationConnector Association="MModel.FK_Users_Roles" />
+        <AssociationConnector Association="MModel.FK_UserDevices_Users" />
+        <AssociationConnector Association="MModel.FK_Depo_Users_Users" />
+        <AssociationConnector Association="MModel.FK_Users_Users" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

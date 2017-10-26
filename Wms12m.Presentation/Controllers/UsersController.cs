@@ -244,7 +244,7 @@ namespace Wms12m.Presentation.Controllers
         [HttpPost]
         public JsonResult Delete(int Id)
         {
-            if (CheckPerm(Perms.Kullanıcılar, PermTypes.Deleting) == false || Id == 1) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
+            if (vUser.Id > 1 || Id == 1) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             Result _Result = Persons.Delete(Id);
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }

@@ -18,12 +18,13 @@
                     {<div class="btn-group btn-xs">
                         <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="1000" data-close-others="true" aria-expanded="false">İşlemler<i class="icon-arrow-down"></i></button>
                         <ul class="dropdown-menu" role="menu">
-                            <li><a href="#modalEditPage" data-toggle="modal" onclick="editInModal('/Users/Perm/@item.ID')"> Yetki Ata </a></li>
-                            <li><a href="#modalEditPage" data-toggle="modal" onclick="editInModal('/Users/Image/@item.ID')"> Resim Değiştir </a></li>
-                            @{if(ViewBag.vUser.Id == 1){<li><a href="javascript:" onclick="GetPass(@item.ID)">Şifreyi Göster</a></li>}}
-                            <li><a href="#modalEditPage" data-toggle="modal" onclick="editInModal('/Users/Pass/@item.ID')"> Şifre Değiştir </a></li>
-                            @{if(ViewBag.settings.SiparisOnayParametre == true){<li><a href="#modalEditPage" data-toggle="modal" onclick="editInModal('/Users/YetkiDuzenle/@item.ID')"> Sipariş Onay Parametreleri </a></li>}}
+                            <li><a href="#modalEditPage" data-toggle="modal" onclick="editInModal('/Users/Perm/@item.ID')"><i class="fa fa-terminal" aria-hidden="true"></i> Yetki Ata </a></li>
+                            <li><a href="#modalEditPage" data-toggle="modal" onclick="editInModal('/Users/Image/@item.ID')"><i class="fa fa-file-image-o" aria-hidden="true"></i> Resim Değiştir </a></li>
+                            @{if(ViewBag.vUser.Id == 1){<li><a href="javascript:" onclick="GetPass(@item.ID)"><i class="fa fa-question-circle" aria-hidden="true"></i> Şifreyi Göster</a></li>}}
+                            <li><a href="#modalEditPage" data-toggle="modal" onclick="editInModal('/Users/Pass/@item.ID')"><i class="fa fa-refresh" aria-hidden="true"></i> Şifre Değiştir </a></li>
+                            @{if(ViewBag.settings.SiparisOnayParametre == true){<li><a href="#modalEditPage" data-toggle="modal" onclick="editInModal('/Users/YetkiDuzenle/@item.ID')"><i class="fa fa-terminal" aria-hidden="true"></i> Sipariş Onay Parametreleri </a></li>}}
                             <li><a href="#modalEditPage" data-toggle="modal" onclick="editInModal('/Users/Edit/@item.ID')"><i class="icon-pencil"></i> Düzenle </a></li>
+                            @{if(ViewBag.vUser.Id == 1){<li><a href="javascript:" onclick="Delete('@item.ID','/Users/List','liste','')"><i class="fa fa-trash" aria-hidden="true"></i> Sil</a></li>}}
                         </ul>
                     </div>}
                 </td>
@@ -33,6 +34,7 @@
 </table>
 <script type="text/javascript">
     @{if(ViewBag.vUser.Id == 1){<text>
+    var DeleteFunctionUrl = '/Users/Delete';
     function GetPass(id)
     {
         $.ajax({

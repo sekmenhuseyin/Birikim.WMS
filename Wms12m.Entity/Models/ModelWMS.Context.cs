@@ -31,7 +31,6 @@ namespace Wms12m.Entity.Models
         public virtual DbSet<Perm> Perms { get; set; }
         public virtual DbSet<RolePerm> RolePerms { get; set; }
         public virtual DbSet<UserPerm> UserPerms { get; set; }
-        public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<Bolum> Bolums { get; set; }
         public virtual DbSet<Depo> Depoes { get; set; }
         public virtual DbSet<Gorev> Gorevs { get; set; }
@@ -66,6 +65,7 @@ namespace Wms12m.Entity.Models
         public virtual DbSet<FAQ> FAQs { get; set; }
         public virtual DbSet<ProjeForm> ProjeForms { get; set; }
         public virtual DbSet<Etkinlik> Etkinliks { get; set; }
+        public virtual DbSet<User> Users { get; set; }
     
         public virtual ObjectResult<string> GetSirketDBs()
         {

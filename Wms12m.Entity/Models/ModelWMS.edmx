@@ -304,7 +304,7 @@
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Guid" Type="uniqueidentifier" Nullable="false" />
           <Property Name="Sirket" Type="varchar" MaxLength="5" Nullable="false" />
           <Property Name="Tip" Type="smallint" Nullable="false" />
@@ -1848,7 +1848,6 @@
           <EntitySet Name="Perms" EntityType="MModel.Perm" />
           <EntitySet Name="RolePerms" EntityType="MModel.RolePerm" />
           <EntitySet Name="UserPerms" EntityType="MModel.UserPerm" />
-          <EntitySet Name="Users" EntityType="MModel.User" />
           <EntitySet Name="Bolums" EntityType="MModel.Bolum" />
           <EntitySet Name="Depoes" EntityType="MModel.Depo" />
           <EntitySet Name="Gorevs" EntityType="MModel.Gorev" />
@@ -1866,10 +1865,6 @@
           <AssociationSet Name="FK_RolePerm_Perm" Association="MModel.FK_RolePerm_Perm">
             <End Role="Perm" EntitySet="Perms" />
             <End Role="RolePerm" EntitySet="RolePerms" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Users_Users" Association="MModel.FK_Users_Users">
-            <End Role="User" EntitySet="Users" />
-            <End Role="User1" EntitySet="Users" />
           </AssociationSet>
           <AssociationSet Name="FK_Bolum_Raf" Association="MModel.FK_Bolum_Raf">
             <End Role="Raf" EntitySet="Rafs" />
@@ -2009,10 +2004,6 @@
             <End Role="Role" EntitySet="Roles" />
             <End Role="RolePerm" EntitySet="RolePerms" />
           </AssociationSet>
-          <AssociationSet Name="FK_Users_Roles" Association="MModel.FK_Users_Roles">
-            <End Role="Role" EntitySet="Roles" />
-            <End Role="User" EntitySet="Users" />
-          </AssociationSet>
           <FunctionImport Name="GetRolePermsFor" ReturnType="Collection(MModel.GetRolePermsFor_Result)">
             <Parameter Name="RoleName" Mode="In" Type="String" />
             <Parameter Name="Group" Mode="In" Type="String" />
@@ -2031,10 +2022,6 @@
             <Parameter Name="Comment" Mode="In" Type="String" />
           </FunctionImport>
           <EntitySet Name="UserDevices" EntityType="MModel.UserDevice" />
-          <AssociationSet Name="FK_UserDevices_Users" Association="MModel.FK_UserDevices_Users">
-            <End Role="User" EntitySet="Users" />
-            <End Role="UserDevice" EntitySet="UserDevices" />
-          </AssociationSet>
           <FunctionImport Name="UpdateUserDevice">
             <Parameter Name="UserID" Mode="In" Type="Int32" />
             <Parameter Name="Device" Mode="In" Type="String" />
@@ -2278,10 +2265,6 @@
             <Parameter Name="LinkEvrakNo" Mode="In" Type="String" />
           </FunctionImport>
           <EntitySet Name="UserDetails" EntityType="MModel.UserDetail" />
-          <AssociationSet Name="FK_Depo_Users_Users" Association="MModel.FK_Depo_Users_Users">
-            <End Role="User" EntitySet="Users" />
-            <End Role="UserDetail" EntitySet="UserDetails" />
-          </AssociationSet>
           <AssociationSet Name="FK_Depo_Users_Depo" Association="MModel.FK_Depo_Users_Depo">
             <End Role="Depo" EntitySet="Depoes" />
             <End Role="UserDetail" EntitySet="UserDetails" />
@@ -2314,6 +2297,23 @@
           <AssociationSet Name="FK_Tatil_ComboItem_Name" Association="MModel.FK_Tatil_ComboItem_Name">
             <End Role="ComboItem_Name" EntitySet="ComboItem_Name" />
             <End Role="Etkinlik" EntitySet="Etkinliks" />
+          </AssociationSet>
+          <EntitySet Name="Users" EntityType="MModel.User" />
+          <AssociationSet Name="FK_Users_Roles" Association="MModel.FK_Users_Roles">
+            <End Role="Role" EntitySet="Roles" />
+            <End Role="User" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserDevices_Users" Association="MModel.FK_UserDevices_Users">
+            <End Role="User" EntitySet="Users" />
+            <End Role="UserDevice" EntitySet="UserDevices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Depo_Users_Users" Association="MModel.FK_Depo_Users_Users">
+            <End Role="User" EntitySet="Users" />
+            <End Role="UserDetail" EntitySet="UserDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Users_Users" Association="MModel.FK_Users_Users">
+            <End Role="User" EntitySet="Users" />
+            <End Role="User1" EntitySet="Users" />
           </AssociationSet>
           </EntityContainer>
         <ComplexType Name="GetSirkets_Result">
@@ -2383,38 +2383,6 @@
           <Property Name="ModifiedUser" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Perm" Relationship="MModel.FK_Perm_UserPerm2" FromRole="UserPerm" ToRole="Perm" />
         </EntityType>
-        <EntityType Name="User">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Sirket" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="Tip" Type="Int16" Nullable="false" />
-          <Property Name="Kod" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="Sifre" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="false" />
-          <Property Name="AdSoyad" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Email" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="RoleName" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="Tema" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Admin" Type="Boolean" Nullable="false" />
-          <Property Name="Aktif" Type="Boolean" Nullable="false" />
-          <Property Name="Kaydeden" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="KayitTarih" Type="Int32" Nullable="false" />
-          <Property Name="KayitSaat" Type="Int32" Nullable="false" />
-          <Property Name="KayitKaynak" Type="Int16" Nullable="false" />
-          <Property Name="KayitSurum" Type="String" Nullable="false" MaxLength="12" FixedLength="false" Unicode="false" />
-          <Property Name="Degistiren" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="DegisTarih" Type="Int32" Nullable="false" />
-          <Property Name="DegisSaat" Type="Int32" Nullable="false" />
-          <Property Name="DegisKaynak" Type="Int16" Nullable="false" />
-          <Property Name="DegisSurum" Type="String" Nullable="false" MaxLength="12" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Users1" Relationship="MModel.FK_Users_Users" FromRole="User" ToRole="User1" />
-          <NavigationProperty Name="User1" Relationship="MModel.FK_Users_Users" FromRole="User1" ToRole="User" />
-          <Property Name="Guid" Type="Guid" Nullable="false" />
-          <NavigationProperty Name="Role" Relationship="MModel.FK_Users_Roles" FromRole="User" ToRole="Role" />
-          <NavigationProperty Name="UserDevices" Relationship="MModel.FK_UserDevices_Users" FromRole="User" ToRole="UserDevice" />
-          <NavigationProperty Name="UserDetail" Relationship="MModel.FK_Depo_Users_Users" FromRole="User" ToRole="UserDetail" />
-          </EntityType>
         <EntityType Name="Bolum">
           <Key>
             <PropertyRef Name="ID" />
@@ -2628,18 +2596,6 @@
             </Principal>
             <Dependent Role="RolePerm">
               <PropertyRef Name="PermName" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Users_Users">
-          <End Type="MModel.User" Role="User" Multiplicity="1" />
-          <End Type="MModel.User" Role="User1" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="User">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="User1">
-              <PropertyRef Name="ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2955,9 +2911,9 @@
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="RoleName" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="RolePerms" Relationship="MModel.FK_RolePerm_Roles" FromRole="Role" ToRole="RolePerm" />
-          <NavigationProperty Name="Users" Relationship="MModel.FK_Users_Roles" FromRole="Role" ToRole="User" />
           <Property Name="Aciklama" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="WebMenus" Relationship="MModel.WebMenuRol" FromRole="Role" ToRole="WebMenu" />
+          <NavigationProperty Name="Users" Relationship="MModel.FK_Users_Roles" FromRole="Role" ToRole="User" />
         </EntityType>
         <Association Name="FK_ComboItemName_ComboName">
           <End Type="MModel.Combo_Name" Role="Combo_Name" Multiplicity="1" />
@@ -3019,18 +2975,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Users_Roles">
-          <End Type="MModel.Role" Role="Role" Multiplicity="1" />
-          <End Type="MModel.User" Role="User" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Role">
-              <PropertyRef Name="RoleName" />
-            </Principal>
-            <Dependent Role="User">
-              <PropertyRef Name="RoleName" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <ComplexType Name="GetRolePermsFor_Result">
           <Property Type="String" Name="PermName" Nullable="false" MaxLength="50" />
           <Property Type="Int16" Name="Type" Nullable="false" />
@@ -3057,24 +3001,12 @@
           </Key>
           <Property Name="UserID" Type="Int32" Nullable="false" />
           <Property Name="Device" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="User" Relationship="MModel.FK_UserDevices_Users" FromRole="UserDevice" ToRole="User" />
           <Property Name="FirsLoginDate" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="LastLoginDate" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="Approved" Type="Boolean" Nullable="false" />
           <Property Name="LoginCount" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="User" Relationship="MModel.FK_UserDevices_Users" FromRole="UserDevice" ToRole="User" />
         </EntityType>
-        <Association Name="FK_UserDevices_Users">
-          <End Type="MModel.User" Role="User" Multiplicity="1" />
-          <End Type="MModel.UserDevice" Role="UserDevice" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="User">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="UserDevice">
-              <PropertyRef Name="UserID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="IRS_Detay">
           <Key>
             <PropertyRef Name="ID" />
@@ -3700,21 +3632,9 @@
           <Property Name="GostKod3OrtBakiye" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
           <Property Name="EvrakSeri" Type="Int32" />
           <Property Name="UretimDurum" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="User" Relationship="MModel.FK_Depo_Users_Users" FromRole="UserDetail" ToRole="User" />
           <NavigationProperty Name="Depo" Relationship="MModel.FK_Depo_Users_Depo" FromRole="UserDetail" ToRole="Depo" />
+          <NavigationProperty Name="User" Relationship="MModel.FK_Depo_Users_Users" FromRole="UserDetail" ToRole="User" />
         </EntityType>
-        <Association Name="FK_Depo_Users_Users">
-          <End Type="MModel.User" Role="User" Multiplicity="1" />
-          <End Type="MModel.UserDetail" Role="UserDetail" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="User">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="UserDetail">
-              <PropertyRef Name="UserID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Depo_Users_Depo">
           <End Type="MModel.Depo" Role="Depo" Multiplicity="0..1" />
           <End Type="MModel.UserDetail" Role="UserDetail" Multiplicity="*" />
@@ -3876,6 +3796,86 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Guid" Type="Guid" Nullable="false" />
+          <Property Name="Sirket" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="Tip" Type="Int16" Nullable="false" />
+          <Property Name="Kod" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="Sifre" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="false" />
+          <Property Name="AdSoyad" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="RoleName" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Tema" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Admin" Type="Boolean" Nullable="false" />
+          <Property Name="Aktif" Type="Boolean" Nullable="false" />
+          <Property Name="Kaydeden" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="KayitTarih" Type="Int32" Nullable="false" />
+          <Property Name="KayitSaat" Type="Int32" Nullable="false" />
+          <Property Name="KayitKaynak" Type="Int16" Nullable="false" />
+          <Property Name="KayitSurum" Type="String" Nullable="false" MaxLength="12" FixedLength="false" Unicode="false" />
+          <Property Name="Degistiren" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="DegisTarih" Type="Int32" Nullable="false" />
+          <Property Name="DegisSaat" Type="Int32" Nullable="false" />
+          <Property Name="DegisKaynak" Type="Int16" Nullable="false" />
+          <Property Name="DegisSurum" Type="String" Nullable="false" MaxLength="12" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Role" Relationship="MModel.FK_Users_Roles" FromRole="User" ToRole="Role" />
+          <NavigationProperty Name="UserDevices" Relationship="MModel.FK_UserDevices_Users" FromRole="User" ToRole="UserDevice" />
+          <NavigationProperty Name="UserDetail" Relationship="MModel.FK_Depo_Users_Users" FromRole="User" ToRole="UserDetail" />
+          <NavigationProperty Name="Users1" Relationship="MModel.FK_Users_Users" FromRole="User" ToRole="User1" />
+          <NavigationProperty Name="User1" Relationship="MModel.FK_Users_Users" FromRole="User1" ToRole="User" />
+        </EntityType>
+        <Association Name="FK_Users_Roles">
+          <End Type="MModel.Role" Role="Role" Multiplicity="1" />
+          <End Type="MModel.User" Role="User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="RoleName" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="RoleName" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserDevices_Users">
+          <End Type="MModel.User" Role="User" Multiplicity="1" />
+          <End Type="MModel.UserDevice" Role="UserDevice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UserDevice">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Depo_Users_Users">
+          <End Type="MModel.User" Role="User" Multiplicity="1" />
+          <End Type="MModel.UserDetail" Role="UserDetail" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UserDetail">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Users_Users">
+          <End Type="MModel.User" Role="User" Multiplicity="1" />
+          <End Type="MModel.User" Role="User1" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="User1">
+              <PropertyRef Name="ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -3957,34 +3957,6 @@
                 <ScalarProperty Name="Reading" ColumnName="Reading" />
                 <ScalarProperty Name="PermName" ColumnName="PermName" />
                 <ScalarProperty Name="UserName" ColumnName="UserName" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Users">
-            <EntityTypeMapping TypeName="MModel.User">
-              <MappingFragment StoreEntitySet="Users">
-                <ScalarProperty Name="Guid" ColumnName="Guid" />
-                <ScalarProperty Name="DegisSurum" ColumnName="DegisSurum" />
-                <ScalarProperty Name="DegisKaynak" ColumnName="DegisKaynak" />
-                <ScalarProperty Name="DegisSaat" ColumnName="DegisSaat" />
-                <ScalarProperty Name="DegisTarih" ColumnName="DegisTarih" />
-                <ScalarProperty Name="Degistiren" ColumnName="Degistiren" />
-                <ScalarProperty Name="KayitSurum" ColumnName="KayitSurum" />
-                <ScalarProperty Name="KayitKaynak" ColumnName="KayitKaynak" />
-                <ScalarProperty Name="KayitSaat" ColumnName="KayitSaat" />
-                <ScalarProperty Name="KayitTarih" ColumnName="KayitTarih" />
-                <ScalarProperty Name="Kaydeden" ColumnName="Kaydeden" />
-                <ScalarProperty Name="Aktif" ColumnName="Aktif" />
-                <ScalarProperty Name="Admin" ColumnName="Admin" />
-                <ScalarProperty Name="Tema" ColumnName="Tema" />
-                <ScalarProperty Name="RoleName" ColumnName="RoleName" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="AdSoyad" ColumnName="AdSoyad" />
-                <ScalarProperty Name="Sifre" ColumnName="Sifre" />
-                <ScalarProperty Name="Kod" ColumnName="Kod" />
-                <ScalarProperty Name="Tip" ColumnName="Tip" />
-                <ScalarProperty Name="Sirket" ColumnName="Sirket" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -4912,6 +4884,34 @@
                 <ScalarProperty Name="Tarih" ColumnName="Tarih" />
                 <ScalarProperty Name="TatilTipi" ColumnName="TatilTipi" />
                 <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="MModel.User">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="DegisSurum" ColumnName="DegisSurum" />
+                <ScalarProperty Name="DegisKaynak" ColumnName="DegisKaynak" />
+                <ScalarProperty Name="DegisSaat" ColumnName="DegisSaat" />
+                <ScalarProperty Name="DegisTarih" ColumnName="DegisTarih" />
+                <ScalarProperty Name="Degistiren" ColumnName="Degistiren" />
+                <ScalarProperty Name="KayitSurum" ColumnName="KayitSurum" />
+                <ScalarProperty Name="KayitKaynak" ColumnName="KayitKaynak" />
+                <ScalarProperty Name="KayitSaat" ColumnName="KayitSaat" />
+                <ScalarProperty Name="KayitTarih" ColumnName="KayitTarih" />
+                <ScalarProperty Name="Kaydeden" ColumnName="Kaydeden" />
+                <ScalarProperty Name="Aktif" ColumnName="Aktif" />
+                <ScalarProperty Name="Admin" ColumnName="Admin" />
+                <ScalarProperty Name="Tema" ColumnName="Tema" />
+                <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="AdSoyad" ColumnName="AdSoyad" />
+                <ScalarProperty Name="Sifre" ColumnName="Sifre" />
+                <ScalarProperty Name="Kod" ColumnName="Kod" />
+                <ScalarProperty Name="Tip" ColumnName="Tip" />
+                <ScalarProperty Name="Sirket" ColumnName="Sirket" />
+                <ScalarProperty Name="Guid" ColumnName="Guid" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
