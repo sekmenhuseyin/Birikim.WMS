@@ -75,4 +75,14 @@ namespace Wms12m.Entity
         public int Tarih { get; set; }
         public short SiraNo { get; set; }
     }
+    /// <summary>
+    /// mini stk
+    /// </summary>
+    public class frmIrsaliyeMalzemeSTK
+    {
+        public string MalKodu { get; set; }
+        public string Birim1 { get; set; }
+        public string Birim2 { get; set; }
+        public string Birim3 { get; set; }
+    }
 }
