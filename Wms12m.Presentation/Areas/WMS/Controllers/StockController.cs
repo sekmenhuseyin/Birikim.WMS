@@ -59,7 +59,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         [HttpPost]
         public PartialViewResult List2(string Id)
         {
-            var list = db.Database.SqlQuery<frmStokList2>(string.Format("SELECT wms.fnGetRezervStock(wms.Depo.DepoKodu,wms.Yer.MalKodu,wms.Yer.Birim) AS WmsRezerv,wms.Depo.DepoAd, wms.Depo.ID, SUM(wms.Yer.Miktar) AS Miktar FROM wms.Yer INNER JOIN wms.Depo ON wms.Yer.DepoID = wms.Depo.ID WHERE (wms.Yer.MalKodu = '{0}') GROUP BY wms.Depo.DepoAd, wms.Depo.ID,wms.fnGetRezervStock(wms.Depo.DepoKodu,wms.Yer.MalKodu,wms.Yer.Birim)", Id)).ToList();
+            var list = db.Database.SqlQuery<frmStokList2>(string.Format("SELECT wms.fnGetRezervStock(wms.Depo.DepoKodu,wms.Yer.MalKodu,wms.Yer.Birim) AS WmsRezerv, wms.Depo.DepoAd, wms.Depo.ID, wms.Yer.MalKodu, wms.Yer.Birim, SUM(wms.Yer.Miktar) AS Miktar FROM wms.Yer INNER JOIN wms.Depo ON wms.Yer.DepoID = wms.Depo.ID WHERE (wms.Yer.MalKodu = '{0}') GROUP BY wms.Depo.DepoAd, wms.Depo.ID, wms.Yer.MalKodu, wms.Yer.Birim, wms.fnGetRezervStock(wms.Depo.DepoKodu,wms.Yer.MalKodu,wms.Yer.Birim)", Id)).ToList();
             return PartialView("List2", list);
         }
         /// <summary>
@@ -465,14 +465,23 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             //generate sql
             string sql = "";
             var listsirk = db.GetSirketDBs();
+            string Sart = "";
+
             foreach (var item in listsirk)
             {
+                if (item == "33")
+                    Sart = " (MalKodu BETWEEN 'a' AND 'z') AND ";
+                else if (item == "71")
+                    Sart = " (MalKodu BETWEEN '1' AND '9') AND ";
+                else
+                    Sart = "";
+
                 if (sql != "") sql += " UNION ";
                 sql += String.Format(@"
 										SELECT
 											FINSAT6{0}.FINSAT6{0}.STK.MalKodu, FINSAT6{0}.FINSAT6{0}.STK.MalAdi, FINSAT6{0}.FINSAT6{0}.STK.Birim1 AS Birim,
 											FINSAT6{0}.wms.getStockByDepo(FINSAT6{0}.FINSAT6{0}.STK.MalKodu, '{1}') as Stok
-										FROM FINSAT6{0}.FINSAT6{0}.STK(NOLOCK) WHERE (MalKodu BETWEEN '{2}' AND '{3}')", item, depoKodu, BasMalKodu, BitMalKodu);
+										FROM FINSAT6{0}.FINSAT6{0}.STK(NOLOCK) WHERE {4} (MalKodu BETWEEN '{2}' AND '{3}') ", item, depoKodu, BasMalKodu, BitMalKodu, Sart);
             }
             sql = string.Format(@"
 									SELECT MalKodu, BIRIKIM.wms.fnGetMalAdi(t1.MalKodu) AS MalAdi, Birim, SUM(Stok) AS GunesStok, 
