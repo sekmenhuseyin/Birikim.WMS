@@ -316,6 +316,7 @@ namespace Wms12m
             var STIBaseList = new List<ParamSti>();
 
             List<STIBase> STIBaseListSPI = new List<STIBase>();
+            List<STIMax> STList = new List<STIMax>();
             DevHelper.Ayarlar.SetConStr(ConStr);
             DevHelper.Ayarlar.SirketKodu = SirketKodu;
 
@@ -337,8 +338,8 @@ namespace Wms12m
                 string sql = String.Format(@"
 SELECT MalKodu, Miktar, Birim, KynkSiparisNo as EvrakNo, KynkSiparisTarih, KynkSiparisSiraNo,
 (SELECT IslemTip FROM FINSAT6{0}.FINSAT6{0}.SPI WITH (NOLOCK) WHERE KynkEvrakTip=62 AND SPI.EvrakNo= wms.IRS_Detay.KynkSiparisNo AND SiraNo=wms.IRS_Detay.KynkSiparisSiraNo 
-AND Tarih=wms.IRS_Detay.KynkSiparisTarih) AS SipIslemTip, IRS_Detay.IrsaliyeID AS IrsaliyeID
-FROM wms.IRS_Detay WITH (NOLOCK) WHERE IrsaliyeID={0}", irsID);
+AND Tarih=wms.IRS_Detay.KynkSiparisTarih) AS SipIslemTip
+FROM wms.IRS_Detay WITH (NOLOCK) WHERE IrsaliyeID={1}", SirketKodu, irsID);
                 var list = db.Database.SqlQuery<STIMax>(sql).ToList();
 
                 #region İç Piyasa İse Satış Faturası Listesi Oluşturulur
@@ -370,56 +371,55 @@ FROM wms.IRS_Detay WITH (NOLOCK) WHERE IrsaliyeID={0}", irsID);
                 #region Dış Piyasa İse Satış İrsaliyesi Listesi Oluşturulur
                 foreach (STIMax item in list.Where(x => x.SipIslemTip == 2).ToList()) //Dış Piyasa İse Satış İrsaliyesi Kaydedilir
                 {
-                    string sqlSPI = String.Format("SELECT IRS.EvrakNo, IRS_Detay.IrsaliyeID, IRS_Detay.MalKodu, SUM(wms.IRS_Detay.Miktar) AS Miktar, IRS_Detay.Birim, ISNULL(SUM(wms.IRS_Detay.OkutulanMiktar), 0) AS OkutulanMiktar, Depo.DepoKodu, IRS.HesapKodu, IRS.Tarih, " +
+                    string sqlSPI = String.Format("SELECT IRS.EvrakNo, IRS_Detay.IrsaliyeID, IRS_Detay.MalKodu, SUM(wms.IRS_Detay.Miktar) AS Miktar, IRS_Detay.Birim, SUM(wms.IRS_Detay.Miktar) AS OkutulanMiktar, Depo.DepoKodu, IRS.HesapKodu, IRS.Tarih, " +
                                             "(SELECT MalAdi FROM FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) WHERE (MalKodu = IRS_Detay.MalKodu)) AS MalAdi," +
                                             "ISNULL(IRS_Detay.KynkSiparisNo, '') AS SiparisNo, ISNULL(IRS_Detay.KynkSiparisSiraNo, 0) AS KynkSiparisSiraNo, ISNULL(IRS_Detay.KynkSiparisTarih, 0) AS KynkSiparisTarih, ISNULL(IRS_Detay.KynkSiparisMiktar, 0) AS KynkSiparisMiktar, " +
                                             "FINSAT6{0}.FINSAT6{0}.SPI.BirimFiyat AS Fiyat, FINSAT6{0}.FINSAT6{0}.SPI.KDVOran, FINSAT6{0}.FINSAT6{0}.SPI.IskontoOran1, FINSAT6{0}.FINSAT6{0}.SPI.IskontoOran2, FINSAT6{0}.FINSAT6{0}.SPI.IskontoOran3, FINSAT6{0}.FINSAT6{0}.SPI.IskontoOran4, FINSAT6{0}.FINSAT6{0}.SPI.IskontoOran5 " +
                                             "FROM FINSAT6{0}.FINSAT6{0}.SPI WITH (NOLOCK) RIGHT OUTER JOIN wms.Depo WITH(NOLOCK) INNER JOIN wms.IRS WITH(NOLOCK) ON wms.Depo.ID = wms.IRS.DepoID INNER JOIN wms.IRS_Detay WITH(NOLOCK) ON wms.IRS.ID = wms.IRS_Detay.IrsaliyeID ON FINSAT6{0}.FINSAT6{0}.SPI.Chk = wms.IRS.HesapKodu AND FINSAT6{0}.FINSAT6{0}.SPI.Tarih = wms.IRS_Detay.KynkSiparisTarih AND FINSAT6{0}.FINSAT6{0}.SPI.SiraNo = wms.IRS_Detay.KynkSiparisSiraNo AND FINSAT6{0}.FINSAT6{0}.SPI.EvrakNo = wms.IRS_Detay.KynkSiparisNo " +
-                                            "WHERE (IRS_Detay.IrsaliyeID = {1}) AND (IRS_Detay.OkutulanMiktar IS NOT NULL) AND (IRS_Detay.OkutulanMiktar > 0)" +
-                                            "GROUP BY wms.IRS.EvrakNo, wms.IRS_Detay.IrsaliyeID, wms.IRS_Detay.MalKodu, wms.IRS_Detay.Birim, wms.Depo.DepoKodu, wms.IRS.HesapKodu, wms.IRS.Tarih, ISNULL(wms.IRS_Detay.KynkSiparisNo, ''), ISNULL(wms.IRS_Detay.KynkSiparisSiraNo, 0), ISNULL(wms.IRS_Detay.KynkSiparisTarih, 0), ISNULL(wms.IRS_Detay.KynkSiparisMiktar, 0), FINSAT6{0}.FINSAT6{0}.SPI.BirimFiyat, FINSAT6{0}.FINSAT6{0}.SPI.KDVOran, FINSAT6{0}.FINSAT6{0}.SPI.IskontoOran1, FINSAT6{0}.FINSAT6{0}.SPI.IskontoOran2, FINSAT6{0}.FINSAT6{0}.SPI.IskontoOran3, FINSAT6{0}.FINSAT6{0}.SPI.IskontoOran4, FINSAT6{0}.FINSAT6{0}.SPI.IskontoOran5", SirketKodu, item.IrsaliyeID);
-                    var STList = db.Database.SqlQuery<STIMax>(sqlSPI).ToList();
-
-                    foreach (STIMax stItem in STList)
+                                            "WHERE (IRS_Detay.IrsaliyeID = {1}) " +
+                                            "GROUP BY wms.IRS.EvrakNo, wms.IRS_Detay.IrsaliyeID, wms.IRS_Detay.MalKodu, wms.IRS_Detay.Birim, wms.Depo.DepoKodu, wms.IRS.HesapKodu, wms.IRS.Tarih, ISNULL(wms.IRS_Detay.KynkSiparisNo, ''), ISNULL(wms.IRS_Detay.KynkSiparisSiraNo, 0), ISNULL(wms.IRS_Detay.KynkSiparisTarih, 0), ISNULL(wms.IRS_Detay.KynkSiparisMiktar, 0), FINSAT6{0}.FINSAT6{0}.SPI.BirimFiyat, FINSAT6{0}.FINSAT6{0}.SPI.KDVOran, FINSAT6{0}.FINSAT6{0}.SPI.IskontoOran1, FINSAT6{0}.FINSAT6{0}.SPI.IskontoOran2, FINSAT6{0}.FINSAT6{0}.SPI.IskontoOran3, FINSAT6{0}.FINSAT6{0}.SPI.IskontoOran4, FINSAT6{0}.FINSAT6{0}.SPI.IskontoOran5", SirketKodu, irsID);
+                    STList = db.Database.SqlQuery<STIMax>(sqlSPI).ToList();
+                }
+                foreach (STIMax stItem in STList)
+                {
+                    STIBase sti = new STIBase()
                     {
-                        STIBase sti = new STIBase()
-                        {
-                            EvrakNo = stItem.EvrakNo,
-                            HesapKodu = stItem.HesapKodu,
-                            Tarih = stItem.Tarih.IntToDate(),
-                            MalKodu = stItem.MalKodu,
-                            Miktar = stItem.OkutulanMiktar,
-                            Birim = stItem.Birim,
-                            Depo = stItem.DepoKodu,
-                            EvrakTipi = STIEvrakTipi.SatisIrsaliyesi,
-                            Kaydeden = kaydeden,
-                            KayitSurum = "9.01.028",
-                            KayitKaynak = 74
-                        };
-                        if (stItem.SiparisNo != "" && stItem.KynkSiparisMiktar > 0)
-                        {
-                            sti.KayitTipi = STIKayitTipi.Siparisten_Irsaliye;
-                            sti.KaynakSiparisNo = stItem.SiparisNo;
-                            sti.KaynakSiparisTarih = stItem.KynkSiparisTarih;
-                            sti.SiparisSiraNo = stItem.KynkSiparisSiraNo;
-                            sti.SiparisMiktar = stItem.KynkSiparisMiktar;
-                            sti.Fiyat = stItem.Fiyat;
-                            sti.KdvOran = stItem.KdvOran;
-                            sti.IskontoOran1 = stItem.IskontoOran1;
-                            sti.IskontoOran2 = stItem.IskontoOran2;
-                            sti.IskontoOran3 = stItem.IskontoOran3;
-                            sti.IskontoOran4 = stItem.IskontoOran4;
-                            sti.IskontoOran5 = stItem.IskontoOran5;
-                        }
-                        else
-                        {
-                            sti.KayitTipi = STIKayitTipi.Irsaliye;
-                            sti.KaynakSiparisNo = "";
-                            sti.KaynakSiparisTarih = 0;
-                            sti.SiparisSiraNo = 0;
-                            sti.SiparisMiktar = 0;
-                        }
-                        STIBaseListSPI.Add(sti);
+                        EvrakNo = evrkno[0].EvrakNo,
+                    HesapKodu = stItem.HesapKodu,
+                        Tarih = stItem.Tarih.IntToDate(),
+                        MalKodu = stItem.MalKodu,
+                        Miktar = stItem.OkutulanMiktar,
+                        Birim = stItem.Birim,
+                        Depo = stItem.DepoKodu,
+                        EvrakTipi = STIEvrakTipi.SatisIrsaliyesi,
+                        Kaydeden = kaydeden,
+                        KayitSurum = "9.01.028",
+                        KayitKaynak = 74
+                    };
+                    if (stItem.SiparisNo != "" && stItem.KynkSiparisMiktar > 0)
+                    {
+                        sti.KayitTipi = STIKayitTipi.Siparisten_Irsaliye;
+                        sti.KaynakSiparisNo = stItem.SiparisNo;
+                        sti.KaynakSiparisTarih = stItem.KynkSiparisTarih;
+                        sti.SiparisSiraNo = stItem.KynkSiparisSiraNo;
+                        sti.SiparisMiktar = stItem.KynkSiparisMiktar;
+                        sti.Fiyat = stItem.Fiyat;
+                        sti.KdvOran = stItem.KdvOran;
+                        sti.IskontoOran1 = stItem.IskontoOran1;
+                        sti.IskontoOran2 = stItem.IskontoOran2;
+                        sti.IskontoOran3 = stItem.IskontoOran3;
+                        sti.IskontoOran4 = stItem.IskontoOran4;
+                        sti.IskontoOran5 = stItem.IskontoOran5;
                     }
+                    else
+                    {
+                        sti.KayitTipi = STIKayitTipi.Irsaliye;
+                        sti.KaynakSiparisNo = "";
+                        sti.KaynakSiparisTarih = 0;
+                        sti.SiparisSiraNo = 0;
+                        sti.SiparisMiktar = 0;
+                    }
+                    STIBaseListSPI.Add(sti);
                 }
                 #endregion
             }
