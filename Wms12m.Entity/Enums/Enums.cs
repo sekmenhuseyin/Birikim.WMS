@@ -227,7 +227,8 @@
         TodoGörevler,
         TodoTroubleshooting,
         TerminalAlimdanİade,
-        TerminalSatıştanİade        
+        TerminalSatıştanİade,
+        ChartGörevProjesi
     }
     /// <summary>
     /// aylar

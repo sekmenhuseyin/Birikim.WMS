@@ -59,7 +59,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         [HttpPost]
         public PartialViewResult List2(string Id)
         {
-            var list = db.Database.SqlQuery<frmStokList2>(string.Format("SELECT wms.fnGetRezervStock(wms.Depo.DepoKodu,wms.Yer.MalKodu,wms.Yer.Birim) AS WmsRezerv,wms.Depo.DepoAd, wms.Depo.ID, SUM(wms.Yer.Miktar) AS Miktar FROM wms.Yer INNER JOIN wms.Depo ON wms.Yer.DepoID = wms.Depo.ID WHERE (wms.Yer.MalKodu = '{0}') GROUP BY wms.Depo.DepoAd, wms.Depo.ID,wms.fnGetRezervStock(wms.Depo.DepoKodu,wms.Yer.MalKodu,wms.Yer.Birim)", Id)).ToList();
+            var list = db.Database.SqlQuery<frmStokList2>(string.Format("SELECT wms.fnGetRezervStock(wms.Depo.DepoKodu,wms.Yer.MalKodu,wms.Yer.Birim) AS WmsRezerv, wms.Depo.DepoAd, wms.Depo.ID, wms.Yer.MalKodu, wms.Yer.Birim, SUM(wms.Yer.Miktar) AS Miktar FROM wms.Yer INNER JOIN wms.Depo ON wms.Yer.DepoID = wms.Depo.ID WHERE (wms.Yer.MalKodu = '{0}') GROUP BY wms.Depo.DepoAd, wms.Depo.ID, wms.Yer.MalKodu, wms.Yer.Birim, wms.fnGetRezervStock(wms.Depo.DepoKodu,wms.Yer.MalKodu,wms.Yer.Birim)", Id)).ToList();
             return PartialView("List2", list);
         }
         /// <summary>
@@ -371,8 +371,8 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                 //ilk önce görevler ve irsaliye kaydedilir
                 string GorevÇıkNo = db.SettingsGorevNo(today, ilk.DepoID).FirstOrDefault();
                 string GorevGirNo = db.SettingsGorevNo(today, ilk.DepoID).FirstOrDefault();
-                var cevapGir = db.InsertIrsaliye(db.GetSirketDBs().FirstOrDefault(), ilk.DepoID, GorevGirNo, GorevGirNo, today, "Yer Değiştir", true, ComboItems.TransferGiriş.ToInt32(), vUser.UserName, today, time, "Yer Değiştir", "", 0, "").FirstOrDefault();
-                var cevapÇık = db.InsertIrsaliye(db.GetSirketDBs().FirstOrDefault(), ilk.DepoID, GorevÇıkNo, GorevGirNo, today, "Yer Değiştir", true, ComboItems.TransferÇıkış.ToInt32(), vUser.UserName, today, time, "Yer Değiştir", "", 0, cevapGir.GorevID.Value.ToString()).FirstOrDefault();
+                var cevapGir = db.InsertIrsaliye(db.GetSirketDBs().FirstOrDefault(), ilk.DepoID, GorevGirNo, GorevGirNo, today, "Yer Değiştir", true, ComboItems.TransferGiriş.ToInt32(), vUser.UserName, today, time, "Yer Değiştir", "", 0, "","").FirstOrDefault();
+                var cevapÇık = db.InsertIrsaliye(db.GetSirketDBs().FirstOrDefault(), ilk.DepoID, GorevÇıkNo, GorevGirNo, today, "Yer Değiştir", true, ComboItems.TransferÇıkış.ToInt32(), vUser.UserName, today, time, "Yer Değiştir", "", 0, cevapGir.GorevID.Value.ToString(),"").FirstOrDefault();
                 //GorevYer tablosu - çıkış
                 var cevap = TaskYer.Operation(new GorevYer() { GorevID = cevapÇık.GorevID.Value, YerID = ilk.ID, MalKodu = ilk.MalKodu, Birim = ilk.Birim, Miktar = tbl.Miktar, GC = true });
                 //giriş

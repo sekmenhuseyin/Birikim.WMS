@@ -110,9 +110,9 @@ namespace Wms12m.Business
             var det = db.UserDetails.Where(m => m.UserID == tbl.ID).FirstOrDefault();
             if (det != null)
                 db.UserDetails.Remove(det);
-            var dev = db.UserDevices.Where(m => m.UserID == tbl.ID).FirstOrDefault();
+            var dev = db.UserDevices.Where(m => m.UserID == tbl.ID).ToList();
             if (dev != null)
-                db.UserDevices.Remove(dev);
+                db.UserDevices.RemoveRange(dev);
             db.Users.Remove(tbl);
             try
             {
