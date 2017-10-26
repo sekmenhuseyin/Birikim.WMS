@@ -138,7 +138,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                 int tarih = fn.ToOADate();
                 var grvNo = db.SettingsGorevNo(tarih, DepoID).FirstOrDefault();
                 var depo = Store.Detail(DepoID).DepoKodu;
-                var cevap = db.InsertIrsaliye(SirketID, DepoID, grvNo, grvNo, tarih, SirketID + "-" + depo + " Kontrollü Sayım", false, sayim, vUser.UserName, tarih, fn.ToOATime(), depo, "", 0, "").FirstOrDefault();
+                var cevap = db.InsertIrsaliye(SirketID, DepoID, grvNo, grvNo, tarih, SirketID + "-" + depo + " Kontrollü Sayım", false, sayim, vUser.UserName, tarih, fn.ToOATime(), depo, "", 0, "","").FirstOrDefault();
                 grv = db.Gorevs.Where(m => m.ID == cevap.GorevID).FirstOrDefault();
                 grv.DurumID = açık;
                 db.SaveChanges();
@@ -154,7 +154,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                     int tarih = fn.ToOADate();
                     var grvNo = db.SettingsGorevNo(tarih, DepoID).FirstOrDefault();
                     var depo = Store.Detail(DepoID).DepoKodu;
-                    var cevap = db.InsertIrsaliye(SirketID, DepoID, grvNo, grvNo, tarih, SirketID + "-" + depo + " Kontrollü Sayım", false, sayim, vUser.UserName, tarih, fn.ToOATime(), depo, "", 0, "").FirstOrDefault();
+                    var cevap = db.InsertIrsaliye(SirketID, DepoID, grvNo, grvNo, tarih, SirketID + "-" + depo + " Kontrollü Sayım", false, sayim, vUser.UserName, tarih, fn.ToOATime(), depo, "", 0, "","").FirstOrDefault();
                     grv = db.Gorevs.Where(m => m.ID == cevap.GorevID).FirstOrDefault();
                     grv.DurumID = açık;
                     db.SaveChanges();

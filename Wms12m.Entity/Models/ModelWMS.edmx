@@ -1507,6 +1507,7 @@
           <Parameter Name="TeslimCHK" Type="varchar" Mode="In" />
           <Parameter Name="ValorGun" Type="smallint" Mode="In" />
           <Parameter Name="LinkEvrakNo" Type="varchar" Mode="In" />
+          <Parameter Name="Aciklama" Type="varchar" Mode="In" />
         </Function>
         <Function Name="SettingsGorevNo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="wms">
           <Parameter Name="tarih" Type="int" Mode="In" />
@@ -1932,23 +1933,6 @@
             <End Role="Gorev" EntitySet="Gorevs" />
             <End Role="IR" EntitySet="IRS" />
           </AssociationSet>
-          <FunctionImport Name="InsertIrsaliye" ReturnType="Collection(MModel.InsertIrsaliye_Result)">
-            <Parameter Name="SirketKod" Mode="In" Type="String" />
-            <Parameter Name="DepoID" Mode="In" Type="Int32" />
-            <Parameter Name="GorevNo" Mode="In" Type="String" />
-            <Parameter Name="IrsEvrakNo" Mode="In" Type="String" />
-            <Parameter Name="IrsTarih" Mode="In" Type="Int32" />
-            <Parameter Name="GorevBilgi" Mode="In" Type="String" />
-            <Parameter Name="IrsIslemTur" Mode="In" Type="Boolean" />
-            <Parameter Name="GorevTipiID" Mode="In" Type="Int32" />
-            <Parameter Name="Olusturan" Mode="In" Type="String" />
-            <Parameter Name="OlusturmaTarihi" Mode="In" Type="Int32" />
-            <Parameter Name="OlusturmaSaati" Mode="In" Type="Int32" />
-            <Parameter Name="HesapKodu" Mode="In" Type="String" />
-            <Parameter Name="TeslimCHK" Mode="In" Type="String" />
-            <Parameter Name="ValorGun" Mode="In" Type="Int16" />
-            <Parameter Name="LinkEvrakNo" Mode="In" Type="String" />
-          </FunctionImport>
           <FunctionImport Name="GetGorevlis" ReturnType="Collection(MModel.GetGorevlis_Result)">
           <Parameter Name="DepoID" Mode="In" Type="Int32" />
           </FunctionImport>
@@ -2315,6 +2299,24 @@
             <End Role="User" EntitySet="Users" />
             <End Role="User1" EntitySet="Users" />
           </AssociationSet>
+          <FunctionImport Name="InsertIrsaliye" ReturnType="Collection(MModel.InsertIrsaliye_Result)">
+            <Parameter Name="SirketKod" Mode="In" Type="String" />
+            <Parameter Name="DepoID" Mode="In" Type="Int32" />
+            <Parameter Name="GorevNo" Mode="In" Type="String" />
+            <Parameter Name="IrsEvrakNo" Mode="In" Type="String" />
+            <Parameter Name="IrsTarih" Mode="In" Type="Int32" />
+            <Parameter Name="GorevBilgi" Mode="In" Type="String" />
+            <Parameter Name="IrsIslemTur" Mode="In" Type="Boolean" />
+            <Parameter Name="GorevTipiID" Mode="In" Type="Int32" />
+            <Parameter Name="Olusturan" Mode="In" Type="String" />
+            <Parameter Name="OlusturmaTarihi" Mode="In" Type="Int32" />
+            <Parameter Name="OlusturmaSaati" Mode="In" Type="Int32" />
+            <Parameter Name="HesapKodu" Mode="In" Type="String" />
+            <Parameter Name="TeslimCHK" Mode="In" Type="String" />
+            <Parameter Name="ValorGun" Mode="In" Type="Int16" />
+            <Parameter Name="LinkEvrakNo" Mode="In" Type="String" />
+            <Parameter Name="Aciklama" Mode="In" Type="String" />
+          </FunctionImport>
           </EntityContainer>
         <ComplexType Name="GetSirkets_Result">
           <Property Type="String" Name="Kod" Nullable="false" MaxLength="2" />
@@ -2829,11 +2831,6 @@
           <End Type="MModel.Gorev" Role="Gorev" Multiplicity="*" />
           <End Type="MModel.IR" Role="IR" Multiplicity="*" />
         </Association>
-        <ComplexType Name="InsertIrsaliye_Result">
-          <Property Type="Int32" Name="IrsaliyeID" Nullable="true" />
-          <Property Type="Int32" Name="GorevID" Nullable="true" />
-          <Property Type="Boolean" Name="Onay" Nullable="true" />
-        </ComplexType>
         <ComplexType Name="GetGorevlis_Result">
           <Property Type="Int32" Name="ID" Nullable="false" />
           <Property Type="String" Name="Kod" Nullable="false" MaxLength="5" />
@@ -3876,6 +3873,11 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <ComplexType Name="InsertIrsaliye_Result">
+          <Property Type="Int32" Name="IrsaliyeID" Nullable="true" />
+          <Property Type="Int32" Name="GorevID" Nullable="true" />
+          <Property Type="Boolean" Name="Onay" Nullable="true" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -4171,15 +4173,6 @@
               <ScalarProperty Name="ID" ColumnName="GorevID" />
             </EndProperty>
           </AssociationSetMapping>
-          <FunctionImportMapping FunctionImportName="InsertIrsaliye" FunctionName="MModel.Store.InsertIrsaliye">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="MModel.InsertIrsaliye_Result">
-                <ScalarProperty Name="IrsaliyeID" ColumnName="IrsaliyeID" />
-                <ScalarProperty Name="GorevID" ColumnName="GorevID" />
-                <ScalarProperty Name="Onay" ColumnName="Onay" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="GetGorevlis" FunctionName="MModel.Store.GetGorevlis">
             <ResultMapping>
               <ComplexTypeMapping TypeName="MModel.GetGorevlis_Result">
@@ -4916,6 +4909,15 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="InsertIrsaliye" FunctionName="MModel.Store.InsertIrsaliye">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MModel.InsertIrsaliye_Result">
+                <ScalarProperty Name="IrsaliyeID" ColumnName="IrsaliyeID" />
+                <ScalarProperty Name="GorevID" ColumnName="GorevID" />
+                <ScalarProperty Name="Onay" ColumnName="Onay" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
