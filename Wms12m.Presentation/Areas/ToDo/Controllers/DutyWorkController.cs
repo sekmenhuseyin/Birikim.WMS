@@ -288,7 +288,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             if (Onay == true)
             {
                 //onaylamalar
-                if (tbl.Onay == false && (tbl.Gorevler.Sorumlu == vUser.UserName || tbl.Gorevler.Sorumlu2 == vUser.UserName || tbl.Gorevler.Sorumlu3 == vUser.UserName))
+                if (tbl.Onay == false)
                 {
                     tbl.Onay = true;
                     tbl.Onaylayan = vUser.UserName;
