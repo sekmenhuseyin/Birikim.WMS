@@ -134,7 +134,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             }
             //yeni bir görev eklenir
             string GorevNo = db.SettingsGorevNo(today, cDepoID.ID).FirstOrDefault();
-            var cevap = db.InsertIrsaliye(tbl.SirketID, cDepoID.ID, GorevNo, GorevNo, today, "Giriş: " + tbl.GirisDepo + ", Çıkış: " + tbl.CikisDepo, true, ComboItems.TransferÇıkış.ToInt32(), vUser.UserName, today, time, cDepoID.DepoAd, "", 0, "").FirstOrDefault();
+            var cevap = db.InsertIrsaliye(tbl.SirketID, cDepoID.ID, GorevNo, GorevNo, today, "Giriş: " + tbl.GirisDepo + ", Çıkış: " + tbl.CikisDepo, true, ComboItems.TransferÇıkış.ToInt32(), vUser.UserName, today, time, cDepoID.DepoAd, "", 0, "","").FirstOrDefault();
             //yeni transfer eklenir
             var sonuc = Transfers.Operation(new Transfer() { SirketKod = tbl.SirketID, GirisDepoID = gDepoID.ID, CikisDepoID = cDepoID.ID, AraDepoID = aDepoID, GorevID = cevap.GorevID.Value });
             ViewBag.Result = new Result(false, "Kayıtta hata oldu. Lütfen tekrar deneyin.");
