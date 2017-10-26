@@ -156,6 +156,7 @@
         public int? SevkTarih { get; set; }
         public short SiparisSiraNo { get; set; } = 0;
         public int? EvrakTarih { get; set; }
+        public short? SipIslemTip { get; set; }
     }
 
 
