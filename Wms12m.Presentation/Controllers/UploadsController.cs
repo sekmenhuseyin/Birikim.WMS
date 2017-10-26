@@ -63,7 +63,7 @@ namespace Wms12m.Presentation.Controllers
                         return Json(_result, JsonRequestBehavior.AllowGet);
                     }
                     //satıcı malkodundan malkodunu getir
-                    string sql = String.Format(@"SELECT        FINSAT6{0}.FINSAT6{0}.TTY.MalKodu, FINSAT6{0}.FINSAT6{0}.STK.Birim1, FINSAT6{0}.FINSAT6{0}.STK.Birim2, FINSAT6{0}.FINSAT6{0}.STK.Birim3
+                    string sql = String.Format(@"SELECT        FINSAT6{0}.FINSAT6{0}.TTY.MalKodu, FINSAT6{0}.FINSAT6{0}.STK.Birim1
                                                     FROM            FINSAT6{0}.FINSAT6{0}.TTY WITH(NOLOCK) INNER JOIN
                                                                              FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) ON FINSAT6{0}.FINSAT6{0}.TTY.MalKodu = FINSAT6{0}.FINSAT6{0}.STK.MalKodu 
                                                     WHERE (FINSAT6{0}.FINSAT6{0}.TTY.SatMalKodu = '{1}') AND (FINSAT6{0}.FINSAT6{0}.TTY.Chk = '{2}')", SID, dr["MalKodu"].ToString(), Hesap);
@@ -74,9 +74,9 @@ namespace Wms12m.Presentation.Controllers
                     string birim = dr["Birim"].ToString();
                     if (birim == "")
                         birim = malStk.Birim1;
-                    else if (birim != malStk.Birim1 && birim != malStk.Birim2 && birim != malStk.Birim3)
+                    else if (birim != malStk.Birim1)
                     {
-                        _result.Message = "Birim yanlış";
+                        _result.Message = malStk.MalKodu + " için birim hatalı! '" + birim + "' yerine '" + malStk.Birim1 + "' yazılmalı";
                         return Json(_result, JsonRequestBehavior.AllowGet);
                     }
                     //add irsaliye and gorev
@@ -92,7 +92,7 @@ namespace Wms12m.Presentation.Controllers
                         if (kontrol1 != null)
                             return Json(new Result(false, 0, kontrol1.IR.EvrakNo + " nolu irsaliye daha önce kaydedilmiş."), JsonRequestBehavior.AllowGet);
                     }
-                    sonuc = db.InsertIrsaliye(SID, DID, gorevno, irsNo, tarih, "", false, ComboItems.MalKabul.ToInt32(), vUser.UserName, tarih, fn.ToOATime(), Hesap, "", 0, "","").FirstOrDefault();
+                    sonuc = db.InsertIrsaliye(SID, DID, gorevno, irsNo, tarih, "", false, ComboItems.MalKabul.ToInt32(), vUser.UserName, tarih, fn.ToOATime(), Hesap, "", 0, "", "").FirstOrDefault();
                     //add detays
                     try
                     {
