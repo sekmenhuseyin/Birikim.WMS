@@ -63,9 +63,11 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         /// </summary>
         public PartialViewResult ListTatil()
         {
-            var list = db.Etkinliks.OrderByDescending(m => m.Tarih).ToList();
             ViewBag.Yetki = CheckPerm(Perms.TodoTakvim, PermTypes.Writing);
-            return PartialView("ListTatil", list);
+            var list = db.Etkinliks.Where(m=>m.ID>0);
+            if (ViewBag.Yetki == false)
+                list = list.Where(m => m.Username == vUser.UserName);
+            return PartialView("ListTatil", list.OrderByDescending(m => m.Tarih).ToList());
         }
         /// <summary>
         /// ayrıntılar
