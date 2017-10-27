@@ -38,15 +38,26 @@
                 <td>@if (item.Onay == true) { @item.Onaylayan }@if (item.KontrolOnay == true) { @(", ") @item.KontrolEden }</td>
                 <td>@if (item.Onay == false) { @item.Gorevler.Sorumlu } else if (item.KontrolOnay == false) { @item.Gorevler.KontrolSorumlusu }</td>
                 <td>@item.DegisTarih.ToString("dd.MM.yyyy")</td>
-                @if(checkinGoster == true){
+               @if(checkinGoster == true){
                     if (checkin == new DateTime()) { <td class="font-red"><br /><i class="fa fa-exclamation-triangle fa-2x" aria-hidden="true"></i></td> }
                     else if (checkin.Date < item.DegisTarih.Date) { <td>@checkin</td> }
                     else { <td>@checkin.ToUniversalTime().Humanize()</td> }                    
                 }
                 <td>
-                    @if (ViewBag.RoleName != "Admin" && ViewBag.RoleName != " ") {<a class="btn btn-info input-circle" href="#modalEditPage" data-toggle="modal" onclick="editInModal('/ToDo/DutyWork/New/@item.ID');"><span class="glyphicon glyphicon-floppy-save"></span> &nbsp; Çalışma</a>}
-                    @if (ViewBag.ÇalışmaSüresi >= 540 && ((item.Onay == false && ViewBag.RoleName == "Developer") || (item.KontrolOnay == false && ViewBag.RoleName == "Destek"))) {<a class="btn btn-primary input-circle" href="javascript:;" id="btnOn@{@item.ID}" onclick="Onay(@item.ID, true, 'btnOn@{@item.ID}');"> Onayla </a>}
-                    @if(ViewBag.Yetki == true && item.Onay == true) {<a class="btn btn-danger input-circle" href="javascript:;" id="btnRe@{@item.ID}" onclick="Onay(@item.ID, false, 'btnRe@{@item.ID}');"> Reddet </a>}
+                   @if (ViewBag.RoleName != "Admin" && ViewBag.RoleName != " ") {<a class="btn btn-info input-circle" href="#modalEditPage" data-toggle="modal" onclick="editInModal('/ToDo/DutyWork/New/@item.ID');"><span class="glyphicon glyphicon-floppy-save"></span> &nbsp; Çalışma</a>}
+                   @if (ViewBag.Tip == false && ViewBag.ÇalışmaSüresi >= 540)//eğer bana aitse normal göster
+                    {
+                        <a class="btn btn-primary input-circle" href="javascript:;" id="btnOn@{@item.ID}" onclick="Onay(@item.ID, true, 'btnOn@{@item.ID}');"> Onayla </a>
+                        if(ViewBag.Yetki == true && item.Onay == true) {<a class="btn btn-danger input-circle" href="javascript:;" id="btnRe@{@item.ID}" onclick="Onay(@item.ID, false, 'btnRe@{@item.ID}');"> Reddet </a>}
+                    }
+                    else if (ViewBag.Tip == true)//eğer hepsini seç ise farklı farklı göster
+                    {
+                        if (ViewBag.RoleName == "Admin" && ViewBag.RoleName == " ") { }
+                        else if (item.Onay==false && ViewBag.RoleName == "Developer")
+                        {
+                            <a class="btn btn-primary input-circle" href="javascript:;" id="btnOn@{@item.ID}" onclick="Onay(@item.ID, true, 'btnOn@{@item.ID}');"> Onayla </a>
+                        }
+                    }
                 </td>
             </tr>
         }
