@@ -11,7 +11,7 @@
                     <input type="text" class="form-control dateboxbg" id="gorevcalismatarih1" value="@ViewBag.tarih2" />
                 </div>
                 <div class="col-md-2">
-                    @Html.DropDownList("userID", null, htmlAttributes: new { @class = "form-control satirekle1", @onchange = "ReloadGorev1(this.value, @ViewBag.tarih)" })
+                    @Html.DropDownList("userID", null, htmlAttributes: new { @class = "form-control satirekle1", @onchange = "ReloadGorev1(this.value, " + @ViewBag.tarih + ")" })
                 </div>
                 <div class="tools">
                     <a href="javascript:;" class="collapse"> </a>
