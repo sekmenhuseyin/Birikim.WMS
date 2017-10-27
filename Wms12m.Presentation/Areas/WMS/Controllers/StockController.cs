@@ -371,8 +371,8 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                 //ilk önce görevler ve irsaliye kaydedilir
                 string GorevÇıkNo = db.SettingsGorevNo(today, ilk.DepoID).FirstOrDefault();
                 string GorevGirNo = db.SettingsGorevNo(today, ilk.DepoID).FirstOrDefault();
-                var cevapGir = db.InsertIrsaliye(db.GetSirketDBs().FirstOrDefault(), ilk.DepoID, GorevGirNo, GorevGirNo, today, "Yer Değiştir", true, ComboItems.TransferGiriş.ToInt32(), vUser.UserName, today, time, "Yer Değiştir", "", 0, "","").FirstOrDefault();
-                var cevapÇık = db.InsertIrsaliye(db.GetSirketDBs().FirstOrDefault(), ilk.DepoID, GorevÇıkNo, GorevGirNo, today, "Yer Değiştir", true, ComboItems.TransferÇıkış.ToInt32(), vUser.UserName, today, time, "Yer Değiştir", "", 0, cevapGir.GorevID.Value.ToString(),"").FirstOrDefault();
+                var cevapGir = db.InsertIrsaliye(db.GetSirketDBs().FirstOrDefault(), ilk.DepoID, GorevGirNo, GorevGirNo, today, "Yer Değiştir", true, ComboItems.TransferGiriş.ToInt32(), vUser.UserName, today, time, "Yer Değiştir", "", 0, "", "").FirstOrDefault();
+                var cevapÇık = db.InsertIrsaliye(db.GetSirketDBs().FirstOrDefault(), ilk.DepoID, GorevÇıkNo, GorevGirNo, today, "Yer Değiştir", true, ComboItems.TransferÇıkış.ToInt32(), vUser.UserName, today, time, "Yer Değiştir", "", 0, cevapGir.GorevID.Value.ToString(), "").FirstOrDefault();
                 //GorevYer tablosu - çıkış
                 var cevap = TaskYer.Operation(new GorevYer() { GorevID = cevapÇık.GorevID.Value, YerID = ilk.ID, MalKodu = ilk.MalKodu, Birim = ilk.Birim, Miktar = tbl.Miktar, GC = true });
                 //giriş
@@ -477,15 +477,10 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                     Sart = "";
 
                 if (sql != "") sql += " UNION ";
-                sql += String.Format(@"
-										SELECT
-											FINSAT6{0}.FINSAT6{0}.STK.MalKodu, FINSAT6{0}.FINSAT6{0}.STK.MalAdi, FINSAT6{0}.FINSAT6{0}.STK.Birim1 AS Birim,
-											FINSAT6{0}.wms.getStockByDepo(FINSAT6{0}.FINSAT6{0}.STK.MalKodu, '{1}') as Stok
+                sql += String.Format(@"SELECT FINSAT6{0}.FINSAT6{0}.STK.MalKodu, FINSAT6{0}.FINSAT6{0}.STK.MalAdi, FINSAT6{0}.FINSAT6{0}.STK.Birim1 AS Birim, FINSAT6{0}.wms.getStockByDepo(FINSAT6{0}.FINSAT6{0}.STK.MalKodu, '{1}') as Stok
 										FROM FINSAT6{0}.FINSAT6{0}.STK(NOLOCK) WHERE {4} (MalKodu BETWEEN '{2}' AND '{3}') ", item, depoKodu, BasMalKodu, BitMalKodu, Sart);
             }
-            sql = string.Format(@"
-									SELECT MalKodu, BIRIKIM.wms.fnGetMalAdi(t1.MalKodu) AS MalAdi, Birim, SUM(Stok) AS GunesStok, 
-									BIRIKIM.wms.fnGetStock('{0}', t1.MalKodu, t1.Birim, 0) AS WmsStok 
+            sql = string.Format(@"SELECT MalKodu, MalAdi, Birim, SUM(Stok) AS GunesStok, BIRIKIM.wms.fnGetStock('{0}', t1.MalKodu, t1.Birim, 0) AS WmsStok 
 									FROM (" + sql + ") AS t1 GROUP BY MalKodu, Birim", depoKodu);
             sql = "SELECT * FROM ( " + sql + " ) AS t2 WHERE t2.GunesStok<>t2.WmsStok ORDER BY MalKodu";
             //return
