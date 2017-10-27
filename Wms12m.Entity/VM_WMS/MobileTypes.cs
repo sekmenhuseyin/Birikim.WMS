@@ -159,6 +159,7 @@
         public short? SipIslemTip { get; set; }
         public short? SiraNo { get; set; }
         public short? KaynakSiraNo { get; set; }
+        public string DovizCinsi { get; set; } = "";
     }
 
 
