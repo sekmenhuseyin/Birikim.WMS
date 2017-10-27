@@ -159,6 +159,7 @@
                 return;
             }
             cells.forEach(function (item) {
+                console.log(item);
                 if (item[2]==0) {
                     Modaldialog(item[0] + " için stok bulunmamaktadır.", "Hata", "Tamam", "btn-danger");
                     result = true;
@@ -189,7 +190,7 @@
 
         function ChangeMiktar(td, mal, id) {
             var miktar = 0, stok = 0, rezerv = 0;
-            var yeni = prompt(mal + " için yeni miktarı giriniz", parseFloat($(td).text().replace(",", ".")).formatMoney(2));
+            var yeni = prompt(mal + " için yeni miktarı giriniz", parseFloat($(td).text().replace(".", "").replace(",", ".")).formatMoney(2));
             if (yeni == null || yeni == undefined) return;
             yeni = yeni.replace(",", ".");
             yeni = parseFloat(yeni);
@@ -197,17 +198,17 @@
             var par = $(td).parent("tr");
             if ($(par).find("td").eq(2).text().trim() != "")
             {
-                miktar = parseFloat($(par).find("td").eq(2).text().replace(",", "."));
+                miktar = parseFloat($(par).find("td").eq(2).text().replace(".", "").replace(",", "."));
             }
             if ($(par).find("td").eq(4).text().trim() != "") {
-                stok = parseFloat($(par).find("td").eq(4).text().replace(",", "."));
+                stok = parseFloat($(par).find("td").eq(4).text().replace(".", "").replace(",", "."));
             }
             if ($(par).find("td").eq(5).text().trim() != "") {
-                rezerv = parseFloat($(par).find("td").eq(5).text().replace(",", "."));
+                rezerv = parseFloat($(par).find("td").eq(5).text().replace(".", "").replace(",", "."));
             }
 
             // kontroller
-
+            console.log(yeni);
             if ((yeni > (stok - rezerv)) || (stok == 0))
             {
                 Modaldialog("Yeterli stok bulunmamaktadır.", "Uyarı", "Tamam", "btn-danger");
