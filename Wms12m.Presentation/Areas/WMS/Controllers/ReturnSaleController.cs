@@ -112,7 +112,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             {
                 if (item != "")
                 {
-                    string[] tmp2 = item.Split('-');
+                    string[] tmp2 = item.Split('!');
 
                     malkodlari.Add(tmp2[0]);
                     birimler.Add(tmp2[1]);
@@ -135,23 +135,20 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             {
 
                 //get stok
-                var stokMiktari = db.GetStock(idDepo, malkodlari[i], birimler[i], false).FirstOrDefault();
-                if (stokMiktari != null)
-                {
+
                     //sti tablosu
                     IRS_Detay sti = new IRS_Detay()
                     {
                         IrsaliyeID = cevap.IrsaliyeID.Value,
                         MalKodu = malkodlari[i],
                         Birim = birimler[i],
-                        Miktar = miktars[i] <= stokMiktari.Value ? miktars[i] : stokMiktari.Value,
+                        Miktar = miktars[i],
                         KynkSiparisNo = evrak,
                         KynkSiparisID = rowID[i]
                     };
                     var op2 = new IrsaliyeDetay();
                     _Result = op2.Operation(sti);
 
-                }
 
                 i++;
             }

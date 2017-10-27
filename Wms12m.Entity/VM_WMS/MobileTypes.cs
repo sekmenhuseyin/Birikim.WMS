@@ -157,6 +157,8 @@
         public short SiparisSiraNo { get; set; } = 0;
         public int? EvrakTarih { get; set; }
         public short? SipIslemTip { get; set; }
+        public short? SiraNo { get; set; }
+        public short? KaynakSiraNo { get; set; }
     }
 
 

@@ -132,13 +132,13 @@
                 }
                 var miktar = parseFloat(this.data()[2].replace(".", "").replace(",", "."));
                 var stok = parseFloat(this.data()[4].replace(".", "").replace(",", ".")) - rezerv;
-                selected = selected + this.data()[0] + '-' + this.data()[6] + '-' + kont + '-' + this.data()[8] +"#";
+                selected = selected + this.data()[0] + '!' + this.data()[6] + '!' + kont + '!' + this.data()[8].replace("-", "!") +"#";
                 //aynı  malları grupla
                 if (cells.length > 2) {
                     for (var i = 2, len = cells.length; i < len; i++) {
                         if (cells[i][0] === this.data()[0]) {
                             cells[i][1] += kont;
-                            result = true;
+                            //result = true;
                             break;
                         }
                     }
@@ -151,13 +151,13 @@
                 result = true;
                 return;
             }
-            cells.forEach(function (item) {
-                if (item[2]==0) {
-                    Modaldialog(item[0] + " için stok bulunmamaktadır.", "Hata", "Tamam", "btn-danger");
-                    result = true;
-                    return;
-                }
-            });
+            //cells.forEach(function (item) {
+            //    if (item[2]==0) {
+            //        Modaldialog(item[0] + " için stok bulunmamaktadır.", "Hata", "Tamam", "btn-danger");
+            //        result = true;
+            //        return;
+            //    }
+            //});
             if (iade == true) {
                 Modaldialog("Seçili satırların iade miktarı 0'dan büyük olmalıdır.", "Uyarı", "Tamam", "btn-danger");
                 return;
