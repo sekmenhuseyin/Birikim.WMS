@@ -142,10 +142,10 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             var gtip = db.ComboItem_Name.Where(m => m.ID == tbl.GorevID).Select(m => m.Name).FirstOrDefault();
             var durum = ComboItems.gydOnaylandı.ToInt32();
             //projeform
-            var projeid = db.ProjeForms.Where(m => m.Proje == gtip).FirstOrDefault();
+            var projeid = db.ProjeForms.Where(m => m.Proje == gtip && m.MusteriID == tbl.MusteriID).FirstOrDefault();
             if (projeid == null)
             {
-                db.ProjeForms.Add(new ProjeForm()
+                projeid = new ProjeForm()
                 {
                     MusteriID = tbl.MusteriID,
                     Proje = gtip,
@@ -156,7 +156,8 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                     Degistiren = vUser.UserName,
                     DegisTarih = DateTime.Now,
                     Aktif = true
-                });
+                };
+                db.ProjeForms.Add(projeid);
             }
             //add görev
             var gorev = new Gorevler()
