@@ -37,6 +37,10 @@ namespace WMSMobil
                     Ayarlar.ServisURL = Oku.ReadLine();
             //set servis
             Servis.Url = Ayarlar.ServisURL;
+            var ver = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.Major.ToString();
+            ver += "." + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.Minor.ToString();
+            ver += "." + ("000" + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.Build.ToString()).Right(3);
+            label4.Text = "WMS Mobil v." + ver;
             //barkod
             //Barkod = new Barcode2();
             //Barkod.DeviceType = Symbol.Barcode2.DEVICETYPES.FIRSTAVAILABLE;
