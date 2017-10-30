@@ -256,6 +256,7 @@
     {
         SatisFaturası = 0,
         AlimdanIadeFaturası = 1,
-        SatistanIadeIrsaliyesi = 2
+        SatistanIadeIrsaliyesi = 2,
+        SatisIrsaliyesi = 3
     }
 }

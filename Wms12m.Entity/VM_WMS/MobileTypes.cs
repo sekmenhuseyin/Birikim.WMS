@@ -160,6 +160,10 @@
         public short? SiraNo { get; set; }
         public short? KaynakSiraNo { get; set; }
         public string DovizCinsi { get; set; } = "";
+        public short EFatSenaryo { get; set; } = 0;
+        public short EArsivTeslimSekli { get; set; } = 0;
+        public string EFatEtiketPK { get; set; } = "";
+        public string EFatEtiketGB { get; set; } = "";
     }
 
 
