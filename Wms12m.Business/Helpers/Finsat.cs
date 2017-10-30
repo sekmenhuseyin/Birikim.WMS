@@ -398,7 +398,7 @@ FROM wms.IRS_Detay WITH (NOLOCK) WHERE IrsaliyeID={1}", SirketKodu, irsID);
                         KayitSurum = "9.01.028",
                         KayitKaynak = 74,
                         IslemTip = stItem.SipIslemTip,
-                        DovizCinsi=stItem.DovizCinsi
+                        DovizCinsi = stItem.DovizCinsi
 
                     };
                     if (stItem.SiparisNo != "" && stItem.KynkSiparisMiktar > 0)
@@ -461,7 +461,7 @@ FROM wms.IRS_Detay WITH (NOLOCK) WHERE IrsaliyeID={1}", SirketKodu, irsID);
                     if (Sonuc.Hata.IsNull())
                     {
                         IslemSonuc = true;
-                        IslemMesaj = Sonuc.Veri.ToString2()+", ";
+                        IslemMesaj = Sonuc.Veri.ToString2() + ", ";
                     }
                     else
                     {
@@ -472,7 +472,7 @@ FROM wms.IRS_Detay WITH (NOLOCK) WHERE IrsaliyeID={1}", SirketKodu, irsID);
                 }
 
                 if (STIBaseList.Count < 0 && STIBaseListSPI.Count < 0)
-                    return new Result(false, "Bu sipariş kapanmış");
+                    return new Result(false, "Bu sipariş kapanmış");//TODO: hangi sipariş?????
                 else
                     return new Result(IslemSonuc, IslemMesaj);
             }
