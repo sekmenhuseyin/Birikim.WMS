@@ -660,8 +660,13 @@ namespace Wms12m
                                         "WHERE SDK.Kod = '{0}' ORDER BY Tarih DESC)" +
                                     ",Year(GETDATE())) as Yil", item.SirketKod);
                 int yil = db.Database.SqlQuery<int>(sql).FirstOrDefault();
+                //efatura kullanıcısı mı bul
+                sql = string.Format("SELECT EFatKullanici FROM FINSAT6{0}.FINSAT6{0}.CHK WHERE (HesapKodu = '{1}')", item.SirketKod, item.HesapKodu);
+                var tmp = db.Database.SqlQuery<short>(sql).FirstOrDefault();
+                bool efatKullanici = false;
+                if (tmp == 1) efatKullanici = true;
                 //send to finsat
-                var sonuc = finsat.SatisIade(item, KullID, kull.UserDetail.SatistanIadeIrsaliyeSeri.Value, yil);
+                var sonuc = finsat.SatisIade(item, KullID, kull.UserDetail.SatistanIadeIrsaliyeSeri.Value, yil,efatKullanici);
                 if (sonuc.Status == true)
                 {
                     //finish

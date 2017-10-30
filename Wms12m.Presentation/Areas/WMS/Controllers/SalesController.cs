@@ -191,7 +191,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                 }
                 i++;
             }
-            sql += "ORDER BY Tarih,Saat";
+            sql += "ORDER BY Tarih,Saat"; 
             var list = db.Database.SqlQuery<frmSiparisMalzemeOnay>(sql).ToList();
             if (list == null)
                 return RedirectToAction("Index");
