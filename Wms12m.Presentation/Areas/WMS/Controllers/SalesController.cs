@@ -191,7 +191,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                 }
                 i++;
             }
-            sql += "ORDER BY Tarih,Saat"; 
+            sql += "ORDER BY SirketID,Tarih,Saat"; 
             var list = db.Database.SqlQuery<frmSiparisMalzemeOnay>(sql).ToList();
             if (list == null)
                 return RedirectToAction("Index");
@@ -199,18 +199,19 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             int today = fn.ToOADate(), time = fn.ToOATime(), valorgun = 0;
             int idDepo = db.Depoes.Where(m => m.DepoKodu == tbl.DepoID).Select(m => m.ID).FirstOrDefault();
             string GorevNo = db.SettingsGorevNo(today, idDepo).FirstOrDefault();
-            string evraknolar = "", alıcılar = "", chk = "", teslimchk = "",aciklama="";
+            string evraknolar = "", alıcılar = "", chk = "", teslimchk = "",aciklama="",srkt="";
             InsertIrsaliye_Result cevap = new InsertIrsaliye_Result();
             Result _Result;
             //loop the list
             foreach (var item in list)
             {
                 //irsaliye tablosu
-                if (chk != item.Chk || valorgun != item.ValorGun || teslimchk != item.TeslimChk || aciklama != item.Aciklama)
+                if (chk != item.Chk || valorgun != item.ValorGun || teslimchk != item.TeslimChk || aciklama != item.Aciklama || srkt != item.SirketID)
                 {
                     cevap = db.InsertIrsaliye(item.SirketID, idDepo, GorevNo, GorevNo, today, "", true, ComboItems.SiparişTopla.ToInt32(), vUser.UserName, today, time, item.Chk, item.TeslimChk, item.ValorGun, item.EvrakNo, item.Aciklama).FirstOrDefault();
                     //save sck
                     chk = item.Chk;
+                    srkt = item.SirketID;
                     valorgun = item.ValorGun;
                     teslimchk = item.TeslimChk;
                     aciklama = item.Aciklama;
