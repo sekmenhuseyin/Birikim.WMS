@@ -497,7 +497,7 @@ FROM wms.IRS_Detay WITH (NOLOCK) WHERE IrsaliyeID={1}", SirketKodu, irsID);
                 }
 
                 if (STIBaseList.Count < 0 && STIBaseListSPI.Count < 0)
-                    return new Result(false, "Bu sipariş kapanmış");
+                    return new Result(false, "Bu sipariş kapanmış");//TODO: hangi sipariş???
                 else
                     return new Result(IslemSonuc, IslemMesaj);
             }
