@@ -180,7 +180,7 @@ namespace Wms12m
             var Sonuc = new OnikimCore.GunesCore.IslemSonuc(false);
             try
             {
-                Sonuc = IrsIslem.Irsaliye_Kayit(-1, STIBaseList);
+                Sonuc = IrsIslem.Irsaliye_Kayit(-1, true, STIBaseList);
             }
             catch (Exception ex)
             {
@@ -193,7 +193,7 @@ namespace Wms12m
             else
                 return new Result(false, Sonuc.Hata.Message);
         }
-        public Result SatisIade(IR irsaliye, int kulID, int IrsaliyeSeri, int yil)
+        public Result SatisIade(IR irsaliye, int kulID, int IrsaliyeSeri, int yil, bool efatKullanici)
         {
             DevHelper.Ayarlar.SetConStr(ConStr);
             DevHelper.Ayarlar.SirketKodu = irsaliye.SirketKod;
@@ -232,7 +232,11 @@ namespace Wms12m
                         ErekIIFMiktar = stItem.ErekIIFMiktar,
                         Row_ID = stItem.Row_ID,
                         SiraNo = stItem.SiraNo,
-                        KaynakSiraNo = stItem.KaynakSiraNo
+                        KaynakSiraNo = stItem.KaynakSiraNo,
+                        EFatSenaryo = stItem.EFatSenaryo,
+                        EArsivTeslimSekli = stItem.EArsivTeslimSekli,
+                        EFatEtiketGB = stItem.EFatEtiketGB,
+                        EFatEtiketPK = stItem.EFatEtiketPK
 
                     };
                     if (stItem.SiparisNo != "")
@@ -297,7 +301,7 @@ namespace Wms12m
             var Sonuc = new OnikimCore.GunesCore.IslemSonuc(false);
             try
             {
-                Sonuc = IrsIslem.Irsaliye_Kayit(1, STIBaseList);
+                Sonuc = IrsIslem.Irsaliye_Kayit(1, efatKullanici, STIBaseList);
             }
             catch (Exception ex)
             {
@@ -324,15 +328,7 @@ namespace Wms12m
 
             //evrak no getir
             var ftrKayit = new FaturaKayit(ConStr, SirketKodu);
-            List<EvrakBilgi> evrkno;
-            try
-            {
-                evrkno = ftrKayit.EvrakNo_Getir(efatKullanici, IrsaliyeSeri, yil, FaturaTipi.SatisFaturası.ToInt32());
-            }
-            catch (Exception ex)
-            {
-                return new Result(false, ex.Message);
-            }
+            List<EvrakBilgi> evrkno = new List<EvrakBilgi>();
             int saat = DateTime.Now.ToOaTime();
             //listeyi dön
             using (WMSEntities db = new WMSEntities())
@@ -341,11 +337,22 @@ namespace Wms12m
 SELECT MalKodu, Miktar, Birim, KynkSiparisNo as EvrakNo, KynkSiparisTarih, KynkSiparisSiraNo,
 (SELECT IslemTip FROM FINSAT6{0}.FINSAT6{0}.SPI WITH (NOLOCK) WHERE KynkEvrakTip=62 AND SPI.EvrakNo= wms.IRS_Detay.KynkSiparisNo AND SiraNo=wms.IRS_Detay.KynkSiparisSiraNo 
 AND Tarih=wms.IRS_Detay.KynkSiparisTarih) AS SipIslemTip
-FROM wms.IRS_Detay WITH (NOLOCK) WHERE IrsaliyeID={1}", SirketKodu, irsID);
+FROM wms.IRS_Detay WITH (NOLOCK) WHERE IrsaliyeID={1}", SirketKodu, irsID); 
                 var list = db.Database.SqlQuery<STIMax>(sql).ToList();
 
                 #region İç Piyasa İse Satış Faturası Listesi Oluşturulur
-
+                if(list.Where(x => x.SipIslemTip == 1).ToList().Count>0)
+                {
+                  
+                    try
+                    {
+                        evrkno = ftrKayit.EvrakNo_Getir(efatKullanici, IrsaliyeSeri, yil, FaturaTipi.SatisFaturası.ToInt32());
+                    }
+                    catch (Exception ex)
+                    {
+                        return new Result(false, ex.Message);
+                    }
+                }
                 foreach (STIMax item in list.Where(x => x.SipIslemTip == 1).ToList()) //İç Piyasa İse Satış Faturası Kaydedilir
                 {
                     sql = string.Format("SELECT SPI.Chk, SPI.IslemTip, SPI.Miktar, SPI.MalKodu, SPI.Fiyat, SPI.Birim, SPI.Depo, SPI.ToplamIskonto, SPI.KDV, SPI.KDVOran, SPI.IskontoOran1, SPI.IskontoOran2, SPI.IskontoOran3, SPI.IskontoOran4, SPI.IskontoOran5, " +
@@ -371,22 +378,35 @@ FROM wms.IRS_Detay WITH (NOLOCK) WHERE IrsaliyeID={1}", SirketKodu, irsID);
                 #endregion
 
                 #region Dış Piyasa İse Satış İrsaliyesi Listesi Oluşturulur
+                if (list.Where(x => x.SipIslemTip == 2).ToList().Count > 0)
+                {
+
+                    try
+                    {
+                        evrkno = ftrKayit.EvrakNo_Getir(efatKullanici, IrsaliyeSeri, yil, FaturaTipi.SatisIrsaliyesi.ToInt32());
+                    }
+                    catch (Exception ex)
+                    {
+                        return new Result(false, ex.Message);
+                    }
+                }
                 foreach (STIMax item in list.Where(x => x.SipIslemTip == 2).ToList()) //Dış Piyasa İse Satış İrsaliyesi Kaydedilir
                 {
                     string sqlSPI = String.Format("SELECT IRS.EvrakNo, IRS_Detay.IrsaliyeID, IRS_Detay.MalKodu, SUM(wms.IRS_Detay.Miktar) AS Miktar, IRS_Detay.Birim, SUM(wms.IRS_Detay.Miktar) AS OkutulanMiktar, Depo.DepoKodu, IRS.HesapKodu, IRS.Tarih, " +
                                             "(SELECT MalAdi FROM FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) WHERE (MalKodu = IRS_Detay.MalKodu)) AS MalAdi," +
                                             "ISNULL(IRS_Detay.KynkSiparisNo, '') AS SiparisNo, ISNULL(IRS_Detay.KynkSiparisSiraNo, 0) AS KynkSiparisSiraNo, ISNULL(IRS_Detay.KynkSiparisTarih, 0) AS KynkSiparisTarih, ISNULL(IRS_Detay.KynkSiparisMiktar, 0) AS KynkSiparisMiktar, " +
-                                            "FINSAT6{0}.FINSAT6{0}.SPI.BirimFiyat AS Fiyat, FINSAT6{0}.FINSAT6{0}.SPI.KDVOran, FINSAT6{0}.FINSAT6{0}.SPI.IskontoOran1, FINSAT6{0}.FINSAT6{0}.SPI.IskontoOran2, FINSAT6{0}.FINSAT6{0}.SPI.IskontoOran3, FINSAT6{0}.FINSAT6{0}.SPI.IskontoOran4, FINSAT6{0}.FINSAT6{0}.SPI.IskontoOran5, FINSAT6{0}.FINSAT6{0}.SPI.IslemTip AS SipIslemTip, FINSAT6{0}.FINSAT6{0}.SPI.DovizCinsi AS DovizCinsi " +
-                                            "FROM FINSAT6{0}.FINSAT6{0}.SPI WITH (NOLOCK) RIGHT OUTER JOIN wms.Depo WITH(NOLOCK) INNER JOIN wms.IRS WITH(NOLOCK) ON wms.Depo.ID = wms.IRS.DepoID INNER JOIN wms.IRS_Detay WITH(NOLOCK) ON wms.IRS.ID = wms.IRS_Detay.IrsaliyeID ON FINSAT6{0}.FINSAT6{0}.SPI.Chk = wms.IRS.HesapKodu AND FINSAT6{0}.FINSAT6{0}.SPI.Tarih = wms.IRS_Detay.KynkSiparisTarih AND FINSAT6{0}.FINSAT6{0}.SPI.SiraNo = wms.IRS_Detay.KynkSiparisSiraNo AND FINSAT6{0}.FINSAT6{0}.SPI.EvrakNo = wms.IRS_Detay.KynkSiparisNo " +
+                                            "FINSAT6{0}.FINSAT6{0}.SPI.BirimFiyat AS Fiyat, FINSAT6{0}.FINSAT6{0}.SPI.KDVOran, FINSAT6{0}.FINSAT6{0}.SPI.IskontoOran1, FINSAT6{0}.FINSAT6{0}.SPI.IskontoOran2, FINSAT6{0}.FINSAT6{0}.SPI.IskontoOran3, FINSAT6{0}.FINSAT6{0}.SPI.IskontoOran4, FINSAT6{0}.FINSAT6{0}.SPI.IskontoOran5, FINSAT6{0}.FINSAT6{0}.SPI.IslemTip AS SipIslemTip, FINSAT6{0}.FINSAT6{0}.SPI.DovizCinsi AS DovizCinsi,FINSAT6{0}.FINSAT6{0}.CHK.EFatSenaryo,FINSAT6{0}.FINSAT6{0}.CHK.EArsivTeslimSekli,FINSAT6{0}.FINSAT6{0}.CHK.EFatEtiket AS EFatEtiketPK,ISNULL((SELECT EfatEtiketGB FROM SOLAR6.DBO.SIR(NOLOCK) INNER JOIN SOLAR6.DBO.SDK(NOLOCK) ON SIR.Kod = SDK.SirketKod WHERE SDK.Kod = '33' AND SDK.Tip = 0), '') AS EfatEtiketGB " +
+                                            "FROM FINSAT6{0}.FINSAT6{0}.SPI WITH (NOLOCK)" +
+                                            "INNER JOIN FINSAT6{0}.FINSAT6{0}.CHK WITH (NOLOCK) ON SPI.Chk = CHK.HesapKodu RIGHT OUTER JOIN wms.Depo WITH(NOLOCK) INNER JOIN wms.IRS WITH(NOLOCK) ON wms.Depo.ID = wms.IRS.DepoID INNER JOIN wms.IRS_Detay WITH(NOLOCK) ON wms.IRS.ID = wms.IRS_Detay.IrsaliyeID ON FINSAT6{0}.FINSAT6{0}.SPI.Chk = wms.IRS.HesapKodu AND FINSAT6{0}.FINSAT6{0}.SPI.Tarih = wms.IRS_Detay.KynkSiparisTarih AND FINSAT6{0}.FINSAT6{0}.SPI.SiraNo = wms.IRS_Detay.KynkSiparisSiraNo AND FINSAT6{0}.FINSAT6{0}.SPI.EvrakNo = wms.IRS_Detay.KynkSiparisNo " +
                                             "WHERE (IRS_Detay.IrsaliyeID = {1}) " +
-                                            "GROUP BY wms.IRS.EvrakNo, wms.IRS_Detay.IrsaliyeID, wms.IRS_Detay.MalKodu, wms.IRS_Detay.Birim, wms.Depo.DepoKodu, wms.IRS.HesapKodu, wms.IRS.Tarih, ISNULL(wms.IRS_Detay.KynkSiparisNo, ''), ISNULL(wms.IRS_Detay.KynkSiparisSiraNo, 0), ISNULL(wms.IRS_Detay.KynkSiparisTarih, 0), ISNULL(wms.IRS_Detay.KynkSiparisMiktar, 0), FINSAT6{0}.FINSAT6{0}.SPI.BirimFiyat, FINSAT6{0}.FINSAT6{0}.SPI.KDVOran, FINSAT6{0}.FINSAT6{0}.SPI.IskontoOran1, FINSAT6{0}.FINSAT6{0}.SPI.IskontoOran2, FINSAT6{0}.FINSAT6{0}.SPI.IskontoOran3, FINSAT6{0}.FINSAT6{0}.SPI.IskontoOran4, FINSAT6{0}.FINSAT6{0}.SPI.IskontoOran5, FINSAT6{0}.FINSAT6{0}.SPI.IslemTip, FINSAT6{0}.FINSAT6{0}.SPI.DovizCinsi", SirketKodu, irsID);
+                                            "GROUP BY wms.IRS.EvrakNo, wms.IRS_Detay.IrsaliyeID, wms.IRS_Detay.MalKodu, wms.IRS_Detay.Birim, wms.Depo.DepoKodu, wms.IRS.HesapKodu, wms.IRS.Tarih, ISNULL(wms.IRS_Detay.KynkSiparisNo, ''), ISNULL(wms.IRS_Detay.KynkSiparisSiraNo, 0), ISNULL(wms.IRS_Detay.KynkSiparisTarih, 0), ISNULL(wms.IRS_Detay.KynkSiparisMiktar, 0), FINSAT6{0}.FINSAT6{0}.SPI.BirimFiyat, FINSAT6{0}.FINSAT6{0}.SPI.KDVOran, FINSAT6{0}.FINSAT6{0}.SPI.IskontoOran1, FINSAT6{0}.FINSAT6{0}.SPI.IskontoOran2, FINSAT6{0}.FINSAT6{0}.SPI.IskontoOran3, FINSAT6{0}.FINSAT6{0}.SPI.IskontoOran4, FINSAT6{0}.FINSAT6{0}.SPI.IskontoOran5, FINSAT6{0}.FINSAT6{0}.SPI.IslemTip, FINSAT6{0}.FINSAT6{0}.SPI.DovizCinsi,FINSAT6{0}.FINSAT6{0}.CHK.EFatSenaryo,FINSAT6{0}.FINSAT6{0}.CHK.EArsivTeslimSekli,FINSAT6{0}.FINSAT6{0}.CHK.EFatEtiket", SirketKodu, irsID);
                     STList = db.Database.SqlQuery<STIMax>(sqlSPI).ToList();
                 }
                 foreach (STIMax stItem in STList)
                 {
                     STIBase sti = new STIBase()
                     {
-                        EvrakNo = stItem.EvrakNo,
+                        EvrakNo = evrkno[0].EvrakNo,
                         HesapKodu = stItem.HesapKodu,
                         Tarih = stItem.Tarih.IntToDate(),
                         MalKodu = stItem.MalKodu,
@@ -398,7 +418,12 @@ FROM wms.IRS_Detay WITH (NOLOCK) WHERE IrsaliyeID={1}", SirketKodu, irsID);
                         KayitSurum = "9.01.028",
                         KayitKaynak = 74,
                         IslemTip = stItem.SipIslemTip,
-                        DovizCinsi=stItem.DovizCinsi
+                        DovizCinsi=stItem.DovizCinsi,
+                        EFatSenaryo = stItem.EFatSenaryo,
+                        EArsivTeslimSekli = stItem.EArsivTeslimSekli,
+                        EFatEtiketGB= stItem.EFatEtiketGB,
+                        EFatEtiketPK = stItem.EFatEtiketPK
+
 
                     };
                     if (stItem.SiparisNo != "" && stItem.KynkSiparisMiktar > 0)
@@ -450,7 +475,7 @@ FROM wms.IRS_Detay WITH (NOLOCK) WHERE IrsaliyeID={1}", SirketKodu, irsID);
                     var Sonuc = new OnikimCore.GunesCore.IslemSonuc(false);
                     try
                     {
-                        Sonuc = IrsIslem.Irsaliye_Kayit(-1, STIBaseListSPI);
+                        Sonuc = IrsIslem.Irsaliye_Kayit(-1,efatKullanici, STIBaseListSPI);
                     }
                     catch (Exception ex)
                     {
