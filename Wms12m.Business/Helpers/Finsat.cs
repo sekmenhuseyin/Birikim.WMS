@@ -320,7 +320,7 @@ namespace Wms12m
         public Result FaturaKayıt(int irsID, string DepoKodu, bool efatKullanici, int Tarih, string CHK, string kaydeden, int IrsaliyeSeri, int FaturaSeri, int yil)
         {
             var STIBaseList = new List<ParamSti>();
-
+            string tempEvrakNo = "";
             List<STIBase> STIBaseListSPI = new List<STIBase>();
             List<STIMax> STList = new List<STIMax>();
             DevHelper.Ayarlar.SetConStr(ConStr);
@@ -355,6 +355,7 @@ FROM wms.IRS_Detay WITH (NOLOCK) WHERE IrsaliyeID={1}", SirketKodu, irsID);
                 }
                 foreach (STIMax item in list.Where(x => x.SipIslemTip == 1).ToList()) //İç Piyasa İse Satış Faturası Kaydedilir
                 {
+                    tempEvrakNo = item.EvrakNo;
                     sql = string.Format("SELECT SPI.Chk, SPI.IslemTip, SPI.Miktar, SPI.MalKodu, SPI.Fiyat, SPI.Birim, SPI.Depo, SPI.ToplamIskonto, SPI.KDV, SPI.KDVOran, SPI.IskontoOran1, SPI.IskontoOran2, SPI.IskontoOran3, SPI.IskontoOran4, SPI.IskontoOran5, " +
                                         "SPI.EvrakNo as KaynakSiparisNo, SPI.Tarih as KaynakSiparisTarih, SPI.SiraNo as SiparisSiraNo, SPI.Miktar as SiparisMiktar, SPI.TeslimMiktar, SPI.KapatilanMiktar, SPI.FytListeNo, SPI.ValorGun, SPI.Kod1, SPI.Kod2, SPI.Kod3, SPI.Kod4, SPI.Kod5, SPI.Kod6, SPI.Kod7, SPI.Kod8, SPI.Kod9, SPI.Kod10, SPI.Kod11, SPI.Kod12, SPI.Kod13, SPI.Kod14, SPI.KayitKaynak, SPI.KayitSurum, SPI.DegisKaynak, SPI.DegisSurum," +
                                         "CHK.EFatKullanici, ISNULL(BIRIKIM.wms.fnGetSatislarHesabi(SPI.MalKodu),'') AS SatislarHesabi, CHK.EArsivTeslimSekli, CHK.MhsKod, CHK.EFatSenaryo " +
@@ -392,6 +393,7 @@ FROM wms.IRS_Detay WITH (NOLOCK) WHERE IrsaliyeID={1}", SirketKodu, irsID);
                 }
                 foreach (STIMax item in list.Where(x => x.SipIslemTip == 2).ToList()) //Dış Piyasa İse Satış İrsaliyesi Kaydedilir
                 {
+                    tempEvrakNo = item.EvrakNo;
                     string sqlSPI = String.Format("SELECT IRS.EvrakNo, IRS_Detay.IrsaliyeID, IRS_Detay.MalKodu, SUM(wms.IRS_Detay.Miktar) AS Miktar, IRS_Detay.Birim, SUM(wms.IRS_Detay.Miktar) AS OkutulanMiktar, Depo.DepoKodu, IRS.HesapKodu, IRS.Tarih, " +
                                             "(SELECT MalAdi FROM FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) WHERE (MalKodu = IRS_Detay.MalKodu)) AS MalAdi," +
                                             "ISNULL(IRS_Detay.KynkSiparisNo, '') AS SiparisNo, ISNULL(IRS_Detay.KynkSiparisSiraNo, 0) AS KynkSiparisSiraNo, ISNULL(IRS_Detay.KynkSiparisTarih, 0) AS KynkSiparisTarih, ISNULL(IRS_Detay.KynkSiparisMiktar, 0) AS KynkSiparisMiktar, " +
@@ -497,7 +499,7 @@ FROM wms.IRS_Detay WITH (NOLOCK) WHERE IrsaliyeID={1}", SirketKodu, irsID);
                 }
 
                 if (STIBaseList.Count < 0 && STIBaseListSPI.Count < 0)
-                    return new Result(false, "Bu sipariş kapanmış");//TODO: hangi sipariş???
+                    return new Result(false, "Bu sipariş kapanmış. Evrak No= " + tempEvrakNo);//TODO: hangi sipariş???
                 else
                     return new Result(IslemSonuc, IslemMesaj);
             }
@@ -554,6 +556,7 @@ FROM wms.IRS_Detay WITH (NOLOCK) WHERE IrsaliyeID={1}", SirketKodu, irsID);
         public Result AlımdanIadeFaturaKayıt(int irsID, string DepoKodu, bool efatKullanici, int Tarih, string CHK, string kaydeden, int IrsaliyeSeri, int yil)
         {
             var STIBaseList = new List<ParamSti>();
+            string tempEvrakNo = "";
             //evrak no getir
             var ftrKayit = new FaturaKayit(ConStr, SirketKodu);
             List<EvrakBilgi> evrkno;
@@ -568,11 +571,12 @@ FROM wms.IRS_Detay WITH (NOLOCK) WHERE IrsaliyeID={1}", SirketKodu, irsID);
             int saat = DateTime.Now.ToOaTime();
             //listeyi dön
             using (WMSEntities db = new WMSEntities())
-            {
+            {               
                 string sql = String.Format("SELECT MalKodu, Miktar, Birim, KynkSiparisNo as EvrakNo, KynkSiparisID AS Row_ID FROM wms.IRS_Detay WITH (NOLOCK) WHERE IrsaliyeID={0}", irsID);
                 var list = db.Database.SqlQuery<STIMax>(sql).ToList();
                 foreach (STIMax item in list)
                 {
+                    tempEvrakNo = item.EvrakNo;
                     sql = string.Format("SELECT STI.ROW_ID,STI.IslemTur,STI.EvrakTarih,STI.MhsKod as STIMhsKod,STI.Nesne1,STI.Nesne2,STI.Nesne3, STI.Chk,STI.IslemTip,STI.Miktar,STI.Miktar - STI.ErekIIFMiktar AS ErekIIFMiktar,STI.MalKodu,STI.Fiyat,STI.Birim," +
                         "STI.Depo,STI.ToplamIskonto,STI.KDV,STI.KDVOran,STI.IskontoOran1,STI.IskontoOran2,STI.IskontoOran3,STI.IskontoOran4,STI.IskontoOran5,STI.EvrakNo as KaynakIIFEvrakNo,STI.KaynakSiparisNo," +
                         "STI.Tarih as KaynakSiparisTarih,STI.SiraNo,STI.KaynakSiraNo,STI.SiparisSiraNo," +
@@ -607,7 +611,7 @@ FROM wms.IRS_Detay WITH (NOLOCK) WHERE IrsaliyeID={1}", SirketKodu, irsID);
                     return new Result(sonuc.Basarili, sonuc.Mesaj);
                 }
                 else
-                    return new Result(false, "Bu sipariş kapanmış");
+                    return new Result(false, "Bu sipariş kapanmış. Evrak No= " + tempEvrakNo);//TODO: hangi 
             }
             catch (Exception ex)
             {
