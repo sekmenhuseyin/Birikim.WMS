@@ -37,7 +37,7 @@ namespace Wms12m.Presentation
             bundles.Add(new ScriptBundle(jquery, "https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js").Include("~/Content/assets/global/plugins/jquery/jquery-3.1.1.min.js"));
             bundles.Add(new ScriptBundle(bootstrapJs, "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js").Include("~/Content/assets/global/plugins/bootstrap/js/bootstrap.min.js"));
             bundles.Add(new ScriptBundle(jqueryUiJs, "https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js").Include("~/Content/assets/global/plugins/jquery-ui/jquery-ui.min.js"));
-            bundles.Add(new ScriptBundle(toastrJs, "https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.3/toastr.min.js").Include("~/Content/assets/global/plugins/toastr/build/toastr.min.js"));
+            bundles.Add(new ScriptBundle(toastrJs, "https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.3/toastr.min.js").Include("~/Content/assets/global/plugins/toastr/toastr.min.js"));
             bundles.Add(new ScriptBundle(moment, "https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.19.1/moment-with-locales.min.js").Include("~/Content/assets/global/plugins/moment/moment-with-locales.min.js"));
             bundles.Add(new ScriptBundle(numeral, "https://cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js").Include("~/Content/assets/global/plugins/Numeral/min/numeral.min.js"));
             bundles.Add(new ScriptBundle(bootbox, "https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.min.js").Include("~/Content/assets/global/plugins/bootbox/bootbox.min.js"));
@@ -47,7 +47,7 @@ namespace Wms12m.Presentation
             //css libraries
             bundles.Add(new StyleBundle(bootstrapCss, "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css").Include("~/Content/assets/global/plugins/bootstrap/css/bootstrap.min.css"));
             bundles.Add(new ScriptBundle(jqueryUiCss, "https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css").Include("~/Content/assets/global/plugins/jquery-ui/jquery-ui.min.css"));
-            bundles.Add(new ScriptBundle(toastrCss, "https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.3/toastr.min.css").Include("~/Content/assets/global/plugins/toastr/build/toastr.min.css"));
+            bundles.Add(new ScriptBundle(toastrCss, "https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.3/toastr.min.css").Include("~/Content/assets/global/plugins/toastr/toastr.min.css"));
             bundles.Add(new StyleBundle(FontAwesome, "https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css").Include("~/Content/assets/global/plugins/font-awesome/css/font-awesome.min.css"));
             bundles.Add(new StyleBundle(simpleLineIcons, "https://cdnjs.cloudflare.com/ajax/libs/simple-line-icons/2.4.1/css/simple-line-icons.css").Include("~/Content/assets/global/plugins/simple-line-icons/css/simple-line-icons.min.css"));
             //vars

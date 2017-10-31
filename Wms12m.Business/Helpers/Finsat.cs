@@ -477,7 +477,7 @@ FROM wms.IRS_Detay WITH (NOLOCK) WHERE IrsaliyeID={1}", SirketKodu, irsID);
                     var Sonuc = new OnikimCore.GunesCore.IslemSonuc(false);
                     try
                     {
-                        Sonuc = IrsIslem.Irsaliye_Kayit(-1,efatKullanici, STIBaseListSPI);
+                        Sonuc = IrsIslem.Irsaliye_Kayit(IrsaliyeSeri, efatKullanici, STIBaseListSPI);
                     }
                     catch (Exception ex)
                     {
