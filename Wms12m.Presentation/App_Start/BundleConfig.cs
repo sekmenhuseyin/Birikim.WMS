@@ -61,6 +61,7 @@ namespace Wms12m.Presentation
             scriptBundle
                 //jquery
                 .Include("~/Content/assets/global/plugins/jquery/jquery-migrate-3.0.0.min.js")
+                .Include("~/Content/assets/global/plugins/js.cookie.min.js")
                 //validation
                 .Include("~/Content/assets/global/plugins/jquery-validation/jquery.validate.min.js")
                 .Include("~/Content/assets/global/plugins/jquery-validation/jquery.validate.unobtrusive.min.js")
