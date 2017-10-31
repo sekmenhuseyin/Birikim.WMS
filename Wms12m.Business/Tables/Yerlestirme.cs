@@ -13,7 +13,7 @@ namespace Wms12m.Business
         /// </summary>
         public Result Insert(Yer tbl, int IrsID, int KullID)
         {
-            _Result = new Result();
+            _Result = new Result(); 
             //stok
             if (tbl.MakaraNo == "") tbl.MakaraNo = null;
             db.Yers.Add(tbl);
@@ -29,7 +29,7 @@ namespace Wms12m.Business
                 KayitSaati = DateTime.Now.ToOaTime(),
                 Kaydeden = db.Users.Where(m => m.ID == KullID).Select(m => m.Kod).FirstOrDefault()
             };
-            if (tbl.MakaraNo != "" || tbl.MakaraNo != null) yerLog.MakaraNo = tbl.MakaraNo;
+            if (tbl.MakaraNo != "" && tbl.MakaraNo != null) yerLog.MakaraNo = tbl.MakaraNo;
             if (IrsID > 0) yerLog.IrsaliyeID = IrsID;
             db.Yer_Log.Add(yerLog);
             //save

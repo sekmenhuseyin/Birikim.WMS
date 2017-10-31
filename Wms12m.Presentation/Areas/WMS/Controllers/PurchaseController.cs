@@ -341,7 +341,37 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             //sadece irsaliye daha onaylanmamışsa yani işlemleri bitmemişse ekle
             var irs = Irsaliye.Detail(tbl.IrsaliyeId);
             if (irs.Onay == false)
-                return Json(IrsaliyeDetay.Insert(tbl, irs.DepoID), JsonRequestBehavior.AllowGet);
+            {
+                if (tbl.MakaraNo == "" || tbl.MakaraNo == null)
+                {
+                    var kkablo = db.Database.SqlQuery<string>(string.Format("SELECT Kod1 FROM FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) WHERE (MalKodu = '{1}')", db.GetSirketDBs().FirstOrDefault(), tbl.MalKodu)).FirstOrDefault();
+                    if (kkablo == "KKABLO")
+                    {
+                        tbl.MakaraNo = "Boş-" + db.SettingsMakaraNo(irs.DepoID).FirstOrDefault();
+                        return Json(IrsaliyeDetay.Insert(tbl, irs.DepoID), JsonRequestBehavior.AllowGet);
+                    }
+                }
+                if (tbl.MakaraNo != null)
+                {
+                    //depo stoktaki makara noları ve
+                    //deu depodaki durdurulanlar hariç tüm mal kabuldeki makara noları kontrol eder
+                    var makara = db.Database.SqlQuery<string>(string.Format(@"
+                            SELECT MakaraNo FROM wms.Yer WHERE (DepoID = {0}) AND (MakaraNo = '{1}')
+                            UNION
+                            SELECT        wms.IRS_Detay.MakaraNo
+                            FROM            wms.GorevIRS INNER JOIN
+                                                     wms.Gorev ON wms.GorevIRS.GorevID = wms.Gorev.ID INNER JOIN
+                                                     wms.IRS_Detay ON wms.GorevIRS.IrsaliyeID = wms.IRS_Detay.IrsaliyeID
+                            WHERE       (wms.Gorev.DepoID = {0}) AND (wms.IRS_Detay.MakaraNo = '{1}') AND (wms.Gorev.GorevTipiID = 1) AND (wms.Gorev.DurumID <> 10)
+                    ", irs.DepoID, tbl.MakaraNo)).FirstOrDefault();
+                    if (makara == "" || makara == null)
+                        return Json(IrsaliyeDetay.Insert(tbl, irs.DepoID), JsonRequestBehavior.AllowGet);
+                    else
+                        return Json(new Result(false, "Bu makara no kullanılıyor"), JsonRequestBehavior.AllowGet);
+                }
+                else
+                    return Json(IrsaliyeDetay.Insert(tbl, irs.DepoID), JsonRequestBehavior.AllowGet);
+            }
             return Json(new Result(false, "Bu irsaliyeye ürün eklenemez"), JsonRequestBehavior.AllowGet);
         }
         /// <summary>
