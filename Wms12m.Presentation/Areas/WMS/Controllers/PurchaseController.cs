@@ -355,15 +355,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                 {
                     //depo stoktaki makara noları ve
                     //deu depodaki durdurulanlar hariç tüm mal kabuldeki makara noları kontrol eder
-                    var makara = db.Database.SqlQuery<string>(string.Format(@"
-                            SELECT MakaraNo FROM wms.Yer WHERE (DepoID = {0}) AND (MakaraNo = '{1}')
-                            UNION
-                            SELECT        wms.IRS_Detay.MakaraNo
-                            FROM            wms.GorevIRS INNER JOIN
-                                                     wms.Gorev ON wms.GorevIRS.GorevID = wms.Gorev.ID INNER JOIN
-                                                     wms.IRS_Detay ON wms.GorevIRS.IrsaliyeID = wms.IRS_Detay.IrsaliyeID
-                            WHERE       (wms.Gorev.DepoID = {0}) AND (wms.IRS_Detay.MakaraNo = '{1}') AND (wms.Gorev.GorevTipiID = 1) AND (wms.Gorev.DurumID <> 10)
-                    ", irs.DepoID, tbl.MakaraNo)).FirstOrDefault();
+                    var makara = db.Database.SqlQuery<string>(String.Format("BIRIKIM.wms.MakaraNoKontrol @DepoID = {0} , @MakaraNo='{1}'", irs.DepoID, tbl.MakaraNo)).FirstOrDefault();
                     if (makara == "" || makara == null)
                         return Json(IrsaliyeDetay.Insert(tbl, irs.DepoID), JsonRequestBehavior.AllowGet);
                     else
