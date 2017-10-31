@@ -212,7 +212,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Lib\TakvimeBagliKisit.dll</HintPath>
     </Reference>
-    <Reference Include="TumFaturaKayit, Version=1.17.10.11, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="TumFaturaKayit, Version=1.17.10.30, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Lib\TumFaturaKayit.dll</HintPath>
     </Reference>

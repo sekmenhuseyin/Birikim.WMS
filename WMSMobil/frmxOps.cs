@@ -817,7 +817,8 @@ namespace WMSMobil
                     tBarkod.Text = temp_sti.Barkod;
                     tMalKodu.Text = temp_sti.MalKodu;
                     tBirim.Text = temp_sti.Birim;
-                    tMakaraNo.Text = "";
+                    tMakaraNo.Text = temp_sti.MakaraNo;
+                    //tMakaraNo.Text = "";
                     tMalAdi.Text = temp_sti.MalAdi;
                     tRaf.Text = temp_sti.Raf;
                     tYerlestirmeMiktari.Text = "0";
@@ -833,7 +834,8 @@ namespace WMSMobil
                     panelSatir.MalKodu = temp_sti.MalKodu;
                     panelSatir.Miktar = temp_sti.Miktar;
                     panelSatir.Birim = temp_sti.Birim;
-                    panelSatir.MakaraNo = "";
+                    panelSatir.MakaraNo = temp_sti.MakaraNo;
+                    //panelSatir.MakaraNo = "";
                     panelSatir.IslemMiktar = temp_sti.YerlestirmeMiktari;
                     panelSatir.YerlestirmeMiktari = (sender == btnUygula) ? tMiktar.Text.ToInt32() : 1;
                     panelSatir.Raf = temp_sti.Raf;
@@ -910,6 +912,9 @@ namespace WMSMobil
                         yer.IrsID = txtEvrakno.Tag.ToInt32();
                         yer.RafNo = itemPanel.Controls[5].Text;
                         yer.GorevID = GorevID;
+                        // 31-10-17
+                        yer.MakaraNo = itemPanel.Controls[8].Text;
+                        //
                         yer.OkutulanMiktar = itemPanel.Controls[3].Text.ToDecimal() - itemPanel.Controls[6].Text.ToDecimal();
                         YerList.Add(yer);
                     }
