@@ -841,7 +841,7 @@ namespace Wms12m.Presentation.Controllers
                     FROM ong.GorevlerCalisma INNER JOIN
                                              ong.Gorevler ON ong.GorevlerCalisma.GorevID = ong.Gorevler.ID INNER JOIN
                                              ong.ProjeForm ON ong.Gorevler.ProjeFormID = ong.ProjeForm.ID INNER JOIN
-                                             ong.Musteri ON ong.ProjeForm.MusteriID = ong.Musteri.ID INNER JOIN
+                                             ong.Musteri ON ong.ProjeForm.MusteriID = ong.Musteri.ID LEFT OUTER JOIN
                                              ong.ProjeForm AS ProjeForm_1 ON ong.ProjeForm.PID = ProjeForm_1.ID
                     WHERE (ong.GorevlerCalisma.Tarih >= '{0}') AND (ong.GorevlerCalisma.Tarih <= '{1}')
                     GROUP BY ong.GorevlerCalisma.Kaydeden, ong.Musteri.Unvan, ong.ProjeForm.Proje, ong.Gorevler.Gorev, ong.GorevlerCalisma.Calisma, ong.GorevlerCalisma.Tarih, ProjeForm_1.GitGuid", tarihStart.FromOaDate().ToString("yyyy-MM-dd"), tarihEnd.FromOaDate().ToString("yyyy-MM-dd"))).ToList();
