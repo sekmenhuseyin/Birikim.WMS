@@ -31,11 +31,11 @@
                                     <td align="right">@String.Format("{0:n}", item.Miktar)</td>
                                     <td>@item.Birim</td>
                                     <td align="right">@String.Format("{0:n}", item.Fiyat)</td>
-                                    <td align="right">@String.Format("{0:n}", item.Fiyat*item.Miktar)</td>
+                                    <td align="right">@String.Format("{0:n}", item.Fiyat * item.Miktar)</td>
                                     <td>@item.ParaCinsi</td>
                                     <td>@item.Depo</td>
                                     <td>@item.Kaydeden</td>
-                                    <td>@item.KayitTarih.IntToDate().ToString("dd.MM.yyyy")</td>
+                                    <td>@item.KayitTarih</td>
                                 </tr>
                             }
                         </tbody>

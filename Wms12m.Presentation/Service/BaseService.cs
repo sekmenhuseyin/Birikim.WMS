@@ -7,7 +7,6 @@ namespace Wms12m
     public class BaseService : WebService, IDisposable
     {
         public WMSEntities db = new WMSEntities();
-        public YNSEntities dby = new YNSEntities();
         public string AuthPass = "http://www.12mconsulting.com.tr/";
         /// <summary>
         /// dispose override
@@ -17,7 +16,6 @@ namespace Wms12m
             if (disposing)
             {
                 db.Dispose();
-                dby.Dispose();
             }
             base.Dispose(disposing);
         }

@@ -244,21 +244,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ModelLog.edmx</DependentUpon>
     </Compile>
-    <Compile Include="Models\ModelYeniNesil.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ModelYeniNesil.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\ModelYeniNesil.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ModelYeniNesil.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\ModelYeniNesil.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ModelYeniNesil.edmx</DependentUpon>
-    </Compile>
     <Compile Include="Models\Musteri.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
     </Compile>
@@ -285,9 +270,6 @@
     </Compile>
     <Compile Include="Models\Simge.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\TempFatura.cs">
-      <DependentUpon>ModelYeniNesil.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Transfer.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
@@ -432,19 +414,12 @@
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>ModelKablo.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <EntityDeploy Include="Models\ModelYeniNesil.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>ModelYeniNesil.Designer.cs</LastGenOutput>
-    </EntityDeploy>
     <EntityDeploy Include="Models\ModelLog.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>ModelLog.Designer.cs</LastGenOutput>
     </EntityDeploy>
     <None Include="Models\ModelLog.edmx.diagram">
       <DependentUpon>ModelLog.edmx</DependentUpon>
-    </None>
-    <None Include="Models\ModelYeniNesil.edmx.diagram">
-      <DependentUpon>ModelYeniNesil.edmx</DependentUpon>
     </None>
     <None Include="Mysql\ModelKablo.edmx.diagram">
       <DependentUpon>ModelKablo.edmx</DependentUpon>
@@ -466,16 +441,6 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>ModelLog.edmx</DependentUpon>
       <LastGenOutput>ModelLog.cs</LastGenOutput>
-    </Content>
-    <Content Include="Models\ModelYeniNesil.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>ModelYeniNesil.edmx</DependentUpon>
-      <LastGenOutput>ModelYeniNesil.Context.cs</LastGenOutput>
-    </Content>
-    <Content Include="Models\ModelYeniNesil.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>ModelYeniNesil.edmx</DependentUpon>
-      <LastGenOutput>ModelYeniNesil.cs</LastGenOutput>
     </Content>
     <Content Include="Mysql\ModelKablo.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
