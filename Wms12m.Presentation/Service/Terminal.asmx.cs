@@ -441,7 +441,7 @@ namespace Wms12m
                 if (KatID == null)
                     return new Result(false, "Deponun rezerv katı bulunamadı");
                 //send to finsat
-                var sonuc = finsat.MalKabul(item, KullID);
+                var sonuc = finsat.MalKabul(item, KullID); 
                 if (sonuc.Status == true)
                 {
                     //finish
@@ -463,10 +463,10 @@ namespace Wms12m
                                 Birim = item2.Birim,
                                 Miktar = item2.Miktar.Value
                             };
-                            if (item2.MakaraNo != "" || item2.MakaraNo != null) tmp2.MakaraNo = item2.MakaraNo;
+                            if (item2.MakaraNo != "" && item2.MakaraNo != null) tmp2.MakaraNo = item2.MakaraNo;
                             stok.Insert(tmp2, 0, KullID);
                         }
-                        else if (item2.MakaraNo != "" || item2.MakaraNo != null)
+                        else if (item2.MakaraNo != "" && item2.MakaraNo != null)
                             if (tmp2.MakaraNo != item2.MakaraNo)
                             {
                                 tmp2 = new Yer()
