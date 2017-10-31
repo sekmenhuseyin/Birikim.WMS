@@ -16,7 +16,7 @@
             if (checkinGoster == true){
                 foreach (var itemx in checkinsList)
                 {
-                    if (itemx.GitGuid == item.Gorevler.ProjeForm.ProjeForm2.GitGuid && itemx.Kaydeden == item.Kaydeden)
+                    if (itemx.GitGuid == item.Gorevler.ProjeForm.ProjeForm2.GitGuid && itemx.Kaydeden == item.Onaylayan)
                     {
                         varmış = true;
                         checkin = itemx.checkin;
@@ -26,7 +26,7 @@
                 if (varmış == false)
                 {
                     checkin = item.Gorevler.ProjeForm.ProjeForm2.GitGuid.GetCommitDate(GitServerAddress, item.Onaylayan);
-                    checkinsList.Add(new ForToDosList() { GitGuid = item.Gorevler.ProjeForm.ProjeForm2.GitGuid, Kaydeden = item.Kaydeden, checkin = checkin });
+                    checkinsList.Add(new ForToDosList() { GitGuid = item.Gorevler.ProjeForm.ProjeForm2.GitGuid, Kaydeden = item.Onaylayan, checkin = checkin });
                 }
             }
             <tr data-ID="@item.GorevID" @if (checkinGoster == true && (checkin == new DateTime() || checkin.Date < item.DegisTarih.Date)) {@(" class=font-red")}>
