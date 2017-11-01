@@ -42,7 +42,7 @@ namespace Wms12m.Presentation.Controllers
                             FROM            Connections RIGHT OUTER JOIN
                                                      usr.Users ON Connections.UserName = usr.Users.Kod
                             WHERE        (usr.Users.ID > 1) AND (usr.Users.Aktif = 1) AND (usr.Users.ID <> {0})
-                            ORDER BY usr.Users.AdSoyad", vUser.Id, vUser.UserName)).ToList();
+                            ORDER BY Aktif DESC, usr.Users.AdSoyad", vUser.Id, vUser.UserName)).ToList();
             return PartialView("../Shared/Users", list);
         }
         /// <summary>
