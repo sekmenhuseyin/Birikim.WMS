@@ -37,7 +37,7 @@
     FuncSearchBtn();
     function FuncSearchBtn() {
         $('#Grid').html("");
-        PartialView('/WMS/Transfer/ListDetail', 'Grid', JSON.stringify({ Id: $('#DurumID').val() }));
+        PartialView('/WMS/Transfer/WaitingList', 'Grid', JSON.stringify({ Id: $('#DurumID').val() }));
     }
     function newrow(id) {
         return "<table style='background:transparent;' id='new" + id + "'></table>";

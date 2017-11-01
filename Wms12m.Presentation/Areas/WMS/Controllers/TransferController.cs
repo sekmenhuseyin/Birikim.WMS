@@ -341,7 +341,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             //log
             LogActions("WMS", "Transfer", "Approve", ComboItems.alOnayla, ID);
             //return
-            return RedirectToAction("List");
+            return RedirectToAction("Waiting");
         }
         /// <summary>
         /// transfer sil
