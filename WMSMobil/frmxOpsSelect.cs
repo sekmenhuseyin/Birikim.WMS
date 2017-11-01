@@ -48,6 +48,8 @@ namespace WMSMobil
 
         private void listView1_SelectedIndexChanged(object sender, EventArgs e)
         {
+            if (listView1.SelectedIndices.Count == 0)
+                return;
             var secili = listView1.SelectedIndices[0];
             Ayarlar.Tarih = Convert.ToInt32(listView1.Items[secili].SubItems[0].Text);
         }
