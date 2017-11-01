@@ -352,44 +352,41 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                             if (grvTDL.Aciklama.Trim() != "")
                             {
                                 db.GorevlerToDoLists.Add(grvTDL);
-                                if (tbl.DurumID == ComboItems.gydAtandı.ToInt32())
+                                var mesaj = new Message()
                                 {
-                                    var mesaj = new Message()
+                                    MesajTipi = ComboItems.DuyuruMesajı.ToInt32(),
+                                    Kimden = vUser.UserName,
+                                    Kime = tbl.Sorumlu,
+                                    Tarih = DateTime.Now,
+                                    Mesaj = "Onay listenize bir maddde eklendi: " + work[i],
+                                    URL = "/ToDo/DutyWork/Todos"
+                                };
+                                db.Messages.Add(mesaj);
+                                if (tbl.Sorumlu2 != null)
+                                {
+                                    var mesaj2 = new Message()
                                     {
                                         MesajTipi = ComboItems.DuyuruMesajı.ToInt32(),
                                         Kimden = vUser.UserName,
-                                        Kime = tbl.Sorumlu,
+                                        Kime = tbl.Sorumlu2,
                                         Tarih = DateTime.Now,
                                         Mesaj = "Onay listenize bir maddde eklendi: " + work[i],
                                         URL = "/ToDo/DutyWork/Todos"
                                     };
-                                    db.Messages.Add(mesaj);
-                                    if (tbl.Sorumlu2 != null)
+                                    db.Messages.Add(mesaj2);
+                                }
+                                if (tbl.Sorumlu3 != null)
+                                {
+                                    var mesaj3 = new Message()
                                     {
-                                        var mesaj2 = new Message()
-                                        {
-                                            MesajTipi = ComboItems.DuyuruMesajı.ToInt32(),
-                                            Kimden = vUser.UserName,
-                                            Kime = tbl.Sorumlu2,
-                                            Tarih = DateTime.Now,
-                                            Mesaj = "Onay listenize bir maddde eklendi: " + work[i],
-                                            URL = "/ToDo/DutyWork/Todos"
-                                        };
-                                        db.Messages.Add(mesaj2);
-                                    }
-                                    if (tbl.Sorumlu3 != null)
-                                    {
-                                        var mesaj3 = new Message()
-                                        {
-                                            MesajTipi = ComboItems.DuyuruMesajı.ToInt32(),
-                                            Kimden = vUser.UserName,
-                                            Kime = tbl.Sorumlu3,
-                                            Tarih = DateTime.Now,
-                                            Mesaj = "Onay listenize bir maddde eklendi: " + work[i],
-                                            URL = "/ToDo/DutyWork/Todos"
-                                        };
-                                        db.Messages.Add(mesaj3);
-                                    }
+                                        MesajTipi = ComboItems.DuyuruMesajı.ToInt32(),
+                                        Kimden = vUser.UserName,
+                                        Kime = tbl.Sorumlu3,
+                                        Tarih = DateTime.Now,
+                                        Mesaj = "Onay listenize bir maddde eklendi: " + work[i],
+                                        URL = "/ToDo/DutyWork/Todos"
+                                    };
+                                    db.Messages.Add(mesaj3);
                                 }
                             }
                         }
