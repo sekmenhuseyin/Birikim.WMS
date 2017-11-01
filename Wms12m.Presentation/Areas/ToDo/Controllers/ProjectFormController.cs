@@ -57,6 +57,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             {
                 if (projeForm.ID == 0)
                 {
+                    projeForm.Aktif = true;
                     projeForm.Degistiren = vUser.UserName;
                     projeForm.Kaydeden = vUser.UserName;
                     projeForm.DegisTarih = DateTime.Now;
@@ -166,6 +167,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             {
                 if (projeForm.ID == 0)
                 {
+                    projeForm.Aktif = true;
                     projeForm.Degistiren = vUser.UserName;
                     projeForm.Kaydeden = vUser.UserName;
                     projeForm.DegisTarih = DateTime.Now;

@@ -94,19 +94,14 @@ namespace Wms12m.Entity
         public string GostRiskDeger { get; set; }
         public string GostKod3OrtBakiye { get; set; }
     }
-    public class frmNotifications
+
+    public class frmChatUser
     {
         public int ID { get; set; }
-        public int MesajTipi { get; set; }
-        public DateTime Tarih { get; set; }
-        public string Kimden { get; set; }
-        public string Kime { get; set; }
-        public string Mesaj { get; set; }
-        public bool Okundu { get; set; }
-        public bool GonderenSildi { get; set; }
-        public bool AliciSildi { get; set; }
-        public bool Goruldu { get; set; }
-        public string CmbItemName { get; set; }
-        public string URL { get; set; }
+        public string Guid { get; set; }
+        public string Kod { get; set; }
+        public string AdSoyad { get; set; }
+        public string RoleName { get; set; }
+        public bool Aktif { get; set; }
     }
 }

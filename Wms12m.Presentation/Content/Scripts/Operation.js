@@ -155,3 +155,9 @@ function CT(style, message, title, url) {
         onclick: function () { if (url != '' && url != null) window.location.href = url; }
     });
 }
+//refreshNotifications
+function RefreshNotifications()
+{
+    PartialView('/Home/Notifications', 'header_notification_bar', JSON.stringify({ Onay: true }));
+    setTimeout(function () { App.initSlimScroll('.scroller') }, 1000);
+}

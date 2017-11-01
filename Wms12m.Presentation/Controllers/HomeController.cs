@@ -92,8 +92,11 @@ namespace Wms12m.Presentation.Controllers
             {
                 sql = string.Format("([Messages].MesajTipi = {0}) AND (([Messages].Kimden = '{1}') AND ([Messages].Kime = '{2}') OR ([Messages].Kimden = '{2}') AND ([Messages].Kime = '{1}'))", ComboItems.KişiselMesaj.ToInt32(), vUser.UserName, ID);
                 ViewBag.guid = db.Users.Where(m => m.Kod == ID).Select(m => m.Guid.ToString()).FirstOrDefault();
+                //set as read
+                db.Database.ExecuteSqlCommand("UPDATE [Messages] Set Okundu = 1 WHERE [Messages].MesajTipi = " + ComboItems.KişiselMesaj.ToInt32() + " AND [Messages].Kimden = '" + ID + "' AND [Messages].Kime = '" + vUser.UserName + "'");
             }
-            var list = db.Database.SqlQuery<frmMessages>(string.Format(@"SELECT        TOP (100) usr.Users.AdSoyad, usr.Users.Kod, [Messages].Tarih, [Messages].Mesaj, usr.Users.[Guid] AS [ID]
+            var list = db.Database.SqlQuery<frmMessages>(string.Format(@"
+                                SELECT        TOP (100) usr.Users.AdSoyad, usr.Users.Kod, [Messages].Tarih, [Messages].Mesaj, usr.Users.[Guid] AS [ID]
                                 FROM            [Messages] INNER JOIN usr.Users ON [Messages].Kimden = usr.Users.Kod
                                 WHERE        {0}
                                 ORDER BY [Messages].Tarih", sql)).ToList();
@@ -102,9 +105,18 @@ namespace Wms12m.Presentation.Controllers
         /// <summary>
         /// Notifications
         /// </summary>
-        public PartialViewResult Notifications()
+        public PartialViewResult Notifications(bool Onay = false)
         {
-            var tablo = ViewBag.UnreadMessages;
+            var trh = DateTime.Now.AddDays(-30);
+            var tablo = db.Messages.Where(m => m.MesajTipi == 85 && m.Kime == vUser.UserName && (m.Okundu == false || m.Tarih > trh)).OrderByDescending(m => m.Tarih).ToList();
+            if (Onay == true)
+            {
+                foreach (var item in tablo.Where(m => m.Okundu == false))
+                {
+                    item.Okundu = true;
+                }
+                db.SaveChanges();
+            }
             return PartialView("../Shared/Notifications", tablo);
         }
         #region Satış Raporları

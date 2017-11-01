@@ -23,7 +23,7 @@ $(function () {
             return tpl;
         };
         if (userNameFrom == currentUserName) { }
-        else if (userNameTo === SendMessageTo) {
+        else if (userNameFrom === SendMessageTo) {
             var wrapper = $('.page-quick-sidebar-wrapper');
             var wrapperChat = wrapper.find('.page-quick-sidebar-chat');
             var chatContainer = wrapperChat.find(".page-quick-sidebar-chat-user-messages");
@@ -52,14 +52,13 @@ $(function () {
             alert(data.ErrorMessage);
             return;
         }
-        var $users = $('#users');
-        $users.html(null);
+        $('.badge').removeClass("badge-success");
+        $('.badge').removeClass("badge-danger");
+        $('.badge').addClass("badge-danger");
         //geri dönen değerin "UsersOnline" değişkenine bakar
         for (var user of data.UsersOnline) {
-            if (user === currentUserName)
-                $users.append($('<p class="user-current">' + user + '</p>'));
-            else
-                $users.append('<p class="user">' + user + '</p>');
+            $('.badge-' + user).removeClass("badge-danger");
+            $('.badge-' + user).addClass("badge-success");
         }
     };
     //connection başladığında

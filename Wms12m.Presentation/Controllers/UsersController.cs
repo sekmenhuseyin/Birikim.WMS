@@ -34,7 +34,16 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public PartialViewResult SharedList()
         {
-            return PartialView("../Shared/Users", db.Users.Where(m => m.ID > 1 && m.ID != vUser.Id && m.Aktif == true).OrderBy(m => m.AdSoyad).ToList());
+            var list = db.Database.SqlQuery<frmChatUser>(string.Format(@"
+                            SELECT        CONVERT(varchar(50), usr.Users.Guid) as Guid, usr.Users.Kod, usr.Users.AdSoyad, usr.Users.RoleName, ISNULL(Connections.IsOnline, CAST(0 AS Bit)) AS Aktif,
+                                                         (SELECT        COUNT(ID) AS Expr1
+                                                           FROM            [Messages]
+                                                           WHERE        (Kimden = usr.Users.Kod) AND (MesajTipi = 84) AND (Okundu = 0) AND (Kime = '{1}')) AS ID
+                            FROM            Connections RIGHT OUTER JOIN
+                                                     usr.Users ON Connections.UserName = usr.Users.Kod
+                            WHERE        (usr.Users.ID > 1) AND (usr.Users.Aktif = 1) AND (usr.Users.ID <> {0})
+                            ORDER BY usr.Users.AdSoyad", vUser.Id, vUser.UserName)).ToList();
+            return PartialView("../Shared/Users", list);
         }
         /// <summary>
         /// ayrıntılar
