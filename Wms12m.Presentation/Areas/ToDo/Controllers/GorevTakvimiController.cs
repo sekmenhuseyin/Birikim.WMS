@@ -64,7 +64,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         public PartialViewResult ListTatil()
         {
             ViewBag.Yetki = CheckPerm(Perms.TodoTakvim, PermTypes.Writing);
-            var list = db.Etkinliks.Where(m=>m.ID>0);
+            var list = db.Etkinliks.Where(m => m.ID > 0);
             if (ViewBag.Yetki == false)
                 list = list.Where(m => m.Username == vUser.UserName);
             return PartialView("ListTatil", list.OrderByDescending(m => m.Tarih).ToList());
@@ -172,6 +172,24 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             try
             {
                 db.Etkinliks.Remove(tbl);
+                db.SaveChanges();
+                return Json(new Result(true, Id), JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception)
+            {
+                return Json(new Result(false, "Hata oldu."), JsonRequestBehavior.AllowGet);
+            }
+        }
+        /// <summary>
+        /// yıllık izin onay
+        /// </summary>
+        public JsonResult Approve(int Id)
+        {
+            if (CheckPerm(Perms.TodoTakvim, PermTypes.Deleting) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
+            var tbl = db.Etkinliks.Find(Id);
+            try
+            {
+                tbl.Onay = true;
                 db.SaveChanges();
                 return Json(new Result(true, Id), JsonRequestBehavior.AllowGet);
             }

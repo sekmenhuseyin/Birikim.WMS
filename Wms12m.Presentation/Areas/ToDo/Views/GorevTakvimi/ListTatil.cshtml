@@ -7,7 +7,7 @@
 		@foreach (var item in Model)
 		{
 			<tr>
-				<td nowrap><div class="hidden">@item.Tarih.ToOADateInt()</div>@item.Tarih.ToString("dd.MM.yyyy")</td>
+				<td nowrap><div class="hidden">@if (!item.Onay) {@("9")}@item.Tarih.ToOADateInt()</div>@item.Tarih.ToString("dd.MM.yyyy")</td>
 				<td nowrap>@if (item.Username == null) {@("Herkes")} else {@item.Username}</td>
 				<td nowrap>@item.ComboItem_Name.Name</td>
 				<td>@if (item.Tekrarlayan == true) { @("Evet") } else { @("Hayır") }</td>
@@ -15,9 +15,14 @@
 				<td>@item.Sure</td>
 				<td nowrap>@if (ViewBag.Yetki == true)
 				{
+					if (item.Onay == false) { <a class="btn btn-primary" href="javascript:;" onclick="Approve(@item.ID)"> Onayla </a> }
 					<a class="btn btn-default" href="#modalEditPage" data-toggle="modal" onclick="editInModal2('/ToDo/GorevTakvimi/Dublicate', { Id: @item.ID })"> Çoğalt </a>
 					<a class="btn btn-default" href="#modalEditPage" data-toggle="modal" onclick="editInModal2('/ToDo/GorevTakvimi/Edit', { Id: @item.ID })"> Düzenle </a>
 					<a class="btn btn-danger" href="javascript:;" onclick="Delete('@item.ID', '/ToDo/GorevTakvimi/ListTatil', 'listeTatil', '')"> Sil </a>
+}
+				else if (item.Onay == false)
+				{
+					<div>Onaylanmadı</div>
 				}
 				</td>
 			</tr>
@@ -41,4 +46,28 @@
 	//tarih
 	$.datepicker.setDefaults($.datepicker.regional["tr"]);
 	$(".tarih").datepicker();
+	@if (ViewBag.Yetki == true)
+	{
+		<text>
+		function Approve(Id) {
+			$.ajax({
+				type: 'POST',
+				url: '/ToDo/GorevTakvimi/Approve',
+				data: { "Id": Id },
+				success: function (data) {
+					if (data.Status == true) {
+						PartialView("/ToDo/GorevTakvimi/ListTatil", "listeTatil", "");
+					}
+					else if (data.Message != "" && data.Message != null)
+						Modaldialog(data.Message, 'Hata', 'Tamam', 'btn-danger');
+					else
+						Modaldialog("Hata oldu", 'Hata', 'Tamam', 'btn-danger');
+				},
+				error: function (data) {
+					Modaldialog("Hata oldu", 'Hata', 'Tamam', 'btn-danger');
+				}
+			});
+		}
+		</text>
+	}
 </script>
