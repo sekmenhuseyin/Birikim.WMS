@@ -238,7 +238,8 @@ namespace Wms12m
                         EFatSenaryo = stItem.EFatSenaryo,
                         EArsivTeslimSekli = stItem.EArsivTeslimSekli,
                         EFatEtiketGB = stItem.EFatEtiketGB,
-                        EFatEtiketPK = stItem.EFatEtiketPK
+                        EFatEtiketPK = stItem.EFatEtiketPK,
+                        IslemTip= stItem.SipIslemTip
 
                     };
                     if (stItem.SiparisNo != "")
@@ -371,7 +372,7 @@ FROM wms.IRS_Detay WITH (NOLOCK) WHERE IrsaliyeID={1}", SirketKodu, irsID);
                         finsat.Miktar = item.Miktar;
                         finsat.EvrakNo = evrkno[0].EvrakNo;
                         finsat.KaynakIrsEvrakNo = evrkno[1].EvrakNo;
-                        finsat.Tarih = item.KaynakSiparisTarih.Value;
+                        finsat.Tarih = finsat.KaynakSiparisTarih;
                         finsat.Kaydeden = kaydeden;
                         finsat.KayitSurum = "9.01.028";
                         finsat.KayitKaynak = 74;
@@ -596,7 +597,7 @@ FROM wms.IRS_Detay WITH (NOLOCK) WHERE IrsaliyeID={1}", SirketKodu, irsID);
                     {
                         finsat.Miktar = item.Miktar;
                         finsat.EvrakNo = evrkno[0].EvrakNo;
-                        finsat.Tarih = item.KynkSiparisTarih;
+                        finsat.Tarih = finsat.KaynakSiparisTarih;
                         finsat.Kaydeden = kaydeden;
                         finsat.KayitSurum = "9.01.028";
                         finsat.KayitKaynak = 74;
