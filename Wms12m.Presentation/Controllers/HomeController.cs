@@ -126,8 +126,11 @@ namespace Wms12m.Presentation.Controllers
         {
             var ID = Id.ToInt32();
             var satir = db.Messages.Where(m => m.ID == ID).FirstOrDefault();
-            satir.Okundu = true;
-            db.SaveChanges();
+            if (satir.Okundu == false)
+            {
+                satir.Okundu = true;
+                db.SaveChanges();
+            }
             return Redirect(satir.URL);
         }
         #region Satış Raporları
