@@ -28,7 +28,6 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         /// </summary>
         public PartialViewResult Stock(string Id)
         {
-            if (CheckPerm(Perms.Transfer, PermTypes.Reading) == false) return null;
             JObject parameters = JsonConvert.DeserializeObject<JObject>(Id);
             string SirketID = parameters["SirketID"].ToString(), GirisDepo = parameters["GirisDepo"].ToString(), CikisDepo = parameters["CikisDepo"].ToString(), listType = parameters["listType"].ToString();
             ViewBag.SirketID = SirketID;
@@ -134,7 +133,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             }
             //yeni bir görev eklenir
             string GorevNo = db.SettingsGorevNo(today, cDepoID.ID).FirstOrDefault();
-            var cevap = db.InsertIrsaliye(tbl.SirketID, cDepoID.ID, GorevNo, GorevNo, today, "Giriş: " + tbl.GirisDepo + ", Çıkış: " + tbl.CikisDepo, true, ComboItems.TransferÇıkış.ToInt32(), vUser.UserName, today, time, cDepoID.DepoAd, "", 0, "","").FirstOrDefault();
+            var cevap = db.InsertIrsaliye(tbl.SirketID, cDepoID.ID, GorevNo, GorevNo, today, "Giriş: " + tbl.GirisDepo + ", Çıkış: " + tbl.CikisDepo, true, ComboItems.TransferÇıkış.ToInt32(), vUser.UserName, today, time, cDepoID.DepoAd, "", 0, "", "").FirstOrDefault();
             //yeni transfer eklenir
             var sonuc = Transfers.Operation(new Transfer() { SirketKod = tbl.SirketID, GirisDepoID = gDepoID.ID, CikisDepoID = cDepoID.ID, AraDepoID = aDepoID, GorevID = cevap.GorevID.Value });
             ViewBag.Result = new Result(false, "Kayıtta hata oldu. Lütfen tekrar deneyin.");
@@ -277,21 +276,20 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             return PartialView("SummaryList", transfer);
         }
         /// <summary>
-        /// onay bekleyen transfer lsitesi
+        /// onay bekleyen transfer sayfası
         /// </summary>
-        public ActionResult List()
+        public ActionResult Waiting()
         {
             if (CheckPerm(Perms.Transfer, PermTypes.Reading) == false) return Redirect("/");
-            return View("List");
+            return View("Waiting");
         }
         /// <summary>
-        /// onay bekleyen transfer lsitesi
+        /// onay bekleyen transfer listesi
         /// </summary>
-        public PartialViewResult ListDetail(bool Id)
+        public PartialViewResult WaitingList(bool Id)
         {
-            if (CheckPerm(Perms.Transfer, PermTypes.Reading) == false) return null;
             var list = Transfers.GetList(Id, vUser.DepoId);
-            return PartialView("ListDetail", list);
+            return PartialView("WaitingList", list);
         }
         /// <summary>
         /// transfere ait mallar
@@ -299,7 +297,6 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         [HttpPost]
         public PartialViewResult Details(int ID)
         {
-            if (CheckPerm(Perms.Transfer, PermTypes.Reading) == false) return null;
             //dbler tempe aktarılıyor
             var list = db.GetSirketDBs();
             List<string> liste = new List<string>();
@@ -307,7 +304,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             ViewBag.Sirket = liste;
             //return
             var result = db.Transfer_Detay.Where(m => m.TransferID == ID).Select(m => new frmMalKoduMiktar { MalKodu = m.MalKodu, Miktar = m.Miktar, Birim = m.Birim }).ToList();
-            return PartialView("List_Details", result);
+            return PartialView("Details", result);
         }
         /// <summary>
         /// bekleyen transferi onayla
@@ -421,7 +418,6 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         /// </summary>
         public PartialViewResult SummaryEdit(int ID)
         {
-            if (CheckPerm(Perms.Transfer, PermTypes.Writing) == false) return null;
             var tbl = Transfers.SubDetail(ID);
             return PartialView("SummaryEdit", tbl);
         }

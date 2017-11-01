@@ -483,6 +483,10 @@
     <Content Include="Areas\WMS\Views\Stock\Comparison.cshtml" />
     <Content Include="Areas\WMS\Views\Stock\ComparisonList.cshtml" />
     <Content Include="Areas\UYS\Views\web.config" />
+    <Content Include="Areas\UYS\Views\Transfer\Index.cshtml" />
+    <Content Include="Areas\UYS\Views\Transfer\Summary.cshtml" />
+    <Content Include="Areas\UYS\Views\Transfer\Waiting.cshtml" />
+    <Content Include="Areas\UYS\Views\Transfer\WaitingList.cshtml" />
     <None Include="bundleconfig.json" />
     <Content Include="Content\SizeSablon.xlsx" />
     <Content Include="Content\StockSablon.xlsx" />
@@ -676,8 +680,8 @@
     <Content Include="Areas\WMS\Views\Sales\Step5.cshtml" />
     <Content Include="Areas\WMS\Views\Transfer\Index.cshtml" />
     <Content Include="Areas\WMS\Views\Transfer\Index_Stock.cshtml" />
-    <Content Include="Areas\WMS\Views\Transfer\List.cshtml" />
-    <Content Include="Areas\WMS\Views\Transfer\List_Details.cshtml" />
+    <Content Include="Areas\WMS\Views\Transfer\Waiting.cshtml" />
+    <Content Include="Areas\WMS\Views\Transfer\Details.cshtml" />
     <Content Include="Areas\WMS\Views\Stock\History.cshtml" />
     <Content Include="Areas\WMS\Views\Stock\HistoryList.cshtml" />
     <Content Include="Areas\WMS\Views\Transfer\Summary.cshtml" />
@@ -687,7 +691,7 @@
     <Content Include="Areas\WMS\Views\Cable\_Siparis.cshtml" />
     <Content Include="Areas\WMS\Views\Cable\Step2.cshtml" />
     <Content Include="Areas\WMS\Views\Cable\Step3.cshtml" />
-    <Content Include="Areas\WMS\Views\Transfer\ListDetail.cshtml" />
+    <Content Include="Areas\WMS\Views\Transfer\WaitingList.cshtml" />
     <Content Include="Areas\WMS\Views\Cable\Step4.cshtml" />
     <Content Include="Areas\WMS\Views\Cable\Step5.cshtml" />
     <Content Include="Areas\WMS\Views\Stock\ManualPlacement.cshtml" />
@@ -887,7 +891,6 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Areas\UYS\Views\Transfer\" />
     <Folder Include="Content\assets\layouts\global\scripts\" />
   </ItemGroup>
   <PropertyGroup>
