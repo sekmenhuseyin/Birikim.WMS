@@ -23,7 +23,7 @@ $(function () {
             return tpl;
         };
         if (userNameFrom == currentUserName) { }
-        else if (userNameTo === SendMessageTo) {
+        else if (userNameFrom === SendMessageTo) {
             var wrapper = $('.page-quick-sidebar-wrapper');
             var wrapperChat = wrapper.find('.page-quick-sidebar-chat');
             var chatContainer = wrapperChat.find(".page-quick-sidebar-chat-user-messages");
