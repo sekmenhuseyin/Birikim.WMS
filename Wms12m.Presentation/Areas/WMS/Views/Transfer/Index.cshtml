@@ -56,7 +56,6 @@
                                 <span class="field-validation-valid" data-valmsg-for="DepoID" data-valmsg-replace="true" style="color:red;"></span>
                             </div>
                         </div>
-
                         <div class="form-group">
                             <div class="col-md-4 col-md-offset-3"><input type="button" class="btn btn-primary btn-block input-circle" onclick="FuncSearchBtn()" value="Listele" /></div>
                         </div>
@@ -81,7 +80,7 @@
         jObject["listType"] = $("#listType").val();
         $('#liste').html("");
         $.ajax({
-            url: '/WMS/Transfer/Stock',
+            url: '/WMS/Transfer/List',
             type: 'POST',
             data: { Id: JSON.stringify(jObject) },
             success: function (data) {
