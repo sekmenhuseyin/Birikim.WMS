@@ -52,14 +52,13 @@ $(function () {
             alert(data.ErrorMessage);
             return;
         }
-        var $users = $('#users');
-        $users.html(null);
+        $('.badge').removeClass("badge-success");
+        $('.badge').removeClass("badge-danger");
+        $('.badge').addClass("badge-danger");
         //geri dönen değerin "UsersOnline" değişkenine bakar
         for (var user of data.UsersOnline) {
-            if (user === currentUserName)
-                $users.append($('<p class="user-current">' + user + '</p>'));
-            else
-                $users.append('<p class="user">' + user + '</p>');
+            $('.badge-' + user).removeClass("badge-danger");
+            $('.badge-' + user).addClass("badge-success");
         }
     };
     //connection başladığında

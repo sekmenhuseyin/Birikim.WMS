@@ -12,7 +12,7 @@
         <li class="media">
             <input type="hidden" value="@item.Kod" />
             <div class="media-status">
-                <span class="badge badge-@if (item.Aktif) {@("success")} else {@("danger")}">@if (item.ID > 0) {@item.ID} else {@(" ")}</span>
+                <span class="badge badge-@item.Kod badge-@if (item.Aktif) {@("success")} else {@("danger")}">@if (item.ID > 0) {@item.ID} else {@("  ")}</span>
             </div>
             <img class="media-object" src="@Html.ImageOrDefault(item.Guid.ToString())" alt="@item.AdSoyad">
             <div class="media-body">
