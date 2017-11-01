@@ -119,6 +119,17 @@ namespace Wms12m.Presentation.Controllers
             }
             return PartialView("../Shared/Notifications", tablo);
         }
+        /// <summary>
+        /// redirect from notification
+        /// </summary>
+        public ActionResult GoTo(string Id)
+        {
+            var ID = Id.ToInt32();
+            var satir = db.Messages.Where(m => m.ID == ID).FirstOrDefault();
+            satir.Okundu = true;
+            db.SaveChanges();
+            return Redirect(satir.URL);
+        }
         #region Satış Raporları
         public PartialViewResult PartialGunlukSatisZamanCizelgesi(string SirketKodu)
         {

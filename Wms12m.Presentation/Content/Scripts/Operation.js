@@ -159,5 +159,5 @@ function CT(style, message, title, url) {
 function RefreshNotifications()
 {
     PartialView('/Home/Notifications', 'header_notification_bar', JSON.stringify({ Onay: true }));
-    setTimeout(function () { App.initSlimScroll('.scroller') }, 1000);
+    setTimeout(function () { App.initSlimScroll('.scroller'); $("#header_notification_bar").addClass("open"); }, 1000);
 }
