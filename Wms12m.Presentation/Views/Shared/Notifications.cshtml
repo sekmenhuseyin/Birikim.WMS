@@ -1,10 +1,10 @@
 ﻿@model IEnumerable<Message>
 <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
-    <i class="icon-bell"></i>@if (Model.Count() > 0) {<span class="badge badge-default"> @Model.Count() </span>}
+    <i class="icon-bell"></i>@if (Model.Where(m => m.Goruldu == false).Count() > 0) {<span class="badge badge-default"> @Model.Where(m => m.Goruldu == false).Count() </span>}
 </a>
 <ul class="dropdown-menu" style="max-width:500px!important;width:500px!important;">
     <li class="external">
-        <h3><span class="bold">@Model.Count() yeni bildiri var</span></h3>
+        <h3><span class="bold">@Model.Where(m => m.Goruldu == false).Count() yeni bildiri var</span></h3>
         <a href="/Inbox/Notifications">hepsine bak</a>
     </li>
     <li>

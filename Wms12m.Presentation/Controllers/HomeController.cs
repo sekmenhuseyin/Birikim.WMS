@@ -104,7 +104,8 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public PartialViewResult Notifications()
         {
-            var tablo = ViewBag.UnreadMessages;
+            var trh = DateTime.Now.AddDays(-30);
+            var tablo = db.Messages.Where(m => m.MesajTipi == 85 && m.Kime == vUser.UserName && (m.Okundu == false || m.Tarih > trh)).OrderByDescending(m => m.Tarih).ToList();
             return PartialView("../Shared/Notifications", tablo);
         }
         #region Satış Raporları
