@@ -102,15 +102,15 @@ namespace Wms12m.Presentation.Controllers
         /// <summary>
         /// Notifications
         /// </summary>
-        public PartialViewResult Notifications(bool Onay=false)
+        public PartialViewResult Notifications(bool Onay = false)
         {
             var trh = DateTime.Now.AddDays(-30);
             var tablo = db.Messages.Where(m => m.MesajTipi == 85 && m.Kime == vUser.UserName && (m.Okundu == false || m.Tarih > trh)).OrderByDescending(m => m.Tarih).ToList();
-            if (Onay==true)
+            if (Onay == true)
             {
-                foreach (var item in tablo.Where(m=>m.Goruldu==false))
+                foreach (var item in tablo.Where(m => m.Okundu == false))
                 {
-                    item.Goruldu = true;
+                    item.Okundu = true;
                 }
                 db.SaveChanges();
             }
