@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Web.Mvc;
 using Wms12m.Entity;
 
@@ -19,6 +20,22 @@ namespace Wms12m.Presentation.Areas.UYS.Controllers
         public ActionResult Waiting()
         {
             return View("Waiting");
+        }
+        /// <summary>
+        /// planlamadaki 1. adımdaki malzeme listesi
+        /// </summary>
+        public PartialViewResult List(string Id)
+        {
+            try
+            {
+                return PartialView("List");
+            }
+            catch (Exception ex)
+            {
+                Logger(ex, "UYS/Transfer/List");
+                return PartialView("List", new List<frmTransferMalzemeler>());
+            }
+
         }
         /// <summary>
         /// onay bekleyen transfer listesi

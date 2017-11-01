@@ -26,7 +26,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         /// <summary>
         /// planlamadaki 1. adımdaki malzeme listesi
         /// </summary>
-        public PartialViewResult Stock(string Id)
+        public PartialViewResult List(string Id)
         {
             JObject parameters = JsonConvert.DeserializeObject<JObject>(Id);
             string SirketID = parameters["SirketID"].ToString(), GirisDepo = parameters["GirisDepo"].ToString(), CikisDepo = parameters["CikisDepo"].ToString(), listType = parameters["listType"].ToString();
@@ -42,12 +42,12 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             try
             {
                 var list = db.Database.SqlQuery<frmTransferMalzemeler>(sql).ToList();
-                return PartialView("Index_Stock", list);
+                return PartialView("List", list);
             }
             catch (Exception ex)
             {
-                Logger(ex, "Transfer/Stock");
-                return PartialView("Index_Stock", new List<frmTransferMalzemeler>());
+                Logger(ex, "WMS/Transfer/List");
+                return PartialView("List", new List<frmTransferMalzemeler>());
             }
 
         }

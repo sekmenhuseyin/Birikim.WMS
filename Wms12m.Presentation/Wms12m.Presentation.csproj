@@ -487,6 +487,7 @@
     <Content Include="Areas\UYS\Views\Transfer\Summary.cshtml" />
     <Content Include="Areas\UYS\Views\Transfer\Waiting.cshtml" />
     <Content Include="Areas\UYS\Views\Transfer\WaitingList.cshtml" />
+    <Content Include="Areas\UYS\Views\Transfer\List.cshtml" />
     <None Include="bundleconfig.json" />
     <Content Include="Content\SizeSablon.xlsx" />
     <Content Include="Content\StockSablon.xlsx" />
@@ -679,7 +680,7 @@
     <Content Include="Areas\WMS\Views\Sales\Step4.cshtml" />
     <Content Include="Areas\WMS\Views\Sales\Step5.cshtml" />
     <Content Include="Areas\WMS\Views\Transfer\Index.cshtml" />
-    <Content Include="Areas\WMS\Views\Transfer\Index_Stock.cshtml" />
+    <Content Include="Areas\WMS\Views\Transfer\List.cshtml" />
     <Content Include="Areas\WMS\Views\Transfer\Waiting.cshtml" />
     <Content Include="Areas\WMS\Views\Transfer\Details.cshtml" />
     <Content Include="Areas\WMS\Views\Stock\History.cshtml" />
