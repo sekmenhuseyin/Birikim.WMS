@@ -865,7 +865,7 @@ namespace WMSMobil
             }
             else if (!mal_var)
             {
-                Mesaj.Uyari("Göreve ait böyle bir ürün bulunmamaktadır.");
+                Mesaj.Uyari("Göreve ait böyle bir ürün bulunmamaktadır."); 
             }
         }
         /// <summary>
