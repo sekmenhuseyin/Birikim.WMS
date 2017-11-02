@@ -12,7 +12,7 @@
                 </div>
             </div>
             <div class="portlet-body form">
-                @using (Ajax.BeginForm("Summary", "Transfer", new { area = "WMS" }, new AjaxOptions { InsertionMode = InsertionMode.Replace, OnBegin = "$('#modalEditPage').html('');$('#modalEditPage').modal('toggle');", UpdateTargetId = "modalEditPage", OnFailure= "Modaldialog('Lütfen Tekrar Deneyin', 'Hata', 'Tamam', 'btn-danger');" }, new { @class = "form-horizontal" }))
+                @using (Ajax.BeginForm("Summary", "Transfer", new { area = "WMS" }, new AjaxOptions { InsertionMode = InsertionMode.Replace, OnFailure= "Modaldialog('Lütfen Tekrar Deneyin', 'Hata', 'Tamam', 'btn-danger');" }, new { @class = "form-horizontal" }))
                 {
                     @Html.AntiForgeryToken()
                     @Html.ValidationSummary(true)
@@ -32,9 +32,26 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <div class="col-md-4 col-md-offset-3"><input type="button" class="btn btn-primary btn-block input-circle" onclick="FuncSearchBtn()" value="Listele" /></div>
+                            <label class="col-md-3 control-label">Tarih</label>
+                            <div class="col-md-4">
+                                <input class="form-control input-circle" id="Tarih" name="Tarih" required="required" type="text">
+                                <span class="field-validation-valid" data-valmsg-for="Tarih" data-valmsg-replace="true" style="color:red;"></span>
+                            </div>
                         </div>
-                        <div class="form-group p-l-30 p-r-30" id="liste"></div>
+                        <div class="form-group">
+                            <table class="table table-striped table-bordered">
+                                <thead><tr><th>Malzeme Kodu</th><th>Malzeme Adı</th><th>Seri No</th><th>Miktar</th><th></th></tr></thead>
+                                <tbody>
+                                    <tr>
+                                        <td><input class="form-control input-circle" data-val="true" data-val-required="Boş bırakmayınız" id="MalKodu" name="MalKodu" required="" type="text" value="" autocomplete="off"></td>
+                                        <td><input class="form-control input-circle" data-val="true" data-val-required="Boş bırakmayınız" id="MalAdi" name="MalAdi" required="" type="text" value="" autocomplete="off"></td>
+                                        <td><input class="form-control input-circle" data-val="true" data-val-number="Boş bırakmayınız." data-val-range="Boş bırakmayınız" data-val-range-max="1000000" data-val-range-min="1" data-val-required="Boş bırakmayınız" id="SeriNo" name="SeriNo" required="" type="text" value="0"></td>
+                                        <td><input class="form-control input-circle" data-val="true" data-val-number="Boş bırakmayınız." data-val-range="Boş bırakmayınız" data-val-range-max="1000000" data-val-range-min="1" data-val-required="Boş bırakmayınız" id="Miktar" name="Miktar" required="" type="text" value="0"></td>
+                                        <td><input type="submit" class="btn btn-primary btn-block input-circle" value="Ekle"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 }
             </div>
@@ -43,31 +60,8 @@
 </div>
 @section Scripts{<script type="text/javascript">
     $(".DepoID").prepend("<option value=''>Seçiniz !!!</option>"); $(".DepoID")[0].selectedIndex = 0; $(".DepoID")[1].selectedIndex = 0;
-    function FuncSearchBtn() {
-        $('#liste').html("");
-        if ($("#GirisDepo").val() == "" || $("#CikisDepo").val() == "") return;
-        var jObject = {};
-        jObject["GirisDepo"] = $("#GirisDepo").val();
-        jObject["CikisDepo"] = $("#CikisDepo").val();
-        $('#liste').html("");
-        $.ajax({
-            url: '/UYS/Transfer/List',
-            type: 'POST',
-            data: { Id: JSON.stringify(jObject) },
-            success: function (data) {
-                if (data == "") {
-                    Modaldialog("Hata oluştu", "Hata", "Tamam", "btn-danger");
-                } else {
-                    $('#liste').html(data);
-                }
-            }
-        });
-    }
-    function getResult(e) {
-        if (e.Status == true)
-            PartialView("/UYS/Transfer/SummaryList", 'listSummary', JSON.stringify({ Id: e.Id }));
-        else
-            Modaldialog(e.Message, 'Hata', 'Tamam', 'btn-danger');
-    };
+    $.datepicker.setDefaults($.datepicker.regional["tr"]);
+    $("#Tarih").datepicker();
+    
 </script>
 }

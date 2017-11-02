@@ -22,11 +22,25 @@ namespace Wms12m
             ConStr = conStr;
             SirketKodu = sirketKodu;
         }
+
+        public bool OndalikAyiracVirgulMu()
+        {
+            double x = 1.1;
+            string sonuc = x.ToString().Replace("1", "");
+
+            if (sonuc == ",")
+                return true;
+            else
+                return false;
+        }
+
         /// <summary>
         /// fatura kaydetme işllemleri
         /// </summary>
         public Result FaturaKaydet(List<SepetUrun> pSepetUrunleri)
         {
+            bool OndalikAyiracVirgul = OndalikAyiracVirgulMu();
+
             FaturaSatirlari = new List<STK005>();
 
             EvrakNolari_YukleAyarla();
@@ -38,6 +52,13 @@ namespace Wms12m
             SqlExper Sqlexper = new SqlExper(ConStr, SirketKodu);
             foreach (SepetUrun item in pSepetUrunleri)
             {
+
+                if (OndalikAyiracVirgul)
+                {
+                    item.Miktar = item.Miktar.Replace(".", ",");
+                    item.Fiyat = item.Fiyat.Replace(".", ",");
+                }
+
                 string hesapKodu = "";
                 HesapItem hesap = HesapList.Find(x => x.ParaBirimi.ToUpper() == item.ParaCinsi.ToUpper());
                 if (hesap.IsNullEmpty())
