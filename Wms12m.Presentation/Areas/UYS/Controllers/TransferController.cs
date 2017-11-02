@@ -23,6 +23,10 @@ namespace Wms12m.Presentation.Areas.UYS.Controllers
         /// </summary>
         public ActionResult Waiting()
         {
+            var liste = db.Database.SqlQuery<frmWaitingList>(string.Format(@"SELECT StiNo, Kod2 + ' => ' + Kod3 + ' (' + BIRIKIM.wms.fnFormatDateFromInt(BasTarih) + ')' as Depo FROM UYSPLN6{0}.UYSPLN6{0}.EMG WHERE(StiNo NOT IN
+                                                                                    (SELECT StiNo FROM UYSPLN6{0}.UYSPLN6{0}.EMG AS EMG_1 WHERE (TrsfrNo <> '') GROUP BY StiNo))
+                                                                            ORDER BY BasTarih, Kod2", db.GetSirketDBs().FirstOrDefault())).ToList();
+            ViewBag.DurumID = new SelectList(liste, "StiNo", "Depo");
             return View("Waiting");
         }
         /// <summary>
@@ -44,7 +48,7 @@ namespace Wms12m.Presentation.Areas.UYS.Controllers
         /// <summary>
         /// onay bekleyen transfer listesi
         /// </summary>
-        public PartialViewResult WaitingList(bool Id)
+        public PartialViewResult WaitingList(string Id)
         {
             return PartialView("WaitingList");
         }
