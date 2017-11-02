@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Web.Mvc;
 using Wms12m.Entity;
@@ -127,19 +128,25 @@ namespace Wms12m.Presentation.Areas.UYS.Controllers
         [HttpPost, ValidateAntiForgeryToken]
         public JsonResult Save(frmUysTransfer tbl)
         {
-            Result _Result = new Result();
+            ;
+            var finsat = new UYSF(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, db.GetSirketDBs().FirstOrDefault());
+            var sonuc = finsat.DepoTransfer(null, false, vUser.UserName, 1);
+            if (sonuc.Status == true)
+            {
+
+            }
             try
             {
 
-                _Result.Status = true; _Result.Id = 1;
+                sonuc.Status = true; sonuc.Id = 1;
             }
             catch (Exception ex)
             {
                 Logger(ex, "WMS/Transfer/Save");
-                _Result.Status = false;
-                _Result.Message = ex.Message;
+                sonuc.Status = false;
+                sonuc.Message = ex.Message;
             }
-            return Json(_Result, JsonRequestBehavior.AllowGet);
+            return Json(sonuc, JsonRequestBehavior.AllowGet);
         }
         /// <summary>
         /// bekleyen transferi onayla
