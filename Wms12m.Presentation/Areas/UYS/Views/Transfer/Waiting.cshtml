@@ -19,11 +19,11 @@
                 <div class="form-horizontal">
                     <div class="form-body">
                         <div class="form-group">
-                            <div class="col-sm-3 control-label">Görev Durumu</div>
+                            <div class="col-sm-3 control-label">Evrak No</div>
                             <div class="col-sm-4">
-                                <select id="DurumID" name="DurumID" class = "form-control input-circle" onchange = "FuncSearchBtn();"><option value="false">Onay Bekleyen</option><option value="true">Onaylanmış</option></select>
+                                @Html.DropDownList("DurumID", null, htmlAttributes: new { @class = "form-control input-circle", onchange = "FuncSearchBtn();" })
                             </div>
-                            <div class="col-sm-1"><button type="button" class="btn" onclick="FuncSearchBtn();"><i class="fa fa-refresh" aria-hidden="true"></i></button></div>
+                            <div class="col-sm-1"><button type="button" class="btn btn-circle green" onclick="FuncSearchBtn();"><i class="icon-refresh"></i></button></div>
                         </div>
                     </div>
                 </div>
@@ -33,6 +33,7 @@
     </div>
 </div>
 @section Scripts{<script>
+    $("#DurumID").prepend("<option value=''>Seçiniz !!!</option>"); $("#DurumID")[0].selectedIndex = 0;
     var DeleteFunctionUrl = '/WMS/Transfer/Delete';
     FuncSearchBtn();
     function FuncSearchBtn() {
