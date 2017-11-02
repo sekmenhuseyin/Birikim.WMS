@@ -246,7 +246,7 @@ function toOADateFromString(date) {
     var g = date.substr(0, 2);
     var m = date.substr(3, 2) - 1;
     var y = date.substr(6, 4);
-    return Math.ceil((new Date(Date.UTC(y, m, g)) - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000));
+    return toOADate(new Date(Date.UTC(y, m, g));//Math.ceil((new Date(Date.UTC(y, m, g)) - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000));
 };
 //oadate yapar
 function toOADate(date) {
