@@ -1,6 +1,11 @@
 ﻿@{
     ViewBag.Title = "Transfer Planlama";
     Layout = "~/Views/Shared/_Layout.cshtml";
+}@section Styles{<style>
+        td.details-control {background: url('/Content/assets/global/plugins/datatables/images/details_open.png') no-repeat center center;cursor: pointer;}
+        tr.shown td.details-control {background: url('/Content/assets/global/plugins/datatables/images/details_close.png') no-repeat center center;}
+        #myTable{margin:0 auto!important;width:70%!important;}
+    </style>
 }<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><span>Transfer Planlama</span></li></ul></div>
 <h1 class="page-title">Depolar Arası Transfer Planlama</h1>
 <div class="row">
@@ -39,15 +44,15 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <table class="table table-striped table-bordered">
+                            <table class="table table-striped table-bordered" id="myTable">
                                 <thead><tr><th>Malzeme Kodu</th><th>Malzeme Adı</th><th>Seri No</th><th>Miktar</th><th></th></tr></thead>
                                 <tbody>
                                     <tr>
-                                        <td><input class="form-control input-circle" data-val="true" data-val-required="Boş bırakmayınız" id="MalKodu" name="MalKodu" required="" type="text" value="" autocomplete="off"></td>
-                                        <td><input class="form-control input-circle" data-val="true" data-val-required="Boş bırakmayınız" id="MalAdi" name="MalAdi" required="" type="text" value="" autocomplete="off"></td>
-                                        <td><input class="form-control input-circle" data-val="true" data-val-number="Boş bırakmayınız." data-val-range="Boş bırakmayınız" data-val-range-max="1000000" data-val-range-min="1" data-val-required="Boş bırakmayınız" id="SeriNo" name="SeriNo" required="" type="text" value="0"></td>
-                                        <td><input class="form-control input-circle" data-val="true" data-val-number="Boş bırakmayınız." data-val-range="Boş bırakmayınız" data-val-range-max="1000000" data-val-range-min="1" data-val-required="Boş bırakmayınız" id="Miktar" name="Miktar" required="" type="text" value="0"></td>
-                                        <td><input type="submit" class="btn btn-primary btn-block input-circle" value="Ekle"></td>
+                                        <td><input class="form-control input-circle" id="MalKodu" type="text"></td>
+                                        <td><input class="form-control input-circle" id="MalAdi" type="text"></td>
+                                        <td><input class="form-control input-circle" id="SeriNo" type="text"></td>
+                                        <td><input class="form-control input-circle" id="Miktar" type="text"></td>
+                                        <td><button type="button" class="btn btn-primary btn-block input-circle" onclick="NewRow();">Ekle</button></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -59,9 +64,47 @@
     </div>
 </div>
 @section Scripts{<script type="text/javascript">
-    $(".DepoID").prepend("<option value=''>Seçiniz !!!</option>"); $(".DepoID")[0].selectedIndex = 0; $(".DepoID")[1].selectedIndex = 0;
-    $.datepicker.setDefaults($.datepicker.regional["tr"]);
-    $("#Tarih").datepicker();
-    
+    $(document).ready(function () {
+        $(".DepoID").prepend("<option value=''>Seçiniz !!!</option>"); $(".DepoID")[0].selectedIndex = 0; $(".DepoID")[1].selectedIndex = 0;
+        $.datepicker.setDefaults($.datepicker.regional["tr"]);
+        $("#Tarih").datepicker();
+        $("#MalKodu").autocomplete({
+            source: "/WMS/Purchase/GetMalzemebyCode/0",
+            minLength: 2,
+            select: function (event, ui) {
+                setTimeout(function () { $("#MalKodu").val(ui.item.id); $("#MalAdi").val(ui.item.value); }, 100);                
+            }
+        });
+        $("#MalAdi").autocomplete({
+            source: "/WMS/Purchase/GetMalzemebyName/0",
+            minLength: 2,
+            select: function (event, ui) {
+                setTimeout(function () { $("#MalKodu").val(ui.item.id); $("#MalAdi").val(ui.item.value); }, 100);                
+            }
+        });
+    });
+    function NewRow()
+    {
+        if ($("#MalKodu").val() == "" || $("#MalAdi").val() == "" || $("#SeriNo").val() == "" || $("#Miktar").val() == "") {
+            Modaldialog("Tüm alanları doldurunuz", 'Hata', 'Tamam', 'btn-danger');
+            return;
+        }
+        $('#myTable tbody tr:first').after('<tr>' +
+                                        '<td><input class="form-control input-circle" name="MalKodu" type="text" value="' + $("#MalKodu").val() + '"></td>' +
+                                        '<td><input class="form-control input-circle" name="MalAdi" type="text" value="' + $("#MalAdi").val() + '"></td>' + 
+                                        '<td><input class="form-control input-circle" name="SeriNo" type="text" value="' + $("#SeriNo").val() + '"></td>' + 
+                                        '<td><input class="form-control input-circle" name="Miktar" type="text" value="' + $("#Miktar").val() + '"></td>' +
+                                        '<td><button type="button" class="btn btn-danger btn-block input-circle" onclick="DeleteRow(this);">Sil</button></td>' +
+                                    '</tr>');
+        $("#MalKodu").val("");
+        $("#MalAdi").val("");
+        $("#SeriNo").val("");
+        $("#Miktar").val("");
+        $("#MalKodu").focus();
+    }
+    function DeleteRow(btn)
+    {
+        $(btn).closest('tr').remove();
+    }
 </script>
 }
