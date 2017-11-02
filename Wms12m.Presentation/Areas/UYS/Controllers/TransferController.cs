@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 using Wms12m.Entity;
 
@@ -12,6 +13,9 @@ namespace Wms12m.Presentation.Areas.UYS.Controllers
         /// </summary>
         public ActionResult Index()
         {
+            var liste = db.Database.SqlQuery<frmDepoList>(string.Format("SELECT Depo, DepoAdi FROM FINSAT6{0}.FINSAT6{0}.DEP ORDER BY DepoAdi", db.GetSirketDBs().FirstOrDefault())).ToList();
+            ViewBag.GirisDepo = new SelectList(liste, "Depo", "DepoAdi");
+            ViewBag.CikisDepo = ViewBag.GirisDepo;
             return View("Index");
         }
         /// <summary>

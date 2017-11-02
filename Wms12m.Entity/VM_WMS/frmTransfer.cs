@@ -39,4 +39,12 @@
         public string Birim { get; set; }
         public decimal Miktar { get; set; }
     }
+    /// <summary>
+    /// depo listesi
+    /// </summary>
+    public class frmDepoList
+    {
+        public string Depo { get; set; }
+        public string DepoAdi { get; set; }
+    }
 }
