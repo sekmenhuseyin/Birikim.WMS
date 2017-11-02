@@ -67,6 +67,7 @@
   <ItemGroup>
     <Compile Include="Helpers\DbExtensions.cs" />
     <Compile Include="Helpers\Extensions.cs" />
+    <Compile Include="Helpers\UYSF.cs" />
     <Compile Include="Helpers\Finsat.cs" />
     <Compile Include="Helpers\Functions.cs" />
     <Compile Include="Helpers\MultipleResultSets.cs" />

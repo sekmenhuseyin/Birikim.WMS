@@ -64,7 +64,6 @@
         public string CikisDepo { get; set; }
         public int Tarih { get; set; }
         public string[] MalKodu { get; set; }
-        public string[] MalAdi { get; set; }
         public string[] SeriNo { get; set; }
         public decimal[] Miktar { get; set; }
     }

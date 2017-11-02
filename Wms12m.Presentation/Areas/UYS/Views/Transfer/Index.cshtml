@@ -41,7 +41,8 @@
                         <div class="form-group">
                             <label class="col-md-3 control-label">Tarih</label>
                             <div class="col-md-4">
-                                <input class="form-control input-circle" id="Tarih" name="Tarih" required="required" type="text", onchange = "CheckAll();">
+                                <input class="form-control input-circle" id="Tarih" required="required" type="text" onchange="CheckAll();">
+                                <input class="hidden" id="Tarih2" name="Tarih" required="required" type="text">
                                 <span class="field-validation-valid" data-valmsg-for="Tarih" data-valmsg-replace="true" style="color:red;"></span>
                             </div>
                         </div>
@@ -74,19 +75,21 @@
         CheckAll();
         $(".DepoID").prepend("<option value=''>Seçiniz !!!</option>"); $(".DepoID")[0].selectedIndex = 0; $(".DepoID")[1].selectedIndex = 0;
         $.datepicker.setDefaults($.datepicker.regional["tr"]);
-        $("#Tarih").datepicker();
+        $("#Tarih").datepicker().on("change", function (e) {
+            $("#Tarih2").val(toOADateFromString(e.target.value));
+        });
         $("#MalKodu").autocomplete({
             source: "/WMS/Purchase/GetMalzemebyCode/0",
             minLength: 2,
             select: function (event, ui) {
-                setTimeout(function () { $("#MalKodu").val(ui.item.id); $("#MalAdi").val(ui.item.value); $("#SeriNo").focus(); }, 100);                
+                setTimeout(function () { $("#MalKodu").val(ui.item.id); $("#MalAdi").val(ui.item.value); $("#SeriNo").focus(); }, 100);
             }
         });
         $("#MalAdi").autocomplete({
             source: "/WMS/Purchase/GetMalzemebyName/0",
             minLength: 2,
             select: function (event, ui) {
-                setTimeout(function () { $("#MalKodu").val(ui.item.id); $("#MalAdi").val(ui.item.value); $("#SeriNo").focus(); }, 100);                
+                setTimeout(function () { $("#MalKodu").val(ui.item.id); $("#MalAdi").val(ui.item.value); $("#SeriNo").focus(); }, 100);
             }
         });
         $(document).keypress(function (e) {
@@ -125,7 +128,7 @@
                 }
                 $('#myTable tbody tr:first').after('<tr>' +
                     '<td><input class="form-control" name="MalKodu" type="text" value="' + $("#MalKodu").val() + '"></td>' +
-                    '<td><input class="form-control" name="MalAdi" type="text" value="' + $("#MalAdi").val() + '"></td>' +
+                    '<td><input class="form-control" type="text" value="' + $("#MalAdi").val() + '"></td>' +
                     '<td><input class="form-control w-50 pull-right" name="SeriNo" type="text" value="' + $("#SeriNo").val() + '"></td>' +
                     '<td><input class="form-control w-50 pull-right" name="Miktar" type="text" value="' + $("#Miktar").val() + '"></td>' +
                     '<td class="text-right">' + ondalikBinlik(data, 2) + '</td>' +
