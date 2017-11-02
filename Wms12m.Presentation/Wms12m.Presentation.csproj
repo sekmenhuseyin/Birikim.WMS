@@ -484,10 +484,10 @@
     <Content Include="Areas\WMS\Views\Stock\ComparisonList.cshtml" />
     <Content Include="Areas\UYS\Views\web.config" />
     <Content Include="Areas\UYS\Views\Transfer\Index.cshtml" />
-    <Content Include="Areas\UYS\Views\Transfer\Summary.cshtml" />
     <Content Include="Areas\UYS\Views\Transfer\Waiting.cshtml" />
     <Content Include="Areas\UYS\Views\Transfer\WaitingList.cshtml" />
     <Content Include="Areas\UYS\Views\Transfer\List.cshtml" />
+    <Content Include="Areas\UYS\Views\Transfer\Details.cshtml" />
     <None Include="bundleconfig.json" />
     <Content Include="Content\SizeSablon.xlsx" />
     <Content Include="Content\StockSablon.xlsx" />

@@ -49,12 +49,19 @@ namespace Wms12m.Presentation.Areas.UYS.Controllers
             return PartialView("WaitingList");
         }
         /// <summary>
-        /// ilk sayfada seçtiklerini gösterip onaylatan bir sayfa
+        /// transfere ait mallar
         /// </summary>
-        [HttpPost, ValidateAntiForgeryToken]
-        public PartialViewResult Summary(frmTransferMalzemeApprove tbl)
+        [HttpPost]
+        public PartialViewResult Details(int ID)
         {
-            return PartialView("Summary");
+            //dbler tempe aktarılıyor
+            var list = db.GetSirketDBs();
+            List<string> liste = new List<string>();
+            foreach (var item in list) { liste.Add(item); }
+            ViewBag.Sirket = liste;
+            //return
+            var result = db.Transfer_Detay.Where(m => m.TransferID == ID).Select(m => new frmMalKoduMiktar { MalKodu = m.MalKodu, Miktar = m.Miktar, Birim = m.Birim }).ToList();
+            return PartialView("Details", result);
         }
         /// <summary>
         /// bekleyen transferi onayla
