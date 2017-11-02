@@ -362,8 +362,8 @@
     <Compile Include="VM_YeniNesil\CAR002.cs" />
     <Compile Include="VM_YeniNesil\CAR003.cs" />
     <Compile Include="VM_YeniNesil\CAR005.cs" />
-    <Compile Include="VM_Finsat\STK004.cs" />
-    <Compile Include="VM_Finsat\STK005.cs" />
+    <Compile Include="VM_YeniNesil\STK004.cs" />
+    <Compile Include="VM_YeniNesil\STK005.cs" />
     <Compile Include="VM_YeniNesil\YeniNesil.cs" />
     <Compile Include="VM_WMS\frmCables.cs" />
     <Compile Include="VM_WMS\frmTransfer.cs" />
