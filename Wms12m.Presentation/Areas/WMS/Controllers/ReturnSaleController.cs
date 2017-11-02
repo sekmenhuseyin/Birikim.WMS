@@ -15,7 +15,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         /// </summary>
         public ActionResult Index()
         {
-            if (CheckPerm(Perms.AlimdanIade, PermTypes.Reading) == false) return Redirect("/");
+            if (CheckPerm(Perms.SatistanIade, PermTypes.Reading) == false) return Redirect("/");
             ViewBag.SirketID = new SelectList(db.GetSirkets().ToList(), "Kod", "Ad");
             ViewBag.DepoID = new SelectList(Store.GetList(vUser.DepoId), "DepoKodu", "DepoAd");
             return View("Index");
@@ -28,7 +28,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         {
             if (tbl.DepoID == "0" || tbl.checkboxes.ToString2() == "")
                 return RedirectToAction("Index");
-            if (CheckPerm(Perms.GenelSipariş, PermTypes.Reading) == false) return Redirect("/");
+            if (CheckPerm(Perms.SatistanIade, PermTypes.Reading) == false) return Redirect("/");
             //şirket id ve evrak nolar bulunur
             tbl.checkboxes = tbl.checkboxes.Left(tbl.checkboxes.Length - 1);
             string[] tmp = tbl.checkboxes.Split('#');
@@ -94,7 +94,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         {
             if (tbl.DepoID == "0" || tbl.checkboxes == "")
                 return RedirectToAction("Index");
-            if (CheckPerm(Perms.AlimdanIade, PermTypes.Writing) == false) return Redirect("/");
+            if (CheckPerm(Perms.SatistanIade, PermTypes.Writing) == false) return Redirect("/");
             tbl.checkboxes = tbl.checkboxes.Left(tbl.checkboxes.Length - 1);
             var checkList = tbl.checkboxes.Split('#');
             var sirket = tbl.EvrakNos.Split('-')[0];
@@ -177,7 +177,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         [HttpPost, ValidateAntiForgeryToken]
         public ActionResult Approve(int GorevID)
         {
-            if (CheckPerm(Perms.GenelSipariş, PermTypes.Writing) == false) return Redirect("/");
+            if (CheckPerm(Perms.SatistanIade, PermTypes.Writing) == false) return Redirect("/");
 
             IR ir = db.IRS.Where(a => a.ID == a.Gorevs.Where(n => n.ID == GorevID).Select(n => n.IrsaliyeID).FirstOrDefault()).FirstOrDefault();
             Gorev grv = db.Gorevs.Where(m => m.ID == GorevID).FirstOrDefault();
@@ -207,7 +207,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             tarihler = DateTime.TryParse(Ends, out DateTime EndDate); if (tarihler == false) return null;
             if (StartDate > EndDate) return null;
             //perm kontrol
-            if (CheckPerm(Perms.GenelSipariş, PermTypes.Reading) == false) return null;
+            if (CheckPerm(Perms.SatistanIade, PermTypes.Reading) == false) return null;
             string sql = String.Format("FINSAT6{0}.wms.SatisIptalSiparisList @DepoKodu = '{1}', @CHK='{2}', @BasTarih = {3}, @BitTarih= {4}", Sirket, DepoID.ToString(), CHK, StartDate.ToOADateInt(), EndDate.ToOADateInt());
 
             //return list
@@ -232,7 +232,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         [HttpPost]
         public JsonResult Details(string ID)
         {
-            if (CheckPerm(Perms.GenelSipariş, PermTypes.Reading) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
+            if (CheckPerm(Perms.SatistanIade, PermTypes.Reading) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             string[] tmp = ID.Split('-');
             string sql = String.Format("FINSAT6{0}.wms.SatisIptalDetail @DepoKodu = '{1}', @EvrakNo = '{2}', @CHK='{3}'", tmp[0], tmp[1], tmp[2], tmp[3]);
             var list = db.Database.SqlQuery<frmSiparisMalzeme>(sql).ToList();
@@ -269,7 +269,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         public PartialViewResult GetRezerv(string MalKodu, string Depo, string Birim)
         {
 
-            if (CheckPerm(Perms.GenelSipariş, PermTypes.Reading) == false) return null;
+            if (CheckPerm(Perms.SatistanIade, PermTypes.Reading) == false) return null;
 
             var list = db.GetStockRezerv(Birim, MalKodu, Depo).ToList();
 

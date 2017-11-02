@@ -493,7 +493,7 @@ namespace WMSMobil
                 foreach (Control item in itemPanel.Controls)
                     item.BackColor = Color.FromArgb(206, 223, 239);
             }
-            if ((Ayarlar.MenuTip == MenuType.MalKabul || Ayarlar.MenuTip == MenuType.Satıştanİade || Ayarlar.MenuTip == MenuType.RafaYerlestirme) && cokluMalSayisi > 1)
+            if ((Ayarlar.MenuTip == MenuType.MalKabul || Ayarlar.MenuTip == MenuType.Satıştanİade) && cokluMalSayisi > 1)
             {
                 Ayarlar.Tarih = 0;
                 frmxOpsSelect frm = new frmxOpsSelect(GorevID, tmpMalKod);
@@ -581,14 +581,11 @@ namespace WMSMobil
                         temp_sti.ID = itemPanel.Controls[1].Tag.ToInt32();
                         if (itemPanel.Controls[5].Text == "" || itemPanel.Controls[5].Text == raf)
                         {
-                            if (cokluMalSayisi == 1 || (cokluMalSayisi > 1 && sonucID == itemPanel.Controls[1].Tag.ToInt32()) && Ayarlar.MenuTip == MenuType.RafaYerlestirme)
-                            {
                                 raf_var = true;
                                 itemPanel.Controls[5].Text = raf;
                                 itemPanel.Controls[7].Text = (sender == btnUygula) ? itemPanel.Controls[3].Text : (itemPanel.Controls[7].Text.ToDecimal() + 1).ToString();
                                 foreach (Control item in itemPanel.Controls)
                                     item.BackColor = Color.DarkOrange;
-                            }
                         }
 
                         // Scrollu sağa kaydırma
@@ -865,7 +862,7 @@ namespace WMSMobil
             }
             else if (!mal_var)
             {
-                Mesaj.Uyari("Göreve ait böyle bir ürün bulunmamaktadır.");
+                Mesaj.Uyari("Göreve ait böyle bir ürün bulunmamaktadır."); 
             }
         }
         /// <summary>
