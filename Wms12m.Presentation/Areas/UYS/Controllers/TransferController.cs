@@ -85,7 +85,7 @@ namespace Wms12m.Presentation.Areas.UYS.Controllers
             }
             catch (Exception ex)
             {
-                Logger(ex, "Tasks/Delete");
+                Logger(ex, "WMS/Transfer/Delete");
                 _Result.Status = false;
                 _Result.Message = ex.Message;
             }
@@ -104,7 +104,7 @@ namespace Wms12m.Presentation.Areas.UYS.Controllers
             }
             catch (Exception ex)
             {
-                Logger(ex, "Tasks/Delete2");
+                Logger(ex, "WMS/Transfer/Delete2");
                 _Result.Status = false;
                 _Result.Message = ex.Message;
             }
@@ -125,7 +125,7 @@ namespace Wms12m.Presentation.Areas.UYS.Controllers
         /// transfer kaydet
         /// </summary>
         [HttpPost, ValidateAntiForgeryToken]
-        public JsonResult Save(frmTransferMalzemeApprove tbl)
+        public JsonResult Save(frmUysTransfer tbl)
         {
             Result _Result = new Result();
             try
@@ -135,7 +135,7 @@ namespace Wms12m.Presentation.Areas.UYS.Controllers
             }
             catch (Exception ex)
             {
-                Logger(ex, "Tasks/Delete");
+                Logger(ex, "WMS/Transfer/Save");
                 _Result.Status = false;
                 _Result.Message = ex.Message;
             }
@@ -155,7 +155,7 @@ namespace Wms12m.Presentation.Areas.UYS.Controllers
             }
             catch (Exception ex)
             {
-                Logger(ex, "Tasks/Delete");
+                Logger(ex, "WMS/Transfer/Approve");
                 _Result.Status = false;
                 _Result.Message = ex.Message;
             }

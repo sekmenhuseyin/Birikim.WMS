@@ -331,7 +331,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             }
             catch (Exception ex)
             {
-                Logger(ex, "Tasks/AddDetail");
+                Logger(ex, "WMS/Transfer/AddDetail");
                 _Result.Status = false;
                 _Result.Message = ex.Message;
             }
@@ -413,7 +413,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             }
             catch (Exception ex)
             {
-                Logger(ex, "Tasks/Delete");
+                Logger(ex, "WMS/Transfer/Delete");
                 _Result.Status = false;
                 _Result.Message = ex.Message;
             }
@@ -439,7 +439,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             }
             catch (Exception ex)
             {
-                Logger(ex, "Tasks/Delete2");
+                Logger(ex, "WMS/Transfer/Delete2");
                 _Result.Status = false;
                 _Result.Message = ex.Message;
             }
