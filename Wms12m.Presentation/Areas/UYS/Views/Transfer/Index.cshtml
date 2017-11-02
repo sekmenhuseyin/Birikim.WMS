@@ -1,6 +1,10 @@
 ﻿@{
     ViewBag.Title = "Transfer Planlama";
     Layout = "~/Views/Shared/_Layout.cshtml";
+}@section Styles{<style>
+        td.details-control {background: url('/Content/assets/global/plugins/datatables/images/details_open.png') no-repeat center center;cursor: pointer;}
+        tr.shown td.details-control {background: url('/Content/assets/global/plugins/datatables/images/details_close.png') no-repeat center center;}
+    </style>
 }<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><span>Transfer Planlama</span></li></ul></div>
 <h1 class="page-title">Depolar Arası Transfer Planlama</h1>
 <div class="row">
@@ -10,9 +14,12 @@
                 <div class="caption">
                     <i class="fa fa-gift"></i>Depolar Arası Transfer Planlama
                 </div>
+                <div class="col-md-1 pull-right m-t-5">
+                    <button type="button" class="btn btn-default pull-right input-circle" onclick="Transfer()">Kaydet</button>
+                </div>
             </div>
             <div class="portlet-body form">
-                @using (Ajax.BeginForm("Summary", "Transfer", new { area = "WMS" }, new AjaxOptions { InsertionMode = InsertionMode.Replace, OnFailure= "Modaldialog('Lütfen Tekrar Deneyin', 'Hata', 'Tamam', 'btn-danger');" }, new { @class = "form-horizontal" }))
+                @using (Ajax.BeginForm("Save", "Transfer", new { area = "UYS" }, new AjaxOptions { InsertionMode = InsertionMode.Replace, OnFailure= "Modaldialog('Lütfen Tekrar Deneyin', 'Hata', 'Tamam', 'btn-danger');" }, new { @class = "form-horizontal", @id = "frmTransfer" }))
                 {
                     @Html.AntiForgeryToken()
                     @Html.ValidationSummary(true)
@@ -20,37 +27,40 @@
                         <div class="form-group">
                             <label class="col-md-3 control-label">Çıkış Depo</label>
                             <div class="col-md-4">
-                                @Html.DropDownList("CikisDepo", null, htmlAttributes: new { @class = "form-control input-circle DepoID", required = "required" })
+                                @Html.DropDownList("CikisDepo", null, htmlAttributes: new { @class = "form-control input-circle DepoID", required = "required", @onchange = "CheckAll();" })
                                 <span class="field-validation-valid" data-valmsg-for="DepoID" data-valmsg-replace="true" style="color:red;"></span>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-3 control-label">Giriş Depo</label>
                             <div class="col-md-4">
-                                @Html.DropDownList("GirisDepo", null, htmlAttributes: new { @class = "form-control input-circle DepoID", required = "required" })
+                                @Html.DropDownList("GirisDepo", null, htmlAttributes: new { @class = "form-control input-circle DepoID", required = "required", @onchange = "CheckAll();" })
                                 <span class="field-validation-valid" data-valmsg-for="DepoID" data-valmsg-replace="true" style="color:red;"></span>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-3 control-label">Tarih</label>
                             <div class="col-md-4">
-                                <input class="form-control input-circle" id="Tarih" name="Tarih" required="required" type="text">
+                                <input class="form-control input-circle" id="Tarih" name="Tarih" required="required" type="text", onchange = "CheckAll();">
                                 <span class="field-validation-valid" data-valmsg-for="Tarih" data-valmsg-replace="true" style="color:red;"></span>
                             </div>
                         </div>
                         <div class="form-group">
-                            <table class="table table-striped table-bordered">
-                                <thead><tr><th>Malzeme Kodu</th><th>Malzeme Adı</th><th>Seri No</th><th>Miktar</th><th></th></tr></thead>
-                                <tbody>
-                                    <tr>
-                                        <td><input class="form-control input-circle" data-val="true" data-val-required="Boş bırakmayınız" id="MalKodu" name="MalKodu" required="" type="text" value="" autocomplete="off"></td>
-                                        <td><input class="form-control input-circle" data-val="true" data-val-required="Boş bırakmayınız" id="MalAdi" name="MalAdi" required="" type="text" value="" autocomplete="off"></td>
-                                        <td><input class="form-control input-circle" data-val="true" data-val-number="Boş bırakmayınız." data-val-range="Boş bırakmayınız" data-val-range-max="1000000" data-val-range-min="1" data-val-required="Boş bırakmayınız" id="SeriNo" name="SeriNo" required="" type="text" value="0"></td>
-                                        <td><input class="form-control input-circle" data-val="true" data-val-number="Boş bırakmayınız." data-val-range="Boş bırakmayınız" data-val-range-max="1000000" data-val-range-min="1" data-val-required="Boş bırakmayınız" id="Miktar" name="Miktar" required="" type="text" value="0"></td>
-                                        <td><input type="submit" class="btn btn-primary btn-block input-circle" value="Ekle"></td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                            <div class="col-md-5 col-md-offset-2">
+                                <table class="table table-striped table-bordered" id="myTable">
+                                    <thead><tr><th>Malzeme Kodu</th><th>Malzeme Adı</th><th class="text-right">Seri No</th><th class="text-right">Miktar</th><th>Stok</th><th></th></tr></thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><input class="form-control" id="MalKodu" type="text"></td>
+                                            <td><input class="form-control" id="MalAdi" type="text"></td>
+                                            <td><input class="form-control w-50 pull-right" id="SeriNo" type="text"></td>
+                                            <td><input class="form-control w-50 pull-right" id="Miktar" type="text"></td>
+                                            <td></td>
+                                            <td><button type="button" class="btn btn-primary btn-block" onclick="NewRow();">Ekle</button></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 }
@@ -59,9 +69,90 @@
     </div>
 </div>
 @section Scripts{<script type="text/javascript">
-    $(".DepoID").prepend("<option value=''>Seçiniz !!!</option>"); $(".DepoID")[0].selectedIndex = 0; $(".DepoID")[1].selectedIndex = 0;
-    $.datepicker.setDefaults($.datepicker.regional["tr"]);
-    $("#Tarih").datepicker();
-    
+    var satir = 0;
+    $(document).ready(function () {
+        CheckAll();
+        $(".DepoID").prepend("<option value=''>Seçiniz !!!</option>"); $(".DepoID")[0].selectedIndex = 0; $(".DepoID")[1].selectedIndex = 0;
+        $.datepicker.setDefaults($.datepicker.regional["tr"]);
+        $("#Tarih").datepicker();
+        $("#MalKodu").autocomplete({
+            source: "/WMS/Purchase/GetMalzemebyCode/0",
+            minLength: 2,
+            select: function (event, ui) {
+                setTimeout(function () { $("#MalKodu").val(ui.item.id); $("#MalAdi").val(ui.item.value); $("#SeriNo").focus(); }, 100);                
+            }
+        });
+        $("#MalAdi").autocomplete({
+            source: "/WMS/Purchase/GetMalzemebyName/0",
+            minLength: 2,
+            select: function (event, ui) {
+                setTimeout(function () { $("#MalKodu").val(ui.item.id); $("#MalAdi").val(ui.item.value); $("#SeriNo").focus(); }, 100);                
+            }
+        });
+        $(document).keypress(function (e) {
+            if (e.which == 13) {
+                NewRow();
+            }
+        });
+    });
+    function CheckAll()
+    {
+        if ($("#CikisDepo").val() == "" || $("#GirisDepo").val() == "" || $("#Tarih").val() == "")
+            $('#myTable').hide();
+        else
+            $('#myTable').show();
+    }
+    function NewRow()
+    {
+        if ($("#CikisDepo").val() == "" || $("#GirisDepo").val() == "" || $("#Tarih").val() == "" || $("#MalKodu").val() == "" || $("#MalAdi").val() == "" || $("#SeriNo").val() == "" || $("#Miktar").val() == "") {
+            Modaldialog("Tüm alanları doldurunuz", 'Hata', 'Tamam', 'btn-danger');
+            return;
+        }
+        $.ajax({
+            type: 'POST',
+            url: "/UYS/Transfer/GetStock/",
+            data: { Depo: $('#CikisDepo').val(), Tarih: toOADateFromString($("#Tarih").val()), MalKodu: $("#MalKodu").val(), SeriNo: $("#SeriNo").val() },
+            dataType: "html",
+            success: function (data) {
+                if (data == 0)
+                {
+                    Modaldialog("Bu ürünün stoğu yok", "Hata", "Tamam", "btn-danger");
+                    return;
+                }
+                else if (parseInt(data) < parseInt($("#Miktar").val())) {
+                    Modaldialog("Bu ürünün stoğu sadece yetersiz: " + ondalikBinlik(data, 2), "Hata", "Tamam", "btn-danger");
+                    return;
+                }
+                $('#myTable tbody tr:first').after('<tr>' +
+                    '<td><input class="form-control" name="MalKodu" type="text" value="' + $("#MalKodu").val() + '"></td>' +
+                    '<td><input class="form-control" name="MalAdi" type="text" value="' + $("#MalAdi").val() + '"></td>' +
+                    '<td><input class="form-control w-50 pull-right" name="SeriNo" type="text" value="' + $("#SeriNo").val() + '"></td>' +
+                    '<td><input class="form-control w-50 pull-right" name="Miktar" type="text" value="' + $("#Miktar").val() + '"></td>' +
+                    '<td class="text-right">' + ondalikBinlik(data, 2) + '</td>' +
+                    '<td><button type="button" class="btn btn-danger btn-block" onclick="DeleteRow(this);">Sil</button></td>' +
+                    '</tr>');
+                $("#MalKodu").val("");
+                $("#MalAdi").val("");
+                $("#SeriNo").val("");
+                $("#Miktar").val("");
+                $("#MalKodu").focus();
+                satir++;
+            },
+            error: function (data) { Modaldialog("Lütfen Tekrar Deneyin", "Hata", "Tamam", "btn-danger"); }
+        });
+
+    }
+    function DeleteRow(btn)
+    {
+        $(btn).closest('tr').remove();
+        satir--;
+    }
+    function Transfer() {
+        if ($("#CikisDepo").val() == "" || $("#GirisDepo").val() == "" || $("#Tarih").val() == "" || satir == 0) {
+            Modaldialog("Tüm alanları doldurunuz", 'Hata', 'Tamam', 'btn-danger');
+            return;
+        }
+        $("#frmTransfer").submit();
+    }
 </script>
 }

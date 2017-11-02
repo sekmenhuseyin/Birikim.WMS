@@ -55,4 +55,17 @@
         public string StiNo { get; set; }
         public string Depo { get; set; }
     }
+    /// <summary>
+    /// uys kayıt
+    /// </summary>
+    public class frmUysTransfer
+    {
+        public string GirisDepo { get; set; }
+        public string CikisDepo { get; set; }
+        public int Tarih { get; set; }
+        public string[] MalKodu { get; set; }
+        public string[] MalAdi { get; set; }
+        public string[] SeriNo { get; set; }
+        public decimal[] Miktar { get; set; }
+    }
 }
