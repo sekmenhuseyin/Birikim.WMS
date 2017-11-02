@@ -11,6 +11,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
 {
     public class TransferController : RootController
     {
+        #region Planlama
         /// <summary>
         /// transfer planlama
         /// </summary>
@@ -276,37 +277,6 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             return PartialView("SummaryList", transfer);
         }
         /// <summary>
-        /// onay bekleyen transfer sayfası
-        /// </summary>
-        public ActionResult Waiting()
-        {
-            if (CheckPerm(Perms.Transfer, PermTypes.Reading) == false) return Redirect("/");
-            return View("Waiting");
-        }
-        /// <summary>
-        /// onay bekleyen transfer listesi
-        /// </summary>
-        public PartialViewResult WaitingList(bool Id)
-        {
-            var list = Transfers.GetList(Id, vUser.DepoId);
-            return PartialView("WaitingList", list);
-        }
-        /// <summary>
-        /// transfere ait mallar
-        /// </summary>
-        [HttpPost]
-        public PartialViewResult Details(int ID)
-        {
-            //dbler tempe aktarılıyor
-            var list = db.GetSirketDBs();
-            List<string> liste = new List<string>();
-            foreach (var item in list) { liste.Add(item); }
-            ViewBag.Sirket = liste;
-            //return
-            var result = db.Transfer_Detay.Where(m => m.TransferID == ID).Select(m => new frmMalKoduMiktar { MalKodu = m.MalKodu, Miktar = m.Miktar, Birim = m.Birim }).ToList();
-            return PartialView("Details", result);
-        }
-        /// <summary>
         /// bekleyen transferi onayla
         /// </summary>
         [HttpPost, ValidateAntiForgeryToken]
@@ -342,52 +312,6 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             LogActions("WMS", "Transfer", "Approve", ComboItems.alOnayla, ID);
             //return
             return RedirectToAction("Waiting");
-        }
-        /// <summary>
-        /// transfer sil
-        /// </summary>
-        public JsonResult Delete(int ID)
-        {
-            if (CheckPerm(Perms.Transfer, PermTypes.Deleting) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
-            Result _Result = new Result();
-            try
-            {
-                db.DeleteTransfer(ID);
-                _Result.Status = true; _Result.Id = ID;
-            }
-            catch (Exception ex)
-            {
-                Logger(ex, "Tasks/Delete");
-                _Result.Status = false;
-                _Result.Message = ex.Message;
-            }
-            return Json(_Result, JsonRequestBehavior.AllowGet);
-        }
-        /// <summary>
-        /// transfer detay sil
-        /// </summary>
-        public JsonResult Delete2(int ID)
-        {
-            if (CheckPerm(Perms.Transfer, PermTypes.Deleting) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
-            Result _Result = new Result();
-            var satir1 = db.Transfer_Detay.Where(m => m.ID == ID).FirstOrDefault();
-            var satir2 = db.IRS_Detay.Where(m => m.KynkSiparisID == ID && m.KynkSiparisTarih == satir1.TransferID).FirstOrDefault();
-            var satir3 = db.GorevYers.Where(m => m.GorevID == satir1.Transfer.GorevID).ToList();
-            db.Transfer_Detay.Remove(satir1);
-            db.IRS_Detay.Remove(satir2);
-            db.GorevYers.RemoveRange(satir3);
-            try
-            {
-                db.SaveChanges();
-                _Result = new Result(true, ID);
-            }
-            catch (Exception ex)
-            {
-                Logger(ex, "Tasks/Delete2");
-                _Result.Status = false;
-                _Result.Message = ex.Message;
-            }
-            return Json(_Result, JsonRequestBehavior.AllowGet);
         }
         /// <summary>
         /// transfer detay ekle
@@ -440,5 +364,87 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                 return Json(new Result(false, "Kayıtta hata oldu"), JsonRequestBehavior.AllowGet);
             }
         }
+        #endregion
+        #region Onaylama
+        /// <summary>
+        /// onay bekleyen transfer sayfası
+        /// </summary>
+        public ActionResult Waiting()
+        {
+            if (CheckPerm(Perms.Transfer, PermTypes.Reading) == false) return Redirect("/");
+            return View("Waiting");
+        }
+        /// <summary>
+        /// onay bekleyen transfer listesi
+        /// </summary>
+        public PartialViewResult WaitingList(bool Id)
+        {
+            var list = Transfers.GetList(Id, vUser.DepoId);
+            return PartialView("WaitingList", list);
+        }
+        /// <summary>
+        /// transfere ait mallar
+        /// </summary>
+        [HttpPost]
+        public PartialViewResult Details(int ID)
+        {
+            //dbler tempe aktarılıyor
+            var list = db.GetSirketDBs();
+            List<string> liste = new List<string>();
+            foreach (var item in list) { liste.Add(item); }
+            ViewBag.Sirket = liste;
+            //return
+            var result = db.Transfer_Detay.Where(m => m.TransferID == ID).Select(m => new frmMalKoduMiktar { MalKodu = m.MalKodu, Miktar = m.Miktar, Birim = m.Birim }).ToList();
+            return PartialView("Details", result);
+        }
+        #endregion
+        #region Delete
+        /// <summary>
+        /// transfer sil
+        /// </summary>
+        public JsonResult Delete(int ID)
+        {
+            if (CheckPerm(Perms.Transfer, PermTypes.Deleting) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
+            Result _Result = new Result();
+            try
+            {
+                db.DeleteTransfer(ID);
+                _Result.Status = true; _Result.Id = ID;
+            }
+            catch (Exception ex)
+            {
+                Logger(ex, "Tasks/Delete");
+                _Result.Status = false;
+                _Result.Message = ex.Message;
+            }
+            return Json(_Result, JsonRequestBehavior.AllowGet);
+        }
+        /// <summary>
+        /// transfer detay sil
+        /// </summary>
+        public JsonResult Delete2(int ID)
+        {
+            if (CheckPerm(Perms.Transfer, PermTypes.Deleting) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
+            Result _Result = new Result();
+            var satir1 = db.Transfer_Detay.Where(m => m.ID == ID).FirstOrDefault();
+            var satir2 = db.IRS_Detay.Where(m => m.KynkSiparisID == ID && m.KynkSiparisTarih == satir1.TransferID).FirstOrDefault();
+            var satir3 = db.GorevYers.Where(m => m.GorevID == satir1.Transfer.GorevID).ToList();
+            db.Transfer_Detay.Remove(satir1);
+            db.IRS_Detay.Remove(satir2);
+            db.GorevYers.RemoveRange(satir3);
+            try
+            {
+                db.SaveChanges();
+                _Result = new Result(true, ID);
+            }
+            catch (Exception ex)
+            {
+                Logger(ex, "Tasks/Delete2");
+                _Result.Status = false;
+                _Result.Message = ex.Message;
+            }
+            return Json(_Result, JsonRequestBehavior.AllowGet);
+        }
+        #endregion
     }
 }

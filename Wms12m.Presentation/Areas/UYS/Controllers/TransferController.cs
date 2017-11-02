@@ -8,6 +8,7 @@ namespace Wms12m.Presentation.Areas.UYS.Controllers
 {
     public class TransferController : RootController
     {
+        #region planlama
         /// <summary>
         /// transfer planlama
         /// </summary>
@@ -17,17 +18,6 @@ namespace Wms12m.Presentation.Areas.UYS.Controllers
             ViewBag.GirisDepo = new SelectList(liste, "Depo", "DepoAdi");
             ViewBag.CikisDepo = ViewBag.GirisDepo;
             return View("Index");
-        }
-        /// <summary>
-        /// onay bekleyen transfer sayfası
-        /// </summary>
-        public ActionResult Waiting()
-        {
-            var liste = db.Database.SqlQuery<frmWaitingList>(string.Format(@"SELECT StiNo, Kod2 + ' => ' + Kod3 + ' (' + BIRIKIM.wms.fnFormatDateFromInt(BasTarih) + ')' as Depo FROM UYSPLN6{0}.UYSPLN6{0}.EMG WHERE(StiNo NOT IN
-                                                                                    (SELECT StiNo FROM UYSPLN6{0}.UYSPLN6{0}.EMG AS EMG_1 WHERE (TrsfrNo <> '') GROUP BY StiNo))
-                                                                            ORDER BY BasTarih, Kod2", db.GetSirketDBs().FirstOrDefault())).ToList();
-            ViewBag.DurumID = new SelectList(liste, "StiNo", "Depo");
-            return View("Waiting");
         }
         /// <summary>
         /// planlamadaki 1. adımdaki malzeme listesi
@@ -45,6 +35,19 @@ namespace Wms12m.Presentation.Areas.UYS.Controllers
             }
 
         }
+        #endregion
+        #region onaylama
+        /// <summary>
+        /// onay bekleyen transfer sayfası
+        /// </summary>
+        public ActionResult Waiting()
+        {
+            var liste = db.Database.SqlQuery<frmWaitingList>(string.Format(@"SELECT StiNo, Kod2 + ' => ' + Kod3 + ' (' + BIRIKIM.wms.fnFormatDateFromInt(BasTarih) + ')' as Depo FROM UYSPLN6{0}.UYSPLN6{0}.EMG WHERE(StiNo NOT IN
+                                                                                    (SELECT StiNo FROM UYSPLN6{0}.UYSPLN6{0}.EMG AS EMG_1 WHERE (TrsfrNo <> '') GROUP BY StiNo))
+                                                                            ORDER BY BasTarih, Kod2", db.GetSirketDBs().FirstOrDefault())).ToList();
+            ViewBag.DurumID = new SelectList(liste, "StiNo", "Depo");
+            return View("Waiting");
+        }
         /// <summary>
         /// onay bekleyen transfer listesi
         /// </summary>
@@ -52,6 +55,8 @@ namespace Wms12m.Presentation.Areas.UYS.Controllers
         {
             return PartialView("WaitingList");
         }
+        #endregion
+        #region ortak
         /// <summary>
         /// transfere ait mallar
         /// </summary>
@@ -66,17 +71,6 @@ namespace Wms12m.Presentation.Areas.UYS.Controllers
             //return
             var result = db.Transfer_Detay.Where(m => m.TransferID == ID).Select(m => new frmMalKoduMiktar { MalKodu = m.MalKodu, Miktar = m.Miktar, Birim = m.Birim }).ToList();
             return PartialView("Details", result);
-        }
-        /// <summary>
-        /// bekleyen transferi onayla
-        /// </summary>
-        [HttpPost, ValidateAntiForgeryToken]
-        public ActionResult Approve(int ID)
-        {
-            //log
-            LogActions("UYS", "Transfer", "Approve", ComboItems.alOnayla, ID);
-            //return
-            return RedirectToAction("List");
         }
         /// <summary>
         /// transfer sil
@@ -127,5 +121,46 @@ namespace Wms12m.Presentation.Areas.UYS.Controllers
                                     GROUP by STI.MalKodu, Depo,SeriNo", db.GetSirketDBs().FirstOrDefault(), MalKodu, Tarih, ("000000" + SeriNo).Right(6), Depo);
             return Json(db.Database.SqlQuery<decimal>(sql).FirstOrDefault(), JsonRequestBehavior.AllowGet);
         }
+        /// <summary>
+        /// transfer kaydet
+        /// </summary>
+        [HttpPost, ValidateAntiForgeryToken]
+        public JsonResult Save(frmTransferMalzemeApprove tbl)
+        {
+            Result _Result = new Result();
+            try
+            {
+
+                _Result.Status = true; _Result.Id = 1;
+            }
+            catch (Exception ex)
+            {
+                Logger(ex, "Tasks/Delete");
+                _Result.Status = false;
+                _Result.Message = ex.Message;
+            }
+            return Json(_Result, JsonRequestBehavior.AllowGet);
+        }
+        /// <summary>
+        /// bekleyen transferi onayla
+        /// </summary>
+        [HttpPost]
+        public JsonResult Approve(int ID)
+        {
+            Result _Result = new Result();
+            try
+            {
+
+                _Result.Status = true; _Result.Id = 1;
+            }
+            catch (Exception ex)
+            {
+                Logger(ex, "Tasks/Delete");
+                _Result.Status = false;
+                _Result.Message = ex.Message;
+            }
+            return Json(_Result, JsonRequestBehavior.AllowGet);
+        }
+        #endregion
     }
 }

@@ -14,9 +14,12 @@
                 <div class="caption">
                     <i class="fa fa-gift"></i>Depolar Arası Transfer Planlama
                 </div>
+                <div class="col-md-1 pull-right m-t-5">
+                    <button type="button" class="btn btn-default pull-right input-circle" onclick="Transfer()">Kaydet</button>
+                </div>
             </div>
             <div class="portlet-body form">
-                @using (Ajax.BeginForm("Summary", "Transfer", new { area = "WMS" }, new AjaxOptions { InsertionMode = InsertionMode.Replace, OnFailure= "Modaldialog('Lütfen Tekrar Deneyin', 'Hata', 'Tamam', 'btn-danger');" }, new { @class = "form-horizontal" }))
+                @using (Ajax.BeginForm("Save", "Transfer", new { area = "UYS" }, new AjaxOptions { InsertionMode = InsertionMode.Replace, OnFailure= "Modaldialog('Lütfen Tekrar Deneyin', 'Hata', 'Tamam', 'btn-danger');" }, new { @class = "form-horizontal", @id = "frmTransfer" }))
                 {
                     @Html.AntiForgeryToken()
                     @Html.ValidationSummary(true)
@@ -24,21 +27,21 @@
                         <div class="form-group">
                             <label class="col-md-3 control-label">Çıkış Depo</label>
                             <div class="col-md-4">
-                                @Html.DropDownList("CikisDepo", null, htmlAttributes: new { @class = "form-control input-circle DepoID", required = "required" })
+                                @Html.DropDownList("CikisDepo", null, htmlAttributes: new { @class = "form-control input-circle DepoID", required = "required", @onchange = "CheckAll();" })
                                 <span class="field-validation-valid" data-valmsg-for="DepoID" data-valmsg-replace="true" style="color:red;"></span>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-3 control-label">Giriş Depo</label>
                             <div class="col-md-4">
-                                @Html.DropDownList("GirisDepo", null, htmlAttributes: new { @class = "form-control input-circle DepoID", required = "required" })
+                                @Html.DropDownList("GirisDepo", null, htmlAttributes: new { @class = "form-control input-circle DepoID", required = "required", @onchange = "CheckAll();" })
                                 <span class="field-validation-valid" data-valmsg-for="DepoID" data-valmsg-replace="true" style="color:red;"></span>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-3 control-label">Tarih</label>
                             <div class="col-md-4">
-                                <input class="form-control input-circle" id="Tarih" name="Tarih" required="required" type="text">
+                                <input class="form-control input-circle" id="Tarih" name="Tarih" required="required" type="text", onchange = "CheckAll();">
                                 <span class="field-validation-valid" data-valmsg-for="Tarih" data-valmsg-replace="true" style="color:red;"></span>
                             </div>
                         </div>
@@ -66,7 +69,9 @@
     </div>
 </div>
 @section Scripts{<script type="text/javascript">
+    var satir = 0;
     $(document).ready(function () {
+        CheckAll();
         $(".DepoID").prepend("<option value=''>Seçiniz !!!</option>"); $(".DepoID")[0].selectedIndex = 0; $(".DepoID")[1].selectedIndex = 0;
         $.datepicker.setDefaults($.datepicker.regional["tr"]);
         $("#Tarih").datepicker();
@@ -90,6 +95,13 @@
             }
         });
     });
+    function CheckAll()
+    {
+        if ($("#CikisDepo").val() == "" || $("#GirisDepo").val() == "" || $("#Tarih").val() == "")
+            $('#myTable').hide();
+        else
+            $('#myTable').show();
+    }
     function NewRow()
     {
         if ($("#CikisDepo").val() == "" || $("#GirisDepo").val() == "" || $("#Tarih").val() == "" || $("#MalKodu").val() == "" || $("#MalAdi").val() == "" || $("#SeriNo").val() == "" || $("#Miktar").val() == "") {
@@ -102,6 +114,15 @@
             data: { Depo: $('#CikisDepo').val(), Tarih: toOADateFromString($("#Tarih").val()), MalKodu: $("#MalKodu").val(), SeriNo: $("#SeriNo").val() },
             dataType: "html",
             success: function (data) {
+                if (data == 0)
+                {
+                    Modaldialog("Bu ürünün stoğu yok", "Hata", "Tamam", "btn-danger");
+                    return;
+                }
+                else if (parseInt(data) < parseInt($("#Miktar").val())) {
+                    Modaldialog("Bu ürünün stoğu sadece yetersiz: " + ondalikBinlik(data, 2), "Hata", "Tamam", "btn-danger");
+                    return;
+                }
                 $('#myTable tbody tr:first').after('<tr>' +
                     '<td><input class="form-control" name="MalKodu" type="text" value="' + $("#MalKodu").val() + '"></td>' +
                     '<td><input class="form-control" name="MalAdi" type="text" value="' + $("#MalAdi").val() + '"></td>' +
@@ -115,6 +136,7 @@
                 $("#SeriNo").val("");
                 $("#Miktar").val("");
                 $("#MalKodu").focus();
+                satir++;
             },
             error: function (data) { Modaldialog("Lütfen Tekrar Deneyin", "Hata", "Tamam", "btn-danger"); }
         });
@@ -123,6 +145,14 @@
     function DeleteRow(btn)
     {
         $(btn).closest('tr').remove();
+        satir--;
+    }
+    function Transfer() {
+        if ($("#CikisDepo").val() == "" || $("#GirisDepo").val() == "" || $("#Tarih").val() == "" || satir == 0) {
+            Modaldialog("Tüm alanları doldurunuz", 'Hata', 'Tamam', 'btn-danger');
+            return;
+        }
+        $("#frmTransfer").submit();
     }
 </script>
 }
