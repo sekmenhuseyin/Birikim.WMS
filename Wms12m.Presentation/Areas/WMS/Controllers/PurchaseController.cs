@@ -98,15 +98,36 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             if (CheckPerm(Perms.MalKabul, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             var tbl = db.IRS_Detay.Where(m => m.ID == ID).FirstOrDefault();
             tbl.Miktar = M;
-            if (mNo != "" && mNo != null)
+            if (tbl.MakaraNo != mNo)
             {
-                var tmpx = db.Yers.Where(m => m.MakaraNo == tbl.MakaraNo && m.DepoID == tbl.IR.DepoID).FirstOrDefault();
-                if (tmpx != null)
-                    return Json(new Result(false, "Bu makara no kullanılıyor"), JsonRequestBehavior.AllowGet);
-                tbl.MakaraNo = mNo;
+                if (mNo == "" || mNo == null)
+                {
+                    var kkablo = db.Database.SqlQuery<string>(string.Format("SELECT Kod1 FROM FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) WHERE (MalKodu = '{1}')", db.GetSirketDBs().FirstOrDefault(), tbl.MalKodu)).FirstOrDefault();
+                    if (kkablo == "KKABLO")
+                    {
+                        mNo = "Boş-" + db.SettingsMakaraNo(tbl.IR.DepoID).FirstOrDefault();
+                        //return Json(IrsaliyeDetay.Insert(tbl, tbl.IR.DepoID), JsonRequestBehavior.AllowGet);
+                    }
+                }
+                if (mNo != null && mNo != "")
+                {
+                    //depo stoktaki makara noları ve
+                    //deu depodaki durdurulanlar hariç tüm mal kabuldeki makara noları kontrol eder
+                    var makara = db.Database.SqlQuery<string>(String.Format("BIRIKIM.wms.MakaraNoKontrol @DepoID = {0} , @MakaraNo='{1}'", tbl.IR.DepoID, mNo)).FirstOrDefault();
+                    if (makara != "" && makara != null)
+                        return Json(new Result(false, "Bu makara no kullanılıyor"), JsonRequestBehavior.AllowGet);
+                }
             }
+            //if (mNo != "" && mNo != null)
+            //{
+            //    var tmpx = db.Yers.Where(m => m.MakaraNo == tbl.MakaraNo && m.DepoID == tbl.IR.DepoID).FirstOrDefault();
+            //    if (tmpx != null)
+            //        return Json(new Result(false, "Bu makara no kullanılıyor"), JsonRequestBehavior.AllowGet);
+            //    tbl.MakaraNo = mNo;
+            //}
             try
             {
+                tbl.MakaraNo = mNo;
                 db.SaveChanges();
                 return Json(new Result(true), JsonRequestBehavior.AllowGet);
             }
@@ -190,11 +211,23 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             {
                 foreach (var item in tbl)
                 {
-                    string sql = String.Format("SELECT EvrakNo, Tarih, SiraNo, MalKodu, BirimMiktar, (BirimMiktar - TeslimMiktar - KapatilanMiktar) AS Miktar, Birim, DegisSaat FROM FINSAT6{0}.FINSAT6{0}.SPI WITH(NOLOCK) WHERE (ROW_ID = {1}) AND (IslemTur = 0) AND (KynkEvrakTip = 63) AND (SiparisDurumu = 0) AND (MalKodu = '{2}') AND (Birim = '{3}') AND (LTRIM(EvrakNo) = '{4}')", s, item.KynkSiparisID, item.MalKodu, item.Birim, item.KynkSiparisNo.Trim());
+                    string sql = String.Format(@"
+SELECT SPI.EvrakNo, SPI.Tarih, SPI.SiraNo, SPI.MalKodu, SPI.BirimMiktar, 
+    (SPI.BirimMiktar - SPI.TeslimMiktar - SPI.KapatilanMiktar) AS Miktar, 
+    SPI.Birim, SPI.DegisSaat , STK.Kod1
+FROM FINSAT6{0}.FINSAT6{0}.SPI WITH(NOLOCK) 
+INNER JOIN FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) ON SPI.MalKodu=STK.MalKodu
+WHERE (SPI.ROW_ID = {1}) AND (SPI.IslemTur = 0) AND (SPI.KynkEvrakTip = 63) AND (SPI.SiparisDurumu = 0) 
+AND (SPI.MalKodu = '{2}') AND (SPI.Birim = '{3}') AND (LTRIM(SPI.EvrakNo) = '{4}')", s, item.KynkSiparisID, item.MalKodu, item.Birim, item.KynkSiparisNo.Trim());
                     try
                     {
                         var tempTbl = db.Database.SqlQuery<frmIrsaliyeMalzeme>(sql).FirstOrDefault();
                         //save details
+
+                        string mNo = "";
+                        if (tempTbl.Kod1 == "KKABLO")
+                            mNo = "Boş-" + db.SettingsMakaraNo(irs.DepoID).FirstOrDefault();
+
                         IRS_Detay sti = new IRS_Detay()
                         {
                             IrsaliyeID = irsaliyeID,
@@ -206,7 +239,8 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                             KynkSiparisTarih = tempTbl.Tarih,
                             KynkDegisSaat = tempTbl.DegisSaat,
                             MalKodu = tempTbl.MalKodu,
-                            Miktar = item.Miktar > 0 ? item.Miktar : tempTbl.Miktar
+                            Miktar = item.Miktar > 0 ? item.Miktar : tempTbl.Miktar,
+                            MakaraNo = mNo
                         };
                         Result _Result = IrsaliyeDetay.Operation(sti);
                         eklenen++;
@@ -290,7 +324,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             int time = fn.ToOATime();
             try
             {
-                var cevap = db.InsertIrsaliye(tbl.SirketID, tbl.DepoID, gorevno, tbl.EvrakNo, tarih, "Irs: " + tbl.EvrakNo + ", Tedarikçi: " + tbl.Unvan, false, ComboItems.MalKabul.ToInt32(), vUser.UserName, today, time, tbl.HesapKodu, "", 0, "","").FirstOrDefault();
+                var cevap = db.InsertIrsaliye(tbl.SirketID, tbl.DepoID, gorevno, tbl.EvrakNo, tarih, "Irs: " + tbl.EvrakNo + ", Tedarikçi: " + tbl.Unvan, false, ComboItems.MalKabul.ToInt32(), vUser.UserName, today, time, tbl.HesapKodu, "", 0, "", "").FirstOrDefault();
                 LogActions("WMS", "Purchase", "New", ComboItems.alEkle, cevap.GorevID.Value, "Irs: " + tbl.EvrakNo + ", Tedarikçi: " + tbl.Unvan);
                 //get list
                 var list = IrsaliyeDetay.GetList(cevap.IrsaliyeID.Value);
@@ -344,7 +378,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             {
                 if (tbl.MakaraNo == "" || tbl.MakaraNo == null)
                 {
-                    var kkablo = db.Database.SqlQuery<string>(string.Format("SELECT Kod1 FROM FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) WHERE (MalKodu = '{1}')", db.GetSirketDBs().FirstOrDefault(), tbl.MalKodu)).FirstOrDefault();
+                    var kkablo = db.Database.SqlQuery<string>(string.Format("SELECT Kod1 FROM BIRIKIM.wms.GetSTK('{0}')", tbl.MalKodu)).FirstOrDefault();
                     if (kkablo == "KKABLO")
                     {
                         tbl.MakaraNo = "Boş-" + db.SettingsMakaraNo(irs.DepoID).FirstOrDefault();

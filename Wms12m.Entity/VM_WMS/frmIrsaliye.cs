@@ -74,6 +74,7 @@ namespace Wms12m.Entity
         public string Birim { get; set; }
         public int Tarih { get; set; }
         public short SiraNo { get; set; }
+        public string Kod1 { get; set; }
     }
     /// <summary>
     /// mini stk

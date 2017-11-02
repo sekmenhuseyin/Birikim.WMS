@@ -470,9 +470,9 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             foreach (var item in listsirk)
             {
                 if (item == "33")
-                    Sart = " (MalKodu BETWEEN 'a' AND 'z') AND ";
+                    Sart = " (MalKodu BETWEEN 'a' AND 'zzzzzz') AND ";
                 else if (item == "71")
-                    Sart = " (MalKodu BETWEEN '1' AND '9') AND ";
+                    Sart = " (MalKodu BETWEEN '0' AND '9') AND ";
                 else
                     Sart = "";
 
