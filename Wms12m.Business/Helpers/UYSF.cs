@@ -58,10 +58,10 @@ namespace Wms12m
             }
             //save 2 db
             Stok_Islemleri StokIslem = new Stok_Islemleri(SirketKodu);
-            IslemSonuc Sonuc = StokIslem.DepoTransfer_Kayit(7199 + Evrakserino, DepTranList);
+            IslemSonuc Sonuc = StokIslem.DepoTransfer_Kayit(-1, DepTranList);
             if (Sonuc.Basarili == true)
             {
-                Sonuc = StokIslem.DepoTransfer_EMG_Kayit(tbl[0].CikisDepo, tbl[0].GirisDepo, evrakNo, tbl[0].EmirNo, tbl[0].Kaydeden, tbl[0].Kaydeden2);
+                Sonuc = StokIslem.DepoTransfer_EMG_Kayit(tbl[0].CikisDepo, tbl[0].GirisDepo, EvrakNo, tbl[0].EmirNo, tbl[0].Kaydeden, tbl[0].Kaydeden2);
             }
             //return
             var _Result = new Result()
