@@ -181,8 +181,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
 
             IR ir = db.IRS.Where(a => a.ID == a.Gorevs.Where(n => n.ID == GorevID).Select(n => n.IrsaliyeID).FirstOrDefault()).FirstOrDefault();
             Gorev grv = db.Gorevs.Where(m => m.ID == GorevID).FirstOrDefault();
-            if (grv.DurumID == ComboItems.Başlamamış.ToInt32())
-            {
+
                 //görevi aç
                 grv.DurumID = ComboItems.Açık.ToInt32();
                 grv.OlusturmaTarihi = fn.ToOADate();
@@ -191,7 +190,6 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                 ir.Onay = true;
                 db.SaveChanges();
                 LogActions("WMS", "Refund", "Approve", ComboItems.alEkle, GorevID, "Firma: " + grv.IR.HesapKodu);
-            }
             //görevlere git
             return Redirect("/WMS/Tasks");
         }
