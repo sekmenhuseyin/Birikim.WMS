@@ -1,8 +1,7 @@
 ﻿using KurumsalKaynakPlanlaması12M;
 using System.Collections.Generic;
-using Wms12m.Entity;
 
-namespace Wms12m
+namespace Wms12m.Entity
 {
     public class GenelAyarVeParam
     {

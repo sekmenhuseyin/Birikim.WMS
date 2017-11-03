@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 
-namespace Wms12m.Entity.Viewmodels
+namespace Wms12m.Entity
 {
     public class FiyatKoleksiyonSelect
     {

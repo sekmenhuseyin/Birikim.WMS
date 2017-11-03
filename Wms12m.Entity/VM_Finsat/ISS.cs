@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Wms12m.Entity.Viewmodels
+namespace Wms12m.Entity
 {
     #region ISS Class 
 
