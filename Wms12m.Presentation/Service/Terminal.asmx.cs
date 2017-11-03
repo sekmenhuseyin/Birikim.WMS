@@ -1735,6 +1735,8 @@ namespace Wms12m
             var transfer = mGorev.Transfers.FirstOrDefault();
             if (transfer == null)//iç transfer
             {
+
+
                 db.TerminalFinishGorev(GorevID, mGorev.IrsaliyeID, "", tarih, DateTime.Now.ToOaTime(), kull.Kod, "", ComboItems.TransferÇıkış.ToInt32(), 0).FirstOrDefault();
                 LogActions(KullID.ToString(), "Terminal", "Service", "Terminal", "TransferGiris_GoreviTamamla", ComboItems.alDüzenle, GorevID, "TransferÇıkış => -");
                 sonuc = new Result(true);
