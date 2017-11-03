@@ -46,6 +46,7 @@ namespace Wms12m
                     MalKodu = tbl.MalKodu[i],
                     Miktar = tbl.Miktar[i],
                     Birim = tbl.Birim[i],
+                    SeriNo = tbl.SeriNo[i],
                     CikisDepo = GirisMi == true ? tbl.AraDepo : tbl.CikisDepo,
                     GirisDepo = GirisMi == true ? tbl.GirisDepo : tbl.AraDepo,
                     Kaydeden = kaydeden,

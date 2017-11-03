@@ -150,7 +150,7 @@ namespace Wms12m
                         Kaydeden = kaydeden,
                         KayitSurum = "9.01.028",
                         KayitKaynak = 74,
-                        ValorGun= stItem.ValorGun
+                        ValorGun = stItem.ValorGun
                     };
                     if (stItem.SiparisNo != "" && stItem.KynkSiparisMiktar > 0)
                     {
@@ -195,6 +195,9 @@ namespace Wms12m
             else
                 return new Result(false, Sonuc.Hata.Message);
         }
+        /// <summary>
+        /// satıştan iade
+        /// </summary>
         public Result SatisIade(IR irsaliye, int kulID, int IrsaliyeSeri, int yil, bool efatKullanici)
         {
             DevHelper.Ayarlar.SetConStr(ConStr);
@@ -239,7 +242,7 @@ namespace Wms12m
                         EArsivTeslimSekli = stItem.EArsivTeslimSekli,
                         EFatEtiketGB = stItem.EFatEtiketGB,
                         EFatEtiketPK = stItem.EFatEtiketPK,
-                        IslemTip= stItem.SipIslemTip
+                        IslemTip = stItem.SipIslemTip
 
                     };
                     if (stItem.SiparisNo != "")
@@ -337,16 +340,16 @@ namespace Wms12m
             using (WMSEntities db = new WMSEntities())
             {
                 string sql = String.Format(@"
-SELECT MalKodu, Miktar, Birim, KynkSiparisNo as EvrakNo, KynkSiparisTarih, KynkSiparisSiraNo,
-(SELECT IslemTip FROM FINSAT6{0}.FINSAT6{0}.SPI WITH (NOLOCK) WHERE KynkEvrakTip=62 AND SPI.EvrakNo= wms.IRS_Detay.KynkSiparisNo AND SiraNo=wms.IRS_Detay.KynkSiparisSiraNo 
-AND Tarih=wms.IRS_Detay.KynkSiparisTarih) AS SipIslemTip
-FROM wms.IRS_Detay WITH (NOLOCK) WHERE IrsaliyeID={1}", SirketKodu, irsID); 
+                                        SELECT MalKodu, Miktar, Birim, KynkSiparisNo as EvrakNo, KynkSiparisTarih, KynkSiparisSiraNo,
+                                        (SELECT IslemTip FROM FINSAT6{0}.FINSAT6{0}.SPI WITH (NOLOCK) WHERE KynkEvrakTip=62 AND SPI.EvrakNo= wms.IRS_Detay.KynkSiparisNo AND SiraNo=wms.IRS_Detay.KynkSiparisSiraNo 
+                                        AND Tarih=wms.IRS_Detay.KynkSiparisTarih) AS SipIslemTip
+                                        FROM wms.IRS_Detay WITH (NOLOCK) WHERE IrsaliyeID={1}", SirketKodu, irsID);
                 var list = db.Database.SqlQuery<STIMax>(sql).ToList();
 
                 #region İç Piyasa İse Satış Faturası Listesi Oluşturulur
-                if(list.Where(x => x.SipIslemTip == 1).ToList().Count>0)
+                if (list.Where(x => x.SipIslemTip == 1).ToList().Count > 0)
                 {
-                  
+
                     try
                     {
                         evrkno = ftrKayit.EvrakNo_Getir(efatKullanici, IrsaliyeSeri, yil, FaturaTipi.SatisFaturası.ToInt32());
@@ -423,12 +426,12 @@ FROM wms.IRS_Detay WITH (NOLOCK) WHERE IrsaliyeID={1}", SirketKodu, irsID);
                         KayitSurum = "9.01.028",
                         KayitKaynak = 74,
                         IslemTip = stItem.SipIslemTip,
-                        DovizCinsi=stItem.DovizCinsi,
+                        DovizCinsi = stItem.DovizCinsi,
                         EFatSenaryo = stItem.EFatSenaryo,
                         EArsivTeslimSekli = stItem.EArsivTeslimSekli,
-                        EFatEtiketGB= stItem.EFatEtiketGB,
+                        EFatEtiketGB = stItem.EFatEtiketGB,
                         EFatEtiketPK = stItem.EFatEtiketPK,
-                        ValorGun=stItem.ValorGun
+                        ValorGun = stItem.ValorGun
 
 
                     };
@@ -492,7 +495,7 @@ FROM wms.IRS_Detay WITH (NOLOCK) WHERE IrsaliyeID={1}", SirketKodu, irsID);
                     if (Sonuc.Hata.IsNull())
                     {
                         IslemSonuc = true;
-                        IslemMesaj = Sonuc.Veri.ToString2()+", ";
+                        IslemMesaj = Sonuc.Veri.ToString2() + ", ";
                     }
                     else
                     {
@@ -533,6 +536,7 @@ FROM wms.IRS_Detay WITH (NOLOCK) WHERE IrsaliyeID={1}", SirketKodu, irsID);
                     MalKodu = item.MalKodu,
                     Miktar = item.Miktar,
                     Birim = item.Birim,
+                    SeriNo = "",
                     GirisDepo = GirisMi == true ? tblTransfer.Depo.DepoKodu : tblTransfer.Depo2.DepoKodu,
                     CikisDepo = GirisMi == true ? tblTransfer.Depo2.DepoKodu : tblTransfer.Depo1.DepoKodu,
                     Kaydeden = kaydeden,
@@ -553,7 +557,6 @@ FROM wms.IRS_Detay WITH (NOLOCK) WHERE IrsaliyeID={1}", SirketKodu, irsID);
             };
             return _Result;
         }
-
         /// <summary>
         /// Alımdan Iade faturası
         /// </summary>
@@ -575,7 +578,7 @@ FROM wms.IRS_Detay WITH (NOLOCK) WHERE IrsaliyeID={1}", SirketKodu, irsID);
             int saat = DateTime.Now.ToOaTime();
             //listeyi dön
             using (WMSEntities db = new WMSEntities())
-            {               
+            {
                 string sql = String.Format("SELECT MalKodu, Miktar, Birim, KynkSiparisNo as EvrakNo, KynkSiparisID AS Row_ID FROM wms.IRS_Detay WITH (NOLOCK) WHERE IrsaliyeID={0}", irsID);
                 var list = db.Database.SqlQuery<STIMax>(sql).ToList();
                 foreach (STIMax item in list)
@@ -605,7 +608,6 @@ FROM wms.IRS_Detay WITH (NOLOCK) WHERE IrsaliyeID={1}", SirketKodu, irsID);
                     }
                 }
             }
-
             //finsat işlemleri
             try
             {
