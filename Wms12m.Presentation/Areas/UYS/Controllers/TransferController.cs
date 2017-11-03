@@ -54,7 +54,10 @@ namespace Wms12m.Presentation.Areas.UYS.Controllers
         /// </summary>
         public PartialViewResult WaitingList(string Id)
         {
-            return PartialView("WaitingList");
+            var liste = db.Database.SqlQuery<frmUysWaitingTransfer>(string.Format(@"SELECT FINSAT6{0}.FINSAT6{0}.STI.MalKodu, FINSAT6{0}.FINSAT6{0}.STI.Birim, FINSAT6{0}.FINSAT6{0}.STI.Miktar, FINSAT6{0}.FINSAT6{0}.STI.EvrakNo, FINSAT6{0}.FINSAT6{0}.STI.Kaydeden, FINSAT6{0}.FINSAT6{0}.STI.Tarih, FINSAT6{0}.FINSAT6{0}.STK.MalAdi
+                                                                                    FROM FINSAT6{0}.FINSAT6{0}.STI INNER JOIN FINSAT6{0}.FINSAT6{0}.STK ON FINSAT6{0}.FINSAT6{0}.STI.MalKodu = FINSAT6{0}.FINSAT6{0}.STK.MalKodu
+                                                                                    WHERE (FINSAT6{0}.FINSAT6{0}.STI.KynkEvrakTip = 53) AND (FINSAT6{0}.FINSAT6{0}.STI.IslemTur = 1) AND (FINSAT6{0}.FINSAT6{0}.STI.EvrakNo = '{1}')", db.GetSirketDBs().FirstOrDefault(), Id)).ToList();
+            return PartialView("WaitingList", liste);
         }
         #endregion
         #region ortak
