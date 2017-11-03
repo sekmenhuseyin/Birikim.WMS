@@ -50,7 +50,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                 var tbl = db.UserDetails.Where(m => m.UserID == vUser.Id).FirstOrDefault();
                 if (tbl != null)
                 {
-                    var Sirketler = tbl.GosterilecekSirket == null?"" :tbl.GosterilecekSirket;
+                    var Sirketler = tbl.GosterilecekSirket == null ? "" : tbl.GosterilecekSirket;
                     var CHKAraligi = tbl.GostCHKKodAlani == null ? "" : tbl.GostCHKKodAlani;
                     var TipKodlari = tbl.GostSTKDeger == null ? "" : tbl.GostSTKDeger;
                     var Kod3Araligi = "";
@@ -58,8 +58,8 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                     var RiskAraligi = "";
                     var RiskAraligi2 = "";
 
-                    var Kod3Array = tbl.GostKod3OrtBakiye==null? ";".Split(';') : tbl.GostKod3OrtBakiye.Split(';');
-                    var RiskArray = tbl.GostRiskDeger == null ? ";".Split(';') : tbl.GostRiskDeger.Split(';'); 
+                    var Kod3Array = tbl.GostKod3OrtBakiye == null ? ";".Split(';') : tbl.GostKod3OrtBakiye.Split(';');
+                    var RiskArray = tbl.GostRiskDeger == null ? ";".Split(';') : tbl.GostRiskDeger.Split(';');
 
 
                     if (Kod3Array.Length > 3)
@@ -68,7 +68,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                         Kod3Araligi2 = Kod3Array[2] + ";" + Kod3Array[3];
 
                     }
-                    else if (Kod3Array.Length > 1 && Kod3Array[0]!="")
+                    else if (Kod3Array.Length > 1 && Kod3Array[0] != "")
                     {
                         Kod3Araligi = Kod3Array[0] + ";" + Kod3Array[1];
                         Kod3Araligi2 = "0;0";

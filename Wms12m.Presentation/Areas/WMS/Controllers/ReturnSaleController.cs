@@ -136,18 +136,18 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
 
                 //get stok
 
-                    //sti tablosu
-                    IRS_Detay sti = new IRS_Detay()
-                    {
-                        IrsaliyeID = cevap.IrsaliyeID.Value,
-                        MalKodu = malkodlari[i],
-                        Birim = birimler[i],
-                        Miktar = miktars[i],
-                        KynkSiparisNo = evrak,
-                        KynkSiparisID = rowID[i]
-                    };
-                    var op2 = new IrsaliyeDetay();
-                    _Result = op2.Operation(sti);
+                //sti tablosu
+                IRS_Detay sti = new IRS_Detay()
+                {
+                    IrsaliyeID = cevap.IrsaliyeID.Value,
+                    MalKodu = malkodlari[i],
+                    Birim = birimler[i],
+                    Miktar = miktars[i],
+                    KynkSiparisNo = evrak,
+                    KynkSiparisID = rowID[i]
+                };
+                var op2 = new IrsaliyeDetay();
+                _Result = op2.Operation(sti);
 
 
                 i++;
