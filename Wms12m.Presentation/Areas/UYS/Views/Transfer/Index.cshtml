@@ -19,7 +19,7 @@
                 </div>
             </div>
             <div class="portlet-body form">
-                @using (Ajax.BeginForm("Save", "Transfer", new { area = "UYS" }, new AjaxOptions { InsertionMode = InsertionMode.Replace, OnFailure= "Modaldialog('Lütfen Tekrar Deneyin', 'Hata', 'Tamam', 'btn-danger');" }, new { @class = "form-horizontal", @id = "frmTransfer" }))
+                @using (Ajax.BeginForm("Save", "Transfer", new { area = "UYS" }, new AjaxOptions { InsertionMode = InsertionMode.Replace, OnSuccess = "getresult", OnFailure = "Modaldialog('Lütfen Tekrar Deneyin', 'Hata', 'Tamam', 'btn-danger');" }, new { @class = "form-horizontal", @id = "frmTransfer" }))
                 {
                     @Html.AntiForgeryToken()
                     @Html.ValidationSummary(true)
@@ -126,7 +126,7 @@
                     Modaldialog("Bu ürünün stoğu sadece yetersiz: " + ondalikBinlik(data.Miktar, 2), "Hata", "Tamam", "btn-danger");
                     return;
                 }
-                $('#myTable tbody tr:first').after('<tr>' +
+                $('#myTable tbody tr:first').after('<tr class="deletable">' +
                     '<td><input class="form-control" name="MalKodu" type="text" value="' + $("#MalKodu").val() + '" readonly="readonly"></td>' +
                     '<td><input class="form-control w-200" type="text" value="' + $("#MalAdi").val() + '" readonly="readonly"></td>' +
                     '<td><input class="form-control w-50 pull-right" name="SeriNo" type="text" value="' + $("#SeriNo").val() + '" readonly="readonly"></td>' +
@@ -157,5 +157,21 @@
         }
         $("#frmTransfer").submit();
     }
+    function getresult(e) {
+        if (e.Status == true) {
+            Modaldialog("İşlem Başarıyla gerçekleşti", "Başarı", "Tamam", "btn-success");
+            $("#CikisDepo").val("");
+            $("#GirisDepo").val("");
+            $("#Tarih").val("");
+            $("#MalKodu").val("");
+            $("#MalAdi").val("");
+            $("#SeriNo").val("");
+            $("#Miktar").val("");
+            $('#myTable').hide();
+            $(".deletable").remove();
+        }
+        else
+            Modaldialog(e.Message, 'Hata', 'Tamam', 'btn-danger');
+    };
 </script>
 }

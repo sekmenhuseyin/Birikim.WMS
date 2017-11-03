@@ -60,14 +60,13 @@ namespace Wms12m
             IslemSonuc Sonuc = StokIslem.DepoTransfer_Kayit(7199 + Evrakserino, DepTranList);
             if (Sonuc.Basarili == true)
             {
-                Sonuc = StokIslem.DepoTransfer_EMG_Kayit(DepTranList[0].CikisDepo, DepTranList[0].GirisDepo, evrakNo, emirno, kaydeden, tamAdi);
+                Sonuc = StokIslem.DepoTransfer_EMG_Kayit(tbl.CikisDepo, tbl.GirisDepo, evrakNo, emirno, kaydeden, tamAdi);
             }
             //return
             var _Result = new Result()
             {
                 Status = Sonuc.Basarili,
-                Message = Sonuc.Hata != null ? Sonuc.Hata.Message : "",
-                Data = evrakNo
+                Message = Sonuc.Hata != null ? Sonuc.Hata.Message : ""
             };
             return _Result;
         }

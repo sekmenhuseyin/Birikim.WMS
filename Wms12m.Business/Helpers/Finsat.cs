@@ -536,7 +536,6 @@ namespace Wms12m
                     MalKodu = item.MalKodu,
                     Miktar = item.Miktar,
                     Birim = item.Birim,
-                    SeriNo = "",
                     GirisDepo = GirisMi == true ? tblTransfer.Depo.DepoKodu : tblTransfer.Depo2.DepoKodu,
                     CikisDepo = GirisMi == true ? tblTransfer.Depo2.DepoKodu : tblTransfer.Depo1.DepoKodu,
                     Kaydeden = kaydeden,
