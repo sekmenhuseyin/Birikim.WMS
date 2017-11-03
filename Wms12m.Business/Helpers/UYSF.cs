@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using Wms12m.Entity;
-using Wms12m.Entity.Models;
 
 namespace Wms12m
 {
@@ -25,32 +24,30 @@ namespace Wms12m
         {
             DevHelper.Ayarlar.SetConStr(ConStr);
             DevHelper.Ayarlar.SirketKodu = SirketKodu;
-            Genel_Islemler GI = new Genel_Islemler(SirketKodu);
-            return GI.EvrakNo_Getir(EvrakSeriNo);
+            return (new Genel_Islemler(SirketKodu)).EvrakNo_Getir(EvrakSeriNo);
         }
         /// <summary>
         /// depo transfer fişi
         /// </summary>
-        public Result DepoTransfer(Transfer tblTransfer, bool GirisMi, string kaydeden, int Evrakserino)
+        public Result DepoTransfer(frmUysTransfer tbl, bool GirisMi, string kaydeden, int Evrakserino)
         {
             //settings
             DevHelper.Ayarlar.SetConStr(ConStr);
             DevHelper.Ayarlar.SirketKodu = SirketKodu;
-            Genel_Islemler GI = new Genel_Islemler(SirketKodu);
-            string evrakNo = GI.EvrakNo_Getir(7199 + Evrakserino);
+            string evrakNo = (new Genel_Islemler(SirketKodu)).EvrakNo_Getir(7199 + Evrakserino);
             //add to list
-            List<DepTran> DepTranList = new List<DepTran>();
-            foreach (var item in tblTransfer.Transfer_Detay)
+            var DepTranList = new List<DepTran>();
+            for (int i = 0; i < tbl.MalKodu.Length; i++)
             {
                 DepTran dep = new DepTran()
                 {
                     EvrakNo = evrakNo,
                     Tarih = DateTime.Today,
-                    MalKodu = item.MalKodu,
-                    Miktar = item.Miktar,
-                    Birim = item.Birim,
-                    GirisDepo = GirisMi == true ? tblTransfer.Depo.DepoKodu : tblTransfer.Depo2.DepoKodu,
-                    CikisDepo = GirisMi == true ? tblTransfer.Depo2.DepoKodu : tblTransfer.Depo1.DepoKodu,
+                    MalKodu = tbl.MalKodu[i],
+                    Miktar = tbl.Miktar[i],
+                    Birim = tbl.Birim[i],
+                    CikisDepo = GirisMi == true ? tbl.AraDepo : tbl.CikisDepo,
+                    GirisDepo = GirisMi == true ? tbl.GirisDepo : tbl.AraDepo,
                     Kaydeden = kaydeden,
                     KayitSurum = "9.01.028",
                     KayitKaynak = 74
@@ -58,8 +55,8 @@ namespace Wms12m
                 DepTranList.Add(dep);
             }
             //save 2 db
-            Stok_Islemleri StokIslem = new Stok_Islemleri(tblTransfer.SirketKod);
-            OnikimCore.GunesCore.IslemSonuc Sonuc = StokIslem.DepoTransfer_Kayit(7199 + Evrakserino, DepTranList);
+            Stok_Islemleri StokIslem = new Stok_Islemleri(SirketKodu);
+            IslemSonuc Sonuc = StokIslem.DepoTransfer_Kayit(7199 + Evrakserino, DepTranList);
             //return
             var _Result = new Result()
             {

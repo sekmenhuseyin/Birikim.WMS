@@ -116,11 +116,12 @@ namespace Wms12m.Presentation.Areas.UYS.Controllers
         /// </summary>
         public JsonResult GetStock(string MalKodu, int Tarih, string SeriNo, string Depo)
         {
-            var sql = string.Format(@"SELECT isnull(sum(case when IslemTur = 0 then Miktar else -Miktar end), 0) as Miktar 
+            if (SeriNo != "") SeriNo = ("000000" + SeriNo).Right(6); else SeriNo = "      ";
+            var sql = string.Format(@"SELECT '{1}' as MalKodu, isnull(sum(case when IslemTur = 0 then Miktar else -Miktar end), 0) as Miktar, (SELECT Birim1 FROM FINSAT6{0}.FINSAT6{0}.STK WHERE (MalKodu = '{1}')) as Birim
                                     FROM FINSAT6{0}.FINSAT6{0}.STI WITH (nolock) left join FINSAT6{0}.FINSAT6{0}.STK WITH (nolock) ON STK.MalKodu = STI.MalKodu 
                                     where STI.MalKodu = '{1}' and Tarih <= {2} and SeriNo = '  {3}' and Depo ='{4}'  and IrsFat <> 2 and KynkEvrakTip <> 95 and KynkEvrakTip not in (141,142,143,144) and not (KynkEvrakTip in (68,69) and ErekIIFKEvrakTip in (5,2) and IrsFat = 3)
-                                    GROUP by STI.MalKodu, Depo,SeriNo", db.GetSirketDBs().FirstOrDefault(), MalKodu, Tarih, ("000000" + SeriNo).Right(6), Depo);
-            return Json(db.Database.SqlQuery<decimal>(sql).FirstOrDefault(), JsonRequestBehavior.AllowGet);
+                                    GROUP by STI.MalKodu, Depo,SeriNo", db.GetSirketDBs().FirstOrDefault(), MalKodu, Tarih, SeriNo, Depo);
+            return Json(db.Database.SqlQuery<frmMalKoduMiktar>(sql).FirstOrDefault(), JsonRequestBehavior.AllowGet);
         }
         /// <summary>
         /// transfer kaydet
@@ -128,23 +129,13 @@ namespace Wms12m.Presentation.Areas.UYS.Controllers
         [HttpPost, ValidateAntiForgeryToken]
         public JsonResult Save(frmUysTransfer tbl)
         {
-            ;
-            var finsat = new UYSF(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, db.GetSirketDBs().FirstOrDefault());
-            var sonuc = finsat.DepoTransfer(null, false, vUser.UserName, 1);
+            tbl.AraDepo = "TD";
+            //send to db
+            var uysf = new UYSF(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, db.GetSirketDBs().FirstOrDefault());
+            var sonuc = uysf.DepoTransfer(tbl, false, vUser.UserName, 1);
             if (sonuc.Status == true)
             {
-
-            }
-            try
-            {
-
-                sonuc.Status = true; sonuc.Id = 1;
-            }
-            catch (Exception ex)
-            {
-                Logger(ex, "WMS/Transfer/Save");
-                sonuc.Status = false;
-                sonuc.Message = ex.Message;
+                //sonuc.Data = evrakNo;
             }
             return Json(sonuc, JsonRequestBehavior.AllowGet);
         }

@@ -49,11 +49,11 @@
                         <div class="form-group">
                             <div class="col-md-5 col-md-offset-2">
                                 <table class="table table-striped table-bordered" id="myTable">
-                                    <thead><tr><th>Malzeme Kodu</th><th>Malzeme Adı</th><th class="text-right">Seri No</th><th class="text-right">Miktar</th><th>Stok</th><th></th></tr></thead>
+                                    <thead><tr><th nowrap>Malzeme Kodu</th><th>Malzeme Adı</th><th class="text-right">Seri No</th><th class="text-right">Miktar</th><th>Stok</th><th></th></tr></thead>
                                     <tbody>
                                         <tr>
                                             <td><input class="form-control" id="MalKodu" type="text"></td>
-                                            <td><input class="form-control" id="MalAdi" type="text"></td>
+                                            <td><input class="form-control w-200" id="MalAdi" type="text"></td>
                                             <td><input class="form-control w-50 pull-right" id="SeriNo" type="text"></td>
                                             <td><input class="form-control w-50 pull-right" id="Miktar" type="text"></td>
                                             <td></td>
@@ -107,7 +107,7 @@
     }
     function NewRow()
     {
-        if ($("#CikisDepo").val() == "" || $("#GirisDepo").val() == "" || $("#Tarih").val() == "" || $("#MalKodu").val() == "" || $("#MalAdi").val() == "" || $("#SeriNo").val() == "" || $("#Miktar").val() == "") {
+        if ($("#CikisDepo").val() == "" || $("#GirisDepo").val() == "" || $("#Tarih").val() == "" || $("#MalKodu").val() == "" || $("#MalAdi").val() == "" || $("#Miktar").val() == "") {
             Modaldialog("Tüm alanları doldurunuz", 'Hata', 'Tamam', 'btn-danger');
             return;
         }
@@ -115,23 +115,23 @@
             type: 'POST',
             url: "/UYS/Transfer/GetStock/",
             data: { Depo: $('#CikisDepo').val(), Tarih: toOADateFromString($("#Tarih").val()), MalKodu: $("#MalKodu").val(), SeriNo: $("#SeriNo").val() },
-            dataType: "html",
+            dataType: "json",
             success: function (data) {
-                if (data == 0)
+                if (data == null)
                 {
                     Modaldialog("Bu ürünün stoğu yok", "Hata", "Tamam", "btn-danger");
                     return;
                 }
-                else if (parseInt(data) < parseInt($("#Miktar").val())) {
-                    Modaldialog("Bu ürünün stoğu sadece yetersiz: " + ondalikBinlik(data, 2), "Hata", "Tamam", "btn-danger");
+                else if (parseInt(data.Miktar) < parseInt($("#Miktar").val())) {
+                    Modaldialog("Bu ürünün stoğu sadece yetersiz: " + ondalikBinlik(data.Miktar, 2), "Hata", "Tamam", "btn-danger");
                     return;
                 }
                 $('#myTable tbody tr:first').after('<tr>' +
-                    '<td><input class="form-control" name="MalKodu" type="text" value="' + $("#MalKodu").val() + '"></td>' +
-                    '<td><input class="form-control" type="text" value="' + $("#MalAdi").val() + '"></td>' +
-                    '<td><input class="form-control w-50 pull-right" name="SeriNo" type="text" value="' + $("#SeriNo").val() + '"></td>' +
+                    '<td><input class="form-control" name="MalKodu" type="text" value="' + $("#MalKodu").val() + '" readonly="readonly"></td>' +
+                    '<td><input class="form-control w-200" type="text" value="' + $("#MalAdi").val() + '" readonly="readonly"></td>' +
+                    '<td><input class="form-control w-50 pull-right" name="SeriNo" type="text" value="' + $("#SeriNo").val() + '" readonly="readonly"></td>' +
                     '<td><input class="form-control w-50 pull-right" name="Miktar" type="text" value="' + $("#Miktar").val() + '"></td>' +
-                    '<td class="text-right">' + ondalikBinlik(data, 2) + '</td>' +
+                    '<td class="text-right"><input class="hidden" name="Birim" value="' + data.Birim + '" type="text">' + ondalikBinlik(data.Miktar, 2) + '</td>' +
                     '<td><button type="button" class="btn btn-danger btn-block" onclick="DeleteRow(this);">Sil</button></td>' +
                     '</tr>');
                 $("#MalKodu").val("");
@@ -141,7 +141,7 @@
                 $("#MalKodu").focus();
                 satir++;
             },
-            error: function (data) { Modaldialog("Lütfen Tekrar Deneyin", "Hata", "Tamam", "btn-danger"); }
+            error: function (data) { Modaldialog("Bu ürünün stoğu yok", "Hata", "Tamam", "btn-danger"); }
         });
 
     }
