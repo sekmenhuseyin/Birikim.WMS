@@ -268,7 +268,7 @@ namespace Wms12m
             if (tbl == null) return new List<Tip_STI>();
             var mGorev = db.Gorevs.Where(m => m.ID == GorevID).FirstOrDefault();
             if (mGorev.IsNull())
-                return new List<Tip_STI>();
+                return new List<Tip_STI>(); 
 
             List<Tip_STI> list = new List<Tip_STI>();
             list = db.Database.SqlQuery<Tip_STI>(string.Format("[BIRIKIM].[wms].[GetSTIList] {0},'{1}',{2},{3}", devamMi, mGorev.ComboItem_Name1.Name, GorevID, mGorev.Transfers.Count)).ToList();

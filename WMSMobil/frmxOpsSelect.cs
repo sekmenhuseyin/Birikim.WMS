@@ -14,7 +14,7 @@ namespace WMSMobil
     {
         Terminal Servis = new Terminal();
        
-        public frmxOpsSelect(int gorevID, string malKodu)
+        public frmxOpsSelect(int gorevID, string malKodu, string rowID)
         {
             InitializeComponent();
             listView1.View = View.Details;
@@ -26,9 +26,12 @@ namespace WMSMobil
                 List<Tip_STI2> liste = new List<Tip_STI2>(Servis.GetMalKoduMalzemes(malKodu, gorevID, Ayarlar.Kullanici.ID, false, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid).ToList());
                 foreach (Tip_STI2 item in liste)
                 {
-                    string[] l = new string[] { item.ID.ToString(), item.MalKodu, item.MalAdi, item.Miktar.ToString("N2"), item.Birim, item.MakaraNo,item.IrsaliyeNo.ToString(), item.KynkSiparisNo, item.KynkSiparisSiraNo.ToString() };
-                    var it=new ListViewItem(l);
-                    listView1.Items.Add(it);
+                    if (!rowID.Contains(";" + item.ID.ToString() + ";"))
+                    {
+                        string[] l = new string[] { item.ID.ToString(), item.MalKodu, item.MalAdi, item.Miktar.ToString("N2"), item.Birim, item.MakaraNo, item.IrsaliyeNo.ToString(), item.KynkSiparisNo, item.KynkSiparisSiraNo.ToString() };
+                        var it = new ListViewItem(l);
+                        listView1.Items.Add(it);
+                    }
                 }
             }
             catch (Exception)

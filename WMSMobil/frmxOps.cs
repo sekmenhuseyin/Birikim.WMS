@@ -438,8 +438,8 @@ namespace WMSMobil
         private void btnUygula_Click(object sender, EventArgs e)
         {
             //MalKabulde okutulan mala ait listede bulunan kayıt sayısı
-            int cokluMalSayisi = 0, sonucID = 0;
-            bool tempdurum = false;
+            int cokluMalSayisi = 0, cokluRafSayisi = 0, sonucID = 0;
+            string rowID = ";";
             string mal = txtBarkod.Text;
             if (mal.Length > 20)
             {
@@ -487,7 +487,19 @@ namespace WMSMobil
             //tüm sayırları eski rengine döndür
             foreach (var itemPanel in PanelVeriList)
             {
-                if (itemPanel.Controls[0].Text.Contains(";" + mal + ";") && mal != "")
+                if (Ayarlar.MenuTip == MenuType.RafaYerlestirme || Ayarlar.MenuTip == MenuType.SiparisToplama || Ayarlar.MenuTip == MenuType.TransferÇıkış || Ayarlar.MenuTip == MenuType.TransferGiriş || Ayarlar.MenuTip == MenuType.Alımdanİade)
+                {
+                    if (itemPanel.Controls[0].Text.Contains(";" + mal + ";") && mal != "" && (itemPanel.Controls[5].Text.ToUpper() == raf || itemPanel.Controls[5].Text=="") && raf != "")
+                    {
+                        cokluRafSayisi++;
+                        tmpMalKod = itemPanel.Controls[1].Text;
+                    }
+                    else if (itemPanel.Controls[0].Text.Contains(";" + mal + ";") && mal != "" && (itemPanel.Controls[5].Text.ToUpper() != raf && itemPanel.Controls[5].Text != "") && raf != "")
+                    {
+                        rowID += itemPanel.Controls[1].Tag.ToInt32() + ";";
+                    }
+                }
+                else if (itemPanel.Controls[0].Text.Contains(";" + mal + ";") && mal != "")
                 {
                     cokluMalSayisi++;
                     tmpMalKod = itemPanel.Controls[1].Text;
@@ -495,10 +507,10 @@ namespace WMSMobil
                 foreach (Control item in itemPanel.Controls)
                     item.BackColor = Color.FromArgb(206, 223, 239);
             }
-            if ((Ayarlar.MenuTip == MenuType.MalKabul || Ayarlar.MenuTip == MenuType.Satıştanİade) && cokluMalSayisi > 1)
+            if (((Ayarlar.MenuTip == MenuType.MalKabul || Ayarlar.MenuTip == MenuType.Satıştanİade) && cokluMalSayisi > 1) || (Ayarlar.MenuTip == MenuType.MalKabul || cokluRafSayisi>1))
             {
                 Ayarlar.Tarih = 0;
-                frmxOpsSelect frm = new frmxOpsSelect(GorevID, tmpMalKod);
+                frmxOpsSelect frm = new frmxOpsSelect(GorevID, tmpMalKod, rowID);
                 var sonuc = frm.ShowDialog();
                 sonucID = Ayarlar.Tarih;
             }
@@ -581,14 +593,27 @@ namespace WMSMobil
                         temp_sti.Birim = itemPanel.Controls[4].Text;
                         temp_sti.MalAdi = itemPanel.Controls[2].Text;
                         temp_sti.ID = itemPanel.Controls[1].Tag.ToInt32();
-                        if ((itemPanel.Controls[5].Text == "" || itemPanel.Controls[5].Text == raf) && tempdurum == false)
+                        if ((itemPanel.Controls[5].Text == "" || itemPanel.Controls[5].Text == raf))
                         {
-                            tempdurum = true;
-                            raf_var = true;
-                            itemPanel.Controls[5].Text = raf;
-                            itemPanel.Controls[7].Text = (sender == btnUygula) ? itemPanel.Controls[3].Text : (itemPanel.Controls[7].Text.ToDecimal() + 1).ToString();
-                            foreach (Control item in itemPanel.Controls)
-                                item.BackColor = Color.DarkOrange;
+                            if (Ayarlar.MenuTip == MenuType.RafaYerlestirme)
+                            {
+                                if (cokluRafSayisi == 1 || (cokluRafSayisi > 1 && sonucID == itemPanel.Controls[1].Tag.ToInt32()))
+                                {
+                                    raf_var = true;
+                                    itemPanel.Controls[5].Text = raf;
+                                    itemPanel.Controls[7].Text = (sender == btnUygula) ? itemPanel.Controls[3].Text : (itemPanel.Controls[7].Text.ToDecimal() + 1).ToString();
+                                    foreach (Control item in itemPanel.Controls)
+                                        item.BackColor = Color.DarkOrange;
+                                }
+                            }
+                            else
+                            {
+                                raf_var = true;
+                                itemPanel.Controls[5].Text = raf;
+                                itemPanel.Controls[7].Text = (sender == btnUygula) ? itemPanel.Controls[3].Text : (itemPanel.Controls[7].Text.ToDecimal() + 1).ToString();
+                                foreach (Control item in itemPanel.Controls)
+                                    item.BackColor = Color.DarkOrange;
+                            }
                         }
 
                         // Scrollu sağa kaydırma
