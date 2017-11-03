@@ -268,7 +268,7 @@ namespace Wms12m
             if (tbl == null) return new List<Tip_STI>();
             var mGorev = db.Gorevs.Where(m => m.ID == GorevID).FirstOrDefault();
             if (mGorev.IsNull())
-                return new List<Tip_STI>(); 
+                return new List<Tip_STI>();
 
             List<Tip_STI> list = new List<Tip_STI>();
             list = db.Database.SqlQuery<Tip_STI>(string.Format("[BIRIKIM].[wms].[GetSTIList] {0},'{1}',{2},{3}", devamMi, mGorev.ComboItem_Name1.Name, GorevID, mGorev.Transfers.Count)).ToList();
@@ -441,7 +441,7 @@ namespace Wms12m
                 if (KatID == null)
                     return new Result(false, "Deponun rezerv katı bulunamadı");
                 //send to finsat
-                var sonuc = finsat.MalKabul(item, KullID); 
+                var sonuc = finsat.MalKabul(item, KullID);
                 if (sonuc.Status == true)
                 {
                     //finish
@@ -671,7 +671,7 @@ namespace Wms12m
                 bool efatKullanici = false;
                 if (tmp == 1) efatKullanici = true;
                 //send to finsat
-                var sonuc = finsat.SatisIade(item, KullID, kull.UserDetail.SatistanIadeIrsaliyeSeri.Value, yil,efatKullanici);
+                var sonuc = finsat.SatisIade(item, KullID, kull.UserDetail.SatistanIadeIrsaliyeSeri.Value, yil, efatKullanici);
                 if (sonuc.Status == true)
                 {
                     //finish
@@ -1615,70 +1615,93 @@ namespace Wms12m
             if (transfer == null)//iç transfer
             {
                 Rkat = db.GetHucreKatID(mGorev.DepoID, "R-ZR-V").FirstOrDefault();
+                foreach (var item in YerlestirmeList)
+                {
+                    //hücre adından kat id bulunur
+                    var kat = db.GetHucreKatID(item.DepoID, item.RafNo).FirstOrDefault();
+                    if (kat != null)
+                    {
+                        //irs detay tablosu güncellenir
+                        var irsdetay = new IrsaliyeDetay();
+                        var tmp = irsdetay.Detail(item.IrsDetayID);
+                        if (tmp.Miktar >= ((tmp.YerlestirmeMiktari ?? 0) + item.Miktar))
+                        {
+                            if (tmp.YerlestirmeMiktari == null) tmp.YerlestirmeMiktari = item.Miktar;
+                            else tmp.YerlestirmeMiktari += item.Miktar;
+                            //irs detay kayıt
+                            irsdetay.Operation(tmp);
+                        }
+                        else
+                            _result = new Result(false, item.MalKodu + " için fazla mal yazılmış");
+                    }
+                    else
+                        _result = new Result(false, item.RafNo + " adlı yer bulunamadı");
+                }
             }
             else//dış transfer
             {
                 Rkat = db.GetHucreKatID(mGorev.Transfers.FirstOrDefault().AraDepoID, "R-ZR-V").FirstOrDefault();
-            }
-            foreach (var item in YerlestirmeList)
-            {
-                //hücre adından kat id bulunur
-                var kat = db.GetHucreKatID(item.DepoID, item.RafNo).FirstOrDefault();
-                if (kat != null)
+                foreach (var item in YerlestirmeList)
                 {
-                    //irs detay tablosu güncellenir
-                    var irsdetay = new IrsaliyeDetay();
-                    var tmp = irsdetay.Detail(item.IrsDetayID);
-                    if (tmp.Miktar >= ((tmp.YerlestirmeMiktari ?? 0) + item.Miktar))
+                    //hücre adından kat id bulunur
+                    var kat = db.GetHucreKatID(item.DepoID, item.RafNo).FirstOrDefault();
+                    if (kat != null)
                     {
-                        if (tmp.YerlestirmeMiktari == null) tmp.YerlestirmeMiktari = item.Miktar;
-                        else tmp.YerlestirmeMiktari += item.Miktar;
-                        //irs detay kayıt
-                        irsdetay.Operation(tmp);
-                        var stok = new Yerlestirme();
-                        //rezervden düşürülür
-                        var tmp2 = stok.Detail(Rkat.Value, item.MalKodu, item.Birim);
-                        tmp2.Miktar -= item.Miktar;
-                        stok.Update(tmp2, item.IrsID, KullID, true, item.Miktar);
-                        string makarano = tmp2.MakaraNo;
-                        //yerleştirme kaydı yapılır
-                        tmp2 = stok.Detail(kat.Value, item.MalKodu, item.Birim);
-                        if (tmp2 == null)
+                        //irs detay tablosu güncellenir
+                        var irsdetay = new IrsaliyeDetay();
+                        var tmp = irsdetay.Detail(item.IrsDetayID);
+                        if (tmp.Miktar >= ((tmp.YerlestirmeMiktari ?? 0) + item.Miktar))
                         {
-                            tmp2 = new Yer()
+                            if (tmp.YerlestirmeMiktari == null) tmp.YerlestirmeMiktari = item.Miktar;
+                            else tmp.YerlestirmeMiktari += item.Miktar;
+                            //irs detay kayıt
+                            irsdetay.Operation(tmp);
+                            var stok = new Yerlestirme();
+                            //rezervden düşürülür
+                            var tmp2 = stok.Detail(Rkat.Value, item.MalKodu, item.Birim);
+                            tmp2.Miktar -= item.Miktar;
+                            stok.Update(tmp2, item.IrsID, KullID, true, item.Miktar);
+                            string makarano = tmp2.MakaraNo;
+                            //yerleştirme kaydı yapılır
+                            tmp2 = stok.Detail(kat.Value, item.MalKodu, item.Birim);
+                            if (tmp2 == null)
                             {
-                                KatID = kat.Value,
-                                MalKodu = item.MalKodu,
-                                Birim = item.Birim,
-                                Miktar = item.Miktar
-                            };
-                            if (makarano != "" || makarano != null) tmp2.MakaraNo = makarano;
-                            stok.Insert(tmp2, item.IrsID, KullID);
-                        }
-                        else if (tmp2.MakaraNo != makarano)
-                        {
-                            tmp2 = new Yer()
+                                tmp2 = new Yer()
+                                {
+                                    KatID = kat.Value,
+                                    MalKodu = item.MalKodu,
+                                    Birim = item.Birim,
+                                    Miktar = item.Miktar
+                                };
+                                if (makarano != "" || makarano != null) tmp2.MakaraNo = makarano;
+                                stok.Insert(tmp2, item.IrsID, KullID);
+                            }
+                            else if (tmp2.MakaraNo != makarano)
                             {
-                                KatID = kat.Value,
-                                MalKodu = item.MalKodu,
-                                Birim = item.Birim,
-                                Miktar = item.Miktar
-                            };
-                            if (makarano != "" || makarano != null) tmp2.MakaraNo = makarano;
-                            stok.Insert(tmp2, item.IrsID, KullID);
+                                tmp2 = new Yer()
+                                {
+                                    KatID = kat.Value,
+                                    MalKodu = item.MalKodu,
+                                    Birim = item.Birim,
+                                    Miktar = item.Miktar
+                                };
+                                if (makarano != "" || makarano != null) tmp2.MakaraNo = makarano;
+                                stok.Insert(tmp2, item.IrsID, KullID);
+                            }
+                            else
+                            {
+                                tmp2.Miktar += item.Miktar;
+                                stok.Update(tmp2, item.IrsID, KullID, false, item.Miktar);
+                            }
                         }
                         else
-                        {
-                            tmp2.Miktar += item.Miktar;
-                            stok.Update(tmp2, item.IrsID, KullID, false, item.Miktar);
-                        }
+                            _result = new Result(false, item.MalKodu + " için fazla mal yazılmış");
                     }
                     else
-                        _result = new Result(false, item.MalKodu + " için fazla mal yazılmış");
+                        _result = new Result(false, item.RafNo + " adlı yer bulunamadı");
                 }
-                else
-                    _result = new Result(false, item.RafNo + " adlı yer bulunamadı");
             }
+            
             return _result;
         }
         /// <summary>
