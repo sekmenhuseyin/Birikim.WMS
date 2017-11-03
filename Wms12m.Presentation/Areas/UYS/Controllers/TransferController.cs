@@ -130,13 +130,13 @@ namespace Wms12m.Presentation.Areas.UYS.Controllers
         public JsonResult Save(frmUysTransfer tbl)
         {
             tbl.AraDepo = "TD";
+            //get sone mir no
+            var sonemir = db.Database.SqlQuery<string>(string.Format("SELECT TOP (1) EmirNo FROM UYSPLN6{0}.UYSPLN6{0}.EMG ORDER BY Row_ID DESC", db.GetSirketDBs().FirstOrDefault())).FirstOrDefault();
+            var sonemirNo = sonemir.RemoveFirstCharacter(2).ToInt32();
+            sonemir = "KD" + ("000000" + sonemirNo + 1).Right(6);
             //send to db
             var uysf = new UYSF(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, db.GetSirketDBs().FirstOrDefault());
-            var sonuc = uysf.DepoTransfer(tbl, false, vUser.UserName, 1);
-            if (sonuc.Status == true)
-            {
-                //sonuc.Data = evrakNo;
-            }
+            var sonuc = uysf.DepoTransfer(tbl, sonemir, false, 1, vUser.UserName, vUser.FirstName);
             return Json(sonuc, JsonRequestBehavior.AllowGet);
         }
         /// <summary>

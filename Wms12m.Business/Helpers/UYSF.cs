@@ -29,7 +29,7 @@ namespace Wms12m
         /// <summary>
         /// depo transfer fişi
         /// </summary>
-        public Result DepoTransfer(frmUysTransfer tbl, bool GirisMi, string kaydeden, int Evrakserino)
+        public Result DepoTransfer(frmUysTransfer tbl, string emirno, bool GirisMi, int Evrakserino, string kaydeden, string tamAdi)
         {
             //settings
             DevHelper.Ayarlar.SetConStr(ConStr);
@@ -58,6 +58,10 @@ namespace Wms12m
             //save 2 db
             Stok_Islemleri StokIslem = new Stok_Islemleri(SirketKodu);
             IslemSonuc Sonuc = StokIslem.DepoTransfer_Kayit(7199 + Evrakserino, DepTranList);
+            if (Sonuc.Basarili == true)
+            {
+                Sonuc = StokIslem.DepoTransfer_EMG_Kayit(DepTranList[0].CikisDepo, DepTranList[0].GirisDepo, evrakNo, emirno, kaydeden, tamAdi);
+            }
             //return
             var _Result = new Result()
             {
