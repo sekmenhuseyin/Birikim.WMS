@@ -20,47 +20,48 @@ namespace Wms12m
         /// <summary>
         /// evrak no oluştur
         /// </summary>
-        public string EvrakNo(int EvrakSeriNo)
+        public string EvrakNoArttir(string EvrakNo, string Seri)
         {
-            DevHelper.Ayarlar.SetConStr(ConStr);
-            DevHelper.Ayarlar.SirketKodu = SirketKodu;
-            return (new Genel_Islemler(SirketKodu)).EvrakNo_Getir(EvrakSeriNo);
+            if (EvrakNo == null || EvrakNo == "") EvrakNo = Seri + "000000";
+            var sonemirNo = EvrakNo.RemoveFirstCharacter(2).ToInt32();
+            EvrakNo = Seri + ("000000" + (sonemirNo + 1)).Right(6);
+            return EvrakNo;
         }
         /// <summary>
         /// depo transfer fişi
         /// </summary>
-        public Result DepoTransfer(frmUysTransfer tbl, string emirno, bool GirisMi, int Evrakserino, string kaydeden, string tamAdi)
+        public Result DepoTransfer(List<frmUysWaitingTransfer> tbl, string EvrakNo, bool GirisMi)
         {
             //settings
             DevHelper.Ayarlar.SetConStr(ConStr);
             DevHelper.Ayarlar.SirketKodu = SirketKodu;
-            string evrakNo = (new Genel_Islemler(SirketKodu)).EvrakNo_Getir(7199 + Evrakserino);
+
+
             //add to list
             var DepTranList = new List<DepTran>();
-            for (int i = 0; i < tbl.MalKodu.Length; i++)
+            foreach (var item in tbl)
             {
-                DepTran dep = new DepTran()
+                DepTranList.Add(new DepTran()
                 {
-                    EvrakNo = evrakNo,
+                    EvrakNo = EvrakNo,
                     Tarih = DateTime.Today,
-                    MalKodu = tbl.MalKodu[i],
-                    Miktar = tbl.Miktar[i],
-                    Birim = tbl.Birim[i],
-                    SeriNo = tbl.SeriNo[i],
-                    CikisDepo = GirisMi == true ? tbl.AraDepo : tbl.CikisDepo,
-                    GirisDepo = GirisMi == true ? tbl.GirisDepo : tbl.AraDepo,
-                    Kaydeden = kaydeden,
+                    MalKodu = item.MalKodu,
+                    Miktar = item.Miktar,
+                    Birim = item.Birim,
+                    SeriNo = item.SeriNo,
+                    CikisDepo = GirisMi == true ? item.AraDepo : item.CikisDepo,
+                    GirisDepo = GirisMi == true ? item.GirisDepo : item.AraDepo,
+                    Kaydeden = item.Kaydeden,
                     KayitSurum = "9.01.028",
                     KayitKaynak = 74
-                };
-                DepTranList.Add(dep);
+                });
             }
             //save 2 db
             Stok_Islemleri StokIslem = new Stok_Islemleri(SirketKodu);
-            IslemSonuc Sonuc = StokIslem.DepoTransfer_Kayit(7199 + Evrakserino, DepTranList);
+            IslemSonuc Sonuc = StokIslem.DepoTransfer_Kayit(-1, DepTranList);
             if (Sonuc.Basarili == true)
             {
-                Sonuc = StokIslem.DepoTransfer_EMG_Kayit(tbl.CikisDepo, tbl.GirisDepo, evrakNo, emirno, kaydeden, tamAdi);
+                Sonuc = StokIslem.DepoTransfer_EMG_Kayit(tbl[0].CikisDepo, tbl[0].GirisDepo, EvrakNo, tbl[0].EmirNo, tbl[0].Kaydeden, tbl[0].Kaydeden2);
             }
             //return
             var _Result = new Result()

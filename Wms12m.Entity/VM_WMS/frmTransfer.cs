@@ -75,10 +75,12 @@
     public class frmUysWaitingTransfer
     {
         public string CikisDepo { get; set; }
+        public string AraDepo { get; set; }
         public string GirisDepo { get; set; }
         public string EmirNo { get; set; }
         public string EvrakNo { get; set; }
         public string Kaydeden { get; set; }
+        public string Kaydeden2 { get; set; }
         public int Tarih { get; set; }
         public string MalKodu { get; set; }
         public string MalAdi { get; set; }
