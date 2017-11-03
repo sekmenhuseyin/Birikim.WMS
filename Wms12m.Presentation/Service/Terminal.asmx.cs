@@ -1434,6 +1434,55 @@ namespace Wms12m
             var transfer = mGorev.Transfers.FirstOrDefault();
             if (transfer == null)//iç transfer
             {
+                //burada görevyer/irsdetay tablosundaki ürünleri rzrv hücresine atacak
+
+                var KatID = db.GetHucreKatID(mGorev.DepoID, "R-ZR-V").FirstOrDefault();
+                using (var yerleştirme = new Yerlestirme())
+                {
+                    foreach (var item2 in mGorev.GorevYers)
+                    {
+                        var dusulecek = yerleştirme.Detail(item2.YerID);
+                        dusulecek.Miktar -= item2.YerlestirmeMiktari.Value;
+                        dusulecek.MakaraDurum = false;
+                        yerleştirme.Update(dusulecek, mGorev.IrsaliyeID.Value, KullID, true, item2.YerlestirmeMiktari.Value);
+                        //yerleştirme kaydı yapılır
+                        var stok = new Yerlestirme();
+                        var tmp2 = stok.Detail(KatID.Value, item2.MalKodu, item2.Birim);
+                        if (tmp2 == null)
+                        {
+                            tmp2 = new Yer()
+                            {
+                                KatID = KatID.Value,
+                                MalKodu = item2.MalKodu,
+                                Birim = item2.Birim,
+                                Miktar = item2.YerlestirmeMiktari.Value
+                            };
+                            if (item2.MakaraNo != "" || item2.MakaraNo != null) tmp2.MakaraNo = item2.MakaraNo;
+                            stok.Insert(tmp2, 0, KullID);
+                        }
+                        else if (item2.MakaraNo != "" || item2.MakaraNo != null)
+                            if (tmp2.MakaraNo != item2.MakaraNo)
+                            {
+                                tmp2 = new Yer()
+                                {
+                                    KatID = KatID.Value,
+                                    MalKodu = item2.MalKodu,
+                                    Birim = item2.Birim,
+                                    Miktar = item2.YerlestirmeMiktari.Value
+                                };
+                                tmp2.MakaraNo = item2.MakaraNo;
+                                stok.Insert(tmp2, 0, KullID);
+                            }
+                            else
+                            {
+                                tmp2.Miktar += item2.YerlestirmeMiktari.Value;
+                                stok.Update(tmp2, 0, KullID, false, item2.YerlestirmeMiktari.Value);
+                            }
+                    }
+                }
+                //burada görevyer/irsdetay tablosundaki ürünleri rzrv hücresine atacak
+
+
                 db.TerminalFinishGorev(GorevID, mGorev.IrsaliyeID, "", tarih, DateTime.Now.ToOaTime(), kull.Kod, "", ComboItems.TransferÇıkış.ToInt32(), 0).FirstOrDefault();
                 LogActions(KullID.ToString(), "Terminal", "Service", "Terminal", "TransferGiris_GoreviTamamla", ComboItems.alDüzenle, GorevID, "TransferÇıkış => -");
                 //update gorev table
@@ -1561,7 +1610,16 @@ namespace Wms12m
             }
             //loop
             Result _result = new Result(true);
-            var Rkat = db.GetHucreKatID(mGorev.Transfers.FirstOrDefault().AraDepoID, "R-ZR-V").FirstOrDefault();
+            int? Rkat;
+            var transfer = mGorev.Transfers.FirstOrDefault();
+            if (transfer == null)//iç transfer
+            {
+                Rkat = db.GetHucreKatID(mGorev.DepoID, "R-ZR-V").FirstOrDefault();
+            }
+            else//dış transfer
+            {
+                Rkat = db.GetHucreKatID(mGorev.Transfers.FirstOrDefault().AraDepoID, "R-ZR-V").FirstOrDefault();
+            }
             foreach (var item in YerlestirmeList)
             {
                 //hücre adından kat id bulunur
