@@ -9,7 +9,6 @@ namespace Wms12m.Presentation.Areas.UYS.Controllers
 {
     public class TransferController : RootController
     {
-        #region planlama
         /// <summary>
         /// transfer planlama
         /// </summary>
@@ -20,24 +19,6 @@ namespace Wms12m.Presentation.Areas.UYS.Controllers
             ViewBag.CikisDepo = ViewBag.GirisDepo;
             return View("Index");
         }
-        /// <summary>
-        /// planlamadaki 1. adımdaki malzeme listesi
-        /// </summary>
-        public PartialViewResult List(string Id)
-        {
-            try
-            {
-                return PartialView("List");
-            }
-            catch (Exception ex)
-            {
-                Logger(ex, "UYS/Transfer/List");
-                return PartialView("List", new List<frmTransferMalzemeler>());
-            }
-
-        }
-        #endregion
-        #region onaylama
         /// <summary>
         /// onay bekleyen transfer sayfası
         /// </summary>
@@ -59,8 +40,6 @@ namespace Wms12m.Presentation.Areas.UYS.Controllers
                                                                                     WHERE (FINSAT6{0}.FINSAT6{0}.STI.KynkEvrakTip = 53) AND (FINSAT6{0}.FINSAT6{0}.STI.IslemTip = 6) AND (FINSAT6{0}.FINSAT6{0}.STI.IslemTur = 1) AND (FINSAT6{0}.FINSAT6{0}.STI.EvrakNo = '{1}')", db.GetSirketDBs().FirstOrDefault(), Id)).ToList();
             return PartialView("WaitingList", liste);
         }
-        #endregion
-        #region ortak
         /// <summary>
         /// ürün stoğu bul
         /// </summary>
@@ -130,6 +109,9 @@ namespace Wms12m.Presentation.Areas.UYS.Controllers
             //get son emir no
             var sonemir = db.Database.SqlQuery<string>(string.Format("SELECT TOP (1) EmirNo FROM UYSPLN6{0}.UYSPLN6{0}.EMG WHERE (EmirNo LIKE 'DD%') ORDER BY Row_ID DESC", db.GetSirketDBs().FirstOrDefault())).FirstOrDefault();
             sonemir = uysf.EvrakNoArttir(sonemir, "DD");
+            //get yeni evrak no
+            var sonevrak = db.Database.SqlQuery<string>(string.Format("SELECT TOP (1) EvrakNo FROM FINSAT6{0}.FINSAT6{0}.STI WHERE (EvrakNo LIKE 'DD%') ORDER BY Row_ID DESC", db.GetSirketDBs().FirstOrDefault())).FirstOrDefault();
+            sonevrak = uysf.EvrakNoArttir(sonevrak, "DD");
             //create list
             var liste = new List<frmUysWaitingTransfer>();
             for (int i = 0; i < tbl.MalKodu.Length; i++)
@@ -149,7 +131,7 @@ namespace Wms12m.Presentation.Areas.UYS.Controllers
                 });
             }
             //send to db
-            var sonuc = uysf.DepoTransfer(liste, "", false);
+            var sonuc = uysf.DepoTransfer(liste, sonevrak, false);
             return Json(sonuc, JsonRequestBehavior.AllowGet);
         }
         /// <summary>
@@ -162,19 +144,20 @@ namespace Wms12m.Presentation.Areas.UYS.Controllers
             //get son emir no
             var sonemir = db.Database.SqlQuery<string>(string.Format("SELECT TOP (1) EmirNo FROM UYSPLN6{0}.UYSPLN6{0}.EMG WHERE (EmirNo LIKE 'DD%') ORDER BY Row_ID DESC", db.GetSirketDBs().FirstOrDefault())).FirstOrDefault();
             sonemir = uysf.EvrakNoArttir(sonemir, "DD");
+            //get yeni evrak no
+            var sonevrak = db.Database.SqlQuery<string>(string.Format("SELECT TOP (1) EvrakNo FROM FINSAT6{0}.FINSAT6{0}.STI WHERE (EvrakNo LIKE 'DC%') ORDER BY Row_ID DESC", db.GetSirketDBs().FirstOrDefault())).FirstOrDefault();
+            sonevrak = uysf.EvrakNoArttir(sonevrak, "DC");
             //create list
-
-
-
-            var liste = db.Database.SqlQuery<frmUysTransfer>(string.Format(@"SELECT Kod2 as CikisDepo, 'TD' as AraDepo,  Kod3 as GirisDepo FROM UYSPLN6{0}.UYSPLN6{0}.EMG WHERE (StiNo = '{1}')", db.GetSirketDBs().FirstOrDefault(), ID)).ToList();
+            var liste = db.Database.SqlQuery<frmUysWaitingTransfer>(string.Format(@"
+                                                                            SELECT        UYSPLN6{0}.UYSPLN6{0}.EMG.Kod2, UYSPLN6{0}.UYSPLN6{0}.EMG.Kod3, UYSPLN6{0}.UYSPLN6{0}.EMG.EmirNo, FINSAT6{0}.FINSAT6{0}.STI.EvrakNo, UYSPLN6{0}.UYSPLN6{0}.EMG.Kaydeden, UYSPLN6{0}.UYSPLN6{0}.EMG.Talimat2 AS Kaydeden2, FINSAT6{0}.FINSAT6{0}.STI.MalKodu, FINSAT6{0}.FINSAT6{0}.STI.SeriNo, 
+                                                                                                     FINSAT6{0}.FINSAT6{0}.STI.Birim, FINSAT6{0}.FINSAT6{0}.STI.Miktar
+                                                                            FROM            UYSPLN6{0}.UYSPLN6{0}.EMG INNER JOIN
+                                                                                                     FINSAT6{0}.FINSAT6{0}.STI ON UYSPLN6{0}.UYSPLN6{0}.EMG.StiNo = FINSAT6{0}.FINSAT6{0}.STI.EvrakNo
+                                                                            WHERE        (UYSPLN6{0}.UYSPLN6{0}.EMG.EmirNo = '{1}') AND (FINSAT6{0}.FINSAT6{0}.STI.IslemTur = 1) AND (FINSAT6{0}.FINSAT6{0}.STI.KynkEvrakTip = 53) AND (FINSAT6{0}.FINSAT6{0}.STI.IslemTip = 6)
+                                                                    ", db.GetSirketDBs().FirstOrDefault(), ID)).ToList();
             //send to db
-
-
-
-
-            var sonuc = uysf.DepoTransfer(null, "", false);
+            var sonuc = uysf.DepoTransfer(liste, sonevrak, false);
             return Json(sonuc, JsonRequestBehavior.AllowGet);
         }
-        #endregion
     }
 }
