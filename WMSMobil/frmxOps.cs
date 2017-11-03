@@ -157,7 +157,7 @@ namespace WMSMobil
                 GorevID = grvId;
                 IrsaliyeID = irsID;
                 //ürün bilgilerini getir
-                Ayarlar.STIKalemler = new List<Tip_STI>(Servis.GetMalzemes(grvId, Ayarlar.Kullanici.ID, tip, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid)); 
+                Ayarlar.STIKalemler = new List<Tip_STI>(Servis.GetMalzemes(grvId, Ayarlar.Kullanici.ID, tip, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid));
                 if (Ayarlar.STIKalemler.Count == 0 && gorevtip != 8)
                 {
                     Cursor.Current = Cursors.Default;
@@ -199,7 +199,8 @@ namespace WMSMobil
                 this.Invoke((MethodInvoker)delegate()
                 {
                     string okunan = scanDataCollection.GetFirst.Text;
-                    if (okunan.Length > 20) {
+                    if (okunan.Length > 20)
+                    {
                         okunan = okunan.Substring(3, 13);
                         txtBarkod.Text = okunan;
                         if (txtRafBarkod.Visible == true && txtRafBarkod.Text == "") txtRafBarkod.Focus();
@@ -303,7 +304,7 @@ namespace WMSMobil
                 TextBox tRaf = new TextBox();
                 TextBox tYerlestirmeMiktari = new TextBox();
                 TextBox tMiktarOkutulan = new TextBox();
-                if (Ayarlar.MenuTip == MenuType.MalKabul || Ayarlar.MenuTip == MenuType.Paketle || Ayarlar.MenuTip == MenuType.Sevkiyat ||  Ayarlar.MenuTip == MenuType.Satıştanİade)
+                if (Ayarlar.MenuTip == MenuType.MalKabul || Ayarlar.MenuTip == MenuType.Paketle || Ayarlar.MenuTip == MenuType.Sevkiyat || Ayarlar.MenuTip == MenuType.Satıştanİade)
                 {
                     tMiktarOkutulan.Font = font;
                     tMiktarOkutulan.Width = lblOkutulanMiktar.Width;
@@ -385,7 +386,7 @@ namespace WMSMobil
                 panelSatir.Controls.Add(tMiktar);
                 panelSatir.Controls.Add(tBirim);
                 //add one or more control and change size
-                if (Ayarlar.MenuTip == MenuType.MalKabul || Ayarlar.MenuTip == MenuType.Paketle || Ayarlar.MenuTip == MenuType.Sevkiyat|| Ayarlar.MenuTip == MenuType.Satıştanİade)
+                if (Ayarlar.MenuTip == MenuType.MalKabul || Ayarlar.MenuTip == MenuType.Paketle || Ayarlar.MenuTip == MenuType.Sevkiyat || Ayarlar.MenuTip == MenuType.Satıştanİade)
                 {
                     panelSatir.Size = new Size(525.Carpim(), 21.Carpim());
                     panelSatir.Controls.Add(tMiktarOkutulan);
@@ -438,6 +439,7 @@ namespace WMSMobil
         {
             //MalKabulde okutulan mala ait listede bulunan kayıt sayısı
             int cokluMalSayisi = 0, sonucID = 0;
+            bool tempdurum = false;
             string mal = txtBarkod.Text;
             if (mal.Length > 20)
             {
@@ -485,7 +487,7 @@ namespace WMSMobil
             //tüm sayırları eski rengine döndür
             foreach (var itemPanel in PanelVeriList)
             {
-                if (itemPanel.Controls[0].Text.Contains(";"+mal+";") && mal!="")
+                if (itemPanel.Controls[0].Text.Contains(";" + mal + ";") && mal != "")
                 {
                     cokluMalSayisi++;
                     tmpMalKod = itemPanel.Controls[1].Text;
@@ -500,7 +502,7 @@ namespace WMSMobil
                 var sonuc = frm.ShowDialog();
                 sonucID = Ayarlar.Tarih;
             }
-            if (Ayarlar.MenuTip == MenuType.KontrollüSayım) 
+            if (Ayarlar.MenuTip == MenuType.KontrollüSayım)
             {
                 malInfo = Servis.GetMalzemeFromBarcode("", mal, GorevID, Ayarlar.Kullanici.ID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid);
             }
@@ -579,13 +581,14 @@ namespace WMSMobil
                         temp_sti.Birim = itemPanel.Controls[4].Text;
                         temp_sti.MalAdi = itemPanel.Controls[2].Text;
                         temp_sti.ID = itemPanel.Controls[1].Tag.ToInt32();
-                        if (itemPanel.Controls[5].Text == "" || itemPanel.Controls[5].Text == raf)
+                        if ((itemPanel.Controls[5].Text == "" || itemPanel.Controls[5].Text == raf) && tempdurum == false)
                         {
-                                raf_var = true;
-                                itemPanel.Controls[5].Text = raf;
-                                itemPanel.Controls[7].Text = (sender == btnUygula) ? itemPanel.Controls[3].Text : (itemPanel.Controls[7].Text.ToDecimal() + 1).ToString();
-                                foreach (Control item in itemPanel.Controls)
-                                    item.BackColor = Color.DarkOrange;
+                            tempdurum = true;
+                            raf_var = true;
+                            itemPanel.Controls[5].Text = raf;
+                            itemPanel.Controls[7].Text = (sender == btnUygula) ? itemPanel.Controls[3].Text : (itemPanel.Controls[7].Text.ToDecimal() + 1).ToString();
+                            foreach (Control item in itemPanel.Controls)
+                                item.BackColor = Color.DarkOrange;
                         }
 
                         // Scrollu sağa kaydırma
@@ -862,7 +865,7 @@ namespace WMSMobil
             }
             else if (!mal_var)
             {
-                Mesaj.Uyari("Göreve ait böyle bir ürün bulunmamaktadır."); 
+                Mesaj.Uyari("Göreve ait böyle bir ürün bulunmamaktadır.");
             }
         }
         /// <summary>
@@ -897,7 +900,7 @@ namespace WMSMobil
                         yer.RafNo = itemPanel.Controls[5].Text;
                         yer.GorevID = GorevID;
                         yer.MakaraNo = itemPanel.Controls[8].Text;
-             
+
                         YerList.Add(yer);
                     }
                 }
@@ -933,7 +936,7 @@ namespace WMSMobil
             else if (Ayarlar.MenuTip == MenuType.SiparisToplama || Ayarlar.MenuTip == MenuType.TransferÇıkış)
                 Sonuc = Servis.Siparis_Topla(YerList.ToArray(), Ayarlar.Kullanici.ID, GorevID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid);
             else if (Ayarlar.MenuTip == MenuType.Alımdanİade)
-                Sonuc = Servis.AlimdanIade(YerList.ToArray(), Ayarlar.Kullanici.ID, GorevID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid); 
+                Sonuc = Servis.AlimdanIade(YerList.ToArray(), Ayarlar.Kullanici.ID, GorevID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid);
             else if (Ayarlar.MenuTip == MenuType.Paketle || Ayarlar.MenuTip == MenuType.Sevkiyat)
                 Sonuc = Servis.Paketle(StiList.ToArray(), GorevID, Ayarlar.Kullanici.ID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid);
             else if (Ayarlar.MenuTip == MenuType.KontrollüSayım)
