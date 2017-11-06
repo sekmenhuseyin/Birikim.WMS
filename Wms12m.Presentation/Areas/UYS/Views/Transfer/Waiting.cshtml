@@ -63,7 +63,7 @@
     function FuncSearchBtn() {
         $('#Grid').html("");
         if ($('#DurumID').val() != "")
-            PartialView('/UYS/Transfer/WaitingList', 'Grid', JSON.stringify({ Id: $('#DurumID').val() }));
+            PartialView('/UYS/Transfer/WaitingList', 'Grid', JSON.stringify({ Id: $('#DurumID').val(), Onay: $('#toggle-two').prop('checked') }));
     }
     function getresult(e) {
         if (e.Status == true) {
