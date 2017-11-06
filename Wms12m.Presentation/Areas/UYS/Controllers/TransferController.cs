@@ -24,7 +24,7 @@ namespace Wms12m.Presentation.Areas.UYS.Controllers
         /// </summary>
         public ActionResult Waiting()
         {
-            var liste = db.Database.SqlQuery<frmWaitingList>(string.Format(@"SELECT StiNo, Kod2 + ' => ' + Kod3 + ' (' + BIRIKIM.wms.fnFormatDateFromInt(BasTarih) + ')' as Depo FROM UYSPLN6{0}.UYSPLN6{0}.EMG WHERE(StiNo NOT IN
+            var liste = db.Database.SqlQuery<frmWaitingList>(string.Format(@"SELECT StiNo, Kod2 + ' => ' + Kod3 + ' (' + BIRIKIM.wms.fnFormatDateFromInt(BasTarih) + ')' as Depo FROM UYSPLN6{0}.UYSPLN6{0}.EMG WHERE (StiNo NOT IN
                                                                                     (SELECT StiNo FROM UYSPLN6{0}.UYSPLN6{0}.EMG AS EMG_1 WHERE (TrsfrNo <> '') GROUP BY StiNo))
                                                                             ORDER BY BasTarih, Kod2", db.GetSirketDBs().FirstOrDefault())).ToList();
             ViewBag.DurumID = new SelectList(liste, "StiNo", "Depo");
@@ -35,10 +35,30 @@ namespace Wms12m.Presentation.Areas.UYS.Controllers
         /// </summary>
         public PartialViewResult WaitingList(string Id)
         {
-            var liste = db.Database.SqlQuery<frmUysWaitingTransfer>(string.Format(@"SELECT FINSAT6{0}.FINSAT6{0}.STI.MalKodu, FINSAT6{0}.FINSAT6{0}.STI.Birim, FINSAT6{0}.FINSAT6{0}.STI.Miktar, FINSAT6{0}.FINSAT6{0}.STI.EvrakNo, FINSAT6{0}.FINSAT6{0}.STI.Kaydeden, FINSAT6{0}.FINSAT6{0}.STI.Tarih, FINSAT6{0}.FINSAT6{0}.STK.MalAdi
-                                                                                    FROM FINSAT6{0}.FINSAT6{0}.STI INNER JOIN FINSAT6{0}.FINSAT6{0}.STK ON FINSAT6{0}.FINSAT6{0}.STI.MalKodu = FINSAT6{0}.FINSAT6{0}.STK.MalKodu
+            var liste = db.Database.SqlQuery<frmUysWaitingTransfer>(string.Format(@"SELECT FINSAT6{0}.FINSAT6{0}.STI.MalKodu, FINSAT6{0}.FINSAT6{0}.STI.Birim, FINSAT6{0}.FINSAT6{0}.STI.Miktar, FINSAT6{0}.FINSAT6{0}.STI.EvrakNo, FINSAT6{0}.FINSAT6{0}.STI.Kaydeden, FINSAT6{0}.FINSAT6{0}.STI.Tarih, FINSAT6{0}.FINSAT6{0}.STK.MalAdi, UYSPLN6{0}.UYSPLN6{0}.EMG.Kod2 as CikisDepo, UYSPLN6{0}.UYSPLN6{0}.EMG.Kod3 as GirisDepo
+                                                                                    FROM FINSAT6{0}.FINSAT6{0}.STI INNER JOIN FINSAT6{0}.FINSAT6{0}.STK ON FINSAT6{0}.FINSAT6{0}.STI.MalKodu = FINSAT6{0}.FINSAT6{0}.STK.MalKodu INNER JOIN UYSPLN6{0}.UYSPLN6{0}.EMG ON FINSAT6{0}.FINSAT6{0}.STI.EvrakNo = UYSPLN6{0}.UYSPLN6{0}.EMG.StiNo
                                                                                     WHERE (FINSAT6{0}.FINSAT6{0}.STI.KynkEvrakTip = 53) AND (FINSAT6{0}.FINSAT6{0}.STI.IslemTip = 6) AND (FINSAT6{0}.FINSAT6{0}.STI.IslemTur = 1) AND (FINSAT6{0}.FINSAT6{0}.STI.EvrakNo = '{1}')", db.GetSirketDBs().FirstOrDefault(), Id)).ToList();
+            var Row_ID = db.Database.SqlQuery<int?>(string.Format("SELECT Row_ID FROM UYSPLN6{0}.UYSPLN6{0}.SIN WHERE (SSection = 'DepoUsers') AND (SValue LIKE '%{1}%') AND (SEntry = '{2}')", db.GetSirketDBs().FirstOrDefault(), vUser.UserName, liste[0].GirisDepo)).FirstOrDefault();
+            ViewBag.Yetki = Row_ID == null ? false : true;
             return PartialView("WaitingList", liste);
+        }
+        /// <summary>
+        /// transfer sil
+        /// </summary>
+        public JsonResult GetComboList(bool ID)
+        {
+            var liste = new List<SelectListItem>();
+            if (ID == true)//onay bekleyen listesi
+            {
+                liste = db.Database.SqlQuery<SelectListItem>(string.Format(@"SELECT StiNo as Value, Kod2 + ' => ' + Kod3 + ' (' + BIRIKIM.wms.fnFormatDateFromInt(BasTarih) + ')' as Text FROM UYSPLN6{0}.UYSPLN6{0}.EMG WHERE (StiNo NOT IN
+                                                                                    (SELECT StiNo FROM UYSPLN6{0}.UYSPLN6{0}.EMG AS EMG_1 WHERE (TrsfrNo<> '') GROUP BY StiNo))
+                                                                            ORDER BY BasTarih, Kod2", db.GetSirketDBs().FirstOrDefault())).ToList();
+            }
+            else//önceden onaylanmışların listesi
+            {
+                liste = db.Database.SqlQuery<SelectListItem>(string.Format(@"SELECT StiNo as Value, Kod2 + ' => ' + Kod3 + ' (' + BIRIKIM.wms.fnFormatDateFromInt(BasTarih) + ')' as Text FROM UYSPLN6{0}.UYSPLN6{0}.EMG WHERE (TrsfrNo<> '') ORDER BY BasTarih, Kod2", db.GetSirketDBs().FirstOrDefault())).ToList();
+            }
+            return Json(liste, JsonRequestBehavior.AllowGet);
         }
         /// <summary>
         /// ürün stoğu bul
