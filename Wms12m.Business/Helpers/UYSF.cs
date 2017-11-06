@@ -30,20 +30,18 @@ namespace Wms12m
         /// <summary>
         /// depo transfer fişi
         /// </summary>
-        public Result DepoTransfer(List<frmUysWaitingTransfer> tbl, string EvrakNo, bool GirisMi)
+        public Result DepoTransfer(List<frmUysWaitingTransfer> tbl, bool GirisMi)
         {
             //settings
             DevHelper.Ayarlar.SetConStr(ConStr);
             DevHelper.Ayarlar.SirketKodu = SirketKodu;
-
-
             //add to list
             var DepTranList = new List<DepTran>();
             foreach (var item in tbl)
             {
                 DepTranList.Add(new DepTran()
                 {
-                    EvrakNo = EvrakNo,
+                    EvrakNo = tbl[0].EvrakNo,
                     Tarih = DateTime.Today,
                     MalKodu = item.MalKodu,
                     Miktar = item.Miktar,
@@ -58,11 +56,7 @@ namespace Wms12m
             }
             //save 2 db
             Stok_Islemleri StokIslem = new Stok_Islemleri(SirketKodu);
-            IslemSonuc Sonuc = StokIslem.DepoTransfer_Kayit(-1, DepTranList);
-            if (Sonuc.Basarili == true)
-            {
-                Sonuc = StokIslem.DepoTransfer_EMG_Kayit(tbl[0].CikisDepo, tbl[0].GirisDepo, EvrakNo, tbl[0].EmirNo, tbl[0].Kaydeden, tbl[0].Kaydeden2);
-            }
+            IslemSonuc Sonuc = StokIslem.DepoTransfer_EMG_Kayit(DepTranList, tbl[0].EmirNo, tbl[0].Kaydeden2);
             //return
             var _Result = new Result()
             {

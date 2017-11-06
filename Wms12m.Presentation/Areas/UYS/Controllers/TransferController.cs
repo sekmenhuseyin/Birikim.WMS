@@ -107,21 +107,22 @@ namespace Wms12m.Presentation.Areas.UYS.Controllers
         {
             var uysf = new UYSF(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, db.GetSirketDBs().FirstOrDefault());
             //get son emir no
-            var sonemir = db.Database.SqlQuery<string>(string.Format("SELECT TOP (1) EmirNo FROM UYSPLN6{0}.UYSPLN6{0}.EMG WHERE (EmirNo LIKE 'DD%') ORDER BY Row_ID DESC", db.GetSirketDBs().FirstOrDefault())).FirstOrDefault();
-            sonemir = uysf.EvrakNoArttir(sonemir, "DD");
-            //get yeni evrak no
-            var sonevrak = db.Database.SqlQuery<string>(string.Format("SELECT TOP (1) EvrakNo FROM FINSAT6{0}.FINSAT6{0}.STI WHERE (EvrakNo LIKE 'DD%') ORDER BY Row_ID DESC", db.GetSirketDBs().FirstOrDefault())).FirstOrDefault();
-            sonevrak = uysf.EvrakNoArttir(sonevrak, "DD");
+            var EmirVeEvrak = db.Database.SqlQuery<frmUysEmirEvrak>(string.Format(@"SELECT
+                                        (SELECT TOP (1) EmirNo FROM UYSPLN6{0}.UYSPLN6{0}.EMG WHERE (EmirNo LIKE 'DD%') ORDER BY Row_ID DESC) as EmirNo, 
+                                        (SELECT TOP (1) EvrakNo FROM FINSAT6{0}.FINSAT6{0}.STI WHERE (EvrakNo LIKE 'DD%') ORDER BY Row_ID DESC) as EvrakNo", db.GetSirketDBs().FirstOrDefault())).FirstOrDefault();
+            EmirVeEvrak.EvrakNo = uysf.EvrakNoArttir(EmirVeEvrak.EvrakNo, "DD");
+            EmirVeEvrak.EmirNo = uysf.EvrakNoArttir(EmirVeEvrak.EmirNo, "DD");
             //create list
             var liste = new List<frmUysWaitingTransfer>();
             for (int i = 0; i < tbl.MalKodu.Length; i++)
             {
                 liste.Add(new frmUysWaitingTransfer()
                 {
+                    EvrakNo = EmirVeEvrak.EvrakNo,
+                    EmirNo = EmirVeEvrak.EmirNo,
                     CikisDepo = tbl.CikisDepo,
                     AraDepo = "TD",
                     GirisDepo = tbl.GirisDepo,
-                    EmirNo = sonemir,
                     Kaydeden = vUser.UserName,
                     Kaydeden2 = vUser.FirstName,
                     MalKodu = tbl.MalKodu[i],
@@ -131,7 +132,7 @@ namespace Wms12m.Presentation.Areas.UYS.Controllers
                 });
             }
             //send to db
-            var sonuc = uysf.DepoTransfer(liste, sonevrak, false);
+            var sonuc = uysf.DepoTransfer(liste, false);
             return Json(sonuc, JsonRequestBehavior.AllowGet);
         }
         /// <summary>
@@ -142,21 +143,19 @@ namespace Wms12m.Presentation.Areas.UYS.Controllers
         {
             var uysf = new UYSF(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, db.GetSirketDBs().FirstOrDefault());
             //get son emir no
-            var sonemir = db.Database.SqlQuery<string>(string.Format("SELECT TOP (1) EmirNo FROM UYSPLN6{0}.UYSPLN6{0}.EMG WHERE (EmirNo LIKE 'DD%') ORDER BY Row_ID DESC", db.GetSirketDBs().FirstOrDefault())).FirstOrDefault();
-            sonemir = uysf.EvrakNoArttir(sonemir, "DD");
-            //get yeni evrak no
-            var sonevrak = db.Database.SqlQuery<string>(string.Format("SELECT TOP (1) EvrakNo FROM FINSAT6{0}.FINSAT6{0}.STI WHERE (EvrakNo LIKE 'DC%') ORDER BY Row_ID DESC", db.GetSirketDBs().FirstOrDefault())).FirstOrDefault();
-            sonevrak = uysf.EvrakNoArttir(sonevrak, "DC");
+            var EmirVeEvrak = db.Database.SqlQuery<frmUysEmirEvrak>(string.Format(@"SELECT
+                                        (SELECT TOP (1) EmirNo FROM UYSPLN6{0}.UYSPLN6{0}.EMG WHERE (EmirNo LIKE 'DD%') ORDER BY Row_ID DESC) as EmirNo, 
+                                        (SELECT TOP (1) EvrakNo FROM FINSAT6{0}.FINSAT6{0}.STI WHERE (EvrakNo LIKE 'DG%') ORDER BY Row_ID DESC) as EvrakNo", db.GetSirketDBs().FirstOrDefault())).FirstOrDefault();
             //create list
             var liste = db.Database.SqlQuery<frmUysWaitingTransfer>(string.Format(@"
-                                                                            SELECT        UYSPLN6{0}.UYSPLN6{0}.EMG.Kod2, UYSPLN6{0}.UYSPLN6{0}.EMG.Kod3, UYSPLN6{0}.UYSPLN6{0}.EMG.EmirNo, FINSAT6{0}.FINSAT6{0}.STI.EvrakNo, UYSPLN6{0}.UYSPLN6{0}.EMG.Kaydeden, UYSPLN6{0}.UYSPLN6{0}.EMG.Talimat2 AS Kaydeden2, FINSAT6{0}.FINSAT6{0}.STI.MalKodu, FINSAT6{0}.FINSAT6{0}.STI.SeriNo, 
+                                                                            SELECT        '{2}' as EvrakNo, '{3}' as EmirNo, 'TD' as AraDepo, UYSPLN6{0}.UYSPLN6{0}.EMG.Kod2 as CikisDepo, UYSPLN6{0}.UYSPLN6{0}.EMG.Kod3 as GirisDepo, UYSPLN6{0}.UYSPLN6{0}.EMG.EmirNo, FINSAT6{0}.FINSAT6{0}.STI.EvrakNo, UYSPLN6{0}.UYSPLN6{0}.EMG.Kaydeden, UYSPLN6{0}.UYSPLN6{0}.EMG.Talimat2 AS Kaydeden2, FINSAT6{0}.FINSAT6{0}.STI.MalKodu, FINSAT6{0}.FINSAT6{0}.STI.SeriNo, 
                                                                                                      FINSAT6{0}.FINSAT6{0}.STI.Birim, FINSAT6{0}.FINSAT6{0}.STI.Miktar
                                                                             FROM            UYSPLN6{0}.UYSPLN6{0}.EMG INNER JOIN
                                                                                                      FINSAT6{0}.FINSAT6{0}.STI ON UYSPLN6{0}.UYSPLN6{0}.EMG.StiNo = FINSAT6{0}.FINSAT6{0}.STI.EvrakNo
                                                                             WHERE        (UYSPLN6{0}.UYSPLN6{0}.EMG.EmirNo = '{1}') AND (FINSAT6{0}.FINSAT6{0}.STI.IslemTur = 1) AND (FINSAT6{0}.FINSAT6{0}.STI.KynkEvrakTip = 53) AND (FINSAT6{0}.FINSAT6{0}.STI.IslemTip = 6)
-                                                                    ", db.GetSirketDBs().FirstOrDefault(), ID)).ToList();
+                                                                    ", db.GetSirketDBs().FirstOrDefault(), ID, EmirVeEvrak.EvrakNo, EmirVeEvrak.EmirNo)).ToList();
             //send to db
-            var sonuc = uysf.DepoTransfer(liste, sonevrak, false);
+            var sonuc = uysf.DepoTransfer(liste, false);
             return Json(sonuc, JsonRequestBehavior.AllowGet);
         }
     }

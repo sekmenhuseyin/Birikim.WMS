@@ -88,4 +88,12 @@
         public string Birim { get; set; }
         public decimal Miktar { get; set; }
     }
+    /// <summary>
+    /// bekleyen transfer listesi
+    /// </summary>
+    public class frmUysEmirEvrak
+    {
+        public string EmirNo { get; set; }
+        public string EvrakNo { get; set; }
+    }
 }
