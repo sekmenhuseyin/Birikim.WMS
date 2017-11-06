@@ -37,7 +37,7 @@
             "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
             "ajax": {
                 "url": '/Approvals/Contract/TanimListesiSelect',
-                "data": {listeNo:'@ViewBag.ListeNo'},
+                "data": { listeNo: JSON.stringify('@ViewBag.ListeNo')},
                 "dataSrc": function (json) {
                     return json;
                 },

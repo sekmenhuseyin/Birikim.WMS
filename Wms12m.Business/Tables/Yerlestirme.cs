@@ -31,7 +31,7 @@ namespace Wms12m.Business
             };
             if (tbl.MakaraNo != "" && tbl.MakaraNo != null) yerLog.MakaraNo = tbl.MakaraNo;
             if (IrsID > 0) yerLog.IrsaliyeID = IrsID;
-            db.Yer_Log.Add(yerLog);
+            if (yerLog.Miktar > 0) db.Yer_Log.Add(yerLog);
             //save
             try
             {
@@ -70,7 +70,7 @@ namespace Wms12m.Business
                 Kaydeden = db.Users.Where(m => m.ID == KullID).Select(m => m.Kod).FirstOrDefault()
             };
             if (IrsID > 0) yerLog.IrsaliyeID = IrsID;
-            db.Yer_Log.Add(yerLog);
+            if(yerLog.Miktar>0) db.Yer_Log.Add(yerLog);
             if (gc == true)
                 tbl.MakaraDurum = false;
             //stok
