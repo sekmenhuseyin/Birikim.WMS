@@ -2,9 +2,10 @@
     ViewBag.Title = "Transfer Onaylama";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }@section Styles{<style>
-    td.details-control {background: url('/Content/assets/global/plugins/datatables/images/details_open.png') no-repeat center center;cursor: pointer;}
-    tr.shown td.details-control {background: url('/Content/assets/global/plugins/datatables/images/details_close.png') no-repeat center center;}
-</style>
+        td.details-control {background: url('/Content/assets/global/plugins/datatables/images/details_open.png') no-repeat center center;cursor: pointer;}
+        tr.shown td.details-control {background: url('/Content/assets/global/plugins/datatables/images/details_close.png') no-repeat center center;}
+        #mytable{width:50%!important; margin:0 auto!important;}
+    </style>
 }<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><span>Transfer Onaylama</span></li></ul></div>
 <h1 class="page-title">Depolar Arası Transfer Onaylama</h1>
 <div class="row">
@@ -19,7 +20,7 @@
                 <div class="form-horizontal">
                     <div class="form-body">
                         <div class="form-group">
-                            <div class="col-sm-3 control-label">Evrak No</div>
+                            <div class="col-sm-3 control-label">Transfer Seçiniz</div>
                             <div class="col-sm-4">
                                 @Html.DropDownList("DurumID", null, htmlAttributes: new { @class = "form-control input-circle", onchange = "FuncSearchBtn();" })
                             </div>
@@ -34,11 +35,20 @@
 @section Scripts{<script>
     $("#DurumID").prepend("<option value=''>Seçiniz !!!</option>"); $("#DurumID")[0].selectedIndex = 0;
     var DeleteFunctionUrl = '/UYS/Transfer/Delete';
-    FuncSearchBtn();
+    $("#DurumID").focus();
     function FuncSearchBtn() {
         $('#Grid').html("");
         if ($('#DurumID').val() != "")
             PartialView('/UYS/Transfer/WaitingList', 'Grid', JSON.stringify({ Id: $('#DurumID').val() }));
     }
+    function getresult(e) {
+        if (e.Status == true) {
+            Modaldialog("İşlem Başarıyla gerçekleşti", "Başarı", "Tamam", "btn-success");
+            $("#DurumID option[value='" + $('#DurumID').val()+"']").remove();
+            FuncSearchBtn()
+        }
+        else
+            Modaldialog(e.Message, 'Hata', 'Tamam', 'btn-danger');
+    };
 </script>
 }

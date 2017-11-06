@@ -112,8 +112,8 @@ namespace Wms12m.Presentation.Areas.UYS.Controllers
             var EmirVeEvrak = db.Database.SqlQuery<frmUysEmirEvrak>(string.Format(@"SELECT
                                         ISNULL((SELECT TOP (1) EmirNo FROM UYSPLN6{0}.UYSPLN6{0}.EMG WHERE (EmirNo LIKE 'DD%') ORDER BY Row_ID DESC), 'DD000000') as EmirNo, 
                                         ISNULL((SELECT TOP (1) EvrakNo FROM FINSAT6{0}.FINSAT6{0}.STI WHERE (EvrakNo LIKE 'DD%') ORDER BY Row_ID DESC), 'DD000000') as EvrakNo", db.GetSirketDBs().FirstOrDefault())).FirstOrDefault();
-            EmirVeEvrak.EvrakNo = uysf.EvrakNoArttir(EmirVeEvrak.EvrakNo, "DD");
             EmirVeEvrak.EmirNo = uysf.EvrakNoArttir(EmirVeEvrak.EmirNo, "DD");
+            EmirVeEvrak.EvrakNo = uysf.EvrakNoArttir(EmirVeEvrak.EvrakNo, "DD");
             //create list
             var liste = new List<frmUysWaitingTransfer>();
             for (int i = 0; i < tbl.MalKodu.Length; i++)
@@ -135,10 +135,8 @@ namespace Wms12m.Presentation.Areas.UYS.Controllers
             var emir = new EMG();
             emir.DefaultValueSet();
             emir.EmirNo = EmirVeEvrak.EmirNo;
-            emir.IcDis = 11;
             emir.BasTarih = tarih;
             emir.BasSaat = saat;
-            emir.CurDurum = 0;
             emir.Talimat2 = vUser.FirstName;
             emir.Kod2 = tbl.CikisDepo;
             emir.Kod3 = tbl.GirisDepo;
@@ -162,8 +160,8 @@ namespace Wms12m.Presentation.Areas.UYS.Controllers
             var EmirVeEvrak = db.Database.SqlQuery<frmUysEmirEvrak>(string.Format(@"SELECT
                                         ISNULL((SELECT TOP (1) EmirNo FROM UYSPLN6{0}.UYSPLN6{0}.EMG WHERE (EmirNo LIKE 'DD%') ORDER BY Row_ID DESC), 'DD000000') as EmirNo, 
                                         ISNULL((SELECT TOP (1) EvrakNo FROM FINSAT6{0}.FINSAT6{0}.STI WHERE (EvrakNo LIKE 'DG%') ORDER BY Row_ID DESC), 'DG000000') as EvrakNo", db.GetSirketDBs().FirstOrDefault())).FirstOrDefault();
-            EmirVeEvrak.EvrakNo = uysf.EvrakNoArttir(EmirVeEvrak.EvrakNo, "DD");
             EmirVeEvrak.EmirNo = uysf.EvrakNoArttir(EmirVeEvrak.EmirNo, "DD");
+            EmirVeEvrak.EvrakNo = uysf.EvrakNoArttir(EmirVeEvrak.EvrakNo, "DG");
             //create list
             var liste = db.Database.SqlQuery<frmUysWaitingTransfer>(string.Format(@"
                                                                             SELECT       '{2}' as EvrakNo, 'TD' as AraDepo, UYSPLN6{0}.UYSPLN6{0}.EMG.Kod2 as CikisDepo, UYSPLN6{0}.UYSPLN6{0}.EMG.Kod3 as GirisDepo, UYSPLN6{0}.UYSPLN6{0}.EMG.Kaydeden, UYSPLN6{0}.UYSPLN6{0}.EMG.Talimat2 AS Kaydeden2, FINSAT6{0}.FINSAT6{0}.STI.MalKodu, FINSAT6{0}.FINSAT6{0}.STI.SeriNo, 
@@ -172,9 +170,8 @@ namespace Wms12m.Presentation.Areas.UYS.Controllers
                                                                                                      FINSAT6{0}.FINSAT6{0}.STI ON UYSPLN6{0}.UYSPLN6{0}.EMG.StiNo = FINSAT6{0}.FINSAT6{0}.STI.EvrakNo
                                                                             WHERE        (UYSPLN6{0}.UYSPLN6{0}.EMG.EmirNo = '{1}') AND (FINSAT6{0}.FINSAT6{0}.STI.IslemTur = 1) AND (FINSAT6{0}.FINSAT6{0}.STI.KynkEvrakTip = 53) AND (FINSAT6{0}.FINSAT6{0}.STI.IslemTip = 6)
                                                                     ", db.GetSirketDBs().FirstOrDefault(), ID, EmirVeEvrak.EvrakNo)).ToList();
-            var emir = db.Database.SqlQuery<EMG>(string.Format(@"SELECT * FROM UYSPLN6{0}.UYSPLN6{0}.EMG WHERE EmirNo = '{1}')", db.GetSirketDBs().FirstOrDefault(), ID)).FirstOrDefault();
+            var emir = db.Database.SqlQuery<EMG>(string.Format(@"SELECT * FROM UYSPLN6{0}.UYSPLN6{0}.EMG WHERE EmirNo = '{1}'", db.GetSirketDBs().FirstOrDefault(), ID)).FirstOrDefault();
             emir.EmirNo = EmirVeEvrak.EmirNo;
-            emir.IcDis = 11;
             emir.BitTarih = tarih;
             emir.BitSaat = saat;
             emir.Talimat3 = vUser.FirstName;
@@ -195,7 +192,7 @@ namespace Wms12m.Presentation.Areas.UYS.Controllers
             emir.Teklif = -1;
             emir.KayitTuru = -1;
             //send to db
-            var sonuc = uysf.DepoTransfer(liste, emir, false);
+            var sonuc = uysf.DepoTransfer(liste, emir, true);
             return Json(sonuc, JsonRequestBehavior.AllowGet);
         }
     }
