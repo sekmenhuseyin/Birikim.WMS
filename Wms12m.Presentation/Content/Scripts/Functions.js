@@ -252,7 +252,7 @@ function toOADateFromString(date) {
 function toOADate(date) {
     var timezoneOffset = date.getTimezoneOffset() / (60 * 24);
     var msDateObj = (date.getTime() / 86400000) + (25569 - timezoneOffset);
-    return msDateObj;
+    return parseInt(msDateObj);
 };
 //yine replace all
 String.prototype.replaceAll = function (target, replacement) {

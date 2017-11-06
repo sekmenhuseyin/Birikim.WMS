@@ -30,7 +30,7 @@ namespace Wms12m
         /// <summary>
         /// depo transfer fişi
         /// </summary>
-        public Result DepoTransfer(List<frmUysWaitingTransfer> tbl, bool GirisMi)
+        public Result DepoTransfer(List<frmUysWaitingTransfer> tbl, Entity.EMG Emir, bool GirisMi)
         {
             //settings
             DevHelper.Ayarlar.SetConStr(ConStr);
@@ -54,9 +54,19 @@ namespace Wms12m
                     KayitKaynak = 74
                 });
             }
+            //emir details
+            Emir.Kaydeden = tbl[0].Kaydeden;
+            Emir.KayitKaynak = 10;
+            Emir.KayitSurum = "1.00";
+            Emir.Degistiren = tbl[0].Kaydeden;
+            Emir.DegisTarih = Emir.KayitTarih;
+            Emir.DegisSaat = Emir.KayitSaat;
+            Emir.DegisKaynak = 10;
+            Emir.DegisSurum = "1.00";
+            Emir.CheckSum = 1542;
             //save 2 db
             Stok_Islemleri StokIslem = new Stok_Islemleri(SirketKodu);
-            IslemSonuc Sonuc = StokIslem.DepoTransfer_EMG_Kayit(DepTranList, tbl[0].EmirNo, tbl[0].Kaydeden2);
+            IslemSonuc Sonuc = StokIslem.DepoTransfer_EMG_Kayit(DepTranList, Emir, tbl[0].Kaydeden2);
             //return
             var _Result = new Result()
             {
