@@ -30,20 +30,18 @@ namespace Wms12m
         /// <summary>
         /// depo transfer fişi
         /// </summary>
-        public Result DepoTransfer(List<frmUysWaitingTransfer> tbl, string EvrakNo, bool GirisMi)
+        public Result DepoTransfer(List<frmUysWaitingTransfer> tbl, Entity.EMG emir, bool GirisMi)
         {
             //settings
             DevHelper.Ayarlar.SetConStr(ConStr);
             DevHelper.Ayarlar.SirketKodu = SirketKodu;
-
-
             //add to list
             var DepTranList = new List<DepTran>();
             foreach (var item in tbl)
             {
                 DepTranList.Add(new DepTran()
                 {
-                    EvrakNo = EvrakNo,
+                    EvrakNo = tbl[0].EvrakNo,
                     Tarih = DateTime.Today,
                     MalKodu = item.MalKodu,
                     Miktar = item.Miktar,
@@ -56,13 +54,48 @@ namespace Wms12m
                     KayitKaynak = 74
                 });
             }
+            var Emir = new OnikimCore.GunesCore.EMG();
+            Emir.DefaultValueSet();
+            Emir.EmirNo = emir.EmirNo;
+            Emir.IcDis = 11;
+            Emir.BasTarih = emir.BasTarih;
+            Emir.BasSaat = emir.BasSaat;
+            Emir.Talimat2 = emir.Talimat2;
+            Emir.Kod2 = emir.Kod2;
+            Emir.Kod3 = emir.Kod3;
+            Emir.StiNo = emir.StiNo;
+            Emir.KayitTarih = emir.KayitTarih;
+            Emir.KayitSaat = emir.KayitSaat;
+            Emir.BitTarih = emir.BitTarih;
+            Emir.BitSaat = emir.BitSaat;
+            Emir.Talimat3 = emir.Talimat3;
+            Emir.TrsfrNo = emir.TrsfrNo;
+            Emir.RecID = emir.RecID;
+            Emir.Birim = emir.Birim;
+            Emir.CurDurum = emir.CurDurum;
+            Emir.CurDurSb = emir.CurDurSb;
+            Emir.SonDurSb = emir.SonDurSb;
+            Emir.PlOnay = emir.PlOnay;
+            Emir.YMUret = emir.YMUret;
+            Emir.YMMly = emir.YMMly;
+            Emir.YMEndMly = emir.YMEndMly;
+            Emir.YMDepo = emir.YMDepo;
+            Emir.YMHmdCik = emir.YMHmdCik;
+            Emir.Teklif = emir.Teklif;
+            Emir.KayitTuru = emir.KayitTuru;
+            //emir details
+            Emir.Kaydeden = tbl[0].Kaydeden;
+            Emir.KayitKaynak = 10;
+            Emir.KayitSurum = "1.00";
+            Emir.Degistiren = tbl[0].Kaydeden;
+            Emir.DegisTarih = Emir.KayitTarih;
+            Emir.DegisSaat = Emir.KayitSaat;
+            Emir.DegisKaynak = 10;
+            Emir.DegisSurum = "1.00";
+            Emir.CheckSum = 1542;
             //save 2 db
             Stok_Islemleri StokIslem = new Stok_Islemleri(SirketKodu);
-            IslemSonuc Sonuc = StokIslem.DepoTransfer_Kayit(-1, DepTranList);
-            if (Sonuc.Basarili == true)
-            {
-                Sonuc = StokIslem.DepoTransfer_EMG_Kayit(tbl[0].CikisDepo, tbl[0].GirisDepo, EvrakNo, tbl[0].EmirNo, tbl[0].Kaydeden, tbl[0].Kaydeden2);
-            }
+            IslemSonuc Sonuc = StokIslem.DepoTransfer_EMG_Kayit(DepTranList, Emir, tbl[0].Kaydeden2);
             //return
             var _Result = new Result()
             {
