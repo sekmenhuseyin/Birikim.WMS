@@ -49,10 +49,9 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         public PartialViewResult List(bool Tip = false)
         {
             var gorevCalismas = db.GorevlerCalismas.Where(m => m.ID > 0);
-            var yetki = CheckPerm(Perms.TodoÇalışma, PermTypes.Deleting);
             if (Tip == false)//bana ait
                 gorevCalismas = gorevCalismas.Where(m => m.Kaydeden == vUser.UserName);
-            ViewBag.Yetki2 = yetki;
+            ViewBag.Yetki2 = CheckPerm(Perms.TodoÇalışma, PermTypes.Deleting);
             ViewBag.UserName = vUser.UserName;
             return PartialView("List", gorevCalismas.OrderByDescending(m => m.Tarih).ToList());
         }

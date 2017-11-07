@@ -25,7 +25,7 @@
                         <div class="form-group">
                             @Html.LabelFor(model => model.Tarih, htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-8"> 
-                                @Html.TextBoxFor(model => model.Tarih, new { @class = "form-control input-circle date-picker", @Value = ViewBag.ÇalışmaSüresi < 540 ? (DateTime.Today.DayOfWeek==DayOfWeek.Monday ? DateTime.Today.AddDays(-3).ToString("dd.MM.yyyy") : DateTime.Today.DayOfWeek == DayOfWeek.Sunday ? DateTime.Today.AddDays(-2).ToString("dd.MM.yyyy") : DateTime.Today.AddDays(-1).ToString("dd.MM.yyyy")) : DateTime.Today.ToString("dd.MM.yyyy"), required = "required" })
+                                @Html.TextBoxFor(model => model.Tarih, new { @class = "form-control input-circle date-picker", @Value = ViewBag.ÇalışmaSüresi < 540 ? "" : DateTime.Today.ToString("dd.MM.yyyy"), required = "required" })
                                 @Html.ValidationMessageFor(model => model.Tarih, "", new { @class = "text-danger" })
                             </div>
                         </div>

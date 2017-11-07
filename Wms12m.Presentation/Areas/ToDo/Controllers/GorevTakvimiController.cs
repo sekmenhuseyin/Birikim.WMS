@@ -77,6 +77,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         {
             var Tarih = ID.FromOaDate();
             var list = db.GorevlerCalismas.Where(m => m.Tarih == Tarih && m.Kaydeden == User).OrderByDescending(m => m.ID).ToList();
+            ViewBag.Yetki2 = CheckPerm(Perms.TodoÇalışma, PermTypes.Deleting);
             return PartialView("Details", list);
         }
         /// <summary>
