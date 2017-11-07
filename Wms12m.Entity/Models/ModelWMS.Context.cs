@@ -66,6 +66,7 @@ namespace Wms12m.Entity.Models
         public virtual DbSet<Etkinlik> Etkinliks { get; set; }
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<IRS_Detay> IRS_Detay { get; set; }
+        public virtual DbSet<Dosya> Dosyas { get; set; }
     
         public virtual ObjectResult<string> GetSirketDBs()
         {

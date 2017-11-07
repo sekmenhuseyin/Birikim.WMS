@@ -19,6 +19,7 @@ namespace Wms12m.Entity.Models
         {
             this.Gorevlers = new HashSet<Gorevler>();
             this.ProjeForm1 = new HashSet<ProjeForm>();
+            this.Dosyas = new HashSet<Dosya>();
         }
     
         public int ID { get; set; }
@@ -45,5 +46,7 @@ namespace Wms12m.Entity.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ProjeForm> ProjeForm1 { get; set; }
         public virtual ProjeForm ProjeForm2 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Dosya> Dosyas { get; set; }
     }
 }

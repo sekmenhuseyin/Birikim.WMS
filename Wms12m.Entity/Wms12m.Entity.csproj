@@ -100,6 +100,9 @@
     <Compile Include="Models\Depo.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Dosya.cs">
+      <DependentUpon>ModelWMS.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\ELMAH_Error.cs">
       <DependentUpon>ModelLog.tt</DependentUpon>
     </Compile>
