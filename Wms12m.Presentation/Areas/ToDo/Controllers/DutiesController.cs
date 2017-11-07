@@ -342,7 +342,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                         {
                             if (work[i].Trim() != "")
                             {
-                                if (tbl.DurumID == ComboItems.gydKaliteKontrol.ToInt32()) { tbl.DurumID = ComboItems.gydBaşlandı.ToInt32(); }
+                                if (tbl.DurumID != ComboItems.gydBaşlandı.ToInt32() || tbl.DurumID != ComboItems.gydAtandı.ToInt32()) { tbl.DurumID = ComboItems.gydBaşlandı.ToInt32(); }
                                 GorevlerToDoList grvTDL = new GorevlerToDoList
                                 {
                                     Aciklama = work[i],
