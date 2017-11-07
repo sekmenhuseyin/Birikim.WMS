@@ -49,14 +49,14 @@
                         <div class="form-group">
                             <div class="col-md-5 col-md-offset-2">
                                 <table class="table table-striped table-bordered" id="myTable">
-                                    <thead><tr><th nowrap>Malzeme Kodu</th><th>Malzeme Adı</th><th>Birim</th><th class="text-right">Seri No</th><th class="text-right">Miktar</th><th>Stok</th><th></th></tr></thead>
+                                    <thead><tr><th nowrap>Malzeme Kodu</th><th>Malzeme Adı</th><th class="text-right">Seri No</th><th class="text-right">Miktar</th><th>Stok</th><th>Birim</th><th></th></tr></thead>
                                     <tbody>
                                         <tr>
                                             <td><input class="form-control" id="MalKodu" type="text" /></td>
                                             <td><input class="form-control w-200" id="MalAdi" type="text" /></td>
-                                            <td><input class="form-control w-100" id="Birim" type="text" readonly="readonly" /></td>
                                             <td><select class="form-control w-50 pull-right" id="SeriNo" type="text"></select></td>
                                             <td><input class="form-control w-50 pull-right" id="Miktar" type="text" /></td>
+                                            <td></td>
                                             <td></td>
                                             <td><button type="button" class="btn btn-primary btn-block" onclick="NewRow();">Ekle</button></td>
                                         </tr>
@@ -112,7 +112,7 @@
             success: function (data) {
                 if (data != "") {
                     $.each(data, function (i, item) {
-                        $('#SeriNo').append($('<option>', { value: item.id, text: 'Seri: "' + item.id + '", Stok: ' + ondalikBinlik(data.value, 2) }));
+                        $('#SeriNo').append($('<option>', { value: item.id, text: 'Seri: "' + item.id + '", Stok: ' + numeral(item.value.replace(".",",")).format('0,0.00') }));
                     });
                     $("#SeriNo").prepend("<option value=''>Serisiz</option>"); $("#SeriNo")[0].selectedIndex = 0;
                 }
@@ -121,10 +121,18 @@
     }
     function CheckAll()
     {
+        ClearAll(false);
         if ($("#CikisDepo").val() == "" || $("#GirisDepo").val() == "" || $("#Tarih").val() == "")
             $('#myTable').hide();
         else
-            $('#myTable').show();
+            $('#myTable').show();    
+    }
+    function ClearAll(ch) {
+        $("#MalKodu").val("");
+        $("#MalAdi").val("");
+        $("#SeriNo").html("");
+        $("#Miktar").val("");
+        if (ch == true) $("#MalKodu").focus();
     }
     function NewRow()
     {
@@ -144,24 +152,19 @@
                     return;
                 }
                 else if (parseInt(data.Miktar) < parseInt($("#Miktar").val())) {
-                    Modaldialog("Bu ürünün stoğu sadece yetersiz: " + ondalikBinlik(data.Miktar, 2), "Hata", "Tamam", "btn-danger");
+                    Modaldialog("Bu ürünün stoğu yetersiz: " + ondalikBinlik(data.Miktar, 2), "Hata", "Tamam", "btn-danger");
                     return;
                 }
                 $('#myTable tbody tr:first').after('<tr class="deletable">' +
                     '<td><input class="form-control" name="MalKodu" type="text" value="' + $("#MalKodu").val() + '" readonly="readonly"></td>' +
                     '<td><input class="form-control w-200" type="text" value="' + $("#MalAdi").val() + '" readonly="readonly"></td>' +
-                    '<td><input class="form-control w-100" type="text" value="' + data.Birim + '" readonly="readonly"></td>' +
                     '<td><input class="form-control w-50 pull-right" name="SeriNo" type="text" value="' + $("#SeriNo").val() + '" readonly="readonly"></td>' +
                     '<td><input class="form-control w-50 pull-right" name="Miktar" type="text" value="' + $("#Miktar").val() + '"></td>' +
                     '<td class="text-right">' + ondalikBinlik(data.Miktar, 2) + '</td>' +
+                    '<td>' + data.Birim + '</td>' +
                     '<td><button type="button" class="btn btn-danger btn-block" onclick="DeleteRow(this);">Sil</button></td>' +
                     '</tr>');
-                $("#MalKodu").val("");
-                $("#MalAdi").val("");
-                $("#Birim").val("");
-                $("#SeriNo").val("");
-                $("#Miktar").val("");
-                $("#MalKodu").focus();
+                ClearAll(true);
                 satir++;
             },
             error: function (data) { Modaldialog("Bu ürünün stoğu yok", "Hata", "Tamam", "btn-danger"); }
