@@ -609,7 +609,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                 }
                 sat += "</tbody>";
             }
-            ViewBag.ListeNo = listeNo;
+            ViewBag.ListeNo = JsonConvert.SerializeObject(listeNo); 
             ViewBag.Satir = sat;
             return PartialView("Tanim_List");
         }

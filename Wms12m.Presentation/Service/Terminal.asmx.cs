@@ -832,7 +832,7 @@ namespace Wms12m
                         //rezervden düşürülür
                         var tmp2 = stok.Detail(Rkat.Value, item.MalKodu, item.Birim);
                         tmp2.Miktar -= item.Miktar;
-                        stok.Update(tmp2, item.IrsID, KullID, true, item.Miktar);
+                        stok.Update(tmp2, item.IrsID, KullID, true, item.Miktar,item.IrsDetayID);
                         string makarano = tmp2.MakaraNo;
                         //yerleştirme kaydı yapılır
                         tmp2 = stok.Detail(kat.Value, item.MalKodu, item.Birim);
@@ -846,7 +846,7 @@ namespace Wms12m
                                 Miktar = item.Miktar
                             };
                             if (makarano != "" || makarano != null) tmp2.MakaraNo = makarano;
-                            stok.Insert(tmp2, item.IrsID, KullID);
+                            stok.Insert(tmp2, item.IrsID, KullID,item.IrsDetayID);
                         }
                         else if (tmp2.MakaraNo != makarano)
                         {
@@ -858,12 +858,12 @@ namespace Wms12m
                                 Miktar = item.Miktar
                             };
                             if (makarano != "" || makarano != null) tmp2.MakaraNo = makarano;
-                            stok.Insert(tmp2, item.IrsID, KullID);
+                            stok.Insert(tmp2, item.IrsID, KullID,item.IrsDetayID);
                         }
                         else
                         {
                             tmp2.Miktar += item.Miktar;
-                            stok.Update(tmp2, item.IrsID, KullID, false, item.Miktar);
+                            stok.Update(tmp2, item.IrsID, KullID, false, item.Miktar, item.IrsDetayID);
                         }
                     }
                     else

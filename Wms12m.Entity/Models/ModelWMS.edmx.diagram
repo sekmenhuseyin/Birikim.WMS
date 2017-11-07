@@ -50,8 +50,6 @@
         <AssociationConnector Association="MModel.FK_Kat_ComboItem_Name" />
         <AssociationConnector Association="MModel.FK_RolePerm_Roles" />
         <EntityTypeShape EntityType="MModel.UserDevice" Width="1.5" PointX="25.375" PointY="22.125" />
-        <EntityTypeShape EntityType="MModel.IRS_Detay" Width="1.5" PointX="10" PointY="18.5" />
-        <AssociationConnector Association="MModel.FK_IRS_Detay_IRS" />
         <EntityTypeShape EntityType="MModel.GorevUser" Width="1.5" PointX="7.5" PointY="3.75" />
         <AssociationConnector Association="MModel.FK_GorevUsers_Gorev" />
         <EntityTypeShape EntityType="MModel.GorevPaketler" Width="1.5" PointX="10.875" PointY="4.125" />
@@ -96,6 +94,8 @@
         <AssociationConnector Association="MModel.FK_UserDevices_Users" />
         <AssociationConnector Association="MModel.FK_Depo_Users_Users" />
         <AssociationConnector Association="MModel.FK_Users_Users" />
+        <EntityTypeShape EntityType="MModel.IRS_Detay" Width="1.5" PointX="10.25" PointY="17.25" />
+        <AssociationConnector Association="MModel.FK_IRS_Detay_IRS" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

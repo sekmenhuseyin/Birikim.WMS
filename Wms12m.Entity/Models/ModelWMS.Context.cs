@@ -48,7 +48,6 @@ namespace Wms12m.Entity.Models
         public virtual DbSet<ComboItem_Name> ComboItem_Name { get; set; }
         public virtual DbSet<Role> Roles { get; set; }
         public virtual DbSet<UserDevice> UserDevices { get; set; }
-        public virtual DbSet<IRS_Detay> IRS_Detay { get; set; }
         public virtual DbSet<GorevUser> GorevUsers { get; set; }
         public virtual DbSet<GorevPaketler> GorevPaketlers { get; set; }
         public virtual DbSet<GorevPaketNo> GorevPaketNoes { get; set; }
@@ -66,6 +65,7 @@ namespace Wms12m.Entity.Models
         public virtual DbSet<ProjeForm> ProjeForms { get; set; }
         public virtual DbSet<Etkinlik> Etkinliks { get; set; }
         public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<IRS_Detay> IRS_Detay { get; set; }
     
         public virtual ObjectResult<string> GetSirketDBs()
         {

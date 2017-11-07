@@ -31,13 +31,14 @@
     var secili_table = new Array();
     var silinecek = new Array();
     var table = "";
-    if ("@ViewBag.ListeNo" != "#12MConsulting#")
+    var listeNO = JSON.parse('@Html.Raw(ViewBag.ListeNo)');
+    if (listeNO != "#12MConsulting#")
     {
          table = $('#sample_1').DataTable({
             "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
             "ajax": {
                 "url": '/Approvals/Contract/TanimListesiSelect',
-                "data": { listeNo: JSON.stringify('@ViewBag.ListeNo')},
+                "data": { listeNo: listeNO},
                 "dataSrc": function (json) {
                     return json;
                 },
