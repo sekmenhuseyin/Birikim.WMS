@@ -64,9 +64,12 @@ namespace Wms12m.Presentation.Areas.UYS.Controllers
         /// malzeme koduna göre stok ve serinoyu getirir
         /// </summary>
         [HttpPost]
-        public JsonResult GetSeri(string kod)
+        public JsonResult GetSeri(string MalKodu, int Tarih, string Depo)
         {
-            string sql = String.Format("SELECT Birim1, Birim2, Birim3, Birim4 FROM FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) WHERE (MalKodu = '{1}')", db.GetSirketDBs().FirstOrDefault(), kod);
+            string sql = String.Format(@"SELECT SeriNo as id, convert(varchar(50), isnull(sum(case when IslemTur = 0 then Miktar else -Miktar end), 0)) as value
+                                            FROM FINSAT6{0}.FINSAT6{0}.STI WITH(nolock)
+                                            where STI.MalKodu = '{1}' and Tarih <= {2} and Depo = '{3}' and IrsFat <> 2 and KynkEvrakTip <> 95 and KynkEvrakTip not in (141, 142, 143, 144) and not(KynkEvrakTip in (68, 69) and ErekIIFKEvrakTip in (5, 2) and IrsFat = 3)
+                                            GROUP by STI.MalKodu, Depo, SeriNo", db.GetSirketDBs().FirstOrDefault(), MalKodu, Tarih, Depo);
             try
             {
                 var list = db.Database.SqlQuery<frmJson>(sql).ToList();
