@@ -61,14 +61,32 @@ namespace Wms12m.Presentation.Areas.UYS.Controllers
             return Json(liste, JsonRequestBehavior.AllowGet);
         }
         /// <summary>
+        /// malzeme koduna göre stok ve serinoyu getirir
+        /// </summary>
+        [HttpPost]
+        public JsonResult GetSeri(string kod)
+        {
+            string sql = String.Format("SELECT Birim1, Birim2, Birim3, Birim4 FROM FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) WHERE (MalKodu = '{1}')", db.GetSirketDBs().FirstOrDefault(), kod);
+            try
+            {
+                var list = db.Database.SqlQuery<frmJson>(sql).ToList();
+                return Json(list, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Logger(ex, "/UYS/Transfer/GetSeri");
+                return Json(new List<frmJson>(), JsonRequestBehavior.AllowGet);
+            }
+
+        }
+        /// <summary>
         /// ürün stoğu bul
         /// </summary>
         public JsonResult GetStock(string MalKodu, int Tarih, string SeriNo, string Depo)
         {
-            if (SeriNo != "") SeriNo = ("000000" + SeriNo).Right(6); else SeriNo = "      ";
             var sql = string.Format(@"SELECT '{1}' as MalKodu, isnull(sum(case when IslemTur = 0 then Miktar else -Miktar end), 0) as Miktar, (SELECT Birim1 FROM FINSAT6{0}.FINSAT6{0}.STK WHERE (MalKodu = '{1}')) as Birim
                                     FROM FINSAT6{0}.FINSAT6{0}.STI WITH (nolock) left join FINSAT6{0}.FINSAT6{0}.STK WITH (nolock) ON STK.MalKodu = STI.MalKodu 
-                                    where STI.MalKodu = '{1}' and Tarih <= {2} and SeriNo = '  {3}' and Depo ='{4}'  and IrsFat <> 2 and KynkEvrakTip <> 95 and KynkEvrakTip not in (141,142,143,144) and not (KynkEvrakTip in (68,69) and ErekIIFKEvrakTip in (5,2) and IrsFat = 3)
+                                    where STI.MalKodu = '{1}' and Tarih <= {2} and SeriNo = '{3}' and Depo ='{4}' and IrsFat <> 2 and KynkEvrakTip <> 95 and KynkEvrakTip not in (141,142,143,144) and not (KynkEvrakTip in (68,69) and ErekIIFKEvrakTip in (5,2) and IrsFat = 3)
                                     GROUP by STI.MalKodu, Depo,SeriNo", db.GetSirketDBs().FirstOrDefault(), MalKodu, Tarih, SeriNo, Depo);
             return Json(db.Database.SqlQuery<frmMalKoduMiktar>(sql).FirstOrDefault(), JsonRequestBehavior.AllowGet);
         }

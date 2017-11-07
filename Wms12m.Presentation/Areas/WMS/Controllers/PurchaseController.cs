@@ -247,7 +247,7 @@ AND (SPI.MalKodu = '{2}') AND (SPI.Birim = '{3}') AND (LTRIM(SPI.EvrakNo) = '{4}
                     }
                     catch (Exception ex)
                     {
-                        Logger(ex, "Purchase/FromSiparis");
+                        Logger(ex, "WMS/Purchase/FromSiparis");
                     }
                 }
             }
@@ -278,7 +278,7 @@ AND (SPI.MalKodu = '{2}') AND (SPI.Birim = '{3}') AND (LTRIM(SPI.EvrakNo) = '{4}
             bool kontrol1 = DateTime.TryParse(tbl.Tarih, out DateTime tmpTarih);
             if (kontrol1 == false)
             {
-                db.Logger(vUser.UserName, "", fn.GetIPAddress(), "Tarih hatası: " + tbl.Tarih, "", "Purchase/New");
+                db.Logger(vUser.UserName, "", fn.GetIPAddress(), "Tarih hatası: " + tbl.Tarih, "", "WMS/Purchase/New");
                 ViewBag.message = "Tarih yanlış";
                 return PartialView("_GridPartial", new List<IRS_Detay>());
             }
@@ -303,7 +303,7 @@ AND (SPI.MalKodu = '{2}') AND (SPI.Birim = '{3}') AND (LTRIM(SPI.EvrakNo) = '{4}
                 }
                 catch (Exception ex)
                 {
-                    Logger(ex, "Purchase/New-varolan");
+                    Logger(ex, "WMS/Purchase/New-varolan");
                     return null;
                 }
             }
@@ -337,7 +337,7 @@ AND (SPI.MalKodu = '{2}') AND (SPI.Birim = '{3}') AND (LTRIM(SPI.EvrakNo) = '{4}
             }
             catch (Exception ex)
             {
-                Logger(ex, "Purchase/New-yeni");
+                Logger(ex, "WMS/Purchase/New-yeni");
                 return null;
             }
         }
@@ -429,7 +429,7 @@ AND (SPI.MalKodu = '{2}') AND (SPI.Birim = '{3}') AND (LTRIM(SPI.EvrakNo) = '{4}
             }
             catch (Exception ex)
             {
-                Logger(ex, "Purchase/getMalzemebyCode");
+                Logger(ex, "WMS/Purchase/getMalzemebyCode");
                 return Json(new List<frmJson>(), JsonRequestBehavior.AllowGet);
             }
         }
@@ -459,7 +459,7 @@ AND (SPI.MalKodu = '{2}') AND (SPI.Birim = '{3}') AND (LTRIM(SPI.EvrakNo) = '{4}
             }
             catch (Exception ex)
             {
-                Logger(ex, "Purchase/getMalzemebyName");
+                Logger(ex, "WMS/Purchase/getMalzemebyName");
                 return Json(new List<frmJson>(), JsonRequestBehavior.AllowGet);
             }
         }
@@ -489,7 +489,7 @@ AND (SPI.MalKodu = '{2}') AND (SPI.Birim = '{3}') AND (LTRIM(SPI.EvrakNo) = '{4}
             }
             catch (Exception ex)
             {
-                Logger(ex, "Purchase/getBirim");
+                Logger(ex, "WMS/Purchase/getBirim");
                 return Json(new List<frmBirims>(), JsonRequestBehavior.AllowGet);
             }
 
