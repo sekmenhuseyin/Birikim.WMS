@@ -53,7 +53,7 @@
                                 <td>@item.Gorev</td>
                                 <td>@item.Aciklama</td>
                                 <td>@item.Kaydeden</td>
-                                <td><div class="hidden">@item.Tarih.ToOADateInt()</div>@item.Tarih.ToShortDateString()</td>
+                                <td><div class="hidden">@item.Tarih.ToOADateInt()</div>@item.Tarih.ToString("dd.MM.yyyy")</td>
                                 <td>@item.Sure</td>
                                 <td>@if (checkin != new DateTime()) { @checkin }</td>
                             </tr>

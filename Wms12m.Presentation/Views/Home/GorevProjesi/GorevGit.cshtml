@@ -27,7 +27,7 @@
                             <tr>
                                 <td>@Html.Raw(item.ID)</td>
                                 <td>@Html.Raw(item.Name)</td>
-                                <td>@item.Date</td>
+                                <td>@item.Date.ToString("dd.MM.yyyy hh:mm:ss")</td>
                             </tr>
                         }
                     </tbody>
