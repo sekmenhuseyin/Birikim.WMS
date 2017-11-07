@@ -426,6 +426,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                 return Json(new Result(false, "Bu göreve çalışma kaydedildiği için silinemez"), JsonRequestBehavior.AllowGet);
             try
             {
+                db.GorevlerToDoLists.RemoveRange(gorev.GorevlerToDoLists.ToList());
                 db.Gorevlers.Remove(gorev);
                 db.SaveChanges();
                 LogActions("ToDo", "Duties", "Delete", ComboItems.alSil, Id.ToInt32());
