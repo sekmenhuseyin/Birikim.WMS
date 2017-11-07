@@ -340,17 +340,18 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                         //yeni madde ekle
                         if (todo[i] == "0")
                         {
-                            GorevlerToDoList grvTDL = new GorevlerToDoList
+                            if (work[i].Trim() != "")
                             {
-                                Aciklama = work[i],
-                                Kaydeden = vUser.UserName,
-                                KayitTarih = DateTime.Now,
-                                Degistiren = vUser.UserName,
-                                DegisTarih = DateTime.Now,
-                                Gorevler = tbl
-                            };
-                            if (grvTDL.Aciklama.Trim() != "")
-                            {
+                                if (tbl.DurumID == ComboItems.gydKaliteKontrol.ToInt32()) { tbl.DurumID = ComboItems.gydBaşlandı.ToInt32(); }
+                                GorevlerToDoList grvTDL = new GorevlerToDoList
+                                {
+                                    Aciklama = work[i],
+                                    Kaydeden = vUser.UserName,
+                                    KayitTarih = DateTime.Now,
+                                    Degistiren = vUser.UserName,
+                                    DegisTarih = DateTime.Now,
+                                    Gorevler = tbl
+                                };
                                 db.GorevlerToDoLists.Add(grvTDL);
                                 var mesaj = new Message()
                                 {
