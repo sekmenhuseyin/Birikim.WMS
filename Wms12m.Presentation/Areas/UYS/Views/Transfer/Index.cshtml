@@ -47,7 +47,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <div class="col-md-5 col-md-offset-2">
+                            <div class="col-md-6 col-md-offset-2">
                                 <table class="table table-striped table-bordered" id="myTable">
                                     <thead><tr><th nowrap>Malzeme Kodu</th><th>Malzeme Adı</th><th class="text-right">Seri No</th><th class="text-right">Miktar</th><th>Stok</th><th>Birim</th><th></th></tr></thead>
                                     <tbody>
@@ -58,7 +58,10 @@
                                             <td><input class="form-control w-50 pull-right" id="Miktar" type="text" /></td>
                                             <td></td>
                                             <td></td>
-                                            <td><button type="button" class="btn btn-primary btn-block" onclick="NewRow();">Ekle</button></td>
+                                            <td nowrap>
+                                                <button type="button" class="btn btn-primary" onclick="NewRow();">Ekle</button>
+                                                <button type="button" class="btn btn-danger" onclick="ClearAll(false);">temizle</button>
+                                            </td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -161,7 +164,7 @@
                     '<td><input class="form-control w-50 pull-right" name="SeriNo" type="text" value="' + $("#SeriNo").val() + '" readonly="readonly"></td>' +
                     '<td><input class="form-control w-50 pull-right" name="Miktar" type="text" value="' + $("#Miktar").val() + '"></td>' +
                     '<td class="text-right">' + ondalikBinlik(data.Miktar, 2) + '</td>' +
-                    '<td>' + data.Birim + '</td>' +
+                    '<td><input class="form-control w-50" name="Birim" type="text" value="' + data.Birim + '" readonly="readonly"></td>' +
                     '<td><button type="button" class="btn btn-danger btn-block" onclick="DeleteRow(this);">Sil</button></td>' +
                     '</tr>');
                 ClearAll(true);
