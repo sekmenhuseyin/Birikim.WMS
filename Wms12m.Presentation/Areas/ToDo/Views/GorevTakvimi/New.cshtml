@@ -36,11 +36,21 @@
                         </div>
                         <div class="form-group">
                             @Html.LabelFor(model => model.Tarih, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-8">
+                            <div class="col-md-6" id="changeClass">
                                 @Html.TextBoxFor(model => model.Tarih, new { @class = "form-control input-circle date-picker", @Value = Model.Tarih.Year == 1 ? DateTime.Today.ToString("dd.MM.yyyy") : Model.Tarih.ToString("dd.MM.yyyy"), required = "required" })
                                 @Html.ValidationMessageFor(model => model.Tarih, "", new { @class = "text-danger" })
                             </div>
+                            <div class="col-md-2">
+                                <input class="make-switch" data-off-color="warning" data-off-text="Tek Gün" data-on-color="success" data-on-text="Süreli" data-size="normal" data-val="true" data-val-required="Bu alanı gereklidir." id="Sureli" name="Sureli" type="checkbox" value="true" /><input name="Sureli" type="hidden" value="false" />
+                            </div>
                         </div>
+                        <div class="form-group" id="BitisTarihi">
+                            <label class="control-label col-md-2" for="Tarih2">Bitiş Tarihi</label>
+                            <div class="col-md-8">
+                                <input class="form-control input-circle date-picker" data-val="true" data-val-date="The field Tarih must be a date." data-val-required="Tarih alanı gereklidir." id="Tarih2" name="Tarih2" required="required" type="text">
+                                <span class="field-validation-valid text-danger" data-valmsg-for="Tarih2" data-valmsg-replace="true"></span>
+                            </div>
+                        </div>                        
                         <div class="form-group">
                             @Html.LabelFor(model => model.Aciklama, "Açıklama", htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-8">
@@ -68,11 +78,14 @@
     </div>
 </div>
 <script type="text/javascript">
-    $("#Tekrarlayan").bootstrapSwitch();
     $(document).ready(function () {
+        $('.date-picker').datepicker();
+        $("#Tekrarlayan").bootstrapSwitch();
+        $("#BitisTarihi").hide();
+        @if (Model.ID != 0) {<text>$('#Sureli').hide(); $('#changeClass').removeClass("col-md-6"); $('#changeClass').addClass("col-md-8");</text>}
+        else {<text>$("#Sureli").bootstrapSwitch(); $('#Sureli').on('switchChange.bootstrapSwitch', function (event, state) { if (state) $("#BitisTarihi").show(); else $("#BitisTarihi").hide(); });</text>}
         @if (ViewBag.Yetki == true) {<text>$(".satirekle").prepend("<option value=''>Herkes</option>");</text> if (Model.Username == null) { <text>$(".satirekle")[0].selectedIndex = 0;</text> } }
         $(".satirekle1").prepend("<option value=''>Seçiniz !!!</option>"); @if (ViewBag.New == 0) { <text>$(".satirekle1")[0].selectedIndex = 0;</text> }
-        $('.date-picker').datepicker();
     });
     function CallChangefunc(val) {
         if (val == 75 || val == 77) {

@@ -129,7 +129,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         /// kaydet
         /// </summary>
         [HttpPost, ValidateAntiForgeryToken]
-        public JsonResult Save(Etkinlik satir)
+        public JsonResult Save(Etkinlik satir, DateTime? Tarih2)
         {
             if (ModelState.IsValid)
             {
