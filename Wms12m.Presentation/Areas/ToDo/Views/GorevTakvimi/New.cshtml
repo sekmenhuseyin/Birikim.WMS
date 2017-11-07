@@ -9,7 +9,7 @@
                 </div>
             </div>
             <div class="portlet-body form">
-                @using (Ajax.BeginForm("Save", "GorevTakvimi", new { area = "ToDo" }, new AjaxOptions { OnSuccess = "getresult", OnBegin = "$('#btnSubmit').prop('disabled', true);", OnFailure = "Modaldialog('Lütfen Tekrar Deneyin', 'Hata', 'Tamam', 'btn-danger');" }, new { @class = "form-horizontal" }))
+                @using (Ajax.BeginForm("Save", "GorevTakvimi", new { area = "ToDo" }, new AjaxOptions { OnSuccess = "getresult", OnBegin = "$('#btnSubmit').prop('disabled', true);", OnFailure = "$('#btnSubmit').prop('disabled', false);Modaldialog('Lütfen Tekrar Deneyin', 'Hata', 'Tamam', 'btn-danger');" }, new { @class = "form-horizontal" }))
                 {
                     <input type="hidden" name="ID" id="ID" value="@if (ViewBag.New == 1) {@Model.ID} else {@("0")}" />
                     @Html.AntiForgeryToken()
@@ -47,8 +47,7 @@
                         <div class="form-group" id="BitisTarihi">
                             <label class="control-label col-md-2" for="Tarih2">Bitiş Tarihi</label>
                             <div class="col-md-8">
-                                <input class="form-control input-circle date-picker" data-val="true" data-val-date="The field Tarih must be a date." data-val-required="Tarih alanı gereklidir." id="Tarih2" name="Tarih2" required="required" type="text">
-                                <span class="field-validation-valid text-danger" data-valmsg-for="Tarih2" data-valmsg-replace="true"></span>
+                                <input class="form-control input-circle date-picker" data-val="true" data-val-date="The field Tarih must be a date." id="Tarih2" name="Tarih2" type="text">
                             </div>
                         </div>                        
                         <div class="form-group">

@@ -139,7 +139,26 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                         satir.Onay = false;
                     else
                         satir.Onay = true;
-                    db.Etkinliks.Add(satir);
+                    if (Tarih2 != null)
+                    {
+                        if (Tarih2 < satir.Tarih)
+                            return Json(new Result(false, "Bitiş tarihi başlangıç tarihinden önce olamaz"), JsonRequestBehavior.AllowGet);
+                        for (var i = satir.Tarih; i <= Tarih2; i = i.AddDays(1))
+                        {
+                            db.Etkinliks.Add(new Etkinlik()
+                            {
+                                TatilTipi = satir.TatilTipi,
+                                Tarih = i,
+                                Username = satir.Username,
+                                Aciklama = satir.Aciklama,
+                                Sure = satir.Sure,
+                                Tekrarlayan = satir.Tekrarlayan,
+                                Onay = satir.Onay
+                            });
+                        }
+                    }
+                    else
+                        db.Etkinliks.Add(satir);
                 }
                 else
                 {
