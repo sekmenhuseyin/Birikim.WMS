@@ -479,6 +479,7 @@
           <Property Name="KynkDegisSaat" Type="int" />
           <Property Name="OkutulanMiktar" Type="numeric" Precision="25" Scale="6" />
           <Property Name="YerlestirmeMiktari" Type="numeric" Precision="25" Scale="6" />
+          <Property Name="IRSDetayID" Type="int" />
         </EntityType>
         <EntityType Name="Kat">
           <Key>
@@ -627,6 +628,7 @@
           <Property Name="IrsaliyeID" Type="int" />
           <Property Name="MakaraNo" Type="varchar" MaxLength="50" />
           <Property Name="IslemTipi" Type="varchar" MaxLength="150" />
+          <Property Name="IRSDetayID" Type="int" />
         </EntityType>
         <Association Name="FK_Bolum_Raf">
           <End Role="Raf" Type="Self.Raf" Multiplicity="1" />
@@ -2572,6 +2574,7 @@
           <Property Name="DepoID" Type="Int32" annotation:StoreGeneratedPattern="Computed" />
           <Property Name="MakaraNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="IslemTipi" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="IRSDetayID" Type="Int32" />
         </EntityType>
         <Association Name="FK_Perm_UserPerm2">
           <End Type="MModel.Perm" Role="Perm" Multiplicity="1">
@@ -3023,6 +3026,7 @@
           <Property Name="OkutulanMiktar" Type="Decimal" Precision="25" Scale="6" />
           <Property Name="YerlestirmeMiktari" Type="Decimal" Precision="25" Scale="6" />
           <NavigationProperty Name="IR" Relationship="MModel.FK_IRS_Detay_IRS" FromRole="IRS_Detay" ToRole="IR" />
+          <Property Name="IRSDetayID" Type="Int32" />
         </EntityType>
         <Association Name="FK_IRS_Detay_IRS">
           <End Type="MModel.IR" Role="IR" Multiplicity="1" />
@@ -4109,6 +4113,7 @@
           <EntitySetMapping Name="Yer_Log">
             <EntityTypeMapping TypeName="MModel.Yer_Log">
               <MappingFragment StoreEntitySet="Yer_Log">
+                <ScalarProperty Name="IRSDetayID" ColumnName="IRSDetayID" />
                 <ScalarProperty Name="IslemTipi" ColumnName="IslemTipi" />
                 <ScalarProperty Name="MakaraNo" ColumnName="MakaraNo" />
                 <ScalarProperty Name="DepoID" ColumnName="DepoID" />
@@ -4291,6 +4296,7 @@
           <EntitySetMapping Name="IRS_Detay">
             <EntityTypeMapping TypeName="MModel.IRS_Detay">
               <MappingFragment StoreEntitySet="IRS_Detay">
+                <ScalarProperty Name="IRSDetayID" ColumnName="IRSDetayID" />
                 <ScalarProperty Name="YerlestirmeMiktari" ColumnName="YerlestirmeMiktari" />
                 <ScalarProperty Name="OkutulanMiktar" ColumnName="OkutulanMiktar" />
                 <ScalarProperty Name="KynkDegisSaat" ColumnName="KynkDegisSaat" />

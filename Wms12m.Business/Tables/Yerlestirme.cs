@@ -11,7 +11,7 @@ namespace Wms12m.Business
         /// <summary>
         /// stok ekleme
         /// </summary>
-        public Result Insert(Yer tbl, int IrsID, int KullID)
+        public Result Insert(Yer tbl, int IrsID, int KullID, int IrsDetayID = 0)
         {
             _Result = new Result(); 
             //stok
@@ -24,6 +24,7 @@ namespace Wms12m.Business
                 MalKodu = tbl.MalKodu,
                 Birim = tbl.Birim,
                 Miktar = tbl.Miktar,
+                IRSDetayID = IrsDetayID,
                 GC = false,//false=girdi(+), true=çıktı(-)
                 KayitTarihi = DateTime.Today.ToOADate().ToInt32(),
                 KayitSaati = DateTime.Now.ToOaTime(),
@@ -54,7 +55,7 @@ namespace Wms12m.Business
         /// <summary>
         /// stok güncelleme
         /// </summary>
-        public Result Update(Yer tbl, int IrsID, int KullID, bool gc, decimal miktar)
+        public Result Update(Yer tbl, int IrsID, int KullID, bool gc, decimal miktar, int IrsDetayID = 0)
         {
             _Result = new Result();
             //log
@@ -64,6 +65,7 @@ namespace Wms12m.Business
                 MalKodu = tbl.MalKodu,
                 Birim = tbl.Birim,
                 Miktar = miktar,
+                IRSDetayID= IrsDetayID,
                 GC = gc,//false=girdi(+), true=çıktı(-)
                 KayitTarihi = DateTime.Today.ToOADate().ToInt32(),
                 KayitSaati = DateTime.Now.ToOaTime(),
