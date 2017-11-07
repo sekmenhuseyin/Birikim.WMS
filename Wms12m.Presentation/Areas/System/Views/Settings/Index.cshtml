@@ -63,23 +63,22 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            @Html.LabelFor(model => model.KabloSiparisMySql, "Kablo İçin Mysql Var mı", htmlAttributes: new { @class = "control-label col-md-3" })
+                            @Html.LabelFor(model => model.Version, htmlAttributes: new { @class = "control-label col-md-3" })
                             <div class="col-md-9">
-                                <div class="checkbox">
-                                    @Html.CheckBoxFor(a => a.KabloSiparisMySql, new { @checked = Model.KabloSiparisMySql ? "checked" : string.Empty, @class = "make-switch", @data_size = "normal", @data_on_color = "success", @data_off_text = "Hayır", @data_on_text = "Evet", @data_off_color = "danger" })
-                                    @Html.ValidationMessageFor(model => model.KabloSiparisMySql, "", new { @class = "text-danger" })
-                                </div>
+                                @Html.EditorFor(model => model.Version, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Version, "", new { @class = "text-danger" })
                             </div>
                         </div>
                         <div class="form-group">
-                            @Html.LabelFor(model => model.SevkiyatVarmi, "Sevkiyat Görevi Olacak mı", htmlAttributes: new { @class = "control-label col-md-3" })
+                            @Html.LabelFor(model => model.Aktif, htmlAttributes: new { @class = "control-label col-md-3" })
                             <div class="col-md-9">
                                 <div class="checkbox">
-                                    @Html.CheckBoxFor(a => a.SevkiyatVarmi, new { @checked = Model.SevkiyatVarmi ? "checked" : string.Empty, @class = "make-switch", @data_size = "normal", @data_on_color = "success", @data_off_text = "Hayır", @data_on_text = "Evet", @data_off_color = "danger" })
-                                    @Html.ValidationMessageFor(model => model.SevkiyatVarmi, "", new { @class = "text-danger" })
+                                    @Html.CheckBoxFor(a => a.Aktif, new { @checked = Model.Aktif ? "checked" : string.Empty, @class = "make-switch", @data_size = "normal", @data_on_color = "success", @data_off_text = "Hayır", @data_on_text = "Evet", @data_off_color = "danger" })
+                                    @Html.ValidationMessageFor(model => model.Aktif, "", new { @class = "text-danger" })
                                 </div>
                             </div>
                         </div>
+                        <hr /><h3>Görev Projesi</h3>
                         <div class="form-group">
                             @Html.LabelFor(model => model.GorevProjesi, "Görev Projesi Aktif Mi", htmlAttributes: new { @class = "control-label col-md-3" })
                             <div class="col-md-9">
@@ -98,19 +97,22 @@
                                 </div>
                             </div>
                         </div>
+                        <hr /><h3>Depo Yönetimi</h3>
                         <div class="form-group">
-                            @Html.LabelFor(model => model.Version, htmlAttributes: new { @class = "control-label col-md-3" })
+                            @Html.LabelFor(model => model.KabloSiparisMySql, "Kablo İçin Mysql Var mı", htmlAttributes: new { @class = "control-label col-md-3" })
                             <div class="col-md-9">
-                                @Html.EditorFor(model => model.Version, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.Version, "", new { @class = "text-danger" })
+                                <div class="checkbox">
+                                    @Html.CheckBoxFor(a => a.KabloSiparisMySql, new { @checked = Model.KabloSiparisMySql ? "checked" : string.Empty, @class = "make-switch", @data_size = "normal", @data_on_color = "success", @data_off_text = "Hayır", @data_on_text = "Evet", @data_off_color = "danger" })
+                                    @Html.ValidationMessageFor(model => model.KabloSiparisMySql, "", new { @class = "text-danger" })
+                                </div>
                             </div>
                         </div>
                         <div class="form-group">
-                            @Html.LabelFor(model => model.Aktif, htmlAttributes: new { @class = "control-label col-md-3" })
+                            @Html.LabelFor(model => model.SevkiyatVarmi, "Sevkiyat Görevi Olacak mı", htmlAttributes: new { @class = "control-label col-md-3" })
                             <div class="col-md-9">
                                 <div class="checkbox">
-                                    @Html.CheckBoxFor(a => a.Aktif, new { @checked = Model.Aktif ? "checked" : string.Empty, @class = "make-switch", @data_size = "normal", @data_on_color = "success", @data_off_text = "Hayır", @data_on_text = "Evet", @data_off_color = "danger" })
-                                    @Html.ValidationMessageFor(model => model.Aktif, "", new { @class = "text-danger" })
+                                    @Html.CheckBoxFor(a => a.SevkiyatVarmi, new { @checked = Model.SevkiyatVarmi ? "checked" : string.Empty, @class = "make-switch", @data_size = "normal", @data_on_color = "success", @data_off_text = "Hayır", @data_on_text = "Evet", @data_off_color = "danger" })
+                                    @Html.ValidationMessageFor(model => model.SevkiyatVarmi, "", new { @class = "text-danger" })
                                 </div>
                             </div>
                         </div>
