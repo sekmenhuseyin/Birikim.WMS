@@ -9,7 +9,7 @@
             <td>@Model.FirstOrDefault().Kaydeden</td>
             <td>@Model.FirstOrDefault().Tarih.FromOADateInt()</td>
             <td class="w-200">
-                @if (Model.FirstOrDefault().Kaydeden == ViewBag.vUser.UserName) {<a class="btn btn-danger input-circle pull-right" href="javascript:;" onclick="Delete('@Model.FirstOrDefault().EvrakNo','','','')"> Sil </a>}                
+                @if (Model.FirstOrDefault().Kaydeden == ViewBag.vUser.UserName) {<a class="btn btn-danger input-circle pull-right" href="javascript:;" onclick="Delete('@Model.FirstOrDefault().EvrakNo','','','')"> Sil </a>}
                 @if (ViewBag.Yetki == true)
                 {
                     using (Ajax.BeginForm("Approve", "Transfer", new { area = "UYS" }, new AjaxOptions { HttpMethod = "post", InsertionMode = InsertionMode.Replace, OnSuccess = "getresult", OnFailure = "Modaldialog('Lütfen Tekrar Deneyin', 'Hata', 'Tamam', 'btn-danger');" }, new { @class = "form pull-right" }))
