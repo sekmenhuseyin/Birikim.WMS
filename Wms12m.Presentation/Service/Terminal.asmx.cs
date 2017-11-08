@@ -161,7 +161,7 @@ namespace Wms12m
             sql = string.Format("SELECT wms.IRS_Detay.ID, wms.IRS.ID as irsID,wms.IRS.EvrakNo as IrsaliyeNo,wms.IRS_Detay.KynkSiparisNo,wms.IRS_Detay.KynkSiparisSiraNo, wms.IRS_Detay.MalKodu, wms.IRS_Detay.Miktar, wms.IRS_Detay.Birim, wms.IRS_Detay.MakaraNo, ISNULL(wms.IRS_Detay.OkutulanMiktar, 0) AS OkutulanMiktar, wms.Yer_Log.HucreAd AS Raf, SUM(wms.Yer_Log.Miktar) as Raf, SUM(wms.Yer_Log.Miktar) AS YerMiktar, " +
                                 "ISNULL((SELECT MalAdi FROM FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) WHERE (MalKodu = wms.IRS_Detay.MalKodu)),'') AS MalAdi, " +
                                 "ISNULL((SELECT case when Barkod1='' then Barkod2 else Barkod1 end Barkod FROM FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) WHERE (MalKodu = wms.IRS_Detay.MalKodu)),'') AS Barkod " +
-                                "FROM wms.IRS_Detay WITH (nolock) INNER JOIN wms.IRS WITH (nolock) ON wms.IRS_Detay.IrsaliyeID = wms.IRS.ID INNER JOIN wms.GorevIRS WITH (nolock) ON wms.IRS.ID = wms.GorevIRS.IrsaliyeID LEFT OUTER JOIN wms.Yer_Log WITH (nolock) ON wms.IRS_Detay.IrsaliyeID = wms.Yer_Log.IrsaliyeID AND wms.IRS_Detay.MalKodu = wms.Yer_Log.MalKodu " +
+                                "FROM wms.IRS_Detay WITH (nolock) INNER JOIN wms.IRS WITH (nolock) ON wms.IRS_Detay.IrsaliyeID = wms.IRS.ID INNER JOIN wms.GorevIRS WITH (nolock) ON wms.IRS.ID = wms.GorevIRS.IrsaliyeID LEFT OUTER JOIN wms.Yer_Log WITH (nolock) ON wms.IRS_Detay.IrsaliyeID = wms.Yer_Log.IrsaliyeID AND wms.IRS_Detay.MalKodu = wms.Yer_Log.MalKodu AND wms.IRS_Detay.ID = wms.Yer_Log.IRSDetayID " +
                                 "WHERE (wms.GorevIRS.GorevID = {1} AND wms.IRS_Detay.MalKodu='{3}') AND " + sql +
                                 "GROUP BY wms.IRS_Detay.ID, wms.IRS.ID,wms.IRS.EvrakNo , wms.IRS_Detay.MalKodu, wms.IRS_Detay.Miktar, wms.IRS_Detay.KynkSiparisNo,wms.IRS_Detay.KynkSiparisSiraNo,wms.IRS_Detay.Birim, wms.IRS_Detay.MakaraNo, ISNULL(wms.IRS_Detay.OkutulanMiktar, 0), ISNULL(wms.IRS_Detay.YerlestirmeMiktari, 0), wms.Yer_Log.HucreAd ", mGorev.IR.SirketKod, mGorev.ID, mGorev.DepoID, MalKodu);
             if (devamMi == true)
@@ -1874,8 +1874,22 @@ namespace Wms12m
                 else
                 {
                     tbl2 = db.GorevYers.Where(m => m.ID == item.IrsDetayID).FirstOrDefault();
-                    tbl2.Miktar += item.Miktar;
-                    tbl2.YerlestirmeMiktari += item.Miktar;
+                    if((tbl2.Miktar + item.Miktar) < 0)
+                    {
+                        tbl2.Miktar = 0;
+                    }
+                    else
+                    {
+                        tbl2.Miktar += item.Miktar;
+                    }
+                    if ((tbl2.YerlestirmeMiktari + item.Miktar) < 0)
+                    {
+                        tbl2.YerlestirmeMiktari = 0;
+                    }
+                    else
+                    {
+                        tbl2.YerlestirmeMiktari += item.Miktar;
+                    }
                 }
                 //kaydetme işlemleri
                 try

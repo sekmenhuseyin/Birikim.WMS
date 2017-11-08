@@ -14,7 +14,7 @@ namespace WMSMobil
     {
         Terminal Servis = new Terminal();
        
-        public frmxOpsSelect(int gorevID, string malKodu, string rowID)
+        public frmxOpsSelect(int gorevID, string malKodu, string rowID, bool tmpRafDurum)
         {
             InitializeComponent();
             listView1.View = View.Details;
@@ -26,10 +26,11 @@ namespace WMSMobil
                 List<Tip_STI2> liste = new List<Tip_STI2>(Servis.GetMalKoduMalzemes(malKodu, gorevID, Ayarlar.Kullanici.ID, false, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid).ToList());
                 foreach (Tip_STI2 item in liste)
                 {
-                    if (!rowID.Contains(";" + item.ID.ToString() + ";"))
+                    if ((!rowID.Contains(";" + item.ID.ToString() + ";")) || tmpRafDurum==true)
                     {
                         string[] l = new string[] { item.ID.ToString(), item.MalKodu, item.MalAdi, item.Miktar.ToString("N2"), item.Birim, item.MakaraNo, item.IrsaliyeNo.ToString(), item.KynkSiparisNo, item.KynkSiparisSiraNo.ToString() };
                         var it = new ListViewItem(l);
+                        it.Tag = item.ID.ToInt32();
                         listView1.Items.Add(it);
                     }
                 }
@@ -54,7 +55,7 @@ namespace WMSMobil
             if (listView1.SelectedIndices.Count == 0)
                 return;
             var secili = listView1.SelectedIndices[0];
-            Ayarlar.Tarih = Convert.ToInt32(listView1.Items[secili].SubItems[0].Text);
+            Ayarlar.Tarih = Convert.ToInt32(listView1.Items[secili].Tag);
         }
 
         private void btnSec_Click(object sender, EventArgs e)
