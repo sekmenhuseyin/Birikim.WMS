@@ -1,5 +1,4 @@
 ﻿using OnikimCore.GunesCore;
-using System;
 using System.Collections.Generic;
 using Wms12m.Entity;
 
@@ -42,7 +41,7 @@ namespace Wms12m
                 DepTranList.Add(new DepTran()
                 {
                     EvrakNo = tbl[0].EvrakNo,
-                    Tarih = DateTime.Today,
+                    Tarih = tbl[0].Tarih.FromOaDate(),
                     MalKodu = item.MalKodu,
                     Miktar = item.Miktar,
                     Birim = item.Birim,
@@ -59,7 +58,6 @@ namespace Wms12m
             Emir.EmirNo = emir.EmirNo;
             Emir.IcDis = 11;
             Emir.BasTarih = emir.BasTarih;
-            Emir.BasSaat = emir.BasSaat;
             Emir.Talimat2 = emir.Talimat2;
             Emir.Kod2 = emir.Kod2;
             Emir.Kod3 = emir.Kod3;
@@ -67,7 +65,6 @@ namespace Wms12m
             Emir.KayitTarih = emir.KayitTarih;
             Emir.KayitSaat = emir.KayitSaat;
             Emir.BitTarih = emir.BitTarih;
-            Emir.BitSaat = emir.BitSaat;
             Emir.Talimat3 = emir.Talimat3;
             Emir.TrsfrNo = emir.TrsfrNo;
             Emir.RecID = emir.RecID;

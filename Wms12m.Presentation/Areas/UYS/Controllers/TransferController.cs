@@ -170,14 +170,14 @@ namespace Wms12m.Presentation.Areas.UYS.Controllers
                     MalKodu = tbl.MalKodu[i],
                     SeriNo = tbl.SeriNo[i],
                     Birim = tbl.Birim[i],
-                    Miktar = tbl.Miktar[i]
+                    Miktar = tbl.Miktar[i],
+                    Tarih = tbl.Tarih
                 });
             }
             var emir = new EMG();
             emir.DefaultValueSet();
             emir.EmirNo = EmirVeEvrak.EmirNo;
             emir.BasTarih = tarih;
-            emir.BasSaat = saat;
             emir.Talimat2 = vUser.FirstName;
             emir.Kod2 = tbl.CikisDepo;
             emir.Kod3 = tbl.GirisDepo;
@@ -214,7 +214,6 @@ namespace Wms12m.Presentation.Areas.UYS.Controllers
             var emir = db.Database.SqlQuery<EMG>(string.Format(@"SELECT * FROM UYSPLN6{0}.UYSPLN6{0}.EMG WHERE EmirNo = '{1}'", db.GetSirketDBs().FirstOrDefault(), ID)).FirstOrDefault();
             emir.EmirNo = EmirVeEvrak.EmirNo;
             emir.BitTarih = tarih;
-            emir.BitSaat = saat;
             emir.Talimat3 = vUser.FirstName;
             emir.TrsfrNo = EmirVeEvrak.EvrakNo;
             emir.KayitTarih = tarih;
