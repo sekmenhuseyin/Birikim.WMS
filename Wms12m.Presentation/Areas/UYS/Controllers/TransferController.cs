@@ -14,9 +14,14 @@ namespace Wms12m.Presentation.Areas.UYS.Controllers
         /// </summary>
         public ActionResult Index()
         {
-            var liste = db.Database.SqlQuery<frmDepoList>(string.Format("SELECT Depo, DepoAdi + ' [' + Depo + ']' as DepoAdi FROM FINSAT6{0}.FINSAT6{0}.DEP ORDER BY DepoAdi", db.GetSirketDBs().FirstOrDefault())).ToList();
-            ViewBag.GirisDepo = new SelectList(liste, "Depo", "DepoAdi");
-            ViewBag.CikisDepo = ViewBag.GirisDepo;
+            var sirket = db.GetSirketDBs().FirstOrDefault();
+            var GirisDepo = db.Database.SqlQuery<frmDepoList>(string.Format("SELECT Depo, DepoAdi + ' [' + Depo + ']' as DepoAdi FROM FINSAT6{0}.FINSAT6{0}.DEP WHERE Depo <> 'TD' ORDER BY DepoAdi", sirket)).ToList();
+            var CikisDepo = db.Database.SqlQuery<frmDepoList>(string.Format(@"SELECT        UYSPLN6{0}.UYSPLN6{0}.SIN.SEntry as Depo, FINSAT6{0}.FINSAT6{0}.DEP.DepoAdi + ' [' + Depo + ']' as DepoAdi
+                                                                            FROM            UYSPLN6{0}.UYSPLN6{0}.SIN INNER JOIN FINSAT6{0}.FINSAT6{0}.DEP ON UYSPLN6{0}.UYSPLN6{0}.SIN.SEntry = FINSAT6{0}.FINSAT6{0}.DEP.Depo
+                                                                            WHERE(UYSPLN6{0}.UYSPLN6{0}.SIN.SSection = 'DepoUsers') AND(UYSPLN6{0}.UYSPLN6{0}.SIN.SValue LIKE '%{1}%') AND(FINSAT6{0}.FINSAT6{0}.DEP.Depo <> 'TD')
+                                                                             ORDER BY DepoAdi", sirket, vUser.UserName)).ToList();
+            ViewBag.GirisDepo = new SelectList(GirisDepo, "Depo", "DepoAdi");
+            ViewBag.CikisDepo = new SelectList(CikisDepo, "Depo", "DepoAdi");
             return View("Index");
         }
         /// <summary>
@@ -24,22 +29,21 @@ namespace Wms12m.Presentation.Areas.UYS.Controllers
         /// </summary>
         public ActionResult Waiting()
         {
-            var liste = db.Database.SqlQuery<frmWaitingList>(string.Format(@"SELECT StiNo, StiNo + ': ' + Kod2 + ' => ' + Kod3 + ' (' + BIRIKIM.dbo.fnFormatDateFromInt(BasTarih) + ')' as Depo FROM UYSPLN6{0}.UYSPLN6{0}.EMG WHERE (StiNo NOT IN
-																					(SELECT StiNo FROM UYSPLN6{0}.UYSPLN6{0}.EMG AS EMG_1 WHERE (TrsfrNo <> '') GROUP BY StiNo))
-																			ORDER BY BasTarih DESC, Kod2", db.GetSirketDBs().FirstOrDefault())).ToList();
-            ViewBag.DurumID = new SelectList(liste, "StiNo", "Depo");
             return View("Waiting");
         }
         /// <summary>
         /// onay bekleyen transfer listesi
         /// </summary>
-        public PartialViewResult WaitingList(string Id, bool Onay)
+        public PartialViewResult WaitingList(bool Id)
         {
+            var liste1 = db.Database.SqlQuery<frmWaitingList>(string.Format(@"SELECT StiNo, StiNo + ': ' + Kod2 + ' => ' + Kod3 + ' (' + BIRIKIM.dbo.fnFormatDateFromInt(BasTarih) + ')' as Depo FROM UYSPLN6{0}.UYSPLN6{0}.EMG WHERE (StiNo NOT IN
+																					(SELECT StiNo FROM UYSPLN6{0}.UYSPLN6{0}.EMG AS EMG_1 WHERE (TrsfrNo <> '') GROUP BY StiNo))
+																			ORDER BY BasTarih DESC, Kod2", db.GetSirketDBs().FirstOrDefault())).ToList();
             var liste = db.Database.SqlQuery<frmUysWaitingTransfer>(string.Format(@"SELECT FINSAT6{0}.FINSAT6{0}.STI.MalKodu, FINSAT6{0}.FINSAT6{0}.STI.Birim, FINSAT6{0}.FINSAT6{0}.STI.Miktar, FINSAT6{0}.FINSAT6{0}.STI.EvrakNo, FINSAT6{0}.FINSAT6{0}.STI.Kaydeden, FINSAT6{0}.FINSAT6{0}.STI.Tarih, FINSAT6{0}.FINSAT6{0}.STK.MalAdi, UYSPLN6{0}.UYSPLN6{0}.EMG.Kod2 as CikisDepo, UYSPLN6{0}.UYSPLN6{0}.EMG.Kod3 as GirisDepo
 																					FROM FINSAT6{0}.FINSAT6{0}.STI INNER JOIN FINSAT6{0}.FINSAT6{0}.STK ON FINSAT6{0}.FINSAT6{0}.STI.MalKodu = FINSAT6{0}.FINSAT6{0}.STK.MalKodu INNER JOIN UYSPLN6{0}.UYSPLN6{0}.EMG ON FINSAT6{0}.FINSAT6{0}.STI.EvrakNo = UYSPLN6{0}.UYSPLN6{0}.EMG.{2}
-																					WHERE (FINSAT6{0}.FINSAT6{0}.STI.KynkEvrakTip = 53) AND (FINSAT6{0}.FINSAT6{0}.STI.IslemTip = 6) AND (FINSAT6{0}.FINSAT6{0}.STI.IslemTur = 1) AND (FINSAT6{0}.FINSAT6{0}.STI.EvrakNo = '{1}')", db.GetSirketDBs().FirstOrDefault(), Id, Onay == false ? "TrsfrNo" : "StiNo")).ToList();
+																					WHERE (FINSAT6{0}.FINSAT6{0}.STI.KynkEvrakTip = 53) AND (FINSAT6{0}.FINSAT6{0}.STI.IslemTip = 6) AND (FINSAT6{0}.FINSAT6{0}.STI.IslemTur = 1) AND (FINSAT6{0}.FINSAT6{0}.STI.EvrakNo = '{1}')", db.GetSirketDBs().FirstOrDefault(), Id, "StiNo")).ToList();
+
             var Row_ID = db.Database.SqlQuery<int?>(string.Format("SELECT Row_ID FROM UYSPLN6{0}.UYSPLN6{0}.SIN WHERE (SSection = 'DepoUsers') AND (SValue LIKE '%{1}%') AND (SEntry = '{2}')", db.GetSirketDBs().FirstOrDefault(), vUser.UserName, liste[0].GirisDepo)).FirstOrDefault();
-            ViewBag.Yetki = Onay == false ? false : Row_ID == null ? false : true;
             return PartialView("WaitingList", liste);
         }
         /// <summary>
