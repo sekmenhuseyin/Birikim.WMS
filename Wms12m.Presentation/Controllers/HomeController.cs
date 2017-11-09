@@ -19,8 +19,9 @@ namespace Wms12m.Presentation.Controllers
         {
             var SirketKodu = db.GetSirketDBs().FirstOrDefault();
             Setting setts = ViewBag.settings;
-            BekleyenOnaylar bo = new BekleyenOnaylar();
-            var tbl = db.GetHomeSummary(vUser.UserName, vUser.Id).FirstOrDefault();
+            var bo = new BekleyenOnaylar();
+            var tbl = new GetHomeSummary_Result();
+            try { tbl = db.GetHomeSummary(vUser.UserName, vUser.Id).FirstOrDefault(); } catch (Exception) { }
             //Bekleyen Onaylar
             if (setts.OnayCek == true || setts.OnayFiyat == true || setts.OnayRisk == true || setts.OnaySiparis == true || setts.OnaySozlesme == true || setts.OnayStok == true || setts.OnayTekno == true || setts.OnayTeminat == true)
                 try
