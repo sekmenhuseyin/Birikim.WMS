@@ -162,8 +162,10 @@ namespace Wms12m.Presentation.Areas.UYS.Controllers
                         WHERE        (FINSAT6{0}.FINSAT6{0}.STI.KynkEvrakTip = 53) AND (FINSAT6{0}.FINSAT6{0}.STI.IslemTip = 6) AND (FINSAT6{0}.FINSAT6{0}.STI.IslemTur = 0) AND (UYSPLN6{0}.UYSPLN6{0}.EMG.EmirNo = '{1}')";
             //execute sql
             var liste = db.Database.SqlQuery<frmUysWaitingTransfer>(string.Format(sql, sirket, EvrakNo)).ToList();
+            var Row_ID = db.Database.SqlQuery<int?>(string.Format("SELECT Row_ID FROM UYSPLN6{0}.UYSPLN6{0}.SIN WHERE (SSection = 'DepoUsers') AND (SValue LIKE '%{1}%') AND (SEntry = '{2}')", db.GetSirketDBs().FirstOrDefault(), vUser.UserName, liste[0].GirisDepo)).FirstOrDefault();
             //yetki
-            ViewBag.Yetki = db.Database.SqlQuery<string>(string.Format("SELECT SEntry FROM UYSPLN6{0}.UYSPLN6{0}.SIN WHERE (SSection = 'DepoUsers') AND (SValue LIKE '%{1}%')", sirket, vUser.UserName)).ToList();
+            ViewBag.Yetki = Tip == true ? false : Row_ID == null ? false : true;//onaylanmışsa tekrar onay olmayacak, onaylanmamışsa yetkiye bakacak
+            ViewBag.Yetki2=
             ViewBag.Tip = Tip;
             return PartialView("Details", liste);
         }
