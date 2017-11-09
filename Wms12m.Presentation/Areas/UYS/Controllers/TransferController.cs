@@ -118,15 +118,12 @@ namespace Wms12m.Presentation.Areas.UYS.Controllers
                         "WHERE (MalKodu = '{1}');", sirket, item.MalKodu, item.Miktar.ToDot(), vUser.UserName, tarih, saat);
                 }
                 //çıkış depodan düş
-                else
-                {
-                    sql += string.Format("UPDATE FINSAT6{0}.FINSAT6{0}.DST " +
-                        "SET CikMiktar = CikMiktar - {3}, SonCikTarih = {5}, Degistiren = '{4}', DegisTarih = {5}, DegisSaat = {6} " +
-                        "WHERE (MalKodu = '{1}') AND (Depo = '{2}');", sirket, item.MalKodu, item.CikisDepo, item.Miktar.ToDot(), vUser.UserName, tarih, saat);
-                    sql += string.Format("UPDATE FINSAT6{0}.FINSAT6{0}.STK " +
-                        "SET TahminiStok = TahminiStok + {2}, CikMiktar = CikMiktar - {2}, Degistiren = '{3}', DegisTarih = {4}, DegisSaat = {5} " +
-                        "WHERE (MalKodu = '{1}');", sirket, item.MalKodu, item.Miktar.ToDot(), vUser.UserName, tarih, saat);
-                }
+                sql += string.Format("UPDATE FINSAT6{0}.FINSAT6{0}.DST " +
+                    "SET CikMiktar = CikMiktar - {3}, SonCikTarih = {5}, Degistiren = '{4}', DegisTarih = {5}, DegisSaat = {6} " +
+                    "WHERE (MalKodu = '{1}') AND (Depo = '{2}');", sirket, item.MalKodu, item.CikisDepo, item.Miktar.ToDot(), vUser.UserName, tarih, saat);
+                sql += string.Format("UPDATE FINSAT6{0}.FINSAT6{0}.STK " +
+                    "SET TahminiStok = TahminiStok + {2}, CikMiktar = CikMiktar - {2}, Degistiren = '{3}', DegisTarih = {4}, DegisSaat = {5} " +
+                    "WHERE (MalKodu = '{1}');", sirket, item.MalKodu, item.Miktar.ToDot(), vUser.UserName, tarih, saat);
             }
             //execute
             try
