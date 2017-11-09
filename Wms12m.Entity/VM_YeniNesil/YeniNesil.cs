@@ -140,6 +140,8 @@
         public string Aciklama1 { get; set; }
         public string Aciklama2 { get; set; }
         public string Aciklama3 { get; set; }
+
+        public string Kaydeden { get; set; }
     }
 
     public class DepoTran

@@ -90,11 +90,11 @@ namespace Wms12m
                 fatura.STK005_Depo = item.Depo;
                 fatura.STK005_RafKodu = item.Depo + "-A0";
                 fatura.STK005_MaliyetMuhasebelesmeSekli = 1;
-                fatura.STK005_Not5 = "AndMobil - " + item.KullaniciKodu;   ///Log amaçlı bilgi
+                fatura.STK005_Not5 = "WMSOnay - " + item.KullaniciKodu;   ///Log amaçlı bilgi
 
                 fatura.STK005_GirenKaynak = "Y6018";
                 fatura.STK005_GirenSurum = "7.1.00";
-                fatura.STK005_GirenKodu = item.KullaniciKodu;
+                fatura.STK005_GirenKodu = item.Kaydeden;
                 fatura.STK005_GirenTarih = DateTime.Today.Date.ToOADate().ToInt32();
                 fatura.STK005_GirenSaat = saat;
                 fatura.STK005_DegistirenKaynak = "Y6018";

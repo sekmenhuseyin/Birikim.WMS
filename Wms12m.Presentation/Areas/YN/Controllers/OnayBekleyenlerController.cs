@@ -221,7 +221,7 @@ namespace Wms12m.Presentation.Areas.YN.Controllers
             {
                 if (Onay == true)
                 {
-                    var list = db.Database.SqlQuery<SepetUrun>(string.Format("SELECT 1 AS SatirTip, HesapKodu, UrunKodu, Birim, CONVERT(varchar(10), Miktar) as Miktar, CONVERT(varchar(10), Fiyat) as Fiyat, Depo, ParaCinsi, '{2}' AS KullaniciKodu FROM YNS{0}.YNS{0}.TempFatura WHERE (EvrakNo = '{1}') AND (IslemDurumu = 0)", "0TEST", ID, vUser.UserName)).ToList();
+                    var list = db.Database.SqlQuery<SepetUrun>(string.Format("SELECT 1 AS SatirTip, HesapKodu, UrunKodu, Birim, CONVERT(varchar(10), Miktar) as Miktar, CONVERT(varchar(10), Fiyat) as Fiyat, Depo, ParaCinsi, '{2}' AS KullaniciKodu, Kaydeden FROM YNS{0}.YNS{0}.TempFatura WHERE (EvrakNo = '{1}') AND (IslemDurumu = 0)", "0TEST", ID, vUser.UserName)).ToList();
                     var yns = new YeniNesil(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "0TEST");
                     var sepetIslemleri = yns.FaturaKaydet(list);
                     result = new Result(true, 1);
