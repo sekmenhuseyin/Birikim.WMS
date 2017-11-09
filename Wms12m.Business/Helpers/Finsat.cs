@@ -540,7 +540,8 @@ namespace Wms12m
                     CikisDepo = GirisMi == true ? tblTransfer.Depo2.DepoKodu : tblTransfer.Depo1.DepoKodu,
                     Kaydeden = kaydeden,
                     KayitSurum = "9.01.028",
-                    KayitKaynak = 74
+                    KayitKaynak = 74,
+                    SeriNo=""
                 };
                 DepTranList.Add(dep);
             }

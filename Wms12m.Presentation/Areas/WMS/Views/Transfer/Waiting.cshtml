@@ -4,6 +4,33 @@
 }@section Styles{<style>
     td.details-control {background: url('/Content/assets/global/plugins/datatables/images/details_open.png') no-repeat center center;cursor: pointer;}
     tr.shown td.details-control {background: url('/Content/assets/global/plugins/datatables/images/details_close.png') no-repeat center center;}
+    .dx-datagrid-headers .dx-row {
+        color: white;
+        font-size:18px;
+        border-bottom: 1px solid #D2D2D2;
+        background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#32c5d2), color-stop(50%,#2989d8), color-stop(51%,#207cca), color-stop(100%,#7db9e8)); /* Chrome,Safari4+ */
+        background: -webkit-linear-gradient(top, #32c5d2 0%,#2989d8 50%,#207cca 51%,#7db9e8 100%); /* Chrome10+,Safari5.1+ */
+        background: -o-linear-gradient(top, #32c5d2 0%,#2989d8 50%,#207cca 51%,#7db9e8 100%); /* Opera 11.10+ */
+        background: -ms-linear-gradient(top, #32c5d2 0%,#2989d8 50%,#207cca 51%,#7db9e8 100%); /* IE10+ */
+        background: linear-gradient(to bottom, #32c5d2 0%,#2989d8 50%,#207cca 51%,#7db9e8 100%); /* W3C */
+    }
+
+    .dx-datagrid .dx-column-indicators .dx-sort.dx-header-filter:after, .dx-datagrid .dx-column-indicators .dx-header-filter.dx-header-filter:before {
+        color: white;
+    }
+    .dx-column-lines {
+        font-size: 16px !important;
+        font-weight: bold !important;
+    } 
+    .btn {
+        width: 120px;
+        text-align: center;
+    }
+
+    .dx-item-content .dx-popup-cancel {
+        background-color: #ff4d4d !important;
+        color: white !important;
+    }
 </style>
 }<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><span>Transfer Onaylama</span></li></ul></div>
 <h1 class="page-title">Depolar Arası Transfer Onaylama</h1>
@@ -28,6 +55,24 @@
                     </div>
                 </div>
                 <div id="Grid" class="p-30"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="x-modal-transfer-detay" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="false">
+    <div class="modal-dialog" style="width:65%;">
+        <div class="modal-content"  style="margin-top:10%;">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" style="color:#32c5d2">TRANSFER DETAY</h4>
+            </div>
+            <div class="modal-body x-padding-inside" id="x-t-s-pe1" >
+                <div class="grid_transfer-detay">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn red" data-dismiss="modal" id="mdlTransferKapat">Kapat</button>
+                <div class="label"></div>
             </div>
         </div>
     </div>

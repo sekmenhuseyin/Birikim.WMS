@@ -481,7 +481,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
 										FROM FINSAT6{0}.FINSAT6{0}.STK(NOLOCK) WHERE {4} (MalKodu BETWEEN '{2}' AND '{3}') ", item, depoKodu, BasMalKodu, BitMalKodu, Sart);
             }
             sql = string.Format(@"SELECT MalKodu, MalAdi, Birim, SUM(Stok) AS GunesStok, BIRIKIM.wms.fnGetStock('{0}', t1.MalKodu, t1.Birim, 0) AS WmsStok 
-									FROM (" + sql + ") AS t1 GROUP BY MalKodu, Birim", depoKodu);
+									FROM (" + sql + ") AS t1 GROUP BY MalKodu, MalAdi, Birim", depoKodu);
             sql = "SELECT * FROM ( " + sql + " ) AS t2 WHERE t2.GunesStok<>t2.WmsStok ORDER BY MalKodu";
             //return
             var list = db.Database.SqlQuery<frmSiparisMalzemeDetay>(sql).ToList();
