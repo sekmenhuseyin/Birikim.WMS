@@ -122,7 +122,7 @@ namespace Wms12m.Presentation.Areas.UYS.Controllers
                 {
                     sql += string.Format("UPDATE FINSAT6{0}.FINSAT6{0}.DST " +
                         "SET CikMiktar = CikMiktar - {3}, SonCikTarih = {5}, Degistiren = '{4}', DegisTarih = {5}, DegisSaat = {6} " +
-                        "WHERE (MalKodu = '{1}') AND (Depo = '{2}');", sirket, item.MalKodu, item.GirisDepo, item.Miktar.ToDot(), vUser.UserName, tarih, saat);
+                        "WHERE (MalKodu = '{1}') AND (Depo = '{2}');", sirket, item.MalKodu, item.CikisDepo, item.Miktar.ToDot(), vUser.UserName, tarih, saat);
                     sql += string.Format("UPDATE FINSAT6{0}.FINSAT6{0}.STK " +
                         "SET TahminiStok = TahminiStok + {2}, CikMiktar = CikMiktar - {2}, Degistiren = '{3}', DegisTarih = {4}, DegisSaat = {5} " +
                         "WHERE (MalKodu = '{1}');", sirket, item.MalKodu, item.Miktar.ToDot(), vUser.UserName, tarih, saat);
@@ -157,6 +157,7 @@ namespace Wms12m.Presentation.Areas.UYS.Controllers
 													UNION
 													SELECT StiNo as EvrakNo FROM UYSPLN6{0}.UYSPLN6{0}.EMG WHERE (EmirNo LIKE 'DD%')
 												)t ORDER BY EvrakNo DESC), 'DD000000') as EvrakNo", db.GetSirketDBs().FirstOrDefault())).FirstOrDefault();
+            if (EmirVeEvrak.EvrakNo == "") EmirVeEvrak.EvrakNo = "DD000000";
             EmirVeEvrak.EmirNo = uysf.EvrakNoArttir(EmirVeEvrak.EmirNo, "DD");
             EmirVeEvrak.EvrakNo = uysf.EvrakNoArttir(EmirVeEvrak.EvrakNo, "DD");
             //create list
@@ -209,6 +210,7 @@ namespace Wms12m.Presentation.Areas.UYS.Controllers
 													UNION
 													SELECT TrsfrNo as EvrakNo FROM UYSPLN6{0}.UYSPLN6{0}.EMG WHERE (EmirNo LIKE 'DD%')
 												)t ORDER BY EvrakNo DESC), 'DG000000') as EvrakNo", db.GetSirketDBs().FirstOrDefault())).FirstOrDefault();
+            if (EmirVeEvrak.EvrakNo == "") EmirVeEvrak.EvrakNo = "DG000000";
             EmirVeEvrak.EmirNo = uysf.EvrakNoArttir(EmirVeEvrak.EmirNo, "DD");
             EmirVeEvrak.EvrakNo = uysf.EvrakNoArttir(EmirVeEvrak.EvrakNo, "DG");
             //create list
