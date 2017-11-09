@@ -396,11 +396,12 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                         {
                             var id2 = Convert.ToInt32(todo[i]);
                             var grv = db.GorevlerToDoLists.Where(m => m.ID == id2).FirstOrDefault();
-                            if (grv.Onay == true && grv.Aciklama != work[i].ToString2())
-                                return Json(new Result(false, "Tamamlanan maddeleri değiştiremezsiniz"), JsonRequestBehavior.AllowGet);
-                            grv.Aciklama = work[i].ToString2();
-                            grv.DegisTarih = DateTime.Now;
-                            grv.Degistiren = vUser.UserName;
+                            if (grv.Onay == false)
+                            {
+                                grv.Aciklama = work[i].ToString2();
+                                grv.DegisTarih = DateTime.Now;
+                                grv.Degistiren = vUser.UserName;
+                            }
                         }
                     }
             }

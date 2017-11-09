@@ -46,8 +46,8 @@ namespace Wms12m.Entity.Models
         public virtual Role Role { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<UserDevice> UserDevices { get; set; }
-        public virtual UserDetail UserDetail { get; set; }
         public virtual User Users1 { get; set; }
         public virtual User User1 { get; set; }
+        public virtual UserDetail UserDetail { get; set; }
     }
 }

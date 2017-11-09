@@ -58,7 +58,6 @@ namespace Wms12m.Entity.Models
         public virtual DbSet<Musteri> Musteris { get; set; }
         public virtual DbSet<GorevlerCalisma> GorevlerCalismas { get; set; }
         public virtual DbSet<Gorevler> Gorevlers { get; set; }
-        public virtual DbSet<UserDetail> UserDetails { get; set; }
         public virtual DbSet<Connection> Connections { get; set; }
         public virtual DbSet<Message> Messages { get; set; }
         public virtual DbSet<FAQ> FAQs { get; set; }
@@ -67,6 +66,7 @@ namespace Wms12m.Entity.Models
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<IRS_Detay> IRS_Detay { get; set; }
         public virtual DbSet<Dosya> Dosyas { get; set; }
+        public virtual DbSet<UserDetail> UserDetails { get; set; }
     
         public virtual ObjectResult<string> GetSirketDBs()
         {
@@ -729,19 +729,6 @@ namespace Wms12m.Entity.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetCachedChartMonthlyByKriter_Result>("WMSEntities.GetCachedChartMonthlyByKriter", dBParameter, grupParameter, kriterParameter, islemTipParameter);
         }
     
-        public virtual ObjectResult<GetHomeSummary_Result> GetHomeSummary(string userName, Nullable<int> userID)
-        {
-            var userNameParameter = userName != null ?
-                new ObjectParameter("UserName", userName) :
-                new ObjectParameter("UserName", typeof(string));
-    
-            var userIDParameter = userID.HasValue ?
-                new ObjectParameter("UserID", userID) :
-                new ObjectParameter("UserID", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetHomeSummary_Result>("WMSEntities.GetHomeSummary", userNameParameter, userIDParameter);
-        }
-    
         public virtual int DeleteLog(string table, string iD)
         {
             var tableParameter = table != null ?
@@ -965,6 +952,19 @@ namespace Wms12m.Entity.Models
                 new ObjectParameter("Aciklama", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<InsertIrsaliye_Result>("WMSEntities.InsertIrsaliye", sirketKodParameter, depoIDParameter, gorevNoParameter, irsEvrakNoParameter, irsTarihParameter, gorevBilgiParameter, irsIslemTurParameter, gorevTipiIDParameter, olusturanParameter, olusturmaTarihiParameter, olusturmaSaatiParameter, hesapKoduParameter, teslimCHKParameter, valorGunParameter, linkEvrakNoParameter, aciklamaParameter);
+        }
+    
+        public virtual ObjectResult<GetHomeSummary_Result> GetHomeSummary(string userName, Nullable<int> userID)
+        {
+            var userNameParameter = userName != null ?
+                new ObjectParameter("UserName", userName) :
+                new ObjectParameter("UserName", typeof(string));
+    
+            var userIDParameter = userID.HasValue ?
+                new ObjectParameter("UserID", userID) :
+                new ObjectParameter("UserID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetHomeSummary_Result>("WMSEntities.GetHomeSummary", userNameParameter, userIDParameter);
         }
     }
 }

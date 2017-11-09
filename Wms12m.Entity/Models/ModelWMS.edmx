@@ -286,6 +286,31 @@
           <Property Name="RoleName" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="Aciklama" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
+        <EntityType Name="UserDetails">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="int" Nullable="false" />
+          <Property Name="DepoID" Type="int" />
+          <Property Name="SatisIrsaliyeSeri" Type="int" />
+          <Property Name="SatisFaturaSeri" Type="int" />
+          <Property Name="AlimdanIadeFaturaSeri" Type="int" />
+          <Property Name="SatistanIadeIrsaliyeSeri" Type="int" />
+          <Property Name="TransferInSeri" Type="int" />
+          <Property Name="TransferOutSeri" Type="int" />
+          <Property Name="SayimSeri" Type="int" />
+          <Property Name="GosterilecekSirket" Type="nvarchar" MaxLength="100" />
+          <Property Name="GosterilecekDepo" Type="nvarchar" MaxLength="100" />
+          <Property Name="PasifKartlariGoster" Type="bit" Nullable="false" />
+          <Property Name="GostCHKKodAlani" Type="varchar" MaxLength="100" />
+          <Property Name="GostCHKDeger" Type="varchar" MaxLength="150" />
+          <Property Name="GostSTKKodAlani" Type="varchar" MaxLength="50" />
+          <Property Name="GostSTKDeger" Type="varchar" MaxLength="500" />
+          <Property Name="GostRiskDeger" Type="varchar" MaxLength="150" />
+          <Property Name="GostKod3OrtBakiye" Type="varchar" MaxLength="150" />
+          <Property Name="EvrakSeri" Type="int" />
+          <Property Name="UretimDurum" Type="bit" Nullable="false" />
+        </EntityType>
         <EntityType Name="UserDevices">
           <Key>
             <PropertyRef Name="UserID" />
@@ -583,31 +608,6 @@
           <Property Name="MalKodu" Type="varchar" MaxLength="30" Nullable="false" />
           <Property Name="Miktar" Type="numeric" Precision="25" Scale="6" Nullable="false" />
           <Property Name="Birim" Type="varchar" MaxLength="4" Nullable="false" />
-        </EntityType>
-        <EntityType Name="UserDetails">
-          <Key>
-            <PropertyRef Name="UserID" />
-          </Key>
-          <Property Name="UserID" Type="int" Nullable="false" />
-          <Property Name="DepoID" Type="int" />
-          <Property Name="SatisIrsaliyeSeri" Type="int" />
-          <Property Name="SatisFaturaSeri" Type="int" />
-          <Property Name="AlimdanIadeFaturaSeri" Type="int" />
-          <Property Name="SatistanIadeIrsaliyeSeri" Type="int" />
-          <Property Name="TransferInSeri" Type="int" />
-          <Property Name="TransferOutSeri" Type="int" />
-          <Property Name="SayimSeri" Type="int" />
-          <Property Name="GosterilecekSirket" Type="nvarchar" MaxLength="100" />
-          <Property Name="GosterilecekDepo" Type="nvarchar" MaxLength="100" />
-          <Property Name="PasifKartlariGoster" Type="bit" Nullable="false" />
-          <Property Name="GostCHKKodAlani" Type="varchar" MaxLength="100" />
-          <Property Name="GostCHKDeger" Type="varchar" MaxLength="150" />
-          <Property Name="GostSTKKodAlani" Type="varchar" MaxLength="50" />
-          <Property Name="GostSTKDeger" Type="varchar" MaxLength="500" />
-          <Property Name="GostRiskDeger" Type="varchar" MaxLength="150" />
-          <Property Name="GostKod3OrtBakiye" Type="varchar" MaxLength="150" />
-          <Property Name="EvrakSeri" Type="int" />
-          <Property Name="UretimDurum" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="Yer">
           <Key>
@@ -1324,6 +1324,10 @@
           <Parameter Name="table" Type="varchar" Mode="In" />
           <Parameter Name="ID" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="GetHomeSummary" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="UserName" Type="varchar" Mode="In" />
+          <Parameter Name="UserID" Type="int" Mode="In" />
+        </Function>
         <Function Name="GetMenuRoleFor" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="RoleName" Type="varchar" Mode="In" />
         </Function>
@@ -1468,10 +1472,6 @@
         <Function Name="GetGorevlis" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="wms">
           <Parameter Name="DepoID" Type="int" Mode="In" />
         </Function>
-        <Function Name="GetHomeSummary" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="wms">
-          <Parameter Name="UserName" Type="varchar" Mode="In" />
-          <Parameter Name="UserID" Type="int" Mode="In" />
-        </Function>
         <Function Name="GetHucreAd" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="wms">
           <Parameter Name="DepoID" Type="int" Mode="In" />
         </Function>
@@ -1602,6 +1602,7 @@
           <EntitySet Name="Perm" EntityType="Self.Perm" Schema="usr" store:Type="Tables" />
           <EntitySet Name="RolePerm" EntityType="Self.RolePerm" Schema="usr" store:Type="Tables" />
           <EntitySet Name="Roles" EntityType="Self.Roles" Schema="usr" store:Type="Tables" />
+          <EntitySet Name="UserDetails" EntityType="Self.UserDetails" Schema="usr" store:Type="Tables" />
           <EntitySet Name="UserDevices" EntityType="Self.UserDevices" Schema="usr" store:Type="Tables" />
           <EntitySet Name="UserPerm" EntityType="Self.UserPerm" Schema="usr" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="usr" store:Type="Tables" />
@@ -1622,7 +1623,6 @@
           <EntitySet Name="Raf" EntityType="Self.Raf" Schema="wms" store:Type="Tables" />
           <EntitySet Name="Transfer" EntityType="Self.Transfer" Schema="wms" store:Type="Tables" />
           <EntitySet Name="Transfer_Detay" EntityType="Self.Transfer_Detay" Schema="wms" store:Type="Tables" />
-          <EntitySet Name="UserDetails" EntityType="Self.UserDetails" Schema="wms" store:Type="Tables" />
           <EntitySet Name="Yer" EntityType="Self.Yer" Schema="wms" store:Type="Tables" />
           <EntitySet Name="Yer_Log" EntityType="Self.Yer_Log" Schema="wms" store:Type="Tables" />
           <AssociationSet Name="FK_Bolum_Raf" Association="Self.FK_Bolum_Raf">
@@ -2209,10 +2209,6 @@
             <Parameter Name="Kriter" Mode="In" Type="String" />
             <Parameter Name="IslemTip" Mode="In" Type="Int16" />
           </FunctionImport>
-          <FunctionImport Name="GetHomeSummary" ReturnType="Collection(MModel.GetHomeSummary_Result)">
-            <Parameter Name="UserName" Mode="In" Type="String" />
-            <Parameter Name="UserID" Mode="In" Type="Int32" />
-          </FunctionImport>
           <FunctionImport Name="DeleteLog">
             <Parameter Name="table" Mode="In" Type="String" />
             <Parameter Name="ID" Mode="In" Type="String" />
@@ -2291,11 +2287,6 @@
             <Parameter Name="ValorGun" Mode="In" Type="Int16" />
             <Parameter Name="LinkEvrakNo" Mode="In" Type="String" />
           </FunctionImport>
-          <EntitySet Name="UserDetails" EntityType="MModel.UserDetail" />
-          <AssociationSet Name="FK_Depo_Users_Depo" Association="MModel.FK_Depo_Users_Depo">
-            <End Role="Depo" EntitySet="Depoes" />
-            <End Role="UserDetail" EntitySet="UserDetails" />
-          </AssociationSet>
           <EntitySet Name="Connections" EntityType="MModel.Connection" />
           <EntitySet Name="Messages" EntityType="MModel.Message" />
           <AssociationSet Name="FK_Messages_ComboItem_Name" Association="MModel.FK_Messages_ComboItem_Name">
@@ -2334,10 +2325,6 @@
             <End Role="User" EntitySet="Users" />
             <End Role="UserDevice" EntitySet="UserDevices" />
           </AssociationSet>
-          <AssociationSet Name="FK_Depo_Users_Users" Association="MModel.FK_Depo_Users_Users">
-            <End Role="User" EntitySet="Users" />
-            <End Role="UserDetail" EntitySet="UserDetails" />
-          </AssociationSet>
           <AssociationSet Name="FK_Users_Users" Association="MModel.FK_Users_Users">
             <End Role="User" EntitySet="Users" />
             <End Role="User1" EntitySet="Users" />
@@ -2374,6 +2361,19 @@
             <End Role="ProjeForm" EntitySet="ProjeForms" />
             <End Role="Dosya" EntitySet="Dosyas" />
           </AssociationSet>
+          <EntitySet Name="UserDetails" EntityType="MModel.UserDetail" />
+          <AssociationSet Name="FK_Depo_Users_Depo" Association="MModel.FK_Depo_Users_Depo">
+            <End Role="Depo" EntitySet="Depoes" />
+            <End Role="UserDetail" EntitySet="UserDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Depo_Users_Users" Association="MModel.FK_Depo_Users_Users">
+            <End Role="User" EntitySet="Users" />
+            <End Role="UserDetail" EntitySet="UserDetails" />
+          </AssociationSet>
+          <FunctionImport Name="GetHomeSummary" ReturnType="Collection(MModel.GetHomeSummary_Result)">
+            <Parameter Name="UserName" Mode="In" Type="String" />
+            <Parameter Name="UserID" Mode="In" Type="Int32" />
+          </FunctionImport>
           </EntityContainer>
         <ComplexType Name="GetSirkets_Result">
           <Property Type="String" Name="Kod" Nullable="false" MaxLength="2" />
@@ -3361,13 +3361,6 @@
           <Property Type="Decimal" Name="Yil2016" Nullable="false" Precision="25" Scale="6" />
           <Property Type="Decimal" Name="Yil2017" Nullable="false" Precision="25" Scale="6" />
         </ComplexType>
-        <ComplexType Name="GetHomeSummary_Result">
-          <Property Type="Int32" Name="depo" Nullable="true" />
-          <Property Type="Int32" Name="kull" Nullable="true" />
-          <Property Type="Int32" Name="gorev" Nullable="true" />
-          <Property Type="String" Name="GorevSayilari" Nullable="true" />
-          <Property Type="String" Name="yetki" Nullable="false" />
-        </ComplexType>
         <EntityType Name="Yer">
           <Key>
             <PropertyRef Name="ID" />
@@ -3632,45 +3625,6 @@
           <Property Type="Int32" Name="GorevID" Nullable="true" />
           <Property Type="Boolean" Name="Onay" Nullable="true" />
         </ComplexType>
-        <EntityType Name="UserDetail">
-          <Key>
-            <PropertyRef Name="UserID" />
-          </Key>
-          <Property Name="UserID" Type="Int32" Nullable="false" />
-          <Property Name="DepoID" Type="Int32" />
-          <Property Name="SatisIrsaliyeSeri" Type="Int32" />
-          <Property Name="SatisFaturaSeri" Type="Int32" />
-          <Property Name="AlimdanIadeFaturaSeri" Type="Int32" />
-          <Property Name="SatistanIadeIrsaliyeSeri" Type="Int32" />
-          <Property Name="TransferInSeri" Type="Int32" />
-          <Property Name="TransferOutSeri" Type="Int32" />
-          <Property Name="SayimSeri" Type="Int32" />
-          <Property Name="GosterilecekSirket" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="GosterilecekDepo" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="PasifKartlariGoster" Type="Boolean" Nullable="false" />
-          <Property Name="GostCHKKodAlani" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="GostCHKDeger" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
-          <Property Name="GostSTKKodAlani" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="GostSTKDeger" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
-          <Property Name="GostRiskDeger" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
-          <Property Name="GostKod3OrtBakiye" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
-          <Property Name="EvrakSeri" Type="Int32" />
-          <Property Name="UretimDurum" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="Depo" Relationship="MModel.FK_Depo_Users_Depo" FromRole="UserDetail" ToRole="Depo" />
-          <NavigationProperty Name="User" Relationship="MModel.FK_Depo_Users_Users" FromRole="UserDetail" ToRole="User" />
-        </EntityType>
-        <Association Name="FK_Depo_Users_Depo">
-          <End Type="MModel.Depo" Role="Depo" Multiplicity="0..1" />
-          <End Type="MModel.UserDetail" Role="UserDetail" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Depo">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="UserDetail">
-              <PropertyRef Name="DepoID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="Connection">
           <Key>
             <PropertyRef Name="ID" />
@@ -3849,9 +3803,9 @@
           <Property Name="DegisSurum" Type="String" Nullable="false" MaxLength="12" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Role" Relationship="MModel.FK_Users_Roles" FromRole="User" ToRole="Role" />
           <NavigationProperty Name="UserDevices" Relationship="MModel.FK_UserDevices_Users" FromRole="User" ToRole="UserDevice" />
-          <NavigationProperty Name="UserDetail" Relationship="MModel.FK_Depo_Users_Users" FromRole="User" ToRole="UserDetail" />
           <NavigationProperty Name="Users1" Relationship="MModel.FK_Users_Users" FromRole="User" ToRole="User1" />
           <NavigationProperty Name="User1" Relationship="MModel.FK_Users_Users" FromRole="User1" ToRole="User" />
+          <NavigationProperty Name="UserDetail" Relationship="MModel.FK_Depo_Users_Users" FromRole="User" ToRole="UserDetail" />
         </EntityType>
         <Association Name="FK_Users_Roles">
           <End Type="MModel.Role" Role="Role" Multiplicity="1" />
@@ -3873,18 +3827,6 @@
               <PropertyRef Name="ID" />
             </Principal>
             <Dependent Role="UserDevice">
-              <PropertyRef Name="UserID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Depo_Users_Users">
-          <End Type="MModel.User" Role="User" Multiplicity="1" />
-          <End Type="MModel.UserDetail" Role="UserDetail" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="User">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="UserDetail">
               <PropertyRef Name="UserID" />
             </Dependent>
           </ReferentialConstraint>
@@ -3978,6 +3920,64 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="UserDetail">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <Property Name="DepoID" Type="Int32" />
+          <Property Name="SatisIrsaliyeSeri" Type="Int32" />
+          <Property Name="SatisFaturaSeri" Type="Int32" />
+          <Property Name="AlimdanIadeFaturaSeri" Type="Int32" />
+          <Property Name="SatistanIadeIrsaliyeSeri" Type="Int32" />
+          <Property Name="TransferInSeri" Type="Int32" />
+          <Property Name="TransferOutSeri" Type="Int32" />
+          <Property Name="SayimSeri" Type="Int32" />
+          <Property Name="GosterilecekSirket" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="GosterilecekDepo" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="PasifKartlariGoster" Type="Boolean" Nullable="false" />
+          <Property Name="GostCHKKodAlani" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="GostCHKDeger" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="GostSTKKodAlani" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="GostSTKDeger" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="GostRiskDeger" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="GostKod3OrtBakiye" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="EvrakSeri" Type="Int32" />
+          <Property Name="UretimDurum" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Depo" Relationship="MModel.FK_Depo_Users_Depo" FromRole="UserDetail" ToRole="Depo" />
+          <NavigationProperty Name="User" Relationship="MModel.FK_Depo_Users_Users" FromRole="UserDetail" ToRole="User" />
+        </EntityType>
+        <Association Name="FK_Depo_Users_Depo">
+          <End Type="MModel.Depo" Role="Depo" Multiplicity="0..1" />
+          <End Type="MModel.UserDetail" Role="UserDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Depo">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UserDetail">
+              <PropertyRef Name="DepoID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Depo_Users_Users">
+          <End Type="MModel.User" Role="User" Multiplicity="1" />
+          <End Type="MModel.UserDetail" Role="UserDetail" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UserDetail">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <ComplexType Name="GetHomeSummary_Result">
+          <Property Type="Int32" Name="depo" Nullable="true" />
+          <Property Type="Int32" Name="kull" Nullable="true" />
+          <Property Type="Int32" Name="gorev" Nullable="true" />
+          <Property Type="String" Name="GorevSayilari" Nullable="true" />
+          <Property Type="String" Name="yetki" Nullable="false" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -4659,17 +4659,6 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="GetHomeSummary" FunctionName="MModel.Store.GetHomeSummary">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="MModel.GetHomeSummary_Result">
-                <ScalarProperty Name="depo" ColumnName="depo" />
-                <ScalarProperty Name="kull" ColumnName="kull" />
-                <ScalarProperty Name="gorev" ColumnName="gorev" />
-                <ScalarProperty Name="GorevSayilari" ColumnName="GorevSayilari" />
-                <ScalarProperty Name="yetki" ColumnName="yetki" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="DeleteLog" FunctionName="MModel.Store.DeleteLog" />
           <EntitySetMapping Name="Yers">
             <EntityTypeMapping TypeName="MModel.Yer">
@@ -4861,32 +4850,6 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <EntitySetMapping Name="UserDetails">
-            <EntityTypeMapping TypeName="MModel.UserDetail">
-              <MappingFragment StoreEntitySet="UserDetails">
-                <ScalarProperty Name="UretimDurum" ColumnName="UretimDurum" />
-                <ScalarProperty Name="EvrakSeri" ColumnName="EvrakSeri" />
-                <ScalarProperty Name="GostKod3OrtBakiye" ColumnName="GostKod3OrtBakiye" />
-                <ScalarProperty Name="GostRiskDeger" ColumnName="GostRiskDeger" />
-                <ScalarProperty Name="GostSTKDeger" ColumnName="GostSTKDeger" />
-                <ScalarProperty Name="GostSTKKodAlani" ColumnName="GostSTKKodAlani" />
-                <ScalarProperty Name="GostCHKDeger" ColumnName="GostCHKDeger" />
-                <ScalarProperty Name="GostCHKKodAlani" ColumnName="GostCHKKodAlani" />
-                <ScalarProperty Name="PasifKartlariGoster" ColumnName="PasifKartlariGoster" />
-                <ScalarProperty Name="GosterilecekDepo" ColumnName="GosterilecekDepo" />
-                <ScalarProperty Name="GosterilecekSirket" ColumnName="GosterilecekSirket" />
-                <ScalarProperty Name="SayimSeri" ColumnName="SayimSeri" />
-                <ScalarProperty Name="TransferOutSeri" ColumnName="TransferOutSeri" />
-                <ScalarProperty Name="TransferInSeri" ColumnName="TransferInSeri" />
-                <ScalarProperty Name="SatistanIadeIrsaliyeSeri" ColumnName="SatistanIadeIrsaliyeSeri" />
-                <ScalarProperty Name="AlimdanIadeFaturaSeri" ColumnName="AlimdanIadeFaturaSeri" />
-                <ScalarProperty Name="SatisFaturaSeri" ColumnName="SatisFaturaSeri" />
-                <ScalarProperty Name="SatisIrsaliyeSeri" ColumnName="SatisIrsaliyeSeri" />
-                <ScalarProperty Name="DepoID" ColumnName="DepoID" />
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Connections">
             <EntityTypeMapping TypeName="MModel.Connection">
               <MappingFragment StoreEntitySet="Connections">
@@ -5034,6 +4997,43 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="UserDetails">
+            <EntityTypeMapping TypeName="MModel.UserDetail">
+              <MappingFragment StoreEntitySet="UserDetails">
+                <ScalarProperty Name="UretimDurum" ColumnName="UretimDurum" />
+                <ScalarProperty Name="EvrakSeri" ColumnName="EvrakSeri" />
+                <ScalarProperty Name="GostKod3OrtBakiye" ColumnName="GostKod3OrtBakiye" />
+                <ScalarProperty Name="GostRiskDeger" ColumnName="GostRiskDeger" />
+                <ScalarProperty Name="GostSTKDeger" ColumnName="GostSTKDeger" />
+                <ScalarProperty Name="GostSTKKodAlani" ColumnName="GostSTKKodAlani" />
+                <ScalarProperty Name="GostCHKDeger" ColumnName="GostCHKDeger" />
+                <ScalarProperty Name="GostCHKKodAlani" ColumnName="GostCHKKodAlani" />
+                <ScalarProperty Name="PasifKartlariGoster" ColumnName="PasifKartlariGoster" />
+                <ScalarProperty Name="GosterilecekDepo" ColumnName="GosterilecekDepo" />
+                <ScalarProperty Name="GosterilecekSirket" ColumnName="GosterilecekSirket" />
+                <ScalarProperty Name="SayimSeri" ColumnName="SayimSeri" />
+                <ScalarProperty Name="TransferOutSeri" ColumnName="TransferOutSeri" />
+                <ScalarProperty Name="TransferInSeri" ColumnName="TransferInSeri" />
+                <ScalarProperty Name="SatistanIadeIrsaliyeSeri" ColumnName="SatistanIadeIrsaliyeSeri" />
+                <ScalarProperty Name="AlimdanIadeFaturaSeri" ColumnName="AlimdanIadeFaturaSeri" />
+                <ScalarProperty Name="SatisFaturaSeri" ColumnName="SatisFaturaSeri" />
+                <ScalarProperty Name="SatisIrsaliyeSeri" ColumnName="SatisIrsaliyeSeri" />
+                <ScalarProperty Name="DepoID" ColumnName="DepoID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="GetHomeSummary" FunctionName="MModel.Store.GetHomeSummary">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MModel.GetHomeSummary_Result">
+                <ScalarProperty Name="depo" ColumnName="depo" />
+                <ScalarProperty Name="kull" ColumnName="kull" />
+                <ScalarProperty Name="gorev" ColumnName="gorev" />
+                <ScalarProperty Name="GorevSayilari" ColumnName="GorevSayilari" />
+                <ScalarProperty Name="yetki" ColumnName="yetki" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

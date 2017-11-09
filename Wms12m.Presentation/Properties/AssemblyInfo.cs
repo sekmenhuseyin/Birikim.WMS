@@ -11,7 +11,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("12M Consulting")]
 [assembly: AssemblyProduct("12M ERP ve Görev")]
-[assembly: AssemblyCopyright("Copyright ©  2016 - 2017")]
+[assembly: AssemblyCopyright("Copyright ©  2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -32,7 +32,7 @@ using System.Runtime.InteropServices;
 //
 // You can specify all the values or you can default the Revision and Build Numbers 
 // by using the '*' as shown below:
-[assembly: AssemblyVersion("1.71.108")]
-[assembly: AssemblyFileVersion("1.71.108")]
+[assembly: AssemblyVersion("1.71.109")]
+[assembly: AssemblyFileVersion("1.71.109")]
 [assembly: NeutralResourcesLanguage("tr-TR")]
 
