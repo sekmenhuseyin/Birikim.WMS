@@ -1568,7 +1568,7 @@ namespace Wms12m
                     var grvtbl = db.Gorevs.Where(m => m.ID == cevap.GorevID).FirstOrDefault();
                     grvtbl.DurumID = ComboItems.Açık.ToInt32();
                     //insert irs_detay
-                    foreach (var item in mGorev.IR.IRS_Detay)
+                    foreach (var item in mGorev.GorevYers)
                     {
                         var tbli = new IRS_Detay() { IrsaliyeID = cevap.IrsaliyeID.Value, MalKodu = item.MalKodu, Miktar = item.Miktar, Birim = item.Birim };
                         db.IRS_Detay.Add(tbli);

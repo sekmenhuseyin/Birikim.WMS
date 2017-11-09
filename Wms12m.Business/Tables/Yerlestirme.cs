@@ -65,12 +65,12 @@ namespace Wms12m.Business
                 MalKodu = tbl.MalKodu,
                 Birim = tbl.Birim,
                 Miktar = miktar,
-                IRSDetayID= IrsDetayID,
                 GC = gc,//false=girdi(+), true=çıktı(-)
                 KayitTarihi = DateTime.Today.ToOADate().ToInt32(),
                 KayitSaati = DateTime.Now.ToOaTime(),
                 Kaydeden = db.Users.Where(m => m.ID == KullID).Select(m => m.Kod).FirstOrDefault()
             };
+            if (IrsDetayID != 0) yerLog.IRSDetayID = IrsDetayID;
             if (IrsID > 0) yerLog.IrsaliyeID = IrsID;
             if(yerLog.Miktar>0) db.Yer_Log.Add(yerLog);
             if (gc == true)
