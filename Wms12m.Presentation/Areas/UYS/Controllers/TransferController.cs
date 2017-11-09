@@ -131,13 +131,13 @@ namespace Wms12m.Presentation.Areas.UYS.Controllers
                 sql = @"SELECT        UYSPLN6{0}.UYSPLN6{0}.EMG.EmirNo, FINSAT6{0}.FINSAT6{0}.STI.EvrakNo, UYSPLN6{0}.UYSPLN6{0}.EMG.Kod2 AS CikisDepo, UYSPLN6{0}.UYSPLN6{0}.EMG.Kod3 AS GirisDepo, UYSPLN6{0}.UYSPLN6{0}.EMG.Talimat2 AS Kaydeden, UYSPLN6{0}.UYSPLN6{0}.EMG.Talimat3 AS Kaydeden2, FINSAT6{0}.FINSAT6{0}.STI.Tarih
                         FROM            UYSPLN6{0}.UYSPLN6{0}.EMG INNER JOIN FINSAT6{0}.FINSAT6{0}.STI ON UYSPLN6{0}.UYSPLN6{0}.EMG.TrsfrNo = FINSAT6{0}.FINSAT6{0}.STI.EvrakNo
                         WHERE        (FINSAT6{0}.FINSAT6{0}.STI.KynkEvrakTip = 53) AND (FINSAT6{0}.FINSAT6{0}.STI.IslemTip = 6) AND (UYSPLN6{0}.UYSPLN6{0}.EMG.TrsfrNo <> '')
-                        GROUP BY UYSPLN6{0}.UYSPLN6{0}.EMG.EmirNo, FINSAT6{0}.FINSAT6{0}.STI.EvrakNo, UYSPLN6{0}.UYSPLN6{0}.EMG.Kod2, UYSPLN6{0}.UYSPLN6{0}.EMG.Kod3, UYSPLN6{0}.UYSPLN6{0}.EMG.Talimat2, FINSAT6{0}.FINSAT6{0}.STI.Tarih
+                        GROUP BY UYSPLN6{0}.UYSPLN6{0}.EMG.EmirNo, FINSAT6{0}.FINSAT6{0}.STI.EvrakNo, UYSPLN6{0}.UYSPLN6{0}.EMG.Kod2, UYSPLN6{0}.UYSPLN6{0}.EMG.Kod3, UYSPLN6{0}.UYSPLN6{0}.EMG.Talimat2, UYSPLN6{0}.UYSPLN6{0}.EMG.Talimat3, FINSAT6{0}.FINSAT6{0}.STI.Tarih
                         ORDER BY FINSAT6{0}.FINSAT6{0}.STI.Tarih DESC, CikisDepo";
             else
                 sql = @"SELECT        UYSPLN6{0}.UYSPLN6{0}.EMG.EmirNo, FINSAT6{0}.FINSAT6{0}.STI.EvrakNo, UYSPLN6{0}.UYSPLN6{0}.EMG.Kod2 AS CikisDepo, UYSPLN6{0}.UYSPLN6{0}.EMG.Kod3 AS GirisDepo, UYSPLN6{0}.UYSPLN6{0}.EMG.Talimat2 AS Kaydeden, UYSPLN6{0}.UYSPLN6{0}.EMG.Talimat3 AS Kaydeden2, FINSAT6{0}.FINSAT6{0}.STI.Tarih
                         FROM            UYSPLN6{0}.UYSPLN6{0}.EMG INNER JOIN FINSAT6{0}.FINSAT6{0}.STI ON UYSPLN6{0}.UYSPLN6{0}.EMG.StiNo = FINSAT6{0}.FINSAT6{0}.STI.EvrakNo
                         WHERE        (FINSAT6{0}.FINSAT6{0}.STI.KynkEvrakTip = 53) AND (FINSAT6{0}.FINSAT6{0}.STI.IslemTip = 6) AND (UYSPLN6{0}.UYSPLN6{0}.EMG.TrsfrNo = '')
-                        GROUP BY UYSPLN6{0}.UYSPLN6{0}.EMG.EmirNo, FINSAT6{0}.FINSAT6{0}.STI.EvrakNo, UYSPLN6{0}.UYSPLN6{0}.EMG.Kod2, UYSPLN6{0}.UYSPLN6{0}.EMG.Kod3, UYSPLN6{0}.UYSPLN6{0}.EMG.Talimat2, FINSAT6{0}.FINSAT6{0}.STI.Tarih
+                        GROUP BY UYSPLN6{0}.UYSPLN6{0}.EMG.EmirNo, FINSAT6{0}.FINSAT6{0}.STI.EvrakNo, UYSPLN6{0}.UYSPLN6{0}.EMG.Kod2, UYSPLN6{0}.UYSPLN6{0}.EMG.Kod3, UYSPLN6{0}.UYSPLN6{0}.EMG.Talimat2, UYSPLN6{0}.UYSPLN6{0}.EMG.Talimat3, FINSAT6{0}.FINSAT6{0}.STI.Tarih
                         ORDER BY FINSAT6{0}.FINSAT6{0}.STI.Tarih DESC, CikisDepo";
             //execute sql
             var liste = db.Database.SqlQuery<frmUysWaitingTransfer>(string.Format(sql, sirket)).ToList();

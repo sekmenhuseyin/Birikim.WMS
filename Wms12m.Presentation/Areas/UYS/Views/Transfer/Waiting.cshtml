@@ -34,7 +34,6 @@
 @section Scripts{<script>
     var DeleteFunctionUrl = '/UYS/Transfer/Delete';
     FuncSearchBtn();
-    $("#DurumID").focus();
     function FuncSearchBtn() {
         $('#Grid').html("");
         PartialView('/UYS/Transfer/WaitingList', 'Grid', JSON.stringify({ Id: $('#DurumID').val() }));
