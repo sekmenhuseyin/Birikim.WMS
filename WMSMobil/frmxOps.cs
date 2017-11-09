@@ -518,7 +518,7 @@ namespace WMSMobil
                 foreach (Control item in itemPanel.Controls)
                     item.BackColor = Color.FromArgb(206, 223, 239);
             }
-            if (((Ayarlar.MenuTip == MenuType.MalKabul || Ayarlar.MenuTip == MenuType.Satıştanİade) && cokluMalSayisi > 1) || ((Ayarlar.MenuTip == MenuType.RafaYerlestirme || Ayarlar.MenuTip == MenuType.SiparisToplama) && ((cokluTempRafSayisi + farkliTempRafSayisi) == PanelVeriList.Count() || cokluRafSayisi > 1)))
+            if (((Ayarlar.MenuTip == MenuType.MalKabul || Ayarlar.MenuTip == MenuType.Satıştanİade) && cokluMalSayisi > 1) || ((Ayarlar.MenuTip == MenuType.RafaYerlestirme) && ((cokluTempRafSayisi + farkliTempRafSayisi) == PanelVeriList.Count() || cokluRafSayisi > 1)))
             {
                 if (cokluTempRafSayisi+farkliTempRafSayisi == PanelVeriList.Count())
                 {

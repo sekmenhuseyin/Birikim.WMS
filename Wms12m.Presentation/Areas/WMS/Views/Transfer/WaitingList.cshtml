@@ -1,4 +1,8 @@
-﻿@model IEnumerable<Transfer>
+﻿@model List<Transfer>
+@{
+    System.Web.Script.Serialization.JavaScriptSerializer serializer = new System.Web.Script.Serialization.JavaScriptSerializer();
+    serializer.MaxJsonLength = Int32.MaxValue;
+}
 <table class="table table-striped table-bordered table-condensed" id="sample_2">
     <thead><tr><th></th><th>Şirket</th><th>Giriş Depo</th><th>Ara Depo</th><th>Çıkış Depo</th><th>Oluşturan</th><th>Onaylayan</th><th></th></tr></thead>
     <tbody>
@@ -31,7 +35,7 @@
 <script>
     $(document).ready(function () {
         var table = $('#sample_2').DataTable({
-            "pagingType": "full_numbers", 
+            "pagingType": "full_numbers",
             "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
             "order": [[1, "asc"]],
             "dom": 'lBfrtip',
@@ -40,11 +44,93 @@
                 { "extend": 'excel', "text": '<span class="fa fa-file-excel-o f-s-15 green"></span>', "className": 'btn btn-default btn-xs' }
             ]
         });
-        $('#sample_2 tbody').on('click', 'td.details-control', function () {
+        //$('#sample_2 tbody').on('click', 'td.details-control', function () {
+        //    var tr = $(this).closest('tr');
+        //    var row = table.row(tr);
+        //    if (row.child.isShown()) { row.child.hide(); tr.removeClass('shown'); }
+        //    else { row.child(newrow(tr.data('id'))).show(); format(tr.data('id')); tr.addClass('shown'); }
+        //});
+
+        $('#sample_2 tbody').on('click', '.details-control', function () {
             var tr = $(this).closest('tr');
-            var row = table.row(tr);
-            if (row.child.isShown()) { row.child.hide(); tr.removeClass('shown'); }
-            else { row.child(newrow(tr.data('id'))).show(); format(tr.data('id')); tr.addClass('shown'); }
+            var sirket = $(this).siblings().eq(0).text();
+            var trID = tr.data('id');
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/WMS/Transfer/TransferDetay',
+                    data: { "ID": trID, "Sirket": sirket },
+                    dataType: "html",
+                    success: function (data) {
+                        $('#x-modal-transfer-detay').modal("show");
+                        var result = JSON.parse(data);
+                        var columns = [
+                            { caption: 'Mal Kodu', dataField: 'MalKodu', },
+                            { caption: 'Mal Adı', dataField: 'MalAdi' },
+                            { caption: 'Miktar', dataField: 'Miktar', format: 'fixedPoint', precision: 2 },
+                            { caption: 'Birim', dataField: 'Birim' },
+                            { caption: 'Giriş Depo Stok', dataField: 'GirisDepoStok', format: 'fixedPoint', precision: 2 },
+                            { caption: 'Giriş Depo Kritik Stok',width:'100%', dataField: 'GirisDepoKritikStok', format: 'fixedPoint', precision: 2 },
+                            { caption: 'Çıkış Depo Stok', dataField: 'CikisDepoStok', format: 'fixedPoint', precision: 2 },
+                            { caption: 'Çıkış Depo Kritik Stok', dataField: 'CikisDepoKritikStok', format: 'fixedPoint', precision: 2 },
+                            { caption: 'Genel Stok', dataField: 'GenelStok', format: 'fixedPoint', precision: 2 },
+                            { caption: 'Genel Kritik Stok', dataField: 'GenelKritikStok', format: 'fixedPoint', precision: 2 },
+                            { caption: 'Giriş Depo Doluluk', dataField: 'GirisDepoDoluluk', format: 'fixedPoint', precision: 2 },
+                            { caption: 'Giriş Depo Alım Sipariş', dataField: 'GirisDepoAlimSiparis', format: 'fixedPoint', precision: 2 },
+                            { caption: 'Giriş Depo Satış Sipariş', dataField: 'GirisDepoSatisSiparis', format: 'fixedPoint', precision: 2 },
+                            { caption: 'Çıkış Depo Alım Sipariş', dataField: 'CikisDepoAlimSiparis', format: 'fixedPoint', precision: 2 },
+                            { caption: 'Çıkış Depo Satış Sipariş', dataField: 'CikisDepoSatisSiparis', format: 'fixedPoint', precision: 2 },
+                        ];
+                        _grid_quotations_detail = $('.grid_transfer-detay').dxDataGrid({
+                            dataSource: result,
+                            height: 400,
+                            paging: { pageSize: 5000 },
+                            columns: columns,
+                            headerFilter: {
+                                visible: true
+                            },
+                            popupDetailedWindow: true,
+                            columnAutoWidth: true,
+                            pagingCounter: true,
+                            filterRow: {
+                                visible: true,
+                                applyFilter: 'auto',
+                                applyFilterText: 'Apply filter',
+                                resetOperationText: 'Reset'
+                            },
+                            scrolling: {
+                                scrollByContent: true,
+                                scrollByThumb: true
+                            },
+                            allowColumnReordering: true,
+                            allowColumnResizing: true,
+                            remoteOperations: true,
+                            showRowLines: true,
+                            hoverStateEnabled: true,
+                            rowAlternationEnabled: false,
+                            sorting: {
+                                mode: "multiple",
+                            },
+                            //summary: {
+                            //    totalItems: [{
+                            //        column: "Tutar",
+                            //        summaryType: "count"
+                            //    }]
+                            //},
+                            onRowClick: function (opt) {
+                                if (opt.rowType == "data") {
+                                    var component = opt.component;
+                                    var prevClickTime = component.lastClickTime;//take last clicked time
+                                    component.lastClickTime = new Date();
+                                    if (prevClickTime && (component.lastClickTime - prevClickTime < 300)) {//check their difference, if less than 300  it is a double click
+                                        //PartialView("/Approval/PartialTeminatTanim", 'teminat_tanim_data', JSON.stringify({ chk: opt.data.HesapKodu }));
+                                    }
+                                }
+                            }
+                        }).dxDataGrid("instance");
+                    }
+                });
+
         });
     });
 </script>
