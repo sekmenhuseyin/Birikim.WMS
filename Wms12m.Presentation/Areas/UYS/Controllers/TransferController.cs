@@ -151,20 +151,21 @@ namespace Wms12m.Presentation.Areas.UYS.Controllers
             var sirket = db.GetSirketDBs().FirstOrDefault();
             var sql = "";
             if (Tip)//onaylanmış transfer
-                sql = @"SELECT        UYSPLN6{0}.UYSPLN6{0}.EMG.EmirNo, FINSAT6{0}.FINSAT6{0}.STI.EvrakNo, UYSPLN6{0}.UYSPLN6{0}.EMG.Kod2 AS CikisDepo, UYSPLN6{0}.UYSPLN6{0}.EMG.Kod3 AS GirisDepo, UYSPLN6{0}.UYSPLN6{0}.EMG.Talimat2 AS Kaydeden, UYSPLN6{0}.UYSPLN6{0}.EMG.Talimat3 AS Kaydeden2, FINSAT6{0}.FINSAT6{0}.STI.Tarih
-                                            FINSAT6{0}.FINSAT6{0}.STI.MalKodu, FINSAT6{0}.FINSAT6{0}.STI.SeriNo, FINSAT6{0}.FINSAT6{0}.STI.Miktar, FINSAT6{0}.FINSAT6{0}.STI.Birim
-                        FROM            UYSPLN6{0}.UYSPLN6{0}.EMG INNER JOIN FINSAT6{0}.FINSAT6{0}.STI ON UYSPLN6{0}.UYSPLN6{0}.EMG.TrsfrNo = FINSAT6{0}.FINSAT6{0}.STI.EvrakNo
-                        WHERE        (FINSAT6{0}.FINSAT6{0}.STI.KynkEvrakTip = 53) AND (FINSAT6{0}.FINSAT6{0}.STI.IslemTip = 6) AND (UYSPLN6{0}.UYSPLN6{0}.EMG.EmirNo = '{1}')";
+                sql = @"SELECT        UYSPLN6{0}.UYSPLN6{0}.EMG.EmirNo, FINSAT6{0}.FINSAT6{0}.STI.EvrakNo, UYSPLN6{0}.UYSPLN6{0}.EMG.Kod2 AS CikisDepo, UYSPLN6{0}.UYSPLN6{0}.EMG.Kod3 AS GirisDepo, UYSPLN6{0}.UYSPLN6{0}.EMG.Talimat2 AS Kaydeden, UYSPLN6{0}.UYSPLN6{0}.EMG.Talimat3 AS Kaydeden2, FINSAT6{0}.FINSAT6{0}.STI.Tarih,
+                                            FINSAT6{0}.FINSAT6{0}.STI.MalKodu, FINSAT6{0}.FINSAT6{0}.STI.SeriNo, FINSAT6{0}.FINSAT6{0}.STI.Miktar, FINSAT6{0}.FINSAT6{0}.STI.Birim, FINSAT6{0}.FINSAT6{0}.STK.MalAdi
+                        FROM            UYSPLN6{0}.UYSPLN6{0}.EMG INNER JOIN FINSAT6{0}.FINSAT6{0}.STI ON UYSPLN6{0}.UYSPLN6{0}.EMG.TrsfrNo = FINSAT6{0}.FINSAT6{0}.STI.EvrakNo INNER JOIN FINSAT6{0}.FINSAT6{0}.STK ON FINSAT6{0}.FINSAT6{0}.STI.MalKodu = FINSAT6{0}.FINSAT6{0}.STK.MalKodu
+                        WHERE        (FINSAT6{0}.FINSAT6{0}.STI.KynkEvrakTip = 53) AND (FINSAT6{0}.FINSAT6{0}.STI.IslemTip = 6) AND (FINSAT6{0}.FINSAT6{0}.STI.IslemTur = 0) AND (UYSPLN6{0}.UYSPLN6{0}.EMG.EmirNo = '{1}')";
             else
-                sql = @"SELECT        UYSPLN6{0}.UYSPLN6{0}.EMG.EmirNo, FINSAT6{0}.FINSAT6{0}.STI.EvrakNo, UYSPLN6{0}.UYSPLN6{0}.EMG.Kod2 AS CikisDepo, UYSPLN6{0}.UYSPLN6{0}.EMG.Kod3 AS GirisDepo, UYSPLN6{0}.UYSPLN6{0}.EMG.Talimat2 AS Kaydeden, UYSPLN6{0}.UYSPLN6{0}.EMG.Talimat3 AS Kaydeden2, FINSAT6{0}.FINSAT6{0}.STI.Tarih
-                                            FINSAT6{0}.FINSAT6{0}.STI.MalKodu, FINSAT6{0}.FINSAT6{0}.STI.SeriNo, FINSAT6{0}.FINSAT6{0}.STI.Miktar, FINSAT6{0}.FINSAT6{0}.STI.Birim
-                        FROM            UYSPLN6{0}.UYSPLN6{0}.EMG INNER JOIN FINSAT6{0}.FINSAT6{0}.STI ON UYSPLN6{0}.UYSPLN6{0}.EMG.StiNo = FINSAT6{0}.FINSAT6{0}.STI.EvrakNo
-                        WHERE        (FINSAT6{0}.FINSAT6{0}.STI.KynkEvrakTip = 53) AND (FINSAT6{0}.FINSAT6{0}.STI.IslemTip = 6) AND (UYSPLN6{0}.UYSPLN6{0}.EMG.EmirNo = '{1}')";
+                sql = @"SELECT        UYSPLN6{0}.UYSPLN6{0}.EMG.EmirNo, FINSAT6{0}.FINSAT6{0}.STI.EvrakNo, UYSPLN6{0}.UYSPLN6{0}.EMG.Kod2 AS CikisDepo, UYSPLN6{0}.UYSPLN6{0}.EMG.Kod3 AS GirisDepo, UYSPLN6{0}.UYSPLN6{0}.EMG.Talimat2 AS Kaydeden, UYSPLN6{0}.UYSPLN6{0}.EMG.Talimat3 AS Kaydeden2, FINSAT6{0}.FINSAT6{0}.STI.Tarih,
+                                            FINSAT6{0}.FINSAT6{0}.STI.MalKodu, FINSAT6{0}.FINSAT6{0}.STI.SeriNo, FINSAT6{0}.FINSAT6{0}.STI.Miktar, FINSAT6{0}.FINSAT6{0}.STI.Birim, FINSAT6{0}.FINSAT6{0}.STK.MalAdi
+                        FROM            UYSPLN6{0}.UYSPLN6{0}.EMG INNER JOIN FINSAT6{0}.FINSAT6{0}.STI ON UYSPLN6{0}.UYSPLN6{0}.EMG.StiNo = FINSAT6{0}.FINSAT6{0}.STI.EvrakNo INNER JOIN FINSAT6{0}.FINSAT6{0}.STK ON FINSAT6{0}.FINSAT6{0}.STI.MalKodu = FINSAT6{0}.FINSAT6{0}.STK.MalKodu
+                        WHERE        (FINSAT6{0}.FINSAT6{0}.STI.KynkEvrakTip = 53) AND (FINSAT6{0}.FINSAT6{0}.STI.IslemTip = 6) AND (FINSAT6{0}.FINSAT6{0}.STI.IslemTur = 0) AND (UYSPLN6{0}.UYSPLN6{0}.EMG.EmirNo = '{1}')";
             //execute sql
             var liste = db.Database.SqlQuery<frmUysWaitingTransfer>(string.Format(sql, sirket, EvrakNo)).ToList();
             //yetki
             ViewBag.Yetki = db.Database.SqlQuery<string>(string.Format("SELECT SEntry FROM UYSPLN6{0}.UYSPLN6{0}.SIN WHERE (SSection = 'DepoUsers') AND (SValue LIKE '%{1}%')", sirket, vUser.UserName)).ToList();
-            return PartialView("WaitingList", liste);
+            ViewBag.Tip = Tip;
+            return PartialView("Details", liste);
         }
         /// <summary>
         /// bekleyen transferi onayla

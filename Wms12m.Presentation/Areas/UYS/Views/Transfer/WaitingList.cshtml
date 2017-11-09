@@ -6,14 +6,14 @@
     <tbody>
         @foreach (var item in Model)
         {
-            <tr class="clickable" ondblclick = "getDetails(@item.EmirNo)">
-                <td>@Model.FirstOrDefault().EmirNo</td>
-                <td>@Model.FirstOrDefault().EvrakNo</td>
-                <td>@Model.FirstOrDefault().CikisDepo</td>
-                <td>@Model.FirstOrDefault().GirisDepo</td>
-                <td>@Model.FirstOrDefault().Kaydeden</td>
-                <td>@Model.FirstOrDefault().Kaydeden2</td>
-                <td>@Model.FirstOrDefault().Tarih.FromOADateInt()</td>
+            <tr class="clickable" ondblclick = "getDetails('@item.EmirNo')">
+                <td>@item.EmirNo</td>
+                <td>@item.EvrakNo</td>
+                <td>@item.CikisDepo</td>
+                <td>@item.GirisDepo</td>
+                <td>@item.Kaydeden</td>
+                <td>@item.Kaydeden2</td>
+                <td>@item.Tarih.FromOADateInt()</td>
             </tr>
         }
     </tbody>
@@ -38,7 +38,7 @@
     });
     function getDetails(e)
     {
+        editInModal2('/UYS/Transfer/Details/', { EvrakNo: e, Tip: $("#DurumID").val() });
         $('#modalEditPage').modal('toggle');
-        editInModal('/UYS/Transfer/Details/', { EvrakNo: e, Tip: $("#DurumID").val() });
     }
 </script>
