@@ -58,7 +58,6 @@ namespace Wms12m.Entity.Models
         public virtual DbSet<Musteri> Musteris { get; set; }
         public virtual DbSet<GorevlerCalisma> GorevlerCalismas { get; set; }
         public virtual DbSet<Gorevler> Gorevlers { get; set; }
-        public virtual DbSet<UserDetail> UserDetails { get; set; }
         public virtual DbSet<Connection> Connections { get; set; }
         public virtual DbSet<Message> Messages { get; set; }
         public virtual DbSet<FAQ> FAQs { get; set; }
@@ -67,6 +66,7 @@ namespace Wms12m.Entity.Models
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<IRS_Detay> IRS_Detay { get; set; }
         public virtual DbSet<Dosya> Dosyas { get; set; }
+        public virtual DbSet<UserDetail> UserDetails { get; set; }
     
         public virtual ObjectResult<string> GetSirketDBs()
         {
