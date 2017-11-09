@@ -1,47 +1,38 @@
 ﻿@model IEnumerable<frmUysWaitingTransfer>
-<table class="table table-striped table-bordered table-condensed" id="mytable">
-    <thead><tr><th>Çıkış Depo</th><th>Giriş Depo</th><th>Evrak No</th><th>Oluşturan</th><th>Tarih</th><th></th></tr></thead>
+<table class="table table-striped table-bordered table-condensed" id="sample_1">
+    <thead><tr><th>Emir No</th><th>Evrak No</th><th>Çıkış Depo</th><th>Giriş Depo</th><th>Oluşturan</th><th>Onaylayan</th><th>Tarih</th></tr></thead>
+    <tfoot><tr><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr></tfoot>
+    <tfoot class="tf-search"><tr><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr></tfoot>
     <tbody>
         <tr>
+            <td>@Model.FirstOrDefault().EmirNo</td>
+            <td>@Model.FirstOrDefault().EvrakNo</td>
             <td>@Model.FirstOrDefault().CikisDepo</td>
             <td>@Model.FirstOrDefault().GirisDepo</td>
-            <td>@Model.FirstOrDefault().EvrakNo</td>
             <td>@Model.FirstOrDefault().Kaydeden</td>
+            <td>@Model.FirstOrDefault().Kaydeden2</td>
             <td>@Model.FirstOrDefault().Tarih.FromOADateInt()</td>
-            <td class="w-200">
-                @if (Model.FirstOrDefault().Kaydeden == ViewBag.vUser.UserName) {<a class="btn btn-danger input-circle pull-right" href="javascript:;" onclick="Delete('@Model.FirstOrDefault().EvrakNo','','','')"> Sil </a>}
-                @if (ViewBag.Yetki == true)
-                {
-                    using (Ajax.BeginForm("Approve", "Transfer", new { area = "UYS" }, new AjaxOptions { HttpMethod = "post", InsertionMode = InsertionMode.Replace, OnSuccess = "getresult", OnFailure = "Modaldialog('Lütfen Tekrar Deneyin', 'Hata', 'Tamam', 'btn-danger');" }, new { @class = "form pull-right" }))
-                    {
-                        @Html.AntiForgeryToken()
-                        <input type="hidden" name="ID" value="@Model.FirstOrDefault().EvrakNo" />
-                        <input type="submit" value="Onay" class="btn btn-primary input-circle" />
-                    }
-                }
-            </td>
         </tr>
-    </tbody>
-</table>
-<div><p><br /><br /></p></div>
-<table class="table table-striped table-bordered table-condensed" id="sample_2">
-    <thead><tr><th>Mal Kodu</th><th>Mal Adı</th><th>Birim</th><th class="text-right">Miktar</th></tr></thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>@item.MalKodu</td>
-                <td>@item.MalAdi</td>
-                <td>@item.Birim</td>
-                <td class="text-right">@String.Format("{0:n}", item.Miktar)</td>
-            </tr>
-        }
     </tbody>
 </table>
 <script>
     $(document).ready(function () {
-        var table = $('#sample_2').DataTable({
+        var table = $('#sample_1').DataTable({
+            "pagingType": "full_numbers",
             "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
+            "columnDefs": [{ "targets": [0, 1], "orderable": false }],
+            "order": [[8, "desc"]]
         });
+        $('#sample_1 .tf-search th').each(function () {
+            var title = $('#sample_1 thead th').eq($(this).index()).text();
+            if (title != "" && title.indexOf("Tarih") !== -1)
+                $(this).html('<input class="form-control input-circle tarih" type="text" placeholder="Ara" />');
+            else if (title != "" && title != "Detay" && title != "Hareket")
+                $(this).html('<input class="form-control input-circle" type="text" placeholder="Ara" />');
+        });
+        $("#sample_1 tfoot input").on('keyup change', function () { table.column($(this).parent().index() + ':visible').search(this.value).draw(); });
+        //tarih
+        $.datepicker.setDefaults($.datepicker.regional["tr"]);
+        $(".tarih").datepicker();
     });
 </script>

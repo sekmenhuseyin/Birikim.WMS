@@ -48,14 +48,6 @@
         public string DepoAdi { get; set; }
     }
     /// <summary>
-    /// bekleyen transfer listesi
-    /// </summary>
-    public class frmWaitingList
-    {
-        public string StiNo { get; set; }
-        public string Depo { get; set; }
-    }
-    /// <summary>
     /// uys kayıt
     /// </summary>
     public class frmUysTransfer
