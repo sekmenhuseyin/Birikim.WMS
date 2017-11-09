@@ -4,15 +4,18 @@
     <tfoot><tr><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr></tfoot>
     <tfoot class="tf-search"><tr><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr></tfoot>
     <tbody>
-        <tr>
-            <td>@Model.FirstOrDefault().EmirNo</td>
-            <td>@Model.FirstOrDefault().EvrakNo</td>
-            <td>@Model.FirstOrDefault().CikisDepo</td>
-            <td>@Model.FirstOrDefault().GirisDepo</td>
-            <td>@Model.FirstOrDefault().Kaydeden</td>
-            <td>@Model.FirstOrDefault().Kaydeden2</td>
-            <td>@Model.FirstOrDefault().Tarih.FromOADateInt()</td>
-        </tr>
+        @foreach (var item in Model)
+        {
+            <tr class="clickable" ondblclick = "getDetails(@item.EmirNo)">
+                <td>@Model.FirstOrDefault().EmirNo</td>
+                <td>@Model.FirstOrDefault().EvrakNo</td>
+                <td>@Model.FirstOrDefault().CikisDepo</td>
+                <td>@Model.FirstOrDefault().GirisDepo</td>
+                <td>@Model.FirstOrDefault().Kaydeden</td>
+                <td>@Model.FirstOrDefault().Kaydeden2</td>
+                <td>@Model.FirstOrDefault().Tarih.FromOADateInt()</td>
+            </tr>
+        }
     </tbody>
 </table>
 <script>
@@ -33,4 +36,9 @@
         $.datepicker.setDefaults($.datepicker.regional["tr"]);
         $(".tarih").datepicker();
     });
+    function getDetails(e)
+    {
+        $('#modalEditPage').modal('toggle');
+        editInModal('/UYS/Transfer/Details/', { EvrakNo: e, Tip: $("#DurumID").val() });
+    }
 </script>
