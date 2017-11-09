@@ -299,10 +299,97 @@ namespace Wms12m
             Sqlexper.AcceptChanges();
             return new Result();
         }
+
+
+        /// <summary>
+        /// Depo Transfer kayıt işlemleri
+        /// </summary>
+
+        public Result DepoTransferKaydet(List<DepoTran> TransferUrunleri)
+        {
+            bool OndalikAyiracVirgul = OndalikAyiracVirgulMu();
+
+            string evrakNo = "", yeniEvrakNo = "";
+            int siraNo = 0;
+
+            STIEvrakBilgi evrakBilgi = new STIEvrakBilgi();
+            SqlExper Sqlexper = new SqlExper(ConStr, SirketKodu);
+            var veriList = Sqlexper.SelectList<STIEvrakBilgi>(string.Format(@"
+            SELECT TOP 1 STK005_EvrakSeriNo AS EvrakNo,    
+                    STK005_SEQNo as SiraNo  
+            FROM YNS{0}.YNS{0}.STK005 (NOLOCK)
+            WHERE STK005_EvrakTipi=51 AND STK005_EvrakSeriNo Like 'T%' 
+            ORDER BY STK005_Row_ID DESC", SirketKodu)).ToList();
+
+            if (veriList.IsNull() || veriList.Count == 0)
+            {
+                evrakNo = "T0000000";
+                siraNo = 0;
+            }
+            else
+            {
+                evrakNo = veriList[0].EvrakNo;
+                siraNo = veriList[0].SiraNo;
+            }
+            
+            evrakNo = evrakNo.Remove(0, 1);
+            int no = evrakNo.ToInt32();
+            yeniEvrakNo = EvrakNoOlustur(8, "T", no);
+
+
+            string saat = DateTime.Now.ToString("HHmmss"); ///O anın saatini döner 154010 gibi
+            int tarih = DateTime.Today.ToOADateInt();
+          
+            foreach (DepoTran item in TransferUrunleri)
+            {
+                siraNo++;
+                STK005 stiItem = new STK005();
+                stiItem.DefaultValueSet();
+                stiItem.STK005_EvrakSeriNo = yeniEvrakNo;
+                stiItem.STK005_MalKodu = item.MalKodu;
+                stiItem.STK005_Depo = item.CikisDepo;
+                stiItem.STK005_Birim = item.Birim;
+                stiItem.STK005_Miktari = item.Miktar;
+                stiItem.STK005_Tarih2 = item.MiatTarih;//miat tarihi
+                stiItem.STK005_GC = 1;
+
+                stiItem.STK005_ParaBirimi = 1;
+                stiItem.STK005_SEQNo = siraNo;
+
+                stiItem.STK005_IslemTipi = 7;
+                stiItem.STK005_EvrakTipi = 51;
+                stiItem.STK005_MuhasebelesmeDurumu = 0;
+                stiItem.STK005_IptalDurumu = 1;
+                stiItem.STK005_IslemTarihi = tarih;
+                stiItem.STK005_AsilEvrakTarihi = tarih;
+
+                stiItem.STK005_GirenKaynak = "Y6018";
+                stiItem.STK005_GirenSurum = "7.1.00";
+                stiItem.STK005_GirenKodu = item.KullaniciKodu;
+                stiItem.STK005_GirenTarih = DateTime.Today.Date.ToOADate().ToInt32();
+                stiItem.STK005_GirenSaat = DateTime.Now.ToString("HHmmss"); ///O anın saatini döner 154010 gibi
+                stiItem.STK005_DegistirenKaynak = "Y6018";
+                stiItem.STK005_DegistirenSurum = "7.1.00";
+                stiItem.STK005_DegistirenKodu = item.KullaniciKodu;
+                stiItem.STK005_DegistirenTarih = DateTime.Today.Date.ToOADate().ToInt32();
+                stiItem.STK005_DegistirenSaat = DateTime.Now.ToString("HHmmss"); ///O anın saatini döner             
+                Sqlexper.Insert(stiItem);
+
+                siraNo++;
+                stiItem.STK005_SEQNo = siraNo;
+                stiItem.STK005_Depo = item.GirisDepo;
+                stiItem.STK005_GC = 0;
+                Sqlexper.Insert(stiItem);
+            }
+
+            Sqlexper.AcceptChanges();
+            return new Result();
+        }
+
         /// <summary>
         /// evrak no oluştur
         /// </summary>
-        private string EvrakNoOlustur(int evrakKarakterSayisi, string seri, int no)
+                private string EvrakNoOlustur(int evrakKarakterSayisi, string seri, int no)
         {
             if (no.ToString().Length > evrakKarakterSayisi - seri.Length)
                 throw new Exception("Evrak numarasında taşma olmuştur !");
