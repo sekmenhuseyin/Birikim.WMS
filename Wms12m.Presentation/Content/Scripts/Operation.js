@@ -47,7 +47,7 @@ function PartialView(Url, Div, Id) {
         dataType: "html",
         contentType: 'application/json; charset=utf-8',
         success: function (data) {
-            if (data == "") {
+            if (data === "") {
                 Modaldialog("Hata oluştu", "Hata", "Tamam", "btn-danger");
             } else {
                 $('#' + Div).html(data);
@@ -64,7 +64,7 @@ function PartialViewClass(Url, Div, Id) {
         dataType: "html",
         contentType: 'application/json; charset=utf-8',
         success: function (data) {
-            if (data == "") {
+            if (data === "") {
                 Modaldialog("Hata oluştu", "Hata", "Tamam", "btn-danger");
             } else {
                 $('.' + Div).html(data);
@@ -75,7 +75,7 @@ function PartialViewClass(Url, Div, Id) {
 // silme için deleteıd ıd gönderme işlemi
 function FunctionDelete(URL, deleteId) {
     var $Return = false;
-    if (URL == "") URL = DeleteFunctionUrl;
+    if (URL === "") URL = DeleteFunctionUrl;
     $.ajax({
         url: URL,
         type: 'POST',
@@ -84,13 +84,13 @@ function FunctionDelete(URL, deleteId) {
         dataType: "json",
         contentType: 'application/json; charset=utf-8',
         success: function (data) {
-            if (data.Id == 0) {
-                if (data.Message == "") data.Message = "Hata oluştu";
+            if (data.Id === 0) {
+                if (data.Message === "") data.Message = "Hata oluştu";
                 Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
             }
         }
     }).done(function (data) {
-        if (data.Id == -2) {
+        if (data.Id === -2) {
             Modaldialog("Hata oluştu", "Hata", "Tamam", "btn-danger");
         } else if (data.Id > 0) {
             return $Return = true;
@@ -105,7 +105,7 @@ function Delete(deleteId, Method, DivName, extraId, URL) {
     function DeleteTriger() {
         var Status = FunctionDelete(URL, deleteId);
         if (Status) {
-            if (Method == "")
+            if (Method === "")
                 window.location.reload();
             else
             {
@@ -121,11 +121,11 @@ function AjaxCall(Url, Data, successTriger) {
         type: 'POST',
         data: Data,
         success: function (data) {
-            if (data.Status == true) {
+            if (data.Status === true) {
                 Modaldialog("İşlem Başarılı", "Başarılı", "Tamam", "btn-success");
                 successTriger();
             }
-            else if (data.Message != "" && data.Message != null)
+            else if (data.Message !== "" && data.Message !== null)
                 Modaldialog(data.Message, 'Hata', 'Tamam', 'btn-danger');
             else
                 Modaldialog("Hata oldu", 'Hata', 'Tamam', 'btn-danger');
@@ -152,7 +152,7 @@ function CT(style, message, title, url) {
         "hideEasing": "linear",
         "showMethod": "fadeIn",
         "hideMethod": "fadeOut",
-        onclick: function () { if (url != '' && url != null) window.location.href = url; }
+        onclick: function () { if (url !== '' && url !== null) window.location.href = url; }
     });
 }
 //refreshNotifications

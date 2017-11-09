@@ -1,8 +1,7 @@
 ﻿@{
     ViewBag.Title = "Transfer Onaylama";
     Layout = "~/Views/Shared/_Layout.cshtml";
-}@section Styles{<link href="~/Content/assets/global/plugins/bootstrap-toggle/css/bootstrap-toggle.min.css" rel="stylesheet" type="text/css" />
-    <style>
+}@section Styles{<style>
         td.details-control {background: url('/Content/assets/global/plugins/datatables/images/details_open.png') no-repeat center center;cursor: pointer;}
         tr.shown td.details-control {background: url('/Content/assets/global/plugins/datatables/images/details_close.png') no-repeat center center;}
     </style>
@@ -15,18 +14,14 @@
                 <div class="caption">
                     <i class="fa fa-gift"></i>Depolar Arası Transfer Onaylama
                 </div>
-                <div class="col-md-1 pull-right m-t-4">
-                    <input type="checkbox" id="toggle-two" checked data-toggle="toggle" name="Durum" data-on-text="Bekleyen" data-off-text="Onaylanmış" data-on="Bekleyen" data-off="Onaylanmış">
-                </div>
-                <div class="col-md-1 pull-right text-right m-t-10">Onay Durum</div>
             </div>
             <div class="portlet-body form">
                 <div class="form-horizontal">
                     <div class="form-body">
                         <div class="form-group">
-                            <div class="col-sm-3 control-label">Transfer Seçiniz</div>
+                            <div class="col-sm-3 control-label">Onay Durumu</div>
                             <div class="col-sm-4">
-                                @Html.DropDownList("DurumID", null, htmlAttributes: new { @class = "form-control input-circle", onchange = "FuncSearchBtn();" })
+                                <select class="form-control input-circle" id="DurumID" name="DurumID" onchange="FuncSearchBtn();"><option value="false">Bekleyen Transferler</option><option value="true">Onaylanmış Transferler</option></select>
                             </div>
                         </div>
                     </div>
@@ -36,43 +31,12 @@
         </div>
     </div>
 </div>
-@section Scripts{<script src="~/Content/assets/global/plugins/bootstrap-toggle/js/bootstrap-toggle.min.js"></script><script>
+@section Scripts{<script>
     var DeleteFunctionUrl = '/UYS/Transfer/Delete';
-    $("#DurumID").prepend("<option value=''>Seçiniz !!!</option>"); $("#DurumID")[0].selectedIndex = 0;
-    $('#toggle-two').bootstrapToggle({ on: 'Bekleyen', off: 'Onaylanmış' });
-    $('#toggle-two').change(function () {
-        $("#DurumID option").remove();
-        $.ajax({
-            url: "/UYS/Transfer/GetComboList/" + $(this).prop('checked'),
-            type: 'POST',
-            dataType: "json",
-            contentType: 'application/json; charset=utf-8',
-            success: function (data) {
-                if (data != "") {
-                    $.each(data, function (i, item) {
-                        $('#DurumID').append($('<option>', { value: item.Value, text: item.Text }));
-                    });
-                    $("#DurumID").prepend("<option value=''>Seçiniz !!!</option>"); $("#DurumID")[0].selectedIndex = 0;
-                    FuncSearchBtn();
-                }
-            }
-        });
-
-    })
-    $("#DurumID").focus();
+    FuncSearchBtn();
     function FuncSearchBtn() {
         $('#Grid').html("");
-        if ($('#DurumID').val() != "")
-            PartialView('/UYS/Transfer/WaitingList', 'Grid', JSON.stringify({ Id: $('#DurumID').val(), Onay: $('#toggle-two').prop('checked') }));
+        PartialView('/UYS/Transfer/WaitingList', 'Grid', JSON.stringify({ Id: $('#DurumID').val() }));
     }
-    function getresult(e) {
-        if (e.Status == true) {
-            Modaldialog("İşlem Başarıyla gerçekleşti", "Başarı", "Tamam", "btn-success");
-            $("#DurumID option[value='" + $('#DurumID').val()+"']").remove();
-            FuncSearchBtn();
-        }
-        else
-            Modaldialog(e.Message, 'Hata', 'Tamam', 'btn-danger');
-    };
 </script>
 }
