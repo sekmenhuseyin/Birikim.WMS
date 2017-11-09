@@ -141,6 +141,19 @@
         public string Aciklama2 { get; set; }
         public string Aciklama3 { get; set; }
     }
+
+    public class DepoTran
+    {
+        public string KullaniciKodu { get; set; }
+        public string MalKodu { get; set; }
+        public string GirisDepo { get; set; }
+        public string CikisDepo { get; set; }       
+        public decimal Miktar { get; set; }
+        public string Birim { get; set; }
+        public int MiatTarih { get; set; }      
+    }
+
+
     public class HesapItem
     {
         public string HesapKodu { get; set; }
