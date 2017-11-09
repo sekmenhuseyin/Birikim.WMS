@@ -79,13 +79,13 @@
         <EntityTypeShape EntityType="MModel.Connection" Width="1.5" PointX="2.75" PointY="6" />
         <EntityTypeShape EntityType="MModel.Message" Width="1.5" PointX="2.5" PointY="1" />
         <AssociationConnector Association="MModel.FK_Messages_ComboItem_Name" />
-        <EntityTypeShape EntityType="MModel.FAQ" Width="1.5" PointX="0.5" PointY="0.5" />
+        <EntityTypeShape EntityType="MModel.FAQ" Width="1.5" PointX="4.625" PointY="2.5" />
         <AssociationConnector Association="MModel.FK_FAQ_ComboItem_Name" />
         <EntityTypeShape EntityType="MModel.ProjeForm" Width="1.5" PointX="37.375" PointY="4.375" />
         <AssociationConnector Association="MModel.FK_Gorevler_ProjeForm" />
         <AssociationConnector Association="MModel.FK_Proje_Musteri" />
         <AssociationConnector Association="MModel.FK_ProjeForm_ProjeForm" />
-        <EntityTypeShape EntityType="MModel.Etkinlik" Width="1.5" PointX="4.75" PointY="1.75" />
+        <EntityTypeShape EntityType="MModel.Etkinlik" Width="1.5" PointX="0.5" PointY="0.5" />
         <AssociationConnector Association="MModel.FK_Tatil_ComboItem_Name" />
         <EntityTypeShape EntityType="MModel.User" Width="1.5" PointX="22.5" PointY="18.125" />
         <AssociationConnector Association="MModel.FK_Users_Roles" />
