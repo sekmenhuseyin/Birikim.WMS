@@ -216,9 +216,9 @@ namespace Wms12m.Presentation.Areas.UYS.Controllers
 																									 FINSAT6{0}.FINSAT6{0}.STI.Birim, FINSAT6{0}.FINSAT6{0}.STI.Miktar, {5} as Tarih
 																			FROM            UYSPLN6{0}.UYSPLN6{0}.EMG INNER JOIN
 																									 FINSAT6{0}.FINSAT6{0}.STI ON UYSPLN6{0}.UYSPLN6{0}.EMG.StiNo = FINSAT6{0}.FINSAT6{0}.STI.EvrakNo
-																			WHERE        (UYSPLN6{0}.UYSPLN6{0}.EMG.EmirNo = '{1}') AND (FINSAT6{0}.FINSAT6{0}.STI.IslemTur = 1) AND (FINSAT6{0}.FINSAT6{0}.STI.KynkEvrakTip = 53) AND (FINSAT6{0}.FINSAT6{0}.STI.IslemTip = 6)
+																			WHERE        (UYSPLN6{0}.UYSPLN6{0}.EMG.StiNo = '{1}') AND (FINSAT6{0}.FINSAT6{0}.STI.IslemTur = 1) AND (FINSAT6{0}.FINSAT6{0}.STI.KynkEvrakTip = 53) AND (FINSAT6{0}.FINSAT6{0}.STI.IslemTip = 6)
 																	", db.GetSirketDBs().FirstOrDefault(), ID, EmirVeEvrak.EvrakNo, vUser.UserName, vUser.FirstName, tarih)).ToList();
-            var emir = db.Database.SqlQuery<EMG>(string.Format(@"SELECT * FROM UYSPLN6{0}.UYSPLN6{0}.EMG WHERE EmirNo = '{1}'", db.GetSirketDBs().FirstOrDefault(), ID)).FirstOrDefault();
+            var emir = db.Database.SqlQuery<EMG>(string.Format(@"SELECT * FROM UYSPLN6{0}.UYSPLN6{0}.EMG WHERE StiNo = '{1}'", db.GetSirketDBs().FirstOrDefault(), ID)).FirstOrDefault();
             emir.EmirNo = EmirVeEvrak.EmirNo;
             emir.BitTarih = tarih;
             emir.Talimat3 = vUser.FirstName;
