@@ -21,7 +21,15 @@ namespace Wms12m.Presentation.Controllers
             Setting setts = ViewBag.settings;
             var bo = new BekleyenOnaylar();
             var tbl = new GetHomeSummary_Result();
-            try { tbl = db.GetHomeSummary(vUser.UserName, vUser.Id).FirstOrDefault(); } catch (Exception) { }
+            try
+            {
+                tbl = db.GetHomeSummary(vUser.UserName, vUser.Id).FirstOrDefault();
+            }
+            catch (Exception)
+            {
+                tbl.yetki = "";
+                tbl.GorevSayilari = "0,0,0,0,0,0";
+            }
             //Bekleyen Onaylar
             if (setts.OnayCek == true || setts.OnayFiyat == true || setts.OnayRisk == true || setts.OnaySiparis == true || setts.OnaySozlesme == true || setts.OnayStok == true || setts.OnayTekno == true || setts.OnayTeminat == true)
                 try
