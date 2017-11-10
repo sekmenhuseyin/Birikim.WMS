@@ -110,4 +110,12 @@
         public string EmirNo { get; set; }
         public string EvrakNo { get; set; }
     }
+    /// <summary>
+    /// yetki kontrol
+    /// </summary>
+    public class frmUysDepoYetki
+    {
+        public int? GirisYetki { get; set; }
+        public int? CikisYetki { get; set; }
+    }
 }

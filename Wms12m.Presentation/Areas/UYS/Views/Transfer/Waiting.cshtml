@@ -23,6 +23,7 @@
                             <div class="col-sm-4">
                                 <select class="form-control input-circle" id="DurumID" name="DurumID" onchange="FuncSearchBtn();"><option value="false">Bekleyen Transferler</option><option value="true">Onaylanmış Transferler</option></select>
                             </div>
+                            <div class="col-sm-1"><button type="button" class="btn btn-circle green" onclick="FuncSearchBtn();"><i class="icon-refresh"></i></button></div>
                         </div>
                     </div>
                 </div>
@@ -32,7 +33,6 @@
     </div>
 </div>
 @section Scripts{<script>
-    var DeleteFunctionUrl = '/UYS/Transfer/Delete';
     FuncSearchBtn();
     function FuncSearchBtn() {
         $('#Grid').html("");

@@ -6,7 +6,7 @@
             <div class="col-lg-12">
                 <div class="modal-body">
                     @if (ViewBag.Yetki == true) {<div class="col-md-2 pull-right m-t-5"><button class="btn btn-success pull-right input-circle onay-buton glyphicon glyphicon-ok"> Onayla </button></div>}
-                    <div class="col-md-2 pull-right m-t-5"><button class="btn btn-danger pull-right input-circle reddet-buton glyphicon glyphicon-remove"> Reddet </button></div>
+                    @if (ViewBag.Yetki2 == true) {<div class="col-md-2 pull-right m-t-5"><button class="btn btn-danger pull-right input-circle reddet-buton glyphicon glyphicon-remove"> Reddet </button></div>}
                     <div class="portlet box green">
                         <div class="portlet-title">
                             <div class="caption">
@@ -68,8 +68,48 @@
     $("#sample_2 tfoot input").on('keyup change', function () { table.column($(this).parent().index() + ':visible').search(this.value).draw(); });
     @if (ViewBag.Yetki == true) {<text>
     $('.onay-buton').click(function() {
+        $.ajax({
+            url: "/UYS/Transfer/Approve",
+            data: { ID: '@Model.FirstOrDefault().EmirNo' },
+            type: "post",
+            success: function (data) {
+                if (data.Status == true) {
+                    Modaldialog("Onaylama tamamlandı", 'Başarılı', 'Tamam', 'btn-success');
+                    FuncSearchBtn();
+                    $('#modalEditPage').modal('toggle');
+                }
+                else if (data.Message != "" && data.Message != null)
+                    Modaldialog(data.Message, 'Hata', 'Tamam', 'btn-danger');
+                else
+                    Modaldialog("Hata oldu", 'Hata', 'Tamam', 'btn-danger');
+            },
+            error: function (data) {
+                Modaldialog("Hata oldu", 'Hata', 'Tamam', 'btn-danger');
+            }
+        });
     });
     </text>}
+    @if (ViewBag.Yetki2 == true) {<text>
     $('.reddet-buton').click(function () {
+        $.ajax({
+            url: "/UYS/Transfer/Delete",
+            data: { ID: '@Model.FirstOrDefault().EvrakNo', Tip: '@ViewBag.Tip' },
+            type: "post",
+            success: function (data) {
+                if (data.Status == true) {
+                    Modaldialog("Reddetme tamamlandı", 'Başarılı', 'Tamam', 'btn-success');
+                    FuncSearchBtn();
+                    $('#modalEditPage').modal('toggle');
+                }
+                else if (data.Message != "" && data.Message != null)
+                    Modaldialog(data.Message, 'Hata', 'Tamam', 'btn-danger');
+                else
+                    Modaldialog("Hata oldu", 'Hata', 'Tamam', 'btn-danger');
+            },
+            error: function (data) {
+                Modaldialog("Hata oldu", 'Hata', 'Tamam', 'btn-danger');
+            }
+        });
     });
+    </text>}
 </script>

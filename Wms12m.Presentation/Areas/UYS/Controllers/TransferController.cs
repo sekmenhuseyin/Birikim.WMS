@@ -64,7 +64,8 @@ namespace Wms12m.Presentation.Areas.UYS.Controllers
         [HttpPost, ValidateAntiForgeryToken]
         public JsonResult Save(frmUysTransfer tbl)
         {
-            var uysf = new UYSF(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, db.GetSirketDBs().FirstOrDefault());
+            var sirket = db.GetSirketDBs().FirstOrDefault();
+            var uysf = new UYSF(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, sirket);
             int tarih = fn.ToOADate();
             int saat = fn.ToOATime();
             //get son emir no
@@ -74,7 +75,7 @@ namespace Wms12m.Presentation.Areas.UYS.Controllers
 													SELECT EvrakNo FROM FINSAT6{0}.FINSAT6{0}.STI WHERE (EvrakNo LIKE 'DD%')
 													UNION
 													SELECT StiNo as EvrakNo FROM UYSPLN6{0}.UYSPLN6{0}.EMG WHERE (EmirNo LIKE 'DD%')
-												)t ORDER BY EvrakNo DESC), 'DD000000') as EvrakNo", db.GetSirketDBs().FirstOrDefault())).FirstOrDefault();
+												)t ORDER BY EvrakNo DESC), 'DD000000') as EvrakNo", sirket)).FirstOrDefault();
             if (EmirVeEvrak.EvrakNo == "") EmirVeEvrak.EvrakNo = "DD000000";
             EmirVeEvrak.EmirNo = uysf.EvrakNoArttir(EmirVeEvrak.EmirNo, "DD");
             EmirVeEvrak.EvrakNo = uysf.EvrakNoArttir(EmirVeEvrak.EvrakNo, "DD");
@@ -101,6 +102,7 @@ namespace Wms12m.Presentation.Areas.UYS.Controllers
             emir.DefaultValueSet();
             emir.EmirNo = EmirVeEvrak.EmirNo;
             emir.BasTarih = tarih;
+            emir.BasSaat = saat;
             emir.Talimat2 = vUser.FirstName;
             emir.Kod2 = tbl.CikisDepo;
             emir.Kod3 = tbl.GirisDepo;
@@ -162,77 +164,76 @@ namespace Wms12m.Presentation.Areas.UYS.Controllers
                         WHERE        (FINSAT6{0}.FINSAT6{0}.STI.KynkEvrakTip = 53) AND (FINSAT6{0}.FINSAT6{0}.STI.IslemTip = 6) AND (FINSAT6{0}.FINSAT6{0}.STI.IslemTur = 0) AND (UYSPLN6{0}.UYSPLN6{0}.EMG.EmirNo = '{1}')";
             //execute sql
             var liste = db.Database.SqlQuery<frmUysWaitingTransfer>(string.Format(sql, sirket, EvrakNo)).ToList();
-            var Row_ID = db.Database.SqlQuery<int?>(string.Format("SELECT Row_ID FROM UYSPLN6{0}.UYSPLN6{0}.SIN WHERE (SSection = 'DepoUsers') AND (SValue LIKE '%{1}%') AND (SEntry = '{2}')", db.GetSirketDBs().FirstOrDefault(), vUser.UserName, liste[0].GirisDepo)).FirstOrDefault();
+            var Row_ID = db.Database.SqlQuery<frmUysDepoYetki>(string.Format(@"SELECT
+                                    (SELECT Row_ID FROM UYSPLN6{0}.UYSPLN6{0}.SIN WHERE(SSection = 'DepoUsers') AND(SValue LIKE '%{1}%') AND(SEntry = '{2}')) as GirisYetki,
+                                    (SELECT Row_ID FROM UYSPLN6{0}.UYSPLN6{0}.SIN WHERE(SSection = 'DepoUsers') AND(SValue LIKE '%{1}%') AND(SEntry = '{3}')) as CikisYetki",
+                                    sirket, vUser.UserName, liste[0].GirisDepo, liste[0].CikisDepo)).FirstOrDefault();
             //yetki
-            ViewBag.Yetki = Tip == true ? false : Row_ID == null ? false : true;//onaylanmışsa tekrar onay olmayacak, onaylanmamışsa yetkiye bakacak
-            ViewBag.Yetki2=
+            ViewBag.Yetki = Tip == true ? false : (Row_ID.GirisYetki == null ? false : true);//onaylanmışsa tekrar onay olmayacak, onaylanmamışsa yetkiye bakacak
+            ViewBag.Yetki2 = Tip == true ? (Row_ID.GirisYetki == null ? false : true) : (Row_ID.CikisYetki == null ? false : true);//onaylanmışsa giriş yetkiye sahip olan silebilir, onaylanmamışsa çıkış yetkiye sahip olan silebilir
             ViewBag.Tip = Tip;
             return PartialView("Details", liste);
         }
         /// <summary>
         /// bekleyen transferi onayla
         /// </summary>
+        /// <param name="ID">EmirNo</param>
         [HttpPost]
         public JsonResult Approve(string ID)
         {
-            var uysf = new UYSF(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, db.GetSirketDBs().FirstOrDefault());
+            var sirket = db.GetSirketDBs().FirstOrDefault();
+            var uysf = new UYSF(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, sirket);
             int tarih = fn.ToOADate();
             int saat = fn.ToOATime();
             //get son emir no
-            var EmirVeEvrak = db.Database.SqlQuery<frmUysEmirEvrak>(string.Format(@"SELECT
-										ISNULL((SELECT TOP (1) EmirNo FROM UYSPLN6{0}.UYSPLN6{0}.EMG WHERE (EmirNo LIKE 'DD%') ORDER BY Row_ID DESC), 'DD000000') as EmirNo, 
+            var EmirVeEvrak = db.Database.SqlQuery<frmUysEmirEvrak>(string.Format(@"SELECT '' as EmirNo, 
 										ISNULL((SELECT TOP (1) EvrakNo FROM (
 													SELECT EvrakNo FROM FINSAT6{0}.FINSAT6{0}.STI WHERE (EvrakNo LIKE 'DG%')
 													UNION
 													SELECT TrsfrNo as EvrakNo FROM UYSPLN6{0}.UYSPLN6{0}.EMG WHERE (EmirNo LIKE 'DD%')
-												)t ORDER BY EvrakNo DESC), 'DG000000') as EvrakNo", db.GetSirketDBs().FirstOrDefault())).FirstOrDefault();
+												)t ORDER BY EvrakNo DESC), 'DG000000') as EvrakNo", sirket)).FirstOrDefault();
             if (EmirVeEvrak.EvrakNo == "") EmirVeEvrak.EvrakNo = "DG000000";
-            EmirVeEvrak.EmirNo = uysf.EvrakNoArttir(EmirVeEvrak.EmirNo, "DD");
             EmirVeEvrak.EvrakNo = uysf.EvrakNoArttir(EmirVeEvrak.EvrakNo, "DG");
             //create list
             var liste = db.Database.SqlQuery<frmUysWaitingTransfer>(string.Format(@"
-																			SELECT       '{2}' as EvrakNo, 'TD' as AraDepo, UYSPLN6{0}.UYSPLN6{0}.EMG.Kod2 as CikisDepo, UYSPLN6{0}.UYSPLN6{0}.EMG.Kod3 as GirisDepo, '{3}' as Kaydeden, '{4}' AS Kaydeden2, FINSAT6{0}.FINSAT6{0}.STI.MalKodu, FINSAT6{0}.FINSAT6{0}.STI.SeriNo, 
-																									 FINSAT6{0}.FINSAT6{0}.STI.Birim, FINSAT6{0}.FINSAT6{0}.STI.Miktar, {5} as Tarih
-																			FROM            UYSPLN6{0}.UYSPLN6{0}.EMG INNER JOIN
-																									 FINSAT6{0}.FINSAT6{0}.STI ON UYSPLN6{0}.UYSPLN6{0}.EMG.StiNo = FINSAT6{0}.FINSAT6{0}.STI.EvrakNo
-																			WHERE        (UYSPLN6{0}.UYSPLN6{0}.EMG.StiNo = '{1}') AND (FINSAT6{0}.FINSAT6{0}.STI.IslemTur = 1) AND (FINSAT6{0}.FINSAT6{0}.STI.KynkEvrakTip = 53) AND (FINSAT6{0}.FINSAT6{0}.STI.IslemTip = 6)
-																	", db.GetSirketDBs().FirstOrDefault(), ID, EmirVeEvrak.EvrakNo, vUser.UserName, vUser.FirstName, tarih)).ToList();
-            var emir = db.Database.SqlQuery<EMG>(string.Format(@"SELECT * FROM UYSPLN6{0}.UYSPLN6{0}.EMG WHERE StiNo = '{1}'", db.GetSirketDBs().FirstOrDefault(), ID)).FirstOrDefault();
-            emir.EmirNo = EmirVeEvrak.EmirNo;
-            emir.BitTarih = tarih;
-            emir.Talimat3 = vUser.FirstName;
-            emir.TrsfrNo = EmirVeEvrak.EvrakNo;
-            emir.KayitTarih = tarih;
-            emir.KayitSaat = saat;
-            emir.RecID = -1;
-            emir.Birim = -1;
-            emir.CurDurum = 1;
-            emir.CurDurSb = -1;
-            emir.SonDurSb = -1;
-            emir.PlOnay = -1;
-            emir.YMUret = -1;
-            emir.YMMly = -1;
-            emir.YMEndMly = -1;
-            emir.YMDepo = -1;
-            emir.YMHmdCik = -1;
-            emir.Teklif = -1;
-            emir.KayitTuru = -1;
+									SELECT       '{2}' as EvrakNo, 'TD' as AraDepo, UYSPLN6{0}.UYSPLN6{0}.EMG.Kod2 as CikisDepo, UYSPLN6{0}.UYSPLN6{0}.EMG.Kod3 as GirisDepo, '{3}' as Kaydeden, '{4}' AS Kaydeden2, FINSAT6{0}.FINSAT6{0}.STI.MalKodu, FINSAT6{0}.FINSAT6{0}.STI.SeriNo, 
+																FINSAT6{0}.FINSAT6{0}.STI.Birim, FINSAT6{0}.FINSAT6{0}.STI.Miktar, {5} as Tarih
+									FROM            UYSPLN6{0}.UYSPLN6{0}.EMG INNER JOIN
+																FINSAT6{0}.FINSAT6{0}.STI ON UYSPLN6{0}.UYSPLN6{0}.EMG.StiNo = FINSAT6{0}.FINSAT6{0}.STI.EvrakNo
+									WHERE        (UYSPLN6{0}.UYSPLN6{0}.EMG.EmirNo = '{1}') AND (FINSAT6{0}.FINSAT6{0}.STI.IslemTur = 1) AND (FINSAT6{0}.FINSAT6{0}.STI.KynkEvrakTip = 53) AND (FINSAT6{0}.FINSAT6{0}.STI.IslemTip = 6)
+							", sirket, ID, EmirVeEvrak.EvrakNo, vUser.UserName, vUser.FirstName, tarih)).ToList();
             //send to db
-            var sonuc = uysf.DepoTransfer(liste, emir, true);
+            var sonuc = uysf.DepoTransfer(liste, null, true);
+            if (sonuc.Status == true)
+            {
+                db.Database.ExecuteSqlCommand(string.Format(@"UPDATE UYSPLN6{0}.UYSPLN6{0}.EMG 
+                        SET BitTarih = {2}, BitSaat = {3}, Talimat3 = '{4}', TrsfrNo = '{5}', Degistiren= '{6}', DegisTarih = {2}, DegisSaat = {3}, RecID = -1, Birim = -1, CurDurum = -1, CurDurSb = -1, SonDurSb = -1, PlOnay = -1, YMUret = -1, YMMly = -1, YMEndMly = -1, YMDepo = -1, YMHmdCik = -1, Teklif = -1, KayitTuru = -1
+                        WHERE EmirNo = '{1}'", sirket, ID, tarih, saat, vUser.FirstName, EmirVeEvrak.EvrakNo, vUser.UserName));
+            }
             return Json(sonuc, JsonRequestBehavior.AllowGet);
         }
         /// <summary>
         /// transfer sil
         /// </summary>
-        public JsonResult Delete(string ID)
+        /// <param name="ID">EvrakNo</param>
+        public JsonResult Delete(string ID, bool Tip)
         {
             var sirket = db.GetSirketDBs().FirstOrDefault();
             int tarih = fn.ToOADate();
             int saat = fn.ToOATime();
-            var sql = string.Format("DELETE FROM FINSAT6{0}.FINSAT6{0}.STI WHERE (EvrakNo = '{1}') AND (KynkEvrakTip = 53) AND (IslemTip = 6);DELETE FROM UYSPLN6{0}.UYSPLN6{0}.EMG WHERE (StiNo = '{1}' AND TrsfrNo = '') OR (TrsfrNo = '{1}');", sirket, ID);
+            var sql = string.Format("DELETE FROM FINSAT6{0}.FINSAT6{0}.STI WHERE (EvrakNo = '{1}') AND (KynkEvrakTip = 53) AND (IslemTip = 6);", sirket, ID);
+            if (Tip == false)//onaylanmamışsa emg sil
+            {
+                sql += string.Format("DELETE FROM UYSPLN6{0}.UYSPLN6{0}.EMG WHERE (StiNo = '{1}');", sirket, ID);
+            }
+            else//onaylanmışsa sadece güncelle
+            {
+               sql+= string.Format(@"UPDATE UYSPLN6{0}.UYSPLN6{0}.EMG 
+                        SET BitTarih = 0, BitSaat = 0, Talimat3 = '', TrsfrNo = '', Degistiren= '{4}', DegisTarih = {2}, DegisSaat = {3}, RecID = -1, Birim = -1, CurDurum = -1, CurDurSb = -1, SonDurSb = -1, PlOnay = -1, YMUret = -1, YMMly = -1, YMEndMly = -1, YMDepo = -1, YMHmdCik = -1, Teklif = -1, KayitTuru = -1
+                        WHERE TrsfrNo = '{1}'", sirket, ID, tarih, saat, vUser.UserName);
+            }
             //ürün listesi
-            var liste = db.Database.SqlQuery<frmUysWaitingTransfer>(string.Format(@"SELECT MalKodu, Birim, Miktar, case when IslemTur=0 then '' else Depo end as CikisDepo, case when IslemTur=1 then '' else Depo end as GirisDepo FROM FINSAT6{0}.FINSAT6{0}.STI
-																					WHERE (KynkEvrakTip = 53) AND (IslemTip = 6) AND (EvrakNo = '{1}')", sirket, ID)).ToList();
+            var liste = db.Database.SqlQuery<frmUysWaitingTransfer>(string.Format(@"SELECT MalKodu, Birim, Miktar, case when IslemTur=0 then '' else Depo end as CikisDepo, case when IslemTur=1 then '' else Depo end as GirisDepo FROM FINSAT6{0}.FINSAT6{0}.STI WHERE (KynkEvrakTip = 53) AND (IslemTip = 6) AND (EvrakNo = '{1}')", sirket, ID)).ToList();
             foreach (var item in liste)
             {
                 //ara depodan düş
