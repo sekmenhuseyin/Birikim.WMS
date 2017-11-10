@@ -118,4 +118,12 @@
         public int? GirisYetki { get; set; }
         public int? CikisYetki { get; set; }
     }
+    /// <summary>
+    /// stok kontrol
+    /// </summary>
+    public class frmUysStokKontrol
+    {
+        public decimal Miktar1 { get; set; }
+        public decimal Miktar2 { get; set; }
+    }
 }
