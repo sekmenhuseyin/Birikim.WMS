@@ -20,15 +20,11 @@ namespace Wms12m.Entity.Models
         public string TopLogo { get; set; }
         public bool AllowNewUser { get; set; }
         public bool AllowForgotPass { get; set; }
-        public bool KabloSiparisMySql { get; set; }
         public string SmtpEmail { get; set; }
         public string SmtpPass { get; set; }
         public Nullable<int> SmtpPort { get; set; }
         public string SmtpHost { get; set; }
         public bool SmtpSSL { get; set; }
-        public bool homeDepo { get; set; }
-        public bool homeUser { get; set; }
-        public bool homeTask { get; set; }
         public bool OnayStok { get; set; }
         public bool OnayTeminat { get; set; }
         public bool OnaySiparis { get; set; }
@@ -38,17 +34,12 @@ namespace Wms12m.Entity.Models
         public bool OnayCek { get; set; }
         public bool OnayTekno { get; set; }
         public bool CrmOzet { get; set; }
+        public bool GorevProjesi { get; set; }
+        public bool KabloSiparisMySql { get; set; }
         public bool SevkiyatVarmi { get; set; }
-        public short MaliYil { get; set; }
-        public short MaliYil1 { get; set; }
-        public short MaliYil2 { get; set; }
-        public string MaliYilDb { get; set; }
-        public string MaliYilDb1 { get; set; }
-        public string MaliYilDb2 { get; set; }
+        public bool SiparisOnayParametre { get; set; }
+        public string GitServerAddress { get; set; }
         public string Version { get; set; }
         public bool Aktif { get; set; }
-        public bool SiparisOnayParametre { get; set; }
-        public bool GorevProjesi { get; set; }
-        public string GitServerAddress { get; set; }
     }
 }

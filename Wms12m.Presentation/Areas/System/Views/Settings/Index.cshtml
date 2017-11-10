@@ -154,40 +154,6 @@
                                 </div>
                             </div>
                         </div>
-                        <hr /><h3>Mali Yıl</h3>
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.MaliYil, "Mali Yıl ve Bağlı Veritabanı", htmlAttributes: new { @class = "control-label col-md-3" })
-                            <div class="col-md-4">
-                                @Html.EditorFor(model => model.MaliYil, new { htmlAttributes = new { @class = "form-control touchspin" } })
-                                @Html.ValidationMessageFor(model => model.MaliYil, "", new { @class = "text-danger" })
-                            </div>
-                            <div class="col-md-4">
-                                @Html.EditorFor(model => model.MaliYilDb, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.MaliYilDb, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.MaliYil1, "Bir Önceki Mali Yıl ve Bağlı Veritabanı", htmlAttributes: new { @class = "control-label col-md-3" })
-                            <div class="col-md-4">
-                                @Html.EditorFor(model => model.MaliYil1, new { htmlAttributes = new { @class = "form-control touchspin" } })
-                                @Html.ValidationMessageFor(model => model.MaliYil1, "", new { @class = "text-danger" })
-                            </div>
-                            <div class="col-md-4">
-                                @Html.EditorFor(model => model.MaliYilDb1, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.MaliYilDb1, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.MaliYil2, "İki Önceki Mali Yıl ve Bağlı Veritabanı", htmlAttributes: new { @class = "control-label col-md-3" })
-                            <div class="col-md-4">
-                                @Html.EditorFor(model => model.MaliYil2, new { htmlAttributes = new { @class = "form-control touchspin" } })
-                                @Html.ValidationMessageFor(model => model.MaliYil2, "", new { @class = "text-danger" })
-                            </div>
-                            <div class="col-md-4">
-                                @Html.EditorFor(model => model.MaliYilDb2, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.MaliYilDb2, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
                         <hr /><h3>Anasayfa</h3>
                         <div class="form-group">
                             @Html.LabelFor(model => model.OnayStok, "Stok Onaylama", htmlAttributes: new { @class = "control-label col-md-3" })
@@ -258,33 +224,6 @@
                                 <div class="checkbox">
                                     @Html.CheckBoxFor(a => a.OnayTekno, new { @checked = Model.OnayTekno ? "checked" : string.Empty, @class = "make-switch", @data_size = "normal", @data_on_color = "success", @data_off_text = "Pasif", @data_on_text = "Aktif", @data_off_color = "danger" })
                                     @Html.ValidationMessageFor(model => model.OnayTekno, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.homeDepo, "Depo Sayısı", htmlAttributes: new { @class = "control-label col-md-3" })
-                            <div class="col-md-9">
-                                <div class="checkbox">
-                                    @Html.CheckBoxFor(a => a.homeDepo, new { @checked = Model.homeDepo ? "checked" : string.Empty, @class = "make-switch", @data_size = "normal", @data_on_color = "success", @data_off_text = "Pasif", @data_on_text = "Aktif", @data_off_color = "danger" })
-                                    @Html.ValidationMessageFor(model => model.homeDepo, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.homeUser, "Kullanıcı Sayısı", htmlAttributes: new { @class = "control-label col-md-3" })
-                            <div class="col-md-9">
-                                <div class="checkbox">
-                                    @Html.CheckBoxFor(a => a.homeUser, new { @checked = Model.homeUser ? "checked" : string.Empty, @class = "make-switch", @data_size = "normal", @data_on_color = "success", @data_off_text = "Pasif", @data_on_text = "Aktif", @data_off_color = "danger" })
-                                    @Html.ValidationMessageFor(model => model.homeUser, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.homeTask, "Görev Sayısı", htmlAttributes: new { @class = "control-label col-md-3" })
-                            <div class="col-md-9">
-                                <div class="checkbox">
-                                    @Html.CheckBoxFor(a => a.homeTask, new { @checked = Model.homeTask ? "checked" : string.Empty, @class = "make-switch", @data_size = "normal", @data_on_color = "success", @data_off_text = "Pasif", @data_on_text = "Aktif", @data_off_color = "danger" })
-                                    @Html.ValidationMessageFor(model => model.homeTask, "", new { @class = "text-danger" })
                                 </div>
                             </div>
                         </div>

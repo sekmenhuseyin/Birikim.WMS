@@ -16,7 +16,7 @@
     </div>
 }
 <div class="row">@{
-if (tst.homeDepo == true && Model.yetki.Contains("'DashboardDepo'") == true)
+if (Model.yetki.Contains("'DashboardDepo'") == true)
 {
     <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
         <a class="dashboard-stat dashboard-stat-v2 red" href="/Constants/Storage">
@@ -28,7 +28,7 @@ if (tst.homeDepo == true && Model.yetki.Contains("'DashboardDepo'") == true)
         </a>
     </div>
 }
-if (tst.homeUser == true && Model.yetki.Contains("'DashboardKullanici'") == true)
+if (Model.yetki.Contains("'DashboardKullanici'") == true)
 {
     <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
         <a class="dashboard-stat dashboard-stat-v2 green" href="/Users">
@@ -40,7 +40,7 @@ if (tst.homeUser == true && Model.yetki.Contains("'DashboardKullanici'") == true
         </a>
     </div>
 }
-if (tst.homeTask == true && Model.yetki.Contains("'DashboardGorevler'") == true)
+if (Model.yetki.Contains("'DashboardGorevler'") == true)
 {
     <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
         <a class="dashboard-stat dashboard-stat-v2 blue" href="/WMS/Tasks">

@@ -37,9 +37,6 @@ namespace Wms12m.Presentation.Areas.System.Controllers
                 set.SmtpHost = tbl.SmtpHost;
                 set.SmtpSSL = tbl.SmtpSSL;
                 set.GorevProjesi = tbl.GorevProjesi;
-                set.homeDepo = tbl.homeDepo;
-                set.homeUser = tbl.homeUser;
-                set.homeTask = tbl.homeTask;
                 set.OnayStok = tbl.OnayStok;
                 set.OnayTeminat = tbl.OnayTeminat;
                 set.OnaySiparis = tbl.OnaySiparis;
@@ -51,12 +48,6 @@ namespace Wms12m.Presentation.Areas.System.Controllers
                 set.SevkiyatVarmi = tbl.SevkiyatVarmi;
                 set.GitServerAddress = tbl.GitServerAddress;
                 set.CrmOzet = tbl.CrmOzet;
-                set.MaliYil = tbl.MaliYil;
-                set.MaliYil1 = tbl.MaliYil1;
-                set.MaliYil2 = tbl.MaliYil2;
-                set.MaliYilDb = tbl.MaliYilDb;
-                set.MaliYilDb1 = tbl.MaliYilDb1;
-                set.MaliYilDb2 = tbl.MaliYilDb2;
                 set.Version = tbl.Version;
                 set.Aktif = tbl.Aktif;
                 db.SaveChanges();
