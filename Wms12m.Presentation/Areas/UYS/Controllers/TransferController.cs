@@ -225,7 +225,7 @@ namespace Wms12m.Presentation.Areas.UYS.Controllers
             if (sonuc.Status == true)
             {
                 db.Database.ExecuteSqlCommand(string.Format(@"UPDATE UYSPLN6{0}.UYSPLN6{0}.EMG 
-                        SET BitTarih = {2}, BitSaat = {3}, Talimat3 = '{4}', TrsfrNo = '{5}', Degistiren= '{6}', DegisTarih = {2}, DegisSaat = {3}, RecID = -1, Birim = -1, CurDurum = -1, CurDurSb = -1, SonDurSb = -1, PlOnay = -1, YMUret = -1, YMMly = -1, YMEndMly = -1, YMDepo = -1, YMHmdCik = -1, Teklif = -1, KayitTuru = -1
+                        SET BitTarih = {2}, BitSaat = {3}, Talimat3 = '{4}', TrsfrNo = '{5}', Degistiren= '{6}', DegisTarih = {2}, DegisSaat = {3}, CurDurum = 1, RecID = -1, Birim = -1, CurDurSb = -1, SonDurSb = -1, PlOnay = -1, YMUret = -1, YMMly = -1, YMEndMly = -1, YMDepo = -1, YMHmdCik = -1, Teklif = -1, KayitTuru = -1
                         WHERE EmirNo = '{1}'", sirket, ID, tarih, saat, vUser.FirstName, EmirVeEvrak.EvrakNo, vUser.UserName));
             }
             return Json(sonuc, JsonRequestBehavior.AllowGet);
