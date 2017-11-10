@@ -234,6 +234,9 @@
     <Content Include="Content\images\12M-Logo-30.png" />
     <Content Include="Content\images\12M-Logo-90.png" />
     <Content Include="Content\images\12M-Logo.png" />
+    <Content Include="Content\images\Dohler-Logo-30.png" />
+    <Content Include="Content\images\Dohler-Logo-90.png" />
+    <Content Include="Content\images\Dohler-Logo.png" />
     <Content Include="Content\images\iz-logo-30.png" />
     <Content Include="Content\images\iz-logo-90.png" />
     <Content Include="Content\images\peli-logo-30.png" />
