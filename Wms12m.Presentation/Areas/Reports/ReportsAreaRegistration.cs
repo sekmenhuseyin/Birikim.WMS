@@ -17,7 +17,7 @@ namespace Wms12m.Presentation.Areas.Reports
             context.MapRoute(
                 "Reports_default",
                 "Reports/{controller}/{action}/{id}",
-                new { controller = "Home", action = "Index", id = UrlParameter.Optional },
+                new { controller = "Financial", action = "Bakiye", id = UrlParameter.Optional },
                 new[] { "Wms12m.Presentation.Areas.Reports.Controllers" }
             );
         }

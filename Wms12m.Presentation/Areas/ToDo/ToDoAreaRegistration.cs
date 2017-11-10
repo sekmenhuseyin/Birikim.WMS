@@ -17,7 +17,7 @@ namespace Wms12m.Presentation.Areas.ToDo
             context.MapRoute(
                 "ToDo_default",
                 "ToDo/{controller}/{action}/{id}",
-                new { controller = "Home", action = "Index", id = UrlParameter.Optional },
+                new { controller = "DutyWork", action = "Index", id = UrlParameter.Optional },
                 new[] { "Wms12m.Presentation.Areas.ToDo.Controllers" }
             );
         }

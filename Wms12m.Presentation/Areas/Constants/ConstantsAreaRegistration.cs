@@ -17,7 +17,7 @@ namespace Wms12m.Presentation.Areas.Constants
             context.MapRoute(
                 "Constants_default",
                 "Constants/{controller}/{action}/{id}",
-                new { controller = "Home", action = "Index", id = UrlParameter.Optional },
+                new { controller = "Storage", action = "Index", id = UrlParameter.Optional },
                 new[] { "Wms12m.Presentation.Areas.Constants.Controllers" }
             );
         }

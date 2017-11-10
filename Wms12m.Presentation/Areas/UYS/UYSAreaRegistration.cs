@@ -17,7 +17,7 @@ namespace Wms12m.Presentation.Areas.UYS
             context.MapRoute(
                 "UYS_default",
                 "UYS/{controller}/{action}/{id}",
-                new { controller = "Home", action = "Index", id = UrlParameter.Optional },
+                new { controller = "Transfer", action = "Index", id = UrlParameter.Optional },
                 new[] { "Wms12m.Presentation.Areas.UYS.Controllers" }
             );
         }

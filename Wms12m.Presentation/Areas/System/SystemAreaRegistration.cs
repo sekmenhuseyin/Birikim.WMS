@@ -17,7 +17,7 @@ namespace Wms12m.Presentation.Areas.System
             context.MapRoute(
                 "System_default",
                 "System/{controller}/{action}/{id}",
-                new { controller = "Home", action = "Index", id = UrlParameter.Optional },
+                new { controller = "Settings", action = "Index", id = UrlParameter.Optional },
                 new[] { "Wms12m.Presentation.Areas.System.Controllers" }
             );
         }

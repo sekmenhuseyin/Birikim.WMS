@@ -17,7 +17,7 @@ namespace Wms12m.Presentation.Areas.Approvals
             context.MapRoute(
                 "Approval_default",
                 "Approvals/{controller}/{action}/{id}",
-                new { controller = "Home", action = "Index", id = UrlParameter.Optional },
+                new { controller = "Invoice", action = "Index", id = UrlParameter.Optional },
                 new[] { "Wms12m.Presentation.Areas.Approvals.Controllers" }
             );
         }
