@@ -188,7 +188,7 @@ namespace Wms12m
             var yetkikontrol = db.GetPermissionFor(KullID, tbl.RoleName, gtipi, "WMS", "Reading").FirstOrDefault().Value;
             if (yetkikontrol == true)
             {
-                string tempCase = "";
+                string tempCase = "",tempCase2 = "";
                 if (gorevtipi == ComboItems.KontrolSayım.ToInt32())
                 {
                     if (durum == ComboItems.Açık.ToInt32())
@@ -200,15 +200,19 @@ namespace Wms12m
                         tempCase = " OR wms.GorevUsers.BitisTarihi IS NOT NULL";
                     }
                 }
+                else if (gorevtipi == ComboItems.Satıştanİade.ToInt32())
+                {
+                    tempCase2 = " OR wms.Depo.ID>0";
+                }
                 string sql = string.Format("SELECT Gorev.ID, ISNULL(Gorev.IrsaliyeID, 0) as IrsaliyeID, wms.fnFormatDateFromInt(Gorev.OlusturmaTarihi) AS OlusturmaTarihi, Gorev.Bilgi, Gorev.Aciklama, Gorev.GorevNo, ISNULL(wms.IRS.EvrakNo, '') as EvrakNo, wms.Depo.DepoKodu, Gorev.Atayan, Gorev.Gorevli, ComboItem_Name.[Name] AS Durum " +
                                         "FROM wms.Gorev WITH (nolock) INNER JOIN wms.Depo WITH (nolock) ON Gorev.DepoID = wms.Depo.ID INNER JOIN ComboItem_Name WITH (nolock) ON Gorev.DurumID = ComboItem_Name.ID LEFT OUTER JOIN wms.GorevUsers WITH (nolock) ON wms.Gorev.ID = wms.GorevUsers.GorevID LEFT OUTER JOIN usr.Users WITH (nolock) ON Gorev.Gorevli = usr.Users.Kod LEFT OUTER JOIN wms.IRS WITH (nolock) ON Gorev.IrsaliyeID = wms.IRS.ID " +
-                                        "WHERE (wms.Depo.ID = {3}) and " +
+                                        "WHERE (wms.Depo.ID = {3} {5})  and " +
                                                 "case when ({0}>0) then case when (Gorev.GorevTipiID = {0}) then 1 else 0 end else 0 end = 1 AND " +
                                                 "(CASE WHEN ('{1}' <> '') THEN CASE WHEN (wms.GorevUsers.UserName = '{1}' OR wms.GorevUsers.UserName IS NULL) THEN 1 ELSE 0 END ELSE 1 END = 1) AND " +
                                                 "case when ('{1}' <> '') then case when (usr.Users.Kod = '{1}') then 1 else 0 end else 1 end = 1 AND  (" +
                                                 "case when ({2}>0) then case when (Gorev.DurumID = {2}) then 1 else 0 end else 1 end = 1  {4})" +
                                         "GROUP BY wms.Gorev.ID, ISNULL(wms.Gorev.IrsaliyeID, 0), wms.fnFormatDateFromInt(wms.Gorev.OlusturmaTarihi), wms.Gorev.Bilgi, wms.Gorev.Aciklama, wms.Gorev.GorevNo, ISNULL(wms.IRS.EvrakNo, ''), wms.Depo.DepoKodu, wms.Gorev.Atayan, wms.Gorev.Gorevli, ComboItem_Name.Name" +
-                                        "", gorevtipi, gorevli, durum, DepoID, tempCase);
+                                        "", gorevtipi, gorevli, durum, DepoID, tempCase, tempCase2);
                 return db.Database.SqlQuery<Tip_GOREV>(sql).ToList();
             }
             return new List<Tip_GOREV>();
@@ -645,6 +649,7 @@ namespace Wms12m
             string gorevNo = db.SettingsGorevNo(DateTime.Today.ToOADateInt(), mGorev.DepoID).FirstOrDefault();
             //var kull = db.Users.Where(m => m.ID == KullID).Select(m => m.Kod).FirstOrDefault();
             var kull = db.Users.Where(m => m.ID == KullID).FirstOrDefault();
+            
             if (kull.UserDetail.SatisFaturaSeri == null || kull.UserDetail.SatisIrsaliyeSeri == null)
                 return new Result(false, "Bu kullanıcıya ait seri nolar hatalı ! Lütfen terminal yetkilerinden seriyi değiştirin yada Güneşten seçili seri için bir değer verin.");
             Finsat finsat = new Finsat(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, mGorev.IR.SirketKod);
@@ -673,7 +678,7 @@ namespace Wms12m
                 bool efatKullanici = false;
                 if (tmp == 1) efatKullanici = true;
                 //send to finsat
-                var sonuc = finsat.SatisIade(item, KullID, kull.UserDetail.SatistanIadeIrsaliyeSeri.Value, yil, efatKullanici);
+                var sonuc = finsat.SatisIade(item, KullID, kull.UserDetail.SatistanIadeIrsaliyeSeri.Value, yil, efatKullanici, kull.UserDetail.Depo.DepoKodu);
                 if (sonuc.Status == true)
                 {
                     //finish

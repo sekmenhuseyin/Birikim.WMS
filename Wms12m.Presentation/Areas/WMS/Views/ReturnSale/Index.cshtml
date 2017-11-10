@@ -60,6 +60,20 @@
                             <div class="col-sm-1"><button type="button" class="btn btn-circle green" onclick="FuncSearchBtn();"><i class="icon-refresh"></i></button></div>
                         </div>
                         <div class="form-group">
+                            <label class="col-md-3 control-label">Evrak No</label>
+                            <div class="col-md-4">
+                                <input class="form-control" type="text" id="txtEvrakNo" name="EvrakNo" />
+                                <span class="field-validation-valid" data-valmsg-for="EvrakNo" data-valmsg-replace="true" style="color:red;"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Evrak Tarihi</label>
+                            <div class="col-md-4">
+                                <input type="text" name="Tarih" id="Tarih" class="form-control input-circle daters dateboxbg" value="@DateTime.Today.ToString("dd.MM.yyyy")" />
+                                <span class="field-validation-valid" data-valmsg-for="Tarih" data-valmsg-replace="true" style="color:red;"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
                             <label class="col-md-3 control-label">Başlangıç Tarihi</label>
                             <div class="col-md-4">
                                 <input type="text" name="Starts" id="Starts" class="form-control input-circle daters dateboxbg" value="@DateTime.Today.AddDays(-7).ToString("dd.MM.yyyy")" />
@@ -124,7 +138,7 @@
          $.ajax({
              type: 'POST',
              url: "/WMS/ReturnSale/GetSiparis/",
-             data: { Sirket: $("#SirketID").val(), DepoID: $('#DepoID').val(), CHK: $("#txtHesapBas").val(),  Starts:$("#Starts").val(), Ends: $("#Ends").val() },
+             data: { Sirket: $("#SirketID").val(), DepoID: $('#DepoID').val(), CHK: $("#txtHesapBas").val(), Starts: $("#Starts").val(), Ends: $("#Ends").val(), EvrakNo: $("#txtEvrakNo").val(), Tarih: $("#Tarih").val() },
              dataType: "html",
              success: function (data) {
                  if (data == "") { Modaldialog("Lütfen Tekrar Deneyin", "Hata", "Tamam", "btn-danger");}

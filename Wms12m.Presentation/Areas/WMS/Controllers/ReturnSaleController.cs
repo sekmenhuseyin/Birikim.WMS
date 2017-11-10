@@ -82,6 +82,8 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             //return
             ViewBag.EvrakNos = tbl.checkboxes;
             ViewBag.DepoID = tbl.DepoID;
+            ViewBag.Evrak = tbl.EvrakNos;
+            ViewBag.Tarih = tbl.Tarih;
             //ViewBag.Hatali = sifirStok + hataliStok + "<br /><br />";
             //ViewBag.hataliStok = hataliStok == "" ? true : false;
             return View("Step2", list);
@@ -106,6 +108,13 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             var rowID = new List<int>();
             int i = 0;
 
+            bool kontrol1 = DateTime.TryParse(tbl.Tarih, out DateTime tmpTarih);
+            if (kontrol1 == false)
+            {
+                db.Logger(vUser.UserName, "", fn.GetIPAddress(), "Tarih hatası: " + tbl.Tarih, "", "WMS/ReturnSale/Step3");
+                return Redirect("/");
+            }
+            int tarih = tmpTarih.ToOADateInt();
 
             //malkodları,miktarları,birimleri ayır
             foreach (var item in checkList)
@@ -130,7 +139,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             InsertIadeIrsaliye_Result cevap = new InsertIadeIrsaliye_Result();
             Result _Result;
             //loop the list
-            cevap = db.InsertIadeIrsaliye(sirket, idDepo, GorevNo, evrak, today, "Irs: " + evrak + ", Tedarikçi: " + hesapKodu, false, ComboItems.Satıştanİade.ToInt32(), vUser.UserName, today, time, hesapKodu, "", 0, "").FirstOrDefault();
+            cevap = db.InsertIadeIrsaliye(sirket, idDepo, GorevNo, tbl.SirketID, tarih, "Irs: " + tbl.SirketID + ", Tedarikçi: " + hesapKodu, false, ComboItems.Satıştanİade.ToInt32(), vUser.UserName, today, time, hesapKodu, "", 0, "").FirstOrDefault();
             foreach (var item in checkList)
             {
 
@@ -197,10 +206,10 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         ///depo ve şirket seçince açık siparişler gelecek
         ///</summary>
         [HttpPost]
-        public PartialViewResult GetSiparis(string Sirket, string DepoID, string CHK, string Starts, string Ends)
+        public PartialViewResult GetSiparis(string Sirket, string DepoID, string CHK, string Starts, string Ends, string EvrakNo, string Tarih)
         {
             //ilk kontrol
-            if (DepoID == "0" || Sirket == "0" || CHK == "") return null;
+            if (DepoID == "0" || Sirket == "0" || CHK == "" || EvrakNo == "" || Tarih == "") return null;
             bool tarihler = DateTime.TryParse(Starts, out DateTime StartDate); if (tarihler == false) return null;
             tarihler = DateTime.TryParse(Ends, out DateTime EndDate); if (tarihler == false) return null;
             if (StartDate > EndDate) return null;
@@ -212,6 +221,8 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             ViewBag.Depo = DepoID;
             ViewBag.Sirket = Sirket;
             ViewBag.CHK = CHK;
+            ViewBag.EvrakNos = EvrakNo;
+            ViewBag.Tarih = Tarih;
             try
             {
                 var list = db.Database.SqlQuery<frmSiparisler>(sql).ToList();

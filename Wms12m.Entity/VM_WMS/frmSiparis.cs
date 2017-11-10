@@ -31,6 +31,7 @@ namespace Wms12m.Entity
         [Required]
         public string checkboxes { get; set; }
         public string EvrakNos { get; set; }
+        public string Tarih { get; set; } = "";
     }
     /// <summary>
     /// siparişlerin malzemeleri

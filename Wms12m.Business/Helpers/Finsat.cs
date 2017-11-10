@@ -198,22 +198,22 @@ namespace Wms12m
         /// <summary>
         /// satıştan iade
         /// </summary>
-        public Result SatisIade(IR irsaliye, int kulID, int IrsaliyeSeri, int yil, bool efatKullanici)
+        public Result SatisIade(IR irsaliye, int kulID, int IrsaliyeSeri, int yil, bool efatKullanici, string depo)
         {
             DevHelper.Ayarlar.SetConStr(ConStr);
             DevHelper.Ayarlar.SirketKodu = irsaliye.SirketKod;
             List<STIBase> STIBaseList = new List<STIBase>();
 
             var ftrKayit = new FaturaKayit(ConStr, SirketKodu);
-            List<EvrakBilgi> evrkno;
-            try
-            {
-                evrkno = ftrKayit.EvrakNo_Getir(true, IrsaliyeSeri, yil, FaturaTipi.SatistanIadeIrsaliyesi.ToInt32());
-            }
-            catch (Exception ex)
-            {
-                return new Result(false, ex.Message);
-            }
+            //List<EvrakBilgi> evrkno;
+            //try
+            //{
+            //    evrkno = ftrKayit.EvrakNo_Getir(true, IrsaliyeSeri, yil, FaturaTipi.SatistanIadeIrsaliyesi.ToInt32());
+            //}
+            //catch (Exception ex)
+            //{
+            //    return new Result(false, ex.Message);
+            //}
             using (WMSEntities db = new WMSEntities())
             {
                 string kaydeden = db.Users.Where(m => m.ID == kulID).Select(m => m.Kod).FirstOrDefault();
@@ -223,13 +223,13 @@ namespace Wms12m
                 {
                     STIBase sti = new STIBase()
                     {
-                        EvrakNo = evrkno[0].EvrakNo,
+                        EvrakNo = irsaliye.EvrakNo,
                         HesapKodu = stItem.HesapKodu,
                         Tarih = stItem.Tarih,
                         MalKodu = stItem.MalKodu,
                         Miktar = stItem.OkutulanMiktar,
                         Birim = stItem.Birim,
-                        Depo = stItem.DepoKodu,
+                        Depo = depo,
                         EvrakTipi = STIEvrakTipi.SatistanIadeIrsaliyesi,
                         Kaydeden = kaydeden,
                         KayitSurum = "9.01.028",
@@ -307,7 +307,7 @@ namespace Wms12m
             var Sonuc = new OnikimCore.GunesCore.IslemSonuc(false);
             try
             {
-                Sonuc = IrsIslem.Irsaliye_Kayit(1, efatKullanici, STIBaseList);
+                Sonuc = IrsIslem.Irsaliye_Kayit(-1, efatKullanici, STIBaseList);
             }
             catch (Exception ex)
             {
