@@ -247,7 +247,7 @@ namespace Wms12m.Presentation.Areas.UYS.Controllers
             else//onaylanmışsa sadece güncelle
             {
                 sql += string.Format(@"UPDATE UYSPLN6{0}.UYSPLN6{0}.EMG 
-                        SET BitTarih = 0, BitSaat = 0, Talimat3 = '', TrsfrNo = '', Degistiren= '{4}', DegisTarih = {2}, DegisSaat = {3}, RecID = -1, Birim = -1, CurDurum = -1, CurDurSb = -1, SonDurSb = -1, PlOnay = -1, YMUret = -1, YMMly = -1, YMEndMly = -1, YMDepo = -1, YMHmdCik = -1, Teklif = -1, KayitTuru = -1
+                        SET BitTarih = 0, BitSaat = 0, Talimat3 = '', TrsfrNo = '', Degistiren= '{4}', DegisTarih = {2}, DegisSaat = {3}, RecID = 0, Birim = 0, CurDurum = 0, CurDurSb = 0, SonDurSb = 0, PlOnay = 0, YMUret = 0, YMMly = 0, YMEndMly = 0, YMDepo = 0, YMHmdCik = 0, Teklif = 0, KayitTuru = 0
                         WHERE TrsfrNo = '{1}'", sirket, ID, tarih, saat, vUser.UserName);
             }
             //ürün listesi
