@@ -50,8 +50,11 @@ namespace Wms12m.Presentation.Areas.UYS.Controllers
         /// <summary>
         /// ürün stoğu bul
         /// </summary>
-        public JsonResult GetStock(string MalKodu, int Tarih, string SeriNo, string Depo)
+        public JsonResult GetStock(string MalKodu, int Tarih, string SeriNo, string Depo, decimal Miktar)
         {
+            //miktar kontrol
+            if (fn.isNumeric(Miktar) == false)
+                return Json(new frmMalKoduMiktar(), JsonRequestBehavior.AllowGet);
             //kontrol
             var sql = string.Format(@"SELECT
                                     ISNULL((SELECT SUM(CASE WHEN IslemTur = 0 THEN Miktar ELSE - Miktar END) AS Miktar
@@ -61,10 +64,10 @@ namespace Wms12m.Presentation.Areas.UYS.Controllers
                                     ISNULL((SELECT SUM(CASE WHEN IslemTur = 0 THEN Miktar ELSE - Miktar END) AS Miktar
                                         FROM FINSAT6{0}.FINSAT6{0}.STI WITH (nolock) LEFT OUTER JOIN FINSAT6{0}.FINSAT6{0}.STK WITH (nolock) ON FINSAT6{0}.FINSAT6{0}.STK.MalKodu = FINSAT6{0}.FINSAT6{0}.STI.MalKodu
                                         WHERE (FINSAT6{0}.FINSAT6{0}.STI.MalKodu = '{1}') AND (FINSAT6{0}.FINSAT6{0}.STI.SeriNo = '{4}') AND (DATALENGTH(FINSAT6{0}.FINSAT6{0}.STI.SeriNo) = {5}) AND (FINSAT6{0}.FINSAT6{0}.STI.Depo = '{3}') AND (FINSAT6{0}.FINSAT6{0}.STI.IrsFat <> 2) AND(FINSAT6{0}.FINSAT6{0}.STI.KynkEvrakTip <> 95) and KynkEvrakTip not in (141,142,143,144) and not (KynkEvrakTip in (68,69) and ErekIIFKEvrakTip in (5,2) and IrsFat = 3)
-                                        GROUP BY FINSAT6{0}.FINSAT6{0}.STI.MalKodu, FINSAT6{0}.FINSAT6{0}.STI.Depo, FINSAT6{0}.FINSAT6{0}.STI.SeriNo), 0) as Miktar2", 
+                                        GROUP BY FINSAT6{0}.FINSAT6{0}.STI.MalKodu, FINSAT6{0}.FINSAT6{0}.STI.Depo, FINSAT6{0}.FINSAT6{0}.STI.SeriNo), 0) as Miktar2",
                                     db.GetSirketDBs().FirstOrDefault(), MalKodu, Tarih, Depo, SeriNo, SeriNo.Length);
             var stokKontrol = db.Database.SqlQuery<frmUysStokKontrol>(sql).FirstOrDefault();
-            if (stokKontrol.Miktar1 == 0 || stokKontrol.Miktar2 == 0)
+            if (stokKontrol.Miktar1 < Miktar || stokKontrol.Miktar2 < Miktar)
                 return Json(new frmMalKoduMiktar(), JsonRequestBehavior.AllowGet);
             //return
             sql = string.Format(@"SELECT '{1}' as MalKodu, isnull(sum(case when IslemTur = 0 then Miktar else -Miktar end), 0) as Miktar, Birim1 as Birim
@@ -243,7 +246,7 @@ namespace Wms12m.Presentation.Areas.UYS.Controllers
             }
             else//onaylanmışsa sadece güncelle
             {
-               sql+= string.Format(@"UPDATE UYSPLN6{0}.UYSPLN6{0}.EMG 
+                sql += string.Format(@"UPDATE UYSPLN6{0}.UYSPLN6{0}.EMG 
                         SET BitTarih = 0, BitSaat = 0, Talimat3 = '', TrsfrNo = '', Degistiren= '{4}', DegisTarih = {2}, DegisSaat = {3}, RecID = -1, Birim = -1, CurDurum = -1, CurDurSb = -1, SonDurSb = -1, PlOnay = -1, YMUret = -1, YMMly = -1, YMEndMly = -1, YMDepo = -1, YMHmdCik = -1, Teklif = -1, KayitTuru = -1
                         WHERE TrsfrNo = '{1}'", sirket, ID, tarih, saat, vUser.UserName);
             }
