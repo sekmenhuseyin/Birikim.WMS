@@ -223,6 +223,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         {
             ViewBag.Yetki = CheckPerm(Perms.TodoProje, PermTypes.Writing);
             ViewBag.Yetki2 = CheckPerm(Perms.TodoProje, PermTypes.Deleting);
+            ViewBag.ID = ID;
             return PartialView("Files", db.ProjeFormDosyas.Where(a => a.ProjeID == ID).ToList());
         }
     }
