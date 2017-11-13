@@ -98,6 +98,97 @@
         public string DegisSaat { get; set; }
     }
 
+
+    /// <summary>
+    /// onay bekleyen transfer listesi
+    /// </summary>
+    public class SatisIadeIcmal
+    {   
+        public string IadeNo { get; set; }
+        public string IadeTarih { get; set; }
+        public string HesapKodu { get; set; }
+        public string Unvan { get; set; }
+        public string Depo { get; set; }
+        public int Cesit { get; set; }
+        public decimal Miktar { get; set; }
+        public string FaturaNo { get; set; }
+        public string FaturaTarih { get; set; }
+        public string Kaydeden { get; set; }
+        public string EvrakID { get; set; }
+
+        /// <summary>Parametreler : ŞirketKodu </summary>
+        public static string Sorgu = @"
+        SELECT STK005_EvrakSeriNo as IadeNo, CONVERT(VARCHAR, CAST(STK005_IslemTarihi - 2 AS datetime), 104) as IadeTarih,
+                STK005_Kod8 as HesapKodu, MIN(CAR002_Unvan1) as Unvan, STK005_Depo as Depo, COUNT(STK005_Row_ID) as Cesit, SUM(STK005_Miktari) as Miktar, 
+                STK005_Kod9 as FaturaNo, CONVERT(VARCHAR, CAST(STK005_Kod11 - 2 AS datetime), 104) as FaturaTarih, STK005_GirenKodu as Kaydeden,
+	            STK005_EvrakSeriNo+','+CAST(STK005_IslemTarihi as varchar)+','+STK005_Kod9+','+CAST(CAST(STK005_Kod11 as INT) as varchar) as EvrakID
+        FROM  YNS{0}.YNS{0}.STK005(NOLOCK)
+        LEFT JOIN YNS{0}.YNS{0}.CAR002(NOLOCK) ON STK005_Kod8=CAR002_HesapKodu 
+        WHERE STK005_EvrakTipi=99 AND STK005_IslemTipi=2 AND STK005_GC=0 AND STK005_Kod11>0 AND STK005_Kod9<>'' AND
+                STK005_Kod10='Onay Bekliyor' AND SUBSTRING(STK005_Not5,1,8)='AndMobil'
+        GROUP BY STK005_EvrakSeriNo, STK005_IslemTarihi, STK005_Kod8, STK005_Depo, STK005_Kod9, STK005_Kod11, STK005_GirenKodu";
+    }
+
+
+
+    #region SatisIadeDetay Class
+    public class SatisIadeDetay
+    {
+        /// <summary> NVarChar(16) (Allow Null) </summary>
+        public string IadeNo { get; set; }
+        /// <summary> VarChar(30) (Allow Null) </summary>
+        public string IadeTarih { get; set; }
+        /// <summary> NVarChar(20) (Allow Null) </summary>
+        public string HesapKodu { get; set; }
+        /// <summary> NVarChar(40) (Allow Null) </summary>
+        public string Unvan { get; set; }
+        /// <summary> NVarChar(10) (Allow Null) </summary>
+        public string Depo { get; set; }
+        /// <summary> NVarChar(30) (Allow Null) </summary>
+        public string MalKodu { get; set; }
+        /// <summary> NVarChar(50) (Allow Null) </summary>
+        public string MalAdi { get; set; }
+        /// <summary> Decimal(17,4) (Allow Null) </summary>
+        public decimal? Miktar { get; set; }
+        /// <summary> NVarChar(5) (Allow Null) </summary>
+        public string Birim { get; set; }
+        /// <summary> Decimal(23,6) (Allow Null) </summary>
+        public decimal? Fiyat { get; set; }
+        /// <summary> NVarChar(3) (Allow Null) </summary>
+        public string DovizCinsi { get; set; }
+        /// <summary> Decimal(38,7) (Allow Null) </summary>
+        public decimal? Tutar { get; set; }
+        /// <summary> NVarChar(20) (Allow Null) </summary>
+        public string FaturaNo { get; set; }
+        /// <summary> VarChar(30) (Allow Null) </summary>
+        public string FaturaTarih { get; set; }
+        /// <summary> NVarChar(10) (Allow Null) </summary>
+        public string Kaydeden { get; set; }
+
+        /// <summary>Parametreler : ŞirketKodu, EvrakNo, Tarih</summary>
+        public static string Sorgu = @"
+        SELECT STI1.STK005_EvrakSeriNo as IadeNo, CONVERT(VARCHAR, CAST(STI1.STK005_IslemTarihi - 2 AS datetime), 104) as IadeTarih,
+            STI1.STK005_Kod8 as HesapKodu, CAR002_Unvan1 as Unvan, STI1.STK005_Depo as Depo, 
+            STI1.STK005_MalKodu as MalKodu, STK004_Aciklama as MalAdi, STI1.STK005_Miktari as Miktar, STK004_Birim1 as Birim,
+            STI2.STK005_BirimFiyati as Fiyat, STI2.STK005_DovizCinsi as DovizCinsi,
+            (STI1.STK005_Miktari * STI2.STK005_BirimFiyati) as Tutar, STI1.STK005_Kod9 as FaturaNo, 
+            CONVERT(VARCHAR, CAST(STI1.STK005_Kod11 - 2 AS datetime), 104) as FaturaTarih, STI1.STK005_GirenKodu as Kaydeden
+        FROM  YNS{0}.YNS{0}.STK005(NOLOCK) STI1
+        LEFT JOIN YNS{0}.YNS{0}.STK005(NOLOCK) STI2 ON STI1.STK005_Kod9=STI2.STK005_EvrakSeriNo AND 
+            CAST(STI1.STK005_Kod11 as INT)=STI2.STK005_IslemTarihi AND  STI2.STK005_EvrakTipi=11
+        LEFT JOIN YNS{0}.YNS{0}.CAR002(NOLOCK) ON STI1.STK005_Kod8=CAR002_HesapKodu
+        LEFT JOIN YNS{0}.YNS{0}.STK004(NOLOCK) ON STI1.STK005_MalKodu=STK004_MalKodu 
+        WHERE STI1.STK005_EvrakTipi=99 AND STI1.STK005_IslemTipi=2 AND STI1.STK005_GC=0 AND STI1.STK005_Kod11>0 AND STI1.STK005_Kod9<>'' AND
+            STI1.STK005_Kod10='Onay Bekliyor' AND SUBSTRING(STI1.STK005_Not5,1,8)='AndMobil' AND 
+            STI1.STK005_EvrakSeriNo='{1}' AND STI1.STK005_IslemTarihi='{2}'";
+
+
+    }
+    #endregion /// SatisIadeDetay Class
+
+
+    
+
     /// <summary>
     /// onay bekleyen sipariş listesi
     /// </summary>

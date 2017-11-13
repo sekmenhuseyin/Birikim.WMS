@@ -255,6 +255,60 @@ namespace Wms12m.Presentation.Areas.YN.Controllers
             return PartialView("Fatura_Details", list);
         }
         #endregion
+        #region Satış İade
+        /// <summary>
+        /// Fatura onayı bekleyenler sayfası
+        /// </summary>
+        public ActionResult SatisIade()
+        {
+            return View("SatisIade");
+        }
+        /// <summary>
+        /// Fatura onayı bekleyenler listesi
+        /// </summary>
+        public string SatisIade_List()
+        {
+            var list = db.Database.SqlQuery<SatisIadeIcmal>(string.Format(SatisIadeIcmal.Sorgu, "0TEST")).ToList();
+
+            var json = new JavaScriptSerializer().Serialize(list);
+            return json;
+        }
+        /// <summary>
+        /// Fatura onay
+        /// </summary>
+        [HttpPost]
+        public JsonResult SatisIade_Onay(string ID, bool Onay)
+        {
+            var result = new Result();
+            try
+            {
+                if (Onay == true)
+                {
+                    var list = db.Database.SqlQuery<SepetUrun>(string.Format("SELECT 1 AS SatirTip, HesapKodu, UrunKodu, Birim, CONVERT(varchar(10), Miktar) as Miktar, CONVERT(varchar(10), Fiyat) as Fiyat, Depo, ParaCinsi, '{2}' AS KullaniciKodu, Kaydeden FROM YNS{0}.YNS{0}.TempFatura WHERE (EvrakNo = '{1}') AND (IslemDurumu = 0)", "0TEST", ID, vUser.UserName)).ToList();
+                    var yns = new YeniNesil(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "0TEST");
+                    var sepetIslemleri = yns.FaturaKaydet(list);
+                    result = new Result(true, 1);
+                }
+                if (result.Status == true) db.Database.ExecuteSqlCommand(string.Format("UPDATE YNS{0}.YNS{0}.[TempFatura] SET IslemDurumu={1} WHERE EvrakNo='{2}'", "0TEST", Onay == true ? 1 : 2, ID));
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Logger(ex, "YN/OnayBekleyenler/SatisIade_Onay");
+                return Json(new Result(false, "Hata Oluştu"), JsonRequestBehavior.AllowGet);
+            }
+        }
+        /// <summary>
+        /// liste detayı
+        /// </summary>
+        [HttpPost]
+        public PartialViewResult SatisIade_Details(string ID)
+        {
+            string[] ids = ID.Split(',');
+            var list = db.Database.SqlQuery<SatisIadeDetay>(string.Format(SatisIadeDetay.Sorgu, "0TEST", ids[0], ids[1])).ToList();
+            return PartialView("SatisIade_Details", list);
+        }
+        #endregion
         #region Tahsilat
         /// <summary>
         /// tahsilat onayı bekleyenler sayfası
