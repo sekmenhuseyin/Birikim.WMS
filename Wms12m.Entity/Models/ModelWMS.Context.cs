@@ -760,11 +760,6 @@ namespace Wms12m.Entity.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("WMSEntities.DeleteIrsaliye", irsaliyeIDParameter);
         }
     
-        public virtual int f_Sıfırla()
-        {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("WMSEntities.f_Sıfırla");
-        }
-    
         public virtual ObjectResult<GetStockRezerv_Result> GetStockRezerv(string depoKodu, string malKodu, string birim)
         {
             var depoKoduParameter = depoKodu != null ?

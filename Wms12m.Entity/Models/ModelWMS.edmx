@@ -1309,7 +1309,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Function Name="f_Sıfırla" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" StoreFunctionName="_Sıfırla" />
         <Function Name="DeleteLog" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="table" Type="varchar" Mode="In" />
           <Parameter Name="ID" Type="varchar" Mode="In" />
@@ -2218,7 +2217,6 @@
           <FunctionImport Name="DeleteIrsaliye">
           <Parameter Name="IrsaliyeID" Mode="In" Type="Int32" />
           </FunctionImport>
-          <FunctionImport Name="f_Sıfırla" />
           <FunctionImport Name="GetStockRezerv" ReturnType="Collection(MModel.GetStockRezerv_Result)">
             <Parameter Name="DepoKodu" Mode="In" Type="String" />
             <Parameter Name="MalKodu" Mode="In" Type="String" />
@@ -4657,7 +4655,6 @@
           </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="DeleteTransfer" FunctionName="MModel.Store.DeleteTransfer" />
           <FunctionImportMapping FunctionImportName="DeleteIrsaliye" FunctionName="MModel.Store.DeleteIrsaliye" />
-          <FunctionImportMapping FunctionImportName="f_Sıfırla" FunctionName="MModel.Store.f_Sıfırla" />
           <FunctionImportMapping FunctionImportName="GetStockRezerv" FunctionName="MModel.Store.GetStockRezerv">
             <ResultMapping>
               <ComplexTypeMapping TypeName="MModel.GetStockRezerv_Result">
