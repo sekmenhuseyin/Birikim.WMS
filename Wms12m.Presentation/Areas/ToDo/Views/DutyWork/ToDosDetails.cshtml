@@ -1,6 +1,7 @@
 ﻿@model Gorevler
-<table class="table">
-    <thead><tr><th>Müşteri</th><th>Proje-Form</th><th>Görev Tipi</th><th>Görev Durumu</th><th>Sorumlular</th><th>Oluşturan</th><th>Oluşturulma Tarihi</th><th>Tah. Bitiş Tarihi</th><th></th></tr></thead>
+<h4><br />Görev Ayrıntıları</h4>
+    <table class="table">
+    <thead><tr><th>Müşteri</th><th>Proje-Form</th><th>Görev Tipi</th><th>Görev Durumu</th><th>Sorumlular</th><th>Oluşturan</th><th>Oluşturulma Tarihi</th><th>Tah. Bitiş Tarihi</th></tr></thead>
     <tbody>
         <tr>
             <td>@Model.ProjeForm.Musteri.Unvan</td>
@@ -11,14 +12,31 @@
             <td>@Model.Kaydeden</td>
             <td>@Model.KayitTarih.ToString("dd.MM.yyyy")</td>
             <td>@if (Model.TahminiBitis != null) { @Model.TahminiBitis.Value.ToString("dd.MM.yyyy") }</td>
-            <td></td>
         </tr>
         <tr>
             <td><strong>Açıklama:</strong></td>
             <td colspan="7">@Model.Aciklama</td>
         </tr>
 </table>
-<table class="table">
+@if (Model.ProjeForm.ProjeForm2.ProjeFormDosyas.Count > 0)
+{
+    <table class="table table-striped table-bordered table-hover">
+        <thead><tr><th>Dosya Adı</th><th>Boyut</th><th>Yükleyen</th><th>Tarih</th></tr></thead>
+        <tbody>
+            @foreach (var item in Model.ProjeForm.ProjeForm2.ProjeFormDosyas)
+            {
+                <tr>
+                    <td><a href="/Uploads/ProjeDownload/@item.Guid.ToString()" target="_blank">@item.DosyaAdi</a></td>
+                    <td>@item.Boyut</td>
+                    <td>@item.Kaydeden</td>
+                    <td>@item.Tarih</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+<h4><br />Çalışmalar</h4>
+<table class="table table-striped table-bordered table-hover">
     <thead><tr><th>Tarih</th><th>Kaydeden</th><th>Süre</th><th>Çalışma</th><th></tr></thead>
     <tbody>
         @foreach (var item in @Model.GorevlerCalismas.OrderByDescending(m => m.Tarih).ToList())

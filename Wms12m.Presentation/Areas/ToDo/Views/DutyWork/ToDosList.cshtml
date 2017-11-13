@@ -32,7 +32,7 @@
             <tr data-ID="@item.GorevID" @if (checkinGoster == true && (checkin == new DateTime() || checkin.Date < item.DegisTarih.Date)) {@(" class=font-red")}>
                 <td class="details-control" style="max-width:20px;"></td>
                 <td>@item.Gorevler.ProjeForm.Musteri.Unvan</td>
-                <td><div class="hidden">@item.Gorevler.OncelikID-@item.ID</div>@item.Gorevler.Gorev</td>
+                <td>@if (ViewBag.Yetki == true) { <a href="#modalEditPage" data-toggle="modal" onclick="editInModal('/ToDo/Duties/Edit/@item.GorevID')"> @item.Gorevler.Gorev </a> } else { @item.Gorevler.Gorev }</td>
                 <td>@item.Aciklama</td>
                 @if (ViewBag.Tip == true || ViewBag.vUser.RoleName == " " || ViewBag.vUser.RoleName == "Admin"){
                 <td nowrap>@item.Gorevler.Sorumlu @if (item.Gorevler.Sorumlu2 != null) { @(", " + item.Gorevler.Sorumlu2) } @if (item.Gorevler.Sorumlu3 != null) { @(", " + item.Gorevler.Sorumlu3) } @if (item.Gorevler.KontrolSorumlusu != null) { @(", " + item.Gorevler.KontrolSorumlusu) }</td>

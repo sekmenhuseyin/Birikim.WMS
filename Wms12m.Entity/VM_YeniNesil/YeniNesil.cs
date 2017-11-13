@@ -15,6 +15,7 @@
         public int Cesit { get; set; }
         public decimal? Miktar { get; set; }
         public decimal? BirimFiyat { get; set; }
+        public decimal? EsikFiyat { get; set; }
         public string DovizCinsi { get; set; }
         public decimal? Tutar { get; set; }
         public string Tarih { get; set; }
@@ -64,6 +65,7 @@
         public string MalKodu { get; set; }
         public string MalAdi { get; set; }
         public decimal Fiyat { get; set; }
+        public decimal EsikFiyat { get; set; }
         public decimal Tutar { get; set; }
         public string DovizCinsi { get; set; }
         public string KayitTarihi { get; set; }
@@ -84,6 +86,7 @@
         public int Cesit { get; set; }
         public decimal Miktar { get; set; }
         public decimal Fiyat { get; set; }
+        public decimal EsikFiyat { get; set; }
         public string ParaCinsi { get; set; }
         public string Birim { get; set; }
         public short IslemDurumu { get; set; }

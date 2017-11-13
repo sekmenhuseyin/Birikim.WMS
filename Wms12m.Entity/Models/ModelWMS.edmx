@@ -131,20 +131,6 @@
           <Property Name="MenuID" Type="smallint" Nullable="false" />
           <Property Name="RoleName" Type="varchar" MaxLength="20" Nullable="false" />
         </EntityType>
-        <EntityType Name="Dosya">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Guid" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="GorevID" Type="int" />
-          <Property Name="ProjeID" Type="int" />
-          <Property Name="DosyaAdi" Type="nvarchar" MaxLength="250" Nullable="false" />
-          <Property Name="Boyut" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="BoyutByte" Type="int" Nullable="false" />
-          <Property Name="Kaydeden" Type="varchar" MaxLength="5" Nullable="false" />
-          <Property Name="Tarih" Type="smalldatetime" Nullable="false" />
-        </EntityType>
         <EntityType Name="Gorevler">
           <Key>
             <PropertyRef Name="ID" />
@@ -238,6 +224,18 @@
           <Property Name="Degistiren" Type="varchar" MaxLength="5" Nullable="false" />
           <Property Name="DegisTarih" Type="smalldatetime" Nullable="false" />
           <Property Name="Aktif" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ProjeFormDosya">
+          <Key>
+            <PropertyRef Name="Guid" />
+          </Key>
+          <Property Name="Guid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ProjeID" Type="int" Nullable="false" />
+          <Property Name="DosyaAdi" Type="nvarchar" MaxLength="250" Nullable="false" />
+          <Property Name="Boyut" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="BoyutByte" Type="int" Nullable="false" />
+          <Property Name="Kaydeden" Type="varchar" MaxLength="5" Nullable="false" />
+          <Property Name="Tarih" Type="smalldatetime" Nullable="false" />
         </EntityType>
         <EntityType Name="Perm">
           <Key>
@@ -681,30 +679,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Dosya_Gorevler">
-          <End Role="Gorevler" Type="Self.Gorevler" Multiplicity="0..1" />
-          <End Role="Dosya" Type="Self.Dosya" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Gorevler">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Dosya">
-              <PropertyRef Name="GorevID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Dosya_ProjeForm">
-          <End Role="ProjeForm" Type="Self.ProjeForm" Multiplicity="0..1" />
-          <End Role="Dosya" Type="Self.Dosya" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ProjeForm">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Dosya">
-              <PropertyRef Name="ProjeID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_FAQ_ComboItem_Name">
           <End Role="ComboItem_Name" Type="Self.ComboItem_Name" Multiplicity="1" />
           <End Role="FAQ" Type="Self.FAQ" Multiplicity="*" />
@@ -1052,6 +1026,18 @@
             </Principal>
             <Dependent Role="ProjeForm1">
               <PropertyRef Name="PID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProjeFormDosya_ProjeForm">
+          <End Role="ProjeForm" Type="Self.ProjeForm" Multiplicity="1" />
+          <End Role="ProjeFormDosya" Type="Self.ProjeFormDosya" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProjeForm">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ProjeFormDosya">
+              <PropertyRef Name="ProjeID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1582,12 +1568,12 @@
           <EntitySet Name="Simge" EntityType="Self.Simge" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="WebMenu" EntityType="Self.WebMenu" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="WebMenuRol" EntityType="Self.WebMenuRol" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Dosya" EntityType="Self.Dosya" Schema="ong" store:Type="Tables" />
           <EntitySet Name="Gorevler" EntityType="Self.Gorevler" Schema="ong" store:Type="Tables" />
           <EntitySet Name="GorevlerCalisma" EntityType="Self.GorevlerCalisma" Schema="ong" store:Type="Tables" />
           <EntitySet Name="GorevlerToDoList" EntityType="Self.GorevlerToDoList" Schema="ong" store:Type="Tables" />
           <EntitySet Name="Musteri" EntityType="Self.Musteri" Schema="ong" store:Type="Tables" />
           <EntitySet Name="ProjeForm" EntityType="Self.ProjeForm" Schema="ong" store:Type="Tables" />
+          <EntitySet Name="ProjeFormDosya" EntityType="Self.ProjeFormDosya" Schema="ong" store:Type="Tables" />
           <EntitySet Name="Perm" EntityType="Self.Perm" Schema="usr" store:Type="Tables" />
           <EntitySet Name="RolePerm" EntityType="Self.RolePerm" Schema="usr" store:Type="Tables" />
           <EntitySet Name="Roles" EntityType="Self.Roles" Schema="usr" store:Type="Tables" />
@@ -1629,14 +1615,6 @@
           <AssociationSet Name="FK_Depo_Users_Users" Association="Self.FK_Depo_Users_Users">
             <End Role="Users" EntitySet="Users" />
             <End Role="UserDetails" EntitySet="UserDetails" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Dosya_Gorevler" Association="Self.FK_Dosya_Gorevler">
-            <End Role="Gorevler" EntitySet="Gorevler" />
-            <End Role="Dosya" EntitySet="Dosya" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Dosya_ProjeForm" Association="Self.FK_Dosya_ProjeForm">
-            <End Role="ProjeForm" EntitySet="ProjeForm" />
-            <End Role="Dosya" EntitySet="Dosya" />
           </AssociationSet>
           <AssociationSet Name="FK_FAQ_ComboItem_Name" Association="Self.FK_FAQ_ComboItem_Name">
             <End Role="ComboItem_Name" EntitySet="ComboItem_Name" />
@@ -1753,6 +1731,10 @@
           <AssociationSet Name="FK_ProjeForm_ProjeForm" Association="Self.FK_ProjeForm_ProjeForm">
             <End Role="ProjeForm" EntitySet="ProjeForm" />
             <End Role="ProjeForm1" EntitySet="ProjeForm" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProjeFormDosya_ProjeForm" Association="Self.FK_ProjeFormDosya_ProjeForm">
+            <End Role="ProjeForm" EntitySet="ProjeForm" />
+            <End Role="ProjeFormDosya" EntitySet="ProjeFormDosya" />
           </AssociationSet>
           <AssociationSet Name="FK_Raf_Koridor" Association="Self.FK_Raf_Koridor">
             <End Role="Koridor" EntitySet="Koridor" />
@@ -2339,15 +2321,6 @@
             <End Role="IR" EntitySet="IRS" />
             <End Role="IRS_Detay" EntitySet="IRS_Detay" />
           </AssociationSet>
-          <EntitySet Name="Dosyas" EntityType="MModel.Dosya" />
-          <AssociationSet Name="FK_Dosya_Gorevler" Association="MModel.FK_Dosya_Gorevler">
-            <End Role="Gorevler" EntitySet="Gorevlers" />
-            <End Role="Dosya" EntitySet="Dosyas" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Dosya_ProjeForm" Association="MModel.FK_Dosya_ProjeForm">
-            <End Role="ProjeForm" EntitySet="ProjeForms" />
-            <End Role="Dosya" EntitySet="Dosyas" />
-          </AssociationSet>
           <EntitySet Name="UserDetails" EntityType="MModel.UserDetail" />
           <AssociationSet Name="FK_Depo_Users_Depo" Association="MModel.FK_Depo_Users_Depo">
             <End Role="Depo" EntitySet="Depoes" />
@@ -2362,6 +2335,11 @@
             <Parameter Name="UserID" Mode="In" Type="Int32" />
           </FunctionImport>
           <EntitySet Name="Settings" EntityType="MModel.Setting" />
+          <EntitySet Name="ProjeFormDosyas" EntityType="MModel.ProjeFormDosya" />
+          <AssociationSet Name="FK_ProjeFormDosya_ProjeForm" Association="MModel.FK_ProjeFormDosya_ProjeForm">
+            <End Role="ProjeForm" EntitySet="ProjeForms" />
+            <End Role="ProjeFormDosya" EntitySet="ProjeFormDosyas" />
+          </AssociationSet>
           </EntityContainer>
         <ComplexType Name="GetSirkets_Result">
           <Property Type="String" Name="Kod" Nullable="false" MaxLength="2" />
@@ -3505,7 +3483,6 @@
           <NavigationProperty Name="GorevlerCalismas" Relationship="MModel.FK_GorevlerCalisma_Gorevler" FromRole="Gorevler" ToRole="GorevlerCalisma" />
           <NavigationProperty Name="GorevlerToDoLists" Relationship="MModel.FK_GorevlerToDoList_Gorevler" FromRole="Gorevler" ToRole="GorevlerToDoList" />
           <NavigationProperty Name="ProjeForm" Relationship="MModel.FK_Gorevler_ProjeForm" FromRole="Gorevler" ToRole="ProjeForm" />
-          <NavigationProperty Name="Dosyas" Relationship="MModel.FK_Dosya_Gorevler" FromRole="Gorevler" ToRole="Dosya" />
         </EntityType>
         <Association Name="FK_Gorevler_ComboItem_Name_Departman">
           <End Type="MModel.ComboItem_Name" Role="ComboItem_Name" Multiplicity="1" />
@@ -3658,7 +3635,7 @@
           <NavigationProperty Name="Musteri" Relationship="MModel.FK_Proje_Musteri" FromRole="ProjeForm" ToRole="Musteri" />
           <NavigationProperty Name="ProjeForm1" Relationship="MModel.FK_ProjeForm_ProjeForm" FromRole="ProjeForm" ToRole="ProjeForm1" />
           <NavigationProperty Name="ProjeForm2" Relationship="MModel.FK_ProjeForm_ProjeForm" FromRole="ProjeForm1" ToRole="ProjeForm" />
-          <NavigationProperty Name="Dosyas" Relationship="MModel.FK_Dosya_ProjeForm" FromRole="ProjeForm" ToRole="Dosya" />
+          <NavigationProperty Name="ProjeFormDosyas" Relationship="MModel.FK_ProjeFormDosya_ProjeForm" FromRole="ProjeForm" ToRole="ProjeFormDosya" />
         </EntityType>
         <Association Name="FK_Gorevler_ProjeForm">
           <End Type="MModel.ProjeForm" Role="ProjeForm" Multiplicity="1" />
@@ -3827,46 +3804,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="Dosya">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Guid" Type="Guid" Nullable="false" />
-          <Property Name="GorevID" Type="Int32" />
-          <Property Name="ProjeID" Type="Int32" />
-          <Property Name="DosyaAdi" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
-          <Property Name="Boyut" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="BoyutByte" Type="Int32" Nullable="false" />
-          <Property Name="Kaydeden" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="Tarih" Type="DateTime" Nullable="false" Precision="0" />
-          <NavigationProperty Name="Gorevler" Relationship="MModel.FK_Dosya_Gorevler" FromRole="Dosya" ToRole="Gorevler" />
-          <NavigationProperty Name="ProjeForm" Relationship="MModel.FK_Dosya_ProjeForm" FromRole="Dosya" ToRole="ProjeForm" />
-        </EntityType>
-        <Association Name="FK_Dosya_Gorevler">
-          <End Type="MModel.Gorevler" Role="Gorevler" Multiplicity="0..1" />
-          <End Type="MModel.Dosya" Role="Dosya" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Gorevler">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Dosya">
-              <PropertyRef Name="GorevID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Dosya_ProjeForm">
-          <End Type="MModel.ProjeForm" Role="ProjeForm" Multiplicity="0..1" />
-          <End Type="MModel.Dosya" Role="Dosya" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ProjeForm">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Dosya">
-              <PropertyRef Name="ProjeID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="UserDetail">
           <Key>
             <PropertyRef Name="UserID" />
@@ -3956,6 +3893,31 @@
           <Property Name="GitServerAddress" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
           <Property Name="Aktif" Type="Boolean" Nullable="false" />
         </EntityType>
+        <EntityType Name="ProjeFormDosya">
+          <Key>
+            <PropertyRef Name="Guid" />
+          </Key>
+          <Property Name="Guid" Type="Guid" Nullable="false" />
+          <Property Name="ProjeID" Type="Int32" Nullable="false" />
+          <Property Name="DosyaAdi" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Boyut" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="BoyutByte" Type="Int32" Nullable="false" />
+          <Property Name="Kaydeden" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="Tarih" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="ProjeForm" Relationship="MModel.FK_ProjeFormDosya_ProjeForm" FromRole="ProjeFormDosya" ToRole="ProjeForm" />
+        </EntityType>
+        <Association Name="FK_ProjeFormDosya_ProjeForm">
+          <End Type="MModel.ProjeForm" Role="ProjeForm" Multiplicity="1" />
+          <End Type="MModel.ProjeFormDosya" Role="ProjeFormDosya" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProjeForm">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ProjeFormDosya">
+              <PropertyRef Name="ProjeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -4917,21 +4879,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Dosyas">
-            <EntityTypeMapping TypeName="MModel.Dosya">
-              <MappingFragment StoreEntitySet="Dosya">
-                <ScalarProperty Name="Tarih" ColumnName="Tarih" />
-                <ScalarProperty Name="Kaydeden" ColumnName="Kaydeden" />
-                <ScalarProperty Name="BoyutByte" ColumnName="BoyutByte" />
-                <ScalarProperty Name="Boyut" ColumnName="Boyut" />
-                <ScalarProperty Name="DosyaAdi" ColumnName="DosyaAdi" />
-                <ScalarProperty Name="ProjeID" ColumnName="ProjeID" />
-                <ScalarProperty Name="GorevID" ColumnName="GorevID" />
-                <ScalarProperty Name="Guid" ColumnName="Guid" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="UserDetails">
             <EntityTypeMapping TypeName="MModel.UserDetail">
               <MappingFragment StoreEntitySet="UserDetails">
@@ -4998,6 +4945,19 @@
                 <ScalarProperty Name="LoginLogo" ColumnName="LoginLogo" />
                 <ScalarProperty Name="SiteName" ColumnName="SiteName" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProjeFormDosyas">
+            <EntityTypeMapping TypeName="MModel.ProjeFormDosya">
+              <MappingFragment StoreEntitySet="ProjeFormDosya">
+                <ScalarProperty Name="Tarih" ColumnName="Tarih" />
+                <ScalarProperty Name="Kaydeden" ColumnName="Kaydeden" />
+                <ScalarProperty Name="BoyutByte" ColumnName="BoyutByte" />
+                <ScalarProperty Name="Boyut" ColumnName="Boyut" />
+                <ScalarProperty Name="DosyaAdi" ColumnName="DosyaAdi" />
+                <ScalarProperty Name="ProjeID" ColumnName="ProjeID" />
+                <ScalarProperty Name="Guid" ColumnName="Guid" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

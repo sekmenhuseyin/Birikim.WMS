@@ -534,10 +534,83 @@ namespace Wms12m.Presentation.Controllers
             if (!file.FileName.EndsWith(".jpg") && !file.FileName.EndsWith(".png"))
                 return Json(_Result, JsonRequestBehavior.AllowGet);
             //if exists delete
-            if (System.IO.File.Exists(Server.MapPath("/Content/Uploads/" + ID + ".jpg")) == true) System.IO.File.Delete(Server.MapPath("/Content/Uploads/" + ID + ".jpg"));
-            file.SaveAs(Server.MapPath("/Content/Uploads/" + ID + ".jpg"));
-            //return
-            return Json(new Result(true, ID.ToInt32()), JsonRequestBehavior.AllowGet);
+            try
+            {
+                if (!Directory.Exists(Server.MapPath("/Content/Uploads/"))) Directory.CreateDirectory(Server.MapPath("/Content/Uploads/"));
+                if (System.IO.File.Exists(Server.MapPath("/Content/Uploads/" + ID + ".jpg")) == true) System.IO.File.Delete(Server.MapPath("/Content/Uploads/" + ID + ".jpg"));
+                file.SaveAs(Server.MapPath("/Content/Uploads/" + ID + ".jpg"));
+                //return
+                return Json(new Result(true, ID.ToInt32()), JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new Result(false, ex.Message), JsonRequestBehavior.AllowGet);
+            }
+        }
+        /// <summary>
+        /// görevler için dosya yükle
+        /// </summary>
+        public JsonResult Proje(string ID, HttpPostedFileBase file)
+        {
+            if (CheckPerm(Perms.TodoGörevler, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
+            var _Result = new Result(false, "Hatalı dosya!");
+            if (file == null || file.ContentLength == 0) return Json(_Result, JsonRequestBehavior.AllowGet);
+            try
+            {
+                var guid = Guid.NewGuid();
+                if (!Directory.Exists(Server.MapPath("/Content/Uploads/Proje/"))) Directory.CreateDirectory(Server.MapPath("/Content/Uploads/Proje/"));
+                //if exists delete
+                if (System.IO.File.Exists(Server.MapPath("/Content/Uploads/Proje/" + ID + "-" + guid)) == true) System.IO.File.Delete(Server.MapPath("/Content/Uploads/Proje/" + ID + "-" + guid));
+                //save file
+                file.SaveAs(Server.MapPath("/Content/Uploads/Proje/" + ID + "-" + guid));
+                //save to db
+                db.ProjeFormDosyas.Add(new ProjeFormDosya()
+                {
+                    Guid = guid,
+                    ProjeID = ID.ToInt32(),
+                    DosyaAdi = file.FileName,
+                    Boyut = file.ContentLength.BoyutHesapla(),
+                    BoyutByte = file.ContentLength,
+                    Kaydeden = vUser.UserName,
+                    Tarih = DateTime.Now
+                });
+                db.SaveChanges();
+                //return
+                return Json(new Result(true, ID.ToInt32()), JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new Result(false, ex.Message), JsonRequestBehavior.AllowGet);
+            }
+        }
+        /// <summary>
+        /// görevler için dosya sil
+        /// </summary>
+        public JsonResult ProjeDelete(string Id)
+        {
+            if (CheckPerm(Perms.TodoGörevler, PermTypes.Deleting) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
+            var tbl = db.ProjeFormDosyas.Find(Guid.Parse(Id));
+            try
+            {
+                if (System.IO.File.Exists(Server.MapPath("/Content/Uploads/Proje/" + tbl.ProjeID + "-" + tbl.Guid)) == true) System.IO.File.Delete(Server.MapPath("/Content/Uploads/Proje/" + tbl.ProjeID + "-" + tbl.Guid));
+                db.ProjeFormDosyas.Remove(tbl);
+                db.SaveChanges();
+                return Json(new Result(true, 1), JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new Result(false, ex.Message), JsonRequestBehavior.AllowGet);
+            }
+        }
+        /// <summary>
+        /// görveler için dosya indir
+        /// </summary>
+        public FileResult ProjeDownload(string Id)
+        {
+            var tbl = db.ProjeFormDosyas.Find(Guid.Parse(Id));
+            if (System.IO.File.Exists(Server.MapPath("/Content/Uploads/Proje/" + tbl.ProjeID + "-" + tbl.Guid)) == false) return null;
+            byte[] fileBytes = System.IO.File.ReadAllBytes(Server.MapPath("/Content/Uploads/Proje/" + tbl.ProjeID + "-" + tbl.Guid));
+            return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, tbl.DosyaAdi);
         }
     }
 }

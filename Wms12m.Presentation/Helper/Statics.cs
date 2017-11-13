@@ -7,6 +7,9 @@ namespace Wms12m
     public class Statics
     {
         private static string uploadsDirectory = "/Content/Uploads/";
+        /// <summary>
+        /// PutUsersOffline
+        /// </summary>
         public static void PutUsersOffline()
         {
             using (var db = new WMSEntities())
@@ -16,6 +19,9 @@ namespace Wms12m
                 db.SaveChanges();
             }
         }
+        /// <summary>
+        /// ImageAddressOrDefault
+        /// </summary>
         public static string ImageAddressOrDefault(string filename)
         {
             var imagePath = uploadsDirectory + filename + ".jpg";

@@ -41,7 +41,8 @@ namespace Wms12m.Presentation.Areas.YN.Controllers
         {
             var list = db.Database.SqlQuery<frmOnaySiparisList>(string.Format(@"SELECT        YNS{0}.YNS{0}.STK002.STK002_MalKodu AS MalKodu, YNS{0}.YNS{0}.STK004.STK004_Aciklama AS MalAdi, YNS{0}.YNS{0}.STK002.STK002_CariHesapKodu AS HesapKodu, YNS{0}.YNS{0}.CAR002.CAR002_Unvan1 AS Unvan, 
 																							YNS{0}.YNS{0}.STK002.STK002_EvrakSeriNo AS EvrakSeriNo, YNS{0}.YNS{0}.STK002.STK002_Depo AS Depo, YNS{0}.YNS{0}.STK002.STK002_Miktari AS Miktar, YNS{0}.YNS{0}.STK002.STK002_BirimFiyati AS BirimFiyat, 
-																							YNS{0}.YNS{0}.STK002.STK002_Tutari AS Tutar, YNS{0}.YNS{0}.STK002.STK002_DovizCinsi AS DovizCinsi, YNS{0}.YNS{0}.STK002.STK002_GirenKodu AS Kaydeden, CONVERT(VARCHAR(15), CAST(YNS{0}.YNS{0}.STK002.STK002_GirenTarih - 2 AS datetime), 104) AS Tarih
+																							YNS{0}.YNS{0}.STK002.STK002_Tutari AS Tutar, YNS{0}.YNS{0}.STK002.STK002_DovizCinsi AS DovizCinsi, YNS{0}.YNS{0}.STK002.STK002_GirenKodu AS Kaydeden, CONVERT(VARCHAR(15), 
+                                                                                            CAST(YNS{0}.YNS{0}.STK002.STK002_GirenTarih - 2 AS datetime), 104) AS Tarih, CONVERT(DECIMAL, STK002_Kod8) AS EsikFiyat
 																FROM            YNS{0}.YNS{0}.STK002 INNER JOIN
 																							YNS{0}.YNS{0}.CAR002 ON YNS{0}.YNS{0}.STK002.STK002_CariHesapKodu = YNS{0}.YNS{0}.CAR002.CAR002_HesapKodu INNER JOIN
 																							YNS{0}.YNS{0}.STK004 ON YNS{0}.YNS{0}.STK002.STK002_MalKodu = YNS{0}.YNS{0}.STK004.STK004_MalKodu
@@ -99,7 +100,7 @@ namespace Wms12m.Presentation.Areas.YN.Controllers
             var list = db.Database.SqlQuery<frmOnayTeklifListDetay>(string.Format(@"SELECT TeklifNo,HesapKodu,
 																				YNS{0}.YNS{0}.CAR002.CAR002_Unvan1 AS Unvan,
 																				Miktar AS Miktar,Kaydeden,MalKodu,STK004_Aciklama AS MalAdi,
-																				Fiyat,Tutar,DovizCinsi,
+																				Fiyat,Tutar,DovizCinsi, EsikFiyat,
 																				CONVERT(VARCHAR(15), CAST(KayitTarih - 2 AS datetime), 104) AS KayitTarihi
 																				  FROM YNS{0}.YNS{0}.[Teklif] INNER JOIN 
                                                                                         YNS{0}.YNS{0}.CAR002 ON HesapKodu = YNS{0}.YNS{0}.CAR002.CAR002_HesapKodu INNER JOIN
@@ -245,7 +246,7 @@ namespace Wms12m.Presentation.Areas.YN.Controllers
 																										 YNS{0}.YNS{0}.TempFatura.ParaCinsi, YNS{0}.YNS{0}.TempFatura.Birim, YNS{0}.YNS{0}.TempFatura.Miktar, YNS{0}.YNS{0}.TempFatura.Fiyat, YNS{0}.YNS{0}.TempFatura.IslemDurumu, YNS{0}.YNS{0}.TempFatura.Kaydeden, 
 																										 CONVERT(VARCHAR(15), CAST(YNS{0}.YNS{0}.TempFatura.KayitTarih - 2 AS datetime), 104) as KayitTarih, YNS{0}.YNS{0}.TempFatura.KayitSaat, YNS{0}.YNS{0}.TempFatura.Degistiren, 
 																										 CONVERT(VARCHAR(15), CAST(YNS{0}.YNS{0}.TempFatura.DegisTarih - 2 AS datetime), 104) as DegisTarih,
-																										  YNS{0}.YNS{0}.TempFatura.DegisSaat, YNS{0}.YNS{0}.CAR002.CAR002_Unvan1 AS Unvan, 
+																										  YNS{0}.YNS{0}.TempFatura.DegisSaat, YNS{0}.YNS{0}.CAR002.CAR002_Unvan1 AS Unvan,  TempFatura.EsikFiyat,
 																										 YNS{0}.YNS{0}.STK004.STK004_Aciklama AS MalAdi
 																				FROM            YNS{0}.YNS{0}.TempFatura INNER JOIN
 																										 YNS{0}.YNS{0}.CAR002 ON YNS{0}.YNS{0}.TempFatura.HesapKodu = YNS{0}.YNS{0}.CAR002.CAR002_HesapKodu INNER JOIN
