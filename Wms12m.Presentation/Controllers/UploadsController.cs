@@ -534,22 +534,54 @@ namespace Wms12m.Presentation.Controllers
             if (!file.FileName.EndsWith(".jpg") && !file.FileName.EndsWith(".png"))
                 return Json(_Result, JsonRequestBehavior.AllowGet);
             //if exists delete
-            if (System.IO.File.Exists(Server.MapPath("/Content/Uploads/" + ID + ".jpg")) == true) System.IO.File.Delete(Server.MapPath("/Content/Uploads/" + ID + ".jpg"));
-            file.SaveAs(Server.MapPath("/Content/Uploads/" + ID + ".jpg"));
+            try
+            {
+                if (!Directory.Exists(Server.MapPath("/Content/Uploads/"))) Directory.CreateDirectory(Server.MapPath("/Content/Uploads/"));
+                if (System.IO.File.Exists(Server.MapPath("/Content/Uploads/" + ID + ".jpg")) == true) System.IO.File.Delete(Server.MapPath("/Content/Uploads/" + ID + ".jpg"));
+                file.SaveAs(Server.MapPath("/Content/Uploads/" + ID + ".jpg"));
             //return
-            return Json(new Result(true, ID.ToInt32()), JsonRequestBehavior.AllowGet);
+                return Json(new Result(true, ID.ToInt32()), JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new Result(false,ex.Message), JsonRequestBehavior.AllowGet);
+            }
         }
         /// <summary>
-        /// kullanıcı resmi yükle
+        /// görevler için dosya yükle
         /// </summary>
         public JsonResult Gorev(string ID, HttpPostedFileBase file)
         {
             if (CheckPerm(Perms.TodoGörevler, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             var _Result = new Result(false, "Hatalı dosya!");
             if (file == null || file.ContentLength == 0) return Json(_Result, JsonRequestBehavior.AllowGet);
-
-            //return
-            return Json(new Result(true, ID.ToInt32()), JsonRequestBehavior.AllowGet);
+            //if exists delete
+            try
+            {
+                var guid = Guid.NewGuid();
+                //save file
+                if (!Directory.Exists(Server.MapPath("/Content/Uploads/Proje/"))) Directory.CreateDirectory(Server.MapPath("/Content/Uploads/Proje/"));
+                if (System.IO.File.Exists(Server.MapPath("/Content/Uploads/Proje/" + ID + "-" + guid)) == true) System.IO.File.Delete(Server.MapPath("/Content/Uploads/Proje/" + ID + "-" + guid));
+                file.SaveAs(Server.MapPath("/Content/Uploads/Proje/" + ID + "-" + guid));
+                //save to db
+                db.ProjeFormDosyas.Add(new ProjeFormDosya()
+                {
+                    ProjeID = ID.ToInt32(),
+                    DosyaAdi = file.FileName,
+                    Guid = guid,
+                    Boyut = Statics.BoyutHesapla(file.ContentLength),
+                    BoyutByte = file.ContentLength,
+                    Kaydeden = vUser.UserName,
+                    Tarih = DateTime.Now
+                });
+                db.SaveChanges();
+                //return
+                return Json(new Result(true, ID.ToInt32()), JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new Result(false, ex.Message), JsonRequestBehavior.AllowGet);
+            }
         }
     }
 }
