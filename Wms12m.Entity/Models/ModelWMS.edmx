@@ -99,7 +99,6 @@
           <Property Name="SevkiyatVarmi" Type="bit" Nullable="false" />
           <Property Name="SiparisOnayParametre" Type="bit" Nullable="false" />
           <Property Name="GitServerAddress" Type="varchar" MaxLength="250" />
-          <Property Name="Version" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Aktif" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="Simge">
@@ -3957,7 +3956,6 @@
           <Property Name="SevkiyatVarmi" Type="Boolean" Nullable="false" />
           <Property Name="SiparisOnayParametre" Type="Boolean" Nullable="false" />
           <Property Name="GitServerAddress" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
-          <Property Name="Version" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Aktif" Type="Boolean" Nullable="false" />
         </EntityType>
         </Schema>
@@ -4978,7 +4976,6 @@
             <EntityTypeMapping TypeName="MModel.Setting">
               <MappingFragment StoreEntitySet="Settings">
                 <ScalarProperty Name="Aktif" ColumnName="Aktif" />
-                <ScalarProperty Name="Version" ColumnName="Version" />
                 <ScalarProperty Name="GitServerAddress" ColumnName="GitServerAddress" />
                 <ScalarProperty Name="SiparisOnayParametre" ColumnName="SiparisOnayParametre" />
                 <ScalarProperty Name="SevkiyatVarmi" ColumnName="SevkiyatVarmi" />

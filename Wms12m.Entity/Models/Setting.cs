@@ -39,7 +39,6 @@ namespace Wms12m.Entity.Models
         public bool SevkiyatVarmi { get; set; }
         public bool SiparisOnayParametre { get; set; }
         public string GitServerAddress { get; set; }
-        public string Version { get; set; }
         public bool Aktif { get; set; }
     }
 }
