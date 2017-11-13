@@ -82,7 +82,7 @@
     <Reference Include="DevExpress.XtraReports.v17.1, Version=17.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
-    <Reference Include="DevHelper, Version=1.17.10.20, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="DevHelper, Version=1.17.11.3, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Lib\DevHelper.dll</HintPath>
     </Reference>
@@ -156,7 +156,7 @@
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="OnikimCore, Version=1.17.10.30, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="OnikimCore, Version=1.71.110.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Lib\OnikimCore.dll</HintPath>
     </Reference>
