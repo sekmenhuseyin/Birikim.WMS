@@ -9,13 +9,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
   </PropertyGroup>
   <ItemGroup>
     <File Include="Areas/Approvals/Views/Check/GM.cshtml">
-      <publishTime>10/02/2017 09:21:53</publishTime>
+      <publishTime>02/10/2017 09:21:53</publishTime>
     </File>
     <File Include="Areas/Approvals/Views/Check/MIGMY.cshtml">
-      <publishTime>10/02/2017 09:21:53</publishTime>
+      <publishTime>02/10/2017 09:21:53</publishTime>
     </File>
     <File Include="Areas/Approvals/Views/Check/SPGMY.cshtml">
-      <publishTime>10/02/2017 09:21:53</publishTime>
+      <publishTime>02/10/2017 09:21:53</publishTime>
     </File>
     <File Include="Areas/Approvals/Views/Contract/Details.cshtml">
       <publishTime>01/01/0001 00:00:00</publishTime>
@@ -24,34 +24,34 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Areas/Approvals/Views/Contract/GM_List.cshtml">
-      <publishTime>10/02/2017 09:21:53</publishTime>
+      <publishTime>02/10/2017 09:21:53</publishTime>
     </File>
     <File Include="Areas/Approvals/Views/Contract/SM.cshtml">
-      <publishTime>10/04/2017 13:47:37</publishTime>
+      <publishTime>04/10/2017 13:47:37</publishTime>
     </File>
     <File Include="Areas/Approvals/Views/Contract/SM_List.cshtml">
-      <publishTime>10/02/2017 09:21:53</publishTime>
+      <publishTime>02/10/2017 09:21:53</publishTime>
     </File>
     <File Include="Areas/Approvals/Views/Contract/SPGMY.cshtml">
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Areas/Approvals/Views/Contract/SPGMY_List.cshtml">
-      <publishTime>10/02/2017 09:21:53</publishTime>
+      <publishTime>02/10/2017 09:21:53</publishTime>
     </File>
     <File Include="Areas/Approvals/Views/Contract/Tanim.cshtml">
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Areas/Approvals/Views/Contract/Tanim_List.cshtml">
-      <publishTime>07/11/2017 11:36:07</publishTime>
+      <publishTime>11/07/2017 11:36:07</publishTime>
     </File>
     <File Include="Areas/Approvals/Views/Guarantee/Index.cshtml">
-      <publishTime>10/02/2017 12:25:21</publishTime>
+      <publishTime>02/10/2017 12:25:21</publishTime>
     </File>
     <File Include="Areas/Approvals/Views/Guarantee/Tanim.cshtml">
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Areas/Approvals/Views/Guarantee/TanimList.cshtml">
-      <publishTime>10/02/2017 12:25:21</publishTime>
+      <publishTime>02/10/2017 12:25:21</publishTime>
     </File>
     <File Include="Areas/Approvals/Views/Invoice/Detail.cshtml">
       <publishTime>01/01/0001 00:00:00</publishTime>
@@ -87,7 +87,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Areas/Approvals/Views/Price/ListPartial.cshtml">
-      <publishTime>10/02/2017 09:21:53</publishTime>
+      <publishTime>02/10/2017 09:21:53</publishTime>
     </File>
     <File Include="Areas/Approvals/Views/Price/SM.cshtml">
       <publishTime>01/01/0001 00:00:00</publishTime>
@@ -177,7 +177,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Areas/Approvals/Views/Techno/Index.cshtml">
-      <publishTime>10/04/2017 13:47:37</publishTime>
+      <publishTime>04/10/2017 13:47:37</publishTime>
     </File>
     <File Include="Areas/Approvals/Views/Techno/Prim_List.cshtml">
       <publishTime>01/01/0001 00:00:00</publishTime>
@@ -186,7 +186,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Areas/Approvals/Views/TumOrder/Index.cshtml">
-      <publishTime>10/05/2017 17:41:11</publishTime>
+      <publishTime>05/10/2017 17:41:11</publishTime>
     </File>
     <File Include="Areas/Approvals/Views/TumOrder/List.cshtml">
       <publishTime>01/01/0001 00:00:00</publishTime>
@@ -318,7 +318,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Areas/Reports/Views/Crm/Bid.cshtml">
-      <publishTime>10/05/2017 17:41:11</publishTime>
+      <publishTime>05/10/2017 17:41:11</publishTime>
     </File>
     <File Include="Areas/Reports/Views/Crm/BidDetail.cshtml">
       <publishTime>01/01/0001 00:00:00</publishTime>
@@ -327,19 +327,19 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Areas/Reports/Views/Crm/Institution.cshtml">
-      <publishTime>10/05/2017 17:41:11</publishTime>
+      <publishTime>05/10/2017 17:41:11</publishTime>
     </File>
     <File Include="Areas/Reports/Views/Crm/InstitutionList.cshtml">
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Areas/Reports/Views/Crm/Meeting.cshtml">
-      <publishTime>10/05/2017 17:41:11</publishTime>
+      <publishTime>05/10/2017 17:41:11</publishTime>
     </File>
     <File Include="Areas/Reports/Views/Crm/MeetingList.cshtml">
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Areas/Reports/Views/Financial/Bakiye.cshtml">
-      <publishTime>10/05/2017 17:41:11</publishTime>
+      <publishTime>05/10/2017 17:41:11</publishTime>
     </File>
     <File Include="Areas/Reports/Views/Financial/BakiyeList.cshtml">
       <publishTime>01/01/0001 00:00:00</publishTime>
@@ -360,7 +360,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Areas/Reports/Views/Financial/CekPortfoy.cshtml">
-      <publishTime>10/05/2017 17:41:11</publishTime>
+      <publishTime>05/10/2017 17:41:11</publishTime>
     </File>
     <File Include="Areas/Reports/Views/Financial/CekPortfoyList.cshtml">
       <publishTime>01/01/0001 00:00:00</publishTime>
@@ -378,7 +378,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Areas/Reports/Views/Financial/RiskBakiye.cshtml">
-      <publishTime>10/05/2017 17:41:11</publishTime>
+      <publishTime>05/10/2017 17:41:11</publishTime>
     </File>
     <File Include="Areas/Reports/Views/Financial/RiskBakiyeList.cshtml">
       <publishTime>01/01/0001 00:00:00</publishTime>
@@ -405,13 +405,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Areas/Reports/Views/Stock/GerceklesenSevkiyatPlani.cshtml">
-      <publishTime>10/05/2017 17:41:11</publishTime>
+      <publishTime>05/10/2017 17:41:11</publishTime>
     </File>
     <File Include="Areas/Reports/Views/Stock/GerceklesenSevkiyatPlaniList.cshtml">
       <publishTime>10/10/2017 08:46:31</publishTime>
     </File>
     <File Include="Areas/Reports/Views/Stock/GunlukSatis.cshtml">
-      <publishTime>10/05/2017 17:41:11</publishTime>
+      <publishTime>05/10/2017 17:41:11</publishTime>
     </File>
     <File Include="Areas/Reports/Views/Stock/GunlukSatisList.cshtml">
       <publishTime>01/01/0001 00:00:00</publishTime>
@@ -420,7 +420,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Areas/Reports/Views/Stock/KampanyaliSatis.cshtml">
-      <publishTime>10/05/2017 17:41:11</publishTime>
+      <publishTime>05/10/2017 17:41:11</publishTime>
     </File>
     <File Include="Areas/Reports/Views/Stock/KampanyaliSatisList.cshtml">
       <publishTime>01/01/0001 00:00:00</publishTime>
@@ -432,7 +432,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Areas/Reports/Views/Stock/SiparisOnayRapor.cshtml">
-      <publishTime>10/05/2017 17:41:11</publishTime>
+      <publishTime>05/10/2017 17:41:11</publishTime>
     </File>
     <File Include="Areas/Reports/Views/Stock/SiparisOnayRaporList.cshtml">
       <publishTime>01/01/0001 00:00:00</publishTime>
@@ -471,7 +471,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Areas/System/Views/Settings/Index.cshtml">
-      <publishTime>10/11/2017 10:54:06</publishTime>
+      <publishTime>11/10/2017 10:54:06</publishTime>
     </File>
     <File Include="Areas/System/Views/Settings/Sql.cshtml">
       <publishTime>01/01/0001 00:00:00</publishTime>
@@ -480,22 +480,22 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Areas/ToDo/Views/Customer/Edit.cshtml">
-      <publishTime>10/02/2017 09:21:53</publishTime>
+      <publishTime>02/10/2017 09:21:53</publishTime>
     </File>
     <File Include="Areas/ToDo/Views/Customer/Index.cshtml">
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Areas/ToDo/Views/Customer/List.cshtml">
-      <publishTime>10/04/2017 17:57:28</publishTime>
+      <publishTime>04/10/2017 17:57:28</publishTime>
     </File>
     <File Include="Areas/ToDo/Views/Duties/Details.cshtml">
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Areas/ToDo/Views/Duties/Duty_Details.cshtml">
-      <publishTime>10/11/2017 12:59:24</publishTime>
+      <publishTime>11/10/2017 12:59:24</publishTime>
     </File>
     <File Include="Areas/ToDo/Views/Duties/Edit.cshtml">
-      <publishTime>11/09/2017 11:55:47</publishTime>
+      <publishTime>09/11/2017 11:55:47</publishTime>
     </File>
     <File Include="Areas/ToDo/Views/Duties/Index.cshtml">
       <publishTime>01/01/0001 00:00:00</publishTime>
@@ -504,61 +504,61 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Areas/ToDo/Views/Duties/ListOnay.cshtml">
-      <publishTime>12/10/2017 10:09:21</publishTime>
+      <publishTime>10/12/2017 10:09:21</publishTime>
     </File>
     <File Include="Areas/ToDo/Views/Duties/New.cshtml">
-      <publishTime>11/09/2017 11:55:54</publishTime>
+      <publishTime>09/11/2017 11:55:54</publishTime>
     </File>
     <File Include="Areas/ToDo/Views/DutyWork/Edit.cshtml">
-      <publishTime>11/09/2017 11:56:04</publishTime>
+      <publishTime>09/11/2017 11:56:04</publishTime>
     </File>
     <File Include="Areas/ToDo/Views/DutyWork/Index.cshtml">
-      <publishTime>11/01/2017 17:19:04</publishTime>
+      <publishTime>01/11/2017 17:19:04</publishTime>
     </File>
     <File Include="Areas/ToDo/Views/DutyWork/List.cshtml">
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Areas/ToDo/Views/DutyWork/New.cshtml">
-      <publishTime>11/09/2017 11:56:10</publishTime>
+      <publishTime>09/11/2017 11:56:10</publishTime>
     </File>
     <File Include="Areas/ToDo/Views/DutyWork/NewAll.cshtml">
-      <publishTime>11/09/2017 11:56:22</publishTime>
+      <publishTime>09/11/2017 11:56:22</publishTime>
     </File>
     <File Include="Areas/ToDo/Views/DutyWork/ToDos.cshtml">
-      <publishTime>11/01/2017 17:19:08</publishTime>
+      <publishTime>01/11/2017 17:19:08</publishTime>
     </File>
     <File Include="Areas/ToDo/Views/DutyWork/ToDosDetails.cshtml">
-      <publishTime>11/09/2017 10:01:09</publishTime>
+      <publishTime>09/11/2017 10:01:09</publishTime>
     </File>
     <File Include="Areas/ToDo/Views/DutyWork/ToDosList.cshtml">
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Areas/ToDo/Views/GorevTakvimi/Details.cshtml">
-      <publishTime>07/11/2017 11:42:34</publishTime>
+      <publishTime>11/07/2017 11:42:34</publishTime>
     </File>
     <File Include="Areas/ToDo/Views/GorevTakvimi/Index.cshtml">
-      <publishTime>11/07/2017 18:26:48</publishTime>
+      <publishTime>07/11/2017 18:26:48</publishTime>
     </File>
     <File Include="Areas/ToDo/Views/GorevTakvimi/List.cshtml">
-      <publishTime>11/09/2017 10:00:39</publishTime>
+      <publishTime>09/11/2017 10:00:39</publishTime>
     </File>
     <File Include="Areas/ToDo/Views/GorevTakvimi/ListTatil.cshtml">
-      <publishTime>11/01/2017 12:12:24</publishTime>
+      <publishTime>01/11/2017 12:12:24</publishTime>
     </File>
     <File Include="Areas/ToDo/Views/GorevTakvimi/New.cshtml">
-      <publishTime>11/07/2017 12:29:39</publishTime>
+      <publishTime>07/11/2017 12:29:39</publishTime>
     </File>
     <File Include="Areas/ToDo/Views/ProjectForm/Edit.cshtml">
-      <publishTime>11/07/2017 12:12:03</publishTime>
+      <publishTime>07/11/2017 12:12:03</publishTime>
     </File>
     <File Include="Areas/ToDo/Views/ProjectForm/FormEdit.cshtml">
-      <publishTime>12/10/2017 18:36:06</publishTime>
+      <publishTime>10/12/2017 18:36:06</publishTime>
     </File>
     <File Include="Areas/ToDo/Views/ProjectForm/FormIndex.cshtml">
-      <publishTime>10/02/2017 09:21:54</publishTime>
+      <publishTime>02/10/2017 09:21:54</publishTime>
     </File>
     <File Include="Areas/ToDo/Views/ProjectForm/FormList.cshtml">
-      <publishTime>10/04/2017 17:57:44</publishTime>
+      <publishTime>04/10/2017 17:57:44</publishTime>
     </File>
     <File Include="Areas/ToDo/Views/ProjectForm/Index.cshtml">
       <publishTime>01/01/0001 00:00:00</publishTime>
@@ -600,25 +600,25 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Areas/UYS/Views/Transfer/Details.cshtml">
-      <publishTime>10/11/2017 10:17:13</publishTime>
+      <publishTime>11/10/2017 10:17:13</publishTime>
     </File>
     <File Include="Areas/UYS/Views/Transfer/Index.cshtml">
-      <publishTime>11/08/2017 09:25:34</publishTime>
+      <publishTime>08/11/2017 09:25:34</publishTime>
     </File>
     <File Include="Areas/UYS/Views/Transfer/List.cshtml">
-      <publishTime>01/11/2017 18:22:04</publishTime>
+      <publishTime>11/01/2017 18:22:04</publishTime>
     </File>
     <File Include="Areas/UYS/Views/Transfer/Summary.cshtml">
-      <publishTime>01/11/2017 17:44:33</publishTime>
+      <publishTime>11/01/2017 17:44:33</publishTime>
     </File>
     <File Include="Areas/UYS/Views/Transfer/Waiting.cshtml">
-      <publishTime>10/11/2017 09:56:09</publishTime>
+      <publishTime>11/10/2017 09:56:09</publishTime>
     </File>
     <File Include="Areas/UYS/Views/Transfer/WaitingList.cshtml">
-      <publishTime>09/11/2017 18:05:14</publishTime>
+      <publishTime>11/09/2017 18:05:14</publishTime>
     </File>
     <File Include="Areas/UYS/Views/web.config">
-      <publishTime>11/01/2017 17:40:18</publishTime>
+      <publishTime>01/11/2017 17:40:18</publishTime>
     </File>
     <File Include="Areas/WMS/Views/Cable/Index.cshtml">
       <publishTime>01/01/0001 00:00:00</publishTime>
@@ -627,13 +627,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Areas/WMS/Views/Cable/Step2.cshtml">
-      <publishTime>10/04/2017 13:48:35</publishTime>
+      <publishTime>04/10/2017 13:48:35</publishTime>
     </File>
     <File Include="Areas/WMS/Views/Cable/Step3.cshtml">
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Areas/WMS/Views/Cable/Step3Details.cshtml">
-      <publishTime>10/04/2017 15:16:20</publishTime>
+      <publishTime>04/10/2017 15:16:20</publishTime>
     </File>
     <File Include="Areas/WMS/Views/Cable/Step4.cshtml">
       <publishTime>01/01/0001 00:00:00</publishTime>
@@ -660,7 +660,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Areas/WMS/Views/Purchase/_GridPartial.cshtml">
-      <publishTime>11/07/2017 16:57:20</publishTime>
+      <publishTime>07/11/2017 16:57:20</publishTime>
     </File>
     <File Include="Areas/WMS/Views/Purchase/_HesapGridPartial.cshtml">
       <publishTime>01/01/0001 00:00:00</publishTime>
@@ -669,16 +669,16 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Areas/WMS/Views/Refund/Rezervler.cshtml">
-      <publishTime>10/05/2017 09:04:21</publishTime>
+      <publishTime>05/10/2017 09:04:21</publishTime>
     </File>
     <File Include="Areas/WMS/Views/Refund/SiparisList.cshtml">
-      <publishTime>12/10/2017 08:47:36</publishTime>
+      <publishTime>10/12/2017 08:47:36</publishTime>
     </File>
     <File Include="Areas/WMS/Views/Refund/Step2.cshtml">
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Areas/WMS/Views/Refund/Step3.cshtml">
-      <publishTime>10/09/2017 17:53:35</publishTime>
+      <publishTime>09/10/2017 17:53:35</publishTime>
     </File>
     <File Include="Areas/WMS/Views/Refund/Step4.cshtml">
       <publishTime>10/10/2017 12:32:36</publishTime>
@@ -702,7 +702,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Areas/WMS/Views/Sales/Step2.cshtml">
-      <publishTime>10/05/2017 10:35:28</publishTime>
+      <publishTime>05/10/2017 10:35:28</publishTime>
     </File>
     <File Include="Areas/WMS/Views/Sales/Step3.cshtml">
       <publishTime>01/01/0001 00:00:00</publishTime>
@@ -729,16 +729,16 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Areas/WMS/Views/Stock/Details.cshtml">
-      <publishTime>10/02/2017 09:21:54</publishTime>
+      <publishTime>02/10/2017 09:21:54</publishTime>
     </File>
     <File Include="Areas/WMS/Views/Stock/Details2.cshtml">
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Areas/WMS/Views/Stock/History.cshtml">
-      <publishTime>10/04/2017 13:48:33</publishTime>
+      <publishTime>04/10/2017 13:48:33</publishTime>
     </File>
     <File Include="Areas/WMS/Views/Stock/HistoryList.cshtml">
-      <publishTime>10/02/2017 09:21:54</publishTime>
+      <publishTime>02/10/2017 09:21:54</publishTime>
     </File>
     <File Include="Areas/WMS/Views/Stock/Index.cshtml">
       <publishTime>01/01/0001 00:00:00</publishTime>
@@ -774,7 +774,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Areas/WMS/Views/Tasks/CountList.cshtml">
-      <publishTime>10/02/2017 09:21:54</publishTime>
+      <publishTime>02/10/2017 09:21:54</publishTime>
     </File>
     <File Include="Areas/WMS/Views/Tasks/CountNew.cshtml">
       <publishTime>01/01/0001 00:00:00</publishTime>
@@ -798,19 +798,19 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Areas/WMS/Views/Terminal/Editor.cshtml">
-      <publishTime>11/10/2017 16:53:01</publishTime>
+      <publishTime>10/11/2017 16:53:01</publishTime>
     </File>
     <File Include="Areas/WMS/Views/Terminal/Index.cshtml">
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Areas/WMS/Views/Terminal/List.cshtml">
-      <publishTime>11/10/2017 16:53:01</publishTime>
+      <publishTime>10/11/2017 16:53:01</publishTime>
     </File>
     <File Include="Areas/WMS/Views/Transfer/Details.cshtml">
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Areas/WMS/Views/Transfer/Index.cshtml">
-      <publishTime>11/01/2017 18:35:38</publishTime>
+      <publishTime>01/11/2017 18:35:38</publishTime>
     </File>
     <File Include="Areas/WMS/Views/Transfer/Index_Stock.cshtml">
       <publishTime>01/01/0001 00:00:00</publishTime>
@@ -825,7 +825,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Areas/WMS/Views/Transfer/Summary.cshtml">
-      <publishTime>11/02/2017 12:10:44</publishTime>
+      <publishTime>02/11/2017 12:10:44</publishTime>
     </File>
     <File Include="Areas/WMS/Views/Transfer/SummaryEdit.cshtml">
       <publishTime>01/01/0001 00:00:00</publishTime>
@@ -834,10 +834,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Areas/WMS/Views/Transfer/Waiting.cshtml">
-      <publishTime>09/11/2017 18:59:17</publishTime>
+      <publishTime>11/09/2017 18:59:17</publishTime>
     </File>
     <File Include="Areas/WMS/Views/Transfer/WaitingList.cshtml">
-      <publishTime>09/11/2017 18:59:17</publishTime>
+      <publishTime>11/09/2017 18:59:17</publishTime>
     </File>
     <File Include="Areas/WMS/Views/web.config">
       <publishTime>01/01/0001 00:00:00</publishTime>
@@ -852,7 +852,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Areas/YN/Views/OnayBekleyenler/Siparis_Details.cshtml">
-      <publishTime>11/10/2017 12:40:58</publishTime>
+      <publishTime>10/11/2017 12:40:58</publishTime>
     </File>
     <File Include="Areas/YN/Views/OnayBekleyenler/Tahsilat.cshtml">
       <publishTime>01/01/0001 00:00:00</publishTime>
@@ -861,22 +861,22 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Areas/YN/Views/OnayBekleyenler/Teklif_Details.cshtml">
-      <publishTime>11/10/2017 12:40:58</publishTime>
+      <publishTime>10/11/2017 12:40:58</publishTime>
     </File>
     <File Include="Areas/YN/Views/OnayBekleyenler/Transfer.cshtml">
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Areas/YN/Views/OnayBekleyenler/Transfer_Details.cshtml">
-      <publishTime>11/10/2017 12:40:58</publishTime>
+      <publishTime>10/11/2017 12:40:58</publishTime>
     </File>
     <File Include="Areas/YN/Views/web.config">
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="bin/Antlr3.Runtime.dll">
-      <publishTime>09/10/2013 16:29:20</publishTime>
+      <publishTime>10/09/2013 16:29:20</publishTime>
     </File>
     <File Include="bin/Antlr3.Runtime.pdb">
-      <publishTime>09/10/2013 16:29:20</publishTime>
+      <publishTime>10/09/2013 16:29:20</publishTime>
     </File>
     <File Include="bin/de/DevExpress.Data.v17.1.resources.dll">
       <publishTime>01/01/0001 00:00:00</publishTime>
@@ -1035,22 +1035,22 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="bin/DevHelper.dll">
-      <publishTime>11/03/2017 14:02:29</publishTime>
+      <publishTime>03/11/2017 14:02:29</publishTime>
     </File>
     <File Include="bin/DocumentFormat.OpenXml.dll">
       <publishTime>06/06/2017 22:59:22</publishTime>
     </File>
     <File Include="bin/Elmah.dll">
-      <publishTime>04/12/2012 19:19:36</publishTime>
+      <publishTime>12/04/2012 19:19:36</publishTime>
     </File>
     <File Include="bin/Elmah.Mvc.dll">
-      <publishTime>05/01/2015 00:46:24</publishTime>
+      <publishTime>01/05/2015 00:46:24</publishTime>
     </File>
     <File Include="bin/EntityFramework.dll">
-      <publishTime>04/06/2017 01:15:32</publishTime>
+      <publishTime>06/04/2017 01:15:32</publishTime>
     </File>
     <File Include="bin/EntityFramework.SqlServer.dll">
-      <publishTime>04/06/2017 01:15:32</publishTime>
+      <publishTime>06/04/2017 01:15:32</publishTime>
     </File>
     <File Include="bin/es/DevExpress.Data.v17.1.resources.dll">
       <publishTime>01/01/0001 00:00:00</publishTime>
@@ -1119,16 +1119,16 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="bin/Excel.dll">
-      <publishTime>05/07/2014 09:57:36</publishTime>
+      <publishTime>07/05/2014 09:57:36</publishTime>
     </File>
     <File Include="bin/Excel.pdb">
-      <publishTime>05/07/2014 09:57:36</publishTime>
+      <publishTime>07/05/2014 09:57:36</publishTime>
     </File>
     <File Include="bin/Humanizer.dll">
-      <publishTime>05/04/2017 23:33:58</publishTime>
+      <publishTime>04/05/2017 23:33:58</publishTime>
     </File>
     <File Include="bin/ICSharpCode.SharpZipLib.dll">
-      <publishTime>01/03/2011 14:16:38</publishTime>
+      <publishTime>03/01/2011 14:16:38</publishTime>
     </File>
     <File Include="bin/itextsharp.dll">
       <publishTime>01/01/0001 00:00:00</publishTime>
@@ -1206,10 +1206,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="bin/Microsoft.AspNet.SignalR.Core.dll">
-      <publishTime>05/04/2017 02:25:34</publishTime>
+      <publishTime>04/05/2017 02:25:34</publishTime>
     </File>
     <File Include="bin/Microsoft.AspNet.SignalR.SystemWeb.dll">
-      <publishTime>05/04/2017 02:25:40</publishTime>
+      <publishTime>04/05/2017 02:25:40</publishTime>
     </File>
     <File Include="bin/Microsoft.Owin.dll">
       <publishTime>01/01/0001 00:00:00</publishTime>
@@ -1236,7 +1236,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="bin/OnikimCore.dll">
-      <publishTime>10/11/2017 10:20:09</publishTime>
+      <publishTime>11/10/2017 10:20:09</publishTime>
     </File>
     <File Include="bin/Owin.dll">
       <publishTime>01/01/0001 00:00:00</publishTime>
@@ -1308,10 +1308,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="bin/System.IO.FileSystem.Primitives.dll">
-      <publishTime>11/05/2016 04:56:08</publishTime>
+      <publishTime>05/11/2016 04:56:08</publishTime>
     </File>
     <File Include="bin/System.IO.Packaging.dll">
-      <publishTime>11/05/2016 04:56:14</publishTime>
+      <publishTime>05/11/2016 04:56:14</publishTime>
     </File>
     <File Include="bin/System.Web.Helpers.dll">
       <publishTime>01/01/0001 00:00:00</publishTime>
@@ -1320,7 +1320,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="bin/System.Web.Optimization.dll">
-      <publishTime>02/11/2014 15:26:04</publishTime>
+      <publishTime>11/02/2014 15:26:04</publishTime>
     </File>
     <File Include="bin/System.Web.Razor.dll">
       <publishTime>01/01/0001 00:00:00</publishTime>
@@ -1338,43 +1338,43 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="bin/tr/Humanizer.resources.dll">
-      <publishTime>05/04/2017 23:34:46</publishTime>
+      <publishTime>04/05/2017 23:34:46</publishTime>
     </File>
     <File Include="bin/TumFaturaKayit.dll">
-      <publishTime>11/01/2017 16:46:21</publishTime>
+      <publishTime>01/11/2017 16:46:21</publishTime>
     </File>
     <File Include="bin/WebGrease.dll">
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="bin/Wms12m.Business.dll">
-      <publishTime>10/11/2017 10:55:12</publishTime>
+      <publishTime>11/10/2017 10:55:12</publishTime>
     </File>
     <File Include="bin/Wms12m.Business.dll.config">
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="bin/Wms12m.Business.pdb">
-      <publishTime>10/11/2017 10:55:12</publishTime>
+      <publishTime>11/10/2017 10:55:12</publishTime>
     </File>
     <File Include="bin/Wms12m.Entity.dll">
-      <publishTime>10/11/2017 10:55:11</publishTime>
+      <publishTime>11/10/2017 10:55:11</publishTime>
     </File>
     <File Include="bin/Wms12m.Entity.dll.config">
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="bin/Wms12m.Entity.pdb">
-      <publishTime>10/11/2017 10:55:11</publishTime>
+      <publishTime>11/10/2017 10:55:11</publishTime>
     </File>
     <File Include="bin/Wms12m.Presentation.dll">
-      <publishTime>10/11/2017 10:56:10</publishTime>
+      <publishTime>11/10/2017 10:56:10</publishTime>
     </File>
     <File Include="bin/Wms12m.Presentation.pdb">
-      <publishTime>10/11/2017 10:56:10</publishTime>
+      <publishTime>11/10/2017 10:56:10</publishTime>
     </File>
     <File Include="bin/Wms12m.Security.dll">
-      <publishTime>10/11/2017 10:17:44</publishTime>
+      <publishTime>11/10/2017 10:17:44</publishTime>
     </File>
     <File Include="bin/Wms12m.Security.pdb">
-      <publishTime>10/11/2017 10:17:44</publishTime>
+      <publishTime>11/10/2017 10:17:44</publishTime>
     </File>
     <File Include="Content/ajaxloader.gif">
       <publishTime>01/01/0001 00:00:00</publishTime>
@@ -1725,22 +1725,22 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Content/Scripts/Functions.js">
-      <publishTime>11/06/2017 09:53:13</publishTime>
+      <publishTime>06/11/2017 09:53:13</publishTime>
     </File>
     <File Include="Content/Scripts/Functions.min.js">
-      <publishTime>11/06/2017 09:53:14</publishTime>
+      <publishTime>06/11/2017 09:53:14</publishTime>
     </File>
     <File Include="Content/Scripts/MessageBox.js">
-      <publishTime>06/10/2017 15:19:48</publishTime>
+      <publishTime>10/06/2017 15:19:48</publishTime>
     </File>
     <File Include="Content/Scripts/MessageBox.min.js">
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Content/Scripts/Operation.js">
-      <publishTime>09/11/2017 17:49:41</publishTime>
+      <publishTime>11/09/2017 17:49:41</publishTime>
     </File>
     <File Include="Content/Scripts/Operation.min.js">
-      <publishTime>09/11/2017 17:49:41</publishTime>
+      <publishTime>11/09/2017 17:49:41</publishTime>
     </File>
     <File Include="Content/Scripts/quick-sidebar.js">
       <publishTime>01/01/0001 00:00:00</publishTime>
@@ -1749,10 +1749,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Content/Scripts/SignalR.js">
-      <publishTime>01/11/2017 15:06:44</publishTime>
+      <publishTime>11/01/2017 15:06:44</publishTime>
     </File>
     <File Include="Content/Scripts/SignalR.min.js">
-      <publishTime>01/11/2017 15:06:44</publishTime>
+      <publishTime>11/01/2017 15:06:44</publishTime>
     </File>
     <File Include="Content/Site.css">
       <publishTime>01/01/0001 00:00:00</publishTime>
@@ -1767,7 +1767,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Content/Uploads/0.jpg">
-      <publishTime>03/10/2017 13:37:17</publishTime>
+      <publishTime>10/03/2017 13:37:17</publishTime>
     </File>
     <File Include="favicon.ico">
       <publishTime>01/01/0001 00:00:00</publishTime>
@@ -1824,7 +1824,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Uploads/0.jpg">
-      <publishTime>03/10/2017 13:37:17</publishTime>
+      <publishTime>10/03/2017 13:37:17</publishTime>
     </File>
     <File Include="Views/Calendar/Index.cshtml">
       <publishTime>01/01/0001 00:00:00</publishTime>
@@ -1851,10 +1851,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Views/Home/GorevProjesi/CalismaListesi.cshtml">
-      <publishTime>11/07/2017 13:05:53</publishTime>
+      <publishTime>07/11/2017 13:05:53</publishTime>
     </File>
     <File Include="Views/Home/GorevProjesi/GorevGit.cshtml">
-      <publishTime>11/07/2017 13:07:39</publishTime>
+      <publishTime>07/11/2017 13:07:39</publishTime>
     </File>
     <File Include="Views/Home/GorevProjesi/GunlukCalisma.cshtml">
       <publishTime>01/01/0001 00:00:00</publishTime>
@@ -1869,10 +1869,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>10/10/2017 16:51:24</publishTime>
     </File>
     <File Include="Views/Home/GorevProjesi/ProjeAnalizi.cshtml">
-      <publishTime>11/10/2017 18:53:19</publishTime>
+      <publishTime>10/11/2017 18:53:19</publishTime>
     </File>
     <File Include="Views/Home/Index.cshtml">
-      <publishTime>10/11/2017 10:54:59</publishTime>
+      <publishTime>11/10/2017 10:54:59</publishTime>
     </File>
     <File Include="Views/Home/Satis/AylikSatisAnaliziBar.cshtml">
       <publishTime>01/01/0001 00:00:00</publishTime>
@@ -2100,16 +2100,16 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Views/Shared/Notifications.cshtml">
-      <publishTime>11/01/2017 16:45:00</publishTime>
+      <publishTime>01/11/2017 16:45:00</publishTime>
     </File>
     <File Include="Views/Shared/Users.cshtml">
-      <publishTime>11/01/2017 15:22:19</publishTime>
+      <publishTime>01/11/2017 15:22:19</publishTime>
     </File>
     <File Include="Views/Shared/UsersChat.cshtml">
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Views/Shared/_Layout.cshtml">
-      <publishTime>11/01/2017 17:15:12</publishTime>
+      <publishTime>01/11/2017 17:15:12</publishTime>
     </File>
     <File Include="Views/Shared/_Layout.Null.cshtml">
       <publishTime>01/01/0001 00:00:00</publishTime>
@@ -2148,7 +2148,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Views/Users/YetkiDuzenle.cshtml">
-      <publishTime>10/03/2017 14:27:13</publishTime>
+      <publishTime>03/10/2017 14:27:13</publishTime>
     </File>
     <File Include="Views/web.config">
       <publishTime>01/01/0001 00:00:00</publishTime>
