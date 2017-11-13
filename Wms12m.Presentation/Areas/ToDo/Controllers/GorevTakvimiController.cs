@@ -43,7 +43,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                         Username = item.Username,
                         TatilTipi = item.TatilTipi,
                         Tarih = item.Tarih.AddYears(i),
-                        Aciklama = item.Aciklama + " (" + i + ". Tekrar)",
+                        Aciklama = item.Aciklama + " (" + i + ". Yıldönümü)",
                         Tekrarlayan = item.Tekrarlayan,
                         ComboItem_Name = item.ComboItem_Name,
                         Sure = item.Sure
