@@ -48,7 +48,6 @@ namespace Wms12m.Presentation.Areas.System.Controllers
                 set.SevkiyatVarmi = tbl.SevkiyatVarmi;
                 set.GitServerAddress = tbl.GitServerAddress;
                 set.CrmOzet = tbl.CrmOzet;
-                set.Version = tbl.Version;
                 set.Aktif = tbl.Aktif;
                 db.SaveChanges();
             }
