@@ -2,11 +2,11 @@
 <table class="table table-bordered table-striped table-condensed" id="sample_1">
     <thead><tr><th></th><th></th><th>Madde</th><th>Firma</th><th>Proje</th><th>Form</th><th>Görev</th><th>Sorumlular</th><th>Durum</th><th>Görev Tipi</th><th>Departman</th><th>Oluşturma Tarihi</th><th></th></tr></thead>
     <tfoot><tr><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr></tfoot>
-    <tfoot class="tf-search"><tr>@if (ViewBag.Yetki == true) {<th></th>}<th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr></tfoot>
+    <tfoot class="tf-search"><tr>@if (ViewBag.Yetki2 == true) {<th></th>}<th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr></tfoot>
     <tbody>
         @foreach (var item in Model)
         {
-            <tr data-id="@item.ID" data-order="@item.OncelikID"@if (ViewBag.Yetki1 == true) {<text> ondblclick = "showEdit(@item.ID)" class = "clickable"</text>}>
+            <tr data-id="@item.ID" data-order="@item.OncelikID"@if (ViewBag.Yetki == true) {<text> ondblclick = "showEdit(@item.ID)" class = "clickable"</text>}>
                 <td><div style="display:flex;"><i class='fa fa-arrow-up list-up-down item-up' onclick='RowUp(this)' style='color:#a0e4a0;'></i><i class='fa fa-arrow-down list-up-down item-down' onclick='RowDown(this)'  style='color:#ec9696;'></i></div></td>
                 <td></td>
                 <td class="details-control"></td>
@@ -19,7 +19,7 @@
                 <td>@if (item.ComboItem_Name2 != null) { @item.ComboItem_Name2.Name} </td>
                 <td>@if (item.ComboItem_Name != null) { @item.ComboItem_Name.Name} </td>
                 <td>@item.KayitTarih.ToString("dd.MM.yyyy")</td>
-                <td nowrap>@if (ViewBag.Yetki == true || item.Kaydeden == ViewBag.vUser.UserName) {
+                <td nowrap>@if (ViewBag.Yetki2 == true || item.Kaydeden == ViewBag.vUser.UserName) {
                     if (ViewBag.Tip != ComboItems.gydDurduruldu.ToInt32() && ViewBag.Tip != ComboItems.gydReddedildi.ToInt32()) {<a class="btn btn-warning" href="javascript:;" onclick="Stopper(2, @item.ID)"> Durdur </a>}
                     else {<a class="btn btn-primary" href="javascript:;" onclick="Stopper(3, @item.ID)"> Başlat </a>}
                     <a class="btn btn-default" href="#modalEditPage" data-toggle="modal" onclick="editInModal('/ToDo/ProjectForm/Files/@item.ProjeForm.PID')"> Dosyalar </a>
@@ -39,7 +39,7 @@
     });
     table.on('order.dt search.dt', function () { table.column(1, { search: 'applied', order: 'applied' }).nodes().each(function (cell, i) { cell.innerHTML = i + 1; }); }).draw();
     $('#sample_1 .tf-search th').each(function () {
-        var title = $('#sample_1 thead th').eq($(this).index()@if (ViewBag.Yetki != true) { @("+1") }).text();
+        var title = $('#sample_1 thead th').eq($(this).index()@if (ViewBag.Yetki2 != true) { @("+1") }).text();
         if (title != "" && title.indexOf("Tarih") !== -1)
             $(this).html('<input class="form-control input-circle tarih" type="text" placeholder="Ara" />');
         else if (title != "" && title != "Çalışma" && title != "Sıra")
@@ -55,13 +55,13 @@
     //tarih
     $.datepicker.setDefaults($.datepicker.regional["tr"]);
     $(".tarih").datepicker();
-   @if (ViewBag.Yetki1 == true) {<text>
+   @if (ViewBag.Yetki == true) {<text>
     function showEdit(ID) {
         $('#modalEditPage').modal('toggle');
         editInModal('/ToDo/Duties/Edit/' + ID);
     }</text>
     }
-   @if (ViewBag.Yetki == true) {
+   @if (ViewBag.Yetki2 == true) {
         if (ViewBag.Tip == ComboItems.gydOnayVer.ToInt32()) {<text>
         $('#sample_1 tbody').on('click', 'tr', function () {
             table.rows('.selected').nodes().to$().removeClass('selected');
