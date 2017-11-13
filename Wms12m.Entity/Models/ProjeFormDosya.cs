@@ -14,7 +14,6 @@ namespace Wms12m.Entity.Models
     
     public partial class ProjeFormDosya
     {
-        public int ID { get; set; }
         public System.Guid Guid { get; set; }
         public int ProjeID { get; set; }
         public string DosyaAdi { get; set; }

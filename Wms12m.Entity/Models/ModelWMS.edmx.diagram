@@ -96,7 +96,7 @@
         <AssociationConnector Association="MModel.FK_Depo_Users_Depo" />
         <AssociationConnector Association="MModel.FK_Depo_Users_Users" />
         <EntityTypeShape EntityType="MModel.Setting" Width="1.5" PointX="0.5" PointY="5.375" />
-        <EntityTypeShape EntityType="MModel.ProjeFormDosya" Width="1.5" PointX="38.125" PointY="7.875" />
+        <EntityTypeShape EntityType="MModel.ProjeFormDosya" Width="1.5" PointX="37.875" PointY="8.375" />
         <AssociationConnector Association="MModel.FK_ProjeFormDosya_ProjeForm" />
         </Diagram>
     </edmx:Diagrams>

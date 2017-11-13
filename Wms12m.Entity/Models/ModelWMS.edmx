@@ -227,9 +227,8 @@
         </EntityType>
         <EntityType Name="ProjeFormDosya">
           <Key>
-            <PropertyRef Name="ID" />
+            <PropertyRef Name="Guid" />
           </Key>
-          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Guid" Type="uniqueidentifier" Nullable="false" />
           <Property Name="ProjeID" Type="int" Nullable="false" />
           <Property Name="DosyaAdi" Type="nvarchar" MaxLength="250" Nullable="false" />
@@ -3896,9 +3895,8 @@
         </EntityType>
         <EntityType Name="ProjeFormDosya">
           <Key>
-            <PropertyRef Name="ID" />
+            <PropertyRef Name="Guid" />
           </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Guid" Type="Guid" Nullable="false" />
           <Property Name="ProjeID" Type="Int32" Nullable="false" />
           <Property Name="DosyaAdi" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
@@ -4960,7 +4958,6 @@
                 <ScalarProperty Name="DosyaAdi" ColumnName="DosyaAdi" />
                 <ScalarProperty Name="ProjeID" ColumnName="ProjeID" />
                 <ScalarProperty Name="Guid" ColumnName="Guid" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
