@@ -478,6 +478,7 @@
     <Content Include="Areas\UYS\Views\Transfer\Waiting.cshtml" />
     <Content Include="Areas\UYS\Views\Transfer\WaitingList.cshtml" />
     <Content Include="Areas\UYS\Views\Transfer\Details.cshtml" />
+    <Content Include="Areas\ToDo\Views\ProjectForm\Files.cshtml" />
     <None Include="bundleconfig.json" />
     <Content Include="Content\SizeSablon.xlsx" />
     <Content Include="Content\StockSablon.xlsx" />

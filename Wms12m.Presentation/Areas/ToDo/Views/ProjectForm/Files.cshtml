@@ -1,0 +1,71 @@
+﻿@model IEnumerable<ProjeFormDosya>
+<div class="modal-content">
+    <div class="close-modal" data-dismiss="modal"><div class="lr"><div class="rl"></div></div></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="modal-body">
+                    <div class="portlet box green">
+                        <div class="portlet-title">
+                            <div class="caption">
+                                <i class="fa fa-gift"></i>Dosya Listesi
+                            </div>
+                            @{if (ViewBag.Yetki == true)
+                            {
+                                <div class="col-md-1 pull-right m-t-5">
+                                    @using (Ajax.BeginForm("Gorev", "Uploads", new { area = "" }, new AjaxOptions { HttpMethod = "post" }, htmlAttributes: new { @class = "form", enctype = "multipart/form-data", id = "fileupload", role = "form" }))
+                                    {
+                                        @Html.AntiForgeryToken()
+                                        <a id="linkUpload" class="btn btn-warning">Yükle</a>
+                                        <input id="btnUpload" type="file" name="file" />
+                                        <input type="hidden" name="ID" id="ID" value="@ViewBag.id" />
+                                    }
+                                </div>
+                            }}
+                        </div>
+                        <div class="portlet-body form p-40">
+                            <table class="table table-striped table-bordered table-hover">
+                                <thead><tr><th>Dosya Adı</th><th>Boyut</th><th>Yükleyen</th><th>Tarih</th><th></th></tr></thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            <td>@item.DosyaAdi</td>
+                                            <td>@item.Boyut</td>
+                                            <td>@item.Kaydeden</td>
+                                            <td>@item.Tarih</td>
+                                            <td>@if (ViewBag.Yetki2 == true) {<a class="btn btn-danger" href="javascript:;" onclick="Delete('@item.ID','/ToDo/ProjectForm/Files/@ViewBag.id','modalEditPage', '', '/ToDo/ProjectForm/DeleteFile/@item.ID')"> Sil </a>}</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(function () {
+        $('#linkUpload').click(function () {
+            $("#btnUpload").click();
+        });
+        $('#fileupload').fileupload({
+            maxFileSize: 2000000,
+            acceptFileTypes: /(\.|\/)(xlsx)$/i,
+            dataType: 'json',
+            add: function (e, data) { data.submit(); },
+            done: function (e, data) {
+                if (data.result.Status == false)
+                    Modaldialog(data.result.Message, "Hata", "Tamam", "btn-danger");
+                else
+                {
+                    PartialView("/ToDo/ProjectForm/Files/@ViewBag.id", 'modalEditPage');
+                    Modaldialog("İşlem başarıyla gerçekleşti", "Başarı", "Tamam", "btn-success");
+                }
+            },
+            fail: function (e, data) { Modaldialog("Lütfen Tekrar Deneyin", "Hata", "Tamam", "btn-danger"); }
+        });
+    });
+</script>

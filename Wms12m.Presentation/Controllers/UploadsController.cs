@@ -539,5 +539,17 @@ namespace Wms12m.Presentation.Controllers
             //return
             return Json(new Result(true, ID.ToInt32()), JsonRequestBehavior.AllowGet);
         }
+        /// <summary>
+        /// kullanıcı resmi yükle
+        /// </summary>
+        public JsonResult Gorev(string ID, HttpPostedFileBase file)
+        {
+            if (CheckPerm(Perms.TodoGörevler, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
+            var _Result = new Result(false, "Hatalı dosya!");
+            if (file == null || file.ContentLength == 0) return Json(_Result, JsonRequestBehavior.AllowGet);
+
+            //return
+            return Json(new Result(true, ID.ToInt32()), JsonRequestBehavior.AllowGet);
+        }
     }
 }
