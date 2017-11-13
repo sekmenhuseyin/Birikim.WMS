@@ -22,6 +22,7 @@
                 <td nowrap>@if (ViewBag.Yetki == true || item.Kaydeden == ViewBag.vUser.UserName) {
                     if (ViewBag.Tip != ComboItems.gydDurduruldu.ToInt32() && ViewBag.Tip != ComboItems.gydReddedildi.ToInt32()) {<a class="btn btn-warning" href="javascript:;" onclick="Stopper(2, @item.ID)"> Durdur </a>}
                     else {<a class="btn btn-primary" href="javascript:;" onclick="Stopper(3, @item.ID)"> Başlat </a>}
+                    <a class="btn btn-default" href="#modalEditPage" data-toggle="modal" onclick="editInModal('/ToDo/ProjectForm/Files/@item.ProjeForm.PID')"> Dosyalar </a>
                     <a class="btn btn-danger" href="javascript:;" onclick="Delete('@item.ID', '', '', '')"> Sil </a>
                 }</td>
             </tr>
