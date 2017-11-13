@@ -241,3 +241,4 @@ ModelManifest.xml
 # FAKE - F# Make
 .fake/
 *.ini
+/Wms12m.Presentation/Content/Uploads/Proje

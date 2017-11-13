@@ -30,7 +30,7 @@
                                     @foreach (var item in Model)
                                     {
                                         <tr>
-                                            <td>@item.DosyaAdi</td>
+                                            <td><a href="/Uploads/ProjeDownload/@item.Guid.ToString()" target="_blank">@item.DosyaAdi</a></td>
                                             <td>@item.Boyut</td>
                                             <td>@item.Kaydeden</td>
                                             <td>@item.Tarih</td>

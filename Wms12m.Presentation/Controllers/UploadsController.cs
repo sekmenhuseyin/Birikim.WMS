@@ -602,5 +602,15 @@ namespace Wms12m.Presentation.Controllers
                 return Json(new Result(false, ex.Message), JsonRequestBehavior.AllowGet);
             }
         }
+        /// <summary>
+        /// görveler için dosya indir
+        /// </summary>
+        public FileResult ProjeDownload(string Id)
+        {
+            var tbl = db.ProjeFormDosyas.Find(Guid.Parse(Id));
+            if (System.IO.File.Exists(Server.MapPath("/Content/Uploads/Proje/" + tbl.ProjeID + "-" + tbl.Guid)) == false) return null;
+            byte[] fileBytes = System.IO.File.ReadAllBytes(Server.MapPath("/Content/Uploads/Proje/" + tbl.ProjeID + "-" + tbl.Guid));
+            return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, tbl.DosyaAdi);
+        }
     }
 }
