@@ -569,7 +569,7 @@ namespace Wms12m.Presentation.Controllers
                     ProjeID = ID.ToInt32(),
                     DosyaAdi = file.FileName,
                     Guid = guid,
-                    Boyut = Statics.BoyutHesapla(file.ContentLength),
+                    Boyut = file.ContentLength.BoyutHesapla(),
                     BoyutByte = file.ContentLength,
                     Kaydeden = vUser.UserName,
                     Tarih = DateTime.Now
