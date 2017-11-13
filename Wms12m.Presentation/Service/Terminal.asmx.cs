@@ -943,18 +943,8 @@ namespace Wms12m
             //        return new Result(false, "İşlem bitmemiş(Miktar ile Yerleştirme miktarı uyumsuz.)");
             //}
 
-            var data2 = YerlestirmeList.GroupBy(x => x.MalKodu)
-    .Select(x => new
-    {
-        MalKodu = x.Key,
-        Miktar = x.Sum(y => y.Miktar),
-        OkutulanMiktar = x.Sum(y => y.OkutulanMiktar),
-    }).ToList();
-            foreach (var item in data2)
-            {
-                if (item.Miktar > item.OkutulanMiktar)
-                    return new Result(false, "İşlem bitmemiş(Miktar ile Yerleştirme miktarı uyumsuz.)");
-            }
+     
+
 
             //add to gorev user table
             var tbl = db.GorevUsers.Where(m => m.GorevID == GorevID && m.UserName == tblx.Kod).FirstOrDefault();
@@ -973,6 +963,18 @@ namespace Wms12m
             Result _result = new Result(true);
             foreach (var item in YerlestirmeList)
             {
+                List<GorevYer> grv = db.GorevYers.Where(m => m.GorevID == GorevID && m.MalKodu == item.MalKodu).ToList();
+                decimal YerlestirmeMiktar = 0;
+                decimal Miktar = 0;
+                if(grv.IsNotNull())
+                {
+                    YerlestirmeMiktar = grv.Sum(x => x.YerlestirmeMiktari).ToDecimal();
+                    Miktar= grv.Sum(x => x.Miktar).ToDecimal();
+
+                    if(Miktar<(YerlestirmeMiktar+item.Miktar))
+                        return new Result(false, "İşlem bitmemiş(Miktar ile Yerleştirme miktarı uyumsuz.)");
+                }
+
                 //irsdetay id aslında bizim GorevYerid
                 int GorevYerID = item.IrsDetayID;
                 if (GorevYerID == 0)
