@@ -1,5 +1,4 @@
-﻿using DevHelper;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Configuration;
@@ -188,7 +187,7 @@ namespace Wms12m
             var yetkikontrol = db.GetPermissionFor(KullID, tbl.RoleName, gtipi, "WMS", "Reading").FirstOrDefault().Value;
             if (yetkikontrol == true)
             {
-                string tempCase = "",tempCase2 = "";
+                string tempCase = "", tempCase2 = "";
                 if (gorevtipi == ComboItems.KontrolSayım.ToInt32())
                 {
                     if (durum == ComboItems.Açık.ToInt32())
@@ -471,7 +470,7 @@ namespace Wms12m
                             stok.Insert(tmp2, 0, KullID);
                         }
                         else
-                        { 
+                        {
                             if (tmp2.MakaraNo != item2.MakaraNo)
                             {
                                 tmp2 = new Yer()
@@ -649,7 +648,7 @@ namespace Wms12m
             string gorevNo = db.SettingsGorevNo(DateTime.Today.ToOADateInt(), mGorev.DepoID).FirstOrDefault();
             //var kull = db.Users.Where(m => m.ID == KullID).Select(m => m.Kod).FirstOrDefault();
             var kull = db.Users.Where(m => m.ID == KullID).FirstOrDefault();
-            
+
             if (kull.UserDetail.SatisFaturaSeri == null || kull.UserDetail.SatisIrsaliyeSeri == null)
                 return new Result(false, "Bu kullanıcıya ait seri nolar hatalı ! Lütfen terminal yetkilerinden seriyi değiştirin yada Güneşten seçili seri için bir değer verin.");
             Finsat finsat = new Finsat(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, mGorev.IR.SirketKod);
@@ -839,7 +838,7 @@ namespace Wms12m
                         //rezervden düşürülür
                         var tmp2 = stok.Detail(Rkat.Value, item.MalKodu, item.Birim);
                         tmp2.Miktar -= item.Miktar;
-                        stok.Update(tmp2, item.IrsID, KullID, true, item.Miktar,item.IrsDetayID);
+                        stok.Update(tmp2, item.IrsID, KullID, true, item.Miktar, item.IrsDetayID);
                         string makarano = tmp2.MakaraNo;
                         //yerleştirme kaydı yapılır
                         tmp2 = stok.Detail(kat.Value, item.MalKodu, item.Birim);
@@ -853,7 +852,7 @@ namespace Wms12m
                                 Miktar = item.Miktar
                             };
                             if (makarano != "" || makarano != null) tmp2.MakaraNo = makarano;
-                            stok.Insert(tmp2, item.IrsID, KullID,item.IrsDetayID);
+                            stok.Insert(tmp2, item.IrsID, KullID, item.IrsDetayID);
                         }
                         else if (tmp2.MakaraNo != makarano)
                         {
@@ -865,7 +864,7 @@ namespace Wms12m
                                 Miktar = item.Miktar
                             };
                             if (makarano != "" || makarano != null) tmp2.MakaraNo = makarano;
-                            stok.Insert(tmp2, item.IrsID, KullID,item.IrsDetayID);
+                            stok.Insert(tmp2, item.IrsID, KullID, item.IrsDetayID);
                         }
                         else
                         {
@@ -1135,23 +1134,27 @@ namespace Wms12m
                                 item2.YerlestirmeMiktari = item2.Miktar - gerekenMiktar;
                                 item2.MakaraNo = item1.MakaraNo;
                                 item2.IrsaliyeID = item1.IrsaliyeID;
-
-                                frmTempGorevYer tmp = new frmTempGorevYer();
-                                tmp.Set(item2);
-                                tmp.Miktar = gerekenMiktar;
-                                tmp.YerlestirmeMiktari = gerekenMiktar;
-                                tmp.Aktif = false;
-
-                                tempGorevYer.Add(tmp);
+                                tempGorevYer.Add(new frmTempGorevYer
+                                {
+                                    ID = item2.ID,
+                                    GorevID = item2.GorevID,
+                                    YerID = item2.YerID,
+                                    IrsaliyeID = item2.IrsaliyeID,
+                                    MalKodu = item2.MalKodu,
+                                    Birim = item2.Birim,
+                                    GC = item2.GC,
+                                    MakaraNo = item2.MakaraNo,
+                                    PID = item2.PID,
+                                    IU = item2.IU,
+                                    Miktar = gerekenMiktar,
+                                    YerlestirmeMiktari = gerekenMiktar,
+                                    Aktif = false
+                                });
                                 gerekenMiktar = 0;
-
                                 break;
                             }
                         }
-
-
                     }
-
                 }
                 foreach (var item2 in tempGorevYer)
                 {
@@ -1708,7 +1711,7 @@ namespace Wms12m
                         _result = new Result(false, item.RafNo + " adlı yer bulunamadı");
                 }
             }
-            
+
             return _result;
         }
         /// <summary>
@@ -1881,7 +1884,7 @@ namespace Wms12m
                 else
                 {
                     tbl2 = db.GorevYers.Where(m => m.ID == item.IrsDetayID).FirstOrDefault();
-                    if((tbl2.Miktar + item.Miktar) < 0)
+                    if ((tbl2.Miktar + item.Miktar) < 0)
                     {
                         tbl2.Miktar = 0;
                     }
@@ -2146,23 +2149,27 @@ namespace Wms12m
                                 item2.YerlestirmeMiktari = item2.Miktar - gerekenMiktar;
                                 item2.MakaraNo = item1.MakaraNo;
                                 item2.IrsaliyeID = item1.IrsaliyeID;
-
-                                frmTempGorevYer tmp = new frmTempGorevYer();
-                                tmp.Set(item2);
-                                tmp.Miktar = gerekenMiktar;
-                                tmp.YerlestirmeMiktari = gerekenMiktar;
-                                tmp.Aktif = false;
-
-                                tempGorevYer.Add(tmp);
+                                tempGorevYer.Add(new frmTempGorevYer
+                                {
+                                    ID = item2.ID,
+                                    GorevID = item2.GorevID,
+                                    YerID = item2.YerID,
+                                    IrsaliyeID = item2.IrsaliyeID,
+                                    MalKodu = item2.MalKodu,
+                                    Birim = item2.Birim,
+                                    GC = item2.GC,
+                                    MakaraNo = item2.MakaraNo,
+                                    PID = item2.PID,
+                                    IU = item2.IU,
+                                    Miktar = gerekenMiktar,
+                                    YerlestirmeMiktari = gerekenMiktar,
+                                    Aktif = false
+                                });
                                 gerekenMiktar = 0;
-
                                 break;
                             }
                         }
-
-
                     }
-
                 }
                 foreach (var item2 in tempGorevYer)
                 {
