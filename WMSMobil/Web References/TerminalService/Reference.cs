@@ -376,6 +376,30 @@ namespace WMSMobil.TerminalService {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.12mconsulting.com.tr/RafStokKontrol", RequestNamespace="http://www.12mconsulting.com.tr/", ResponseNamespace="http://www.12mconsulting.com.tr/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public decimal RafStokKontrol(int DepoID, string Raf, string MalKodu) {
+            object[] results = this.Invoke("RafStokKontrol", new object[] {
+                        DepoID,
+                        Raf,
+                        MalKodu});
+            return ((decimal)(results[0]));
+        }
+        
+        /// <remarks/>
+        public System.IAsyncResult BeginRafStokKontrol(int DepoID, string Raf, string MalKodu, System.AsyncCallback callback, object asyncState) {
+            return this.BeginInvoke("RafStokKontrol", new object[] {
+                        DepoID,
+                        Raf,
+                        MalKodu}, callback, asyncState);
+        }
+        
+        /// <remarks/>
+        public decimal EndRafStokKontrol(System.IAsyncResult asyncResult) {
+            object[] results = this.EndInvoke(asyncResult);
+            return ((decimal)(results[0]));
+        }
+        
+        /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.12mconsulting.com.tr/Mal_Kabul", RequestNamespace="http://www.12mconsulting.com.tr/", ResponseNamespace="http://www.12mconsulting.com.tr/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public Result Mal_Kabul(frmMalKabul[] StiList, int GorevID, int KullID, string AuthGiven, string Guid) {
             object[] results = this.Invoke("Mal_Kabul", new object[] {

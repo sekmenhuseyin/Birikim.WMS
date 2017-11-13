@@ -480,6 +480,7 @@ namespace WMSMobil
                     return;
                 }
             }
+          
             bool mal_var = false;
             bool raf_var = false;
             var malInfo = new Tip_Malzeme();
