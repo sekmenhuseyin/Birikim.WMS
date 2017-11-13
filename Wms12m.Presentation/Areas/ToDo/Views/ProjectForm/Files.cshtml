@@ -13,12 +13,12 @@
                             @{if (ViewBag.Yetki == true)
                             {
                                 <div class="col-md-1 pull-right m-t-5">
-                                    @using (Ajax.BeginForm("Gorev", "Uploads", new { area = "" }, new AjaxOptions { HttpMethod = "post" }, htmlAttributes: new { @class = "form", enctype = "multipart/form-data", id = "fileupload", role = "form" }))
+                                    @using (Ajax.BeginForm("Proje", "Uploads", new { area = "" }, new AjaxOptions { HttpMethod = "post" }, htmlAttributes: new { @class = "form", enctype = "multipart/form-data", id = "fileupload", role = "form" }))
                                     {
                                         @Html.AntiForgeryToken()
                                         <a id="linkUpload" class="btn btn-warning">Yükle</a>
                                         <input id="btnUpload" type="file" name="file" />
-                                        <input type="hidden" name="ID" id="ID" value="@ViewBag.id" />
+                                        <input type="hidden" name="ID" id="ID" value="@ViewBag.ID" />
                                     }
                                 </div>
                             }}
@@ -34,7 +34,7 @@
                                             <td>@item.Boyut</td>
                                             <td>@item.Kaydeden</td>
                                             <td>@item.Tarih</td>
-                                            <td>@if (ViewBag.Yetki2 == true) {<a class="btn btn-danger" href="javascript:;" onclick="Delete('@item.ID','/ToDo/ProjectForm/Files/@ViewBag.id','modalEditPage', '', '/ToDo/ProjectForm/DeleteFile/@item.ID')"> Sil </a>}</td>
+                                            <td>@if (ViewBag.Yetki2 == true) {<a class="btn btn-danger" href="javascript:;" onclick="Delete('@item.Guid.ToString()','/ToDo/ProjectForm/Files','modalEditPage', '@ViewBag.ID', '/Uploads/ProjeDelete')"> Sil </a>}</td>
                                         </tr>
                                     }
                                 </tbody>
@@ -61,7 +61,7 @@
                     Modaldialog(data.result.Message, "Hata", "Tamam", "btn-danger");
                 else
                 {
-                    PartialView("/ToDo/ProjectForm/Files/@ViewBag.id", 'modalEditPage');
+                    PartialView("/ToDo/ProjectForm/Files/@ViewBag.ID", 'modalEditPage');
                     Modaldialog("İşlem başarıyla gerçekleşti", "Başarı", "Tamam", "btn-success");
                 }
             },
