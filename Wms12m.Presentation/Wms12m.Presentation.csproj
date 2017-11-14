@@ -556,6 +556,7 @@
     <Compile Include="Areas\Approvals\Controllers\WoodController.cs" />
     <Compile Include="Helper\HtmlHelperExtensions.cs" />
     <Compile Include="Helper\Statics.cs" />
+    <Compile Include="Helper\StyleBundleExtensions.cs" />
     <Compile Include="Helper\ZigChatHub.cs" />
     <Compile Include="Reports\ByteArrayToImage.cs" />
     <Compile Include="Reports\DsSatinalma.Designer.cs">
