@@ -40,6 +40,7 @@ namespace Wms12m.Presentation
         /// </summary>
         protected void Application_PreSendRequestHeaders(object sender, EventArgs e)
         {
+            if (HttpContext.Current == null) return;
             HttpContext.Current.Response.Headers.Remove("X-Powered-By");
             HttpContext.Current.Response.Headers.Remove("X-AspNet-Version");
             HttpContext.Current.Response.Headers.Remove("X-AspNetMvc-Version");
