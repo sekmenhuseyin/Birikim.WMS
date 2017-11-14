@@ -342,6 +342,14 @@ namespace Wms12m
             var kat = db.GetHucreKatID(DepoID, Raf).FirstOrDefault();
             return kat != null;
         }
+        [WebMethod]
+        public decimal RafStokKontrol(int DepoID, string Raf, string MalKodu)
+        {
+
+            var miktar = db.Yers.Where(a => a.HucreAd == Raf && a.MalKodu == MalKodu && a.DepoID == DepoID).Select(a => a.Miktar).FirstOrDefault();
+            miktar = miktar.IsNull()?0:miktar;
+            return miktar;
+        }
         /// <summary>
         /// mal kabul kayıt işlemleri
         /// </summary>
@@ -406,10 +414,10 @@ namespace Wms12m
             if (mGorev.IsNull())
                 return new Result(false, "Görevi kontrol ediniz!");
             //return
-            string sql = string.Format("SELECT COUNT(wms.IRS_Detay.OkutulanMiktar) as Bitmeyen " +
+            string sql = string.Format("SELECT (SUM(wms.IRS_Detay.Miktar-ISNULL(wms.IRS_Detay.OkutulanMiktar,0))) as Bitmeyen " +
                 "FROM wms.GorevIRS INNER JOIN wms.IRS_Detay ON wms.GorevIRS.IrsaliyeID = wms.IRS_Detay.IrsaliyeID " +
-                "WHERE(wms.GorevIRS.GorevID = {0}) AND(wms.IRS_Detay.OkutulanMiktar IS NULL OR wms.IRS_Detay.OkutulanMiktar <> wms.IRS_Detay.Miktar)", mGorev.ID);
-            var tbl = db.Database.SqlQuery<int>(sql).FirstOrDefault();
+                "WHERE(wms.GorevIRS.GorevID = {0}) GROUP BY wms.IRS_Detay.MalKodu,wms.IRS_Detay.MakaraNo", mGorev.ID);
+            var tbl = db.Database.SqlQuery<decimal>(sql).FirstOrDefault();
             if (tbl != 0)
                 return new Result(false, -1, "İşlem bitmemiş !");
             return new Result(true);
@@ -935,18 +943,8 @@ namespace Wms12m
             //        return new Result(false, "İşlem bitmemiş(Miktar ile Yerleştirme miktarı uyumsuz.)");
             //}
 
-            var data2 = YerlestirmeList.GroupBy(x => x.MalKodu)
-    .Select(x => new
-    {
-        MalKodu = x.Key,
-        Miktar = x.Sum(y => y.Miktar),
-        OkutulanMiktar = x.Sum(y => y.OkutulanMiktar),
-    }).ToList();
-            foreach (var item in data2)
-            {
-                if (item.Miktar > item.OkutulanMiktar)
-                    return new Result(false, "İşlem bitmemiş(Miktar ile Yerleştirme miktarı uyumsuz.)");
-            }
+     
+
 
             //add to gorev user table
             var tbl = db.GorevUsers.Where(m => m.GorevID == GorevID && m.UserName == tblx.Kod).FirstOrDefault();
@@ -965,6 +963,18 @@ namespace Wms12m
             Result _result = new Result(true);
             foreach (var item in YerlestirmeList)
             {
+                List<GorevYer> grv = db.GorevYers.Where(m => m.GorevID == GorevID && m.MalKodu == item.MalKodu).ToList();
+                decimal YerlestirmeMiktar = 0;
+                decimal Miktar = 0;
+                if(grv.IsNotNull())
+                {
+                    YerlestirmeMiktar = grv.Sum(x => x.YerlestirmeMiktari).ToDecimal();
+                    Miktar= grv.Sum(x => x.Miktar).ToDecimal();
+
+                    if(Miktar<(YerlestirmeMiktar+item.Miktar))
+                        return new Result(false, "İşlem bitmemiş(Miktar ile Yerleştirme miktarı uyumsuz.)");
+                }
+
                 //irsdetay id aslında bizim GorevYerid
                 int GorevYerID = item.IrsDetayID;
                 if (GorevYerID == 0)
@@ -973,6 +983,21 @@ namespace Wms12m
                     if (kat != null)
                     {
                         var tmptable = db.Yers.Where(m => m.KatID == kat.Value && m.MalKodu == item.MalKodu && m.Birim == item.Birim).FirstOrDefault();
+
+                        if (tmptable.IsNull())
+                        {
+                            _result = new Result(false, item.RafNo + " rafında " + item.MalKodu + " malkoduna ait stok bulunmamaktadır!");
+                            return _result;
+                        }
+                        else
+                        {
+                            var mik = db.GorevYers.Where(a => a.YerID == kat && a.GorevID == GorevID && a.MalKodu==item.MalKodu).Sum(c => c.YerlestirmeMiktari);
+                            if ((mik.IsNull()?0 : mik) + item.Miktar > tmptable.Miktar)
+                            {
+                                _result = new Result(false, item.RafNo + " rafında " + item.MalKodu + " malkoduna ait yeterli stok bulunmamaktadır! Raf Stok Miktar: " + tmptable.Miktar);
+                                return _result;
+                            }
+                        }
                         var grvYer = new GorevYer() { GorevID = GorevID, YerID = tmptable.ID, MalKodu = item.MalKodu, Miktar = 0, YerlestirmeMiktari = item.Miktar, Birim = item.Birim, GC = true };
                         db.GorevYers.Add(grvYer);
                         db.SaveChanges();

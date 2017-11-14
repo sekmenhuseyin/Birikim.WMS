@@ -13,6 +13,24 @@ namespace Wms12m
     public static class Extensions
     {
         /// <summary>
+        /// BoyutHesapla
+        /// </summary>
+        public static string BoyutHesapla(this int value)
+        {
+
+            string[] sizes = { "B", "KB", "MB", "GB", "TB" };
+            double len = value.ToDouble();
+            int order = 0;
+            while (len >= 1024 && order < sizes.Length - 1)
+            {
+                order++;
+                len = len / 1024;
+            }
+            // Adjust the format string to your preferences. For example "{0:0.#}{1}" would
+            // show a single decimal place, and no space.
+            return String.Format("{0:0} {1}", len, sizes[order]);
+        }
+        /// <summary>
         /// Checks file exists
         /// </summary>
         public static bool FileExists(this string FilePathName)

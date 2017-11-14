@@ -159,7 +159,6 @@
                 return;
             }
             cells.forEach(function (item) {
-                console.log(item);
                 if (item[2]==0) {
                     Modaldialog(item[0] + " için stok bulunmamaktadır.", "Hata", "Tamam", "btn-danger");
                     result = true;
@@ -208,7 +207,6 @@
             }
 
             // kontroller
-            console.log(yeni);
             if ((yeni > (stok - rezerv)) || (stok == 0))
             {
                 Modaldialog("Yeterli stok bulunmamaktadır.", "Uyarı", "Tamam", "btn-danger");

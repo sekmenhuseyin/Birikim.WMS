@@ -134,7 +134,8 @@
     }
      function FuncSearchBtn() {
          $("#liste").html("");
-         if ($("#SirketID").val()==0 || $('#DepoID').val() == 0 || $('#Starts').val() == "" || $('#Ends').val() == "") return;
+         if ($("#SirketID").val() == 0 || $('#DepoID').val() == 0 || $('#Starts').val() == "" || $('#Ends').val() == "" || $("#txtEvrakNo").val() == "" || $("#Tarih").val()=="") return;
+
          $.ajax({
              type: 'POST',
              url: "/WMS/ReturnSale/GetSiparis/",

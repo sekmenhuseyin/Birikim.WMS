@@ -4,6 +4,8 @@
 }@section Styles{<style>
         td.details-control {background: url('/Content/assets/global/plugins/datatables/images/details_open.png') no-repeat center center;cursor: pointer;max-width:20px;}
         tr.shown td.details-control {background: url('/Content/assets/global/plugins/datatables/images/details_close.png') no-repeat center center;}
+        .last-work {line-height: 32px !important;color: #86d8ea;font-size: 24px;margin-left:5px;}
+        .delete-icn {line-height: 32px !important;color: #ec4646;font-size: 24px;}
     </style>
 }<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><a href="/ToDo/Duties">Görevler</a><i class="fa fa-circle"></i></li><li><span>Onay Listesi</span></li></ul></div>
 <h1 class="page-title">Onay Listesi</h1>
@@ -69,6 +71,7 @@
             Modaldialog("Kaydedildi", "Başarı", "Tamam", "btn-success");
             $('#modalEditPage').modal('toggle');
             FuncSearchBtn();
+            $('#send-realtime-notifications').click();
         }
     };
     function newrow(id) { return "<div id='new" + id + "'></div>"; }
