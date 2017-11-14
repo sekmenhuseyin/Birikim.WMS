@@ -34,6 +34,43 @@ namespace Wms12m
                 return false;
         }
 
+        public void SatisIadeOnay(SatisIadeOnay SIOnay)
+        {
+            SqlExper Sqlexper = new SqlExper(ConStr, SirketKodu);
+            string Sorgu = string.Empty;
+            string saat = DateTime.Now.ToString("HHmmss");
+            int tarih = DateTime.Today.ToOADateInt();
+            if (SIOnay.Onay)
+            {
+                Sorgu = string.Format(@"
+                UPDATE STI1 
+                SET STI1.STK005_Kod10='Onaylandı', STI1.STK005_DegistirenKodu='{1}', STI1.STK005_DegistirenTarih={2}, STI1.STK005_DegistirenSaat='{3}',
+                    STI1.STK005_CariHesapKodu=STI2.STK005_CariHesapKodu, STI1.STK005_BirimFiyati=STI2.STK005_BirimFiyati, 
+	                STI1.STK005_Tutari=(STI1.STK005_Miktari * STI2.STK005_BirimFiyati), STI1.STK005_DovizCinsi=STI2.STK005_DovizCinsi
+                FROM  YNS{0}.YNS{0}.STK005(NOLOCK) STI1
+                INNER JOIN YNS{0}.YNS{0}.STK005(NOLOCK) STI2 ON STI1.STK005_Kod9=STI2.STK005_EvrakSeriNo AND 
+                      CAST(STI1.STK005_Kod11 as INT)=STI2.STK005_IslemTarihi AND  STI2.STK005_EvrakTipi=11 AND STI1.STK005_MalKodu=STI2.STK005_MalKodu
+
+                WHERE STI1.STK005_EvrakTipi=99 AND STI1.STK005_IslemTipi=2 AND STI1.STK005_GC=0 AND STI1.STK005_Kod11>0 AND STI1.STK005_Kod9<>'' AND
+                      STI1.STK005_Kod10='Onay Bekliyor' AND SUBSTRING(STI1.STK005_Not5,1,8)='AndMobil' AND 
+	                  STI1.STK005_EvrakSeriNo='{4}' AND STI1.STK005_IslemTarihi={5} ", 
+                SirketKodu, SIOnay.Kaydeden, tarih, saat, SIOnay.IadeNo, SIOnay.IadeTarih);
+            }
+            else
+            {
+                Sorgu = string.Format(@"
+                UPDATE YNS{0}.YNS{0}.STK005 SET STK005_Kod10='Reddedildi', STK005_DegistirenKodu='{1}', STK005_DegistirenTarih={2}, STK005_DegistirenSaat='{3}'
+                WHERE STK005_EvrakTipi=99 AND STK005_IslemTipi=2 AND STK005_GC=0 AND STK005_Kod11>0 AND STK005_Kod9<>'' AND
+                      STK005_Kod10='Onay Bekliyor' AND SUBSTRING(STK005_Not5,1,8)='AndMobil' AND 
+	                  STK005_EvrakSeriNo='{4}' AND STK005_IslemTarihi={5} ",
+                SirketKodu, SIOnay.Kaydeden, tarih, saat, SIOnay.IadeNo, SIOnay.IadeTarih);
+            }
+
+            Sqlexper.Komut(Sorgu);
+            Sqlexper.AcceptChanges();
+
+        }
+
         /// <summary>
         /// fatura kaydetme işllemleri
         /// </summary>
@@ -389,7 +426,7 @@ namespace Wms12m
         /// <summary>
         /// evrak no oluştur
         /// </summary>
-                private string EvrakNoOlustur(int evrakKarakterSayisi, string seri, int no)
+        private string EvrakNoOlustur(int evrakKarakterSayisi, string seri, int no)
         {
             if (no.ToString().Length > evrakKarakterSayisi - seri.Length)
                 throw new Exception("Evrak numarasında taşma olmuştur !");

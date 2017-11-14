@@ -282,14 +282,20 @@ namespace Wms12m.Presentation.Areas.YN.Controllers
             var result = new Result();
             try
             {
-                if (Onay == true)
-                {
-                    var list = db.Database.SqlQuery<SepetUrun>(string.Format("SELECT 1 AS SatirTip, HesapKodu, UrunKodu, Birim, CONVERT(varchar(10), Miktar) as Miktar, CONVERT(varchar(10), Fiyat) as Fiyat, Depo, ParaCinsi, '{2}' AS KullaniciKodu, Kaydeden FROM YNS{0}.YNS{0}.TempFatura WHERE (EvrakNo = '{1}') AND (IslemDurumu = 0)", "0TEST", ID, vUser.UserName)).ToList();
-                    var yns = new YeniNesil(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "0TEST");
-                    var sepetIslemleri = yns.FaturaKaydet(list);
-                    result = new Result(true, 1);
-                }
-                if (result.Status == true) db.Database.ExecuteSqlCommand(string.Format("UPDATE YNS{0}.YNS{0}.[TempFatura] SET IslemDurumu={1} WHERE EvrakNo='{2}'", "0TEST", Onay == true ? 1 : 2, ID));
+
+                string[] ids = ID.Split(',');
+
+                SatisIadeOnay SIOnay = new SatisIadeOnay();
+                SIOnay.IadeNo = ids[0];
+                SIOnay.IadeTarih = ids[1];
+                SIOnay.Onay = Onay;
+                SIOnay.Kaydeden = vUser.UserName;
+            
+                YeniNesil yns = new YeniNesil(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "0TEST");
+                yns.SatisIadeOnay(SIOnay);
+                result = new Result(true, 1);
+                
+              
                 return Json(result, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)

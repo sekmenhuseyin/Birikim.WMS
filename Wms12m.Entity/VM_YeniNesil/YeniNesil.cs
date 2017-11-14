@@ -129,7 +129,13 @@
         GROUP BY STK005_EvrakSeriNo, STK005_IslemTarihi, STK005_Kod8, STK005_Depo, STK005_Kod9, STK005_Kod11, STK005_GirenKodu";
     }
 
-
+    public class SatisIadeOnay
+    {
+        public bool Onay { get; set; }
+        public string IadeNo { get; set; }
+        public string IadeTarih { get; set; }
+        public string Kaydeden { get; set; }
+    }
 
     #region SatisIadeDetay Class
     public class SatisIadeDetay
@@ -175,7 +181,7 @@
             CONVERT(VARCHAR, CAST(STI1.STK005_Kod11 - 2 AS datetime), 104) as FaturaTarih, STI1.STK005_GirenKodu as Kaydeden
         FROM  YNS{0}.YNS{0}.STK005(NOLOCK) STI1
         LEFT JOIN YNS{0}.YNS{0}.STK005(NOLOCK) STI2 ON STI1.STK005_Kod9=STI2.STK005_EvrakSeriNo AND 
-            CAST(STI1.STK005_Kod11 as INT)=STI2.STK005_IslemTarihi AND  STI2.STK005_EvrakTipi=11
+            CAST(STI1.STK005_Kod11 as INT)=STI2.STK005_IslemTarihi AND  STI2.STK005_EvrakTipi=11 AND STI1.STK005_MalKodu=STI2.STK005_MalKodu
         LEFT JOIN YNS{0}.YNS{0}.CAR002(NOLOCK) ON STI1.STK005_Kod8=CAR002_HesapKodu
         LEFT JOIN YNS{0}.YNS{0}.STK004(NOLOCK) ON STI1.STK005_MalKodu=STK004_MalKodu 
         WHERE STI1.STK005_EvrakTipi=99 AND STI1.STK005_IslemTipi=2 AND STI1.STK005_GC=0 AND STI1.STK005_Kod11>0 AND STI1.STK005_Kod9<>'' AND
