@@ -34,22 +34,22 @@ namespace Wms12m.Presentation
         public static void RegisterBundles(BundleCollection bundles)
         {
             //js libraries
-            bundles.Add(new ScriptBundle(jquery, "https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js").Include("~/Content/assets/global/plugins/jquery/jquery-3.1.1.min.js"));
-            bundles.Add(new ScriptBundle(bootstrapJs, "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js").Include("~/Content/assets/global/plugins/bootstrap/js/bootstrap.min.js"));
-            bundles.Add(new ScriptBundle(jqueryUiJs, "https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js").Include("~/Content/assets/global/plugins/jquery-ui/jquery-ui.min.js"));
-            bundles.Add(new ScriptBundle(toastrJs, "https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.3/toastr.min.js").Include("~/Content/assets/global/plugins/toastr/toastr.min.js"));
-            bundles.Add(new ScriptBundle(moment, "https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.19.1/moment-with-locales.min.js").Include("~/Content/assets/global/plugins/moment/moment-with-locales.min.js"));
-            bundles.Add(new ScriptBundle(numeral, "https://cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js").Include("~/Content/assets/global/plugins/Numeral/min/numeral.min.js"));
-            bundles.Add(new ScriptBundle(bootbox, "https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.min.js").Include("~/Content/assets/global/plugins/bootbox/bootbox.min.js"));
-            bundles.Add(new ScriptBundle(slimscroll, "https://cdnjs.cloudflare.com/ajax/libs/jQuery-slimScroll/1.3.8/jquery.slimscroll.min.js").Include("~/Content/assets/global/plugins/jquery-slimscroll/jquery.slimscroll.min.js"));
-            bundles.Add(new ScriptBundle(signalR, "https://cdnjs.cloudflare.com/ajax/libs/signalr.js/2.2.2/jquery.signalR.min.js").Include("~/Content/assets/global/plugins/SignalR/jquery.signalR-2.2.2.min.js"));
-            bundles.Add(new ScriptBundle(blockui, "https://cdnjs.cloudflare.com/ajax/libs/jquery.blockUI/2.70/jquery.blockUI.min.js").Include("~/Content/assets/global/plugins/jquery.blockui.min.js"));
+            bundles.Add(new ScriptBundle(jquery, "https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js") { CdnFallbackExpression = "window.jquery" }.Include("~/Content/assets/global/plugins/jquery/jquery-3.1.1.min.js"));
+            bundles.Add(new ScriptBundle(bootstrapJs, "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js") { CdnFallbackExpression = "window.bootstrapJs" }.Include("~/Content/assets/global/plugins/bootstrap/js/bootstrap.min.js"));
+            bundles.Add(new ScriptBundle(jqueryUiJs, "https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js") { CdnFallbackExpression = "window.jqueryUiJs" }.Include("~/Content/assets/global/plugins/jquery-ui/jquery-ui.min.js"));
+            bundles.Add(new ScriptBundle(toastrJs, "https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.3/toastr.min.js") { CdnFallbackExpression = "window.toastrJs" }.Include("~/Content/assets/global/plugins/toastr/toastr.min.js"));
+            bundles.Add(new ScriptBundle(moment, "https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.19.1/moment-with-locales.min.js") { CdnFallbackExpression = "window.moment" }.Include("~/Content/assets/global/plugins/moment/moment-with-locales.min.js"));
+            bundles.Add(new ScriptBundle(numeral, "https://cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js") { CdnFallbackExpression = "window.numeral" }.Include("~/Content/assets/global/plugins/Numeral/min/numeral.min.js"));
+            bundles.Add(new ScriptBundle(bootbox, "https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.min.js") { CdnFallbackExpression = "window.bootbox" }.Include("~/Content/assets/global/plugins/bootbox/bootbox.min.js"));
+            bundles.Add(new ScriptBundle(slimscroll, "https://cdnjs.cloudflare.com/ajax/libs/jQuery-slimScroll/1.3.8/jquery.slimscroll.min.js") { CdnFallbackExpression = "window.slimscroll" }.Include("~/Content/assets/global/plugins/jquery-slimscroll/jquery.slimscroll.min.js"));
+            bundles.Add(new ScriptBundle(signalR, "https://cdnjs.cloudflare.com/ajax/libs/signalr.js/2.2.2/jquery.signalR.min.js") { CdnFallbackExpression = "window.signalR" }.Include("~/Content/assets/global/plugins/SignalR/jquery.signalR-2.2.2.min.js"));
+            bundles.Add(new ScriptBundle(blockui, "https://cdnjs.cloudflare.com/ajax/libs/jquery.blockUI/2.70/jquery.blockUI.min.js") { CdnFallbackExpression = "window.blockui" }.Include("~/Content/assets/global/plugins/jquery.blockui.min.js"));
             //css libraries
-            bundles.Add(new StyleBundle(bootstrapCss, "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css").Include("~/Content/assets/global/plugins/bootstrap/css/bootstrap.min.css"));
-            bundles.Add(new ScriptBundle(jqueryUiCss, "https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css").Include("~/Content/assets/global/plugins/jquery-ui/jquery-ui.min.css"));
-            bundles.Add(new ScriptBundle(toastrCss, "https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.3/toastr.min.css").Include("~/Content/assets/global/plugins/toastr/toastr.min.css"));
-            bundles.Add(new StyleBundle(FontAwesome, "https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css").Include("~/Content/assets/global/plugins/font-awesome/css/font-awesome.min.css"));
-            bundles.Add(new StyleBundle(simpleLineIcons, "https://cdnjs.cloudflare.com/ajax/libs/simple-line-icons/2.4.1/css/simple-line-icons.css").Include("~/Content/assets/global/plugins/simple-line-icons/css/simple-line-icons.min.css"));
+            bundles.Add(new StyleBundle(bootstrapCss, "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css") { CdnFallbackExpression = "window.bootstrapCss" }.Include("~/Content/assets/global/plugins/bootstrap/css/bootstrap.min.css"));
+            bundles.Add(new ScriptBundle(jqueryUiCss, "https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css") { CdnFallbackExpression = "window.jqueryUiCss" }.Include("~/Content/assets/global/plugins/jquery-ui/jquery-ui.css"));
+            bundles.Add(new ScriptBundle(toastrCss, "https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.3/toastr.min.css") { CdnFallbackExpression = "window.toastrCss" }.Include("~/Content/assets/global/plugins/toastr/toastr.css"));
+            bundles.Add(new StyleBundle(FontAwesome, "https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css") { CdnFallbackExpression = "window.FontAwesome" }.Include("~/Content/assets/global/plugins/font-awesome/css/font-awesome.min.css"));
+            bundles.Add(new StyleBundle(simpleLineIcons, "https://cdnjs.cloudflare.com/ajax/libs/simple-line-icons/2.4.1/css/simple-line-icons.css") { CdnFallbackExpression = "window.simpleLineIcons" }.Include("~/Content/assets/global/plugins/simple-line-icons/css/simple-line-icons.min.css"));
             //vars
             var scriptBundle = new ScriptBundle(JsBundle);
             var scriptBundle2 = new ScriptBundle(DtBundle);
