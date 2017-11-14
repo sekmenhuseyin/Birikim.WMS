@@ -7,27 +7,27 @@ namespace Wms12m.Presentation
     /// </summary>
     public class BundleConfig
     {
-        public static string JsBundle = "~/Content/Scripts/JsBundle";
-        public static string DtBundle = "~/Content/Scripts/DtBundle";
-        public static string StBundle = "~/Content/Scripts/StBundle";
-        public static string CssBundle = "~/Content/Styles/bundle";
-        public static string LoginJs = "~/Content/Scripts/LoginJs";
-        public static string LoginCss = "~/Content/Scripts/LoginCss";
-        public static string jquery = "~/Content/Scripts/jquery";
-        public static string jqueryUiJs = "~/Content/Scripts/jqueryUiJs";
-        public static string jqueryUiCss = "~/Content/Styles/jqueryUiCss";
-        public static string bootstrapJs = "~/Content/Scripts/bootstrapJs";
-        public static string bootstrapCss = "~/Content/Styles/bootstrapCss";
-        public static string FontAwesome = "~/Content/Styles/FontAwesome";
-        public static string simpleLineIcons = "~/Content/Styles/simpleLineIcons";
-        public static string toastrJs = "~/Content/Scripts/toastrJs";
-        public static string toastrCss = "~/Content/Styles/toastrCss";
-        public static string moment = "~/Content/Scripts/moment";
-        public static string numeral = "~/Content/Scripts/numeral";
-        public static string bootbox = "~/Content/Scripts/bootbox";
-        public static string slimscroll = "~/Content/Scripts/slimscroll";
-        public static string signalR = "~/Content/Scripts/signalR";
-        public static string blockui = "~/Content/Scripts/blockui";
+        public static string JsBundle = "~/Content/Scripts/JsBundle.js";
+        public static string DtBundle = "~/Content/Scripts/DtBundle.js";
+        public static string StBundle = "~/Content/Scripts/StBundle.js";
+        public static string CssBundle = "~/Content/Styles/bundle.css";
+        public static string LoginJs = "~/Content/Scripts/Login.js";
+        public static string LoginCss = "~/Content/Scripts/Login.css";
+        public static string jquery = "~/Content/Scripts/jquery.js";
+        public static string jqueryUiJs = "~/Content/Scripts/jqueryUi.js";
+        public static string jqueryUiCss = "~/Content/Styles/jqueryUi.css";
+        public static string bootstrapJs = "~/Content/Scripts/bootstrap.js";
+        public static string bootstrapCss = "~/Content/Styles/bootstrap.css";
+        public static string FontAwesome = "~/Content/Styles/FontAwesome.css";
+        public static string simpleLineIcons = "~/Content/Styles/simpleLineIcons.css";
+        public static string toastrJs = "~/Content/Scripts/toastr.js";
+        public static string toastrCss = "~/Content/Styles/toastr.css";
+        public static string moment = "~/Content/Scripts/moment.js";
+        public static string numeral = "~/Content/Scripts/numeral.js";
+        public static string bootbox = "~/Content/Scripts/bootbox.js";
+        public static string slimscroll = "~/Content/Scripts/slimscroll.js";
+        public static string signalR = "~/Content/Scripts/signalR.js";
+        public static string blockui = "~/Content/Scripts/blockui.js";
         /// <summary>
         /// register
         /// </summary>
