@@ -24,6 +24,8 @@ namespace Wms12m.Presentation
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             //herkesi offline yap bir seferlik
             Statics.PutUsersOffline();
+            //remove the MVC header
+            MvcHandler.DisableMvcResponseHeader = true;
         }
         /// <summary>
         /// session start for user
@@ -32,6 +34,16 @@ namespace Wms12m.Presentation
         {
             if (HttpContext.Current.Session["Identity"] == null || HttpContext.Current.Session["Identity"] as Identity == null)
                 Client.Initialize();
+        }
+        /// <summary>
+        /// header göndermeden önce bazılarını sil
+        /// </summary>
+        protected void Application_PreSendRequestHeaders(object sender, EventArgs e)
+        {
+            HttpContext.Current.Response.Headers.Remove("X-Powered-By");
+            HttpContext.Current.Response.Headers.Remove("X-AspNet-Version");
+            HttpContext.Current.Response.Headers.Remove("X-AspNetMvc-Version");
+            HttpContext.Current.Response.Headers.Remove("Server");
         }
         /// <summary>
         /// after login
