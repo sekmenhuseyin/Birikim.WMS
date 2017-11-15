@@ -25,6 +25,7 @@
     <title>@ViewBag.Title</title>
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=all" rel="stylesheet" type="text/css" />
     @Styles.Render(BundleConfig.bootstrapCss)    @Styles.Render(BundleConfig.jqueryUiCss)    @Styles.Render(BundleConfig.toastrCss)    @Styles.Render(BundleConfig.FontAwesome)    @Styles.Render(BundleConfig.simpleLineIcons)    @Styles.Render(BundleConfig.CssBundle)    @RenderSection("Styles", required: false)    @{if (ViewBag.Debug == false) {<style>.dx-scrollbar-vertical.dx-scrollbar-hoverable, .slimScrollBar, .slimScrollRail { width: 15px!important; }</style>@*/*Burası teknoloji özürlüler için eklenmiştir*/*@} }
+    <!--[if IE]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
 </head>
 <body class="page-header-fixed page-sidebar-closed-hide-logo page-content-white page-sidebar-fixed page-md page-footer-fixed">
     <div class="page-wrapper">

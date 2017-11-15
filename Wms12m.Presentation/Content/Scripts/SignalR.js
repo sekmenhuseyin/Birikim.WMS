@@ -4,7 +4,6 @@ $(function () {
     var currentUserAvatar = currentUserImage;
     //chat yazma: bu kısım hubdan çalıştırılıyor
     zigChatHubProxy.client.updateChat = function (userNameFrom, userNameTo, message, userRealName, imageAddress) {
-        //alert(userNameFrom + ', ' + userNameTo + ', ' + message + ', ' +userRealName + ', ' +imageAddress);
         //functions
         var preparePost = function (dir, time, name, avatar, message) {
             var tpl = '';
@@ -22,7 +21,7 @@ $(function () {
 
             return tpl;
         };
-        if (userNameFrom == currentUserName) { }
+        if (userNameFrom === currentUserName) { return; }
         else if (userNameFrom === SendMessageTo) {
             var wrapper = $('.page-quick-sidebar-wrapper');
             var wrapperChat = wrapper.find('.page-quick-sidebar-chat');
