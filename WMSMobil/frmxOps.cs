@@ -207,7 +207,7 @@ namespace WMSMobil
                         else btnUygula_Click(Barkod, null);//uygula
 
                     }
-                    else if (okunan.Length < 13)
+                    else if (okunan.Length == 9)
                     {
                         txtRafBarkod.Text = okunan;
                         txtBarkod.Focus();

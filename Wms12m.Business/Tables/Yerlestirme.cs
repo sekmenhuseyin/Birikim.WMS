@@ -254,11 +254,15 @@ namespace Wms12m.Business
         /// <summary>
         /// aynısından daha önce yüklenmiş mi kontrol eder
         /// </summary>
-        public Yer Detail(int KatID, string MalKodu, string Birim)
+        public Yer Detail(int KatID, string MalKodu, string Birim, string MakaraNo=null)
         {
+            var satir = db.Yers.Where(m => m.KatID == KatID && m.MalKodu == MalKodu && m.Birim == Birim);
+            //makara no varsa onu da filtreye ekle
+            if (MakaraNo != null && MakaraNo != "") satir = satir.Where(m => m.MakaraNo == MakaraNo);
+            //return
             try
             {
-                return db.Yers.Where(m => m.KatID == KatID && m.MalKodu == MalKodu && m.Birim == Birim).FirstOrDefault();
+                return satir.FirstOrDefault();
             }
             catch (Exception)
             {

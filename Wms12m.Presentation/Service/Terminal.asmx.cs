@@ -347,7 +347,7 @@ namespace Wms12m
         {
 
             var miktar = db.Yers.Where(a => a.HucreAd == Raf && a.MalKodu == MalKodu && a.DepoID == DepoID).Select(a => a.Miktar).FirstOrDefault();
-            miktar = miktar.IsNull()?0:miktar;
+            miktar = miktar.IsNull() ? 0 : miktar;
             return miktar;
         }
         /// <summary>
@@ -464,8 +464,8 @@ namespace Wms12m
                     {
                         //yerleştirme kaydı yapılır
                         var stok = new Yerlestirme();
-                        var tmp2 = stok.Detail(KatID.Value, item2.MalKodu, item2.Birim);
-                        if (tmp2 == null)
+                        var tmp2 = stok.Detail(KatID.Value, item2.MalKodu, item2.Birim, item2.MakaraNo);
+                        if (tmp2 == null)//yeni kayıt ekle
                         {
                             tmp2 = new Yer()
                             {
@@ -475,27 +475,18 @@ namespace Wms12m
                                 Miktar = item2.Miktar.Value
                             };
                             if (item2.MakaraNo != "" && item2.MakaraNo != null) tmp2.MakaraNo = item2.MakaraNo;
-                            stok.Insert(tmp2, 0, KullID);
-                        }
-                        else
-                        {
-                            if (tmp2.MakaraNo != item2.MakaraNo)
+                            //kaydet
+                            var cevap=stok.Insert(tmp2, 0, KullID);
+                            if (cevap.Status==false)//tek ihtimal: makara no var ve çok önceki kayıtlarla çakıştı
                             {
-                                tmp2 = new Yer()
-                                {
-                                    KatID = KatID.Value,
-                                    MalKodu = item2.MalKodu,
-                                    Birim = item2.Birim,
-                                    Miktar = item2.Miktar.Value
-                                };
-                                if (item2.MakaraNo != "" && item2.MakaraNo != null) tmp2.MakaraNo = item2.MakaraNo;
+                                tmp2.MakaraNo= "Boş-" + db.SettingsMakaraNo(item.DepoID).FirstOrDefault();
                                 stok.Insert(tmp2, 0, KullID);
                             }
-                            else
-                            {
-                                tmp2.Miktar += item2.Miktar.Value;
-                                stok.Update(tmp2, 0, KullID, false, item2.Miktar.Value);
-                            }
+                        }
+                        else//güncelle
+                        {
+                            tmp2.Miktar += item2.Miktar.Value;
+                            stok.Update(tmp2, 0, KullID, false, item2.Miktar.Value);
                         }
                     }
                     //add to mysql
@@ -836,6 +827,19 @@ namespace Wms12m
                     //irs detay tablosu güncellenir
                     var irsdetay = new IrsaliyeDetay();
                     var tmp = irsdetay.Detail(item.IrsDetayID);
+
+                    /// Genel bazda miktar yerleştirme kontrolü için yapıldı Ömer Bey karar verdikten sonra yorumdan kaldırılabilir.
+                    /// Yorumdan kaldırılırsa Görevi Tamamlarken de benzer bi kontrol yapılmalı.
+
+                    //List<IRS_Detay> grv = db.IRS_Detay.Where(a => a.IrsaliyeID == item.IrsID && a.MalKodu == item.MalKodu).ToList();
+                    //decimal YerlestirmeMiktar = 0;
+                    //decimal Miktar = 0;
+                    //if (grv.IsNotNull())
+                    //{
+                    //    YerlestirmeMiktar = grv.Sum(x => x.YerlestirmeMiktari).ToDecimal();
+                    //    Miktar = grv.Sum(x => x.Miktar).ToDecimal();
+                    //}
+                    //if (Miktar > (YerlestirmeMiktar + item.Miktar))
                     if (tmp.Miktar >= ((tmp.YerlestirmeMiktari ?? 0) + item.Miktar))
                     {
                         if (tmp.YerlestirmeMiktari == null) tmp.YerlestirmeMiktari = item.Miktar;
@@ -943,7 +947,7 @@ namespace Wms12m
             //        return new Result(false, "İşlem bitmemiş(Miktar ile Yerleştirme miktarı uyumsuz.)");
             //}
 
-     
+
 
 
             //add to gorev user table
@@ -966,12 +970,12 @@ namespace Wms12m
                 List<GorevYer> grv = db.GorevYers.Where(m => m.GorevID == GorevID && m.MalKodu == item.MalKodu).ToList();
                 decimal YerlestirmeMiktar = 0;
                 decimal Miktar = 0;
-                if(grv.IsNotNull())
+                if (grv.IsNotNull())
                 {
                     YerlestirmeMiktar = grv.Sum(x => x.YerlestirmeMiktari).ToDecimal();
-                    Miktar= grv.Sum(x => x.Miktar).ToDecimal();
+                    Miktar = grv.Sum(x => x.Miktar).ToDecimal();
 
-                    if(Miktar<(YerlestirmeMiktar+item.Miktar))
+                    if (Miktar < (YerlestirmeMiktar + item.Miktar))
                         return new Result(false, "İşlem bitmemiş(Miktar ile Yerleştirme miktarı uyumsuz.)");
                 }
 
@@ -991,8 +995,8 @@ namespace Wms12m
                         }
                         else
                         {
-                            var mik = db.GorevYers.Where(a => a.YerID == kat && a.GorevID == GorevID && a.MalKodu==item.MalKodu).Sum(c => c.YerlestirmeMiktari);
-                            if ((mik.IsNull()?0 : mik) + item.Miktar > tmptable.Miktar)
+                            var mik = db.GorevYers.Where(a => a.YerID == kat && a.GorevID == GorevID && a.MalKodu == item.MalKodu).Sum(c => c.YerlestirmeMiktari);
+                            if ((mik.IsNull() ? 0 : mik) + item.Miktar > tmptable.Miktar)
                             {
                                 _result = new Result(false, item.RafNo + " rafında " + item.MalKodu + " malkoduna ait yeterli stok bulunmamaktadır! Raf Stok Miktar: " + tmptable.Miktar);
                                 return _result;
