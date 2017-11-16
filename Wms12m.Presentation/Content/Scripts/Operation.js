@@ -152,7 +152,7 @@ function CT(style, message, title, url) {
         "hideEasing": "linear",
         "showMethod": "fadeIn",
         "hideMethod": "fadeOut",
-        onclick: function () { if (url !== '' && url !== null) window.location.href = url; }
+        onclick: function () { if (url !== '' && url !== null && url !== undefined) window.location.href = url; }
     });
 }
 //refreshNotifications
