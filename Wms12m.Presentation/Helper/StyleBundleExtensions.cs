@@ -52,12 +52,14 @@ namespace Wms12m
                 var len = document.styleSheets.length;
                 for (var i = 0; i < len; i++) {{
                     var sheet = document.styleSheets[i];
-                    if (sheet.href.indexOf('{0}') !== -1) {{
-                        var rules = sheet.rules || sheet.cssRules;
-                        if (rules.length <= 0) {{
-                            document.write('<link href=""{1}"" rel=""stylesheet"" type=""text/css"" />');
-                        }}
-                    }}
+                    if (sheet != null)
+                        if (sheet.href != null)
+                            if (sheet.href.indexOf('{0}') !== -1) {{
+                                var rules = sheet.rules || sheet.cssRules;
+                                if (rules.length <= 0) {{
+                                    document.write('<link href=""{1}"" rel=""stylesheet"" type=""text/css"" />');
+                                }}
+                            }}
                 }}
                 return true;
                 }}()", bundle.CdnPath, fallback) :
@@ -67,16 +69,18 @@ namespace Wms12m
                     len = document.styleSheets.length;
                 for (var i = 0; i < len; i++) {{
                     var sheet = document.styleSheets[i];
-                    if (sheet.href.indexOf('{0}') !== -1) {{
-                        var meta = document.createElement('meta');
-                        meta.className = '{2}';
-                        document.head.appendChild(meta);
-                        var value = window.getComputedStyle(meta).getPropertyValue('{3}');
-                        document.head.removeChild(meta);
-                        if (value !== '{4}') {{
-                            document.write('<link href=""{1}"" rel=""stylesheet"" type=""text/css"" />');
-                        }}
-                    }}
+                    if (sheet != null)
+                        if (sheet.href != null)
+                            if (sheet.href.indexOf('{0}') !== -1) {{
+                                var meta = document.createElement('meta');
+                                meta.className = '{2}';
+                                document.head.appendChild(meta);
+                                var value = window.getComputedStyle(meta).getPropertyValue('{3}');
+                                document.head.removeChild(meta);
+                                if (value !== '{4}') {{
+                                    document.write('<link href=""{1}"" rel=""stylesheet"" type=""text/css"" />');
+                                }}
+                            }}
                 }}
                 return true;
             }}()", bundle.CdnPath, fallback, className, ruleName, ruleValue);
