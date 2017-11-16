@@ -158,6 +158,20 @@ function CT(style, message, title, url) {
 //refreshNotifications
 function RefreshNotifications()
 {
-    PartialView('/Home/Notifications', 'header_notification_bar', JSON.stringify({ Onay: true }));
-    setTimeout(function () { App.initSlimScroll('.scroller'); $("#header_notification_bar").addClass("open"); }, 1000);
+    $.ajax({
+        url: '/Home/Notifications',
+        type: 'POST',
+        data: JSON.stringify({ Onay: true }),
+        cache: false,
+        dataType: "html",
+        contentType: 'application/json; charset=utf-8',
+        success: function (data) {
+            if (data === "") {
+                Modaldialog("Hata oluştu", "Hata", "Tamam", "btn-danger");
+            } else {
+                $('#header_notification_bar').html(data);
+                App.initSlimScroll('.scroller'); $("#header_notification_bar").addClass("open");
+            }
+        }
+    });
 }
