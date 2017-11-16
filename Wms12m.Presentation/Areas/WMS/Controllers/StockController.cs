@@ -376,7 +376,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                 //GorevYer tablosu - çıkış
                 var cevap = TaskYer.Operation(new GorevYer() { GorevID = cevapÇık.GorevID.Value, YerID = ilk.ID, MalKodu = ilk.MalKodu, Birim = ilk.Birim, Miktar = tbl.Miktar, GC = true });
                 //giriş
-                var yertmp = Yerlestirme.Detail(tbl.KatID, tbl.MalKodu, tbl.Birim);
+                var yertmp = Yerlestirme.Detail(tbl.KatID, ilk.MalKodu, ilk.Birim);
                 if (yertmp == null)
                 {
                     cevap = Yerlestirme.Insert(new Yer() { KatID = tbl.KatID, MalKodu = ilk.MalKodu, Birim = ilk.Birim, Miktar = 0 }, 0, vUser.Id);
