@@ -1,11 +1,11 @@
 ﻿@model IEnumerable<Message>
 @{ int okunmayan = Model.Where(m => m.Okundu == false).Count();}
-<a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
-    <i class="icon-bell"></i>@if (okunmayan > 0) {<span class="badge badge-default"> @okunmayan </span>}
+<a href="javascript:;" onclick="RefreshNotifications();" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+    <i class="icon-bell"></i>@if (okunmayan > 0) {<span class="badge badge-default notificationCount"> @okunmayan </span>}
 </a>
 <ul class="dropdown-menu" style="max-width:500px!important;width:500px!important;">
     <li class="external">
-        <h3><span class="@if (okunmayan > 0) {@("bold")} ">@okunmayan yeni bildiri var</span> @if (okunmayan > 0) {<a href="javascript:;" onclick="RefreshNotifications();">Hepsini okundu işaretle</a>}</h3>
+        <h3><span class="@if (okunmayan > 0) {@("bold")} ">@okunmayan yeni bildiri var</span></h3>
         <a href="/Inbox/Notifications">hepsine bak</a>
     </li>
     <li>

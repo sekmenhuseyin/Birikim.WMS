@@ -166,12 +166,7 @@ function RefreshNotifications()
         dataType: "html",
         contentType: 'application/json; charset=utf-8',
         success: function (data) {
-            if (data === "") {
-                Modaldialog("Hata oluştu", "Hata", "Tamam", "btn-danger");
-            } else {
-                $('#header_notification_bar').html(data);
-                App.initSlimScroll('.scroller'); $("#header_notification_bar").addClass("open");
-            }
+            $('.notificationCount').html("0");
         }
     });
 }
