@@ -9,6 +9,7 @@ namespace Wms12m.Entity
     {
         public string SirketID { get; set; }
         public string EvrakNo { get; set; }
+        public string Depo { get; set; }
         public int Tarih { get; set; }
         public int Saat { get; set; }
         public string Chk { get; set; }

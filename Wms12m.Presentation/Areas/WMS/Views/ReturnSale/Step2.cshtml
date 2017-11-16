@@ -9,17 +9,17 @@
     <div class="col-md-12">
         <div class="mt-element-step">
             <div class="row step-line">
-                <div class="col-md-2 col-md-offset-1 mt-step-col first done">
+                <div class="col-md-3 col-md-offset-1 mt-step-col first done">
                     <div class="mt-step-number bg-white">1</div>
                     <div class="mt-step-title uppercase font-grey-cascade">SİPARİŞ SEÇİMİ</div>
                     <div class="mt-step-content font-grey-cascade">Bir sipariş Seçin</div>
                 </div>
-                <div class="col-md-2 mt-step-col active">
+                <div class="col-md-3 mt-step-col active">
                     <div class="mt-step-number bg-white">2</div>
                     <div class="mt-step-title uppercase font-grey-cascade">MALZEME SEÇİMİ</div>
                     <div class="mt-step-content font-grey-cascade">Malzemeleri Seçin</div>
                 </div>
-                <div class="col-md-2 mt-step-col last">
+                <div class="col-md-3 mt-step-col last">
                     <div class="mt-step-number bg-white">3</div>
                     <div class="mt-step-title uppercase font-grey-cascade">ONAY</div>
                     <div class="mt-step-content font-grey-cascade">Onaylayın</div>
@@ -46,16 +46,11 @@
                                     <td align="right">@String.Format("{0:n}", item.Miktar)</td>
                                     <td align="right">@String.Format("{0:n}", item.GunesStok)</td>
                                     <td align="right">@String.Format("{0:n}", item.WmsStok)</td>
-                                    @*<td align="right">@String.Format("{0:n}", item.WmsRezerv)</td>*@
-                                    <td style="text-align:center">
-                                        @if (item.WmsRezerv != 0)
-                                        {<a class="btn btn-default input-circle" onclick="Rezervler('@item.MalKodu','@item.Birim','@ViewBag.DepoID')"> @item.WmsRezerv </a>}
-                                    </td>
+                                    <td style="text-align:center">@if (item.WmsRezerv != 0) {<a class="btn btn-default input-circle" onclick="Rezervler('@item.MalKodu','@item.Birim','@ViewBag.DepoID')"> @item.WmsRezerv </a>}</td>
                                     <td>@Html.DisplayFor(modelItem => item.Birim)</td>
                                     <td ondblclick="ChangeMiktar(this, '@item.MalKodu', '@x')" align="right" style="background-color:#f56681; color:Window; ">@String.Format("{0:n}", 0)</td>
                                     <td>@item.SirketID-@item.ID</td>
                                 </tr>
-
                                 x++;
                             }
                         </tbody>
@@ -82,10 +77,9 @@
         </div>
     </div>
 </div>
-@section Scripts{
-    <script>
-        var selectall = true;
-        var table = "";
+@section Scripts{<script>
+    var selectall = true;
+    var table = "";
     var list = [@{for (int i = 0; i < Model.Count(); i++){ if(i>0){<text>,</text>} <text>"</text>@list[i]<text>"</text> }}];
     $(document).ready(function () {
         table = $('#sample_2').DataTable({
@@ -116,11 +110,6 @@
         });
         $(".submit").click(function () {
             var iade = false;
-            //table.rows(".selected").every(function (rowIdx, tableLoop, rowLoop) {
-            //    result = true;
-            //});
-            //if (result == true) $("#submit").click();
-            //else Modaldialog("Lütfen sipariş seçin", "Hata", "Tamam", "btn-danger");
             var selected = "";var cells = [, ,]; var result = false;
             table.rows(".selected").every(function (rowIdx, tableLoop, rowLoop) {
                 var kont = parseFloat(table.cell(rowIdx, 7).data().replace(".", "").replace(",", "."));
@@ -140,7 +129,6 @@
                     for (var i = 2, len = cells.length; i < len; i++) {
                         if (cells[i][0] === this.data()[0]) {
                             cells[i][1] += kont;
-                            //result = true;
                             break;
                         }
                     }
@@ -153,13 +141,6 @@
                 result = true;
                 return;
             }
-            //cells.forEach(function (item) {
-            //    if (item[2]==0) {
-            //        Modaldialog(item[0] + " için stok bulunmamaktadır.", "Hata", "Tamam", "btn-danger");
-            //        result = true;
-            //        return;
-            //    }
-            //});
             if (iade == true) {
                 Modaldialog("Seçili satırların iade miktarı 0'dan büyük olmalıdır.", "Uyarı", "Tamam", "btn-danger");
                 return;
@@ -169,56 +150,45 @@
             if (result == false) $("#submit").click();
         });
     });
-    //    function toggle(row, id) {
-
-    //    $(row).toggleClass('selected');
-    //    if ($(row).hasClass('selected') == true) selected = selected + id + "#";
-    //    else selected = selected.replace(id + "#", "");
-    //    $("#checkboxes").val(selected);
-    //}
-
     function Rezervler(malKodu, depo, birim) {
         editInModal2('/WMS/ReturnSale/GetRezerv', { MalKodu: malKodu, Depo: depo, Birim:birim})
         $('#modalEditPage').modal('toggle');
     }
-
-        function ChangeMiktar(td, mal, id) {
-            var miktar = 0, stok = 0, rezerv = 0;
-            var yeni = prompt(mal + " için yeni miktarı giriniz", parseFloat($(td).text().replace(",", ".")).formatMoney(2));
-            if (yeni == null || yeni == undefined) return;
-            yeni = yeni.replace(",", ".");
-            yeni = parseFloat(yeni);
-            list[id] = yeni;
-            var par = $(td).parent("tr");
-            if ($(par).find("td").eq(2).text().trim() != "")
-            {
-                miktar = parseFloat($(par).find("td").eq(2).text().replace(".", "").replace(",", "."));
-            }
-            if ($(par).find("td").eq(4).text().trim() != "") {
-                stok = parseFloat($(par).find("td").eq(4).text().replace(".", "").replace(",", "."));
-            }
-            if ($(par).find("td").eq(5).text().trim() != "") {
-                rezerv = parseFloat($(par).find("td").eq(5).text().replace(".", "").replace(",", "."));
-            }
-            // kontroller
-
-            if (yeni > parseFloat(miktar))
-            {
-                Modaldialog("İade miktarı satış miktarını geçmemelidir.", "Uyarı", "Tamam", "btn-danger");
-                return;
-            }
-
-            if (yeni > 0)
-            {
-                $(td).css("background-color", "#32c5d2");
-                $(td).parent("tr").addClass("iadevar");
-            }
-            else {
-                $(td).css("background-color", "#f56681");
-                $(td).parent("tr").removeClass("iadevar");
-            }
-            table.cell(id, 7).data(yeni.formatMoney(2));
-            $(td).html(yeni.formatMoney(2));
+    function ChangeMiktar(td, mal, id) {
+        var miktar = 0, stok = 0, rezerv = 0;
+        var yeni = prompt(mal + " için yeni miktarı giriniz", parseFloat($(td).text().replace(",", ".")).formatMoney(2));
+        if (yeni == null || yeni == undefined) return;
+        yeni = yeni.replace(",", ".");
+        yeni = parseFloat(yeni);
+        list[id] = yeni;
+        var par = $(td).parent("tr");
+        if ($(par).find("td").eq(2).text().trim() != "")
+        {
+            miktar = parseFloat($(par).find("td").eq(2).text().replace(".", "").replace(",", "."));
         }
-    </script>
+        if ($(par).find("td").eq(4).text().trim() != "") {
+            stok = parseFloat($(par).find("td").eq(4).text().replace(".", "").replace(",", "."));
+        }
+        if ($(par).find("td").eq(5).text().trim() != "") {
+            rezerv = parseFloat($(par).find("td").eq(5).text().replace(".", "").replace(",", "."));
+        }
+        // kontroller
+        if (yeni > parseFloat(miktar))
+        {
+            Modaldialog("İade miktarı satış miktarını geçmemelidir.", "Uyarı", "Tamam", "btn-danger");
+            return;
+        }
+        if (yeni > 0)
+        {
+            $(td).css("background-color", "#32c5d2");
+            $(td).parent("tr").addClass("iadevar");
+        }
+        else {
+            $(td).css("background-color", "#f56681");
+            $(td).parent("tr").removeClass("iadevar");
+        }
+        table.cell(id, 7).data(yeni.formatMoney(2));
+        $(td).html(yeni.formatMoney(2));
+    }
+</script>
 }
