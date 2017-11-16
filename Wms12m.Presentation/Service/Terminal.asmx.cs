@@ -342,6 +342,9 @@ namespace Wms12m
             var kat = db.GetHucreKatID(DepoID, Raf).FirstOrDefault();
             return kat != null;
         }
+        /// <summary>
+        /// Rafraki Stok Kontrolü
+        /// </summary>
         [WebMethod]
         public decimal RafStokKontrol(int DepoID, string Raf, string MalKodu)
         {
@@ -1976,7 +1979,6 @@ namespace Wms12m
             }
             return new Result(false, "Kayıt hatası");
         }
-
         /// <summary>
         /// Alimdan İade İşlem Yap
         /// </summary>
