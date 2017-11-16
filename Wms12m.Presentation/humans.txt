@@ -9,6 +9,7 @@ Fatih Bingöl
 Candan Altıntaş
 Gizem Altıntaş
 Emre Ünal
+Güler Dostdoğru
 /* SITE */
 Name: ERP Yönetim Paneli
 Language: Turkish

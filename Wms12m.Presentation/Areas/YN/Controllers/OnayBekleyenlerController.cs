@@ -168,7 +168,7 @@ namespace Wms12m.Presentation.Areas.YN.Controllers
 
             var result = new Result();
             try
-            {       
+            {
                 if (Onay == true)
                 {
                     var list = db.Database.SqlQuery<DepoTran>(string.Format(@"
@@ -290,12 +290,12 @@ namespace Wms12m.Presentation.Areas.YN.Controllers
                 SIOnay.IadeTarih = ids[1];
                 SIOnay.Onay = Onay;
                 SIOnay.Kaydeden = vUser.UserName;
-            
+
                 YeniNesil yns = new YeniNesil(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "0TEST");
                 yns.SatisIadeOnay(SIOnay);
                 result = new Result(true, 1);
-                
-              
+
+
                 return Json(result, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)

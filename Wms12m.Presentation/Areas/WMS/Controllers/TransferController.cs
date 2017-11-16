@@ -99,7 +99,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             var varmi = false;
             foreach (var item in mallistesi)
             {
-                var sayi = db.Yers.Where(m => m.MalKodu == item.MalKodu  && m.Miktar > 0 && m.Kat.Bolum.Raf.Koridor.Depo.DepoKodu == tbl.CikisDepo).FirstOrDefault();
+                var sayi = db.Yers.Where(m => m.MalKodu == item.MalKodu && m.Miktar > 0 && m.Kat.Bolum.Raf.Koridor.Depo.DepoKodu == tbl.CikisDepo).FirstOrDefault();
                 if (sayi != null) { varmi = true; break; }
             }
             ViewBag.Result = new Result(false, "Seçtiğiniz hiç bir ürün stokta kayıtlı değil.");
