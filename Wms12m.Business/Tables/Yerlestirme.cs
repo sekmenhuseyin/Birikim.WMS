@@ -11,9 +11,9 @@ namespace Wms12m.Business
         /// <summary>
         /// stok ekleme
         /// </summary>
-        public Result Insert(Yer tbl, int IrsID, int KullID, int IrsDetayID = 0)
+        public Result Insert(Yer tbl, int IrsID, int KullID, int IrsDetayID = 0, string IslemTipi = "")
         {
-            _Result = new Result(); 
+            _Result = new Result();
             //stok
             if (tbl.MakaraNo == "") tbl.MakaraNo = null;
             db.Yers.Add(tbl);
@@ -32,6 +32,7 @@ namespace Wms12m.Business
             };
             if (tbl.MakaraNo != "" && tbl.MakaraNo != null) yerLog.MakaraNo = tbl.MakaraNo;
             if (IrsID > 0) yerLog.IrsaliyeID = IrsID;
+            if (IslemTipi != "") yerLog.IslemTipi = IslemTipi;
             if (yerLog.Miktar > 0) db.Yer_Log.Add(yerLog);
             //save
             try
@@ -72,7 +73,7 @@ namespace Wms12m.Business
             };
             if (IrsDetayID != 0) yerLog.IRSDetayID = IrsDetayID;
             if (IrsID > 0) yerLog.IrsaliyeID = IrsID;
-            if(yerLog.Miktar>0) db.Yer_Log.Add(yerLog);
+            if (yerLog.Miktar > 0) db.Yer_Log.Add(yerLog);
             if (gc == true)
                 tbl.MakaraDurum = false;
             //stok
@@ -254,7 +255,7 @@ namespace Wms12m.Business
         /// <summary>
         /// aynısından daha önce yüklenmiş mi kontrol eder
         /// </summary>
-        public Yer Detail(int KatID, string MalKodu, string Birim, string MakaraNo=null)
+        public Yer Detail(int KatID, string MalKodu, string Birim, string MakaraNo = null)
         {
             var satir = db.Yers.Where(m => m.KatID == KatID && m.MalKodu == MalKodu && m.Birim == Birim);
             //makara no varsa onu da filtreye ekle
