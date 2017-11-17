@@ -2124,24 +2124,17 @@ namespace Wms12m
                 return new Result(false, "Görevi kontrol ediniz !");
             //variables
             string gorevNo = db.SettingsGorevNo(DateTime.Today.ToOADateInt(), mGorev.DepoID).FirstOrDefault();
-            //var kull = db.Users.Where(m => m.ID == KullID).Select(m => m.Kod).FirstOrDefault();
             var kull = db.Users.Where(m => m.ID == KullID).FirstOrDefault();
-
             if (kull.UserDetail.SatisFaturaSeri == null || kull.UserDetail.SatisIrsaliyeSeri == null)
                 return new Result(false, "Bu kullanıcıya ait seri nolar hatalı ! Lütfen terminal yetkilerinden seriyi değiştirin yada Güneşten seçili seri için bir değer verin.");
             Finsat finsat = new Finsat(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, mGorev.IR.SirketKod);
             //loop iraliyes
             foreach (var item in mGorev.IRS.Where(m => m.Onay == true))
             {
-                //string sql = string.Format("SELECT EvrakNo FROM FINSAT6{0}.FINSAT6{0}.STI WHERE (EvrakNo = '{1}') AND (KynkEvrakTip = 2) AND (Chk = {2})", item.SirketKod, item.EvrakNo, item.HesapKodu);
-                //var sti = db.Database.SqlQuery<string>(sql).FirstOrDefault();
-                //if (sti != null)
-                //    return new Result(false, item.EvrakNo + " nolu evrak daha önce kullanılmış");
                 string sql = "";
                 var KatID = db.GetHucreKatID(item.DepoID, "R-ZR-V").FirstOrDefault();
                 if (KatID == null)
                     return new Result(false, "Deponun rezerv katı bulunamadı");
-
                 //muhsebe yılı bulunur
                 sql = string.Format("SELECT ISNULL(" +
                                         "(SELECT TOP 1 YEAR(CAST(SDK.Tarih-2 AS DATETIME)) " +
