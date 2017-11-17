@@ -40,7 +40,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             string sql = String.Format("FINSAT6{0}.wms.SatisIptalSecimList @DepoKodu = '{1}', @EvrakNo = '{2}', @CHK = '{3}'", sirket, tbl.DepoID, evrak, chk);
             var list = db.Database.SqlQuery<frmSiparisMalzemeDetay>(sql).ToList();
             //return
-            ViewBag.EvrakNos = tbl.checkboxes;
+            ViewBag.EvrakNos = sirket + "-" + evrak + "-" + chk;
             ViewBag.DepoID = depo;
             ViewBag.Evrak = tbl.EvrakNos;
             ViewBag.Tarih = tbl.Tarih;
@@ -57,6 +57,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             if (CheckPerm(Perms.SatistanIade, PermTypes.Writing) == false) return Redirect("/");
             tbl.checkboxes = tbl.checkboxes.Left(tbl.checkboxes.Length - 1);
             var checkList = tbl.checkboxes.Split('#');
+            //SirketID - EvrakNo - Chk
             var sirket = tbl.EvrakNos.Split('-')[0];
             var evrak = tbl.EvrakNos.Split('-')[1];
             var hesapKodu = tbl.EvrakNos.Split('-')[2];
