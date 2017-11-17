@@ -196,131 +196,6 @@ namespace Wms12m
                 return new Result(false, Sonuc.Hata.Message);
         }
         /// <summary>
-        /// satıştan iade
-        /// </summary>
-        public Result SatisIade(IR irsaliye, int kulID, int IrsaliyeSeri, int yil, bool efatKullanici, string depo)
-        {
-            DevHelper.Ayarlar.SetConStr(ConStr);
-            DevHelper.Ayarlar.SirketKodu = irsaliye.SirketKod;
-            List<STIBase> STIBaseList = new List<STIBase>();
-
-            var ftrKayit = new FaturaKayit(ConStr, SirketKodu);
-            //List<EvrakBilgi> evrkno;
-            //try
-            //{
-            //    evrkno = ftrKayit.EvrakNo_Getir(true, IrsaliyeSeri, yil, FaturaTipi.SatistanIadeIrsaliyesi.ToInt32());
-            //}
-            //catch (Exception ex)
-            //{
-            //    return new Result(false, ex.Message);
-            //}
-            using (WMSEntities db = new WMSEntities())
-            {
-                string kaydeden = db.Users.Where(m => m.ID == kulID).Select(m => m.Kod).FirstOrDefault();
-                var sql = String.Format("FINSAT6{0}.wms.SatisIadeKayitList @IrsaliyeID = '{1}'", irsaliye.SirketKod, irsaliye.ID);
-                var STList = db.Database.SqlQuery<STIMax>(sql).ToList();
-                foreach (STIMax stItem in STList)
-                {
-                    STIBase sti = new STIBase()
-                    {
-                        EvrakNo = irsaliye.EvrakNo,
-                        HesapKodu = stItem.HesapKodu,
-                        Tarih = stItem.Tarih,
-                        MalKodu = stItem.MalKodu,
-                        Miktar = stItem.OkutulanMiktar,
-                        Birim = stItem.Birim,
-                        Depo = depo,
-                        EvrakTipi = STIEvrakTipi.SatistanIadeIrsaliyesi,
-                        Kaydeden = kaydeden,
-                        KayitSurum = "9.01.028",
-                        KayitKaynak = 74,
-                        ErekIIFMiktar = stItem.ErekIIFMiktar,
-                        Row_ID = stItem.Row_ID,
-                        SiraNo = stItem.SiraNo,
-                        KaynakSiraNo = stItem.KaynakSiraNo,
-                        EFatSenaryo = stItem.EFatSenaryo,
-                        EArsivTeslimSekli = stItem.EArsivTeslimSekli,
-                        EFatEtiketGB = stItem.EFatEtiketGB,
-                        EFatEtiketPK = stItem.EFatEtiketPK,
-                        IslemTip = stItem.SipIslemTip
-
-                    };
-                    if (stItem.SiparisNo != "")
-                    {
-                        sti.KayitTipi = STIKayitTipi.Irsaliye;
-                        //sti.KaynakSiparisNo = stItem.SiparisNo;
-                        sti.KaynakSiparisTarih = stItem.KaynakSiparisTarih;
-                        sti.SiparisSiraNo = stItem.SiparisSiraNo;
-                        sti.SiparisMiktar = stItem.KynkSiparisMiktar;
-                        sti.Fiyat = stItem.Fiyat;
-                        sti.KdvOran = stItem.KdvOran;
-                        sti.IskontoOran1 = stItem.IskontoOran1;
-                        sti.IskontoOran2 = stItem.IskontoOran2;
-                        sti.IskontoOran3 = stItem.IskontoOran3;
-                        sti.IskontoOran4 = stItem.IskontoOran4;
-                        sti.IskontoOran5 = stItem.IskontoOran5;
-
-                        sti.Kod1 = stItem.Kod1;
-                        sti.Kod2 = stItem.Kod2;
-                        sti.Kod3 = stItem.Kod3;
-                        sti.Kod4 = stItem.Kod4;
-                        sti.Kod5 = stItem.Kod5;
-                        sti.Kod6 = stItem.Kod6;
-                        sti.Kod7 = stItem.Kod7;
-                        sti.Kod8 = stItem.Kod8;
-                        sti.Kod9 = stItem.Kod9;
-                        sti.Kod10 = stItem.Kod10;
-                        sti.Kod11 = stItem.Kod11;
-                        sti.Kod12 = stItem.Kod12;
-                        sti.Kod13 = stItem.Kod13;
-                        sti.Kod14 = stItem.Kod14;
-                        sti.ValorGun = stItem.ValorGun;
-                        sti.Operator = stItem.Operator;
-                        sti.KaynakIrsEvrakNo = stItem.KaynakIrsEvrakNo;
-                        sti.KaynakIrsTarih = stItem.KaynakIrsTarih;
-                        sti.KaynakIIFEvrakNo = stItem.KaynakIIFEvrakNo;
-                        sti.KaynakIIFTarih = stItem.KaynakIIFTarih;
-                        sti.KaynakSiparisNo = stItem.KaynakSiparisNo;
-                        sti.MFKAciklama = stItem.MFKAciklama;
-                        sti.MFKTarih = stItem.MFKTarih;
-                        sti.Kredi_Donem_VadeTarih = stItem.Kredi_Donem_VadeTarih;
-
-                        sti.Nesne1 = stItem.Nesne1;
-                        sti.Nesne2 = stItem.Nesne2;
-                        sti.Nesne3 = stItem.Nesne3;
-                        sti.EvrakTarih = stItem.EvrakTarih;
-                        sti.SevkTarih = stItem.SevkTarih;
-
-                    }
-                    else
-                    {
-                        sti.KayitTipi = STIKayitTipi.Irsaliye;
-                        sti.KaynakSiparisNo = "";
-                        sti.KaynakSiparisTarih = 0;
-                        sti.SiparisSiraNo = 0;
-                        sti.SiparisMiktar = 0;
-                    }
-                    STIBaseList.Add(sti);
-                }
-            }
-            Irsaliye_Islemleri IrsIslem = new Irsaliye_Islemleri(irsaliye.SirketKod);
-            var Sonuc = new OnikimCore.GunesCore.IslemSonuc(false);
-            try
-            {
-                Sonuc = IrsIslem.Irsaliye_Kayit(-1, efatKullanici, STIBaseList);
-            }
-            catch (Exception ex)
-            {
-                Sonuc.Basarili = false;
-                Sonuc.Hata = ex;
-            }
-            //sonuç döner
-            if (Sonuc.Hata.IsNull())
-                return new Result(true, Sonuc.Veri.ToString2());
-            else
-                return new Result(false, Sonuc.Hata.Message);
-        }
-        /// <summary>
         /// satış irsaliyesi ve faturası
         /// </summary>
         public Result FaturaKayıt(int irsID, string DepoKodu, bool efatKullanici, int Tarih, string CHK, string kaydeden, int IrsaliyeSeri, int FaturaSeri, int yil)
@@ -541,7 +416,7 @@ namespace Wms12m
                     Kaydeden = kaydeden,
                     KayitSurum = "9.01.028",
                     KayitKaynak = 74,
-                    SeriNo=""
+                    SeriNo = ""
                 };
                 DepTranList.Add(dep);
             }
@@ -623,6 +498,121 @@ namespace Wms12m
             {
                 return new Result(false, ex.Message);
             }
+        }
+        /// <summary>
+        /// satıştan iade
+        /// </summary>
+        public Result SatisIade(IR irsaliye, int kulID, int IrsaliyeSeri, int yil, bool efatKullanici, string depo)
+        {
+            DevHelper.Ayarlar.SetConStr(ConStr);
+            DevHelper.Ayarlar.SirketKodu = irsaliye.SirketKod;
+            List<STIBase> STIBaseList = new List<STIBase>();
+
+            var ftrKayit = new FaturaKayit(ConStr, SirketKodu);
+            using (WMSEntities db = new WMSEntities())
+            {
+                string kaydeden = db.Users.Where(m => m.ID == kulID).Select(m => m.Kod).FirstOrDefault();
+                var sql = String.Format("FINSAT6{0}.wms.SatisIadeKayitList @IrsaliyeID = '{1}'", irsaliye.SirketKod, irsaliye.ID);
+                var STList = db.Database.SqlQuery<STIMax>(sql).ToList();
+                foreach (STIMax stItem in STList)
+                {
+                    STIBase sti = new STIBase()
+                    {
+                        EvrakNo = irsaliye.EvrakNo,
+                        HesapKodu = stItem.HesapKodu,
+                        Tarih = stItem.Tarih,
+                        MalKodu = stItem.MalKodu,
+                        Miktar = stItem.OkutulanMiktar,
+                        Birim = stItem.Birim,
+                        Depo = depo,
+                        EvrakTipi = STIEvrakTipi.SatistanIadeIrsaliyesi,
+                        Kaydeden = kaydeden,
+                        KayitSurum = "9.01.028",
+                        KayitKaynak = 74,
+                        ErekIIFMiktar = stItem.ErekIIFMiktar,
+                        Row_ID = stItem.Row_ID,
+                        SiraNo = stItem.SiraNo,
+                        KaynakSiraNo = stItem.KaynakSiraNo,
+                        EFatSenaryo = stItem.EFatSenaryo,
+                        EArsivTeslimSekli = stItem.EArsivTeslimSekli,
+                        EFatEtiketGB = stItem.EFatEtiketGB,
+                        EFatEtiketPK = stItem.EFatEtiketPK,
+                        IslemTip = stItem.SipIslemTip
+
+                    };
+                    if (stItem.SiparisNo != "")
+                    {
+                        sti.KayitTipi = STIKayitTipi.Irsaliye;
+                        //sti.KaynakSiparisNo = stItem.SiparisNo;
+                        sti.KaynakSiparisTarih = stItem.KaynakSiparisTarih;
+                        sti.SiparisSiraNo = stItem.SiparisSiraNo;
+                        sti.SiparisMiktar = stItem.KynkSiparisMiktar;
+                        sti.Fiyat = stItem.Fiyat;
+                        sti.KdvOran = stItem.KdvOran;
+                        sti.IskontoOran1 = stItem.IskontoOran1;
+                        sti.IskontoOran2 = stItem.IskontoOran2;
+                        sti.IskontoOran3 = stItem.IskontoOran3;
+                        sti.IskontoOran4 = stItem.IskontoOran4;
+                        sti.IskontoOran5 = stItem.IskontoOran5;
+
+                        sti.Kod1 = stItem.Kod1;
+                        sti.Kod2 = stItem.Kod2;
+                        sti.Kod3 = stItem.Kod3;
+                        sti.Kod4 = stItem.Kod4;
+                        sti.Kod5 = stItem.Kod5;
+                        sti.Kod6 = stItem.Kod6;
+                        sti.Kod7 = stItem.Kod7;
+                        sti.Kod8 = stItem.Kod8;
+                        sti.Kod9 = stItem.Kod9;
+                        sti.Kod10 = stItem.Kod10;
+                        sti.Kod11 = stItem.Kod11;
+                        sti.Kod12 = stItem.Kod12;
+                        sti.Kod13 = stItem.Kod13;
+                        sti.Kod14 = stItem.Kod14;
+                        sti.ValorGun = stItem.ValorGun;
+                        sti.Operator = stItem.Operator;
+                        sti.KaynakIrsEvrakNo = stItem.KaynakIrsEvrakNo;
+                        sti.KaynakIrsTarih = stItem.KaynakIrsTarih;
+                        sti.KaynakIIFEvrakNo = stItem.KaynakIIFEvrakNo;
+                        sti.KaynakIIFTarih = stItem.KaynakIIFTarih;
+                        sti.KaynakSiparisNo = stItem.KaynakSiparisNo;
+                        sti.MFKAciklama = stItem.MFKAciklama;
+                        sti.MFKTarih = stItem.MFKTarih;
+                        sti.Kredi_Donem_VadeTarih = stItem.Kredi_Donem_VadeTarih;
+
+                        sti.Nesne1 = stItem.Nesne1;
+                        sti.Nesne2 = stItem.Nesne2;
+                        sti.Nesne3 = stItem.Nesne3;
+                        sti.EvrakTarih = stItem.EvrakTarih;
+                        sti.SevkTarih = stItem.SevkTarih;
+                    }
+                    else
+                    {
+                        sti.KayitTipi = STIKayitTipi.Irsaliye;
+                        sti.KaynakSiparisNo = "";
+                        sti.KaynakSiparisTarih = 0;
+                        sti.SiparisSiraNo = 0;
+                        sti.SiparisMiktar = 0;
+                    }
+                    STIBaseList.Add(sti);
+                }
+            }
+            Irsaliye_Islemleri IrsIslem = new Irsaliye_Islemleri(irsaliye.SirketKod);
+            var Sonuc = new OnikimCore.GunesCore.IslemSonuc(false);
+            try
+            {
+                Sonuc = IrsIslem.Irsaliye_Kayit(-1, efatKullanici, STIBaseList);
+            }
+            catch (Exception ex)
+            {
+                Sonuc.Basarili = false;
+                Sonuc.Hata = ex;
+            }
+            //sonuç döner
+            if (Sonuc.Hata.IsNull())
+                return new Result(true, Sonuc.Veri.ToString2());
+            else
+                return new Result(false, Sonuc.Hata.Message);
         }
     }
 }

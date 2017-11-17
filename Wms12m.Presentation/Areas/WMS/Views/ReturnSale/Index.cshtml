@@ -94,8 +94,7 @@
         </div>
     </div>
 </div>
-@section Scripts{
-    <script>
+@section Scripts{<script>
     $("#SirketID").prepend("<option value=''>Seçiniz !!!</option>");
     $("#DepoID").prepend("<option value=''>Seçiniz !!!</option>");
     $("#txtHesapBas").attr("disabled", true);
@@ -125,31 +124,28 @@
         }
 
     }
-     function CreateNew(ix) {
+    function CreateNew(ix) {
         if (ix == 0)
         {
             $("#SirketID")[0].selectedIndex = 0;
             $("#DepoID")[0].selectedIndex = 0;
         }
     }
-     function FuncSearchBtn() {
-         $("#liste").html("");
-         if ($("#SirketID").val() == "" || $('#Starts').val() == "" || $('#Ends').val() == "" || $("#txtEvrakNo").val() == "" || $("#Tarih").val()=="") return;
-
-         $.ajax({
-             type: 'POST',
-             url: "/WMS/ReturnSale/GetSiparis/",
-             data: { Sirket: $("#SirketID").val(), DepoID: $('#DepoID').val(), CHK: $("#txtHesapBas").val(), Starts: $("#Starts").val(), Ends: $("#Ends").val(), EvrakNo: $("#txtEvrakNo").val(), Tarih: $("#Tarih").val() },
-             dataType: "html",
-             success: function (data) {
-                 if (data == "") { Modaldialog("Lütfen Tekrar Deneyin", "Hata", "Tamam", "btn-danger");}
-                 $("#liste").html(data);
-             },
-             error: function (data) {
-                 Modaldialog("Lütfen Tekrar Deneyin", "Hata", "Tamam", "btn-danger");
-             }
-         });
-     }
-
-
-    </script>}
+    function FuncSearchBtn() {
+        $("#liste").html("");
+        if ($("#SirketID").val() == "" || $('#Starts').val() == "" || $('#Ends').val() == "" || $("#txtEvrakNo").val() == "" || $("#Tarih").val()=="") return;
+        $.ajax({
+            type: 'POST',
+            url: "/WMS/ReturnSale/GetSiparis/",
+            data: { Sirket: $("#SirketID").val(), DepoID: $('#DepoID').val(), CHK: $("#txtHesapBas").val(), Starts: $("#Starts").val(), Ends: $("#Ends").val(), EvrakNo: $("#txtEvrakNo").val(), Tarih: $("#Tarih").val() },
+            dataType: "html",
+            success: function (data) {
+                if (data == "") { Modaldialog("Lütfen Tekrar Deneyin", "Hata", "Tamam", "btn-danger");}
+                $("#liste").html(data);
+            },
+            error: function (data) {
+                Modaldialog("Lütfen Tekrar Deneyin", "Hata", "Tamam", "btn-danger");
+            }
+        });
+    }
+</script>}
