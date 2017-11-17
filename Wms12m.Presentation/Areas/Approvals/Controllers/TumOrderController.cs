@@ -50,9 +50,9 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                 var tbl = db.UserDetails.Where(m => m.UserID == vUser.Id).FirstOrDefault();
                 if (tbl != null)
                 {
-                    var Sirketler = tbl.GosterilecekSirket == null ? "" : tbl.GosterilecekSirket;
-                    var CHKAraligi = tbl.GostCHKKodAlani == null ? "" : tbl.GostCHKKodAlani;
-                    var TipKodlari = tbl.GostSTKDeger == null ? "" : tbl.GostSTKDeger;
+                    var Sirketler = tbl.GosterilecekSirket ?? "";
+                    var CHKAraligi = tbl.GostCHKKodAlani ?? "";
+                    var TipKodlari = tbl.GostSTKDeger ?? "";
                     var Kod3Araligi = "";
                     var Kod3Araligi2 = "";
                     var RiskAraligi = "";
@@ -230,38 +230,38 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
                         LogActions("Approvals", "TumOrder", "Reddet", ComboItems.alRed, 0, logDetay);
 
-                        TumSiparisOnayLog sip = new TumSiparisOnayLog();
-                        sip.Bakiye = insertObj["Bakiye"].ToDecimal();
-                        sip.Unvan = insertObj["Unvan"].ToString();
-                        sip.EvrakNo = insertObj["EvrakNo"].ToString();
-                        sip.DegisTarih = (int)DateTime.Now.ToOADate();
-                        sip.Degistiren = vUser.UserName.ToString();
-                        sip.SirketAralik = tbl.GosterilecekSirket;
-                        sip.CHKAralik = tbl.GostCHKKodAlani;
-                        sip.TipKodlari = tbl.GostSTKDeger;
-                        sip.RiskBakiyeAralik = tbl.GostKod3OrtBakiye;
-                        sip.RiskAralik = tbl.GostRiskDeger;
-                        sip.Risk = insertObj["Risk"].ToDecimal();
-                        sip.RoleName = vUser.RoleName;
-                        sip.Firma = insertObj["Firma"].ToString();
-                        sip.GunIciSiparis = insertObj["GunIciSiparis"].ToDecimal();
-                        sip.HesapKodu = insertObj["HesapKodu"].ToString();
-                        sip.Kod2 = insertObj["Kod2"].ToString();
-                        sip.Kod3OrtBakiye = insertObj["Kod3OrtBakiye"].ToDecimal();
-                        sip.Kod3OrtGun = insertObj["Kod3OrtGun"].ToDecimal();
-                        sip.KrediLimiti = insertObj["KrediLimiti"].ToDecimal();
-                        sip.OnayDurumu = "Reddedildi";
-                        sip.OrtGun = insertObj["OrtGun"].ToDecimal();
-                        sip.PRTBakiye = insertObj["PRTBakiye"].ToDecimal();
-                        sip.SCek = insertObj["SCek"].ToDecimal();
-                        sip.SicakSiparis = insertObj["SicakSiparis"].ToDecimal();
-                        sip.SiparisTuru = insertObj["SiparisTuru"].ToString();
-                        sip.SogukSiparis = insertObj["SogukSiparis"].ToDecimal();
-                        sip.TCek = insertObj["TCek"].ToDecimal();
-                        sip.TipKodu = insertObj["TipKodu"].ToString();
-                        sip.RiskBakiyesi = insertObj["RiskBakiyesi"].ToDecimal();
-
-                        logdb.TumSiparisOnayLogs.Add(sip);
+                        logdb.TumSiparisOnayLogs.Add(new TumSiparisOnayLog
+                        {
+                            Bakiye = insertObj["Bakiye"].ToDecimal(),
+                            Unvan = insertObj["Unvan"].ToString(),
+                            EvrakNo = insertObj["EvrakNo"].ToString(),
+                            DegisTarih = (int)DateTime.Now.ToOADate(),
+                            Degistiren = vUser.UserName.ToString(),
+                            SirketAralik = tbl.GosterilecekSirket,
+                            CHKAralik = tbl.GostCHKKodAlani,
+                            TipKodlari = tbl.GostSTKDeger,
+                            RiskBakiyeAralik = tbl.GostKod3OrtBakiye,
+                            RiskAralik = tbl.GostRiskDeger,
+                            Risk = insertObj["Risk"].ToDecimal(),
+                            RoleName = vUser.RoleName,
+                            Firma = insertObj["Firma"].ToString(),
+                            GunIciSiparis = insertObj["GunIciSiparis"].ToDecimal(),
+                            HesapKodu = insertObj["HesapKodu"].ToString(),
+                            Kod2 = insertObj["Kod2"].ToString(),
+                            Kod3OrtBakiye = insertObj["Kod3OrtBakiye"].ToDecimal(),
+                            Kod3OrtGun = insertObj["Kod3OrtGun"].ToDecimal(),
+                            KrediLimiti = insertObj["KrediLimiti"].ToDecimal(),
+                            OnayDurumu = "Reddedildi",
+                            OrtGun = insertObj["OrtGun"].ToDecimal(),
+                            PRTBakiye = insertObj["PRTBakiye"].ToDecimal(),
+                            SCek = insertObj["SCek"].ToDecimal(),
+                            SicakSiparis = insertObj["SicakSiparis"].ToDecimal(),
+                            SiparisTuru = insertObj["SiparisTuru"].ToString(),
+                            SogukSiparis = insertObj["SogukSiparis"].ToDecimal(),
+                            TCek = insertObj["TCek"].ToDecimal(),
+                            TipKodu = insertObj["TipKodu"].ToString(),
+                            RiskBakiyesi = insertObj["RiskBakiyesi"].ToDecimal()
+                        });
                     }
                     try
                     {

@@ -68,12 +68,14 @@ namespace Wms12m.Presentation.Controllers
         {
             FormsAuthentication.SignOut();
             HttpContext.Session.Abandon();
-            HttpCookie authCookie = new HttpCookie(FormsAuthentication.FormsCookieName, "");
-            authCookie.Expires = DateTime.Now.AddYears(-1);
-            HttpContext.Response.Cookies.Add(authCookie);
-            HttpCookie sessionCookie = new HttpCookie("ASP.NET_SessionId", "");
-            sessionCookie.Expires = DateTime.Now.AddYears(-1);
-            HttpContext.Response.Cookies.Add(sessionCookie);
+            HttpContext.Response.Cookies.Add(new HttpCookie(FormsAuthentication.FormsCookieName, "")
+            {
+                Expires = DateTime.Now.AddYears(-1)
+            });
+            HttpContext.Response.Cookies.Add(new HttpCookie("ASP.NET_SessionId", "")
+            {
+                Expires = DateTime.Now.AddYears(-1)
+            });
             return RedirectToAction("Login", "Security");
         }
         /// <summary>

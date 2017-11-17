@@ -317,12 +317,12 @@ namespace Wms12m.Presentation.Controllers
                                 if (tmp2 == null)
                                 {
                                     tmp2 = new Yer() { KatID = katID.Value, MalKodu = dr["Mal Kodu"].ToString(), Birim = dr["Birim"].ToString(), Miktar = miktar };
-                                    Yerlestirme.Insert(tmp2, 0, vUser.Id);
+                                    Yerlestirme.Insert(tmp2, vUser.Id, "Stok Elle Ekle");
                                 }
                                 else
                                 {
                                     tmp2.Miktar += miktar;
-                                    Yerlestirme.Update(tmp2, 0, vUser.Id, false, miktar);
+                                    Yerlestirme.Update(tmp2, vUser.Id, "Stok Elle Ekle", miktar, false);
                                 }
                                 basarili++;
                             }

@@ -479,17 +479,17 @@ namespace Wms12m
                             };
                             if (item2.MakaraNo != "" && item2.MakaraNo != null) tmp2.MakaraNo = item2.MakaraNo;
                             //kaydet
-                            var cevap = stok.Insert(tmp2, 0, KullID);
+                            var cevap = stok.Insert(tmp2, KullID, "Mal Kabul");
                             if (cevap.Status == false)//tek ihtimal: makara no var ve çok önceki kayıtlarla çakıştı
                             {
                                 tmp2.MakaraNo = "Boş-" + db.SettingsMakaraNo(item.DepoID).FirstOrDefault();
-                                stok.Insert(tmp2, 0, KullID);
+                                stok.Insert(tmp2, KullID, "Mal Kabul");
                             }
                         }
                         else//güncelle
                         {
                             tmp2.Miktar += item2.Miktar.Value;
-                            stok.Update(tmp2, 0, KullID, false, item2.Miktar.Value);
+                            stok.Update(tmp2, KullID, "Mal Kabul", item2.Miktar.Value, false);
                         }
                     }
                     //add to mysql
@@ -622,7 +622,7 @@ namespace Wms12m
                         //rezervden düşürülür
                         var tmp2 = stok.Detail(Rkat.Value, item.MalKodu, item.Birim);
                         tmp2.Miktar -= item.Miktar;
-                        stok.Update(tmp2, item.IrsID, KullID, true, item.Miktar, item.IrsDetayID);
+                        stok.Update(tmp2, KullID, "Rafa Kaldır", item.Miktar, true, item.IrsID, item.IrsDetayID);
                         string makarano = tmp2.MakaraNo;
                         //yerleştirme kaydı yapılır
                         tmp2 = stok.Detail(kat.Value, item.MalKodu, item.Birim);
@@ -636,7 +636,7 @@ namespace Wms12m
                                 Miktar = item.Miktar
                             };
                             if (makarano != "" || makarano != null) tmp2.MakaraNo = makarano;
-                            stok.Insert(tmp2, item.IrsID, KullID, item.IrsDetayID);
+                            stok.Insert(tmp2, KullID, "Rafa Kaldır", item.IrsID, item.IrsDetayID);
                         }
                         else if (tmp2.MakaraNo != makarano)
                         {
@@ -648,12 +648,12 @@ namespace Wms12m
                                 Miktar = item.Miktar
                             };
                             if (makarano != "" || makarano != null) tmp2.MakaraNo = makarano;
-                            stok.Insert(tmp2, item.IrsID, KullID, item.IrsDetayID);
+                            stok.Insert(tmp2, KullID, "Rafa Kaldır", item.IrsID, item.IrsDetayID);
                         }
                         else
                         {
                             tmp2.Miktar += item.Miktar;
-                            stok.Update(tmp2, item.IrsID, KullID, false, item.Miktar, item.IrsDetayID);
+                            stok.Update(tmp2, KullID, "Rafa Kaldır", item.Miktar, false, item.IrsID, item.IrsDetayID);
                         }
                     }
                     else
@@ -962,7 +962,7 @@ namespace Wms12m
                     var dusulecek = yerleştirme.Detail(item2.YerID);
                     dusulecek.Miktar -= item2.YerlestirmeMiktari.Value;
                     dusulecek.MakaraDurum = false;
-                    yerleştirme.Update(dusulecek, item2.IrsaliyeID, KullID, true, item2.YerlestirmeMiktari.Value);
+                    yerleştirme.Update(dusulecek, KullID, "Sipariş Topla", item2.YerlestirmeMiktari.Value, true, item2.IrsaliyeID);
                 }
             }
             //finish gorev
@@ -1255,7 +1255,7 @@ namespace Wms12m
                         var dusulecek = yerleştirme.Detail(item2.YerID);
                         dusulecek.Miktar -= item2.YerlestirmeMiktari.Value;
                         dusulecek.MakaraDurum = false;
-                        yerleştirme.Update(dusulecek, mGorev.IrsaliyeID.Value, KullID, true, item2.YerlestirmeMiktari.Value);
+                        yerleştirme.Update(dusulecek, KullID, "Transfer Çıkıs", item2.YerlestirmeMiktari.Value, true, mGorev.IrsaliyeID.Value);
                         //yerleştirme kaydı yapılır
                         var stok = new Yerlestirme();
                         var tmp2 = stok.Detail(KatID.Value, item2.MalKodu, item2.Birim);
@@ -1269,7 +1269,7 @@ namespace Wms12m
                                 Miktar = item2.YerlestirmeMiktari.Value
                             };
                             if (item2.MakaraNo != "" || item2.MakaraNo != null) tmp2.MakaraNo = item2.MakaraNo;
-                            stok.Insert(tmp2, 0, KullID);
+                            stok.Insert(tmp2, KullID, "Transfer Çıkıs");
                         }
                         else if (item2.MakaraNo != "" || item2.MakaraNo != null)
                             if (tmp2.MakaraNo != item2.MakaraNo)
@@ -1282,12 +1282,12 @@ namespace Wms12m
                                     Miktar = item2.YerlestirmeMiktari.Value
                                 };
                                 tmp2.MakaraNo = item2.MakaraNo;
-                                stok.Insert(tmp2, 0, KullID);
+                                stok.Insert(tmp2, KullID, "Transfer Çıkıs");
                             }
                             else
                             {
                                 tmp2.Miktar += item2.YerlestirmeMiktari.Value;
-                                stok.Update(tmp2, 0, KullID, false, item2.YerlestirmeMiktari.Value);
+                                stok.Update(tmp2, KullID, "Transfer Çıkıs", item2.YerlestirmeMiktari.Value, false);
                             }
                     }
                 }
@@ -1330,7 +1330,7 @@ namespace Wms12m
                             var dusulecek = yerleştirme.Detail(item2.YerID);
                             dusulecek.Miktar -= item2.YerlestirmeMiktari;
                             dusulecek.MakaraDurum = false;
-                            yerleştirme.Update(dusulecek, mGorev.IrsaliyeID.Value, KullID, true, item2.YerlestirmeMiktari);
+                            yerleştirme.Update(dusulecek, KullID, "Transfer Çıkıs", item2.YerlestirmeMiktari, true, mGorev.IrsaliyeID.Value);
                             //yerleştirme kaydı yapılır
                             var stok = new Yerlestirme();
                             var tmp2 = stok.Detail(KatID.Value, item2.MalKodu, item2.Birim);
@@ -1344,7 +1344,7 @@ namespace Wms12m
                                     Miktar = item2.YerlestirmeMiktari
                                 };
                                 if (item2.MakaraNo != "" || item2.MakaraNo != null) tmp2.MakaraNo = item2.MakaraNo;
-                                stok.Insert(tmp2, 0, KullID);
+                                stok.Insert(tmp2, KullID, "Transfer Çıkıs");
                             }
                             else if (item2.MakaraNo != "" || item2.MakaraNo != null)
                                 if (tmp2.MakaraNo != item2.MakaraNo)
@@ -1357,12 +1357,12 @@ namespace Wms12m
                                         Miktar = item2.YerlestirmeMiktari
                                     };
                                     tmp2.MakaraNo = item2.MakaraNo;
-                                    stok.Insert(tmp2, 0, KullID);
+                                    stok.Insert(tmp2, KullID, "Transfer Çıkıs");
                                 }
                                 else
                                 {
                                     tmp2.Miktar += item2.YerlestirmeMiktari;
-                                    stok.Update(tmp2, 0, KullID, false, item2.YerlestirmeMiktari);
+                                    stok.Update(tmp2, KullID, "Transfer Çıkıs", item2.YerlestirmeMiktari, false);
                                 }
                         }
                     }
@@ -1471,7 +1471,7 @@ namespace Wms12m
                             //rezervden düşürülür
                             var tmp2 = stok.Detail(Rkat.Value, item.MalKodu, item.Birim);
                             tmp2.Miktar -= item.Miktar;
-                            stok.Update(tmp2, item.IrsID, KullID, true, item.Miktar);
+                            stok.Update(tmp2, KullID, "Transfer Giriş", item.Miktar, true, item.IrsID);
                             string makarano = tmp2.MakaraNo;
                             //yerleştirme kaydı yapılır
                             tmp2 = stok.Detail(kat.Value, item.MalKodu, item.Birim);
@@ -1485,7 +1485,7 @@ namespace Wms12m
                                     Miktar = item.Miktar
                                 };
                                 if (makarano != "" || makarano != null) tmp2.MakaraNo = makarano;
-                                stok.Insert(tmp2, item.IrsID, KullID);
+                                stok.Insert(tmp2, KullID, "Transfer Giriş", item.IrsID);
                             }
                             else if (tmp2.MakaraNo != makarano)
                             {
@@ -1497,12 +1497,12 @@ namespace Wms12m
                                     Miktar = item.Miktar
                                 };
                                 if (makarano != "" || makarano != null) tmp2.MakaraNo = makarano;
-                                stok.Insert(tmp2, item.IrsID, KullID);
+                                stok.Insert(tmp2, KullID, "Transfer Giriş", item.IrsID);
                             }
                             else
                             {
                                 tmp2.Miktar += item.Miktar;
-                                stok.Update(tmp2, item.IrsID, KullID, false, item.Miktar);
+                                stok.Update(tmp2, KullID, "Transfer Giriş", item.Miktar, false, item.IrsID);
                             }
                         }
                         else
@@ -1564,7 +1564,7 @@ namespace Wms12m
                             //rezervden düşürülür
                             var tmp2 = stok.Detail(Rkat.Value, item.MalKodu, item.Birim);
                             tmp2.Miktar -= item.Miktar;
-                            stok.Update(tmp2, item.irsID, KullID, true, item.Miktar);
+                            stok.Update(tmp2, KullID, "Transfer Giriş", item.Miktar, true, item.irsID);
                             string makarano = tmp2.MakaraNo;
                             //yerleştirme kaydı yapılır
                             tmp2 = stok.Detail(kat.Value, item.MalKodu, item.Birim);
@@ -1578,7 +1578,7 @@ namespace Wms12m
                                     Miktar = item.Miktar
                                 };
                                 if (makarano != "" || makarano != null) tmp2.MakaraNo = makarano;
-                                stok.Insert(tmp2, item.irsID, KullID);
+                                stok.Insert(tmp2, KullID, "Transfer Giriş", item.irsID);
                             }
                             else if (tmp2.MakaraNo != makarano)
                             {
@@ -1590,12 +1590,12 @@ namespace Wms12m
                                     Miktar = item.Miktar
                                 };
                                 if (makarano != "" || makarano != null) tmp2.MakaraNo = makarano;
-                                stok.Insert(tmp2, item.irsID, KullID);
+                                stok.Insert(tmp2, KullID, "Transfer Giriş", item.irsID);
                             }
                             else
                             {
                                 tmp2.Miktar += item.Miktar;
-                                stok.Update(tmp2, item.irsID, KullID, false, item.Miktar);
+                                stok.Update(tmp2, KullID, "Transfer Giriş", item.Miktar, false, item.irsID);
                             }
                         }
                         else
@@ -1976,7 +1976,7 @@ namespace Wms12m
                     var dusulecek = yerleştirme.Detail(item2.YerID);
                     dusulecek.Miktar -= item2.YerlestirmeMiktari.Value;
                     dusulecek.MakaraDurum = false;
-                    yerleştirme.Update(dusulecek, item2.IrsaliyeID, KullID, true, item2.YerlestirmeMiktari.Value);
+                    yerleştirme.Update(dusulecek, KullID, "Alımdan İade", item2.YerlestirmeMiktari.Value, true, item2.IrsaliyeID);
                 }
             }
             //finish gorev
@@ -2171,7 +2171,7 @@ namespace Wms12m
                                 Miktar = item2.Miktar.Value
                             };
                             if (item2.MakaraNo != "" || item2.MakaraNo != null) tmp2.MakaraNo = item2.MakaraNo;
-                            stok.Insert(tmp2, 0, KullID);
+                            stok.Insert(tmp2, KullID, "Satıştan İade");
                         }
                         else if (item2.MakaraNo != "" || item2.MakaraNo != null)
                             if (tmp2.MakaraNo != item2.MakaraNo)
@@ -2184,12 +2184,12 @@ namespace Wms12m
                                     Miktar = item2.Miktar.Value
                                 };
                                 tmp2.MakaraNo = item2.MakaraNo;
-                                stok.Insert(tmp2, 0, KullID);
+                                stok.Insert(tmp2, KullID, "Satıştan İade");
                             }
                             else
                             {
                                 tmp2.Miktar += item2.Miktar.Value;
-                                stok.Update(tmp2, 0, KullID, false, item2.Miktar.Value);
+                                stok.Update(tmp2, KullID, "Satıştan İade", item2.Miktar.Value, false);
                             }
                     }
                     //add to mysql
