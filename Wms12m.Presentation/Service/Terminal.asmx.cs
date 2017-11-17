@@ -857,7 +857,7 @@ namespace Wms12m
             int tarih = DateTime.Today.ToOADateInt(), saat = DateTime.Now.ToOaTime();
             foreach (var item in list)
             {
-                //muhsebe yılı bulunur
+                //muhasebe yılı bulunur
                 sql = string.Format("SELECT ISNULL(" +
                                         "(SELECT TOP 1 YEAR(CAST(SDK.Tarih-2 AS DATETIME)) " +
                                         "FROM SOLAR6.DBO.SIR(NOLOCK) INNER JOIN SOLAR6.DBO.SDK(NOLOCK) ON SIR.Kod = SDK.SirketKod AND SDK.Tip = 1 " +
@@ -1871,7 +1871,7 @@ namespace Wms12m
             int tarih = DateTime.Today.ToOADateInt(), saat = DateTime.Now.ToOaTime();
             foreach (var item in list)
             {
-                //muhsebe yılı bulunur
+                //muhasebe yılı bulunur
                 sql = string.Format("SELECT ISNULL(" +
                                         "(SELECT TOP 1 YEAR(CAST(SDK.Tarih-2 AS DATETIME)) " +
                                         "FROM SOLAR6.DBO.SIR(NOLOCK) INNER JOIN SOLAR6.DBO.SDK(NOLOCK) ON SIR.Kod = SDK.SirketKod AND SDK.Tip = 1 " +
@@ -2135,7 +2135,7 @@ namespace Wms12m
                 var KatID = db.GetHucreKatID(item.DepoID, "R-ZR-V").FirstOrDefault();
                 if (KatID == null)
                     return new Result(false, "Deponun rezerv katı bulunamadı");
-                //muhsebe yılı bulunur
+                //muhasebe yılı bulunur
                 sql = string.Format("SELECT ISNULL(" +
                                         "(SELECT TOP 1 YEAR(CAST(SDK.Tarih-2 AS DATETIME)) " +
                                         "FROM SOLAR6.DBO.SIR(NOLOCK) INNER JOIN SOLAR6.DBO.SDK(NOLOCK) ON SIR.Kod = SDK.SirketKod AND SDK.Tip = 1 " +
