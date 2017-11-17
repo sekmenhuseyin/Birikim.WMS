@@ -284,18 +284,15 @@ namespace Wms12m.Presentation.Areas.YN.Controllers
             {
 
                 string[] ids = ID.Split(',');
-
-                SatisIadeOnay SIOnay = new SatisIadeOnay();
-                SIOnay.IadeNo = ids[0];
-                SIOnay.IadeTarih = ids[1];
-                SIOnay.Onay = Onay;
-                SIOnay.Kaydeden = vUser.UserName;
-
                 YeniNesil yns = new YeniNesil(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "0TEST");
-                yns.SatisIadeOnay(SIOnay);
+                yns.SatisIadeOnay(new SatisIadeOnay
+                {
+                    IadeNo = ids[0],
+                    IadeTarih = ids[1],
+                    Onay = Onay,
+                    Kaydeden = vUser.UserName
+                });
                 result = new Result(true, 1);
-
-
                 return Json(result, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)

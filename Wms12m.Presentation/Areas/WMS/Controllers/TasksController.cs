@@ -439,19 +439,19 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                             Birim = item.Birim,
                             Miktar = item.Miktar
                         };
-                        Yerlestirme.Insert(tmp2, mGorev.IrsaliyeID.Value, vUser.Id);
+                        Yerlestirme.Insert(tmp2, vUser.Id, "Sayım Farkı Fişi", mGorev.IrsaliyeID.Value);
                     }
                     else
                     {
                         if (item.Miktar > item.Stok)//giriş
                         {
                             tmp2.Miktar = item.Miktar;
-                            Yerlestirme.Update(tmp2, mGorev.IrsaliyeID.Value, vUser.Id, false, item.Miktar - item.Stok);
+                            Yerlestirme.Update(tmp2, vUser.Id, "Sayım Farkı Fişi", item.Miktar - item.Stok, false, mGorev.IrsaliyeID.Value);
                         }
                         else if (item.Miktar < item.Stok)//çıkış
                         {
                             tmp2.Miktar = item.Miktar;
-                            Yerlestirme.Update(tmp2, mGorev.IrsaliyeID.Value, vUser.Id, true, item.Stok - item.Miktar);
+                            Yerlestirme.Update(tmp2, vUser.Id, "Sayım Farkı Fişi", item.Stok - item.Miktar, true, mGorev.IrsaliyeID.Value);
                         }
                     }
                 }
@@ -617,12 +617,12 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                 if (item.GC == true)
                 {
                     tmp2.Miktar += item.Miktar;
-                    Yerlestirme.Update(tmp2, mGorev.IR.ID, vUser.Id, false, item.Miktar);
+                    Yerlestirme.Update(tmp2, vUser.Id, "Sayım Farkı Fişi İptal", item.Miktar, false, mGorev.IR.ID);
                 }
                 else
                 {
                     tmp2.Miktar -= item.Miktar;
-                    Yerlestirme.Update(tmp2, mGorev.IR.ID, vUser.Id, true, item.Miktar);
+                    Yerlestirme.Update(tmp2, vUser.Id, "Sayım Farkı Fişi İptal", item.Miktar, true, mGorev.IR.ID);
                 }
             }
             mGorev.IR.LinkEvrakNo = null;

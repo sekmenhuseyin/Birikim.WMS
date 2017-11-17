@@ -217,12 +217,12 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                             Miktar = tbl.Miktar,
                             MakaraDurum = true
                         };
-                        Yerlestirme.Insert(tmp2, 0, vUser.Id);
+                        Yerlestirme.Insert(tmp2, vUser.Id, "Stok Elle Ekle");
                     }
                     else
                     {
                         tmp2.Miktar += tbl.Miktar;
-                        Yerlestirme.Update(tmp2, 0, vUser.Id, false, tbl.Miktar);
+                        Yerlestirme.Update(tmp2, vUser.Id, "Stok Elle Ekle", tbl.Miktar, false);
                     }
                 }
                 else
@@ -239,7 +239,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                             Miktar = tbl.Miktar,
                             MakaraDurum = true
                         };
-                        Yerlestirme.Insert(tmp2, 0, vUser.Id);
+                        Yerlestirme.Insert(tmp2, vUser.Id, "Stok Elle Ekle");
                     }
                     else
                     {
@@ -324,7 +324,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                     if (tmp2.Miktar < tbl.Miktar)
                         return Json(new Result(false, "Seçili yerde çıkış yapılmak istenilen sayıda ürün yok"), JsonRequestBehavior.AllowGet);
                     tmp2.Miktar -= tbl.Miktar;
-                    Yerlestirme.Update(tmp2, 0, vUser.Id, true, tbl.Miktar);
+                    Yerlestirme.Update(tmp2, vUser.Id, "Stok Elle Çıkartma", tbl.Miktar, true);
                 }
                 else
                 {
@@ -334,7 +334,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                     if (tmp2.Miktar < tbl.Miktar)
                         return Json(new Result(false, "Seçili yerde çıkış yapılmak istenilen sayıda ürün yok"), JsonRequestBehavior.AllowGet);
                     tmp2.Miktar -= tbl.Miktar;
-                    Yerlestirme.Update(tmp2, 0, vUser.Id, true, tbl.Miktar);
+                    Yerlestirme.Update(tmp2, vUser.Id, "Stok Elle Çıkartma", tbl.Miktar, true);
                 }
             }
             //return
@@ -379,7 +379,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                 var yertmp = Yerlestirme.Detail(tbl.KatID, ilk.MalKodu, ilk.Birim);
                 if (yertmp == null)
                 {
-                    cevap = Yerlestirme.Insert(new Yer() { KatID = tbl.KatID, MalKodu = ilk.MalKodu, Birim = ilk.Birim, Miktar = 0 }, 0, vUser.Id);
+                    cevap = Yerlestirme.Insert(new Yer() { KatID = tbl.KatID, MalKodu = ilk.MalKodu, Birim = ilk.Birim, Miktar = 0 }, vUser.Id, "Yer Değiştir");
                     yertmp = new Yer() { ID = cevap.Id };
                 }
                 cevap = TaskYer.Operation(new GorevYer() { GorevID = cevapGir.GorevID.Value, YerID = yertmp.ID, MalKodu = ilk.MalKodu, Birim = ilk.Birim, Miktar = tbl.Miktar, GC = false });

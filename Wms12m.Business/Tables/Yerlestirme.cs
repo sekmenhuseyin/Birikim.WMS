@@ -11,7 +11,7 @@ namespace Wms12m.Business
         /// <summary>
         /// stok ekleme
         /// </summary>
-        public Result Insert(Yer tbl, int IrsID, int KullID, int IrsDetayID = 0, string IslemTipi = "")
+        public Result Insert(Yer tbl, int KullID, string IslemTipi, int? IrsID = null, int? IrsDetayID = null)
         {
             _Result = new Result();
             //stok
@@ -24,15 +24,16 @@ namespace Wms12m.Business
                 MalKodu = tbl.MalKodu,
                 Birim = tbl.Birim,
                 Miktar = tbl.Miktar,
-                IRSDetayID = IrsDetayID,
                 GC = false,//false=girdi(+), true=çıktı(-)
                 KayitTarihi = DateTime.Today.ToOADate().ToInt32(),
                 KayitSaati = DateTime.Now.ToOaTime(),
-                Kaydeden = db.Users.Where(m => m.ID == KullID).Select(m => m.Kod).FirstOrDefault()
+                Kaydeden = db.Users.Where(m => m.ID == KullID).Select(m => m.Kod).FirstOrDefault(),
+                IslemTipi = IslemTipi,
+                IrsaliyeID = IrsID,
+                IRSDetayID = IrsDetayID
             };
             if (tbl.MakaraNo != "" && tbl.MakaraNo != null) yerLog.MakaraNo = tbl.MakaraNo;
             if (IrsID > 0) yerLog.IrsaliyeID = IrsID;
-            if (IslemTipi != "") yerLog.IslemTipi = IslemTipi;
             if (yerLog.Miktar > 0) db.Yer_Log.Add(yerLog);
             //save
             try
@@ -56,7 +57,7 @@ namespace Wms12m.Business
         /// <summary>
         /// stok güncelleme
         /// </summary>
-        public Result Update(Yer tbl, int IrsID, int KullID, bool gc, decimal miktar, int IrsDetayID = 0)
+        public Result Update(Yer tbl, int KullID, string IslemTipi, decimal miktar, bool gc, int? IrsID = null, int? IrsDetayID = null)
         {
             _Result = new Result();
             //log
@@ -69,10 +70,11 @@ namespace Wms12m.Business
                 GC = gc,//false=girdi(+), true=çıktı(-)
                 KayitTarihi = DateTime.Today.ToOADate().ToInt32(),
                 KayitSaati = DateTime.Now.ToOaTime(),
-                Kaydeden = db.Users.Where(m => m.ID == KullID).Select(m => m.Kod).FirstOrDefault()
+                Kaydeden = db.Users.Where(m => m.ID == KullID).Select(m => m.Kod).FirstOrDefault(),
+                IslemTipi = IslemTipi,
+                IrsaliyeID = IrsID,
+                IRSDetayID = IrsDetayID
             };
-            if (IrsDetayID != 0) yerLog.IRSDetayID = IrsDetayID;
-            if (IrsID > 0) yerLog.IrsaliyeID = IrsID;
             if (yerLog.Miktar > 0) db.Yer_Log.Add(yerLog);
             if (gc == true)
                 tbl.MakaraDurum = false;
@@ -106,7 +108,7 @@ namespace Wms12m.Business
         /// <summary>
         /// stok çıkarma
         /// </summary>
-        public Result Remove(Yer tbl, int IrsID, int KullID)
+        public Result Remove(Yer tbl, int KullID, string IslemTipi, int? IrsID = null, int? IrsDetayID = null)
         {
             _Result = new Result();
             var tmp = Detail(tbl.ID);
@@ -134,7 +136,10 @@ namespace Wms12m.Business
                 GC = true,
                 Kaydeden = db.Users.Where(m => m.ID == KullID).Select(m => m.Kod).FirstOrDefault(),
                 KayitTarihi = DateTime.Today.ToOADateInt(),
-                KayitSaati = DateTime.Now.ToOaTime()
+                KayitSaati = DateTime.Now.ToOaTime(),
+                IslemTipi = IslemTipi,
+                IrsaliyeID = IrsID,
+                IRSDetayID = IrsDetayID
             };
             db.Yer_Log.Add(logs);
             try
@@ -196,7 +201,7 @@ namespace Wms12m.Business
             }
             return _Result;
         }
-        public Result Delete(int Id, int KullID)
+        public Result Delete(int Id, int KullID, string IslemTipi, int? IrsID = null, int? IrsDetayID = null)
         {
             _Result = new Result();
             Yer tbl = db.Yers.Where(m => m.ID == Id).FirstOrDefault();
@@ -212,7 +217,10 @@ namespace Wms12m.Business
                     GC = true,
                     Kaydeden = db.Users.Where(m => m.ID == KullID).Select(m => m.Kod).FirstOrDefault(),
                     KayitTarihi = DateTime.Today.ToOADateInt(),
-                    KayitSaati = DateTime.Now.ToOaTime()
+                    KayitSaati = DateTime.Now.ToOaTime(),
+                    IslemTipi = IslemTipi,
+                    IrsaliyeID = IrsID,
+                    IRSDetayID = IrsDetayID
                 };
                 db.Yer_Log.Add(logs);
             }

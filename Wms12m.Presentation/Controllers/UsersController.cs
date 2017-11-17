@@ -452,15 +452,15 @@ namespace Wms12m.Presentation.Controllers
                 db.Database.ExecuteSqlCommand(string.Format("[BIRIKIM].[wms].[TumpaSiparisParametreOnayla] @CHKAraligi = '{0}',@Sirketler = '{1}', @Tipler='{2}',@Kod3 = '{3}', @Risk='{4}', @UserID={5}", CHKAraligi, Sirketler, Tipler, Kod3, Risk, ID));
             else
             {
-                UserDetail udt = new UserDetail();
-                udt.UserID = ID;
-                udt.GostCHKKodAlani = CHKAraligi;
-                udt.GosterilecekSirket = Sirketler;
-                udt.GostSTKDeger = Tipler;
-                udt.GostKod3OrtBakiye = Kod3;
-                udt.GostRiskDeger = Risk;
-
-                db.UserDetails.Add(udt);
+                db.UserDetails.Add(new UserDetail
+                {
+                    UserID = ID,
+                    GostCHKKodAlani = CHKAraligi,
+                    GosterilecekSirket = Sirketler,
+                    GostSTKDeger = Tipler,
+                    GostKod3OrtBakiye = Kod3,
+                    GostRiskDeger = Risk
+                });
             }
             try
             {
@@ -471,7 +471,6 @@ namespace Wms12m.Presentation.Controllers
             }
             catch (Exception)
             {
-
                 _Result.Status = false;
                 _Result.Message = "Hata Oluştu. ";
 

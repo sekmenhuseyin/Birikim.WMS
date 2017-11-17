@@ -246,20 +246,22 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                         continue;
                     }
 
-                    RiskTanim rsk = new RiskTanim();
-                    rsk.HesapKodu = insertObj["HesapKodu"].ToString();
-                    rsk.Unvan = insertObj["Unvan"].ToString();
-                    rsk.SahsiCekLimiti = insertObj["YeniSahsiCekLimiti"].ToDecimal();
-                    rsk.MusteriCekLimiti = insertObj["YeniMusteriCekLimiti"].ToDecimal();
-                    rsk.SMOnay = false;
-                    rsk.SMOnaylayan = "";
-                    rsk.SPGMYOnay = false;
-                    rsk.SPGMYOnaylayan = "";
-                    rsk.MIGMYOnay = false;
-                    rsk.MIGMYOnaylayan = "";
-                    rsk.GMOnay = false;
-                    rsk.GMOnaylayan = "";
-                    rsk.Durum = false;
+                    RiskTanim rsk = new RiskTanim
+                    {
+                        HesapKodu = insertObj["HesapKodu"].ToString(),
+                        Unvan = insertObj["Unvan"].ToString(),
+                        SahsiCekLimiti = insertObj["YeniSahsiCekLimiti"].ToDecimal(),
+                        MusteriCekLimiti = insertObj["YeniMusteriCekLimiti"].ToDecimal(),
+                        SMOnay = false,
+                        SMOnaylayan = "",
+                        SPGMYOnay = false,
+                        SPGMYOnaylayan = "",
+                        MIGMYOnay = false,
+                        MIGMYOnaylayan = "",
+                        GMOnay = false,
+                        GMOnaylayan = "",
+                        Durum = false
+                    };
                     if (insertObj["YeniSahsiCekLimiti"].ToDecimal() < 20000)
                     {
                         rsk.OnayTip = 0;
