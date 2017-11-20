@@ -17,7 +17,7 @@ namespace Wms12m
             if (rememberMe)
                 expiration = DateTime.MaxValue;
             else
-                expiration = DateTime.Now.AddMinutes(30);
+                expiration = DateTime.Now.AddDays(30);
             var serializer = new JavaScriptSerializer();
             string userData = serializer.Serialize(serializeModel);
             //new ticket
@@ -44,11 +44,11 @@ namespace Wms12m
             //get ticket
             var ticket = FormsAuthentication.Decrypt(cookie.Value);
             //set expiration
-            DateTime expiration = DateTime.Now.AddMinutes(HttpContext.Current.Session.Timeout);
+            DateTime expiration = DateTime.Now.AddDays(HttpContext.Current.Session.Timeout);
             if (ticket.IsPersistent)
                 expiration = DateTime.MaxValue;
             else
-                expiration = DateTime.Now.AddMinutes(30);
+                expiration = DateTime.Now.AddDays(30);
             //new ticket
             var newticket = new FormsAuthenticationTicket(ticket.Version,
                                                           ticket.Name,
