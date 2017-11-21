@@ -22,3 +22,8 @@ RDP BİLGİLERİ :
 autodiscover.sakaryaizreklam.com.tr:5236
 12M\12mokan
 12Okan++
+
+RDP BİLGİLERİ : 
+mail.medifarm.com.tr
+MEDIFARM\mobilecode
+fbwws7Sn
