@@ -37,11 +37,8 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         /// </summary>
         public PartialViewResult Edit(int? id)
         {
-
             ProjeForm projeForm = db.ProjeForms.Find(id);
-
             ViewBag.MusteriID = new SelectList(db.Musteris.OrderBy(m => m.Unvan).ToList(), "ID", "Firma", projeForm.MusteriID);
-            ViewBag.PID = new SelectList(db.ProjeForms.Where(x => x.PID != null).ToList(), "ID", "Proje", projeForm.PID);
             ViewBag.Sorumlu = new SelectList(db.Users.ToList(), "Kod", "AdSoyad");
             ViewBag.RoleName = vUser.RoleName;
             return PartialView(projeForm);
@@ -201,7 +198,12 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         {
             var id = Url.RequestContext.RouteData.Values["id"];
             var ID = id.ToInt32();
-            var list = db.ProjeForms.Where(m => m.MusteriID == ID && m.Aktif == true && m.PID == null).Select(m => new SelectListItem { Selected = false, Text = m.Proje, Value = m.ID.ToString() }).OrderBy(m => m.Text).ToList();
+            var list = db.Database.SqlQuery<SelectListItem>(string.Format(@"SELECT        CONVERT(varchar(10), ong.ProjeForm.ID) as Value, ong.ProjeForm.Proje as Text
+                                                                            FROM            ong.ProjeForm INNER JOIN
+                                                                                                     ong.ProjeForm AS ProjeForm_1 ON ong.ProjeForm.ID = ProjeForm_1.PID
+                                                                            WHERE        (ong.ProjeForm.MusteriID = {0}) AND (ong.ProjeForm.PID IS NULL) AND (ong.ProjeForm.Aktif = 1)
+                                                                            GROUP BY ong.ProjeForm.ID, ong.ProjeForm.Proje
+                                                                            ORDER BY ong.ProjeForm.Proje", ID)).ToList();
             return Json(list, JsonRequestBehavior.AllowGet);
 
         }
@@ -212,7 +214,11 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         {
             var id = Url.RequestContext.RouteData.Values["id"];
             var ID = id.ToInt32();
-            var list = db.ProjeForms.Where(m => m.PID == ID && m.Aktif == true).Select(m => new SelectListItem { Selected = false, Text = m.Form, Value = m.ID.ToString() }).OrderBy(m => m.Text).ToList();
+            var list = db.Database.SqlQuery<SelectListItem>(string.Format(@"SELECT        CONVERT(varchar(10), ID) AS Value, Form AS Text
+                                                                            FROM            ong.ProjeForm
+                                                                            WHERE        (PID = {0}) AND (Aktif = 1)
+                                                                            GROUP BY ID, Form
+                                                                            ORDER BY Text", ID)).ToList();
             return Json(list, JsonRequestBehavior.AllowGet);
 
         }

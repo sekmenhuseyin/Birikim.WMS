@@ -90,8 +90,14 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         {
             if (CheckPerm(Perms.TodoGörevler, PermTypes.Writing) == false) return null;
             var tbl = db.Gorevlers.Find(id);
+            var list = db.Database.SqlQuery<SelectListItem>(string.Format(@"SELECT        CONVERT(varchar(10), ong.ProjeForm.ID) as Value, ong.ProjeForm.Proje as Text
+                                                                            FROM            ong.ProjeForm INNER JOIN
+                                                                                                     ong.ProjeForm AS ProjeForm_1 ON ong.ProjeForm.ID = ProjeForm_1.PID
+                                                                            WHERE        (ong.ProjeForm.MusteriID = {0}) AND (ong.ProjeForm.PID IS NULL) AND (ong.ProjeForm.Aktif = 1)
+                                                                            GROUP BY ong.ProjeForm.ID, ong.ProjeForm.Proje
+                                                                            ORDER BY ong.ProjeForm.Proje", tbl.ProjeForm.MusteriID)).ToList();
             ViewBag.MusteriID = new SelectList(db.Musteris.OrderBy(m => m.Unvan).ToList(), "ID", "Unvan", tbl.ProjeForm.MusteriID);
-            ViewBag.Proje = new SelectList(db.ProjeForms.Where(m => m.MusteriID == tbl.ProjeForm.MusteriID && m.PID == null).ToList(), "ID", "Proje", tbl.ProjeForm.PID);
+            ViewBag.Proje = new SelectList(list, "Value", "Text", tbl.ProjeForm.PID);
             ViewBag.ProjeFormID = new SelectList(db.ProjeForms.Where(m => m.PID == tbl.ProjeForm.PID).ToList(), "ID", "Form", tbl.ProjeForm.ID);
             ViewBag.GorevTipiID = new SelectList(ComboSub.GetList(Combos.GörevYönetimTipleri.ToInt32()), "ID", "Name", tbl.GorevTipiID);
             ViewBag.DepartmanID = new SelectList(ComboSub.GetList(Combos.Departman.ToInt32()), "ID", "Name", tbl.DepartmanID);
