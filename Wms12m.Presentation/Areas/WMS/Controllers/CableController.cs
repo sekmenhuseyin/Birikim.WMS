@@ -354,8 +354,14 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         public PartialViewResult GetSiparis(string DepoID)
         {
             if (DepoID == "0") return null;
-            var item = db.GetSirketDBs().FirstOrDefault();
-            string sql = string.Format("[FINSAT6{0}].[wms].[getSiparisList] @SirketKodu = N'{0}', @DepoKodu = N'{1}', @isKable = 1, @BasTarih = 0, @BitTarih = 0", item, DepoID);
+            //loop dbs
+            string sql = "";
+            var tmps = db.GetSirketDBs().ToList();
+            foreach (var item in tmps)
+            {
+                if (sql != "") sql += " union ";
+                sql += String.Format("SELECT * FROM FINSAT6{0}.wms.fnSiparisList('{0}', '{1}', 1, 0, 0)", item, DepoID);
+            }
             ViewBag.Depo = DepoID;
             try
             {
@@ -365,7 +371,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             catch (Exception ex)
             {
                 Logger(ex, "Cable/GetSiparis");
-                return null;
+                return PartialView("_Siparis", new List<frmSiparisler>());
             }
         }
         /// <summary>
