@@ -257,15 +257,6 @@ namespace Wms12m
             catch { return defaultValue; }
         }
         /// <summary>
-        /// <para>Gelen tarihi Int32 türüne dönüştürür.</para>
-        /// Hata olursa defaultValue parametresi döner.
-        /// </summary>
-        public static int ToOADateInt(this DateTime Deger, int defaultValue = 0)
-        {
-            try { return Convert.ToInt32(Deger.ToOADate()); }
-            catch { return defaultValue; }
-        }
-        /// <summary>
         /// Nicely formatted file size. This method will return file size with bytes, KB, MB and GB in it. You can use this alongside the Extension method named FileSize.
         /// </summary>
         public static string FormatFileSize(this long fileSize)
@@ -289,11 +280,20 @@ namespace Wms12m
 
             try
             {
-                System.IO.FileInfo oFileInfo = new System.IO.FileInfo(filePath);
+                FileInfo oFileInfo = new FileInfo(filePath);
                 bytes = oFileInfo.Length;
             }
             catch { }
             return bytes;
+        }
+        /// <summary>
+        /// <para>Gelen tarihi Int32 türüne dönüştürür.</para>
+        /// Hata olursa defaultValue parametresi döner.
+        /// </summary>
+        public static int ToOADateInt(this DateTime Deger, int defaultValue = 0)
+        {
+            try { return Convert.ToInt32(Deger.ToOADate()); }
+            catch { return defaultValue; }
         }
         /// <summary>
         /// <para>Gelen Int formatındaki tarihi normal formata dönüştürür.</para>

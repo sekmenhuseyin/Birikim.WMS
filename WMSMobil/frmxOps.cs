@@ -698,7 +698,7 @@ namespace WMSMobil
                 tMakaraNo.Font = font;
                 tMakaraNo.Width = lblMakarano.Width;
                 tMakaraNo.Location = new Point(lblMakarano.Left, 0);
-                tMakaraNo.ReadOnly = true;
+                tMakaraNo.ReadOnly = false;
                 tMakaraNo.GotFocus += new EventHandler(TextBoxlar_GotFocus);
 
                 TextBox tRaf = new TextBox();
