@@ -439,7 +439,7 @@ if (tst.CrmOzet == true)
             PartialView('/Home/GorevProjeAnalizi', 'gorev_proje_analizi', JSON.stringify({ musteri: 0, proje: 0}));
             PartialView('/Home/GorevAylikCalisma', 'gorev_aylik_calisma', JSON.stringify({ user: '', tarih: dateVal.getMonth(), tip: '' }));
             PartialView('/Home/GorevCalismaListesi', 'gorev_calisma_analizi', JSON.stringify({ tarihStart: oaDate - 7, tarihEnd: oaDate }));
-            PartialView('/Home/GorevGit', 'gorev_git', JSON.stringify({ tarih: oaDate - 1 }));
+            PartialView('/Home/GorevGit', 'gorev_git', JSON.stringify({ tarih: oaDate - @if (DateTime.Today.DayOfWeek == DayOfWeek.Monday) { @("3") }else if (DateTime.Today.DayOfWeek == DayOfWeek.Sunday) { @("2") } else { @("1") } }));
         </text> }
         else
         {
