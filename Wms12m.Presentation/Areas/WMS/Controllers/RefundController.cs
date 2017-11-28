@@ -18,7 +18,6 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             if (CheckPerm(Perms.AlimdanIade, PermTypes.Reading) == false) return Redirect("/");
             ViewBag.SirketID = new SelectList(db.GetSirkets().ToList(), "Kod", "Ad");
             ViewBag.DepoID = new SelectList(Store.GetList(vUser.DepoId), "DepoKodu", "DepoAd");
-            //ViewBag.DepoID = new SelectList(Store.GetList(vUser.DepoId), "ID", "DepoAd");
             return View("Index");
         }
         /// <summary>
