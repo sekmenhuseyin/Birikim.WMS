@@ -213,7 +213,7 @@ namespace Wms12m.Business
         public List<Gorev> GetList(int DurumID, int? DepoID)
         {
             if (DepoID != null)
-                return db.Gorevs.Where(m => m.DurumID == DurumID && m.DepoID == DepoID).OrderByDescending(m => m.ID).ToList();
+                return db.Gorevs.Where(m => m.DurumID == DurumID && (m.DepoID == DepoID || m.GorevTipiID == (int)ComboItems.Satıştanİade)).OrderByDescending(m => m.ID).ToList();
             else
                 return db.Gorevs.Where(m => m.DurumID == DurumID).OrderByDescending(m => m.ID).ToList();
         }
