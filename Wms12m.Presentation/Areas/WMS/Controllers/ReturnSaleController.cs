@@ -91,7 +91,12 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                 return RedirectToAction("Index");
             //variables and consts
             int today = fn.ToOADate(), time = fn.ToOATime();
-            int idDepo = db.Depoes.Where(m => m.DepoKodu == tbl.DepoID).Select(m => m.ID).FirstOrDefault();
+            int idDepo;
+            if (vUser.DepoId != null)//tek bir depoya yetkisi varsa
+                idDepo = vUser.DepoId.Value;
+            else//tüm depolara yetkisi varsa siparişin deposuna gönder
+                idDepo = db.Depoes.Where(m => m.DepoKodu == tbl.DepoID).Select(m => m.ID).FirstOrDefault();
+            //yeni görev
             string GorevNo = db.SettingsGorevNo(today, idDepo).FirstOrDefault();
             InsertIadeIrsaliye_Result cevap = new InsertIadeIrsaliye_Result();
             Result _Result;
