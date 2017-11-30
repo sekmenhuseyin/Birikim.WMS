@@ -1305,7 +1305,6 @@ namespace Wms12m
             }
             else//dış transfer
             {
-                string gorevNo = db.SettingsGorevNo(tarih, mGorev.DepoID).FirstOrDefault();
                 if (kull.UserDetail.TransferOutSeri == null)
                     return new Result(false, "Bu kullanıcıya ait seri nolar hatalı ! Lütfen terminal yetkilerinden seriyi değiştirin yada Güneşten seçili seri için bir değer verin.");
                 if (kull.UserDetail.TransferOutSeri.Value < 1 || kull.UserDetail.TransferOutSeri.Value > 199)
@@ -1372,7 +1371,8 @@ namespace Wms12m
                     //görev user tablosu
                     var tbl = db.GorevUsers.Where(m => m.GorevID == GorevID && m.UserName == tblx.Kod).FirstOrDefault();
                     tbl.BitisTarihi = DateTime.Today.ToOADateInt();
-                    //add new irsaliye for giriş
+                    //add new irsaliye and görev for giriş
+                    string gorevNo = db.SettingsGorevNo(tarih, transfer.GirisDepoID).FirstOrDefault();
                     var cevap = db.InsertIrsaliye(transfer.SirketKod, transfer.GirisDepoID, gorevNo, gorevNo, tarih, "Giriş: " + girisDepo + ", Çıkış: " + cikisDepo, false, ComboItems.TransferGiriş.ToInt32(), kull.Kod, tarih, saat, mGorev.IR.HesapKodu, "", 0, "", "").FirstOrDefault();
                     var grvtbl = db.Gorevs.Where(m => m.ID == cevap.GorevID).FirstOrDefault();
                     grvtbl.DurumID = ComboItems.Açık.ToInt32();

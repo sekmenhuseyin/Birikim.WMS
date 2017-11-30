@@ -446,7 +446,7 @@ namespace Wms12m.Presentation.Controllers
         public JsonResult ParametreUpdate(string CHKAraligi, string Sirketler, string Tipler, string Kod3, string Risk, int ID)
         {
             if (CheckPerm(Perms.Kullanıcılar, PermTypes.Writing) == false || ID == 1) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
-            Result _Result = new Result(true);
+            Result _Result = new Result(true, 1);
             var tbl = db.UserDetails.Where(m => m.UserID == ID).FirstOrDefault();
             if (tbl != null)
                 db.Database.ExecuteSqlCommand(string.Format("[BIRIKIM].[wms].[TumpaSiparisParametreOnayla] @CHKAraligi = '{0}',@Sirketler = '{1}', @Tipler='{2}',@Kod3 = '{3}', @Risk='{4}', @UserID={5}", CHKAraligi, Sirketler, Tipler, Kod3, Risk, ID));
@@ -465,7 +465,6 @@ namespace Wms12m.Presentation.Controllers
             try
             {
                 db.SaveChanges();
-                _Result.Status = true;
                 _Result.Message = "İşlem Başarılı ";
 
             }
