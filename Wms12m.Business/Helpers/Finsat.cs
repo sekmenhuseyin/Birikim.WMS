@@ -399,7 +399,7 @@ namespace Wms12m
             DevHelper.Ayarlar.SetConStr(ConStr);
             DevHelper.Ayarlar.SirketKodu = SirketKodu;
             Genel_Islemler GI = new Genel_Islemler(SirketKodu);
-            string evrakNo = GI.EvrakNo_Getir(7199 + Evrakserino);
+            string evrakNo = GI.EvrakNo_Getir(2399 + Evrakserino);
             //add to list
             List<DepTran> DepTranList = new List<DepTran>();
             foreach (var item in tblTransfer.Transfer_Detay)
@@ -422,7 +422,7 @@ namespace Wms12m
             }
             //save 2 db
             Stok_Islemleri StokIslem = new Stok_Islemleri(tblTransfer.SirketKod);
-            OnikimCore.GunesCore.IslemSonuc Sonuc = StokIslem.DepoTransfer_Kayit(7199 + Evrakserino, DepTranList);
+            OnikimCore.GunesCore.IslemSonuc Sonuc = StokIslem.DepoTransfer_Kayit(2399 + Evrakserino, DepTranList);
             //return
             var _Result = new Result()
             {
