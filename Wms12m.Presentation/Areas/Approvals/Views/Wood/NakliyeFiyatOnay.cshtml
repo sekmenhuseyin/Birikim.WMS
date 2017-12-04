@@ -1,15 +1,7 @@
 ﻿@{
     ViewBag.Title = "Nakliye Fiyat Onayı";
     Layout = "~/Views/Shared/_Layout.cshtml";
-}
-@section Styles{
-    <style>
-        .btn {
-            width: 120px;
-            text-align: center;
-        }
-    </style>
-}
+}@section Styles{<style>.btn {width: 120px;text-align: center;}</style>}
 <div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><span>Onaylama</span><i class="fa fa-circle"></i></li><li><span>Odun</span></li></ul></div>
 <h1 class="page-title">Nakliye Fiyat Onayı</h1>
 <div class="form-horizontal">
@@ -28,9 +20,7 @@
             <div class="portlet-body">
                 <div class="row">
                     <div class="col-xs-12">
-
-                        <div id="liste">
-                        </div>
+                        <div id="liste"></div>
                     </div>
                 </div>
 
@@ -38,94 +28,72 @@
         </div>
     </div>
 </div>
-@section Scripts{
-    <script>
+@section Scripts{<script>
+    $(document).ready(function () {
         PartialView("/Approvals/Wood/NakliyeFiyat_List", 'liste');
-        function FuncSearchBtn() {
-            var Type = $("input[type='checkbox'][name='Locked']:checked").val();
-            PartialView("/Approvals/Wood/NakliyeFiyat_List", 'liste', JSON.stringify({ Durum: Type }));
-        }
+    });
+    function FuncSearchBtn() {
+        var Type = $("input[type='checkbox'][name='Locked']:checked").val();
+        PartialView("/Approvals/Wood/NakliyeFiyat_List", 'liste', JSON.stringify({ Durum: Type }));
+    }
+    $('.onay-buton').click(function () {
+            var x = table.rows('.selected').data();
+            for (var i = 0; i < x.length; i++) {
+                secili_table.push(x[i]);
+            }
+            if (secili_table.length == 0) {
+                Modaldialog("Satır Seçiniz", "Onay", "Tamam", "Onay");
+                return;
+            }
+            var _dfd = $.Deferred();
+            $.ajax({
+                url: window.location.origin + "/Approvals/Wood/NakliyeFiyatOnayla",
+                data: { Data: JSON.stringify(secili_table) },
+                type: "post",
 
-        $(document).ready(function () {
-
-
-
-
-        });
-        $('.onay-buton').click(function () {
-
-                var x = table.rows('.selected').data();
-                for (var i = 0; i < x.length; i++) {
-                    secili_table.push(x[i]);
-                }
-                if (secili_table.length == 0) {
-                    Modaldialog("Satır Seçiniz", "Onay", "Tamam", "Onay");
-                    return;
-                }
-                var _dfd = $.Deferred();
-                $.ajax({
-                    url: window.location.origin + "/Approvals/Wood/NakliyeFiyatOnayla",
-                    data: { Data: JSON.stringify(secili_table) },
-                    type: "post",
-
-                    success: function (data) {
-                        if (data.Status == true) {
-                            Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "Guncel");
-                           setTimeout(function () { window.location.reload(); }, 500);
-                        }
-                        else {
-                            if (data.Message == "") data.Message = "Hata oluştu";
-                            Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
-                           setTimeout(function () { window.location.reload(); }, 500);
-                        }
+                success: function (data) {
+                    if (data.Status == true) {
+                        Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "Guncel");
+                        setTimeout(function () { window.location.reload(); }, 500);
                     }
-                });
-
-                return _dfd.promise();
-
-
-
-
-
-        });
-
-        $('.reddet-buton').click(function () {
-
-                var x = table.rows('.selected').data();
-                for (var i = 0; i < x.length; i++) {
-                    secili_table.push(x[i]);
-                }
-                if (secili_table.length == 0) {
-                    Modaldialog("Satır Seçiniz", "Onay", "Tamam", "Onay");
-                    return;
-                }
-                var _dfd = $.Deferred();
-                $.ajax({
-                    url: window.location.origin + "/Approvals/Wood/NakliyeFiyatRed",
-                    data: { Data: JSON.stringify(secili_table) },
-                    type: "post",
-                    success: function (data) {
-                        if (data.Status == true) {
-                            Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "Guncel");
-                           setTimeout(function () { window.location.reload(); }, 500);
-                        }
-                        else {
-                            if (data.Message == "") data.Message = "Hata oluştu";
-                            Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
-                           setTimeout(function () { window.location.reload(); }, 500);
-                        }
+                    else {
+                        if (data.Message == "") data.Message = "Hata oluştu";
+                        Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
+                        setTimeout(function () { window.location.reload(); }, 500);
                     }
-                });
-                return _dfd.promise();
-
-
-
-
-
-        });
-
-        $('.yenile-buton').click(function () {
-           setTimeout(function () { window.location.reload(); }, 500);
-        });
-    </script>
-}
+                }
+            });
+            return _dfd.promise();
+    });
+    $('.reddet-buton').click(function () {
+            var x = table.rows('.selected').data();
+            for (var i = 0; i < x.length; i++) {
+                secili_table.push(x[i]);
+            }
+            if (secili_table.length == 0) {
+                Modaldialog("Satır Seçiniz", "Onay", "Tamam", "Onay");
+                return;
+            }
+            var _dfd = $.Deferred();
+            $.ajax({
+                url: window.location.origin + "/Approvals/Wood/NakliyeFiyatRed",
+                data: { Data: JSON.stringify(secili_table) },
+                type: "post",
+                success: function (data) {
+                    if (data.Status == true) {
+                        Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "Guncel");
+                        setTimeout(function () { window.location.reload(); }, 500);
+                    }
+                    else {
+                        if (data.Message == "") data.Message = "Hata oluştu";
+                        Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
+                        setTimeout(function () { window.location.reload(); }, 500);
+                    }
+                }
+            });
+            return _dfd.promise();
+    });
+    $('.yenile-buton').click(function () {
+        setTimeout(function () { window.location.reload(); }, 500);
+    });
+</script>}
