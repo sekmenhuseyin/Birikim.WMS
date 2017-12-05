@@ -15,7 +15,7 @@ namespace Wms12m.Security
         public string RoleName { get; set; }
 
         [DataMember]
-        public string FirstName { get; set; }
+        public string FullName { get; set; }
 
         [DataMember]
         public string UserName { get; set; }
@@ -32,5 +32,4 @@ namespace Wms12m.Security
         [DataMember]
         public int? DepoId { get; set; }
     }
-
 }

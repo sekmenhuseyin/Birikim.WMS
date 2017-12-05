@@ -76,7 +76,7 @@ namespace Wms12m
                 {
                     UserName = person.Kod,
                     RoleName = person.RoleName,
-                    FirstName = person.AdSoyad,
+                    FullName = person.AdSoyad,
                     Guid = person.Guid.ToString(),
                     Id = person.ID
                 },

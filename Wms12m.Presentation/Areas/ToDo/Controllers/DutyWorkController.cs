@@ -385,7 +385,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                         Kimden = vUser.UserName,
                         Kime = tbl.Gorevler.Sorumlu,
                         Tarih = DateTime.Now,
-                        Mesaj = vUser.FirstName + " onay listenizdeki bir maddeyi reddetti: " + tbl.Aciklama,
+                        Mesaj = vUser.FullName + " onay listenizdeki bir maddeyi reddetti: " + tbl.Aciklama,
                         URL = "/ToDo/DutyWork/Todos"
                     };
                     db.Messages.Add(mesaj);
@@ -397,7 +397,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                             Kimden = vUser.UserName,
                             Kime = tbl.Gorevler.Sorumlu2,
                             Tarih = DateTime.Now,
-                            Mesaj = vUser.FirstName + " onay listenizdeki bir maddeyi reddetti: " + tbl.Aciklama,
+                            Mesaj = vUser.FullName + " onay listenizdeki bir maddeyi reddetti: " + tbl.Aciklama,
                             URL = "/ToDo/DutyWork/Todos"
                         };
                         db.Messages.Add(mesaj2);
@@ -410,7 +410,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                             Kimden = vUser.UserName,
                             Kime = tbl.Gorevler.Sorumlu3,
                             Tarih = DateTime.Now,
-                            Mesaj = vUser.FirstName + " onay listenizdeki bir maddeyi reddetti: " + tbl.Aciklama,
+                            Mesaj = vUser.FullName + " onay listenizdeki bir maddeyi reddetti: " + tbl.Aciklama,
                             URL = "/ToDo/DutyWork/Todos"
                         };
                         db.Messages.Add(mesaj3);

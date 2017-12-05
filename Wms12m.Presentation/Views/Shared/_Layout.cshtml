@@ -50,7 +50,7 @@
                         <li class="dropdown dropdown-user">
                             <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
                                 <img alt="" class="img-circle" src="@Html.ImageOrDefault(id.ToString())">
-                                <span class="username username-hide-on-mobile">@ViewBag.vUser.FirstName</span>
+                                <span class="username username-hide-on-mobile">@ViewBag.vUser.FullName</span>
                                 <i class="icon-arrow-down"></i>
                             </a>
                             <ul class="dropdown-menu dropdown-menu-default">
@@ -149,7 +149,7 @@
         <div class="portfolio-modal modal fade" id="modalEditPage" tabindex="-1" role="dialog" aria-hidden="true"></div>
         <div id="send-realtime-notifications"></div>
     </div>
-<script>var currentUserName = "@ViewBag.vUser.UserName"; var currentRealName = "@ViewBag.vUser.FirstName"; var currentUserImage = "@Html.ImageAddressOrDefault(id)"; var SendMessageTo = "x";</script>
+<script>var currentUserName = "@ViewBag.vUser.UserName"; var currentRealName = "@ViewBag.vUser.FullName"; var currentUserImage = "@Html.ImageAddressOrDefault(id)"; var SendMessageTo = "x";</script>
 @Scripts.Render(BundleConfig.jquery)@Scripts.Render(BundleConfig.jqueryUiJs)@Scripts.Render(BundleConfig.bootstrapJs)@Scripts.Render(BundleConfig.signalR)@Scripts.Render(BundleConfig.toastrJs)@Scripts.Render(BundleConfig.moment)@Scripts.Render(BundleConfig.numeral)@Scripts.Render(BundleConfig.bootbox)@Scripts.Render(BundleConfig.slimscroll)@Scripts.Render(BundleConfig.blockui)@Scripts.Render(BundleConfig.JsBundle)@Scripts.Render(BundleConfig.DtBundle)<script src="/signalr/hubs"></script>@Scripts.Render(BundleConfig.StBundle)
 <script src="~/Content/assets/global/plugins/datatables/extensions/Buttons/js/buttons.html5.js"></script>
 <script src="~/Content/assets/global/plugins/datatables/extensions/Buttons/js/buttons.flash.js"></script>@{if (ViewBag.Debug == false && ViewBag.vUser.Id > 1) {

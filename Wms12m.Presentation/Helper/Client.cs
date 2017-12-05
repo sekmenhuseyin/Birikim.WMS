@@ -28,7 +28,7 @@ namespace Wms12m
                 {
                     Id = 0,
                     UserName = "Anonymous",
-                    FirstName = "Anonymous",
+                    FullName = "Anonymous",
                     Guid = "0"
                 },
                 Action = new ActionIdentity()
