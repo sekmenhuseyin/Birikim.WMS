@@ -116,17 +116,22 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public PartialViewResult Notifications(bool Onay = false)
         {
-            var trh = DateTime.Now.AddDays(-30);
-            var tablo = db.Messages.Where(m => m.MesajTipi == 85 && m.Kime == vUser.UserName && (m.Okundu == false || m.Tarih > trh)).OrderByDescending(m => m.Tarih).ToList();
+            //sadece onaylama ise kaydet yeter
             if (Onay == true)
             {
+                var tablo = db.Messages.Where(m => m.MesajTipi == 85 && m.Kime == vUser.UserName && m.Okundu == false).ToList();
                 foreach (var item in tablo.Where(m => m.Okundu == false))
                 {
                     item.Okundu = true;
                 }
                 db.SaveChanges();
+                return null;
             }
-            return PartialView("../Shared/Notifications", tablo);
+            else//yeni mesaj geldiğinde signalR burayı çağırıyor
+            {
+                var tablo = db.Messages.Where(m => m.MesajTipi == 85 && m.Kime == vUser.UserName && (m.Okundu == false || m.Tarih > DateTime.Now.AddDays(-30))).OrderByDescending(m => m.Tarih).ToList();
+                return PartialView("../Shared/Notifications", tablo);
+            }
         }
         /// <summary>
         /// redirect from notification
@@ -140,7 +145,10 @@ namespace Wms12m.Presentation.Controllers
                 satir.Okundu = true;
                 db.SaveChanges();
             }
-            return Redirect(satir.URL);
+            if (satir.URL != null)
+                return Redirect(satir.URL);
+            else
+                return RedirectToAction("Index");
         }
         #region Satış Raporları
         public PartialViewResult PartialGunlukSatisZamanCizelgesi(string SirketKodu)
