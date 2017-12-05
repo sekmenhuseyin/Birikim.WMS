@@ -108,7 +108,7 @@ namespace Wms12m.Presentation.Areas.UYS.Controllers
                     AraDepo = "TD",
                     GirisDepo = tbl.GirisDepo,
                     Kaydeden = vUser.UserName,
-                    Kaydeden2 = vUser.FirstName,
+                    Kaydeden2 = vUser.FullName,
                     MalKodu = tbl.MalKodu[i],
                     SeriNo = tbl.SeriNo[i],
                     Birim = tbl.Birim[i],
@@ -121,7 +121,7 @@ namespace Wms12m.Presentation.Areas.UYS.Controllers
             emir.EmirNo = EmirVeEvrak.EmirNo;
             emir.BasTarih = tarih;
             emir.BasSaat = saat;
-            emir.Talimat2 = vUser.FirstName;
+            emir.Talimat2 = vUser.FullName;
             emir.Kod2 = tbl.CikisDepo;
             emir.Kod3 = tbl.GirisDepo;
             emir.StiNo = EmirVeEvrak.EvrakNo;
@@ -219,14 +219,14 @@ namespace Wms12m.Presentation.Areas.UYS.Controllers
 									FROM            UYSPLN6{0}.UYSPLN6{0}.EMG INNER JOIN
 																FINSAT6{0}.FINSAT6{0}.STI ON UYSPLN6{0}.UYSPLN6{0}.EMG.StiNo = FINSAT6{0}.FINSAT6{0}.STI.EvrakNo
 									WHERE        (UYSPLN6{0}.UYSPLN6{0}.EMG.EmirNo = '{1}') AND (FINSAT6{0}.FINSAT6{0}.STI.IslemTur = 1) AND (FINSAT6{0}.FINSAT6{0}.STI.KynkEvrakTip = 53) AND (FINSAT6{0}.FINSAT6{0}.STI.IslemTip = 6)
-							", sirket, ID, EmirVeEvrak.EvrakNo, vUser.UserName, vUser.FirstName, tarih)).ToList();
+							", sirket, ID, EmirVeEvrak.EvrakNo, vUser.UserName, vUser.FullName, tarih)).ToList();
             //send to db
             var sonuc = uysf.DepoTransfer(liste, null, true);
             if (sonuc.Status == true)
             {
                 db.Database.ExecuteSqlCommand(string.Format(@"UPDATE UYSPLN6{0}.UYSPLN6{0}.EMG 
                         SET BitTarih = {2}, BitSaat = {3}, Talimat3 = '{4}', TrsfrNo = '{5}', Degistiren= '{6}', DegisTarih = {2}, DegisSaat = {3}, CurDurum = 1, RecID = -1, Birim = -1, CurDurSb = -1, SonDurSb = -1, PlOnay = -1, YMUret = -1, YMMly = -1, YMEndMly = -1, YMDepo = -1, YMHmdCik = -1, Teklif = -1, KayitTuru = -1
-                        WHERE EmirNo = '{1}'", sirket, ID, tarih, saat, vUser.FirstName, EmirVeEvrak.EvrakNo, vUser.UserName));
+                        WHERE EmirNo = '{1}'", sirket, ID, tarih, saat, vUser.FullName, EmirVeEvrak.EvrakNo, vUser.UserName));
             }
             return Json(sonuc, JsonRequestBehavior.AllowGet);
         }
