@@ -86,6 +86,16 @@
     /// <summary>
     /// uys kayıt
     /// </summary>
+    public class frmUysTransferDetay
+    {
+        public string MalKodu { get; set; }
+        public string Birim { get; set; }
+        public string SeriNo { get; set; }
+        public decimal Miktar { get; set; }
+    }
+    /// <summary>
+    /// uys kayıt
+    /// </summary>
     public class frmUysWaitingTransfer
     {
         public string CikisDepo { get; set; }

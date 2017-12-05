@@ -81,6 +81,32 @@ namespace Wms12m.Presentation.Areas.UYS.Controllers
         [HttpPost, ValidateAntiForgeryToken]
         public JsonResult Save(frmUysTransfer tbl)
         {
+            //kontrol
+            if (tbl.GirisDepo == tbl.CikisDepo)
+            {
+                return Json(new Result(false, "Çıkış depo ile giriş depo aynı olamaz"), JsonRequestBehavior.AllowGet);
+            }
+            var listKontrol = new List<frmUysTransferDetay>();
+            var varmi = false;
+            for (int i = 0; i < tbl.MalKodu.Length; i++)
+            {
+                if (tbl.Miktar[i] <= 0)
+                {
+                    return Json(new Result(false, "'" + tbl.SeriNo[i] + "' serili '" + tbl.MalKodu[i] + "' ürün için yanlış miktar yazılmış"), JsonRequestBehavior.AllowGet);
+                }
+                foreach (var item in listKontrol)
+                {
+                    if (item.MalKodu == tbl.MalKodu[i] && item.SeriNo == tbl.SeriNo[i])
+                    {
+                        item.Miktar += tbl.Miktar[i];
+                    }
+                }
+                if (varmi == false)
+                {
+                    listKontrol.Add(new frmUysTransferDetay() { MalKodu = tbl.MalKodu[i], Birim = tbl.Birim[i], SeriNo = tbl.SeriNo[i], Miktar = tbl.Miktar[i] });
+                }
+            }
+            //variables
             var uysf = new UYSF(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
             int tarih = fn.ToOADate();
             int saat = fn.ToOATime();
