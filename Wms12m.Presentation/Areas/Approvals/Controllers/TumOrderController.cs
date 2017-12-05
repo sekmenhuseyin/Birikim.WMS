@@ -97,7 +97,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                     }
 
                     var Grup = vUser.RoleName;
-
+                    //TODO: şirket ayrımı
                     if (Sirketler.Contains("Tüm;"))
                     {
                         if (Sirketler.Contains("Tümpa;"))
@@ -137,6 +137,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                 var tbl = db.UserDetails.Where(m => m.UserID == vUser.Id).FirstOrDefault();
                 foreach (JObject insertObj in parameters)
                 {
+                    //TODO: şirket ayrımı
                     if (insertObj["Firma"].ToString() == "Tümpa")
                     {
                         db.Database.ExecuteSqlCommand(string.Format("[FINSAT6{0}].[wms].[TumpaSiparisOnayla] @OncekiDurum = '{1}',@Kullanici = '{2}', @EvrakNo='{3}'", "71", insertObj["OnayDurumu"].ToString(), vUser.UserName, insertObj["EvrakNo"].ToString()));
@@ -217,6 +218,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                 {
                     foreach (JObject insertObj in parameters)
                     {
+                        //TODO: şirket ayrımı
                         if (insertObj["Firma"].ToString() == "Tümpa")
                         {
                             db.Database.ExecuteSqlCommand(string.Format("[FINSAT6{0}].[wms].[TumpaSiparisReddet] @OncekiDurum = '{1}',@Kullanici = '{2}', @EvrakNo='{3}'", "71", insertObj["OnayDurumu"].ToString(), vUser.UserName, insertObj["EvrakNo"].ToString()));

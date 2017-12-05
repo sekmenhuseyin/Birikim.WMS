@@ -469,6 +469,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
 
             foreach (var item in listsirk)
             {
+                //TODO: şirket ayrımı
                 if (item == "33")
                     Sart = " (MalKodu BETWEEN 'a' AND 'zzzzzz') AND ";
                 else if (item == "71")

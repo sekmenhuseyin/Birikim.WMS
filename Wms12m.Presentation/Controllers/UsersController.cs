@@ -436,6 +436,7 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public string TipKodSelect()
         {
+            //TODO: şirket ayrımı
             var KOD = db.Database.SqlQuery<RaporGetKod>(string.Format("[FINSAT6{0}].[wms].[DB_GetTipKod]", "71")).ToList();
             var json = new JavaScriptSerializer().Serialize(KOD);
             return json;
@@ -448,6 +449,7 @@ namespace Wms12m.Presentation.Controllers
             if (CheckPerm(Perms.Kullanıcılar, PermTypes.Writing) == false || ID == 1) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             Result _Result = new Result(true, 1);
             var tbl = db.UserDetails.Where(m => m.UserID == ID).FirstOrDefault();
+            //TODO: şirket ayrımı
             if (tbl != null)
                 db.Database.ExecuteSqlCommand(string.Format("[BIRIKIM].[wms].[TumpaSiparisParametreOnayla] @CHKAraligi = '{0}',@Sirketler = '{1}', @Tipler='{2}',@Kod3 = '{3}', @Risk='{4}', @UserID={5}", CHKAraligi, Sirketler, Tipler, Kod3, Risk, ID));
             else
