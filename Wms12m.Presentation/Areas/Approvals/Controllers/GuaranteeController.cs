@@ -20,7 +20,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         public string List()
         {
             if (CheckPerm(Perms.TeminatOnay, PermTypes.Reading) == false) return null;
-            var RT = db.Database.SqlQuery<TeminatOnaySelect>(string.Format("[FINSAT6{0}].[wms].[TeminatOnayList]", "17")).ToList();
+            var RT = db.Database.SqlQuery<TeminatOnaySelect>(string.Format("[FINSAT6{0}].[wms].[TeminatOnayList]", vUser.SirketKodu)).ToList();
             var json = new JavaScriptSerializer().Serialize(RT);
             return json;
         }
@@ -30,7 +30,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             Result _Result = new Result(true);
             if (CheckPerm(Perms.TeminatOnay, PermTypes.Writing) == false) return null;
             JArray parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
-            SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "17");
+            SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
 
             try
             {
@@ -40,7 +40,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                     DateTime date = DateTime.Now;
                     var shortDate = date.ToString("yyyy-MM-dd");
                     var sonuc = sqlexper.AcceptChanges();
-                    db.Database.ExecuteSqlCommand(string.Format("[FINSAT6{0}].[wms].[TeminatOnayUpdate] @ID = {1}, @Kullanici = '{2}'", "17", insertObj["ID"].ToString(), vUser.UserName));
+                    db.Database.ExecuteSqlCommand(string.Format("[FINSAT6{0}].[wms].[TeminatOnayUpdate] @ID = {1}, @Kullanici = '{2}'", vUser.SirketKodu, insertObj["ID"].ToString(), vUser.UserName));
 
                 }
                 _Result.Status = true;
@@ -61,7 +61,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             Result _Result = new Result(true);
             if (CheckPerm(Perms.TeminatOnay, PermTypes.Writing) == false) return null;
             JArray parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
-            SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "17");
+            SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
 
             try
             {
@@ -71,7 +71,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                     DateTime date = DateTime.Now;
                     var shortDate = date.ToString("yyyy-MM-dd");
                     var sonuc = sqlexper.AcceptChanges();
-                    db.Database.ExecuteSqlCommand(string.Format("DELETE FROM [FINSAT6{0}].[FINSAT6{0}].[Teminat] WHERE  ID = {1}", "17", insertObj["ID"].ToString()));
+                    db.Database.ExecuteSqlCommand(string.Format("DELETE FROM [FINSAT6{0}].[FINSAT6{0}].[Teminat] WHERE  ID = {1}", vUser.SirketKodu, insertObj["ID"].ToString()));
                 }
                 _Result.Status = true;
                 _Result.Message = "İşlem Başarılı ";
@@ -89,19 +89,19 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         public ActionResult Tanim()
         {
             if (CheckPerm(Perms.TeminatTanim, PermTypes.Reading) == false) return Redirect("/");
-            var CHK = db.Database.SqlQuery<RaporCHKSelect>(string.Format("[FINSAT6{0}].[wms].[CHKSelect1]", "17")).ToList();
+            var CHK = db.Database.SqlQuery<RaporCHKSelect>(string.Format("[FINSAT6{0}].[wms].[CHKSelect1]", vUser.SirketKodu)).ToList();
             return View(CHK);
         }
         public string Durbun()
         {
-            var DRBN = db.Database.SqlQuery<RaporCHKSelect>(string.Format("[FINSAT6{0}].[wms].[TeminatDurbunSelect]", "17")).ToList();
+            var DRBN = db.Database.SqlQuery<RaporCHKSelect>(string.Format("[FINSAT6{0}].[wms].[TeminatDurbunSelect]", vUser.SirketKodu)).ToList();
             var json = new JavaScriptSerializer().Serialize(DRBN);
             return json;
         }
 
         public string Bekleyen()
         {
-            var BKLYN = db.Database.SqlQuery<Teminat>(string.Format("[FINSAT6{0}].[wms].[TeminatOnayList]", "17")).ToList();
+            var BKLYN = db.Database.SqlQuery<Teminat>(string.Format("[FINSAT6{0}].[wms].[TeminatOnayList]", vUser.SirketKodu)).ToList();
             var json = new JavaScriptSerializer().Serialize(BKLYN);
             return json;
         }
@@ -116,7 +116,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
         public string Select(string chk)
         {
-            var TMNT = db.Database.SqlQuery<Teminat>(string.Format("[FINSAT6{0}].[wms].[TeminatOnaySelect] @HesapKodu='{1}'", "17", chk)).ToList();
+            var TMNT = db.Database.SqlQuery<Teminat>(string.Format("[FINSAT6{0}].[wms].[TeminatOnaySelect] @HesapKodu='{1}'", vUser.SirketKodu, chk)).ToList();
             var json = new JavaScriptSerializer().Serialize(TMNT);
             return json;
         }
@@ -124,7 +124,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         public string Sil(int ID)
         {
             if (CheckPerm(Perms.TeminatTanim, PermTypes.Deleting) == false) return null;
-            var sonuc = db.Database.SqlQuery<int>(string.Format("[FINSAT6{0}].[wms].[TeminatSil] @ID={1}", "17", ID)).FirstOrDefault();
+            var sonuc = db.Database.SqlQuery<int>(string.Format("[FINSAT6{0}].[wms].[TeminatSil] @ID={1}", vUser.SirketKodu, ID)).FirstOrDefault();
             if (sonuc == 1)
             {
                 return "OK";
@@ -140,7 +140,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         {
             if (CheckPerm(Perms.TeminatTanim, PermTypes.Writing) == false) return null;
             JObject parameters = JsonConvert.DeserializeObject<JObject>(Request["Data"]);
-            SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "17");
+            SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
             try
             {
                 Teminat tmnt = new Teminat()

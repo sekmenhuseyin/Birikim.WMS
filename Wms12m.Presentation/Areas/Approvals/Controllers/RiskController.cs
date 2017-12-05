@@ -24,7 +24,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         public string OnayCekSM()
         {
             if (CheckPerm(Perms.RiskOnaylamaSM, PermTypes.Reading) == false) return null;
-            var RT = db.Database.SqlQuery<RiskTanim>(string.Format("SELECT *   FROM [FINSAT6{0}].[FINSAT6{0}].[RiskTanim]   where OnayTip = 0 and SMOnay = 0 and Durum = 0", "17")).ToList();
+            var RT = db.Database.SqlQuery<RiskTanim>(string.Format("SELECT *   FROM [FINSAT6{0}].[FINSAT6{0}].[RiskTanim]   where OnayTip = 0 and SMOnay = 0 and Durum = 0", vUser.SirketKodu)).ToList();
             var json = new JavaScriptSerializer().Serialize(RT);
             return json;
         }
@@ -33,7 +33,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             Result _Result = new Result(true);
             if (CheckPerm(Perms.RiskOnaylamaSM, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             JArray parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
-            SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "17");
+            SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
 
             try
             {
@@ -43,7 +43,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                     DateTime date = DateTime.Now;
                     var shortDate = date.ToString("yyyy-MM-dd HH:mm:ss");
                     var sonuc = sqlexper.AcceptChanges();
-                    db.Database.ExecuteSqlCommand(string.Format("DELETE FROM [FINSAT6{0}].[FINSAT6{0}].[RiskTanim] where ID = '{1}'", "17", insertObj["ID"].ToString()));
+                    db.Database.ExecuteSqlCommand(string.Format("DELETE FROM [FINSAT6{0}].[FINSAT6{0}].[RiskTanim] where ID = '{1}'", vUser.SirketKodu, insertObj["ID"].ToString()));
 
                 }
 
@@ -75,7 +75,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         public string OnayCekGM()
         {
             if (CheckPerm(Perms.RiskOnaylamaGM, PermTypes.Reading) == false) return null;
-            var RT = db.Database.SqlQuery<RiskTanim>(string.Format("SELECT *   FROM [FINSAT6{0}].[FINSAT6{0}].[RiskTanim]  where (OnayTip = 3 and SPGMYOnay = 1 and MIGMYOnay = 1 and GMOnay=0) or (OnayTip = 4 and GMOnay = 0 ) and Durum =0", "17")).ToList();
+            var RT = db.Database.SqlQuery<RiskTanim>(string.Format("SELECT *   FROM [FINSAT6{0}].[FINSAT6{0}].[RiskTanim]  where (OnayTip = 3 and SPGMYOnay = 1 and MIGMYOnay = 1 and GMOnay=0) or (OnayTip = 4 and GMOnay = 0 ) and Durum =0", vUser.SirketKodu)).ToList();
             var json = new JavaScriptSerializer().Serialize(RT);
             return json;
         }
@@ -84,7 +84,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             Result _Result = new Result(true);
             if (CheckPerm(Perms.RiskOnaylamaGM, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             JArray parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
-            SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "17");
+            SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
 
             try
             {
@@ -94,7 +94,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                     DateTime date = DateTime.Now;
                     var shortDate = date.ToString("yyyy-MM-dd HH:mm:ss");
                     var sonuc = sqlexper.AcceptChanges();
-                    db.Database.ExecuteSqlCommand(string.Format("DELETE FROM [FINSAT6{0}].[FINSAT6{0}].[RiskTanim] where ID = '{1}'", "17", insertObj["ID"].ToString()));
+                    db.Database.ExecuteSqlCommand(string.Format("DELETE FROM [FINSAT6{0}].[FINSAT6{0}].[RiskTanim] where ID = '{1}'", vUser.SirketKodu, insertObj["ID"].ToString()));
 
                 }
                 _Result.Status = true;
@@ -124,7 +124,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         public string OnayCekSPGMY()
         {
             if (CheckPerm(Perms.RiskOnaylamaSPGMY, PermTypes.Reading) == false) return null;
-            var RT = db.Database.SqlQuery<RiskTanim>(string.Format("SELECT *   FROM [FINSAT6{0}].[FINSAT6{0}].[RiskTanim]   where (OnayTip = 1 and SPGMYOnay =0) OR (OnayTip = 2 and SPGMYOnay =0) OR (OnayTip = 3 and SPGMYOnay = 0) and Durum = 0", "17")).ToList();
+            var RT = db.Database.SqlQuery<RiskTanim>(string.Format("SELECT *   FROM [FINSAT6{0}].[FINSAT6{0}].[RiskTanim]   where (OnayTip = 1 and SPGMYOnay =0) OR (OnayTip = 2 and SPGMYOnay =0) OR (OnayTip = 3 and SPGMYOnay = 0) and Durum = 0", vUser.SirketKodu)).ToList();
             var json = new JavaScriptSerializer().Serialize(RT);
             return json;
         }
@@ -133,7 +133,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             Result _Result = new Result(true);
             if (CheckPerm(Perms.RiskOnaylamaSPGMY, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             JArray parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
-            SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "17");
+            SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
 
             try
             {
@@ -143,7 +143,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                     DateTime date = DateTime.Now;
                     var shortDate = date.ToString("yyyy-MM-dd HH:mm:ss");
                     var sonuc = sqlexper.AcceptChanges();
-                    db.Database.ExecuteSqlCommand(string.Format("DELETE FROM [FINSAT6{0}].[FINSAT6{0}].[RiskTanim] where ID = '{1}'", "17", insertObj["ID"].ToString()));
+                    db.Database.ExecuteSqlCommand(string.Format("DELETE FROM [FINSAT6{0}].[FINSAT6{0}].[RiskTanim] where ID = '{1}'", vUser.SirketKodu, insertObj["ID"].ToString()));
 
                 }
 
@@ -175,7 +175,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         public string OnayCekMIGMY()
         {
             if (CheckPerm(Perms.RiskOnaylamaMIGMY, PermTypes.Reading) == false) return null;
-            var RT = db.Database.SqlQuery<RiskTanim>(string.Format("SELECT *   FROM [FINSAT6{0}].[FINSAT6{0}].[RiskTanim]  where ((OnayTip = 2 and SPGMYOnay = 1 and MIGMYOnay = 0) OR (OnayTip = 3 and SPGMYOnay = 1 and MIGMYOnay = 0)) and Durum = 0", "17")).ToList();
+            var RT = db.Database.SqlQuery<RiskTanim>(string.Format("SELECT *   FROM [FINSAT6{0}].[FINSAT6{0}].[RiskTanim]  where ((OnayTip = 2 and SPGMYOnay = 1 and MIGMYOnay = 0) OR (OnayTip = 3 and SPGMYOnay = 1 and MIGMYOnay = 0)) and Durum = 0", vUser.SirketKodu)).ToList();
             var json = new JavaScriptSerializer().Serialize(RT);
             return json;
         }
@@ -184,7 +184,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             Result _Result = new Result(true);
             if (CheckPerm(Perms.RiskOnaylamaMIGMY, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             JArray parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
-            SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "17");
+            SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
 
             try
             {
@@ -194,7 +194,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                     DateTime date = DateTime.Now;
                     var shortDate = date.ToString("yyyy-MM-dd HH:mm:ss");
                     var sonuc = sqlexper.AcceptChanges();
-                    db.Database.ExecuteSqlCommand(string.Format("DELETE FROM [FINSAT6{0}].[FINSAT6{0}].[RiskTanim] where ID = '{1}'", "17", insertObj["ID"].ToString()));
+                    db.Database.ExecuteSqlCommand(string.Format("DELETE FROM [FINSAT6{0}].[FINSAT6{0}].[RiskTanim] where ID = '{1}'", vUser.SirketKodu, insertObj["ID"].ToString()));
 
                 }
 
@@ -225,7 +225,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         public string CHKSelect()
         {
             if (CheckPerm(Perms.RiskTanim, PermTypes.Reading) == false) return null;
-            var RT = db.Database.SqlQuery<RiskTanimToplu>(string.Format("[FINSAT6{0}].[wms].[CHKSelect2]", "17")).ToList();
+            var RT = db.Database.SqlQuery<RiskTanimToplu>(string.Format("[FINSAT6{0}].[wms].[CHKSelect2]", vUser.SirketKodu)).ToList();
             var json = new JavaScriptSerializer().Serialize(RT);
             return json;
         }
@@ -234,7 +234,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
             if (CheckPerm(Perms.RiskTanim, PermTypes.Writing) == false) return "NO";
             JArray parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
-            SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "17");
+            SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
             try
             {
                 string sonucMessage = "OK";
@@ -308,7 +308,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             Result _Result = new Result(true);
             if (CheckPerm(Perms.RiskOnaylama, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             JArray parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
-            SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "17");
+            SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
             string CHK = "";
             int ID = 0;
             try
@@ -319,13 +319,13 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                     CHK = insertObj["HesapKodu"].ToString();
                     ID = insertObj["ID"].ToInt32();
                     if (Tip == 3)//GMOnay
-                    { db.Database.ExecuteSqlCommand(string.Format("[FINSAT6{0}].[wms].[SP_RiskOnay] @CHK = '{1}',@Tip={2},@Kullanici = '{3}',@ID={4}", "17", CHK, Tip, vUser.UserName, ID)); }
+                    { db.Database.ExecuteSqlCommand(string.Format("[FINSAT6{0}].[wms].[SP_RiskOnay] @CHK = '{1}',@Tip={2},@Kullanici = '{3}',@ID={4}", vUser.SirketKodu, CHK, Tip, vUser.UserName, ID)); }
                     else if (Tip == 2)//MIGMYOnay
-                    { db.Database.ExecuteSqlCommand(string.Format("[FINSAT6{0}].[wms].[SP_RiskOnay] @CHK = '{1}',@Tip={2},@Kullanici = '{3}',@ID={4}", "17", CHK, Tip, vUser.UserName, ID)); }
+                    { db.Database.ExecuteSqlCommand(string.Format("[FINSAT6{0}].[wms].[SP_RiskOnay] @CHK = '{1}',@Tip={2},@Kullanici = '{3}',@ID={4}", vUser.SirketKodu, CHK, Tip, vUser.UserName, ID)); }
                     else if (Tip == 1)//SPGMYOnay
-                    { db.Database.ExecuteSqlCommand(string.Format("[FINSAT6{0}].[wms].[SP_RiskOnay] @CHK = '{1}',@Tip={2},@Kullanici = '{3}',@ID={4}", "17", CHK, Tip, vUser.UserName, ID)); }
+                    { db.Database.ExecuteSqlCommand(string.Format("[FINSAT6{0}].[wms].[SP_RiskOnay] @CHK = '{1}',@Tip={2},@Kullanici = '{3}',@ID={4}", vUser.SirketKodu, CHK, Tip, vUser.UserName, ID)); }
                     else if (Tip == 0)//SMOnay
-                    { db.Database.ExecuteSqlCommand(string.Format("[FINSAT6{0}].[wms].[SP_RiskOnay] @CHK = '{1}',@Tip={2},@Kullanici = '{3}',@ID={4}", "17", CHK, Tip, vUser.UserName, ID)); }
+                    { db.Database.ExecuteSqlCommand(string.Format("[FINSAT6{0}].[wms].[SP_RiskOnay] @CHK = '{1}',@Tip={2},@Kullanici = '{3}',@ID={4}", vUser.SirketKodu, CHK, Tip, vUser.UserName, ID)); }
                 }
 
                 _Result.Status = true;

@@ -39,7 +39,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             if (CheckPerm(Perms.SatinalmaOnaylama, PermTypes.Reading) == false) return Redirect("/");
             MyGlobalVariables.Depo = "93 DP";
             MyGlobalVariables.DovizDurum = false;
-            MyGlobalVariables.SipTalepList = db.Database.SqlQuery<SatTalep>(string.Format("[FINSAT6{0}].[wms].[SatinAlmaGMOnayList]", "17")).ToList();
+            MyGlobalVariables.SipTalepList = db.Database.SqlQuery<SatTalep>(string.Format("[FINSAT6{0}].[wms].[SatinAlmaGMOnayList]", vUser.SirketKodu)).ToList();
             return View("GM_Onay", MyGlobalVariables.SipTalepList);
         }
 
@@ -71,13 +71,10 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
             MyGlobalVariables.SipEvrak = new KKPEvrakSiparis(KKPSiparisTip.AlimSiparisi);
 
-            MyGlobalVariables.TalepSource = db.Database.SqlQuery<SatTalep>(string.Format("[FINSAT6{0}].[wms].[SatinAlmaGMOnayListData] @HesapKodu='{1}', @SipTalepNo={2} ", "17", HesapKodu, SipTalepNo)).ToList();
+            MyGlobalVariables.TalepSource = db.Database.SqlQuery<SatTalep>(string.Format("[FINSAT6{0}].[wms].[SatinAlmaGMOnayListData] @HesapKodu='{1}', @SipTalepNo={2} ", vUser.SirketKodu, HesapKodu, SipTalepNo)).ToList();
             if (MyGlobalVariables.TalepSource[0].SipIslemTip == null || (MyGlobalVariables.TalepSource[0].SipIslemTip != 1 && MyGlobalVariables.TalepSource[0].SipIslemTip != 2))
                 return "";
 
-            //SipEvrak.dvzTL = (KKPDvzTL)(short)TalepSource[0].DvzTL;
-            //SipEvrak.DovizCinsi = TalepSource[0].DvzCinsi;
-            //SipEvrak.DovizKuru = TalepSource[0].DvzKuru ?? 0;
             MyGlobalVariables.SipEvrak.IslemTip = (KKPIslemTipSPI)MyGlobalVariables.TalepSource[0].SipIslemTip;
             MyGlobalVariables.SipEvrak.dvzTL = (KKPDvzTL)(short)MyGlobalVariables.TalepSource[0].FTDDovizTL;
             short siraNo = 0;
@@ -173,7 +170,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             }
 
 
-            using (KKP kkp = new KKP(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "17"))
+            using (KKP kkp = new KKP(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu))
             {
                 try
                 {
@@ -181,10 +178,10 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                     foreach (var item in MyGlobalVariables.TalepSource)
                     {
                         string sql = string.Format(@"UPDATE Kaynak.sta.Talep 
-	SET GMOnaylayan=@Degistiren, GMOnayTarih=@DegisTarih, Durum=15, SipEvrakNo=@SipEvrakNo
-	, SirketKodu='{0}'
-	, Degistiren=@Degistiren, DegisTarih=@DegisTarih, DegisSirKodu='{0}'
-	WHERE ID=@ID AND Durum=11 AND SipTalepNo IS NOT NULL", "17");
+	                        SET GMOnaylayan=@Degistiren, GMOnayTarih=@DegisTarih, Durum=15, SipEvrakNo=@SipEvrakNo
+	                        , SirketKodu='{0}'
+	                        , Degistiren=@Degistiren, DegisTarih=@DegisTarih, DegisSirKodu='{0}'
+	                        WHERE ID=@ID AND Durum=11 AND SipTalepNo IS NOT NULL", vUser.SirketKodu);
 
 
                         SqlParameter[] paramlist = new SqlParameter[4]
@@ -213,9 +210,6 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                     MyGlobalVariables.SipEvrak.MFK.Aciklama4 = "";
                     MyGlobalVariables.SipEvrak.MFK.Aciklama5 = "";
                     MyGlobalVariables.SipEvrak.MFK.Aciklama6 = "";
-
-
-
                     MyGlobalVariables.SipEvrak.EvrakNo = evrakno;
                     MyGlobalVariables.SipEvrak.HesapKodu = MyGlobalVariables.TalepSource[0].HesapKodu;
                     MyGlobalVariables.SipEvrak.TeslimYeriKodu = MyGlobalVariables.TalepSource[0].HesapKodu;
@@ -264,10 +258,8 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                         string sirketemail = db.Database.SqlQuery<string>(sorgu).FirstOrDefault();
                         if (string.IsNullOrEmpty(sirketemail) || sirketemail.Trim() == "")
                         {
-                            //if (Degiskenler.FromWinServis == false)
                             _Result.Message = string.Format("Tedarikçiye ait mail bulunamadı!! (Hesap Kodu: {0})", hesapKodu);
                             _Result.Status = false;
-                            //return Json(_Result, JsonRequestBehavior.AllowGet);
                         }
 
                         string satinalmacimail = db.Database.SqlQuery<string>(string.Format("SELECT Email FROM usr.Users (nolock) WHERE Kod IN (SELECT TOP(1) Satinalmaci FROM Kaynak.sta.Talep(nolock) WHERE SipEvrakNo ={0} )", sipEvrakNo)).FirstOrDefault();
@@ -277,7 +269,6 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                         {
                             _Result.Message = "Ne Şirket Maili ne de Satınalmacı maili yapılandırılmamış. Mail gönderilemedi";
                             _Result.Status = false;
-                            //return Json(_Result, JsonRequestBehavior.AllowGet);
                         }
 
                         SatTalep sipTalep = db.Database.SqlQuery<SatTalep>(string.Format("SELECT TOP (1) TalepNo, SipIslemTip FROM Kaynak.sta.Talep (nolock) WHERE SipEvrakNo={0}", sipEvrakNo)).FirstOrDefault();
@@ -293,7 +284,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                             _Result.Status = false;
                             return Json(_Result, JsonRequestBehavior.AllowGet);
                         }
-                        SatınalmaSiparisFormu.SatinalmaSiparisFormu(sipEvrakNo, hesapKodu, sipTarih, true);
+                        SatınalmaSiparisFormu.SatinalmaSiparisFormu(sipEvrakNo, hesapKodu, sipTarih, true, vUser.SirketKodu);
 
                         List<string> attachList = new List<string>
                         {
@@ -385,7 +376,7 @@ SET GMOnaylayan='{0}', GMOnayTarih='{1}', Durum=13
 , Degistiren='{0}', DegisTarih='{1}', DegisSirKodu={3}, Aciklama2='{2}'
 WHERE ID={4} AND Durum=11 AND SipTalepNo IS NOT NULL";
 
-                    db.Database.ExecuteSqlCommand(string.Format(sql, vUser.UserName.ToString(), DateTime.Now.ToString("yyyy-dd-MM"), redAciklama, "17", item.ID));
+                    db.Database.ExecuteSqlCommand(string.Format(sql, vUser.UserName.ToString(), DateTime.Now.ToString("yyyy-dd-MM"), redAciklama, vUser.SirketKodu, item.ID));
 
                 }
 
@@ -422,7 +413,7 @@ GROUP BY (CASE WHEN ST.Birim = STK.Birim1 THEN 1
 		WHEN ST.Birim = STK.Birim3 THEN 1 
 		WHEN ST.Birim = STK.Birim4 THEN 1 
 		ELSE 0 END )"
-      , "17"
+      , vUser.SirketKodu
       , talepNo, hesapKodu);
             brmContList = db.Database.SqlQuery<int>(query).ToList();
 
@@ -443,7 +434,7 @@ GROUP BY (CASE WHEN ST.Birim = STK.Birim1 THEN 1
         {
             var id = Url.RequestContext.RouteData.Values["id"];
             ViewBag.id = id;
-            List<SatTeklif> TL = db.Database.SqlQuery<SatTeklif>(string.Format("[FINSAT6{0}].[wms].[TeklifListesi] @MalKodu='{1}'", "17", id)).ToList();
+            List<SatTeklif> TL = db.Database.SqlQuery<SatTeklif>(string.Format("[FINSAT6{0}].[wms].[TeklifListesi] @MalKodu='{1}'", vUser.SirketKodu, id)).ToList();
 
             return PartialView(TL);
         }
@@ -451,14 +442,14 @@ GROUP BY (CASE WHEN ST.Birim = STK.Birim1 THEN 1
         {
             var id = Url.RequestContext.RouteData.Values["id"];
             ViewBag.id = id;
-            List<SatOnayliTed> OTL = db.Database.SqlQuery<SatOnayliTed>(string.Format("[FINSAT6{0}].[wms].[OnayliTedarikciListesi] @MalKodu='{1}'", "17", id)).ToList();
+            List<SatOnayliTed> OTL = db.Database.SqlQuery<SatOnayliTed>(string.Format("[FINSAT6{0}].[wms].[OnayliTedarikciListesi] @MalKodu='{1}'", vUser.SirketKodu, id)).ToList();
             return PartialView(OTL);
         }
         public PartialViewResult SonAlimListesi()
         {
             var id = Url.RequestContext.RouteData.Values["id"];
             ViewBag.id = id;
-            List<SonAlimListesi> SAL = db.Database.SqlQuery<SonAlimListesi>(string.Format("[FINSAT6{0}].[wms].[SonAlimListesi] @MalKodu='{1}'", "17", id)).ToList();
+            List<SonAlimListesi> SAL = db.Database.SqlQuery<SonAlimListesi>(string.Format("[FINSAT6{0}].[wms].[SonAlimListesi] @MalKodu='{1}'", vUser.SirketKodu, id)).ToList();
 
             return PartialView(SAL);
         }

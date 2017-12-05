@@ -282,7 +282,6 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             if (id == null) return null;
             string sql = "";
             //generate sql
-
             sql = String.Format("FINSAT6{0}.[wms].[CHKSearch4] @HesapKodu = N'', @Unvan = N'{1}', @top = 200", id.ToString(), term);
             //return
             try
@@ -292,7 +291,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             }
             catch (Exception ex)
             {
-                Logger(ex, "Reports/Financial/GetChKCode");
+                Logger(ex, "WMS/Refund/GetChKCode");
                 return Json(new List<frmJson>(), JsonRequestBehavior.AllowGet);
             }
         }
@@ -323,7 +322,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             }
             catch (Exception ex)
             {
-                Logger(ex, "Refund/GetSiparis");
+                Logger(ex, "WMS/Refund/GetSiparis");
                 return PartialView("SiparisList", new List<frmSiparisler>());
             }
         }

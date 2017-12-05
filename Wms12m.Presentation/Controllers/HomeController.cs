@@ -17,7 +17,7 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public ActionResult Index()
         {
-            var SirketKodu = db.GetSirketDBs().FirstOrDefault();
+            var SirketKodu = vUser.SirketKodu;
             Setting setts = ViewBag.settings;
             var bo = new BekleyenOnaylar();
             var tbl = new GetHomeSummary_Result();

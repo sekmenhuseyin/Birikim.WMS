@@ -217,7 +217,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             }
             catch (Exception ex)
             {
-                Logger(ex, "Reports/Financial/GetChKCode");
+                Logger(ex, "WMS/ReturnSale/GetChKCode");
                 return Json(new List<frmJson>(), JsonRequestBehavior.AllowGet);
             }
         }

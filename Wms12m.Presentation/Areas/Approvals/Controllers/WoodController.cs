@@ -23,7 +23,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         }
         public string TahsisliOnayCek()
         {
-            var RT = db.Database.SqlQuery<TahsisOnayOdun>(string.Format("[FINSAT6{0}].[dbo].[IHLTAHOnaydaBekleyen] @Tip = 2", "17")).ToList();
+            var RT = db.Database.SqlQuery<TahsisOnayOdun>(string.Format("[FINSAT6{0}].[dbo].[IHLTAHOnaydaBekleyen] @Tip = 2", vUser.SirketKodu)).ToList();
             var json = new JavaScriptSerializer().Serialize(RT);
             return json;
         }
@@ -31,7 +31,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         {
             Result _Result = new Result(true);
             JArray parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
-            SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "17");
+            SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
 
             try
             {
@@ -48,7 +48,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                         if (insertObj["TavanMiktar"].ToDecimal() > 0)
                             sql += ", TavanFiyat=" + insertObj["TavanFiyat"].ToString().Replace(',', '.').ToDecimal();
                     }
-                    string s = string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[IHLTAH] SET Onay = 1, Onaylayan='" + vUser.UserName + "', OnayTarih='{2}',DegisTarih='{2}'{3}  where ID = {1} AND Onay=0", "17", insertObj["ID"].ToString(), shortDate, sql);
+                    string s = string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[IHLTAH] SET Onay = 1, Onaylayan='" + vUser.UserName + "', OnayTarih='{2}',DegisTarih='{2}'{3}  where ID = {1} AND Onay=0", vUser.SirketKodu, insertObj["ID"].ToString(), shortDate, sql);
                     db.Database.ExecuteSqlCommand(s);
                 }
                 _Result.Status = true;
@@ -69,14 +69,14 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         {
             Result _Result = new Result(true);
             JArray parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
-            SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "17");
+            SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
 
             try
             {
 
                 foreach (JObject insertObj in parameters)
                 {
-                    string s = string.Format("DELETE FROM [FINSAT6{0}].[FINSAT6{0}].[IHLTAH] where ID = {1} AND Onay=0", "17", insertObj["ID"].ToString());
+                    string s = string.Format("DELETE FROM [FINSAT6{0}].[FINSAT6{0}].[IHLTAH] where ID = {1} AND Onay=0", vUser.SirketKodu, insertObj["ID"].ToString());
                     db.Database.ExecuteSqlCommand(s);
                 }
                 _Result.Status = true;
@@ -98,13 +98,13 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
             string sorgu = string.Format(@"SELECT HesapKodu, (Unvan1+' '+Unvan2) AS Unvan 
 											FROM FINSAT6{0}.FINSAT6{0}.CHK(NOLOCK) 
-											WHERE HesapKodu Like '320%'", "17");
+											WHERE HesapKodu Like '320%'", vUser.SirketKodu);
             var slctIsletme = db.Database.SqlQuery<CHKSelect1Result>(sorgu).ToList();
 
             string sorgu1 = string.Format(@"SELECT DISTINCT CONVERT(varchar, Yil) + '-' + CONVERT(varchar, Hafta) AS value,  CONVERT(varchar, Hafta) + '. Hafta (' +  CONVERT(varchar, Yil) + ')' AS name, Yil, Hafta
 										FROM            FINSAT6{0}.FINSAT6{0}.IHLTAH WITH (NOLOCK)
 										WHERE        (Tip = 2)
-										ORDER BY Yil, Hafta", "17");
+										ORDER BY Yil, Hafta", vUser.SirketKodu);
             var slctHafta = db.Database.SqlQuery<IHLTAH>(sorgu1).ToList();
 
 
@@ -128,10 +128,10 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             if (Hafta != "")
             {
                 string[] tmp = Hafta.Split('-');
-                s = string.Format("[FINSAT6{0}].[dbo].[IHLTAHKayit] @Tip = 2, @Yil={1}, @Hafta={2}, @HesapKodu=NULL", "17", tmp[0], tmp[1]);
+                s = string.Format("[FINSAT6{0}].[dbo].[IHLTAHKayit] @Tip = 2, @Yil={1}, @Hafta={2}, @HesapKodu=NULL", vUser.SirketKodu, tmp[0], tmp[1]);
             }
             else
-                s = string.Format("[FINSAT6{0}].[dbo].[IHLTAHKayit] @Tip = 2, @Yil=0, @Hafta=0, @HesapKodu='{1}'", "17", Isletme);
+                s = string.Format("[FINSAT6{0}].[dbo].[IHLTAHKayit] @Tip = 2, @Yil=0, @Hafta=0, @HesapKodu='{1}'", vUser.SirketKodu, Isletme);
 
 
             var RT = db.Database.SqlQuery<IHLTAHKayitResult>(s).ToList();
@@ -168,7 +168,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 									FROM            FINSAT6{0}.FINSAT6{0}.CHI WITH (nolock) LEFT OUTER JOIN
 															 FINSAT6{0}.FINSAT6{0}.CHK WITH (nolock) ON FINSAT6{0}.FINSAT6{0}.CHK.HesapKodu = FINSAT6{0}.FINSAT6{0}.CHI.HesapKodu
 									WHERE        (FINSAT6{0}.FINSAT6{0}.CHI.KynkEvrakTip = 4) AND (FINSAT6{0}.FINSAT6{0}.CHI.Kod13 > 0) AND (FINSAT6{0}.FINSAT6{0}.CHI.Kod14 > 0) AND 
-									(FINSAT6{0}.FINSAT6{0}.CHI.EvrakNo2 = '{1}') AND  (FINSAT6{0}.FINSAT6{0}.CHI.HesapKodu = '{2}')", "17", EvrakNo, HesapKodu);
+									(FINSAT6{0}.FINSAT6{0}.CHI.EvrakNo2 = '{1}') AND  (FINSAT6{0}.FINSAT6{0}.CHI.HesapKodu = '{2}')", vUser.SirketKodu, EvrakNo, HesapKodu);
             var RT = db.Database.SqlQuery<MyChi>(sql).ToList();
 
             return PartialView(RT);
@@ -183,7 +183,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 																		FROM FINSAT6{0}.FINSAT6{0}.IHLTAH (nolock) AS IHL
 																		LEFT JOIN FINSAT6{0}.FINSAT6{0}.CHK (nolock) ON CHK.HesapKodu=IHL.OrmIslt
 																		WHERE IHL.Tip=2
-																		ORDER BY IHL.Yil DESC, IHL.Hafta DESC", "17")).ToList();
+																		ORDER BY IHL.Yil DESC, IHL.Hafta DESC", vUser.SirketKodu)).ToList();
             var json = new JavaScriptSerializer().Serialize(RT);
             return json;
         }
@@ -195,7 +195,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 																FROM FINSAT6{0}.FINSAT6{0}.CHI (nolock)
 																LEFT JOIN FINSAT6{0}.FINSAT6{0}.CHK (nolock) ON CHK.HesapKodu=CHI.HesapKodu
 																WHERE CHI.KynkEvrakTip=4 AND CHI.Kod13>0 AND CHI.Kod14>0 
-																AND CHI.EvrakNo2='{1}' AND CHI.HesapKodu='{2}' ", "17", EvrakNo, HesapKodu)).ToList();
+																AND CHI.EvrakNo2='{1}' AND CHI.HesapKodu='{2}' ", vUser.SirketKodu, EvrakNo, HesapKodu)).ToList();
 
             var RT1 = db.Database.SqlQuery<MySti>(string.Format(@"SELECT STI.EvrakNo, STI.Tarih, STI.Chk, STI.MalKodu, STK.MalAdi, STI.BirimMiktar, STI.Birim 
 																  FROM FINSAT6{0}.FINSAT6{0}.STI (nolock)
@@ -205,7 +205,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 																	SELECT EvrakNo FROM FINSAT6{0}.FINSAT6{0}.CHI (nolock) 
 																	WHERE KynkEvrakTip=4 AND Kod13>0 AND Kod14>0 AND EvrakNo2='{1}' 
 																	AND HesapKodu='{2}' AND BirimMiktar>0
-																 )", "17", EvrakNo, HesapKodu)).ToList();
+																 )", vUser.SirketKodu, EvrakNo, HesapKodu)).ToList();
 
 
             foreach (MyChi chi in RT)
@@ -229,7 +229,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         }
         public string IhaleliAlimOnayCek()
         {
-            var RT = db.Database.SqlQuery<TahsisOnayOdun>(string.Format("[FINSAT6{0}].[dbo].[IHLTAHOnaydaBekleyen] @Tip = 0", "17")).ToList();
+            var RT = db.Database.SqlQuery<TahsisOnayOdun>(string.Format("[FINSAT6{0}].[dbo].[IHLTAHOnaydaBekleyen] @Tip = 0", vUser.SirketKodu)).ToList();
             var json = new JavaScriptSerializer().Serialize(RT);
             return json;
         }
@@ -237,7 +237,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         {
             Result _Result = new Result(true);
             JArray parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
-            SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "17");
+            SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
 
             try
             {
@@ -254,7 +254,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                         if (insertObj["TavanMiktar"].ToDecimal() > 0)
                             sql += ", TavanFiyat=" + insertObj["TavanFiyat"].ToString().Replace(',', '.').ToDecimal();
                     }
-                    string s = string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[IHLTAH] SET Onay = 1, Onaylayan='" + vUser.UserName + "', OnayTarih='{2}',DegisTarih='{2}'{3}  where ID = {1} AND Onay=0", "17", insertObj["ID"].ToString(), shortDate, sql);
+                    string s = string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[IHLTAH] SET Onay = 1, Onaylayan='" + vUser.UserName + "', OnayTarih='{2}',DegisTarih='{2}'{3}  where ID = {1} AND Onay=0", vUser.SirketKodu, insertObj["ID"].ToString(), shortDate, sql);
                     db.Database.ExecuteSqlCommand(s);
                 }
                 _Result.Status = true;
@@ -275,13 +275,13 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         {
             Result _Result = new Result(true);
             JArray parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
-            SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "17");
+            SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
             try
             {
 
                 foreach (JObject insertObj in parameters)
                 {
-                    string s = string.Format("DELETE FROM [FINSAT6{0}].[FINSAT6{0}].[IHLTAH] where ID = {1} AND Onay=0", "17", insertObj["ID"].ToString());
+                    string s = string.Format("DELETE FROM [FINSAT6{0}].[FINSAT6{0}].[IHLTAH] where ID = {1} AND Onay=0", vUser.SirketKodu, insertObj["ID"].ToString());
                     db.Database.ExecuteSqlCommand(s);
                 }
                 _Result.Status = true;
@@ -304,13 +304,13 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
             string sorgu = string.Format(@"SELECT HesapKodu, (Unvan1+' '+Unvan2) AS Unvan 
 											FROM FINSAT6{0}.FINSAT6{0}.CHK(NOLOCK) 
-											WHERE HesapKodu Like '320%'", "17");
+											WHERE HesapKodu Like '320%'", vUser.SirketKodu);
             var slctIsletme = db.Database.SqlQuery<CHKSelect1Result>(sorgu).ToList();
 
             string sorgu1 = string.Format(@"SELECT DISTINCT CONVERT(varchar, Yil) + '-' + CONVERT(varchar, Hafta) AS value,  CONVERT(varchar, Hafta) + '. Hafta (' +  CONVERT(varchar, Yil) + ')' AS name, Yil, Hafta
 										FROM            FINSAT6{0}.FINSAT6{0}.IHLTAH WITH (NOLOCK)
 										WHERE        (Tip = 2)
-										ORDER BY Yil, Hafta", "17");
+										ORDER BY Yil, Hafta", vUser.SirketKodu);
             var slctHafta = db.Database.SqlQuery<IHLTAH>(sorgu1).ToList();
 
 
@@ -330,10 +330,10 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             if (Hafta != "")
             {
                 string[] tmp = Hafta.Split('-');
-                s = string.Format("[FINSAT6{0}].[dbo].[IHLTAHKayit] @Tip = 0, @Yil={1}, @Hafta={2}, @HesapKodu=NULL", "17", tmp[0], tmp[1]);
+                s = string.Format("[FINSAT6{0}].[dbo].[IHLTAHKayit] @Tip = 0, @Yil={1}, @Hafta={2}, @HesapKodu=NULL", vUser.SirketKodu, tmp[0], tmp[1]);
             }
             else
-                s = string.Format("[FINSAT6{0}].[dbo].[IHLTAHKayit] @Tip = 0, @Yil=0, @Hafta=0, @HesapKodu='{1}'", "17", Isletme);
+                s = string.Format("[FINSAT6{0}].[dbo].[IHLTAHKayit] @Tip = 0, @Yil=0, @Hafta=0, @HesapKodu='{1}'", vUser.SirketKodu, Isletme);
 
 
             var RT = db.Database.SqlQuery<IHLTAHKayitResult>(s).ToList();
@@ -370,7 +370,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 									FROM            FINSAT6{0}.FINSAT6{0}.CHI WITH (nolock) LEFT OUTER JOIN
 															 FINSAT6{0}.FINSAT6{0}.CHK WITH (nolock) ON FINSAT6{0}.FINSAT6{0}.CHK.HesapKodu = FINSAT6{0}.FINSAT6{0}.CHI.HesapKodu
 									WHERE        (FINSAT6{0}.FINSAT6{0}.CHI.KynkEvrakTip = 4) AND (FINSAT6{0}.FINSAT6{0}.CHI.Kod13 > 0) AND (FINSAT6{0}.FINSAT6{0}.CHI.Kod14 > 0) AND 
-									(FINSAT6{0}.FINSAT6{0}.CHI.EvrakNo2 = '{1}') AND  (FINSAT6{0}.FINSAT6{0}.CHI.HesapKodu = '{2}')", "17", EvrakNo, HesapKodu);
+									(FINSAT6{0}.FINSAT6{0}.CHI.EvrakNo2 = '{1}') AND  (FINSAT6{0}.FINSAT6{0}.CHI.HesapKodu = '{2}')", vUser.SirketKodu, EvrakNo, HesapKodu);
             var RT = db.Database.SqlQuery<MyChi>(sql).ToList();
 
             return PartialView(RT);
@@ -385,7 +385,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 																				FROM FINSAT6{0}.FINSAT6{0}.IHLTAH (nolock) AS IHL
 																				LEFT JOIN FINSAT6{0}.FINSAT6{0}.CHK (nolock) ON CHK.HesapKodu=IHL.OrmIslt
 																				WHERE IHL.Tip=0
-																				ORDER BY IHL.Yil DESC, IHL.Hafta DESC", "17")).ToList();
+																				ORDER BY IHL.Yil DESC, IHL.Hafta DESC", vUser.SirketKodu)).ToList();
             var json = new JavaScriptSerializer().Serialize(RT);
             return json;
         }
@@ -400,7 +400,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         }
         public string NakliyeFiyatOnayCek()
         {
-            var RT = db.Database.SqlQuery<MyDep>(string.Format("SELECT *  FROM[FINSAT6{0}].[FINSAT6{0}].[DEP]  WHERE Depo LIKE 'H%' AND Kod2<>''", "17")).ToList();
+            var RT = db.Database.SqlQuery<MyDep>(string.Format("SELECT *  FROM[FINSAT6{0}].[FINSAT6{0}].[DEP]  WHERE Depo LIKE 'H%' AND Kod2<>''", vUser.SirketKodu)).ToList();
             var json = new JavaScriptSerializer().Serialize(RT);
             return json;
         }
@@ -408,14 +408,14 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         {
             Result _Result = new Result(true);
             JArray parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
-            SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "17");
+            SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
 
             try
             {
 
                 foreach (JObject insertObj in parameters)
                 {
-                    string s = string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[DEP] SET Kod1 = '{1}', Kod2='', Degistiren='" + vUser.UserName + "',DegisTarih='{2}'  where Depo = '{3}'AND Kod2<>''", "17", insertObj["Kod2"].ToString(), (int)DateTime.Now.ToOADate(), insertObj["Depo"].ToString());
+                    string s = string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[DEP] SET Kod1 = '{1}', Kod2='', Degistiren='" + vUser.UserName + "',DegisTarih='{2}'  where Depo = '{3}'AND Kod2<>''", vUser.SirketKodu, insertObj["Kod2"].ToString(), (int)DateTime.Now.ToOADate(), insertObj["Depo"].ToString());
                     db.Database.ExecuteSqlCommand(s);
                 }
                 _Result.Status = true;
@@ -436,14 +436,14 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         {
             Result _Result = new Result(true);
             JArray parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
-            SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "17");
+            SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
 
             try
             {
 
                 foreach (JObject insertObj in parameters)
                 {
-                    string s = string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[DEP] SET Kod2 = '', Degistiren='" + vUser.UserName + "',DegisTarih='{1}'  where Depo = '{2}'AND Kod2<>''", "17", (int)DateTime.Now.ToOADate(), insertObj["Depo"].ToString());
+                    string s = string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[DEP] SET Kod2 = '', Degistiren='" + vUser.UserName + "',DegisTarih='{1}'  where Depo = '{2}'AND Kod2<>''", vUser.SirketKodu, (int)DateTime.Now.ToOADate(), insertObj["Depo"].ToString());
 
                     db.Database.ExecuteSqlCommand(s);
                 }
@@ -472,7 +472,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         }
         public string NakliyeFiyatlarCek()
         {
-            var RT = db.Database.SqlQuery<MyDep>(string.Format("SELECT *  FROM[FINSAT6{0}].[FINSAT6{0}].[DEP]  WHERE Depo LIKE 'H%'", "17")).ToList();
+            var RT = db.Database.SqlQuery<MyDep>(string.Format("SELECT *  FROM[FINSAT6{0}].[FINSAT6{0}].[DEP]  WHERE Depo LIKE 'H%'", vUser.SirketKodu)).ToList();
             var json = new JavaScriptSerializer().Serialize(RT);
             return json;
         }
@@ -513,7 +513,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 																) AS A ON A.Depo=DST.Depo AND A.MalKodu=DST.MalKodu
 
 
-																WHERE DST.Depo LIKE 'H%'", "17");
+																WHERE DST.Depo LIKE 'H%'", vUser.SirketKodu);
             if (!string.IsNullOrEmpty(MalKoduBas) || !string.IsNullOrEmpty(MalKoduBit))
             {
                 if (string.IsNullOrEmpty(MalKoduBas))
@@ -531,7 +531,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         public string MalKoduCek()
         {
             var RT = db.Database.SqlQuery<MyStk>(string.Format(@"SELECT MalKodu, MalAdi, Birim1, Birim2, Birim3 FROM FINSAT6{0}.FINSAT6{0}.STK (nolock)
-																			WHERE MalKodu LIKE '095%'", "17")).ToList();
+																			WHERE MalKodu LIKE '095%'", vUser.SirketKodu)).ToList();
             var json = new JavaScriptSerializer().Serialize(RT);
             return json;
         }
@@ -585,7 +585,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 											AND Depo LIKE 'H%' {1} {2}
 											GROUP BY MalKodu
 										) as A ON A.MalKodu=STK.MalKodu"
-                , "17"
+                , vUser.SirketKodu
                 , malkoduaraliksql
                 , tarihsql);
 
@@ -643,7 +643,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 				INNER JOIN FINSAT6{0}.FINSAT6{0}.STK (nolock) ON STK.MalKodu=A.MalKodu
 				INNER JOIN FINSAT6{0}.FINSAT6{0}.CHK (nolock) ON CHK.HesapKodu=A.Chk
 				INNER JOIN FINSAT6{0}.FINSAT6{0}.DEP (nolock) ON DEP.Depo=A.Depo"
-                , "17"
+                , vUser.SirketKodu
                 , where
                 , tarihsql);
 
@@ -790,7 +790,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 											WHERE (STI.KynkEvrakTip=4 OR (STI.KynkEvrakTip=58 AND STI.IslemTip=0)) 
 											{1} {2} AND STI.BirimMiktar>0 AND DST.Depo LIKE 'H%'
 											AND (DST.DvrMiktar+DST.GirMiktar-DST.CikMiktar)>0
-											ORDER BY STI.MalKodu, STI.Tarih DESC", "17", deposql, malsql);
+											ORDER BY STI.MalKodu, STI.Tarih DESC", vUser.SirketKodu, deposql, malsql);
 
 
                 RT = db.Database.SqlQuery<MySti>(sorgu).ToList();

@@ -85,7 +85,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             ViewBag.Manual = false;
             //id'ye göre liste döner
             string[] ids = Id.Split('#');
-            string sirketkodu = db.GetSirketDBs().FirstOrDefault();
+            string sirketkodu = vUser.SirketKodu;
             string sql; string var;
             if (ids[2] != "0" && ids[2] != "null" && ids[2].ToString2() != "") //bir kattaki ait malzemeler
             {
@@ -198,7 +198,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             {
                 if (tbl.MakaraNo == "" || tbl.MakaraNo == null)
                 {
-                    var kkablo = db.Database.SqlQuery<string>(string.Format("SELECT Kod1 FROM FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) WHERE (MalKodu = '{1}')", db.GetSirketDBs().FirstOrDefault(), tbl.MalKodu)).FirstOrDefault();
+                    var kkablo = db.Database.SqlQuery<string>(string.Format("SELECT Kod1 FROM FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) WHERE (MalKodu = '{1}')", vUser.SirketKodu, tbl.MalKodu)).FirstOrDefault();
                     if (kkablo == "KKABLO")
                     {
                         tbl.MakaraNo = "Boş-" + db.SettingsMakaraNo(tbl.DepoID).FirstOrDefault();
@@ -371,8 +371,8 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                 //ilk önce görevler ve irsaliye kaydedilir
                 string GorevÇıkNo = db.SettingsGorevNo(today, ilk.DepoID).FirstOrDefault();
                 string GorevGirNo = db.SettingsGorevNo(today, ilk.DepoID).FirstOrDefault();
-                var cevapGir = db.InsertIrsaliye(db.GetSirketDBs().FirstOrDefault(), ilk.DepoID, GorevGirNo, GorevGirNo, today, "Yer Değiştir", true, ComboItems.TransferGiriş.ToInt32(), vUser.UserName, today, time, "Yer Değiştir", "", 0, "", "").FirstOrDefault();
-                var cevapÇık = db.InsertIrsaliye(db.GetSirketDBs().FirstOrDefault(), ilk.DepoID, GorevÇıkNo, GorevGirNo, today, "Yer Değiştir", true, ComboItems.TransferÇıkış.ToInt32(), vUser.UserName, today, time, "Yer Değiştir", "", 0, cevapGir.GorevID.Value.ToString(), "").FirstOrDefault();
+                var cevapGir = db.InsertIrsaliye(vUser.SirketKodu, ilk.DepoID, GorevGirNo, GorevGirNo, today, "Yer Değiştir", true, ComboItems.TransferGiriş.ToInt32(), vUser.UserName, today, time, "Yer Değiştir", "", 0, "", "").FirstOrDefault();
+                var cevapÇık = db.InsertIrsaliye(vUser.SirketKodu, ilk.DepoID, GorevÇıkNo, GorevGirNo, today, "Yer Değiştir", true, ComboItems.TransferÇıkış.ToInt32(), vUser.UserName, today, time, "Yer Değiştir", "", 0, cevapGir.GorevID.Value.ToString(), "").FirstOrDefault();
                 //GorevYer tablosu - çıkış
                 var cevap = TaskYer.Operation(new GorevYer() { GorevID = cevapÇık.GorevID.Value, YerID = ilk.ID, MalKodu = ilk.MalKodu, Birim = ilk.Birim, Miktar = tbl.Miktar, GC = true });
                 //giriş

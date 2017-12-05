@@ -30,7 +30,7 @@ tr.shown td.details-control {background: url('/Content/assets/global/plugins/dat
 @section Scripts{<script>
     var chk_bas = "", chk_bit = "";
     $("#txtHesapBas").autocomplete({
-        source: "/Reports/Financial/GetChKCode/17",
+        source: "/Reports/Financial/GetChKCode/0",
         minLength: 2,
         select: function (event, ui) {
             setTimeout(function () { $("#txtHesapBas").val(ui.item.value.substring(ui.item.id.length + 1)); }, 0);
@@ -39,7 +39,7 @@ tr.shown td.details-control {background: url('/Content/assets/global/plugins/dat
         scroll: true
     });
     $("#txtHesapBit").autocomplete({
-        source: "/Reports/Financial/GetChKCode/17",
+        source: "/Reports/Financial/GetChKCode/0",
         minLength: 2,
         select: function (event, ui) {
             setTimeout(function () { $("#txtHesapBit").val(ui.item.value.substring(ui.item.id.length+1)); }, 0);

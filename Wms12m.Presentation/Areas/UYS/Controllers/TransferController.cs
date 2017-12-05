@@ -33,7 +33,7 @@ namespace Wms12m.Presentation.Areas.UYS.Controllers
             string sql = String.Format(@"SELECT SeriNo as id, convert(varchar(50), isnull(sum(case when IslemTur = 0 then Miktar else -Miktar end), 0)) as value
 											FROM FINSAT6{0}.FINSAT6{0}.STI WITH(nolock)
 											where STI.MalKodu = '{1}' and Tarih <= {2} and Depo = '{3}' and IrsFat <> 2 and KynkEvrakTip <> 95 and KynkEvrakTip not in (141, 142, 143, 144) and not(KynkEvrakTip in (68, 69) and ErekIIFKEvrakTip in (5, 2) and IrsFat = 3)
-											GROUP by STI.MalKodu, Depo, SeriNo", db.GetSirketDBs().FirstOrDefault(), MalKodu, Tarih, Depo);
+											GROUP by STI.MalKodu, Depo, SeriNo", vUser.SirketKodu, MalKodu, Tarih, Depo);
             try
             {
                 var list = db.Database.SqlQuery<frmJson>(sql).ToList();
@@ -64,7 +64,7 @@ namespace Wms12m.Presentation.Areas.UYS.Controllers
                                         FROM FINSAT6{0}.FINSAT6{0}.STI WITH (nolock) LEFT OUTER JOIN FINSAT6{0}.FINSAT6{0}.STK WITH (nolock) ON FINSAT6{0}.FINSAT6{0}.STK.MalKodu = FINSAT6{0}.FINSAT6{0}.STI.MalKodu
                                         WHERE (FINSAT6{0}.FINSAT6{0}.STI.MalKodu = '{1}') AND (FINSAT6{0}.FINSAT6{0}.STI.SeriNo = '{4}') AND (DATALENGTH(FINSAT6{0}.FINSAT6{0}.STI.SeriNo) = {5}) AND (FINSAT6{0}.FINSAT6{0}.STI.Depo = '{3}') AND (FINSAT6{0}.FINSAT6{0}.STI.IrsFat <> 2) AND(FINSAT6{0}.FINSAT6{0}.STI.KynkEvrakTip <> 95) and KynkEvrakTip not in (141,142,143,144) and not (KynkEvrakTip in (68,69) and ErekIIFKEvrakTip in (5,2) and IrsFat = 3)
                                         GROUP BY FINSAT6{0}.FINSAT6{0}.STI.MalKodu, FINSAT6{0}.FINSAT6{0}.STI.Depo, FINSAT6{0}.FINSAT6{0}.STI.SeriNo), 0) as Miktar2",
-                                    db.GetSirketDBs().FirstOrDefault(), MalKodu, Tarih, Depo, SeriNo, SeriNo.Length);
+                                    vUser.SirketKodu, MalKodu, Tarih, Depo, SeriNo, SeriNo.Length);
             var stokKontrol = db.Database.SqlQuery<frmUysStokKontrol>(sql).FirstOrDefault();
             if (stokKontrol.Miktar1 < Miktar || stokKontrol.Miktar2 < Miktar)
                 return Json(new frmMalKoduMiktar(), JsonRequestBehavior.AllowGet);
@@ -72,7 +72,7 @@ namespace Wms12m.Presentation.Areas.UYS.Controllers
             sql = string.Format(@"SELECT '{1}' as MalKodu, isnull(sum(case when IslemTur = 0 then Miktar else -Miktar end), 0) as Miktar, Birim1 as Birim
 									FROM FINSAT6{0}.FINSAT6{0}.STI WITH (nolock) left join FINSAT6{0}.FINSAT6{0}.STK WITH (nolock) ON STK.MalKodu = STI.MalKodu 
 									where STI.MalKodu = '{1}' and Tarih <= {2} and SeriNo = '{4}' and DATALENGTH(SeriNo) = {5} and Depo ='{3}' and IrsFat <> 2 and KynkEvrakTip <> 95 and KynkEvrakTip not in (141,142,143,144) and not (KynkEvrakTip in (68,69) and ErekIIFKEvrakTip in (5,2) and IrsFat = 3)
-									GROUP by STI.MalKodu, Depo, SeriNo, Birim1", db.GetSirketDBs().FirstOrDefault(), MalKodu, Tarih, Depo, SeriNo, SeriNo.Length);
+									GROUP by STI.MalKodu, Depo, SeriNo, Birim1", vUser.SirketKodu, MalKodu, Tarih, Depo, SeriNo, SeriNo.Length);
             return Json(db.Database.SqlQuery<frmMalKoduMiktar>(sql).FirstOrDefault(), JsonRequestBehavior.AllowGet);
         }
         /// <summary>

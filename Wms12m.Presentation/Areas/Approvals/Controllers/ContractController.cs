@@ -29,7 +29,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             List<SozlesmeOnaySelect> RT;
             try
             {
-                RT = db.Database.SqlQuery<SozlesmeOnaySelect>(string.Format("[FINSAT6{0}].[wms].[SP_SozlesmeOnay]", "17")).ToList();
+                RT = db.Database.SqlQuery<SozlesmeOnaySelect>(string.Format("[FINSAT6{0}].[wms].[SP_SozlesmeOnay]", vUser.SirketKodu)).ToList();
             }
             catch (Exception)
             {
@@ -43,7 +43,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             Result _Result = new Result(true);
             if (CheckPerm(Perms.SözleşmeOnaylamaGM, PermTypes.Writing) == false) return null;
             JArray parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
-            SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "17");
+            SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
             try
             {
 
@@ -51,16 +51,16 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                 {
 
 
-                    db.Database.ExecuteSqlCommand(string.Format("[FINSAT6{0}].[wms].[SozlesmeGenelMudurOnay] @SozlesmeNo = '{1}',@Kullanici = '{2}'", "17", insertObj["ListeNo"].ToString(), vUser.UserName));
+                    db.Database.ExecuteSqlCommand(string.Format("[FINSAT6{0}].[wms].[SozlesmeGenelMudurOnay] @SozlesmeNo = '{1}',@Kullanici = '{2}'", vUser.SirketKodu, insertObj["ListeNo"].ToString(), vUser.UserName));
 
-                    var list = db.Database.SqlQuery<ISS_Temp>(string.Format("SELECT *  FROM [FINSAT6{0}].[FINSAT6{0}].[ISS_Temp] WHERE ListeNo='{1}'", "17", insertObj["ListeNo"].ToString())).ToList();
+                    var list = db.Database.SqlQuery<ISS_Temp>(string.Format("SELECT *  FROM [FINSAT6{0}].[FINSAT6{0}].[ISS_Temp] WHERE ListeNo='{1}'", vUser.SirketKodu, insertObj["ListeNo"].ToString())).ToList();
 
 
                     foreach (ISS_Temp lst in list)
                     {
                         if (lst.OnayTip == 2)
                         {
-                            db.Database.ExecuteSqlCommand(string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[ISS_Temp] SET Kod12=0, Kod9='' WHERE ListeNo='{1}'", "17", insertObj["ListeNo"].ToString()));
+                            db.Database.ExecuteSqlCommand(string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[ISS_Temp] SET Kod12=0, Kod9='' WHERE ListeNo='{1}'", vUser.SirketKodu, insertObj["ListeNo"].ToString()));
                             ISS insrt = new ISS()
                             {
                                 Aciklama = lst.Aciklama,
@@ -185,7 +185,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             {
                 foreach (JObject insertObj in parameters)
                 {
-                    db.Database.ExecuteSqlCommand(string.Format("DELETE FROM [FINSAT6{0}].[FINSAT6{0}].[ISS_Temp] WHERE  ListeNo = '{1}'", "17", insertObj["ListeNo"].ToString()));
+                    db.Database.ExecuteSqlCommand(string.Format("DELETE FROM [FINSAT6{0}].[FINSAT6{0}].[ISS_Temp] WHERE  ListeNo = '{1}'", vUser.SirketKodu, insertObj["ListeNo"].ToString()));
 
                 }
                 _Result.Status = true;
@@ -204,7 +204,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         public PartialViewResult GM_Details(string ListeNo)
         {
             if (CheckPerm(Perms.SözleşmeOnaylamaGM, PermTypes.Reading) == false) return null;
-            var list = db.Database.SqlQuery<BaglantiDetaySelect>(string.Format("[FINSAT6{0}].[wms].[BaglantiDetaySelect] '{1}'", "17", ListeNo)).ToList();
+            var list = db.Database.SqlQuery<BaglantiDetaySelect>(string.Format("[FINSAT6{0}].[wms].[BaglantiDetaySelect] '{1}'", vUser.SirketKodu, ListeNo)).ToList();
             return PartialView("Details", list);
         }
         #endregion
@@ -225,7 +225,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             List<SozlesmeOnaySelect> RT;
             try
             {
-                RT = db.Database.SqlQuery<SozlesmeOnaySelect>(string.Format("[FINSAT6{0}].[wms].[SP_SozlesmeOnaySM]", "17")).ToList();
+                RT = db.Database.SqlQuery<SozlesmeOnaySelect>(string.Format("[FINSAT6{0}].[wms].[SP_SozlesmeOnaySM]", vUser.SirketKodu)).ToList();
             }
             catch (Exception)
             {
@@ -238,7 +238,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         public PartialViewResult SM_Details(string ListeNo)
         {
             if (CheckPerm(Perms.SözleşmeOnaylamaSM, PermTypes.Reading) == false) return null;
-            var list = db.Database.SqlQuery<BaglantiDetaySelect>(string.Format("[FINSAT6{0}].[wms].[BaglantiDetaySelect] '{1}'", "17", ListeNo)).ToList();
+            var list = db.Database.SqlQuery<BaglantiDetaySelect>(string.Format("[FINSAT6{0}].[wms].[BaglantiDetaySelect] '{1}'", vUser.SirketKodu, ListeNo)).ToList();
             return PartialView("Details", list);
         }
         public JsonResult Onay_SM(string Data)
@@ -246,14 +246,14 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             Result _Result = new Result(true);
             if (CheckPerm(Perms.SözleşmeOnaylamaSM, PermTypes.Writing) == false) return null;
             JArray parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
-            SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "17");
+            SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
             try
             {
                 foreach (JObject insertObj in parameters)
                 {
-                    var s = string.Format("[FINSAT6{0}].[wms].[SozlesmeSatisMuduruOnay] @SozlesmeNo = '{1}',@Kullanici = '{2}'", "17", insertObj["ListeNo"].ToString(), vUser.UserName);
+                    var s = string.Format("[FINSAT6{0}].[wms].[SozlesmeSatisMuduruOnay] @SozlesmeNo = '{1}',@Kullanici = '{2}'", vUser.SirketKodu, insertObj["ListeNo"].ToString(), vUser.UserName);
                     var xx = db.Database.ExecuteSqlCommand(s);
-                    var list = db.Database.SqlQuery<ISS_Temp>(string.Format("SELECT *  FROM [FINSAT6{0}].[FINSAT6{0}].[ISS_Temp] WHERE ListeNo='{1}'", "17", insertObj["ListeNo"].ToString())).ToList();
+                    var list = db.Database.SqlQuery<ISS_Temp>(string.Format("SELECT *  FROM [FINSAT6{0}].[FINSAT6{0}].[ISS_Temp] WHERE ListeNo='{1}'", vUser.SirketKodu, insertObj["ListeNo"].ToString())).ToList();
                     foreach (ISS_Temp lst in list)
                     {
                         if (lst.OnayTip == 0)
@@ -382,7 +382,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             {
                 foreach (JObject insertObj in parameters)
                 {
-                    db.Database.ExecuteSqlCommand(string.Format("DELETE FROM [FINSAT6{0}].[FINSAT6{0}].[ISS_Temp] WHERE  ListeNo = '{1}'", "17", insertObj["ListeNo"].ToString()));
+                    db.Database.ExecuteSqlCommand(string.Format("DELETE FROM [FINSAT6{0}].[FINSAT6{0}].[ISS_Temp] WHERE  ListeNo = '{1}'", vUser.SirketKodu, insertObj["ListeNo"].ToString()));
 
                 }
                 _Result.Status = true;
@@ -416,7 +416,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             List<SozlesmeOnaySelect> RT;
             try
             {
-                RT = db.Database.SqlQuery<SozlesmeOnaySelect>(string.Format("[FINSAT6{0}].[wms].[SP_SozlesmeOnaySPGMY]", "17")).ToList();
+                RT = db.Database.SqlQuery<SozlesmeOnaySelect>(string.Format("[FINSAT6{0}].[wms].[SP_SozlesmeOnaySPGMY]", vUser.SirketKodu)).ToList();
             }
             catch (Exception)
             {
@@ -429,7 +429,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         public PartialViewResult SPGMY_Details(string ListeNo)
         {
             if (CheckPerm(Perms.SözleşmeOnaylamaSPGMY, PermTypes.Reading) == false) return null;
-            var list = db.Database.SqlQuery<BaglantiDetaySelect>(string.Format("[FINSAT6{0}].[wms].[BaglantiDetaySelect] '{1}'", "17", ListeNo)).ToList();
+            var list = db.Database.SqlQuery<BaglantiDetaySelect>(string.Format("[FINSAT6{0}].[wms].[BaglantiDetaySelect] '{1}'", vUser.SirketKodu, ListeNo)).ToList();
             return PartialView("Details", list);
         }
         public JsonResult Onay_SPGMY(string Data)
@@ -437,14 +437,14 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             Result _Result = new Result(true);
             if (CheckPerm(Perms.SözleşmeOnaylamaSPGMY, PermTypes.Writing) == false) return null;
             JArray parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
-            SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "17");
+            SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
             try
             {
 
                 foreach (JObject insertObj in parameters)
                 {
-                    db.Database.ExecuteSqlCommand(string.Format("[FINSAT6{0}].[wms].[SozlesmeFinansmanMuduruOnay] @SozlesmeNo = '{1}',@Kullanici = '{2}'", "17", insertObj["ListeNo"].ToString(), vUser.UserName));
-                    var list = db.Database.SqlQuery<ISS_Temp>(string.Format("SELECT *  FROM [FINSAT6{0}].[FINSAT6{0}].[ISS_Temp] WHERE ListeNo='{1}'", "17", insertObj["ListeNo"].ToString())).ToList();
+                    db.Database.ExecuteSqlCommand(string.Format("[FINSAT6{0}].[wms].[SozlesmeFinansmanMuduruOnay] @SozlesmeNo = '{1}',@Kullanici = '{2}'", vUser.SirketKodu, insertObj["ListeNo"].ToString(), vUser.UserName));
+                    var list = db.Database.SqlQuery<ISS_Temp>(string.Format("SELECT *  FROM [FINSAT6{0}].[FINSAT6{0}].[ISS_Temp] WHERE ListeNo='{1}'", vUser.SirketKodu, insertObj["ListeNo"].ToString())).ToList();
                     foreach (ISS_Temp lst in list)
                     {
                         if (lst.OnayTip == 1)
@@ -572,7 +572,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             {
                 foreach (JObject insertObj in parameters)
                 {
-                    db.Database.ExecuteSqlCommand(string.Format("DELETE FROM [FINSAT6{0}].[FINSAT6{0}].[ISS_Temp] WHERE  ListeNo = '{1}'", "17", insertObj["ListeNo"].ToString()));
+                    db.Database.ExecuteSqlCommand(string.Format("DELETE FROM [FINSAT6{0}].[FINSAT6{0}].[ISS_Temp] WHERE  ListeNo = '{1}'", vUser.SirketKodu, insertObj["ListeNo"].ToString()));
 
                 }
                 _Result.Status = true;
@@ -591,7 +591,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         public ActionResult Tanim()
         {
             if (CheckPerm(Perms.SözleşmeTanim, PermTypes.Reading) == false) return Redirect("/");
-            ViewBag.SRNO = "SOZ " + db.Database.SqlQuery<int>(string.Format("[FINSAT6{0}].[wms].[SozlesmeSiraNoSelect]", "17")).FirstOrDefault();
+            ViewBag.SRNO = "SOZ " + db.Database.SqlQuery<int>(string.Format("[FINSAT6{0}].[wms].[SozlesmeSiraNoSelect]", vUser.SirketKodu)).FirstOrDefault();
             return View();
         }
 
@@ -609,7 +609,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                 }
                 sat += "</tbody>";
             }
-            ViewBag.ListeNo = JsonConvert.SerializeObject(listeNo); 
+            ViewBag.ListeNo = JsonConvert.SerializeObject(listeNo);
             ViewBag.Satir = sat;
             return PartialView("Tanim_List");
         }
@@ -619,7 +619,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             var STL = new List<BaglantiDetaySelect>();
             if (listeNo != "#12MConsulting#")
             {
-                STL = db.Database.SqlQuery<BaglantiDetaySelect>(string.Format("[FINSAT6{0}].[wms].[BaglantiDetaySelect] @ListeNo='{1}'", "17", listeNo)).ToList();
+                STL = db.Database.SqlQuery<BaglantiDetaySelect>(string.Format("[FINSAT6{0}].[wms].[BaglantiDetaySelect] @ListeNo='{1}'", vUser.SirketKodu, listeNo)).ToList();
             }
             var json = new JavaScriptSerializer().Serialize(STL);
             return json;
@@ -630,11 +630,11 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             var sozlesmeler = new List<SozlesmeListesi>();
             if (tip == 0)
             {
-                sozlesmeler = db.Database.SqlQuery<SozlesmeListesi>(string.Format("[FINSAT6{0}].[wms].[SozlesmeOnaylanmisList]", "17")).ToList();
+                sozlesmeler = db.Database.SqlQuery<SozlesmeListesi>(string.Format("[FINSAT6{0}].[wms].[SozlesmeOnaylanmisList]", vUser.SirketKodu)).ToList();
             }
             else
             {
-                sozlesmeler = db.Database.SqlQuery<SozlesmeListesi>(string.Format("[FINSAT6{0}].[wms].[SozlesmeOnaylanmamisList]", "17")).ToList();
+                sozlesmeler = db.Database.SqlQuery<SozlesmeListesi>(string.Format("[FINSAT6{0}].[wms].[SozlesmeOnaylanmamisList]", vUser.SirketKodu)).ToList();
             }
             var json = new JavaScriptSerializer().Serialize(sozlesmeler);
             return json;
@@ -646,7 +646,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             {
                 MaxJsonLength = int.MaxValue
             };
-            var ISSTemp = db.Database.SqlQuery<ISS_Temp>(string.Format("SELECT * FROM [FINSAT6{0}].[FINSAT6{0}].[ISS_Temp] WHERE ListeNo='{1}'", "17", SozlesmeNo)).ToList();
+            var ISSTemp = db.Database.SqlQuery<ISS_Temp>(string.Format("SELECT * FROM [FINSAT6{0}].[FINSAT6{0}].[ISS_Temp] WHERE ListeNo='{1}'", vUser.SirketKodu, SozlesmeNo)).ToList();
             return json.Serialize(ISSTemp);
         }
         public string FiyatListeleriSelect()
@@ -655,7 +655,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             {
                 MaxJsonLength = int.MaxValue
             };
-            var FYTList = db.Database.SqlQuery<ListeNoSelect>(string.Format("[FINSAT6{0}].[wms].[FYTSelect2]", "17")).ToList();
+            var FYTList = db.Database.SqlQuery<ListeNoSelect>(string.Format("[FINSAT6{0}].[wms].[FYTSelect2]", vUser.SirketKodu)).ToList();
             return json.Serialize(FYTList);
         }
 
@@ -668,7 +668,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             List<SozlesmeCariBilgileri> chkBilgi;
             try
             {
-                chkBilgi = db.Database.SqlQuery<SozlesmeCariBilgileri>(string.Format("[FINSAT6{0}].[wms].[SozlesmeCariBilgileri] @HesapKodu='{2}', @ListeNo='{1}'", "17", ListeNo, HesapKodu)).ToList();
+                chkBilgi = db.Database.SqlQuery<SozlesmeCariBilgileri>(string.Format("[FINSAT6{0}].[wms].[SozlesmeCariBilgileri] @HesapKodu='{2}', @ListeNo='{1}'", vUser.SirketKodu, ListeNo, HesapKodu)).ToList();
             }
             catch (Exception)
             {
@@ -682,13 +682,13 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             {
                 MaxJsonLength = int.MaxValue
             };
-            var FUGS = db.Database.SqlQuery<UrunGrup>(string.Format("[FINSAT6{0}].[wms].[STKSelect2] @Index={1}", "17", Index)).ToList();
+            var FUGS = db.Database.SqlQuery<UrunGrup>(string.Format("[FINSAT6{0}].[wms].[STKSelect2] @Index={1}", vUser.SirketKodu, Index)).ToList();
             return json.Serialize(FUGS);
         }
 
         public int ListeNoKontrol(string ListeNo)
         {
-            var VarMi = db.Database.SqlQuery<int>(string.Format("SELECT Count(ListeNo) FROM [FINSAT6{0}].[FINSAT6{0}].[ISS_Temp] WHERE ListeNo='{1}'", "17", ListeNo)).FirstOrDefault();
+            var VarMi = db.Database.SqlQuery<int>(string.Format("SELECT Count(ListeNo) FROM [FINSAT6{0}].[FINSAT6{0}].[ISS_Temp] WHERE ListeNo='{1}'", vUser.SirketKodu, ListeNo)).FirstOrDefault();
             return VarMi;
         }
 
@@ -696,18 +696,18 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         {
             Result _Result = new Result(true);
             if (CheckPerm(Perms.SözleşmeTanim, PermTypes.Writing) == false) return null;
-            SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "17");
+            SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
             try
             {
-                var ISSS = db.Database.SqlQuery<ISS_Temp>(string.Format("SELECT * FROM [FINSAT6{0}].[FINSAT6{0}].[ISS_Temp]", "17")).ToList();
+                var ISSS = db.Database.SqlQuery<ISS_Temp>(string.Format("SELECT * FROM [FINSAT6{0}].[FINSAT6{0}].[ISS_Temp]", vUser.SirketKodu)).ToList();
                 if (!AktifPasif)   ///Pasif In Aktif olunca
                 {
-                    db.Database.ExecuteSqlCommand(string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[ISS_Temp] SET AktifPasif = 0  where ListeNo = '{1}'", "17", SozlesmeNo));
-                    db.Database.ExecuteSqlCommand(string.Format("DELETE FROM [FINSAT6{0}].[FINSAT6{0}].[ISS] where ListeNo = '{1}'", "17", SozlesmeNo));
+                    db.Database.ExecuteSqlCommand(string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[ISS_Temp] SET AktifPasif = 0  where ListeNo = '{1}'", vUser.SirketKodu, SozlesmeNo));
+                    db.Database.ExecuteSqlCommand(string.Format("DELETE FROM [FINSAT6{0}].[FINSAT6{0}].[ISS] where ListeNo = '{1}'", vUser.SirketKodu, SozlesmeNo));
                 }
                 else
                 {
-                    db.Database.ExecuteSqlCommand(string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[ISS_Temp] SET AktifPasif = 1  where ListeNo = '{1}'", "17", SozlesmeNo));
+                    db.Database.ExecuteSqlCommand(string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[ISS_Temp] SET AktifPasif = 1  where ListeNo = '{1}'", vUser.SirketKodu, SozlesmeNo));
                     foreach (ISS_Temp lst in ISSS)
                     {
                         ISS insrt = new ISS()
@@ -807,7 +807,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                             TutarYuzde7 = lst.TutarYuzde7,
                             TutarYuzde8 = lst.TutarYuzde8
                         };
-                        var VarMi = db.Database.SqlQuery<int>(string.Format("SELECT Count(*) FROM [FINSAT6{0}].[FINSAT6{0}].[ISS] WHERE ListeNo='{1}' AND BasTarih={2} AND MusUygSekli='{3}' AND SiraNo={4}", "17", insrt.ListeNo, insrt.BasTarih, insrt.MusUygSekli, insrt.SiraNo)).FirstOrDefault();
+                        var VarMi = db.Database.SqlQuery<int>(string.Format("SELECT Count(*) FROM [FINSAT6{0}].[FINSAT6{0}].[ISS] WHERE ListeNo='{1}' AND BasTarih={2} AND MusUygSekli='{3}' AND SiraNo={4}", vUser.SirketKodu, insrt.ListeNo, insrt.BasTarih, insrt.MusUygSekli, insrt.SiraNo)).FirstOrDefault();
 
                         if (VarMi > 0)
                         {
@@ -835,7 +835,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         {
             if (CheckPerm(Perms.SözleşmeTanim, PermTypes.Writing) == false) return null;
             JArray parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
-            SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "17");
+            SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
             bool filtreKagitVarmi = false;
 
             int SiraNo = 0;
@@ -1020,7 +1020,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                         bool kontrol = false;
                         string SozlesmeSiraNo = "";
 
-                        SozlesmeSiraNo = "SÖZ " + db.Database.SqlQuery<int>(string.Format("[FINSAT6{0}].[wms].[SozlesmeSiraNoSelect]", 17)).FirstOrDefault();
+                        SozlesmeSiraNo = "SÖZ " + db.Database.SqlQuery<int>(string.Format("[FINSAT6{0}].[wms].[SozlesmeSiraNoSelect]", vUser.SirketKodu)).FirstOrDefault();
                         string HesapKodu = "";
                         string ListeNo = "";
                         decimal BaglantiTutari = 0;
@@ -1042,7 +1042,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                                 return "NO";
                             }
                         }
-                        string s = string.Format("[FINSAT6{0}].[wms].[SetSozlesmeOnayTip] @HesapKodu='{1}' , @ListeNo='{2}' , @BaglantiTutari={3}", "17", HesapKodu, ListeNo, BaglantiTutari.ToString().Replace(",", "."));
+                        string s = string.Format("[FINSAT6{0}].[wms].[SetSozlesmeOnayTip] @HesapKodu='{1}' , @ListeNo='{2}' , @BaglantiTutari={3}", vUser.SirketKodu, HesapKodu, ListeNo, BaglantiTutari.ToString().Replace(",", "."));
                         var xx = db.Database.ExecuteSqlCommand(s);
                         //var xx = db.Database.SqlQuery<int>(s).ToList();
                         db.SaveChanges();
@@ -1073,7 +1073,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             Result _Result = new Result(true, "İşlem Başarılı.");
             try
             {
-                db.Database.ExecuteSqlCommand(string.Format("DELETE FROM [FINSAT6{0}].[FINSAT6{0}].[ISS_Temp]  WHERE ListeNo = '{1}'", "17", SozlesmeNo));
+                db.Database.ExecuteSqlCommand(string.Format("DELETE FROM [FINSAT6{0}].[FINSAT6{0}].[ISS_Temp]  WHERE ListeNo = '{1}'", vUser.SirketKodu, SozlesmeNo));
             }
             catch (Exception)
             {
@@ -1089,11 +1089,11 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         {
             if (CheckPerm(Perms.SözleşmeTanim, PermTypes.Writing) == false) return null;
             Result _Result = new Result(true, "İşlem Başarılı.");
-            SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "17");
+            SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
             try
             {
                 bool filtreKagitVarmi = false;
-                var list = db.Database.SqlQuery<ISS_Temp>(string.Format("SELECT * FROM [FINSAT6{0}].[FINSAT6{0}].[ISS_Temp] WHERE ListeNo='{1}' AND BasTarih = {2} AND MusUygSekli={3}", "17", SozlesmeNo, BasTarih, MusUygSekli)).ToList();
+                var list = db.Database.SqlQuery<ISS_Temp>(string.Format("SELECT * FROM [FINSAT6{0}].[FINSAT6{0}].[ISS_Temp] WHERE ListeNo='{1}' AND BasTarih = {2} AND MusUygSekli={3}", vUser.SirketKodu, SozlesmeNo, BasTarih, MusUygSekli)).ToList();
                 foreach (ISS_Temp item in list)
                 {
                     item.pk_ListeNo = SozlesmeNo;
@@ -1150,7 +1150,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                 var sonuc = sqlexper.AcceptChanges();
                 if (sonuc.Status == true)
                 {
-                    db.Database.ExecuteSqlCommand(string.Format("DELETE FROM [FINSAT6{0}].[FINSAT6{0}].[ISS] where ListeNo='{1}' AND BasTarih = {2} AND MusUygSekli={3}", "17", SozlesmeNo, BasTarih, MusUygSekli));
+                    db.Database.ExecuteSqlCommand(string.Format("DELETE FROM [FINSAT6{0}].[FINSAT6{0}].[ISS] where ListeNo='{1}' AND BasTarih = {2} AND MusUygSekli={3}", vUser.SirketKodu, SozlesmeNo, BasTarih, MusUygSekli));
                 }
                 else
                 {
@@ -1158,7 +1158,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                     _Result.Message = "Hata Oluştu. ";
                 }
 
-                //db.Database.ExecuteSqlCommand(string.Format("DELETE FROM [FINSAT6{0}].[FINSAT6{0}].[ISS_Temp]  WHERE ListeNo = '{1}'", "17", SozlesmeNo));
+                //db.Database.ExecuteSqlCommand(string.Format("DELETE FROM [FINSAT6{0}].[FINSAT6{0}].[ISS_Temp]  WHERE ListeNo = '{1}'", vUser.SirketKodu, SozlesmeNo));
 
             }
             catch (Exception)

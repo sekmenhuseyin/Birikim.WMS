@@ -204,7 +204,7 @@ namespace Wms12m.Presentation.Controllers
                     {
                         birim = dr["Birim"].ToString();
                         if (birim == "")
-                            birim = db.Database.SqlQuery<string>(string.Format("SELECT Birim1 FROM FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) WHERE MalKodu='{1}'", db.GetSirketDBs().FirstOrDefault(), dr["Mal Kodu"].ToString())).FirstOrDefault();
+                            birim = db.Database.SqlQuery<string>(string.Format("SELECT Birim1 FROM FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) WHERE MalKodu='{1}'", vUser.SirketKodu, dr["Mal Kodu"].ToString())).FirstOrDefault();
                         if (birim != "")
                         {
                             var test = db.Olcus.Where(m => m.MalKodu == dr["Mal Kodu"].ToString() && m.Birim == birim).FirstOrDefault();
@@ -300,7 +300,7 @@ namespace Wms12m.Presentation.Controllers
             using (var dbContextTransaction = db.Database.BeginTransaction())
             {
                 //add to irs table
-                var sonuc = Irsaliye.Operation(new IR() { SirketKod = db.GetSirketDBs().FirstOrDefault(), DepoID = DID, EvrakNo = db.SettingsGorevNo(tarih, DID).FirstOrDefault(), HesapKodu = "Elle Ekleme", Tarih = tarih });
+                var sonuc = Irsaliye.Operation(new IR() { SirketKod = vUser.SirketKodu, DepoID = DID, EvrakNo = db.SettingsGorevNo(tarih, DID).FirstOrDefault(), HesapKodu = "Elle Ekleme", Tarih = tarih });
                 //loop
                 for (int i = 0; i < result.Tables[0].Rows.Count; i++)
                 {

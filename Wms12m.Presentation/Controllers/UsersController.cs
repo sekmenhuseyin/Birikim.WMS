@@ -274,7 +274,7 @@ namespace Wms12m.Presentation.Controllers
             if (CheckPerm(Perms.Kullanıcılar, PermTypes.Reading) == false) return null;
             string sql = string.Format("SELECT solar6.dbo.B2B_User.ID, solar6.dbo.B2B_User.HesapKodu, FINSAT6{0}.FINSAT6{0}.CHK.Unvan1 as Unvan, solar6.dbo.B2B_User.YetkiliEMail, solar6.dbo.B2B_User.Parola " +
                                 "FROM solar6.dbo.B2B_User WITH(NOLOCK) INNER JOIN FINSAT6{0}.FINSAT6{0}.CHK WITH(NOLOCK) ON solar6.dbo.B2B_User.HesapKodu = FINSAT6{0}.FINSAT6{0}.CHK.HesapKodu " +
-                                "ORDER BY Unvan1", db.GetSirketDBs().FirstOrDefault());
+                                "ORDER BY Unvan1", vUser.SirketKodu);
             List<mdlB2BUsers> list;
             try
             {
@@ -364,7 +364,7 @@ namespace Wms12m.Presentation.Controllers
             string sql = "";
             //generate sql
             if (id.ToString() == "0")
-                id = db.GetSirketDBs().FirstOrDefault();
+                id = vUser.SirketKodu;
             sql = String.Format("FINSAT6{0}.[wms].[BTBCHKSearch] @HesapKodu = N'{1}', @Unvan = N'', @top = 20", id.ToString(), term);
             //return
             try
@@ -385,7 +385,7 @@ namespace Wms12m.Presentation.Controllers
             string sql = "";
             //generate sql
             if (id.ToString() == "0")
-                id = db.GetSirketDBs().FirstOrDefault();
+                id = vUser.SirketKodu;
             sql = String.Format("FINSAT6{0}.[wms].[BTBCHKSearch] @HesapKodu = N'', @Unvan = N'{1}', @top = 20", id.ToString(), term);
             //return
             try
