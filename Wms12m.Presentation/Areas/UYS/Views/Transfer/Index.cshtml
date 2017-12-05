@@ -76,8 +76,8 @@
 @section Scripts{<script type="text/javascript">
     var satir = 0;
     $(document).ready(function () {
-        CheckAll();
         $(".DepoID").prepend("<option value=''>Seçiniz !!!</option>"); $(".DepoID")[0].selectedIndex = 0; $(".DepoID")[1].selectedIndex = 0;
+        CheckAll();
         $.datepicker.setDefaults($.datepicker.regional["tr"]);
         $("#Tarih").datepicker().on("change", function (e) {
             $("#Tarih2").val(toOADateFromString(e.target.value));
@@ -127,9 +127,11 @@
     function CheckAll()
     {
         ClearAll(false);
-        if ($("#CikisDepo").val() == "" || $("#GirisDepo").val() == "" || $("#Tarih").val() == "")
+        if ($("#CikisDepo").val() == "" || $("#GirisDepo").val() == "")
             $('#myTable').hide();
-        else
+        else if ($("#CikisDepo").val() == $("#GirisDepo").val())
+            Modaldialog("Çıkış deposu ile giriş deposu aynı olamaz", "Hata", "Tamam", "btn-danger");
+        else if ($("#Tarih").val() != "")
             $('#myTable').show();    
     }
     function ClearAll(ch) {
@@ -141,8 +143,14 @@
     }
     function NewRow()
     {
-        if ($("#CikisDepo").val() == "" || $("#GirisDepo").val() == "" || $("#Tarih").val() == "" || $("#MalKodu").val() == "" || $("#MalAdi").val() == "" || $("#Miktar").val() == "") {
+        if ($("#CikisDepo").val() == "" || $("#GirisDepo").val() == "" || $("#Tarih").val() == "" || $("#MalKodu").val() == "" || $("#MalAdi").val() == "" || $("#Miktar").val() == "")
+        {
             Modaldialog("Tüm alanları doldurunuz", 'Hata', 'Tamam', 'btn-danger');
+            return;
+        }
+        else if ($("#CikisDepo").val() == $("#GirisDepo").val())
+        {
+            Modaldialog("Çıkış deposu ile giriş deposu aynı olamaz", "Hata", "Tamam", "btn-danger");
             return;
         }
         $.ajax({
@@ -154,6 +162,10 @@
                 if (data == null)
                 {
                     Modaldialog("Bu ürünün stoğu yok", "Hata", "Tamam", "btn-danger");
+                    return;
+                }
+                else if (data.MalKodu == "Hata") {
+                    Modaldialog(data.Birim, "Hata", "Tamam", "btn-danger");
                     return;
                 }
                 else if (parseInt(data.Miktar) < parseInt($("#Miktar").val())) {

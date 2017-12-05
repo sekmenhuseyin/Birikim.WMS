@@ -53,7 +53,9 @@ namespace Wms12m.Presentation.Areas.UYS.Controllers
         {
             //miktar kontrol
             if (fn.isNumeric(Miktar) == false)
-                return Json(new frmMalKoduMiktar(), JsonRequestBehavior.AllowGet);
+                return Json(new frmMalKoduMiktar() { MalKodu = "Hata", Birim = "Miktar hatalı" }, JsonRequestBehavior.AllowGet);
+            else if (Miktar < 0)
+                return Json(new frmMalKoduMiktar() { MalKodu = "Hata", Birim = "Miktar hatalı" }, JsonRequestBehavior.AllowGet);
             //kontrol
             var sql = string.Format(@"SELECT
                                     ISNULL((SELECT SUM(CASE WHEN IslemTur = 0 THEN Miktar ELSE - Miktar END) AS Miktar
@@ -67,7 +69,7 @@ namespace Wms12m.Presentation.Areas.UYS.Controllers
                                     vUser.SirketKodu, MalKodu, Tarih, Depo, SeriNo, SeriNo.Length);
             var stokKontrol = db.Database.SqlQuery<frmUysStokKontrol>(sql).FirstOrDefault();
             if (stokKontrol.Miktar1 < Miktar || stokKontrol.Miktar2 < Miktar)
-                return Json(new frmMalKoduMiktar(), JsonRequestBehavior.AllowGet);
+                return Json(new frmMalKoduMiktar() { MalKodu = "Hata", Birim = "Stok yetersiz" }, JsonRequestBehavior.AllowGet);
             //return
             sql = string.Format(@"SELECT '{1}' as MalKodu, isnull(sum(case when IslemTur = 0 then Miktar else -Miktar end), 0) as Miktar, Birim1 as Birim
 									FROM FINSAT6{0}.FINSAT6{0}.STI WITH (nolock) left join FINSAT6{0}.FINSAT6{0}.STK WITH (nolock) ON STK.MalKodu = STI.MalKodu 
@@ -87,24 +89,43 @@ namespace Wms12m.Presentation.Areas.UYS.Controllers
                 return Json(new Result(false, "Çıkış depo ile giriş depo aynı olamaz"), JsonRequestBehavior.AllowGet);
             }
             var listKontrol = new List<frmUysTransferDetay>();
-            var varmi = false;
             for (int i = 0; i < tbl.MalKodu.Length; i++)
             {
+                var varmi = false;
                 if (tbl.Miktar[i] <= 0)
                 {
-                    return Json(new Result(false, "'" + tbl.SeriNo[i] + "' serili '" + tbl.MalKodu[i] + "' ürün için yanlış miktar yazılmış"), JsonRequestBehavior.AllowGet);
+                    return Json(new Result(false, "'" + tbl.SeriNo[i] + "' serili '" + tbl.MalKodu[i] + "' ürünü için yanlış miktar yazılmış"), JsonRequestBehavior.AllowGet);
                 }
                 foreach (var item in listKontrol)
                 {
                     if (item.MalKodu == tbl.MalKodu[i] && item.SeriNo == tbl.SeriNo[i])
                     {
                         item.Miktar += tbl.Miktar[i];
+                        varmi = true;
+                        continue;
                     }
                 }
                 if (varmi == false)
                 {
                     listKontrol.Add(new frmUysTransferDetay() { MalKodu = tbl.MalKodu[i], Birim = tbl.Birim[i], SeriNo = tbl.SeriNo[i], Miktar = tbl.Miktar[i] });
                 }
+            }
+            //stok kontrol
+            foreach (var item in listKontrol)
+            {
+                var sql = string.Format(@"SELECT
+                                    ISNULL((SELECT SUM(CASE WHEN IslemTur = 0 THEN Miktar ELSE - Miktar END) AS Miktar
+                                        FROM FINSAT6{0}.FINSAT6{0}.STI WITH (nolock) LEFT OUTER JOIN FINSAT6{0}.FINSAT6{0}.STK WITH (nolock) ON FINSAT6{0}.FINSAT6{0}.STK.MalKodu = FINSAT6{0}.FINSAT6{0}.STI.MalKodu
+                                        WHERE (FINSAT6{0}.FINSAT6{0}.STI.MalKodu = '{1}') AND (FINSAT6{0}.FINSAT6{0}.STI.Tarih <= {2}) AND (FINSAT6{0}.FINSAT6{0}.STI.SeriNo = '{4}') AND (DATALENGTH(FINSAT6{0}.FINSAT6{0}.STI.SeriNo) = {5}) AND (FINSAT6{0}.FINSAT6{0}.STI.Depo = '{3}') AND (FINSAT6{0}.FINSAT6{0}.STI.IrsFat <> 2) AND (FINSAT6{0}.FINSAT6{0}.STI.KynkEvrakTip <> 95)and KynkEvrakTip not in (141,142,143,144) and not (KynkEvrakTip in (68,69) and ErekIIFKEvrakTip in (5,2) and IrsFat = 3)
+                                        GROUP BY FINSAT6{0}.FINSAT6{0}.STI.MalKodu, FINSAT6{0}.FINSAT6{0}.STI.Depo, FINSAT6{0}.FINSAT6{0}.STI.SeriNo), 0) as Miktar1,
+                                    ISNULL((SELECT SUM(CASE WHEN IslemTur = 0 THEN Miktar ELSE - Miktar END) AS Miktar
+                                        FROM FINSAT6{0}.FINSAT6{0}.STI WITH (nolock) LEFT OUTER JOIN FINSAT6{0}.FINSAT6{0}.STK WITH (nolock) ON FINSAT6{0}.FINSAT6{0}.STK.MalKodu = FINSAT6{0}.FINSAT6{0}.STI.MalKodu
+                                        WHERE (FINSAT6{0}.FINSAT6{0}.STI.MalKodu = '{1}') AND (FINSAT6{0}.FINSAT6{0}.STI.SeriNo = '{4}') AND (DATALENGTH(FINSAT6{0}.FINSAT6{0}.STI.SeriNo) = {5}) AND (FINSAT6{0}.FINSAT6{0}.STI.Depo = '{3}') AND (FINSAT6{0}.FINSAT6{0}.STI.IrsFat <> 2) AND(FINSAT6{0}.FINSAT6{0}.STI.KynkEvrakTip <> 95) and KynkEvrakTip not in (141,142,143,144) and not (KynkEvrakTip in (68,69) and ErekIIFKEvrakTip in (5,2) and IrsFat = 3)
+                                        GROUP BY FINSAT6{0}.FINSAT6{0}.STI.MalKodu, FINSAT6{0}.FINSAT6{0}.STI.Depo, FINSAT6{0}.FINSAT6{0}.STI.SeriNo), 0) as Miktar2",
+                                        vUser.SirketKodu, item.MalKodu, tbl.Tarih, tbl.CikisDepo, item.SeriNo, item.SeriNo.Length);
+                var stokKontrol = db.Database.SqlQuery<frmUysStokKontrol>(sql).FirstOrDefault();
+                if (stokKontrol.Miktar1 < item.Miktar || stokKontrol.Miktar2 < item.Miktar)
+                    return Json(new Result(false, "'" + item.SeriNo + "' serili '" + item.MalKodu + "' ürünü için stok yetersiz"), JsonRequestBehavior.AllowGet);
             }
             //variables
             var uysf = new UYSF(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
