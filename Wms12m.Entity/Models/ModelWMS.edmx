@@ -3870,14 +3870,14 @@
           <Property Type="Decimal" Name="KalanMiktar" Nullable="false" Precision="25" Scale="6" />
         </ComplexType>
         <ComplexType Name="GetCachedChartLocation_Result">
-          <Property Type="Int16" Name="Ay" Nullable="false" />
+          <Property Type="Int32" Name="Ay" Nullable="false" />
           <Property Type="String" Name="GrupKod" Nullable="false" MaxLength="250" />
           <Property Type="Decimal" Name="Yil2016" Nullable="false" Precision="25" Scale="6" />
           <Property Type="Decimal" Name="Yil2017" Nullable="false" Precision="25" Scale="6" />
           <Property Type="Decimal" Name="Toplam" Nullable="false" Precision="25" Scale="6" />
         </ComplexType>
         <ComplexType Name="GetCachedChartLocationKriter_Result">
-          <Property Type="Int16" Name="Ay" Nullable="false" />
+          <Property Type="Int32" Name="Ay" Nullable="false" />
           <Property Type="String" Name="GrupKod" Nullable="false" MaxLength="250" />
           <Property Type="Decimal" Name="Yil2016" Nullable="false" Precision="25" Scale="6" />
           <Property Type="Decimal" Name="Yil2017" Nullable="false" Precision="25" Scale="6" />
@@ -3900,14 +3900,14 @@
           <Property Type="Decimal" Name="KalanTutar" Nullable="false" Precision="25" Scale="6" />
         </ComplexType>
         <ComplexType Name="GetCachedChartUrunGrubu_Result">
-          <Property Type="Int16" Name="Ay" Nullable="false" />
+          <Property Type="Int32" Name="Ay" Nullable="false" />
           <Property Type="String" Name="GrupKod" Nullable="false" MaxLength="250" />
           <Property Type="Decimal" Name="Yil2016" Nullable="false" Precision="25" Scale="6" />
           <Property Type="Decimal" Name="Yil2017" Nullable="false" Precision="25" Scale="6" />
           <Property Type="Decimal" Name="Toplam" Nullable="false" Precision="25" Scale="6" />
         </ComplexType>
         <ComplexType Name="GetCachedChartUrunGrubuKriter_Result">
-          <Property Type="Int16" Name="Ay" Nullable="false" />
+          <Property Type="Int32" Name="Ay" Nullable="false" />
           <Property Type="String" Name="GrupKod" Nullable="false" MaxLength="250" />
           <Property Type="Decimal" Name="Yil2016" Nullable="false" Precision="25" Scale="6" />
           <Property Type="Decimal" Name="Yil2017" Nullable="false" Precision="25" Scale="6" />

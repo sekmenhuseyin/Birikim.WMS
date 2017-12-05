@@ -13,7 +13,7 @@ namespace Wms12m.Entity.Models
     
     public partial class GetCachedChartUrunGrubuKriter_Result
     {
-        public short Ay { get; set; }
+        public int Ay { get; set; }
         public string GrupKod { get; set; }
         public decimal Yil2016 { get; set; }
         public decimal Yil2017 { get; set; }
