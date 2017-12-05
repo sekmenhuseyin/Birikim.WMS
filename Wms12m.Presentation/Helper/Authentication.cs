@@ -10,9 +10,12 @@ namespace Wms12m
 {
     public class Authentication
     {
-        public static void CreateAuth(User person, bool rememberMe)
+        /// <summary>
+        /// CreateAuth
+        /// </summary>
+        public static void CreateAuth(User person, bool rememberMe, GetSirkets_Result sirket)
         {
-            var serializeModel = AuthIdentity(person, false);
+            var serializeModel = AuthIdentity(person, false, sirket);
             DateTime expiration = DateTime.Now.AddMinutes(HttpContext.Current.Session.Timeout);
             if (rememberMe)
                 expiration = DateTime.MaxValue;
@@ -21,12 +24,7 @@ namespace Wms12m
             var serializer = new JavaScriptSerializer();
             string userData = serializer.Serialize(serializeModel);
             //new ticket
-            var authTicket = new FormsAuthenticationTicket(1,
-                                                           person.Kod,
-                                                           DateTime.Now,
-                                                           expiration,
-                                                           rememberMe,
-                                                           userData);
+            var authTicket = new FormsAuthenticationTicket(1, person.Kod, DateTime.Now, expiration, rememberMe, userData);
             string encTicket = FormsAuthentication.Encrypt(authTicket);
             //cookie
             var cookie = new HttpCookie(FormsAuthentication.FormsCookieName, encTicket);
@@ -34,10 +32,13 @@ namespace Wms12m
             cookie.Expires = expiration;
             HttpContext.Current.Response.Cookies.Add(cookie);
         }
-        public static void UpdateAuth(User person)
+        /// <summary>
+        /// UpdateAuth
+        /// </summary>
+        public static void UpdateAuth(User person, GetSirkets_Result sirket)
         {
             var user = (HttpContext.Current.User as CustomPrincipal).AppIdentity.User;
-            var serializeModel = AuthIdentity(person, true);
+            var serializeModel = AuthIdentity(person, true, sirket);
             var serializer = new JavaScriptSerializer();
             string userData = serializer.Serialize(serializeModel);
             HttpCookie cookie = FormsAuthentication.GetAuthCookie(user.UserName, true);
@@ -61,7 +62,10 @@ namespace Wms12m
             cookie.Expires = ticket.Expiration;
             HttpContext.Current.Response.Cookies.Set(cookie);
         }
-        private static CustomPrincipalSerializeModel AuthIdentity(User person, bool isUpdate)
+        /// <summary>
+        /// AuthIdentity
+        /// </summary>
+        private static CustomPrincipalSerializeModel AuthIdentity(User person, bool isUpdate, GetSirkets_Result sirket)
         {
             var identity = HttpContext.Current.User as CustomPrincipal;
             var serializeModel = new CustomPrincipalSerializeModel();
@@ -74,11 +78,14 @@ namespace Wms12m
                 },
                 User = new UserIdentity()
                 {
+                    Id = person.ID,
+                    Guid = person.Guid.ToString(),
+                    FullName = person.AdSoyad,
+                    Email = person.Email,
                     UserName = person.Kod,
                     RoleName = person.RoleName,
-                    FullName = person.AdSoyad,
-                    Guid = person.Guid.ToString(),
-                    Id = person.ID
+                    SirketKodu = sirket.Kod,
+                    SirketAdi = sirket.Ad
                 },
                 Action = new ActionIdentity()
                 {

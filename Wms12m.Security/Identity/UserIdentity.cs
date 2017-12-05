@@ -21,15 +21,18 @@ namespace Wms12m.Security
         public string UserName { get; set; }
 
         [DataMember]
-        public string[] Email { get; set; }
+        public string Email { get; set; }
 
         [DataMember]
         public int Language { get; set; }
 
         [DataMember]
-        public bool Gender { get; set; }
+        public int? DepoId { get; set; }
 
         [DataMember]
-        public int? DepoId { get; set; }
+        public string SirketKodu { get; set; }
+
+        [DataMember]
+        public string SirketAdi { get; set; }
     }
 }

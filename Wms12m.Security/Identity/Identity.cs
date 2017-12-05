@@ -1,16 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.Serialization;
 using System.ServiceModel;
-using System.Text;
-using System.Threading.Tasks;
 using System.Web;
 
 namespace Wms12m.Security
 {
-    [DataContract]
-    [Serializable]
+    [DataContract, Serializable]
     public class Identity
     {
         private static Identity _identity = null;

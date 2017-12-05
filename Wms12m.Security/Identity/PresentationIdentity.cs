@@ -7,8 +7,10 @@ namespace Wms12m.Security
     {
         [DataMember]
         public string Application { get; set; }
+
         [DataMember]
         public string Channel { get; set; }
+
         [DataMember]
         public Layer Layer { get; set; }
     }

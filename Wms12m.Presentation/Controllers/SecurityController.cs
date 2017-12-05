@@ -41,7 +41,7 @@ namespace Wms12m.Presentation.Controllers
                     {
                         _Result = _Person.Login(P, fn.GetIPAddress());
                         if (_Result.Id > 0)
-                            Authentication.CreateAuth((User)_Result.Data, RememberMe == "1" ? true : false);
+                            Authentication.CreateAuth((User)_Result.Data, RememberMe == "1" ? true : false, db.GetSirkets().FirstOrDefault());
                         else
                             db.LogLogins(P.Kod, fn.GetIPAddress(), false, _Result.Message);
                     }
