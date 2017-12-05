@@ -99,7 +99,11 @@
             title: "Onaylamak için çalıştığınız süreyi dakika olarak yazınız!",
             inputType: 'number',
             callback: function (result) {
-                if (result < 0) {
+                if (result == null)
+                {
+
+                }
+                else if (result < 0) {
                     Modaldialog("Süreyi doğru yazınız", 'Hata', 'Tamam', 'btn-danger');
                 }
                 else

@@ -129,7 +129,8 @@ namespace Wms12m.Presentation.Controllers
             }
             else//yeni mesaj geldiğinde signalR burayı çağırıyor
             {
-                var tablo = db.Messages.Where(m => m.MesajTipi == 85 && m.Kime == vUser.UserName && (m.Okundu == false || m.Tarih > DateTime.Now.AddDays(-30))).OrderByDescending(m => m.Tarih).ToList();
+                var trh = DateTime.Now.AddDays(-30);
+                var tablo = db.Messages.Where(m => m.MesajTipi == 85 && m.Kime == vUser.UserName && (m.Okundu == false || m.Tarih > trh)).OrderByDescending(m => m.Tarih).ToList();
                 return PartialView("../Shared/Notifications", tablo);
             }
         }
