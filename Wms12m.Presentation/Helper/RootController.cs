@@ -86,6 +86,11 @@ namespace Wms12m.Presentation
                 filterContext.Result = new RedirectToRouteResult(new RouteValueDictionary(new { area = "", controller = "Security", action = "Login" }));
                 return;
             }
+            else if (vUser.SirketKodu == "" || vUser.SirketKodu == null)
+            {
+                filterContext.Result = new RedirectToRouteResult(new RouteValueDictionary(new { area = "", controller = "Security", action = "Login" }));
+                return;
+            }
             //Maintenance
             ViewBag.settings = db.Settings.FirstOrDefault();
             if (ViewBag.settings.Aktif == false && filterContext.ActionDescriptor.ControllerDescriptor.ControllerName != "Maintenance")
