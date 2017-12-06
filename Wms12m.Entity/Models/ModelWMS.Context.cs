@@ -502,15 +502,6 @@ namespace Wms12m.Entity.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("WMSEntities.TerminalFinishGorev", gorevIDParameter, irsaliyeIDParameter, yeniGorevNoParameter, bitisTarihiParameter, bitisSaatiParameter, kullaniciParameter, linkEvrakNoParameter, görevTipiIDParameter, yeniGorevTipiIDParameter);
         }
     
-        public virtual ObjectResult<GetIrsDetayfromGorev_Result> GetIrsDetayfromGorev(Nullable<int> gorevID)
-        {
-            var gorevIDParameter = gorevID.HasValue ?
-                new ObjectParameter("GorevID", gorevID) :
-                new ObjectParameter("GorevID", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetIrsDetayfromGorev_Result>("WMSEntities.GetIrsDetayfromGorev", gorevIDParameter);
-        }
-    
         public virtual ObjectResult<GetMenuRoleFor_Result> GetMenuRoleFor(string roleName)
         {
             var roleNameParameter = roleName != null ?
@@ -960,6 +951,15 @@ namespace Wms12m.Entity.Models
                 new ObjectParameter("DB", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetCachedChartYear2Day_Result>("WMSEntities.GetCachedChartYear2Day", dBParameter);
+        }
+    
+        public virtual ObjectResult<GetIrsDetayfromGorev_Result> GetIrsDetayfromGorev(Nullable<int> gorevID)
+        {
+            var gorevIDParameter = gorevID.HasValue ?
+                new ObjectParameter("GorevID", gorevID) :
+                new ObjectParameter("GorevID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetIrsDetayfromGorev_Result>("WMSEntities.GetIrsDetayfromGorev", gorevIDParameter);
         }
     }
 }

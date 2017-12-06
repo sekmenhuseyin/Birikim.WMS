@@ -2083,9 +2083,6 @@
             <End Role="Gorev" EntitySet="Gorevs" />
             <End Role="GorevPaketler" EntitySet="GorevPaketlers" />
           </AssociationSet>
-          <FunctionImport Name="GetIrsDetayfromGorev" ReturnType="Collection(MModel.GetIrsDetayfromGorev_Result)">
-          <Parameter Name="GorevID" Mode="In" Type="Int32" />
-          </FunctionImport>
           <FunctionImport Name="GetMenuRoleFor" ReturnType="Collection(MModel.GetMenuRoleFor_Result)">
           <Parameter Name="RoleName" Mode="In" Type="String" />
           </FunctionImport>
@@ -2301,7 +2298,7 @@
             <End Role="ProjeFormDosya" EntitySet="ProjeFormDosyas" />
           </AssociationSet>
           <FunctionImport Name="GetCachedChartBakiyeRisk" ReturnType="Collection(MModel.GetCachedChartBakiyeRisk_Result)">
-            <Parameter Name="DB" Mode="In" Type="String" />
+          <Parameter Name="DB" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="GetCachedChartBekleyenUrunMiktarFiyat" ReturnType="Collection(MModel.GetCachedChartBekleyenUrunMiktarFiyat_Result)">
             <Parameter Name="DB" Mode="In" Type="String" />
@@ -2317,7 +2314,7 @@
             <Parameter Name="Kriter" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="GetCachedChartMonthly" ReturnType="Collection(MModel.GetCachedChartMonthly_Result)">
-            <Parameter Name="DB" Mode="In" Type="String" />
+          <Parameter Name="DB" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="GetCachedChartMonthlyByKriter" ReturnType="Collection(MModel.GetCachedChartMonthlyByKriter_Result)">
             <Parameter Name="DB" Mode="In" Type="String" />
@@ -2326,7 +2323,7 @@
             <Parameter Name="IslemTip" Mode="In" Type="Int16" />
           </FunctionImport>
           <FunctionImport Name="GetCachedChartSatisBaglanti" ReturnType="Collection(MModel.GetCachedChartSatisBaglanti_Result)">
-            <Parameter Name="DB" Mode="In" Type="String" />
+          <Parameter Name="DB" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="GetCachedChartUrunGrubu" ReturnType="Collection(MModel.GetCachedChartUrunGrubu_Result)">
             <Parameter Name="DB" Mode="In" Type="String" />
@@ -2338,7 +2335,10 @@
             <Parameter Name="Kriter" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="GetCachedChartYear2Day" ReturnType="Collection(MModel.GetCachedChartYear2Day_Result)">
-            <Parameter Name="DB" Mode="In" Type="String" />
+          <Parameter Name="DB" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="GetIrsDetayfromGorev" ReturnType="Collection(MModel.GetIrsDetayfromGorev_Result)">
+            <Parameter Name="GorevID" Mode="In" Type="Int32" />
           </FunctionImport>
           </EntityContainer>
         <ComplexType Name="GetSirkets_Result">
@@ -3093,16 +3093,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <ComplexType Name="GetIrsDetayfromGorev_Result">
-          <Property Type="Int32" Name="ID" Nullable="false" />
-          <Property Type="String" Name="SirketKod" Nullable="false" MaxLength="2" />
-          <Property Type="String" Name="GorevNo" Nullable="false" MaxLength="50" />
-          <Property Type="String" Name="MalKodu" Nullable="false" MaxLength="30" />
-          <Property Type="Decimal" Name="Miktar" Nullable="true" Precision="38" Scale="6" />
-          <Property Type="String" Name="Birim" Nullable="false" MaxLength="4" />
-          <Property Type="String" Name="MakaraNo" Nullable="false" MaxLength="1" />
-          <Property Type="Int32" Name="Sira" Nullable="false" />
-        </ComplexType>
         <ComplexType Name="GetMenuRoleFor_Result">
           <Property Type="Int16" Name="ID" Nullable="true" />
           <Property Type="String" Name="Ad" Nullable="true" MaxLength="154" />
@@ -3918,6 +3908,17 @@
           <Property Type="String" Name="Unvan" Nullable="false" MaxLength="250" />
           <Property Type="Decimal" Name="GenelTutar" Nullable="false" Precision="25" Scale="6" />
         </ComplexType>
+        <ComplexType Name="GetIrsDetayfromGorev_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="SirketKod" Nullable="false" MaxLength="2" />
+          <Property Type="String" Name="GorevNo" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="MalKodu" Nullable="false" MaxLength="30" />
+          <Property Type="Decimal" Name="Miktar" Nullable="true" Precision="38" Scale="6" />
+          <Property Type="String" Name="Birim" Nullable="false" MaxLength="4" />
+          <Property Type="Int32" Name="MakaraNo" Nullable="true" />
+          <Property Type="Int32" Name="Sira" Nullable="false" />
+          <Property Type="String" Name="HucreAd" Nullable="false" MaxLength="1" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -4359,20 +4360,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="GetIrsDetayfromGorev" FunctionName="MModel.Store.GetIrsDetayfromGorev">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="MModel.GetIrsDetayfromGorev_Result">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="SirketKod" ColumnName="SirketKod" />
-                <ScalarProperty Name="GorevNo" ColumnName="GorevNo" />
-                <ScalarProperty Name="MalKodu" ColumnName="MalKodu" />
-                <ScalarProperty Name="Miktar" ColumnName="Miktar" />
-                <ScalarProperty Name="Birim" ColumnName="Birim" />
-                <ScalarProperty Name="MakaraNo" ColumnName="MakaraNo" />
-                <ScalarProperty Name="Sira" ColumnName="Sira" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="GetMenuRoleFor" FunctionName="MModel.Store.GetMenuRoleFor">
             <ResultMapping>
               <ComplexTypeMapping TypeName="MModel.GetMenuRoleFor_Result">
@@ -4958,6 +4945,21 @@
                 <ScalarProperty Name="CHK" ColumnName="CHK" />
                 <ScalarProperty Name="Unvan" ColumnName="Unvan" />
                 <ScalarProperty Name="GenelTutar" ColumnName="GenelTutar" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetIrsDetayfromGorev" FunctionName="MModel.Store.GetIrsDetayfromGorev">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MModel.GetIrsDetayfromGorev_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="SirketKod" ColumnName="SirketKod" />
+                <ScalarProperty Name="GorevNo" ColumnName="GorevNo" />
+                <ScalarProperty Name="MalKodu" ColumnName="MalKodu" />
+                <ScalarProperty Name="Miktar" ColumnName="Miktar" />
+                <ScalarProperty Name="Birim" ColumnName="Birim" />
+                <ScalarProperty Name="MakaraNo" ColumnName="MakaraNo" />
+                <ScalarProperty Name="Sira" ColumnName="Sira" />
+                <ScalarProperty Name="HucreAd" ColumnName="HucreAd" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
