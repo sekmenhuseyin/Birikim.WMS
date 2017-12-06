@@ -200,28 +200,6 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             return Json(list, JsonRequestBehavior.AllowGet);
         }
         /// <summary>
-        /// get chk codes
-        /// </summary>
-        public JsonResult GetChKCode(string term)
-        {
-            var id = Url.RequestContext.RouteData.Values["id"];
-            if (id == null) return null;
-            string sql = "";
-            //generate sql
-            sql = String.Format("FINSAT6{0}.[wms].[CHKSearch4] @HesapKodu = N'', @Unvan = N'{1}', @top = 200", id.ToString(), term);
-            //return
-            try
-            {
-                var list = db.Database.SqlQuery<frmJson>(sql).ToList();
-                return Json(list, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception ex)
-            {
-                Logger(ex, "WMS/ReturnSale/GetChKCode");
-                return Json(new List<frmJson>(), JsonRequestBehavior.AllowGet);
-            }
-        }
-        /// <summary>
         /// rezerv mallar
         /// </summary>
         [HttpPost]

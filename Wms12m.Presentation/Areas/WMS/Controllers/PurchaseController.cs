@@ -495,16 +495,44 @@ AND (SPI.MalKodu = '{2}') AND (SPI.Birim = '{3}') AND (LTRIM(SPI.EvrakNo) = '{4}
 
         }
         /// <summary>
-        /// anasayfadaki malzeme listesi
+        /// get chk codes
         /// </summary>
-        public PartialViewResult GetHesapCodes()
+        public JsonResult GetChkKod(string term)
         {
             var id = Url.RequestContext.RouteData.Values["id"];
             if (id == null) return null;
-            if (id.ToString() == "0") return null;
-            string sql = String.Format("FINSAT6{0}.[wms].[CHKSelectKartTip]", id.ToString());
-            var list = db.Database.SqlQuery<frmHesapUnvan>(sql).ToList();
-            return PartialView("_HesapGridPartial", list);
+            string sql = String.Format("FINSAT6{0}.[wms].[CHKSearch4] @HesapKodu = N'{1}', @Unvan = N'', @top = 200", id.ToString(), term);
+            //return
+            try
+            {
+                var list = db.Database.SqlQuery<frmJson>(sql).ToList();
+                return Json(list, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Logger(ex, "WMS/Purchase/GetChkKod");
+                return Json(new List<frmJson>(), JsonRequestBehavior.AllowGet);
+            }
+        }
+        /// <summary>
+        /// get chk codes
+        /// </summary>
+        public JsonResult GetChkUnvan(string term)
+        {
+            var id = Url.RequestContext.RouteData.Values["id"];
+            if (id == null) return null;
+            string sql = String.Format("FINSAT6{0}.[wms].[CHKSearch4] @HesapKodu = N'', @Unvan = N'{1}', @top = 200", id.ToString(), term);
+            //return
+            try
+            {
+                var list = db.Database.SqlQuery<frmJson>(sql).ToList();
+                return Json(list, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Logger(ex, "WMS/Purchase/GetChkUnvan");
+                return Json(new List<frmJson>(), JsonRequestBehavior.AllowGet);
+            }
         }
         /// <summary>
         /// yeni malzeme satırı formu

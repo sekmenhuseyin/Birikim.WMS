@@ -32,7 +32,7 @@
         <div class="portlet box green m-t-30">
             <div class="portlet-title"><div class="caption"><i class="fa fa-gift"></i>Müşteri Seçimi</div></div>
             <div class="portlet-body form">
-                @using (Html.BeginForm("Step2", "ReturnSale", new { area = "WMS" }, FormMethod.Post, new { @class = "form-horizontal" }))
+                @using (Html.BeginForm("Step2", "ReturnSale", new { area = "WMS" }, FormMethod.Post, new { @class = "form-horizontal", @id = "frmReturnSale" }))
                 {
                     @Html.AntiForgeryToken()
                     @Html.ValidationSummary(true)
@@ -54,15 +54,21 @@
                         <div class="form-group">
                             <label class="col-md-3 control-label">Hesap Kodu</label>
                             <div class="col-md-4">
-                                <input class="form-control" type="text" id="txtHesapBas" name="CHK" />
+                                <input class="form-control input-circle" type="text" id="txtHesap" name="CHK" required = "required" />
                                 <span class="field-validation-valid" data-valmsg-for="CHK" data-valmsg-replace="true" style="color:red;"></span>
                             </div>
-                            <div class="col-sm-1"><button type="button" class="btn btn-circle green" onclick="FuncSearchBtn();"><i class="icon-refresh"></i></button></div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Ünvan</label>
+                            <div class="col-md-4">
+                                <input class="form-control input-circle" type="text" id="txtUnvan" name="Unvan" />
+                                <span class="field-validation-valid" data-valmsg-for="Unvan" data-valmsg-replace="true" style="color:red;"></span>
+                            </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-3 control-label">Evrak No</label>
                             <div class="col-md-4">
-                                <input class="form-control" type="text" id="txtEvrakNo" name="EvrakNo" />
+                                <input class="form-control input-circle" type="text" id="txtEvrakNo" name="EvrakNo" required = "required" />
                                 <span class="field-validation-valid" data-valmsg-for="EvrakNo" data-valmsg-replace="true" style="color:red;"></span>
                             </div>
                         </div>
@@ -87,6 +93,11 @@
                                 <span class="field-validation-valid" data-valmsg-for="Ends" data-valmsg-replace="true" style="color:red;"></span>
                             </div>
                         </div>
+                        <div class="form-group">
+                            <div class="col-md-4 col-md-offset-3">
+                                <button type="button" class="btn btn-circle green btn-block" onclick="FuncSearchBtn();"><i class="icon-refresh"></i> Ara</button>
+                            </div>
+                        </div>
                         <div class="form-group p-l-30 p-r-30" id="liste"></div>
                     </div>
                 }
@@ -97,32 +108,36 @@
 @section Scripts{<script>
     $("#SirketID").prepend("<option value=''>Seçiniz !!!</option>");
     $("#DepoID").prepend("<option value=''>Seçiniz !!!</option>");
-    $("#txtHesapBas").attr("disabled", true);
+    $("#txtHesap").attr("disabled", true);
+    $("#txtUnvan").attr("disabled", true);
     $.datepicker.setDefaults($.datepicker.regional["tr"]);
     $(".daters").datepicker();
-    var sirket = 0;
     CreateNew(0);
     function sirketKod() {
-        sirket = $("#SirketID").val();
-        if (sirket > 0) {
-            $("#txtHesapBas").attr("disabled", false);
-            $("#txtHesapBas").autocomplete({
-                source: "/WMS/ReturnSale/GetChKCode/" + $("#SirketID").val(),
+        if ($("#SirketID").val() != "") {
+            $("#txtHesap").attr("disabled", false);
+            $("#txtUnvan").attr("disabled", false);
+            $("#txtHesap").autocomplete({
+                source: "/WMS/Purchase/GetChkKod/" + $("#SirketID").val(),
                 minLength: 2,
+                scroll: true,
                 select: function (event, ui) {
-                    setTimeout(function () {
-                        $("#txtHesapBas").val(ui.item.id);
-                        FuncSearchBtn();
-                    }, 0);
-
-                },
-                scroll: true
+                    setTimeout(function () { $("#txtHesap").val(ui.item.id); $("#txtUnvan").val(ui.item.label); checkEnabled(); }, 50);
+                }
+            });
+            $("#txtUnvan").autocomplete({
+                source: "/WMS/Purchase/GetChkUnvan/" + $("#SirketID").val(),
+                minLength: 2,
+                scroll: true,
+                select: function (event, ui) {
+                    setTimeout(function () { $("#txtHesap").val(ui.item.id); $("#txtUnvan").val(ui.item.label); checkEnabled(); }, 50);
+                }
             });
         }
         else {
-            $("#txtHesapBas").attr("disabled", true);
+            $("#txtHesap").attr("disabled", true);
+            $("#txtUnvan").attr("disabled", true);
         }
-
     }
     function CreateNew(ix) {
         if (ix == 0)
@@ -133,15 +148,19 @@
     }
     function FuncSearchBtn() {
         $("#liste").html("");
-        if ($("#SirketID").val() == "" || $('#Starts').val() == "" || $('#Ends').val() == "" || $("#txtEvrakNo").val() == "" || $("#Tarih").val()=="") return;
+        if ($("#SirketID").val() == "" || $('#Starts').val() == "" || $('#Ends').val() == "" || $("#txtEvrakNo").val() == "" || $("#Tarih").val() == "") return;
         $.ajax({
             type: 'POST',
             url: "/WMS/ReturnSale/GetSiparis/",
-            data: { Sirket: $("#SirketID").val(), DepoID: $('#DepoID').val(), CHK: $("#txtHesapBas").val(), Starts: $("#Starts").val(), Ends: $("#Ends").val(), EvrakNo: $("#txtEvrakNo").val(), Tarih: $("#Tarih").val() },
+            data: { Sirket: $("#SirketID").val(), DepoID: $('#DepoID').val(), CHK: $("#txtHesap").val(), Starts: $("#Starts").val(), Ends: $("#Ends").val(), EvrakNo: $("#txtEvrakNo").val(), Tarih: $("#Tarih").val() },
             dataType: "html",
             success: function (data) {
-                if (data == "") { Modaldialog("Lütfen Tekrar Deneyin", "Hata", "Tamam", "btn-danger");}
-                $("#liste").html(data);
+                if (data == "") { Modaldialog("Lütfen Tekrar Deneyin", "Hata", "Tamam", "btn-danger"); }
+                else
+                {
+                    $("#liste").html(data);
+                    $('html, body').animate({ scrollTop: $('#liste').offset().top }, 'slow');
+                }
             },
             error: function (data) {
                 Modaldialog("Lütfen Tekrar Deneyin", "Hata", "Tamam", "btn-danger");

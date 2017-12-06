@@ -786,7 +786,6 @@
     <Content Include="Areas\WMS\Views\Terminal\Barcode.cshtml" />
     <Content Include="Areas\Approvals\Views\Purchase\GMOnay_List.cshtml" />
     <Content Include="Areas\Approvals\Views\Purchase\GMOnayFTD_List.cshtml" />
-    <Content Include="Areas\WMS\Views\Purchase\_HesapGridPartial.cshtml" />
     <Content Include="Areas\ToDo\Views\Customer\Index.cshtml" />
     <Content Include="Areas\ToDo\Views\Customer\Edit.cshtml" />
     <Content Include="Areas\ToDo\Views\Customer\List.cshtml" />

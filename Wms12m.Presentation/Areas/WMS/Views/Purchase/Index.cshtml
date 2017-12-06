@@ -35,7 +35,7 @@
                         <div class="form-group">
                             <label class="col-md-3 control-label">Şirket</label>
                             <div class="col-md-4">
-                                @Html.DropDownList("SirketID", null, htmlAttributes: new { @class = "form-control input-circle", required = "required" })
+                                @Html.DropDownList("SirketID", null, htmlAttributes: new { @class = "form-control input-circle", required = "required", @onchange = "sirketKod()" })
                                 <span class="field-validation-valid" data-valmsg-for="SirketID" data-valmsg-replace="true" style="color:red;"></span>
                             </div>
                         </div>
@@ -49,22 +49,21 @@
                         <div class="form-group">
                             <label class="col-md-3 control-label">Hesap Kodu</label>
                             <div class="col-md-4">
-                                @Html.TextBoxFor(a => a.HesapKodu, new { @class = "form-control input-circle", @required = "", @onclick = "ShowHide()", @readonly = "", style = "cursor:pointer;", @maxlength = "20", @onchange = "checkEnabled()" })
+                                @Html.TextBoxFor(a => a.HesapKodu, new { @class = "form-control input-circle", @required = "", @maxlength = "20", @onchange = "checkEnabled()" })
                                 <span class="field-validation-valid" data-valmsg-for="HesapKodu" data-valmsg-replace="true" style="color:red;"></span>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-3 control-label">Unvan</label>
                             <div class="col-md-4">
-                                @Html.TextBoxFor(a => a.Unvan, new { @class = "form-control input-circle", @required = "", @onclick = "ShowHide()", @readonly = "", style = "cursor:pointer;" })
+                                @Html.TextBoxFor(a => a.Unvan, new { @class = "form-control input-circle", @required = "", @onchange = "checkEnabled()" })
                                 <span class="field-validation-valid" data-valmsg-for="Unvan" data-valmsg-replace="true" style="color:red;"></span>
                             </div>
                         </div>
-                        <div id="hesapSelect"></div>
                         <div class="form-group">
                             <label class="col-md-3 control-label">Evrak No</label>
                             <div class="col-md-4">
-                                @Html.TextBoxFor(a => a.EvrakNo, new { @class = "form-control input-circle", @required = "", @placeholder = "Evrak No", @onfocus = "$('#hesapSelect').hide()", @maxlength = "8" })
+                                @Html.TextBoxFor(a => a.EvrakNo, new { @class = "form-control input-circle", @required = "", @placeholder = "Evrak No", @maxlength = "8" })
                                 <span class="field-validation-valid" data-valmsg-for="EvrakNo" data-valmsg-replace="true" style="color:red;"></span>
                             </div>
                             <div class="col-md-1">
@@ -74,7 +73,7 @@
                         <div class="form-group">
                             <label class="col-md-3 control-label">Tarih</label>
                             <div class="col-md-4">
-                                @Html.TextBoxFor(a => a.Tarih, new { @class = "form-control input-circle", @required = "", @onfocus = "$('#hesapSelect').hide()" })
+                                @Html.TextBoxFor(a => a.Tarih, new { @class = "form-control input-circle", @required = "" })
                                 <span class="field-validation-valid" data-valmsg-for="Tarih" data-valmsg-replace="true" style="color:red;"></span>
                             </div>
                         </div>
@@ -122,23 +121,30 @@
     $(document).ready(function () {
         $.datepicker.setDefaults($.datepicker.regional["tr"]);
         $("#Tarih").datepicker();
-        $('#SirketID').on('change', function () {
-            checkEnabled();
-            $('#hesapSelect').hide();
-            $("#hesapSelect").html("");
-            $("#HesapKodu").val('');
-            $("#Unvan").val('');
-            $.ajax({
-                url: "/WMS/Purchase/GetHesapCodes/" + $('#SirketID').val(),
-                type: 'POST',
-                dataType: "html",
-                success: function (data) { if (data != "") $("#hesapSelect").html(data); },
-                error: function (data) { Modaldialog("Lütfen Tekrar Deneyin", "Hata", "Tamam", "btn-danger"); }
-            });
-        });
     });
+    function sirketKod() {
+        if ($("#SirketID").val() != "") {
+            $("#HesapKodu").autocomplete({
+                source: "/WMS/Purchase/GetChkKod/" + $("#SirketID").val(),
+                minLength: 2,
+                select: function (event, ui) {
+                    setTimeout(function () { $("#HesapKodu").val(ui.item.id); $("#Unvan").val(ui.item.label); checkEnabled(); }, 50);
+                }
+            });
+            $("#Unvan").autocomplete({
+                source: "/WMS/Purchase/GetChkUnvan/" + $("#SirketID").val(),
+                minLength: 2,
+                select: function (event, ui) {
+                    setTimeout(function () { $("#HesapKodu").val(ui.item.id); $("#Unvan").val(ui.item.label); checkEnabled(); }, 50);
+                }
+            });
+        }
+        else {
+            $("#txtHesapBas").attr("disabled", true);
+        }
+
+    }
     function disableAll() {
-        $('#hesapSelect').hide();
         $("#SirketID").attr("readonly", true);
         $("#DepoID").attr("readonly", true);
         $("#EvrakNo").attr("readonly", true);
@@ -159,20 +165,12 @@
             $(".showlater2").attr("disabled", false);
         }
     }
-    function ShowHide() {
-        if ($('#hesapSelect').css("display") == "none")
-            $('#hesapSelect').show();
-        else
-            $('#hesapSelect').hide();
-    }
     function CreateNew(ix) {
         if (ix == 0)
         {
             $("#SirketID")[0].selectedIndex = 0;
             $("#DepoID")[0].selectedIndex = 0;
-            $("#hesapSelect").html("");
         }
-        $('#hesapSelect').hide();
         $("#HesapKodu").val('');
         $("#Unvan").val('');
         $("#EvrakNo").val('');
