@@ -83,7 +83,6 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             return Json(_Result, JsonRequestBehavior.AllowGet);
 
         }
-
         public string BekleyenOnaylar()
         {
             if (CheckPerm(Perms.SiparişOnaylama, PermTypes.Reading) == false) return null;

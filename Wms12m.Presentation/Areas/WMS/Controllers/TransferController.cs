@@ -64,6 +64,9 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             ViewBag.Result = new Result(false, "Eksik bilgi girdiniz.");
             if (tbl.SirketID == "" || tbl.GirisDepo == "" || tbl.AraDepo == "" || tbl.CikisDepo == "" || tbl.checkboxes.ToString2() == "")
                 return PartialView("Summary");
+            ViewBag.Result = new Result(false, "Aynı depoları seçemezsiniz.");
+            if (tbl.GirisDepo == tbl.AraDepo || tbl.CikisDepo == tbl.AraDepo || tbl.CikisDepo == tbl.GirisDepo)
+                return PartialView("Summary");
             //liste oluştur
             tbl.checkboxes = tbl.checkboxes.Left(tbl.checkboxes.Length - 1);
             string[] tmp = tbl.checkboxes.Split('#');

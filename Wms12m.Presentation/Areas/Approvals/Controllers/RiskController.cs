@@ -61,7 +61,6 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
 
-
         public ActionResult GM()
         {
             if (CheckPerm(Perms.RiskOnaylamaGM, PermTypes.Reading) == false) return Redirect("/");
@@ -160,7 +159,6 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             }
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
-
 
         public ActionResult MIGMY()
         {
@@ -301,7 +299,6 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                 return "NO";
             }
         }
-
 
         public JsonResult RiskOnay(string Data, int Tip)
         {

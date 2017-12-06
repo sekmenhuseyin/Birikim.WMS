@@ -13,7 +13,9 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
     public class TumOrderController : RootController
     {
         public LOGEntities logdb = new LOGEntities();
-        // GET: Approvals/IzOrder
+        /// <summary>
+        /// anasayfa
+        /// </summary>
         public ActionResult Index(string onayRed)
         {
             if (CheckPerm(Perms.SiparişOnaylama, PermTypes.Reading) == false) return Redirect("/");
@@ -27,7 +29,9 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             }
             return View();
         }
-
+        /// <summary>
+        /// liste
+        /// </summary>
         public PartialViewResult TumOrderList(string Tip, int bastarih, int bittarih)
         {
             ViewBag.Tip = Tip;
@@ -35,7 +39,9 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             ViewBag.bittarih = bittarih;
             return PartialView("List");
         }
-
+        /// <summary>
+        /// liste
+        /// </summary>
         public string TumOrderListData(string tip, int bastarih, int bittarih)
         {
 
@@ -124,8 +130,9 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             }
             return json.Serialize(sipBilgi);
         }
-
-
+        /// <summary>
+        /// onayla
+        /// </summary>
         public JsonResult Onayla(string Data)
         {
             if (CheckPerm(Perms.SiparişOnaylama, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
@@ -203,8 +210,9 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             }
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
-
-
+        /// <summary>
+        /// reddet
+        /// </summary>
         public JsonResult Reddet(string Data)
         {
             if (CheckPerm(Perms.SiparişOnaylama, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);

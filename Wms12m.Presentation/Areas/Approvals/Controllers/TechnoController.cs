@@ -84,8 +84,6 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             return json.Serialize(primBilgi);
         }
 
-
-
         public JsonResult Ucret_Onayla(string Data)
         {
             Result _Result = new Result(true);
