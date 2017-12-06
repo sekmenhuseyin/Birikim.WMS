@@ -31,7 +31,9 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         public PartialViewResult List(string Id)
         {
             JObject parameters = JsonConvert.DeserializeObject<JObject>(Id);
-            string SirketID = parameters["SirketID"].ToString(), GirisDepo = parameters["GirisDepo"].ToString(), CikisDepo = parameters["CikisDepo"].ToString(), listType = parameters["listType"].ToString();
+            string SirketID = parameters["SirketID"].ToString(), GirisDepo = parameters["GirisDepo"].ToString(), CikisDepo = parameters["CikisDepo"].ToString(), AraDepo = parameters["AraDepo"].ToString(), listType = parameters["listType"].ToString();
+            if (GirisDepo == CikisDepo || GirisDepo == AraDepo || CikisDepo == AraDepo || CikisDepo == "" || GirisDepo == "" || AraDepo == "")
+                return PartialView("List", new List<frmTransferMalzemeler>());
             ViewBag.SirketID = SirketID;
             ViewBag.GirisDepo = GirisDepo;
             ViewBag.CikisDepo = CikisDepo;

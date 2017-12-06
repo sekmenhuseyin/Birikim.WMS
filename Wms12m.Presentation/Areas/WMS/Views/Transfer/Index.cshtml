@@ -72,10 +72,12 @@
     var DeleteFunctionUrl = '/WMS/Transfer/Delete2';
     function FuncSearchBtn() {
         $('#liste').html("");
-        if ($("#GirisDepo").val() == "" || $("#CikisDepo").val() == "") return;
+        if ($("#GirisDepo").val() == "" || $("#CikisDepo").val() == "" || $("#AraDepo").val() == "") return;
+        if ($("#GirisDepo").val() == $("#CikisDepo").val() || $("#GirisDepo").val() == $("#AraDepo").val() || $("#CikisDepo").val() == $("#AraDepo").val()) return;
         var jObject = {};
         jObject["SirketID"] = $("#SirketID").val();
         jObject["GirisDepo"] = $("#GirisDepo").val();
+        jObject["AraDepo"] = $("#AraDepo").val();
         jObject["CikisDepo"] = $("#CikisDepo").val();
         jObject["listType"] = $("#listType").val();
         $('#liste').html("");
