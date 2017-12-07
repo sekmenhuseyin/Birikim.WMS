@@ -56,9 +56,10 @@ $(function () {
         $('.badge').removeClass("badge-danger");
         $('.badge').addClass("badge-danger");
         //geri dönen değerin "UsersOnline" değişkenine bakar
-        for (var user of data.UsersOnline) {
-            $('.badge-' + user).removeClass("badge-danger");
-            $('.badge-' + user).addClass("badge-success");
+        for (var i = 0; i < data.UsersOnline.length; i++)
+        {
+            $('.badge-' + data.UsersOnline[i]).removeClass("badge-danger");
+            $('.badge-' + data.UsersOnline[i]).addClass("badge-success");
         }
     };
     //connection başladığında
