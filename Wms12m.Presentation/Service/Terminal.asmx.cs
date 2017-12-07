@@ -600,18 +600,17 @@ namespace Wms12m
                     var irsdetay = new IrsaliyeDetay();
                     var tmp = irsdetay.Detail(item.IrsDetayID);
 
-                    /// Genel bazda miktar yerleştirme kontrolü için yapıldı Ömer Bey karar verdikten sonra yorumdan kaldırılabilir.
+                    ///Genel bazda miktar yerleştirme kontrolü için yapıldı Ömer Bey karar verdikten sonra yorumdan kaldırılabilir.
                     /// Yorumdan kaldırılırsa Görevi Tamamlarken de benzer bi kontrol yapılmalı.
-
-                    //List<IRS_Detay> grv = db.IRS_Detay.Where(a => a.IrsaliyeID == item.IrsID && a.MalKodu == item.MalKodu).ToList();
-                    //decimal YerlestirmeMiktar = 0;
-                    //decimal Miktar = 0;
-                    //if (grv.IsNotNull())
-                    //{
-                    //    YerlestirmeMiktar = grv.Sum(x => x.YerlestirmeMiktari).ToDecimal();
-                    //    Miktar = grv.Sum(x => x.Miktar).ToDecimal();
-                    //}
-                    //if (Miktar > (YerlestirmeMiktar + item.Miktar))
+                    ///List<IRS_Detay> grv = db.IRS_Detay.Where(a => a.IrsaliyeID == item.IrsID && a.MalKodu == item.MalKodu).ToList();
+                    ///decimal YerlestirmeMiktar = 0;
+                    ///decimal Miktar = 0;
+                    ///if (grv.IsNotNull())
+                    ///{
+                    ///    YerlestirmeMiktar = grv.Sum(x => x.YerlestirmeMiktari).ToDecimal();
+                    ///    Miktar = grv.Sum(x => x.Miktar).ToDecimal();
+                    ///}
+                    ///if (Miktar > (YerlestirmeMiktar + item.Miktar))
                     if (tmp.Miktar >= ((tmp.YerlestirmeMiktari ?? 0) + item.Miktar))
                     {
                         if (tmp.YerlestirmeMiktari == null) tmp.YerlestirmeMiktari = item.Miktar;
