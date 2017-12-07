@@ -165,22 +165,11 @@ namespace Wms12m.Presentation.Areas.YN.Controllers
         [HttpPost]
         public JsonResult Transfer_Onay(string ID, bool Onay)
         {
-
             var result = new Result();
             try
             {
-                if (Onay == true)
-                {
-                    var list = db.Database.SqlQuery<DepoTran>(string.Format(@"
-                    SELECT '{2}' AS KullaniciKodu, MalKodu,  GirisDepo, CikisDepo, Miktar,  Birim, MiatTarih
-                    FROM YNS{0}.YNS{0}.TransferDepo(NOLOCK) WHERE TransferNo = '{1}' AND OnayDurumu = 0", "0TEST", ID, vUser.UserName)).ToList();
-                    var yns = new YeniNesil(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "0TEST");
-                    var sepetIslemleri = yns.DepoTransferKaydet(list);
-                    result = new Result(true, 1);
-                }
-
-                if (result.Status == true) db.Database.ExecuteSqlCommand(string.Format(@"UPDATE YNS{0}.YNS{0}.TransferDepo SET OnayDurumu = {1} WHERE (TransferNo = '{2}')", "0TEST", Onay == true ? 1 : 2, ID));
-                return Json(result, JsonRequestBehavior.AllowGet);
+                db.Database.ExecuteSqlCommand(string.Format(@"UPDATE YNS{0}.YNS{0}.TransferDepo SET OnayDurumu = {1} WHERE (TransferNo = '{2}')", "0TEST", Onay == true ? 1 : 2, ID));
+                return Json(new Result(true, 1), JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
