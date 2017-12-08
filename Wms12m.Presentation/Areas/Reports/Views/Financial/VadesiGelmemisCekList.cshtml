@@ -10,43 +10,13 @@
                 <i class="fa fa-gift"></i>Vadesi Gelmemiş Çekler
             </div>
             <div class="col-md-1 pull-right m-t-5 p-0" id="buttons"></div>
-
-
         </div>
-
         <div class="portlet-body">
-            <div class="row" style="margin-bottom:5px;margin-left:5px;">
-                <div class="col-md-6">
-
-                    <div id="buttons"></div>
-
-                </div>
-            </div>
-
+             <div class="row p-10">
             <table class="table table-striped table-bordered table-hover" id="sample_1">
-                <thead>
-                    <tr>
-                        <th>Evrak No</th>
-                        <th>Hesap Kodu</th>
-                        <th>Unvan</th>
-                        <th>Tutar</th>
-                        <th>Tarih</th>
-                        <th>Vade Tarihi</th>
-                        <th>Verildiği Yer</th>
-                        <th>Verildiği Yer Ünvan</th>
-                        <th>Çeki Düzenleyen</th>
-
-
-                    </tr>
-                </thead>
-                <tfoot>
-                    <tr>
-                        <th colspan="3"></th>
-                        <th class="text-right"></th>
-                        <th colspan="5"></th>
-                    
-                    </tr>
-                </tfoot>
+                <thead><tr><th>Evrak No</th><th>Hesap Kodu</th><th>Unvan</th><th>Tutar</th><th>Tarih</th><th>Vade Tarihi</th><th>Verildiği Yer</th><th>Verildiği Yer Ünvan</th><th>Çeki Düzenleyen</th></tr></thead>
+                <tfoot><tr><th colspan="3"></th><th class="text-right"></th><th colspan="5"></th></tr></tfoot>
+                <tfoot class="tf-search"><tr><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr></tfoot>
                 <tbody>
                     @foreach (var item in Model)
                     {
@@ -56,8 +26,8 @@
                             <td nowrap>@item.CHK</td>
                             <td nowrap>@item.Unvan</td>
                             <td nowrap align="right">@item.Tutar.ToDecimal().ToOnFormat()</td>
-                            <td nowrap>@Convert.ToDateTime(@item.Tarih).ToString("dd-MM-yyyy")</td>
-                            <td nowrap>@Convert.ToDateTime(@item.VadeTarih).ToString("dd-MM-yyyy")</td>
+                            <td nowrap>@Convert.ToDateTime(@item.Tarih).ToString("dd.MM.yyyy")</td>
+                            <td nowrap>@Convert.ToDateTime(@item.VadeTarih).ToString("dd.MM.yyyy")</td>
                             <td nowrap>@item.VerildigiYer</td>
                             <td nowrap>@item.VerildigiYerUnvan</td>
                             <td nowrap>@item.CekiDuzenleyen</td>
@@ -66,31 +36,40 @@
                     }
                 </tbody>
             </table>
-
+            </div>
         </div>
     </div>
 </div>
 <script>
     $(document).ready(function () {
-        var model =  @Html.Raw(serializer.Serialize(Model));
-        
-        var table123 = $('#sample_1').DataTable({
+        var model =  @Html.Raw(serializer.Serialize(Model));        
+        var table = $('#sample_1').DataTable({
             "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
             "pagingType": "full_numbers",
             "footerCallback": function (row, data, start, end, display) {
                 var Tutar = 0;
-                table123.rows({ search: 'applied' }).data().each(function (val, index) {
+                table.rows({ search: 'applied' }).data().each(function (val, index) {
                     Tutar += jDecimal(val[3]);
                 });
                 var api = this.api(), data;
-                
-                // Update footer
                 $(api.column(3).footer()).html(
                     ondalikBinlik(Math.round(Tutar * 100) / 100, 2)
                 );
             }
         });
-        var buttons = new $.fn.dataTable.Buttons(table123, {
+        $('#sample_1 .tf-search th').each(function ()
+        {
+            var title = $('#sample_1 thead th').eq($(this).index()).text();
+            if (title != "" && title.indexOf("Tarih") !== -1)
+                $(this).html('<input class="form-control input-circle tarih" type="text" placeholder="Ara" />');
+            else if (title != "" && title != "Detay" && title != "Hareket")
+                $(this).html('<input class="form-control input-circle" type="text" placeholder="Ara" />');
+        });
+        $("#sample_1 tfoot input").on('keyup change', function () { table.column($(this).parent().index() + ':visible').search(this.value).draw(); });
+        //tarih
+        $.datepicker.setDefaults($.datepicker.regional["tr"]);
+        $(".tarih").datepicker();
+        var buttons = new $.fn.dataTable.Buttons(table, {
             buttons: [
                 { "extend": 'pdf', "text": '<span class="fa fa-file-pdf-o f-s-15 red"></span>', "className": 'btn-xs;' },
                 { "extend": 'excel', "text": '<span class="fa fa-file-excel-o f-s-15 green"></span>', "className": 'btn-xs;' }

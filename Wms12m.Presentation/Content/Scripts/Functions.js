@@ -231,9 +231,21 @@ function formatDate(date) {
     var year = date.getFullYear();
     return day + ' ' + monthNames[monthIndex] + ' ' + year;
 };
+function formatDateN(date)
+{
+    if (date === "" || date === null) return "";
+    var day = date.getDate();
+    var monthIndex = date.getMonth();
+    var year = date.getFullYear();
+    return day + '.' + monthIndex + '.' + year;
+};
 //json tipindeki tarihi çevirir
 function formatDateFromJson(date) {
     return formatDate(new Date(parseInt(date.substr(6))));
+};
+function formatDateFromJsonN(date)
+{
+    return formatDateN(new Date(parseInt(date.substr(6))));
 };
 //oadate to tarih
 function fromOADate(oadate) {
