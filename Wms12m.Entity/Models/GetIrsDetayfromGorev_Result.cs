@@ -10,7 +10,7 @@
 namespace Wms12m.Entity.Models
 {
     using System;
-
+    
     public partial class GetIrsDetayfromGorev_Result
     {
         public int ID { get; set; }

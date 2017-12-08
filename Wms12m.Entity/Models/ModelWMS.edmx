@@ -3915,7 +3915,7 @@
           <Property Type="String" Name="MalKodu" Nullable="false" MaxLength="30" />
           <Property Type="Decimal" Name="Miktar" Nullable="true" Precision="38" Scale="6" />
           <Property Type="String" Name="Birim" Nullable="false" MaxLength="4" />
-          <Property Type="Int32" Name="MakaraNo" Nullable="true" />
+          <Property Type="String" Name="MakaraNo" Nullable="false" MaxLength="1" />
           <Property Type="Int32" Name="Sira" Nullable="false" />
           <Property Type="String" Name="HucreAd" Nullable="false" MaxLength="1" />
         </ComplexType>
