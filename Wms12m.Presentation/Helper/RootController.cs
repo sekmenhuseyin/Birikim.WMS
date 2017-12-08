@@ -99,7 +99,7 @@ namespace Wms12m.Presentation
                 return;
             }
             //developer ise çalışma kontrol
-            if (vUser.RoleName == "Developer")
+            if (vUser.RoleName == "Developer" && ViewBag.settings.GorevProjesi == true)
                 ViewBag.ÇalışmaSüresi = db.Database.SqlQuery<int>(string.Format(@"
 					SELECT ISNULL(SUM(Sure),0) AS Expr1  
 					FROM
