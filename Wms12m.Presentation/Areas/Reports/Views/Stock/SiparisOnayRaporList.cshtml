@@ -1,7 +1,7 @@
 ﻿<table class="table table-striped table-bordered" id="sample_1">
-    <thead><tr><th></th><th>Hesap Kodu</th><th>Ünvan</th><th>Tip Kodu</th><th>Kredi Limiti</th><th>Bakiye</th><th>PRT Bakiyesi</th><th>Risk%</th><th>Risk Bakiyesi</th><th>Ş.Çek</th><th>T.Çek</th><th>Kod2</th><th>Ortalama Gun</th><th>Kod3 Ort. Gun</th><th>Kod3 Ort. Bakiye</th><th>Sipariş Türü</th><th>Sıcak Sipariş</th><th>Soğuk Sipariş</th><th>Gün İçindeki Sipariş</th><th>Evrak No</th><th>Onay Durumu</th><th>Firma</th><th>Kaydeden</th><th>KayıtTarih</th></tr></thead>
-    <tfoot><tr><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr></tfoot>
-    <tfoot class="tf-search"><tr><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr></tfoot>
+    <thead><tr><th>Hesap Kodu</th><th>Ünvan</th><th>Tip Kodu</th><th>Kredi Limiti</th><th>Bakiye</th><th>PRT Bakiyesi</th><th>Risk%</th><th>Risk Bakiyesi</th><th>Ş.Çek</th><th>T.Çek</th><th>Kod2</th><th>Ortalama Gun</th><th>Kod3 Ort. Gun</th><th>Kod3 Ort. Bakiye</th><th>Sipariş Türü</th><th>Sıcak Sipariş</th><th>Soğuk Sipariş</th><th>Gün İçindeki Sipariş</th><th>Evrak No</th><th>Onay Durumu</th><th>Firma</th><th>Kaydeden</th><th>KayıtTarih</th></tr></thead>
+    <tfoot><tr><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr></tfoot>
+    <tfoot class="tf-search"><tr><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr></tfoot>
 </table>
 <script type="text/javascript">
     var table = $('#sample_1').DataTable({
@@ -15,7 +15,6 @@
         },
         "columnDefs": [{ "type": "num-fmt", "className": "dt-right" }],
         "columns": [
-            {"data": null,"defaultContent": '',"className": 'select-checkbox',"orderable": false},
             { "data": "HesapKodu" },
             { "data": "Unvan" },
             { "data": "TipKodu" },
@@ -46,26 +45,23 @@
             return nRow;
         }
     });
-       $('#sample_1 tbody').on('click', 'tr', function () {
-           $(this).toggleClass('selected');
-       });
-       $('#sample_1 .tf-search th').each(function ()
-       {
-           var title = $('#sample_1 thead th').eq($(this).index()).text();
-           if (title != "" && title.indexOf("Tarih") !== -1)
-               $(this).html('<input class="form-control input-circle tarih" type="text" placeholder="Ara" />');
-           else if (title != "" && title != "Detay" && title != "Hareket")
-               $(this).html('<input class="form-control input-circle" type="text" placeholder="Ara" />');
-       });
-       $("#sample_1 tfoot input").on('keyup change', function () { table.column($(this).parent().index() + ':visible').search(this.value).draw(); });
-       //tarih
-       $.datepicker.setDefaults($.datepicker.regional["tr"]);
-       $(".tarih").datepicker();
-       $("#buttons").html("");
-       var buttons = new $.fn.dataTable.Buttons(table, {
-           buttons: [
-               { "extend": 'pdf', "text": '<span class="fa fa-file-pdf-o f-s-15 red"></span>', "className": 'btn-xs;' },
-               { "extend": 'excel', "text": '<span class="fa fa-file-excel-o f-s-15 green"></span>', "className": 'btn-xs;' }
-           ]
-       }).container().appendTo($('#buttons'));
+    $('#sample_1 .tf-search th').each(function ()
+    {
+        var title = $('#sample_1 thead th').eq($(this).index()).text();
+        if (title != "" && title.indexOf("Tarih") !== -1)
+            $(this).html('<input class="form-control input-circle tarih" type="text" placeholder="Ara" />');
+        else if (title != "" && title != "Detay" && title != "Hareket")
+            $(this).html('<input class="form-control input-circle" type="text" placeholder="Ara" />');
+    });
+    $("#sample_1 tfoot input").on('keyup change', function () { table.column($(this).parent().index() + ':visible').search(this.value).draw(); });
+    //tarih
+    $.datepicker.setDefaults($.datepicker.regional["tr"]);
+    $(".tarih").datepicker();
+    $("#buttons").html("");
+    var buttons = new $.fn.dataTable.Buttons(table, {
+        buttons: [
+            { "extend": 'pdf', "text": '<span class="fa fa-file-pdf-o f-s-15 red"></span>', "className": 'btn-xs;' },
+            { "extend": 'excel', "text": '<span class="fa fa-file-excel-o f-s-15 green"></span>', "className": 'btn-xs;' }
+        ]
+    }).container().appendTo($('#buttons'));
 </script>

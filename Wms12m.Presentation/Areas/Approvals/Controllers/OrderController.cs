@@ -10,30 +10,48 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 {
     public class OrderController : RootController
     {
+        /// <summary>
+        /// SM sayfası
+        /// </summary>
         public ActionResult SM()
         {
             if (CheckPerm(Perms.SiparişOnaylamaSM, PermTypes.Reading) == false) return Redirect("/");
             var KOD = db.Database.SqlQuery<SMSiparisOnaySelect>(string.Format("[FINSAT6{0}].[wms].[SiparisOnayListSM]", vUser.SirketKodu)).ToList();
-            return View(KOD);
+            ViewBag.OnayTip = 1;
+            ViewBag.baslik = "SM";
+            return View("Index", KOD);
         }
+        /// <summary>
+        /// SPGMY sayfası
+        /// </summary>
         public ActionResult SPGMY()
         {
             if (CheckPerm(Perms.SiparişOnaylamaSPGMY, PermTypes.Reading) == false) return Redirect("/");
             var KOD = db.Database.SqlQuery<SMSiparisOnaySelect>(string.Format("[FINSAT6{0}].[wms].[SiparisOnayListSPGMY]", vUser.SirketKodu)).ToList();
-            return View(KOD);
+            ViewBag.OnayTip = 2;
+            ViewBag.baslik = "SPGMY";
+            return View("Index", KOD);
         }
+        /// <summary>
+        /// GM sayfası
+        /// </summary>
         public ActionResult GM()
         {
             if (CheckPerm(Perms.SiparişOnaylamaGM, PermTypes.Reading) == false) return Redirect("/");
             var KOD = db.Database.SqlQuery<SMSiparisOnaySelect>(string.Format("[FINSAT6{0}].[wms].[SiparisOnayListGM]", vUser.SirketKodu)).ToList();
-            return View(KOD);
+            ViewBag.OnayTip = 3;
+            ViewBag.baslik = "GM";
+            return View("Index", KOD);
         }
+        /// <summary>
+        /// Onaylama
+        /// </summary>
         public JsonResult Onay(string Data, int OnayTip, bool OnaylandiMi)
         {
 
             if (CheckPerm(Perms.SiparişOnaylama, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             Result _Result = new Result(true);
-            JArray parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
+            JArray parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
             using (var dbContextTransaction = db.Database.BeginTransaction())
             {
                 foreach (string insertObj in parameters)
@@ -67,22 +85,12 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                     _Result.Status = false;
                     _Result.Message = "Hata Oluştu.";
                 }
-                //try
-                //{
-                //    db.SaveChanges();
-                //    dbContextTransaction.Commit();
-                //}
-                //catch (Exception)
-                //{
-                //    _Result.Status = false;
-                //    _Result.Message = "Hata Oluştu. ";
-                //    return Json(_Result, JsonRequestBehavior.AllowGet);
-                //}
             }
-
             return Json(_Result, JsonRequestBehavior.AllowGet);
-
         }
+        /// <summary>
+        /// bekleyenler
+        /// </summary>
         public string BekleyenOnaylar()
         {
             if (CheckPerm(Perms.SiparişOnaylama, PermTypes.Reading) == false) return null;

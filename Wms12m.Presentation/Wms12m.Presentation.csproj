@@ -748,9 +748,7 @@
     <Content Include="Areas\Approvals\Views\Risk\MIGMY_List.cshtml" />
     <Content Include="Areas\Approvals\Views\Risk\SM_List.cshtml" />
     <Content Include="Areas\Approvals\Views\Risk\SPGMY_List.cshtml" />
-    <Content Include="Areas\Approvals\Views\Order\GM.cshtml" />
-    <Content Include="Areas\Approvals\Views\Order\SM.cshtml" />
-    <Content Include="Areas\Approvals\Views\Order\SPGMY.cshtml" />
+    <Content Include="Areas\Approvals\Views\Order\Index.cshtml" />
     <Content Include="Areas\Approvals\Views\Stock\Index.cshtml" />
     <Content Include="Areas\Approvals\Views\Stock\List.cshtml" />
     <Content Include="Areas\Approvals\Views\Guarantee\Index.cshtml" />
