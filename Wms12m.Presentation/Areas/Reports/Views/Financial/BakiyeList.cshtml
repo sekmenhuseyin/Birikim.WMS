@@ -38,7 +38,6 @@
         var model =  @Html.Raw(serializer.Serialize(Model));
         table =$('#sample_1').DataTable({
             "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
-            "scrollY": 400,
             "pagingType": "full_numbers",
             "ordering": false,
             "footerCallback": function (row, data, start, end, display) {
@@ -152,11 +151,13 @@
         //tarih
         $.datepicker.setDefaults($.datepicker.regional["tr"]);
         $(".tarih").datepicker();
+        $("#buttons").html("");
         var buttons = new $.fn.dataTable.Buttons(table, {
             buttons: [
                 { "extend": 'pdf', "text": '<span class="fa fa-file-pdf-o f-s-15 red"></span>', "className": 'btn-xs;' },
                 { "extend": 'excel', "text": '<span class="fa fa-file-excel-o f-s-15 green"></span>', "className": 'btn-xs;' }
             ]
         }).container().appendTo($('#buttons'));
+        $('#sample_1 .tf-search tr').insertAfter($('#sample_1 thead tr'))
     });
 </script>

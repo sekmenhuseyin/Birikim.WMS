@@ -235,7 +235,7 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
             //generate sql
             if (id.ToString() == "0")
                 id = vUser.SirketKodu;
-            sql = String.Format("FINSAT6{0}.[wms].[CHKSearch] @HesapKodu = N'', @Unvan = N'{1}', @top = 200", id.ToString(), term);
+            sql = String.Format("FINSAT6{0}.[wms].[CHKSearch] @HesapKodu = N'{1}', @Unvan = N'', @top = 200", id.ToString(), term);
             //return
             try
             {

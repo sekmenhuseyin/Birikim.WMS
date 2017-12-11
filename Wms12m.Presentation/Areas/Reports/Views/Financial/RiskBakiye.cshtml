@@ -1,17 +1,6 @@
 ﻿@{
     ViewBag.Title = "Toplam Risk Bakiyesi";
     Layout = "~/Views/Shared/_Layout.cshtml";
-}@section Styles{
-    <style>
-        .ui-autocomplete {
-            max-height: 400px;
-            overflow-y: auto;
-            /* prevent horizontal scrollbar */
-            overflow-x: hidden;
-            /* add padding to account for vertical scrollbar */
-            padding-right: 20px;
-        }
-    </style>
 }<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><span>Raporlar</span><i class="fa fa-circle"></i></li><li><span>Toplam Risk Bakiyesi</span></li></ul></div>
 <h1 class="page-title"> Toplam Risk Bakiyesi</h1>
 <div class="row m-t-20">
@@ -51,7 +40,7 @@
             source: "/Reports/Financial/GetChKCode/0",
             minLength: 2,
             select: function (event, ui) {
-                setTimeout(function () { $("#txtHesapBas").val(ui.item.value.substring(ui.item.id.length + 1)); }, 0);
+                setTimeout(function () { $("#txtHesapBas").val(ui.item.id) }, 0);
                 chk_bas = ui.item.id;
             },
             scroll: true
@@ -60,7 +49,7 @@
             source: "/Reports/Financial/GetChKCode/0",
             minLength: 2,
             select: function (event, ui) {
-                setTimeout(function () { $("#txtHesapBit").val(ui.item.value.substring(ui.item.id.length + 1)); }, 0);
+                setTimeout(function () { $("#txtHesapBit").val(ui.item.id); }, 0);
                 chk_bit = ui.item.id;
             },
             scroll: true

@@ -5,22 +5,18 @@
     <style>
         td.details-control {background: url('/Content/assets/global/plugins/datatables/images/details_open.png') no-repeat center center;cursor: pointer;}
         tr.shown td.details-control {background: url('/Content/assets/global/plugins/datatables/images/details_close.png') no-repeat center center;}
-        .input_content {margin-bottom: 3px;height: 40px;line-height: 20px;}
-        .input_label {float: left;width: 35%;font-weight: bold;color: #5bc8d2;font-size: 9px;padding-top: 4px;}
-        .input {float: left;width: 60%;font-size: 10px;height: 30px;}
-        .input_style {background-color: rgba(245, 239, 239, 0.85);padding: 10px;margin: 0;}
         .dx-header-row {background-color: #86d8ea;color: window;}
         .dx-state-readonly {background-color: #e0dede !important;}
         .dx-state-readonly input {background-color: #e0dede !important;}
-        .btn {width: 120px;text-align: center;}
     </style>
 }<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><span>Onaylama</span><i class="fa fa-circle"></i></li><li><span>Sipariş</span></li></ul></div>
 <h1 class="page-title">Sipariş Onay Raporu</h1>
 <div class="row m-12  m-b-5">
     <div class="rdgrpOnayRed col-md-3"></div>
     <div class="col-md-1 text-left p-l-5 m-t-5 color-blue-light bold">Tarih Aralığı: </div>
-    <div class="col-md-2 p-l-5 p-r-0"><input class="form-control dateboxbg" type="text" id="txtBaslangic" value="@DateTime.Today.ToString("dd.MM.yyyy")" /></div>
-    <div class="col-md-2 p-l-5 p-r-0"><input class="form-control dateboxbg" type="text" id="txtBitis" value="@DateTime.Today.ToString("dd.MM.yyyy")" /></div>
+    <div class="col-md-1 m-l-5 p-r-0"><input class="form-control dateboxbg" type="text" id="txtBaslangic" value="@DateTime.Today.ToString("dd.MM.yyyy")" /></div>
+    <div class="col-md-1 m-l-5 p-r-0"><input class="form-control dateboxbg" type="text" id="txtBitis" value="@DateTime.Today.ToString("dd.MM.yyyy")" /></div>
+    <div class="col-md-2"><button id="btnListele" class="btn btn-block green listele-buton">Listele<i class="fa fa-check"></i></button></div>
 </div>
 <div class="row">
     <div class="form-horizontal">
@@ -31,7 +27,6 @@
                         <i class="fa fa-gift"></i>Sipariş Onay Raporu
                     </div>
                     <div class="col-md-1 pull-right m-t-5 p-0 " id="buttons"></div> 
-                    <div class="col-md-2 butondiv pull-right m-t-5 listele"><button class="btn btn-primary pull-right input-circle listele-buton glyphicon glyphicon-refresh"> Listele </button></div>
                 </div>
                 <div class="portlet-body">
                     <div class="row p-10" id="siparis_onay_data"></div>

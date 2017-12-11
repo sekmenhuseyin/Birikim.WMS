@@ -74,7 +74,7 @@
             source: "/Reports/Financial/GetChKCode/0",
             minLength: 2,
             select: function (event, ui) {
-                setTimeout(function () { $("#chk-bas-select").val(ui.item.value.substring(ui.item.id.length + 1)); }, 0);
+                setTimeout(function () { $("#chk-bas-select").val(ui.item.id); }, 0);
                 chk_bas = ui.item.id;
             },
             scroll: true
@@ -83,7 +83,7 @@
             source: "/Reports/Financial/GetChKCode/0",
             minLength: 2,
             select: function (event, ui) {
-                setTimeout(function () { $("#chk-bit-select").val(ui.item.value.substring(ui.item.id.length + 1)); }, 0);
+                setTimeout(function () { $("#chk-bit-select").val(ui.item.id); }, 0);
                 chk_bit = ui.item.id;
             },
             scroll: true

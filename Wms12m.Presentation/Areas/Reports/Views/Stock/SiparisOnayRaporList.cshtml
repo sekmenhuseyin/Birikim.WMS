@@ -4,17 +4,11 @@
     <tfoot class="tf-search"><tr><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr></tfoot>
 </table>
 <script type="text/javascript">
-    var secili_satir = new Array();
-    var secili_table = new Array();
-    var silinecek = new Array();
-    var tip1 = "@ViewBag.Tip";
-    var bastarih = "@ViewBag.bastarih";
-    var bittarih ="@ViewBag.bittarih";
     var table = $('#sample_1').DataTable({
         "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
         "ajax": {
             "url": '/Reports/Stock/SiparisOnayRaporData',
-            "data": { tip: tip1, bastarih: bastarih, bittarih: bittarih},
+            "data": { tip: "@ViewBag.Tip", bastarih: "@ViewBag.bastarih", bittarih: "@ViewBag.bittarih"},
             "dataSrc": function (json) {
                 return json;
             },
