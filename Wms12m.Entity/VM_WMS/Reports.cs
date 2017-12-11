@@ -217,7 +217,7 @@ namespace Wms12m.Entity
     }
     public class SMSiparisOnaySelect
     {
-
+        public string BaglantiNo { get; set; }
         public bool? Onay { get; set; }
         public string EvrakNo { get; set; }
         public string Tarih { get; set; }
