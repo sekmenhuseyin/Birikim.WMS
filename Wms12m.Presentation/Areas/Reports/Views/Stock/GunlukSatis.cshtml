@@ -16,16 +16,14 @@
     <div class="col-md-2 p-l-5 p-r-0"><input class="form-control dateboxbg" type="text" id="txtBitis" value="@DateTime.Today.ToString("dd.MM.yyyy")" /></div>
     <div class="col-md-2"><button id="btnListele" class="btn btn-block green">Listele<i class="fa fa-check"></i></button></div>
 </div>
-<div class="row" id="gunluk-satis-grid" style="margin-top:20px;"></div>
+<div class="row m-t-20" id="gunluk-satis-grid"></div>
 @section Scripts{<script>
-      var basTarih = @DateTime.Today.ToOADateInt();
-      var bitTarih = basTarih;
+    var basTarih = @DateTime.Today.ToOADateInt();
+    var bitTarih = basTarih;
     $(document).ready(function () {
-
         $.datepicker.setDefaults($.datepicker.regional["tr"]);
         $("#txtBaslangic").datepicker().on("change", function (e) { basTarih = toOADateFromString(e.target.value); });
         $("#txtBitis").datepicker().on("change", function (e) { bitTarih = toOADateFromString(e.target.value); });
         $("#btnListele").click(function () { PartialView("/Reports/Stock/GunlukSatisList", 'gunluk-satis-grid', JSON.stringify({ bastarih: basTarih, bittarih: bitTarih })); });
     });
-</script>
-}
+</script>}

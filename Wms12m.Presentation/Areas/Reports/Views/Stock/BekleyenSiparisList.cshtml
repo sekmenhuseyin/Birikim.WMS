@@ -2,182 +2,74 @@
 @{
     System.Web.Script.Serialization.JavaScriptSerializer serializer = new System.Web.Script.Serialization.JavaScriptSerializer();
     serializer.MaxJsonLength = Int32.MaxValue;
-}
-<div class="col-md-12" style="width:100%;">
-    <div class="portlet box green">
-        <div class="portlet-title">
-            <div class="caption">
-                <i class="fa fa-gift"></i>Bekleyen Sipariş
-            </div>
-            <div class="col-md-1 pull-right m-t-5 p-0" id="buttons"></div>
+}<div class="portlet box green">
+    <div class="portlet-title">
+        <div class="caption">
+            <i class="fa fa-gift"></i>Bekleyen Sipariş
         </div>
-        <div class="portlet-body">
-            <div class="row">
-                <table class="table table-responsive table-striped table-bordered table-condensed" id="sample_1">
-                    <thead>
+        <div class="col-md-1 pull-right m-t-5 p-0" id="buttons"></div>
+    </div>
+    <div class="portlet-body">
+        <div class="row p-10">
+            <table class="table table-responsive table-striped table-bordered table-condensed" id="sample_1">
+                <thead><tr><th>Hesap Kodu</th><th>Ünvan</th><th>Tarih</th><th>Evrak No</th><th>Bağlantı No</th><th>Grup Kodu</th><th>Mal Kodu</th><th>Mal Adı</th><th>Miktar</th><th>Birim</th><th>Ana Miktar</th><th>Ana Birim</th><th>Sevkedilen Miktar</th><th>Kalan Miktar</th><th>Kalan Birim</th><th>Kalan Ana Miktar</th><th>Kalan Ana Birim</th><th>Bağlantı Tipi</th><th>Fiyat Liste No</th><th>Liste Fiyatı</th><th>Döviz Cinsi</th><th>Sözleşme Şartları</th><th>Net Fiyat</th><th>KDVsiz Tutar</th><th>KDVli Tutar</th><th>KDVsiz KalanTutar</th><th>KDVli KalanTutar</th><th>Stok Miktar</th><th>Stok Birim</th><th>Stok Ana Miktar</th><th>Stok Ana Birim</th><th>Teslim Tarihi</th><th>Teslim Tarihi Durum</th><th>Satış Temsilcisi</th></tr></thead>
+                <tfoot><tr><th nowrap colspan="8"></th><th nowrap style="text-align:right;"></th><th nowrap style="text-align:right;"></th><th nowrap style="text-align:right;"></th><th nowrap style="text-align:right;"></th><th nowrap style="text-align:right;"></th><th nowrap style="text-align:right;"></th><th nowrap style="text-align:right;"></th><th nowrap style="text-align:right;"></th><th nowrap colspan="3"></th><th nowrap style="text-align:right;"></th><th nowrap colspan="2"></th><th nowrap style="text-align:right;"></th><th nowrap style="text-align:right;"></th><th nowrap style="text-align:right;"></th><th nowrap style="text-align:right;"></th><th nowrap style="text-align:right;"></th><th nowrap style="text-align:right;"></th><th nowrap style="text-align:right;"></th><th nowrap style="text-align:right;"></th><th nowrap colspan="4" style="text-align:right;"></th></tr></tfoot>
+                <tfoot class="tf-search"><tr><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr></tfoot>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
                         <tr>
-                            <th>Hesap Kodu</th>
-                            <th>Ünvan</th>
-                            <th>Tarih</th>
-                            <th>Evrak No</th>
-                            <th>Bağlantı No</th>
-                            <th>Grup Kodu</th>
-                            <th>Mal Kodu</th>
-                            <th>Mal Adı</th>
-                            <th>Miktar</th>
-                            <th>Birim</th>
-                            <th>Ana Miktar</th>
-                            <th>Ana Birim</th>
-                            <th>Sevkedilen Miktar</th>
-                            <th>Kalan Miktar</th>
-                            <th>Kalan Birim</th>
-                            <th>Kalan Ana Miktar</th>
-                            <th>Kalan Ana Birim</th>
-                            <th>Bağlantı Tipi</th>
-                            <th>Fiyat Liste No</th>
-                            <th>Liste Fiyatı</th>
-                            <th>Döviz Cinsi</th>
-                            <th>Sözleşme Şartları</th>
-                            <th>Net Fiyat</th>
-                            <th>KDVsiz Tutar</th>
-                            <th>KDVli Tutar</th>
-                            <th>KDVsiz KalanTutar</th>
-                            <th>KDVli KalanTutar</th>
-                            <th>Stok Miktar</th>
-                            <th>Stok Birim</th>
-                            <th>Stok Ana Miktar</th>
-                            <th>Stok Ana Birim</th>
-                            <th>Teslim Tarihi</th>
-                            <th>Teslim Tarihi Durum</th>
-                            <th>Satış Temsilcisi</th>
+                            <td nowrap>@item.Chk</td>
+                            <td nowrap>@item.Unvan</td>
+                            <td nowrap>@item.Tarih.Value.ToString("dd-MM-yyyy")</td>
+                            <td nowrap>@item.EvrakNo</td>
+                            <td nowrap>@item.BaglantiNo</td>
+                            <td nowrap>@item.GrupKod</td>
+                            <td nowrap>@item.MalKodu</td>
+                            <td nowrap>@item.MalAdi</td>
+                            <td nowrap align="right">@item.Miktar.ToDecimal().ToOnFormat()</td>
+                            <td nowrap>@item.Birim</td>
+                            <td nowrap align="right">@item.AnaMiktar.ToDecimal().ToOnFormat()</td>
+                            <td nowrap>@item.AnaBirim</td>
+                            <td nowrap align="right">@item.SevkedilenMiktar.ToDecimal().ToOnFormat()</td>
+                            <td nowrap align="right">@item.KalanMiktar.ToDecimal().ToOnFormat()</td>
+                            <td nowrap>@item.KalanBirim</td>
+                            <td nowrap align="right">@item.KalanAnaMiktar.ToDecimal().ToOnFormat()</td>
+                            <td nowrap>@item.KalanAnaBirim</td>
+                            <td nowrap>@item.BaglantiTipi</td>
+                            <td nowrap>@item.FiyatListeNo</td>
+                            <td nowrap align="right">@item.FYTFiyat.ToDecimal().ToOnFormat()</td>
+                            <td nowrap>@item.FYTDovizCinsi</td>
+                            <td nowrap>@item.SozlesmeSartlari</td>
+                            <td nowrap align="right">@item.NetFiyat.ToDecimal().ToOnFormat()</td>
+                            <td nowrap align="right">@String.Format("{0:n}", item.KDVSizTutar)</td>
+                            <td nowrap align="right">@String.Format("{0:n}", item.KDVliTutar)</td>
+                            <td nowrap align="right">@String.Format("{0:n}", item.KDVSizKalanTutar)</td>
+                            <td nowrap align="right">@String.Format("{0:n}", item.KDVliKalanTutar)</td>
+                            <td nowrap align="right">@item.StokMiktar.ToDecimal().ToOnFormat()</td>
+                            <td nowrap>@item.StokBirim</td>
+                            <td nowrap align="right">@item.StokAnaMiktar.ToDecimal().ToOnFormat()</td>
+                            <td nowrap>@item.StokAnaBirim</td>
+                            <td nowrap>@(item.TeslimTarih!=null?item.TeslimTarih.Value.ToString("dd-MM-yyyy"):"")</td>
+                            <td nowrap>@item.TeslimTarihDurum</td>
+                            <td nowrap>@item.SatisTemsilcisi</td>
                         </tr>
-                    </thead>
-                    <tfoot>
-                        <tr>
-                            <th nowrap colspan="8"></th>
-                            <th nowrap style="text-align:right;"></th>
-                            <th nowrap style="text-align:right;"></th>
-                            <th nowrap style="text-align:right;"></th>
-                            <th nowrap style="text-align:right;"></th>
-                            <th nowrap style="text-align:right;"></th>
-                            <th nowrap style="text-align:right;"></th>
-                            <th nowrap style="text-align:right;"></th>
-                            <th nowrap style="text-align:right;"></th>
-                            <th nowrap colspan="3"></th>
-                            <th nowrap style="text-align:right;"></th>
-                            <th nowrap colspan="2"></th>
-                            <th nowrap style="text-align:right;"></th>
-                            <th nowrap style="text-align:right;"></th>
-                            <th nowrap style="text-align:right;"></th>
-                            <th nowrap style="text-align:right;"></th>
-                            <th nowrap style="text-align:right;"></th>
-                            <th nowrap style="text-align:right;"></th>
-                            <th nowrap style="text-align:right;"></th>
-                            <th nowrap style="text-align:right;"></th>
-                            <th nowrap colspan="4" style="text-align:right;"></th>
-                        </tr>
-                    </tfoot>
-                    <tfoot class="tf-search">
-                        <tr>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                        </tr>
-                    </tfoot>
-                    <tbody>
-                        @foreach (var item in Model)
-                        {
-                            <tr>
-                                <td nowrap>@item.Chk</td>
-                                <td nowrap>@item.Unvan</td>
-                                <td nowrap>@item.Tarih.Value.ToString("dd-MM-yyyy")</td>
-                                <td nowrap>@item.EvrakNo</td>
-                                <td nowrap>@item.BaglantiNo</td>
-                                <td nowrap>@item.GrupKod</td>
-                                <td nowrap>@item.MalKodu</td>
-                                <td nowrap>@item.MalAdi</td>
-                                <td nowrap align="right">@item.Miktar.ToDecimal().ToOnFormat()</td>
-                                <td nowrap>@item.Birim</td>
-                                <td nowrap align="right">@item.AnaMiktar.ToDecimal().ToOnFormat()</td>
-                                <td nowrap>@item.AnaBirim</td>
-                                <td nowrap align="right">@item.SevkedilenMiktar.ToDecimal().ToOnFormat()</td>
-                                <td nowrap align="right">@item.KalanMiktar.ToDecimal().ToOnFormat()</td>
-                                <td nowrap>@item.KalanBirim</td>
-                                <td nowrap align="right">@item.KalanAnaMiktar.ToDecimal().ToOnFormat()</td>
-                                <td nowrap>@item.KalanAnaBirim</td>
-                                <td nowrap>@item.BaglantiTipi</td>
-                                <td nowrap>@item.FiyatListeNo</td>
-                                <td nowrap align="right">@item.FYTFiyat.ToDecimal().ToOnFormat()</td>
-                                <td nowrap>@item.FYTDovizCinsi</td>
-                                <td nowrap>@item.SozlesmeSartlari</td>
-                                <td nowrap align="right">@item.NetFiyat.ToDecimal().ToOnFormat()</td>
-                                <td nowrap align="right">@String.Format("{0:n}", item.KDVSizTutar)</td>
-                                <td nowrap align="right">@String.Format("{0:n}", item.KDVliTutar)</td>
-                                <td nowrap align="right">@String.Format("{0:n}", item.KDVSizKalanTutar)</td>
-                                <td nowrap align="right">@String.Format("{0:n}", item.KDVliKalanTutar)</td>
-                                <td nowrap align="right">@item.StokMiktar.ToDecimal().ToOnFormat()</td>
-                                <td nowrap>@item.StokBirim</td>
-                                <td nowrap align="right">@item.StokAnaMiktar.ToDecimal().ToOnFormat()</td>
-                                <td nowrap>@item.StokAnaBirim</td>
-                                <td nowrap>@(item.TeslimTarih!=null?item.TeslimTarih.Value.ToString("dd-MM-yyyy"):"")</td>
-                                <td nowrap>@item.TeslimTarihDurum</td>
-                                <td nowrap>@item.SatisTemsilcisi</td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-            </div>
-
+                    }
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
 <script>
     $(document).ready(function () {
         var model =  @Html.Raw(serializer.Serialize(Model));
-        $('#sample_1 .tf-search th').each(function () {
-            var title = $('#sample_1 thead th').eq($(this).index()).text();
-            if (title != "") {
-                $(this).html('<input type="text" placeholder="' + title + ' Ara" />');
-            }
-        });
-       var table12 = $('#sample_1').DataTable({
+        var table = $('#sample_1').DataTable({
             "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
             "pagingType": "full_numbers",
             "ordering": false,
             "footerCallback": function (row, data, start, end, display) {
                 var Miktar = 0, AnaMiktar = 0, SevkedilenMiktar = 0, KalanMiktar = 0, KalanAnaMiktar = 0, FYTFiyat = 0, NetFiyat = 0, KDVSizTutar = 0, KDVliTutar = 0, KDVSizKalanTutar = 0, KDVliKalanTutar = 0, StokMiktar = 0, StokAnaMiktar = 0;
-                table12.rows({ search: 'applied' }).data().each(function (val, index) {
+                table.rows({ search: 'applied' }).data().each(function (val, index) {
                     if (val[8] != '' && val[8] != null)
                     Miktar += jDecimal(val[8]);
                     if (val[10] != '' && val[10] != null)
@@ -200,10 +92,8 @@
                         StokMiktar += jDecimal(val[27]);
                     if (val[29] != '' && val[29] != null)
                         StokAnaMiktar += jDecimal(val[29]);
-
                 });
                 var api = this.api(), data;
-
                 // Update footer
                 $(api.column(8).footer()).html(
                     ondalikBinlik(Math.round(Miktar * 100) / 100, 6)
@@ -241,13 +131,20 @@
                 );
             }
         });
-       $("#sample_1 tfoot input").on('keyup change', function () {
-           table12
-               .column($(this).parent().index() + ':visible')
-               .search(this.value)
-               .draw();
-       });
-        var buttons = new $.fn.dataTable.Buttons(table12, {
+        $('#sample_1 .tf-search th').each(function ()
+        {
+            var title = $('#sample_1 thead th').eq($(this).index()).text();
+            if (title != "" && title.indexOf("Tarih") !== -1)
+                $(this).html('<input class="form-control input-circle tarih" type="text" placeholder="Ara" />');
+            else if (title != "" && title != "Detay" && title != "Hareket")
+                $(this).html('<input class="form-control input-circle" type="text" placeholder="Ara" />');
+        });
+        $("#sample_1 tfoot input").on('keyup change', function () { table.column($(this).parent().index() + ':visible').search(this.value).draw(); });
+        //tarih
+        $.datepicker.setDefaults($.datepicker.regional["tr"]);
+        $(".tarih").datepicker();
+        $("#buttons").html("");
+        var buttons = new $.fn.dataTable.Buttons(table, {
             buttons: [
                 { "extend": 'pdf', "text": '<span class="fa fa-file-pdf-o f-s-15 red"></span>', "className": 'btn-xs;' },
                 { "extend": 'excel', "text": '<span class="fa fa-file-excel-o f-s-15 green"></span>', "className": 'btn-xs;' }

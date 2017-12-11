@@ -2,81 +2,49 @@
 @{
     System.Web.Script.Serialization.JavaScriptSerializer serializer = new System.Web.Script.Serialization.JavaScriptSerializer();
     serializer.MaxJsonLength = Int32.MaxValue;
-}
-<div class="col-md-12" style="width:100%;">
-    <div class="portlet box green">
-        <div class="portlet-title">
-            <div class="caption">
-                <i class="fa fa-gift"></i>Satılmayan Ürünler
-            </div>
-            <div class="col-md-1 pull-right m-t-5 p-0" id="buttons"></div>
-
+}<div class="portlet box green">
+    <div class="portlet-title">
+        <div class="caption">
+            <i class="fa fa-gift"></i>Satılmayan Ürünler
         </div>
-        <div class="portlet-body">
-            <div class="row" style="margin-bottom:5px;margin-left:5px;">
-                <div class="col-md-6">
-                    <div id="buttons"></div>
-                </div>
-            </div>
-
+        <div class="col-md-1 pull-right m-t-5 p-0" id="buttons"></div>
+    </div>
+    <div class="portlet-body">
+        <div class="row p-10">
             <table class="table table-striped table-bordered table-condensed" id="sample_1">
-                <thead>
-                    <tr>
-                        <th>Mal Kodu</th>
-                        <th>Mal Adı</th>
-                        <th>Birim</th>
-                        <th>Stok Miktar</th>
-                        <th>Kritik Stok</th>
-                        <th>Son Fatura No</th>
-                        <th>Son Fatura Tarih</th>
-                        <th>Son Üretim Tarihi</th>
-                        <th>Son Satış Miktarı</th>
-                        <th>Son Satış Birimi</th>
-
-                    </tr>
-                </thead>
-                <tfoot>
-                    <tr>
-                        <th colspan="3"></th>
-                        <th class="text-right"></th>
-                        <th class="text-right"></th>
-                        <th colspan="3"></th>
-                        <th class="text-right"></th>
-                        <th class="text-right"></th>
-                    </tr>
-                </tfoot>
+                <thead><tr><th>Mal Kodu</th><th>Mal Adı</th><th>Birim</th><th>Stok Miktar</th><th>Kritik Stok</th><th>Son Fatura No</th><th>Son Fatura Tarih</th><th>Son Üretim Tarihi</th><th>Son Satış Miktarı</th><th>Son Satış Birimi</th></tr></thead>
+                <tfoot><tr><th colspan="3"></th><th class="text-right"></th><th class="text-right"></th><th colspan="3"></th><th class="text-right"></th><th class="text-right"></th></tr></tfoot>
+                <tfoot class="tf-search"><tr><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th>Son </th></tr></tfoot>
                 <tbody>
                     @foreach (var item in Model)
                     {
-                        <tr>
-                           
+                        <tr>                           
                             <td nowrap>@item.MalKodu</td>
                             <td nowrap>@item.MalAdi</td>
                             <td nowrap>@item.Birim</td>
                             <td nowrap align="right">@String.Format("{0:n}", item.StokMiktar)</td>
                             <td nowrap align="right">@String.Format("{0:n}", item.KritikStok)</td>
                             <td nowrap>@item.SonFaturaNo</td>
-                            <td nowrap>@Convert.ToDateTime(@item.SonFaturaTarihi).ToString("dd-MM-yyyy") </td>
-                            <td nowrap>@(item.SonUretimTarihi != null && item.SonUretimTarihi != "" ? Convert.ToDateTime(item.SonUretimTarihi).ToString("dd-MM-yyyy") : "")</td>
+                            <td nowrap>@Convert.ToDateTime(@item.SonFaturaTarihi).ToString("dd.MM.yyyy") </td>
+                            <td nowrap>@(item.SonUretimTarihi != null && item.SonUretimTarihi != "" ? Convert.ToDateTime(item.SonUretimTarihi).ToString("dd.MM.yyyy") : "")</td>
                             <td nowrap align="right">@String.Format("{0:n}", item.SonSatisMiktari)</td>
                             <td nowrap>@item.SonSatisMiktariBirim</td>
                         </tr>
                     }
                 </tbody>
             </table>
-
         </div>
     </div>
 </div>
 <script>
     $(document).ready(function () {
         var model =  @Html.Raw(serializer.Serialize(Model));
-       var table12 = $('#sample_1').DataTable({
+        var table = $('#sample_1').DataTable({
            "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
            "pagingType": "full_numbers",
            "footerCallback": function (row, data, start, end, display) {
                var StokMiktar = 0, SonSatisMiktari = 0, SonSatisMiktari = 0;
-               table12.rows({ search: 'applied' }).data().each(function (val, index) {
+               table.rows({ search: 'applied' }).data().each(function (val, index) {
                    if (val[3] != '' && val[3] != null)
                        StokMiktar += jDecimal(val[3]);
                });
@@ -87,7 +55,20 @@
 
             }
         });
-        var buttons = new $.fn.dataTable.Buttons(table12, {
+        $('#sample_1 .tf-search th').each(function ()
+        {
+            var title = $('#sample_1 thead th').eq($(this).index()).text();
+            if (title != "" && title.indexOf("Tarih") !== -1)
+                $(this).html('<input class="form-control input-circle tarih" type="text" placeholder="Ara" />');
+            else if (title != "" && title != "Detay" && title != "Hareket")
+                $(this).html('<input class="form-control input-circle" type="text" placeholder="Ara" />');
+        });
+        $("#sample_1 tfoot input").on('keyup change', function () { table.column($(this).parent().index() + ':visible').search(this.value).draw(); });
+        //tarih
+        $.datepicker.setDefaults($.datepicker.regional["tr"]);
+        $(".tarih").datepicker();
+        $("#buttons").html("");
+        var buttons = new $.fn.dataTable.Buttons(table, {
             buttons: [
                 { "extend": 'pdf', "text": '<span class="fa fa-file-pdf-o f-s-15 red"></span>', "className": 'btn-xs;' },
                 { "extend": 'excel', "text": '<span class="fa fa-file-excel-o f-s-15 green"></span>', "className": 'btn-xs;' }
