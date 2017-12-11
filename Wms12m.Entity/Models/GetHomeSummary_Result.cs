@@ -16,7 +16,12 @@ namespace Wms12m.Entity.Models
         public Nullable<int> depo { get; set; }
         public Nullable<int> kull { get; set; }
         public Nullable<int> gorev { get; set; }
-        public string GorevSayilari { get; set; }
+        public Nullable<int> MalKabul { get; set; }
+        public Nullable<int> RafaKaldir { get; set; }
+        public Nullable<int> SiparisTopla { get; set; }
+        public Nullable<int> Paketle { get; set; }
+        public Nullable<int> Sevkiyat { get; set; }
+        public Nullable<int> Sayim { get; set; }
         public string yetki { get; set; }
     }
 }

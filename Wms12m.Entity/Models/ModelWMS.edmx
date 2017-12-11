@@ -1302,6 +1302,7 @@
         <Function Name="GetHomeSummary" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="UserName" Type="varchar" Mode="In" />
           <Parameter Name="UserID" Type="int" Mode="In" />
+          <Parameter Name="YetkiliDepo" Type="int" Mode="In" />
         </Function>
         <Function Name="GetMenuRoleFor" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="RoleName" Type="varchar" Mode="In" />
@@ -2287,10 +2288,6 @@
             <End Role="User" EntitySet="Users" />
             <End Role="UserDetail" EntitySet="UserDetails" />
           </AssociationSet>
-          <FunctionImport Name="GetHomeSummary" ReturnType="Collection(MModel.GetHomeSummary_Result)">
-            <Parameter Name="UserName" Mode="In" Type="String" />
-            <Parameter Name="UserID" Mode="In" Type="Int32" />
-          </FunctionImport>
           <EntitySet Name="Settings" EntityType="MModel.Setting" />
           <EntitySet Name="ProjeFormDosyas" EntityType="MModel.ProjeFormDosya" />
           <AssociationSet Name="FK_ProjeFormDosya_ProjeForm" Association="MModel.FK_ProjeFormDosya_ProjeForm">
@@ -2338,7 +2335,12 @@
           <Parameter Name="DB" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="GetIrsDetayfromGorev" ReturnType="Collection(MModel.GetIrsDetayfromGorev_Result)">
-            <Parameter Name="GorevID" Mode="In" Type="Int32" />
+          <Parameter Name="GorevID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="GetHomeSummary" ReturnType="Collection(MModel.GetHomeSummary_Result)">
+            <Parameter Name="UserName" Mode="In" Type="String" />
+            <Parameter Name="UserID" Mode="In" Type="Int32" />
+            <Parameter Name="YetkiliDepo" Mode="In" Type="Int32" />
           </FunctionImport>
           </EntityContainer>
         <ComplexType Name="GetSirkets_Result">
@@ -3785,13 +3787,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <ComplexType Name="GetHomeSummary_Result">
-          <Property Type="Int32" Name="depo" Nullable="true" />
-          <Property Type="Int32" Name="kull" Nullable="true" />
-          <Property Type="Int32" Name="gorev" Nullable="true" />
-          <Property Type="String" Name="GorevSayilari" Nullable="true" />
-          <Property Type="String" Name="yetki" Nullable="false" />
-        </ComplexType>
         <EntityType Name="Setting">
           <Key>
             <PropertyRef Name="ID" />
@@ -3918,6 +3913,18 @@
           <Property Type="String" Name="MakaraNo" Nullable="false" MaxLength="1" />
           <Property Type="Int32" Name="Sira" Nullable="false" />
           <Property Type="String" Name="HucreAd" Nullable="false" MaxLength="1" />
+        </ComplexType>
+        <ComplexType Name="GetHomeSummary_Result">
+          <Property Type="Int32" Name="depo" Nullable="true" />
+          <Property Type="Int32" Name="kull" Nullable="true" />
+          <Property Type="Int32" Name="gorev" Nullable="true" />
+          <Property Type="Int32" Name="MalKabul" Nullable="true" />
+          <Property Type="Int32" Name="RafaKaldir" Nullable="true" />
+          <Property Type="Int32" Name="SiparisTopla" Nullable="true" />
+          <Property Type="Int32" Name="Paketle" Nullable="true" />
+          <Property Type="Int32" Name="Sevkiyat" Nullable="true" />
+          <Property Type="Int32" Name="Sayim" Nullable="true" />
+          <Property Type="String" Name="yetki" Nullable="false" />
         </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
@@ -4792,17 +4799,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="GetHomeSummary" FunctionName="MModel.Store.GetHomeSummary">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="MModel.GetHomeSummary_Result">
-                <ScalarProperty Name="depo" ColumnName="depo" />
-                <ScalarProperty Name="kull" ColumnName="kull" />
-                <ScalarProperty Name="gorev" ColumnName="gorev" />
-                <ScalarProperty Name="GorevSayilari" ColumnName="GorevSayilari" />
-                <ScalarProperty Name="yetki" ColumnName="yetki" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <EntitySetMapping Name="Settings">
             <EntityTypeMapping TypeName="MModel.Setting">
               <MappingFragment StoreEntitySet="Settings">
@@ -4960,6 +4956,22 @@
                 <ScalarProperty Name="MakaraNo" ColumnName="MakaraNo" />
                 <ScalarProperty Name="Sira" ColumnName="Sira" />
                 <ScalarProperty Name="HucreAd" ColumnName="HucreAd" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetHomeSummary" FunctionName="MModel.Store.GetHomeSummary">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MModel.GetHomeSummary_Result">
+                <ScalarProperty Name="depo" ColumnName="depo" />
+                <ScalarProperty Name="kull" ColumnName="kull" />
+                <ScalarProperty Name="gorev" ColumnName="gorev" />
+                <ScalarProperty Name="MalKabul" ColumnName="MalKabul" />
+                <ScalarProperty Name="RafaKaldir" ColumnName="RafaKaldir" />
+                <ScalarProperty Name="SiparisTopla" ColumnName="SiparisTopla" />
+                <ScalarProperty Name="Paketle" ColumnName="Paketle" />
+                <ScalarProperty Name="Sevkiyat" ColumnName="Sevkiyat" />
+                <ScalarProperty Name="Sayim" ColumnName="Sayim" />
+                <ScalarProperty Name="yetki" ColumnName="yetki" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

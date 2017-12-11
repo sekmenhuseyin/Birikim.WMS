@@ -20,15 +20,13 @@ namespace Wms12m.Presentation.Controllers
             var SirketKodu = vUser.SirketKodu;
             Setting setts = ViewBag.settings;
             var bo = new BekleyenOnaylar();
-            var tbl = new GetHomeSummary_Result();
+            var tbl = new GetHomeSummary_Result { depo = 0, gorev = 0, kull = 0, MalKabul = 0, Paketle = 0, RafaKaldir = 0, Sayim = 0, Sevkiyat = 0, SiparisTopla = 0, yetki = "" };
             try
             {
-                tbl = db.GetHomeSummary(vUser.UserName, vUser.Id).FirstOrDefault();
+                tbl = db.GetHomeSummary(vUser.UserName, vUser.Id, vUser.DepoId).FirstOrDefault();
             }
             catch (Exception)
             {
-                tbl.yetki = "";
-                tbl.GorevSayilari = "0,0,0,0,0,0";
             }
             //Bekleyen Onaylar
             if (setts.OnayCek == true || setts.OnayFiyat == true || setts.OnayRisk == true || setts.OnaySiparis == true || setts.OnaySozlesme == true || setts.OnayStok == true || setts.OnayTekno == true || setts.OnayTeminat == true)

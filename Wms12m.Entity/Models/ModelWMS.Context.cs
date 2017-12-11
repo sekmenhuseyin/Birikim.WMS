@@ -810,19 +810,6 @@ namespace Wms12m.Entity.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<InsertIrsaliye_Result>("WMSEntities.InsertIrsaliye", sirketKodParameter, depoIDParameter, gorevNoParameter, irsEvrakNoParameter, irsTarihParameter, gorevBilgiParameter, irsIslemTurParameter, gorevTipiIDParameter, olusturanParameter, olusturmaTarihiParameter, olusturmaSaatiParameter, hesapKoduParameter, teslimCHKParameter, valorGunParameter, linkEvrakNoParameter, aciklamaParameter);
         }
     
-        public virtual ObjectResult<GetHomeSummary_Result> GetHomeSummary(string userName, Nullable<int> userID)
-        {
-            var userNameParameter = userName != null ?
-                new ObjectParameter("UserName", userName) :
-                new ObjectParameter("UserName", typeof(string));
-    
-            var userIDParameter = userID.HasValue ?
-                new ObjectParameter("UserID", userID) :
-                new ObjectParameter("UserID", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetHomeSummary_Result>("WMSEntities.GetHomeSummary", userNameParameter, userIDParameter);
-        }
-    
         public virtual ObjectResult<GetCachedChartBakiyeRisk_Result> GetCachedChartBakiyeRisk(string dB)
         {
             var dBParameter = dB != null ?
@@ -960,6 +947,23 @@ namespace Wms12m.Entity.Models
                 new ObjectParameter("GorevID", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetIrsDetayfromGorev_Result>("WMSEntities.GetIrsDetayfromGorev", gorevIDParameter);
+        }
+    
+        public virtual ObjectResult<GetHomeSummary_Result> GetHomeSummary(string userName, Nullable<int> userID, Nullable<int> yetkiliDepo)
+        {
+            var userNameParameter = userName != null ?
+                new ObjectParameter("UserName", userName) :
+                new ObjectParameter("UserName", typeof(string));
+    
+            var userIDParameter = userID.HasValue ?
+                new ObjectParameter("UserID", userID) :
+                new ObjectParameter("UserID", typeof(int));
+    
+            var yetkiliDepoParameter = yetkiliDepo.HasValue ?
+                new ObjectParameter("YetkiliDepo", yetkiliDepo) :
+                new ObjectParameter("YetkiliDepo", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetHomeSummary_Result>("WMSEntities.GetHomeSummary", userNameParameter, userIDParameter, yetkiliDepoParameter);
         }
     }
 }
