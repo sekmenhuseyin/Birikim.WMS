@@ -9,15 +9,13 @@ namespace Wms12m.Presentation.Areas.YN.Controllers
 {
     public class OnayBekleyenlerController : RootController
     {
-        private string YnsSirketKodu = ConfigurationManager.AppSettings["YeniNesilSirket"].ToString();
+        string YnsSirketKodu = ConfigurationManager.AppSettings["YeniNesilSirket"].ToString();
         #region Sipariş
         /// <summary>
         /// sipariş onayı bekleyenler sayfası
         /// </summary>
-        public ActionResult Siparis()
-        {
-            return View("Siparis");
-        }
+        public ActionResult Siparis() => View("Siparis");
+
         /// <summary>
         /// sipariş onayı bekleyenler listesi
         /// </summary>
@@ -58,7 +56,6 @@ namespace Wms12m.Presentation.Areas.YN.Controllers
         {
             try
             {
-
                 db.Database.ExecuteSqlCommand(string.Format("UPDATE YNS{0}.YNS{0}.[STK002] SET STK002_Kod10 = '{1}' WHERE STK002_EvrakSeriNo='{2}'", YnsSirketKodu, Onay == true ? "Onaylandı" : "Reddedildi", ID));
                 return Json(new Result(true, 1), JsonRequestBehavior.AllowGet);
             }
@@ -73,10 +70,8 @@ namespace Wms12m.Presentation.Areas.YN.Controllers
         /// <summary>
         /// teklif onay lsayfası
         /// </summary>
-        public ActionResult Teklif()
-        {
-            return View("Teklif");
-        }
+        public ActionResult Teklif() => View("Teklif");
+
         /// <summary>
         /// teklif onay listesi
         /// </summary>
@@ -130,10 +125,8 @@ namespace Wms12m.Presentation.Areas.YN.Controllers
         /// <summary>
         /// transfer onayı bekleyenler sayfası
         /// </summary>
-        public ActionResult Transfer()
-        {
-            return View("Transfer");
-        }
+        public ActionResult Transfer() => View("Transfer");
+
         /// <summary>
         /// transfer onayı bekleyenler listesi
         /// </summary>
@@ -183,10 +176,8 @@ namespace Wms12m.Presentation.Areas.YN.Controllers
         /// <summary>
         /// Fatura onayı bekleyenler sayfası
         /// </summary>
-        public ActionResult Fatura()
-        {
-            return View("Fatura");
-        }
+        public ActionResult Fatura() => View("Fatura");
+
         /// <summary>
         /// Fatura onayı bekleyenler listesi
         /// </summary>
@@ -217,6 +208,7 @@ namespace Wms12m.Presentation.Areas.YN.Controllers
                     var sepetIslemleri = yns.FaturaKaydet(list);
                     result = new Result(true, 1);
                 }
+
                 if (result.Status == true) db.Database.ExecuteSqlCommand(string.Format("UPDATE YNS{0}.YNS{0}.[TempFatura] SET IslemDurumu={1} WHERE EvrakNo='{2}'", YnsSirketKodu, Onay == true ? 1 : 2, ID));
                 return Json(result, JsonRequestBehavior.AllowGet);
             }
@@ -249,10 +241,8 @@ namespace Wms12m.Presentation.Areas.YN.Controllers
         /// <summary>
         /// Fatura onayı bekleyenler sayfası
         /// </summary>
-        public ActionResult SatisIade()
-        {
-            return View("SatisIade");
-        }
+        public ActionResult SatisIade() => View("SatisIade");
+
         /// <summary>
         /// Fatura onayı bekleyenler listesi
         /// </summary>
@@ -272,9 +262,8 @@ namespace Wms12m.Presentation.Areas.YN.Controllers
             var result = new Result();
             try
             {
-
                 string[] ids = ID.Split(',');
-                YeniNesil yns = new YeniNesil(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, YnsSirketKodu);
+                var yns = new YeniNesil(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, YnsSirketKodu);
                 yns.SatisIadeOnay(new SatisIadeOnay
                 {
                     IadeNo = ids[0],
@@ -306,10 +295,7 @@ namespace Wms12m.Presentation.Areas.YN.Controllers
         /// <summary>
         /// tahsilat onayı bekleyenler sayfası
         /// </summary>
-        public ActionResult Tahsilat()
-        {
-            return View("Tahsilat");
-        }
+        public ActionResult Tahsilat() => View("Tahsilat");
         // <summary>
         // tahsilat onayı bekleyenler listesi
         // </summary>
@@ -337,7 +323,6 @@ namespace Wms12m.Presentation.Areas.YN.Controllers
             {
                 db.Database.ExecuteSqlCommand(string.Format("UPDATE YNS{0}.YNS{0}.[TahsilatMobil] SET IslemDurumu = '{1}' WHERE TahsilatNo='{2}'", YnsSirketKodu, Onay == true ? 1 : 2, ID));
                 return Json(new Result(true, 1), JsonRequestBehavior.AllowGet);
-
             }
             catch (Exception ex)
             {

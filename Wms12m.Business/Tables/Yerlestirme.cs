@@ -11,14 +11,14 @@ namespace Wms12m.Business
         /// <summary>
         /// stok ekleme
         /// </summary>
-        public Result Insert(Yer tbl, int KullID, string IslemTipi, int? IrsID = null, int? IrsDetayID = null)
+        public Result Insert(Yer tbl, int kullID, string islemTipi, int? irsID = null, int? irsDetayID = null)
         {
             _Result = new Result();
-            //stok
+            // stok
             if (tbl.MakaraNo == "") tbl.MakaraNo = null;
             db.Yers.Add(tbl);
-            //log
-            Yer_Log yerLog = new Yer_Log()
+            // log
+            var yerLog = new Yer_Log()
             {
                 KatID = tbl.KatID,
                 MalKodu = tbl.MalKodu,
@@ -27,15 +27,15 @@ namespace Wms12m.Business
                 GC = false,//false=girdi(+), true=çıktı(-)
                 KayitTarihi = DateTime.Today.ToOADate().ToInt32(),
                 KayitSaati = DateTime.Now.ToOaTime(),
-                Kaydeden = db.Users.Where(m => m.ID == KullID).Select(m => m.Kod).FirstOrDefault(),
-                IslemTipi = IslemTipi,
-                IrsaliyeID = IrsID,
-                IRSDetayID = IrsDetayID
+                Kaydeden = db.Users.Where(m => m.ID == kullID).Select(m => m.Kod).FirstOrDefault(),
+                IslemTipi = islemTipi,
+                IrsaliyeID = irsID,
+                IRSDetayID = irsDetayID
             };
             if (tbl.MakaraNo != "" && tbl.MakaraNo != null) yerLog.MakaraNo = tbl.MakaraNo;
-            if (IrsID > 0) yerLog.IrsaliyeID = IrsID;
+            if (irsID > 0) yerLog.IrsaliyeID = irsID;
             if (yerLog.Miktar > 0) db.Yer_Log.Add(yerLog);
-            //save
+            // save
             try
             {
                 db.SaveChanges();
@@ -51,7 +51,8 @@ namespace Wms12m.Business
                 _Result.Message = "İşlem Hatalı: " + ex.Message;
                 _Result.Status = false;
             }
-            //exit
+
+            // exit
             return _Result;
         }
         /// <summary>
@@ -60,8 +61,8 @@ namespace Wms12m.Business
         public Result Update(Yer tbl, int KullID, string IslemTipi, decimal miktar, bool gc, int? IrsID = null, int? IrsDetayID = null)
         {
             _Result = new Result();
-            //log
-            Yer_Log yerLog = new Yer_Log()
+            // log
+            var yerLog = new Yer_Log()
             {
                 KatID = tbl.KatID,
                 MalKodu = tbl.MalKodu,
@@ -76,9 +77,8 @@ namespace Wms12m.Business
                 IRSDetayID = IrsDetayID
             };
             if (yerLog.Miktar > 0) db.Yer_Log.Add(yerLog);
-            if (gc == true)
-                tbl.MakaraDurum = false;
-            //stok
+            if (gc == true) tbl.MakaraDurum = false;
+            // stok
             var log = Detail(tbl.ID);
             log.Miktar = tbl.Miktar;
             if (log.Miktar == 0)
@@ -86,7 +86,8 @@ namespace Wms12m.Business
                 log.MakaraNo = null;
                 log.MakaraDurum = false;
             }
-            //save
+
+            // save
             try
             {
                 db.SaveChanges();
@@ -102,7 +103,8 @@ namespace Wms12m.Business
                 _Result.Message = "İşlem Hatalı: " + ex.Message;
                 _Result.Status = false;
             }
-            //exit
+
+            // exit
             return _Result;
         }
         /// <summary>
@@ -112,8 +114,7 @@ namespace Wms12m.Business
         {
             _Result = new Result();
             var tmp = Detail(tbl.ID);
-            if (tmp.Miktar == tbl.Miktar)
-                db.Yers.Remove(tbl);
+            if (tmp.Miktar == tbl.Miktar) db.Yers.Remove(tbl);
             else if (tmp.Miktar < tbl.Miktar)
             {
                 _Result.Message = "Hatalı Kayıt !";
@@ -122,12 +123,12 @@ namespace Wms12m.Business
             }
             else
                 tmp.Miktar -= tbl.Miktar;
-            //makara
+            // makara
             if (tmp.Miktar == 0)
                 tmp.MakaraNo = null;
             tmp.MakaraDurum = false;
-            //log
-            Yer_Log logs = new Yer_Log()
+            // log
+            var logs = new Yer_Log()
             {
                 HucreAd = tbl.HucreAd,
                 MalKodu = tbl.MalKodu,
@@ -157,6 +158,7 @@ namespace Wms12m.Business
                 _Result.Message = "İşlem Hatalı: " + ex.Message;
                 _Result.Status = false;
             }
+
             return _Result;
         }
         /// <summary>
@@ -165,11 +167,11 @@ namespace Wms12m.Business
         public override Result Delete(int Id)
         {
             _Result = new Result();
-            Yer tbl = db.Yers.Where(m => m.ID == Id).FirstOrDefault();
+            var tbl = db.Yers.Where(m => m.ID == Id).FirstOrDefault();
             if (tbl != null)
             {
                 db.Yers.Remove(tbl);
-                Yer_Log logs = new Yer_Log()
+                var logs = new Yer_Log()
                 {
                     KatID = tbl.KatID,
                     MalKodu = tbl.MalKodu,
@@ -186,6 +188,7 @@ namespace Wms12m.Business
             {
                 _Result.Message = "Kayıt Yok";
             }
+
             try
             {
                 db.SaveChanges();
@@ -199,16 +202,17 @@ namespace Wms12m.Business
                 Logger(ex, "Business/Yerlestirme/Delete");
                 _Result.Message = ex.Message;
             }
+
             return _Result;
         }
         public Result Delete(int Id, int KullID, string IslemTipi, int? IrsID = null, int? IrsDetayID = null)
         {
             _Result = new Result();
-            Yer tbl = db.Yers.Where(m => m.ID == Id).FirstOrDefault();
+            var tbl = db.Yers.Where(m => m.ID == Id).FirstOrDefault();
             if (tbl != null)
             {
                 db.Yers.Remove(tbl);
-                Yer_Log logs = new Yer_Log()
+                var logs = new Yer_Log()
                 {
                     HucreAd = tbl.HucreAd,
                     MalKodu = tbl.MalKodu,
@@ -229,6 +233,7 @@ namespace Wms12m.Business
                 _Result.Message = "Kayıt Yok";
                 _Result.Status = false;
             }
+
             try
             {
                 db.SaveChanges();
@@ -243,6 +248,7 @@ namespace Wms12m.Business
                 _Result.Message = ex.Message;
                 _Result.Status = false;
             }
+
             return _Result;
         }
         /// <summary>
@@ -266,9 +272,9 @@ namespace Wms12m.Business
         public Yer Detail(int KatID, string MalKodu, string Birim, string MakaraNo = null)
         {
             var satir = db.Yers.Where(m => m.KatID == KatID && m.MalKodu == MalKodu && m.Birim == Birim);
-            //makara no varsa onu da filtreye ekle
+            // makara no varsa onu da filtreye ekle
             if (MakaraNo != null && MakaraNo != "") satir = satir.Where(m => m.MakaraNo == MakaraNo);
-            //return
+            // return
             try
             {
                 return satir.FirstOrDefault();
@@ -281,10 +287,8 @@ namespace Wms12m.Business
         /// <summary>
         /// depo listesi
         /// </summary>
-        public override List<Yer> GetList()
-        {
-            return db.Yers.OrderBy(m => m.MalKodu).ToList();
-        }
+        public override List<Yer> GetList() => db.Yers.OrderBy(m => m.MalKodu).ToList();
+
         /// <summary>
         /// üst tabloya ait olanları getir
         /// </summary>
@@ -311,9 +315,6 @@ namespace Wms12m.Business
         /// <summary>
         /// burada yok
         /// </summary>
-        public override Result Operation(Yer tbl)
-        {
-            return new Result();
-        }
+        public override Result Operation(Yer tbl) => new Result();
     }
 }

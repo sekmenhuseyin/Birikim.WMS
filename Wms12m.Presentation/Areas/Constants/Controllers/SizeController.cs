@@ -25,7 +25,7 @@ namespace Wms12m.Presentation.Areas.Constants.Controllers
         /// </summary>
         public string List()
         {
-            string sql = "";
+            var sql = "";
             var dblist = db.GetSirketDBs().ToList();
             foreach (var item in dblist)
             {
@@ -34,6 +34,7 @@ namespace Wms12m.Presentation.Areas.Constants.Controllers
                 else
                     sql += string.Format("(SELECT MalAdi FROM FINSAT6{0}.FINSAT6{0}.STK WHERE (MalKodu = wms.Olcu.MalKodu))", item);
             }
+
             var list = db.Database.SqlQuery<Olcu>("SELECT ID, MalKodu, Birim, En, Boy, Derinlik, Agirlik, Hacim, " + sql + " as Kaydeden, KayitTarih, Degistiren, DegisTarih FROM wms.Olcu").ToList();
             var json = new JavaScriptSerializer().Serialize(list);
             return json;
@@ -56,7 +57,7 @@ namespace Wms12m.Presentation.Areas.Constants.Controllers
         public JsonResult Save(Olcu tbl)
         {
             if (CheckPerm(Perms.BoyutKartı, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
-            Result _Result = Dimension.Operation(tbl);
+            var _Result = Dimension.Operation(tbl);
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
         /// <summary>
@@ -65,7 +66,7 @@ namespace Wms12m.Presentation.Areas.Constants.Controllers
         public JsonResult Delete(string Id)
         {
             if (CheckPerm(Perms.BoyutKartı, PermTypes.Deleting) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
-            Result _Result = Dimension.Delete(string.IsNullOrEmpty(Id) ? 0 : Convert.ToInt32(Id));
+            var _Result = Dimension.Delete(string.IsNullOrEmpty(Id) ? 0 : Convert.ToInt32(Id));
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
     }

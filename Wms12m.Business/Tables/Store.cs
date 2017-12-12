@@ -13,27 +13,30 @@ namespace Wms12m.Business
         /// </summary>
         public override Result Operation(Depo tbl)
         {
-            _Result = new Result(); bool eklemi = false;
-            //boş mu
+            _Result = new Result(); var eklemi = false;
+            // boş mu
             if (tbl.DepoAd == "" || tbl.DepoKodu == "")
             {
                 _Result.Message = "Eksik Bilgi Girdiniz";
                 return _Result;
             }
-            //uzun mu
+
+            // uzun mu
             if (tbl.DepoAd.Length > 100 || tbl.DepoKodu.Length > 5)
             {
                 _Result.Message = "Daha kısa isim yazın";
                 return _Result;
             }
-            //daha önce yazılmış mı
+
+            // daha önce yazılmış mı
             var kontrol = db.Depoes.Where(m => (m.DepoAd == tbl.DepoAd && m.ID != tbl.ID) || (m.DepoKodu == tbl.DepoKodu && m.ID != tbl.ID)).FirstOrDefault();
             if (kontrol != null)
             {
                 _Result.Message = "Bu isim kullanılıyor";
                 return _Result;
             }
-            //pasif yapmadan önce içinin boş olması lazım
+
+            // pasif yapmadan önce içinin boş olması lazım
             if (tbl.ID > 0 && tbl.Aktif == false)
             {
                 var kontrol2 = db.Yers.Where(m => m.Miktar > 0 && m.Kat.Bolum.Raf.Koridor.DepoID == tbl.ID).FirstOrDefault();
@@ -43,7 +46,8 @@ namespace Wms12m.Business
                     return _Result;
                 }
             }
-            //set details
+
+            // set details
             tbl.Degistiren = vUser.UserName;
             tbl.DegisTarih = DateTime.Today.ToOADateInt();
             if (tbl.ID == 0)
@@ -64,11 +68,12 @@ namespace Wms12m.Business
                 tmp.Degistiren = tbl.Degistiren;
                 tmp.DegisTarih = tbl.DegisTarih;
             }
+
             try
             {
                 db.SaveChanges();
                 LogActions("Business", "Store", "Operation", eklemi == true ? ComboItems.alEkle : ComboItems.alDüzenle, tbl.ID, tbl.DepoAd + ", " + tbl.DepoKodu);
-                //result
+                // result
                 _Result.Id = tbl.ID;
                 _Result.Message = "İşlem Başarılı !!!";
                 _Result.Status = true;
@@ -78,6 +83,7 @@ namespace Wms12m.Business
                 Logger(ex, "Business/Store/Operation");
                 _Result.Message = "İşlem Hatalı: " + ex.Message;
             }
+
             return _Result;
         }
         /// <summary>
@@ -86,7 +92,7 @@ namespace Wms12m.Business
         public override Result Delete(int Id)
         {
             _Result = new Result();
-            //kaydı bul
+            // kaydı bul
             var tbl = db.Depoes.Where(m => m.ID == Id).FirstOrDefault();
             if (tbl != null)
             {
@@ -103,7 +109,8 @@ namespace Wms12m.Business
                 _Result.Message = "Kayıt Yok";
                 return _Result;
             }
-            //sil
+
+            // sil
             try
             {
                 db.SaveChanges();
@@ -117,6 +124,7 @@ namespace Wms12m.Business
                 Logger(ex, "Business/Store/Delete");
                 _Result.Message = ex.Message;
             }
+
             return _Result;
         }
         /// <summary>
@@ -149,10 +157,8 @@ namespace Wms12m.Business
         /// <summary>
         /// depo listesi
         /// </summary>
-        public override List<Depo> GetList()
-        {
-            return db.Depoes.OrderBy(m => m.DepoAd).ToList();
-        }
+        public override List<Depo> GetList() => db.Depoes.OrderBy(m => m.DepoAd).ToList();
+
         /// <summary>
         /// kablo siparişi için liste
         /// </summary>
@@ -166,14 +172,11 @@ namespace Wms12m.Business
         /// <summary>
         /// üst tabloya ait olanları getir
         /// </summary>
-        public override List<Depo> GetList(int ParentId)
-        {
-            return GetList();
-        }
+        public override List<Depo> GetList(int ParentId) => GetList();
+
         public List<Depo> GetList(int? Id)
         {
-            if (Id == null)
-                return GetList();
+            if (Id == null) return GetList();
             else
                 return db.Depoes.Where(m => m.ID == Id).ToList();
         }

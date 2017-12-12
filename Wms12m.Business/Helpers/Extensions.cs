@@ -17,10 +17,9 @@ namespace Wms12m
         /// </summary>
         public static string BoyutHesapla(this int value)
         {
-
             string[] sizes = { "B", "KB", "MB", "GB", "TB" };
-            double len = value.ToDouble();
-            int order = 0;
+            var len = value.ToDouble();
+            var order = 0;
             while (len >= 1024 && order < sizes.Length - 1)
             {
                 order++;
@@ -28,15 +27,13 @@ namespace Wms12m
             }
             // Adjust the format string to your preferences. For example "{0:0.#}{1}" would
             // show a single decimal place, and no space.
-            return String.Format("{0:0} {1}", len, sizes[order]);
+            return string.Format("{0:0} {1}", len, sizes[order]);
         }
         /// <summary>
         /// Checks file exists
         /// </summary>
-        public static bool FileExists(this string FilePathName)
-        {
-            return File.Exists(FilePathName);
-        }
+        public static bool FileExists(this string FilePathName) => File.Exists(FilePathName);
+
         /// <summary>
         /// CryptographyExtension.Sifrele
         /// </summary>
@@ -56,17 +53,15 @@ namespace Wms12m
         /// atarken ondalık kısmı "," olarak gördüğünden hata verir. 
         /// Bunu önlemek için ToDot() extension metodu kullanılır.
         /// </summary>
-        public static string ToDot(this object value)
-        {
-            return value.ToString().Replace(',', '.');
-        }
+        public static string ToDot(this object value) => value.ToString().Replace(',', '.');
+
         /// <summary>
         /// custom ondalık format
         /// </summary>
         public static string ToOnFormat(this decimal Deger)
         {
             string[] dizi = Deger.ToString().Split(',');
-            string sdeger = string.Empty;
+            var sdeger = string.Empty;
 
             if (dizi.Length > 1)
                 sdeger = string.Format(string.Format("{{0:n{0}}}", dizi[1].Length), Deger);
@@ -117,14 +112,14 @@ namespace Wms12m
         /// <summary>
         /// Removes last n chars from a string
         /// </summary>
-        public static string RemoveLastCharacter(this String instr, int number = 1)
+        public static string RemoveLastCharacter(this string instr, int number = 1)
         {
             return instr.Substring(0, instr.Length - number);
         }
         /// <summary>
         /// Removes first n chars from a string
         /// </summary>
-        public static string RemoveFirstCharacter(this String instr, int number = 1)
+        public static string RemoveFirstCharacter(this string instr, int number = 1)
         {
             return instr.Substring(number);
         }
@@ -149,6 +144,7 @@ namespace Wms12m
                 else
                     output += m;
             }
+
             return output;
         }
         /// <summary>
@@ -162,16 +158,14 @@ namespace Wms12m
         /// <summary>
         /// Checks whether the type is Boolean
         /// </summary>
-        public static bool IsBoolean(this Type type)
-        {
-            return type.Equals(typeof(Boolean));
-        }
+        public static bool IsBoolean(this Type type) => type.Equals(typeof(bool));
+
         /// <summary>
         /// Check wheter a string is an valid e-mail address
         /// </summary>
         public static bool IsValidEmailAddress(this string s)
         {
-            Regex regex = new Regex(@"^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$");
+            var regex = new Regex(@"^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$");
             return regex.IsMatch(s);
         }
         /// <summary>
@@ -219,8 +213,7 @@ namespace Wms12m
         {
             if (string.IsNullOrEmpty(s)) return "";
             s = s.Trim();
-            if (s.Length > 80)
-                s = s.Substring(0, 80);
+            if (s.Length > 80) s = s.Substring(0, 80);
             s = s.Replace("ş", "s");
             s = s.Replace("Ş", "S");
             s = s.Replace("ğ", "g");
@@ -237,7 +230,7 @@ namespace Wms12m
             s = s.Replace("\"", "");
             s = s.Replace("-", "");
             s = s.Replace("'", "");
-            Regex r = new Regex("[^a-zA-Z0-9_-]");
+            var r = new Regex("[^a-zA-Z0-9_-]");
 
             s = r.Replace(s, "-");
             if (!string.IsNullOrEmpty(s))
@@ -269,6 +262,7 @@ namespace Wms12m
                 fileSize = fileSize / 1024;
                 j++;
             }
+
             return (fileSize + " " + suffix[j]);
         }
         /// <summary>
@@ -280,7 +274,7 @@ namespace Wms12m
 
             try
             {
-                FileInfo oFileInfo = new FileInfo(filePath);
+                var oFileInfo = new FileInfo(filePath);
                 bytes = oFileInfo.Length;
             }
             catch { }
@@ -392,6 +386,7 @@ namespace Wms12m
             {
                 mDeger = new DateTime(1970, 1, 1);
             }
+
             return mDeger;
         }
         /// <summary>
@@ -418,6 +413,7 @@ namespace Wms12m
             {
                 mDeger = null;
             }
+
             return mDeger;
         }
         /// <summary>
@@ -443,7 +439,7 @@ namespace Wms12m
         /// </summary>
         public static DateTime IntToDate(this int Deger)
         {
-            DateTime date = new DateTime(1899, 12, 30);
+            var date = new DateTime(1899, 12, 30);
             date = date.AddDays(Deger);
             return date;
         }
@@ -478,6 +474,7 @@ namespace Wms12m
                     return true;
                 }
             }
+
             return false;
         }
         /// <summary>
@@ -491,7 +488,7 @@ namespace Wms12m
 
             foreach (PropertyInfo prop in props)
             {
-                Type t = GetCoreType(prop.PropertyType);
+                var t = GetCoreType(prop.PropertyType);
                 tb.Columns.Add(prop.Name, t);
             }
 
@@ -500,12 +497,11 @@ namespace Wms12m
                 var values = new object[props.Length];
 
                 for (int i = 0; i < props.Length; i++)
-                {
                     values[i] = props[i].GetValue(item, null);
-                }
 
                 tb.Rows.Add(values);
             }
+
             return tb;
         }
         public static bool IsNullable(Type t)
@@ -516,14 +512,8 @@ namespace Wms12m
         {
             if (t != null && IsNullable(t))
             {
-                if (!t.IsValueType)
-                {
-                    return t;
-                }
-                else
-                {
-                    return Nullable.GetUnderlyingType(t);
-                }
+                if (!t.IsValueType) return t;
+                else return Nullable.GetUnderlyingType(t);
             }
             else
             {
@@ -535,13 +525,12 @@ namespace Wms12m
         /// </summary>
         public static DataTable ToDataTableV2<T>(this IEnumerable<T> collection)
         {
-            DataTable newDataTable = new DataTable();
-            Type impliedType = typeof(T);
+            var newDataTable = new DataTable();
+            var impliedType = typeof(T);
             PropertyInfo[] _propInfo = impliedType.GetProperties();
             foreach (PropertyInfo pi in _propInfo)
             {
-                if (pi.Name.Substring(0, 1) == "_")
-                    continue;
+                if (pi.Name.Substring(0, 1) == "_") continue;
 
                 if (!pi.PropertyType.IsGenericType)
                     newDataTable.Columns.Add(pi.Name, pi.PropertyType);
@@ -551,12 +540,11 @@ namespace Wms12m
 
             foreach (T item in collection)
             {
-                DataRow newDataRow = newDataTable.NewRow();
+                var newDataRow = newDataTable.NewRow();
                 newDataRow.BeginEdit();
                 foreach (PropertyInfo pi in _propInfo)
                 {
-                    if (pi.Name.Substring(0, 1) == "_")
-                        continue;
+                    if (pi.Name.Substring(0, 1) == "_") continue;
 
                     try
                     {
@@ -568,6 +556,7 @@ namespace Wms12m
                     catch
                     { }
                 }
+
                 newDataRow.EndEdit();
                 newDataTable.Rows.Add(newDataRow);
             }
@@ -579,21 +568,17 @@ namespace Wms12m
         {
             PropertyInfo[] properties = typeof(T).GetProperties();
 
-            DataTable output = new DataTable();
+            var output = new DataTable();
 
             foreach (var prop in properties)
-            {
                 output.Columns.Add(prop.Name, prop.PropertyType);
-            }
 
             foreach (var item in source)
             {
-                DataRow row = output.NewRow();
+                var row = output.NewRow();
 
                 foreach (var prop in properties)
-                {
                     row[prop.Name] = prop.GetValue(item, null);
-                }
 
                 output.Rows.Add(row);
             }
@@ -674,10 +659,8 @@ namespace Wms12m
         /// </summary>
         public static string IfElse(this object Deger, object EsitKosulu, string Esitse, string Degilse)
         {
-            if (Deger.Equals(EsitKosulu))
-                return Esitse;
-            else
-                return Degilse;
+            if (Deger.Equals(EsitKosulu)) return Esitse;
+            else return Degilse;
         }
         /// <summary>
         /// Propertisi olan nesnelerin propertisini default değerler verir.
@@ -685,16 +668,13 @@ namespace Wms12m
         /// <param name="Istisnalar">Default değeri set edilmeyecek propertyleri belirtmek gerekiyor.</param>
         public static void DefaultValueSet(this object Deger, params string[] Istisnalar)
         {
-
             foreach (var pi in Deger.GetType().GetProperties())
             {
                 try
                 {
-                    if (Istisnalar.Contains(pi.Name))
-                        continue;
+                    if (Istisnalar.Contains(pi.Name)) continue;
 
-                    if (!pi.CanWrite)
-                        continue;
+                    if (!pi.CanWrite) continue;
 
                     if (pi.PropertyType.Namespace == "System.Collections.Generic")
                         continue;
@@ -707,7 +687,7 @@ namespace Wms12m
                             pi.SetValue(Deger, 0.0m, null);
                         else if (pi.PropertyType == typeof(int) ||
                                  pi.PropertyType == typeof(short) ||
-                                 pi.PropertyType == typeof(Single) ||
+                                 pi.PropertyType == typeof(float) ||
                                  pi.PropertyType == typeof(double) ||
                                  pi.PropertyType == typeof(byte))
                             pi.SetValue(Deger, (short)0, null);
@@ -721,7 +701,7 @@ namespace Wms12m
                         else if (pi.PropertyType.GetGenericArguments()[0] == typeof(int) ||
                                  pi.PropertyType.GetGenericArguments()[0] == typeof(double))
                             pi.SetValue(Deger, 0, null);
-                        else if (pi.PropertyType.GetGenericArguments()[0] == typeof(Single))
+                        else if (pi.PropertyType.GetGenericArguments()[0] == typeof(float))
                             pi.SetValue(Deger, 0.0f, null);
                         else if (pi.PropertyType.GetGenericArguments()[0] == typeof(short))
                             pi.SetValue(Deger, (short)0, null);

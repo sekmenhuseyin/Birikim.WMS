@@ -26,8 +26,8 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             if (Refresh != "")
             {
                 FO = db.Database.SqlQuery<FaturaOnay>(string.Format("[FINSAT6{0}].[wms].[Fatura_Onay] @onayTip='{1}'", vUser.SirketKodu, ListType)).ToList();
-
             }
+
             return PartialView("List", FO);
         }
         /// <summary>
@@ -36,7 +36,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         public ActionResult Detail(string EvrakNo)
         {
             if (CheckPerm(Perms.FaturaOnaylama, PermTypes.Reading) == false) return null;
-            FaturaDetayData _FDD = new FaturaDetayData()
+            var _FDD = new FaturaDetayData()
             {
                 GENEL = new List<FaturaDetayGenel>(),
                 STI = new List<FaturaDetaySTI>(),
@@ -44,17 +44,14 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             };
             var FDD = db.MultipleResults(string.Format("[FINSAT6{0}].[wms].[Fatura_OnayDetay] @EvrakNo='{1}'", vUser.SirketKodu, EvrakNo)).With<FaturaDetayGenel>().With<FaturaDetaySTI>().With<FaturaDetayFTD>().Execute();
             foreach (FaturaDetayGenel item in FDD[0])
-            {
                 _FDD.GENEL.Add(item);
-            }
+
             foreach (FaturaDetaySTI item in FDD[1])
-            {
                 _FDD.STI.Add(item);
-            }
+
             foreach (FaturaDetayFTD item in FDD[2])
-            {
                 _FDD.FTD.Add(item);
-            }
+
             ViewBag.EvrakNo = EvrakNo;
             return View(_FDD);
         }
@@ -64,18 +61,14 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         public string Onay(string EvrakNo, string CHK, string Tarih, short[] ChckSm)
         {
             if (CheckPerm(Perms.FaturaOnaylama, PermTypes.Writing) == false) return "NO";
-            string chck = "";
+            var chck = "";
             foreach (var item in ChckSm)
-            {
                 chck += item + ",";
-            }
+
             chck = chck.Substring(0, chck.Length - 1);
             var FO = db.Database.SqlQuery<int>(string.Format("SELECT Count(*) FROM FINSAT6{0}.FINSAT6{0}.STI (NOLOCK) WHERE EvrakNo='{1}' AND CheckSum IN ({2})", vUser.SirketKodu, EvrakNo, chck)).FirstOrDefault();
 
-            if (FO != ChckSm.Length)
-            {
-                return "DEGISIM";
-            }
+            if (FO != ChckSm.Length) return "DEGISIM";
             CHK = db.Database.SqlQuery<string>(string.Format("SELECT Chk FROM [FINSAT6{0}].[FINSAT6{0}].STI WHERE (EvrakNo = '{1}')", vUser.SirketKodu, EvrakNo)).FirstOrDefault();
             try
             {
@@ -93,18 +86,14 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         public string Red(string EvrakNo, string CHK, string Tarih, string RedNeden, short[] ChckSm)
         {
             if (CheckPerm(Perms.FaturaOnaylama, PermTypes.Writing) == false) return "NO";
-            string chck = "";
+            var chck = "";
             foreach (var item in ChckSm)
-            {
                 chck += item + ",";
-            }
+
             chck = chck.Substring(0, chck.Length - 1);
             var FO = db.Database.SqlQuery<int>(string.Format("SELECT Count(*) FROM FINSAT6{0}.FINSAT6{0}.STI (NOLOCK) WHERE EvrakNo='{1}' AND CheckSum IN ({2})", vUser.SirketKodu, EvrakNo, chck)).FirstOrDefault();
 
-            if (FO != ChckSm.Length)
-            {
-                return "DEGISIM";
-            }
+            if (FO != ChckSm.Length) return "DEGISIM";
             CHK = db.Database.SqlQuery<string>(string.Format("SELECT Chk FROM [FINSAT6{0}].[FINSAT6{0}].STI WHERE (EvrakNo = '{1}')", vUser.SirketKodu, EvrakNo)).FirstOrDefault();
             try
             {
@@ -115,7 +104,6 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             {
                 return "NO";
             }
-
         }
     }
 }

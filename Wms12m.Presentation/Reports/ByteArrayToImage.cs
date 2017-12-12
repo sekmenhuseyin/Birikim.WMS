@@ -2,13 +2,12 @@
 {
     public static class ByteArrayToImage
     {
-
         public static System.Drawing.Image byteArrayToImage(byte[] byteArrayIn)
         {
             System.Drawing.Image returnImage = null;
             try
             {
-                System.IO.MemoryStream ms = new System.IO.MemoryStream(byteArrayIn, 0, byteArrayIn.Length);
+                var ms = new System.IO.MemoryStream(byteArrayIn, 0, byteArrayIn.Length);
                 ms.Write(byteArrayIn, 0, byteArrayIn.Length);
                 returnImage = System.Drawing.Image.FromStream(ms, true);  //Exception occurs here
             }

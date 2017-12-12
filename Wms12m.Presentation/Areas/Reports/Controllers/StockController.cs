@@ -17,15 +17,14 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
         public ActionResult Stok()
         {
             if (CheckPerm(Perms.Raporlar, PermTypes.Reading) == false) return Redirect("/");
-            var KOD = db.Database.SqlQuery<RaporGetKod>(string.Format("[FINSAT6{0}].[wms].[DB_GetKod]", vUser.SirketKodu)).ToList();
-            return View(KOD);
+            var kOD = db.Database.SqlQuery<RaporGetKod>(string.Format("[FINSAT6{0}].[wms].[DB_GetKod]", vUser.SirketKodu)).ToList();
+            return View(kOD);
         }
         public PartialViewResult StokList(int Tarih, string BasGrupKod, string BitGrupKod, string BasTipKod, string BitTipKod, string BasOzelKod, string BitOzelKod, string BasKod1, string BitKod1, string BasKod2, string BitKod2, string BasKod3, string BitKod3)
         {
             List<RaporStokKodCase> SR;
             try
             {
-
                 SR = db.Database.SqlQuery<RaporStokKodCase>(string.Format("[FINSAT6{0}].[wms].[StokRaporuKodCase] @Tarih = {1}, @BasGrupKod = '{2}',@BitGrupKod = '{3}', @BasTipKod = '{4}',@BitTipKod= '{5}', @BasOzelKod = '{6}', @BitOzelKod = '{7}',@BasKod1 = '{8}', @BitKod1 = '{9}',@BasKod2= '{10}', @BitKod2 = '{11}',@BasKod3= '{12}', @BitKod3 = '{13}'", vUser.SirketKodu, Tarih, BasGrupKod, BitGrupKod, BasTipKod, BitTipKod, BasOzelKod, BitOzelKod, BasKod1, BitKod1, BasKod2, BitKod2, BasKod3, BitKod3)).ToList();
             }
             catch (Exception ex)
@@ -33,6 +32,7 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
                 Logger(ex, "/Reports/Stock/StokList");
                 SR = new List<RaporStokKodCase>();
             }
+
             return PartialView("StokList", SR);
         }
         /// <summary>
@@ -55,6 +55,7 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
                 Logger(ex, "/Reports/Stock/BekleyenSiparisList");
                 BSR = new List<RaporBekleyenSiparis>();
             }
+
             return PartialView("BekleyenSiparisList", BSR);
         }
         /// <summary>
@@ -77,6 +78,7 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
                 Logger(ex, "/Reports/Stock/SatilmayanUrunlerList");
                 SU = new List<RaporSatilmayanUrunler>();
             }
+
             return PartialView("SatilmayanUrunlerList", SU);
         }
         /// <summary>
@@ -93,7 +95,7 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
         }
         public string List(int bastarih, int bittarih)
         {
-            JavaScriptSerializer json = new JavaScriptSerializer()
+            var json = new JavaScriptSerializer()
             {
                 MaxJsonLength = int.MaxValue
             };
@@ -102,7 +104,7 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
         }
         public string GerceklesenSevkiyatList(int bastarih, int bittarih)
         {
-            JavaScriptSerializer json = new JavaScriptSerializer()
+            var json = new JavaScriptSerializer()
             {
                 MaxJsonLength = int.MaxValue
             };
@@ -129,6 +131,7 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
                 Logger(ex, "/Reports/Stock/KampanyaliSatisList");
                 SU = new List<KampanyaliSatisRaporu>();
             }
+
             return PartialView("KampanyaliSatisList", SU);
         }
         public PartialViewResult KampanyaChkDetay(string CHK, int bastarih, int bittarih)
@@ -161,6 +164,7 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
             {
                 ViewBag.OnayDurum = onayRed;
             }
+
             return View();
         }
         public PartialViewResult SiparisOnayRaporList(string Tip, int bastarih, int bittarih)
@@ -172,7 +176,7 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
         }
         public string SiparisOnayRaporData(string tip, int bastarih, int bittarih)
         {
-            JavaScriptSerializer json = new JavaScriptSerializer()
+            var json = new JavaScriptSerializer()
             {
                 MaxJsonLength = int.MaxValue
             };
@@ -183,8 +187,8 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
             }
             catch (Exception)
             {
-
             }
+
             return json.Serialize(sipBilgi);
         }
     }

@@ -13,17 +13,18 @@ namespace Wms12m.Business
         /// </summary>
         public override Result Operation(IR tbl)
         {
-            _Result = new Result(); bool eklemi = false;
+            _Result = new Result(); var eklemi = false;
             if (tbl.ID == 0)
             {
                 db.IRS.Add(tbl);
                 eklemi = true;
             }
+
             try
             {
                 db.SaveChanges();
-                LogActions("Business", "Irsaliye", "Operation", eklemi == true ? ComboItems.alEkle : ComboItems.alDüzenle, tbl.ID, "EvrakNo: " + tbl.EvrakNo+", Şirket:"+tbl.SirketKod + ", Depo:" + tbl.Depo.DepoKodu);
-                //result
+                LogActions("Business", "Irsaliye", "Operation", eklemi == true ? ComboItems.alEkle : ComboItems.alDüzenle, tbl.ID, "EvrakNo: " + tbl.EvrakNo + ", Şirket:" + tbl.SirketKod + ", Depo:" + tbl.Depo.DepoKodu);
+                // result
                 _Result.Id = tbl.ID;
                 _Result.Message = "İşlem Başarılı !!!";
                 _Result.Status = true;
@@ -34,6 +35,7 @@ namespace Wms12m.Business
                 _Result.Id = 0;
                 _Result.Message = "İşlem Hatalı: " + ex.Message;
             }
+
             return _Result;
         }
         /// <summary>
@@ -44,7 +46,7 @@ namespace Wms12m.Business
             _Result = new Result();
             try
             {
-                IR tbl = db.IRS.Where(m => m.ID == Id).FirstOrDefault();
+                var tbl = db.IRS.Where(m => m.ID == Id).FirstOrDefault();
                 if (tbl != null)
                 {
                     db.DeleteIrsaliye(Id);
@@ -65,6 +67,7 @@ namespace Wms12m.Business
                 _Result.Message = ex.Message;
                 _Result.Status = false;
             }
+
             return _Result;
         }
         /// <summary>
@@ -85,17 +88,13 @@ namespace Wms12m.Business
         /// <summary>
         /// liste
         /// </summary>
-        public override List<IR> GetList()
-        {
-            return db.IRS.OrderBy(m => m.EvrakNo).ToList();
-        }
+        public override List<IR> GetList() => db.IRS.OrderBy(m => m.EvrakNo).ToList();
+
         /// <summary>
         /// üst tabloya ait olanları getir
         /// </summary>
-        public override List<IR> GetList(int ParentId)
-        {
-            return GetList();
-        }
+        public override List<IR> GetList(int ParentId) => GetList();
+
         /// <summary>
         /// üst tabloya ait olanları getir
         /// </summary>

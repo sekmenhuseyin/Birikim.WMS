@@ -14,13 +14,13 @@ namespace Wms12m.Presentation.Controllers
         /// <summary>
         /// giriş sayfası
         /// </summary>
-        Result _Result;
+        Result Result;
         public ActionResult Login()
         {
             using (var db = new WMSEntities())
-            {
                 ViewBag.settings = db.Settings.FirstOrDefault();
-            }
+
+
             return View("Login");
         }
         /// <summary>
@@ -29,8 +29,8 @@ namespace Wms12m.Presentation.Controllers
         [HttpPost]
         public JsonResult Login(User P, string RememberMe)
         {
-            Persons _Person = new Persons();
-            _Result = new Result();
+            var _Person = new Persons();
+            Result = new Result();
             var fn = new Functions();
             using (var db = new WMSEntities())
             {
@@ -39,27 +39,29 @@ namespace Wms12m.Presentation.Controllers
                     if (string.IsNullOrEmpty(P.Kod) || string.IsNullOrEmpty(P.Sifre)) { }
                     else
                     {
-                        _Result = _Person.Login(P, fn.GetIPAddress());
-                        if (_Result.Id > 0)
-                            Authentication.CreateAuth((User)_Result.Data, RememberMe == "1" ? true : false, db.GetSirkets().FirstOrDefault());
+                        Result = _Person.Login(P, fn.GetIPAddress());
+                        if (Result.Id > 0)
+                            Authentication.CreateAuth((User)Result.Data, RememberMe == "1" ? true : false, db.GetSirkets().FirstOrDefault());
                         else
-                            db.LogLogins(P.Kod, fn.GetIPAddress(), false, _Result.Message);
+                            db.LogLogins(P.Kod, fn.GetIPAddress(), false, Result.Message);
                     }
                 }
                 catch (Exception ex)
                 {
-                    string inner = "";
+                    var inner = "";
                     if (ex.InnerException != null)
                     {
                         inner = ex.InnerException == null ? "" : ex.InnerException.Message;
                         if (ex.InnerException.InnerException != null) inner += ": " + ex.InnerException.InnerException.Message;
                     }
+
                     db.Logger(P.Kod, "", fn.GetIPAddress(), ex.Message, inner, "Security/Login");
                     db.LogLogins(P.Kod, fn.GetIPAddress(), false, ex.Message);
                     return null;
                 }
             }
-            return Json(new { data = (_Result.Status) }, JsonRequestBehavior.AllowGet);
+
+            return Json(new { data = (Result.Status) }, JsonRequestBehavior.AllowGet);
         }
         /// <summary>
         /// çıkış işlemleri

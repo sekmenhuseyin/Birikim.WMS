@@ -134,141 +134,140 @@ namespace Wms12m.Entity
     {
         #region Properties
         #region Fields  
-        private string _MalKodu;
-        private int _BasTarih;
-        private int _BasSaat;
-        private int _BitTarih;
-        private int _BitSaat;
-        private short _SiraNo;
-        private string _RenkBedenKod1;
-        private string _RenkBedenKod2;
-        private string _RenkBedenKod3;
-        private string _RenkBedenKod4;
-        private string _FiyatListNum;
-        private short _FiyatTuru;
-        private string _Kod1;
-        private string _Kod2;
-        private string _Kod3;
-        private short _KodTipi;
-        private string _MusteriKodu;
-        private decimal _AlisFiyat1;
-        private decimal _AlisFiyat2;
-        private decimal _AlisFiyat3;
-        private decimal _DvzAlisFiyat1;
-        private decimal _DvzAlisFiyat2;
-        private decimal _DvzAlisFiyat3;
-        private string _AF1DovizCinsi;
-        private string _AF2DovizCinsi;
-        private string _AF3DovizCinsi;
-        private short _AF1KDV;
-        private short _AF2KDV;
-        private short _AF3KDV;
-        private short _DovizAF1KDV;
-        private short _DovizAF2KDV;
-        private short _DovizAF3KDV;
-        private short _AF1Birim;
-        private short _AF2Birim;
-        private short _AF3Birim;
-        private short _DovizAF1Birim;
-        private short _DovizAF2Birim;
-        private short _DovizAF3Birim;
-        private decimal _SatisFiyat1;
-        private decimal _SatisFiyat2;
-        private decimal _SatisFiyat3;
-        private decimal _SatisFiyat4;
-        private decimal _SatisFiyat5;
-        private decimal _SatisFiyat6;
-        private decimal _DvzSatisFiyat1;
-        private decimal _DvzSatisFiyat2;
-        private decimal _DvzSatisFiyat3;
-        private string _SF1DovizCinsi;
-        private string _SF2DovizCinsi;
-        private string _SF3DovizCinsi;
-        private string _SF4DovizCinsi;
-        private string _SF5DovizCinsi;
-        private string _SF6DovizCinsi;
-        private short _SF1KDV;
-        private short _SF2KDV;
-        private short _SF3KDV;
-        private short _SF4KDV;
-        private short _SF5KDV;
-        private short _SF6KDV;
-        private short _DovizSF1KDV;
-        private short _DovizSF2KDV;
-        private short _DovizSF3KDV;
-        private short _SF1Birim;
-        private short _SF2Birim;
-        private short _SF3Birim;
-        private short _SF4Birim;
-        private short _SF5Birim;
-        private short _SF6Birim;
-        private short _DovizSF1Birim;
-        private short _DovizSF2Birim;
-        private short _DovizSF3Birim;
-        private string _FiyatListName;
-        private decimal _SatisFiyatAltLimit;
-        private decimal _SatisFiyatUstLimit;
-        private short _SF1ValorGun;
-        private short _SF2ValorGun;
-        private short _SF3ValorGun;
-        private short _SF4ValorGun;
-        private short _SF5ValorGun;
-        private short _SF6ValorGun;
-        private short _DvzSF1ValorGun;
-        private short _DvzSF2ValorGun;
-        private short _DvzSF3ValorGun;
-        private short _KayitTuru;
-        private string _GuvenlikKod;
-        private string _Kaydeden;
-        private int _KayitTarih;
-        private int _KayitSaat;
-        private short _KayitKaynak;
-        private string _KayitSurum;
-        private string _Degistiren;
-        private int _DegisTarih;
-        private int _DegisSaat;
-        private short _DegisKaynak;
-        private string _DegisSurum;
-        private short _CheckSum;
-        private string _Aciklama;
-        private string _Kod4;
-        private string _Kod5;
-        private string _Kod6;
-        private string _Kod7;
-        private string _Kod8;
-        private string _Kod9;
-        private string _Kod10;
-        private decimal _Kod11;
-        private decimal _Kod12;
-        private int _SF1VadeTarih;
-        private int _SF2VadeTarih;
-        private int _SF3VadeTarih;
-        private int _SF4VadeTarih;
-        private int _SF5VadeTarih;
-        private int _SF6VadeTarih;
-        private int _DvzSF1VadeTarih;
-        private int _DvzSF2VadeTarih;
-        private int _DvzSF3VadeTarih;
-        private short _FiyatListeTipi;
-        private int _ROW_ID;
-        private byte[] _timestamp;
-        private string _pk_MalKodu;
-        private int _pk_BasTarih;
-        private int _pk_BasSaat;
-        private short _pk_SiraNo;
-        private string _pk_FiyatListNum;
-        private string _pk_MusteriKodu;
-        private short _pk_FiyatListeTipi;
+        string malKodu;
+        int basTarih;
+        int basSaat;
+        int bitTarih;
+        int bitSaat;
+        short siraNo;
+        string renkBedenKod1;
+        string renkBedenKod2;
+        string renkBedenKod3;
+        string renkBedenKod4;
+        string fiyatListNum;
+        short fiyatTuru;
+        string kod1;
+        string kod2;
+        string kod3;
+        short kodTipi;
+        string musteriKodu;
+        decimal alisFiyat1;
+        decimal alisFiyat2;
+        decimal alisFiyat3;
+        decimal dvzAlisFiyat1;
+        decimal dvzAlisFiyat2;
+        decimal dvzAlisFiyat3;
+        string aF1DovizCinsi;
+        string aF2DovizCinsi;
+        string aF3DovizCinsi;
+        short aF1KDV;
+        short aF2KDV;
+        short aF3KDV;
+        short dovizAF1KDV;
+        short dovizAF2KDV;
+        short dovizAF3KDV;
+        short aF1Birim;
+        short aF2Birim;
+        short aF3Birim;
+        short dovizAF1Birim;
+        short dovizAF2Birim;
+        short dovizAF3Birim;
+        decimal satisFiyat1;
+        decimal satisFiyat2;
+        decimal satisFiyat3;
+        decimal satisFiyat4;
+        decimal satisFiyat5;
+        decimal satisFiyat6;
+        decimal dvzSatisFiyat1;
+        decimal dvzSatisFiyat2;
+        decimal dvzSatisFiyat3;
+        string sF1DovizCinsi;
+        string sF2DovizCinsi;
+        string sF3DovizCinsi;
+        string sF4DovizCinsi;
+        string sF5DovizCinsi;
+        string sF6DovizCinsi;
+        short sF1KDV;
+        short sF2KDV;
+        short sF3KDV;
+        short sF4KDV;
+        short sF5KDV;
+        short sF6KDV;
+        short dovizSF1KDV;
+        short dovizSF2KDV;
+        short dovizSF3KDV;
+        short sF1Birim;
+        short sF2Birim;
+        short sF3Birim;
+        short sF4Birim;
+        short sF5Birim;
+        short sF6Birim;
+        short dovizSF1Birim;
+        short dovizSF2Birim;
+        short dovizSF3Birim;
+        string fiyatListName;
+        decimal satisFiyatAltLimit;
+        decimal satisFiyatUstLimit;
+        short sF1ValorGun;
+        short sF2ValorGun;
+        short sF3ValorGun;
+        short sF4ValorGun;
+        short sF5ValorGun;
+        short sF6ValorGun;
+        short dvzSF1ValorGun;
+        short dvzSF2ValorGun;
+        short dvzSF3ValorGun;
+        short kayitTuru;
+        string guvenlikKod;
+        string kaydeden;
+        int kayitTarih;
+        int kayitSaat;
+        short kayitKaynak;
+        string kayitSurum;
+        string degistiren;
+        int degisTarih;
+        int degisSaat;
+        short degisKaynak;
+        string degisSurum;
+        short checkSum;
+        string aciklama;
+        string kod4;
+        string kod5;
+        string kod6;
+        string kod7;
+        string kod8;
+        string kod9;
+        string kod10;
+        decimal kod11;
+        decimal kod12;
+        int sF1VadeTarih;
+        int sF2VadeTarih;
+        int sF3VadeTarih;
+        int sF4VadeTarih;
+        int sF5VadeTarih;
+        int sF6VadeTarih;
+        int dvzSF1VadeTarih;
+        int dvzSF2VadeTarih;
+        int dvzSF3VadeTarih;
+        short fiyatListeTipi;
+        int rOW_ID;
+        byte[] _timestamp;
+        string _pk_MalKodu;
+        int _pk_BasTarih;
+        int _pk_BasSaat;
+        short _pk_SiraNo;
+        string _pk_FiyatListNum;
+        string _pk_MusteriKodu;
+        short _pk_FiyatListeTipi;
         #endregion /// Fields
-
 
         /// <summary> VARCHAR (30) PrimaryKey * </summary>
         public string MalKodu
         {
-            get { return this._MalKodu; }
+            get { return malKodu; }
             set
             {
-                this._MalKodu = value;
+                malKodu = value;
                 OnPropertyChanged("MalKodu");
             }
         }
@@ -276,10 +275,10 @@ namespace Wms12m.Entity
         /// <summary> INT (4) PrimaryKey * </summary>
         public int BasTarih
         {
-            get { return this._BasTarih; }
+            get { return basTarih; }
             set
             {
-                this._BasTarih = value;
+                basTarih = value;
                 OnPropertyChanged("BasTarih");
             }
         }
@@ -287,10 +286,10 @@ namespace Wms12m.Entity
         /// <summary> INT (4) PrimaryKey * </summary>
         public int BasSaat
         {
-            get { return this._BasSaat; }
+            get { return basSaat; }
             set
             {
-                this._BasSaat = value;
+                basSaat = value;
                 OnPropertyChanged("BasSaat");
             }
         }
@@ -298,10 +297,10 @@ namespace Wms12m.Entity
         /// <summary> INT (4) * </summary>
         public int BitTarih
         {
-            get { return this._BitTarih; }
+            get { return bitTarih; }
             set
             {
-                this._BitTarih = value;
+                bitTarih = value;
                 OnPropertyChanged("BitTarih");
             }
         }
@@ -309,10 +308,10 @@ namespace Wms12m.Entity
         /// <summary> INT (4) * </summary>
         public int BitSaat
         {
-            get { return this._BitSaat; }
+            get { return bitSaat; }
             set
             {
-                this._BitSaat = value;
+                bitSaat = value;
                 OnPropertyChanged("BitSaat");
             }
         }
@@ -320,10 +319,10 @@ namespace Wms12m.Entity
         /// <summary> SMALLINT (2) PrimaryKey * </summary>
         public short SiraNo
         {
-            get { return this._SiraNo; }
+            get { return siraNo; }
             set
             {
-                this._SiraNo = value;
+                siraNo = value;
                 OnPropertyChanged("SiraNo");
             }
         }
@@ -331,10 +330,10 @@ namespace Wms12m.Entity
         /// <summary> VARCHAR (16) * </summary>
         public string RenkBedenKod1
         {
-            get { return this._RenkBedenKod1; }
+            get { return renkBedenKod1; }
             set
             {
-                this._RenkBedenKod1 = value;
+                renkBedenKod1 = value;
                 OnPropertyChanged("RenkBedenKod1");
             }
         }
@@ -342,10 +341,10 @@ namespace Wms12m.Entity
         /// <summary> VARCHAR (16) * </summary>
         public string RenkBedenKod2
         {
-            get { return this._RenkBedenKod2; }
+            get { return renkBedenKod2; }
             set
             {
-                this._RenkBedenKod2 = value;
+                renkBedenKod2 = value;
                 OnPropertyChanged("RenkBedenKod2");
             }
         }
@@ -353,10 +352,10 @@ namespace Wms12m.Entity
         /// <summary> VARCHAR (16) * </summary>
         public string RenkBedenKod3
         {
-            get { return this._RenkBedenKod3; }
+            get { return renkBedenKod3; }
             set
             {
-                this._RenkBedenKod3 = value;
+                renkBedenKod3 = value;
                 OnPropertyChanged("RenkBedenKod3");
             }
         }
@@ -364,10 +363,10 @@ namespace Wms12m.Entity
         /// <summary> VARCHAR (16) * </summary>
         public string RenkBedenKod4
         {
-            get { return this._RenkBedenKod4; }
+            get { return renkBedenKod4; }
             set
             {
-                this._RenkBedenKod4 = value;
+                renkBedenKod4 = value;
                 OnPropertyChanged("RenkBedenKod4");
             }
         }
@@ -375,10 +374,10 @@ namespace Wms12m.Entity
         /// <summary> VARCHAR (16) PrimaryKey * </summary>
         public string FiyatListNum
         {
-            get { return this._FiyatListNum; }
+            get { return fiyatListNum; }
             set
             {
-                this._FiyatListNum = value;
+                fiyatListNum = value;
                 OnPropertyChanged("FiyatListNum");
             }
         }
@@ -386,10 +385,10 @@ namespace Wms12m.Entity
         /// <summary> SMALLINT (2) * </summary>
         public short FiyatTuru
         {
-            get { return this._FiyatTuru; }
+            get { return fiyatTuru; }
             set
             {
-                this._FiyatTuru = value;
+                fiyatTuru = value;
                 OnPropertyChanged("FiyatTuru");
             }
         }
@@ -397,10 +396,10 @@ namespace Wms12m.Entity
         /// <summary> VARCHAR (20) * </summary>
         public string Kod1
         {
-            get { return this._Kod1; }
+            get { return kod1; }
             set
             {
-                this._Kod1 = value;
+                kod1 = value;
                 OnPropertyChanged("Kod1");
             }
         }
@@ -408,10 +407,10 @@ namespace Wms12m.Entity
         /// <summary> VARCHAR (20) * </summary>
         public string Kod2
         {
-            get { return this._Kod2; }
+            get { return kod2; }
             set
             {
-                this._Kod2 = value;
+                kod2 = value;
                 OnPropertyChanged("Kod2");
             }
         }
@@ -419,10 +418,10 @@ namespace Wms12m.Entity
         /// <summary> VARCHAR (20) * </summary>
         public string Kod3
         {
-            get { return this._Kod3; }
+            get { return kod3; }
             set
             {
-                this._Kod3 = value;
+                kod3 = value;
                 OnPropertyChanged("Kod3");
             }
         }
@@ -430,10 +429,10 @@ namespace Wms12m.Entity
         /// <summary> SMALLINT (2) * </summary>
         public short KodTipi
         {
-            get { return this._KodTipi; }
+            get { return kodTipi; }
             set
             {
-                this._KodTipi = value;
+                kodTipi = value;
                 OnPropertyChanged("KodTipi");
             }
         }
@@ -441,10 +440,10 @@ namespace Wms12m.Entity
         /// <summary> VARCHAR (20) PrimaryKey * </summary>
         public string MusteriKodu
         {
-            get { return this._MusteriKodu; }
+            get { return musteriKodu; }
             set
             {
-                this._MusteriKodu = value;
+                musteriKodu = value;
                 OnPropertyChanged("MusteriKodu");
             }
         }
@@ -452,10 +451,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (13) * </summary>
         public decimal AlisFiyat1
         {
-            get { return this._AlisFiyat1; }
+            get { return alisFiyat1; }
             set
             {
-                this._AlisFiyat1 = value;
+                alisFiyat1 = value;
                 OnPropertyChanged("AlisFiyat1");
             }
         }
@@ -463,10 +462,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (13) * </summary>
         public decimal AlisFiyat2
         {
-            get { return this._AlisFiyat2; }
+            get { return alisFiyat2; }
             set
             {
-                this._AlisFiyat2 = value;
+                alisFiyat2 = value;
                 OnPropertyChanged("AlisFiyat2");
             }
         }
@@ -474,10 +473,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (13) * </summary>
         public decimal AlisFiyat3
         {
-            get { return this._AlisFiyat3; }
+            get { return alisFiyat3; }
             set
             {
-                this._AlisFiyat3 = value;
+                alisFiyat3 = value;
                 OnPropertyChanged("AlisFiyat3");
             }
         }
@@ -485,10 +484,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (13) * </summary>
         public decimal DvzAlisFiyat1
         {
-            get { return this._DvzAlisFiyat1; }
+            get { return dvzAlisFiyat1; }
             set
             {
-                this._DvzAlisFiyat1 = value;
+                dvzAlisFiyat1 = value;
                 OnPropertyChanged("DvzAlisFiyat1");
             }
         }
@@ -496,10 +495,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (13) * </summary>
         public decimal DvzAlisFiyat2
         {
-            get { return this._DvzAlisFiyat2; }
+            get { return dvzAlisFiyat2; }
             set
             {
-                this._DvzAlisFiyat2 = value;
+                dvzAlisFiyat2 = value;
                 OnPropertyChanged("DvzAlisFiyat2");
             }
         }
@@ -507,10 +506,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (13) * </summary>
         public decimal DvzAlisFiyat3
         {
-            get { return this._DvzAlisFiyat3; }
+            get { return dvzAlisFiyat3; }
             set
             {
-                this._DvzAlisFiyat3 = value;
+                dvzAlisFiyat3 = value;
                 OnPropertyChanged("DvzAlisFiyat3");
             }
         }
@@ -518,10 +517,10 @@ namespace Wms12m.Entity
         /// <summary> VARCHAR (3) * </summary>
         public string AF1DovizCinsi
         {
-            get { return this._AF1DovizCinsi; }
+            get { return aF1DovizCinsi; }
             set
             {
-                this._AF1DovizCinsi = value;
+                aF1DovizCinsi = value;
                 OnPropertyChanged("AF1DovizCinsi");
             }
         }
@@ -529,10 +528,10 @@ namespace Wms12m.Entity
         /// <summary> VARCHAR (3) * </summary>
         public string AF2DovizCinsi
         {
-            get { return this._AF2DovizCinsi; }
+            get { return aF2DovizCinsi; }
             set
             {
-                this._AF2DovizCinsi = value;
+                aF2DovizCinsi = value;
                 OnPropertyChanged("AF2DovizCinsi");
             }
         }
@@ -540,10 +539,10 @@ namespace Wms12m.Entity
         /// <summary> VARCHAR (3) * </summary>
         public string AF3DovizCinsi
         {
-            get { return this._AF3DovizCinsi; }
+            get { return aF3DovizCinsi; }
             set
             {
-                this._AF3DovizCinsi = value;
+                aF3DovizCinsi = value;
                 OnPropertyChanged("AF3DovizCinsi");
             }
         }
@@ -551,10 +550,10 @@ namespace Wms12m.Entity
         /// <summary> SMALLINT (2) * </summary>
         public short AF1KDV
         {
-            get { return this._AF1KDV; }
+            get { return aF1KDV; }
             set
             {
-                this._AF1KDV = value;
+                aF1KDV = value;
                 OnPropertyChanged("AF1KDV");
             }
         }
@@ -562,10 +561,10 @@ namespace Wms12m.Entity
         /// <summary> SMALLINT (2) * </summary>
         public short AF2KDV
         {
-            get { return this._AF2KDV; }
+            get { return aF2KDV; }
             set
             {
-                this._AF2KDV = value;
+                aF2KDV = value;
                 OnPropertyChanged("AF2KDV");
             }
         }
@@ -573,10 +572,10 @@ namespace Wms12m.Entity
         /// <summary> SMALLINT (2) * </summary>
         public short AF3KDV
         {
-            get { return this._AF3KDV; }
+            get { return aF3KDV; }
             set
             {
-                this._AF3KDV = value;
+                aF3KDV = value;
                 OnPropertyChanged("AF3KDV");
             }
         }
@@ -584,10 +583,10 @@ namespace Wms12m.Entity
         /// <summary> SMALLINT (2) * </summary>
         public short DovizAF1KDV
         {
-            get { return this._DovizAF1KDV; }
+            get { return dovizAF1KDV; }
             set
             {
-                this._DovizAF1KDV = value;
+                dovizAF1KDV = value;
                 OnPropertyChanged("DovizAF1KDV");
             }
         }
@@ -595,10 +594,10 @@ namespace Wms12m.Entity
         /// <summary> SMALLINT (2) * </summary>
         public short DovizAF2KDV
         {
-            get { return this._DovizAF2KDV; }
+            get { return dovizAF2KDV; }
             set
             {
-                this._DovizAF2KDV = value;
+                dovizAF2KDV = value;
                 OnPropertyChanged("DovizAF2KDV");
             }
         }
@@ -606,10 +605,10 @@ namespace Wms12m.Entity
         /// <summary> SMALLINT (2) * </summary>
         public short DovizAF3KDV
         {
-            get { return this._DovizAF3KDV; }
+            get { return dovizAF3KDV; }
             set
             {
-                this._DovizAF3KDV = value;
+                dovizAF3KDV = value;
                 OnPropertyChanged("DovizAF3KDV");
             }
         }
@@ -617,10 +616,10 @@ namespace Wms12m.Entity
         /// <summary> SMALLINT (2) * </summary>
         public short AF1Birim
         {
-            get { return this._AF1Birim; }
+            get { return aF1Birim; }
             set
             {
-                this._AF1Birim = value;
+                aF1Birim = value;
                 OnPropertyChanged("AF1Birim");
             }
         }
@@ -628,10 +627,10 @@ namespace Wms12m.Entity
         /// <summary> SMALLINT (2) * </summary>
         public short AF2Birim
         {
-            get { return this._AF2Birim; }
+            get { return aF2Birim; }
             set
             {
-                this._AF2Birim = value;
+                aF2Birim = value;
                 OnPropertyChanged("AF2Birim");
             }
         }
@@ -639,10 +638,10 @@ namespace Wms12m.Entity
         /// <summary> SMALLINT (2) * </summary>
         public short AF3Birim
         {
-            get { return this._AF3Birim; }
+            get { return aF3Birim; }
             set
             {
-                this._AF3Birim = value;
+                aF3Birim = value;
                 OnPropertyChanged("AF3Birim");
             }
         }
@@ -650,10 +649,10 @@ namespace Wms12m.Entity
         /// <summary> SMALLINT (2) * </summary>
         public short DovizAF1Birim
         {
-            get { return this._DovizAF1Birim; }
+            get { return dovizAF1Birim; }
             set
             {
-                this._DovizAF1Birim = value;
+                dovizAF1Birim = value;
                 OnPropertyChanged("DovizAF1Birim");
             }
         }
@@ -661,10 +660,10 @@ namespace Wms12m.Entity
         /// <summary> SMALLINT (2) * </summary>
         public short DovizAF2Birim
         {
-            get { return this._DovizAF2Birim; }
+            get { return dovizAF2Birim; }
             set
             {
-                this._DovizAF2Birim = value;
+                dovizAF2Birim = value;
                 OnPropertyChanged("DovizAF2Birim");
             }
         }
@@ -672,10 +671,10 @@ namespace Wms12m.Entity
         /// <summary> SMALLINT (2) * </summary>
         public short DovizAF3Birim
         {
-            get { return this._DovizAF3Birim; }
+            get { return dovizAF3Birim; }
             set
             {
-                this._DovizAF3Birim = value;
+                dovizAF3Birim = value;
                 OnPropertyChanged("DovizAF3Birim");
             }
         }
@@ -683,10 +682,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (13) * </summary>
         public decimal SatisFiyat1
         {
-            get { return this._SatisFiyat1; }
+            get { return satisFiyat1; }
             set
             {
-                this._SatisFiyat1 = value;
+                satisFiyat1 = value;
                 OnPropertyChanged("SatisFiyat1");
             }
         }
@@ -694,10 +693,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (13) * </summary>
         public decimal SatisFiyat2
         {
-            get { return this._SatisFiyat2; }
+            get { return satisFiyat2; }
             set
             {
-                this._SatisFiyat2 = value;
+                satisFiyat2 = value;
                 OnPropertyChanged("SatisFiyat2");
             }
         }
@@ -705,10 +704,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (13) * </summary>
         public decimal SatisFiyat3
         {
-            get { return this._SatisFiyat3; }
+            get { return satisFiyat3; }
             set
             {
-                this._SatisFiyat3 = value;
+                satisFiyat3 = value;
                 OnPropertyChanged("SatisFiyat3");
             }
         }
@@ -716,10 +715,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (13) * </summary>
         public decimal SatisFiyat4
         {
-            get { return this._SatisFiyat4; }
+            get { return satisFiyat4; }
             set
             {
-                this._SatisFiyat4 = value;
+                satisFiyat4 = value;
                 OnPropertyChanged("SatisFiyat4");
             }
         }
@@ -727,10 +726,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (13) * </summary>
         public decimal SatisFiyat5
         {
-            get { return this._SatisFiyat5; }
+            get { return satisFiyat5; }
             set
             {
-                this._SatisFiyat5 = value;
+                satisFiyat5 = value;
                 OnPropertyChanged("SatisFiyat5");
             }
         }
@@ -738,10 +737,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (13) * </summary>
         public decimal SatisFiyat6
         {
-            get { return this._SatisFiyat6; }
+            get { return satisFiyat6; }
             set
             {
-                this._SatisFiyat6 = value;
+                satisFiyat6 = value;
                 OnPropertyChanged("SatisFiyat6");
             }
         }
@@ -749,10 +748,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (13) * </summary>
         public decimal DvzSatisFiyat1
         {
-            get { return this._DvzSatisFiyat1; }
+            get { return dvzSatisFiyat1; }
             set
             {
-                this._DvzSatisFiyat1 = value;
+                dvzSatisFiyat1 = value;
                 OnPropertyChanged("DvzSatisFiyat1");
             }
         }
@@ -760,10 +759,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (13) * </summary>
         public decimal DvzSatisFiyat2
         {
-            get { return this._DvzSatisFiyat2; }
+            get { return dvzSatisFiyat2; }
             set
             {
-                this._DvzSatisFiyat2 = value;
+                dvzSatisFiyat2 = value;
                 OnPropertyChanged("DvzSatisFiyat2");
             }
         }
@@ -771,10 +770,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (13) * </summary>
         public decimal DvzSatisFiyat3
         {
-            get { return this._DvzSatisFiyat3; }
+            get { return dvzSatisFiyat3; }
             set
             {
-                this._DvzSatisFiyat3 = value;
+                dvzSatisFiyat3 = value;
                 OnPropertyChanged("DvzSatisFiyat3");
             }
         }
@@ -782,10 +781,10 @@ namespace Wms12m.Entity
         /// <summary> VARCHAR (3) * </summary>
         public string SF1DovizCinsi
         {
-            get { return this._SF1DovizCinsi; }
+            get { return sF1DovizCinsi; }
             set
             {
-                this._SF1DovizCinsi = value;
+                sF1DovizCinsi = value;
                 OnPropertyChanged("SF1DovizCinsi");
             }
         }
@@ -793,10 +792,10 @@ namespace Wms12m.Entity
         /// <summary> VARCHAR (3) * </summary>
         public string SF2DovizCinsi
         {
-            get { return this._SF2DovizCinsi; }
+            get { return sF2DovizCinsi; }
             set
             {
-                this._SF2DovizCinsi = value;
+                sF2DovizCinsi = value;
                 OnPropertyChanged("SF2DovizCinsi");
             }
         }
@@ -804,10 +803,10 @@ namespace Wms12m.Entity
         /// <summary> VARCHAR (3) * </summary>
         public string SF3DovizCinsi
         {
-            get { return this._SF3DovizCinsi; }
+            get { return sF3DovizCinsi; }
             set
             {
-                this._SF3DovizCinsi = value;
+                sF3DovizCinsi = value;
                 OnPropertyChanged("SF3DovizCinsi");
             }
         }
@@ -815,10 +814,10 @@ namespace Wms12m.Entity
         /// <summary> VARCHAR (3) * </summary>
         public string SF4DovizCinsi
         {
-            get { return this._SF4DovizCinsi; }
+            get { return sF4DovizCinsi; }
             set
             {
-                this._SF4DovizCinsi = value;
+                sF4DovizCinsi = value;
                 OnPropertyChanged("SF4DovizCinsi");
             }
         }
@@ -826,10 +825,10 @@ namespace Wms12m.Entity
         /// <summary> VARCHAR (3) * </summary>
         public string SF5DovizCinsi
         {
-            get { return this._SF5DovizCinsi; }
+            get { return sF5DovizCinsi; }
             set
             {
-                this._SF5DovizCinsi = value;
+                sF5DovizCinsi = value;
                 OnPropertyChanged("SF5DovizCinsi");
             }
         }
@@ -837,10 +836,10 @@ namespace Wms12m.Entity
         /// <summary> VARCHAR (3) * </summary>
         public string SF6DovizCinsi
         {
-            get { return this._SF6DovizCinsi; }
+            get { return sF6DovizCinsi; }
             set
             {
-                this._SF6DovizCinsi = value;
+                sF6DovizCinsi = value;
                 OnPropertyChanged("SF6DovizCinsi");
             }
         }
@@ -848,10 +847,10 @@ namespace Wms12m.Entity
         /// <summary> SMALLINT (2) * </summary>
         public short SF1KDV
         {
-            get { return this._SF1KDV; }
+            get { return sF1KDV; }
             set
             {
-                this._SF1KDV = value;
+                sF1KDV = value;
                 OnPropertyChanged("SF1KDV");
             }
         }
@@ -859,10 +858,10 @@ namespace Wms12m.Entity
         /// <summary> SMALLINT (2) * </summary>
         public short SF2KDV
         {
-            get { return this._SF2KDV; }
+            get { return sF2KDV; }
             set
             {
-                this._SF2KDV = value;
+                sF2KDV = value;
                 OnPropertyChanged("SF2KDV");
             }
         }
@@ -870,10 +869,10 @@ namespace Wms12m.Entity
         /// <summary> SMALLINT (2) * </summary>
         public short SF3KDV
         {
-            get { return this._SF3KDV; }
+            get { return sF3KDV; }
             set
             {
-                this._SF3KDV = value;
+                sF3KDV = value;
                 OnPropertyChanged("SF3KDV");
             }
         }
@@ -881,10 +880,10 @@ namespace Wms12m.Entity
         /// <summary> SMALLINT (2) * </summary>
         public short SF4KDV
         {
-            get { return this._SF4KDV; }
+            get { return sF4KDV; }
             set
             {
-                this._SF4KDV = value;
+                sF4KDV = value;
                 OnPropertyChanged("SF4KDV");
             }
         }
@@ -892,10 +891,10 @@ namespace Wms12m.Entity
         /// <summary> SMALLINT (2) * </summary>
         public short SF5KDV
         {
-            get { return this._SF5KDV; }
+            get { return sF5KDV; }
             set
             {
-                this._SF5KDV = value;
+                sF5KDV = value;
                 OnPropertyChanged("SF5KDV");
             }
         }
@@ -903,10 +902,10 @@ namespace Wms12m.Entity
         /// <summary> SMALLINT (2) * </summary>
         public short SF6KDV
         {
-            get { return this._SF6KDV; }
+            get { return sF6KDV; }
             set
             {
-                this._SF6KDV = value;
+                sF6KDV = value;
                 OnPropertyChanged("SF6KDV");
             }
         }
@@ -914,10 +913,10 @@ namespace Wms12m.Entity
         /// <summary> SMALLINT (2) * </summary>
         public short DovizSF1KDV
         {
-            get { return this._DovizSF1KDV; }
+            get { return dovizSF1KDV; }
             set
             {
-                this._DovizSF1KDV = value;
+                dovizSF1KDV = value;
                 OnPropertyChanged("DovizSF1KDV");
             }
         }
@@ -925,10 +924,10 @@ namespace Wms12m.Entity
         /// <summary> SMALLINT (2) * </summary>
         public short DovizSF2KDV
         {
-            get { return this._DovizSF2KDV; }
+            get { return dovizSF2KDV; }
             set
             {
-                this._DovizSF2KDV = value;
+                dovizSF2KDV = value;
                 OnPropertyChanged("DovizSF2KDV");
             }
         }
@@ -936,10 +935,10 @@ namespace Wms12m.Entity
         /// <summary> SMALLINT (2) * </summary>
         public short DovizSF3KDV
         {
-            get { return this._DovizSF3KDV; }
+            get { return dovizSF3KDV; }
             set
             {
-                this._DovizSF3KDV = value;
+                dovizSF3KDV = value;
                 OnPropertyChanged("DovizSF3KDV");
             }
         }
@@ -947,10 +946,10 @@ namespace Wms12m.Entity
         /// <summary> SMALLINT (2) * </summary>
         public short SF1Birim
         {
-            get { return this._SF1Birim; }
+            get { return sF1Birim; }
             set
             {
-                this._SF1Birim = value;
+                sF1Birim = value;
                 OnPropertyChanged("SF1Birim");
             }
         }
@@ -958,10 +957,10 @@ namespace Wms12m.Entity
         /// <summary> SMALLINT (2) * </summary>
         public short SF2Birim
         {
-            get { return this._SF2Birim; }
+            get { return sF2Birim; }
             set
             {
-                this._SF2Birim = value;
+                sF2Birim = value;
                 OnPropertyChanged("SF2Birim");
             }
         }
@@ -969,10 +968,10 @@ namespace Wms12m.Entity
         /// <summary> SMALLINT (2) * </summary>
         public short SF3Birim
         {
-            get { return this._SF3Birim; }
+            get { return sF3Birim; }
             set
             {
-                this._SF3Birim = value;
+                sF3Birim = value;
                 OnPropertyChanged("SF3Birim");
             }
         }
@@ -980,10 +979,10 @@ namespace Wms12m.Entity
         /// <summary> SMALLINT (2) * </summary>
         public short SF4Birim
         {
-            get { return this._SF4Birim; }
+            get { return sF4Birim; }
             set
             {
-                this._SF4Birim = value;
+                sF4Birim = value;
                 OnPropertyChanged("SF4Birim");
             }
         }
@@ -991,10 +990,10 @@ namespace Wms12m.Entity
         /// <summary> SMALLINT (2) * </summary>
         public short SF5Birim
         {
-            get { return this._SF5Birim; }
+            get { return sF5Birim; }
             set
             {
-                this._SF5Birim = value;
+                sF5Birim = value;
                 OnPropertyChanged("SF5Birim");
             }
         }
@@ -1002,10 +1001,10 @@ namespace Wms12m.Entity
         /// <summary> SMALLINT (2) * </summary>
         public short SF6Birim
         {
-            get { return this._SF6Birim; }
+            get { return sF6Birim; }
             set
             {
-                this._SF6Birim = value;
+                sF6Birim = value;
                 OnPropertyChanged("SF6Birim");
             }
         }
@@ -1013,10 +1012,10 @@ namespace Wms12m.Entity
         /// <summary> SMALLINT (2) * </summary>
         public short DovizSF1Birim
         {
-            get { return this._DovizSF1Birim; }
+            get { return dovizSF1Birim; }
             set
             {
-                this._DovizSF1Birim = value;
+                dovizSF1Birim = value;
                 OnPropertyChanged("DovizSF1Birim");
             }
         }
@@ -1024,10 +1023,10 @@ namespace Wms12m.Entity
         /// <summary> SMALLINT (2) * </summary>
         public short DovizSF2Birim
         {
-            get { return this._DovizSF2Birim; }
+            get { return dovizSF2Birim; }
             set
             {
-                this._DovizSF2Birim = value;
+                dovizSF2Birim = value;
                 OnPropertyChanged("DovizSF2Birim");
             }
         }
@@ -1035,10 +1034,10 @@ namespace Wms12m.Entity
         /// <summary> SMALLINT (2) * </summary>
         public short DovizSF3Birim
         {
-            get { return this._DovizSF3Birim; }
+            get { return dovizSF3Birim; }
             set
             {
-                this._DovizSF3Birim = value;
+                dovizSF3Birim = value;
                 OnPropertyChanged("DovizSF3Birim");
             }
         }
@@ -1046,10 +1045,10 @@ namespace Wms12m.Entity
         /// <summary> VARCHAR (30) * </summary>
         public string FiyatListName
         {
-            get { return this._FiyatListName; }
+            get { return fiyatListName; }
             set
             {
-                this._FiyatListName = value;
+                fiyatListName = value;
                 OnPropertyChanged("FiyatListName");
             }
         }
@@ -1057,10 +1056,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (13) * </summary>
         public decimal SatisFiyatAltLimit
         {
-            get { return this._SatisFiyatAltLimit; }
+            get { return satisFiyatAltLimit; }
             set
             {
-                this._SatisFiyatAltLimit = value;
+                satisFiyatAltLimit = value;
                 OnPropertyChanged("SatisFiyatAltLimit");
             }
         }
@@ -1068,10 +1067,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (13) * </summary>
         public decimal SatisFiyatUstLimit
         {
-            get { return this._SatisFiyatUstLimit; }
+            get { return satisFiyatUstLimit; }
             set
             {
-                this._SatisFiyatUstLimit = value;
+                satisFiyatUstLimit = value;
                 OnPropertyChanged("SatisFiyatUstLimit");
             }
         }
@@ -1079,10 +1078,10 @@ namespace Wms12m.Entity
         /// <summary> SMALLINT (2) * </summary>
         public short SF1ValorGun
         {
-            get { return this._SF1ValorGun; }
+            get { return sF1ValorGun; }
             set
             {
-                this._SF1ValorGun = value;
+                sF1ValorGun = value;
                 OnPropertyChanged("SF1ValorGun");
             }
         }
@@ -1090,10 +1089,10 @@ namespace Wms12m.Entity
         /// <summary> SMALLINT (2) * </summary>
         public short SF2ValorGun
         {
-            get { return this._SF2ValorGun; }
+            get { return sF2ValorGun; }
             set
             {
-                this._SF2ValorGun = value;
+                sF2ValorGun = value;
                 OnPropertyChanged("SF2ValorGun");
             }
         }
@@ -1101,10 +1100,10 @@ namespace Wms12m.Entity
         /// <summary> SMALLINT (2) * </summary>
         public short SF3ValorGun
         {
-            get { return this._SF3ValorGun; }
+            get { return sF3ValorGun; }
             set
             {
-                this._SF3ValorGun = value;
+                sF3ValorGun = value;
                 OnPropertyChanged("SF3ValorGun");
             }
         }
@@ -1112,10 +1111,10 @@ namespace Wms12m.Entity
         /// <summary> SMALLINT (2) * </summary>
         public short SF4ValorGun
         {
-            get { return this._SF4ValorGun; }
+            get { return sF4ValorGun; }
             set
             {
-                this._SF4ValorGun = value;
+                sF4ValorGun = value;
                 OnPropertyChanged("SF4ValorGun");
             }
         }
@@ -1123,10 +1122,10 @@ namespace Wms12m.Entity
         /// <summary> SMALLINT (2) * </summary>
         public short SF5ValorGun
         {
-            get { return this._SF5ValorGun; }
+            get { return sF5ValorGun; }
             set
             {
-                this._SF5ValorGun = value;
+                sF5ValorGun = value;
                 OnPropertyChanged("SF5ValorGun");
             }
         }
@@ -1134,10 +1133,10 @@ namespace Wms12m.Entity
         /// <summary> SMALLINT (2) * </summary>
         public short SF6ValorGun
         {
-            get { return this._SF6ValorGun; }
+            get { return sF6ValorGun; }
             set
             {
-                this._SF6ValorGun = value;
+                sF6ValorGun = value;
                 OnPropertyChanged("SF6ValorGun");
             }
         }
@@ -1145,10 +1144,10 @@ namespace Wms12m.Entity
         /// <summary> SMALLINT (2) * </summary>
         public short DvzSF1ValorGun
         {
-            get { return this._DvzSF1ValorGun; }
+            get { return dvzSF1ValorGun; }
             set
             {
-                this._DvzSF1ValorGun = value;
+                dvzSF1ValorGun = value;
                 OnPropertyChanged("DvzSF1ValorGun");
             }
         }
@@ -1156,10 +1155,10 @@ namespace Wms12m.Entity
         /// <summary> SMALLINT (2) * </summary>
         public short DvzSF2ValorGun
         {
-            get { return this._DvzSF2ValorGun; }
+            get { return dvzSF2ValorGun; }
             set
             {
-                this._DvzSF2ValorGun = value;
+                dvzSF2ValorGun = value;
                 OnPropertyChanged("DvzSF2ValorGun");
             }
         }
@@ -1167,10 +1166,10 @@ namespace Wms12m.Entity
         /// <summary> SMALLINT (2) * </summary>
         public short DvzSF3ValorGun
         {
-            get { return this._DvzSF3ValorGun; }
+            get { return dvzSF3ValorGun; }
             set
             {
-                this._DvzSF3ValorGun = value;
+                dvzSF3ValorGun = value;
                 OnPropertyChanged("DvzSF3ValorGun");
             }
         }
@@ -1178,10 +1177,10 @@ namespace Wms12m.Entity
         /// <summary> SMALLINT (2) * </summary>
         public short KayitTuru
         {
-            get { return this._KayitTuru; }
+            get { return kayitTuru; }
             set
             {
-                this._KayitTuru = value;
+                kayitTuru = value;
                 OnPropertyChanged("KayitTuru");
             }
         }
@@ -1189,10 +1188,10 @@ namespace Wms12m.Entity
         /// <summary> VARCHAR (2) * </summary>
         public string GuvenlikKod
         {
-            get { return this._GuvenlikKod; }
+            get { return guvenlikKod; }
             set
             {
-                this._GuvenlikKod = value;
+                guvenlikKod = value;
                 OnPropertyChanged("GuvenlikKod");
             }
         }
@@ -1200,10 +1199,10 @@ namespace Wms12m.Entity
         /// <summary> VARCHAR (5) * </summary>
         public string Kaydeden
         {
-            get { return this._Kaydeden; }
+            get { return kaydeden; }
             set
             {
-                this._Kaydeden = value;
+                kaydeden = value;
                 OnPropertyChanged("Kaydeden");
             }
         }
@@ -1211,10 +1210,10 @@ namespace Wms12m.Entity
         /// <summary> INT (4) * </summary>
         public int KayitTarih
         {
-            get { return this._KayitTarih; }
+            get { return kayitTarih; }
             set
             {
-                this._KayitTarih = value;
+                kayitTarih = value;
                 OnPropertyChanged("KayitTarih");
             }
         }
@@ -1222,10 +1221,10 @@ namespace Wms12m.Entity
         /// <summary> INT (4) * </summary>
         public int KayitSaat
         {
-            get { return this._KayitSaat; }
+            get { return kayitSaat; }
             set
             {
-                this._KayitSaat = value;
+                kayitSaat = value;
                 OnPropertyChanged("KayitSaat");
             }
         }
@@ -1233,10 +1232,10 @@ namespace Wms12m.Entity
         /// <summary> SMALLINT (2) * </summary>
         public short KayitKaynak
         {
-            get { return this._KayitKaynak; }
+            get { return kayitKaynak; }
             set
             {
-                this._KayitKaynak = value;
+                kayitKaynak = value;
                 OnPropertyChanged("KayitKaynak");
             }
         }
@@ -1244,10 +1243,10 @@ namespace Wms12m.Entity
         /// <summary> VARCHAR (12) * </summary>
         public string KayitSurum
         {
-            get { return this._KayitSurum; }
+            get { return kayitSurum; }
             set
             {
-                this._KayitSurum = value;
+                kayitSurum = value;
                 OnPropertyChanged("KayitSurum");
             }
         }
@@ -1255,10 +1254,10 @@ namespace Wms12m.Entity
         /// <summary> VARCHAR (5) * </summary>
         public string Degistiren
         {
-            get { return this._Degistiren; }
+            get { return degistiren; }
             set
             {
-                this._Degistiren = value;
+                degistiren = value;
                 OnPropertyChanged("Degistiren");
             }
         }
@@ -1266,10 +1265,10 @@ namespace Wms12m.Entity
         /// <summary> INT (4) * </summary>
         public int DegisTarih
         {
-            get { return this._DegisTarih; }
+            get { return degisTarih; }
             set
             {
-                this._DegisTarih = value;
+                degisTarih = value;
                 OnPropertyChanged("DegisTarih");
             }
         }
@@ -1277,10 +1276,10 @@ namespace Wms12m.Entity
         /// <summary> INT (4) * </summary>
         public int DegisSaat
         {
-            get { return this._DegisSaat; }
+            get { return degisSaat; }
             set
             {
-                this._DegisSaat = value;
+                degisSaat = value;
                 OnPropertyChanged("DegisSaat");
             }
         }
@@ -1288,10 +1287,10 @@ namespace Wms12m.Entity
         /// <summary> SMALLINT (2) * </summary>
         public short DegisKaynak
         {
-            get { return this._DegisKaynak; }
+            get { return degisKaynak; }
             set
             {
-                this._DegisKaynak = value;
+                degisKaynak = value;
                 OnPropertyChanged("DegisKaynak");
             }
         }
@@ -1299,10 +1298,10 @@ namespace Wms12m.Entity
         /// <summary> VARCHAR (12) * </summary>
         public string DegisSurum
         {
-            get { return this._DegisSurum; }
+            get { return degisSurum; }
             set
             {
-                this._DegisSurum = value;
+                degisSurum = value;
                 OnPropertyChanged("DegisSurum");
             }
         }
@@ -1310,10 +1309,10 @@ namespace Wms12m.Entity
         /// <summary> SMALLINT (2) * </summary>
         public short CheckSum
         {
-            get { return this._CheckSum; }
+            get { return checkSum; }
             set
             {
-                this._CheckSum = value;
+                checkSum = value;
                 OnPropertyChanged("CheckSum");
             }
         }
@@ -1321,10 +1320,10 @@ namespace Wms12m.Entity
         /// <summary> VARCHAR (64) * </summary>
         public string Aciklama
         {
-            get { return this._Aciklama; }
+            get { return aciklama; }
             set
             {
-                this._Aciklama = value;
+                aciklama = value;
                 OnPropertyChanged("Aciklama");
             }
         }
@@ -1332,10 +1331,10 @@ namespace Wms12m.Entity
         /// <summary> VARCHAR (20) * </summary>
         public string Kod4
         {
-            get { return this._Kod4; }
+            get { return kod4; }
             set
             {
-                this._Kod4 = value;
+                kod4 = value;
                 OnPropertyChanged("Kod4");
             }
         }
@@ -1343,10 +1342,10 @@ namespace Wms12m.Entity
         /// <summary> VARCHAR (20) * </summary>
         public string Kod5
         {
-            get { return this._Kod5; }
+            get { return kod5; }
             set
             {
-                this._Kod5 = value;
+                kod5 = value;
                 OnPropertyChanged("Kod5");
             }
         }
@@ -1354,10 +1353,10 @@ namespace Wms12m.Entity
         /// <summary> VARCHAR (20) * </summary>
         public string Kod6
         {
-            get { return this._Kod6; }
+            get { return kod6; }
             set
             {
-                this._Kod6 = value;
+                kod6 = value;
                 OnPropertyChanged("Kod6");
             }
         }
@@ -1365,10 +1364,10 @@ namespace Wms12m.Entity
         /// <summary> VARCHAR (20) * </summary>
         public string Kod7
         {
-            get { return this._Kod7; }
+            get { return kod7; }
             set
             {
-                this._Kod7 = value;
+                kod7 = value;
                 OnPropertyChanged("Kod7");
             }
         }
@@ -1376,10 +1375,10 @@ namespace Wms12m.Entity
         /// <summary> VARCHAR (20) * </summary>
         public string Kod8
         {
-            get { return this._Kod8; }
+            get { return kod8; }
             set
             {
-                this._Kod8 = value;
+                kod8 = value;
                 OnPropertyChanged("Kod8");
             }
         }
@@ -1387,10 +1386,10 @@ namespace Wms12m.Entity
         /// <summary> VARCHAR (20) * </summary>
         public string Kod9
         {
-            get { return this._Kod9; }
+            get { return kod9; }
             set
             {
-                this._Kod9 = value;
+                kod9 = value;
                 OnPropertyChanged("Kod9");
             }
         }
@@ -1398,10 +1397,10 @@ namespace Wms12m.Entity
         /// <summary> VARCHAR (20) * </summary>
         public string Kod10
         {
-            get { return this._Kod10; }
+            get { return kod10; }
             set
             {
-                this._Kod10 = value;
+                kod10 = value;
                 OnPropertyChanged("Kod10");
             }
         }
@@ -1409,10 +1408,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (13) * </summary>
         public decimal Kod11
         {
-            get { return this._Kod11; }
+            get { return kod11; }
             set
             {
-                this._Kod11 = value;
+                kod11 = value;
                 OnPropertyChanged("Kod11");
             }
         }
@@ -1420,10 +1419,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (13) * </summary>
         public decimal Kod12
         {
-            get { return this._Kod12; }
+            get { return kod12; }
             set
             {
-                this._Kod12 = value;
+                kod12 = value;
                 OnPropertyChanged("Kod12");
             }
         }
@@ -1431,10 +1430,10 @@ namespace Wms12m.Entity
         /// <summary> INT (4) * </summary>
         public int SF1VadeTarih
         {
-            get { return this._SF1VadeTarih; }
+            get { return sF1VadeTarih; }
             set
             {
-                this._SF1VadeTarih = value;
+                sF1VadeTarih = value;
                 OnPropertyChanged("SF1VadeTarih");
             }
         }
@@ -1442,10 +1441,10 @@ namespace Wms12m.Entity
         /// <summary> INT (4) * </summary>
         public int SF2VadeTarih
         {
-            get { return this._SF2VadeTarih; }
+            get { return sF2VadeTarih; }
             set
             {
-                this._SF2VadeTarih = value;
+                sF2VadeTarih = value;
                 OnPropertyChanged("SF2VadeTarih");
             }
         }
@@ -1453,10 +1452,10 @@ namespace Wms12m.Entity
         /// <summary> INT (4) * </summary>
         public int SF3VadeTarih
         {
-            get { return this._SF3VadeTarih; }
+            get { return sF3VadeTarih; }
             set
             {
-                this._SF3VadeTarih = value;
+                sF3VadeTarih = value;
                 OnPropertyChanged("SF3VadeTarih");
             }
         }
@@ -1464,10 +1463,10 @@ namespace Wms12m.Entity
         /// <summary> INT (4) * </summary>
         public int SF4VadeTarih
         {
-            get { return this._SF4VadeTarih; }
+            get { return sF4VadeTarih; }
             set
             {
-                this._SF4VadeTarih = value;
+                sF4VadeTarih = value;
                 OnPropertyChanged("SF4VadeTarih");
             }
         }
@@ -1475,10 +1474,10 @@ namespace Wms12m.Entity
         /// <summary> INT (4) * </summary>
         public int SF5VadeTarih
         {
-            get { return this._SF5VadeTarih; }
+            get { return sF5VadeTarih; }
             set
             {
-                this._SF5VadeTarih = value;
+                sF5VadeTarih = value;
                 OnPropertyChanged("SF5VadeTarih");
             }
         }
@@ -1486,10 +1485,10 @@ namespace Wms12m.Entity
         /// <summary> INT (4) * </summary>
         public int SF6VadeTarih
         {
-            get { return this._SF6VadeTarih; }
+            get { return sF6VadeTarih; }
             set
             {
-                this._SF6VadeTarih = value;
+                sF6VadeTarih = value;
                 OnPropertyChanged("SF6VadeTarih");
             }
         }
@@ -1497,10 +1496,10 @@ namespace Wms12m.Entity
         /// <summary> INT (4) * </summary>
         public int DvzSF1VadeTarih
         {
-            get { return this._DvzSF1VadeTarih; }
+            get { return dvzSF1VadeTarih; }
             set
             {
-                this._DvzSF1VadeTarih = value;
+                dvzSF1VadeTarih = value;
                 OnPropertyChanged("DvzSF1VadeTarih");
             }
         }
@@ -1508,10 +1507,10 @@ namespace Wms12m.Entity
         /// <summary> INT (4) * </summary>
         public int DvzSF2VadeTarih
         {
-            get { return this._DvzSF2VadeTarih; }
+            get { return dvzSF2VadeTarih; }
             set
             {
-                this._DvzSF2VadeTarih = value;
+                dvzSF2VadeTarih = value;
                 OnPropertyChanged("DvzSF2VadeTarih");
             }
         }
@@ -1519,10 +1518,10 @@ namespace Wms12m.Entity
         /// <summary> INT (4) * </summary>
         public int DvzSF3VadeTarih
         {
-            get { return this._DvzSF3VadeTarih; }
+            get { return dvzSF3VadeTarih; }
             set
             {
-                this._DvzSF3VadeTarih = value;
+                dvzSF3VadeTarih = value;
                 OnPropertyChanged("DvzSF3VadeTarih");
             }
         }
@@ -1530,10 +1529,10 @@ namespace Wms12m.Entity
         /// <summary> SMALLINT (2) PrimaryKey * </summary>
         public short FiyatListeTipi
         {
-            get { return this._FiyatListeTipi; }
+            get { return fiyatListeTipi; }
             set
             {
-                this._FiyatListeTipi = value;
+                fiyatListeTipi = value;
                 OnPropertyChanged("FiyatListeTipi");
             }
         }
@@ -1541,10 +1540,10 @@ namespace Wms12m.Entity
         /// <summary> INT (4) IdentityKey * </summary>
         public int ROW_ID
         {
-            get { return this._ROW_ID; }
+            get { return rOW_ID; }
             set
             {
-                this._ROW_ID = value;
+                rOW_ID = value;
                 OnPropertyChanged("ROW_ID");
             }
         }
@@ -1552,10 +1551,10 @@ namespace Wms12m.Entity
         /// <summary> TIMESTAMP (8) * </summary>
         public byte[] timestamp
         {
-            get { return this._timestamp; }
+            get { return _timestamp; }
             set
             {
-                this._timestamp = value;
+                _timestamp = value;
                 OnPropertyChanged("timestamp");
             }
         }
@@ -1563,10 +1562,10 @@ namespace Wms12m.Entity
         /// <summary> VARCHAR (30) PRIMARY KEY * </summary>
         public string pk_MalKodu
         {
-            private get { return this._pk_MalKodu; }
+            private get { return _pk_MalKodu; }
             set
             {
-                this._pk_MalKodu = value;
+                _pk_MalKodu = value;
                 OnPropertyChanged("pk_MalKodu");
             }
         }
@@ -1574,10 +1573,10 @@ namespace Wms12m.Entity
         /// <summary> INT (4) PRIMARY KEY * </summary>
         public int pk_BasTarih
         {
-            private get { return this._pk_BasTarih; }
+            private get { return _pk_BasTarih; }
             set
             {
-                this._pk_BasTarih = value;
+                _pk_BasTarih = value;
                 OnPropertyChanged("pk_BasTarih");
             }
         }
@@ -1585,10 +1584,10 @@ namespace Wms12m.Entity
         /// <summary> INT (4) PRIMARY KEY * </summary>
         public int pk_BasSaat
         {
-            private get { return this._pk_BasSaat; }
+            private get { return _pk_BasSaat; }
             set
             {
-                this._pk_BasSaat = value;
+                _pk_BasSaat = value;
                 OnPropertyChanged("pk_BasSaat");
             }
         }
@@ -1596,10 +1595,10 @@ namespace Wms12m.Entity
         /// <summary> SMALLINT (2) PRIMARY KEY * </summary>
         public short pk_SiraNo
         {
-            private get { return this._pk_SiraNo; }
+            private get { return _pk_SiraNo; }
             set
             {
-                this._pk_SiraNo = value;
+                _pk_SiraNo = value;
                 OnPropertyChanged("pk_SiraNo");
             }
         }
@@ -1607,10 +1606,10 @@ namespace Wms12m.Entity
         /// <summary> VARCHAR (16) PRIMARY KEY * </summary>
         public string pk_FiyatListNum
         {
-            private get { return this._pk_FiyatListNum; }
+            private get { return _pk_FiyatListNum; }
             set
             {
-                this._pk_FiyatListNum = value;
+                _pk_FiyatListNum = value;
                 OnPropertyChanged("pk_FiyatListNum");
             }
         }
@@ -1618,10 +1617,10 @@ namespace Wms12m.Entity
         /// <summary> VARCHAR (20) PRIMARY KEY * </summary>
         public string pk_MusteriKodu
         {
-            private get { return this._pk_MusteriKodu; }
+            private get { return _pk_MusteriKodu; }
             set
             {
-                this._pk_MusteriKodu = value;
+                _pk_MusteriKodu = value;
                 OnPropertyChanged("pk_MusteriKodu");
             }
         }
@@ -1629,10 +1628,10 @@ namespace Wms12m.Entity
         /// <summary> SMALLINT (2) PRIMARY KEY * </summary>
         public short pk_FiyatListeTipi
         {
-            private get { return this._pk_FiyatListeTipi; }
+            private get { return _pk_FiyatListeTipi; }
             set
             {
-                this._pk_FiyatListeTipi = value;
+                _pk_FiyatListeTipi = value;
                 OnPropertyChanged("pk_FiyatListeTipi");
             }
         }
@@ -1640,27 +1639,22 @@ namespace Wms12m.Entity
 
         #region Tablo Bilgileri & Metodlar
 
+        List<string> WhereList = new List<string>();
+        List<string> SetList = new List<string>();
+        string info_FullTableName = "FINSAT6{0}.FINSAT6{0}.FYT";
+        string[] info_PrimaryKeys = { "pk_MalKodu", "pk_BasTarih", "pk_BasSaat", "pk_SiraNo", "pk_FiyatListNum", "pk_MusteriKodu", "pk_FiyatListeTipi" };
+        string[] info_IdentityKeys = { "ROW_ID" };
 
-
-        private List<string> WhereList = new List<string>();
-        private List<string> SetList = new List<string>();
-        private string info_FullTableName = "FINSAT6{0}.FINSAT6{0}.FYT";
-        private string[] info_PrimaryKeys = { "pk_MalKodu", "pk_BasTarih", "pk_BasSaat", "pk_SiraNo", "pk_FiyatListNum", "pk_MusteriKodu", "pk_FiyatListeTipi" };
-        private string[] info_IdentityKeys = { "ROW_ID" };
-
-        private List<string> ChangedProperties = new List<string>();
+        List<string> ChangedProperties = new List<string>();
         public event PropertyChangedEventHandler PropertyChanged;
 
         public FYT()
         {
             ChangedProperties = new List<string>();
-            this.PropertyChanged += FYT_PropertyChanged;
+            PropertyChanged += FYT_PropertyChanged;
         }
 
-        public void AcceptChanges()
-        {
-            ChangedProperties.Clear();
-        }
+        public void AcceptChanges() => ChangedProperties.Clear();
 
         void FYT_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
@@ -1670,7 +1664,7 @@ namespace Wms12m.Entity
             }
         }
 
-        private void OnPropertyChanged(string propertyName)
+        void OnPropertyChanged(string propertyName)
         {
             if (PropertyChanged != null)
             {
@@ -1678,7 +1672,6 @@ namespace Wms12m.Entity
             }
         }
         #endregion  /// Tablo Bilgileri & Metodlar
-
     }
     #endregion /// FYT Class
 }

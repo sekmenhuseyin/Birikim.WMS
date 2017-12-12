@@ -21,14 +21,15 @@ namespace Wms12m.Business
                 _Result.Status = false;
                 return _Result;
             }
-            //set details
+
+            // set details
             if (tbl.ID == 0)
                 db.Roles.Add(tbl);
             try
             {
                 db.SaveChanges();
                 LogActions("Business", "Combo", "Operation", ComboItems.alEkle, tbl.ID, tbl.RoleName);
-                //result
+                // result
                 _Result.Id = tbl.ID;
                 _Result.Message = "İşlem Başarılı !!!";
                 _Result.Status = true;
@@ -40,6 +41,7 @@ namespace Wms12m.Business
                 _Result.Message = "İşlem Hatalı: " + ex.Message;
                 _Result.Status = false;
             }
+
             return _Result;
         }
         /// <summary>
@@ -50,7 +52,7 @@ namespace Wms12m.Business
             _Result = new Result();
             try
             {
-                Role tbl = db.Roles.Where(m => m.ID == Id).FirstOrDefault();
+                var tbl = db.Roles.Where(m => m.ID == Id).FirstOrDefault();
                 if (tbl != null)
                 {
                     db.Roles.Remove(tbl);
@@ -72,6 +74,7 @@ namespace Wms12m.Business
                 _Result.Message = ex.Message;
                 _Result.Status = false;
             }
+
             return _Result;
         }
         /// <summary>
@@ -99,9 +102,6 @@ namespace Wms12m.Business
         /// <summary>
         /// üst tabloya ait olanları getir
         /// </summary>
-        public override List<Role> GetList(int ParentId)
-        {
-            return GetList();
-        }
+        public override List<Role> GetList(int ParentId) => GetList();
     }
 }

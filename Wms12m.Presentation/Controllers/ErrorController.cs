@@ -7,10 +7,8 @@ namespace Wms12m.Presentation.Controllers
         /// <summary>
         /// Genel Hatalar
         /// </summary>
-        public ActionResult Index()
-        {
-            return View("Index");
-        }
+        public ActionResult Index() => View("Index");
+
         /// <summary>
         /// 404 sayfa bulunamadı
         /// </summary>

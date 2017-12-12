@@ -25,10 +25,10 @@ namespace Wms12m.Presentation.Areas.Constants.Controllers
         public PartialViewResult FloorGridPartial(string Id)
         {
             if (CheckPerm(Perms.KatKartı, PermTypes.Reading) == false) return null;
-            int StoreId = 0;
-            int ShelfId = 0;
-            int SectionId = 0;
-            string Locked = "";
+            var StoreId = 0;
+            var ShelfId = 0;
+            var SectionId = 0;
+            var Locked = "";
             List<Kat> _List = new List<Kat>();
             try
             {
@@ -45,6 +45,7 @@ namespace Wms12m.Presentation.Areas.Constants.Controllers
                 {
                     _List = Floor.GetList(Convert.ToInt16(Id));
                 }
+
                 return PartialView("_FloorGridPartial", _List);
             }
             catch (Exception ex)
@@ -59,7 +60,7 @@ namespace Wms12m.Presentation.Areas.Constants.Controllers
         public PartialViewResult FloorDetailPartial(string Id)
         {
             if (CheckPerm(Perms.KatKartı, PermTypes.Reading) == false) return null;
-            int tmp = Convert.ToInt32(Id);
+            var tmp = Convert.ToInt32(Id);
             if (tmp == 0)
             {
                 ViewBag.DepoID = new SelectList(Store.GetList(), "ID", "DepoAd");
@@ -101,6 +102,7 @@ namespace Wms12m.Presentation.Areas.Constants.Controllers
                         Value = item.ID.ToString()
                     });
                 }
+
                 return Json(List.Select(x => new { Value = x.Value, Text = x.Text, Selected = x.Selected }), JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
@@ -115,7 +117,7 @@ namespace Wms12m.Presentation.Areas.Constants.Controllers
         public JsonResult Delete(string Id)
         {
             if (CheckPerm(Perms.KatKartı, PermTypes.Deleting) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
-            Result _Result = Floor.Delete(string.IsNullOrEmpty(Id) ? 0 : Convert.ToInt32(Id));
+            var _Result = Floor.Delete(string.IsNullOrEmpty(Id) ? 0 : Convert.ToInt32(Id));
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
         /// <summary>
@@ -124,7 +126,7 @@ namespace Wms12m.Presentation.Areas.Constants.Controllers
         public JsonResult FlooriOperation(Kat P)
         {
             if (CheckPerm(Perms.KatKartı, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
-            Result _Result = Floor.Operation(P);
+            var _Result = Floor.Operation(P);
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
     }

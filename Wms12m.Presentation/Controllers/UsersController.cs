@@ -102,11 +102,11 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public PartialViewResult Perm()
         {
-            //kontrol
+            // kontrol
             if (CheckPerm(Perms.Kullanıcılar, PermTypes.Reading) == false) return null;
             var id = Url.RequestContext.RouteData.Values["id"];
             if (id == null || id.ToString2() == "") return null;
-            //return
+            // return
             var ID = id.ToInt32();
             if (ID == 1) return null;
             var list = db.GetUserPermsFor(ID).ToList();
@@ -165,6 +165,7 @@ namespace Wms12m.Presentation.Controllers
                             LogActions("", "Users", "SavePerm", ComboItems.alDüzenle, 0, "PermName: " + tbl.PermName + ", UserName: " + tbl.UserName + ", R: " + tbl.Reading + ", W: " + tbl.Writing + ", U: " + tbl.Updating + ", D: " + tbl.Deleting);
                         }
                     }
+
                     try
                     {
                         db.SaveChanges();
@@ -192,7 +193,7 @@ namespace Wms12m.Presentation.Controllers
                 {
                     db.UserPerms.Remove(tbl);
                     db.SaveChanges();
-                    //log
+                    // log
                     LogActions("", "Users", "DeletePerm", ComboItems.alSil, 0, "PermName: " + pname + ", UserName: " + uname);
                 }
             }
@@ -200,8 +201,9 @@ namespace Wms12m.Presentation.Controllers
             {
                 Logger(ex, "Users/DeletePerm");
             }
-            //return
-            Result _Result = new Result()
+
+            // return
+            var _Result = new Result()
             {
                 Id = 1,
                 Message = "İşlem Başarılı !!!",
@@ -216,7 +218,7 @@ namespace Wms12m.Presentation.Controllers
         public JsonResult Save(User tbl)
         {
             if (CheckPerm(Perms.Kullanıcılar, PermTypes.Writing) == false || tbl.ID == 1) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
-            Result _Result = Persons.Operation(tbl);
+            var _Result = Persons.Operation(tbl);
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
         /// <summary>
@@ -226,16 +228,17 @@ namespace Wms12m.Presentation.Controllers
         public JsonResult ChangePass(frmUserChangePass tmp)
         {
             if (CheckPerm(Perms.Kullanıcılar, PermTypes.Writing) == false || tmp.ID == 1) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
-            Result _Result = new Result();
+            var _Result = new Result();
             if (tmp.Password == tmp.Password2)
             {
-                User tbl = new User()
+                var tbl = new User()
                 {
                     ID = tmp.ID,
                     Sifre = tmp.Password
                 };
                 _Result = Persons.ChangePass(tbl);
             }
+
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
         /// <summary>
@@ -254,7 +257,7 @@ namespace Wms12m.Presentation.Controllers
         public JsonResult Delete(int Id)
         {
             if (vUser.Id > 1 || Id == 1) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
-            Result _Result = Persons.Delete(Id);
+            var _Result = Persons.Delete(Id);
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
         /// <summary>
@@ -272,7 +275,7 @@ namespace Wms12m.Presentation.Controllers
         public PartialViewResult B2BList()
         {
             if (CheckPerm(Perms.Kullanıcılar, PermTypes.Reading) == false) return null;
-            string sql = string.Format("SELECT solar6.dbo.B2B_User.ID, solar6.dbo.B2B_User.HesapKodu, FINSAT6{0}.FINSAT6{0}.CHK.Unvan1 as Unvan, solar6.dbo.B2B_User.YetkiliEMail, solar6.dbo.B2B_User.Parola " +
+            var sql = string.Format("SELECT solar6.dbo.B2B_User.ID, solar6.dbo.B2B_User.HesapKodu, FINSAT6{0}.FINSAT6{0}.CHK.Unvan1 as Unvan, solar6.dbo.B2B_User.YetkiliEMail, solar6.dbo.B2B_User.Parola " +
                                 "FROM solar6.dbo.B2B_User WITH(NOLOCK) INNER JOIN FINSAT6{0}.FINSAT6{0}.CHK WITH(NOLOCK) ON solar6.dbo.B2B_User.HesapKodu = FINSAT6{0}.FINSAT6{0}.CHK.HesapKodu " +
                                 "ORDER BY Unvan1", vUser.SirketKodu);
             List<mdlB2BUsers> list;
@@ -285,6 +288,7 @@ namespace Wms12m.Presentation.Controllers
                 Logger(ex, "Users/B2BList");
                 list = new List<mdlB2BUsers>();
             }
+
             ViewBag.Yetki = CheckPerm(Perms.Kullanıcılar, PermTypes.Writing);
             ViewBag.Yetki2 = CheckPerm(Perms.Kullanıcılar, PermTypes.Deleting);
             return PartialView("B2BList", list);
@@ -361,12 +365,12 @@ namespace Wms12m.Presentation.Controllers
         {
             var id = Url.RequestContext.RouteData.Values["id"];
             if (id == null) return null;
-            string sql = "";
-            //generate sql
+            var sql = "";
+            // generate sql
             if (id.ToString() == "0")
                 id = vUser.SirketKodu;
-            sql = String.Format("FINSAT6{0}.[wms].[BTBCHKSearch] @HesapKodu = N'{1}', @Unvan = N'', @top = 20", id.ToString(), term);
-            //return
+            sql = string.Format("FINSAT6{0}.[wms].[BTBCHKSearch] @HesapKodu = N'{1}', @Unvan = N'', @top = 20", id.ToString(), term);
+            // return
             try
             {
                 var list = db.Database.SqlQuery<frmJson>(sql).ToList();
@@ -382,12 +386,12 @@ namespace Wms12m.Presentation.Controllers
         {
             var id = Url.RequestContext.RouteData.Values["id"];
             if (id == null) return null;
-            string sql = "";
-            //generate sql
+            var sql = "";
+            // generate sql
             if (id.ToString() == "0")
                 id = vUser.SirketKodu;
-            sql = String.Format("FINSAT6{0}.[wms].[BTBCHKSearch] @HesapKodu = N'', @Unvan = N'{1}', @top = 20", id.ToString(), term);
-            //return
+            sql = string.Format("FINSAT6{0}.[wms].[BTBCHKSearch] @HesapKodu = N'', @Unvan = N'{1}', @top = 20", id.ToString(), term);
+            // return
             try
             {
                 var list = db.Database.SqlQuery<frmJson>(sql).ToList();
@@ -406,21 +410,19 @@ namespace Wms12m.Presentation.Controllers
         {
             if (CheckPerm(Perms.Kullanıcılar, PermTypes.Reading) == false || ID == 1) return null;
             var tbl = db.UserDetails.Where(m => m.UserID == ID).FirstOrDefault();
-            SipOnayYetkiler yetki = new SipOnayYetkiler();
+            var yetki = new SipOnayYetkiler();
             if (tbl != null)
             {
-
                 yetki.GostCHKKodAlani = tbl.GostCHKKodAlani;
                 yetki.GosterilecekSirket = tbl.GosterilecekSirket;
                 yetki.GostKod3OrtBakiye = tbl.GostKod3OrtBakiye;
                 yetki.GostRiskDeger = tbl.GostRiskDeger;
                 yetki.GostSTKDeger = tbl.GostSTKDeger;
                 yetki.AdSoyad = tbl.User.AdSoyad;
-
             }
             else
             {
-                User grv = db.Users.Where(m => m.ID == ID).FirstOrDefault();
+                var grv = db.Users.Where(m => m.ID == ID).FirstOrDefault();
                 yetki.GostCHKKodAlani = "";
                 yetki.GosterilecekSirket = "";
                 yetki.GostKod3OrtBakiye = "";
@@ -428,6 +430,7 @@ namespace Wms12m.Presentation.Controllers
                 yetki.GostSTKDeger = "";
                 yetki.AdSoyad = grv.AdSoyad;
             }
+
             ViewBag.ID = ID;
             return PartialView("YetkiDuzenle", yetki);
         }
@@ -436,7 +439,7 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public string TipKodSelect()
         {
-            //TODO: şirket ayrımı
+            // TODO: şirket ayrımı
             var KOD = db.Database.SqlQuery<RaporGetKod>(string.Format("[FINSAT6{0}].[wms].[DB_GetTipKod]", "71")).ToList();
             var json = new JavaScriptSerializer().Serialize(KOD);
             return json;
@@ -447,9 +450,9 @@ namespace Wms12m.Presentation.Controllers
         public JsonResult ParametreUpdate(string CHKAraligi, string Sirketler, string Tipler, string Kod3, string Risk, int ID)
         {
             if (CheckPerm(Perms.Kullanıcılar, PermTypes.Writing) == false || ID == 1) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
-            Result _Result = new Result(true, 1);
+            var _Result = new Result(true, 1);
             var tbl = db.UserDetails.Where(m => m.UserID == ID).FirstOrDefault();
-            //TODO: şirket ayrımı
+            // TODO: şirket ayrımı
             if (tbl != null)
                 db.Database.ExecuteSqlCommand(string.Format("[BIRIKIM].[wms].[TumpaSiparisParametreOnayla] @CHKAraligi = '{0}',@Sirketler = '{1}', @Tipler='{2}',@Kod3 = '{3}', @Risk='{4}', @UserID={5}", CHKAraligi, Sirketler, Tipler, Kod3, Risk, ID));
             else
@@ -464,18 +467,18 @@ namespace Wms12m.Presentation.Controllers
                     GostRiskDeger = Risk
                 });
             }
+
             try
             {
                 db.SaveChanges();
                 _Result.Message = "İşlem Başarılı ";
-
             }
             catch (Exception)
             {
                 _Result.Status = false;
                 _Result.Message = "Hata Oluştu. ";
-
             }
+
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
     }

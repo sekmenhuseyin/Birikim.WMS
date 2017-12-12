@@ -11,10 +11,8 @@ namespace Wms12m.Presentation.Controllers
         /// <summary>
         /// yardım sayfası
         /// </summary>
-        public ActionResult Index()
-        {
-            return View("Index");
-        }
+        public ActionResult Index() => View("Index");
+
         /// <summary>
         /// yardım sayfası listesi
         /// </summary>
@@ -53,6 +51,7 @@ namespace Wms12m.Presentation.Controllers
                     tbl.Title = satir.Title;
                     tbl.Detail = satir.Detail;
                 }
+
                 try
                 {
                     db.SaveChanges();
@@ -62,6 +61,7 @@ namespace Wms12m.Presentation.Controllers
                 {
                 }
             }
+
             return Json(new Result(false, "Hata oldu"), JsonRequestBehavior.AllowGet);
         }
         /// <summary>
@@ -84,10 +84,8 @@ namespace Wms12m.Presentation.Controllers
         /// <summary>
         /// düzenleme listesi
         /// </summary>
-        public PartialViewResult FormList()
-        {
-            return PartialView("FormList", db.FAQs.ToList());
-        }
+        public PartialViewResult FormList() => PartialView("FormList", db.FAQs.ToList());
+
         /// <summary>
         /// düzenleme
         /// </summary>

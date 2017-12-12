@@ -3,17 +3,16 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Wms12m.Entity;
-using Wms12m.Entity.Models;
 
 namespace Wms12m
 {
     public class YeniNesil
     {
-        private string ConStr { get; set; }
-        private string SirketKodu { get; set; }
-        private List<STIEvrakBilgi> EvrakNoList;
-        private List<HesapItem> HesapList;
-        private List<STK005> FaturaSatirlari;
+        string ConStr { get; set; }
+        string SirketKodu { get; set; }
+        List<STIEvrakBilgi> EvrakNoList;
+        List<HesapItem> HesapList;
+        List<STK005> FaturaSatirlari;
         /// <summary>
         /// yeni finsat
         /// </summary>
@@ -25,21 +24,19 @@ namespace Wms12m
 
         public bool OndalikAyiracVirgulMu()
         {
-            double x = 1.1;
-            string sonuc = x.ToString().Replace("1", "");
+            var x = 1.1;
+            var sonuc = x.ToString().Replace("1", "");
 
-            if (sonuc == ",")
-                return true;
-            else
-                return false;
+            if (sonuc == ",") return true;
+            else return false;
         }
 
         public void SatisIadeOnay(SatisIadeOnay SIOnay)
         {
-            SqlExper Sqlexper = new SqlExper(ConStr, SirketKodu);
-            string Sorgu = string.Empty;
-            string saat = DateTime.Now.ToString("HHmmss");
-            int tarih = DateTime.Today.ToOADateInt();
+            var Sqlexper = new SqlExper(ConStr, SirketKodu);
+            var Sorgu = string.Empty;
+            var saat = DateTime.Now.ToString("HHmmss");
+            var tarih = DateTime.Today.ToOADateInt();
             if (SIOnay.Onay)
             {
                 Sorgu = string.Format(@"
@@ -53,7 +50,7 @@ namespace Wms12m
 
                 WHERE STI1.STK005_EvrakTipi=99 AND STI1.STK005_IslemTipi=2 AND STI1.STK005_GC=0 AND STI1.STK005_Kod11>0 AND STI1.STK005_Kod9<>'' AND
                       STI1.STK005_Kod10='Onay Bekliyor' AND SUBSTRING(STI1.STK005_Not5,1,8)='AndMobil' AND 
-	                  STI1.STK005_EvrakSeriNo='{4}' AND STI1.STK005_IslemTarihi={5} ", 
+	                  STI1.STK005_EvrakSeriNo='{4}' AND STI1.STK005_IslemTarihi={5} ",
                 SirketKodu, SIOnay.Kaydeden, tarih, saat, SIOnay.IadeNo, SIOnay.IadeTarih);
             }
             else
@@ -68,7 +65,6 @@ namespace Wms12m
 
             Sqlexper.Komut(Sorgu);
             Sqlexper.AcceptChanges();
-
         }
 
         /// <summary>
@@ -76,33 +72,32 @@ namespace Wms12m
         /// </summary>
         public Result FaturaKaydet(List<SepetUrun> pSepetUrunleri)
         {
-            bool OndalikAyiracVirgul = OndalikAyiracVirgulMu();
+            var OndalikAyiracVirgul = OndalikAyiracVirgulMu();
 
             FaturaSatirlari = new List<STK005>();
 
             EvrakNolari_YukleAyarla();
             HesapListesini_YukleAyarla(pSepetUrunleri[0].HesapKodu);
 
-            int faturaSiraNo = EvrakNoList[0].SiraNo;
-            int siparisSiraNo = EvrakNoList[1].SiraNo;
-            string saat = DateTime.Now.ToString("HHmmss"); ///O anın saatini döner 154010 gibi
-            SqlExper Sqlexper = new SqlExper(ConStr, SirketKodu);
+            var faturaSiraNo = EvrakNoList[0].SiraNo;
+            var siparisSiraNo = EvrakNoList[1].SiraNo;
+            var saat = DateTime.Now.ToString("HHmmss"); ///O anın saatini döner 154010 gibi
+            var Sqlexper = new SqlExper(ConStr, SirketKodu);
             foreach (SepetUrun item in pSepetUrunleri)
             {
-
                 if (OndalikAyiracVirgul)
                 {
                     item.Miktar = item.Miktar.Replace(".", ",");
                     item.Fiyat = item.Fiyat.Replace(".", ",");
                 }
 
-                string hesapKodu = "";
-                HesapItem hesap = HesapList.Find(x => x.ParaBirimi.ToUpper() == item.ParaCinsi.ToUpper());
+                var hesapKodu = "";
+                var hesap = HesapList.Find(x => x.ParaBirimi.ToUpper() == item.ParaCinsi.ToUpper());
                 if (hesap.IsNullEmpty())
                     throw new Exception("Hesapla ilgili stoğun döviz cinsleri uyuşmamaktadır !");
                 hesapKodu = hesap.HesapKodu;
                 faturaSiraNo++;
-                STK005 fatura = new STK005();
+                var fatura = new STK005();
                 fatura.DefaultValueSet();
                 fatura.STK005_MalKodu = item.UrunKodu;
                 fatura.STK005_IslemTarihi = DateTime.Today.ToOADate().ToInt32();
@@ -149,10 +144,11 @@ namespace Wms12m
 
                 FaturaSatirlari.Add(fatura);
             }
+
             foreach (var item in FaturaSatirlari)
             {
                 Sqlexper.Insert(item);
-                STK004 stk = new STK004();
+                var stk = new STK004();
                 stk.pk_STK004_MalKodu = item.STK005_MalKodu;
                 stk.STK004_DegistirenKodu = item.STK005_DegistirenKodu;
                 stk.STK004_DegistirenSaat = item.STK005_DegistirenSaat;
@@ -170,7 +166,7 @@ namespace Wms12m
 
                 #region  FTD INSERT
 
-                CAR005 fMal = new CAR005();
+                var fMal = new CAR005();
                 fMal.DefaultValueSet();
                 fMal.CAR005_FaturaNo = firstItem.STK005_EvrakSeriNo;
                 fMal.CAR005_FaturaTarihi = firstItem.STK005_IslemTarihi;
@@ -205,7 +201,7 @@ namespace Wms12m
                 Sqlexper.Insert(fMal);
 
                 short satirNo = 3;
-                CAR005 fSevkAciklama = new CAR005();
+                var fSevkAciklama = new CAR005();
                 fSevkAciklama.Set(fMal);
                 fSevkAciklama.CAR005_SatirTipi = "A";
                 fSevkAciklama.CAR005_Tutar = 0;
@@ -222,6 +218,7 @@ namespace Wms12m
                     Sqlexper.Insert(fSevkAciklama);
                     satirNo++;
                 }
+
                 if (firstItem.Adres2.IsNotNullEmpty())
                 {
                     fSevkAciklama.CAR005_SatirNo = satirNo;
@@ -230,6 +227,7 @@ namespace Wms12m
                     Sqlexper.Insert(fSevkAciklama);
                     satirNo++;
                 }
+
                 if (firstItem.Adres3.IsNotNullEmpty())
                 {
                     fSevkAciklama.CAR005_SatirNo = satirNo;
@@ -247,6 +245,7 @@ namespace Wms12m
                     Sqlexper.Insert(fSevkAciklama);
                     satirNo++;
                 }
+
                 if (firstItem.Aciklama2.IsNotNullEmpty())
                 {
                     fSevkAciklama.CAR005_SatirNo = satirNo;
@@ -255,6 +254,7 @@ namespace Wms12m
                     Sqlexper.Insert(fSevkAciklama);
                     satirNo++;
                 }
+
                 if (firstItem.Aciklama3.IsNotNullEmpty())
                 {
                     fSevkAciklama.CAR005_SatirNo = satirNo;
@@ -266,12 +266,11 @@ namespace Wms12m
 
                 #endregion   FTD INSERT END
 
-
                 #region  CHI INSERT
 
-                int siraNo = FaturaSatirlari[0].STK005_SEQNo.ToInt32();
+                var siraNo = FaturaSatirlari[0].STK005_SEQNo.ToInt32();
 
-                CAR003 chiMal = new CAR003();
+                var chiMal = new CAR003();
                 chiMal.DefaultValueSet();
                 chiMal.CAR003_HesapKodu = firstItem.STK005_CariHesapKodu;
                 chiMal.CAR003_Tarih = firstItem.STK005_IslemTarihi;
@@ -322,10 +321,9 @@ namespace Wms12m
 
                 #endregion  CHI INSERT END
 
-
                 #region  CHK UPDATE
 
-                CAR002 chk = new CAR002();
+                var chk = new CAR002();
                 chk.pk_CAR002_HesapKodu = firstItem.STK005_CariHesapKodu;
                 chk.SetAdd(CAR002E.CAR002_CiroBorc, CAR002E.CAR002_CiroBorc, SetIslem.Arti, chiMal.CAR003_Tutar.ToDot());
                 chk.CAR002_SonBorcTarihi = firstItem.STK005_IslemTarihi;
@@ -333,10 +331,10 @@ namespace Wms12m
 
                 #endregion   CHK UPDATE END              
             }
+
             Sqlexper.AcceptChanges();
             return new Result();
         }
-
 
         /// <summary>
         /// Depo Transfer kayıt işlemleri
@@ -344,13 +342,13 @@ namespace Wms12m
 
         public Result DepoTransferKaydet(List<DepoTran> TransferUrunleri)
         {
-            bool OndalikAyiracVirgul = OndalikAyiracVirgulMu();
+            var OndalikAyiracVirgul = OndalikAyiracVirgulMu();
 
             string evrakNo = "", yeniEvrakNo = "";
-            int siraNo = 0;
+            var siraNo = 0;
 
-            STIEvrakBilgi evrakBilgi = new STIEvrakBilgi();
-            SqlExper Sqlexper = new SqlExper(ConStr, SirketKodu);
+            var evrakBilgi = new STIEvrakBilgi();
+            var Sqlexper = new SqlExper(ConStr, SirketKodu);
             var veriList = Sqlexper.SelectList<STIEvrakBilgi>(string.Format(@"
             SELECT TOP 1 STK005_EvrakSeriNo AS EvrakNo,    
                     STK005_SEQNo as SiraNo  
@@ -368,19 +366,18 @@ namespace Wms12m
                 evrakNo = veriList[0].EvrakNo;
                 siraNo = veriList[0].SiraNo;
             }
-            
+
             evrakNo = evrakNo.Remove(0, 1);
-            int no = evrakNo.ToInt32();
+            var no = evrakNo.ToInt32();
             yeniEvrakNo = EvrakNoOlustur(8, "T", no);
 
+            var saat = DateTime.Now.ToString("HHmmss"); ///O anın saatini döner 154010 gibi
+            var tarih = DateTime.Today.ToOADateInt();
 
-            string saat = DateTime.Now.ToString("HHmmss"); ///O anın saatini döner 154010 gibi
-            int tarih = DateTime.Today.ToOADateInt();
-          
             foreach (DepoTran item in TransferUrunleri)
             {
                 siraNo++;
-                STK005 stiItem = new STK005();
+                var stiItem = new STK005();
                 stiItem.DefaultValueSet();
                 stiItem.STK005_EvrakSeriNo = yeniEvrakNo;
                 stiItem.STK005_MalKodu = item.MalKodu;
@@ -426,11 +423,11 @@ namespace Wms12m
         /// <summary>
         /// evrak no oluştur
         /// </summary>
-        private string EvrakNoOlustur(int evrakKarakterSayisi, string seri, int no)
+        string EvrakNoOlustur(int evrakKarakterSayisi, string seri, int no)
         {
             if (no.ToString().Length > evrakKarakterSayisi - seri.Length)
                 throw new Exception("Evrak numarasında taşma olmuştur !");
-            string format = "";
+            var format = "";
             for (int i = 0; i < evrakKarakterSayisi - seri.Length; i++)
                 format += "0";
             format = string.Format("1:{0}", format);
@@ -439,10 +436,10 @@ namespace Wms12m
             return format;
         }
 
-        private void EvrakNolari_YukleAyarla()
+        void EvrakNolari_YukleAyarla()
         {
             List<STIEvrakBilgi> evrakBilgiList = new List<STIEvrakBilgi>();
-            SqlExper Exper = new SqlExper(ConStr, SirketKodu);
+            var Exper = new SqlExper(ConStr, SirketKodu);
 
             evrakBilgiList = Exper.SelectList<STIEvrakBilgi>(string.Format(@"
             SELECT 0 as Tip, * FROM (
@@ -468,7 +465,6 @@ namespace Wms12m
             FROM YNS{0}.YNS{0}.TempFatura(NOLOCK)
             ORDER BY ID DESC) TempFatura", SirketKodu));
 
-           
             if (evrakBilgiList.IsNull() || evrakBilgiList.Count != 4)
             {
                 throw new Exception(@"Sipariş ve/veya fatura için son evrak numarası bulunamadı. Lütfen STK002, STK005, Teklif ve TempFatura tablolarını inceleyin");
@@ -479,9 +475,9 @@ namespace Wms12m
             EvrakNoList = new List<STIEvrakBilgi>();
             for (int i = 0; i < 4; i++)
             {
-                string evrakNo = "";
-                string seri = "";
-                int siraNo = 0;
+                var evrakNo = "";
+                var seri = "";
+                var siraNo = 0;
                 evrakNo = evrakBilgiList[i].EvrakNo;
                 siraNo = evrakBilgiList[i].SiraNo;
 
@@ -490,22 +486,21 @@ namespace Wms12m
 
                 seri = evrakNo.Substring(0, 2);
                 evrakNo = evrakNo.Remove(0, 2);
-                int no = evrakNo.ToInt32();
+                var no = evrakNo.ToInt32();
 
                 evrakNo = EvrakNoOlustur(8, seri, no);
 
                 EvrakNoList.Add(new STIEvrakBilgi { EvrakNo = evrakNo, SiraNo = siraNo, Tip = evrakBilgiList[i].Tip });
             }
-
         }
 
         /// <summary>
         /// hesap listesi
         /// </summary>
-        private void HesapListesini_YukleAyarla(string HesapKodu)
+        void HesapListesini_YukleAyarla(string HesapKodu)
         {
             HesapList = new List<HesapItem>();
-            SqlExper Sqlexper = new SqlExper(ConStr, SirketKodu);
+            var Sqlexper = new SqlExper(ConStr, SirketKodu);
             HesapList = Sqlexper.SelectList<HesapItem>(string.Format(HesapItem.Sorgu, HesapKodu));
         }
     }

@@ -7,8 +7,8 @@ namespace Wms12m
 {
     public class UYSF
     {
-        private string ConStr { get; set; }
-        private string SirketKodu { get; set; }
+        string ConStr { get; set; }
+        string SirketKodu { get; set; }
         /// <summary>
         /// yeni finsat
         /// </summary>
@@ -20,22 +20,22 @@ namespace Wms12m
         /// <summary>
         /// evrak no oluştur
         /// </summary>
-        public string EvrakNoArttir(string EvrakNo, string Seri)
+        public string EvrakNoArttir(string evrakNo, string seri)
         {
-            if (EvrakNo == null || EvrakNo == "") EvrakNo = Seri + "000000";
-            var sonemirNo = EvrakNo.RemoveFirstCharacter(2).ToInt32();
-            EvrakNo = Seri + ("000000" + (sonemirNo + 1)).Right(6);
-            return EvrakNo;
+            if (evrakNo == null || evrakNo == "") evrakNo = seri + "000000";
+            var sonemirNo = evrakNo.RemoveFirstCharacter(2).ToInt32();
+            evrakNo = seri + ("000000" + (sonemirNo + 1)).Right(6);
+            return evrakNo;
         }
         /// <summary>
         /// depo transfer fişi
         /// </summary>
         public Result DepoTransfer(List<frmUysWaitingTransfer> tbl, Entity.EMG emir, bool GirisMi)
         {
-            //settings
+            // settings
             DevHelper.Ayarlar.SetConStr(ConStr);
             DevHelper.Ayarlar.SirketKodu = SirketKodu;
-            //add to list
+            // add to list
             var DepTranList = new List<DepTran>();
             foreach (var item in tbl)
             {
@@ -54,6 +54,7 @@ namespace Wms12m
                     KayitKaynak = 74
                 });
             }
+
             var Emir = new OnikimCore.GunesCore.EMG();
             if (emir != null)
             {
@@ -85,7 +86,7 @@ namespace Wms12m
                 Emir.YMHmdCik = emir.YMHmdCik;
                 Emir.Teklif = emir.Teklif;
                 Emir.KayitTuru = emir.KayitTuru;
-                //emir details
+                // emir details
                 Emir.Kaydeden = tbl[0].Kaydeden;
                 Emir.KayitKaynak = 10;
                 Emir.KayitSurum = "1.00";
@@ -96,10 +97,11 @@ namespace Wms12m
                 Emir.DegisSurum = "1.00";
                 Emir.CheckSum = 1542;
             }
-            //save 2 db
-            Stok_Islemleri StokIslem = new Stok_Islemleri(SirketKodu);
-            IslemSonuc Sonuc = StokIslem.DepoTransfer_EMG_Kayit(DepTranList, emir == null ? null : Emir, tbl[0].Kaydeden2);
-            //return
+
+            // save 2 db
+            var StokIslem = new Stok_Islemleri(SirketKodu);
+            var Sonuc = StokIslem.DepoTransfer_EMG_Kayit(DepTranList, emir == null ? null : Emir, tbl[0].Kaydeden2);
+            // return
             var _Result = new Result()
             {
                 Status = Sonuc.Basarili,

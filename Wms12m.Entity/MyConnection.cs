@@ -1,30 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Wms12m
 {
     public class Connection : IDisposable
     {
         SqlConnection m_SqlCon;
-        public SqlConnection SqlCon
-        {
-            get { return m_SqlCon; }
-        }
+        public SqlConnection SqlCon => m_SqlCon;
         public SqlParameterCollection Params { get; set; }
 
         public SqlCommand Cmd { get; set; }
 
         DataSet m_DSet;
-        public DataSet DSet
-        {
-            get { return m_DSet; }
-        }
+        public DataSet DSet => m_DSet;
         public SqlDataReader Reader { get; set; }
 
         public CommandType CommandType
@@ -35,22 +25,39 @@ namespace Wms12m
 
         static string configConStr;
 
-        private static bool transActive;
+        static bool transActive;
 
         public SqlTransaction Trans
         {
             get { return Cmd.Transaction; }
             set { Cmd.Transaction = value; }
         }
+        private Connection()
+        {
+            try
+            {
+                m_SqlCon = new SqlConnection(configConStr);
+                Cmd = new SqlCommand("", m_SqlCon);
+                Cmd.CommandTimeout = m_SqlCon.ConnectionTimeout;
+                Params = Cmd.Parameters;
+                m_DSet = new DataSet();
+                Cmd.CommandType = CommandType.Text;
+                if (transActive)
+                {
+                    m_SqlCon.Open();
+                    Trans = m_SqlCon.BeginTransaction();
+                }
+            }
+            catch { }
+        }
 
-
-        public DataSet GetTables(string sqlString, params string[] TableNames)
+        public DataSet GetTables(string sqlString, params string[] tableNames)
         {
             m_DSet = new DataSet();
             if (SqlCon.State == ConnectionState.Closed)
                 SqlCon.Open();
             Cmd.CommandText = sqlString;
-            DSet.Load(Cmd.ExecuteReader(), LoadOption.OverwriteChanges, TableNames);
+            DSet.Load(Cmd.ExecuteReader(), LoadOption.OverwriteChanges, tableNames);
             return m_DSet;
         }
 
@@ -95,93 +102,54 @@ namespace Wms12m
             return Cmd.ExecuteScalar();
         }
 
-
-        private static Connection instance;
-        private Connection()
-        {
-            try
-            {
-                m_SqlCon = new SqlConnection(configConStr);
-                Cmd = new SqlCommand("", m_SqlCon);
-                Cmd.CommandTimeout = m_SqlCon.ConnectionTimeout;
-                Params = Cmd.Parameters;
-                m_DSet = new DataSet();
-                Cmd.CommandType = CommandType.Text;
-                if (transActive)
-                {
-                    m_SqlCon.Open();
-                    Trans = m_SqlCon.BeginTransaction();
-                }
-            }
-            catch { }
-        }
+        static Connection instance;
         public static Connection GetConnectionWithTrans()
         {
             transActive = true;
-            Connection con = GetCon(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString);
+            var con = GetCon(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString);
             if (con.Cmd.Transaction == null)
             {
                 if (con.SqlCon.State == ConnectionState.Closed)
                     con.SqlCon.Open();
                 con.Cmd.Transaction = con.SqlCon.BeginTransaction();
             }
+
             return con;
         }
-        //public static Connection GetConnectionWithTrans(int ConnectionTimeout)
-        //{
-        //    transActive = true;
-        //    Connection con = GetCon(Degiskenler.GetNewConStr(ConnectionTimeout));
-        //    if (con.Cmd.Transaction == null)
-        //    {
-        //        if (con.SqlCon.State == ConnectionState.Closed)
-        //            con.SqlCon.Open();
-        //        con.Cmd.Transaction = con.SqlCon.BeginTransaction();
-        //    }
-        //    return con;
-        //}
         public static Connection GetConnection()
         {
             transActive = false;
             return GetCon(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString);
         }
-        //public static Connection GetConnection(int ConnectionTimeout)
-        //{            
-        //    transActive = false;
-        //    return GetCon(Degiskenler.GetNewConStr(ConnectionTimeout));
-        //}
 
         public static Connection GetConnection(string ConStr)
         {
             transActive = false;
             return GetCon(ConStr);
         }
-        private static Connection GetCon(string ConStr)
+        static Connection GetCon(string ConStr)
         {
             if (configConStr == null || configConStr != ConStr)
             {
                 configConStr = ConStr;
-                if (instance != null)
-                    instance.Dispose();
+                if (instance != null) instance.Dispose();
             }
+
             ClearParams();
             return GetConnectionInstance();
         }
-        private static Connection GetConnectionInstance()
+        static Connection GetConnectionInstance()
         {
             lock (typeof(Connection))
             {
-                if (instance == null)
-                {
-                    instance = new Connection();
-                }
+                if (instance == null) instance = new Connection();
                 return instance;
             }
         }
 
         public static void ClearParams()
         {
-            if (instance != null)
-                instance.Params.Clear();
+            if (instance != null) instance.Params.Clear();
         }
 
         #region IDisposable Members
@@ -194,8 +162,7 @@ namespace Wms12m
                 m_DSet = null;
             }
 
-            if (Params != null)
-                Params = null;
+            if (Params != null) Params = null;
 
             if (Cmd != null)
             {
@@ -216,8 +183,7 @@ namespace Wms12m
                 m_SqlCon = null;
             }
 
-            if (instance != null)
-                instance = null;
+            if (instance != null) instance = null;
         }
         #endregion
     }

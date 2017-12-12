@@ -25,6 +25,7 @@ namespace Wms12m.Presentation.Areas.Constants.Controllers
                     ViewBag.KabloDepoID = new SelectList(dbx.depoes.OrderBy(m => m.depo1).ToList(), "id", "depo1");
                 }
             }
+
             ViewBag.mysql = mysql;
             ViewBag.Yetki = CheckPerm(Perms.DepoKartı, PermTypes.Writing);
             return View("Index", new Depo());
@@ -54,6 +55,7 @@ namespace Wms12m.Presentation.Areas.Constants.Controllers
                     ViewBag.KabloDepoID = new SelectList(dbx.depoes.OrderBy(m => m.depo1).ToList(), "id", "depo1", item.KabloDepoID);
                 }
             }
+
             ViewBag.mysql = mysql;
             ViewBag.Yetki = CheckPerm(Perms.DepoKartı, PermTypes.Writing);
             return PartialView("_StoreDetailPartial", item);
@@ -64,9 +66,8 @@ namespace Wms12m.Presentation.Areas.Constants.Controllers
         public JsonResult Delete(string Id)
         {
             if (CheckPerm(Perms.DepoKartı, PermTypes.Deleting) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
-            Result _Result = Store.Delete(string.IsNullOrEmpty(Id) ? 0 : Convert.ToInt32(Id));
+            var _Result = Store.Delete(string.IsNullOrEmpty(Id) ? 0 : Convert.ToInt32(Id));
             return Json(_Result, JsonRequestBehavior.AllowGet);
-
         }
         /// <summary>
         /// kayıt işlemleri

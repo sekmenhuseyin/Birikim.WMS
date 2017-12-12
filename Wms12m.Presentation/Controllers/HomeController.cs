@@ -17,7 +17,7 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public ActionResult Index()
         {
-            var SirketKodu = vUser.SirketKodu;
+            var sirketKodu = vUser.SirketKodu;
             Setting setts = ViewBag.settings;
             var bo = new BekleyenOnaylar();
             var tbl = new GetHomeSummary_Result { depo = 0, gorev = 0, kull = 0, MalKabul = 0, Paketle = 0, RafaKaldir = 0, Sayim = 0, Sevkiyat = 0, SiparisTopla = 0, yetki = "" };
@@ -28,18 +28,20 @@ namespace Wms12m.Presentation.Controllers
             catch (Exception)
             {
             }
-            //Bekleyen Onaylar
+
+            // Bekleyen Onaylar
             if (setts.OnayCek == true || setts.OnayFiyat == true || setts.OnayRisk == true || setts.OnaySiparis == true || setts.OnaySozlesme == true || setts.OnayStok == true || setts.OnayTekno == true || setts.OnayTeminat == true)
                 try
                 {
                     var tmp = new Charts();
-                    bo = tmp.BekleyenOnaylar(SirketKodu, tbl.yetki.Contains("'DashboardKasa'"));
+                    bo = tmp.BekleyenOnaylar(sirketKodu, tbl.yetki.Contains("'DashboardKasa'"));
                 }
                 catch (Exception ex)
                 {
                     Logger(ex, "Home/Index");
                 }
-            //etkinlikler
+
+            // etkinlikler
             var tblEtki = db.Etkinliks.Where(m => m.Tekrarlayan == false && (m.TatilTipi == 76 || m.TatilTipi == 78) && m.Tarih == DateTime.Today);
             var lstEtkinlik = tblEtki.ToList();
             var tekrarlayan = db.Etkinliks.Where(m => m.Tekrarlayan == true && (m.TatilTipi == 76 || m.TatilTipi == 78) && m.Tarih.Day == DateTime.Today.Day && m.Tarih.Month == DateTime.Today.Month).ToList();
@@ -58,8 +60,9 @@ namespace Wms12m.Presentation.Controllers
                 };
                 lstEtkinlik.Add(item2);
             }
-            //return
-            ViewBag.SirketKodu = SirketKodu;
+
+            // return
+            ViewBag.SirketKodu = sirketKodu;
             ViewBag.BekleyenOnaylar = bo;
             ViewBag.RoleName = vUser.RoleName;
             ViewBag.Tatil = lstEtkinlik;
@@ -79,6 +82,7 @@ namespace Wms12m.Presentation.Controllers
                 var ind = url.IndexOf("/");
                 url = url.Right(url.Length - ind - 1);
             }
+
             url = "/" + url;
             ViewBag.ustMenu = mUstNo;
             var tablo = db.MenuGetirici(ComboItems.WMS.ToInt32(), mYeri, vUser.RoleName, mUstNo, url).ToList();
@@ -99,9 +103,10 @@ namespace Wms12m.Presentation.Controllers
             {
                 sql = string.Format("([Messages].MesajTipi = {0}) AND (([Messages].Kimden = '{1}') AND ([Messages].Kime = '{2}') OR ([Messages].Kimden = '{2}') AND ([Messages].Kime = '{1}'))", ComboItems.KişiselMesaj.ToInt32(), vUser.UserName, ID);
                 ViewBag.guid = db.Users.Where(m => m.Kod == ID).Select(m => m.Guid.ToString()).FirstOrDefault();
-                //set as read
+                // set as read
                 db.Database.ExecuteSqlCommand("UPDATE [Messages] Set Okundu = 1 WHERE [Messages].MesajTipi = " + ComboItems.KişiselMesaj.ToInt32() + " AND [Messages].Kimden = '" + ID + "' AND [Messages].Kime = '" + vUser.UserName + "'");
             }
+
             var list = db.Database.SqlQuery<frmMessages>(string.Format(@"
                                 SELECT        TOP (100) usr.Users.AdSoyad, usr.Users.Kod, [Messages].Tarih, [Messages].Mesaj, usr.Users.[Guid] AS [ID]
                                 FROM            [Messages] INNER JOIN usr.Users ON [Messages].Kimden = usr.Users.Kod
@@ -114,14 +119,14 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public PartialViewResult Notifications(bool Onay = false)
         {
-            //sadece onaylama ise kaydet yeter
+            // sadece onaylama ise kaydet yeter
             if (Onay == true)
             {
                 var tablo = db.Messages.Where(m => m.MesajTipi == 85 && m.Kime == vUser.UserName && m.Okundu == false).ToList();
                 foreach (var item in tablo.Where(m => m.Okundu == false))
-                {
                     item.Okundu = true;
-                }
+
+
                 db.SaveChanges();
                 return null;
             }
@@ -144,10 +149,9 @@ namespace Wms12m.Presentation.Controllers
                 satir.Okundu = true;
                 db.SaveChanges();
             }
-            if (satir.URL != null)
-                return Redirect(satir.URL);
-            else
-                return RedirectToAction("Index");
+
+            if (satir.URL != null) return Redirect(satir.URL);
+            else return RedirectToAction("Index");
         }
         #region Satış Raporları
         public PartialViewResult PartialGunlukSatisZamanCizelgesi(string SirketKodu)
@@ -166,6 +170,7 @@ namespace Wms12m.Presentation.Controllers
                 Logger(ex, "Home/PartialGunlukSatisZamanCizelgesi");
                 liste = new List<ChartBaglantiZaman>();
             }
+
             return PartialView("Satis/GunlukSatisZamanCizelgesi", liste);
         }
         public PartialViewResult PartialGunlukSatis(string SirketKodu, int tarih)
@@ -185,6 +190,7 @@ namespace Wms12m.Presentation.Controllers
             {
                 liste = new List<ChartGunlukSatisAnalizi>();
             }
+
             return PartialView("Satis/GunlukSatis", liste);
         }
         public PartialViewResult PartialGunlukSatisPie(string SirketKodu, int tarih)
@@ -204,6 +210,7 @@ namespace Wms12m.Presentation.Controllers
             {
                 liste = new List<ChartGunlukSatisAnalizi>();
             }
+
             return PartialView("Satis/GunlukSatisPie", liste);
         }
         public PartialViewResult PartialGunlukSatisYearToDay(string SirketKodu)
@@ -223,6 +230,7 @@ namespace Wms12m.Presentation.Controllers
                     Logger(ex, "Home/ChartGunlukSatisYearToDay");
                     liste = new List<GetCachedChartYear2Day_Result>();
                 }
+
             return PartialView("Satis/GunlukSatısAnaliziYearToDay", liste);
         }
         public PartialViewResult PartialGunlukSatisYearToDayPie(string SirketKodu)
@@ -242,6 +250,7 @@ namespace Wms12m.Presentation.Controllers
                     Logger(ex, "Home/PartialGunlukSatisYearToDayPie");
                     liste = new List<GetCachedChartYear2Day_Result>();
                 }
+
             return PartialView("Satis/GunlukSatısAnaliziYearToDayPie", liste);
         }
         public PartialViewResult PartialGunlukSatisDoubleKriter(string SirketKodu, string kod, int islemtip, int tarih)
@@ -263,6 +272,7 @@ namespace Wms12m.Presentation.Controllers
             {
                 liste = new List<ChartGunlukSatisAnalizi>();
             }
+
             return PartialView("Satis/GunlukSatisAnaliziDoubleKriter", liste);
         }
         public PartialViewResult PartialGunlukSatisDoubleKriterPie(string SirketKodu, string kod, int islemtip, int tarih)
@@ -284,6 +294,7 @@ namespace Wms12m.Presentation.Controllers
             {
                 liste = new List<ChartGunlukSatisAnalizi>();
             }
+
             return PartialView("Satis/GunlukSatisAnaliziDoubleKriterPie", liste);
         }
 
@@ -304,6 +315,7 @@ namespace Wms12m.Presentation.Controllers
                     Logger(ex, "Home/PartialAylikSatisAnaliziBar");
                     liste = new List<GetCachedChartMonthly_Result>();
                 }
+
             return PartialView("Satis/AylikSatisAnaliziBar", liste);
         }
         public PartialViewResult PartialAylikSatisCHKAnaliziBar(string SirketKodu, string chk)
@@ -333,6 +345,7 @@ namespace Wms12m.Presentation.Controllers
                         new ChartAylikSatisAnalizi() { Ay = "0", Yil2015 = 0, Yil2016 = 0, Yil2017 = 0 }
                     };
                 }
+
             return PartialView("Satis/AylikSatisCHKAnaliziBar", liste);
         }
         public PartialViewResult PartialAylikSatisAnaliziKodTipDovizBar(string SirketKodu, string kod, int islemtip, string doviz)
@@ -355,6 +368,7 @@ namespace Wms12m.Presentation.Controllers
                     Logger(ex, "Home/PartialAylikSatisAnaliziKodTipDovizBar");
                     liste = new List<GetCachedChartMonthlyByKriter_Result>();
                 }
+
             return PartialView("Satis/AylikSatisAnaliziKodTipDovizBar", liste);
         }
 
@@ -375,6 +389,7 @@ namespace Wms12m.Presentation.Controllers
                 {
                     liste = new List<GetCachedChartUrunGrubu_Result>();
                 }
+
             return PartialView("Satis/UrunGrubuSatis", liste);
         }
         public PartialViewResult PartialUrunGrubuSatisKriter(string SirketKodu, short tarih, string kriter)
@@ -395,6 +410,7 @@ namespace Wms12m.Presentation.Controllers
                 {
                     liste = new List<GetCachedChartUrunGrubuKriter_Result>();
                 }
+
             return PartialView("Satis/UrunGrubuSatisKriter", liste);
         }
 
@@ -415,6 +431,7 @@ namespace Wms12m.Presentation.Controllers
                 {
                     liste = new List<GetCachedChartLocation_Result>();
                 }
+
             return PartialView("Satis/LokasyonSatis", liste);
         }
         public PartialViewResult PartialLokasyonSatisKriter(string SirketKodu, int tarih, string kriter)
@@ -435,6 +452,7 @@ namespace Wms12m.Presentation.Controllers
                 {
                     liste = new List<GetCachedChartLocationKriter_Result>();
                 }
+
             return PartialView("Satis/LokasyonSatisKriter", liste);
         }
 
@@ -457,6 +475,7 @@ namespace Wms12m.Presentation.Controllers
                 Logger(ex, "Home/PartialBekleyenSiparisUrunGrubu");
                 BSUG = new List<ChartBekleyenSiparisUrunGrubu>();
             }
+
             return PartialView("Satis/BekleyenSiparisUrunGrubu", BSUG);
         }
         public PartialViewResult PartialBekleyenSiparisUrunGrubuMiktar(string SirketKodu, bool miktarTutar)
@@ -494,6 +513,7 @@ namespace Wms12m.Presentation.Controllers
                         BSUG = new List<GetCachedChartBekleyenUrunMiktarFiyat_Result>();
                     }
             }
+
             return PartialView("Satis/BekleyenSiparisUrunGrubuMiktar", BSUG);
         }
         public PartialViewResult PartialBekleyenSiparisUrunGrubuMiktarPie(string SirketKodu, bool miktarTutar)
@@ -515,6 +535,7 @@ namespace Wms12m.Presentation.Controllers
                     {
                         BSUG = new List<GetCachedChartBekleyenUrunMiktarFiyat_Result>();
                     }
+
                 ViewBag.MiktarTutar = "Miktar";
             }
             else
@@ -529,8 +550,10 @@ namespace Wms12m.Presentation.Controllers
                     {
                         BSUG = new List<GetCachedChartBekleyenUrunMiktarFiyat_Result>();
                     }
+
                 ViewBag.MiktarTutar = "Tutar";
             }
+
             return PartialView("Satis/BekleyenSiparisUrunGrubuMiktarPie", BSUG);
         }
         public PartialViewResult PartialBekleyenSiparisUrunGrubuMiktarKriter(string SirketKodu, string kriter)
@@ -549,6 +572,7 @@ namespace Wms12m.Presentation.Controllers
             {
                 BSUG = new List<GetCachedChartBekleyenUrunMiktarFiyat_Result>();
             }
+
             return PartialView("Satis/BekleyenSiparisUrunGrubuMiktarKriter", BSUG);
         }
         public PartialViewResult PartialBekleyenSiparisUrunGrubuMiktarKriterPie(string SirketKodu, string kriter)
@@ -567,6 +591,7 @@ namespace Wms12m.Presentation.Controllers
             {
                 BSUG = new List<GetCachedChartBekleyenUrunMiktarFiyat_Result>();
             }
+
             return PartialView("Satis/BekleyenSiparisUrunGrubuMiktarKriterPie", BSUG);
         }
         public PartialViewResult PartialBekleyenSiparisMusteriAnalizi(string SirketKodu, string kod, string doviz)
@@ -585,6 +610,7 @@ namespace Wms12m.Presentation.Controllers
             {
                 liste = new List<ChartBekleyenSiparisUrunGrubu>();
             }
+
             return PartialView("Satis/BekleyenSiparisMusteriAnalizi", liste);
         }
 
@@ -604,6 +630,7 @@ namespace Wms12m.Presentation.Controllers
                     Logger(ex, "Home/PartialBaglantiUrunGrubu");
                     BUGS = new List<GetCachedChartSatisBaglanti_Result>();
                 }
+
             return PartialView("Satis/BaglantiUrunGrubu", BUGS);
         }
         public PartialViewResult PartialBaglantiUrunGrubuPie(string SirketKodu)
@@ -622,6 +649,7 @@ namespace Wms12m.Presentation.Controllers
                     Logger(ex, "Home/PartialBaglantiUrunGrubuPie");
                     BUGS = new List<GetCachedChartSatisBaglanti_Result>();
                 }
+
             return PartialView("Satis/BaglantiUrunGrubuPie", BUGS);
         }
 
@@ -641,6 +669,7 @@ namespace Wms12m.Presentation.Controllers
             {
                 UGS = new List<ChartGunlukMDFUretimi>();
             }
+
             return PartialView("Satis/GunlukMDFUretim", UGS);
         }
         public PartialViewResult PartialGunlukMDFUretimiPie(string SirketKodu, int tarih)
@@ -659,9 +688,9 @@ namespace Wms12m.Presentation.Controllers
             {
                 GSA = new List<ChartGunlukMDFUretimi>();
             }
+
             return PartialView("Satis/GunlukMDFUretimPie", GSA);
         }
-
 
         public PartialViewResult PartialBolgeBazliSatisAnalizi(string SirketKodu, int ay, string kriter)
         {
@@ -679,6 +708,7 @@ namespace Wms12m.Presentation.Controllers
             {
                 BSUG = new List<ChartBolgeBazliSatisAnalizi>();
             }
+
             return PartialView("Satis/BolgeBazliSatisAnalizi", BSUG);
         }
         public PartialViewResult PartialBolgeBazliSatisAnaliziPie(string SirketKodu, int ay, string kriter)
@@ -697,6 +727,7 @@ namespace Wms12m.Presentation.Controllers
             {
                 BSUG = new List<ChartBolgeBazliSatisAnalizi>();
             }
+
             return PartialView("Satis/BolgeBazliSatisAnaliziPie", BSUG);
         }
 
@@ -715,6 +746,7 @@ namespace Wms12m.Presentation.Controllers
                 Logger(ex, "Home/PartialBaglantiZamanCizelgesi");
                 BUGS = new List<ChartBaglantiZaman>();
             }
+
             return PartialView("Satis/BaglantiZamanCizelgesi", BUGS);
         }
         public PartialViewResult PartialBakiyeRiskAnalizi(string SirketKodu)
@@ -732,6 +764,7 @@ namespace Wms12m.Presentation.Controllers
                 {
                     BRA = new List<GetCachedChartBakiyeRisk_Result>();
                 }
+
             return PartialView("Satis/BakiyeRiskAnalizi", BRA);
         }
         public PartialViewResult PartialSatisTemsilcisiAylikSatisAnalizi(string SirketKodu, string kod, short tarih)
@@ -750,6 +783,7 @@ namespace Wms12m.Presentation.Controllers
             {
                 list = new List<ChartSatisTemsilcisiAylikSatisAnalizi>();
             }
+
             return PartialView("Satis/SatisTemsilcisi_AylikSatisAnalizi", list);
         }
         /// <summary>
@@ -807,7 +841,7 @@ namespace Wms12m.Presentation.Controllers
                 ViewBag.ProjeID = new SelectList(new List<ProjeForm>(), "ID", "Proje");
             else
                 ViewBag.ProjeID = new SelectList(db.ProjeForms.Where(m => m.MusteriID == musteri && m.PID == null).OrderBy(m => m.Proje).ToList(), "ID", "Proje", proje);
-            string sql = "";
+            var sql = "";
             if (musteri > 0) sql += " AND ong.ProjeForm.MusteriID = " + musteri;
             if (proje > 0) sql += " AND ong.ProjeForm.PID = " + proje;
             var liste = db.Database.SqlQuery<chartGorevCalisma>(string.Format(@"SELECT ong.GorevlerCalisma.Kaydeden AS Proje, SUM(ong.GorevlerCalisma.Sure) AS Sure
@@ -828,23 +862,24 @@ namespace Wms12m.Presentation.Controllers
                 ViewBag.ProjeID = new SelectList(new List<ProjeForm>(), "ID", "Proje");
             else
                 ViewBag.ProjeID = new SelectList(db.ProjeForms.Where(m => m.MusteriID == musteri && m.PID == null).OrderBy(m => m.Proje).ToList(), "ID", "Proje", proje);
-            string sql = "";
+            var sql = "";
             if (musteri > 0) sql += "AND ong.ProjeForm.MusteriID = " + musteri;
             if (proje > 0) sql += "AND ong.ProjeForm.PID = " + proje;
-            //listeyi getir
+            // listeyi getir
             var liste = db.Database.SqlQuery<chartGorevProje1>(string.Format(@"SELECT YEAR(ong.GorevlerCalisma.Tarih) AS Yil, MONTH(ong.GorevlerCalisma.Tarih) AS Ay, SUM(ong.GorevlerCalisma.Sure) AS Sure
                         FROM ong.GorevlerCalisma INNER JOIN ong.Gorevler ON ong.GorevlerCalisma.GorevID = ong.Gorevler.ID INNER JOIN ong.ProjeForm ON ong.Gorevler.ProjeFormID = ong.ProjeForm.ID
                         WHERE        (ong.GorevlerCalisma.ID > 0) {1}
                         GROUP BY YEAR(ong.GorevlerCalisma.Tarih), MONTH(ong.GorevlerCalisma.Tarih)
                         HAVING        (YEAR(ong.GorevlerCalisma.Tarih) > {0})
                         ORDER BY Yil, Ay", DateTime.Today.Year - 2, sql)).ToList();
-            //yeni liste oluştur
+            // yeni liste oluştur
             var sonliste = new List<chartGorevProje>();
             for (int i = 0; i < 12; i++)
             {
                 sonliste.Add(new chartGorevProje() { Ay = ((Aylar)i + 1).ToString(), GecenYil = 0, BuYil = 0 });
             }
-            //ilk listeyi yeni listeye yaz
+
+            // ilk listeyi yeni listeye yaz
             foreach (var item in liste)
             {
                 if (item.Yil == DateTime.Today.Year - 1)
@@ -852,6 +887,7 @@ namespace Wms12m.Presentation.Controllers
                 else
                     sonliste[item.Ay - 1].BuYil = item.Sure;
             }
+
             return PartialView("GorevProjesi/ProjeAnalizi", sonliste);
         }
         public PartialViewResult GorevAylikCalisma(string user, int tarih, string tip)
@@ -862,7 +898,7 @@ namespace Wms12m.Presentation.Controllers
             ViewBag.gorevcalismatarih7 = EnumHelperExtension.SelectListFor((Aylar)tarih);
             var yil = DateTime.Today.Year;
             if (tarih > DateTime.Today.Month) yil--;
-            string sql = "";
+            var sql = "";
             if (user != "") sql += "AND ong.GorevlerCalisma.Kaydeden = '" + user + "'";
             var liste = db.Database.SqlQuery<chartGorevCalisma>(string.Format(@"SELECT ong.ProjeForm.Proje, SUM(ong.GorevlerCalisma.Sure) AS Sure
                     FROM ong.GorevlerCalisma INNER JOIN ong.Gorevler ON ong.GorevlerCalisma.GorevID = ong.Gorevler.ID INNER JOIN ong.ProjeForm ON ong.Gorevler.ProjeFormID = ong.ProjeForm.ID
@@ -899,6 +935,7 @@ namespace Wms12m.Presentation.Controllers
                 var json = wc.DownloadString(ViewBag.settings.GitServerAddress + "Repository/CommitsList/" + tarih);
                 liste = JsonConvert.DeserializeObject<List<ForJson>>(json);
             }
+
             return PartialView("GorevProjesi/GorevGit", liste);
         }
         #endregion

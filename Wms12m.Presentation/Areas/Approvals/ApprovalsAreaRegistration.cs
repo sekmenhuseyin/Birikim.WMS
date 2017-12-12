@@ -4,13 +4,7 @@ namespace Wms12m.Presentation.Areas.Approvals
 {
     public class ApprovalAreaRegistration : AreaRegistration
     {
-        public override string AreaName
-        {
-            get
-            {
-                return "Approvals";
-            }
-        }
+        public override string AreaName => "Approvals";
 
         public override void RegisterArea(AreaRegistrationContext context)
         {

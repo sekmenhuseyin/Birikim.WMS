@@ -34,16 +34,16 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         public string OnayCek(string Durum)
         {
             if (CheckPerm(Perms.StokOnaylama, PermTypes.Reading) == false) return null;
-            JavaScriptSerializer json = new JavaScriptSerializer()
+            var json = new JavaScriptSerializer()
             {
                 MaxJsonLength = int.MaxValue
             };
-            int param = 1;
-            if (Durum == "Tumu") { param = 0; }
-            else if (Durum == "Onay") { param = 1; }
-            else if (Durum == "Pasif") { param = 2; }
-            else if (Durum == "Aktif") { param = 3; }
-            else if (Durum == "Red") { param = 4; }
+            var param = 1;
+            if (Durum == "Tumu") param = 0;
+            else if (Durum == "Onay") param = 1;
+            else if (Durum == "Pasif") param = 2;
+            else if (Durum == "Aktif") param = 3;
+            else if (Durum == "Red") param = 4;
             var KOD = db.Database.SqlQuery<StokOnaySelect>(string.Format("[FINSAT6{0}].[wms].[StokOnaySelect] {1}", vUser.SirketKodu, param)).ToList();
             return json.Serialize(KOD);
         }
@@ -52,20 +52,21 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         /// </summary>
         public JsonResult Onay(string Data)
         {
-            Result _Result = new Result(true);
+            var _Result = new Result(true);
             if (CheckPerm(Perms.StokOnaylama, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
-            JArray parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
-            SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
+            var parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
+            var sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
             try
             {
                 Dictionary<string, int> FiyatMaxSiraNo = new Dictionary<string, int>();
                 foreach (JObject insertObj in parameters)
                 {
-                    DateTime date = DateTime.Now;
+                    var date = DateTime.Now;
                     var shortDate = date.ToString("yyyy-MM-dd");
                     var sonuc = sqlexper.AcceptChanges();
                     db.Database.ExecuteSqlCommand(string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[STK] SET AktifPasif = 0, CheckSum =1  where MalKodu = '{1}'", vUser.SirketKodu, insertObj["MalKodu"].ToString()));
                 }
+
                 _Result.Status = true;
                 _Result.Message = "İşlem Başarılı ";
             }
@@ -74,6 +75,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                 _Result.Status = false;
                 _Result.Message = "Hata Oluştu. ";
             }
+
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
         /// <summary>
@@ -81,21 +83,22 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         /// </summary>
         public JsonResult Red(string Data)
         {
-            Result _Result = new Result(true);
+            var _Result = new Result(true);
             if (CheckPerm(Perms.StokOnaylama, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
-            JArray parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
-            SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
+            var parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
+            var sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
 
             try
             {
                 Dictionary<string, int> FiyatMaxSiraNo = new Dictionary<string, int>();
                 foreach (JObject insertObj in parameters)
                 {
-                    DateTime date = DateTime.Now;
+                    var date = DateTime.Now;
                     var shortDate = date.ToString("yyyy-MM-dd");
                     var sonuc = sqlexper.AcceptChanges();
                     db.Database.ExecuteSqlCommand(string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[STK] SET AktifPasif = 0, CheckSum =-1  where MalKodu = '{1}'", vUser.SirketKodu, insertObj["MalKodu"].ToString()));
                 }
+
                 _Result.Status = true;
                 _Result.Message = "İşlem Başarılı ";
             }
@@ -104,6 +107,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                 _Result.Status = false;
                 _Result.Message = "Hata Oluştu. ";
             }
+
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
     }

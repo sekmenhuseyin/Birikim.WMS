@@ -16,15 +16,15 @@ namespace Wms12m.Presentation
         /// </summary>
         protected void Application_Start()
         {
-            //area kayıt
+            // area kayıt
             AreaRegistration.RegisterAllAreas();
-            //route kayıt
+            // route kayıt
             RouteConfig.RegisterRoutes(RouteTable.Routes);
-            //bundle create
+            // bundle create
             BundleConfig.RegisterBundles(BundleTable.Bundles);
-            //herkesi offline yap bir seferlik
+            // herkesi offline yap bir seferlik
             Statics.PutUsersOffline();
-            //remove the MVC header
+            // remove the MVC header
             MvcHandler.DisableMvcResponseHeader = true;
         }
         /// <summary>
@@ -49,17 +49,17 @@ namespace Wms12m.Presentation
         /// <summary>
         /// after login
         /// </summary>
-        protected void Application_PostAuthenticateRequest(Object sender, EventArgs e)
+        protected void Application_PostAuthenticateRequest(object sender, EventArgs e)
         {
-            HttpCookie authCookie = Request.Cookies[FormsAuthentication.FormsCookieName];
+            var authCookie = Request.Cookies[FormsAuthentication.FormsCookieName];
             if (authCookie != null)
                 try
                 {
-                    //serialize
+                    // serialize
                     var serializer = new JavaScriptSerializer();
-                    FormsAuthenticationTicket authTicket = FormsAuthentication.Decrypt(authCookie.Value);
+                    var authTicket = FormsAuthentication.Decrypt(authCookie.Value);
                     var serializeModel = serializer.Deserialize<CustomPrincipalSerializeModel>(authTicket.UserData);
-                    //create user
+                    // create user
                     var newUser = new CustomPrincipal(authTicket.Name) { AppIdentity = serializeModel.AppIdentity };
                     HttpContext.Current.User = newUser;
                 }

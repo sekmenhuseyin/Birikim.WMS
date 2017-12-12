@@ -18,7 +18,7 @@ namespace Wms12m
         /// <returns></returns>
         public static StyleBundle IncludeFallback(this StyleBundle bundle, string fallback, string className = null, string ruleName = null, string ruleValue = null)
         {
-            if (String.IsNullOrEmpty(bundle.CdnPath))
+            if (string.IsNullOrEmpty(bundle.CdnPath))
             {
                 throw new Exception("CdnPath must be provided when specifying a fallback");
             }
@@ -27,7 +27,7 @@ namespace Wms12m
             {
                 bundle.CdnFallbackExpress(fallback);
             }
-            else if (new[] { className, ruleName, ruleValue }.Any(String.IsNullOrEmpty))
+            else if (new[] { className, ruleName, ruleValue }.Any(string.IsNullOrEmpty))
             {
                 throw new Exception(
                     "IncludeFallback for cross-domain CdnPath must provide values for parameters [className, ruleName, ruleValue].");
@@ -40,15 +40,15 @@ namespace Wms12m
             return bundle;
         }
 
-        private static StyleBundle CdnFallbackExpress(this StyleBundle bundle, string fallback, string className = null, string ruleName = null, string ruleValue = null)
+        static StyleBundle CdnFallbackExpress(this StyleBundle bundle, string fallback, string className = null, string ruleName = null, string ruleValue = null)
         {
             bundle.Include(fallback);
 
             fallback = VirtualPathUtility.ToAbsolute(fallback);
 
-            bundle.CdnFallbackExpression = String.IsNullOrEmpty(className) ?
+            bundle.CdnFallbackExpression = string.IsNullOrEmpty(className) ?
 
-                String.Format(@"function() {{
+                string.Format(@"function() {{
                 var len = document.styleSheets.length;
                 for (var i = 0; i < len; i++) {{
                     var sheet = document.styleSheets[i];
@@ -64,7 +64,7 @@ namespace Wms12m
                 return true;
                 }}()", bundle.CdnPath, fallback) :
 
-                String.Format(@"function() {{
+                string.Format(@"function() {{
                 var loadFallback,
                     len = document.styleSheets.length;
                 for (var i = 0; i < len; i++) {{

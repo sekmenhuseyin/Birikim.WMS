@@ -37,7 +37,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         /// </summary>
         public PartialViewResult Edit(int? id)
         {
-            ProjeForm projeForm = db.ProjeForms.Find(id);
+            var projeForm = db.ProjeForms.Find(id);
             ViewBag.MusteriID = new SelectList(db.Musteris.OrderBy(m => m.Unvan).ToList(), "ID", "Firma", projeForm.MusteriID);
             ViewBag.Sorumlu = new SelectList(db.Users.ToList(), "Kod", "AdSoyad");
             ViewBag.RoleName = vUser.RoleName;
@@ -80,6 +80,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                         tbl.GitGuid = projeForm.GitGuid;
                     }
                 }
+
                 try
                 {
                     db.SaveChanges();
@@ -90,6 +91,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                 {
                 }
             }
+
             return Json(new Result(false, "Hata oldu"), JsonRequestBehavior.AllowGet);
         }
         /// <summary>
@@ -98,7 +100,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         public JsonResult Delete(string Id)
         {
             if (CheckPerm(Perms.TodoProje, PermTypes.Deleting) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
-            ProjeForm projeform = db.ProjeForms.Find(Id.ToInt32());
+            var projeform = db.ProjeForms.Find(Id.ToInt32());
             try
             {
                 db.ProjeForms.Remove(projeform);
@@ -119,7 +121,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             if (CheckPerm(Perms.TodoProje, PermTypes.Reading) == false) return null;
             var id = Url.RequestContext.RouteData.Values["id"];
             var ID = id.ToInt32();
-            ProjeForm projeForm = db.ProjeForms.Find(ID);
+            var projeForm = db.ProjeForms.Find(ID);
             ViewBag.id = ID;
             ViewBag.MusteriID = new SelectList(db.Musteris.Where(m => m.ID == projeForm.MusteriID).ToList(), "ID", "Unvan", projeForm.MusteriID);
             ViewBag.PID = new SelectList(db.ProjeForms.Where(x => x.PID == null).ToList(), "ID", "Proje", projeForm.ID);
@@ -148,7 +150,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         /// </summary>
         public PartialViewResult FormEdit(int? id)
         {
-            ProjeForm projeForm = db.ProjeForms.Find(id);
+            var projeForm = db.ProjeForms.Find(id);
             ViewBag.MusteriID = new SelectList(db.Musteris.Where(m => m.ID == projeForm.MusteriID).ToList(), "ID", "Unvan", projeForm.MusteriID);
             ViewBag.PID = new SelectList(db.ProjeForms.Where(x => x.PID == null).ToList(), "ID", "Proje", projeForm.PID);
             return PartialView(projeForm);
@@ -179,6 +181,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                     tbl.Aktif = projeForm.Aktif;
                     tbl.Form = projeForm.Form;
                 }
+
                 try
                 {
                     db.SaveChanges();
@@ -189,6 +192,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                 {
                 }
             }
+
             return Json(new Result(false, "Hata oldu"), JsonRequestBehavior.AllowGet);
         }
         /// <summary>
@@ -205,7 +209,6 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                                                                             GROUP BY ong.ProjeForm.ID, ong.ProjeForm.Proje
                                                                             ORDER BY ong.ProjeForm.Proje", ID)).ToList();
             return Json(list, JsonRequestBehavior.AllowGet);
-
         }
         /// <summary>
         /// formlar
@@ -220,7 +223,6 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                                                                             GROUP BY ID, Form
                                                                             ORDER BY Text", ID)).ToList();
             return Json(list, JsonRequestBehavior.AllowGet);
-
         }
         /// <summary>
         /// dosyalar

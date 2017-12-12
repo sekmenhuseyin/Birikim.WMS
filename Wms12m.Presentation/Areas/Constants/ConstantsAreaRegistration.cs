@@ -2,17 +2,11 @@
 
 namespace Wms12m.Presentation.Areas.Constants
 {
-    public class ConstantsAreaRegistration : AreaRegistration 
+    public class ConstantsAreaRegistration : AreaRegistration
     {
-        public override string AreaName 
-        {
-            get 
-            {
-                return "Constants";
-            }
-        }
+        public override string AreaName => "Constants";
 
-        public override void RegisterArea(AreaRegistrationContext context) 
+        public override void RegisterArea(AreaRegistrationContext context)
         {
             context.MapRoute(
                 "Constants_default",

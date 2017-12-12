@@ -13,14 +13,15 @@ namespace Wms12m.Business
         /// </summary>
         public override Result Operation(Combo_Name tbl)
         {
-            _Result = new Result(); bool eklemi = false;
-            //boş mu
+            _Result = new Result(); var eklemi = false;
+            // boş mu
             if (tbl.ComboName == "")
             {
                 _Result.Message = "Eksik Bilgi Girdiniz";
                 return _Result;
             }
-            //set details
+
+            // set details
             if (tbl.ID == 0)
             {
                 db.Combo_Name.Add(tbl);
@@ -31,11 +32,12 @@ namespace Wms12m.Business
                 var tmp = Detail(tbl.ID);
                 tmp.ComboName = tbl.ComboName;
             }
+
             try
             {
                 db.SaveChanges();
                 LogActions("Business", "Combo", "Operation", eklemi == true ? ComboItems.alEkle : ComboItems.alDüzenle, tbl.ID, tbl.ComboName);
-                //result
+                // result
                 _Result.Id = tbl.ID;
                 _Result.Message = "İşlem Başarılı !!!";
                 _Result.Status = true;
@@ -45,6 +47,7 @@ namespace Wms12m.Business
                 Logger(ex, "Business/Combo/Operation");
                 _Result.Message = "İşlem Hatalı: " + ex.Message;
             }
+
             return _Result;
         }
         /// <summary>
@@ -55,7 +58,7 @@ namespace Wms12m.Business
             _Result = new Result();
             try
             {
-                Combo_Name tbl = db.Combo_Name.Where(m => m.ID == Id).FirstOrDefault();
+                var tbl = db.Combo_Name.Where(m => m.ID == Id).FirstOrDefault();
                 if (tbl != null)
                 {
                     db.Combo_Name.Remove(tbl);
@@ -75,6 +78,7 @@ namespace Wms12m.Business
                 Logger(ex, "Business/Combo/Delete");
                 _Result.Message = ex.Message;
             }
+
             return _Result;
         }
         /// <summary>
@@ -95,16 +99,11 @@ namespace Wms12m.Business
         /// <summary>
         /// depo listesi
         /// </summary>
-        public override List<Combo_Name> GetList()
-        {
-            return db.Combo_Name.OrderBy(m => m.ComboName).ToList();
-        }
+        public override List<Combo_Name> GetList() => db.Combo_Name.OrderBy(m => m.ComboName).ToList();
+
         /// <summary>
         /// üst tabloya ait olanları getir
         /// </summary>
-        public override List<Combo_Name> GetList(int ParentId)
-        {
-            return GetList();
-        }
+        public override List<Combo_Name> GetList(int ParentId) => GetList();
     }
 }

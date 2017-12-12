@@ -6,10 +6,11 @@ namespace Wms12m.Security
     {
         public CustomPrincipal(string email)
         {
-            this.Identity = new GenericIdentity(email);
+            Identity = new GenericIdentity(email);
         }
         public IIdentity Identity { get; private set; }
-        public bool IsInRole(string role) { return false; }
+        public bool IsInRole(string role) => false;
+
         public Identity AppIdentity { get; set; }
     }
 }

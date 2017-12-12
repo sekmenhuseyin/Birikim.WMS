@@ -6,7 +6,7 @@ namespace Wms12m
 {
     public class Statics
     {
-        private static string uploadsDirectory = "/Content/Uploads/";
+        static string uploadsDirectory = "/Content/Uploads/";
         /// <summary>
         /// PutUsersOffline
         /// </summary>

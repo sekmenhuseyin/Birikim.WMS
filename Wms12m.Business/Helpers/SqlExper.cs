@@ -10,7 +10,6 @@ using Wms12m.Entity;
 
 namespace Wms12m
 {
-
     #region SqlExper Class
     /// <summary>
     /// SqlExper Sürüm 2.0.2 <br />
@@ -18,9 +17,7 @@ namespace Wms12m
     /// </summary>
     public class SqlExper
     {
-
         #region YAPICI METOT VE DEĞİŞKENLER
-
 
         /// <summary> bool param=true sadece diğer yapıcı metotla çakışmasın diye verildi.</summary>
         public SqlExper(string conStr, string sirketKodu)
@@ -30,9 +27,6 @@ namespace Wms12m
             SirketKodu = sirketKodu;
             SqlExKomutDizisi.Clear();
         }
-
-
-
 
         private SqlExper(SQLType SqlType = SQLType.NONE)
         {
@@ -73,12 +67,12 @@ namespace Wms12m
             NONE = 0, SELECT = 1, INSERT = 2, UPDATE = 3, DELETE = 4, KAYITVARMI = 5, KAYITADEDI = 6
         }
 
-        private List<object> Parametreler { get; set; }
-        private string SqlKomut { get; set; }
+        List<object> Parametreler { get; set; }
+        string SqlKomut { get; set; }
 
-        private List<SqlExper> SqlExKomutDizisi = new List<SqlExper>();
-        private string ConStr { get; set; }
-        private string SirketKodu { get; set; }
+        List<SqlExper> SqlExKomutDizisi = new List<SqlExper>();
+        string ConStr { get; set; }
+        string SirketKodu { get; set; }
 
         #endregion ///  YAPICI METOT VE DEĞİŞKENLER
 
@@ -88,15 +82,16 @@ namespace Wms12m
         /// DataContext ve ToDataTable() kullanılarak veri DataTable'a aktarılır.
         /// (100.000 satır STI ort: 18.2 sn 860 MB) 
         /// </summary>
-        /// <param name="Sorgu">Dikkat: Parametreleri çift paranteze alın. {{0}} olacak şekilde </param>
-        public DataTable SelectTable<T>(string Sorgu, params object[] Parametreler)
+        /// <param name="sorgu">Dikkat: Parametreleri çift paranteze alın. {{0}} olacak şekilde </param>
+        public DataTable SelectTable<T>(string sorgu, params object[] parametreler)
         {
-            Sorgu = string.Format(Sorgu, SirketKodu);
-            DataTable dt = new DataTable();
+            sorgu = string.Format(sorgu, SirketKodu);
+            var dt = new DataTable();
             using (DataContext Context = new DataContext(ConStr))
             {
-                dt = Context.ExecuteQuery<T>(Sorgu, Parametreler).ToList().ToDataTable();
+                dt = Context.ExecuteQuery<T>(sorgu, parametreler).ToList().ToDataTable();
             }
+
             return dt;
         }
 
@@ -108,11 +103,11 @@ namespace Wms12m
         public DataTable SelectTable(string Sorgu)
         {
             Sorgu = string.Format(Sorgu, SirketKodu);
-            DataTable dt = new DataTable();
+            var dt = new DataTable();
             using (SqlDataAdapter Adapter = new SqlDataAdapter(Sorgu, ConStr))
-            {
                 Adapter.Fill(dt);
-            }
+
+
             return dt;
         }
 
@@ -123,7 +118,7 @@ namespace Wms12m
         public DataSet SelectTables(string Sorgular, params string[] TabloAdlari)
         {
             Sorgular = string.Format(Sorgular, SirketKodu);
-            DataSet Dataset = new DataSet();
+            var Dataset = new DataSet();
 
             if (TabloAdlari.Length > 0)
             {
@@ -131,22 +126,21 @@ namespace Wms12m
                 {
                     Adapter.TableMappings.Add("Table", TabloAdlari[0]);
                     for (int i = 1; i < TabloAdlari.Length; i++)
-                    {
                         Adapter.TableMappings.Add("Table" + i.ToString(), TabloAdlari[i]);
-                    }
+
+
                     Adapter.Fill(Dataset);
                 }
             }
             else
             {
                 using (SqlDataAdapter Adapter = new SqlDataAdapter(Sorgular, ConStr))
-                {
                     Adapter.Fill(Dataset);
-                }
+
             }
+
             return Dataset;
         }
-
 
         /// <summary>
         /// En Hızlı List'e veri aktarım yöntemi.
@@ -159,9 +153,9 @@ namespace Wms12m
             Sorgu = string.Format(Sorgu, SirketKodu);
             List<T> Liste = new List<T>();
             using (DataContext Context = new DataContext(ConStr))
-            {
                 Liste = Context.ExecuteQuery<T>(Sorgu, Parametreler).ToList();
-            }
+
+
             return Liste;
         }
 
@@ -170,28 +164,27 @@ namespace Wms12m
             Sorgu = string.Format(Sorgu, SirketKodu);
             T nesne;
             using (DataContext Context = new DataContext(ConStr))
-            {
                 nesne = Context.ExecuteQuery<T>(Sorgu, Parametreler).FirstOrDefault();
-            }
+
+
             return nesne;
         }
 
-
         public List<T> SelectList<T>(int tip = 0, string Fields = "*", string Wheres = "1=1")
         {
-            SqlExper Sqlex = new SqlExper(SqlExper.SQLType.SELECT);
-            Type Tip = typeof(T);
-            T veri = Activator.CreateInstance<T>();
-            string Tablo = Tip.GetType().GetField("info_FullTableName", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(veri).ToString2();
+            var Sqlex = new SqlExper(SqlExper.SQLType.SELECT);
+            var Tip = typeof(T);
+            var veri = Activator.CreateInstance<T>();
+            var Tablo = Tip.GetType().GetField("info_FullTableName", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(veri).ToString2();
             Tablo = string.Format(Tablo, SirketKodu);
 
             Sqlex.SqlKomut = string.Format(Sqlex.SqlKomut, Fields, Tablo, Wheres);
 
             List<T> Liste = new List<T>();
             using (DataContext Context = new DataContext(ConStr))
-            {
                 Liste = Context.ExecuteQuery<T>(Sqlex.SqlKomut).ToList();
-            }
+
+
             return Liste;
         }
         #endregion  /// VERİ ÇEKME METOTLARI
@@ -205,13 +198,14 @@ namespace Wms12m
         public bool KayitVarMi(string Sorgu, params object[] Parametreler)
         {
             Sorgu = string.Format(Sorgu, SirketKodu);
-            SqlExper Sqlex = new SqlExper(SqlExper.SQLType.KAYITVARMI);
+            var Sqlex = new SqlExper(SqlExper.SQLType.KAYITVARMI);
             Sqlex.SqlKomut = string.Format(Sqlex.SqlKomut, Sorgu);
-            bool Varmi = false;
+            var Varmi = false;
             using (DataContext Context = new DataContext(ConStr))
             {
                 Varmi = Context.ExecuteQuery<bool>(Sqlex.SqlKomut, Parametreler).FirstOrDefault().ToBool();
             }
+
             return Varmi;
         }
 
@@ -223,20 +217,19 @@ namespace Wms12m
         /// </summary>
         public bool KayitVarMi(object Nesne, string sirketKodu = null)
         {
-            if (sirketKodu.IsNull())
-                sirketKodu = SirketKodu;
+            if (sirketKodu.IsNull()) sirketKodu = SirketKodu;
 
-            string Wheres = string.Empty;
-            SqlExper Sqlex = new SqlExper(SqlExper.SQLType.SELECT);
-            string Tablo = Nesne.GetType().GetField("info_FullTableName", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(Nesne).ToString2();
+            var Wheres = string.Empty;
+            var Sqlex = new SqlExper(SqlExper.SQLType.SELECT);
+            var Tablo = Nesne.GetType().GetField("info_FullTableName", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(Nesne).ToString2();
             Tablo = string.Format(Tablo, sirketKodu);
             List<string> ChangedProperties = (List<string>)Nesne.GetType().GetField("ChangedProperties", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(Nesne);
             List<string> WhereList = (List<string>)Nesne.GetType().GetField("WhereList", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(Nesne);
 
-            int sayac = 0;
+            var sayac = 0;
             foreach (var pi in Nesne.GetType().GetProperties())
             {
-                string orjPropName = "";
+                var orjPropName = "";
                 ///Primary key dahil değer girilmiş tüm alanlar
                 if (ChangedProperties.Contains(pi.Name))
                 {
@@ -265,14 +258,14 @@ namespace Wms12m
             Wheres = Wheres.Remove(Wheres.Length - 4, 4);
             Sqlex.SqlKomut = string.Format(Sqlex.SqlKomut, "*", Tablo, Wheres);
 
-
-            SqlExper SqlexKayitVarmi = new SqlExper(SqlExper.SQLType.KAYITVARMI);
+            var SqlexKayitVarmi = new SqlExper(SqlExper.SQLType.KAYITVARMI);
             SqlexKayitVarmi.SqlKomut = string.Format(SqlexKayitVarmi.SqlKomut, Sqlex.SqlKomut);
-            bool Varmi = false;
+            var Varmi = false;
             using (DataContext Context = new DataContext(ConStr))
             {
                 Varmi = Context.ExecuteQuery<bool>(SqlexKayitVarmi.SqlKomut, Sqlex.Parametreler.ToArray()).FirstOrDefault().ToBool();
             }
+
             return Varmi;
         }
 
@@ -284,13 +277,14 @@ namespace Wms12m
         public int KayitAdedi(string Sorgu, params object[] Parametreler)
         {
             Sorgu = string.Format(Sorgu, SirketKodu);
-            SqlExper Sqlex = new SqlExper(SqlExper.SQLType.KAYITADEDI);
+            var Sqlex = new SqlExper(SqlExper.SQLType.KAYITADEDI);
             Sqlex.SqlKomut = string.Format(Sqlex.SqlKomut, Sorgu);
-            int Adet = 0;
+            var Adet = 0;
             using (DataContext Context = new DataContext(ConStr))
             {
                 Adet = Context.ExecuteQuery<int>(Sqlex.SqlKomut, Parametreler).FirstOrDefault().ToInt32();
             }
+
             return Adet;
         }
 
@@ -302,21 +296,19 @@ namespace Wms12m
         /// </summary>
         public int KayitAdedi(object Nesne, string sirketKodu = null)
         {
-            if (sirketKodu.IsNull())
-                sirketKodu = SirketKodu;
+            if (sirketKodu.IsNull()) sirketKodu = SirketKodu;
 
-            string Wheres = string.Empty;
-            SqlExper Sqlex = new SqlExper(SqlExper.SQLType.SELECT);
-            string Tablo = Nesne.GetType().GetField("info_FullTableName", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(Nesne).ToString2();
+            var Wheres = string.Empty;
+            var Sqlex = new SqlExper(SqlExper.SQLType.SELECT);
+            var Tablo = Nesne.GetType().GetField("info_FullTableName", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(Nesne).ToString2();
             Tablo = string.Format(Tablo, sirketKodu);
             List<string> ChangedProperties = (List<string>)Nesne.GetType().GetField("ChangedProperties", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(Nesne);
             List<string> WhereList = (List<string>)Nesne.GetType().GetField("WhereList", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(Nesne);
 
-
-            int sayac = 0;
+            var sayac = 0;
             foreach (var pi in Nesne.GetType().GetProperties())
             {
-                string orjPropName = "";
+                var orjPropName = "";
                 ///Primary key dahil değer girilmiş tüm alanlar
                 if (ChangedProperties.Contains(pi.Name))
                 {
@@ -337,7 +329,6 @@ namespace Wms12m
                 }
             }
 
-
             foreach (var item in WhereList)
                 Wheres += " " + item;
 
@@ -346,14 +337,14 @@ namespace Wms12m
             Wheres = Wheres.Remove(Wheres.Length - 4, 4);
             Sqlex.SqlKomut = string.Format(Sqlex.SqlKomut, "*", Tablo, Wheres);
 
-
-            SqlExper SqlexKayitVarmi = new SqlExper(SqlExper.SQLType.KAYITADEDI);
+            var SqlexKayitVarmi = new SqlExper(SqlExper.SQLType.KAYITADEDI);
             SqlexKayitVarmi.SqlKomut = string.Format(SqlexKayitVarmi.SqlKomut, Sqlex.SqlKomut);
-            int Adet = 0;
+            var Adet = 0;
             using (DataContext Context = new DataContext(ConStr))
             {
                 Adet = Context.ExecuteQuery<int>(SqlexKayitVarmi.SqlKomut, Sqlex.Parametreler.ToArray()).FirstOrDefault().ToInt32();
             }
+
             return Adet;
         }
         #endregion /// BİLGİ METOTLARI
@@ -365,7 +356,7 @@ namespace Wms12m
         ///</summary>
         public void Komut(string Komut, params object[] Parametreler)
         {
-            SqlExper sqlex = new SqlExper(SQLType.NONE);
+            var sqlex = new SqlExper(SQLType.NONE);
             Komut = string.Format(Komut, SirketKodu);
             sqlex.SqlKomut = Komut;
             sqlex.Parametreler = Parametreler.ToList();
@@ -377,28 +368,25 @@ namespace Wms12m
         public short IndexValue = 0;
         public void Insert(object Nesne, List<Prop> FieldExtra = null, string sirketKodu = null, params string[] istisnalar)
         {
-            if (sirketKodu.IsNull())
-                sirketKodu = SirketKodu;
+            if (sirketKodu.IsNull()) sirketKodu = SirketKodu;
 
-            SqlExper Sqlex = new SqlExper(SqlExper.SQLType.INSERT);
+            var Sqlex = new SqlExper(SqlExper.SQLType.INSERT);
             string Fields = "", Values = "";
-            string Tablo = Nesne.GetType().GetField("info_FullTableName", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(Nesne).ToString2();
+            var Tablo = Nesne.GetType().GetField("info_FullTableName", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(Nesne).ToString2();
             Tablo = string.Format(Tablo, sirketKodu);
             string[] iKeys = (string[])Nesne.GetType().GetField("info_IdentityKeys", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(Nesne);
             List<string> Istisnalar = new List<string>(istisnalar);
             Istisnalar.AddRange(iKeys);
 
-            int sayac = 0;
+            var sayac = 0;
             foreach (var pi in Nesne.GetType().GetProperties())
             {
-                if (Istisnalar.Contains(pi.Name))
-                    continue;
+                if (Istisnalar.Contains(pi.Name)) continue;
 
                 if (pi.Name.Length > 2 && pi.Name.Substring(0, 3) == "pk_")
                     continue;
 
-                if (!pi.CanWrite)
-                    continue;
+                if (!pi.CanWrite) continue;
 
                 if (pi.GetValue(Nesne, null).IsNull())
                 {
@@ -442,7 +430,6 @@ namespace Wms12m
                         Values += fieldEx.DefaultValue + ",";
                     }
                 }
-
             }
 
             Fields = Fields.Remove(Fields.Length - 1, 1);
@@ -460,12 +447,11 @@ namespace Wms12m
         /// </summary>
         public void Update(object Nesne, string SetsEk = null, string sirketKodu = null, bool PKeyZorunlu = false, params string[] istisnalar)
         {
-            if (sirketKodu.IsNull())
-                sirketKodu = SirketKodu;
+            if (sirketKodu.IsNull()) sirketKodu = SirketKodu;
 
             string Sets = string.Empty, Wheres = string.Empty;
-            SqlExper Sqlex = new SqlExper(SqlExper.SQLType.UPDATE);
-            string Tablo = Nesne.GetType().GetField("info_FullTableName", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(Nesne).ToString2();
+            var Sqlex = new SqlExper(SqlExper.SQLType.UPDATE);
+            var Tablo = Nesne.GetType().GetField("info_FullTableName", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(Nesne).ToString2();
             Tablo = string.Format(Tablo, sirketKodu);
             List<string> ChangedProperties = (List<string>)Nesne.GetType().GetField("ChangedProperties", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(Nesne);
             List<string> WhereList = (List<string>)Nesne.GetType().GetField("WhereList", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(Nesne);
@@ -475,12 +461,11 @@ namespace Wms12m
             List<string> Istisnalar = new List<string>(istisnalar);
             Istisnalar.AddRange(iKeys);
 
-            int sayac = 0;
-            string orjPropName = "";
+            var sayac = 0;
+            var orjPropName = "";
             foreach (var pi in Nesne.GetType().GetProperties())
             {
-                if (Istisnalar.Contains(pi.Name))
-                    continue;
+                if (Istisnalar.Contains(pi.Name)) continue;
 
                 ///Primary keylerde identity key değilse update edilebilir
                 if ((!pKeys.Contains(pi.Name)) && ChangedProperties.Contains(pi.Name))
@@ -523,8 +508,7 @@ namespace Wms12m
             foreach (var item in WhereList)
                 Wheres += " " + item;
 
-            if (SetsEk != null)
-                Sets += SetsEk;
+            if (SetsEk != null) Sets += SetsEk;
 
             if (Sets.Length < 1)
                 throw new Exception("Güncellenecek herhangi bir alan belirtilmemiş !");
@@ -544,22 +528,21 @@ namespace Wms12m
         /// </summary>
         public void Delete(object Nesne, string sirketKodu = null, bool PKeyZorunlu = false)
         {
-            if (sirketKodu.IsNull())
-                sirketKodu = SirketKodu;
+            if (sirketKodu.IsNull()) sirketKodu = SirketKodu;
 
-            string Wheres = string.Empty;
-            SqlExper Sqlex = new SqlExper(SqlExper.SQLType.DELETE);
-            string Tablo = Nesne.GetType().GetField("info_FullTableName", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(Nesne).ToString2();
+            var Wheres = string.Empty;
+            var Sqlex = new SqlExper(SqlExper.SQLType.DELETE);
+            var Tablo = Nesne.GetType().GetField("info_FullTableName", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(Nesne).ToString2();
             Tablo = string.Format(Tablo, sirketKodu);
             List<string> ChangedProperties = (List<string>)Nesne.GetType().GetField("ChangedProperties", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(Nesne);
-            //List<string> WhereList = (List<string>)Nesne.GetType().GetField("WhereList", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(Nesne);
+            // List<string> WhereList = (List<string>)Nesne.GetType().GetField("WhereList", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(Nesne);
 
-            int sayac = 0;
+            var sayac = 0;
             foreach (var pi in Nesne.GetType().GetProperties())
             {
                 if (pi.Name.Length > 2 && pi.Name.Substring(0, 3) == "pk_" && ChangedProperties.Contains(pi.Name))
                 {
-                    string orjPropName = "";
+                    var orjPropName = "";
                     orjPropName = pi.Name;
                     orjPropName = orjPropName.Remove(0, 3);
                     if (pi.GetValue(Nesne, null).IsNull())
@@ -578,7 +561,7 @@ namespace Wms12m
                 }
             }
 
-            //foreach (var item in WhereList)
+            // foreach (var item in WhereList)
             //    Wheres += " " + item;
 
             if (Wheres.Length < 2)
@@ -594,9 +577,9 @@ namespace Wms12m
         {
             List<string> Liste = new List<string>();
             foreach (var item in SqlExKomutDizisi)
-            {
                 Liste.Add(string.Format(item.SqlKomut, item.Parametreler.ToArray()));
-            }
+
+
             return Liste;
         }
 
@@ -609,10 +592,10 @@ namespace Wms12m
                     using (DataContext Context = new DataContext(ConStr))
                     {
                         foreach (SqlExper item in SqlExKomutDizisi)
-                        {
                             Context.ExecuteCommand(item.SqlKomut, item.Parametreler.ToArray());
-                        }
+
                     }
+
                     Scope.Complete();
                     SqlExKomutDizisi.Clear();
                     return new Result(true);
@@ -635,7 +618,6 @@ namespace Wms12m
         }
 
         #endregion  /// VERİ İŞLEME METOTLARI
-
     }
 
     #endregion /// SqlExper Class
@@ -685,7 +667,7 @@ namespace Wms12m
     {
         internal static string ObjectSetFormat(this object Deger)
         {
-            string text = "";
+            var text = "";
             if (Deger.GetType().IsEnum)
             {
                 if (Deger.GetType().Name == "SetIslem")
@@ -715,12 +697,13 @@ namespace Wms12m
             {
                 text = string.Format("'{0}'", Deger.ToString().Replace(',', '.'));
             }
+
             return text;
         }
 
         internal static string ObjectWhereFormat(this object Deger)
         {
-            string text = "";
+            var text = "";
             if (Deger.GetType().IsEnum)
             {
                 if (Deger.GetType().Name == "Islem")
@@ -766,21 +749,12 @@ namespace Wms12m
                 }
                 else if (Deger.GetType().Name == "Operand")
                 {
-                    if (Deger.ToString() == "ParAc")
-                    {
-                        text = "(";
-                    }
-                    else if (Deger.ToString() == "ParKapa")
-                    {
-                        text = ")";
-                    }
+                    if (Deger.ToString() == "ParAc") text = "(";
+                    else if (Deger.ToString() == "ParKapa") text = ")";
+                    else if (Deger.ToString() == "OR")
+                        text = " " + Deger.ToString();
                     else
-                    {
-                        if (Deger.ToString() == "OR")
-                            text = " " + Deger.ToString();
-                        else
-                            text = Deger.ToString();
-                    }
+                        text = Deger.ToString();
                 }
                 else
                 {
@@ -791,16 +765,16 @@ namespace Wms12m
             {
                 text = string.Format("'{0}'", Deger.ToString().Replace(',', '.'));
             }
+
             return text;
         }
     }
-
 
     public class SqlExperOperatorIslem
     {
         public static string WhereAdd(params object[] Degerler)
         {
-            string where = string.Empty;
+            var where = string.Empty;
 
             if (Degerler.Length < 3 || Degerler.Length > 9)
             {
@@ -874,9 +848,9 @@ namespace Wms12m
                                                                              Degerler[4].ObjectWhereFormat(), Degerler[5].ObjectWhereFormat(),
                                                                              Degerler[6].ObjectWhereFormat(), Degerler[7].ObjectWhereFormat(), Degerler[8].ObjectWhereFormat());
             }
+
             return where;
         }
-
 
         public static string WhereAdd(string Property, object Deger, Operand And_Or = Operand.AND)
         {
@@ -966,8 +940,8 @@ namespace Wms12m
                     throw new Exception("Bu metod sadece In ve Not In operatörleri için kullanılabilir !");
             }
 
-            string degerler = string.Empty;
-            string sonOperand = "AND";
+            var degerler = string.Empty;
+            var sonOperand = "AND";
             foreach (var item in Degerler_AndOr)
             {
                 if (!item.GetType().IsEnum)
@@ -984,6 +958,7 @@ namespace Wms12m
                     }
                 }
             }
+
             if (sonOperand == "OR")
                 sonOperand = " " + sonOperand;
 
@@ -994,7 +969,7 @@ namespace Wms12m
 
         public static string SetAdd(string Property, params object[] Degerler)
         {
-            string set = string.Empty;
+            var set = string.Empty;
 
             if (Degerler.Length == 0)
             {
@@ -1045,18 +1020,15 @@ namespace Wms12m
                     throw new Exception("SetAdd metodunda 3, 5 ve 7 parametreler SetIslem tipinde enum olmak zorundadır !");
                 }
             }
+
             return set;
         }
-
     }
     #endregion /// SqlExper'a Yardımcı Enum ve Classlar
-
 
     public class Prop
     {
         public string FieldName { get; set; }
         public object DefaultValue { get; set; }
-
     }
-
 }

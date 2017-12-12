@@ -26,13 +26,15 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         [HttpPost]
         public PartialViewResult List(string Id)
         {
-            //dbler tempe aktarılıyor
+            // dbler tempe aktarılıyor
             var list = db.GetSirketDBs();
             List<string> liste = new List<string>();
-            foreach (var item in list) { liste.Add(item); }
+            foreach (var item in list) liste.Add(item);
+
+
             ViewBag.Sirket = liste;
             ViewBag.Manual = false;
-            //id'ye göre liste döner
+            // id'ye göre liste döner
             string[] ids = Id.Split('#');
             try
             {
@@ -77,15 +79,17 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         [HttpPost]
         public PartialViewResult CableList(string Id)
         {
-            //dbler tempe aktarılıyor
+            // dbler tempe aktarılıyor
             var list = db.GetSirketDBs();
             List<string> liste = new List<string>();
-            foreach (var item in list) { liste.Add(item); }
+            foreach (var item in list) liste.Add(item);
+
+
             ViewBag.Sirket = liste;
             ViewBag.Manual = false;
-            //id'ye göre liste döner
+            // id'ye göre liste döner
             string[] ids = Id.Split('#');
-            string sirketkodu = vUser.SirketKodu;
+            var sirketkodu = vUser.SirketKodu;
             string sql; string var;
             if (ids[2] != "0" && ids[2] != "null" && ids[2].ToString2() != "") //bir kattaki ait malzemeler
             {
@@ -102,6 +106,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                 sql = "wms.Yer.DepoID";
                 var = ids[0].ToString2();
             }
+
             try
             {
                 sql = string.Format("SELECT wms.Yer.ID, wms.Yer.KatID, wms.Yer.DepoID, wms.Yer.HucreAd, wms.Yer.MalKodu, wms.Yer.Miktar, wms.Yer.Birim, wms.Yer.MakaraNo, FINSAT6{0}.FINSAT6{0}.STK.MalAdi4 as Marka, FINSAT6{0}.FINSAT6{0}.STK.Nesne2 as Cins, FINSAT6{0}.FINSAT6{0}.STK.Kod15 as Kesit " +
@@ -148,9 +153,9 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             var ids = Id.Split('#');
             var depoID = ids[1].ToInt32();
             var depoKodu = Store.Detail(depoID).DepoKodu;
-            string kod = ids[0];
-            string sql = "";
-            //get stok from finsat
+            var kod = ids[0];
+            var sql = "";
+            // get stok from finsat
             var tmps = db.GetSirketDBs();
             foreach (var item in tmps)
             {
@@ -159,8 +164,9 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                     "FROM FINSAT6{0}.FINSAT6{0}.DST INNER JOIN FINSAT6{0}.FINSAT6{0}.STK ON FINSAT6{0}.FINSAT6{0}.DST.MalKodu = FINSAT6{0}.FINSAT6{0}.STK.MalKodu " +
                     "WHERE (FINSAT6{0}.FINSAT6{0}.DST.Depo = '{1}') AND (FINSAT6{0}.FINSAT6{0}.DST.MalKodu = '{2}') AND (FINSAT6{0}.FINSAT6{0}.DST.DvrMiktar + FINSAT6{0}.FINSAT6{0}.DST.GirMiktar - FINSAT6{0}.FINSAT6{0}.DST.CikMiktar > 0)", item, depoKodu, kod);
             }
+
             sql = "SELECT ISNULL(SUM(Stok),0) as Stok from (" + sql + ")t";
-            //return
+            // return
             var list = db.Yer_Log.Where(m => m.MalKodu == kod && m.DepoID == depoID).OrderBy(m => m.KayitTarihi).ThenBy(m => m.KayitSaati).ThenBy(m => m.ID).ToList();
             ViewBag.Stok = db.Database.SqlQuery<decimal>(sql).FirstOrDefault();
             if (list.Count != 0)
@@ -172,6 +178,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             {
                 ViewBag.RezervMiktar = 0;
             }
+
             return PartialView("HistoryList", list);
         }
         /// <summary>
@@ -193,7 +200,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         public JsonResult ManualPlacement(Yer tbl, bool GC)
         {
             if (CheckPerm(Perms.Stok, PermTypes.Writing) == false || tbl.Miktar < 0) return Json(false, JsonRequestBehavior.AllowGet);
-            //yerleştirme kaydı yapılır
+            // yerleştirme kaydı yapılır
             if (GC == false)
             {
                 if (tbl.MakaraNo == "" || tbl.MakaraNo == null)
@@ -204,6 +211,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                         tbl.MakaraNo = "Boş-" + db.SettingsMakaraNo(tbl.DepoID).FirstOrDefault();
                     }
                 }
+
                 if (tbl.MakaraNo == "" || tbl.MakaraNo == null)
                 {
                     var tmp2 = Yerlestirme.Detail(tbl.KatID, tbl.MalKodu, tbl.Birim);
@@ -246,18 +254,20 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                         return Json(new Result(false, "Bu makara no kullanılmaktadır"), JsonRequestBehavior.AllowGet);
                     }
                 }
-                //add to mysql
+
+                // add to mysql
                 if (db.Settings.FirstOrDefault().KabloSiparisMySql == true)
                 {
                     var listedb = db.GetSirketDBs().ToList();
-                    string sql = "";
+                    var sql = "";
                     foreach (var item in listedb)
                     {
                         if (sql != "") sql += " UNION ";
-                        sql += String.Format("SELECT FINSAT6{0}.FINSAT6{0}.STK.MalAdi4 as Marka, FINSAT6{0}.FINSAT6{0}.STK.Nesne2 as Cins, FINSAT6{0}.FINSAT6{0}.STK.Kod15 as Kesit " +
+                        sql += string.Format("SELECT FINSAT6{0}.FINSAT6{0}.STK.MalAdi4 as Marka, FINSAT6{0}.FINSAT6{0}.STK.Nesne2 as Cins, FINSAT6{0}.FINSAT6{0}.STK.Kod15 as Kesit " +
                                             "FROM FINSAT6{0}.FINSAT6{0}.STK " +
                                             "WHERE (FINSAT6{0}.FINSAT6{0}.STK.Kod1 = 'KKABLO') AND (FINSAT6{0}.FINSAT6{0}.STK.MalKodu = '{1}')", item, tbl.MalKodu);
                     }
+
                     sql = "SELECT * from (" + sql + ") t";
                     var stks = db.Database.SqlQuery<frmCableStk>(sql).FirstOrDefault();
                     if (stks != null)
@@ -272,7 +282,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                             {
                                 if (GC == false)
                                 {
-                                    //sid bul
+                                    // sid bul
                                     var sid = dbx.indices.Where(m => m.cins == stks.Cins && m.kesit == stks.Kesit).FirstOrDefault();
                                     if (sid == null)
                                     {
@@ -280,8 +290,9 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                                         dbx.indices.Add(sid);
                                         dbx.SaveChanges();
                                     }
-                                    //stoğa kaydet
-                                    stok tbls = new stok()
+
+                                    // stoğa kaydet
+                                    var tbls = new stok()
                                     {
                                         marka = stks.Marka,
                                         cins = stks.Cins,
@@ -303,12 +314,13 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                                 else
                                 {
                                 }
+
                                 dbx.SaveChanges();
                             }
                             catch (Exception ex)
                             {
                                 Logger(ex, "Stock/ManualPlacement");
-                                //return Json(new Result(false, "Kablo kaydı hariç her şey tamamlandı!"), JsonRequestBehavior.AllowGet);
+                                // return Json(new Result(false, "Kablo kaydı hariç her şey tamamlandı!"), JsonRequestBehavior.AllowGet);
                             }
                         }
                     }
@@ -337,7 +349,8 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                     Yerlestirme.Update(tmp2, vUser.Id, "Stok Elle Çıkartma", tbl.Miktar, true);
                 }
             }
-            //return
+
+            // return
             return Json(new Result(true), JsonRequestBehavior.AllowGet);
         }
         /// <summary>
@@ -360,32 +373,33 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         {
             if (CheckPerm(Perms.Stok, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             if (tbl.Miktar < 1) return Json(new Result(false, "Miktar hatalı"), JsonRequestBehavior.AllowGet);
-            //burada görev oluştur
+            // burada görev oluştur
             var ilk = Yerlestirme.Detail(tbl.ID);
             if (ilk.Miktar < tbl.Miktar || tbl.Miktar < 1)
                 return Json(new Result(false, "Miktar hatalı yazılmış"), JsonRequestBehavior.AllowGet);
-            int today = fn.ToOADate();
-            int time = fn.ToOATime();
+            var today = fn.ToOADate();
+            var time = fn.ToOATime();
             try
             {
-                //ilk önce görevler ve irsaliye kaydedilir
-                string GorevÇıkNo = db.SettingsGorevNo(today, ilk.DepoID).FirstOrDefault();
-                string GorevGirNo = db.SettingsGorevNo(today, ilk.DepoID).FirstOrDefault();
+                // ilk önce görevler ve irsaliye kaydedilir
+                var GorevÇıkNo = db.SettingsGorevNo(today, ilk.DepoID).FirstOrDefault();
+                var GorevGirNo = db.SettingsGorevNo(today, ilk.DepoID).FirstOrDefault();
                 var cevapGir = db.InsertIrsaliye(vUser.SirketKodu, ilk.DepoID, GorevGirNo, GorevGirNo, today, "Yer Değiştir", true, ComboItems.TransferGiriş.ToInt32(), vUser.UserName, today, time, "Yer Değiştir", "", 0, "", "").FirstOrDefault();
                 var cevapÇık = db.InsertIrsaliye(vUser.SirketKodu, ilk.DepoID, GorevÇıkNo, GorevGirNo, today, "Yer Değiştir", true, ComboItems.TransferÇıkış.ToInt32(), vUser.UserName, today, time, "Yer Değiştir", "", 0, cevapGir.GorevID.Value.ToString(), "").FirstOrDefault();
-                //GorevYer tablosu - çıkış
+                // GorevYer tablosu - çıkış
                 var cevap = TaskYer.Operation(new GorevYer() { GorevID = cevapÇık.GorevID.Value, YerID = ilk.ID, MalKodu = ilk.MalKodu, Birim = ilk.Birim, Miktar = tbl.Miktar, GC = true });
-                //giriş
+                // giriş
                 var yertmp = Yerlestirme.Detail(tbl.KatID, ilk.MalKodu, ilk.Birim);
                 if (yertmp == null)
                 {
                     cevap = Yerlestirme.Insert(new Yer() { KatID = tbl.KatID, MalKodu = ilk.MalKodu, Birim = ilk.Birim, Miktar = 0 }, vUser.Id, "Yer Değiştir");
                     yertmp = new Yer() { ID = cevap.Id };
                 }
+
                 cevap = TaskYer.Operation(new GorevYer() { GorevID = cevapGir.GorevID.Value, YerID = yertmp.ID, MalKodu = ilk.MalKodu, Birim = ilk.Birim, Miktar = tbl.Miktar, GC = false });
-                //irs detay
+                // irs detay
                 cevap = IrsaliyeDetay.Operation(new IRS_Detay() { IrsaliyeID = cevapGir.IrsaliyeID.Value, MalKodu = ilk.MalKodu, Miktar = tbl.Miktar, Birim = ilk.Birim, KynkSiparisID = tbl.KatID });
-                //return
+                // return
                 return Json(new Result(true), JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
@@ -417,10 +431,9 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             var id = Url.RequestContext.RouteData.Values["id"];
             if (id == null || id.ToString2() == "") return null;
             var ID = id.ToInt32();
-            //listeyi getir
+            // listeyi getir
             var list = db.IRS.Where(m => m.ID == ID).FirstOrDefault();
-            if (list == null)
-                return null;
+            if (list == null) return null;
             return PartialView("Details", list);
         }
         /// <summary>
@@ -438,8 +451,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         public PartialViewResult GetRezerv2(string MalKodu, int Depo, string Birim)
         {
             var list = db.GetStockRezerv2(Depo, MalKodu, Birim).ToList();
-            if (list == null)
-                return null;
+            if (list == null) return null;
             return PartialView("Rezervler", list);
         }
         /// <summary>
@@ -458,18 +470,18 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         public PartialViewResult ComparisonList(string Id)
         {
             var ids = Id.Split('#');
-            string BasMalKodu = ids[0];
-            string BitMalKodu = ids[1];
+            var BasMalKodu = ids[0];
+            var BitMalKodu = ids[1];
             var depoID = ids[2].ToInt32();
             var depoKodu = Store.Detail(depoID).DepoKodu;
-            //generate sql
-            string sql = "";
+            // generate sql
+            var sql = "";
             var listsirk = db.GetSirketDBs();
-            string Sart = "";
+            var Sart = "";
 
             foreach (var item in listsirk)
             {
-                //TODO: şirket ayrımı
+                // TODO: şirket ayrımı
                 if (item == "33")
                     Sart = " (MalKodu BETWEEN 'a' AND 'zzzzzz') AND ";
                 else if (item == "71")
@@ -478,13 +490,14 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                     Sart = "";
 
                 if (sql != "") sql += " UNION ";
-                sql += String.Format(@"SELECT FINSAT6{0}.FINSAT6{0}.STK.MalKodu, FINSAT6{0}.FINSAT6{0}.STK.MalAdi, FINSAT6{0}.FINSAT6{0}.STK.Birim1 AS Birim, FINSAT6{0}.wms.getStockByDepo(FINSAT6{0}.FINSAT6{0}.STK.MalKodu, '{1}') as Stok
+                sql += string.Format(@"SELECT FINSAT6{0}.FINSAT6{0}.STK.MalKodu, FINSAT6{0}.FINSAT6{0}.STK.MalAdi, FINSAT6{0}.FINSAT6{0}.STK.Birim1 AS Birim, FINSAT6{0}.wms.getStockByDepo(FINSAT6{0}.FINSAT6{0}.STK.MalKodu, '{1}') as Stok
 										FROM FINSAT6{0}.FINSAT6{0}.STK(NOLOCK) WHERE {4} (MalKodu BETWEEN '{2}' AND '{3}') ", item, depoKodu, BasMalKodu, BitMalKodu, Sart);
             }
+
             sql = string.Format(@"SELECT MalKodu, MalAdi, Birim, SUM(Stok) AS GunesStok, BIRIKIM.wms.fnGetStock('{0}', t1.MalKodu, t1.Birim, 0) AS WmsStok 
 									FROM (" + sql + ") AS t1 GROUP BY MalKodu, MalAdi, Birim", depoKodu);
             sql = "SELECT * FROM ( " + sql + " ) AS t2 WHERE t2.GunesStok<>t2.WmsStok ORDER BY MalKodu";
-            //return
+            // return
             var list = db.Database.SqlQuery<frmSiparisMalzemeDetay>(sql).ToList();
             return PartialView("ComparisonList", list);
         }

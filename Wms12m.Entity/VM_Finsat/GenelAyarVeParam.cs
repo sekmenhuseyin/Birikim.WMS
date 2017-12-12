@@ -66,7 +66,6 @@ namespace Wms12m.Entity
         public string Tip2Ack { get; set; }
     }
 
-
     public class RaporFTD
     {
         public string DovizCinsi { get; set; }
@@ -129,7 +128,6 @@ namespace Wms12m.Entity
 
         public short IslemTip { get; set; }
     }
-
 
     public class SatinalmaRaporData
     {

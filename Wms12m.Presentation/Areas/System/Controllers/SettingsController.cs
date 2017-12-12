@@ -51,6 +51,7 @@ namespace Wms12m.Presentation.Areas.System.Controllers
                 set.Aktif = tbl.Aktif;
                 db.SaveChanges();
             }
+
             return Redirect(Request.UrlReferrer.ToString());
         }
         /// <summary>
@@ -67,7 +68,7 @@ namespace Wms12m.Presentation.Areas.System.Controllers
         public JsonResult RunSql(string Sql)
         {
             if (CheckPerm(Perms.Menü, PermTypes.Deleting) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
-            int r = 0;
+            var r = 0;
             try
             {
                 r = db.Database.ExecuteSqlCommand(Sql);
@@ -77,6 +78,7 @@ namespace Wms12m.Presentation.Areas.System.Controllers
                 Logger(ex, "System/Settings/RunSql");
                 return Json(new Result(false, ex.Message), JsonRequestBehavior.AllowGet);
             }
+
             return Json(new Result(true, r.ToString()), JsonRequestBehavior.AllowGet);
         }
     }

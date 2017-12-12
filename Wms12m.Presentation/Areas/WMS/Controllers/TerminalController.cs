@@ -42,7 +42,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             var id = Url.RequestContext.RouteData.Values["id"];
             if (id == null || id.ToString2() == "") return null;
             if (CheckPerm(Perms.TerminalİçinYetkilendirme, PermTypes.Reading) == false) return null;
-            //return
+            // return
             var tbl = PersonDetails.Detail(id.ToInt32());
             ViewBag.DepoID = new SelectList(Store.GetList(), "ID", "DepoAd", tbl.DepoID);
             ViewBag.UserID = new SelectList(db.Users.Where(m => m.ID == tbl.UserID).ToList(), "ID", "AdSoyad");
@@ -56,7 +56,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             var id = Url.RequestContext.RouteData.Values["id"];
             if (id == null || id.ToString2() == "") return null;
             if (CheckPerm(Perms.TerminalİçinYetkilendirme, PermTypes.Reading) == false) return null;
-            //return
+            // return
             var tbl = Persons.Detail(id.ToInt32());
             return PartialView("Barcode", tbl);
         }
@@ -67,7 +67,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         public ActionResult Save(UserDetail tbl)
         {
             if (CheckPerm(Perms.TerminalİçinYetkilendirme, PermTypes.Writing) == false) return Redirect("/");
-            Result _Result = PersonDetails.Operation(tbl);
+            var _Result = PersonDetails.Operation(tbl);
             LogActions("WMS", "Terminal", "Save", ComboItems.alEkle, tbl.UserID);
             return RedirectToAction("Index");
         }
@@ -78,7 +78,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         public JsonResult Delete(int Id)
         {
             if (CheckPerm(Perms.TerminalİçinYetkilendirme, PermTypes.Deleting) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
-            Result _Result = PersonDetails.Delete(Id);
+            var _Result = PersonDetails.Delete(Id);
             LogActions("WMS", "Terminal", "Delete", ComboItems.alSil, Id);
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }

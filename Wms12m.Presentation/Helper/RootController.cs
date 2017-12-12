@@ -35,12 +35,13 @@ namespace Wms12m.Presentation
         /// </summary>
         public void Logger(Exception ex, string page)
         {
-            string inner = "";
+            var inner = "";
             if (ex.InnerException != null)
             {
                 inner = ex.InnerException == null ? "" : ex.InnerException.Message;
                 if (ex.InnerException.InnerException != null) inner += ": " + ex.InnerException.InnerException.Message;
             }
+
             db.Logger(vUser.UserName, "", fn.GetIPAddress(), ex.Message, inner, page);
         }
         /// <summary>
@@ -76,11 +77,11 @@ namespace Wms12m.Presentation
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             db.Database.CommandTimeout = 2000;
-            //culture
-            CultureInfo culture = CultureInfo.GetCultureInfo("tr");
+            // culture
+            var culture = CultureInfo.GetCultureInfo("tr");
             System.Threading.Thread.CurrentThread.CurrentCulture = culture;
             System.Threading.Thread.CurrentThread.CurrentUICulture = culture;
-            //login
+            // login
             if (vUser == null)
             {
                 filterContext.Result = new RedirectToRouteResult(new RouteValueDictionary(new { area = "", controller = "Security", action = "Login" }));
@@ -91,14 +92,16 @@ namespace Wms12m.Presentation
                 filterContext.Result = new RedirectToRouteResult(new RouteValueDictionary(new { area = "", controller = "Security", action = "Login" }));
                 return;
             }
-            //Maintenance
+
+            // Maintenance
             ViewBag.settings = db.Settings.FirstOrDefault();
             if (ViewBag.settings.Aktif == false && filterContext.ActionDescriptor.ControllerDescriptor.ControllerName != "Maintenance")
             {
                 filterContext.Result = new RedirectToRouteResult(new RouteValueDictionary(new { area = "", controller = "Maintenance", action = "Index" }));
                 return;
             }
-            //developer ise çalışma kontrol
+
+            // developer ise çalışma kontrol
             if (vUser.RoleName == "Developer" && ViewBag.settings.GorevProjesi == true)
                 ViewBag.ÇalışmaSüresi = db.Database.SqlQuery<int>(string.Format(@"
 					SELECT ISNULL(SUM(Sure),0) AS Expr1  
@@ -110,14 +113,14 @@ namespace Wms12m.Presentation
 					 ) A", vUser.UserName, DateTime.Today.DayOfWeek == DayOfWeek.Sunday ? DateTime.Today.AddDays(-2).ToString("yyyy-MM-dd") : DateTime.Today.DayOfWeek == DayOfWeek.Monday ? DateTime.Today.AddDays(-3).ToString("yyyy-MM-dd") : DateTime.Today.AddDays(-1).ToString("yyyy-MM-dd"), ComboItems.ÖnemliGün.ToInt32())).FirstOrDefault();
             else
                 ViewBag.ÇalışmaSüresi = 1000;
-            //get assembly version
+            // get assembly version
             var ver = System.IO.File.GetLastWriteTime(typeof(RootController).Assembly.Location).ToString("yyMMdd");
             ViewBag.Version = ver.Substring(0, 1) + "." + ver.Substring(1, 2) + "." + ver.Substring(3);
-            //ViewBags
+            // ViewBags
             ViewBag.vUser = vUser;
             ViewBag.Debug = HttpContext.IsDebuggingEnabled;
             ViewBag.UnreadMessages = db.Messages.Where(m => m.MesajTipi == 85 && m.Kime == vUser.UserName && m.Okundu == false).OrderByDescending(m => m.Tarih).ToList();//sadece genel uyarılar
-            //end
+            // end
             base.OnActionExecuting(filterContext);
         }
         /// <summary>
@@ -125,7 +128,7 @@ namespace Wms12m.Presentation
         /// </summary>
         protected override void Dispose(bool disposing)
         {
-            //dispose
+            // dispose
             if (disposing)
             {
                 db.Dispose();
@@ -146,6 +149,7 @@ namespace Wms12m.Presentation
                 Transfers.Dispose();
                 PersonDetails.Dispose();
             }
+
             base.Dispose(disposing);
         }
     }

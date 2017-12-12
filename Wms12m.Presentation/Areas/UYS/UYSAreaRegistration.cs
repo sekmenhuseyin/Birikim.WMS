@@ -4,13 +4,7 @@ namespace Wms12m.Presentation.Areas.UYS
 {
     public class UYSAreaRegistration : AreaRegistration
     {
-        public override string AreaName
-        {
-            get
-            {
-                return "UYS";
-            }
-        }
+        public override string AreaName => "UYS";
 
         public override void RegisterArea(AreaRegistrationContext context)
         {

@@ -53,7 +53,7 @@ namespace Wms12m.Presentation.Controllers
                 try
                 {
                     db.MenuRolEkle(tablo.MenuNo, tablo.RolNo);
-                    //log
+                    // log
                     LogActions("", "Menu", "Permission", ComboItems.alEkle, tablo.MenuNo.ToInt32(), "RolNo: " + tablo.RolNo);
                 }
                 catch (Exception ex)
@@ -61,7 +61,8 @@ namespace Wms12m.Presentation.Controllers
                     Logger(ex, "Menu/SavePermission");
                 }
             }
-            //return
+
+            // return
             var mn = db.WebMenus.Where(m => m.ID == tablo.MenuNo).FirstOrDefault();
             if (mn.UstMenuID == null)
                 return Redirect("/Menu");
@@ -95,10 +96,11 @@ namespace Wms12m.Presentation.Controllers
                 webMenu.Sira = Convert.ToByte(sira + 1);
                 db.WebMenus.Add(webMenu);
                 db.SaveChanges();
-                //log
+                // log
                 LogActions("", "Menu", "Create", ComboItems.alEkle, webMenu.ID, webMenu.Ad + ", " + webMenu.Url);
                 return Redirect("/Menu/Permission/" + webMenu.ID);
             }
+
             return RedirectToAction("Index");
         }
         /// <summary>
@@ -109,10 +111,9 @@ namespace Wms12m.Presentation.Controllers
         {
             var id = Url.RequestContext.RouteData.Values["id"];
             if (id == null || id.ToString2() == "") return null;
-            //find menu
-            WebMenu webMenu = db.WebMenus.Find(id.ToShort());
-            if (webMenu == null)
-                return null;
+            // find menu
+            var webMenu = db.WebMenus.Find(id.ToShort());
+            if (webMenu == null) return null;
             if (CheckPerm(Perms.Menü, PermTypes.Reading) == false) return null;
             ViewBag.SiteTipiID = new SelectList(db.ComboItem_Name.Where(m => m.ComboID == 5), "ID", "Name", webMenu.SiteTipiID);
             ViewBag.MenuYeriID = new SelectList(db.ComboItem_Name.Where(m => m.ComboID == 6), "ID", "Name", webMenu.MenuYeriID);
@@ -133,9 +134,10 @@ namespace Wms12m.Presentation.Controllers
                 db.Entry(webMenu).State = EntityState.Modified;
                 db.SaveChanges();
                 db.MenuSiralayici(webMenu.SiteTipiID, webMenu.MenuYeriID, webMenu.UstMenuID);
-                //log
+                // log
                 LogActions("", "Menu", "Edit", ComboItems.alDüzenle, webMenu.ID, webMenu.Ad + ", " + webMenu.Url);
             }
+
             if (webMenu.UstMenuID == null)
                 return RedirectToAction("Index");
             else
@@ -149,14 +151,14 @@ namespace Wms12m.Presentation.Controllers
             if (ModelState.IsValid)
             {
                 if (CheckPerm(Perms.Menü, PermTypes.Writing) == false) return Redirect("/");
-                //find needed two rows
+                // find needed two rows
                 var current = db.WebMenus.Where(m => m.ID == id).FirstOrDefault();
-                byte newSira; byte oldSira = current.Sira;
+                byte newSira; var oldSira = current.Sira;
                 if (moveUp == true) newSira = Convert.ToByte(current.Sira - 1); else newSira = Convert.ToByte(current.Sira + 1);
                 var other = db.WebMenus.Where(m => m.SiteTipiID == current.SiteTipiID && m.MenuYeriID == current.MenuYeriID && m.UstMenuID == current.UstMenuID && m.Sira == newSira).FirstOrDefault();
                 if (other != null)
                 {
-                    //change siras
+                    // change siras
                     current.Sira = newSira;
                     other.Sira = oldSira;
                     db.SaveChanges();
@@ -164,6 +166,7 @@ namespace Wms12m.Presentation.Controllers
                     db.MenuSiralayici(current.SiteTipiID, current.MenuYeriID, tmp);
                 }
             }
+
             return Redirect(Request.UrlReferrer.ToString());
         }
         /// <summary>
@@ -196,14 +199,16 @@ namespace Wms12m.Presentation.Controllers
                     try
                     {
                         db.RolMenuEkle(tbl.RoleName, tbl.Ad);
-                        //log
-                        LogActions("", "Menu", "Save", ComboItems.alEkle, 0, "RoleName: " + tbl.RoleName + ", Web IDs: "+ tbl.Ad);
+                        // log
+                        LogActions("", "Menu", "Save", ComboItems.alEkle, 0, "RoleName: " + tbl.RoleName + ", Web IDs: " + tbl.Ad);
                         return Json(new Result(true, 1, ""), JsonRequestBehavior.AllowGet);
                     }
-                    catch (Exception ex) {
+                    catch (Exception ex)
+                    {
                         Logger(ex, "Menu/Save");
                         return Json(new Result(false, 0, ex.Message), JsonRequestBehavior.AllowGet);
                     }
+
             return Json(new Result(false, 0, "yetki hatası"), JsonRequestBehavior.AllowGet);
         }
     }

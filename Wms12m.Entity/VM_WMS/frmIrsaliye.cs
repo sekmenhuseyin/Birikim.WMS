@@ -1,5 +1,4 @@
-﻿using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 
@@ -13,10 +12,10 @@ namespace Wms12m.Entity
         [Key]
         public int Id { get; set; }
 
-        [DataMember, DisplayName("Şirket"), Required(ErrorMessage = "Boş bırakmayınız"), Range(1, Int32.MaxValue)]
+        [DataMember, DisplayName("Şirket"), Required(ErrorMessage = "Boş bırakmayınız"), Range(1, int.MaxValue)]
         public string SirketID { get; set; }
 
-        [DataMember, DisplayName("Depo"), Required(ErrorMessage = "Boş bırakmayınız"), Range(1, Int32.MaxValue)]
+        [DataMember, DisplayName("Depo"), Required(ErrorMessage = "Boş bırakmayınız"), Range(1, int.MaxValue)]
         public int DepoID { get; set; }
 
         [DataMember, DisplayName("Hesap Kodu"), Required(ErrorMessage = "Boş bırakmayınız")]

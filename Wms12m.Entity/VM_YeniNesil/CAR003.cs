@@ -1,13 +1,12 @@
-using System;
-using System.Linq;
-using System.ComponentModel;
-using System.Collections.Generic;
 using DevHelper;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace Wms12m.Entity
 {
     #region CAR003E Enum 
-    public enum CAR003E 
+    public enum CAR003E
     {
         CAR003_Row_ID,
         CAR003_HesapKodu,
@@ -132,1491 +131,1487 @@ namespace Wms12m.Entity
         CAR003_YOKCBankaOnayKod,
         CAR003_YOKCUniqueID
 
-    } 
+    }
     #endregion /// CAR003E Enum                
-    public class CAR003 :  INotifyPropertyChanged
+    public class CAR003 : INotifyPropertyChanged
     {
         #region Properties
         #region Fields  
-        private int _CAR003_Row_ID; 
-        private string _CAR003_HesapKodu; 
-        private int? _CAR003_Tarih; 
-        private short? _CAR003_IslemTipi; 
-        private string _CAR003_EvrakSeriNo; 
-        private string _CAR003_Aciklama; 
-        private byte? _CAR003_BA; 
-        private decimal? _CAR003_Tutar; 
-        private int? _CAR003_VadeTarihi; 
-        private string _CAR003_KarsiEvrakSeriNo; 
-        private string _CAR003_Kod1; 
-        private string _CAR003_Kod2; 
-        private byte? _CAR003_KDVOrani; 
-        private byte? _CAR003_KDVDahilHaric; 
-        private byte? _CAR003_MuhasebelesmeDurumu; 
-        private byte? _CAR003_ParaBirimi; 
-        private int? _CAR003_SEQNo; 
-        private string _CAR003_GirenKaynak; 
-        private int? _CAR003_GirenTarih; 
-        private string _CAR003_GirenSaat; 
-        private string _CAR003_GirenKodu; 
-        private string _CAR003_GirenSurum; 
-        private string _CAR003_DegistirenKaynak; 
-        private int? _CAR003_DegistirenTarih; 
-        private string _CAR003_DegistirenSaat; 
-        private string _CAR003_DegistirenKodu; 
-        private string _CAR003_DegistirenSurum; 
-        private byte? _CAR003_IptalDurumu; 
-        private int? _CAR003_AsilEvrakTarihi; 
-        private byte? _CAR003_otvdahilharic; 
-        private decimal? _CAR003_otvtutari; 
-        private string _CAR003_KarsiHesapKodu; 
-        private string _CAR003_Kod3; 
-        private string _CAR003_Kod4; 
-        private string _CAR003_Kod5; 
-        private string _CAR003_Kod6; 
-        private string _CAR003_Kod7; 
-        private string _CAR003_Kod8; 
-        private string _CAR003_Kod9; 
-        private string _CAR003_Kod10; 
-        private decimal? _CAR003_Kod11; 
-        private decimal? _CAR003_Kod12; 
-        private decimal? _CAR003_Tutar2; 
-        private int? _CAR003_Tarih2; 
-        private string _CAR003_Aciklama2; 
-        private string _CAR003_EvrakSeriNo2; 
-        private string _CAR003_DovizCinsi; 
-        private decimal? _CAR003_DovizTutari; 
-        private decimal? _CAR003_DovizKuru; 
-        private string _CAR003_SenetCekBordroNo; 
-        private short? _CAR003_SenetCekPozisyonTipi; 
-        private short? _CAR003_MuhasebelesmeSekli; 
-        private int? _CAR003_MuhasebeFisTarihi; 
-        private byte? _CAR003_MuhasebeTipi; 
-        private int? _CAR003_MuhasebeFisNumarasi; 
-        private string _CAR003_MuhasebeFisKodu; 
-        private short? _CAR003_MuhasebeSiraNo; 
-        private string _CAR003_MuhasebeHesapNo; 
-        private string _CAR003_MuhasebeKarsiHeaspNo; 
-        private byte? _CAR003_MuhasebeYevmiyeSekli; 
-        private string _CAR003_IskontoTuru; 
-        private string _CAR003_EvrakSeriNo3; 
-        private string _CAR003_MasrafMerkezi; 
-        private int? _CAR003_VadeFarkiTarihi; 
-        private decimal? _CAR003_VadeFarkiTutari; 
-        private decimal? _CAR003_FaizOrani; 
-        private int? _CAR003_Ulke; 
-        private string _CAR003_VergiHesapNo; 
-        private string _CAR003_Unvani; 
-        private short? _CAR003_EvrakSayisi; 
-        private short? _CAR003_EvrakTipi; 
-        private int? _CAR003_MHSMaddeNo; 
-        private string _CAR003_IBAN; 
-        private int? _CAR003_KKPOSTableRowID; 
-        private short? _CAR003_KKTaksitSayisi; 
-        private short? _CAR003_KKTaksitNo; 
-        private int? _CAR003_KKKomisyonID; 
-        private int? _CAR003_KDVTevkIslemTuru; 
-        private string _CAR003_KDVTevkOrani; 
-        private string _CAR003_IthalatNo; 
-        private byte? _CAR003_IthalatAktarmaFlag; 
-        private decimal? _CAR003_KDVTevkIslemBedeli; 
-        private string _CAR003_OdemeTipi; 
-        private byte? _CAR003_YevmiyeEvrakTip; 
-        private string _CAR003_EvrakTipAciklama; 
-        private byte? _CAR003_EFaturaTipi; 
-        private short? _CAR003_EFaturaDurumu; 
-        private string _CAR003_EFaturaOTVListeNo; 
-        private int? _CAR003_EFaturaDonemBas; 
-        private int? _CAR003_EFaturaDonemBit; 
-        private int? _CAR003_EFaturaSure; 
-        private byte? _CAR003_EFaturaSureBirimi; 
-        private string _CAR003_EFaturaDonemAciklama; 
-        private string _CAR003_EFaturaNot; 
-        private string _CAR003_EFaturaReferansNo; 
-        private string _CAR003_YevEvrakNo; 
-        private int? _CAR003_YevEvrakTarihi; 
-        private decimal? _CAR003_StopajOrani; 
-        private short? _CAR003_OdemeTuru; 
-        private string _CAR003_TalimatNo; 
-        private string _CAR003_IhracatNo; 
-        private int? _CAR003_GrpSiraNo; 
-        private byte? _CAR003_EArsivFaturaTipi; 
-        private byte? _CAR003_EArsivFaturaTeslimSekli; 
-        private short? _CAR003_EArsivFaturaDurumu; 
-        private string _CAR003_EArsivAdres; 
-        private string _CAR003_EArsivSemt; 
-        private string _CAR003_EArsivIL; 
-        private string _CAR003_Unvani2; 
-        private string _CAR003_YOKCSeriNo; 
-        private int? _CAR003_YOKCZRaporuNo; 
-        private byte? _CAR003_YOKCBelgeTipi; 
-        private byte? _CAR003_YOKCBilgiFisiTipi; 
-        private int? _CAR003_YOKCFisNo; 
-        private int? _CAR003_YOKCFisTarihi; 
-        private string _CAR003_OdemeTurKodu; 
-        private int? _CAR003_VergiDairesiKodu; 
-        private int? _CAR003_FiiliIhracatTarihi; 
-        private string _CAR003_YOKCFisSaat; 
-        private byte? _CAR003_YOKCDuzenlemeTip; 
-        private string _CAR003_YOKCBankaOnayKod; 
-        private string _CAR003_YOKCUniqueID; 
-        private int _pk_CAR003_Row_ID;
+        int cAR003_Row_ID;
+        string cAR003_HesapKodu;
+        int? cAR003_Tarih;
+        short? cAR003_IslemTipi;
+        string cAR003_EvrakSeriNo;
+        string cAR003_Aciklama;
+        byte? cAR003_BA;
+        decimal? cAR003_Tutar;
+        int? cAR003_VadeTarihi;
+        string cAR003_KarsiEvrakSeriNo;
+        string cAR003_Kod1;
+        string cAR003_Kod2;
+        byte? cAR003_KDVOrani;
+        byte? cAR003_KDVDahilHaric;
+        byte? cAR003_MuhasebelesmeDurumu;
+        byte? cAR003_ParaBirimi;
+        int? cAR003_SEQNo;
+        string cAR003_GirenKaynak;
+        int? cAR003_GirenTarih;
+        string cAR003_GirenSaat;
+        string cAR003_GirenKodu;
+        string cAR003_GirenSurum;
+        string cAR003_DegistirenKaynak;
+        int? cAR003_DegistirenTarih;
+        string cAR003_DegistirenSaat;
+        string cAR003_DegistirenKodu;
+        string cAR003_DegistirenSurum;
+        byte? cAR003_IptalDurumu;
+        int? cAR003_AsilEvrakTarihi;
+        byte? cAR003_otvdahilharic;
+        decimal? cAR003_otvtutari;
+        string cAR003_KarsiHesapKodu;
+        string cAR003_Kod3;
+        string cAR003_Kod4;
+        string cAR003_Kod5;
+        string cAR003_Kod6;
+        string cAR003_Kod7;
+        string cAR003_Kod8;
+        string cAR003_Kod9;
+        string cAR003_Kod10;
+        decimal? cAR003_Kod11;
+        decimal? cAR003_Kod12;
+        decimal? cAR003_Tutar2;
+        int? cAR003_Tarih2;
+        string cAR003_Aciklama2;
+        string cAR003_EvrakSeriNo2;
+        string cAR003_DovizCinsi;
+        decimal? cAR003_DovizTutari;
+        decimal? cAR003_DovizKuru;
+        string cAR003_SenetCekBordroNo;
+        short? cAR003_SenetCekPozisyonTipi;
+        short? cAR003_MuhasebelesmeSekli;
+        int? cAR003_MuhasebeFisTarihi;
+        byte? cAR003_MuhasebeTipi;
+        int? cAR003_MuhasebeFisNumarasi;
+        string cAR003_MuhasebeFisKodu;
+        short? cAR003_MuhasebeSiraNo;
+        string cAR003_MuhasebeHesapNo;
+        string cAR003_MuhasebeKarsiHeaspNo;
+        byte? cAR003_MuhasebeYevmiyeSekli;
+        string cAR003_IskontoTuru;
+        string cAR003_EvrakSeriNo3;
+        string cAR003_MasrafMerkezi;
+        int? cAR003_VadeFarkiTarihi;
+        decimal? cAR003_VadeFarkiTutari;
+        decimal? cAR003_FaizOrani;
+        int? cAR003_Ulke;
+        string cAR003_VergiHesapNo;
+        string cAR003_Unvani;
+        short? cAR003_EvrakSayisi;
+        short? cAR003_EvrakTipi;
+        int? cAR003_MHSMaddeNo;
+        string cAR003_IBAN;
+        int? cAR003_KKPOSTableRowID;
+        short? cAR003_KKTaksitSayisi;
+        short? cAR003_KKTaksitNo;
+        int? cAR003_KKKomisyonID;
+        int? cAR003_KDVTevkIslemTuru;
+        string cAR003_KDVTevkOrani;
+        string cAR003_IthalatNo;
+        byte? cAR003_IthalatAktarmaFlag;
+        decimal? cAR003_KDVTevkIslemBedeli;
+        string cAR003_OdemeTipi;
+        byte? cAR003_YevmiyeEvrakTip;
+        string cAR003_EvrakTipAciklama;
+        byte? cAR003_EFaturaTipi;
+        short? cAR003_EFaturaDurumu;
+        string cAR003_EFaturaOTVListeNo;
+        int? cAR003_EFaturaDonemBas;
+        int? cAR003_EFaturaDonemBit;
+        int? cAR003_EFaturaSure;
+        byte? cAR003_EFaturaSureBirimi;
+        string cAR003_EFaturaDonemAciklama;
+        string cAR003_EFaturaNot;
+        string cAR003_EFaturaReferansNo;
+        string cAR003_YevEvrakNo;
+        int? cAR003_YevEvrakTarihi;
+        decimal? cAR003_StopajOrani;
+        short? cAR003_OdemeTuru;
+        string cAR003_TalimatNo;
+        string cAR003_IhracatNo;
+        int? cAR003_GrpSiraNo;
+        byte? cAR003_EArsivFaturaTipi;
+        byte? cAR003_EArsivFaturaTeslimSekli;
+        short? cAR003_EArsivFaturaDurumu;
+        string cAR003_EArsivAdres;
+        string cAR003_EArsivSemt;
+        string cAR003_EArsivIL;
+        string cAR003_Unvani2;
+        string cAR003_YOKCSeriNo;
+        int? cAR003_YOKCZRaporuNo;
+        byte? cAR003_YOKCBelgeTipi;
+        byte? cAR003_YOKCBilgiFisiTipi;
+        int? cAR003_YOKCFisNo;
+        int? cAR003_YOKCFisTarihi;
+        string cAR003_OdemeTurKodu;
+        int? cAR003_VergiDairesiKodu;
+        int? cAR003_FiiliIhracatTarihi;
+        string cAR003_YOKCFisSaat;
+        byte? cAR003_YOKCDuzenlemeTip;
+        string cAR003_YOKCBankaOnayKod;
+        string cAR003_YOKCUniqueID;
+        int _pk_CAR003_Row_ID;
         #endregion /// Fields
-     
-       
+
         /// <summary> INT (4) PrimaryKey IdentityKey * </summary>
-        public int CAR003_Row_ID 
-        {
-            get {   return this._CAR003_Row_ID;   }                          
-        }
-       
+        public int CAR003_Row_ID => cAR003_Row_ID;
+
         /// <summary> NVARCHAR (32) Allow Null </summary>
-        public string CAR003_HesapKodu 
+        public string CAR003_HesapKodu
         {
-            get {   return this._CAR003_HesapKodu;   } 
-            set 
+            get { return cAR003_HesapKodu; }
+            set
             {
-                this._CAR003_HesapKodu = value;
-                OnPropertyChanged("CAR003_HesapKodu"); 
-            }                         
+                cAR003_HesapKodu = value;
+                OnPropertyChanged("CAR003_HesapKodu");
+            }
         }
-       
+
         /// <summary> INT (4) Allow Null </summary>
-        public int? CAR003_Tarih 
+        public int? CAR003_Tarih
         {
-            get {   return this._CAR003_Tarih;   } 
-            set 
+            get { return cAR003_Tarih; }
+            set
             {
-                this._CAR003_Tarih = value;
-                OnPropertyChanged("CAR003_Tarih"); 
-            }                         
+                cAR003_Tarih = value;
+                OnPropertyChanged("CAR003_Tarih");
+            }
         }
-       
+
         /// <summary> SMALLINT (2) Allow Null </summary>
-        public short? CAR003_IslemTipi 
+        public short? CAR003_IslemTipi
         {
-            get {   return this._CAR003_IslemTipi;   } 
-            set 
+            get { return cAR003_IslemTipi; }
+            set
             {
-                this._CAR003_IslemTipi = value;
-                OnPropertyChanged("CAR003_IslemTipi"); 
-            }                         
+                cAR003_IslemTipi = value;
+                OnPropertyChanged("CAR003_IslemTipi");
+            }
         }
-       
+
         /// <summary> NVARCHAR (32) Allow Null </summary>
-        public string CAR003_EvrakSeriNo 
+        public string CAR003_EvrakSeriNo
         {
-            get {   return this._CAR003_EvrakSeriNo;   } 
-            set 
+            get { return cAR003_EvrakSeriNo; }
+            set
             {
-                this._CAR003_EvrakSeriNo = value;
-                OnPropertyChanged("CAR003_EvrakSeriNo"); 
-            }                         
+                cAR003_EvrakSeriNo = value;
+                OnPropertyChanged("CAR003_EvrakSeriNo");
+            }
         }
-       
+
         /// <summary> NVARCHAR (128) Allow Null </summary>
-        public string CAR003_Aciklama 
+        public string CAR003_Aciklama
         {
-            get {   return this._CAR003_Aciklama;   } 
-            set 
+            get { return cAR003_Aciklama; }
+            set
             {
-                this._CAR003_Aciklama = value;
-                OnPropertyChanged("CAR003_Aciklama"); 
-            }                         
+                cAR003_Aciklama = value;
+                OnPropertyChanged("CAR003_Aciklama");
+            }
         }
-       
+
         /// <summary> TINYINT (1) Allow Null </summary>
-        public byte? CAR003_BA 
+        public byte? CAR003_BA
         {
-            get {   return this._CAR003_BA;   } 
-            set 
+            get { return cAR003_BA; }
+            set
             {
-                this._CAR003_BA = value;
-                OnPropertyChanged("CAR003_BA"); 
-            }                         
+                cAR003_BA = value;
+                OnPropertyChanged("CAR003_BA");
+            }
         }
-       
+
         /// <summary> NUMERIC (13) Allow Null </summary>
-        public decimal? CAR003_Tutar 
+        public decimal? CAR003_Tutar
         {
-            get {   return this._CAR003_Tutar;   } 
-            set 
+            get { return cAR003_Tutar; }
+            set
             {
-                this._CAR003_Tutar = value;
-                OnPropertyChanged("CAR003_Tutar"); 
-            }                         
+                cAR003_Tutar = value;
+                OnPropertyChanged("CAR003_Tutar");
+            }
         }
-       
+
         /// <summary> INT (4) Allow Null </summary>
-        public int? CAR003_VadeTarihi 
+        public int? CAR003_VadeTarihi
         {
-            get {   return this._CAR003_VadeTarihi;   } 
-            set 
+            get { return cAR003_VadeTarihi; }
+            set
             {
-                this._CAR003_VadeTarihi = value;
-                OnPropertyChanged("CAR003_VadeTarihi"); 
-            }                         
+                cAR003_VadeTarihi = value;
+                OnPropertyChanged("CAR003_VadeTarihi");
+            }
         }
-       
+
         /// <summary> NVARCHAR (32) Allow Null </summary>
-        public string CAR003_KarsiEvrakSeriNo 
+        public string CAR003_KarsiEvrakSeriNo
         {
-            get {   return this._CAR003_KarsiEvrakSeriNo;   } 
-            set 
+            get { return cAR003_KarsiEvrakSeriNo; }
+            set
             {
-                this._CAR003_KarsiEvrakSeriNo = value;
-                OnPropertyChanged("CAR003_KarsiEvrakSeriNo"); 
-            }                         
+                cAR003_KarsiEvrakSeriNo = value;
+                OnPropertyChanged("CAR003_KarsiEvrakSeriNo");
+            }
         }
-       
+
         /// <summary> NVARCHAR (20) Allow Null </summary>
-        public string CAR003_Kod1 
+        public string CAR003_Kod1
         {
-            get {   return this._CAR003_Kod1;   } 
-            set 
+            get { return cAR003_Kod1; }
+            set
             {
-                this._CAR003_Kod1 = value;
-                OnPropertyChanged("CAR003_Kod1"); 
-            }                         
+                cAR003_Kod1 = value;
+                OnPropertyChanged("CAR003_Kod1");
+            }
         }
-       
+
         /// <summary> NVARCHAR (20) Allow Null </summary>
-        public string CAR003_Kod2 
+        public string CAR003_Kod2
         {
-            get {   return this._CAR003_Kod2;   } 
-            set 
+            get { return cAR003_Kod2; }
+            set
             {
-                this._CAR003_Kod2 = value;
-                OnPropertyChanged("CAR003_Kod2"); 
-            }                         
+                cAR003_Kod2 = value;
+                OnPropertyChanged("CAR003_Kod2");
+            }
         }
-       
+
         /// <summary> TINYINT (1) Allow Null </summary>
-        public byte? CAR003_KDVOrani 
+        public byte? CAR003_KDVOrani
         {
-            get {   return this._CAR003_KDVOrani;   } 
-            set 
+            get { return cAR003_KDVOrani; }
+            set
             {
-                this._CAR003_KDVOrani = value;
-                OnPropertyChanged("CAR003_KDVOrani"); 
-            }                         
+                cAR003_KDVOrani = value;
+                OnPropertyChanged("CAR003_KDVOrani");
+            }
         }
-       
+
         /// <summary> TINYINT (1) Allow Null </summary>
-        public byte? CAR003_KDVDahilHaric 
+        public byte? CAR003_KDVDahilHaric
         {
-            get {   return this._CAR003_KDVDahilHaric;   } 
-            set 
+            get { return cAR003_KDVDahilHaric; }
+            set
             {
-                this._CAR003_KDVDahilHaric = value;
-                OnPropertyChanged("CAR003_KDVDahilHaric"); 
-            }                         
+                cAR003_KDVDahilHaric = value;
+                OnPropertyChanged("CAR003_KDVDahilHaric");
+            }
         }
-       
+
         /// <summary> TINYINT (1) Allow Null </summary>
-        public byte? CAR003_MuhasebelesmeDurumu 
+        public byte? CAR003_MuhasebelesmeDurumu
         {
-            get {   return this._CAR003_MuhasebelesmeDurumu;   } 
-            set 
+            get { return cAR003_MuhasebelesmeDurumu; }
+            set
             {
-                this._CAR003_MuhasebelesmeDurumu = value;
-                OnPropertyChanged("CAR003_MuhasebelesmeDurumu"); 
-            }                         
+                cAR003_MuhasebelesmeDurumu = value;
+                OnPropertyChanged("CAR003_MuhasebelesmeDurumu");
+            }
         }
-       
+
         /// <summary> TINYINT (1) Allow Null </summary>
-        public byte? CAR003_ParaBirimi 
+        public byte? CAR003_ParaBirimi
         {
-            get {   return this._CAR003_ParaBirimi;   } 
-            set 
+            get { return cAR003_ParaBirimi; }
+            set
             {
-                this._CAR003_ParaBirimi = value;
-                OnPropertyChanged("CAR003_ParaBirimi"); 
-            }                         
+                cAR003_ParaBirimi = value;
+                OnPropertyChanged("CAR003_ParaBirimi");
+            }
         }
-       
+
         /// <summary> INT (4) Allow Null </summary>
-        public int? CAR003_SEQNo 
+        public int? CAR003_SEQNo
         {
-            get {   return this._CAR003_SEQNo;   } 
-            set 
+            get { return cAR003_SEQNo; }
+            set
             {
-                this._CAR003_SEQNo = value;
-                OnPropertyChanged("CAR003_SEQNo"); 
-            }                         
+                cAR003_SEQNo = value;
+                OnPropertyChanged("CAR003_SEQNo");
+            }
         }
-       
+
         /// <summary> NVARCHAR (10) Allow Null </summary>
-        public string CAR003_GirenKaynak 
+        public string CAR003_GirenKaynak
         {
-            get {   return this._CAR003_GirenKaynak;   } 
-            set 
+            get { return cAR003_GirenKaynak; }
+            set
             {
-                this._CAR003_GirenKaynak = value;
-                OnPropertyChanged("CAR003_GirenKaynak"); 
-            }                         
+                cAR003_GirenKaynak = value;
+                OnPropertyChanged("CAR003_GirenKaynak");
+            }
         }
-       
+
         /// <summary> INT (4) Allow Null </summary>
-        public int? CAR003_GirenTarih 
+        public int? CAR003_GirenTarih
         {
-            get {   return this._CAR003_GirenTarih;   } 
-            set 
+            get { return cAR003_GirenTarih; }
+            set
             {
-                this._CAR003_GirenTarih = value;
-                OnPropertyChanged("CAR003_GirenTarih"); 
-            }                         
+                cAR003_GirenTarih = value;
+                OnPropertyChanged("CAR003_GirenTarih");
+            }
         }
-       
+
         /// <summary> NVARCHAR (16) Allow Null </summary>
-        public string CAR003_GirenSaat 
+        public string CAR003_GirenSaat
         {
-            get {   return this._CAR003_GirenSaat;   } 
-            set 
+            get { return cAR003_GirenSaat; }
+            set
             {
-                this._CAR003_GirenSaat = value;
-                OnPropertyChanged("CAR003_GirenSaat"); 
-            }                         
+                cAR003_GirenSaat = value;
+                OnPropertyChanged("CAR003_GirenSaat");
+            }
         }
-       
+
         /// <summary> NVARCHAR (20) Allow Null </summary>
-        public string CAR003_GirenKodu 
+        public string CAR003_GirenKodu
         {
-            get {   return this._CAR003_GirenKodu;   } 
-            set 
+            get { return cAR003_GirenKodu; }
+            set
             {
-                this._CAR003_GirenKodu = value;
-                OnPropertyChanged("CAR003_GirenKodu"); 
-            }                         
+                cAR003_GirenKodu = value;
+                OnPropertyChanged("CAR003_GirenKodu");
+            }
         }
-       
+
         /// <summary> NVARCHAR (16) Allow Null </summary>
-        public string CAR003_GirenSurum 
+        public string CAR003_GirenSurum
         {
-            get {   return this._CAR003_GirenSurum;   } 
-            set 
+            get { return cAR003_GirenSurum; }
+            set
             {
-                this._CAR003_GirenSurum = value;
-                OnPropertyChanged("CAR003_GirenSurum"); 
-            }                         
+                cAR003_GirenSurum = value;
+                OnPropertyChanged("CAR003_GirenSurum");
+            }
         }
-       
+
         /// <summary> NVARCHAR (10) Allow Null </summary>
-        public string CAR003_DegistirenKaynak 
+        public string CAR003_DegistirenKaynak
         {
-            get {   return this._CAR003_DegistirenKaynak;   } 
-            set 
+            get { return cAR003_DegistirenKaynak; }
+            set
             {
-                this._CAR003_DegistirenKaynak = value;
-                OnPropertyChanged("CAR003_DegistirenKaynak"); 
-            }                         
+                cAR003_DegistirenKaynak = value;
+                OnPropertyChanged("CAR003_DegistirenKaynak");
+            }
         }
-       
+
         /// <summary> INT (4) Allow Null </summary>
-        public int? CAR003_DegistirenTarih 
+        public int? CAR003_DegistirenTarih
         {
-            get {   return this._CAR003_DegistirenTarih;   } 
-            set 
+            get { return cAR003_DegistirenTarih; }
+            set
             {
-                this._CAR003_DegistirenTarih = value;
-                OnPropertyChanged("CAR003_DegistirenTarih"); 
-            }                         
+                cAR003_DegistirenTarih = value;
+                OnPropertyChanged("CAR003_DegistirenTarih");
+            }
         }
-       
+
         /// <summary> NVARCHAR (16) Allow Null </summary>
-        public string CAR003_DegistirenSaat 
+        public string CAR003_DegistirenSaat
         {
-            get {   return this._CAR003_DegistirenSaat;   } 
-            set 
+            get { return cAR003_DegistirenSaat; }
+            set
             {
-                this._CAR003_DegistirenSaat = value;
-                OnPropertyChanged("CAR003_DegistirenSaat"); 
-            }                         
+                cAR003_DegistirenSaat = value;
+                OnPropertyChanged("CAR003_DegistirenSaat");
+            }
         }
-       
+
         /// <summary> NVARCHAR (20) Allow Null </summary>
-        public string CAR003_DegistirenKodu 
+        public string CAR003_DegistirenKodu
         {
-            get {   return this._CAR003_DegistirenKodu;   } 
-            set 
+            get { return cAR003_DegistirenKodu; }
+            set
             {
-                this._CAR003_DegistirenKodu = value;
-                OnPropertyChanged("CAR003_DegistirenKodu"); 
-            }                         
+                cAR003_DegistirenKodu = value;
+                OnPropertyChanged("CAR003_DegistirenKodu");
+            }
         }
-       
+
         /// <summary> NVARCHAR (16) Allow Null </summary>
-        public string CAR003_DegistirenSurum 
+        public string CAR003_DegistirenSurum
         {
-            get {   return this._CAR003_DegistirenSurum;   } 
-            set 
+            get { return cAR003_DegistirenSurum; }
+            set
             {
-                this._CAR003_DegistirenSurum = value;
-                OnPropertyChanged("CAR003_DegistirenSurum"); 
-            }                         
+                cAR003_DegistirenSurum = value;
+                OnPropertyChanged("CAR003_DegistirenSurum");
+            }
         }
-       
+
         /// <summary> TINYINT (1) Allow Null </summary>
-        public byte? CAR003_IptalDurumu 
+        public byte? CAR003_IptalDurumu
         {
-            get {   return this._CAR003_IptalDurumu;   } 
-            set 
+            get { return cAR003_IptalDurumu; }
+            set
             {
-                this._CAR003_IptalDurumu = value;
-                OnPropertyChanged("CAR003_IptalDurumu"); 
-            }                         
+                cAR003_IptalDurumu = value;
+                OnPropertyChanged("CAR003_IptalDurumu");
+            }
         }
-       
+
         /// <summary> INT (4) Allow Null </summary>
-        public int? CAR003_AsilEvrakTarihi 
+        public int? CAR003_AsilEvrakTarihi
         {
-            get {   return this._CAR003_AsilEvrakTarihi;   } 
-            set 
+            get { return cAR003_AsilEvrakTarihi; }
+            set
             {
-                this._CAR003_AsilEvrakTarihi = value;
-                OnPropertyChanged("CAR003_AsilEvrakTarihi"); 
-            }                         
+                cAR003_AsilEvrakTarihi = value;
+                OnPropertyChanged("CAR003_AsilEvrakTarihi");
+            }
         }
-       
+
         /// <summary> TINYINT (1) Allow Null </summary>
-        public byte? CAR003_otvdahilharic 
+        public byte? CAR003_otvdahilharic
         {
-            get {   return this._CAR003_otvdahilharic;   } 
-            set 
+            get { return cAR003_otvdahilharic; }
+            set
             {
-                this._CAR003_otvdahilharic = value;
-                OnPropertyChanged("CAR003_otvdahilharic"); 
-            }                         
+                cAR003_otvdahilharic = value;
+                OnPropertyChanged("CAR003_otvdahilharic");
+            }
         }
-       
+
         /// <summary> NUMERIC (9) Allow Null </summary>
-        public decimal? CAR003_otvtutari 
+        public decimal? CAR003_otvtutari
         {
-            get {   return this._CAR003_otvtutari;   } 
-            set 
+            get { return cAR003_otvtutari; }
+            set
             {
-                this._CAR003_otvtutari = value;
-                OnPropertyChanged("CAR003_otvtutari"); 
-            }                         
+                cAR003_otvtutari = value;
+                OnPropertyChanged("CAR003_otvtutari");
+            }
         }
-       
+
         /// <summary> NVARCHAR (32) Allow Null </summary>
-        public string CAR003_KarsiHesapKodu 
+        public string CAR003_KarsiHesapKodu
         {
-            get {   return this._CAR003_KarsiHesapKodu;   } 
-            set 
+            get { return cAR003_KarsiHesapKodu; }
+            set
             {
-                this._CAR003_KarsiHesapKodu = value;
-                OnPropertyChanged("CAR003_KarsiHesapKodu"); 
-            }                         
+                cAR003_KarsiHesapKodu = value;
+                OnPropertyChanged("CAR003_KarsiHesapKodu");
+            }
         }
-       
+
         /// <summary> NVARCHAR (20) Allow Null </summary>
-        public string CAR003_Kod3 
+        public string CAR003_Kod3
         {
-            get {   return this._CAR003_Kod3;   } 
-            set 
+            get { return cAR003_Kod3; }
+            set
             {
-                this._CAR003_Kod3 = value;
-                OnPropertyChanged("CAR003_Kod3"); 
-            }                         
+                cAR003_Kod3 = value;
+                OnPropertyChanged("CAR003_Kod3");
+            }
         }
-       
+
         /// <summary> NVARCHAR (20) Allow Null </summary>
-        public string CAR003_Kod4 
+        public string CAR003_Kod4
         {
-            get {   return this._CAR003_Kod4;   } 
-            set 
+            get { return cAR003_Kod4; }
+            set
             {
-                this._CAR003_Kod4 = value;
-                OnPropertyChanged("CAR003_Kod4"); 
-            }                         
+                cAR003_Kod4 = value;
+                OnPropertyChanged("CAR003_Kod4");
+            }
         }
-       
+
         /// <summary> NVARCHAR (20) Allow Null </summary>
-        public string CAR003_Kod5 
+        public string CAR003_Kod5
         {
-            get {   return this._CAR003_Kod5;   } 
-            set 
+            get { return cAR003_Kod5; }
+            set
             {
-                this._CAR003_Kod5 = value;
-                OnPropertyChanged("CAR003_Kod5"); 
-            }                         
+                cAR003_Kod5 = value;
+                OnPropertyChanged("CAR003_Kod5");
+            }
         }
-       
+
         /// <summary> NVARCHAR (20) Allow Null </summary>
-        public string CAR003_Kod6 
+        public string CAR003_Kod6
         {
-            get {   return this._CAR003_Kod6;   } 
-            set 
+            get { return cAR003_Kod6; }
+            set
             {
-                this._CAR003_Kod6 = value;
-                OnPropertyChanged("CAR003_Kod6"); 
-            }                         
+                cAR003_Kod6 = value;
+                OnPropertyChanged("CAR003_Kod6");
+            }
         }
-       
+
         /// <summary> NVARCHAR (20) Allow Null </summary>
-        public string CAR003_Kod7 
+        public string CAR003_Kod7
         {
-            get {   return this._CAR003_Kod7;   } 
-            set 
+            get { return cAR003_Kod7; }
+            set
             {
-                this._CAR003_Kod7 = value;
-                OnPropertyChanged("CAR003_Kod7"); 
-            }                         
+                cAR003_Kod7 = value;
+                OnPropertyChanged("CAR003_Kod7");
+            }
         }
-       
+
         /// <summary> NVARCHAR (20) Allow Null </summary>
-        public string CAR003_Kod8 
+        public string CAR003_Kod8
         {
-            get {   return this._CAR003_Kod8;   } 
-            set 
+            get { return cAR003_Kod8; }
+            set
             {
-                this._CAR003_Kod8 = value;
-                OnPropertyChanged("CAR003_Kod8"); 
-            }                         
+                cAR003_Kod8 = value;
+                OnPropertyChanged("CAR003_Kod8");
+            }
         }
-       
+
         /// <summary> NVARCHAR (40) Allow Null </summary>
-        public string CAR003_Kod9 
+        public string CAR003_Kod9
         {
-            get {   return this._CAR003_Kod9;   } 
-            set 
+            get { return cAR003_Kod9; }
+            set
             {
-                this._CAR003_Kod9 = value;
-                OnPropertyChanged("CAR003_Kod9"); 
-            }                         
+                cAR003_Kod9 = value;
+                OnPropertyChanged("CAR003_Kod9");
+            }
         }
-       
+
         /// <summary> NVARCHAR (40) Allow Null </summary>
-        public string CAR003_Kod10 
+        public string CAR003_Kod10
         {
-            get {   return this._CAR003_Kod10;   } 
-            set 
+            get { return cAR003_Kod10; }
+            set
             {
-                this._CAR003_Kod10 = value;
-                OnPropertyChanged("CAR003_Kod10"); 
-            }                         
+                cAR003_Kod10 = value;
+                OnPropertyChanged("CAR003_Kod10");
+            }
         }
-       
+
         /// <summary> NUMERIC (9) Allow Null </summary>
-        public decimal? CAR003_Kod11 
+        public decimal? CAR003_Kod11
         {
-            get {   return this._CAR003_Kod11;   } 
-            set 
+            get { return cAR003_Kod11; }
+            set
             {
-                this._CAR003_Kod11 = value;
-                OnPropertyChanged("CAR003_Kod11"); 
-            }                         
+                cAR003_Kod11 = value;
+                OnPropertyChanged("CAR003_Kod11");
+            }
         }
-       
+
         /// <summary> NUMERIC (9) Allow Null </summary>
-        public decimal? CAR003_Kod12 
+        public decimal? CAR003_Kod12
         {
-            get {   return this._CAR003_Kod12;   } 
-            set 
+            get { return cAR003_Kod12; }
+            set
             {
-                this._CAR003_Kod12 = value;
-                OnPropertyChanged("CAR003_Kod12"); 
-            }                         
+                cAR003_Kod12 = value;
+                OnPropertyChanged("CAR003_Kod12");
+            }
         }
-       
+
         /// <summary> NUMERIC (9) Allow Null </summary>
-        public decimal? CAR003_Tutar2 
+        public decimal? CAR003_Tutar2
         {
-            get {   return this._CAR003_Tutar2;   } 
-            set 
+            get { return cAR003_Tutar2; }
+            set
             {
-                this._CAR003_Tutar2 = value;
-                OnPropertyChanged("CAR003_Tutar2"); 
-            }                         
+                cAR003_Tutar2 = value;
+                OnPropertyChanged("CAR003_Tutar2");
+            }
         }
-       
+
         /// <summary> INT (4) Allow Null </summary>
-        public int? CAR003_Tarih2 
+        public int? CAR003_Tarih2
         {
-            get {   return this._CAR003_Tarih2;   } 
-            set 
+            get { return cAR003_Tarih2; }
+            set
             {
-                this._CAR003_Tarih2 = value;
-                OnPropertyChanged("CAR003_Tarih2"); 
-            }                         
+                cAR003_Tarih2 = value;
+                OnPropertyChanged("CAR003_Tarih2");
+            }
         }
-       
+
         /// <summary> NVARCHAR (60) Allow Null </summary>
-        public string CAR003_Aciklama2 
+        public string CAR003_Aciklama2
         {
-            get {   return this._CAR003_Aciklama2;   } 
-            set 
+            get { return cAR003_Aciklama2; }
+            set
             {
-                this._CAR003_Aciklama2 = value;
-                OnPropertyChanged("CAR003_Aciklama2"); 
-            }                         
+                cAR003_Aciklama2 = value;
+                OnPropertyChanged("CAR003_Aciklama2");
+            }
         }
-       
+
         /// <summary> NVARCHAR (32) Allow Null </summary>
-        public string CAR003_EvrakSeriNo2 
+        public string CAR003_EvrakSeriNo2
         {
-            get {   return this._CAR003_EvrakSeriNo2;   } 
-            set 
+            get { return cAR003_EvrakSeriNo2; }
+            set
             {
-                this._CAR003_EvrakSeriNo2 = value;
-                OnPropertyChanged("CAR003_EvrakSeriNo2"); 
-            }                         
+                cAR003_EvrakSeriNo2 = value;
+                OnPropertyChanged("CAR003_EvrakSeriNo2");
+            }
         }
-       
+
         /// <summary> NVARCHAR (6) Allow Null </summary>
-        public string CAR003_DovizCinsi 
+        public string CAR003_DovizCinsi
         {
-            get {   return this._CAR003_DovizCinsi;   } 
-            set 
+            get { return cAR003_DovizCinsi; }
+            set
             {
-                this._CAR003_DovizCinsi = value;
-                OnPropertyChanged("CAR003_DovizCinsi"); 
-            }                         
+                cAR003_DovizCinsi = value;
+                OnPropertyChanged("CAR003_DovizCinsi");
+            }
         }
-       
+
         /// <summary> NUMERIC (9) Allow Null </summary>
-        public decimal? CAR003_DovizTutari 
+        public decimal? CAR003_DovizTutari
         {
-            get {   return this._CAR003_DovizTutari;   } 
-            set 
+            get { return cAR003_DovizTutari; }
+            set
             {
-                this._CAR003_DovizTutari = value;
-                OnPropertyChanged("CAR003_DovizTutari"); 
-            }                         
+                cAR003_DovizTutari = value;
+                OnPropertyChanged("CAR003_DovizTutari");
+            }
         }
-       
+
         /// <summary> NUMERIC (9) Allow Null </summary>
-        public decimal? CAR003_DovizKuru 
+        public decimal? CAR003_DovizKuru
         {
-            get {   return this._CAR003_DovizKuru;   } 
-            set 
+            get { return cAR003_DovizKuru; }
+            set
             {
-                this._CAR003_DovizKuru = value;
-                OnPropertyChanged("CAR003_DovizKuru"); 
-            }                         
+                cAR003_DovizKuru = value;
+                OnPropertyChanged("CAR003_DovizKuru");
+            }
         }
-       
+
         /// <summary> NVARCHAR (16) Allow Null </summary>
-        public string CAR003_SenetCekBordroNo 
+        public string CAR003_SenetCekBordroNo
         {
-            get {   return this._CAR003_SenetCekBordroNo;   } 
-            set 
+            get { return cAR003_SenetCekBordroNo; }
+            set
             {
-                this._CAR003_SenetCekBordroNo = value;
-                OnPropertyChanged("CAR003_SenetCekBordroNo"); 
-            }                         
+                cAR003_SenetCekBordroNo = value;
+                OnPropertyChanged("CAR003_SenetCekBordroNo");
+            }
         }
-       
+
         /// <summary> SMALLINT (2) Allow Null </summary>
-        public short? CAR003_SenetCekPozisyonTipi 
+        public short? CAR003_SenetCekPozisyonTipi
         {
-            get {   return this._CAR003_SenetCekPozisyonTipi;   } 
-            set 
+            get { return cAR003_SenetCekPozisyonTipi; }
+            set
             {
-                this._CAR003_SenetCekPozisyonTipi = value;
-                OnPropertyChanged("CAR003_SenetCekPozisyonTipi"); 
-            }                         
+                cAR003_SenetCekPozisyonTipi = value;
+                OnPropertyChanged("CAR003_SenetCekPozisyonTipi");
+            }
         }
-       
+
         /// <summary> SMALLINT (2) Allow Null </summary>
-        public short? CAR003_MuhasebelesmeSekli 
+        public short? CAR003_MuhasebelesmeSekli
         {
-            get {   return this._CAR003_MuhasebelesmeSekli;   } 
-            set 
+            get { return cAR003_MuhasebelesmeSekli; }
+            set
             {
-                this._CAR003_MuhasebelesmeSekli = value;
-                OnPropertyChanged("CAR003_MuhasebelesmeSekli"); 
-            }                         
+                cAR003_MuhasebelesmeSekli = value;
+                OnPropertyChanged("CAR003_MuhasebelesmeSekli");
+            }
         }
-       
+
         /// <summary> INT (4) Allow Null </summary>
-        public int? CAR003_MuhasebeFisTarihi 
+        public int? CAR003_MuhasebeFisTarihi
         {
-            get {   return this._CAR003_MuhasebeFisTarihi;   } 
-            set 
+            get { return cAR003_MuhasebeFisTarihi; }
+            set
             {
-                this._CAR003_MuhasebeFisTarihi = value;
-                OnPropertyChanged("CAR003_MuhasebeFisTarihi"); 
-            }                         
+                cAR003_MuhasebeFisTarihi = value;
+                OnPropertyChanged("CAR003_MuhasebeFisTarihi");
+            }
         }
-       
+
         /// <summary> TINYINT (1) Allow Null </summary>
-        public byte? CAR003_MuhasebeTipi 
+        public byte? CAR003_MuhasebeTipi
         {
-            get {   return this._CAR003_MuhasebeTipi;   } 
-            set 
+            get { return cAR003_MuhasebeTipi; }
+            set
             {
-                this._CAR003_MuhasebeTipi = value;
-                OnPropertyChanged("CAR003_MuhasebeTipi"); 
-            }                         
+                cAR003_MuhasebeTipi = value;
+                OnPropertyChanged("CAR003_MuhasebeTipi");
+            }
         }
-       
+
         /// <summary> INT (4) Allow Null </summary>
-        public int? CAR003_MuhasebeFisNumarasi 
+        public int? CAR003_MuhasebeFisNumarasi
         {
-            get {   return this._CAR003_MuhasebeFisNumarasi;   } 
-            set 
+            get { return cAR003_MuhasebeFisNumarasi; }
+            set
             {
-                this._CAR003_MuhasebeFisNumarasi = value;
-                OnPropertyChanged("CAR003_MuhasebeFisNumarasi"); 
-            }                         
+                cAR003_MuhasebeFisNumarasi = value;
+                OnPropertyChanged("CAR003_MuhasebeFisNumarasi");
+            }
         }
-       
+
         /// <summary> NVARCHAR (6) Allow Null </summary>
-        public string CAR003_MuhasebeFisKodu 
+        public string CAR003_MuhasebeFisKodu
         {
-            get {   return this._CAR003_MuhasebeFisKodu;   } 
-            set 
+            get { return cAR003_MuhasebeFisKodu; }
+            set
             {
-                this._CAR003_MuhasebeFisKodu = value;
-                OnPropertyChanged("CAR003_MuhasebeFisKodu"); 
-            }                         
+                cAR003_MuhasebeFisKodu = value;
+                OnPropertyChanged("CAR003_MuhasebeFisKodu");
+            }
         }
-       
+
         /// <summary> SMALLINT (2) Allow Null </summary>
-        public short? CAR003_MuhasebeSiraNo 
+        public short? CAR003_MuhasebeSiraNo
         {
-            get {   return this._CAR003_MuhasebeSiraNo;   } 
-            set 
+            get { return cAR003_MuhasebeSiraNo; }
+            set
             {
-                this._CAR003_MuhasebeSiraNo = value;
-                OnPropertyChanged("CAR003_MuhasebeSiraNo"); 
-            }                         
+                cAR003_MuhasebeSiraNo = value;
+                OnPropertyChanged("CAR003_MuhasebeSiraNo");
+            }
         }
-       
+
         /// <summary> NVARCHAR (40) Allow Null </summary>
-        public string CAR003_MuhasebeHesapNo 
+        public string CAR003_MuhasebeHesapNo
         {
-            get {   return this._CAR003_MuhasebeHesapNo;   } 
-            set 
+            get { return cAR003_MuhasebeHesapNo; }
+            set
             {
-                this._CAR003_MuhasebeHesapNo = value;
-                OnPropertyChanged("CAR003_MuhasebeHesapNo"); 
-            }                         
+                cAR003_MuhasebeHesapNo = value;
+                OnPropertyChanged("CAR003_MuhasebeHesapNo");
+            }
         }
-       
+
         /// <summary> NVARCHAR (40) Allow Null </summary>
-        public string CAR003_MuhasebeKarsiHeaspNo 
+        public string CAR003_MuhasebeKarsiHeaspNo
         {
-            get {   return this._CAR003_MuhasebeKarsiHeaspNo;   } 
-            set 
+            get { return cAR003_MuhasebeKarsiHeaspNo; }
+            set
             {
-                this._CAR003_MuhasebeKarsiHeaspNo = value;
-                OnPropertyChanged("CAR003_MuhasebeKarsiHeaspNo"); 
-            }                         
+                cAR003_MuhasebeKarsiHeaspNo = value;
+                OnPropertyChanged("CAR003_MuhasebeKarsiHeaspNo");
+            }
         }
-       
+
         /// <summary> TINYINT (1) Allow Null </summary>
-        public byte? CAR003_MuhasebeYevmiyeSekli 
+        public byte? CAR003_MuhasebeYevmiyeSekli
         {
-            get {   return this._CAR003_MuhasebeYevmiyeSekli;   } 
-            set 
+            get { return cAR003_MuhasebeYevmiyeSekli; }
+            set
             {
-                this._CAR003_MuhasebeYevmiyeSekli = value;
-                OnPropertyChanged("CAR003_MuhasebeYevmiyeSekli"); 
-            }                         
+                cAR003_MuhasebeYevmiyeSekli = value;
+                OnPropertyChanged("CAR003_MuhasebeYevmiyeSekli");
+            }
         }
-       
+
         /// <summary> NVARCHAR (2) Allow Null </summary>
-        public string CAR003_IskontoTuru 
+        public string CAR003_IskontoTuru
         {
-            get {   return this._CAR003_IskontoTuru;   } 
-            set 
+            get { return cAR003_IskontoTuru; }
+            set
             {
-                this._CAR003_IskontoTuru = value;
-                OnPropertyChanged("CAR003_IskontoTuru"); 
-            }                         
+                cAR003_IskontoTuru = value;
+                OnPropertyChanged("CAR003_IskontoTuru");
+            }
         }
-       
+
         /// <summary> NVARCHAR (32) Allow Null </summary>
-        public string CAR003_EvrakSeriNo3 
+        public string CAR003_EvrakSeriNo3
         {
-            get {   return this._CAR003_EvrakSeriNo3;   } 
-            set 
+            get { return cAR003_EvrakSeriNo3; }
+            set
             {
-                this._CAR003_EvrakSeriNo3 = value;
-                OnPropertyChanged("CAR003_EvrakSeriNo3"); 
-            }                         
+                cAR003_EvrakSeriNo3 = value;
+                OnPropertyChanged("CAR003_EvrakSeriNo3");
+            }
         }
-       
+
         /// <summary> NVARCHAR (40) Allow Null </summary>
-        public string CAR003_MasrafMerkezi 
+        public string CAR003_MasrafMerkezi
         {
-            get {   return this._CAR003_MasrafMerkezi;   } 
-            set 
+            get { return cAR003_MasrafMerkezi; }
+            set
             {
-                this._CAR003_MasrafMerkezi = value;
-                OnPropertyChanged("CAR003_MasrafMerkezi"); 
-            }                         
+                cAR003_MasrafMerkezi = value;
+                OnPropertyChanged("CAR003_MasrafMerkezi");
+            }
         }
-       
+
         /// <summary> INT (4) Allow Null </summary>
-        public int? CAR003_VadeFarkiTarihi 
+        public int? CAR003_VadeFarkiTarihi
         {
-            get {   return this._CAR003_VadeFarkiTarihi;   } 
-            set 
+            get { return cAR003_VadeFarkiTarihi; }
+            set
             {
-                this._CAR003_VadeFarkiTarihi = value;
-                OnPropertyChanged("CAR003_VadeFarkiTarihi"); 
-            }                         
+                cAR003_VadeFarkiTarihi = value;
+                OnPropertyChanged("CAR003_VadeFarkiTarihi");
+            }
         }
-       
+
         /// <summary> NUMERIC (9) Allow Null </summary>
-        public decimal? CAR003_VadeFarkiTutari 
+        public decimal? CAR003_VadeFarkiTutari
         {
-            get {   return this._CAR003_VadeFarkiTutari;   } 
-            set 
+            get { return cAR003_VadeFarkiTutari; }
+            set
             {
-                this._CAR003_VadeFarkiTutari = value;
-                OnPropertyChanged("CAR003_VadeFarkiTutari"); 
-            }                         
+                cAR003_VadeFarkiTutari = value;
+                OnPropertyChanged("CAR003_VadeFarkiTutari");
+            }
         }
-       
+
         /// <summary> NUMERIC (5) Allow Null </summary>
-        public decimal? CAR003_FaizOrani 
+        public decimal? CAR003_FaizOrani
         {
-            get {   return this._CAR003_FaizOrani;   } 
-            set 
+            get { return cAR003_FaizOrani; }
+            set
             {
-                this._CAR003_FaizOrani = value;
-                OnPropertyChanged("CAR003_FaizOrani"); 
-            }                         
+                cAR003_FaizOrani = value;
+                OnPropertyChanged("CAR003_FaizOrani");
+            }
         }
-       
+
         /// <summary> INT (4) Allow Null </summary>
-        public int? CAR003_Ulke 
+        public int? CAR003_Ulke
         {
-            get {   return this._CAR003_Ulke;   } 
-            set 
+            get { return cAR003_Ulke; }
+            set
             {
-                this._CAR003_Ulke = value;
-                OnPropertyChanged("CAR003_Ulke"); 
-            }                         
+                cAR003_Ulke = value;
+                OnPropertyChanged("CAR003_Ulke");
+            }
         }
-       
+
         /// <summary> NVARCHAR (24) Allow Null </summary>
-        public string CAR003_VergiHesapNo 
+        public string CAR003_VergiHesapNo
         {
-            get {   return this._CAR003_VergiHesapNo;   } 
-            set 
+            get { return cAR003_VergiHesapNo; }
+            set
             {
-                this._CAR003_VergiHesapNo = value;
-                OnPropertyChanged("CAR003_VergiHesapNo"); 
-            }                         
+                cAR003_VergiHesapNo = value;
+                OnPropertyChanged("CAR003_VergiHesapNo");
+            }
         }
-       
+
         /// <summary> NVARCHAR (120) Allow Null </summary>
-        public string CAR003_Unvani 
+        public string CAR003_Unvani
         {
-            get {   return this._CAR003_Unvani;   } 
-            set 
+            get { return cAR003_Unvani; }
+            set
             {
-                this._CAR003_Unvani = value;
-                OnPropertyChanged("CAR003_Unvani"); 
-            }                         
+                cAR003_Unvani = value;
+                OnPropertyChanged("CAR003_Unvani");
+            }
         }
-       
+
         /// <summary> SMALLINT (2) Allow Null </summary>
-        public short? CAR003_EvrakSayisi 
+        public short? CAR003_EvrakSayisi
         {
-            get {   return this._CAR003_EvrakSayisi;   } 
-            set 
+            get { return cAR003_EvrakSayisi; }
+            set
             {
-                this._CAR003_EvrakSayisi = value;
-                OnPropertyChanged("CAR003_EvrakSayisi"); 
-            }                         
+                cAR003_EvrakSayisi = value;
+                OnPropertyChanged("CAR003_EvrakSayisi");
+            }
         }
-       
+
         /// <summary> SMALLINT (2) Allow Null </summary>
-        public short? CAR003_EvrakTipi 
+        public short? CAR003_EvrakTipi
         {
-            get {   return this._CAR003_EvrakTipi;   } 
-            set 
+            get { return cAR003_EvrakTipi; }
+            set
             {
-                this._CAR003_EvrakTipi = value;
-                OnPropertyChanged("CAR003_EvrakTipi"); 
-            }                         
+                cAR003_EvrakTipi = value;
+                OnPropertyChanged("CAR003_EvrakTipi");
+            }
         }
-       
+
         /// <summary> INT (4) Allow Null </summary>
-        public int? CAR003_MHSMaddeNo 
+        public int? CAR003_MHSMaddeNo
         {
-            get {   return this._CAR003_MHSMaddeNo;   } 
-            set 
+            get { return cAR003_MHSMaddeNo; }
+            set
             {
-                this._CAR003_MHSMaddeNo = value;
-                OnPropertyChanged("CAR003_MHSMaddeNo"); 
-            }                         
+                cAR003_MHSMaddeNo = value;
+                OnPropertyChanged("CAR003_MHSMaddeNo");
+            }
         }
-       
+
         /// <summary> NVARCHAR (80) Allow Null </summary>
-        public string CAR003_IBAN 
+        public string CAR003_IBAN
         {
-            get {   return this._CAR003_IBAN;   } 
-            set 
+            get { return cAR003_IBAN; }
+            set
             {
-                this._CAR003_IBAN = value;
-                OnPropertyChanged("CAR003_IBAN"); 
-            }                         
+                cAR003_IBAN = value;
+                OnPropertyChanged("CAR003_IBAN");
+            }
         }
-       
+
         /// <summary> INT (4) Allow Null </summary>
-        public int? CAR003_KKPOSTableRowID 
+        public int? CAR003_KKPOSTableRowID
         {
-            get {   return this._CAR003_KKPOSTableRowID;   } 
-            set 
+            get { return cAR003_KKPOSTableRowID; }
+            set
             {
-                this._CAR003_KKPOSTableRowID = value;
-                OnPropertyChanged("CAR003_KKPOSTableRowID"); 
-            }                         
+                cAR003_KKPOSTableRowID = value;
+                OnPropertyChanged("CAR003_KKPOSTableRowID");
+            }
         }
-       
+
         /// <summary> SMALLINT (2) Allow Null </summary>
-        public short? CAR003_KKTaksitSayisi 
+        public short? CAR003_KKTaksitSayisi
         {
-            get {   return this._CAR003_KKTaksitSayisi;   } 
-            set 
+            get { return cAR003_KKTaksitSayisi; }
+            set
             {
-                this._CAR003_KKTaksitSayisi = value;
-                OnPropertyChanged("CAR003_KKTaksitSayisi"); 
-            }                         
+                cAR003_KKTaksitSayisi = value;
+                OnPropertyChanged("CAR003_KKTaksitSayisi");
+            }
         }
-       
+
         /// <summary> SMALLINT (2) Allow Null </summary>
-        public short? CAR003_KKTaksitNo 
+        public short? CAR003_KKTaksitNo
         {
-            get {   return this._CAR003_KKTaksitNo;   } 
-            set 
+            get { return cAR003_KKTaksitNo; }
+            set
             {
-                this._CAR003_KKTaksitNo = value;
-                OnPropertyChanged("CAR003_KKTaksitNo"); 
-            }                         
+                cAR003_KKTaksitNo = value;
+                OnPropertyChanged("CAR003_KKTaksitNo");
+            }
         }
-       
+
         /// <summary> INT (4) Allow Null </summary>
-        public int? CAR003_KKKomisyonID 
+        public int? CAR003_KKKomisyonID
         {
-            get {   return this._CAR003_KKKomisyonID;   } 
-            set 
+            get { return cAR003_KKKomisyonID; }
+            set
             {
-                this._CAR003_KKKomisyonID = value;
-                OnPropertyChanged("CAR003_KKKomisyonID"); 
-            }                         
+                cAR003_KKKomisyonID = value;
+                OnPropertyChanged("CAR003_KKKomisyonID");
+            }
         }
-       
+
         /// <summary> INT (4) Allow Null </summary>
-        public int? CAR003_KDVTevkIslemTuru 
+        public int? CAR003_KDVTevkIslemTuru
         {
-            get {   return this._CAR003_KDVTevkIslemTuru;   } 
-            set 
+            get { return cAR003_KDVTevkIslemTuru; }
+            set
             {
-                this._CAR003_KDVTevkIslemTuru = value;
-                OnPropertyChanged("CAR003_KDVTevkIslemTuru"); 
-            }                         
+                cAR003_KDVTevkIslemTuru = value;
+                OnPropertyChanged("CAR003_KDVTevkIslemTuru");
+            }
         }
-       
+
         /// <summary> NVARCHAR (14) Allow Null </summary>
-        public string CAR003_KDVTevkOrani 
+        public string CAR003_KDVTevkOrani
         {
-            get {   return this._CAR003_KDVTevkOrani;   } 
-            set 
+            get { return cAR003_KDVTevkOrani; }
+            set
             {
-                this._CAR003_KDVTevkOrani = value;
-                OnPropertyChanged("CAR003_KDVTevkOrani"); 
-            }                         
+                cAR003_KDVTevkOrani = value;
+                OnPropertyChanged("CAR003_KDVTevkOrani");
+            }
         }
-       
+
         /// <summary> NVARCHAR (40) Allow Null </summary>
-        public string CAR003_IthalatNo 
+        public string CAR003_IthalatNo
         {
-            get {   return this._CAR003_IthalatNo;   } 
-            set 
+            get { return cAR003_IthalatNo; }
+            set
             {
-                this._CAR003_IthalatNo = value;
-                OnPropertyChanged("CAR003_IthalatNo"); 
-            }                         
+                cAR003_IthalatNo = value;
+                OnPropertyChanged("CAR003_IthalatNo");
+            }
         }
-       
+
         /// <summary> TINYINT (1) Allow Null </summary>
-        public byte? CAR003_IthalatAktarmaFlag 
+        public byte? CAR003_IthalatAktarmaFlag
         {
-            get {   return this._CAR003_IthalatAktarmaFlag;   } 
-            set 
+            get { return cAR003_IthalatAktarmaFlag; }
+            set
             {
-                this._CAR003_IthalatAktarmaFlag = value;
-                OnPropertyChanged("CAR003_IthalatAktarmaFlag"); 
-            }                         
+                cAR003_IthalatAktarmaFlag = value;
+                OnPropertyChanged("CAR003_IthalatAktarmaFlag");
+            }
         }
-       
+
         /// <summary> NUMERIC (13) Allow Null </summary>
-        public decimal? CAR003_KDVTevkIslemBedeli 
+        public decimal? CAR003_KDVTevkIslemBedeli
         {
-            get {   return this._CAR003_KDVTevkIslemBedeli;   } 
-            set 
+            get { return cAR003_KDVTevkIslemBedeli; }
+            set
             {
-                this._CAR003_KDVTevkIslemBedeli = value;
-                OnPropertyChanged("CAR003_KDVTevkIslemBedeli"); 
-            }                         
+                cAR003_KDVTevkIslemBedeli = value;
+                OnPropertyChanged("CAR003_KDVTevkIslemBedeli");
+            }
         }
-       
+
         /// <summary> NVARCHAR (40) Allow Null </summary>
-        public string CAR003_OdemeTipi 
+        public string CAR003_OdemeTipi
         {
-            get {   return this._CAR003_OdemeTipi;   } 
-            set 
+            get { return cAR003_OdemeTipi; }
+            set
             {
-                this._CAR003_OdemeTipi = value;
-                OnPropertyChanged("CAR003_OdemeTipi"); 
-            }                         
+                cAR003_OdemeTipi = value;
+                OnPropertyChanged("CAR003_OdemeTipi");
+            }
         }
-       
+
         /// <summary> TINYINT (1) Allow Null </summary>
-        public byte? CAR003_YevmiyeEvrakTip 
+        public byte? CAR003_YevmiyeEvrakTip
         {
-            get {   return this._CAR003_YevmiyeEvrakTip;   } 
-            set 
+            get { return cAR003_YevmiyeEvrakTip; }
+            set
             {
-                this._CAR003_YevmiyeEvrakTip = value;
-                OnPropertyChanged("CAR003_YevmiyeEvrakTip"); 
-            }                         
+                cAR003_YevmiyeEvrakTip = value;
+                OnPropertyChanged("CAR003_YevmiyeEvrakTip");
+            }
         }
-       
+
         /// <summary> NVARCHAR (128) Allow Null </summary>
-        public string CAR003_EvrakTipAciklama 
+        public string CAR003_EvrakTipAciklama
         {
-            get {   return this._CAR003_EvrakTipAciklama;   } 
-            set 
+            get { return cAR003_EvrakTipAciklama; }
+            set
             {
-                this._CAR003_EvrakTipAciklama = value;
-                OnPropertyChanged("CAR003_EvrakTipAciklama"); 
-            }                         
+                cAR003_EvrakTipAciklama = value;
+                OnPropertyChanged("CAR003_EvrakTipAciklama");
+            }
         }
-       
+
         /// <summary> TINYINT (1) Allow Null </summary>
-        public byte? CAR003_EFaturaTipi 
+        public byte? CAR003_EFaturaTipi
         {
-            get {   return this._CAR003_EFaturaTipi;   } 
-            set 
+            get { return cAR003_EFaturaTipi; }
+            set
             {
-                this._CAR003_EFaturaTipi = value;
-                OnPropertyChanged("CAR003_EFaturaTipi"); 
-            }                         
+                cAR003_EFaturaTipi = value;
+                OnPropertyChanged("CAR003_EFaturaTipi");
+            }
         }
-       
+
         /// <summary> SMALLINT (2) Allow Null </summary>
-        public short? CAR003_EFaturaDurumu 
+        public short? CAR003_EFaturaDurumu
         {
-            get {   return this._CAR003_EFaturaDurumu;   } 
-            set 
+            get { return cAR003_EFaturaDurumu; }
+            set
             {
-                this._CAR003_EFaturaDurumu = value;
-                OnPropertyChanged("CAR003_EFaturaDurumu"); 
-            }                         
+                cAR003_EFaturaDurumu = value;
+                OnPropertyChanged("CAR003_EFaturaDurumu");
+            }
         }
-       
+
         /// <summary> NVARCHAR (4) Allow Null </summary>
-        public string CAR003_EFaturaOTVListeNo 
+        public string CAR003_EFaturaOTVListeNo
         {
-            get {   return this._CAR003_EFaturaOTVListeNo;   } 
-            set 
+            get { return cAR003_EFaturaOTVListeNo; }
+            set
             {
-                this._CAR003_EFaturaOTVListeNo = value;
-                OnPropertyChanged("CAR003_EFaturaOTVListeNo"); 
-            }                         
+                cAR003_EFaturaOTVListeNo = value;
+                OnPropertyChanged("CAR003_EFaturaOTVListeNo");
+            }
         }
-       
+
         /// <summary> INT (4) Allow Null </summary>
-        public int? CAR003_EFaturaDonemBas 
+        public int? CAR003_EFaturaDonemBas
         {
-            get {   return this._CAR003_EFaturaDonemBas;   } 
-            set 
+            get { return cAR003_EFaturaDonemBas; }
+            set
             {
-                this._CAR003_EFaturaDonemBas = value;
-                OnPropertyChanged("CAR003_EFaturaDonemBas"); 
-            }                         
+                cAR003_EFaturaDonemBas = value;
+                OnPropertyChanged("CAR003_EFaturaDonemBas");
+            }
         }
-       
+
         /// <summary> INT (4) Allow Null </summary>
-        public int? CAR003_EFaturaDonemBit 
+        public int? CAR003_EFaturaDonemBit
         {
-            get {   return this._CAR003_EFaturaDonemBit;   } 
-            set 
+            get { return cAR003_EFaturaDonemBit; }
+            set
             {
-                this._CAR003_EFaturaDonemBit = value;
-                OnPropertyChanged("CAR003_EFaturaDonemBit"); 
-            }                         
+                cAR003_EFaturaDonemBit = value;
+                OnPropertyChanged("CAR003_EFaturaDonemBit");
+            }
         }
-       
+
         /// <summary> INT (4) Allow Null </summary>
-        public int? CAR003_EFaturaSure 
+        public int? CAR003_EFaturaSure
         {
-            get {   return this._CAR003_EFaturaSure;   } 
-            set 
+            get { return cAR003_EFaturaSure; }
+            set
             {
-                this._CAR003_EFaturaSure = value;
-                OnPropertyChanged("CAR003_EFaturaSure"); 
-            }                         
+                cAR003_EFaturaSure = value;
+                OnPropertyChanged("CAR003_EFaturaSure");
+            }
         }
-       
+
         /// <summary> TINYINT (1) Allow Null </summary>
-        public byte? CAR003_EFaturaSureBirimi 
+        public byte? CAR003_EFaturaSureBirimi
         {
-            get {   return this._CAR003_EFaturaSureBirimi;   } 
-            set 
+            get { return cAR003_EFaturaSureBirimi; }
+            set
             {
-                this._CAR003_EFaturaSureBirimi = value;
-                OnPropertyChanged("CAR003_EFaturaSureBirimi"); 
-            }                         
+                cAR003_EFaturaSureBirimi = value;
+                OnPropertyChanged("CAR003_EFaturaSureBirimi");
+            }
         }
-       
+
         /// <summary> NVARCHAR (128) Allow Null </summary>
-        public string CAR003_EFaturaDonemAciklama 
+        public string CAR003_EFaturaDonemAciklama
         {
-            get {   return this._CAR003_EFaturaDonemAciklama;   } 
-            set 
+            get { return cAR003_EFaturaDonemAciklama; }
+            set
             {
-                this._CAR003_EFaturaDonemAciklama = value;
-                OnPropertyChanged("CAR003_EFaturaDonemAciklama"); 
-            }                         
+                cAR003_EFaturaDonemAciklama = value;
+                OnPropertyChanged("CAR003_EFaturaDonemAciklama");
+            }
         }
-       
+
         /// <summary> NVARCHAR (512) Allow Null </summary>
-        public string CAR003_EFaturaNot 
+        public string CAR003_EFaturaNot
         {
-            get {   return this._CAR003_EFaturaNot;   } 
-            set 
+            get { return cAR003_EFaturaNot; }
+            set
             {
-                this._CAR003_EFaturaNot = value;
-                OnPropertyChanged("CAR003_EFaturaNot"); 
-            }                         
+                cAR003_EFaturaNot = value;
+                OnPropertyChanged("CAR003_EFaturaNot");
+            }
         }
-       
+
         /// <summary> NVARCHAR (32) Allow Null </summary>
-        public string CAR003_EFaturaReferansNo 
+        public string CAR003_EFaturaReferansNo
         {
-            get {   return this._CAR003_EFaturaReferansNo;   } 
-            set 
+            get { return cAR003_EFaturaReferansNo; }
+            set
             {
-                this._CAR003_EFaturaReferansNo = value;
-                OnPropertyChanged("CAR003_EFaturaReferansNo"); 
-            }                         
+                cAR003_EFaturaReferansNo = value;
+                OnPropertyChanged("CAR003_EFaturaReferansNo");
+            }
         }
-       
+
         /// <summary> NVARCHAR (64) Allow Null </summary>
-        public string CAR003_YevEvrakNo 
+        public string CAR003_YevEvrakNo
         {
-            get {   return this._CAR003_YevEvrakNo;   } 
-            set 
+            get { return cAR003_YevEvrakNo; }
+            set
             {
-                this._CAR003_YevEvrakNo = value;
-                OnPropertyChanged("CAR003_YevEvrakNo"); 
-            }                         
+                cAR003_YevEvrakNo = value;
+                OnPropertyChanged("CAR003_YevEvrakNo");
+            }
         }
-       
+
         /// <summary> INT (4) Allow Null </summary>
-        public int? CAR003_YevEvrakTarihi 
+        public int? CAR003_YevEvrakTarihi
         {
-            get {   return this._CAR003_YevEvrakTarihi;   } 
-            set 
+            get { return cAR003_YevEvrakTarihi; }
+            set
             {
-                this._CAR003_YevEvrakTarihi = value;
-                OnPropertyChanged("CAR003_YevEvrakTarihi"); 
-            }                         
+                cAR003_YevEvrakTarihi = value;
+                OnPropertyChanged("CAR003_YevEvrakTarihi");
+            }
         }
-       
+
         /// <summary> NUMERIC (5) Allow Null </summary>
-        public decimal? CAR003_StopajOrani 
+        public decimal? CAR003_StopajOrani
         {
-            get {   return this._CAR003_StopajOrani;   } 
-            set 
+            get { return cAR003_StopajOrani; }
+            set
             {
-                this._CAR003_StopajOrani = value;
-                OnPropertyChanged("CAR003_StopajOrani"); 
-            }                         
+                cAR003_StopajOrani = value;
+                OnPropertyChanged("CAR003_StopajOrani");
+            }
         }
-       
+
         /// <summary> SMALLINT (2) Allow Null </summary>
-        public short? CAR003_OdemeTuru 
+        public short? CAR003_OdemeTuru
         {
-            get {   return this._CAR003_OdemeTuru;   } 
-            set 
+            get { return cAR003_OdemeTuru; }
+            set
             {
-                this._CAR003_OdemeTuru = value;
-                OnPropertyChanged("CAR003_OdemeTuru"); 
-            }                         
+                cAR003_OdemeTuru = value;
+                OnPropertyChanged("CAR003_OdemeTuru");
+            }
         }
-       
+
         /// <summary> NVARCHAR (32) Allow Null </summary>
-        public string CAR003_TalimatNo 
+        public string CAR003_TalimatNo
         {
-            get {   return this._CAR003_TalimatNo;   } 
-            set 
+            get { return cAR003_TalimatNo; }
+            set
             {
-                this._CAR003_TalimatNo = value;
-                OnPropertyChanged("CAR003_TalimatNo"); 
-            }                         
+                cAR003_TalimatNo = value;
+                OnPropertyChanged("CAR003_TalimatNo");
+            }
         }
-       
+
         /// <summary> NVARCHAR (40) Allow Null </summary>
-        public string CAR003_IhracatNo 
+        public string CAR003_IhracatNo
         {
-            get {   return this._CAR003_IhracatNo;   } 
-            set 
+            get { return cAR003_IhracatNo; }
+            set
             {
-                this._CAR003_IhracatNo = value;
-                OnPropertyChanged("CAR003_IhracatNo"); 
-            }                         
+                cAR003_IhracatNo = value;
+                OnPropertyChanged("CAR003_IhracatNo");
+            }
         }
-       
+
         /// <summary> INT (4) Allow Null </summary>
-        public int? CAR003_GrpSiraNo 
+        public int? CAR003_GrpSiraNo
         {
-            get {   return this._CAR003_GrpSiraNo;   } 
-            set 
+            get { return cAR003_GrpSiraNo; }
+            set
             {
-                this._CAR003_GrpSiraNo = value;
-                OnPropertyChanged("CAR003_GrpSiraNo"); 
-            }                         
+                cAR003_GrpSiraNo = value;
+                OnPropertyChanged("CAR003_GrpSiraNo");
+            }
         }
-       
+
         /// <summary> TINYINT (1) Allow Null </summary>
-        public byte? CAR003_EArsivFaturaTipi 
+        public byte? CAR003_EArsivFaturaTipi
         {
-            get {   return this._CAR003_EArsivFaturaTipi;   } 
-            set 
+            get { return cAR003_EArsivFaturaTipi; }
+            set
             {
-                this._CAR003_EArsivFaturaTipi = value;
-                OnPropertyChanged("CAR003_EArsivFaturaTipi"); 
-            }                         
+                cAR003_EArsivFaturaTipi = value;
+                OnPropertyChanged("CAR003_EArsivFaturaTipi");
+            }
         }
-       
+
         /// <summary> TINYINT (1) Allow Null </summary>
-        public byte? CAR003_EArsivFaturaTeslimSekli 
+        public byte? CAR003_EArsivFaturaTeslimSekli
         {
-            get {   return this._CAR003_EArsivFaturaTeslimSekli;   } 
-            set 
+            get { return cAR003_EArsivFaturaTeslimSekli; }
+            set
             {
-                this._CAR003_EArsivFaturaTeslimSekli = value;
-                OnPropertyChanged("CAR003_EArsivFaturaTeslimSekli"); 
-            }                         
+                cAR003_EArsivFaturaTeslimSekli = value;
+                OnPropertyChanged("CAR003_EArsivFaturaTeslimSekli");
+            }
         }
-       
+
         /// <summary> SMALLINT (2) Allow Null </summary>
-        public short? CAR003_EArsivFaturaDurumu 
+        public short? CAR003_EArsivFaturaDurumu
         {
-            get {   return this._CAR003_EArsivFaturaDurumu;   } 
-            set 
+            get { return cAR003_EArsivFaturaDurumu; }
+            set
             {
-                this._CAR003_EArsivFaturaDurumu = value;
-                OnPropertyChanged("CAR003_EArsivFaturaDurumu"); 
-            }                         
+                cAR003_EArsivFaturaDurumu = value;
+                OnPropertyChanged("CAR003_EArsivFaturaDurumu");
+            }
         }
-       
+
         /// <summary> NVARCHAR (256) Allow Null </summary>
-        public string CAR003_EArsivAdres 
+        public string CAR003_EArsivAdres
         {
-            get {   return this._CAR003_EArsivAdres;   } 
-            set 
+            get { return cAR003_EArsivAdres; }
+            set
             {
-                this._CAR003_EArsivAdres = value;
-                OnPropertyChanged("CAR003_EArsivAdres"); 
-            }                         
+                cAR003_EArsivAdres = value;
+                OnPropertyChanged("CAR003_EArsivAdres");
+            }
         }
-       
+
         /// <summary> NVARCHAR (54) Allow Null </summary>
-        public string CAR003_EArsivSemt 
+        public string CAR003_EArsivSemt
         {
-            get {   return this._CAR003_EArsivSemt;   } 
-            set 
+            get { return cAR003_EArsivSemt; }
+            set
             {
-                this._CAR003_EArsivSemt = value;
-                OnPropertyChanged("CAR003_EArsivSemt"); 
-            }                         
+                cAR003_EArsivSemt = value;
+                OnPropertyChanged("CAR003_EArsivSemt");
+            }
         }
-       
+
         /// <summary> NVARCHAR (54) Allow Null </summary>
-        public string CAR003_EArsivIL 
+        public string CAR003_EArsivIL
         {
-            get {   return this._CAR003_EArsivIL;   } 
-            set 
+            get { return cAR003_EArsivIL; }
+            set
             {
-                this._CAR003_EArsivIL = value;
-                OnPropertyChanged("CAR003_EArsivIL"); 
-            }                         
+                cAR003_EArsivIL = value;
+                OnPropertyChanged("CAR003_EArsivIL");
+            }
         }
-       
+
         /// <summary> NVARCHAR (120) Allow Null </summary>
-        public string CAR003_Unvani2 
+        public string CAR003_Unvani2
         {
-            get {   return this._CAR003_Unvani2;   } 
-            set 
+            get { return cAR003_Unvani2; }
+            set
             {
-                this._CAR003_Unvani2 = value;
-                OnPropertyChanged("CAR003_Unvani2"); 
-            }                         
+                cAR003_Unvani2 = value;
+                OnPropertyChanged("CAR003_Unvani2");
+            }
         }
-       
+
         /// <summary> NVARCHAR (32) Allow Null </summary>
-        public string CAR003_YOKCSeriNo 
+        public string CAR003_YOKCSeriNo
         {
-            get {   return this._CAR003_YOKCSeriNo;   } 
-            set 
+            get { return cAR003_YOKCSeriNo; }
+            set
             {
-                this._CAR003_YOKCSeriNo = value;
-                OnPropertyChanged("CAR003_YOKCSeriNo"); 
-            }                         
+                cAR003_YOKCSeriNo = value;
+                OnPropertyChanged("CAR003_YOKCSeriNo");
+            }
         }
-       
+
         /// <summary> INT (4) Allow Null </summary>
-        public int? CAR003_YOKCZRaporuNo 
+        public int? CAR003_YOKCZRaporuNo
         {
-            get {   return this._CAR003_YOKCZRaporuNo;   } 
-            set 
+            get { return cAR003_YOKCZRaporuNo; }
+            set
             {
-                this._CAR003_YOKCZRaporuNo = value;
-                OnPropertyChanged("CAR003_YOKCZRaporuNo"); 
-            }                         
+                cAR003_YOKCZRaporuNo = value;
+                OnPropertyChanged("CAR003_YOKCZRaporuNo");
+            }
         }
-       
+
         /// <summary> TINYINT (1) Allow Null </summary>
-        public byte? CAR003_YOKCBelgeTipi 
+        public byte? CAR003_YOKCBelgeTipi
         {
-            get {   return this._CAR003_YOKCBelgeTipi;   } 
-            set 
+            get { return cAR003_YOKCBelgeTipi; }
+            set
             {
-                this._CAR003_YOKCBelgeTipi = value;
-                OnPropertyChanged("CAR003_YOKCBelgeTipi"); 
-            }                         
+                cAR003_YOKCBelgeTipi = value;
+                OnPropertyChanged("CAR003_YOKCBelgeTipi");
+            }
         }
-       
+
         /// <summary> TINYINT (1) Allow Null </summary>
-        public byte? CAR003_YOKCBilgiFisiTipi 
+        public byte? CAR003_YOKCBilgiFisiTipi
         {
-            get {   return this._CAR003_YOKCBilgiFisiTipi;   } 
-            set 
+            get { return cAR003_YOKCBilgiFisiTipi; }
+            set
             {
-                this._CAR003_YOKCBilgiFisiTipi = value;
-                OnPropertyChanged("CAR003_YOKCBilgiFisiTipi"); 
-            }                         
+                cAR003_YOKCBilgiFisiTipi = value;
+                OnPropertyChanged("CAR003_YOKCBilgiFisiTipi");
+            }
         }
-       
+
         /// <summary> INT (4) Allow Null </summary>
-        public int? CAR003_YOKCFisNo 
+        public int? CAR003_YOKCFisNo
         {
-            get {   return this._CAR003_YOKCFisNo;   } 
-            set 
+            get { return cAR003_YOKCFisNo; }
+            set
             {
-                this._CAR003_YOKCFisNo = value;
-                OnPropertyChanged("CAR003_YOKCFisNo"); 
-            }                         
+                cAR003_YOKCFisNo = value;
+                OnPropertyChanged("CAR003_YOKCFisNo");
+            }
         }
-       
+
         /// <summary> INT (4) Allow Null </summary>
-        public int? CAR003_YOKCFisTarihi 
+        public int? CAR003_YOKCFisTarihi
         {
-            get {   return this._CAR003_YOKCFisTarihi;   } 
-            set 
+            get { return cAR003_YOKCFisTarihi; }
+            set
             {
-                this._CAR003_YOKCFisTarihi = value;
-                OnPropertyChanged("CAR003_YOKCFisTarihi"); 
-            }                         
+                cAR003_YOKCFisTarihi = value;
+                OnPropertyChanged("CAR003_YOKCFisTarihi");
+            }
         }
-       
+
         /// <summary> NVARCHAR (6) Allow Null </summary>
-        public string CAR003_OdemeTurKodu 
+        public string CAR003_OdemeTurKodu
         {
-            get {   return this._CAR003_OdemeTurKodu;   } 
-            set 
+            get { return cAR003_OdemeTurKodu; }
+            set
             {
-                this._CAR003_OdemeTurKodu = value;
-                OnPropertyChanged("CAR003_OdemeTurKodu"); 
-            }                         
+                cAR003_OdemeTurKodu = value;
+                OnPropertyChanged("CAR003_OdemeTurKodu");
+            }
         }
-       
+
         /// <summary> INT (4) Allow Null </summary>
-        public int? CAR003_VergiDairesiKodu 
+        public int? CAR003_VergiDairesiKodu
         {
-            get {   return this._CAR003_VergiDairesiKodu;   } 
-            set 
+            get { return cAR003_VergiDairesiKodu; }
+            set
             {
-                this._CAR003_VergiDairesiKodu = value;
-                OnPropertyChanged("CAR003_VergiDairesiKodu"); 
-            }                         
+                cAR003_VergiDairesiKodu = value;
+                OnPropertyChanged("CAR003_VergiDairesiKodu");
+            }
         }
-       
+
         /// <summary> INT (4) Allow Null </summary>
-        public int? CAR003_FiiliIhracatTarihi 
+        public int? CAR003_FiiliIhracatTarihi
         {
-            get {   return this._CAR003_FiiliIhracatTarihi;   } 
-            set 
+            get { return cAR003_FiiliIhracatTarihi; }
+            set
             {
-                this._CAR003_FiiliIhracatTarihi = value;
-                OnPropertyChanged("CAR003_FiiliIhracatTarihi"); 
-            }                         
+                cAR003_FiiliIhracatTarihi = value;
+                OnPropertyChanged("CAR003_FiiliIhracatTarihi");
+            }
         }
-       
+
         /// <summary> NVARCHAR (16) Allow Null </summary>
-        public string CAR003_YOKCFisSaat 
+        public string CAR003_YOKCFisSaat
         {
-            get {   return this._CAR003_YOKCFisSaat;   } 
-            set 
+            get { return cAR003_YOKCFisSaat; }
+            set
             {
-                this._CAR003_YOKCFisSaat = value;
-                OnPropertyChanged("CAR003_YOKCFisSaat"); 
-            }                         
+                cAR003_YOKCFisSaat = value;
+                OnPropertyChanged("CAR003_YOKCFisSaat");
+            }
         }
-       
+
         /// <summary> TINYINT (1) Allow Null </summary>
-        public byte? CAR003_YOKCDuzenlemeTip 
+        public byte? CAR003_YOKCDuzenlemeTip
         {
-            get {   return this._CAR003_YOKCDuzenlemeTip;   } 
-            set 
+            get { return cAR003_YOKCDuzenlemeTip; }
+            set
             {
-                this._CAR003_YOKCDuzenlemeTip = value;
-                OnPropertyChanged("CAR003_YOKCDuzenlemeTip"); 
-            }                         
+                cAR003_YOKCDuzenlemeTip = value;
+                OnPropertyChanged("CAR003_YOKCDuzenlemeTip");
+            }
         }
-       
+
         /// <summary> NVARCHAR (12) Allow Null </summary>
-        public string CAR003_YOKCBankaOnayKod 
+        public string CAR003_YOKCBankaOnayKod
         {
-            get {   return this._CAR003_YOKCBankaOnayKod;   } 
-            set 
+            get { return cAR003_YOKCBankaOnayKod; }
+            set
             {
-                this._CAR003_YOKCBankaOnayKod = value;
-                OnPropertyChanged("CAR003_YOKCBankaOnayKod"); 
-            }                         
+                cAR003_YOKCBankaOnayKod = value;
+                OnPropertyChanged("CAR003_YOKCBankaOnayKod");
+            }
         }
-       
+
         /// <summary> NVARCHAR (48) Allow Null </summary>
-        public string CAR003_YOKCUniqueID 
+        public string CAR003_YOKCUniqueID
         {
-            get {   return this._CAR003_YOKCUniqueID;   } 
-            set 
+            get { return cAR003_YOKCUniqueID; }
+            set
             {
-                this._CAR003_YOKCUniqueID = value;
-                OnPropertyChanged("CAR003_YOKCUniqueID"); 
-            }                         
+                cAR003_YOKCUniqueID = value;
+                OnPropertyChanged("CAR003_YOKCUniqueID");
+            }
         }
 
         /// <summary> INT (4) PRIMARY KEY * </summary>
-        public int pk_CAR003_Row_ID 
+        public int pk_CAR003_Row_ID
         {
-            private get {   return this._pk_CAR003_Row_ID;   } 
-            set 
+            private get { return _pk_CAR003_Row_ID; }
+            set
             {
-                this._pk_CAR003_Row_ID = value;
-                OnPropertyChanged("pk_CAR003_Row_ID"); 
-            }                         
+                _pk_CAR003_Row_ID = value;
+                OnPropertyChanged("pk_CAR003_Row_ID");
+            }
         }
         #endregion /// Properties             
         #region Tablo Bilgileri & Metodlar
 
-        public void WhereAdd(CAR003E Property, object Deger, Operand And_Or = Operand.AND)
+        public void WhereAdd(CAR003E Property, object deger, Operand and_Or = Operand.AND)
         {
-            WhereList.Add(SqlExperOperatorIslem.WhereAdd(Enum.GetName(typeof(CAR003E), Property), Deger, And_Or));
+            WhereList.Add(SqlExperOperatorIslem.WhereAdd(Enum.GetName(typeof(CAR003E), Property), deger, and_Or));
         }
 
         public void WhereAdd(CAR003E Property, Islem islem, object Deger, Operand And_Or = Operand.AND)
@@ -1640,25 +1635,22 @@ namespace Wms12m.Entity
             SetList.Add(SqlExperOperatorIslem.SetAdd(Enum.GetName(typeof(CAR003E), Property), Degerler));
         }
 
-        private List<string> WhereList = new List<string>();
-        private List<string> SetList = new List<string>(); 
-        private string info_FullTableName = "YNS{0}.YNS{0}.CAR003";            
-        private string[] info_PrimaryKeys = { "pk_CAR003_Row_ID" };
-        private string[] info_IdentityKeys = { "CAR003_Row_ID" };
+        List<string> WhereList = new List<string>();
+        List<string> SetList = new List<string>();
+        string info_FullTableName = "YNS{0}.YNS{0}.CAR003";
+        string[] info_PrimaryKeys = { "pk_CAR003_Row_ID" };
+        string[] info_IdentityKeys = { "CAR003_Row_ID" };
 
-        private List<string> ChangedProperties = new List<string>();
+        List<string> ChangedProperties = new List<string>();
         public event PropertyChangedEventHandler PropertyChanged;
 
         public CAR003()
         {
             ChangedProperties = new List<string>();
-            this.PropertyChanged += CAR003_PropertyChanged;
+            PropertyChanged += CAR003_PropertyChanged;
         }
 
-        public void AcceptChanges()
-        {            
-            ChangedProperties.Clear();
-        }
+        public void AcceptChanges() => ChangedProperties.Clear();
 
         void CAR003_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
@@ -1668,7 +1660,7 @@ namespace Wms12m.Entity
             }
         }
 
-        private void OnPropertyChanged(string propertyName)
+        void OnPropertyChanged(string propertyName)
         {
             if (PropertyChanged != null)
             {
@@ -1676,5 +1668,5 @@ namespace Wms12m.Entity
             }
         }
         #endregion  /// Tablo Bilgileri & Metodlar
-    } 
+    }
 }

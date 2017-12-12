@@ -389,400 +389,395 @@ namespace Wms12m.Entity
     {
         #region Properties
         #region Fields  
-        private int _STK004_Row_ID;
-        private string _STK004_MalKodu;
-        private string _STK004_Aciklama;
-        private string _STK004_GrupKodu;
-        private decimal? _STK004_Iskonto;
-        private byte? _STK004_KDV;
-        private string _STK004_Birim1;
-        private string _STK004_Birim2;
-        private string _STK004_Birim3;
-        private string _STK004_BorcluHesap;
-        private string _STK004_AlacakliHesap;
-        private decimal? _STK004_AlisFiyati1;
-        private byte? _STK004_AlisKDV1;
-        private byte? _STK004_AlisBirim1;
-        private decimal? _STK004_AlisFiyati2;
-        private byte? _STK004_AlisKDV2;
-        private byte? _STK004_AlisBirim2;
-        private decimal? _STK004_AlisFiyati3;
-        private byte? _STK004_AlisKDV3;
-        private byte? _STK004_AlisBirim3;
-        private decimal? _STK004_SatisFiyati1;
-        private byte? _STK004_SatisKDV1;
-        private byte? _STK004_SatisBirim1;
-        private decimal? _STK004_SatisFiyati2;
-        private byte? _STK004_SatisKDV2;
-        private byte? _STK004_SatisBirim2;
-        private decimal? _STK004_SatisFiyati3;
-        private byte? _STK004_SatisKDV3;
-        private byte? _STK004_SatisBirim3;
-        private decimal? _STK004_DevirMiktari;
-        private decimal? _STK004_DevirTutari;
-        private decimal? _STK004_GirisMiktari;
-        private decimal? _STK004_GirisTutari;
-        private decimal? _STK004_GirisIskonto;
-        private decimal? _STK004_CikisMiktari;
-        private decimal? _STK004_CikisTutari;
-        private decimal? _STK004_CikisIskonto;
-        private decimal? _STK004_KritikSeviye;
-        private int? _STK004_DevirTarihi;
-        private decimal? _STK004_KafileBuyuklugu;
-        private string _STK004_GirenKaynak;
-        private int? _STK004_GirenTarih;
-        private string _STK004_GirenSaat;
-        private string _STK004_GirenKodu;
-        private string _STK004_GirenSurum;
-        private string _STK004_DegistirenKaynak;
-        private int? _STK004_DegistirenTarih;
-        private string _STK004_DegistirenSaat;
-        private string _STK004_DegistirenKodu;
-        private string _STK004_DegistirenSurum;
-        private string _STK004_OzelKodu;
-        private string _STK004_TipKodu;
-        private string _STK004_Kod4;
-        private string _STK004_Kod5;
-        private string _STK004_Kod6;
-        private string _STK004_Kod7;
-        private string _STK004_Kod8;
-        private string _STK004_Kod9;
-        private string _STK004_Kod10;
-        private decimal? _STK004_Kod11;
-        private decimal? _STK004_Kod12;
-        private string _STK004_UreticiKodu1;
-        private string _STK004_UreticiKodu2;
-        private string _STK004_UreticiKodu3;
-        private string _STK004_MusterekMalKodu;
-        private byte? _STK004_MaliyetSekli;
-        private decimal? _STK004_FireOrani;
-        private string _STK004_TeminYeri;
-        private short? _STK004_TeminSuresi;
-        private string _STK004_Mensei;
-        private string _STK004_GTIPN;
-        private decimal? _STK004_GumrukOrani;
-        private decimal? _STK004_Fon;
-        private decimal? _STK004_DovizAlis1;
-        private string _STK004_DovizAlisCinsi1;
-        private decimal? _STK004_DovizAlis2;
-        private string _STK004_DovizAlisCinsi2;
-        private decimal? _STK004_DovizAlis3;
-        private string _STK004_DovizAlisCinsi3;
-        private decimal? _STK004_DovizSatis1;
-        private string _STK004_DovizSatisCinsi1;
-        private decimal? _STK004_DovizSatis2;
-        private string _STK004_DovizSatisCinsi2;
-        private decimal? _STK004_DovizSatis3;
-        private string _STK004_DovizSatisCinsi3;
-        private decimal? _STK004_AlisSiparisi;
-        private decimal? _STK004_SatisSiparisi;
-        private decimal? _STK004_AzamiSeviye;
-        private int? _STK004_SonGirisTarihi;
-        private int? _STK004_SonCikisTarihi;
-        private decimal? _STK004_BirimAgirligi;
-        private int? _STK004_ValorGun;
-        private string _STK004_Barkod1;
-        private string _STK004_Barkod2;
-        private string _STK004_Barkod3;
-        private string _STK004_Aciklama2;
-        private string _STK004_Aciklama3;
-        private short? _STK004_UygMaliyetTipi;
-        private decimal? _STK004_SonMaliyetBirimFiyati;
-        private int? _STK004_SonMaliyetTarihi;
-        private short? _STK004_SonMaliyetTipi;
-        private byte? _STK004_SonMaliyetParaBirimi;
-        private decimal? _STK004_Rezervasyon;
-        private string _STK004_AlimdanIade;
-        private string _STK004_SatistanIade;
-        private string _STK004_MalKodu2;
-        private string _STK004_DovizCinsi;
-        private int? _STK004_SonAlimFaturasiTarihi;
-        private string _STK004_SonAlimFaturasiNo;
-        private decimal? _STK004_SonAlimFaturasiBirimFiyati;
-        private string _STK004_SonAlimFaturasiCariHesapKodu;
-        private decimal? _STK004_SonAlimFaturasiDovizBirimFiyati;
-        private int? _STK004_SonSatisFaturasiTarihi;
-        private string _STK004_SonSatisFaturasiNo;
-        private decimal? _STK004_SonSatisFaturasiBirimFiyati;
-        private string _STK004_SonSatisFaturasiCariHesapKodu;
-        private decimal? _STK004_SonSatisFaturasiDovizBirimFiyati;
-        private string _STK004_MasrafMerkezi;
-        private string _STK004_ResimDosyasi;
-        private byte? _STK004_FiyatListesindeCikart;
-        private int? _STK004_SatisFiyati1ValorGun;
-        private int? _STK004_SatisFiyati2ValorGun;
-        private int? _STK004_SatisFiyati3ValorGun;
-        private int? _STK004_DovizSatisFiyati1ValorGun;
-        private int? _STK004_DovizSatisFiyati2ValorGun;
-        private int? _STK004_DovizSatisFiyati3ValorGun;
-        private decimal? _STK004_DovizDevirTutari;
-        private decimal? _STK004_DovizGirisTutari;
-        private decimal? _STK004_DovizGirisIskontoTutari;
-        private decimal? _STK004_DovizCikisTutari;
-        private decimal? _STK004_DovizCikisIskontoTutari;
-        private string _STK004_BarkodBirim1;
-        private string _STK004_BarkodBirim2;
-        private string _STK004_BarkodBirim3;
-        private decimal? _STK004_BarkodCarpan1;
-        private decimal? _STK004_BarkodCarpan2;
-        private decimal? _STK004_BarkodCarpan3;
-        private decimal? _STK004_DevirMiktari2;
-        private decimal? _STK004_GirisMiktari2;
-        private decimal? _STK004_GirisTutari2;
-        private decimal? _STK004_CikisMiktari2;
-        private decimal? _STK004_CikisTutari2;
-        private string _STK004_DepoKodu1;
-        private decimal? _STK004_DepoDevirMiktari21;
-        private decimal? _STK004_DepoDevirTutari21;
-        private decimal? _STK004_DepoGirisMiktari1;
-        private decimal? _STK004_DepoGirisTutari1;
-        private decimal? _STK004_DepoGirisIskonto1;
-        private decimal? _STK004_DepoCikisMiktari1;
-        private decimal? _STK004_DepoCikisTutari1;
-        private decimal? _STK004_DepoCikisIskonto1;
-        private decimal? _STK004_DepoSonMaliyetBf1;
-        private short? _STK004_DepoSonMaliyetTipi1;
-        private int? _STK004_DepoSonMaliyetTarihi1;
-        private byte? _STK004_DepoSonMaliyetPrBr1;
-        private int? _STK004_DepoSonDevirTarihi1;
-        private int? _STK004_DepoSonGirisTarihi1;
-        private int? _STK004_DepoSonCikisTarihi1;
-        private string _STK004_DepoKodu2;
-        private decimal? _STK004_DepoDevirMiktari22;
-        private decimal? _STK004_DepoDevirTutari22;
-        private decimal? _STK004_DepoGirisMiktari2;
-        private decimal? _STK004_DepoGirisTutari2;
-        private decimal? _STK004_DepoGirisIskonto2;
-        private decimal? _STK004_DepoCikisMiktari2;
-        private decimal? _STK004_DepoCikisTutari2;
-        private decimal? _STK004_DepoCikisIskonto2;
-        private decimal? _STK004_DepoSonMaliyetBf2;
-        private short? _STK004_DepoSonMaliyetTipi2;
-        private int? _STK004_DepoSonMaliyetTarihi2;
-        private byte? _STK004_DepoSonMaliyetPrBr2;
-        private int? _STK004_DepoSonDevirTarihi2;
-        private int? _STK004_DepoSonGirisTarihi2;
-        private int? _STK004_DepoSonCikisTarihi2;
-        private string _STK004_DepoKodu3;
-        private decimal? _STK004_DepoDevirMiktari23;
-        private decimal? _STK004_DepoDevirTutari23;
-        private decimal? _STK004_DepoGirisMiktari3;
-        private decimal? _STK004_DepoGirisTutari3;
-        private decimal? _STK004_DepoGirisIskonto3;
-        private decimal? _STK004_DepoCikisMiktari3;
-        private decimal? _STK004_DepoCikisTutari3;
-        private decimal? _STK004_DepoCikisIskonto3;
-        private decimal? _STK004_DepoSonMaliyetBf3;
-        private short? _STK004_DepoSonMaliyetTipi3;
-        private int? _STK004_DepoSonMaliyetTarihi3;
-        private byte? _STK004_DepoSonMaliyetPrBr3;
-        private int? _STK004_DepoSonDevirTarihi3;
-        private int? _STK004_DepoSonGirisTarihi3;
-        private int? _STK004_DepoSonCikisTarihi3;
-        private string _STK004_DepoKodu4;
-        private decimal? _STK004_DepoDevirMiktari24;
-        private decimal? _STK004_DepoDevirTutari24;
-        private decimal? _STK004_DepoGirisMiktari4;
-        private decimal? _STK004_DepoGirisTutari4;
-        private decimal? _STK004_DepoGirisIskonto4;
-        private decimal? _STK004_DepoCikisMiktari4;
-        private decimal? _STK004_DepoCikisTutari4;
-        private decimal? _STK004_DepoCikisIskonto4;
-        private decimal? _STK004_DepoSonMaliyetBf4;
-        private short? _STK004_DepoSonMaliyetTipi4;
-        private int? _STK004_DepoSonMaliyetTarihi4;
-        private byte? _STK004_DepoSonMaliyetPrBr4;
-        private int? _STK004_DepoSonDevirTarihi4;
-        private int? _STK004_DepoSonGirisTarihi4;
-        private int? _STK004_DepoSonCikisTarihi4;
-        private string _STK004_DepoKodu5;
-        private decimal? _STK004_DepoDevirMiktari25;
-        private decimal? _STK004_DepoDevirTutari25;
-        private decimal? _STK004_DepoGirisMiktari5;
-        private decimal? _STK004_DepoGirisTutari5;
-        private decimal? _STK004_DepoGirisIskonto5;
-        private decimal? _STK004_DepoCikisMiktari5;
-        private decimal? _STK004_DepoCikisTutari5;
-        private decimal? _STK004_DepoCikisIskonto5;
-        private decimal? _STK004_DepoSonMaliyetBf5;
-        private short? _STK004_DepoSonMaliyetTipi5;
-        private int? _STK004_DepoSonMaliyetTarihi5;
-        private byte? _STK004_DepoSonMaliyetPrBr5;
-        private int? _STK004_DepoSonDevirTarihi5;
-        private int? _STK004_DepoSonGirisTarihi5;
-        private int? _STK004_DepoSonCikisTarihi5;
-        private string _STK004_DepoKodu6;
-        private decimal? _STK004_DepoDevirMiktari26;
-        private decimal? _STK004_DepoDevirTutari26;
-        private decimal? _STK004_DepoGirisMiktari6;
-        private decimal? _STK004_DepoGirisTutari6;
-        private decimal? _STK004_DepoGirisIskonto6;
-        private decimal? _STK004_DepoCikisMiktari6;
-        private decimal? _STK004_DepoCikisTutari6;
-        private decimal? _STK004_DepoCikisIskonto6;
-        private decimal? _STK004_DepoSonMaliyetBf6;
-        private short? _STK004_DepoSonMaliyetTipi6;
-        private int? _STK004_DepoSonMaliyetTarihi6;
-        private byte? _STK004_DepoSonMaliyetPrBr6;
-        private int? _STK004_DepoSonDevirTarihi6;
-        private int? _STK004_DepoSonGirisTarihi6;
-        private int? _STK004_DepoSonCikisTarihi6;
-        private string _STK004_DepoKodu7;
-        private decimal? _STK004_DepoDevirMiktari27;
-        private decimal? _STK004_DepoDevirTutari27;
-        private decimal? _STK004_DepoGirisMiktari7;
-        private decimal? _STK004_DepoGirisTutari7;
-        private decimal? _STK004_DepoGirisIskonto7;
-        private decimal? _STK004_DepoCikisMiktari7;
-        private decimal? _STK004_DepoCikisTutari7;
-        private decimal? _STK004_DepoCikisIskonto7;
-        private decimal? _STK004_DepoSonMaliyetBf7;
-        private short? _STK004_DepoSonMaliyetTipi7;
-        private int? _STK004_DepoSonMaliyetTarihi7;
-        private byte? _STK004_DepoSonMaliyetPrBr7;
-        private int? _STK004_DepoSonDevirTarihi7;
-        private int? _STK004_DepoSonGirisTarihi7;
-        private int? _STK004_DepoSonCikisTarihi7;
-        private string _STK004_DepoKodu8;
-        private decimal? _STK004_DepoDevirMiktari28;
-        private decimal? _STK004_DepoDevirTutari28;
-        private decimal? _STK004_DepoGirisMiktari8;
-        private decimal? _STK004_DepoGirisTutari8;
-        private decimal? _STK004_DepoGirisIskonto8;
-        private decimal? _STK004_DepoCikisMiktari8;
-        private decimal? _STK004_DepoCikisTutari8;
-        private decimal? _STK004_DepoCikisIskonto8;
-        private decimal? _STK004_DepoSonMaliyetBf8;
-        private short? _STK004_DepoSonMaliyetTipi8;
-        private int? _STK004_DepoSonMaliyetTarihi8;
-        private byte? _STK004_DepoSonMaliyetPrBr8;
-        private int? _STK004_DepoSonDevirTarihi8;
-        private int? _STK004_DepoSonGirisTarihi8;
-        private int? _STK004_DepoSonCikisTarihi8;
-        private string _STK004_DepoKodu9;
-        private decimal? _STK004_DepoDevirMiktari29;
-        private decimal? _STK004_DepoDevirTutari29;
-        private decimal? _STK004_DepoGirisMiktari9;
-        private decimal? _STK004_DepoGirisTutari9;
-        private decimal? _STK004_DepoGirisIskonto9;
-        private decimal? _STK004_DepoCikisMiktari9;
-        private decimal? _STK004_DepoCikisTutari9;
-        private decimal? _STK004_DepoCikisIskonto9;
-        private decimal? _STK004_DepoSonMaliyetBf9;
-        private short? _STK004_DepoSonMaliyetTipi9;
-        private int? _STK004_DepoSonMaliyetTarihi9;
-        private byte? _STK004_DepoSonMaliyetPrBr9;
-        private int? _STK004_DepoSonDevirTarihi9;
-        private int? _STK004_DepoSonGirisTarihi9;
-        private int? _STK004_DepoSonCikisTarihi9;
-        private string _STK004_DepoKodu10;
-        private decimal? _STK004_DepoDevirMiktari210;
-        private decimal? _STK004_DepoDevirTutari210;
-        private decimal? _STK004_DepoGirisMiktari10;
-        private decimal? _STK004_DepoGirisTutari10;
-        private decimal? _STK004_DepoGirisIskonto10;
-        private decimal? _STK004_DepoCikisMiktari10;
-        private decimal? _STK004_DepoCikisTutari10;
-        private decimal? _STK004_DepoCikisIskonto10;
-        private decimal? _STK004_DepoSonMaliyetBf10;
-        private short? _STK004_DepoSonMaliyetTipi10;
-        private int? _STK004_DepoSonMaliyetTarihi10;
-        private byte? _STK004_DepoSonMaliyetPrBr10;
-        private int? _STK004_DepoSonDevirTarihi10;
-        private int? _STK004_DepoSonGirisTarihi10;
-        private int? _STK004_DepoSonCikisTarihi10;
-        private string _STK004_StokMiktar2Br;
-        private byte? _STK004_StokMCH1;
-        private string _STK004_MOP1;
-        private byte? _STK004_StokMCH2;
-        private string _STK004_MOP2;
-        private byte? _STK004_StokMCH3;
-        private string _STK004_MOP3;
-        private byte? _STK004_StokMCH4;
-        private string _STK004_MOP4;
-        private byte? _STK004_StokMCH5;
-        private string _STK004_MOP5;
-        private byte? _STK004_StokMSOP;
-        private decimal? _STK004_StokDevirTutar2;
-        private string _STK004_Not1;
-        private string _STK004_Not2;
-        private string _STK004_Not3;
-        private string _STK004_Not4;
-        private string _STK004_Not5;
-        private string _STK004_Not6;
-        private string _STK004_Not7;
-        private decimal? _STK004_StokDBMiktari;
-        private decimal? _STK004_StokDBTutari;
-        private decimal? _STK004_StokDBDuzTutari;
-        private int? _STK004_StokDBDuzDate;
-        private int? _STK004_StokDBDuzYil;
-        private byte? _STK004_StokDBDuzDonem;
-        private decimal? _STK004_StokDBRofm;
-        private string _STK004_StokDBEntHesapKodu;
-        private decimal? _STK004_YASatisFiati1;
-        private byte? _STK004_YSatisKDV1;
-        private byte? _STK004_YSatisBirim1;
-        private decimal? _STK004_YASatisFiati2;
-        private byte? _STK004_YSatisKDV2;
-        private byte? _STK004_YSatisBirim2;
-        private decimal? _STK004_YASatisFiati3;
-        private byte? _STK004_YSatisKDV3;
-        private byte? _STK004_YSatisBirim3;
-        private int? _STK004_YSatisFiyati1ValorGun;
-        private int? _STK004_YSatisFiyati2ValorGun;
-        private int? _STK004_YSatisFiyati3ValorGun;
-        private byte? _STK004_AktifFlag;
-        private int? _STK004_SayimTarihi;
-        private decimal? _STK004_SayimMiktari;
-        private string _STK004_Dokuman1;
-        private string _STK004_Dokuman2;
-        private string _STK004_Dokuman3;
-        private string _STK004_SMMHesapKodu;
-        private int? _STK004_KDVTevkIslemTuruAlim;
-        private string _STK004_Barkod4;
-        private string _STK004_Barkod5;
-        private string _STK004_BarkodBirim4;
-        private string _STK004_BarkodBirim5;
-        private decimal? _STK004_BarkodCarpan4;
-        private decimal? _STK004_BarkodCarpan5;
-        private int? _STK004_KDVTevkIslemTuruSatis;
-        private string _STK004_KDVTevkOraniAlim;
-        private string _STK004_KDVTevkOraniSatis;
-        private byte? _STK004_KismiKDVMuafMevcut;
-        private string _STK004_KDVMuafAciklama;
-        private string _STK004_BoyutBirimi;
-        private decimal? _STK004_BoyutEn;
-        private decimal? _STK004_BoyutBoy;
-        private decimal? _STK004_BoyutGenisilik;
-        private string _STK004_AgirlikBirimi;
-        private decimal? _STK004_AgirlikBrut;
-        private decimal? _STK004_AgirlikNet;
-        private string _STK004_HacimBirimi;
-        private decimal? _STK004_HacimBrut;
-        private decimal? _STK004_HacimNet;
-        private byte? _STK004_YOKCPLUGonder;
-        private int? _STK004_YOKCPLUID;
-        private int? _STK004_YOKCDepartmanID;
-        //private int _pk_STK004_Row_ID;
+        int sTK004_Row_ID;
+        string sTK004_MalKodu;
+        string sTK004_Aciklama;
+        string sTK004_GrupKodu;
+        decimal? sTK004_Iskonto;
+        byte? sTK004_KDV;
+        string sTK004_Birim1;
+        string sTK004_Birim2;
+        string sTK004_Birim3;
+        string sTK004_BorcluHesap;
+        string sTK004_AlacakliHesap;
+        decimal? sTK004_AlisFiyati1;
+        byte? sTK004_AlisKDV1;
+        byte? sTK004_AlisBirim1;
+        decimal? sTK004_AlisFiyati2;
+        byte? sTK004_AlisKDV2;
+        byte? sTK004_AlisBirim2;
+        decimal? sTK004_AlisFiyati3;
+        byte? sTK004_AlisKDV3;
+        byte? sTK004_AlisBirim3;
+        decimal? sTK004_SatisFiyati1;
+        byte? sTK004_SatisKDV1;
+        byte? sTK004_SatisBirim1;
+        decimal? sTK004_SatisFiyati2;
+        byte? sTK004_SatisKDV2;
+        byte? sTK004_SatisBirim2;
+        decimal? sTK004_SatisFiyati3;
+        byte? sTK004_SatisKDV3;
+        byte? sTK004_SatisBirim3;
+        decimal? sTK004_DevirMiktari;
+        decimal? sTK004_DevirTutari;
+        decimal? sTK004_GirisMiktari;
+        decimal? sTK004_GirisTutari;
+        decimal? sTK004_GirisIskonto;
+        decimal? sTK004_CikisMiktari;
+        decimal? sTK004_CikisTutari;
+        decimal? sTK004_CikisIskonto;
+        decimal? sTK004_KritikSeviye;
+        int? sTK004_DevirTarihi;
+        decimal? sTK004_KafileBuyuklugu;
+        string sTK004_GirenKaynak;
+        int? sTK004_GirenTarih;
+        string sTK004_GirenSaat;
+        string sTK004_GirenKodu;
+        string sTK004_GirenSurum;
+        string sTK004_DegistirenKaynak;
+        int? sTK004_DegistirenTarih;
+        string sTK004_DegistirenSaat;
+        string sTK004_DegistirenKodu;
+        string sTK004_DegistirenSurum;
+        string sTK004_OzelKodu;
+        string sTK004_TipKodu;
+        string sTK004_Kod4;
+        string sTK004_Kod5;
+        string sTK004_Kod6;
+        string sTK004_Kod7;
+        string sTK004_Kod8;
+        string sTK004_Kod9;
+        string sTK004_Kod10;
+        decimal? sTK004_Kod11;
+        decimal? sTK004_Kod12;
+        string sTK004_UreticiKodu1;
+        string sTK004_UreticiKodu2;
+        string sTK004_UreticiKodu3;
+        string sTK004_MusterekMalKodu;
+        byte? sTK004_MaliyetSekli;
+        decimal? sTK004_FireOrani;
+        string sTK004_TeminYeri;
+        short? sTK004_TeminSuresi;
+        string sTK004_Mensei;
+        string sTK004_GTIPN;
+        decimal? sTK004_GumrukOrani;
+        decimal? sTK004_Fon;
+        decimal? sTK004_DovizAlis1;
+        string sTK004_DovizAlisCinsi1;
+        decimal? sTK004_DovizAlis2;
+        string sTK004_DovizAlisCinsi2;
+        decimal? sTK004_DovizAlis3;
+        string sTK004_DovizAlisCinsi3;
+        decimal? sTK004_DovizSatis1;
+        string sTK004_DovizSatisCinsi1;
+        decimal? sTK004_DovizSatis2;
+        string sTK004_DovizSatisCinsi2;
+        decimal? sTK004_DovizSatis3;
+        string sTK004_DovizSatisCinsi3;
+        decimal? sTK004_AlisSiparisi;
+        decimal? sTK004_SatisSiparisi;
+        decimal? sTK004_AzamiSeviye;
+        int? sTK004_SonGirisTarihi;
+        int? sTK004_SonCikisTarihi;
+        decimal? sTK004_BirimAgirligi;
+        int? sTK004_ValorGun;
+        string sTK004_Barkod1;
+        string sTK004_Barkod2;
+        string sTK004_Barkod3;
+        string sTK004_Aciklama2;
+        string sTK004_Aciklama3;
+        short? sTK004_UygMaliyetTipi;
+        decimal? sTK004_SonMaliyetBirimFiyati;
+        int? sTK004_SonMaliyetTarihi;
+        short? sTK004_SonMaliyetTipi;
+        byte? sTK004_SonMaliyetParaBirimi;
+        decimal? sTK004_Rezervasyon;
+        string sTK004_AlimdanIade;
+        string sTK004_SatistanIade;
+        string sTK004_MalKodu2;
+        string sTK004_DovizCinsi;
+        int? sTK004_SonAlimFaturasiTarihi;
+        string sTK004_SonAlimFaturasiNo;
+        decimal? sTK004_SonAlimFaturasiBirimFiyati;
+        string sTK004_SonAlimFaturasiCariHesapKodu;
+        decimal? sTK004_SonAlimFaturasiDovizBirimFiyati;
+        int? sTK004_SonSatisFaturasiTarihi;
+        string sTK004_SonSatisFaturasiNo;
+        decimal? sTK004_SonSatisFaturasiBirimFiyati;
+        string sTK004_SonSatisFaturasiCariHesapKodu;
+        decimal? sTK004_SonSatisFaturasiDovizBirimFiyati;
+        string sTK004_MasrafMerkezi;
+        string sTK004_ResimDosyasi;
+        byte? sTK004_FiyatListesindeCikart;
+        int? sTK004_SatisFiyati1ValorGun;
+        int? sTK004_SatisFiyati2ValorGun;
+        int? sTK004_SatisFiyati3ValorGun;
+        int? sTK004_DovizSatisFiyati1ValorGun;
+        int? sTK004_DovizSatisFiyati2ValorGun;
+        int? sTK004_DovizSatisFiyati3ValorGun;
+        decimal? sTK004_DovizDevirTutari;
+        decimal? sTK004_DovizGirisTutari;
+        decimal? sTK004_DovizGirisIskontoTutari;
+        decimal? sTK004_DovizCikisTutari;
+        decimal? sTK004_DovizCikisIskontoTutari;
+        string sTK004_BarkodBirim1;
+        string sTK004_BarkodBirim2;
+        string sTK004_BarkodBirim3;
+        decimal? sTK004_BarkodCarpan1;
+        decimal? sTK004_BarkodCarpan2;
+        decimal? sTK004_BarkodCarpan3;
+        decimal? sTK004_DevirMiktari2;
+        decimal? sTK004_GirisMiktari2;
+        decimal? sTK004_GirisTutari2;
+        decimal? sTK004_CikisMiktari2;
+        decimal? sTK004_CikisTutari2;
+        string sTK004_DepoKodu1;
+        decimal? sTK004_DepoDevirMiktari21;
+        decimal? sTK004_DepoDevirTutari21;
+        decimal? sTK004_DepoGirisMiktari1;
+        decimal? sTK004_DepoGirisTutari1;
+        decimal? sTK004_DepoGirisIskonto1;
+        decimal? sTK004_DepoCikisMiktari1;
+        decimal? sTK004_DepoCikisTutari1;
+        decimal? sTK004_DepoCikisIskonto1;
+        decimal? sTK004_DepoSonMaliyetBf1;
+        short? sTK004_DepoSonMaliyetTipi1;
+        int? sTK004_DepoSonMaliyetTarihi1;
+        byte? sTK004_DepoSonMaliyetPrBr1;
+        int? sTK004_DepoSonDevirTarihi1;
+        int? sTK004_DepoSonGirisTarihi1;
+        int? sTK004_DepoSonCikisTarihi1;
+        string sTK004_DepoKodu2;
+        decimal? sTK004_DepoDevirMiktari22;
+        decimal? sTK004_DepoDevirTutari22;
+        decimal? sTK004_DepoGirisMiktari2;
+        decimal? sTK004_DepoGirisTutari2;
+        decimal? sTK004_DepoGirisIskonto2;
+        decimal? sTK004_DepoCikisMiktari2;
+        decimal? sTK004_DepoCikisTutari2;
+        decimal? sTK004_DepoCikisIskonto2;
+        decimal? sTK004_DepoSonMaliyetBf2;
+        short? sTK004_DepoSonMaliyetTipi2;
+        int? sTK004_DepoSonMaliyetTarihi2;
+        byte? sTK004_DepoSonMaliyetPrBr2;
+        int? sTK004_DepoSonDevirTarihi2;
+        int? sTK004_DepoSonGirisTarihi2;
+        int? sTK004_DepoSonCikisTarihi2;
+        string sTK004_DepoKodu3;
+        decimal? sTK004_DepoDevirMiktari23;
+        decimal? sTK004_DepoDevirTutari23;
+        decimal? sTK004_DepoGirisMiktari3;
+        decimal? sTK004_DepoGirisTutari3;
+        decimal? sTK004_DepoGirisIskonto3;
+        decimal? sTK004_DepoCikisMiktari3;
+        decimal? sTK004_DepoCikisTutari3;
+        decimal? sTK004_DepoCikisIskonto3;
+        decimal? sTK004_DepoSonMaliyetBf3;
+        short? sTK004_DepoSonMaliyetTipi3;
+        int? sTK004_DepoSonMaliyetTarihi3;
+        byte? sTK004_DepoSonMaliyetPrBr3;
+        int? sTK004_DepoSonDevirTarihi3;
+        int? sTK004_DepoSonGirisTarihi3;
+        int? sTK004_DepoSonCikisTarihi3;
+        string sTK004_DepoKodu4;
+        decimal? sTK004_DepoDevirMiktari24;
+        decimal? sTK004_DepoDevirTutari24;
+        decimal? sTK004_DepoGirisMiktari4;
+        decimal? sTK004_DepoGirisTutari4;
+        decimal? sTK004_DepoGirisIskonto4;
+        decimal? sTK004_DepoCikisMiktari4;
+        decimal? sTK004_DepoCikisTutari4;
+        decimal? sTK004_DepoCikisIskonto4;
+        decimal? sTK004_DepoSonMaliyetBf4;
+        short? sTK004_DepoSonMaliyetTipi4;
+        int? sTK004_DepoSonMaliyetTarihi4;
+        byte? sTK004_DepoSonMaliyetPrBr4;
+        int? sTK004_DepoSonDevirTarihi4;
+        int? sTK004_DepoSonGirisTarihi4;
+        int? sTK004_DepoSonCikisTarihi4;
+        string sTK004_DepoKodu5;
+        decimal? sTK004_DepoDevirMiktari25;
+        decimal? sTK004_DepoDevirTutari25;
+        decimal? sTK004_DepoGirisMiktari5;
+        decimal? sTK004_DepoGirisTutari5;
+        decimal? sTK004_DepoGirisIskonto5;
+        decimal? sTK004_DepoCikisMiktari5;
+        decimal? sTK004_DepoCikisTutari5;
+        decimal? sTK004_DepoCikisIskonto5;
+        decimal? sTK004_DepoSonMaliyetBf5;
+        short? sTK004_DepoSonMaliyetTipi5;
+        int? sTK004_DepoSonMaliyetTarihi5;
+        byte? sTK004_DepoSonMaliyetPrBr5;
+        int? sTK004_DepoSonDevirTarihi5;
+        int? sTK004_DepoSonGirisTarihi5;
+        int? sTK004_DepoSonCikisTarihi5;
+        string sTK004_DepoKodu6;
+        decimal? sTK004_DepoDevirMiktari26;
+        decimal? sTK004_DepoDevirTutari26;
+        decimal? sTK004_DepoGirisMiktari6;
+        decimal? sTK004_DepoGirisTutari6;
+        decimal? sTK004_DepoGirisIskonto6;
+        decimal? sTK004_DepoCikisMiktari6;
+        decimal? sTK004_DepoCikisTutari6;
+        decimal? sTK004_DepoCikisIskonto6;
+        decimal? sTK004_DepoSonMaliyetBf6;
+        short? sTK004_DepoSonMaliyetTipi6;
+        int? sTK004_DepoSonMaliyetTarihi6;
+        byte? sTK004_DepoSonMaliyetPrBr6;
+        int? sTK004_DepoSonDevirTarihi6;
+        int? sTK004_DepoSonGirisTarihi6;
+        int? sTK004_DepoSonCikisTarihi6;
+        string sTK004_DepoKodu7;
+        decimal? sTK004_DepoDevirMiktari27;
+        decimal? sTK004_DepoDevirTutari27;
+        decimal? sTK004_DepoGirisMiktari7;
+        decimal? sTK004_DepoGirisTutari7;
+        decimal? sTK004_DepoGirisIskonto7;
+        decimal? sTK004_DepoCikisMiktari7;
+        decimal? sTK004_DepoCikisTutari7;
+        decimal? sTK004_DepoCikisIskonto7;
+        decimal? sTK004_DepoSonMaliyetBf7;
+        short? sTK004_DepoSonMaliyetTipi7;
+        int? sTK004_DepoSonMaliyetTarihi7;
+        byte? sTK004_DepoSonMaliyetPrBr7;
+        int? sTK004_DepoSonDevirTarihi7;
+        int? sTK004_DepoSonGirisTarihi7;
+        int? sTK004_DepoSonCikisTarihi7;
+        string sTK004_DepoKodu8;
+        decimal? sTK004_DepoDevirMiktari28;
+        decimal? sTK004_DepoDevirTutari28;
+        decimal? sTK004_DepoGirisMiktari8;
+        decimal? sTK004_DepoGirisTutari8;
+        decimal? sTK004_DepoGirisIskonto8;
+        decimal? sTK004_DepoCikisMiktari8;
+        decimal? sTK004_DepoCikisTutari8;
+        decimal? sTK004_DepoCikisIskonto8;
+        decimal? sTK004_DepoSonMaliyetBf8;
+        short? sTK004_DepoSonMaliyetTipi8;
+        int? sTK004_DepoSonMaliyetTarihi8;
+        byte? sTK004_DepoSonMaliyetPrBr8;
+        int? sTK004_DepoSonDevirTarihi8;
+        int? sTK004_DepoSonGirisTarihi8;
+        int? sTK004_DepoSonCikisTarihi8;
+        string sTK004_DepoKodu9;
+        decimal? sTK004_DepoDevirMiktari29;
+        decimal? sTK004_DepoDevirTutari29;
+        decimal? sTK004_DepoGirisMiktari9;
+        decimal? sTK004_DepoGirisTutari9;
+        decimal? sTK004_DepoGirisIskonto9;
+        decimal? sTK004_DepoCikisMiktari9;
+        decimal? sTK004_DepoCikisTutari9;
+        decimal? sTK004_DepoCikisIskonto9;
+        decimal? sTK004_DepoSonMaliyetBf9;
+        short? sTK004_DepoSonMaliyetTipi9;
+        int? sTK004_DepoSonMaliyetTarihi9;
+        byte? sTK004_DepoSonMaliyetPrBr9;
+        int? sTK004_DepoSonDevirTarihi9;
+        int? sTK004_DepoSonGirisTarihi9;
+        int? sTK004_DepoSonCikisTarihi9;
+        string sTK004_DepoKodu10;
+        decimal? sTK004_DepoDevirMiktari210;
+        decimal? sTK004_DepoDevirTutari210;
+        decimal? sTK004_DepoGirisMiktari10;
+        decimal? sTK004_DepoGirisTutari10;
+        decimal? sTK004_DepoGirisIskonto10;
+        decimal? sTK004_DepoCikisMiktari10;
+        decimal? sTK004_DepoCikisTutari10;
+        decimal? sTK004_DepoCikisIskonto10;
+        decimal? sTK004_DepoSonMaliyetBf10;
+        short? sTK004_DepoSonMaliyetTipi10;
+        int? sTK004_DepoSonMaliyetTarihi10;
+        byte? sTK004_DepoSonMaliyetPrBr10;
+        int? sTK004_DepoSonDevirTarihi10;
+        int? sTK004_DepoSonGirisTarihi10;
+        int? sTK004_DepoSonCikisTarihi10;
+        string sTK004_StokMiktar2Br;
+        byte? sTK004_StokMCH1;
+        string sTK004_MOP1;
+        byte? sTK004_StokMCH2;
+        string sTK004_MOP2;
+        byte? sTK004_StokMCH3;
+        string sTK004_MOP3;
+        byte? sTK004_StokMCH4;
+        string sTK004_MOP4;
+        byte? sTK004_StokMCH5;
+        string sTK004_MOP5;
+        byte? sTK004_StokMSOP;
+        decimal? sTK004_StokDevirTutar2;
+        string sTK004_Not1;
+        string sTK004_Not2;
+        string sTK004_Not3;
+        string sTK004_Not4;
+        string sTK004_Not5;
+        string sTK004_Not6;
+        string sTK004_Not7;
+        decimal? sTK004_StokDBMiktari;
+        decimal? sTK004_StokDBTutari;
+        decimal? sTK004_StokDBDuzTutari;
+        int? sTK004_StokDBDuzDate;
+        int? sTK004_StokDBDuzYil;
+        byte? sTK004_StokDBDuzDonem;
+        decimal? sTK004_StokDBRofm;
+        string sTK004_StokDBEntHesapKodu;
+        decimal? sTK004_YASatisFiati1;
+        byte? sTK004_YSatisKDV1;
+        byte? sTK004_YSatisBirim1;
+        decimal? sTK004_YASatisFiati2;
+        byte? sTK004_YSatisKDV2;
+        byte? sTK004_YSatisBirim2;
+        decimal? sTK004_YASatisFiati3;
+        byte? sTK004_YSatisKDV3;
+        byte? sTK004_YSatisBirim3;
+        int? sTK004_YSatisFiyati1ValorGun;
+        int? sTK004_YSatisFiyati2ValorGun;
+        int? sTK004_YSatisFiyati3ValorGun;
+        byte? sTK004_AktifFlag;
+        int? sTK004_SayimTarihi;
+        decimal? sTK004_SayimMiktari;
+        string sTK004_Dokuman1;
+        string sTK004_Dokuman2;
+        string sTK004_Dokuman3;
+        string sTK004_SMMHesapKodu;
+        int? sTK004_KDVTevkIslemTuruAlim;
+        string sTK004_Barkod4;
+        string sTK004_Barkod5;
+        string sTK004_BarkodBirim4;
+        string sTK004_BarkodBirim5;
+        decimal? sTK004_BarkodCarpan4;
+        decimal? sTK004_BarkodCarpan5;
+        int? sTK004_KDVTevkIslemTuruSatis;
+        string sTK004_KDVTevkOraniAlim;
+        string sTK004_KDVTevkOraniSatis;
+        byte? sTK004_KismiKDVMuafMevcut;
+        string sTK004_KDVMuafAciklama;
+        string sTK004_BoyutBirimi;
+        decimal? sTK004_BoyutEn;
+        decimal? sTK004_BoyutBoy;
+        decimal? sTK004_BoyutGenisilik;
+        string sTK004_AgirlikBirimi;
+        decimal? sTK004_AgirlikBrut;
+        decimal? sTK004_AgirlikNet;
+        string sTK004_HacimBirimi;
+        decimal? sTK004_HacimBrut;
+        decimal? sTK004_HacimNet;
+        byte? sTK004_YOKCPLUGonder;
+        int? sTK004_YOKCPLUID;
+        int? sTK004_YOKCDepartmanID;
+        // private int _pk_STK004_Row_ID;
 
-        private string _pk_STK004_MalKodu;
+        string _pk_STK004_MalKodu;
         #endregion /// Fields
 
-
         /// <summary> INT (4) PrimaryKey IdentityKey * </summary>
-        public int STK004_Row_ID
-        {
-            get { return this._STK004_Row_ID; }
-        }
-
+        public int STK004_Row_ID => sTK004_Row_ID;
 
         /// <summary> NVARCHAR (60) Allow Null </summary>
         public string STK004_MalKodu
         {
-            get { return this._STK004_MalKodu; }
+            get { return sTK004_MalKodu; }
             set
             {
-                this._STK004_MalKodu = value;
+                sTK004_MalKodu = value;
                 OnPropertyChanged("STK004_MalKodu");
             }
         }
@@ -790,10 +785,10 @@ namespace Wms12m.Entity
         /// <summary> NVARCHAR (100) Allow Null </summary>
         public string STK004_Aciklama
         {
-            get { return this._STK004_Aciklama; }
+            get { return sTK004_Aciklama; }
             set
             {
-                this._STK004_Aciklama = value;
+                sTK004_Aciklama = value;
                 OnPropertyChanged("STK004_Aciklama");
             }
         }
@@ -801,10 +796,10 @@ namespace Wms12m.Entity
         /// <summary> NVARCHAR (40) Allow Null </summary>
         public string STK004_GrupKodu
         {
-            get { return this._STK004_GrupKodu; }
+            get { return sTK004_GrupKodu; }
             set
             {
-                this._STK004_GrupKodu = value;
+                sTK004_GrupKodu = value;
                 OnPropertyChanged("STK004_GrupKodu");
             }
         }
@@ -812,10 +807,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (5) Allow Null </summary>
         public decimal? STK004_Iskonto
         {
-            get { return this._STK004_Iskonto; }
+            get { return sTK004_Iskonto; }
             set
             {
-                this._STK004_Iskonto = value;
+                sTK004_Iskonto = value;
                 OnPropertyChanged("STK004_Iskonto");
             }
         }
@@ -823,10 +818,10 @@ namespace Wms12m.Entity
         /// <summary> TINYINT (1) Allow Null </summary>
         public byte? STK004_KDV
         {
-            get { return this._STK004_KDV; }
+            get { return sTK004_KDV; }
             set
             {
-                this._STK004_KDV = value;
+                sTK004_KDV = value;
                 OnPropertyChanged("STK004_KDV");
             }
         }
@@ -834,10 +829,10 @@ namespace Wms12m.Entity
         /// <summary> NVARCHAR (10) Allow Null </summary>
         public string STK004_Birim1
         {
-            get { return this._STK004_Birim1; }
+            get { return sTK004_Birim1; }
             set
             {
-                this._STK004_Birim1 = value;
+                sTK004_Birim1 = value;
                 OnPropertyChanged("STK004_Birim1");
             }
         }
@@ -845,10 +840,10 @@ namespace Wms12m.Entity
         /// <summary> NVARCHAR (10) Allow Null </summary>
         public string STK004_Birim2
         {
-            get { return this._STK004_Birim2; }
+            get { return sTK004_Birim2; }
             set
             {
-                this._STK004_Birim2 = value;
+                sTK004_Birim2 = value;
                 OnPropertyChanged("STK004_Birim2");
             }
         }
@@ -856,10 +851,10 @@ namespace Wms12m.Entity
         /// <summary> NVARCHAR (10) Allow Null </summary>
         public string STK004_Birim3
         {
-            get { return this._STK004_Birim3; }
+            get { return sTK004_Birim3; }
             set
             {
-                this._STK004_Birim3 = value;
+                sTK004_Birim3 = value;
                 OnPropertyChanged("STK004_Birim3");
             }
         }
@@ -867,10 +862,10 @@ namespace Wms12m.Entity
         /// <summary> NVARCHAR (40) Allow Null </summary>
         public string STK004_BorcluHesap
         {
-            get { return this._STK004_BorcluHesap; }
+            get { return sTK004_BorcluHesap; }
             set
             {
-                this._STK004_BorcluHesap = value;
+                sTK004_BorcluHesap = value;
                 OnPropertyChanged("STK004_BorcluHesap");
             }
         }
@@ -878,10 +873,10 @@ namespace Wms12m.Entity
         /// <summary> NVARCHAR (40) Allow Null </summary>
         public string STK004_AlacakliHesap
         {
-            get { return this._STK004_AlacakliHesap; }
+            get { return sTK004_AlacakliHesap; }
             set
             {
-                this._STK004_AlacakliHesap = value;
+                sTK004_AlacakliHesap = value;
                 OnPropertyChanged("STK004_AlacakliHesap");
             }
         }
@@ -889,10 +884,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (13) Allow Null </summary>
         public decimal? STK004_AlisFiyati1
         {
-            get { return this._STK004_AlisFiyati1; }
+            get { return sTK004_AlisFiyati1; }
             set
             {
-                this._STK004_AlisFiyati1 = value;
+                sTK004_AlisFiyati1 = value;
                 OnPropertyChanged("STK004_AlisFiyati1");
             }
         }
@@ -900,10 +895,10 @@ namespace Wms12m.Entity
         /// <summary> TINYINT (1) Allow Null </summary>
         public byte? STK004_AlisKDV1
         {
-            get { return this._STK004_AlisKDV1; }
+            get { return sTK004_AlisKDV1; }
             set
             {
-                this._STK004_AlisKDV1 = value;
+                sTK004_AlisKDV1 = value;
                 OnPropertyChanged("STK004_AlisKDV1");
             }
         }
@@ -911,10 +906,10 @@ namespace Wms12m.Entity
         /// <summary> TINYINT (1) Allow Null </summary>
         public byte? STK004_AlisBirim1
         {
-            get { return this._STK004_AlisBirim1; }
+            get { return sTK004_AlisBirim1; }
             set
             {
-                this._STK004_AlisBirim1 = value;
+                sTK004_AlisBirim1 = value;
                 OnPropertyChanged("STK004_AlisBirim1");
             }
         }
@@ -922,10 +917,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (13) Allow Null </summary>
         public decimal? STK004_AlisFiyati2
         {
-            get { return this._STK004_AlisFiyati2; }
+            get { return sTK004_AlisFiyati2; }
             set
             {
-                this._STK004_AlisFiyati2 = value;
+                sTK004_AlisFiyati2 = value;
                 OnPropertyChanged("STK004_AlisFiyati2");
             }
         }
@@ -933,10 +928,10 @@ namespace Wms12m.Entity
         /// <summary> TINYINT (1) Allow Null </summary>
         public byte? STK004_AlisKDV2
         {
-            get { return this._STK004_AlisKDV2; }
+            get { return sTK004_AlisKDV2; }
             set
             {
-                this._STK004_AlisKDV2 = value;
+                sTK004_AlisKDV2 = value;
                 OnPropertyChanged("STK004_AlisKDV2");
             }
         }
@@ -944,10 +939,10 @@ namespace Wms12m.Entity
         /// <summary> TINYINT (1) Allow Null </summary>
         public byte? STK004_AlisBirim2
         {
-            get { return this._STK004_AlisBirim2; }
+            get { return sTK004_AlisBirim2; }
             set
             {
-                this._STK004_AlisBirim2 = value;
+                sTK004_AlisBirim2 = value;
                 OnPropertyChanged("STK004_AlisBirim2");
             }
         }
@@ -955,10 +950,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (13) Allow Null </summary>
         public decimal? STK004_AlisFiyati3
         {
-            get { return this._STK004_AlisFiyati3; }
+            get { return sTK004_AlisFiyati3; }
             set
             {
-                this._STK004_AlisFiyati3 = value;
+                sTK004_AlisFiyati3 = value;
                 OnPropertyChanged("STK004_AlisFiyati3");
             }
         }
@@ -966,10 +961,10 @@ namespace Wms12m.Entity
         /// <summary> TINYINT (1) Allow Null </summary>
         public byte? STK004_AlisKDV3
         {
-            get { return this._STK004_AlisKDV3; }
+            get { return sTK004_AlisKDV3; }
             set
             {
-                this._STK004_AlisKDV3 = value;
+                sTK004_AlisKDV3 = value;
                 OnPropertyChanged("STK004_AlisKDV3");
             }
         }
@@ -977,10 +972,10 @@ namespace Wms12m.Entity
         /// <summary> TINYINT (1) Allow Null </summary>
         public byte? STK004_AlisBirim3
         {
-            get { return this._STK004_AlisBirim3; }
+            get { return sTK004_AlisBirim3; }
             set
             {
-                this._STK004_AlisBirim3 = value;
+                sTK004_AlisBirim3 = value;
                 OnPropertyChanged("STK004_AlisBirim3");
             }
         }
@@ -988,10 +983,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (13) Allow Null </summary>
         public decimal? STK004_SatisFiyati1
         {
-            get { return this._STK004_SatisFiyati1; }
+            get { return sTK004_SatisFiyati1; }
             set
             {
-                this._STK004_SatisFiyati1 = value;
+                sTK004_SatisFiyati1 = value;
                 OnPropertyChanged("STK004_SatisFiyati1");
             }
         }
@@ -999,10 +994,10 @@ namespace Wms12m.Entity
         /// <summary> TINYINT (1) Allow Null </summary>
         public byte? STK004_SatisKDV1
         {
-            get { return this._STK004_SatisKDV1; }
+            get { return sTK004_SatisKDV1; }
             set
             {
-                this._STK004_SatisKDV1 = value;
+                sTK004_SatisKDV1 = value;
                 OnPropertyChanged("STK004_SatisKDV1");
             }
         }
@@ -1010,10 +1005,10 @@ namespace Wms12m.Entity
         /// <summary> TINYINT (1) Allow Null </summary>
         public byte? STK004_SatisBirim1
         {
-            get { return this._STK004_SatisBirim1; }
+            get { return sTK004_SatisBirim1; }
             set
             {
-                this._STK004_SatisBirim1 = value;
+                sTK004_SatisBirim1 = value;
                 OnPropertyChanged("STK004_SatisBirim1");
             }
         }
@@ -1021,10 +1016,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (13) Allow Null </summary>
         public decimal? STK004_SatisFiyati2
         {
-            get { return this._STK004_SatisFiyati2; }
+            get { return sTK004_SatisFiyati2; }
             set
             {
-                this._STK004_SatisFiyati2 = value;
+                sTK004_SatisFiyati2 = value;
                 OnPropertyChanged("STK004_SatisFiyati2");
             }
         }
@@ -1032,10 +1027,10 @@ namespace Wms12m.Entity
         /// <summary> TINYINT (1) Allow Null </summary>
         public byte? STK004_SatisKDV2
         {
-            get { return this._STK004_SatisKDV2; }
+            get { return sTK004_SatisKDV2; }
             set
             {
-                this._STK004_SatisKDV2 = value;
+                sTK004_SatisKDV2 = value;
                 OnPropertyChanged("STK004_SatisKDV2");
             }
         }
@@ -1043,10 +1038,10 @@ namespace Wms12m.Entity
         /// <summary> TINYINT (1) Allow Null </summary>
         public byte? STK004_SatisBirim2
         {
-            get { return this._STK004_SatisBirim2; }
+            get { return sTK004_SatisBirim2; }
             set
             {
-                this._STK004_SatisBirim2 = value;
+                sTK004_SatisBirim2 = value;
                 OnPropertyChanged("STK004_SatisBirim2");
             }
         }
@@ -1054,10 +1049,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (13) Allow Null </summary>
         public decimal? STK004_SatisFiyati3
         {
-            get { return this._STK004_SatisFiyati3; }
+            get { return sTK004_SatisFiyati3; }
             set
             {
-                this._STK004_SatisFiyati3 = value;
+                sTK004_SatisFiyati3 = value;
                 OnPropertyChanged("STK004_SatisFiyati3");
             }
         }
@@ -1065,10 +1060,10 @@ namespace Wms12m.Entity
         /// <summary> TINYINT (1) Allow Null </summary>
         public byte? STK004_SatisKDV3
         {
-            get { return this._STK004_SatisKDV3; }
+            get { return sTK004_SatisKDV3; }
             set
             {
-                this._STK004_SatisKDV3 = value;
+                sTK004_SatisKDV3 = value;
                 OnPropertyChanged("STK004_SatisKDV3");
             }
         }
@@ -1076,10 +1071,10 @@ namespace Wms12m.Entity
         /// <summary> TINYINT (1) Allow Null </summary>
         public byte? STK004_SatisBirim3
         {
-            get { return this._STK004_SatisBirim3; }
+            get { return sTK004_SatisBirim3; }
             set
             {
-                this._STK004_SatisBirim3 = value;
+                sTK004_SatisBirim3 = value;
                 OnPropertyChanged("STK004_SatisBirim3");
             }
         }
@@ -1087,10 +1082,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (9) Allow Null </summary>
         public decimal? STK004_DevirMiktari
         {
-            get { return this._STK004_DevirMiktari; }
+            get { return sTK004_DevirMiktari; }
             set
             {
-                this._STK004_DevirMiktari = value;
+                sTK004_DevirMiktari = value;
                 OnPropertyChanged("STK004_DevirMiktari");
             }
         }
@@ -1098,10 +1093,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (13) Allow Null </summary>
         public decimal? STK004_DevirTutari
         {
-            get { return this._STK004_DevirTutari; }
+            get { return sTK004_DevirTutari; }
             set
             {
-                this._STK004_DevirTutari = value;
+                sTK004_DevirTutari = value;
                 OnPropertyChanged("STK004_DevirTutari");
             }
         }
@@ -1109,10 +1104,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (9) Allow Null </summary>
         public decimal? STK004_GirisMiktari
         {
-            get { return this._STK004_GirisMiktari; }
+            get { return sTK004_GirisMiktari; }
             set
             {
-                this._STK004_GirisMiktari = value;
+                sTK004_GirisMiktari = value;
                 OnPropertyChanged("STK004_GirisMiktari");
             }
         }
@@ -1120,10 +1115,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (13) Allow Null </summary>
         public decimal? STK004_GirisTutari
         {
-            get { return this._STK004_GirisTutari; }
+            get { return sTK004_GirisTutari; }
             set
             {
-                this._STK004_GirisTutari = value;
+                sTK004_GirisTutari = value;
                 OnPropertyChanged("STK004_GirisTutari");
             }
         }
@@ -1131,10 +1126,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (9) Allow Null </summary>
         public decimal? STK004_GirisIskonto
         {
-            get { return this._STK004_GirisIskonto; }
+            get { return sTK004_GirisIskonto; }
             set
             {
-                this._STK004_GirisIskonto = value;
+                sTK004_GirisIskonto = value;
                 OnPropertyChanged("STK004_GirisIskonto");
             }
         }
@@ -1142,10 +1137,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (9) Allow Null </summary>
         public decimal? STK004_CikisMiktari
         {
-            get { return this._STK004_CikisMiktari; }
+            get { return sTK004_CikisMiktari; }
             set
             {
-                this._STK004_CikisMiktari = value;
+                sTK004_CikisMiktari = value;
                 OnPropertyChanged("STK004_CikisMiktari");
             }
         }
@@ -1153,10 +1148,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (13) Allow Null </summary>
         public decimal? STK004_CikisTutari
         {
-            get { return this._STK004_CikisTutari; }
+            get { return sTK004_CikisTutari; }
             set
             {
-                this._STK004_CikisTutari = value;
+                sTK004_CikisTutari = value;
                 OnPropertyChanged("STK004_CikisTutari");
             }
         }
@@ -1164,10 +1159,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (9) Allow Null </summary>
         public decimal? STK004_CikisIskonto
         {
-            get { return this._STK004_CikisIskonto; }
+            get { return sTK004_CikisIskonto; }
             set
             {
-                this._STK004_CikisIskonto = value;
+                sTK004_CikisIskonto = value;
                 OnPropertyChanged("STK004_CikisIskonto");
             }
         }
@@ -1175,10 +1170,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (9) Allow Null </summary>
         public decimal? STK004_KritikSeviye
         {
-            get { return this._STK004_KritikSeviye; }
+            get { return sTK004_KritikSeviye; }
             set
             {
-                this._STK004_KritikSeviye = value;
+                sTK004_KritikSeviye = value;
                 OnPropertyChanged("STK004_KritikSeviye");
             }
         }
@@ -1186,10 +1181,10 @@ namespace Wms12m.Entity
         /// <summary> INT (4) Allow Null </summary>
         public int? STK004_DevirTarihi
         {
-            get { return this._STK004_DevirTarihi; }
+            get { return sTK004_DevirTarihi; }
             set
             {
-                this._STK004_DevirTarihi = value;
+                sTK004_DevirTarihi = value;
                 OnPropertyChanged("STK004_DevirTarihi");
             }
         }
@@ -1197,10 +1192,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (9) Allow Null </summary>
         public decimal? STK004_KafileBuyuklugu
         {
-            get { return this._STK004_KafileBuyuklugu; }
+            get { return sTK004_KafileBuyuklugu; }
             set
             {
-                this._STK004_KafileBuyuklugu = value;
+                sTK004_KafileBuyuklugu = value;
                 OnPropertyChanged("STK004_KafileBuyuklugu");
             }
         }
@@ -1208,10 +1203,10 @@ namespace Wms12m.Entity
         /// <summary> NVARCHAR (10) Allow Null </summary>
         public string STK004_GirenKaynak
         {
-            get { return this._STK004_GirenKaynak; }
+            get { return sTK004_GirenKaynak; }
             set
             {
-                this._STK004_GirenKaynak = value;
+                sTK004_GirenKaynak = value;
                 OnPropertyChanged("STK004_GirenKaynak");
             }
         }
@@ -1219,10 +1214,10 @@ namespace Wms12m.Entity
         /// <summary> INT (4) Allow Null </summary>
         public int? STK004_GirenTarih
         {
-            get { return this._STK004_GirenTarih; }
+            get { return sTK004_GirenTarih; }
             set
             {
-                this._STK004_GirenTarih = value;
+                sTK004_GirenTarih = value;
                 OnPropertyChanged("STK004_GirenTarih");
             }
         }
@@ -1230,10 +1225,10 @@ namespace Wms12m.Entity
         /// <summary> NVARCHAR (16) Allow Null </summary>
         public string STK004_GirenSaat
         {
-            get { return this._STK004_GirenSaat; }
+            get { return sTK004_GirenSaat; }
             set
             {
-                this._STK004_GirenSaat = value;
+                sTK004_GirenSaat = value;
                 OnPropertyChanged("STK004_GirenSaat");
             }
         }
@@ -1241,10 +1236,10 @@ namespace Wms12m.Entity
         /// <summary> NVARCHAR (20) Allow Null </summary>
         public string STK004_GirenKodu
         {
-            get { return this._STK004_GirenKodu; }
+            get { return sTK004_GirenKodu; }
             set
             {
-                this._STK004_GirenKodu = value;
+                sTK004_GirenKodu = value;
                 OnPropertyChanged("STK004_GirenKodu");
             }
         }
@@ -1252,10 +1247,10 @@ namespace Wms12m.Entity
         /// <summary> NVARCHAR (16) Allow Null </summary>
         public string STK004_GirenSurum
         {
-            get { return this._STK004_GirenSurum; }
+            get { return sTK004_GirenSurum; }
             set
             {
-                this._STK004_GirenSurum = value;
+                sTK004_GirenSurum = value;
                 OnPropertyChanged("STK004_GirenSurum");
             }
         }
@@ -1263,10 +1258,10 @@ namespace Wms12m.Entity
         /// <summary> NVARCHAR (10) Allow Null </summary>
         public string STK004_DegistirenKaynak
         {
-            get { return this._STK004_DegistirenKaynak; }
+            get { return sTK004_DegistirenKaynak; }
             set
             {
-                this._STK004_DegistirenKaynak = value;
+                sTK004_DegistirenKaynak = value;
                 OnPropertyChanged("STK004_DegistirenKaynak");
             }
         }
@@ -1274,10 +1269,10 @@ namespace Wms12m.Entity
         /// <summary> INT (4) Allow Null </summary>
         public int? STK004_DegistirenTarih
         {
-            get { return this._STK004_DegistirenTarih; }
+            get { return sTK004_DegistirenTarih; }
             set
             {
-                this._STK004_DegistirenTarih = value;
+                sTK004_DegistirenTarih = value;
                 OnPropertyChanged("STK004_DegistirenTarih");
             }
         }
@@ -1285,10 +1280,10 @@ namespace Wms12m.Entity
         /// <summary> NVARCHAR (16) Allow Null </summary>
         public string STK004_DegistirenSaat
         {
-            get { return this._STK004_DegistirenSaat; }
+            get { return sTK004_DegistirenSaat; }
             set
             {
-                this._STK004_DegistirenSaat = value;
+                sTK004_DegistirenSaat = value;
                 OnPropertyChanged("STK004_DegistirenSaat");
             }
         }
@@ -1296,10 +1291,10 @@ namespace Wms12m.Entity
         /// <summary> NVARCHAR (20) Allow Null </summary>
         public string STK004_DegistirenKodu
         {
-            get { return this._STK004_DegistirenKodu; }
+            get { return sTK004_DegistirenKodu; }
             set
             {
-                this._STK004_DegistirenKodu = value;
+                sTK004_DegistirenKodu = value;
                 OnPropertyChanged("STK004_DegistirenKodu");
             }
         }
@@ -1307,10 +1302,10 @@ namespace Wms12m.Entity
         /// <summary> NVARCHAR (16) Allow Null </summary>
         public string STK004_DegistirenSurum
         {
-            get { return this._STK004_DegistirenSurum; }
+            get { return sTK004_DegistirenSurum; }
             set
             {
-                this._STK004_DegistirenSurum = value;
+                sTK004_DegistirenSurum = value;
                 OnPropertyChanged("STK004_DegistirenSurum");
             }
         }
@@ -1318,10 +1313,10 @@ namespace Wms12m.Entity
         /// <summary> NVARCHAR (40) Allow Null </summary>
         public string STK004_OzelKodu
         {
-            get { return this._STK004_OzelKodu; }
+            get { return sTK004_OzelKodu; }
             set
             {
-                this._STK004_OzelKodu = value;
+                sTK004_OzelKodu = value;
                 OnPropertyChanged("STK004_OzelKodu");
             }
         }
@@ -1329,10 +1324,10 @@ namespace Wms12m.Entity
         /// <summary> NVARCHAR (40) Allow Null </summary>
         public string STK004_TipKodu
         {
-            get { return this._STK004_TipKodu; }
+            get { return sTK004_TipKodu; }
             set
             {
-                this._STK004_TipKodu = value;
+                sTK004_TipKodu = value;
                 OnPropertyChanged("STK004_TipKodu");
             }
         }
@@ -1340,10 +1335,10 @@ namespace Wms12m.Entity
         /// <summary> NVARCHAR (40) Allow Null </summary>
         public string STK004_Kod4
         {
-            get { return this._STK004_Kod4; }
+            get { return sTK004_Kod4; }
             set
             {
-                this._STK004_Kod4 = value;
+                sTK004_Kod4 = value;
                 OnPropertyChanged("STK004_Kod4");
             }
         }
@@ -1351,10 +1346,10 @@ namespace Wms12m.Entity
         /// <summary> NVARCHAR (40) Allow Null </summary>
         public string STK004_Kod5
         {
-            get { return this._STK004_Kod5; }
+            get { return sTK004_Kod5; }
             set
             {
-                this._STK004_Kod5 = value;
+                sTK004_Kod5 = value;
                 OnPropertyChanged("STK004_Kod5");
             }
         }
@@ -1362,10 +1357,10 @@ namespace Wms12m.Entity
         /// <summary> NVARCHAR (40) Allow Null </summary>
         public string STK004_Kod6
         {
-            get { return this._STK004_Kod6; }
+            get { return sTK004_Kod6; }
             set
             {
-                this._STK004_Kod6 = value;
+                sTK004_Kod6 = value;
                 OnPropertyChanged("STK004_Kod6");
             }
         }
@@ -1373,10 +1368,10 @@ namespace Wms12m.Entity
         /// <summary> NVARCHAR (40) Allow Null </summary>
         public string STK004_Kod7
         {
-            get { return this._STK004_Kod7; }
+            get { return sTK004_Kod7; }
             set
             {
-                this._STK004_Kod7 = value;
+                sTK004_Kod7 = value;
                 OnPropertyChanged("STK004_Kod7");
             }
         }
@@ -1384,10 +1379,10 @@ namespace Wms12m.Entity
         /// <summary> NVARCHAR (40) Allow Null </summary>
         public string STK004_Kod8
         {
-            get { return this._STK004_Kod8; }
+            get { return sTK004_Kod8; }
             set
             {
-                this._STK004_Kod8 = value;
+                sTK004_Kod8 = value;
                 OnPropertyChanged("STK004_Kod8");
             }
         }
@@ -1395,10 +1390,10 @@ namespace Wms12m.Entity
         /// <summary> NVARCHAR (40) Allow Null </summary>
         public string STK004_Kod9
         {
-            get { return this._STK004_Kod9; }
+            get { return sTK004_Kod9; }
             set
             {
-                this._STK004_Kod9 = value;
+                sTK004_Kod9 = value;
                 OnPropertyChanged("STK004_Kod9");
             }
         }
@@ -1406,10 +1401,10 @@ namespace Wms12m.Entity
         /// <summary> NVARCHAR (40) Allow Null </summary>
         public string STK004_Kod10
         {
-            get { return this._STK004_Kod10; }
+            get { return sTK004_Kod10; }
             set
             {
-                this._STK004_Kod10 = value;
+                sTK004_Kod10 = value;
                 OnPropertyChanged("STK004_Kod10");
             }
         }
@@ -1417,10 +1412,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (9) Allow Null </summary>
         public decimal? STK004_Kod11
         {
-            get { return this._STK004_Kod11; }
+            get { return sTK004_Kod11; }
             set
             {
-                this._STK004_Kod11 = value;
+                sTK004_Kod11 = value;
                 OnPropertyChanged("STK004_Kod11");
             }
         }
@@ -1428,10 +1423,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (9) Allow Null </summary>
         public decimal? STK004_Kod12
         {
-            get { return this._STK004_Kod12; }
+            get { return sTK004_Kod12; }
             set
             {
-                this._STK004_Kod12 = value;
+                sTK004_Kod12 = value;
                 OnPropertyChanged("STK004_Kod12");
             }
         }
@@ -1439,10 +1434,10 @@ namespace Wms12m.Entity
         /// <summary> NVARCHAR (60) Allow Null </summary>
         public string STK004_UreticiKodu1
         {
-            get { return this._STK004_UreticiKodu1; }
+            get { return sTK004_UreticiKodu1; }
             set
             {
-                this._STK004_UreticiKodu1 = value;
+                sTK004_UreticiKodu1 = value;
                 OnPropertyChanged("STK004_UreticiKodu1");
             }
         }
@@ -1450,10 +1445,10 @@ namespace Wms12m.Entity
         /// <summary> NVARCHAR (60) Allow Null </summary>
         public string STK004_UreticiKodu2
         {
-            get { return this._STK004_UreticiKodu2; }
+            get { return sTK004_UreticiKodu2; }
             set
             {
-                this._STK004_UreticiKodu2 = value;
+                sTK004_UreticiKodu2 = value;
                 OnPropertyChanged("STK004_UreticiKodu2");
             }
         }
@@ -1461,10 +1456,10 @@ namespace Wms12m.Entity
         /// <summary> NVARCHAR (60) Allow Null </summary>
         public string STK004_UreticiKodu3
         {
-            get { return this._STK004_UreticiKodu3; }
+            get { return sTK004_UreticiKodu3; }
             set
             {
-                this._STK004_UreticiKodu3 = value;
+                sTK004_UreticiKodu3 = value;
                 OnPropertyChanged("STK004_UreticiKodu3");
             }
         }
@@ -1472,10 +1467,10 @@ namespace Wms12m.Entity
         /// <summary> NVARCHAR (60) Allow Null </summary>
         public string STK004_MusterekMalKodu
         {
-            get { return this._STK004_MusterekMalKodu; }
+            get { return sTK004_MusterekMalKodu; }
             set
             {
-                this._STK004_MusterekMalKodu = value;
+                sTK004_MusterekMalKodu = value;
                 OnPropertyChanged("STK004_MusterekMalKodu");
             }
         }
@@ -1483,10 +1478,10 @@ namespace Wms12m.Entity
         /// <summary> TINYINT (1) Allow Null </summary>
         public byte? STK004_MaliyetSekli
         {
-            get { return this._STK004_MaliyetSekli; }
+            get { return sTK004_MaliyetSekli; }
             set
             {
-                this._STK004_MaliyetSekli = value;
+                sTK004_MaliyetSekli = value;
                 OnPropertyChanged("STK004_MaliyetSekli");
             }
         }
@@ -1494,10 +1489,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (5) Allow Null </summary>
         public decimal? STK004_FireOrani
         {
-            get { return this._STK004_FireOrani; }
+            get { return sTK004_FireOrani; }
             set
             {
-                this._STK004_FireOrani = value;
+                sTK004_FireOrani = value;
                 OnPropertyChanged("STK004_FireOrani");
             }
         }
@@ -1505,10 +1500,10 @@ namespace Wms12m.Entity
         /// <summary> NVARCHAR (32) Allow Null </summary>
         public string STK004_TeminYeri
         {
-            get { return this._STK004_TeminYeri; }
+            get { return sTK004_TeminYeri; }
             set
             {
-                this._STK004_TeminYeri = value;
+                sTK004_TeminYeri = value;
                 OnPropertyChanged("STK004_TeminYeri");
             }
         }
@@ -1516,10 +1511,10 @@ namespace Wms12m.Entity
         /// <summary> SMALLINT (2) Allow Null </summary>
         public short? STK004_TeminSuresi
         {
-            get { return this._STK004_TeminSuresi; }
+            get { return sTK004_TeminSuresi; }
             set
             {
-                this._STK004_TeminSuresi = value;
+                sTK004_TeminSuresi = value;
                 OnPropertyChanged("STK004_TeminSuresi");
             }
         }
@@ -1527,10 +1522,10 @@ namespace Wms12m.Entity
         /// <summary> NVARCHAR (2) Allow Null </summary>
         public string STK004_Mensei
         {
-            get { return this._STK004_Mensei; }
+            get { return sTK004_Mensei; }
             set
             {
-                this._STK004_Mensei = value;
+                sTK004_Mensei = value;
                 OnPropertyChanged("STK004_Mensei");
             }
         }
@@ -1538,10 +1533,10 @@ namespace Wms12m.Entity
         /// <summary> NVARCHAR (40) Allow Null </summary>
         public string STK004_GTIPN
         {
-            get { return this._STK004_GTIPN; }
+            get { return sTK004_GTIPN; }
             set
             {
-                this._STK004_GTIPN = value;
+                sTK004_GTIPN = value;
                 OnPropertyChanged("STK004_GTIPN");
             }
         }
@@ -1549,10 +1544,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (5) Allow Null </summary>
         public decimal? STK004_GumrukOrani
         {
-            get { return this._STK004_GumrukOrani; }
+            get { return sTK004_GumrukOrani; }
             set
             {
-                this._STK004_GumrukOrani = value;
+                sTK004_GumrukOrani = value;
                 OnPropertyChanged("STK004_GumrukOrani");
             }
         }
@@ -1560,10 +1555,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (9) Allow Null </summary>
         public decimal? STK004_Fon
         {
-            get { return this._STK004_Fon; }
+            get { return sTK004_Fon; }
             set
             {
-                this._STK004_Fon = value;
+                sTK004_Fon = value;
                 OnPropertyChanged("STK004_Fon");
             }
         }
@@ -1571,10 +1566,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (9) Allow Null </summary>
         public decimal? STK004_DovizAlis1
         {
-            get { return this._STK004_DovizAlis1; }
+            get { return sTK004_DovizAlis1; }
             set
             {
-                this._STK004_DovizAlis1 = value;
+                sTK004_DovizAlis1 = value;
                 OnPropertyChanged("STK004_DovizAlis1");
             }
         }
@@ -1582,10 +1577,10 @@ namespace Wms12m.Entity
         /// <summary> NVARCHAR (6) Allow Null </summary>
         public string STK004_DovizAlisCinsi1
         {
-            get { return this._STK004_DovizAlisCinsi1; }
+            get { return sTK004_DovizAlisCinsi1; }
             set
             {
-                this._STK004_DovizAlisCinsi1 = value;
+                sTK004_DovizAlisCinsi1 = value;
                 OnPropertyChanged("STK004_DovizAlisCinsi1");
             }
         }
@@ -1593,10 +1588,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (9) Allow Null </summary>
         public decimal? STK004_DovizAlis2
         {
-            get { return this._STK004_DovizAlis2; }
+            get { return sTK004_DovizAlis2; }
             set
             {
-                this._STK004_DovizAlis2 = value;
+                sTK004_DovizAlis2 = value;
                 OnPropertyChanged("STK004_DovizAlis2");
             }
         }
@@ -1604,10 +1599,10 @@ namespace Wms12m.Entity
         /// <summary> NVARCHAR (6) Allow Null </summary>
         public string STK004_DovizAlisCinsi2
         {
-            get { return this._STK004_DovizAlisCinsi2; }
+            get { return sTK004_DovizAlisCinsi2; }
             set
             {
-                this._STK004_DovizAlisCinsi2 = value;
+                sTK004_DovizAlisCinsi2 = value;
                 OnPropertyChanged("STK004_DovizAlisCinsi2");
             }
         }
@@ -1615,10 +1610,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (9) Allow Null </summary>
         public decimal? STK004_DovizAlis3
         {
-            get { return this._STK004_DovizAlis3; }
+            get { return sTK004_DovizAlis3; }
             set
             {
-                this._STK004_DovizAlis3 = value;
+                sTK004_DovizAlis3 = value;
                 OnPropertyChanged("STK004_DovizAlis3");
             }
         }
@@ -1626,10 +1621,10 @@ namespace Wms12m.Entity
         /// <summary> NVARCHAR (6) Allow Null </summary>
         public string STK004_DovizAlisCinsi3
         {
-            get { return this._STK004_DovizAlisCinsi3; }
+            get { return sTK004_DovizAlisCinsi3; }
             set
             {
-                this._STK004_DovizAlisCinsi3 = value;
+                sTK004_DovizAlisCinsi3 = value;
                 OnPropertyChanged("STK004_DovizAlisCinsi3");
             }
         }
@@ -1637,10 +1632,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (9) Allow Null </summary>
         public decimal? STK004_DovizSatis1
         {
-            get { return this._STK004_DovizSatis1; }
+            get { return sTK004_DovizSatis1; }
             set
             {
-                this._STK004_DovizSatis1 = value;
+                sTK004_DovizSatis1 = value;
                 OnPropertyChanged("STK004_DovizSatis1");
             }
         }
@@ -1648,10 +1643,10 @@ namespace Wms12m.Entity
         /// <summary> NVARCHAR (6) Allow Null </summary>
         public string STK004_DovizSatisCinsi1
         {
-            get { return this._STK004_DovizSatisCinsi1; }
+            get { return sTK004_DovizSatisCinsi1; }
             set
             {
-                this._STK004_DovizSatisCinsi1 = value;
+                sTK004_DovizSatisCinsi1 = value;
                 OnPropertyChanged("STK004_DovizSatisCinsi1");
             }
         }
@@ -1659,10 +1654,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (9) Allow Null </summary>
         public decimal? STK004_DovizSatis2
         {
-            get { return this._STK004_DovizSatis2; }
+            get { return sTK004_DovizSatis2; }
             set
             {
-                this._STK004_DovizSatis2 = value;
+                sTK004_DovizSatis2 = value;
                 OnPropertyChanged("STK004_DovizSatis2");
             }
         }
@@ -1670,10 +1665,10 @@ namespace Wms12m.Entity
         /// <summary> NVARCHAR (6) Allow Null </summary>
         public string STK004_DovizSatisCinsi2
         {
-            get { return this._STK004_DovizSatisCinsi2; }
+            get { return sTK004_DovizSatisCinsi2; }
             set
             {
-                this._STK004_DovizSatisCinsi2 = value;
+                sTK004_DovizSatisCinsi2 = value;
                 OnPropertyChanged("STK004_DovizSatisCinsi2");
             }
         }
@@ -1681,10 +1676,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (9) Allow Null </summary>
         public decimal? STK004_DovizSatis3
         {
-            get { return this._STK004_DovizSatis3; }
+            get { return sTK004_DovizSatis3; }
             set
             {
-                this._STK004_DovizSatis3 = value;
+                sTK004_DovizSatis3 = value;
                 OnPropertyChanged("STK004_DovizSatis3");
             }
         }
@@ -1692,10 +1687,10 @@ namespace Wms12m.Entity
         /// <summary> NVARCHAR (6) Allow Null </summary>
         public string STK004_DovizSatisCinsi3
         {
-            get { return this._STK004_DovizSatisCinsi3; }
+            get { return sTK004_DovizSatisCinsi3; }
             set
             {
-                this._STK004_DovizSatisCinsi3 = value;
+                sTK004_DovizSatisCinsi3 = value;
                 OnPropertyChanged("STK004_DovizSatisCinsi3");
             }
         }
@@ -1703,10 +1698,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (9) Allow Null </summary>
         public decimal? STK004_AlisSiparisi
         {
-            get { return this._STK004_AlisSiparisi; }
+            get { return sTK004_AlisSiparisi; }
             set
             {
-                this._STK004_AlisSiparisi = value;
+                sTK004_AlisSiparisi = value;
                 OnPropertyChanged("STK004_AlisSiparisi");
             }
         }
@@ -1714,10 +1709,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (9) Allow Null </summary>
         public decimal? STK004_SatisSiparisi
         {
-            get { return this._STK004_SatisSiparisi; }
+            get { return sTK004_SatisSiparisi; }
             set
             {
-                this._STK004_SatisSiparisi = value;
+                sTK004_SatisSiparisi = value;
                 OnPropertyChanged("STK004_SatisSiparisi");
             }
         }
@@ -1725,10 +1720,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (9) Allow Null </summary>
         public decimal? STK004_AzamiSeviye
         {
-            get { return this._STK004_AzamiSeviye; }
+            get { return sTK004_AzamiSeviye; }
             set
             {
-                this._STK004_AzamiSeviye = value;
+                sTK004_AzamiSeviye = value;
                 OnPropertyChanged("STK004_AzamiSeviye");
             }
         }
@@ -1736,10 +1731,10 @@ namespace Wms12m.Entity
         /// <summary> INT (4) Allow Null </summary>
         public int? STK004_SonGirisTarihi
         {
-            get { return this._STK004_SonGirisTarihi; }
+            get { return sTK004_SonGirisTarihi; }
             set
             {
-                this._STK004_SonGirisTarihi = value;
+                sTK004_SonGirisTarihi = value;
                 OnPropertyChanged("STK004_SonGirisTarihi");
             }
         }
@@ -1747,10 +1742,10 @@ namespace Wms12m.Entity
         /// <summary> INT (4) Allow Null </summary>
         public int? STK004_SonCikisTarihi
         {
-            get { return this._STK004_SonCikisTarihi; }
+            get { return sTK004_SonCikisTarihi; }
             set
             {
-                this._STK004_SonCikisTarihi = value;
+                sTK004_SonCikisTarihi = value;
                 OnPropertyChanged("STK004_SonCikisTarihi");
             }
         }
@@ -1758,10 +1753,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (9) Allow Null </summary>
         public decimal? STK004_BirimAgirligi
         {
-            get { return this._STK004_BirimAgirligi; }
+            get { return sTK004_BirimAgirligi; }
             set
             {
-                this._STK004_BirimAgirligi = value;
+                sTK004_BirimAgirligi = value;
                 OnPropertyChanged("STK004_BirimAgirligi");
             }
         }
@@ -1769,10 +1764,10 @@ namespace Wms12m.Entity
         /// <summary> INT (4) Allow Null </summary>
         public int? STK004_ValorGun
         {
-            get { return this._STK004_ValorGun; }
+            get { return sTK004_ValorGun; }
             set
             {
-                this._STK004_ValorGun = value;
+                sTK004_ValorGun = value;
                 OnPropertyChanged("STK004_ValorGun");
             }
         }
@@ -1780,10 +1775,10 @@ namespace Wms12m.Entity
         /// <summary> NVARCHAR (60) Allow Null </summary>
         public string STK004_Barkod1
         {
-            get { return this._STK004_Barkod1; }
+            get { return sTK004_Barkod1; }
             set
             {
-                this._STK004_Barkod1 = value;
+                sTK004_Barkod1 = value;
                 OnPropertyChanged("STK004_Barkod1");
             }
         }
@@ -1791,10 +1786,10 @@ namespace Wms12m.Entity
         /// <summary> NVARCHAR (60) Allow Null </summary>
         public string STK004_Barkod2
         {
-            get { return this._STK004_Barkod2; }
+            get { return sTK004_Barkod2; }
             set
             {
-                this._STK004_Barkod2 = value;
+                sTK004_Barkod2 = value;
                 OnPropertyChanged("STK004_Barkod2");
             }
         }
@@ -1802,10 +1797,10 @@ namespace Wms12m.Entity
         /// <summary> NVARCHAR (60) Allow Null </summary>
         public string STK004_Barkod3
         {
-            get { return this._STK004_Barkod3; }
+            get { return sTK004_Barkod3; }
             set
             {
-                this._STK004_Barkod3 = value;
+                sTK004_Barkod3 = value;
                 OnPropertyChanged("STK004_Barkod3");
             }
         }
@@ -1813,10 +1808,10 @@ namespace Wms12m.Entity
         /// <summary> NVARCHAR (100) Allow Null </summary>
         public string STK004_Aciklama2
         {
-            get { return this._STK004_Aciklama2; }
+            get { return sTK004_Aciklama2; }
             set
             {
-                this._STK004_Aciklama2 = value;
+                sTK004_Aciklama2 = value;
                 OnPropertyChanged("STK004_Aciklama2");
             }
         }
@@ -1824,10 +1819,10 @@ namespace Wms12m.Entity
         /// <summary> NVARCHAR (100) Allow Null </summary>
         public string STK004_Aciklama3
         {
-            get { return this._STK004_Aciklama3; }
+            get { return sTK004_Aciklama3; }
             set
             {
-                this._STK004_Aciklama3 = value;
+                sTK004_Aciklama3 = value;
                 OnPropertyChanged("STK004_Aciklama3");
             }
         }
@@ -1835,10 +1830,10 @@ namespace Wms12m.Entity
         /// <summary> SMALLINT (2) Allow Null </summary>
         public short? STK004_UygMaliyetTipi
         {
-            get { return this._STK004_UygMaliyetTipi; }
+            get { return sTK004_UygMaliyetTipi; }
             set
             {
-                this._STK004_UygMaliyetTipi = value;
+                sTK004_UygMaliyetTipi = value;
                 OnPropertyChanged("STK004_UygMaliyetTipi");
             }
         }
@@ -1846,10 +1841,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (13) Allow Null </summary>
         public decimal? STK004_SonMaliyetBirimFiyati
         {
-            get { return this._STK004_SonMaliyetBirimFiyati; }
+            get { return sTK004_SonMaliyetBirimFiyati; }
             set
             {
-                this._STK004_SonMaliyetBirimFiyati = value;
+                sTK004_SonMaliyetBirimFiyati = value;
                 OnPropertyChanged("STK004_SonMaliyetBirimFiyati");
             }
         }
@@ -1857,10 +1852,10 @@ namespace Wms12m.Entity
         /// <summary> INT (4) Allow Null </summary>
         public int? STK004_SonMaliyetTarihi
         {
-            get { return this._STK004_SonMaliyetTarihi; }
+            get { return sTK004_SonMaliyetTarihi; }
             set
             {
-                this._STK004_SonMaliyetTarihi = value;
+                sTK004_SonMaliyetTarihi = value;
                 OnPropertyChanged("STK004_SonMaliyetTarihi");
             }
         }
@@ -1868,10 +1863,10 @@ namespace Wms12m.Entity
         /// <summary> SMALLINT (2) Allow Null </summary>
         public short? STK004_SonMaliyetTipi
         {
-            get { return this._STK004_SonMaliyetTipi; }
+            get { return sTK004_SonMaliyetTipi; }
             set
             {
-                this._STK004_SonMaliyetTipi = value;
+                sTK004_SonMaliyetTipi = value;
                 OnPropertyChanged("STK004_SonMaliyetTipi");
             }
         }
@@ -1879,10 +1874,10 @@ namespace Wms12m.Entity
         /// <summary> TINYINT (1) Allow Null </summary>
         public byte? STK004_SonMaliyetParaBirimi
         {
-            get { return this._STK004_SonMaliyetParaBirimi; }
+            get { return sTK004_SonMaliyetParaBirimi; }
             set
             {
-                this._STK004_SonMaliyetParaBirimi = value;
+                sTK004_SonMaliyetParaBirimi = value;
                 OnPropertyChanged("STK004_SonMaliyetParaBirimi");
             }
         }
@@ -1890,10 +1885,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (9) Allow Null </summary>
         public decimal? STK004_Rezervasyon
         {
-            get { return this._STK004_Rezervasyon; }
+            get { return sTK004_Rezervasyon; }
             set
             {
-                this._STK004_Rezervasyon = value;
+                sTK004_Rezervasyon = value;
                 OnPropertyChanged("STK004_Rezervasyon");
             }
         }
@@ -1901,10 +1896,10 @@ namespace Wms12m.Entity
         /// <summary> NVARCHAR (40) Allow Null </summary>
         public string STK004_AlimdanIade
         {
-            get { return this._STK004_AlimdanIade; }
+            get { return sTK004_AlimdanIade; }
             set
             {
-                this._STK004_AlimdanIade = value;
+                sTK004_AlimdanIade = value;
                 OnPropertyChanged("STK004_AlimdanIade");
             }
         }
@@ -1912,10 +1907,10 @@ namespace Wms12m.Entity
         /// <summary> NVARCHAR (40) Allow Null </summary>
         public string STK004_SatistanIade
         {
-            get { return this._STK004_SatistanIade; }
+            get { return sTK004_SatistanIade; }
             set
             {
-                this._STK004_SatistanIade = value;
+                sTK004_SatistanIade = value;
                 OnPropertyChanged("STK004_SatistanIade");
             }
         }
@@ -1923,10 +1918,10 @@ namespace Wms12m.Entity
         /// <summary> NVARCHAR (60) Allow Null </summary>
         public string STK004_MalKodu2
         {
-            get { return this._STK004_MalKodu2; }
+            get { return sTK004_MalKodu2; }
             set
             {
-                this._STK004_MalKodu2 = value;
+                sTK004_MalKodu2 = value;
                 OnPropertyChanged("STK004_MalKodu2");
             }
         }
@@ -1934,10 +1929,10 @@ namespace Wms12m.Entity
         /// <summary> NVARCHAR (6) Allow Null </summary>
         public string STK004_DovizCinsi
         {
-            get { return this._STK004_DovizCinsi; }
+            get { return sTK004_DovizCinsi; }
             set
             {
-                this._STK004_DovizCinsi = value;
+                sTK004_DovizCinsi = value;
                 OnPropertyChanged("STK004_DovizCinsi");
             }
         }
@@ -1945,10 +1940,10 @@ namespace Wms12m.Entity
         /// <summary> INT (4) Allow Null </summary>
         public int? STK004_SonAlimFaturasiTarihi
         {
-            get { return this._STK004_SonAlimFaturasiTarihi; }
+            get { return sTK004_SonAlimFaturasiTarihi; }
             set
             {
-                this._STK004_SonAlimFaturasiTarihi = value;
+                sTK004_SonAlimFaturasiTarihi = value;
                 OnPropertyChanged("STK004_SonAlimFaturasiTarihi");
             }
         }
@@ -1956,10 +1951,10 @@ namespace Wms12m.Entity
         /// <summary> NVARCHAR (32) Allow Null </summary>
         public string STK004_SonAlimFaturasiNo
         {
-            get { return this._STK004_SonAlimFaturasiNo; }
+            get { return sTK004_SonAlimFaturasiNo; }
             set
             {
-                this._STK004_SonAlimFaturasiNo = value;
+                sTK004_SonAlimFaturasiNo = value;
                 OnPropertyChanged("STK004_SonAlimFaturasiNo");
             }
         }
@@ -1967,10 +1962,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (13) Allow Null </summary>
         public decimal? STK004_SonAlimFaturasiBirimFiyati
         {
-            get { return this._STK004_SonAlimFaturasiBirimFiyati; }
+            get { return sTK004_SonAlimFaturasiBirimFiyati; }
             set
             {
-                this._STK004_SonAlimFaturasiBirimFiyati = value;
+                sTK004_SonAlimFaturasiBirimFiyati = value;
                 OnPropertyChanged("STK004_SonAlimFaturasiBirimFiyati");
             }
         }
@@ -1978,10 +1973,10 @@ namespace Wms12m.Entity
         /// <summary> NVARCHAR (32) Allow Null </summary>
         public string STK004_SonAlimFaturasiCariHesapKodu
         {
-            get { return this._STK004_SonAlimFaturasiCariHesapKodu; }
+            get { return sTK004_SonAlimFaturasiCariHesapKodu; }
             set
             {
-                this._STK004_SonAlimFaturasiCariHesapKodu = value;
+                sTK004_SonAlimFaturasiCariHesapKodu = value;
                 OnPropertyChanged("STK004_SonAlimFaturasiCariHesapKodu");
             }
         }
@@ -1989,10 +1984,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (9) Allow Null </summary>
         public decimal? STK004_SonAlimFaturasiDovizBirimFiyati
         {
-            get { return this._STK004_SonAlimFaturasiDovizBirimFiyati; }
+            get { return sTK004_SonAlimFaturasiDovizBirimFiyati; }
             set
             {
-                this._STK004_SonAlimFaturasiDovizBirimFiyati = value;
+                sTK004_SonAlimFaturasiDovizBirimFiyati = value;
                 OnPropertyChanged("STK004_SonAlimFaturasiDovizBirimFiyati");
             }
         }
@@ -2000,10 +1995,10 @@ namespace Wms12m.Entity
         /// <summary> INT (4) Allow Null </summary>
         public int? STK004_SonSatisFaturasiTarihi
         {
-            get { return this._STK004_SonSatisFaturasiTarihi; }
+            get { return sTK004_SonSatisFaturasiTarihi; }
             set
             {
-                this._STK004_SonSatisFaturasiTarihi = value;
+                sTK004_SonSatisFaturasiTarihi = value;
                 OnPropertyChanged("STK004_SonSatisFaturasiTarihi");
             }
         }
@@ -2011,10 +2006,10 @@ namespace Wms12m.Entity
         /// <summary> NVARCHAR (32) Allow Null </summary>
         public string STK004_SonSatisFaturasiNo
         {
-            get { return this._STK004_SonSatisFaturasiNo; }
+            get { return sTK004_SonSatisFaturasiNo; }
             set
             {
-                this._STK004_SonSatisFaturasiNo = value;
+                sTK004_SonSatisFaturasiNo = value;
                 OnPropertyChanged("STK004_SonSatisFaturasiNo");
             }
         }
@@ -2022,10 +2017,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (13) Allow Null </summary>
         public decimal? STK004_SonSatisFaturasiBirimFiyati
         {
-            get { return this._STK004_SonSatisFaturasiBirimFiyati; }
+            get { return sTK004_SonSatisFaturasiBirimFiyati; }
             set
             {
-                this._STK004_SonSatisFaturasiBirimFiyati = value;
+                sTK004_SonSatisFaturasiBirimFiyati = value;
                 OnPropertyChanged("STK004_SonSatisFaturasiBirimFiyati");
             }
         }
@@ -2033,10 +2028,10 @@ namespace Wms12m.Entity
         /// <summary> NVARCHAR (32) Allow Null </summary>
         public string STK004_SonSatisFaturasiCariHesapKodu
         {
-            get { return this._STK004_SonSatisFaturasiCariHesapKodu; }
+            get { return sTK004_SonSatisFaturasiCariHesapKodu; }
             set
             {
-                this._STK004_SonSatisFaturasiCariHesapKodu = value;
+                sTK004_SonSatisFaturasiCariHesapKodu = value;
                 OnPropertyChanged("STK004_SonSatisFaturasiCariHesapKodu");
             }
         }
@@ -2044,10 +2039,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (9) Allow Null </summary>
         public decimal? STK004_SonSatisFaturasiDovizBirimFiyati
         {
-            get { return this._STK004_SonSatisFaturasiDovizBirimFiyati; }
+            get { return sTK004_SonSatisFaturasiDovizBirimFiyati; }
             set
             {
-                this._STK004_SonSatisFaturasiDovizBirimFiyati = value;
+                sTK004_SonSatisFaturasiDovizBirimFiyati = value;
                 OnPropertyChanged("STK004_SonSatisFaturasiDovizBirimFiyati");
             }
         }
@@ -2055,10 +2050,10 @@ namespace Wms12m.Entity
         /// <summary> NVARCHAR (40) Allow Null </summary>
         public string STK004_MasrafMerkezi
         {
-            get { return this._STK004_MasrafMerkezi; }
+            get { return sTK004_MasrafMerkezi; }
             set
             {
-                this._STK004_MasrafMerkezi = value;
+                sTK004_MasrafMerkezi = value;
                 OnPropertyChanged("STK004_MasrafMerkezi");
             }
         }
@@ -2066,10 +2061,10 @@ namespace Wms12m.Entity
         /// <summary> NVARCHAR (256) Allow Null </summary>
         public string STK004_ResimDosyasi
         {
-            get { return this._STK004_ResimDosyasi; }
+            get { return sTK004_ResimDosyasi; }
             set
             {
-                this._STK004_ResimDosyasi = value;
+                sTK004_ResimDosyasi = value;
                 OnPropertyChanged("STK004_ResimDosyasi");
             }
         }
@@ -2077,10 +2072,10 @@ namespace Wms12m.Entity
         /// <summary> TINYINT (1) Allow Null </summary>
         public byte? STK004_FiyatListesindeCikart
         {
-            get { return this._STK004_FiyatListesindeCikart; }
+            get { return sTK004_FiyatListesindeCikart; }
             set
             {
-                this._STK004_FiyatListesindeCikart = value;
+                sTK004_FiyatListesindeCikart = value;
                 OnPropertyChanged("STK004_FiyatListesindeCikart");
             }
         }
@@ -2088,10 +2083,10 @@ namespace Wms12m.Entity
         /// <summary> INT (4) Allow Null </summary>
         public int? STK004_SatisFiyati1ValorGun
         {
-            get { return this._STK004_SatisFiyati1ValorGun; }
+            get { return sTK004_SatisFiyati1ValorGun; }
             set
             {
-                this._STK004_SatisFiyati1ValorGun = value;
+                sTK004_SatisFiyati1ValorGun = value;
                 OnPropertyChanged("STK004_SatisFiyati1ValorGun");
             }
         }
@@ -2099,10 +2094,10 @@ namespace Wms12m.Entity
         /// <summary> INT (4) Allow Null </summary>
         public int? STK004_SatisFiyati2ValorGun
         {
-            get { return this._STK004_SatisFiyati2ValorGun; }
+            get { return sTK004_SatisFiyati2ValorGun; }
             set
             {
-                this._STK004_SatisFiyati2ValorGun = value;
+                sTK004_SatisFiyati2ValorGun = value;
                 OnPropertyChanged("STK004_SatisFiyati2ValorGun");
             }
         }
@@ -2110,10 +2105,10 @@ namespace Wms12m.Entity
         /// <summary> INT (4) Allow Null </summary>
         public int? STK004_SatisFiyati3ValorGun
         {
-            get { return this._STK004_SatisFiyati3ValorGun; }
+            get { return sTK004_SatisFiyati3ValorGun; }
             set
             {
-                this._STK004_SatisFiyati3ValorGun = value;
+                sTK004_SatisFiyati3ValorGun = value;
                 OnPropertyChanged("STK004_SatisFiyati3ValorGun");
             }
         }
@@ -2121,10 +2116,10 @@ namespace Wms12m.Entity
         /// <summary> INT (4) Allow Null </summary>
         public int? STK004_DovizSatisFiyati1ValorGun
         {
-            get { return this._STK004_DovizSatisFiyati1ValorGun; }
+            get { return sTK004_DovizSatisFiyati1ValorGun; }
             set
             {
-                this._STK004_DovizSatisFiyati1ValorGun = value;
+                sTK004_DovizSatisFiyati1ValorGun = value;
                 OnPropertyChanged("STK004_DovizSatisFiyati1ValorGun");
             }
         }
@@ -2132,10 +2127,10 @@ namespace Wms12m.Entity
         /// <summary> INT (4) Allow Null </summary>
         public int? STK004_DovizSatisFiyati2ValorGun
         {
-            get { return this._STK004_DovizSatisFiyati2ValorGun; }
+            get { return sTK004_DovizSatisFiyati2ValorGun; }
             set
             {
-                this._STK004_DovizSatisFiyati2ValorGun = value;
+                sTK004_DovizSatisFiyati2ValorGun = value;
                 OnPropertyChanged("STK004_DovizSatisFiyati2ValorGun");
             }
         }
@@ -2143,10 +2138,10 @@ namespace Wms12m.Entity
         /// <summary> INT (4) Allow Null </summary>
         public int? STK004_DovizSatisFiyati3ValorGun
         {
-            get { return this._STK004_DovizSatisFiyati3ValorGun; }
+            get { return sTK004_DovizSatisFiyati3ValorGun; }
             set
             {
-                this._STK004_DovizSatisFiyati3ValorGun = value;
+                sTK004_DovizSatisFiyati3ValorGun = value;
                 OnPropertyChanged("STK004_DovizSatisFiyati3ValorGun");
             }
         }
@@ -2154,10 +2149,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (9) Allow Null </summary>
         public decimal? STK004_DovizDevirTutari
         {
-            get { return this._STK004_DovizDevirTutari; }
+            get { return sTK004_DovizDevirTutari; }
             set
             {
-                this._STK004_DovizDevirTutari = value;
+                sTK004_DovizDevirTutari = value;
                 OnPropertyChanged("STK004_DovizDevirTutari");
             }
         }
@@ -2165,10 +2160,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (9) Allow Null </summary>
         public decimal? STK004_DovizGirisTutari
         {
-            get { return this._STK004_DovizGirisTutari; }
+            get { return sTK004_DovizGirisTutari; }
             set
             {
-                this._STK004_DovizGirisTutari = value;
+                sTK004_DovizGirisTutari = value;
                 OnPropertyChanged("STK004_DovizGirisTutari");
             }
         }
@@ -2176,10 +2171,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (9) Allow Null </summary>
         public decimal? STK004_DovizGirisIskontoTutari
         {
-            get { return this._STK004_DovizGirisIskontoTutari; }
+            get { return sTK004_DovizGirisIskontoTutari; }
             set
             {
-                this._STK004_DovizGirisIskontoTutari = value;
+                sTK004_DovizGirisIskontoTutari = value;
                 OnPropertyChanged("STK004_DovizGirisIskontoTutari");
             }
         }
@@ -2187,10 +2182,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (9) Allow Null </summary>
         public decimal? STK004_DovizCikisTutari
         {
-            get { return this._STK004_DovizCikisTutari; }
+            get { return sTK004_DovizCikisTutari; }
             set
             {
-                this._STK004_DovizCikisTutari = value;
+                sTK004_DovizCikisTutari = value;
                 OnPropertyChanged("STK004_DovizCikisTutari");
             }
         }
@@ -2198,10 +2193,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (9) Allow Null </summary>
         public decimal? STK004_DovizCikisIskontoTutari
         {
-            get { return this._STK004_DovizCikisIskontoTutari; }
+            get { return sTK004_DovizCikisIskontoTutari; }
             set
             {
-                this._STK004_DovizCikisIskontoTutari = value;
+                sTK004_DovizCikisIskontoTutari = value;
                 OnPropertyChanged("STK004_DovizCikisIskontoTutari");
             }
         }
@@ -2209,10 +2204,10 @@ namespace Wms12m.Entity
         /// <summary> NVARCHAR (10) Allow Null </summary>
         public string STK004_BarkodBirim1
         {
-            get { return this._STK004_BarkodBirim1; }
+            get { return sTK004_BarkodBirim1; }
             set
             {
-                this._STK004_BarkodBirim1 = value;
+                sTK004_BarkodBirim1 = value;
                 OnPropertyChanged("STK004_BarkodBirim1");
             }
         }
@@ -2220,10 +2215,10 @@ namespace Wms12m.Entity
         /// <summary> NVARCHAR (10) Allow Null </summary>
         public string STK004_BarkodBirim2
         {
-            get { return this._STK004_BarkodBirim2; }
+            get { return sTK004_BarkodBirim2; }
             set
             {
-                this._STK004_BarkodBirim2 = value;
+                sTK004_BarkodBirim2 = value;
                 OnPropertyChanged("STK004_BarkodBirim2");
             }
         }
@@ -2231,10 +2226,10 @@ namespace Wms12m.Entity
         /// <summary> NVARCHAR (10) Allow Null </summary>
         public string STK004_BarkodBirim3
         {
-            get { return this._STK004_BarkodBirim3; }
+            get { return sTK004_BarkodBirim3; }
             set
             {
-                this._STK004_BarkodBirim3 = value;
+                sTK004_BarkodBirim3 = value;
                 OnPropertyChanged("STK004_BarkodBirim3");
             }
         }
@@ -2242,10 +2237,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (5) Allow Null </summary>
         public decimal? STK004_BarkodCarpan1
         {
-            get { return this._STK004_BarkodCarpan1; }
+            get { return sTK004_BarkodCarpan1; }
             set
             {
-                this._STK004_BarkodCarpan1 = value;
+                sTK004_BarkodCarpan1 = value;
                 OnPropertyChanged("STK004_BarkodCarpan1");
             }
         }
@@ -2253,10 +2248,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (5) Allow Null </summary>
         public decimal? STK004_BarkodCarpan2
         {
-            get { return this._STK004_BarkodCarpan2; }
+            get { return sTK004_BarkodCarpan2; }
             set
             {
-                this._STK004_BarkodCarpan2 = value;
+                sTK004_BarkodCarpan2 = value;
                 OnPropertyChanged("STK004_BarkodCarpan2");
             }
         }
@@ -2264,10 +2259,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (5) Allow Null </summary>
         public decimal? STK004_BarkodCarpan3
         {
-            get { return this._STK004_BarkodCarpan3; }
+            get { return sTK004_BarkodCarpan3; }
             set
             {
-                this._STK004_BarkodCarpan3 = value;
+                sTK004_BarkodCarpan3 = value;
                 OnPropertyChanged("STK004_BarkodCarpan3");
             }
         }
@@ -2275,10 +2270,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (9) Allow Null </summary>
         public decimal? STK004_DevirMiktari2
         {
-            get { return this._STK004_DevirMiktari2; }
+            get { return sTK004_DevirMiktari2; }
             set
             {
-                this._STK004_DevirMiktari2 = value;
+                sTK004_DevirMiktari2 = value;
                 OnPropertyChanged("STK004_DevirMiktari2");
             }
         }
@@ -2286,10 +2281,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (9) Allow Null </summary>
         public decimal? STK004_GirisMiktari2
         {
-            get { return this._STK004_GirisMiktari2; }
+            get { return sTK004_GirisMiktari2; }
             set
             {
-                this._STK004_GirisMiktari2 = value;
+                sTK004_GirisMiktari2 = value;
                 OnPropertyChanged("STK004_GirisMiktari2");
             }
         }
@@ -2297,10 +2292,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (13) Allow Null </summary>
         public decimal? STK004_GirisTutari2
         {
-            get { return this._STK004_GirisTutari2; }
+            get { return sTK004_GirisTutari2; }
             set
             {
-                this._STK004_GirisTutari2 = value;
+                sTK004_GirisTutari2 = value;
                 OnPropertyChanged("STK004_GirisTutari2");
             }
         }
@@ -2308,10 +2303,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (9) Allow Null </summary>
         public decimal? STK004_CikisMiktari2
         {
-            get { return this._STK004_CikisMiktari2; }
+            get { return sTK004_CikisMiktari2; }
             set
             {
-                this._STK004_CikisMiktari2 = value;
+                sTK004_CikisMiktari2 = value;
                 OnPropertyChanged("STK004_CikisMiktari2");
             }
         }
@@ -2319,10 +2314,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (13) Allow Null </summary>
         public decimal? STK004_CikisTutari2
         {
-            get { return this._STK004_CikisTutari2; }
+            get { return sTK004_CikisTutari2; }
             set
             {
-                this._STK004_CikisTutari2 = value;
+                sTK004_CikisTutari2 = value;
                 OnPropertyChanged("STK004_CikisTutari2");
             }
         }
@@ -2330,10 +2325,10 @@ namespace Wms12m.Entity
         /// <summary> NVARCHAR (20) Allow Null </summary>
         public string STK004_DepoKodu1
         {
-            get { return this._STK004_DepoKodu1; }
+            get { return sTK004_DepoKodu1; }
             set
             {
-                this._STK004_DepoKodu1 = value;
+                sTK004_DepoKodu1 = value;
                 OnPropertyChanged("STK004_DepoKodu1");
             }
         }
@@ -2341,10 +2336,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (9) Allow Null </summary>
         public decimal? STK004_DepoDevirMiktari21
         {
-            get { return this._STK004_DepoDevirMiktari21; }
+            get { return sTK004_DepoDevirMiktari21; }
             set
             {
-                this._STK004_DepoDevirMiktari21 = value;
+                sTK004_DepoDevirMiktari21 = value;
                 OnPropertyChanged("STK004_DepoDevirMiktari21");
             }
         }
@@ -2352,10 +2347,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (13) Allow Null </summary>
         public decimal? STK004_DepoDevirTutari21
         {
-            get { return this._STK004_DepoDevirTutari21; }
+            get { return sTK004_DepoDevirTutari21; }
             set
             {
-                this._STK004_DepoDevirTutari21 = value;
+                sTK004_DepoDevirTutari21 = value;
                 OnPropertyChanged("STK004_DepoDevirTutari21");
             }
         }
@@ -2363,10 +2358,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (9) Allow Null </summary>
         public decimal? STK004_DepoGirisMiktari1
         {
-            get { return this._STK004_DepoGirisMiktari1; }
+            get { return sTK004_DepoGirisMiktari1; }
             set
             {
-                this._STK004_DepoGirisMiktari1 = value;
+                sTK004_DepoGirisMiktari1 = value;
                 OnPropertyChanged("STK004_DepoGirisMiktari1");
             }
         }
@@ -2374,10 +2369,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (13) Allow Null </summary>
         public decimal? STK004_DepoGirisTutari1
         {
-            get { return this._STK004_DepoGirisTutari1; }
+            get { return sTK004_DepoGirisTutari1; }
             set
             {
-                this._STK004_DepoGirisTutari1 = value;
+                sTK004_DepoGirisTutari1 = value;
                 OnPropertyChanged("STK004_DepoGirisTutari1");
             }
         }
@@ -2385,10 +2380,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (9) Allow Null </summary>
         public decimal? STK004_DepoGirisIskonto1
         {
-            get { return this._STK004_DepoGirisIskonto1; }
+            get { return sTK004_DepoGirisIskonto1; }
             set
             {
-                this._STK004_DepoGirisIskonto1 = value;
+                sTK004_DepoGirisIskonto1 = value;
                 OnPropertyChanged("STK004_DepoGirisIskonto1");
             }
         }
@@ -2396,10 +2391,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (9) Allow Null </summary>
         public decimal? STK004_DepoCikisMiktari1
         {
-            get { return this._STK004_DepoCikisMiktari1; }
+            get { return sTK004_DepoCikisMiktari1; }
             set
             {
-                this._STK004_DepoCikisMiktari1 = value;
+                sTK004_DepoCikisMiktari1 = value;
                 OnPropertyChanged("STK004_DepoCikisMiktari1");
             }
         }
@@ -2407,10 +2402,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (13) Allow Null </summary>
         public decimal? STK004_DepoCikisTutari1
         {
-            get { return this._STK004_DepoCikisTutari1; }
+            get { return sTK004_DepoCikisTutari1; }
             set
             {
-                this._STK004_DepoCikisTutari1 = value;
+                sTK004_DepoCikisTutari1 = value;
                 OnPropertyChanged("STK004_DepoCikisTutari1");
             }
         }
@@ -2418,10 +2413,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (9) Allow Null </summary>
         public decimal? STK004_DepoCikisIskonto1
         {
-            get { return this._STK004_DepoCikisIskonto1; }
+            get { return sTK004_DepoCikisIskonto1; }
             set
             {
-                this._STK004_DepoCikisIskonto1 = value;
+                sTK004_DepoCikisIskonto1 = value;
                 OnPropertyChanged("STK004_DepoCikisIskonto1");
             }
         }
@@ -2429,10 +2424,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (13) Allow Null </summary>
         public decimal? STK004_DepoSonMaliyetBf1
         {
-            get { return this._STK004_DepoSonMaliyetBf1; }
+            get { return sTK004_DepoSonMaliyetBf1; }
             set
             {
-                this._STK004_DepoSonMaliyetBf1 = value;
+                sTK004_DepoSonMaliyetBf1 = value;
                 OnPropertyChanged("STK004_DepoSonMaliyetBf1");
             }
         }
@@ -2440,10 +2435,10 @@ namespace Wms12m.Entity
         /// <summary> SMALLINT (2) Allow Null </summary>
         public short? STK004_DepoSonMaliyetTipi1
         {
-            get { return this._STK004_DepoSonMaliyetTipi1; }
+            get { return sTK004_DepoSonMaliyetTipi1; }
             set
             {
-                this._STK004_DepoSonMaliyetTipi1 = value;
+                sTK004_DepoSonMaliyetTipi1 = value;
                 OnPropertyChanged("STK004_DepoSonMaliyetTipi1");
             }
         }
@@ -2451,10 +2446,10 @@ namespace Wms12m.Entity
         /// <summary> INT (4) Allow Null </summary>
         public int? STK004_DepoSonMaliyetTarihi1
         {
-            get { return this._STK004_DepoSonMaliyetTarihi1; }
+            get { return sTK004_DepoSonMaliyetTarihi1; }
             set
             {
-                this._STK004_DepoSonMaliyetTarihi1 = value;
+                sTK004_DepoSonMaliyetTarihi1 = value;
                 OnPropertyChanged("STK004_DepoSonMaliyetTarihi1");
             }
         }
@@ -2462,10 +2457,10 @@ namespace Wms12m.Entity
         /// <summary> TINYINT (1) Allow Null </summary>
         public byte? STK004_DepoSonMaliyetPrBr1
         {
-            get { return this._STK004_DepoSonMaliyetPrBr1; }
+            get { return sTK004_DepoSonMaliyetPrBr1; }
             set
             {
-                this._STK004_DepoSonMaliyetPrBr1 = value;
+                sTK004_DepoSonMaliyetPrBr1 = value;
                 OnPropertyChanged("STK004_DepoSonMaliyetPrBr1");
             }
         }
@@ -2473,10 +2468,10 @@ namespace Wms12m.Entity
         /// <summary> INT (4) Allow Null </summary>
         public int? STK004_DepoSonDevirTarihi1
         {
-            get { return this._STK004_DepoSonDevirTarihi1; }
+            get { return sTK004_DepoSonDevirTarihi1; }
             set
             {
-                this._STK004_DepoSonDevirTarihi1 = value;
+                sTK004_DepoSonDevirTarihi1 = value;
                 OnPropertyChanged("STK004_DepoSonDevirTarihi1");
             }
         }
@@ -2484,10 +2479,10 @@ namespace Wms12m.Entity
         /// <summary> INT (4) Allow Null </summary>
         public int? STK004_DepoSonGirisTarihi1
         {
-            get { return this._STK004_DepoSonGirisTarihi1; }
+            get { return sTK004_DepoSonGirisTarihi1; }
             set
             {
-                this._STK004_DepoSonGirisTarihi1 = value;
+                sTK004_DepoSonGirisTarihi1 = value;
                 OnPropertyChanged("STK004_DepoSonGirisTarihi1");
             }
         }
@@ -2495,10 +2490,10 @@ namespace Wms12m.Entity
         /// <summary> INT (4) Allow Null </summary>
         public int? STK004_DepoSonCikisTarihi1
         {
-            get { return this._STK004_DepoSonCikisTarihi1; }
+            get { return sTK004_DepoSonCikisTarihi1; }
             set
             {
-                this._STK004_DepoSonCikisTarihi1 = value;
+                sTK004_DepoSonCikisTarihi1 = value;
                 OnPropertyChanged("STK004_DepoSonCikisTarihi1");
             }
         }
@@ -2506,10 +2501,10 @@ namespace Wms12m.Entity
         /// <summary> NVARCHAR (20) Allow Null </summary>
         public string STK004_DepoKodu2
         {
-            get { return this._STK004_DepoKodu2; }
+            get { return sTK004_DepoKodu2; }
             set
             {
-                this._STK004_DepoKodu2 = value;
+                sTK004_DepoKodu2 = value;
                 OnPropertyChanged("STK004_DepoKodu2");
             }
         }
@@ -2517,10 +2512,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (9) Allow Null </summary>
         public decimal? STK004_DepoDevirMiktari22
         {
-            get { return this._STK004_DepoDevirMiktari22; }
+            get { return sTK004_DepoDevirMiktari22; }
             set
             {
-                this._STK004_DepoDevirMiktari22 = value;
+                sTK004_DepoDevirMiktari22 = value;
                 OnPropertyChanged("STK004_DepoDevirMiktari22");
             }
         }
@@ -2528,10 +2523,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (13) Allow Null </summary>
         public decimal? STK004_DepoDevirTutari22
         {
-            get { return this._STK004_DepoDevirTutari22; }
+            get { return sTK004_DepoDevirTutari22; }
             set
             {
-                this._STK004_DepoDevirTutari22 = value;
+                sTK004_DepoDevirTutari22 = value;
                 OnPropertyChanged("STK004_DepoDevirTutari22");
             }
         }
@@ -2539,10 +2534,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (9) Allow Null </summary>
         public decimal? STK004_DepoGirisMiktari2
         {
-            get { return this._STK004_DepoGirisMiktari2; }
+            get { return sTK004_DepoGirisMiktari2; }
             set
             {
-                this._STK004_DepoGirisMiktari2 = value;
+                sTK004_DepoGirisMiktari2 = value;
                 OnPropertyChanged("STK004_DepoGirisMiktari2");
             }
         }
@@ -2550,10 +2545,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (13) Allow Null </summary>
         public decimal? STK004_DepoGirisTutari2
         {
-            get { return this._STK004_DepoGirisTutari2; }
+            get { return sTK004_DepoGirisTutari2; }
             set
             {
-                this._STK004_DepoGirisTutari2 = value;
+                sTK004_DepoGirisTutari2 = value;
                 OnPropertyChanged("STK004_DepoGirisTutari2");
             }
         }
@@ -2561,10 +2556,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (9) Allow Null </summary>
         public decimal? STK004_DepoGirisIskonto2
         {
-            get { return this._STK004_DepoGirisIskonto2; }
+            get { return sTK004_DepoGirisIskonto2; }
             set
             {
-                this._STK004_DepoGirisIskonto2 = value;
+                sTK004_DepoGirisIskonto2 = value;
                 OnPropertyChanged("STK004_DepoGirisIskonto2");
             }
         }
@@ -2572,10 +2567,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (9) Allow Null </summary>
         public decimal? STK004_DepoCikisMiktari2
         {
-            get { return this._STK004_DepoCikisMiktari2; }
+            get { return sTK004_DepoCikisMiktari2; }
             set
             {
-                this._STK004_DepoCikisMiktari2 = value;
+                sTK004_DepoCikisMiktari2 = value;
                 OnPropertyChanged("STK004_DepoCikisMiktari2");
             }
         }
@@ -2583,10 +2578,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (13) Allow Null </summary>
         public decimal? STK004_DepoCikisTutari2
         {
-            get { return this._STK004_DepoCikisTutari2; }
+            get { return sTK004_DepoCikisTutari2; }
             set
             {
-                this._STK004_DepoCikisTutari2 = value;
+                sTK004_DepoCikisTutari2 = value;
                 OnPropertyChanged("STK004_DepoCikisTutari2");
             }
         }
@@ -2594,10 +2589,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (9) Allow Null </summary>
         public decimal? STK004_DepoCikisIskonto2
         {
-            get { return this._STK004_DepoCikisIskonto2; }
+            get { return sTK004_DepoCikisIskonto2; }
             set
             {
-                this._STK004_DepoCikisIskonto2 = value;
+                sTK004_DepoCikisIskonto2 = value;
                 OnPropertyChanged("STK004_DepoCikisIskonto2");
             }
         }
@@ -2605,10 +2600,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (13) Allow Null </summary>
         public decimal? STK004_DepoSonMaliyetBf2
         {
-            get { return this._STK004_DepoSonMaliyetBf2; }
+            get { return sTK004_DepoSonMaliyetBf2; }
             set
             {
-                this._STK004_DepoSonMaliyetBf2 = value;
+                sTK004_DepoSonMaliyetBf2 = value;
                 OnPropertyChanged("STK004_DepoSonMaliyetBf2");
             }
         }
@@ -2616,10 +2611,10 @@ namespace Wms12m.Entity
         /// <summary> SMALLINT (2) Allow Null </summary>
         public short? STK004_DepoSonMaliyetTipi2
         {
-            get { return this._STK004_DepoSonMaliyetTipi2; }
+            get { return sTK004_DepoSonMaliyetTipi2; }
             set
             {
-                this._STK004_DepoSonMaliyetTipi2 = value;
+                sTK004_DepoSonMaliyetTipi2 = value;
                 OnPropertyChanged("STK004_DepoSonMaliyetTipi2");
             }
         }
@@ -2627,10 +2622,10 @@ namespace Wms12m.Entity
         /// <summary> INT (4) Allow Null </summary>
         public int? STK004_DepoSonMaliyetTarihi2
         {
-            get { return this._STK004_DepoSonMaliyetTarihi2; }
+            get { return sTK004_DepoSonMaliyetTarihi2; }
             set
             {
-                this._STK004_DepoSonMaliyetTarihi2 = value;
+                sTK004_DepoSonMaliyetTarihi2 = value;
                 OnPropertyChanged("STK004_DepoSonMaliyetTarihi2");
             }
         }
@@ -2638,10 +2633,10 @@ namespace Wms12m.Entity
         /// <summary> TINYINT (1) Allow Null </summary>
         public byte? STK004_DepoSonMaliyetPrBr2
         {
-            get { return this._STK004_DepoSonMaliyetPrBr2; }
+            get { return sTK004_DepoSonMaliyetPrBr2; }
             set
             {
-                this._STK004_DepoSonMaliyetPrBr2 = value;
+                sTK004_DepoSonMaliyetPrBr2 = value;
                 OnPropertyChanged("STK004_DepoSonMaliyetPrBr2");
             }
         }
@@ -2649,10 +2644,10 @@ namespace Wms12m.Entity
         /// <summary> INT (4) Allow Null </summary>
         public int? STK004_DepoSonDevirTarihi2
         {
-            get { return this._STK004_DepoSonDevirTarihi2; }
+            get { return sTK004_DepoSonDevirTarihi2; }
             set
             {
-                this._STK004_DepoSonDevirTarihi2 = value;
+                sTK004_DepoSonDevirTarihi2 = value;
                 OnPropertyChanged("STK004_DepoSonDevirTarihi2");
             }
         }
@@ -2660,10 +2655,10 @@ namespace Wms12m.Entity
         /// <summary> INT (4) Allow Null </summary>
         public int? STK004_DepoSonGirisTarihi2
         {
-            get { return this._STK004_DepoSonGirisTarihi2; }
+            get { return sTK004_DepoSonGirisTarihi2; }
             set
             {
-                this._STK004_DepoSonGirisTarihi2 = value;
+                sTK004_DepoSonGirisTarihi2 = value;
                 OnPropertyChanged("STK004_DepoSonGirisTarihi2");
             }
         }
@@ -2671,10 +2666,10 @@ namespace Wms12m.Entity
         /// <summary> INT (4) Allow Null </summary>
         public int? STK004_DepoSonCikisTarihi2
         {
-            get { return this._STK004_DepoSonCikisTarihi2; }
+            get { return sTK004_DepoSonCikisTarihi2; }
             set
             {
-                this._STK004_DepoSonCikisTarihi2 = value;
+                sTK004_DepoSonCikisTarihi2 = value;
                 OnPropertyChanged("STK004_DepoSonCikisTarihi2");
             }
         }
@@ -2682,10 +2677,10 @@ namespace Wms12m.Entity
         /// <summary> NVARCHAR (20) Allow Null </summary>
         public string STK004_DepoKodu3
         {
-            get { return this._STK004_DepoKodu3; }
+            get { return sTK004_DepoKodu3; }
             set
             {
-                this._STK004_DepoKodu3 = value;
+                sTK004_DepoKodu3 = value;
                 OnPropertyChanged("STK004_DepoKodu3");
             }
         }
@@ -2693,10 +2688,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (9) Allow Null </summary>
         public decimal? STK004_DepoDevirMiktari23
         {
-            get { return this._STK004_DepoDevirMiktari23; }
+            get { return sTK004_DepoDevirMiktari23; }
             set
             {
-                this._STK004_DepoDevirMiktari23 = value;
+                sTK004_DepoDevirMiktari23 = value;
                 OnPropertyChanged("STK004_DepoDevirMiktari23");
             }
         }
@@ -2704,10 +2699,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (13) Allow Null </summary>
         public decimal? STK004_DepoDevirTutari23
         {
-            get { return this._STK004_DepoDevirTutari23; }
+            get { return sTK004_DepoDevirTutari23; }
             set
             {
-                this._STK004_DepoDevirTutari23 = value;
+                sTK004_DepoDevirTutari23 = value;
                 OnPropertyChanged("STK004_DepoDevirTutari23");
             }
         }
@@ -2715,10 +2710,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (9) Allow Null </summary>
         public decimal? STK004_DepoGirisMiktari3
         {
-            get { return this._STK004_DepoGirisMiktari3; }
+            get { return sTK004_DepoGirisMiktari3; }
             set
             {
-                this._STK004_DepoGirisMiktari3 = value;
+                sTK004_DepoGirisMiktari3 = value;
                 OnPropertyChanged("STK004_DepoGirisMiktari3");
             }
         }
@@ -2726,10 +2721,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (13) Allow Null </summary>
         public decimal? STK004_DepoGirisTutari3
         {
-            get { return this._STK004_DepoGirisTutari3; }
+            get { return sTK004_DepoGirisTutari3; }
             set
             {
-                this._STK004_DepoGirisTutari3 = value;
+                sTK004_DepoGirisTutari3 = value;
                 OnPropertyChanged("STK004_DepoGirisTutari3");
             }
         }
@@ -2737,10 +2732,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (9) Allow Null </summary>
         public decimal? STK004_DepoGirisIskonto3
         {
-            get { return this._STK004_DepoGirisIskonto3; }
+            get { return sTK004_DepoGirisIskonto3; }
             set
             {
-                this._STK004_DepoGirisIskonto3 = value;
+                sTK004_DepoGirisIskonto3 = value;
                 OnPropertyChanged("STK004_DepoGirisIskonto3");
             }
         }
@@ -2748,10 +2743,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (9) Allow Null </summary>
         public decimal? STK004_DepoCikisMiktari3
         {
-            get { return this._STK004_DepoCikisMiktari3; }
+            get { return sTK004_DepoCikisMiktari3; }
             set
             {
-                this._STK004_DepoCikisMiktari3 = value;
+                sTK004_DepoCikisMiktari3 = value;
                 OnPropertyChanged("STK004_DepoCikisMiktari3");
             }
         }
@@ -2759,10 +2754,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (13) Allow Null </summary>
         public decimal? STK004_DepoCikisTutari3
         {
-            get { return this._STK004_DepoCikisTutari3; }
+            get { return sTK004_DepoCikisTutari3; }
             set
             {
-                this._STK004_DepoCikisTutari3 = value;
+                sTK004_DepoCikisTutari3 = value;
                 OnPropertyChanged("STK004_DepoCikisTutari3");
             }
         }
@@ -2770,10 +2765,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (9) Allow Null </summary>
         public decimal? STK004_DepoCikisIskonto3
         {
-            get { return this._STK004_DepoCikisIskonto3; }
+            get { return sTK004_DepoCikisIskonto3; }
             set
             {
-                this._STK004_DepoCikisIskonto3 = value;
+                sTK004_DepoCikisIskonto3 = value;
                 OnPropertyChanged("STK004_DepoCikisIskonto3");
             }
         }
@@ -2781,10 +2776,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (13) Allow Null </summary>
         public decimal? STK004_DepoSonMaliyetBf3
         {
-            get { return this._STK004_DepoSonMaliyetBf3; }
+            get { return sTK004_DepoSonMaliyetBf3; }
             set
             {
-                this._STK004_DepoSonMaliyetBf3 = value;
+                sTK004_DepoSonMaliyetBf3 = value;
                 OnPropertyChanged("STK004_DepoSonMaliyetBf3");
             }
         }
@@ -2792,10 +2787,10 @@ namespace Wms12m.Entity
         /// <summary> SMALLINT (2) Allow Null </summary>
         public short? STK004_DepoSonMaliyetTipi3
         {
-            get { return this._STK004_DepoSonMaliyetTipi3; }
+            get { return sTK004_DepoSonMaliyetTipi3; }
             set
             {
-                this._STK004_DepoSonMaliyetTipi3 = value;
+                sTK004_DepoSonMaliyetTipi3 = value;
                 OnPropertyChanged("STK004_DepoSonMaliyetTipi3");
             }
         }
@@ -2803,10 +2798,10 @@ namespace Wms12m.Entity
         /// <summary> INT (4) Allow Null </summary>
         public int? STK004_DepoSonMaliyetTarihi3
         {
-            get { return this._STK004_DepoSonMaliyetTarihi3; }
+            get { return sTK004_DepoSonMaliyetTarihi3; }
             set
             {
-                this._STK004_DepoSonMaliyetTarihi3 = value;
+                sTK004_DepoSonMaliyetTarihi3 = value;
                 OnPropertyChanged("STK004_DepoSonMaliyetTarihi3");
             }
         }
@@ -2814,10 +2809,10 @@ namespace Wms12m.Entity
         /// <summary> TINYINT (1) Allow Null </summary>
         public byte? STK004_DepoSonMaliyetPrBr3
         {
-            get { return this._STK004_DepoSonMaliyetPrBr3; }
+            get { return sTK004_DepoSonMaliyetPrBr3; }
             set
             {
-                this._STK004_DepoSonMaliyetPrBr3 = value;
+                sTK004_DepoSonMaliyetPrBr3 = value;
                 OnPropertyChanged("STK004_DepoSonMaliyetPrBr3");
             }
         }
@@ -2825,10 +2820,10 @@ namespace Wms12m.Entity
         /// <summary> INT (4) Allow Null </summary>
         public int? STK004_DepoSonDevirTarihi3
         {
-            get { return this._STK004_DepoSonDevirTarihi3; }
+            get { return sTK004_DepoSonDevirTarihi3; }
             set
             {
-                this._STK004_DepoSonDevirTarihi3 = value;
+                sTK004_DepoSonDevirTarihi3 = value;
                 OnPropertyChanged("STK004_DepoSonDevirTarihi3");
             }
         }
@@ -2836,10 +2831,10 @@ namespace Wms12m.Entity
         /// <summary> INT (4) Allow Null </summary>
         public int? STK004_DepoSonGirisTarihi3
         {
-            get { return this._STK004_DepoSonGirisTarihi3; }
+            get { return sTK004_DepoSonGirisTarihi3; }
             set
             {
-                this._STK004_DepoSonGirisTarihi3 = value;
+                sTK004_DepoSonGirisTarihi3 = value;
                 OnPropertyChanged("STK004_DepoSonGirisTarihi3");
             }
         }
@@ -2847,10 +2842,10 @@ namespace Wms12m.Entity
         /// <summary> INT (4) Allow Null </summary>
         public int? STK004_DepoSonCikisTarihi3
         {
-            get { return this._STK004_DepoSonCikisTarihi3; }
+            get { return sTK004_DepoSonCikisTarihi3; }
             set
             {
-                this._STK004_DepoSonCikisTarihi3 = value;
+                sTK004_DepoSonCikisTarihi3 = value;
                 OnPropertyChanged("STK004_DepoSonCikisTarihi3");
             }
         }
@@ -2858,10 +2853,10 @@ namespace Wms12m.Entity
         /// <summary> NVARCHAR (20) Allow Null </summary>
         public string STK004_DepoKodu4
         {
-            get { return this._STK004_DepoKodu4; }
+            get { return sTK004_DepoKodu4; }
             set
             {
-                this._STK004_DepoKodu4 = value;
+                sTK004_DepoKodu4 = value;
                 OnPropertyChanged("STK004_DepoKodu4");
             }
         }
@@ -2869,10 +2864,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (9) Allow Null </summary>
         public decimal? STK004_DepoDevirMiktari24
         {
-            get { return this._STK004_DepoDevirMiktari24; }
+            get { return sTK004_DepoDevirMiktari24; }
             set
             {
-                this._STK004_DepoDevirMiktari24 = value;
+                sTK004_DepoDevirMiktari24 = value;
                 OnPropertyChanged("STK004_DepoDevirMiktari24");
             }
         }
@@ -2880,10 +2875,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (13) Allow Null </summary>
         public decimal? STK004_DepoDevirTutari24
         {
-            get { return this._STK004_DepoDevirTutari24; }
+            get { return sTK004_DepoDevirTutari24; }
             set
             {
-                this._STK004_DepoDevirTutari24 = value;
+                sTK004_DepoDevirTutari24 = value;
                 OnPropertyChanged("STK004_DepoDevirTutari24");
             }
         }
@@ -2891,10 +2886,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (9) Allow Null </summary>
         public decimal? STK004_DepoGirisMiktari4
         {
-            get { return this._STK004_DepoGirisMiktari4; }
+            get { return sTK004_DepoGirisMiktari4; }
             set
             {
-                this._STK004_DepoGirisMiktari4 = value;
+                sTK004_DepoGirisMiktari4 = value;
                 OnPropertyChanged("STK004_DepoGirisMiktari4");
             }
         }
@@ -2902,10 +2897,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (13) Allow Null </summary>
         public decimal? STK004_DepoGirisTutari4
         {
-            get { return this._STK004_DepoGirisTutari4; }
+            get { return sTK004_DepoGirisTutari4; }
             set
             {
-                this._STK004_DepoGirisTutari4 = value;
+                sTK004_DepoGirisTutari4 = value;
                 OnPropertyChanged("STK004_DepoGirisTutari4");
             }
         }
@@ -2913,10 +2908,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (9) Allow Null </summary>
         public decimal? STK004_DepoGirisIskonto4
         {
-            get { return this._STK004_DepoGirisIskonto4; }
+            get { return sTK004_DepoGirisIskonto4; }
             set
             {
-                this._STK004_DepoGirisIskonto4 = value;
+                sTK004_DepoGirisIskonto4 = value;
                 OnPropertyChanged("STK004_DepoGirisIskonto4");
             }
         }
@@ -2924,10 +2919,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (9) Allow Null </summary>
         public decimal? STK004_DepoCikisMiktari4
         {
-            get { return this._STK004_DepoCikisMiktari4; }
+            get { return sTK004_DepoCikisMiktari4; }
             set
             {
-                this._STK004_DepoCikisMiktari4 = value;
+                sTK004_DepoCikisMiktari4 = value;
                 OnPropertyChanged("STK004_DepoCikisMiktari4");
             }
         }
@@ -2935,10 +2930,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (13) Allow Null </summary>
         public decimal? STK004_DepoCikisTutari4
         {
-            get { return this._STK004_DepoCikisTutari4; }
+            get { return sTK004_DepoCikisTutari4; }
             set
             {
-                this._STK004_DepoCikisTutari4 = value;
+                sTK004_DepoCikisTutari4 = value;
                 OnPropertyChanged("STK004_DepoCikisTutari4");
             }
         }
@@ -2946,10 +2941,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (9) Allow Null </summary>
         public decimal? STK004_DepoCikisIskonto4
         {
-            get { return this._STK004_DepoCikisIskonto4; }
+            get { return sTK004_DepoCikisIskonto4; }
             set
             {
-                this._STK004_DepoCikisIskonto4 = value;
+                sTK004_DepoCikisIskonto4 = value;
                 OnPropertyChanged("STK004_DepoCikisIskonto4");
             }
         }
@@ -2957,10 +2952,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (13) Allow Null </summary>
         public decimal? STK004_DepoSonMaliyetBf4
         {
-            get { return this._STK004_DepoSonMaliyetBf4; }
+            get { return sTK004_DepoSonMaliyetBf4; }
             set
             {
-                this._STK004_DepoSonMaliyetBf4 = value;
+                sTK004_DepoSonMaliyetBf4 = value;
                 OnPropertyChanged("STK004_DepoSonMaliyetBf4");
             }
         }
@@ -2968,10 +2963,10 @@ namespace Wms12m.Entity
         /// <summary> SMALLINT (2) Allow Null </summary>
         public short? STK004_DepoSonMaliyetTipi4
         {
-            get { return this._STK004_DepoSonMaliyetTipi4; }
+            get { return sTK004_DepoSonMaliyetTipi4; }
             set
             {
-                this._STK004_DepoSonMaliyetTipi4 = value;
+                sTK004_DepoSonMaliyetTipi4 = value;
                 OnPropertyChanged("STK004_DepoSonMaliyetTipi4");
             }
         }
@@ -2979,10 +2974,10 @@ namespace Wms12m.Entity
         /// <summary> INT (4) Allow Null </summary>
         public int? STK004_DepoSonMaliyetTarihi4
         {
-            get { return this._STK004_DepoSonMaliyetTarihi4; }
+            get { return sTK004_DepoSonMaliyetTarihi4; }
             set
             {
-                this._STK004_DepoSonMaliyetTarihi4 = value;
+                sTK004_DepoSonMaliyetTarihi4 = value;
                 OnPropertyChanged("STK004_DepoSonMaliyetTarihi4");
             }
         }
@@ -2990,10 +2985,10 @@ namespace Wms12m.Entity
         /// <summary> TINYINT (1) Allow Null </summary>
         public byte? STK004_DepoSonMaliyetPrBr4
         {
-            get { return this._STK004_DepoSonMaliyetPrBr4; }
+            get { return sTK004_DepoSonMaliyetPrBr4; }
             set
             {
-                this._STK004_DepoSonMaliyetPrBr4 = value;
+                sTK004_DepoSonMaliyetPrBr4 = value;
                 OnPropertyChanged("STK004_DepoSonMaliyetPrBr4");
             }
         }
@@ -3001,10 +2996,10 @@ namespace Wms12m.Entity
         /// <summary> INT (4) Allow Null </summary>
         public int? STK004_DepoSonDevirTarihi4
         {
-            get { return this._STK004_DepoSonDevirTarihi4; }
+            get { return sTK004_DepoSonDevirTarihi4; }
             set
             {
-                this._STK004_DepoSonDevirTarihi4 = value;
+                sTK004_DepoSonDevirTarihi4 = value;
                 OnPropertyChanged("STK004_DepoSonDevirTarihi4");
             }
         }
@@ -3012,10 +3007,10 @@ namespace Wms12m.Entity
         /// <summary> INT (4) Allow Null </summary>
         public int? STK004_DepoSonGirisTarihi4
         {
-            get { return this._STK004_DepoSonGirisTarihi4; }
+            get { return sTK004_DepoSonGirisTarihi4; }
             set
             {
-                this._STK004_DepoSonGirisTarihi4 = value;
+                sTK004_DepoSonGirisTarihi4 = value;
                 OnPropertyChanged("STK004_DepoSonGirisTarihi4");
             }
         }
@@ -3023,10 +3018,10 @@ namespace Wms12m.Entity
         /// <summary> INT (4) Allow Null </summary>
         public int? STK004_DepoSonCikisTarihi4
         {
-            get { return this._STK004_DepoSonCikisTarihi4; }
+            get { return sTK004_DepoSonCikisTarihi4; }
             set
             {
-                this._STK004_DepoSonCikisTarihi4 = value;
+                sTK004_DepoSonCikisTarihi4 = value;
                 OnPropertyChanged("STK004_DepoSonCikisTarihi4");
             }
         }
@@ -3034,10 +3029,10 @@ namespace Wms12m.Entity
         /// <summary> NVARCHAR (20) Allow Null </summary>
         public string STK004_DepoKodu5
         {
-            get { return this._STK004_DepoKodu5; }
+            get { return sTK004_DepoKodu5; }
             set
             {
-                this._STK004_DepoKodu5 = value;
+                sTK004_DepoKodu5 = value;
                 OnPropertyChanged("STK004_DepoKodu5");
             }
         }
@@ -3045,10 +3040,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (9) Allow Null </summary>
         public decimal? STK004_DepoDevirMiktari25
         {
-            get { return this._STK004_DepoDevirMiktari25; }
+            get { return sTK004_DepoDevirMiktari25; }
             set
             {
-                this._STK004_DepoDevirMiktari25 = value;
+                sTK004_DepoDevirMiktari25 = value;
                 OnPropertyChanged("STK004_DepoDevirMiktari25");
             }
         }
@@ -3056,10 +3051,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (13) Allow Null </summary>
         public decimal? STK004_DepoDevirTutari25
         {
-            get { return this._STK004_DepoDevirTutari25; }
+            get { return sTK004_DepoDevirTutari25; }
             set
             {
-                this._STK004_DepoDevirTutari25 = value;
+                sTK004_DepoDevirTutari25 = value;
                 OnPropertyChanged("STK004_DepoDevirTutari25");
             }
         }
@@ -3067,10 +3062,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (9) Allow Null </summary>
         public decimal? STK004_DepoGirisMiktari5
         {
-            get { return this._STK004_DepoGirisMiktari5; }
+            get { return sTK004_DepoGirisMiktari5; }
             set
             {
-                this._STK004_DepoGirisMiktari5 = value;
+                sTK004_DepoGirisMiktari5 = value;
                 OnPropertyChanged("STK004_DepoGirisMiktari5");
             }
         }
@@ -3078,10 +3073,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (13) Allow Null </summary>
         public decimal? STK004_DepoGirisTutari5
         {
-            get { return this._STK004_DepoGirisTutari5; }
+            get { return sTK004_DepoGirisTutari5; }
             set
             {
-                this._STK004_DepoGirisTutari5 = value;
+                sTK004_DepoGirisTutari5 = value;
                 OnPropertyChanged("STK004_DepoGirisTutari5");
             }
         }
@@ -3089,10 +3084,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (9) Allow Null </summary>
         public decimal? STK004_DepoGirisIskonto5
         {
-            get { return this._STK004_DepoGirisIskonto5; }
+            get { return sTK004_DepoGirisIskonto5; }
             set
             {
-                this._STK004_DepoGirisIskonto5 = value;
+                sTK004_DepoGirisIskonto5 = value;
                 OnPropertyChanged("STK004_DepoGirisIskonto5");
             }
         }
@@ -3100,10 +3095,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (9) Allow Null </summary>
         public decimal? STK004_DepoCikisMiktari5
         {
-            get { return this._STK004_DepoCikisMiktari5; }
+            get { return sTK004_DepoCikisMiktari5; }
             set
             {
-                this._STK004_DepoCikisMiktari5 = value;
+                sTK004_DepoCikisMiktari5 = value;
                 OnPropertyChanged("STK004_DepoCikisMiktari5");
             }
         }
@@ -3111,10 +3106,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (13) Allow Null </summary>
         public decimal? STK004_DepoCikisTutari5
         {
-            get { return this._STK004_DepoCikisTutari5; }
+            get { return sTK004_DepoCikisTutari5; }
             set
             {
-                this._STK004_DepoCikisTutari5 = value;
+                sTK004_DepoCikisTutari5 = value;
                 OnPropertyChanged("STK004_DepoCikisTutari5");
             }
         }
@@ -3122,10 +3117,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (9) Allow Null </summary>
         public decimal? STK004_DepoCikisIskonto5
         {
-            get { return this._STK004_DepoCikisIskonto5; }
+            get { return sTK004_DepoCikisIskonto5; }
             set
             {
-                this._STK004_DepoCikisIskonto5 = value;
+                sTK004_DepoCikisIskonto5 = value;
                 OnPropertyChanged("STK004_DepoCikisIskonto5");
             }
         }
@@ -3133,10 +3128,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (13) Allow Null </summary>
         public decimal? STK004_DepoSonMaliyetBf5
         {
-            get { return this._STK004_DepoSonMaliyetBf5; }
+            get { return sTK004_DepoSonMaliyetBf5; }
             set
             {
-                this._STK004_DepoSonMaliyetBf5 = value;
+                sTK004_DepoSonMaliyetBf5 = value;
                 OnPropertyChanged("STK004_DepoSonMaliyetBf5");
             }
         }
@@ -3144,10 +3139,10 @@ namespace Wms12m.Entity
         /// <summary> SMALLINT (2) Allow Null </summary>
         public short? STK004_DepoSonMaliyetTipi5
         {
-            get { return this._STK004_DepoSonMaliyetTipi5; }
+            get { return sTK004_DepoSonMaliyetTipi5; }
             set
             {
-                this._STK004_DepoSonMaliyetTipi5 = value;
+                sTK004_DepoSonMaliyetTipi5 = value;
                 OnPropertyChanged("STK004_DepoSonMaliyetTipi5");
             }
         }
@@ -3155,10 +3150,10 @@ namespace Wms12m.Entity
         /// <summary> INT (4) Allow Null </summary>
         public int? STK004_DepoSonMaliyetTarihi5
         {
-            get { return this._STK004_DepoSonMaliyetTarihi5; }
+            get { return sTK004_DepoSonMaliyetTarihi5; }
             set
             {
-                this._STK004_DepoSonMaliyetTarihi5 = value;
+                sTK004_DepoSonMaliyetTarihi5 = value;
                 OnPropertyChanged("STK004_DepoSonMaliyetTarihi5");
             }
         }
@@ -3166,10 +3161,10 @@ namespace Wms12m.Entity
         /// <summary> TINYINT (1) Allow Null </summary>
         public byte? STK004_DepoSonMaliyetPrBr5
         {
-            get { return this._STK004_DepoSonMaliyetPrBr5; }
+            get { return sTK004_DepoSonMaliyetPrBr5; }
             set
             {
-                this._STK004_DepoSonMaliyetPrBr5 = value;
+                sTK004_DepoSonMaliyetPrBr5 = value;
                 OnPropertyChanged("STK004_DepoSonMaliyetPrBr5");
             }
         }
@@ -3177,10 +3172,10 @@ namespace Wms12m.Entity
         /// <summary> INT (4) Allow Null </summary>
         public int? STK004_DepoSonDevirTarihi5
         {
-            get { return this._STK004_DepoSonDevirTarihi5; }
+            get { return sTK004_DepoSonDevirTarihi5; }
             set
             {
-                this._STK004_DepoSonDevirTarihi5 = value;
+                sTK004_DepoSonDevirTarihi5 = value;
                 OnPropertyChanged("STK004_DepoSonDevirTarihi5");
             }
         }
@@ -3188,10 +3183,10 @@ namespace Wms12m.Entity
         /// <summary> INT (4) Allow Null </summary>
         public int? STK004_DepoSonGirisTarihi5
         {
-            get { return this._STK004_DepoSonGirisTarihi5; }
+            get { return sTK004_DepoSonGirisTarihi5; }
             set
             {
-                this._STK004_DepoSonGirisTarihi5 = value;
+                sTK004_DepoSonGirisTarihi5 = value;
                 OnPropertyChanged("STK004_DepoSonGirisTarihi5");
             }
         }
@@ -3199,10 +3194,10 @@ namespace Wms12m.Entity
         /// <summary> INT (4) Allow Null </summary>
         public int? STK004_DepoSonCikisTarihi5
         {
-            get { return this._STK004_DepoSonCikisTarihi5; }
+            get { return sTK004_DepoSonCikisTarihi5; }
             set
             {
-                this._STK004_DepoSonCikisTarihi5 = value;
+                sTK004_DepoSonCikisTarihi5 = value;
                 OnPropertyChanged("STK004_DepoSonCikisTarihi5");
             }
         }
@@ -3210,10 +3205,10 @@ namespace Wms12m.Entity
         /// <summary> NVARCHAR (20) Allow Null </summary>
         public string STK004_DepoKodu6
         {
-            get { return this._STK004_DepoKodu6; }
+            get { return sTK004_DepoKodu6; }
             set
             {
-                this._STK004_DepoKodu6 = value;
+                sTK004_DepoKodu6 = value;
                 OnPropertyChanged("STK004_DepoKodu6");
             }
         }
@@ -3221,10 +3216,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (9) Allow Null </summary>
         public decimal? STK004_DepoDevirMiktari26
         {
-            get { return this._STK004_DepoDevirMiktari26; }
+            get { return sTK004_DepoDevirMiktari26; }
             set
             {
-                this._STK004_DepoDevirMiktari26 = value;
+                sTK004_DepoDevirMiktari26 = value;
                 OnPropertyChanged("STK004_DepoDevirMiktari26");
             }
         }
@@ -3232,10 +3227,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (13) Allow Null </summary>
         public decimal? STK004_DepoDevirTutari26
         {
-            get { return this._STK004_DepoDevirTutari26; }
+            get { return sTK004_DepoDevirTutari26; }
             set
             {
-                this._STK004_DepoDevirTutari26 = value;
+                sTK004_DepoDevirTutari26 = value;
                 OnPropertyChanged("STK004_DepoDevirTutari26");
             }
         }
@@ -3243,10 +3238,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (9) Allow Null </summary>
         public decimal? STK004_DepoGirisMiktari6
         {
-            get { return this._STK004_DepoGirisMiktari6; }
+            get { return sTK004_DepoGirisMiktari6; }
             set
             {
-                this._STK004_DepoGirisMiktari6 = value;
+                sTK004_DepoGirisMiktari6 = value;
                 OnPropertyChanged("STK004_DepoGirisMiktari6");
             }
         }
@@ -3254,10 +3249,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (13) Allow Null </summary>
         public decimal? STK004_DepoGirisTutari6
         {
-            get { return this._STK004_DepoGirisTutari6; }
+            get { return sTK004_DepoGirisTutari6; }
             set
             {
-                this._STK004_DepoGirisTutari6 = value;
+                sTK004_DepoGirisTutari6 = value;
                 OnPropertyChanged("STK004_DepoGirisTutari6");
             }
         }
@@ -3265,10 +3260,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (9) Allow Null </summary>
         public decimal? STK004_DepoGirisIskonto6
         {
-            get { return this._STK004_DepoGirisIskonto6; }
+            get { return sTK004_DepoGirisIskonto6; }
             set
             {
-                this._STK004_DepoGirisIskonto6 = value;
+                sTK004_DepoGirisIskonto6 = value;
                 OnPropertyChanged("STK004_DepoGirisIskonto6");
             }
         }
@@ -3276,10 +3271,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (9) Allow Null </summary>
         public decimal? STK004_DepoCikisMiktari6
         {
-            get { return this._STK004_DepoCikisMiktari6; }
+            get { return sTK004_DepoCikisMiktari6; }
             set
             {
-                this._STK004_DepoCikisMiktari6 = value;
+                sTK004_DepoCikisMiktari6 = value;
                 OnPropertyChanged("STK004_DepoCikisMiktari6");
             }
         }
@@ -3287,10 +3282,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (13) Allow Null </summary>
         public decimal? STK004_DepoCikisTutari6
         {
-            get { return this._STK004_DepoCikisTutari6; }
+            get { return sTK004_DepoCikisTutari6; }
             set
             {
-                this._STK004_DepoCikisTutari6 = value;
+                sTK004_DepoCikisTutari6 = value;
                 OnPropertyChanged("STK004_DepoCikisTutari6");
             }
         }
@@ -3298,10 +3293,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (9) Allow Null </summary>
         public decimal? STK004_DepoCikisIskonto6
         {
-            get { return this._STK004_DepoCikisIskonto6; }
+            get { return sTK004_DepoCikisIskonto6; }
             set
             {
-                this._STK004_DepoCikisIskonto6 = value;
+                sTK004_DepoCikisIskonto6 = value;
                 OnPropertyChanged("STK004_DepoCikisIskonto6");
             }
         }
@@ -3309,10 +3304,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (13) Allow Null </summary>
         public decimal? STK004_DepoSonMaliyetBf6
         {
-            get { return this._STK004_DepoSonMaliyetBf6; }
+            get { return sTK004_DepoSonMaliyetBf6; }
             set
             {
-                this._STK004_DepoSonMaliyetBf6 = value;
+                sTK004_DepoSonMaliyetBf6 = value;
                 OnPropertyChanged("STK004_DepoSonMaliyetBf6");
             }
         }
@@ -3320,10 +3315,10 @@ namespace Wms12m.Entity
         /// <summary> SMALLINT (2) Allow Null </summary>
         public short? STK004_DepoSonMaliyetTipi6
         {
-            get { return this._STK004_DepoSonMaliyetTipi6; }
+            get { return sTK004_DepoSonMaliyetTipi6; }
             set
             {
-                this._STK004_DepoSonMaliyetTipi6 = value;
+                sTK004_DepoSonMaliyetTipi6 = value;
                 OnPropertyChanged("STK004_DepoSonMaliyetTipi6");
             }
         }
@@ -3331,10 +3326,10 @@ namespace Wms12m.Entity
         /// <summary> INT (4) Allow Null </summary>
         public int? STK004_DepoSonMaliyetTarihi6
         {
-            get { return this._STK004_DepoSonMaliyetTarihi6; }
+            get { return sTK004_DepoSonMaliyetTarihi6; }
             set
             {
-                this._STK004_DepoSonMaliyetTarihi6 = value;
+                sTK004_DepoSonMaliyetTarihi6 = value;
                 OnPropertyChanged("STK004_DepoSonMaliyetTarihi6");
             }
         }
@@ -3342,10 +3337,10 @@ namespace Wms12m.Entity
         /// <summary> TINYINT (1) Allow Null </summary>
         public byte? STK004_DepoSonMaliyetPrBr6
         {
-            get { return this._STK004_DepoSonMaliyetPrBr6; }
+            get { return sTK004_DepoSonMaliyetPrBr6; }
             set
             {
-                this._STK004_DepoSonMaliyetPrBr6 = value;
+                sTK004_DepoSonMaliyetPrBr6 = value;
                 OnPropertyChanged("STK004_DepoSonMaliyetPrBr6");
             }
         }
@@ -3353,10 +3348,10 @@ namespace Wms12m.Entity
         /// <summary> INT (4) Allow Null </summary>
         public int? STK004_DepoSonDevirTarihi6
         {
-            get { return this._STK004_DepoSonDevirTarihi6; }
+            get { return sTK004_DepoSonDevirTarihi6; }
             set
             {
-                this._STK004_DepoSonDevirTarihi6 = value;
+                sTK004_DepoSonDevirTarihi6 = value;
                 OnPropertyChanged("STK004_DepoSonDevirTarihi6");
             }
         }
@@ -3364,10 +3359,10 @@ namespace Wms12m.Entity
         /// <summary> INT (4) Allow Null </summary>
         public int? STK004_DepoSonGirisTarihi6
         {
-            get { return this._STK004_DepoSonGirisTarihi6; }
+            get { return sTK004_DepoSonGirisTarihi6; }
             set
             {
-                this._STK004_DepoSonGirisTarihi6 = value;
+                sTK004_DepoSonGirisTarihi6 = value;
                 OnPropertyChanged("STK004_DepoSonGirisTarihi6");
             }
         }
@@ -3375,10 +3370,10 @@ namespace Wms12m.Entity
         /// <summary> INT (4) Allow Null </summary>
         public int? STK004_DepoSonCikisTarihi6
         {
-            get { return this._STK004_DepoSonCikisTarihi6; }
+            get { return sTK004_DepoSonCikisTarihi6; }
             set
             {
-                this._STK004_DepoSonCikisTarihi6 = value;
+                sTK004_DepoSonCikisTarihi6 = value;
                 OnPropertyChanged("STK004_DepoSonCikisTarihi6");
             }
         }
@@ -3386,10 +3381,10 @@ namespace Wms12m.Entity
         /// <summary> NVARCHAR (20) Allow Null </summary>
         public string STK004_DepoKodu7
         {
-            get { return this._STK004_DepoKodu7; }
+            get { return sTK004_DepoKodu7; }
             set
             {
-                this._STK004_DepoKodu7 = value;
+                sTK004_DepoKodu7 = value;
                 OnPropertyChanged("STK004_DepoKodu7");
             }
         }
@@ -3397,10 +3392,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (9) Allow Null </summary>
         public decimal? STK004_DepoDevirMiktari27
         {
-            get { return this._STK004_DepoDevirMiktari27; }
+            get { return sTK004_DepoDevirMiktari27; }
             set
             {
-                this._STK004_DepoDevirMiktari27 = value;
+                sTK004_DepoDevirMiktari27 = value;
                 OnPropertyChanged("STK004_DepoDevirMiktari27");
             }
         }
@@ -3408,10 +3403,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (13) Allow Null </summary>
         public decimal? STK004_DepoDevirTutari27
         {
-            get { return this._STK004_DepoDevirTutari27; }
+            get { return sTK004_DepoDevirTutari27; }
             set
             {
-                this._STK004_DepoDevirTutari27 = value;
+                sTK004_DepoDevirTutari27 = value;
                 OnPropertyChanged("STK004_DepoDevirTutari27");
             }
         }
@@ -3419,10 +3414,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (9) Allow Null </summary>
         public decimal? STK004_DepoGirisMiktari7
         {
-            get { return this._STK004_DepoGirisMiktari7; }
+            get { return sTK004_DepoGirisMiktari7; }
             set
             {
-                this._STK004_DepoGirisMiktari7 = value;
+                sTK004_DepoGirisMiktari7 = value;
                 OnPropertyChanged("STK004_DepoGirisMiktari7");
             }
         }
@@ -3430,10 +3425,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (13) Allow Null </summary>
         public decimal? STK004_DepoGirisTutari7
         {
-            get { return this._STK004_DepoGirisTutari7; }
+            get { return sTK004_DepoGirisTutari7; }
             set
             {
-                this._STK004_DepoGirisTutari7 = value;
+                sTK004_DepoGirisTutari7 = value;
                 OnPropertyChanged("STK004_DepoGirisTutari7");
             }
         }
@@ -3441,10 +3436,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (9) Allow Null </summary>
         public decimal? STK004_DepoGirisIskonto7
         {
-            get { return this._STK004_DepoGirisIskonto7; }
+            get { return sTK004_DepoGirisIskonto7; }
             set
             {
-                this._STK004_DepoGirisIskonto7 = value;
+                sTK004_DepoGirisIskonto7 = value;
                 OnPropertyChanged("STK004_DepoGirisIskonto7");
             }
         }
@@ -3452,10 +3447,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (9) Allow Null </summary>
         public decimal? STK004_DepoCikisMiktari7
         {
-            get { return this._STK004_DepoCikisMiktari7; }
+            get { return sTK004_DepoCikisMiktari7; }
             set
             {
-                this._STK004_DepoCikisMiktari7 = value;
+                sTK004_DepoCikisMiktari7 = value;
                 OnPropertyChanged("STK004_DepoCikisMiktari7");
             }
         }
@@ -3463,10 +3458,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (13) Allow Null </summary>
         public decimal? STK004_DepoCikisTutari7
         {
-            get { return this._STK004_DepoCikisTutari7; }
+            get { return sTK004_DepoCikisTutari7; }
             set
             {
-                this._STK004_DepoCikisTutari7 = value;
+                sTK004_DepoCikisTutari7 = value;
                 OnPropertyChanged("STK004_DepoCikisTutari7");
             }
         }
@@ -3474,10 +3469,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (9) Allow Null </summary>
         public decimal? STK004_DepoCikisIskonto7
         {
-            get { return this._STK004_DepoCikisIskonto7; }
+            get { return sTK004_DepoCikisIskonto7; }
             set
             {
-                this._STK004_DepoCikisIskonto7 = value;
+                sTK004_DepoCikisIskonto7 = value;
                 OnPropertyChanged("STK004_DepoCikisIskonto7");
             }
         }
@@ -3485,10 +3480,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (13) Allow Null </summary>
         public decimal? STK004_DepoSonMaliyetBf7
         {
-            get { return this._STK004_DepoSonMaliyetBf7; }
+            get { return sTK004_DepoSonMaliyetBf7; }
             set
             {
-                this._STK004_DepoSonMaliyetBf7 = value;
+                sTK004_DepoSonMaliyetBf7 = value;
                 OnPropertyChanged("STK004_DepoSonMaliyetBf7");
             }
         }
@@ -3496,10 +3491,10 @@ namespace Wms12m.Entity
         /// <summary> SMALLINT (2) Allow Null </summary>
         public short? STK004_DepoSonMaliyetTipi7
         {
-            get { return this._STK004_DepoSonMaliyetTipi7; }
+            get { return sTK004_DepoSonMaliyetTipi7; }
             set
             {
-                this._STK004_DepoSonMaliyetTipi7 = value;
+                sTK004_DepoSonMaliyetTipi7 = value;
                 OnPropertyChanged("STK004_DepoSonMaliyetTipi7");
             }
         }
@@ -3507,10 +3502,10 @@ namespace Wms12m.Entity
         /// <summary> INT (4) Allow Null </summary>
         public int? STK004_DepoSonMaliyetTarihi7
         {
-            get { return this._STK004_DepoSonMaliyetTarihi7; }
+            get { return sTK004_DepoSonMaliyetTarihi7; }
             set
             {
-                this._STK004_DepoSonMaliyetTarihi7 = value;
+                sTK004_DepoSonMaliyetTarihi7 = value;
                 OnPropertyChanged("STK004_DepoSonMaliyetTarihi7");
             }
         }
@@ -3518,10 +3513,10 @@ namespace Wms12m.Entity
         /// <summary> TINYINT (1) Allow Null </summary>
         public byte? STK004_DepoSonMaliyetPrBr7
         {
-            get { return this._STK004_DepoSonMaliyetPrBr7; }
+            get { return sTK004_DepoSonMaliyetPrBr7; }
             set
             {
-                this._STK004_DepoSonMaliyetPrBr7 = value;
+                sTK004_DepoSonMaliyetPrBr7 = value;
                 OnPropertyChanged("STK004_DepoSonMaliyetPrBr7");
             }
         }
@@ -3529,10 +3524,10 @@ namespace Wms12m.Entity
         /// <summary> INT (4) Allow Null </summary>
         public int? STK004_DepoSonDevirTarihi7
         {
-            get { return this._STK004_DepoSonDevirTarihi7; }
+            get { return sTK004_DepoSonDevirTarihi7; }
             set
             {
-                this._STK004_DepoSonDevirTarihi7 = value;
+                sTK004_DepoSonDevirTarihi7 = value;
                 OnPropertyChanged("STK004_DepoSonDevirTarihi7");
             }
         }
@@ -3540,10 +3535,10 @@ namespace Wms12m.Entity
         /// <summary> INT (4) Allow Null </summary>
         public int? STK004_DepoSonGirisTarihi7
         {
-            get { return this._STK004_DepoSonGirisTarihi7; }
+            get { return sTK004_DepoSonGirisTarihi7; }
             set
             {
-                this._STK004_DepoSonGirisTarihi7 = value;
+                sTK004_DepoSonGirisTarihi7 = value;
                 OnPropertyChanged("STK004_DepoSonGirisTarihi7");
             }
         }
@@ -3551,10 +3546,10 @@ namespace Wms12m.Entity
         /// <summary> INT (4) Allow Null </summary>
         public int? STK004_DepoSonCikisTarihi7
         {
-            get { return this._STK004_DepoSonCikisTarihi7; }
+            get { return sTK004_DepoSonCikisTarihi7; }
             set
             {
-                this._STK004_DepoSonCikisTarihi7 = value;
+                sTK004_DepoSonCikisTarihi7 = value;
                 OnPropertyChanged("STK004_DepoSonCikisTarihi7");
             }
         }
@@ -3562,10 +3557,10 @@ namespace Wms12m.Entity
         /// <summary> NVARCHAR (20) Allow Null </summary>
         public string STK004_DepoKodu8
         {
-            get { return this._STK004_DepoKodu8; }
+            get { return sTK004_DepoKodu8; }
             set
             {
-                this._STK004_DepoKodu8 = value;
+                sTK004_DepoKodu8 = value;
                 OnPropertyChanged("STK004_DepoKodu8");
             }
         }
@@ -3573,10 +3568,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (9) Allow Null </summary>
         public decimal? STK004_DepoDevirMiktari28
         {
-            get { return this._STK004_DepoDevirMiktari28; }
+            get { return sTK004_DepoDevirMiktari28; }
             set
             {
-                this._STK004_DepoDevirMiktari28 = value;
+                sTK004_DepoDevirMiktari28 = value;
                 OnPropertyChanged("STK004_DepoDevirMiktari28");
             }
         }
@@ -3584,10 +3579,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (13) Allow Null </summary>
         public decimal? STK004_DepoDevirTutari28
         {
-            get { return this._STK004_DepoDevirTutari28; }
+            get { return sTK004_DepoDevirTutari28; }
             set
             {
-                this._STK004_DepoDevirTutari28 = value;
+                sTK004_DepoDevirTutari28 = value;
                 OnPropertyChanged("STK004_DepoDevirTutari28");
             }
         }
@@ -3595,10 +3590,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (9) Allow Null </summary>
         public decimal? STK004_DepoGirisMiktari8
         {
-            get { return this._STK004_DepoGirisMiktari8; }
+            get { return sTK004_DepoGirisMiktari8; }
             set
             {
-                this._STK004_DepoGirisMiktari8 = value;
+                sTK004_DepoGirisMiktari8 = value;
                 OnPropertyChanged("STK004_DepoGirisMiktari8");
             }
         }
@@ -3606,10 +3601,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (13) Allow Null </summary>
         public decimal? STK004_DepoGirisTutari8
         {
-            get { return this._STK004_DepoGirisTutari8; }
+            get { return sTK004_DepoGirisTutari8; }
             set
             {
-                this._STK004_DepoGirisTutari8 = value;
+                sTK004_DepoGirisTutari8 = value;
                 OnPropertyChanged("STK004_DepoGirisTutari8");
             }
         }
@@ -3617,10 +3612,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (9) Allow Null </summary>
         public decimal? STK004_DepoGirisIskonto8
         {
-            get { return this._STK004_DepoGirisIskonto8; }
+            get { return sTK004_DepoGirisIskonto8; }
             set
             {
-                this._STK004_DepoGirisIskonto8 = value;
+                sTK004_DepoGirisIskonto8 = value;
                 OnPropertyChanged("STK004_DepoGirisIskonto8");
             }
         }
@@ -3628,10 +3623,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (9) Allow Null </summary>
         public decimal? STK004_DepoCikisMiktari8
         {
-            get { return this._STK004_DepoCikisMiktari8; }
+            get { return sTK004_DepoCikisMiktari8; }
             set
             {
-                this._STK004_DepoCikisMiktari8 = value;
+                sTK004_DepoCikisMiktari8 = value;
                 OnPropertyChanged("STK004_DepoCikisMiktari8");
             }
         }
@@ -3639,10 +3634,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (13) Allow Null </summary>
         public decimal? STK004_DepoCikisTutari8
         {
-            get { return this._STK004_DepoCikisTutari8; }
+            get { return sTK004_DepoCikisTutari8; }
             set
             {
-                this._STK004_DepoCikisTutari8 = value;
+                sTK004_DepoCikisTutari8 = value;
                 OnPropertyChanged("STK004_DepoCikisTutari8");
             }
         }
@@ -3650,10 +3645,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (9) Allow Null </summary>
         public decimal? STK004_DepoCikisIskonto8
         {
-            get { return this._STK004_DepoCikisIskonto8; }
+            get { return sTK004_DepoCikisIskonto8; }
             set
             {
-                this._STK004_DepoCikisIskonto8 = value;
+                sTK004_DepoCikisIskonto8 = value;
                 OnPropertyChanged("STK004_DepoCikisIskonto8");
             }
         }
@@ -3661,10 +3656,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (13) Allow Null </summary>
         public decimal? STK004_DepoSonMaliyetBf8
         {
-            get { return this._STK004_DepoSonMaliyetBf8; }
+            get { return sTK004_DepoSonMaliyetBf8; }
             set
             {
-                this._STK004_DepoSonMaliyetBf8 = value;
+                sTK004_DepoSonMaliyetBf8 = value;
                 OnPropertyChanged("STK004_DepoSonMaliyetBf8");
             }
         }
@@ -3672,10 +3667,10 @@ namespace Wms12m.Entity
         /// <summary> SMALLINT (2) Allow Null </summary>
         public short? STK004_DepoSonMaliyetTipi8
         {
-            get { return this._STK004_DepoSonMaliyetTipi8; }
+            get { return sTK004_DepoSonMaliyetTipi8; }
             set
             {
-                this._STK004_DepoSonMaliyetTipi8 = value;
+                sTK004_DepoSonMaliyetTipi8 = value;
                 OnPropertyChanged("STK004_DepoSonMaliyetTipi8");
             }
         }
@@ -3683,10 +3678,10 @@ namespace Wms12m.Entity
         /// <summary> INT (4) Allow Null </summary>
         public int? STK004_DepoSonMaliyetTarihi8
         {
-            get { return this._STK004_DepoSonMaliyetTarihi8; }
+            get { return sTK004_DepoSonMaliyetTarihi8; }
             set
             {
-                this._STK004_DepoSonMaliyetTarihi8 = value;
+                sTK004_DepoSonMaliyetTarihi8 = value;
                 OnPropertyChanged("STK004_DepoSonMaliyetTarihi8");
             }
         }
@@ -3694,10 +3689,10 @@ namespace Wms12m.Entity
         /// <summary> TINYINT (1) Allow Null </summary>
         public byte? STK004_DepoSonMaliyetPrBr8
         {
-            get { return this._STK004_DepoSonMaliyetPrBr8; }
+            get { return sTK004_DepoSonMaliyetPrBr8; }
             set
             {
-                this._STK004_DepoSonMaliyetPrBr8 = value;
+                sTK004_DepoSonMaliyetPrBr8 = value;
                 OnPropertyChanged("STK004_DepoSonMaliyetPrBr8");
             }
         }
@@ -3705,10 +3700,10 @@ namespace Wms12m.Entity
         /// <summary> INT (4) Allow Null </summary>
         public int? STK004_DepoSonDevirTarihi8
         {
-            get { return this._STK004_DepoSonDevirTarihi8; }
+            get { return sTK004_DepoSonDevirTarihi8; }
             set
             {
-                this._STK004_DepoSonDevirTarihi8 = value;
+                sTK004_DepoSonDevirTarihi8 = value;
                 OnPropertyChanged("STK004_DepoSonDevirTarihi8");
             }
         }
@@ -3716,10 +3711,10 @@ namespace Wms12m.Entity
         /// <summary> INT (4) Allow Null </summary>
         public int? STK004_DepoSonGirisTarihi8
         {
-            get { return this._STK004_DepoSonGirisTarihi8; }
+            get { return sTK004_DepoSonGirisTarihi8; }
             set
             {
-                this._STK004_DepoSonGirisTarihi8 = value;
+                sTK004_DepoSonGirisTarihi8 = value;
                 OnPropertyChanged("STK004_DepoSonGirisTarihi8");
             }
         }
@@ -3727,10 +3722,10 @@ namespace Wms12m.Entity
         /// <summary> INT (4) Allow Null </summary>
         public int? STK004_DepoSonCikisTarihi8
         {
-            get { return this._STK004_DepoSonCikisTarihi8; }
+            get { return sTK004_DepoSonCikisTarihi8; }
             set
             {
-                this._STK004_DepoSonCikisTarihi8 = value;
+                sTK004_DepoSonCikisTarihi8 = value;
                 OnPropertyChanged("STK004_DepoSonCikisTarihi8");
             }
         }
@@ -3738,10 +3733,10 @@ namespace Wms12m.Entity
         /// <summary> NVARCHAR (20) Allow Null </summary>
         public string STK004_DepoKodu9
         {
-            get { return this._STK004_DepoKodu9; }
+            get { return sTK004_DepoKodu9; }
             set
             {
-                this._STK004_DepoKodu9 = value;
+                sTK004_DepoKodu9 = value;
                 OnPropertyChanged("STK004_DepoKodu9");
             }
         }
@@ -3749,10 +3744,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (9) Allow Null </summary>
         public decimal? STK004_DepoDevirMiktari29
         {
-            get { return this._STK004_DepoDevirMiktari29; }
+            get { return sTK004_DepoDevirMiktari29; }
             set
             {
-                this._STK004_DepoDevirMiktari29 = value;
+                sTK004_DepoDevirMiktari29 = value;
                 OnPropertyChanged("STK004_DepoDevirMiktari29");
             }
         }
@@ -3760,10 +3755,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (13) Allow Null </summary>
         public decimal? STK004_DepoDevirTutari29
         {
-            get { return this._STK004_DepoDevirTutari29; }
+            get { return sTK004_DepoDevirTutari29; }
             set
             {
-                this._STK004_DepoDevirTutari29 = value;
+                sTK004_DepoDevirTutari29 = value;
                 OnPropertyChanged("STK004_DepoDevirTutari29");
             }
         }
@@ -3771,10 +3766,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (9) Allow Null </summary>
         public decimal? STK004_DepoGirisMiktari9
         {
-            get { return this._STK004_DepoGirisMiktari9; }
+            get { return sTK004_DepoGirisMiktari9; }
             set
             {
-                this._STK004_DepoGirisMiktari9 = value;
+                sTK004_DepoGirisMiktari9 = value;
                 OnPropertyChanged("STK004_DepoGirisMiktari9");
             }
         }
@@ -3782,10 +3777,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (13) Allow Null </summary>
         public decimal? STK004_DepoGirisTutari9
         {
-            get { return this._STK004_DepoGirisTutari9; }
+            get { return sTK004_DepoGirisTutari9; }
             set
             {
-                this._STK004_DepoGirisTutari9 = value;
+                sTK004_DepoGirisTutari9 = value;
                 OnPropertyChanged("STK004_DepoGirisTutari9");
             }
         }
@@ -3793,10 +3788,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (9) Allow Null </summary>
         public decimal? STK004_DepoGirisIskonto9
         {
-            get { return this._STK004_DepoGirisIskonto9; }
+            get { return sTK004_DepoGirisIskonto9; }
             set
             {
-                this._STK004_DepoGirisIskonto9 = value;
+                sTK004_DepoGirisIskonto9 = value;
                 OnPropertyChanged("STK004_DepoGirisIskonto9");
             }
         }
@@ -3804,10 +3799,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (9) Allow Null </summary>
         public decimal? STK004_DepoCikisMiktari9
         {
-            get { return this._STK004_DepoCikisMiktari9; }
+            get { return sTK004_DepoCikisMiktari9; }
             set
             {
-                this._STK004_DepoCikisMiktari9 = value;
+                sTK004_DepoCikisMiktari9 = value;
                 OnPropertyChanged("STK004_DepoCikisMiktari9");
             }
         }
@@ -3815,10 +3810,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (13) Allow Null </summary>
         public decimal? STK004_DepoCikisTutari9
         {
-            get { return this._STK004_DepoCikisTutari9; }
+            get { return sTK004_DepoCikisTutari9; }
             set
             {
-                this._STK004_DepoCikisTutari9 = value;
+                sTK004_DepoCikisTutari9 = value;
                 OnPropertyChanged("STK004_DepoCikisTutari9");
             }
         }
@@ -3826,10 +3821,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (9) Allow Null </summary>
         public decimal? STK004_DepoCikisIskonto9
         {
-            get { return this._STK004_DepoCikisIskonto9; }
+            get { return sTK004_DepoCikisIskonto9; }
             set
             {
-                this._STK004_DepoCikisIskonto9 = value;
+                sTK004_DepoCikisIskonto9 = value;
                 OnPropertyChanged("STK004_DepoCikisIskonto9");
             }
         }
@@ -3837,10 +3832,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (13) Allow Null </summary>
         public decimal? STK004_DepoSonMaliyetBf9
         {
-            get { return this._STK004_DepoSonMaliyetBf9; }
+            get { return sTK004_DepoSonMaliyetBf9; }
             set
             {
-                this._STK004_DepoSonMaliyetBf9 = value;
+                sTK004_DepoSonMaliyetBf9 = value;
                 OnPropertyChanged("STK004_DepoSonMaliyetBf9");
             }
         }
@@ -3848,10 +3843,10 @@ namespace Wms12m.Entity
         /// <summary> SMALLINT (2) Allow Null </summary>
         public short? STK004_DepoSonMaliyetTipi9
         {
-            get { return this._STK004_DepoSonMaliyetTipi9; }
+            get { return sTK004_DepoSonMaliyetTipi9; }
             set
             {
-                this._STK004_DepoSonMaliyetTipi9 = value;
+                sTK004_DepoSonMaliyetTipi9 = value;
                 OnPropertyChanged("STK004_DepoSonMaliyetTipi9");
             }
         }
@@ -3859,10 +3854,10 @@ namespace Wms12m.Entity
         /// <summary> INT (4) Allow Null </summary>
         public int? STK004_DepoSonMaliyetTarihi9
         {
-            get { return this._STK004_DepoSonMaliyetTarihi9; }
+            get { return sTK004_DepoSonMaliyetTarihi9; }
             set
             {
-                this._STK004_DepoSonMaliyetTarihi9 = value;
+                sTK004_DepoSonMaliyetTarihi9 = value;
                 OnPropertyChanged("STK004_DepoSonMaliyetTarihi9");
             }
         }
@@ -3870,10 +3865,10 @@ namespace Wms12m.Entity
         /// <summary> TINYINT (1) Allow Null </summary>
         public byte? STK004_DepoSonMaliyetPrBr9
         {
-            get { return this._STK004_DepoSonMaliyetPrBr9; }
+            get { return sTK004_DepoSonMaliyetPrBr9; }
             set
             {
-                this._STK004_DepoSonMaliyetPrBr9 = value;
+                sTK004_DepoSonMaliyetPrBr9 = value;
                 OnPropertyChanged("STK004_DepoSonMaliyetPrBr9");
             }
         }
@@ -3881,10 +3876,10 @@ namespace Wms12m.Entity
         /// <summary> INT (4) Allow Null </summary>
         public int? STK004_DepoSonDevirTarihi9
         {
-            get { return this._STK004_DepoSonDevirTarihi9; }
+            get { return sTK004_DepoSonDevirTarihi9; }
             set
             {
-                this._STK004_DepoSonDevirTarihi9 = value;
+                sTK004_DepoSonDevirTarihi9 = value;
                 OnPropertyChanged("STK004_DepoSonDevirTarihi9");
             }
         }
@@ -3892,10 +3887,10 @@ namespace Wms12m.Entity
         /// <summary> INT (4) Allow Null </summary>
         public int? STK004_DepoSonGirisTarihi9
         {
-            get { return this._STK004_DepoSonGirisTarihi9; }
+            get { return sTK004_DepoSonGirisTarihi9; }
             set
             {
-                this._STK004_DepoSonGirisTarihi9 = value;
+                sTK004_DepoSonGirisTarihi9 = value;
                 OnPropertyChanged("STK004_DepoSonGirisTarihi9");
             }
         }
@@ -3903,10 +3898,10 @@ namespace Wms12m.Entity
         /// <summary> INT (4) Allow Null </summary>
         public int? STK004_DepoSonCikisTarihi9
         {
-            get { return this._STK004_DepoSonCikisTarihi9; }
+            get { return sTK004_DepoSonCikisTarihi9; }
             set
             {
-                this._STK004_DepoSonCikisTarihi9 = value;
+                sTK004_DepoSonCikisTarihi9 = value;
                 OnPropertyChanged("STK004_DepoSonCikisTarihi9");
             }
         }
@@ -3914,10 +3909,10 @@ namespace Wms12m.Entity
         /// <summary> NVARCHAR (20) Allow Null </summary>
         public string STK004_DepoKodu10
         {
-            get { return this._STK004_DepoKodu10; }
+            get { return sTK004_DepoKodu10; }
             set
             {
-                this._STK004_DepoKodu10 = value;
+                sTK004_DepoKodu10 = value;
                 OnPropertyChanged("STK004_DepoKodu10");
             }
         }
@@ -3925,10 +3920,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (9) Allow Null </summary>
         public decimal? STK004_DepoDevirMiktari210
         {
-            get { return this._STK004_DepoDevirMiktari210; }
+            get { return sTK004_DepoDevirMiktari210; }
             set
             {
-                this._STK004_DepoDevirMiktari210 = value;
+                sTK004_DepoDevirMiktari210 = value;
                 OnPropertyChanged("STK004_DepoDevirMiktari210");
             }
         }
@@ -3936,10 +3931,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (13) Allow Null </summary>
         public decimal? STK004_DepoDevirTutari210
         {
-            get { return this._STK004_DepoDevirTutari210; }
+            get { return sTK004_DepoDevirTutari210; }
             set
             {
-                this._STK004_DepoDevirTutari210 = value;
+                sTK004_DepoDevirTutari210 = value;
                 OnPropertyChanged("STK004_DepoDevirTutari210");
             }
         }
@@ -3947,10 +3942,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (9) Allow Null </summary>
         public decimal? STK004_DepoGirisMiktari10
         {
-            get { return this._STK004_DepoGirisMiktari10; }
+            get { return sTK004_DepoGirisMiktari10; }
             set
             {
-                this._STK004_DepoGirisMiktari10 = value;
+                sTK004_DepoGirisMiktari10 = value;
                 OnPropertyChanged("STK004_DepoGirisMiktari10");
             }
         }
@@ -3958,10 +3953,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (13) Allow Null </summary>
         public decimal? STK004_DepoGirisTutari10
         {
-            get { return this._STK004_DepoGirisTutari10; }
+            get { return sTK004_DepoGirisTutari10; }
             set
             {
-                this._STK004_DepoGirisTutari10 = value;
+                sTK004_DepoGirisTutari10 = value;
                 OnPropertyChanged("STK004_DepoGirisTutari10");
             }
         }
@@ -3969,10 +3964,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (9) Allow Null </summary>
         public decimal? STK004_DepoGirisIskonto10
         {
-            get { return this._STK004_DepoGirisIskonto10; }
+            get { return sTK004_DepoGirisIskonto10; }
             set
             {
-                this._STK004_DepoGirisIskonto10 = value;
+                sTK004_DepoGirisIskonto10 = value;
                 OnPropertyChanged("STK004_DepoGirisIskonto10");
             }
         }
@@ -3980,10 +3975,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (9) Allow Null </summary>
         public decimal? STK004_DepoCikisMiktari10
         {
-            get { return this._STK004_DepoCikisMiktari10; }
+            get { return sTK004_DepoCikisMiktari10; }
             set
             {
-                this._STK004_DepoCikisMiktari10 = value;
+                sTK004_DepoCikisMiktari10 = value;
                 OnPropertyChanged("STK004_DepoCikisMiktari10");
             }
         }
@@ -3991,10 +3986,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (13) Allow Null </summary>
         public decimal? STK004_DepoCikisTutari10
         {
-            get { return this._STK004_DepoCikisTutari10; }
+            get { return sTK004_DepoCikisTutari10; }
             set
             {
-                this._STK004_DepoCikisTutari10 = value;
+                sTK004_DepoCikisTutari10 = value;
                 OnPropertyChanged("STK004_DepoCikisTutari10");
             }
         }
@@ -4002,10 +3997,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (9) Allow Null </summary>
         public decimal? STK004_DepoCikisIskonto10
         {
-            get { return this._STK004_DepoCikisIskonto10; }
+            get { return sTK004_DepoCikisIskonto10; }
             set
             {
-                this._STK004_DepoCikisIskonto10 = value;
+                sTK004_DepoCikisIskonto10 = value;
                 OnPropertyChanged("STK004_DepoCikisIskonto10");
             }
         }
@@ -4013,10 +4008,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (13) Allow Null </summary>
         public decimal? STK004_DepoSonMaliyetBf10
         {
-            get { return this._STK004_DepoSonMaliyetBf10; }
+            get { return sTK004_DepoSonMaliyetBf10; }
             set
             {
-                this._STK004_DepoSonMaliyetBf10 = value;
+                sTK004_DepoSonMaliyetBf10 = value;
                 OnPropertyChanged("STK004_DepoSonMaliyetBf10");
             }
         }
@@ -4024,10 +4019,10 @@ namespace Wms12m.Entity
         /// <summary> SMALLINT (2) Allow Null </summary>
         public short? STK004_DepoSonMaliyetTipi10
         {
-            get { return this._STK004_DepoSonMaliyetTipi10; }
+            get { return sTK004_DepoSonMaliyetTipi10; }
             set
             {
-                this._STK004_DepoSonMaliyetTipi10 = value;
+                sTK004_DepoSonMaliyetTipi10 = value;
                 OnPropertyChanged("STK004_DepoSonMaliyetTipi10");
             }
         }
@@ -4035,10 +4030,10 @@ namespace Wms12m.Entity
         /// <summary> INT (4) Allow Null </summary>
         public int? STK004_DepoSonMaliyetTarihi10
         {
-            get { return this._STK004_DepoSonMaliyetTarihi10; }
+            get { return sTK004_DepoSonMaliyetTarihi10; }
             set
             {
-                this._STK004_DepoSonMaliyetTarihi10 = value;
+                sTK004_DepoSonMaliyetTarihi10 = value;
                 OnPropertyChanged("STK004_DepoSonMaliyetTarihi10");
             }
         }
@@ -4046,10 +4041,10 @@ namespace Wms12m.Entity
         /// <summary> TINYINT (1) Allow Null </summary>
         public byte? STK004_DepoSonMaliyetPrBr10
         {
-            get { return this._STK004_DepoSonMaliyetPrBr10; }
+            get { return sTK004_DepoSonMaliyetPrBr10; }
             set
             {
-                this._STK004_DepoSonMaliyetPrBr10 = value;
+                sTK004_DepoSonMaliyetPrBr10 = value;
                 OnPropertyChanged("STK004_DepoSonMaliyetPrBr10");
             }
         }
@@ -4057,10 +4052,10 @@ namespace Wms12m.Entity
         /// <summary> INT (4) Allow Null </summary>
         public int? STK004_DepoSonDevirTarihi10
         {
-            get { return this._STK004_DepoSonDevirTarihi10; }
+            get { return sTK004_DepoSonDevirTarihi10; }
             set
             {
-                this._STK004_DepoSonDevirTarihi10 = value;
+                sTK004_DepoSonDevirTarihi10 = value;
                 OnPropertyChanged("STK004_DepoSonDevirTarihi10");
             }
         }
@@ -4068,10 +4063,10 @@ namespace Wms12m.Entity
         /// <summary> INT (4) Allow Null </summary>
         public int? STK004_DepoSonGirisTarihi10
         {
-            get { return this._STK004_DepoSonGirisTarihi10; }
+            get { return sTK004_DepoSonGirisTarihi10; }
             set
             {
-                this._STK004_DepoSonGirisTarihi10 = value;
+                sTK004_DepoSonGirisTarihi10 = value;
                 OnPropertyChanged("STK004_DepoSonGirisTarihi10");
             }
         }
@@ -4079,10 +4074,10 @@ namespace Wms12m.Entity
         /// <summary> INT (4) Allow Null </summary>
         public int? STK004_DepoSonCikisTarihi10
         {
-            get { return this._STK004_DepoSonCikisTarihi10; }
+            get { return sTK004_DepoSonCikisTarihi10; }
             set
             {
-                this._STK004_DepoSonCikisTarihi10 = value;
+                sTK004_DepoSonCikisTarihi10 = value;
                 OnPropertyChanged("STK004_DepoSonCikisTarihi10");
             }
         }
@@ -4090,10 +4085,10 @@ namespace Wms12m.Entity
         /// <summary> NVARCHAR (10) Allow Null </summary>
         public string STK004_StokMiktar2Br
         {
-            get { return this._STK004_StokMiktar2Br; }
+            get { return sTK004_StokMiktar2Br; }
             set
             {
-                this._STK004_StokMiktar2Br = value;
+                sTK004_StokMiktar2Br = value;
                 OnPropertyChanged("STK004_StokMiktar2Br");
             }
         }
@@ -4101,10 +4096,10 @@ namespace Wms12m.Entity
         /// <summary> TINYINT (1) Allow Null </summary>
         public byte? STK004_StokMCH1
         {
-            get { return this._STK004_StokMCH1; }
+            get { return sTK004_StokMCH1; }
             set
             {
-                this._STK004_StokMCH1 = value;
+                sTK004_StokMCH1 = value;
                 OnPropertyChanged("STK004_StokMCH1");
             }
         }
@@ -4112,10 +4107,10 @@ namespace Wms12m.Entity
         /// <summary> NVARCHAR (2) Allow Null </summary>
         public string STK004_MOP1
         {
-            get { return this._STK004_MOP1; }
+            get { return sTK004_MOP1; }
             set
             {
-                this._STK004_MOP1 = value;
+                sTK004_MOP1 = value;
                 OnPropertyChanged("STK004_MOP1");
             }
         }
@@ -4123,10 +4118,10 @@ namespace Wms12m.Entity
         /// <summary> TINYINT (1) Allow Null </summary>
         public byte? STK004_StokMCH2
         {
-            get { return this._STK004_StokMCH2; }
+            get { return sTK004_StokMCH2; }
             set
             {
-                this._STK004_StokMCH2 = value;
+                sTK004_StokMCH2 = value;
                 OnPropertyChanged("STK004_StokMCH2");
             }
         }
@@ -4134,10 +4129,10 @@ namespace Wms12m.Entity
         /// <summary> NVARCHAR (2) Allow Null </summary>
         public string STK004_MOP2
         {
-            get { return this._STK004_MOP2; }
+            get { return sTK004_MOP2; }
             set
             {
-                this._STK004_MOP2 = value;
+                sTK004_MOP2 = value;
                 OnPropertyChanged("STK004_MOP2");
             }
         }
@@ -4145,10 +4140,10 @@ namespace Wms12m.Entity
         /// <summary> TINYINT (1) Allow Null </summary>
         public byte? STK004_StokMCH3
         {
-            get { return this._STK004_StokMCH3; }
+            get { return sTK004_StokMCH3; }
             set
             {
-                this._STK004_StokMCH3 = value;
+                sTK004_StokMCH3 = value;
                 OnPropertyChanged("STK004_StokMCH3");
             }
         }
@@ -4156,10 +4151,10 @@ namespace Wms12m.Entity
         /// <summary> NVARCHAR (2) Allow Null </summary>
         public string STK004_MOP3
         {
-            get { return this._STK004_MOP3; }
+            get { return sTK004_MOP3; }
             set
             {
-                this._STK004_MOP3 = value;
+                sTK004_MOP3 = value;
                 OnPropertyChanged("STK004_MOP3");
             }
         }
@@ -4167,10 +4162,10 @@ namespace Wms12m.Entity
         /// <summary> TINYINT (1) Allow Null </summary>
         public byte? STK004_StokMCH4
         {
-            get { return this._STK004_StokMCH4; }
+            get { return sTK004_StokMCH4; }
             set
             {
-                this._STK004_StokMCH4 = value;
+                sTK004_StokMCH4 = value;
                 OnPropertyChanged("STK004_StokMCH4");
             }
         }
@@ -4178,10 +4173,10 @@ namespace Wms12m.Entity
         /// <summary> NVARCHAR (2) Allow Null </summary>
         public string STK004_MOP4
         {
-            get { return this._STK004_MOP4; }
+            get { return sTK004_MOP4; }
             set
             {
-                this._STK004_MOP4 = value;
+                sTK004_MOP4 = value;
                 OnPropertyChanged("STK004_MOP4");
             }
         }
@@ -4189,10 +4184,10 @@ namespace Wms12m.Entity
         /// <summary> TINYINT (1) Allow Null </summary>
         public byte? STK004_StokMCH5
         {
-            get { return this._STK004_StokMCH5; }
+            get { return sTK004_StokMCH5; }
             set
             {
-                this._STK004_StokMCH5 = value;
+                sTK004_StokMCH5 = value;
                 OnPropertyChanged("STK004_StokMCH5");
             }
         }
@@ -4200,10 +4195,10 @@ namespace Wms12m.Entity
         /// <summary> NVARCHAR (2) Allow Null </summary>
         public string STK004_MOP5
         {
-            get { return this._STK004_MOP5; }
+            get { return sTK004_MOP5; }
             set
             {
-                this._STK004_MOP5 = value;
+                sTK004_MOP5 = value;
                 OnPropertyChanged("STK004_MOP5");
             }
         }
@@ -4211,10 +4206,10 @@ namespace Wms12m.Entity
         /// <summary> TINYINT (1) Allow Null </summary>
         public byte? STK004_StokMSOP
         {
-            get { return this._STK004_StokMSOP; }
+            get { return sTK004_StokMSOP; }
             set
             {
-                this._STK004_StokMSOP = value;
+                sTK004_StokMSOP = value;
                 OnPropertyChanged("STK004_StokMSOP");
             }
         }
@@ -4222,10 +4217,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (13) Allow Null </summary>
         public decimal? STK004_StokDevirTutar2
         {
-            get { return this._STK004_StokDevirTutar2; }
+            get { return sTK004_StokDevirTutar2; }
             set
             {
-                this._STK004_StokDevirTutar2 = value;
+                sTK004_StokDevirTutar2 = value;
                 OnPropertyChanged("STK004_StokDevirTutar2");
             }
         }
@@ -4233,10 +4228,10 @@ namespace Wms12m.Entity
         /// <summary> NVARCHAR (200) Allow Null </summary>
         public string STK004_Not1
         {
-            get { return this._STK004_Not1; }
+            get { return sTK004_Not1; }
             set
             {
-                this._STK004_Not1 = value;
+                sTK004_Not1 = value;
                 OnPropertyChanged("STK004_Not1");
             }
         }
@@ -4244,10 +4239,10 @@ namespace Wms12m.Entity
         /// <summary> NVARCHAR (200) Allow Null </summary>
         public string STK004_Not2
         {
-            get { return this._STK004_Not2; }
+            get { return sTK004_Not2; }
             set
             {
-                this._STK004_Not2 = value;
+                sTK004_Not2 = value;
                 OnPropertyChanged("STK004_Not2");
             }
         }
@@ -4255,10 +4250,10 @@ namespace Wms12m.Entity
         /// <summary> NVARCHAR (200) Allow Null </summary>
         public string STK004_Not3
         {
-            get { return this._STK004_Not3; }
+            get { return sTK004_Not3; }
             set
             {
-                this._STK004_Not3 = value;
+                sTK004_Not3 = value;
                 OnPropertyChanged("STK004_Not3");
             }
         }
@@ -4266,10 +4261,10 @@ namespace Wms12m.Entity
         /// <summary> NVARCHAR (200) Allow Null </summary>
         public string STK004_Not4
         {
-            get { return this._STK004_Not4; }
+            get { return sTK004_Not4; }
             set
             {
-                this._STK004_Not4 = value;
+                sTK004_Not4 = value;
                 OnPropertyChanged("STK004_Not4");
             }
         }
@@ -4277,10 +4272,10 @@ namespace Wms12m.Entity
         /// <summary> NVARCHAR (200) Allow Null </summary>
         public string STK004_Not5
         {
-            get { return this._STK004_Not5; }
+            get { return sTK004_Not5; }
             set
             {
-                this._STK004_Not5 = value;
+                sTK004_Not5 = value;
                 OnPropertyChanged("STK004_Not5");
             }
         }
@@ -4288,10 +4283,10 @@ namespace Wms12m.Entity
         /// <summary> NVARCHAR (200) Allow Null </summary>
         public string STK004_Not6
         {
-            get { return this._STK004_Not6; }
+            get { return sTK004_Not6; }
             set
             {
-                this._STK004_Not6 = value;
+                sTK004_Not6 = value;
                 OnPropertyChanged("STK004_Not6");
             }
         }
@@ -4299,10 +4294,10 @@ namespace Wms12m.Entity
         /// <summary> NVARCHAR (200) Allow Null </summary>
         public string STK004_Not7
         {
-            get { return this._STK004_Not7; }
+            get { return sTK004_Not7; }
             set
             {
-                this._STK004_Not7 = value;
+                sTK004_Not7 = value;
                 OnPropertyChanged("STK004_Not7");
             }
         }
@@ -4310,10 +4305,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (9) Allow Null </summary>
         public decimal? STK004_StokDBMiktari
         {
-            get { return this._STK004_StokDBMiktari; }
+            get { return sTK004_StokDBMiktari; }
             set
             {
-                this._STK004_StokDBMiktari = value;
+                sTK004_StokDBMiktari = value;
                 OnPropertyChanged("STK004_StokDBMiktari");
             }
         }
@@ -4321,10 +4316,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (13) Allow Null </summary>
         public decimal? STK004_StokDBTutari
         {
-            get { return this._STK004_StokDBTutari; }
+            get { return sTK004_StokDBTutari; }
             set
             {
-                this._STK004_StokDBTutari = value;
+                sTK004_StokDBTutari = value;
                 OnPropertyChanged("STK004_StokDBTutari");
             }
         }
@@ -4332,10 +4327,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (13) Allow Null </summary>
         public decimal? STK004_StokDBDuzTutari
         {
-            get { return this._STK004_StokDBDuzTutari; }
+            get { return sTK004_StokDBDuzTutari; }
             set
             {
-                this._STK004_StokDBDuzTutari = value;
+                sTK004_StokDBDuzTutari = value;
                 OnPropertyChanged("STK004_StokDBDuzTutari");
             }
         }
@@ -4343,10 +4338,10 @@ namespace Wms12m.Entity
         /// <summary> INT (4) Allow Null </summary>
         public int? STK004_StokDBDuzDate
         {
-            get { return this._STK004_StokDBDuzDate; }
+            get { return sTK004_StokDBDuzDate; }
             set
             {
-                this._STK004_StokDBDuzDate = value;
+                sTK004_StokDBDuzDate = value;
                 OnPropertyChanged("STK004_StokDBDuzDate");
             }
         }
@@ -4354,10 +4349,10 @@ namespace Wms12m.Entity
         /// <summary> INT (4) Allow Null </summary>
         public int? STK004_StokDBDuzYil
         {
-            get { return this._STK004_StokDBDuzYil; }
+            get { return sTK004_StokDBDuzYil; }
             set
             {
-                this._STK004_StokDBDuzYil = value;
+                sTK004_StokDBDuzYil = value;
                 OnPropertyChanged("STK004_StokDBDuzYil");
             }
         }
@@ -4365,10 +4360,10 @@ namespace Wms12m.Entity
         /// <summary> TINYINT (1) Allow Null </summary>
         public byte? STK004_StokDBDuzDonem
         {
-            get { return this._STK004_StokDBDuzDonem; }
+            get { return sTK004_StokDBDuzDonem; }
             set
             {
-                this._STK004_StokDBDuzDonem = value;
+                sTK004_StokDBDuzDonem = value;
                 OnPropertyChanged("STK004_StokDBDuzDonem");
             }
         }
@@ -4376,10 +4371,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (9) Allow Null </summary>
         public decimal? STK004_StokDBRofm
         {
-            get { return this._STK004_StokDBRofm; }
+            get { return sTK004_StokDBRofm; }
             set
             {
-                this._STK004_StokDBRofm = value;
+                sTK004_StokDBRofm = value;
                 OnPropertyChanged("STK004_StokDBRofm");
             }
         }
@@ -4387,10 +4382,10 @@ namespace Wms12m.Entity
         /// <summary> NVARCHAR (40) Allow Null </summary>
         public string STK004_StokDBEntHesapKodu
         {
-            get { return this._STK004_StokDBEntHesapKodu; }
+            get { return sTK004_StokDBEntHesapKodu; }
             set
             {
-                this._STK004_StokDBEntHesapKodu = value;
+                sTK004_StokDBEntHesapKodu = value;
                 OnPropertyChanged("STK004_StokDBEntHesapKodu");
             }
         }
@@ -4398,10 +4393,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (13) Allow Null </summary>
         public decimal? STK004_YASatisFiati1
         {
-            get { return this._STK004_YASatisFiati1; }
+            get { return sTK004_YASatisFiati1; }
             set
             {
-                this._STK004_YASatisFiati1 = value;
+                sTK004_YASatisFiati1 = value;
                 OnPropertyChanged("STK004_YASatisFiati1");
             }
         }
@@ -4409,10 +4404,10 @@ namespace Wms12m.Entity
         /// <summary> TINYINT (1) Allow Null </summary>
         public byte? STK004_YSatisKDV1
         {
-            get { return this._STK004_YSatisKDV1; }
+            get { return sTK004_YSatisKDV1; }
             set
             {
-                this._STK004_YSatisKDV1 = value;
+                sTK004_YSatisKDV1 = value;
                 OnPropertyChanged("STK004_YSatisKDV1");
             }
         }
@@ -4420,10 +4415,10 @@ namespace Wms12m.Entity
         /// <summary> TINYINT (1) Allow Null </summary>
         public byte? STK004_YSatisBirim1
         {
-            get { return this._STK004_YSatisBirim1; }
+            get { return sTK004_YSatisBirim1; }
             set
             {
-                this._STK004_YSatisBirim1 = value;
+                sTK004_YSatisBirim1 = value;
                 OnPropertyChanged("STK004_YSatisBirim1");
             }
         }
@@ -4431,10 +4426,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (13) Allow Null </summary>
         public decimal? STK004_YASatisFiati2
         {
-            get { return this._STK004_YASatisFiati2; }
+            get { return sTK004_YASatisFiati2; }
             set
             {
-                this._STK004_YASatisFiati2 = value;
+                sTK004_YASatisFiati2 = value;
                 OnPropertyChanged("STK004_YASatisFiati2");
             }
         }
@@ -4442,10 +4437,10 @@ namespace Wms12m.Entity
         /// <summary> TINYINT (1) Allow Null </summary>
         public byte? STK004_YSatisKDV2
         {
-            get { return this._STK004_YSatisKDV2; }
+            get { return sTK004_YSatisKDV2; }
             set
             {
-                this._STK004_YSatisKDV2 = value;
+                sTK004_YSatisKDV2 = value;
                 OnPropertyChanged("STK004_YSatisKDV2");
             }
         }
@@ -4453,10 +4448,10 @@ namespace Wms12m.Entity
         /// <summary> TINYINT (1) Allow Null </summary>
         public byte? STK004_YSatisBirim2
         {
-            get { return this._STK004_YSatisBirim2; }
+            get { return sTK004_YSatisBirim2; }
             set
             {
-                this._STK004_YSatisBirim2 = value;
+                sTK004_YSatisBirim2 = value;
                 OnPropertyChanged("STK004_YSatisBirim2");
             }
         }
@@ -4464,10 +4459,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (13) Allow Null </summary>
         public decimal? STK004_YASatisFiati3
         {
-            get { return this._STK004_YASatisFiati3; }
+            get { return sTK004_YASatisFiati3; }
             set
             {
-                this._STK004_YASatisFiati3 = value;
+                sTK004_YASatisFiati3 = value;
                 OnPropertyChanged("STK004_YASatisFiati3");
             }
         }
@@ -4475,10 +4470,10 @@ namespace Wms12m.Entity
         /// <summary> TINYINT (1) Allow Null </summary>
         public byte? STK004_YSatisKDV3
         {
-            get { return this._STK004_YSatisKDV3; }
+            get { return sTK004_YSatisKDV3; }
             set
             {
-                this._STK004_YSatisKDV3 = value;
+                sTK004_YSatisKDV3 = value;
                 OnPropertyChanged("STK004_YSatisKDV3");
             }
         }
@@ -4486,10 +4481,10 @@ namespace Wms12m.Entity
         /// <summary> TINYINT (1) Allow Null </summary>
         public byte? STK004_YSatisBirim3
         {
-            get { return this._STK004_YSatisBirim3; }
+            get { return sTK004_YSatisBirim3; }
             set
             {
-                this._STK004_YSatisBirim3 = value;
+                sTK004_YSatisBirim3 = value;
                 OnPropertyChanged("STK004_YSatisBirim3");
             }
         }
@@ -4497,10 +4492,10 @@ namespace Wms12m.Entity
         /// <summary> INT (4) Allow Null </summary>
         public int? STK004_YSatisFiyati1ValorGun
         {
-            get { return this._STK004_YSatisFiyati1ValorGun; }
+            get { return sTK004_YSatisFiyati1ValorGun; }
             set
             {
-                this._STK004_YSatisFiyati1ValorGun = value;
+                sTK004_YSatisFiyati1ValorGun = value;
                 OnPropertyChanged("STK004_YSatisFiyati1ValorGun");
             }
         }
@@ -4508,10 +4503,10 @@ namespace Wms12m.Entity
         /// <summary> INT (4) Allow Null </summary>
         public int? STK004_YSatisFiyati2ValorGun
         {
-            get { return this._STK004_YSatisFiyati2ValorGun; }
+            get { return sTK004_YSatisFiyati2ValorGun; }
             set
             {
-                this._STK004_YSatisFiyati2ValorGun = value;
+                sTK004_YSatisFiyati2ValorGun = value;
                 OnPropertyChanged("STK004_YSatisFiyati2ValorGun");
             }
         }
@@ -4519,10 +4514,10 @@ namespace Wms12m.Entity
         /// <summary> INT (4) Allow Null </summary>
         public int? STK004_YSatisFiyati3ValorGun
         {
-            get { return this._STK004_YSatisFiyati3ValorGun; }
+            get { return sTK004_YSatisFiyati3ValorGun; }
             set
             {
-                this._STK004_YSatisFiyati3ValorGun = value;
+                sTK004_YSatisFiyati3ValorGun = value;
                 OnPropertyChanged("STK004_YSatisFiyati3ValorGun");
             }
         }
@@ -4530,10 +4525,10 @@ namespace Wms12m.Entity
         /// <summary> TINYINT (1) Allow Null </summary>
         public byte? STK004_AktifFlag
         {
-            get { return this._STK004_AktifFlag; }
+            get { return sTK004_AktifFlag; }
             set
             {
-                this._STK004_AktifFlag = value;
+                sTK004_AktifFlag = value;
                 OnPropertyChanged("STK004_AktifFlag");
             }
         }
@@ -4541,10 +4536,10 @@ namespace Wms12m.Entity
         /// <summary> INT (4) Allow Null </summary>
         public int? STK004_SayimTarihi
         {
-            get { return this._STK004_SayimTarihi; }
+            get { return sTK004_SayimTarihi; }
             set
             {
-                this._STK004_SayimTarihi = value;
+                sTK004_SayimTarihi = value;
                 OnPropertyChanged("STK004_SayimTarihi");
             }
         }
@@ -4552,10 +4547,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (9) Allow Null </summary>
         public decimal? STK004_SayimMiktari
         {
-            get { return this._STK004_SayimMiktari; }
+            get { return sTK004_SayimMiktari; }
             set
             {
-                this._STK004_SayimMiktari = value;
+                sTK004_SayimMiktari = value;
                 OnPropertyChanged("STK004_SayimMiktari");
             }
         }
@@ -4563,10 +4558,10 @@ namespace Wms12m.Entity
         /// <summary> NVARCHAR (64) Allow Null </summary>
         public string STK004_Dokuman1
         {
-            get { return this._STK004_Dokuman1; }
+            get { return sTK004_Dokuman1; }
             set
             {
-                this._STK004_Dokuman1 = value;
+                sTK004_Dokuman1 = value;
                 OnPropertyChanged("STK004_Dokuman1");
             }
         }
@@ -4574,10 +4569,10 @@ namespace Wms12m.Entity
         /// <summary> NVARCHAR (64) Allow Null </summary>
         public string STK004_Dokuman2
         {
-            get { return this._STK004_Dokuman2; }
+            get { return sTK004_Dokuman2; }
             set
             {
-                this._STK004_Dokuman2 = value;
+                sTK004_Dokuman2 = value;
                 OnPropertyChanged("STK004_Dokuman2");
             }
         }
@@ -4585,10 +4580,10 @@ namespace Wms12m.Entity
         /// <summary> NVARCHAR (64) Allow Null </summary>
         public string STK004_Dokuman3
         {
-            get { return this._STK004_Dokuman3; }
+            get { return sTK004_Dokuman3; }
             set
             {
-                this._STK004_Dokuman3 = value;
+                sTK004_Dokuman3 = value;
                 OnPropertyChanged("STK004_Dokuman3");
             }
         }
@@ -4596,10 +4591,10 @@ namespace Wms12m.Entity
         /// <summary> NVARCHAR (40) Allow Null </summary>
         public string STK004_SMMHesapKodu
         {
-            get { return this._STK004_SMMHesapKodu; }
+            get { return sTK004_SMMHesapKodu; }
             set
             {
-                this._STK004_SMMHesapKodu = value;
+                sTK004_SMMHesapKodu = value;
                 OnPropertyChanged("STK004_SMMHesapKodu");
             }
         }
@@ -4607,10 +4602,10 @@ namespace Wms12m.Entity
         /// <summary> INT (4) Allow Null </summary>
         public int? STK004_KDVTevkIslemTuruAlim
         {
-            get { return this._STK004_KDVTevkIslemTuruAlim; }
+            get { return sTK004_KDVTevkIslemTuruAlim; }
             set
             {
-                this._STK004_KDVTevkIslemTuruAlim = value;
+                sTK004_KDVTevkIslemTuruAlim = value;
                 OnPropertyChanged("STK004_KDVTevkIslemTuruAlim");
             }
         }
@@ -4618,10 +4613,10 @@ namespace Wms12m.Entity
         /// <summary> NVARCHAR (60) Allow Null </summary>
         public string STK004_Barkod4
         {
-            get { return this._STK004_Barkod4; }
+            get { return sTK004_Barkod4; }
             set
             {
-                this._STK004_Barkod4 = value;
+                sTK004_Barkod4 = value;
                 OnPropertyChanged("STK004_Barkod4");
             }
         }
@@ -4629,10 +4624,10 @@ namespace Wms12m.Entity
         /// <summary> NVARCHAR (60) Allow Null </summary>
         public string STK004_Barkod5
         {
-            get { return this._STK004_Barkod5; }
+            get { return sTK004_Barkod5; }
             set
             {
-                this._STK004_Barkod5 = value;
+                sTK004_Barkod5 = value;
                 OnPropertyChanged("STK004_Barkod5");
             }
         }
@@ -4640,10 +4635,10 @@ namespace Wms12m.Entity
         /// <summary> NVARCHAR (10) Allow Null </summary>
         public string STK004_BarkodBirim4
         {
-            get { return this._STK004_BarkodBirim4; }
+            get { return sTK004_BarkodBirim4; }
             set
             {
-                this._STK004_BarkodBirim4 = value;
+                sTK004_BarkodBirim4 = value;
                 OnPropertyChanged("STK004_BarkodBirim4");
             }
         }
@@ -4651,10 +4646,10 @@ namespace Wms12m.Entity
         /// <summary> NVARCHAR (10) Allow Null </summary>
         public string STK004_BarkodBirim5
         {
-            get { return this._STK004_BarkodBirim5; }
+            get { return sTK004_BarkodBirim5; }
             set
             {
-                this._STK004_BarkodBirim5 = value;
+                sTK004_BarkodBirim5 = value;
                 OnPropertyChanged("STK004_BarkodBirim5");
             }
         }
@@ -4662,10 +4657,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (5) Allow Null </summary>
         public decimal? STK004_BarkodCarpan4
         {
-            get { return this._STK004_BarkodCarpan4; }
+            get { return sTK004_BarkodCarpan4; }
             set
             {
-                this._STK004_BarkodCarpan4 = value;
+                sTK004_BarkodCarpan4 = value;
                 OnPropertyChanged("STK004_BarkodCarpan4");
             }
         }
@@ -4673,10 +4668,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (5) Allow Null </summary>
         public decimal? STK004_BarkodCarpan5
         {
-            get { return this._STK004_BarkodCarpan5; }
+            get { return sTK004_BarkodCarpan5; }
             set
             {
-                this._STK004_BarkodCarpan5 = value;
+                sTK004_BarkodCarpan5 = value;
                 OnPropertyChanged("STK004_BarkodCarpan5");
             }
         }
@@ -4684,10 +4679,10 @@ namespace Wms12m.Entity
         /// <summary> INT (4) Allow Null </summary>
         public int? STK004_KDVTevkIslemTuruSatis
         {
-            get { return this._STK004_KDVTevkIslemTuruSatis; }
+            get { return sTK004_KDVTevkIslemTuruSatis; }
             set
             {
-                this._STK004_KDVTevkIslemTuruSatis = value;
+                sTK004_KDVTevkIslemTuruSatis = value;
                 OnPropertyChanged("STK004_KDVTevkIslemTuruSatis");
             }
         }
@@ -4695,10 +4690,10 @@ namespace Wms12m.Entity
         /// <summary> NVARCHAR (14) Allow Null </summary>
         public string STK004_KDVTevkOraniAlim
         {
-            get { return this._STK004_KDVTevkOraniAlim; }
+            get { return sTK004_KDVTevkOraniAlim; }
             set
             {
-                this._STK004_KDVTevkOraniAlim = value;
+                sTK004_KDVTevkOraniAlim = value;
                 OnPropertyChanged("STK004_KDVTevkOraniAlim");
             }
         }
@@ -4706,10 +4701,10 @@ namespace Wms12m.Entity
         /// <summary> NVARCHAR (14) Allow Null </summary>
         public string STK004_KDVTevkOraniSatis
         {
-            get { return this._STK004_KDVTevkOraniSatis; }
+            get { return sTK004_KDVTevkOraniSatis; }
             set
             {
-                this._STK004_KDVTevkOraniSatis = value;
+                sTK004_KDVTevkOraniSatis = value;
                 OnPropertyChanged("STK004_KDVTevkOraniSatis");
             }
         }
@@ -4717,10 +4712,10 @@ namespace Wms12m.Entity
         /// <summary> TINYINT (1) Allow Null </summary>
         public byte? STK004_KismiKDVMuafMevcut
         {
-            get { return this._STK004_KismiKDVMuafMevcut; }
+            get { return sTK004_KismiKDVMuafMevcut; }
             set
             {
-                this._STK004_KismiKDVMuafMevcut = value;
+                sTK004_KismiKDVMuafMevcut = value;
                 OnPropertyChanged("STK004_KismiKDVMuafMevcut");
             }
         }
@@ -4728,10 +4723,10 @@ namespace Wms12m.Entity
         /// <summary> NVARCHAR (20) Allow Null </summary>
         public string STK004_KDVMuafAciklama
         {
-            get { return this._STK004_KDVMuafAciklama; }
+            get { return sTK004_KDVMuafAciklama; }
             set
             {
-                this._STK004_KDVMuafAciklama = value;
+                sTK004_KDVMuafAciklama = value;
                 OnPropertyChanged("STK004_KDVMuafAciklama");
             }
         }
@@ -4739,10 +4734,10 @@ namespace Wms12m.Entity
         /// <summary> NVARCHAR (10) Allow Null </summary>
         public string STK004_BoyutBirimi
         {
-            get { return this._STK004_BoyutBirimi; }
+            get { return sTK004_BoyutBirimi; }
             set
             {
-                this._STK004_BoyutBirimi = value;
+                sTK004_BoyutBirimi = value;
                 OnPropertyChanged("STK004_BoyutBirimi");
             }
         }
@@ -4750,10 +4745,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (9) Allow Null </summary>
         public decimal? STK004_BoyutEn
         {
-            get { return this._STK004_BoyutEn; }
+            get { return sTK004_BoyutEn; }
             set
             {
-                this._STK004_BoyutEn = value;
+                sTK004_BoyutEn = value;
                 OnPropertyChanged("STK004_BoyutEn");
             }
         }
@@ -4761,10 +4756,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (9) Allow Null </summary>
         public decimal? STK004_BoyutBoy
         {
-            get { return this._STK004_BoyutBoy; }
+            get { return sTK004_BoyutBoy; }
             set
             {
-                this._STK004_BoyutBoy = value;
+                sTK004_BoyutBoy = value;
                 OnPropertyChanged("STK004_BoyutBoy");
             }
         }
@@ -4772,10 +4767,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (9) Allow Null </summary>
         public decimal? STK004_BoyutGenisilik
         {
-            get { return this._STK004_BoyutGenisilik; }
+            get { return sTK004_BoyutGenisilik; }
             set
             {
-                this._STK004_BoyutGenisilik = value;
+                sTK004_BoyutGenisilik = value;
                 OnPropertyChanged("STK004_BoyutGenisilik");
             }
         }
@@ -4783,10 +4778,10 @@ namespace Wms12m.Entity
         /// <summary> NVARCHAR (10) Allow Null </summary>
         public string STK004_AgirlikBirimi
         {
-            get { return this._STK004_AgirlikBirimi; }
+            get { return sTK004_AgirlikBirimi; }
             set
             {
-                this._STK004_AgirlikBirimi = value;
+                sTK004_AgirlikBirimi = value;
                 OnPropertyChanged("STK004_AgirlikBirimi");
             }
         }
@@ -4794,10 +4789,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (9) Allow Null </summary>
         public decimal? STK004_AgirlikBrut
         {
-            get { return this._STK004_AgirlikBrut; }
+            get { return sTK004_AgirlikBrut; }
             set
             {
-                this._STK004_AgirlikBrut = value;
+                sTK004_AgirlikBrut = value;
                 OnPropertyChanged("STK004_AgirlikBrut");
             }
         }
@@ -4805,10 +4800,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (9) Allow Null </summary>
         public decimal? STK004_AgirlikNet
         {
-            get { return this._STK004_AgirlikNet; }
+            get { return sTK004_AgirlikNet; }
             set
             {
-                this._STK004_AgirlikNet = value;
+                sTK004_AgirlikNet = value;
                 OnPropertyChanged("STK004_AgirlikNet");
             }
         }
@@ -4816,10 +4811,10 @@ namespace Wms12m.Entity
         /// <summary> NVARCHAR (10) Allow Null </summary>
         public string STK004_HacimBirimi
         {
-            get { return this._STK004_HacimBirimi; }
+            get { return sTK004_HacimBirimi; }
             set
             {
-                this._STK004_HacimBirimi = value;
+                sTK004_HacimBirimi = value;
                 OnPropertyChanged("STK004_HacimBirimi");
             }
         }
@@ -4827,10 +4822,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (9) Allow Null </summary>
         public decimal? STK004_HacimBrut
         {
-            get { return this._STK004_HacimBrut; }
+            get { return sTK004_HacimBrut; }
             set
             {
-                this._STK004_HacimBrut = value;
+                sTK004_HacimBrut = value;
                 OnPropertyChanged("STK004_HacimBrut");
             }
         }
@@ -4838,10 +4833,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (9) Allow Null </summary>
         public decimal? STK004_HacimNet
         {
-            get { return this._STK004_HacimNet; }
+            get { return sTK004_HacimNet; }
             set
             {
-                this._STK004_HacimNet = value;
+                sTK004_HacimNet = value;
                 OnPropertyChanged("STK004_HacimNet");
             }
         }
@@ -4849,10 +4844,10 @@ namespace Wms12m.Entity
         /// <summary> TINYINT (1) Allow Null </summary>
         public byte? STK004_YOKCPLUGonder
         {
-            get { return this._STK004_YOKCPLUGonder; }
+            get { return sTK004_YOKCPLUGonder; }
             set
             {
-                this._STK004_YOKCPLUGonder = value;
+                sTK004_YOKCPLUGonder = value;
                 OnPropertyChanged("STK004_YOKCPLUGonder");
             }
         }
@@ -4860,10 +4855,10 @@ namespace Wms12m.Entity
         /// <summary> INT (4) Allow Null </summary>
         public int? STK004_YOKCPLUID
         {
-            get { return this._STK004_YOKCPLUID; }
+            get { return sTK004_YOKCPLUID; }
             set
             {
-                this._STK004_YOKCPLUID = value;
+                sTK004_YOKCPLUID = value;
                 OnPropertyChanged("STK004_YOKCPLUID");
             }
         }
@@ -4871,10 +4866,10 @@ namespace Wms12m.Entity
         /// <summary> INT (4) Allow Null </summary>
         public int? STK004_YOKCDepartmanID
         {
-            get { return this._STK004_YOKCDepartmanID; }
+            get { return sTK004_YOKCDepartmanID; }
             set
             {
-                this._STK004_YOKCDepartmanID = value;
+                sTK004_YOKCDepartmanID = value;
                 OnPropertyChanged("STK004_YOKCDepartmanID");
             }
         }
@@ -4882,21 +4877,20 @@ namespace Wms12m.Entity
         /// <summary> NVARCHAR (60) Allow Null </summary>
         public string pk_STK004_MalKodu
         {
-            get { return this._pk_STK004_MalKodu; }
+            get { return _pk_STK004_MalKodu; }
             set
             {
-                this._pk_STK004_MalKodu = value;
+                _pk_STK004_MalKodu = value;
                 OnPropertyChanged("pk_STK004_MalKodu");
             }
         }
 
-
         #endregion /// Properties       
         #region Tablo Bilgileri & Metodlar
 
-        public void WhereAdd(STK004E Property, object Deger, Operand And_Or = Operand.AND)
+        public void WhereAdd(STK004E Property, object deger, Operand and_Or = Operand.AND)
         {
-            WhereList.Add(SqlExperOperatorIslem.WhereAdd(Enum.GetName(typeof(STK004E), Property), Deger, And_Or));
+            WhereList.Add(SqlExperOperatorIslem.WhereAdd(Enum.GetName(typeof(STK004E), Property), deger, and_Or));
         }
 
         public void WhereAdd(STK004E Property, Islem islem, object Deger, Operand And_Or = Operand.AND)
@@ -4920,25 +4914,22 @@ namespace Wms12m.Entity
             SetList.Add(SqlExperOperatorIslem.SetAdd(Enum.GetName(typeof(STK004E), Property), Degerler));
         }
 
-        private List<string> WhereList = new List<string>();
-        private List<string> SetList = new List<string>();
-        private string info_FullTableName = "YNS{0}.YNS{0}.STK004";
-        private string[] info_PrimaryKeys = { "pk_STK004_MalKodu" };
-        private string[] info_IdentityKeys = { "STK004_Row_ID" };
+        List<string> WhereList = new List<string>();
+        List<string> SetList = new List<string>();
+        string info_FullTableName = "YNS{0}.YNS{0}.STK004";
+        string[] info_PrimaryKeys = { "pk_STK004_MalKodu" };
+        string[] info_IdentityKeys = { "STK004_Row_ID" };
 
-        private List<string> ChangedProperties = new List<string>();
+        List<string> ChangedProperties = new List<string>();
         public event PropertyChangedEventHandler PropertyChanged;
 
         public STK004()
         {
             ChangedProperties = new List<string>();
-            this.PropertyChanged += STK004_PropertyChanged;
+            PropertyChanged += STK004_PropertyChanged;
         }
 
-        public void AcceptChanges()
-        {
-            ChangedProperties.Clear();
-        }
+        public void AcceptChanges() => ChangedProperties.Clear();
 
         void STK004_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
@@ -4948,7 +4939,7 @@ namespace Wms12m.Entity
             }
         }
 
-        private void OnPropertyChanged(string propertyName)
+        void OnPropertyChanged(string propertyName)
         {
             if (PropertyChanged != null)
             {

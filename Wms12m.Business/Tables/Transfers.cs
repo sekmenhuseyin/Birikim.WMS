@@ -13,8 +13,8 @@ namespace Wms12m.Business
         /// </summary>
         public override Result Operation(Transfer tbl)
         {
-            _Result = new Result(); bool eklemi = false;
-            //set details
+            _Result = new Result(); var eklemi = false;
+            // set details
             if (tbl.ID == 0)
             {
                 tbl.Onay = false;
@@ -26,11 +26,12 @@ namespace Wms12m.Business
                 var tmp = Detail(tbl.ID);
                 tmp.Onay = tbl.Onay;
             }
+
             try
             {
                 db.SaveChanges();
-                LogActions("Business", "Transfers", "Operation", eklemi == true ? ComboItems.alEkle : ComboItems.alDüzenle, tbl.ID, "CikisDepoID: "+tbl.CikisDepoID+ ", GirisDepoID: " + tbl.GirisDepoID + ", SirketKod: " + tbl.SirketKod);
-                //result
+                LogActions("Business", "Transfers", "Operation", eklemi == true ? ComboItems.alEkle : ComboItems.alDüzenle, tbl.ID, "CikisDepoID: " + tbl.CikisDepoID + ", GirisDepoID: " + tbl.GirisDepoID + ", SirketKod: " + tbl.SirketKod);
+                // result
                 _Result.Id = tbl.ID;
                 _Result.Message = "İşlem Başarılı !!!";
                 _Result.Status = true;
@@ -42,6 +43,7 @@ namespace Wms12m.Business
                 _Result.Message = "İşlem Hatalı: " + ex.Message;
                 _Result.Status = false;
             }
+
             return _Result;
         }
         public Result AddDetay(Transfer_Detay tbl)
@@ -52,7 +54,7 @@ namespace Wms12m.Business
                 db.Transfer_Detay.Add(tbl);
                 db.SaveChanges();
                 LogActions("Business", "Combo", "Operation", ComboItems.alEkle, tbl.ID, "TransferID: " + tbl.TransferID + ", MalKodu: " + tbl.MalKodu + ", Miktar: " + tbl.Miktar);
-                //result
+                // result
                 _Result.Id = tbl.ID;
                 _Result.Message = "İşlem Başarılı !!!";
                 _Result.Status = true;
@@ -62,6 +64,7 @@ namespace Wms12m.Business
                 Logger(ex, "Business/Transfers/AddDetay");
                 _Result.Message = "İşlem Hatalı: " + ex.Message;
             }
+
             return _Result;
         }
         /// <summary>
@@ -92,6 +95,7 @@ namespace Wms12m.Business
                 Logger(ex, "Business/Transfers/Delete");
                 _Result.Message = ex.Message;
             }
+
             return _Result;
         }
         /// <summary>
@@ -109,17 +113,13 @@ namespace Wms12m.Business
         /// get list
         /// </summary>
         /// <returns></returns>
-        public override List<Transfer> GetList()
-        {
-            return db.Transfers.ToList();
-        }
+        public override List<Transfer> GetList() => db.Transfers.ToList();
+
         /// <summary>
         /// get list from parent
         /// </summary>
-        public override List<Transfer> GetList(int ParentId)
-        {
-            return GetList();
-        }
+        public override List<Transfer> GetList(int ParentId) => GetList();
+
         public List<Transfer> GetList(bool onay, int? DepoId)
         {
             if (DepoId == null)

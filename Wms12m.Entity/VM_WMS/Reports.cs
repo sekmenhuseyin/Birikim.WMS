@@ -55,60 +55,60 @@ namespace Wms12m.Entity
         public short MalKodGrup { get; set; }
         public string MalKod { get; set; }
         public string SiraNo { get; set; }
-        public Single Oran { get; set; }
-        public Single Oran1 { get; set; }
-        public Single Oran2 { get; set; }
-        public Single Oran3 { get; set; }
-        public Single Oran4 { get; set; }
-        public Single Oran5 { get; set; }
+        public float Oran { get; set; }
+        public float Oran1 { get; set; }
+        public float Oran2 { get; set; }
+        public float Oran3 { get; set; }
+        public float Oran4 { get; set; }
+        public float Oran5 { get; set; }
         public decimal MikAralik1 { get; set; }
-        public Single MikYuzde1 { get; set; }
+        public float MikYuzde1 { get; set; }
         public decimal MikAralik2 { get; set; }
-        public Single MikYuzde2 { get; set; }
+        public float MikYuzde2 { get; set; }
         public decimal MikAralik3 { get; set; }
-        public Single MikYuzde3 { get; set; }
+        public float MikYuzde3 { get; set; }
         public decimal MikAralik4 { get; set; }
-        public Single MikYuzde4 { get; set; }
+        public float MikYuzde4 { get; set; }
         public decimal MikAralik5 { get; set; }
-        public Single MikYuzde5 { get; set; }
+        public float MikYuzde5 { get; set; }
         public decimal MikAralik6 { get; set; }
-        public Single MikYuzde6 { get; set; }
+        public float MikYuzde6 { get; set; }
         public decimal MikAralik7 { get; set; }
-        public Single MikYuzde7 { get; set; }
+        public float MikYuzde7 { get; set; }
         public decimal MikAralik8 { get; set; }
-        public Single MikYuzde8 { get; set; }
+        public float MikYuzde8 { get; set; }
         public decimal TutarAralik1 { get; set; }
-        public Single TutarYuzde1 { get; set; }
+        public float TutarYuzde1 { get; set; }
         public decimal TutarAralik2 { get; set; }
-        public Single TutarYuzde2 { get; set; }
+        public float TutarYuzde2 { get; set; }
         public decimal TutarAralik3 { get; set; }
-        public Single TutarYuzde3 { get; set; }
+        public float TutarYuzde3 { get; set; }
         public decimal TutarAralik4 { get; set; }
-        public Single TutarYuzde4 { get; set; }
+        public float TutarYuzde4 { get; set; }
         public decimal TutarAralik5 { get; set; }
-        public Single TutarYuzde5 { get; set; }
+        public float TutarYuzde5 { get; set; }
         public decimal TutarAralik6 { get; set; }
-        public Single TutarYuzde6 { get; set; }
+        public float TutarYuzde6 { get; set; }
         public decimal TutarAralik7 { get; set; }
-        public Single TutarYuzde7 { get; set; }
+        public float TutarYuzde7 { get; set; }
         public decimal TutarAralik8 { get; set; }
-        public Single TutarYuzde8 { get; set; }
+        public float TutarYuzde8 { get; set; }
         public decimal OdemeAralik1 { get; set; }
-        public Single OdemeYuzde1 { get; set; }
+        public float OdemeYuzde1 { get; set; }
         public decimal OdemeAralik2 { get; set; }
-        public Single OdemeYuzde2 { get; set; }
+        public float OdemeYuzde2 { get; set; }
         public decimal OdemeAralik3 { get; set; }
-        public Single OdemeYuzde3 { get; set; }
+        public float OdemeYuzde3 { get; set; }
         public decimal OdemeAralik4 { get; set; }
-        public Single OdemeYuzde4 { get; set; }
+        public float OdemeYuzde4 { get; set; }
         public decimal OdemeAralik5 { get; set; }
-        public Single OdemeYuzde5 { get; set; }
+        public float OdemeYuzde5 { get; set; }
         public decimal OdemeAralik6 { get; set; }
-        public Single OdemeYuzde6 { get; set; }
+        public float OdemeYuzde6 { get; set; }
         public decimal OdemeAralik7 { get; set; }
-        public Single OdemeYuzde7 { get; set; }
+        public float OdemeYuzde7 { get; set; }
         public decimal OdemeAralik8 { get; set; }
-        public Single OdemeYuzde8 { get; set; }
+        public float OdemeYuzde8 { get; set; }
         public short KayitTuru { get; set; }
         public string GuvenlikKod { get; set; }
         public string Kaydeden { get; set; }
@@ -171,11 +171,11 @@ namespace Wms12m.Entity
         public string MalKod { get; set; }
         public string MalAdi { get; set; }
         public string Kalite { get; set; }
-        public Single Oran1 { get; set; }
-        public Single Oran2 { get; set; }
-        public Single Oran3 { get; set; }
-        public Single Oran4 { get; set; }
-        public Single Oran5 { get; set; }
+        public float Oran1 { get; set; }
+        public float Oran2 { get; set; }
+        public float Oran3 { get; set; }
+        public float Oran4 { get; set; }
+        public float Oran5 { get; set; }
     }
     public class StokOnaySelect
     {
@@ -345,7 +345,6 @@ namespace Wms12m.Entity
 
     public class SatisBaglantiHareketleri
     {
-
         public string SozlesmeNo { get; set; }
         public string EvrakNo { get; set; }
         public string Tarih { get; set; }

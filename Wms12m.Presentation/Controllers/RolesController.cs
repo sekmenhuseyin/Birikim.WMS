@@ -41,7 +41,7 @@ namespace Wms12m.Presentation.Controllers
             if (CheckPerm(Perms.Gruplar, PermTypes.Reading) == false) return null;
             var id = Url.RequestContext.RouteData.Values["id"];
             if (id == null || id.ToString2() == "") return null;
-            //return
+            // return
             var ID = id.ToInt32();
             var tbl = db.Roles.Where(m => m.ID == ID).FirstOrDefault();
             return PartialView("Editor", tbl);
@@ -64,10 +64,12 @@ namespace Wms12m.Presentation.Controllers
                     var tbl = db.Roles.Where(m => m.ID == role.ID).FirstOrDefault();
                     tbl.Aciklama = role.Aciklama;
                 }
+
                 db.SaveChanges();
-                //log
+                // log
                 LogActions("", "Roles", "Save", ComboItems.alEkle, role.ID, role.RoleName);
             }
+
             return RedirectToAction("Index");
         }
         /// <summary>
@@ -78,10 +80,10 @@ namespace Wms12m.Presentation.Controllers
             if (CheckPerm(Perms.Gruplar, PermTypes.Deleting) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             try
             {
-                Role role = db.Roles.Find(id);
+                var role = db.Roles.Find(id);
                 db.Roles.Remove(role);
                 db.SaveChanges();
-                //log
+                // log
                 LogActions("", "Roles", "Delete", ComboItems.alSil, id.ToInt32(), role.RoleName);
                 return Json(new Result(true, 1, ""), JsonRequestBehavior.AllowGet);
             }

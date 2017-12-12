@@ -16,8 +16,8 @@ namespace Wms12m
     /// </summary>
     public static class HtmlHelperExtension
     {
-        private static string defaultImage = "/Content/Uploads/0.jpg";
-        private static string uploadsDirectory = "/Content/Uploads/";
+        static string defaultImage = "/Content/Uploads/0.jpg";
+        static string uploadsDirectory = "/Content/Uploads/";
         /// <summary>
         /// stackoverflow.com/questions/19931698/how-to-display-a-default-image-in-case-the-source-does-not-exists
         /// eğer istenen resim yoksa varsayılan resim gösterilecek
@@ -83,7 +83,7 @@ namespace Wms12m
         /// </summary>
         public static SelectList SelectListFor<T>() where T : struct
         {
-            Type t = typeof(T);
+            var t = typeof(T);
             return !t.IsEnum ? null
                              : new SelectList(BuildSelectListItems(t), "Value", "Text");
         }
@@ -92,11 +92,11 @@ namespace Wms12m
         /// </summary>
         public static SelectList SelectListFor<T>(T selected) where T : struct
         {
-            Type t = typeof(T);
+            var t = typeof(T);
             return !t.IsEnum ? null
                              : new SelectList(BuildSelectListItems(t), "Text", "Value", selected.ToInt32());
         }
-        private static IEnumerable<SelectListItem> BuildSelectListItems(Type t)
+        static IEnumerable<SelectListItem> BuildSelectListItems(Type t)
         {
             return Enum.GetValues(t)
                        .Cast<Enum>()

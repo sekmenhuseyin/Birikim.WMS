@@ -70,7 +70,6 @@ namespace Wms12m.Entity
         public decimal WmsStok { get; set; }
         public decimal GunesStok { get; set; }
         public decimal WmsRezerv { get; set; }
-
     }
     /// <summary>
     /// sipariş onay formu

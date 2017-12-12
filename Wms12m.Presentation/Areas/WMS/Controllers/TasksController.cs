@@ -60,9 +60,9 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         public JsonResult Update(frmGorev tbl)
         {
             if (CheckPerm(Perms.GörevListesi, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
-            //update
+            // update
             var _Result = Task.Update(tbl);
-            //get list
+            // get list
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
         /// <summary>
@@ -74,7 +74,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             if (CheckPerm(Perms.GörevListesi, PermTypes.Reading) == false) return null;
             var id = Url.RequestContext.RouteData.Values["id"];
             if (id == null) return null;
-            Int32 ID = Convert.ToInt32(id);
+            var ID = Convert.ToInt32(id);
             var list = Task.Detail(ID);
             ViewBag.Gorevli = new SelectList(Persons.GetList(), "Kod", "AdSoyad", list.Gorevli);
             return PartialView("GorevliAta", list);
@@ -86,8 +86,8 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         public ActionResult GorevliKaydet(frmGorevli tbl)
         {
             if (CheckPerm(Perms.GörevListesi, PermTypes.Writing) == false) return Redirect("/");
-            Task tmpTable = new Task();
-            Result _Result = tmpTable.UpdateGorevli(tbl);
+            var tmpTable = new Task();
+            var _Result = tmpTable.UpdateGorevli(tbl);
             return RedirectToAction("Index");
         }
         /// <summary>
@@ -106,7 +106,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         public PartialViewResult CountList(string Id)
         {
             if (CheckPerm(Perms.GörevListesi, PermTypes.Reading) == false) return null;
-            //id'ye göre liste döner
+            // id'ye göre liste döner
             var list = Task.GetList(ComboItems.KontrolSayım.ToInt32(), Id.ToInt32());
             return PartialView("CountList", list);
         }
@@ -129,13 +129,13 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         {
             if (CheckPerm(Perms.GörevListesi, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             Result _Result;
-            //kontrol
-            int açık = ComboItems.Açık.ToInt32();
-            int sayim = ComboItems.KontrolSayım.ToInt32();
+            // kontrol
+            var açık = ComboItems.Açık.ToInt32();
+            var sayim = ComboItems.KontrolSayım.ToInt32();
             var grv = db.Gorevs.Where(m => m.DepoID == DepoID && m.IR.SirketKod == SirketID && m.GorevTipiID == sayim && m.DurumID == açık).FirstOrDefault();
             if (grv == null)
             {
-                int tarih = fn.ToOADate();
+                var tarih = fn.ToOADate();
                 var grvNo = db.SettingsGorevNo(tarih, DepoID).FirstOrDefault();
                 var depo = Store.Detail(DepoID).DepoKodu;
                 var cevap = db.InsertIrsaliye(SirketID, DepoID, grvNo, grvNo, tarih, SirketID + "-" + depo + " Kontrollü Sayım", false, sayim, vUser.UserName, tarih, fn.ToOATime(), depo, "", 0, "", "").FirstOrDefault();
@@ -151,7 +151,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                     _Result = new Result(false, "Bu görev zaten var");
                 else
                 {
-                    int tarih = fn.ToOADate();
+                    var tarih = fn.ToOADate();
                     var grvNo = db.SettingsGorevNo(tarih, DepoID).FirstOrDefault();
                     var depo = Store.Detail(DepoID).DepoKodu;
                     var cevap = db.InsertIrsaliye(SirketID, DepoID, grvNo, grvNo, tarih, SirketID + "-" + depo + " Kontrollü Sayım", false, sayim, vUser.UserName, tarih, fn.ToOATime(), depo, "", 0, "", "").FirstOrDefault();
@@ -162,6 +162,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                     _Result = new Result(true);
                 }
             }
+
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
         /// <summary>
@@ -172,16 +173,16 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             if (CheckPerm(Perms.GörevListesi, PermTypes.Reading) == false) return null;
             var id = Url.RequestContext.RouteData.Values["id"];
             if (id == null) return null;
-            //split id
+            // split id
             string[] tmp = id.ToString().Split('-');
-            //get gorev details
-            int GorevID = tmp[1].ToInt32();
+            // get gorev details
+            var GorevID = tmp[1].ToInt32();
             var mGorev = db.Gorevs.Where(m => m.ID == GorevID).FirstOrDefault();
-            //create sql
-            string sql = "";
+            // create sql
+            var sql = "";
             if (tmp[0] == "1")//sadece fark liste
                 sql = " WHERE (WmsStok <> Miktar)";
-            //eksik liste için farklı sql
+            // eksik liste için farklı sql
             if (tmp[0] == "2")
                 sql = string.Format(@"SELECT FINSAT6{0}.FINSAT6{0}.STK.MalKodu, FINSAT6{0}.FINSAT6{0}.STK.MalAdi, FINSAT6{0}.FINSAT6{0}.STK.Birim1 as Birim, CAST(0 as DECIMAL) as Miktar, ISNULL(FINSAT6{0}.wms.getStockByDepo(FINSAT6{0}.FINSAT6{0}.STK.MalKodu, '{1}'), 0) AS GunesStok, 
                                                 ISNULL([wms].fnGetStockByID({3}, FINSAT6{0}.FINSAT6{0}.STK.MalKodu, FINSAT6{0}.FINSAT6{0}.STK.Birim1), 0) AS WmsStok
@@ -205,9 +206,9 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                                             "FROM wms.Gorev WITH(NOLOCK) INNER JOIN wms.GorevYer WITH(NOLOCK) ON wms.Gorev.ID = wms.GorevYer.GorevID " +
                                             "WHERE (wms.Gorev.ID = {2}) GROUP BY wms.Gorev.DepoID, wms.GorevYer.MalKodu, wms.GorevYer.Birim" +
                                         ") AS t{3} ORDER BY MalKodu", mGorev.IR.SirketKod, mGorev.Depo.DepoKodu, GorevID, sql);
-            //run
+            // run
             var list = db.Database.SqlQuery<frmSiparisMalzemeDetay>(sql).ToList();
-            //return
+            // return
             ViewBag.ID = id;
             return PartialView("CountFark", list);
         }
@@ -217,16 +218,16 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         [HttpPost]
         public JsonResult CountCreate(int GorevID, bool Tip)
         {
-            //kontrols
+            // kontrols
             if (CheckPerm(Perms.GörevListesi, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
-            int durumID = ComboItems.Tamamlanan.ToInt32();
-            int tipID = ComboItems.KontrolSayım.ToInt32();
+            var durumID = ComboItems.Tamamlanan.ToInt32();
+            var tipID = ComboItems.KontrolSayım.ToInt32();
             var mGorev = db.Gorevs.Where(m => m.ID == GorevID && m.GorevTipiID == tipID && m.DurumID == durumID).FirstOrDefault();
             if (mGorev.IsNull())
                 return Json(new Result(false, "Görev bulunamadı!"), JsonRequestBehavior.AllowGet);
             if (mGorev.IR.Onay == true)
                 return Json(new Result(false, "Sayım fişi daha önce oluşturulmuş!"), JsonRequestBehavior.AllowGet);
-            //seri kontrol
+            // seri kontrol
             var details = db.UserDetails.Where(m => m.UserID == vUser.Id).FirstOrDefault();
             if (details == null)
                 return Json(new Result(false, "Seri hatası!"), JsonRequestBehavior.AllowGet);
@@ -234,12 +235,12 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                 return Json(new Result(false, "Seri hatası!"), JsonRequestBehavior.AllowGet);
             if (details.SayimSeri.Value < 1 || details.SayimSeri.Value > 199)
                 return Json(new Result(false, "Seri hatası!"), JsonRequestBehavior.AllowGet);
-            //variables
-            int tarih = fn.ToOADate();
+            // variables
+            var tarih = fn.ToOADate();
             short sirano = 0;
             List<STI> stiList = new List<STI>();
-            //loop malkods
-            string sql = string.Format("SELECT MalKodu, MalAdi, Birim, Miktar, GunesStok, WmsStok FROM (" +
+            // loop malkods
+            var sql = string.Format("SELECT MalKodu, MalAdi, Birim, Miktar, GunesStok, WmsStok FROM (" +
                                             "SELECT wms.GorevYer.MalKodu, wms.GorevYer.Birim, SUM(wms.GorevYer.Miktar) AS Miktar, " +
                                                     "(SELECT FINSAT6{0}.FINSAT6{0}.STK.MalAdi from FINSAT6{0}.FINSAT6{0}.STK WHERE FINSAT6{0}.FINSAT6{0}.STK.MalKodu = wms.GorevYer.MalKodu) as MalAdi, " +
                                                     "FINSAT6{0}.wms.getStockByDepo(wms.GorevYer.MalKodu, '{1}') as GunesStok, [wms].fnGetStockByID(wms.Gorev.DepoID, wms.GorevYer.MalKodu, wms.GorevYer.Birim) as WmsStok " +
@@ -271,7 +272,8 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                 stiList.Add(sti);
                 sirano++;
             }
-            //eğer eksik listesi de atılacaksa sayım fişine biraz daha ekle
+
+            // eğer eksik listesi de atılacaksa sayım fişine biraz daha ekle
             if (Tip == true)
             {
                 sql = string.Format(@"SELECT FINSAT6{0}.FINSAT6{0}.STK.MalKodu, FINSAT6{0}.FINSAT6{0}.STK.MalAdi, FINSAT6{0}.FINSAT6{0}.STK.Birim1 as Birim, CAST(0 as DECIMAL) as Miktar, FINSAT6{0}.wms.getStockByDepo(FINSAT6{0}.FINSAT6{0}.STK.MalKodu, '{1}') AS GunesStok, 
@@ -305,9 +307,10 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                     sirano++;
                 }
             }
-            //finsat tanımlama
-            int EvrakSeriNo = 7100 + details.SayimSeri.Value - 1;
-            Finsat finsat = new Finsat(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, mGorev.IR.SirketKod);
+
+            // finsat tanımlama
+            var EvrakSeriNo = 7100 + details.SayimSeri.Value - 1;
+            var finsat = new Finsat(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, mGorev.IR.SirketKod);
             var sonuc = finsat.SayımVeFarkFişi(stiList, EvrakSeriNo, true, vUser.UserName);
             if (sonuc.Status == true)
             {
@@ -318,6 +321,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                 sonuc.Message = "İşlem tamlandı!";
                 LogActions("WMS", "Tasks", "CountCreate", ComboItems.alEkle, mGorev.ID, "Sayım Fişi: " + mGorev.IR.EvrakNo);
             }
+
             return Json(sonuc, JsonRequestBehavior.AllowGet);
         }
         /// <summary>
@@ -326,10 +330,10 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         [HttpPost]
         public JsonResult CountCreateDiff(int GorevID)
         {
-            //kontrols
+            // kontrols
             if (CheckPerm(Perms.GörevListesi, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
-            int durumID = ComboItems.Tamamlanan.ToInt32();
-            int tipID = ComboItems.KontrolSayım.ToInt32();
+            var durumID = ComboItems.Tamamlanan.ToInt32();
+            var tipID = ComboItems.KontrolSayım.ToInt32();
             var mGorev = db.Gorevs.Where(m => m.ID == GorevID && m.GorevTipiID == tipID && m.DurumID == durumID).FirstOrDefault();
             if (mGorev.IsNull())
                 return Json(new Result(false, "Görev bulunamadı!"), JsonRequestBehavior.AllowGet);
@@ -337,7 +341,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                 return Json(new Result(false, "Fark fişi daha önce oluşturulmuş!"), JsonRequestBehavior.AllowGet);
             if (mGorev.IR.Onay == false)
                 return Json(new Result(false, "Sayım fişi daha oluşturulmamış!"), JsonRequestBehavior.AllowGet);
-            //seri kontrol
+            // seri kontrol
             var details = db.UserDetails.Where(m => m.UserID == vUser.Id).FirstOrDefault();
             if (details == null)
                 return Json(new Result(false, "Seri hatası!"), JsonRequestBehavior.AllowGet);
@@ -345,13 +349,13 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                 return Json(new Result(false, "Seri hatası!"), JsonRequestBehavior.AllowGet);
             if (details.SayimSeri.Value < 1 || details.SayimSeri.Value > 199)
                 return Json(new Result(false, "Seri hatası!"), JsonRequestBehavior.AllowGet);
-            //variables
-            int tarih = fn.ToOADate();
-            int saat = fn.ToOATime();
+            // variables
+            var tarih = fn.ToOADate();
+            var saat = fn.ToOATime();
             short sirano = 0;
             List<STI> stiList = new List<STI>();
-            //loop malkods
-            string sql = string.Format("SELECT IslemTur, MalKodu, Miktar, Miktar2, Birim, Depo FROM FINSAT6{0}.FINSAT6{0}.STI " +
+            // loop malkods
+            var sql = string.Format("SELECT IslemTur, MalKodu, Miktar, Miktar2, Birim, Depo FROM FINSAT6{0}.FINSAT6{0}.STI " +
                                         "WHERE (EvrakNo = '{1}') AND (KynkEvrakTip = 95) AND (IslemTip = 18)", mGorev.IR.SirketKod, mGorev.IR.EvrakNo);
             var list = db.Database.SqlQuery<frmGorevSayimFisi>(sql).ToList();
             foreach (var item in list)
@@ -379,16 +383,17 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                     sirano++;
                 }
             }
-            //finsat tanımlama
-            int EvrakSeriNo = 7500 + details.SayimSeri.Value - 1;
-            Finsat finsat = new Finsat(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, mGorev.IR.SirketKod);
+
+            // finsat tanımlama
+            var EvrakSeriNo = 7500 + details.SayimSeri.Value - 1;
+            var finsat = new Finsat(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, mGorev.IR.SirketKod);
             var sonuc = finsat.SayımVeFarkFişi(stiList, EvrakSeriNo, true, vUser.UserName);
             if (sonuc.Status == true)
             {
                 mGorev.IR.LinkEvrakNo = sonuc.Message;
                 LogActions("WMS", "Tasks", "CountCreateDiff", ComboItems.alEkle, mGorev.ID, "Sayım Fark Fişi: " + mGorev.IR.LinkEvrakNo);
                 db.SaveChanges();
-                //finsat dst & stk update
+                // finsat dst & stk update
                 sql = string.Format("UPDATE FINSAT6{0}.FINSAT6{0}.STI SET KaynakIrsEvrakNo='{1}' WHERE EvrakNo = '{2}' AND KynkEvrakTip = 95;", mGorev.IR.SirketKod, sonuc.Message, mGorev.IR.EvrakNo);
                 foreach (var item in list)
                 {
@@ -411,9 +416,10 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                             "WHERE(MalKodu = '{1}');", mGorev.IR.SirketKod, item.MalKodu, (item.Miktar2 - item.Miktar).ToDot(), item.Miktar.ToDot(), vUser.UserName, tarih, saat);
                     }
                 }
+
                 db.Database.ExecuteSqlCommand(sql);
-                //son olarak bizim stoka kaydet
-                //get list
+                // son olarak bizim stoka kaydet
+                // get list
                 if (mGorev.IR.ValorGun == 1)
                     sql = string.Format(@"SELECT        wms.Yer.KatID, wms.Yer.MalKodu, wms.Yer.Birim, wms.Yer.Miktar AS Stok, 
                                                         ISNULL((SELECT Sum(Miktar) FROM wms.GorevYer WHERE (GorevID = {0}) AND(MalKodu = wms.Yer.MalKodu) AND (YerID = wms.Yer.ID)), 0) AS Miktar
@@ -425,10 +431,10 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                                                                     wms.Yer ON wms.GorevYer.YerID = wms.Yer.ID 
                                         WHERE (wms.GorevYer.GorevID  = {0})", GorevID);
                 var list2 = db.Database.SqlQuery<frmSiparisToplama>(sql).ToList();
-                //loop list
+                // loop list
                 foreach (var item in list2)
                 {
-                    //yerleştirme kaydı yapılır
+                    // yerleştirme kaydı yapılır
                     var tmp2 = Yerlestirme.Detail(item.KatID, item.MalKodu, item.Birim);
                     if (tmp2 == null)
                     {
@@ -455,8 +461,10 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                         }
                     }
                 }
+
                 sonuc.Message = "İşlem tamlandı!";
             }
+
             return Json(sonuc, JsonRequestBehavior.AllowGet);
         }
         /// <summary>
@@ -466,8 +474,8 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         public JsonResult Finish(int GorevID)
         {
             if (CheckPerm(Perms.GörevListesi, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
-            int durumID = ComboItems.Açık.ToInt32();
-            int tipID = ComboItems.KontrolSayım.ToInt32();
+            var durumID = ComboItems.Açık.ToInt32();
+            var tipID = ComboItems.KontrolSayım.ToInt32();
             var mGorev = db.Gorevs.Where(m => m.ID == GorevID && m.GorevTipiID == tipID && m.DurumID == durumID).FirstOrDefault();
             if (mGorev.IsNull())
                 return Json(new Result(false, "Görev bulunamadı!"), JsonRequestBehavior.AllowGet);
@@ -487,8 +495,8 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         public JsonResult ReActivate(int GorevID)
         {
             if (CheckPerm(Perms.GörevListesi, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
-            int durumID = ComboItems.Tamamlanan.ToInt32();
-            int tipID = ComboItems.KontrolSayım.ToInt32();
+            var durumID = ComboItems.Tamamlanan.ToInt32();
+            var tipID = ComboItems.KontrolSayım.ToInt32();
             var mGorev = db.Gorevs.Where(m => m.ID == GorevID && m.GorevTipiID == tipID && m.DurumID == durumID).FirstOrDefault();
             if (mGorev.IsNull())
                 return Json(new Result(false, "Görev bulunamadı!"), JsonRequestBehavior.AllowGet);
@@ -496,9 +504,9 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             mGorev.BitisTarihi = null;
             mGorev.BitisSaati = null;
             foreach (var item in mGorev.GorevUsers)
-            {
                 item.BitisTarihi = null;
-            }
+
+
             db.SaveChanges();
             return Json(new Result(true, mGorev.ID, "İşlem tamlandı!"), JsonRequestBehavior.AllowGet);
         }
@@ -540,17 +548,17 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         [HttpPost]
         public JsonResult CountBack(int GorevID)
         {
-            //kontrols
+            // kontrols
             if (CheckPerm(Perms.GörevListesi, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
-            int durumID = ComboItems.Tamamlanan.ToInt32();
-            int tipID = ComboItems.KontrolSayım.ToInt32();
+            var durumID = ComboItems.Tamamlanan.ToInt32();
+            var tipID = ComboItems.KontrolSayım.ToInt32();
             var mGorev = db.Gorevs.Where(m => m.ID == GorevID && m.GorevTipiID == tipID && m.DurumID == durumID).FirstOrDefault();
             if (mGorev.IsNull())
                 return Json(new Result(false, "Görev bulunamadı!"), JsonRequestBehavior.AllowGet);
             if (mGorev.IR.Onay == false)
                 return Json(new Result(false, "Sayım fişi bulunamadı!"), JsonRequestBehavior.AllowGet);
-            //variables
-            string sql = string.Format("DELETE FROM FINSAT6{0}.FINSAT6{0}.STI WHERE (EvrakNo = '{1}') AND (KynkEvrakTip = 95) AND (IslemTip = 18);", mGorev.IR.SirketKod, mGorev.IR.EvrakNo);
+            // variables
+            var sql = string.Format("DELETE FROM FINSAT6{0}.FINSAT6{0}.STI WHERE (EvrakNo = '{1}') AND (KynkEvrakTip = 95) AND (IslemTip = 18);", mGorev.IR.SirketKod, mGorev.IR.EvrakNo);
             db.Database.ExecuteSqlCommand(sql);
             mGorev.IR.EvrakNo = mGorev.GorevNo;
             mGorev.IR.Onay = false;
@@ -564,22 +572,22 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         [HttpPost]
         public JsonResult CountBackDiff(int GorevID)
         {
-            //kontrols
+            // kontrols
             if (CheckPerm(Perms.GörevListesi, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
-            int durumID = ComboItems.Tamamlanan.ToInt32();
-            int tipID = ComboItems.KontrolSayım.ToInt32();
+            var durumID = ComboItems.Tamamlanan.ToInt32();
+            var tipID = ComboItems.KontrolSayım.ToInt32();
             var mGorev = db.Gorevs.Where(m => m.ID == GorevID && m.GorevTipiID == tipID && m.DurumID == durumID).FirstOrDefault();
             if (mGorev.IsNull())
                 return Json(new Result(false, "Görev bulunamadı!"), JsonRequestBehavior.AllowGet);
             if (mGorev.IR.LinkEvrakNo == null)
                 return Json(new Result(false, "Fark fişi bulunamadı!"), JsonRequestBehavior.AllowGet);
 
-            //variables
-            int tarih = fn.ToOADate();
-            int saat = fn.ToOATime();
+            // variables
+            var tarih = fn.ToOADate();
+            var saat = fn.ToOATime();
             List<STI> stiList = new List<STI>();
-            //loop malkods
-            string sql = string.Format("SELECT IslemTur, MalKodu, Miktar, Miktar2, Birim, Depo FROM FINSAT6{0}.FINSAT6{0}.STI " +
+            // loop malkods
+            var sql = string.Format("SELECT IslemTur, MalKodu, Miktar, Miktar2, Birim, Depo FROM FINSAT6{0}.FINSAT6{0}.STI " +
                                         "WHERE (EvrakNo = '{1}') AND (KynkEvrakTip = 100) AND (IslemTip = 20)", mGorev.IR.SirketKod, mGorev.IR.LinkEvrakNo);
             var list = db.Database.SqlQuery<frmGorevSayimFisi>(sql).ToList();
             sql = "";
@@ -625,6 +633,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                     Yerlestirme.Update(tmp2, vUser.Id, "Sayım Farkı Fişi İptal", item.Miktar, true, mGorev.IR.ID);
                 }
             }
+
             mGorev.IR.LinkEvrakNo = null;
             db.SaveChanges();
 

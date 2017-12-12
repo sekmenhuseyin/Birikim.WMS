@@ -13,7 +13,7 @@ namespace Wms12m.Business
         /// </summary>
         public override Result Operation(IRS_Detay tbl)
         {
-            _Result = new Result(); bool eklemi = false;
+            _Result = new Result(); var eklemi = false;
             if (tbl.Miktar <= 0)
             {
                 _Result.Id = 0;
@@ -21,7 +21,8 @@ namespace Wms12m.Business
                 _Result.Status = false;
                 return _Result;
             }
-            //set details
+
+            // set details
             if (tbl.ID == 0)
             {
                 db.IRS_Detay.Add(tbl);
@@ -37,11 +38,12 @@ namespace Wms12m.Business
                 if (tbl.MakaraNo != "") tmp.MakaraNo = tbl.MakaraNo;
                 if (tbl.YerlestirmeMiktari != null) tmp.YerlestirmeMiktari = tbl.YerlestirmeMiktari;
             }
+
             try
             {
                 db.SaveChanges();
                 LogActions("Business", "IrsaliyeDetay", "Operation", eklemi == true ? ComboItems.alEkle : ComboItems.alDüzenle, tbl.ID, tbl.MalKodu + ", " + tbl.Miktar);
-                //result
+                // result
                 _Result.Id = tbl.ID;
                 _Result.Message = "İşlem Başarılı !!!";
                 _Result.Status = true;
@@ -53,6 +55,7 @@ namespace Wms12m.Business
                 _Result.Message = "İşlem Hatalı: " + ex.Message;
                 _Result.Status = false;
             }
+
             return _Result;
         }
         /// <summary>
@@ -71,7 +74,7 @@ namespace Wms12m.Business
             {
                 try
                 {
-                    IRS_Detay tablo = new IRS_Detay()
+                    var tablo = new IRS_Detay()
                     {
                         IrsaliyeID = tbl.IrsaliyeId,
                         MalKodu = tbl.MalKodu,
@@ -86,11 +89,13 @@ namespace Wms12m.Business
                             _Result.Message = "Bu makara no kullanılıyor";
                             return _Result;
                         }
+
                         tablo.MakaraNo = tbl.MakaraNo;
                     }
+
                     db.IRS_Detay.Add(tablo);
                     db.SaveChanges();
-                    //log
+                    // log
                     LogActions("Business", "IrsaliyeDetay", "Operation", ComboItems.alEkle, tablo.ID, tbl.MalKodu + ", " + tbl.Miktar);
                     _Result.Message = "İşlem Başarılı !!!";
                     _Result.Status = true;
@@ -102,6 +107,7 @@ namespace Wms12m.Business
                     _Result.Message = ex.Message;
                 }
             }
+
             return _Result;
         }
         /// <summary>
@@ -112,7 +118,7 @@ namespace Wms12m.Business
             _Result = new Result();
             try
             {
-                IRS_Detay tbl = db.IRS_Detay.Where(m => m.ID == Id).FirstOrDefault();
+                var tbl = db.IRS_Detay.Where(m => m.ID == Id).FirstOrDefault();
                 if (tbl != null)
                 {
                     db.IRS_Detay.Remove(tbl);
@@ -134,6 +140,7 @@ namespace Wms12m.Business
                 _Result.Message = ex.Message;
                 _Result.Status = false;
             }
+
             return _Result;
         }
         /// <summary>
@@ -150,15 +157,12 @@ namespace Wms12m.Business
                 Logger(ex, "Business/IrsaliyeDetay/Detail");
                 return new IRS_Detay();
             }
-
         }
         /// <summary>
         /// liste
         /// </summary>
-        public override List<IRS_Detay> GetList()
-        {
-            return db.IRS_Detay.OrderBy(m => m.IrsaliyeID).ToList();
-        }
+        public override List<IRS_Detay> GetList() => db.IRS_Detay.OrderBy(m => m.IrsaliyeID).ToList();
+
         /// <summary>
         /// liste
         /// </summary>

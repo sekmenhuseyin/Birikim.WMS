@@ -24,6 +24,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             {
                 ViewBag.OnayDurum = onayRed;
             }
+
             ViewBag.Birim = MyGlobalVariables.Birim;
             return View();
         }
@@ -51,7 +52,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
         public string UcretListData(string tip)
         {
-            JavaScriptSerializer json = new JavaScriptSerializer()
+            var json = new JavaScriptSerializer()
             {
                 MaxJsonLength = int.MaxValue
             };
@@ -64,11 +65,12 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             {
                 ucretBilgi = new List<Entity.TechnoList>();
             }
+
             return json.Serialize(ucretBilgi);
         }
         public string PrimListData(string tip)
         {
-            JavaScriptSerializer json = new JavaScriptSerializer()
+            var json = new JavaScriptSerializer()
             {
                 MaxJsonLength = int.MaxValue
             };
@@ -81,14 +83,15 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             {
                 primBilgi = new List<Entity.TechnoList>();
             }
+
             return json.Serialize(primBilgi);
         }
 
         public JsonResult Ucret_Onayla(string Data)
         {
-            Result _Result = new Result(true);
+            var _Result = new Result(true);
             if (CheckPerm(Perms.TechnoIKOnaylama, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
-            JArray parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
+            var parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
             int[] birimID = { 4263, 2211, 2214, 4063, 4864, 2213, 6163, 6164, 6165, 6166, 6167, 6168, 6169, 6170, 2363, 5364, 5764, 4764, 55555, 1901, 1603, 1902 };
             using (var dbContextTransaction = db.Database.BeginTransaction())
             {
@@ -114,6 +117,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                                     OnayDerece = 1;
                                 }
                             }
+
                             logDetay = "BUTUCRET_Temp tablosu ID: " + ID + " ,DPERSONELUID: " + insertObj["PERSONELID"].ToString() + " – İlgili satırdaki ücret bilgisi " + vUser.UserName.ToString() + " kullanıcısı tarafından GMY onayına düşürülmüştür.";
                         }
                         else
@@ -128,27 +132,27 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                                 logDetay = "BUTUCRET_Temp tablosu ID: " + ID + " ,DPERSONELUID: " + insertObj["PERSONELID"].ToString() + " – İlgili satırdaki ücret değişimi " + vUser.UserName.ToString() + " kullanıcısı tarafından GM(Murat) onayına düşürülmüştür.";
                             }
                         }
-                        string s = string.Format("[HR03V01].[wms].[TCH_UcretOnayUpdate] @OnayDerece={0}, @ID={1},@Birim='{2}'", OnayDerece, ID, MyGlobalVariables.Birim);
+
+                        var s = string.Format("[HR03V01].[wms].[TCH_UcretOnayUpdate] @OnayDerece={0}, @ID={1},@Birim='{2}'", OnayDerece, ID, MyGlobalVariables.Birim);
                         var x = db.Database.SqlQuery<int>(s).ToList();
                         LogActions("Approvals", "Techno", "Ucret_Onayla", ComboItems.alOnayla, ID.ToInt32(), logDetay);
                         if (MyGlobalVariables.Birim == "GM")
                         {
                             logDetay2 = "BUTUCRET_Temp tablosu ID: " + ID + " ,DPERSONELUID: " + insertObj["PERSONELID"].ToString() + " – İlgili satırdaki  " + insertObj["Ad"].ToString() + ' ' + insertObj["Soyad"].ToString() + " isimli kullanıcının ücret bilgisi onay sürecinden geçmiştir, sisteme delete insert atılmıştır.";
                             db.Database.ExecuteSqlCommand(string.Format("DELETE FROM [HR03V01].[dbo].[BUTUCRET] WHERE DBUTUCRETID={0} ", insertObj["DBUTUCRETID"].ToInt32()));
-                            string ss = string.Format("[HR03V01].[wms].[TCH_BUTUCRETINSERT] @ID={0}", ID);
+                            var ss = string.Format("[HR03V01].[wms].[TCH_BUTUCRETINSERT] @ID={0}", ID);
                             var xx = db.Database.SqlQuery<int>(ss).ToList();
                             LogActions("Approvals", "Techno", "Ucret_Onayla", ComboItems.alEkle, ID.ToInt32(), logDetay2);
                         }
                     }
+
                     _Result.Status = true;
                     _Result.Message = "İşlem Başarılı ";
-
                 }
                 catch (Exception)
                 {
                     _Result.Status = false;
                     _Result.Message = "Hata Oluştu. ";
-
                 }
 
                 try
@@ -163,14 +167,15 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                     return Json(_Result, JsonRequestBehavior.AllowGet);
                 }
             }
+
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
         public JsonResult Prim_Onayla(string Data)
         {
             if (CheckPerm(Perms.TechnoIKOnaylama, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
-            Result _Result = new Result(true);
+            var _Result = new Result(true);
             if (CheckPerm(Perms.SözleşmeOnaylama, PermTypes.Writing) == false) return null;
-            JArray parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
+            var parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
             int[] birimID = { 4263, 2211, 2214, 4063, 4864, 2213, 6163, 6164, 6165, 6166, 6167, 6168, 6169, 6170, 2363, 5364, 5764, 4764, 55555, 1901, 1603, 1902 };
             using (var dbContextTransaction = db.Database.BeginTransaction())
             {
@@ -196,6 +201,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                                     OnayDerece = 1;
                                 }
                             }
+
                             logDetay = "BRDSKALA_Temp tablosu ID: " + ID + " , DSKALAANAID: " + insertObj["DSKALAANAID"].ToInt32() + ", DPERSONELID: " + insertObj["PERSONELID"].ToString() + " – İlgili satırdaki pozisyon primi ödeneği güncellenerek " + vUser.UserName.ToString() + " kullanıcısı tarafından GMY onayına düşürülmüştür.";
                         }
                         else
@@ -209,31 +215,29 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                                 logDetay = "BRDSKALA_Temp tablosu ID: " + ID + " , DSKALAANAID: " + insertObj["DSKALAANAID"].ToInt32() + ", DPERSONELID: " + insertObj["PERSONELID"].ToString() + " – İlgili satırdaki pozisyon primi ödeneği güncellenerek " + vUser.UserName.ToString() + " kullanıcısı tarafından GM(Murat) onayına düşürülmüştür.";
                             }
                         }
-                        string s = string.Format("[HR03V01].[wms].[TCH_PrimOnayUpdate] @OnayDerece={0}, @ID={1},@Birim='{2}'", OnayDerece, ID, MyGlobalVariables.Birim);
+
+                        var s = string.Format("[HR03V01].[wms].[TCH_PrimOnayUpdate] @OnayDerece={0}, @ID={1},@Birim='{2}'", OnayDerece, ID, MyGlobalVariables.Birim);
                         var x = db.Database.SqlQuery<int>(s).ToList();
                         LogActions("Approvals", "Techno", "Prim_Onayla", ComboItems.alEkle, ID.ToInt32(), logDetay);
                         if (MyGlobalVariables.Birim == "GM")
                         {
                             logDetay2 = "BRDSKALA_Temp tablosu ID: " + ID + " , DSKALAANAID: " + insertObj["DSKALAANAID"].ToInt32() + ", DPERSONELID: " + insertObj["PERSONELID"].ToString() + " – İlgili satırdaki  " + insertObj["Ad"].ToString() + ' ' + insertObj["Soyad"].ToString() + " isimli kullanıcının pozisyon primi ödeneği onay sürecinden geçmiştir, sisteme delete insert atılmıştır.";
                             db.Database.ExecuteSqlCommand(string.Format("DELETE FROM [HR03V01].[dbo].[BRDSKALA] WHERE DSKALAID={0} ", insertObj["DSKALAID"].ToInt32()));
-                            string ss = string.Format("[HR03V01].[wms].[TCH_BRDSKALAINSERT] @ID={0}", ID);
+                            var ss = string.Format("[HR03V01].[wms].[TCH_BRDSKALAINSERT] @ID={0}", ID);
                             var xx = db.Database.SqlQuery<int>(ss).ToList();
                             LogActions("Approvals", "Techno", "Prim_Onayla", ComboItems.alOnayla, ID.ToInt32(), logDetay2);
                         }
-
-
-
                     }
+
                     _Result.Status = true;
                     _Result.Message = "İşlem Başarılı ";
-
                 }
                 catch (Exception)
                 {
                     _Result.Status = false;
                     _Result.Message = "Hata Oluştu. ";
-
                 }
+
                 try
                 {
                     db.SaveChanges();
@@ -246,14 +250,15 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                     return Json(_Result, JsonRequestBehavior.AllowGet);
                 }
             }
+
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult Ucret_Reddet(string Data, string RedNeden)
         {
             if (CheckPerm(Perms.TechnoIKOnaylama, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
-            Result _Result = new Result(true);
-            JArray parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
+            var _Result = new Result(true);
+            var parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
             using (var dbContextTransaction = db.Database.BeginTransaction())
             {
                 try
@@ -262,20 +267,20 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                     {
                         var ID = insertObj["ID"];
                         var logDetay = "BUTUCRET_Temp tablosu ID: " + ID + " ,DPERSONELUID: " + insertObj["PERSONELID"].ToString() + " – İlgili satırdaki  " + insertObj["Ad"].ToString() + ' ' + insertObj["Soyad"].ToString() + " isimli kullanıcının ücret bilgisi " + MyGlobalVariables.Birim + "(" + vUser.UserName.ToString() + ") tarafından " + DateTime.Now + " da reddedildi.";
-                        string s = string.Format("[HR03V01].[wms].[TCH_UcretRedUpdate] @ID={0},@RedNeden='{1}',@Reddeden='{2}'", ID, RedNeden, vUser.UserName.ToString());
+                        var s = string.Format("[HR03V01].[wms].[TCH_UcretRedUpdate] @ID={0},@RedNeden='{1}',@Reddeden='{2}'", ID, RedNeden, vUser.UserName.ToString());
                         var x = db.Database.SqlQuery<int>(s).ToList();
                         LogActions("Approvals", "Techno", "Ucret_Reddet", ComboItems.alRed, ID.ToInt32(), logDetay);
                     }
+
                     _Result.Status = true;
                     _Result.Message = "İşlem Başarılı ";
-
                 }
                 catch (Exception)
                 {
                     _Result.Status = false;
                     _Result.Message = "Hata Oluştu. ";
-
                 }
+
                 try
                 {
                     db.SaveChanges();
@@ -288,14 +293,14 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                     return Json(_Result, JsonRequestBehavior.AllowGet);
                 }
             }
+
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
         public JsonResult Prim_Reddet(string Data, string RedNeden)
         {
-
-            Result _Result = new Result(true);
+            var _Result = new Result(true);
             if (CheckPerm(Perms.TechnoIKOnaylama, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
-            JArray parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
+            var parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
             using (var dbContextTransaction = db.Database.BeginTransaction())
             {
                 try
@@ -304,20 +309,20 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                     {
                         var ID = insertObj["ID"];
                         var logDetay = "BRDSKALA_Temp tablosu ID: " + ID + " , DSKALAANAID: " + insertObj["DSKALAANAID"].ToInt32() + ", DPERSONELID: " + insertObj["PERSONELID"].ToString() + " – İlgili satırdaki  " + insertObj["Ad"].ToString() + ' ' + insertObj["Soyad"].ToString() + " isimli kullanıcının pozisyon primi ödeneği " + MyGlobalVariables.Birim + "(" + vUser.UserName.ToString() + ") tarafından " + DateTime.Now + " da reddedildi.";
-                        string s = string.Format("[HR03V01].[wms].[TCH_PrimRedUpdate] @ID={0},@RedNeden='{1}',@Reddeden='{2}'", ID, RedNeden, vUser.UserName.ToString());
+                        var s = string.Format("[HR03V01].[wms].[TCH_PrimRedUpdate] @ID={0},@RedNeden='{1}',@Reddeden='{2}'", ID, RedNeden, vUser.UserName.ToString());
                         var x = db.Database.SqlQuery<int>(s).ToList();
                         LogActions("Approvals", "Techno", "Prim_Reddet", ComboItems.alRed, ID.ToInt32(), logDetay);
                     }
+
                     _Result.Status = true;
                     _Result.Message = "İşlem Başarılı ";
-
                 }
                 catch (Exception)
                 {
                     _Result.Status = false;
                     _Result.Message = "Hata Oluştu. ";
-
                 }
+
                 try
                 {
                     db.SaveChanges();
@@ -330,6 +335,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                     return Json(_Result, JsonRequestBehavior.AllowGet);
                 }
             }
+
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
     }

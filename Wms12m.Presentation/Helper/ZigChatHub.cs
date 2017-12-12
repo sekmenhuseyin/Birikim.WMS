@@ -22,13 +22,12 @@ namespace Wms12m.Hubs
                                                                                     Connections ON Messages.Kime = Connections.UserName INNER JOIN
                                                                                     ComboItem_Name ON Messages.MesajTipi = ComboItem_Name.ID
                                                         WHERE        (Connections.IsOnline = 1) AND (Messages.Goruldu = 0) AND (Messages.MesajTipi = 85)").ToList();
-                //eğer liste varsa gönder
+                // eğer liste varsa gönder
                 if (list.Count > 0)
                     foreach (var item in list)
                     {
                         db.Database.ExecuteSqlCommand("UPDATE Messages SET Goruldu = 1 WHERE (ID = " + item.ID + ")");
                         Clients.Clients(new List<string> { item.ConnectionId }).ReceiveNotification(item.Name, item.Mesaj);
-
                     }
             }
         }
@@ -43,7 +42,7 @@ namespace Wms12m.Hubs
                 var guid = Statics.ImageAddressOrDefault(kişi.Guid.ToString());
                 if (usersend != "")
                 {
-                    //sadece bir kişiye mesaj gönderiyor
+                    // sadece bir kişiye mesaj gönderiyor
                     db.Messages.Add(new Message()
                     {
                         MesajTipi = ComboItems.KişiselMesaj.ToInt32(),
@@ -60,7 +59,8 @@ namespace Wms12m.Hubs
                     {
                         Logger(ex, "HUB/SendMessage/1", userName);
                     }
-                    //online ise hemen gönder
+
+                    // online ise hemen gönder
                     var pmConnection = db.Connections.Where(x => x.UserName.ToLower() == usersend && x.IsOnline).SingleOrDefault();
                     if (pmConnection != null)
                     {
@@ -70,7 +70,7 @@ namespace Wms12m.Hubs
                 }
                 else
                 {
-                    //herkese mesaj gönderiyor
+                    // herkese mesaj gönderiyor
                     db.Messages.Add(new Message()
                     {
                         MesajTipi = ComboItems.GrupMesajı.ToInt32(),
@@ -87,7 +87,8 @@ namespace Wms12m.Hubs
                     {
                         Logger(ex, "HUB/SendMessage/All", userName);
                     }
-                    //online ise hemen gönder
+
+                    // online ise hemen gönder
                     Clients.All.UpdateChat(userName, usersend, message, kişi.AdSoyad, guid);
                 }
             }
@@ -131,8 +132,10 @@ namespace Wms12m.Hubs
                         // If not, then a new connection is created
                         db.Connections.Add(new Entity.Models.Connection { ConnectionId = Context.ConnectionId, UserName = userName, IsOnline = true });
                     }
+
                     db.SaveChanges();
                 }
+
                 UsersOnline();
                 return new { Success = true };
             }
@@ -173,6 +176,7 @@ namespace Wms12m.Hubs
                     db.SaveChanges();
                 }
             }
+
             UsersOnline();
             return base.OnDisconnected(stopCalled);
         }
@@ -183,12 +187,13 @@ namespace Wms12m.Hubs
         {
             using (var db = new WMSEntities())
             {
-                string inner = "";
+                var inner = "";
                 if (ex.InnerException != null)
                 {
                     inner = ex.InnerException == null ? "" : ex.InnerException.Message;
                     if (ex.InnerException.InnerException != null) inner += ": " + ex.InnerException.InnerException.Message;
                 }
+
                 db.Logger(username, "", "", ex.Message, inner, page);
             }
         }

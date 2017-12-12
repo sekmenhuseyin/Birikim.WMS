@@ -17,14 +17,14 @@ namespace Wms12m
 
         public class MultipleResultSetWrapper
         {
-            private readonly DbContext _db;
-            private readonly string _storedProcedure;
+            readonly DbContext db;
+            readonly string storedProcedure;
             public List<Func<IObjectContextAdapter, DbDataReader, IEnumerable>> _resultSets;
 
             public MultipleResultSetWrapper(DbContext db, string storedProcedure)
             {
-                _db = db;
-                _storedProcedure = storedProcedure;
+                this.db = db;
+                this.storedProcedure = storedProcedure;
                 _resultSets = new List<Func<IObjectContextAdapter, DbDataReader, IEnumerable>>();
             }
 
@@ -42,15 +42,15 @@ namespace Wms12m
             {
                 var results = new List<IEnumerable>();
 
-                using (var connection = _db.Database.Connection)
+                using (var connection = db.Database.Connection)
                 {
                     connection.Open();
                     var command = connection.CreateCommand();
-                    command.CommandText = "EXEC " + _storedProcedure;
+                    command.CommandText = "EXEC " + storedProcedure;
 
                     using (var reader = command.ExecuteReader())
                     {
-                        var adapter = ((IObjectContextAdapter)_db);
+                        var adapter = ((IObjectContextAdapter)db);
                         foreach (var resultSet in _resultSets)
                         {
                             results.Add(resultSet(adapter, reader));

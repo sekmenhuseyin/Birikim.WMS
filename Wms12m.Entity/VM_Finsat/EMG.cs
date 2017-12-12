@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Wms12m.Entity
+﻿namespace Wms12m.Entity
 {
     public class EMG
     {
@@ -73,9 +71,9 @@ namespace Wms12m.Entity
         /// <summary> VarChar(5) (Not Null) </summary>
         public string Onayly { get; set; }
         /// <summary> Real (Not Null) </summary>
-        public Single OrHmdBsr { get; set; }
+        public float OrHmdBsr { get; set; }
         /// <summary> Real (Not Null) </summary>
-        public Single OrZmnBsr { get; set; }
+        public float OrZmnBsr { get; set; }
         /// <summary> VarChar(20) (Not Null) </summary>
         public string Kod1 { get; set; }
         /// <summary> VarChar(20) (Not Null) </summary>

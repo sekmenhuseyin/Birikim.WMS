@@ -9,16 +9,21 @@ namespace Wms12m.Business
 {
     public abstract class abstractTables<T> : IDisposable
     {
-        //public vars
+        // public vars
         public Result _Result;
         public WMSEntities db = new WMSEntities();
         public Functions fn = new Functions();
-        //abstracts
-        public abstract T Detail(int Id);
+        // abstracts
+        public abstract T Detail(int id);
+
         public abstract List<T> GetList();
+
         public abstract List<T> GetList(int ParentId);
+
         public abstract Result Delete(int Id);
+
         public abstract Result Operation(T tbl);
+
         /// <summary>
         /// user için kısayol
         /// </summary>
@@ -36,12 +41,13 @@ namespace Wms12m.Business
         /// </summary>
         public void Logger(Exception ex, string page)
         {
-            string inner = "";
+            var inner = "";
             if (ex.InnerException != null)
             {
                 inner = ex.InnerException == null ? "" : ex.InnerException.Message;
                 if (ex.InnerException.InnerException != null) inner += ": " + ex.InnerException.InnerException.Message;
             }
+
             db.Logger(vUser.UserName, "", fn.GetIPAddress(), ex.Message, inner, page);
         }
         /// <summary>
@@ -54,9 +60,6 @@ namespace Wms12m.Business
         /// <summary>
         /// dispose
         /// </summary>
-        public void Dispose()
-        {
-            db.Dispose();
-        }
+        public void Dispose() => db.Dispose();
     }
 }

@@ -16,10 +16,10 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         public ActionResult SM()
         {
             if (CheckPerm(Perms.SiparişOnaylamaSM, PermTypes.Reading) == false) return Redirect("/");
-            var KOD = db.Database.SqlQuery<SiparisOnaySelect>(string.Format("[FINSAT6{0}].[wms].[SiparisOnayListSM]", vUser.SirketKodu)).ToList();
+            var kOD = db.Database.SqlQuery<SiparisOnaySelect>(string.Format("[FINSAT6{0}].[wms].[SiparisOnayListSM]", vUser.SirketKodu)).ToList();
             ViewBag.OnayTip = 1;
             ViewBag.baslik = "SM";
-            return View("Index", KOD);
+            return View("Index", kOD);
         }
         /// <summary>
         /// SPGMY sayfası
@@ -48,10 +48,9 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         /// </summary>
         public JsonResult Onay(string Data, int OnayTip, bool OnaylandiMi)
         {
-
             if (CheckPerm(Perms.SiparişOnaylama, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
-            Result _Result = new Result(true);
-            JArray parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
+            var _Result = new Result(true);
+            var parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
             using (var dbContextTransaction = db.Database.BeginTransaction())
             {
                 foreach (string insertObj in parameters)
@@ -81,11 +80,11 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                 }
                 catch (Exception)
                 {
-
                     _Result.Status = false;
                     _Result.Message = "Hata Oluştu.";
                 }
             }
+
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
         /// <summary>

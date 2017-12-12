@@ -16,17 +16,15 @@ namespace Wms12m
         public static void CreateAuth(User person, bool rememberMe, GetSirkets_Result sirket)
         {
             var serializeModel = AuthIdentity(person, false, sirket);
-            DateTime expiration = DateTime.Now.AddMinutes(HttpContext.Current.Session.Timeout);
-            if (rememberMe)
-                expiration = DateTime.MaxValue;
-            else
-                expiration = DateTime.Now.AddDays(30);
+            var expiration = DateTime.Now.AddMinutes(HttpContext.Current.Session.Timeout);
+            if (rememberMe) expiration = DateTime.MaxValue;
+            else expiration = DateTime.Now.AddDays(30);
             var serializer = new JavaScriptSerializer();
-            string userData = serializer.Serialize(serializeModel);
-            //new ticket
+            var userData = serializer.Serialize(serializeModel);
+            // new ticket
             var authTicket = new FormsAuthenticationTicket(1, person.Kod, DateTime.Now, expiration, rememberMe, userData);
-            string encTicket = FormsAuthentication.Encrypt(authTicket);
-            //cookie
+            var encTicket = FormsAuthentication.Encrypt(authTicket);
+            // cookie
             var cookie = new HttpCookie(FormsAuthentication.FormsCookieName, encTicket);
             cookie.Path = FormsAuthentication.FormsCookiePath;
             cookie.Expires = expiration;
@@ -40,24 +38,24 @@ namespace Wms12m
             var user = (HttpContext.Current.User as CustomPrincipal).AppIdentity.User;
             var serializeModel = AuthIdentity(person, true, sirket);
             var serializer = new JavaScriptSerializer();
-            string userData = serializer.Serialize(serializeModel);
-            HttpCookie cookie = FormsAuthentication.GetAuthCookie(user.UserName, true);
-            //get ticket
+            var userData = serializer.Serialize(serializeModel);
+            var cookie = FormsAuthentication.GetAuthCookie(user.UserName, true);
+            // get ticket
             var ticket = FormsAuthentication.Decrypt(cookie.Value);
-            //set expiration
-            DateTime expiration = DateTime.Now.AddDays(HttpContext.Current.Session.Timeout);
+            // set expiration
+            var expiration = DateTime.Now.AddDays(HttpContext.Current.Session.Timeout);
             if (ticket.IsPersistent)
                 expiration = DateTime.MaxValue;
             else
                 expiration = DateTime.Now.AddDays(30);
-            //new ticket
+            // new ticket
             var newticket = new FormsAuthenticationTicket(ticket.Version,
                                                           ticket.Name,
                                                           ticket.IssueDate,
                                                           expiration,
                                                           ticket.IsPersistent,
                                                           userData);
-            //cookie
+            // cookie
             cookie.Value = FormsAuthentication.Encrypt(newticket);
             cookie.Expires = ticket.Expiration;
             HttpContext.Current.Response.Cookies.Set(cookie);
@@ -65,7 +63,7 @@ namespace Wms12m
         /// <summary>
         /// AuthIdentity
         /// </summary>
-        private static CustomPrincipalSerializeModel AuthIdentity(User person, bool isUpdate, GetSirkets_Result sirket)
+        static CustomPrincipalSerializeModel AuthIdentity(User person, bool isUpdate, GetSirkets_Result sirket)
         {
             var identity = HttpContext.Current.User as CustomPrincipal;
             var serializeModel = new CustomPrincipalSerializeModel();

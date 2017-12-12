@@ -29,7 +29,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             if (tbl.DepoID == "0" || tbl.checkboxes.ToString2() == "")
                 return RedirectToAction("Index");
             if (CheckPerm(Perms.AlimdanIade, PermTypes.Reading) == false) return Redirect("/");
-            //şirket id ve evrak nolar bulunur
+            // şirket id ve evrak nolar bulunur
             tbl.checkboxes = tbl.checkboxes.Left(tbl.checkboxes.Length - 1);
             string[] tmp = tbl.checkboxes.Split('#');
             var sirketler = new List<string>();
@@ -48,15 +48,17 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                     chk = "'" + tmp2[1] + "'";
                 }
             }
-            //sql oluştur
-            string sql = ""; i = 0;
+
+            // sql oluştur
+            var sql = ""; i = 0;
             foreach (var item in sirketler)
             {
-                sql = String.Format("FINSAT6{0}.wms.AlimIptalSecimList @DepoKodu = '{1}', @EvrakNo = {2}, @CHK={3}", item, tbl.DepoID, evraklar[i], chk);
+                sql = string.Format("FINSAT6{0}.wms.AlimIptalSecimList @DepoKodu = '{1}', @EvrakNo = {2}, @CHK={3}", item, tbl.DepoID, evraklar[i], chk);
             }
-            //listeyi getir
+
+            // listeyi getir
             var list = db.Database.SqlQuery<frmSiparisMalzemeDetay>(sql).ToList();
-            //çapraz stok kontrol
+            // çapraz stok kontrol
             string hataliStok = "", sifirStok = ""; var newList = new List<frmSiparisMalzemeDetay>();
             foreach (var item in list)
             {
@@ -72,6 +74,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                     hataliStok += item.MalKodu;
                 }
             }
+
             if (newList.Count > 0)
                 foreach (var item in newList)
                     list.Remove(item);
@@ -79,7 +82,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                 sifirStok += " için stok bulunamadı.<br />";
             if (hataliStok != "")
                 hataliStok += " için stok miktarları uyuşmuyor.<br />";
-            //return
+            // return
             ViewBag.EvrakNos = tbl.checkboxes;
             ViewBag.DepoID = tbl.DepoID;
             ViewBag.Hatali = sifirStok + hataliStok + "<br /><br />";
@@ -104,10 +107,9 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             var birimler = new List<string>();
             var miktars = new List<decimal>();
             var rowID = new List<int>();
-            int i = 0;
+            var i = 0;
 
-
-            //malkodları,miktarları,birimleri ayır
+            // malkodları,miktarları,birimleri ayır
             foreach (var item in checkList)
             {
                 if (item != "")
@@ -123,24 +125,23 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
 
             if (checkList == null)
                 return RedirectToAction("Index");
-            //variables and consts
+            // variables and consts
             int today = fn.ToOADate(), time = fn.ToOATime();
-            int idDepo = db.Depoes.Where(m => m.DepoKodu == tbl.DepoID).Select(m => m.ID).FirstOrDefault();
-            string GorevNo = db.SettingsGorevNo(today, idDepo).FirstOrDefault();
+            var idDepo = db.Depoes.Where(m => m.DepoKodu == tbl.DepoID).Select(m => m.ID).FirstOrDefault();
+            var GorevNo = db.SettingsGorevNo(today, idDepo).FirstOrDefault();
             string evraknolar = "", alıcılar = "";
-            InsertIadeIrsaliye_Result cevap = new InsertIadeIrsaliye_Result();
+            var cevap = new InsertIadeIrsaliye_Result();
             Result _Result;
-            //loop the list
+            // loop the list
             cevap = db.InsertIadeIrsaliye(sirket, idDepo, GorevNo, GorevNo, today, "", true, ComboItems.Alımdanİade.ToInt32(), vUser.UserName, today, time, hesapKodu, hesapKodu, 0, evrak).FirstOrDefault();
             foreach (var item in checkList)
             {
-
-                //get stok
+                // get stok
                 var stokMiktari = db.GetStock(idDepo, malkodlari[i], birimler[i], false).FirstOrDefault();
                 if (stokMiktari != null)
                 {
-                    //sti tablosu
-                    IRS_Detay sti = new IRS_Detay()
+                    // sti tablosu
+                    var sti = new IRS_Detay()
                     {
                         IrsaliyeID = cevap.IrsaliyeID.Value,
                         MalKodu = malkodlari[i],
@@ -152,16 +153,16 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                     };
                     var op2 = new IrsaliyeDetay();
                     _Result = op2.Operation(sti);
-
                 }
 
                 i++;
             }
-            //görev tablosu için tekrar yeni ve sade bir liste lazım
-            Gorev grv = db.Gorevs.Where(m => m.ID == cevap.GorevID).FirstOrDefault();
+
+            // görev tablosu için tekrar yeni ve sade bir liste lazım
+            var grv = db.Gorevs.Where(m => m.ID == cevap.GorevID).FirstOrDefault();
             grv.Bilgi = "Irs: " + evraknolar + " Alıcı: " + alıcılar;
             db.SaveChanges();
-            //get gorev details
+            // get gorev details
             var sql = string.Format("SELECT wms.IRS_Detay.MalKodu, SUM(wms.IRS_Detay.Miktar) AS Miktar, wms.IRS_Detay.Birim " +
                                 "FROM wms.IRS_Detay INNER JOIN wms.GorevIRS ON wms.IRS_Detay.IrsaliyeID = wms.GorevIRS.IrsaliyeID " +
                                 "WHERE(wms.GorevIRS.GorevID = {0}) " +
@@ -180,8 +181,8 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                         else
                             miktar = itemyer.Miktar;
                         toplam += miktar;
-                        //miktarı tabloya ekle
-                        GorevYer tblyer = new GorevYer()
+                        // miktarı tabloya ekle
+                        var tblyer = new GorevYer()
                         {
                             GorevID = cevap.GorevID.Value,
                             YerID = itemyer.ID,
@@ -191,12 +192,13 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                             GC = true
                         };
                         TaskYer.Operation(tblyer);
-                        //toplam yeterli miktardaysa
+                        // toplam yeterli miktardaysa
                         if (toplam == item.Miktar) break;
                     }
                 }
             }
-            //listeyi getir
+
+            // listeyi getir
             sql = string.Format("SELECT wms.Yer.HucreAd, wms.GorevYer.MalKodu, wms.GorevYer.Miktar, wms.GorevYer.Birim, wms.Yer.Miktar AS Stok " +
                                 "FROM wms.GorevYer INNER JOIN wms.Yer ON wms.GorevYer.YerID = wms.Yer.ID " +
                                 "WHERE (wms.GorevYer.GorevID = {1})", idDepo, cevap.GorevID.Value);
@@ -206,9 +208,9 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             var listsirk = db.GetSirketDBs();
             List<string> liste = new List<string>();
             foreach (var item in listsirk)
-            {
                 liste.Add(item);
-            }
+
+
             ViewBag.Sirket = liste;
             return View("Step3", list2);
         }
@@ -219,9 +221,9 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         public ActionResult Step4(int GorevID, int DepoID)
         {
             if (CheckPerm(Perms.AlimdanIade, PermTypes.Writing) == false) return Redirect("/");
-            //sıralama
+            // sıralama
             var lstKoridor = db.GetKoridorIdFromGorevId(GorevID).ToList();
-            bool asc = false; int sira = 1;
+            var asc = false; var sira = 1;
             foreach (var item in lstKoridor)
             {
                 var lstBolum = db.GetBolumSiralamaFromGorevId(GorevID, item.Value, asc).ToList();
@@ -235,10 +237,12 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                     sira++;
                     TaskYer.Operation(tmptblyer);
                 }
+
                 asc = asc == false ? true : false;
             }
-            //listeyi getir
-            string sql = string.Format("SELECT wms.Yer.HucreAd, wms.GorevYer.MalKodu, wms.GorevYer.Miktar, wms.GorevYer.Birim,  wms.GorevYer.Sira, wms.Yer.Miktar AS Stok " +
+
+            // listeyi getir
+            var sql = string.Format("SELECT wms.Yer.HucreAd, wms.GorevYer.MalKodu, wms.GorevYer.Miktar, wms.GorevYer.Birim,  wms.GorevYer.Sira, wms.Yer.Miktar AS Stok " +
                                 "FROM wms.GorevYer INNER JOIN wms.Yer ON wms.GorevYer.YerID = wms.Yer.ID " +
                                 "WHERE (wms.GorevYer.GorevID = {1}) ORDER BY  wms.GorevYer.Sira", DepoID, GorevID);
             var list = db.Database.SqlQuery<frmSiparisMalzeme>(sql).ToList();
@@ -246,9 +250,9 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             var listsirk = db.GetSirketDBs();
             List<string> liste = new List<string>();
             foreach (var item in listsirk)
-            {
                 liste.Add(item);
-            }
+
+
             ViewBag.Sirket = liste;
             return View("Step4", list);
         }
@@ -259,17 +263,18 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         public ActionResult Approve(int GorevID)
         {
             if (CheckPerm(Perms.AlimdanIade, PermTypes.Writing) == false) return Redirect("/");
-            Gorev grv = db.Gorevs.Where(m => m.ID == GorevID).FirstOrDefault();
+            var grv = db.Gorevs.Where(m => m.ID == GorevID).FirstOrDefault();
             if (grv.DurumID == ComboItems.Başlamamış.ToInt32())
             {
-                //görevi aç
+                // görevi aç
                 grv.DurumID = ComboItems.Açık.ToInt32();
                 grv.OlusturmaTarihi = fn.ToOADate();
                 grv.OlusturmaSaati = fn.ToOATime();
                 db.SaveChanges();
                 LogActions("WMS", "ReturnSale", "Approve", ComboItems.alEkle, GorevID, "Firma: " + grv.IR.HesapKodu);
             }
-            //görevlere git
+
+            // görevlere git
             return Redirect("/WMS/Tasks");
         }
         /// <summary>
@@ -280,10 +285,10 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             var id = Url.RequestContext.RouteData.Values["id"];
 
             if (id == null) return null;
-            string sql = "";
-            //generate sql
-            sql = String.Format("FINSAT6{0}.[wms].[CHKSearch4] @HesapKodu = N'', @Unvan = N'{1}', @top = 200", id.ToString(), term);
-            //return
+            var sql = "";
+            // generate sql
+            sql = string.Format("FINSAT6{0}.[wms].[CHKSearch4] @HesapKodu = N'', @Unvan = N'{1}', @top = 200", id.ToString(), term);
+            // return
             try
             {
                 var list = db.Database.SqlQuery<frmJson>(sql).ToList();
@@ -301,16 +306,16 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         [HttpPost]
         public PartialViewResult GetSiparis(string Sirket, string DepoID, string CHK, string Starts, string Ends)
         {
-            //ilk kontrol
+            // ilk kontrol
             if (DepoID == "0" || Sirket == "0" || CHK == "") return null;
-            bool tarihler = DateTime.TryParse(Starts, out DateTime StartDate); if (tarihler == false) return null;
+            var tarihler = DateTime.TryParse(Starts, out DateTime StartDate); if (tarihler == false) return null;
             tarihler = DateTime.TryParse(Ends, out DateTime EndDate); if (tarihler == false) return null;
             if (StartDate > EndDate) return null;
-            //perm kontrol
+            // perm kontrol
             if (CheckPerm(Perms.AlimdanIade, PermTypes.Reading) == false) return null;
-            string sql = String.Format("FINSAT6{0}.wms.AlimIptalSiparisList @DepoKodu = '{1}', @CHK='{2}', @BasTarih = {3}, @BitTarih= {4}", Sirket, DepoID.ToString(), CHK, StartDate.ToOADateInt(), EndDate.ToOADateInt());
+            var sql = string.Format("FINSAT6{0}.wms.AlimIptalSiparisList @DepoKodu = '{1}', @CHK='{2}', @BasTarih = {3}, @BitTarih= {4}", Sirket, DepoID.ToString(), CHK, StartDate.ToOADateInt(), EndDate.ToOADateInt());
 
-            //return list
+            // return list
             ViewBag.Depo = DepoID;
             ViewBag.Sirket = Sirket;
             ViewBag.CHK = CHK;
@@ -334,7 +339,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         {
             if (CheckPerm(Perms.AlimdanIade, PermTypes.Reading) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             string[] tmp = ID.Split('-');
-            string sql = String.Format("FINSAT6{0}.wms.AlimIptalDetail @DepoKodu = '{1}', @EvrakNo = '{2}', @CHK='{3}'", tmp[0], tmp[1], tmp[2], tmp[3]);
+            var sql = string.Format("FINSAT6{0}.wms.AlimIptalDetail @DepoKodu = '{1}', @EvrakNo = '{2}', @CHK='{3}'", tmp[0], tmp[1], tmp[2], tmp[3]);
             var list = db.Database.SqlQuery<frmSiparisMalzeme>(sql).ToList();
             return Json(list, JsonRequestBehavior.AllowGet);
         }
@@ -344,13 +349,11 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         [HttpPost]
         public PartialViewResult GetRezerv(string MalKodu, string Depo, string Birim)
         {
-
             if (CheckPerm(Perms.AlimdanIade, PermTypes.Reading) == false) return null;
 
             var list = db.GetStockRezerv(Birim, MalKodu, Depo).ToList();
 
-            if (list == null)
-                return null;
+            if (list == null) return null;
             return PartialView("Rezervler", list);
         }
         /// <summary>
@@ -359,7 +362,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         [HttpPost]
         public string StokKontrol(string Sirket, string EvrakNo, string CHK, string Depo)
         {
-            string sql = String.Format("FINSAT6{0}.wms.AlimIptalDetail @DepoKodu = '{1}', @EvrakNo = '{2}', @CHK='{3}'", Sirket, Depo, EvrakNo, CHK);
+            var sql = string.Format("FINSAT6{0}.wms.AlimIptalDetail @DepoKodu = '{1}', @EvrakNo = '{2}', @CHK='{3}'", Sirket, Depo, EvrakNo, CHK);
             var list = db.Database.SqlQuery<frmSiparisMalzeme>(sql).ToList();
             string hataliStok = "##", sifirStok = "";
             foreach (var item in list)
@@ -375,6 +378,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                     hataliStok += item.MalKodu;
                 }
             }
+
             if (sifirStok != "")
                 sifirStok += " için stok bulunamadı.";
             if (hataliStok != "##")
@@ -382,6 +386,4 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             return sifirStok + hataliStok;
         }
     }
-
-
 }

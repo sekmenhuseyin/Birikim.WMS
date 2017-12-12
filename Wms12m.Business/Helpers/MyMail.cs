@@ -12,7 +12,6 @@ namespace Wms12m
 {
     public class MyMail
     {
-
         SmtpClient smtp;
         MailMessage message;
         public string MailHataMesajı { get; set; }
@@ -31,7 +30,7 @@ namespace Wms12m
         {
             return Regex.IsMatch(emailaddress, @"^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$");
         }
-        
+
         public Result Gonder(string kime, string cc, string gorunenIsim, string konu, string mesaj, List<string> dosyaList)
         {
             string smtpEmail, smtpPass, smtpHost; int smtpPort; bool smtpSSL;
@@ -48,12 +47,11 @@ namespace Wms12m
             }
 
             message = new MailMessage();
-            MailAddress fromAddress = new MailAddress(smtpEmail, gorunenIsim);
+            var fromAddress = new MailAddress(smtpEmail, gorunenIsim);
             message.From = fromAddress;
             foreach (string mail in kime.Split(';'))
             {
-                if (string.IsNullOrWhiteSpace(mail))
-                    continue;
+                if (string.IsNullOrWhiteSpace(mail)) continue;
 
                 if (!MailGecerlimi(mail.Trim()))
                     return new Result(false, string.Format("Mail gönderimi başarısız!! Mail Formatı hatalı (mail: {0})", mail));
@@ -63,8 +61,7 @@ namespace Wms12m
 
             foreach (string mail in cc.Split(';'))
             {
-                if (string.IsNullOrWhiteSpace(mail))
-                    continue;
+                if (string.IsNullOrWhiteSpace(mail)) continue;
 
                 if (!MailGecerlimi(mail.Trim()))
                     return new Result(false, string.Format("Mail gönderimi başarısız!! Mail Formatı hatalı (mail: {0})", mail));
@@ -102,14 +99,12 @@ namespace Wms12m
 
                 MailGonderimBasarili = true;
                 return new Result(true);
-
             }
             catch (Exception ex)
             {
                 MailGonderimBasarili = false;
                 return new Result(false, ex.Message);
             }
-
         }
 
         void smtp_SendCompleted(object sender, AsyncCompletedEventArgs e)
@@ -117,6 +112,5 @@ namespace Wms12m
             smtp.Dispose();
             message.Dispose();
         }
-
     }
 }

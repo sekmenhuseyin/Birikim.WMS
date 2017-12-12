@@ -13,27 +13,30 @@ namespace Wms12m.Business
         /// </summary>
         public override Result Operation(Bolum tbl)
         {
-            _Result = new Result(); bool eklemi = false;
-            //boş mu
+            _Result = new Result(); var eklemi = false;
+            // boş mu
             if (tbl.BolumAd == "" || tbl.RafID == 0)
             {
                 _Result.Message = "Eksik Bilgi Girdiniz";
                 return _Result;
             }
-            //uzun mu
+
+            // uzun mu
             if (tbl.BolumAd.Length > 100)
             {
                 _Result.Message = "Daha kısa isim yazın";
                 return _Result;
             }
-            //daha önce yazılmış mı
+
+            // daha önce yazılmış mı
             var kontrol = db.Bolums.Where(m => m.BolumAd == tbl.BolumAd && m.RafID == tbl.RafID && m.ID != tbl.ID).FirstOrDefault();
             if (kontrol != null)
             {
                 _Result.Message = "Bu isim kullanılıyor";
                 return _Result;
             }
-            //pasif yapmadan önce içinin boş olması lazım
+
+            // pasif yapmadan önce içinin boş olması lazım
             if (tbl.ID > 0 && tbl.Aktif == false)
             {
                 var kontrol2 = db.Yers.Where(m => m.Miktar > 0 && m.Kat.BolumID == tbl.ID).FirstOrDefault();
@@ -43,7 +46,8 @@ namespace Wms12m.Business
                     return _Result;
                 }
             }
-            //set details
+
+            // set details
             tbl.Degistiren = vUser.UserName;
             tbl.DegisTarih = DateTime.Today.ToOADateInt();
             if (tbl.ID == 0)
@@ -63,11 +67,12 @@ namespace Wms12m.Business
                 tmp.Degistiren = tbl.Degistiren;
                 tmp.DegisTarih = tbl.DegisTarih;
             }
+
             try
             {
                 db.SaveChanges();
                 LogActions("Business", "Section", "Operation", eklemi == true ? ComboItems.alEkle : ComboItems.alDüzenle, tbl.ID, tbl.BolumAd);
-                //result
+                // result
                 _Result.Id = tbl.ID;
                 _Result.Message = "İşlem Başarılı !!!";
                 _Result.Status = true;
@@ -79,6 +84,7 @@ namespace Wms12m.Business
                 _Result.Message = "İşlem Hatalı: " + ex.Message;
                 _Result.Status = false;
             }
+
             return _Result;
         }
         /// <summary>
@@ -89,7 +95,7 @@ namespace Wms12m.Business
             _Result = new Result();
             try
             {
-                Bolum tbl = db.Bolums.Where(m => m.ID == Id).FirstOrDefault();
+                var tbl = db.Bolums.Where(m => m.ID == Id).FirstOrDefault();
                 if (tbl != null)
                 {
                     db.Bolums.Remove(tbl);
@@ -111,6 +117,7 @@ namespace Wms12m.Business
                 _Result.Message = ex.Message;
                 _Result.Status = false;
             }
+
             return _Result;
         }
         /// <summary>
@@ -131,10 +138,8 @@ namespace Wms12m.Business
         /// <summary>
         /// tüm listesi
         /// </summary>
-        public override List<Bolum> GetList()
-        {
-            return db.Bolums.OrderBy(m => m.BolumAd).ToList();
-        }
+        public override List<Bolum> GetList() => db.Bolums.OrderBy(m => m.BolumAd).ToList();
+
         /// <summary>
         /// üst tabloya ait olanları getir
         /// </summary>

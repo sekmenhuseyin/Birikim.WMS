@@ -65,8 +65,6 @@ namespace Wms12m.Entity
         public bool? Onay { get; set; }
         /// <summary> VarChar(19) (Not Null) </summary>
         public string Durum { get; set; }
-
-
     }
 
     #region Fiyat Class 
@@ -106,48 +104,47 @@ namespace Wms12m.Entity
     {
         #region Properties
         #region Fields  
-        private int _ID;
-        private string _FiyatListNum;
-        private string _MalKodu;
-        private string _HesapKodu;
-        private decimal _SatisFiyat1;
-        private string _SatisFiyat1Birim;
-        private int _SatisFiyat1BirimInt;
-        private decimal _DovizSatisFiyat1;
-        private string _DovizSF1Birim;
-        private int _DovizSF1BirimInt;
-        private string _DovizCinsi;
-        private int _ROW_ID;
-        private short _Durum;
-        private bool _Onay;
-        private string _Onaylayan;
-        private DateTime? _SMOnayTarih;
-        private bool _SPGMYOnay;
-        private string _SPGMYOnaylayan;
-        private DateTime? _SPGMYOnayTarih;
-        private bool _GMOnay;
-        private string _GMOnaylayan;
-        private DateTime? _GMOnayTarih;
-        private int _BasTarih;
-        private int _BitTarih;
-        private int _pk_ID;
+        int _ID;
+        string _FiyatListNum;
+        string _MalKodu;
+        string _HesapKodu;
+        decimal _SatisFiyat1;
+        string _SatisFiyat1Birim;
+        int _SatisFiyat1BirimInt;
+        decimal _DovizSatisFiyat1;
+        string _DovizSF1Birim;
+        int _DovizSF1BirimInt;
+        string _DovizCinsi;
+        int _ROW_ID;
+        short _Durum;
+        bool _Onay;
+        string _Onaylayan;
+        DateTime? _SMOnayTarih;
+        bool _SPGMYOnay;
+        string _SPGMYOnaylayan;
+        DateTime? _SPGMYOnayTarih;
+        bool _GMOnay;
+        string _GMOnaylayan;
+        DateTime? _GMOnayTarih;
+        int _BasTarih;
+        int _BitTarih;
+        int _pk_ID;
         #endregion /// Fields
-
 
         /// <summary> INT (4) PrimaryKey IdentityKey * </summary>
         public int ID
         {
-            get { return this._ID; }
-            set { this._ID = value; }
+            get { return _ID; }
+            set { _ID = value; }
         }
 
         /// <summary> VARCHAR (8) * </summary>
         public string FiyatListNum
         {
-            get { return this._FiyatListNum; }
+            get { return _FiyatListNum; }
             set
             {
-                this._FiyatListNum = value;
+                _FiyatListNum = value;
                 OnPropertyChanged("FiyatListNum");
             }
         }
@@ -155,10 +152,10 @@ namespace Wms12m.Entity
         /// <summary> VARCHAR (50) * </summary>
         public string MalKodu
         {
-            get { return this._MalKodu; }
+            get { return _MalKodu; }
             set
             {
-                this._MalKodu = value;
+                _MalKodu = value;
                 OnPropertyChanged("MalKodu");
             }
         }
@@ -166,10 +163,10 @@ namespace Wms12m.Entity
         /// <summary> VARCHAR (50) * </summary>
         public string HesapKodu
         {
-            get { return this._HesapKodu; }
+            get { return _HesapKodu; }
             set
             {
-                this._HesapKodu = value;
+                _HesapKodu = value;
                 OnPropertyChanged("HesapKodu");
             }
         }
@@ -177,10 +174,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (13) * </summary>
         public decimal SatisFiyat1
         {
-            get { return this._SatisFiyat1; }
+            get { return _SatisFiyat1; }
             set
             {
-                this._SatisFiyat1 = value;
+                _SatisFiyat1 = value;
                 OnPropertyChanged("SatisFiyat1");
             }
         }
@@ -188,10 +185,10 @@ namespace Wms12m.Entity
         /// <summary> VARCHAR (50) * </summary>
         public string SatisFiyat1Birim
         {
-            get { return this._SatisFiyat1Birim; }
+            get { return _SatisFiyat1Birim; }
             set
             {
-                this._SatisFiyat1Birim = value;
+                _SatisFiyat1Birim = value;
                 OnPropertyChanged("SatisFiyat1Birim");
             }
         }
@@ -199,10 +196,10 @@ namespace Wms12m.Entity
         /// <summary> INT (4) * </summary>
         public int SatisFiyat1BirimInt
         {
-            get { return this._SatisFiyat1BirimInt; }
+            get { return _SatisFiyat1BirimInt; }
             set
             {
-                this._SatisFiyat1BirimInt = value;
+                _SatisFiyat1BirimInt = value;
                 OnPropertyChanged("SatisFiyat1BirimInt");
             }
         }
@@ -210,10 +207,10 @@ namespace Wms12m.Entity
         /// <summary> NUMERIC (13) * </summary>
         public decimal DovizSatisFiyat1
         {
-            get { return this._DovizSatisFiyat1; }
+            get { return _DovizSatisFiyat1; }
             set
             {
-                this._DovizSatisFiyat1 = value;
+                _DovizSatisFiyat1 = value;
                 OnPropertyChanged("DovizSatisFiyat1");
             }
         }
@@ -221,10 +218,10 @@ namespace Wms12m.Entity
         /// <summary> VARCHAR (50) * </summary>
         public string DovizSF1Birim
         {
-            get { return this._DovizSF1Birim; }
+            get { return _DovizSF1Birim; }
             set
             {
-                this._DovizSF1Birim = value;
+                _DovizSF1Birim = value;
                 OnPropertyChanged("DovizSF1Birim");
             }
         }
@@ -232,10 +229,10 @@ namespace Wms12m.Entity
         /// <summary> INT (4) * </summary>
         public int DovizSF1BirimInt
         {
-            get { return this._DovizSF1BirimInt; }
+            get { return _DovizSF1BirimInt; }
             set
             {
-                this._DovizSF1BirimInt = value;
+                _DovizSF1BirimInt = value;
                 OnPropertyChanged("DovizSF1BirimInt");
             }
         }
@@ -243,10 +240,10 @@ namespace Wms12m.Entity
         /// <summary> VARCHAR (50) * </summary>
         public string DovizCinsi
         {
-            get { return this._DovizCinsi; }
+            get { return _DovizCinsi; }
             set
             {
-                this._DovizCinsi = value;
+                _DovizCinsi = value;
                 OnPropertyChanged("DovizCinsi");
             }
         }
@@ -254,10 +251,10 @@ namespace Wms12m.Entity
         /// <summary> INT (4) * </summary>
         public int ROW_ID
         {
-            get { return this._ROW_ID; }
+            get { return _ROW_ID; }
             set
             {
-                this._ROW_ID = value;
+                _ROW_ID = value;
                 OnPropertyChanged("ROW_ID");
             }
         }
@@ -265,10 +262,10 @@ namespace Wms12m.Entity
         /// <summary> SMALLINT (2) * </summary>
         public short Durum
         {
-            get { return this._Durum; }
+            get { return _Durum; }
             set
             {
-                this._Durum = value;
+                _Durum = value;
                 OnPropertyChanged("Durum");
             }
         }
@@ -276,10 +273,10 @@ namespace Wms12m.Entity
         /// <summary> BIT (1) * </summary>
         public bool Onay
         {
-            get { return this._Onay; }
+            get { return _Onay; }
             set
             {
-                this._Onay = value;
+                _Onay = value;
                 OnPropertyChanged("Onay");
             }
         }
@@ -287,10 +284,10 @@ namespace Wms12m.Entity
         /// <summary> VARCHAR (50) * </summary>
         public string Onaylayan
         {
-            get { return this._Onaylayan; }
+            get { return _Onaylayan; }
             set
             {
-                this._Onaylayan = value;
+                _Onaylayan = value;
                 OnPropertyChanged("Onaylayan");
             }
         }
@@ -298,10 +295,10 @@ namespace Wms12m.Entity
         /// <summary> SMALLDATETIME (4) Allow Null </summary>
         public DateTime? SMOnayTarih
         {
-            get { return this._SMOnayTarih; }
+            get { return _SMOnayTarih; }
             set
             {
-                this._SMOnayTarih = value;
+                _SMOnayTarih = value;
                 OnPropertyChanged("SMOnayTarih");
             }
         }
@@ -309,10 +306,10 @@ namespace Wms12m.Entity
         /// <summary> BIT (1) * </summary>
         public bool SPGMYOnay
         {
-            get { return this._SPGMYOnay; }
+            get { return _SPGMYOnay; }
             set
             {
-                this._SPGMYOnay = value;
+                _SPGMYOnay = value;
                 OnPropertyChanged("SPGMYOnay");
             }
         }
@@ -320,10 +317,10 @@ namespace Wms12m.Entity
         /// <summary> VARCHAR (50) * </summary>
         public string SPGMYOnaylayan
         {
-            get { return this._SPGMYOnaylayan; }
+            get { return _SPGMYOnaylayan; }
             set
             {
-                this._SPGMYOnaylayan = value;
+                _SPGMYOnaylayan = value;
                 OnPropertyChanged("SPGMYOnaylayan");
             }
         }
@@ -331,10 +328,10 @@ namespace Wms12m.Entity
         /// <summary> SMALLDATETIME (4) Allow Null </summary>
         public DateTime? SPGMYOnayTarih
         {
-            get { return this._SPGMYOnayTarih; }
+            get { return _SPGMYOnayTarih; }
             set
             {
-                this._SPGMYOnayTarih = value;
+                _SPGMYOnayTarih = value;
                 OnPropertyChanged("SPGMYOnayTarih");
             }
         }
@@ -342,10 +339,10 @@ namespace Wms12m.Entity
         /// <summary> BIT (1) * </summary>
         public bool GMOnay
         {
-            get { return this._GMOnay; }
+            get { return _GMOnay; }
             set
             {
-                this._GMOnay = value;
+                _GMOnay = value;
                 OnPropertyChanged("GMOnay");
             }
         }
@@ -353,10 +350,10 @@ namespace Wms12m.Entity
         /// <summary> VARCHAR (50) * </summary>
         public string GMOnaylayan
         {
-            get { return this._GMOnaylayan; }
+            get { return _GMOnaylayan; }
             set
             {
-                this._GMOnaylayan = value;
+                _GMOnaylayan = value;
                 OnPropertyChanged("GMOnaylayan");
             }
         }
@@ -364,10 +361,10 @@ namespace Wms12m.Entity
         /// <summary> SMALLDATETIME (4) Allow Null </summary>
         public DateTime? GMOnayTarih
         {
-            get { return this._GMOnayTarih; }
+            get { return _GMOnayTarih; }
             set
             {
-                this._GMOnayTarih = value;
+                _GMOnayTarih = value;
                 OnPropertyChanged("GMOnayTarih");
             }
         }
@@ -375,10 +372,10 @@ namespace Wms12m.Entity
         /// <summary> INT (4) * </summary>
         public int BasTarih
         {
-            get { return this._BasTarih; }
+            get { return _BasTarih; }
             set
             {
-                this._BasTarih = value;
+                _BasTarih = value;
                 OnPropertyChanged("BasTarih");
             }
         }
@@ -386,10 +383,10 @@ namespace Wms12m.Entity
         /// <summary> INT (4) * </summary>
         public int BitTarih
         {
-            get { return this._BitTarih; }
+            get { return _BitTarih; }
             set
             {
-                this._BitTarih = value;
+                _BitTarih = value;
                 OnPropertyChanged("BitTarih");
             }
         }
@@ -397,10 +394,10 @@ namespace Wms12m.Entity
         /// <summary> INT (4) PRIMARY KEY * </summary>
         public int pk_ID
         {
-            private get { return this._pk_ID; }
+            private get { return _pk_ID; }
             set
             {
-                this._pk_ID = value;
+                _pk_ID = value;
                 OnPropertyChanged("pk_ID");
             }
         }
@@ -408,25 +405,22 @@ namespace Wms12m.Entity
 
         #region Tablo Bilgileri & Metodlar
 
-        private List<string> WhereList = new List<string>();
-        private List<string> SetList = new List<string>();
-        private string info_FullTableName = "FINSAT6{0}.FINSAT6{0}.Fiyat";
-        private string[] info_PrimaryKeys = { "pk_ID" };
-        private string[] info_IdentityKeys = { "ID" };
+        List<string> WhereList = new List<string>();
+        List<string> SetList = new List<string>();
+        string info_FullTableName = "FINSAT6{0}.FINSAT6{0}.Fiyat";
+        string[] info_PrimaryKeys = { "pk_ID" };
+        string[] info_IdentityKeys = { "ID" };
 
-        private List<string> ChangedProperties = new List<string>();
+        List<string> ChangedProperties = new List<string>();
         public event PropertyChangedEventHandler PropertyChanged;
 
         public Fiyat()
         {
             ChangedProperties = new List<string>();
-            this.PropertyChanged += Fiyat_PropertyChanged;
+            PropertyChanged += Fiyat_PropertyChanged;
         }
 
-        public void AcceptChanges()
-        {
-            ChangedProperties.Clear();
-        }
+        public void AcceptChanges() => ChangedProperties.Clear();
 
         void Fiyat_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
@@ -436,7 +430,7 @@ namespace Wms12m.Entity
             }
         }
 
-        private void OnPropertyChanged(string propertyName)
+        void OnPropertyChanged(string propertyName)
         {
             if (PropertyChanged != null)
             {
@@ -444,8 +438,6 @@ namespace Wms12m.Entity
             }
         }
         #endregion  /// Tablo Bilgileri & Metodlar
-
     }
     #endregion /// Fiyat Class
-
 }

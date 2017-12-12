@@ -5,9 +5,6 @@ namespace Wms12m.Presentation.Controllers
     public class MaintenanceController : RootController
     {
         // GET: Maintenance
-        public ActionResult Index()
-        {
-            return View();
-        }
+        public ActionResult Index() => View();
     }
 }

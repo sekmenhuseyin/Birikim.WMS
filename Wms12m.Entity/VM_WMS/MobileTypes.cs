@@ -166,7 +166,6 @@
         public string EFatEtiketGB { get; set; } = "";
     }
 
-
     public class Tip_IRS
     {
         public int ID { get; set; }

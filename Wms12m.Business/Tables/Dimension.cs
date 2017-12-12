@@ -13,21 +13,23 @@ namespace Wms12m.Business
         /// </summary>
         public override Result Operation(Olcu tbl)
         {
-            _Result = new Result(); bool eklemi = false;
-            //kontrol
+            _Result = new Result(); var eklemi = false;
+            // kontrol
             if (tbl.MalKodu == "" || tbl.Birim == "" || (tbl.Boy == 0 && tbl.En == 0 && tbl.Derinlik == 0 && tbl.Agirlik == 0))
             {
                 _Result.Message = "Eksik Bilgi Girdiniz";
                 return _Result;
             }
-            //var mı
+
+            // var mı
             var tmp2 = db.Olcus.Where(m => m.MalKodu == tbl.MalKodu && m.Birim == tbl.Birim && m.ID != tbl.ID).FirstOrDefault();
             if (tmp2 != null)
             {
                 _Result.Message = "Bu ölçü daha önce eklendi";
                 return _Result;
             }
-            //set details
+
+            // set details
             tbl.Degistiren = vUser.UserName;
             tbl.DegisTarih = DateTime.Today.ToOADateInt();
             if (tbl.ID == 0)
@@ -47,12 +49,13 @@ namespace Wms12m.Business
                 tmp3.Derinlik = tbl.Derinlik;
                 tmp3.Agirlik = tbl.Agirlik;
             }
-            //kaydet
+
+            // kaydet
             try
             {
                 db.SaveChanges();
                 LogActions("Business", "Dimension", "Operation", eklemi == true ? ComboItems.alEkle : ComboItems.alDüzenle, tbl.ID, tbl.MalKodu + ", H: " + tbl.En + "x" + tbl.Boy + "x" + tbl.Derinlik + ", A: " + tbl.Agirlik);
-                //result
+                // result
                 _Result.Id = tbl.ID;
                 _Result.Message = "İşlem Başarılı !!!";
                 _Result.Status = true;
@@ -62,6 +65,7 @@ namespace Wms12m.Business
                 Logger(ex, "Business/Dimension/Operation");
                 _Result.Message = "İşlem Hatalı: " + ex.Message;
             }
+
             return _Result;
         }
         /// <summary>
@@ -72,7 +76,7 @@ namespace Wms12m.Business
             _Result = new Result();
             try
             {
-                Olcu tbl = db.Olcus.Where(m => m.ID == Id).FirstOrDefault();
+                var tbl = db.Olcus.Where(m => m.ID == Id).FirstOrDefault();
                 if (tbl != null)
                 {
                     db.Olcus.Remove(tbl);
@@ -92,6 +96,7 @@ namespace Wms12m.Business
                 Logger(ex, "Business/Dimension/Delete");
                 _Result.Message = ex.Message;
             }
+
             return _Result;
         }
         /// <summary>
@@ -112,13 +117,8 @@ namespace Wms12m.Business
         /// <summary>
         /// tüm liste
         /// </summary>
-        public override List<Olcu> GetList()
-        {
-            return db.Olcus.OrderBy(m => m.MalKodu).ToList();
-        }
-        public override List<Olcu> GetList(int ParentId)
-        {
-            return GetList();
-        }
+        public override List<Olcu> GetList() => db.Olcus.OrderBy(m => m.MalKodu).ToList();
+
+        public override List<Olcu> GetList(int ParentId) => GetList();
     }
 }

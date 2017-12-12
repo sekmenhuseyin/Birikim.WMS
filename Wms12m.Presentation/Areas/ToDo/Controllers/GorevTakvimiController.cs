@@ -51,7 +51,8 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                     lstEtkinlik.Add(item2);
                 }
             }
-            //return
+
+            // return
             ViewBag.UserName = UserName;
             ViewBag.RoleName = vUser.RoleName;
             ViewBag.Tatil = lstEtkinlik;
@@ -97,6 +98,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                 ViewBag.TatilTipi = new SelectList(ComboSub.GetList(new int[] { ComboItems.Mazaretİzni.ToInt32(), ComboItems.Yıllıkİzin.ToInt32() }), "ID", "Name");
                 ViewBag.Yetki = false;
             }
+
             ViewBag.New = 0;
             return PartialView("New", new Etkinlik());
         }
@@ -170,6 +172,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                     tbl.Tekrarlayan = satir.Tekrarlayan;
                     tbl.Sure = satir.Sure;
                 }
+
                 try
                 {
                     db.SaveChanges();
@@ -180,6 +183,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                 {
                 }
             }
+
             return Json(new Result(false, "Hata oldu"), JsonRequestBehavior.AllowGet);
         }
         /// <summary>

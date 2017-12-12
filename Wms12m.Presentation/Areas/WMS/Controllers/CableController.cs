@@ -28,7 +28,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             if (tbl.DepoID == "0" || tbl.checkboxes.ToString2() == "")
                 return RedirectToAction("Index");
             if (CheckPerm(Perms.KabloSiparişi, PermTypes.Reading) == false) return Redirect("/");
-            //şirket id ve evrak nolar bulunur
+            // şirket id ve evrak nolar bulunur
             tbl.checkboxes = tbl.checkboxes.Left(tbl.checkboxes.Length - 1);
             string[] tmp = tbl.checkboxes.Split('#');
             var sirketler = new List<string>();
@@ -45,22 +45,24 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                     evraklar[i] += "'" + tmp2[1] + "'";
                 }
             }
-            //sql oluştur
-            string sql = ""; i = 0;
+
+            // sql oluştur
+            var sql = ""; i = 0;
             foreach (var item in sirketler)
             {
                 if (sql != "") sql += " UNION ";
-                sql += String.Format("SELECT '{0}' as SirketID, FINSAT6{0}.FINSAT6{0}.SPI.ROW_ID AS ID, FINSAT6{0}.FINSAT6{0}.SPI.EvrakNo, FINSAT6{0}.FINSAT6{0}.ChK.Unvan1 AS Unvan, FINSAT6{0}.FINSAT6{0}.SPI.Tarih, FINSAT6{0}.FINSAT6{0}.SPI.KayitSaat as Saat, FINSAT6{0}.FINSAT6{0}.SPI.MalKodu, FINSAT6{0}.FINSAT6{0}.STK.MalAdi, (FINSAT6{0}.FINSAT6{0}.SPI.BirimMiktar - FINSAT6{0}.FINSAT6{0}.SPI.TeslimMiktar - FINSAT6{0}.FINSAT6{0}.SPI.KapatilanMiktar) AS Miktar, FINSAT6{0}.FINSAT6{0}.SPI.Birim, " +
+                sql += string.Format("SELECT '{0}' as SirketID, FINSAT6{0}.FINSAT6{0}.SPI.ROW_ID AS ID, FINSAT6{0}.FINSAT6{0}.SPI.EvrakNo, FINSAT6{0}.FINSAT6{0}.ChK.Unvan1 AS Unvan, FINSAT6{0}.FINSAT6{0}.SPI.Tarih, FINSAT6{0}.FINSAT6{0}.SPI.KayitSaat as Saat, FINSAT6{0}.FINSAT6{0}.SPI.MalKodu, FINSAT6{0}.FINSAT6{0}.STK.MalAdi, (FINSAT6{0}.FINSAT6{0}.SPI.BirimMiktar - FINSAT6{0}.FINSAT6{0}.SPI.TeslimMiktar - FINSAT6{0}.FINSAT6{0}.SPI.KapatilanMiktar) AS Miktar, FINSAT6{0}.FINSAT6{0}.SPI.Birim, " +
                                             "FINSAT6{0}.wms.getStockByDepo(FINSAT6{0}.FINSAT6{0}.STK.MalKodu, '{1}') as GunesStok, wms.fnGetStock('{1}',FINSAT6{0}.FINSAT6{0}.SPI.MalKodu,FINSAT6{0}.FINSAT6{0}.SPI.Birim, 0) AS WmsStok, wms.fnGetRezervStock('{1}',FINSAT6{0}.FINSAT6{0}.SPI.MalKodu,FINSAT6{0}.FINSAT6{0}.SPI.Birim) AS WmsRezerv " +
                                     "FROM FINSAT6{0}.FINSAT6{0}.SPI WITH(NOLOCK) INNER JOIN FINSAT6{0}.FINSAT6{0}.CHK WITH(NOLOCK) ON FINSAT6{0}.FINSAT6{0}.CHK.HesapKodu = FINSAT6{0}.FINSAT6{0}.SPI.Chk INNER JOIN FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) ON FINSAT6{0}.FINSAT6{0}.SPI.MalKodu = FINSAT6{0}.FINSAT6{0}.STK.MalKodu " +
                                     "WHERE (FINSAT6{0}.FINSAT6{0}.SPI.Depo = '{1}') AND (FINSAT6{0}.FINSAT6{0}.SPI.KynkEvrakTip = 62) AND(FINSAT6{0}.FINSAT6{0}.SPI.SiparisDurumu = 0) AND(FINSAT6{0}.FINSAT6{0}.SPI.EvrakNo IN({2})) AND(FINSAT6{0}.FINSAT6{0}.SPI.Kod10 IN('Terminal', 'Onaylandı')) AND " +
                                     "FINSAT6{0}.FINSAT6{0}.SPI.ROW_ID NOT IN (SELECT BIRIKIM.wms.IRS_Detay.KynkSiparisID FROM BIRIKIM.wms.IRS_Detay INNER JOIN BIRIKIM.wms.GorevIRS ON BIRIKIM.wms.IRS_Detay.IrsaliyeID = BIRIKIM.wms.GorevIRS.IrsaliyeID INNER JOIN BIRIKIM.wms.Gorev ON BIRIKIM.wms.GorevIRS.GorevID = BIRIKIM.wms.Gorev.ID WHERE (BIRIKIM.wms.Gorev.DurumID = 9) AND (NOT(BIRIKIM.wms.IRS_Detay.KynkSiparisID IS NULL)) GROUP BY BIRIKIM.wms.IRS_Detay.KynkSiparisID)", item, tbl.DepoID, evraklar[i]);
                 i++;
             }
+
             sql += " ORDER BY SPI.MalKodu";
-            //listeyi getir
+            // listeyi getir
             var list = db.Database.SqlQuery<frmSiparisMalzemeDetay>(sql).ToList();
-            //çapraz stok kontrol
+            // çapraz stok kontrol
             string hataliStok = "", sifirStok = ""; var newList = new List<frmSiparisMalzemeDetay>();
             foreach (var item in list)
             {
@@ -76,6 +78,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                     hataliStok += item.MalKodu;
                 }
             }
+
             if (newList.Count > 0)
                 foreach (var item in newList)
                     list.Remove(item);
@@ -83,7 +86,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                 sifirStok = sifirStok + " için stok bulunamadı.<br />";
             if (hataliStok != "")
                 hataliStok += hataliStok + " için stok miktarları uyuşmuyor.<br />";
-            //return
+            // return
             ViewBag.EvrakNos = tbl.checkboxes;
             ViewBag.DepoID = tbl.DepoID;
             ViewBag.KabloDepoID = db.Depoes.Where(m => m.DepoKodu == tbl.DepoID).Select(m => m.KabloDepoID).FirstOrDefault().Value;
@@ -105,7 +108,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             var evraklar = new List<string>();
             var ids = new List<string>();
             int i;
-            //şirket id ve evrak nolar bulunur
+            // şirket id ve evrak nolar bulunur
             string[] tmp = tbl.EvrakNos.Split('#');
             foreach (var item in tmp)
             {
@@ -118,7 +121,8 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                     evraklar[i] += "'" + tmp2[1] + "'";
                 }
             }
-            //id bulunur
+
+            // id bulunur
             tmp = tbl.checkboxes.Split('#');
             foreach (var item in tmp)
             {
@@ -126,20 +130,23 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                 i = sirketler.FindIndex(m => m.Contains(tmp2[0]));
                 ids[i] += ",'" + tmp2[1] + "'";
             }
-            //sql oluştur
-            string sql = ""; i = 0;
+
+            // sql oluştur
+            var sql = ""; i = 0;
             foreach (var item in sirketler)
             {
                 if (ids[i] != "0")
                 {
                     if (sql != "") sql += " UNION ";
-                    sql += String.Format("SELECT '{0}' as SirketID, FINSAT6{0}.FINSAT6{0}.SPI.ROW_ID, FINSAT6{0}.FINSAT6{0}.SPI.EvrakNo, FINSAT6{0}.FINSAT6{0}.ChK.Unvan1 AS Unvan, FINSAT6{0}.FINSAT6{0}.SPI.Tarih, FINSAT6{0}.FINSAT6{0}.SPI.KayitSaat as Saat, FINSAT6{0}.FINSAT6{0}.SPI.SiraNo, FINSAT6{0}.FINSAT6{0}.STK.MalKodu, FINSAT6{0}.FINSAT6{0}.STK.MalAdi, FINSAT6{0}.FINSAT6{0}.STK.MalAdi4 as Marka, FINSAT6{0}.FINSAT6{0}.STK.Nesne2 as Cins, FINSAT6{0}.FINSAT6{0}.STK.Kod15 as Kesit, (FINSAT6{0}.FINSAT6{0}.SPI.BirimMiktar - FINSAT6{0}.FINSAT6{0}.SPI.TeslimMiktar - FINSAT6{0}.FINSAT6{0}.SPI.KapatilanMiktar) AS Miktar, wms.fnGetStock('{1}',FINSAT6{0}.FINSAT6{0}.SPI.MalKodu,FINSAT6{0}.FINSAT6{0}.SPI.Birim, 1) AS Stok " +
+                    sql += string.Format("SELECT '{0}' as SirketID, FINSAT6{0}.FINSAT6{0}.SPI.ROW_ID, FINSAT6{0}.FINSAT6{0}.SPI.EvrakNo, FINSAT6{0}.FINSAT6{0}.ChK.Unvan1 AS Unvan, FINSAT6{0}.FINSAT6{0}.SPI.Tarih, FINSAT6{0}.FINSAT6{0}.SPI.KayitSaat as Saat, FINSAT6{0}.FINSAT6{0}.SPI.SiraNo, FINSAT6{0}.FINSAT6{0}.STK.MalKodu, FINSAT6{0}.FINSAT6{0}.STK.MalAdi, FINSAT6{0}.FINSAT6{0}.STK.MalAdi4 as Marka, FINSAT6{0}.FINSAT6{0}.STK.Nesne2 as Cins, FINSAT6{0}.FINSAT6{0}.STK.Kod15 as Kesit, (FINSAT6{0}.FINSAT6{0}.SPI.BirimMiktar - FINSAT6{0}.FINSAT6{0}.SPI.TeslimMiktar - FINSAT6{0}.FINSAT6{0}.SPI.KapatilanMiktar) AS Miktar, wms.fnGetStock('{1}',FINSAT6{0}.FINSAT6{0}.SPI.MalKodu,FINSAT6{0}.FINSAT6{0}.SPI.Birim, 1) AS Stok " +
                                     "FROM FINSAT6{0}.FINSAT6{0}.SPI WITH(NOLOCK) INNER JOIN FINSAT6{0}.FINSAT6{0}.CHK WITH(NOLOCK) ON FINSAT6{0}.FINSAT6{0}.CHK.HesapKodu = FINSAT6{0}.FINSAT6{0}.SPI.Chk INNER JOIN FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) ON FINSAT6{0}.FINSAT6{0}.SPI.MalKodu = FINSAT6{0}.FINSAT6{0}.STK.MalKodu " +
                                     "WHERE (FINSAT6{0}.FINSAT6{0}.SPI.Depo = '{1}') AND (FINSAT6{0}.FINSAT6{0}.SPI.KynkEvrakTip = 62) AND (FINSAT6{0}.FINSAT6{0}.SPI.SiparisDurumu = 0) AND (FINSAT6{0}.FINSAT6{0}.SPI.EvrakNo IN ({2})) AND (FINSAT6{0}.FINSAT6{0}.SPI.ROW_ID IN ({3})) AND (FINSAT6{0}.FINSAT6{0}.SPI.Kod10 IN ('Terminal', 'Onaylandı')) AND " +
                                     "FINSAT6{0}.FINSAT6{0}.SPI.ROW_ID NOT IN (SELECT BIRIKIM.wms.IRS_Detay.KynkSiparisID FROM BIRIKIM.wms.IRS_Detay INNER JOIN BIRIKIM.wms.GorevIRS ON BIRIKIM.wms.IRS_Detay.IrsaliyeID = BIRIKIM.wms.GorevIRS.IrsaliyeID INNER JOIN BIRIKIM.wms.Gorev ON BIRIKIM.wms.GorevIRS.GorevID = BIRIKIM.wms.Gorev.ID WHERE (BIRIKIM.wms.Gorev.DurumID = 9) AND (NOT(BIRIKIM.wms.IRS_Detay.KynkSiparisID IS NULL)) GROUP BY BIRIKIM.wms.IRS_Detay.KynkSiparisID)", item, tbl.DepoID, evraklar[i], ids[i]);
                 }
+
                 i++;
             }
+
             var list = db.Database.SqlQuery<frmCableStk>(sql).ToList();
             ViewBag.EvrakNos = tbl.EvrakNos;
             ViewBag.DepoID = tbl.DepoID;
@@ -162,15 +169,15 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             var miktars = new List<decimal>();
             var rowids = new List<int>();
             int i;
-            //şirket id ve evrak nolar bulunur
+            // şirket id ve evrak nolar bulunur
             string[] tmp = tbl.EvrakNos.Split('#');
             foreach (var item in tmp)
             {
                 string[] tmp2 = item.Split('-');
-                //tmp2[0] = "SirketID";
-                //tmp2[1] = "ROW_ID";
-                //tmp2[2] = "MakaraNo-YerID";
-                //tmp2[3] = "Miktar";
+                // tmp2[0] = "SirketID";
+                // tmp2[1] = "ROW_ID";
+                // tmp2[2] = "MakaraNo-YerID";
+                // tmp2[3] = "Miktar";
                 if (sirketler.Contains(tmp2[0]) == false) { sirketler.Add(tmp2[0]); evraklar.Add("'" + tmp2[1] + "'"); ids.Add("0"); }//eğer şirket yoksa ekle
                 else
                 {
@@ -179,7 +186,8 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                     evraklar[i] += "'" + tmp2[1] + "'";
                 }
             }
-            //id bulunur
+
+            // id bulunur
             tmp = tbl.checkboxes.Split('#');
             foreach (var item in tmp)
             {
@@ -189,38 +197,41 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                 rowids.Add(tmp2[2].ToInt32());
                 miktars.Add(tmp2[3].Replace(".", ",").ToDecimal());
             }
-            //sql oluştur
-            string sql = ""; i = 0;
+
+            // sql oluştur
+            var sql = ""; i = 0;
             foreach (var item in sirketler)
             {
                 if (ids[i] != "0")
                 {
                     if (sql != "") sql += " UNION ";
-                    sql += String.Format("SELECT '{0}' as SirketID, FINSAT6{0}.FINSAT6{0}.SPI.ROW_ID, '{0}-'+CONVERT(VARCHAR(10),FINSAT6{0}.FINSAT6{0}.SPI.ROW_ID) as ID, FINSAT6{0}.FINSAT6{0}.SPI.EvrakNo, FINSAT6{0}.FINSAT6{0}.SPI.Tarih, FINSAT6{0}.FINSAT6{0}.SPI.DegisSaat, FINSAT6{0}.FINSAT6{0}.SPI.SiraNo, FINSAT6{0}.FINSAT6{0}.STK.MalKodu, FINSAT6{0}.FINSAT6{0}.STK.MalAdi4, FINSAT6{0}.FINSAT6{0}.STK.Nesne2, FINSAT6{0}.FINSAT6{0}.STK.Kod15, FINSAT6{0}.FINSAT6{0}.SPI.Chk, FINSAT6{0}.FINSAT6{0}.SPI.MalKodu, FINSAT6{0}.FINSAT6{0}.SPI.Birim, FINSAT6{0}.FINSAT6{0}.CHK.Unvan1 as Unvan, FINSAT6{0}.FINSAT6{0}.SPI.BirimMiktar, (FINSAT6{0}.FINSAT6{0}.SPI.BirimMiktar - FINSAT6{0}.FINSAT6{0}.SPI.TeslimMiktar - FINSAT6{0}.FINSAT6{0}.SPI.KapatilanMiktar) AS Miktar, FINSAT6{0}.FINSAT6{0}.SPI.ValorGun, FINSAT6{0}.FINSAT6{0}.SPI.TeslimChk " +
+                    sql += string.Format("SELECT '{0}' as SirketID, FINSAT6{0}.FINSAT6{0}.SPI.ROW_ID, '{0}-'+CONVERT(VARCHAR(10),FINSAT6{0}.FINSAT6{0}.SPI.ROW_ID) as ID, FINSAT6{0}.FINSAT6{0}.SPI.EvrakNo, FINSAT6{0}.FINSAT6{0}.SPI.Tarih, FINSAT6{0}.FINSAT6{0}.SPI.DegisSaat, FINSAT6{0}.FINSAT6{0}.SPI.SiraNo, FINSAT6{0}.FINSAT6{0}.STK.MalKodu, FINSAT6{0}.FINSAT6{0}.STK.MalAdi4, FINSAT6{0}.FINSAT6{0}.STK.Nesne2, FINSAT6{0}.FINSAT6{0}.STK.Kod15, FINSAT6{0}.FINSAT6{0}.SPI.Chk, FINSAT6{0}.FINSAT6{0}.SPI.MalKodu, FINSAT6{0}.FINSAT6{0}.SPI.Birim, FINSAT6{0}.FINSAT6{0}.CHK.Unvan1 as Unvan, FINSAT6{0}.FINSAT6{0}.SPI.BirimMiktar, (FINSAT6{0}.FINSAT6{0}.SPI.BirimMiktar - FINSAT6{0}.FINSAT6{0}.SPI.TeslimMiktar - FINSAT6{0}.FINSAT6{0}.SPI.KapatilanMiktar) AS Miktar, FINSAT6{0}.FINSAT6{0}.SPI.ValorGun, FINSAT6{0}.FINSAT6{0}.SPI.TeslimChk " +
                                         "FROM FINSAT6{0}.FINSAT6{0}.SPI WITH(NOLOCK) INNER JOIN FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) ON FINSAT6{0}.FINSAT6{0}.SPI.MalKodu = FINSAT6{0}.FINSAT6{0}.STK.MalKodu INNER JOIN FINSAT6{0}.FINSAT6{0}.CHK WITH(NOLOCK) ON FINSAT6{0}.FINSAT6{0}.SPI.Chk = FINSAT6{0}.FINSAT6{0}.CHK.HesapKodu " +
                                         "INNER JOIN FINSAT6{0}.FINSAT6{0}.MFK WITH(NOLOCK) ON FINSAT6{0}.FINSAT6{0}.MFK.EvrakNo=FINSAT6{0}.FINSAT6{0}.SPI.EvrakNo  AND  FINSAT6{0}.FINSAT6{0}.MFK.KynkEvrakTip=FINSAT6{0}.FINSAT6{0}.SPI.KynkEvrakTip AND  FINSAT6{0}.FINSAT6{0}.MFK.HesapKod=FINSAT6{0}.FINSAT6{0}.SPI.Chk " +
                                         "WHERE (FINSAT6{0}.FINSAT6{0}.SPI.Depo = '{1}') AND (FINSAT6{0}.FINSAT6{0}.SPI.KynkEvrakTip = 62) AND (FINSAT6{0}.FINSAT6{0}.SPI.SiparisDurumu = 0) AND (FINSAT6{0}.FINSAT6{0}.SPI.EvrakNo IN ({2})) AND (FINSAT6{0}.FINSAT6{0}.SPI.ROW_ID IN ({3})) AND (FINSAT6{0}.FINSAT6{0}.SPI.Kod10 IN ('Terminal', 'Onaylandı')) ", item, tbl.DepoID, evraklar[i], ids[i]);
                 }
+
                 i++;
             }
+
             var list = db.Database.SqlQuery<frmSiparisMalzemeOnay>(sql).ToList();
             if (list == null)
                 return RedirectToAction("Index");
-            //variables and consts
+            // variables and consts
             int today = fn.ToOADate(), time = fn.ToOATime(), valorgun = 0;
-            int idDepo = db.Depoes.Where(m => m.DepoKodu == tbl.DepoID).Select(m => m.ID).FirstOrDefault();
-            string GorevNo = db.SettingsGorevNo(today, idDepo).FirstOrDefault();
+            var idDepo = db.Depoes.Where(m => m.DepoKodu == tbl.DepoID).Select(m => m.ID).FirstOrDefault();
+            var GorevNo = db.SettingsGorevNo(today, idDepo).FirstOrDefault();
             string evraknolar = "", alıcılar = "", chk = "", teslimchk = "", aciklama = "";
-            InsertIrsaliye_Result cevap = new InsertIrsaliye_Result();
+            var cevap = new InsertIrsaliye_Result();
             Result _Result;
-            //loop the list
+            // loop the list
             foreach (var item in list)
             {
-                //irsaliye tablosu
+                // irsaliye tablosu
                 if (chk != item.Chk || valorgun != item.ValorGun || teslimchk != item.TeslimChk || aciklama != item.Aciklama)
                 {
                     cevap = db.InsertIrsaliye(item.SirketID, idDepo, GorevNo, GorevNo, today, "", true, ComboItems.SiparişTopla.ToInt32(), vUser.UserName, today, time, item.Chk, item.TeslimChk, item.ValorGun, item.EvrakNo, item.Aciklama).FirstOrDefault();
-                    //save sck
+                    // save sck
                     chk = item.Chk;
                     valorgun = item.ValorGun;
                     teslimchk = item.TeslimChk;
@@ -228,15 +239,16 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                     evraknolar += GorevNo + ",";
                     alıcılar += item.Unvan + ",";
                 }
-                //get stok
+
+                // get stok
                 var stokMiktari = db.GetStock(idDepo, item.MalKodu, item.Birim, true).FirstOrDefault();
                 if (stokMiktari != null)
                 {
                     var tyerid = rowids[Array.FindIndex(tmp, m => m.Contains(item.ROW_ID.ToString()))];
                     var yersatiri = Yerlestirme.Detail(tyerid);
                     var miktar = miktars[Array.FindIndex(tmp, m => m.Contains(item.ID))];
-                    //sti tablosu
-                    IRS_Detay sti = new IRS_Detay()
+                    // sti tablosu
+                    var sti = new IRS_Detay()
                     {
                         IrsaliyeID = cevap.IrsaliyeID.Value,
                         MalKodu = item.MalKodu,
@@ -253,8 +265,8 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                     using (var op2 = new IrsaliyeDetay())
                         _Result = op2.Operation(sti);
 
-                    //miktarı tabloya ekle
-                    GorevYer tblyer = new GorevYer()
+                    // miktarı tabloya ekle
+                    var tblyer = new GorevYer()
                     {
                         GorevID = cevap.GorevID.Value,
                         YerID = tyerid,
@@ -267,11 +279,12 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                     TaskYer.Operation(tblyer);
                 }
             }
-            //görev tablosu için tekrar yeni ve sade bir liste lazım
-            Gorev grv = db.Gorevs.Where(m => m.ID == cevap.GorevID).FirstOrDefault();
+
+            // görev tablosu için tekrar yeni ve sade bir liste lazım
+            var grv = db.Gorevs.Where(m => m.ID == cevap.GorevID).FirstOrDefault();
             grv.Bilgi = "Irs: " + evraknolar + " Alıcı: " + alıcılar;
             db.SaveChanges();
-            //listeyi getir
+            // listeyi getir
             sql = string.Format("SELECT wms.Yer.HucreAd, wms.GorevYer.MalKodu, wms.GorevYer.Miktar, wms.GorevYer.Birim, wms.Yer.Miktar AS Stok, wms.Yer.MakaraNo " +
                                 "FROM wms.GorevYer INNER JOIN wms.Yer ON wms.GorevYer.YerID = wms.Yer.ID " +
                                 "WHERE (wms.GorevYer.GorevID = {1})", idDepo, cevap.GorevID.Value);
@@ -281,9 +294,9 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             var listsirk = db.GetSirketDBs();
             List<string> liste = new List<string>();
             foreach (var item in listsirk)
-            {
                 liste.Add(item);
-            }
+
+
             ViewBag.Sirket = liste;
             return View("Step4", list2);
         }
@@ -294,9 +307,9 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         public ActionResult Step5(int GorevID, int DepoID)
         {
             if (CheckPerm(Perms.KabloSiparişi, PermTypes.Writing) == false) return Redirect("/");
-            //sıralama
+            // sıralama
             var lstKoridor = db.GetKoridorIdFromGorevId(GorevID).ToList();
-            bool asc = false; int sira = 1;
+            var asc = false; var sira = 1;
             foreach (var item in lstKoridor)
             {
                 var lstBolum = db.GetBolumSiralamaFromGorevId(GorevID, item.Value, asc).ToList();
@@ -310,10 +323,12 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                     sira++;
                     TaskYer.Operation(tmptblyer);
                 }
+
                 asc = asc == false ? true : false;
             }
-            //listeyi getir
-            string sql = string.Format("SELECT wms.Yer.HucreAd, wms.GorevYer.MalKodu, wms.GorevYer.Miktar, wms.GorevYer.Birim,  wms.GorevYer.Sira, wms.Yer.Miktar AS Stok, wms.Yer.MakaraNo " +
+
+            // listeyi getir
+            var sql = string.Format("SELECT wms.Yer.HucreAd, wms.GorevYer.MalKodu, wms.GorevYer.Miktar, wms.GorevYer.Birim,  wms.GorevYer.Sira, wms.Yer.Miktar AS Stok, wms.Yer.MakaraNo " +
                                 "FROM wms.GorevYer INNER JOIN wms.Yer ON wms.GorevYer.YerID = wms.Yer.ID " +
                                 "WHERE (wms.GorevYer.GorevID = {1}) ORDER BY  wms.GorevYer.Sira", DepoID, GorevID);
             var list = db.Database.SqlQuery<frmSiparisMalzeme>(sql).ToList();
@@ -321,9 +336,9 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             var listsirk = db.GetSirketDBs();
             List<string> liste = new List<string>();
             foreach (var item in listsirk)
-            {
                 liste.Add(item);
-            }
+
+
             ViewBag.Sirket = liste;
             return View("Step5", list);
         }
@@ -334,17 +349,18 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         public ActionResult Approve(int GorevID)
         {
             if (CheckPerm(Perms.KabloSiparişi, PermTypes.Writing) == false) return Redirect("/");
-            Gorev grv = db.Gorevs.Where(m => m.ID == GorevID).FirstOrDefault();
+            var grv = db.Gorevs.Where(m => m.ID == GorevID).FirstOrDefault();
             if (grv.DurumID == ComboItems.Başlamamış.ToInt32())
             {
-                //görevi aç
+                // görevi aç
                 grv.DurumID = ComboItems.Açık.ToInt32();
                 grv.OlusturmaTarihi = fn.ToOADate();
                 grv.OlusturmaSaati = fn.ToOATime();
                 LogActions("WMS", "Cable", "Approve", ComboItems.alEkle, GorevID, "Firma: " + grv.IR.HesapKodu);
                 db.SaveChanges();
             }
-            //görevlere git
+
+            // görevlere git
             return Redirect("/WMS/Tasks");
         }
         /// <summary>
@@ -354,14 +370,15 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         public PartialViewResult GetSiparis(string DepoID)
         {
             if (DepoID == "0") return null;
-            //loop dbs
-            string sql = "";
+            // loop dbs
+            var sql = "";
             var tmps = db.GetSirketDBs().ToList();
             foreach (var item in tmps)
             {
                 if (sql != "") sql += " union ";
-                sql += String.Format("SELECT * FROM FINSAT6{0}.wms.fnSiparisList('{0}', '{1}', 1, 0, 0)", item, DepoID);
+                sql += string.Format("SELECT * FROM FINSAT6{0}.wms.fnSiparisList('{0}', '{1}', 1, 0, 0)", item, DepoID);
             }
+
             ViewBag.Depo = DepoID;
             try
             {
@@ -383,7 +400,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             string[] tmp = id.Split('-');
             string depoid = tmp[0], dbname = tmp[1], rowid = tmp[2];
             ViewBag.satir = tmp[3];
-            string sql = string.Format("SELECT wms.Yer.* " +
+            var sql = string.Format("SELECT wms.Yer.* " +
                 "FROM wms.Yer INNER JOIN FINSAT6{0}.FINSAT6{0}.SPI ON wms.Yer.MalKodu = FINSAT6{0}.FINSAT6{0}.SPI.MalKodu INNER JOIN wms.Depo ON wms.Yer.DepoID = wms.Depo.ID " +
                 "WHERE (FINSAT6{0}.FINSAT6{0}.SPI.ROW_ID = {1}) AND (wms.Depo.DepoKodu = '{2}') AND (wms.Yer.Miktar > 0)", dbname, rowid, depoid);
             try
@@ -401,13 +418,11 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         [HttpPost]
         public PartialViewResult GetRezerv(string MalKodu, string Depo, string Birim)
         {
-
             if (CheckPerm(Perms.GenelSipariş, PermTypes.Reading) == false) return null;
 
             var list = db.GetStockRezerv(Birim, MalKodu, Depo).ToList();
 
-            if (list == null)
-                return null;
+            if (list == null) return null;
             return PartialView("Rezervler", list);
         }
     }

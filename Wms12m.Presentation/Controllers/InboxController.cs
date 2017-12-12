@@ -8,10 +8,8 @@ namespace Wms12m.Presentation.Controllers
         /// <summary>
         /// gelen kutusu
         /// </summary>
-        public ActionResult Index()
-        {
-            return View("Index");
-        }
+        public ActionResult Index() => View("Index");
+
         /// <summary>
         /// gelen bildirimler
         /// </summary>

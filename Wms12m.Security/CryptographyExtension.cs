@@ -1,8 +1,8 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Security.Cryptography;
+using System.Text;
 
 namespace Wms12m.Security
 {
@@ -12,26 +12,26 @@ namespace Wms12m.Security
     public static class CryptographyExtension
     {
         /// Bu Anahtarı Dilediğiniz Gibi Değiştirebilirsiniz (MFB)
-        private const string VarsayilanAnahtar = "Birikim12*";
+        const string VARSAYILAN_ANAHTAR = "Birikim12*";
         // This constant is used to determine the keysize of the encryption algorithm in bits.
         // We divide this by 8 within the code below to get the equivalent number of bytes.
-        private const int Keysize = 256;
+        const int KEYSIZE = 256;
         // This constant determines the number of iterations for the password bytes generation function.
-        private const int DerivationIterations = 1000;
+        const int DERIVATION_ITERATIONS = 1000;
         /// <summary>
         /// İlk aldığı parametreyi şifreleyip şifreli text değeri döner.
         /// <para>İkinci parametre şifrelemenin anahtarıdır. Bu değere göre şifreleme olur.</para>
         /// </summary>
-        public static string Sifrele(string sifrelenecekText, string sifreAnahtari = VarsayilanAnahtar)
+        public static string Sifrele(string sifrelenecekText, string sifreAnahtari = VARSAYILAN_ANAHTAR)
         {
             // Salt and IV is randomly generated each time, but is preprended to encrypted cipher text
             // so that the same Salt and IV values can be used when decrypting.  
             var saltStringBytes = Generate256BitsOfRandomEntropy();
             var ivStringBytes = Generate256BitsOfRandomEntropy();
             var plainTextBytes = Encoding.UTF8.GetBytes(sifrelenecekText);
-            using (var password = new Rfc2898DeriveBytes(sifreAnahtari, saltStringBytes, DerivationIterations))
+            using (var password = new Rfc2898DeriveBytes(sifreAnahtari, saltStringBytes, DERIVATION_ITERATIONS))
             {
-                var keyBytes = password.GetBytes(Keysize / 8);
+                var keyBytes = password.GetBytes(KEYSIZE / 8);
                 using (var symmetricKey = new RijndaelManaged())
                 {
                     symmetricKey.BlockSize = 256;
@@ -62,7 +62,7 @@ namespace Wms12m.Security
         /// İlk parametre şifrelenmiş değerdir. Bu değere karşılık şifresiz text ifade geri döner. 
         /// <para>İkinci parametre bu şifreyi çözmek için kullanılacak anahtar değerdir.</para>
         /// </summary>
-        public static string Cozumle(string cozulecekSifreliText, string sifreAnahtari = VarsayilanAnahtar)
+        public static string Cozumle(string cozulecekSifreliText, string sifreAnahtari = VARSAYILAN_ANAHTAR)
         {
             if (string.IsNullOrEmpty(cozulecekSifreliText))
                 return "";
@@ -70,15 +70,15 @@ namespace Wms12m.Security
             // [32 bytes of Salt] + [32 bytes of IV] + [n bytes of CipherText]
             var cipherTextBytesWithSaltAndIv = Convert.FromBase64String(cozulecekSifreliText);
             // Get the saltbytes by extracting the first 32 bytes from the supplied cipherText bytes.
-            var saltStringBytes = cipherTextBytesWithSaltAndIv.Take(Keysize / 8).ToArray();
+            var saltStringBytes = cipherTextBytesWithSaltAndIv.Take(KEYSIZE / 8).ToArray();
             // Get the IV bytes by extracting the next 32 bytes from the supplied cipherText bytes.
-            var ivStringBytes = cipherTextBytesWithSaltAndIv.Skip(Keysize / 8).Take(Keysize / 8).ToArray();
+            var ivStringBytes = cipherTextBytesWithSaltAndIv.Skip(KEYSIZE / 8).Take(KEYSIZE / 8).ToArray();
             // Get the actual cipher text bytes by removing the first 64 bytes from the cipherText string.
-            var cipherTextBytes = cipherTextBytesWithSaltAndIv.Skip((Keysize / 8) * 2).Take(cipherTextBytesWithSaltAndIv.Length - ((Keysize / 8) * 2)).ToArray();
+            var cipherTextBytes = cipherTextBytesWithSaltAndIv.Skip((KEYSIZE / 8) * 2).Take(cipherTextBytesWithSaltAndIv.Length - ((KEYSIZE / 8) * 2)).ToArray();
 
-            using (var password = new Rfc2898DeriveBytes(sifreAnahtari, saltStringBytes, DerivationIterations))
+            using (var password = new Rfc2898DeriveBytes(sifreAnahtari, saltStringBytes, DERIVATION_ITERATIONS))
             {
-                var keyBytes = password.GetBytes(Keysize / 8);
+                var keyBytes = password.GetBytes(KEYSIZE / 8);
                 using (var symmetricKey = new RijndaelManaged())
                 {
                     symmetricKey.BlockSize = 256;
@@ -101,14 +101,14 @@ namespace Wms12m.Security
                 }
             }
         }
-        private static byte[] Generate256BitsOfRandomEntropy()
+        static byte[] Generate256BitsOfRandomEntropy()
         {
             var randomBytes = new byte[32]; // 32 Bytes will give us 256 bits.
             using (var rngCsp = new RNGCryptoServiceProvider())
-            {
                 // Fill the array with cryptographically secure random bytes.
                 rngCsp.GetBytes(randomBytes);
-            }
+
+
             return randomBytes;
         }
     }

@@ -7,7 +7,7 @@ namespace Wms12m
 {
     public class Charts
     {
-        private string Veritabani { get; set; }
+        string Veritabani { get; set; }
         /// <summary>
         /// constructor
         /// </summary>
@@ -18,18 +18,19 @@ namespace Wms12m
         /// <summary>
         /// Home / Index
         /// </summary>
-        public BekleyenOnaylar BekleyenOnaylar(string SirketKodu, bool DashboardKasa)
+        public BekleyenOnaylar BekleyenOnaylar(string sirketKodu, bool dashboardKasa)
         {
             using (var db = new WMSEntities())
             {
-                var sonuc = db.Database.SqlQuery<BekleyenOnaylar>(string.Format("[FINSAT6{0}].[wms].[DB_BekleyenOnaylar]", SirketKodu)).FirstOrDefault();
-                if (DashboardKasa == true)
+                var sonuc = db.Database.SqlQuery<BekleyenOnaylar>(string.Format("[FINSAT6{0}].[wms].[DB_BekleyenOnaylar]", sirketKodu)).FirstOrDefault();
+                if (dashboardKasa == true)
                 {
-                    sonuc.MevcudBanka = db.Database.SqlQuery<decimal>(string.Format("[FINSAT6{0}].[wms].[MevcudBanka]", SirketKodu)).FirstOrDefault();
-                    sonuc.MevcudCek = db.Database.SqlQuery<decimal>(string.Format("[FINSAT6{0}].[wms].[MevcudCek]", SirketKodu)).FirstOrDefault();
-                    sonuc.MevcudKasa = db.Database.SqlQuery<decimal>(string.Format("[FINSAT6{0}].[wms].[MevcudKasa]", SirketKodu)).FirstOrDefault();
-                    sonuc.MevcudPOS = db.Database.SqlQuery<decimal>(string.Format("[FINSAT6{0}].[wms].[MevcudPOS]", SirketKodu)).FirstOrDefault();
+                    sonuc.MevcudBanka = db.Database.SqlQuery<decimal>(string.Format("[FINSAT6{0}].[wms].[MevcudBanka]", sirketKodu)).FirstOrDefault();
+                    sonuc.MevcudCek = db.Database.SqlQuery<decimal>(string.Format("[FINSAT6{0}].[wms].[MevcudCek]", sirketKodu)).FirstOrDefault();
+                    sonuc.MevcudKasa = db.Database.SqlQuery<decimal>(string.Format("[FINSAT6{0}].[wms].[MevcudKasa]", sirketKodu)).FirstOrDefault();
+                    sonuc.MevcudPOS = db.Database.SqlQuery<decimal>(string.Format("[FINSAT6{0}].[wms].[MevcudPOS]", sirketKodu)).FirstOrDefault();
                 }
+
                 return sonuc;
             }
         }

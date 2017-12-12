@@ -28,9 +28,9 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             if (id == null || id.ToString2() == "0,0,") return null;
             string[] tmp = id.ToString().Split(',');
             if (tmp.Length != 3) return null;
-            //kontrol
+            // kontrol
             if (CheckPerm(Perms.MalKabul, PermTypes.Reading) == false) return null;
-            //get liste
+            // get liste
             var list = Irsaliye.GetList(tmp[0], false, tmp[2], tmp[1].ToInt32());
             ViewBag.id = id;
             ViewBag.Yetki = CheckPerm(Perms.MalKabul, PermTypes.Writing);
@@ -43,23 +43,24 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         public JsonResult Update(string EvrakNo, int ID, string SirketID, string HesapKodu)
         {
             if (CheckPerm(Perms.MalKabul, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
-            Result _Result = new Result(false, "Bu evrak no kullanılıyor");
-            //length kontrol
+            var _Result = new Result(false, "Bu evrak no kullanılıyor");
+            // length kontrol
             if (EvrakNo.Length > 16)
             {
                 _Result.Message = "Bu evrak no çok uzun.";
                 return Json(_Result, JsonRequestBehavior.AllowGet);
             }
-            //birikim db kontrol
+
+            // birikim db kontrol
             var kontrol = db.IRS.Where(m => m.IslemTur == false && m.EvrakNo == EvrakNo && m.SirketKod == SirketID & m.HesapKodu == HesapKodu && m.ID != ID).FirstOrDefault();
             if (kontrol != null)
                 return Json(_Result, JsonRequestBehavior.AllowGet);
-            //finsta db kontrol
-            string sql = string.Format("SELECT EvrakNo FROM FINSAT6{0}.FINSAT6{0}.STI WHERE (EvrakNo = '{1}') AND (KynkEvrakTip = 3) AND (Chk = '{2}')", SirketID, EvrakNo, HesapKodu);
+            // finsta db kontrol
+            var sql = string.Format("SELECT EvrakNo FROM FINSAT6{0}.FINSAT6{0}.STI WHERE (EvrakNo = '{1}') AND (KynkEvrakTip = 3) AND (Chk = '{2}')", SirketID, EvrakNo, HesapKodu);
             var sti = db.Database.SqlQuery<string>(sql).FirstOrDefault();
             if (sti != null)
                 return Json(_Result, JsonRequestBehavior.AllowGet);
-            //if all correct update
+            // if all correct update
             var tbl = Irsaliye.Detail(ID);
             tbl.EvrakNo = EvrakNo;
             _Result = Irsaliye.Operation(tbl);
@@ -106,25 +107,26 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                     if (kkablo == "KKABLO")
                     {
                         mNo = "Boş-" + db.SettingsMakaraNo(tbl.IR.DepoID).FirstOrDefault();
-                        //return Json(IrsaliyeDetay.Insert(tbl, tbl.IR.DepoID), JsonRequestBehavior.AllowGet);
+                        // return Json(IrsaliyeDetay.Insert(tbl, tbl.IR.DepoID), JsonRequestBehavior.AllowGet);
                     }
                 }
+
                 if (mNo != null && mNo != "")
                 {
-                    //depo stoktaki makara noları ve
-                    //deu depodaki durdurulanlar hariç tüm mal kabuldeki makara noları kontrol eder
-                    var makara = db.Database.SqlQuery<string>(String.Format("BIRIKIM.wms.MakaraNoKontrol @DepoID = {0} , @MakaraNo='{1}'", tbl.IR.DepoID, mNo)).FirstOrDefault();
+                    // depo stoktaki makara noları ve
+                    // deu depodaki durdurulanlar hariç tüm mal kabuldeki makara noları kontrol eder
+                    var makara = db.Database.SqlQuery<string>(string.Format("BIRIKIM.wms.MakaraNoKontrol @DepoID = {0} , @MakaraNo='{1}'", tbl.IR.DepoID, mNo)).FirstOrDefault();
                     if (makara != "" && makara != null)
                         return Json(new Result(false, "Bu makara no kullanılıyor"), JsonRequestBehavior.AllowGet);
                 }
             }
-            //if (mNo != "" && mNo != null)
-            //{
+            // if (mNo != "" && mNo != null)
+            // {
             //    var tmpx = db.Yers.Where(m => m.MakaraNo == tbl.MakaraNo && m.DepoID == tbl.IR.DepoID).FirstOrDefault();
             //    if (tmpx != null)
             //        return Json(new Result(false, "Bu makara no kullanılıyor"), JsonRequestBehavior.AllowGet);
             //    tbl.MakaraNo = mNo;
-            //}
+            // }
             try
             {
                 tbl.MakaraNo = mNo;
@@ -145,11 +147,11 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             if (id == null || id.ToString2() == "0,0,") return null;
             string[] tmp = id.ToString().Split(',');
             if (tmp.Length != 3) return null;
-            //kontrol
+            // kontrol
             if (CheckPerm(Perms.MalKabul, PermTypes.Reading) == false) return null;
-            //get list
-            string depo = Store.Detail(tmp[1].ToInt32()).DepoKodu;
-            string sql = String.Format("SELECT FINSAT6{0}.FINSAT6{0}.SPI.ROW_ID AS ID, FINSAT6{0}.FINSAT6{0}.SPI.EvrakNo, FINSAT6{0}.FINSAT6{0}.SPI.Tarih, FINSAT6{0}.FINSAT6{0}.STK.MalAdi, FINSAT6{0}.FINSAT6{0}.STK.MalKodu, FINSAT6{0}.FINSAT6{0}.SPI.BirimMiktar - FINSAT6{0}.FINSAT6{0}.SPI.TeslimMiktar - FINSAT6{0}.FINSAT6{0}.SPI.KapatilanMiktar AS AçıkMiktar, FINSAT6{0}.FINSAT6{0}.SPI.Birim " +
+            // get list
+            var depo = Store.Detail(tmp[1].ToInt32()).DepoKodu;
+            var sql = string.Format("SELECT FINSAT6{0}.FINSAT6{0}.SPI.ROW_ID AS ID, FINSAT6{0}.FINSAT6{0}.SPI.EvrakNo, FINSAT6{0}.FINSAT6{0}.SPI.Tarih, FINSAT6{0}.FINSAT6{0}.STK.MalAdi, FINSAT6{0}.FINSAT6{0}.STK.MalKodu, FINSAT6{0}.FINSAT6{0}.SPI.BirimMiktar - FINSAT6{0}.FINSAT6{0}.SPI.TeslimMiktar - FINSAT6{0}.FINSAT6{0}.SPI.KapatilanMiktar AS AçıkMiktar, FINSAT6{0}.FINSAT6{0}.SPI.Birim " +
                                         "FROM FINSAT6{0}.FINSAT6{0}.SPI WITH(NOLOCK) INNER JOIN FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) ON FINSAT6{0}.FINSAT6{0}.SPI.MalKodu = FINSAT6{0}.FINSAT6{0}.STK.MalKodu INNER JOIN FINSAT6{0}.FINSAT6{0}.CHK WITH(NOLOCK) ON FINSAT6{0}.FINSAT6{0}.SPI.Chk = FINSAT6{0}.FINSAT6{0}.CHK.HesapKodu " +
                                         "WHERE (FINSAT6{0}.FINSAT6{0}.SPI.IslemTur = 0) AND (FINSAT6{0}.FINSAT6{0}.SPI.SiparisDurumu = 0) AND (FINSAT6{0}.FINSAT6{0}.SPI.KynkEvrakTip = 63) AND (FINSAT6{0}.FINSAT6{0}.SPI.Depo = '{1}') AND (FINSAT6{0}.FINSAT6{0}.SPI.Chk = '{2}') " +
                                         "AND FINSAT6{0}.FINSAT6{0}.SPI.ROW_ID NOT IN (SELECT BIRIKIM.wms.IRS_Detay.KynkSiparisID FROM BIRIKIM.wms.IRS_Detay INNER JOIN BIRIKIM.wms.GorevIRS ON BIRIKIM.wms.IRS_Detay.IrsaliyeID = BIRIKIM.wms.GorevIRS.IrsaliyeID INNER JOIN BIRIKIM.wms.Gorev ON BIRIKIM.wms.GorevIRS.GorevID = BIRIKIM.wms.Gorev.ID WHERE (BIRIKIM.wms.Gorev.DurumID = 9 OR BIRIKIM.wms.Gorev.DurumID = 15) AND (NOT(BIRIKIM.wms.IRS_Detay.KynkSiparisID IS NULL)) GROUP BY BIRIKIM.wms.IRS_Detay.KynkSiparisID)", tmp[0], depo, tmp[2]);
@@ -165,7 +167,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             if (s == null || id == null || ids == null) return null;
             if (CheckPerm(Perms.MalKabul, PermTypes.Writing) == false) return null;
             int irsaliyeID = id.ToInt32(), eklenen = 0, sira = 0;
-            //split ids into rows
+            // split ids into rows
             ids = ids.Left(ids.Length - 1);
             string[] tmp = ids.Split('#');
             var satir = new IRS_Detay();
@@ -174,44 +176,45 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             {
                 if (sira == 0)
                 {
-                    //evrak no ekle
+                    // evrak no ekle
                     satir.KynkSiparisNo = item;
                     sira++;
                 }
                 else if (sira == 1)
                 {
-                    //malkodu ekle
+                    // malkodu ekle
                     satir.MalKodu = item;
                     sira++;
                 }
                 else if (sira == 2)
                 {
-                    //birim ekle
+                    // birim ekle
                     satir.Birim = item;
                     sira++;
                 }
                 else if (sira == 3)
                 {
-                    //row id ekle
+                    // row id ekle
                     satir.KynkSiparisID = item.ToInt32();
                     sira++;
                 }
                 else
                 {
-                    //miktar ekle
+                    // miktar ekle
                     satir.Miktar = item.ToDecimal();
                     tbl.Add(satir);
                     satir = new IRS_Detay();
                     sira = 0;
                 }
             }
-            //sadece irsaliye daha onaylanmamışsa yani işlemleri bitmeişse ekle
+
+            // sadece irsaliye daha onaylanmamışsa yani işlemleri bitmeişse ekle
             var irs = Irsaliye.Detail(irsaliyeID);
             if (irs.Onay == false)
             {
                 foreach (var item in tbl)
                 {
-                    string sql = String.Format(@"
+                    var sql = string.Format(@"
 SELECT SPI.EvrakNo, SPI.Tarih, SPI.SiraNo, SPI.MalKodu, SPI.BirimMiktar, 
     (SPI.BirimMiktar - SPI.TeslimMiktar - SPI.KapatilanMiktar) AS Miktar, 
     SPI.Birim, SPI.DegisSaat , STK.Kod1
@@ -222,13 +225,13 @@ AND (SPI.MalKodu = '{2}') AND (SPI.Birim = '{3}') AND (LTRIM(SPI.EvrakNo) = '{4}
                     try
                     {
                         var tempTbl = db.Database.SqlQuery<frmIrsaliyeMalzeme>(sql).FirstOrDefault();
-                        //save details
+                        // save details
 
-                        string mNo = "";
+                        var mNo = "";
                         if (tempTbl.Kod1 == "KKABLO")
                             mNo = "Boş-" + db.SettingsMakaraNo(irs.DepoID).FirstOrDefault();
 
-                        IRS_Detay sti = new IRS_Detay()
+                        var sti = new IRS_Detay()
                         {
                             IrsaliyeID = irsaliyeID,
                             Birim = tempTbl.Birim,
@@ -242,7 +245,7 @@ AND (SPI.MalKodu = '{2}') AND (SPI.Birim = '{3}') AND (LTRIM(SPI.EvrakNo) = '{4}
                             Miktar = item.Miktar > 0 ? item.Miktar : tempTbl.Miktar,
                             MakaraNo = mNo
                         };
-                        Result _Result = IrsaliyeDetay.Operation(sti);
+                        var _Result = IrsaliyeDetay.Operation(sti);
                         eklenen++;
                     }
                     catch (Exception ex)
@@ -251,7 +254,8 @@ AND (SPI.MalKodu = '{2}') AND (SPI.Birim = '{3}') AND (LTRIM(SPI.EvrakNo) = '{4}
                     }
                 }
             }
-            //get list
+
+            // get list
             var list = IrsaliyeDetay.GetList(irsaliyeID);
             ViewBag.IrsaliyeId = irsaliyeID;
             ViewBag.Onay = irs.Onay;
@@ -270,21 +274,24 @@ AND (SPI.MalKodu = '{2}') AND (SPI.Birim = '{3}') AND (LTRIM(SPI.EvrakNo) = '{4}
                 ViewBag.message = "Burası için izniniz yok";
                 return PartialView("_GridPartial", new List<IRS_Detay>());
             }
+
             if (tbl.EvrakNo.Length > 16)
             {
                 ViewBag.message = "Bu evrak no çok uzun";
                 return PartialView("_GridPartial", new List<IRS_Detay>());
             }
-            bool kontrol1 = DateTime.TryParse(tbl.Tarih, out DateTime tmpTarih);
+
+            var kontrol1 = DateTime.TryParse(tbl.Tarih, out DateTime tmpTarih);
             if (kontrol1 == false)
             {
                 db.Logger(vUser.UserName, "", fn.GetIPAddress(), "Tarih hatası: " + tbl.Tarih, "", "WMS/Purchase/New");
                 ViewBag.message = "Tarih yanlış";
                 return PartialView("_GridPartial", new List<IRS_Detay>());
             }
-            int tarih = tmpTarih.ToOADateInt();
+
+            var tarih = tmpTarih.ToOADateInt();
             var kontrol2 = db.IRS.Where(m => m.IslemTur == false && m.EvrakNo == tbl.EvrakNo && m.SirketKod == tbl.SirketID & m.HesapKodu == tbl.HesapKodu).FirstOrDefault();
-            //var olanı göster
+            // var olanı göster
             if (kontrol2 != null)
             {
                 if (kontrol2.DepoID != tbl.DepoID)
@@ -292,6 +299,7 @@ AND (SPI.MalKodu = '{2}') AND (SPI.Birim = '{3}') AND (LTRIM(SPI.EvrakNo) = '{4}
                     ViewBag.message = "Bu evrak no kullanılıyor";
                     return PartialView("_GridPartial", new List<IRS_Detay>());
                 }
+
                 try
                 {
                     var list = IrsaliyeDetay.GetList(kontrol2.ID);
@@ -308,32 +316,32 @@ AND (SPI.MalKodu = '{2}') AND (SPI.Birim = '{3}') AND (LTRIM(SPI.EvrakNo) = '{4}
                 }
             }
 
-            //kontrol
+            // kontrol
             if (CheckPerm(Perms.MalKabul, PermTypes.Writing) == false) return null;
-            //yeni kayıtta evrak no spide olmayacak kontrolü
-            string sql = string.Format("SELECT EvrakNo FROM FINSAT6{0}.FINSAT6{0}.STI WHERE (EvrakNo = '{1}') AND (KynkEvrakTip = 3) AND (Chk = '{2}')", tbl.SirketID, tbl.EvrakNo, tbl.HesapKodu);
+            // yeni kayıtta evrak no spide olmayacak kontrolü
+            var sql = string.Format("SELECT EvrakNo FROM FINSAT6{0}.FINSAT6{0}.STI WHERE (EvrakNo = '{1}') AND (KynkEvrakTip = 3) AND (Chk = '{2}')", tbl.SirketID, tbl.EvrakNo, tbl.HesapKodu);
             var sti = db.Database.SqlQuery<string>(sql).FirstOrDefault();
             if (sti != null)
             {
                 ViewBag.message = "Bu evrak no kullanılıyor";
                 return PartialView("_GridPartial", new List<IRS_Detay>());
             }
-            //yeni kayıt
-            string gorevno = db.SettingsGorevNo(DateTime.Today.ToOADateInt(), tbl.DepoID).FirstOrDefault();
-            int today = fn.ToOADate();
-            int time = fn.ToOATime();
+
+            // yeni kayıt
+            var gorevno = db.SettingsGorevNo(DateTime.Today.ToOADateInt(), tbl.DepoID).FirstOrDefault();
+            var today = fn.ToOADate();
+            var time = fn.ToOATime();
             try
             {
                 var cevap = db.InsertIrsaliye(tbl.SirketID, tbl.DepoID, gorevno, tbl.EvrakNo, tarih, "Irs: " + tbl.EvrakNo + ", Tedarikçi: " + tbl.Unvan, false, ComboItems.MalKabul.ToInt32(), vUser.UserName, today, time, tbl.HesapKodu, "", 0, "", "").FirstOrDefault();
                 LogActions("WMS", "Purchase", "New", ComboItems.alEkle, cevap.GorevID.Value, "Irs: " + tbl.EvrakNo + ", Tedarikçi: " + tbl.Unvan);
-                //get list
+                // get list
                 var list = IrsaliyeDetay.GetList(cevap.IrsaliyeID.Value);
                 ViewBag.IrsaliyeId = cevap.IrsaliyeID;
                 ViewBag.Onay = false;
                 ViewBag.SirketID = tbl.SirketID;
                 ViewBag.Yetki = CheckPerm(Perms.MalKabul, PermTypes.Writing);
                 return PartialView("_GridPartial", list);
-
             }
             catch (Exception ex)
             {
@@ -372,7 +380,7 @@ AND (SPI.MalKodu = '{2}') AND (SPI.Birim = '{3}') AND (LTRIM(SPI.EvrakNo) = '{4}
         public JsonResult InsertMalzeme(frmMalzeme tbl)
         {
             if (CheckPerm(Perms.MalKabul, PermTypes.Writing) == false) return null;
-            //sadece irsaliye daha onaylanmamışsa yani işlemleri bitmemişse ekle
+            // sadece irsaliye daha onaylanmamışsa yani işlemleri bitmemişse ekle
             var irs = Irsaliye.Detail(tbl.IrsaliyeId);
             if (irs.Onay == false)
             {
@@ -385,11 +393,12 @@ AND (SPI.MalKodu = '{2}') AND (SPI.Birim = '{3}') AND (LTRIM(SPI.EvrakNo) = '{4}
                         return Json(IrsaliyeDetay.Insert(tbl, irs.DepoID), JsonRequestBehavior.AllowGet);
                     }
                 }
+
                 if (tbl.MakaraNo != null)
                 {
-                    //depo stoktaki makara noları ve
-                    //deu depodaki durdurulanlar hariç tüm mal kabuldeki makara noları kontrol eder
-                    var makara = db.Database.SqlQuery<string>(String.Format("BIRIKIM.wms.MakaraNoKontrol @DepoID = {0} , @MakaraNo='{1}'", irs.DepoID, tbl.MakaraNo)).FirstOrDefault();
+                    // depo stoktaki makara noları ve
+                    // deu depodaki durdurulanlar hariç tüm mal kabuldeki makara noları kontrol eder
+                    var makara = db.Database.SqlQuery<string>(string.Format("BIRIKIM.wms.MakaraNoKontrol @DepoID = {0} , @MakaraNo='{1}'", irs.DepoID, tbl.MakaraNo)).FirstOrDefault();
                     if (makara == "" || makara == null)
                         return Json(IrsaliyeDetay.Insert(tbl, irs.DepoID), JsonRequestBehavior.AllowGet);
                     else
@@ -398,6 +407,7 @@ AND (SPI.MalKodu = '{2}') AND (SPI.Birim = '{3}') AND (LTRIM(SPI.EvrakNo) = '{4}
                 else
                     return Json(IrsaliyeDetay.Insert(tbl, irs.DepoID), JsonRequestBehavior.AllowGet);
             }
+
             return Json(new Result(false, "Bu irsaliyeye ürün eklenemez"), JsonRequestBehavior.AllowGet);
         }
         /// <summary>
@@ -407,8 +417,8 @@ AND (SPI.MalKodu = '{2}') AND (SPI.Birim = '{3}') AND (LTRIM(SPI.EvrakNo) = '{4}
         {
             var id = Url.RequestContext.RouteData.Values["id"];
             if (id == null) return null;
-            string sql = "";
-            //generate sql
+            var sql = "";
+            // generate sql
             if (id.ToString() == "0")
             {
                 var dblist = db.GetSirketDBs().ToList();
@@ -417,11 +427,12 @@ AND (SPI.MalKodu = '{2}') AND (SPI.Birim = '{3}') AND (LTRIM(SPI.EvrakNo) = '{4}
                     if (sql != "") sql += " UNION ";
                     sql += string.Format("SELECT MalKodu AS id, MalKodu + ' - ' + MalAdi AS value, MalKodu + ' - ' + MalAdi AS label FROM FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) WHERE (MalKodu LIKE '{1}%')", item, term);
                 }
+
                 sql = "SELECT TOP (20) id,MIN(value) as value, MIN(label) as value from (" + sql + ") t GROUP BY id";
             }
             else
-                sql = String.Format("FINSAT6{0}.[wms].[getMalzemeByCodeOrName] @MalKodu = N'{1}', @MalAdi = N''", id.ToString(), term);
-            //return
+                sql = string.Format("FINSAT6{0}.[wms].[getMalzemeByCodeOrName] @MalKodu = N'{1}', @MalAdi = N''", id.ToString(), term);
+            // return
             try
             {
                 var list = db.Database.SqlQuery<frmJson>(sql).ToList();
@@ -437,8 +448,8 @@ AND (SPI.MalKodu = '{2}') AND (SPI.Birim = '{3}') AND (LTRIM(SPI.EvrakNo) = '{4}
         {
             var id = Url.RequestContext.RouteData.Values["id"];
             if (id == null) return null;
-            string sql = "";
-            //generate sql
+            var sql = "";
+            // generate sql
             if (id.ToString() == "0")
             {
                 var dblist = db.GetSirketDBs().ToList();
@@ -447,11 +458,12 @@ AND (SPI.MalKodu = '{2}') AND (SPI.Birim = '{3}') AND (LTRIM(SPI.EvrakNo) = '{4}
                     if (sql != "") sql += " UNION ";
                     sql += string.Format("SELECT MalKodu AS id, MalKodu + ' - ' + MalAdi AS value, MalKodu + ' - ' + MalAdi AS label FROM FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) WHERE (MalAdi LIKE '%{1}%')", item, term);
                 }
+
                 sql = "SELECT TOP (20) id, MIN(value) as value, MIN(label) as value from (" + sql + ") t GROUP BY id";
             }
             else
-                sql = String.Format("FINSAT6{0}.[wms].[getMalzemeByCodeOrName] @MalKodu = N'{1}', @MalAdi = N''", id.ToString(), term);
-            //return
+                sql = string.Format("FINSAT6{0}.[wms].[getMalzemeByCodeOrName] @MalKodu = N'{1}', @MalAdi = N''", id.ToString(), term);
+            // return
             try
             {
                 var list = db.Database.SqlQuery<frmJson>(sql).ToList();
@@ -469,19 +481,20 @@ AND (SPI.MalKodu = '{2}') AND (SPI.Birim = '{3}') AND (LTRIM(SPI.EvrakNo) = '{4}
         [HttpPost]
         public JsonResult GetBirim(string kod, string s)
         {
-            string sql = "";
+            var sql = "";
             if (s == "0")
             {
                 var dblist = db.GetSirketDBs().ToList();
                 foreach (var item in dblist)
                 {
                     if (sql != "") sql += " UNION ";
-                    sql += String.Format("SELECT Birim1, Birim2, Birim3, Birim4 FROM FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) WHERE (MalKodu = '{1}')", item, kod);
+                    sql += string.Format("SELECT Birim1, Birim2, Birim3, Birim4 FROM FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) WHERE (MalKodu = '{1}')", item, kod);
                 }
+
                 sql = "SELECT TOP (1) Birim1, Birim2, Birim3, Birim4 from (" + sql + ") t where Birim1 <> ''";
             }
             else
-                sql = String.Format("SELECT Birim1, Birim2, Birim3, Birim4 FROM FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) WHERE (MalKodu = '{1}')", s, kod);
+                sql = string.Format("SELECT Birim1, Birim2, Birim3, Birim4 FROM FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) WHERE (MalKodu = '{1}')", s, kod);
             try
             {
                 var list = db.Database.SqlQuery<frmBirims>(sql).ToList();
@@ -492,7 +505,6 @@ AND (SPI.MalKodu = '{2}') AND (SPI.Birim = '{3}') AND (LTRIM(SPI.EvrakNo) = '{4}
                 Logger(ex, "WMS/Purchase/getBirim");
                 return Json(new List<frmBirims>(), JsonRequestBehavior.AllowGet);
             }
-
         }
         /// <summary>
         /// get chk codes
@@ -501,8 +513,8 @@ AND (SPI.MalKodu = '{2}') AND (SPI.Birim = '{3}') AND (LTRIM(SPI.EvrakNo) = '{4}
         {
             var id = Url.RequestContext.RouteData.Values["id"];
             if (id == null) return null;
-            string sql = String.Format("FINSAT6{0}.[wms].[CHKSearch4] @HesapKodu = N'{1}', @Unvan = N'', @top = 200", id.ToString(), term);
-            //return
+            var sql = string.Format("FINSAT6{0}.[wms].[CHKSearch4] @HesapKodu = N'{1}', @Unvan = N'', @top = 200", id.ToString(), term);
+            // return
             try
             {
                 var list = db.Database.SqlQuery<frmJson>(sql).ToList();
@@ -521,8 +533,8 @@ AND (SPI.MalKodu = '{2}') AND (SPI.Birim = '{3}') AND (LTRIM(SPI.EvrakNo) = '{4}
         {
             var id = Url.RequestContext.RouteData.Values["id"];
             if (id == null) return null;
-            string sql = String.Format("FINSAT6{0}.[wms].[CHKSearch4] @HesapKodu = N'', @Unvan = N'{1}', @top = 200", id.ToString(), term);
-            //return
+            var sql = string.Format("FINSAT6{0}.[wms].[CHKSearch4] @HesapKodu = N'', @Unvan = N'{1}', @top = 200", id.ToString(), term);
+            // return
             try
             {
                 var list = db.Database.SqlQuery<frmJson>(sql).ToList();
@@ -549,7 +561,7 @@ AND (SPI.MalKodu = '{2}') AND (SPI.Birim = '{3}') AND (LTRIM(SPI.EvrakNo) = '{4}
         public JsonResult Delete1(int ID)
         {
             if (CheckPerm(Perms.MalKabul, PermTypes.Deleting) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
-            Result _Result = Irsaliye.Delete(ID);
+            var _Result = Irsaliye.Delete(ID);
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
         /// <summary>
@@ -558,7 +570,7 @@ AND (SPI.MalKodu = '{2}') AND (SPI.Birim = '{3}') AND (LTRIM(SPI.EvrakNo) = '{4}
         public JsonResult Delete2(int ID)
         {
             if (CheckPerm(Perms.MalKabul, PermTypes.Deleting) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
-            Result _Result = IrsaliyeDetay.Delete(ID);
+            var _Result = IrsaliyeDetay.Delete(ID);
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
     }

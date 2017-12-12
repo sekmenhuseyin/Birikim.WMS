@@ -297,7 +297,6 @@ namespace Wms12m.Entity
         public string Degistiren { get; set; }
         /// <summary> SmallDatetime (Not Null) </summary>
         public DateTime DegisTarih { get; set; }
-
     }
     public class IHLTAHKayitResult
     {
@@ -517,7 +516,6 @@ namespace Wms12m.Entity
         public decimal? YaprakliMiktarSter { get; set; }
         /// <summary> Decimal(18,2) (Allow Null) </summary>
         public decimal? YaprakliMiktarM3 { get; set; }
-
     }
 
     public class MyChi
@@ -534,13 +532,9 @@ namespace Wms12m.Entity
         public decimal topM3Ibre { get; set; }
         public decimal topM3Yaprak { get; set; }
 
-        public override string ToString()
-        {
-            return Unvan;
-        }
+        public override string ToString() => Unvan;
 
         public List<MySti> FaturaDetay { get; set; }
-
     }
     public class MySti
     {
@@ -575,10 +569,7 @@ namespace Wms12m.Entity
         /// </summary>
         public decimal Kod13 { get; set; }
 
-        public override string ToString()
-        {
-            return String.Format("{0} {1}", MalKodu, MalAdi);
-        }
+        public override string ToString() => string.Format("{0} {1}", MalKodu, MalAdi);
     }
     public class MyDep
     {
@@ -599,10 +590,9 @@ namespace Wms12m.Entity
         /// </summary>
         public string Kod2 { get; set; }
 
-
         public void Kod1denFiyat()
         {
-            string yKod1 = Kod1.Replace('.', ',');
+            var yKod1 = Kod1.Replace('.', ',');
             decimal fiyat;
             if (decimal.TryParse(yKod1, out fiyat))
             {
@@ -612,7 +602,7 @@ namespace Wms12m.Entity
 
         public void Kod2denYeniFiyat()
         {
-            string yKod2 = Kod2.Replace('.', ',');
+            var yKod2 = Kod2.Replace('.', ',');
             decimal fiyat;
             if (decimal.TryParse(yKod2, out fiyat))
             {
@@ -634,7 +624,6 @@ namespace Wms12m.Entity
         public decimal CikMiktar { get; set; }
 
         public decimal StokMiktar { get { return DvrMiktar + GirMiktar - CikMiktar; } set { } }
-
 
         public decimal STIDvrMiktar { get; set; }
         public decimal STIGirMiktar { get; set; }
@@ -659,10 +648,6 @@ namespace Wms12m.Entity
 
         public decimal BirimFiyat { get; set; }
 
-        public override string ToString()
-        {
-            return MalKodu + "   " + MalAdi;
-        }
-
+        public override string ToString() => MalKodu + "   " + MalAdi;
     }
 }

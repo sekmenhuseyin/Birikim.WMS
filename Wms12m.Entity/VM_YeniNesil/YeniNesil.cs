@@ -98,12 +98,11 @@
         public string DegisSaat { get; set; }
     }
 
-
     /// <summary>
     /// onay bekleyen transfer listesi
     /// </summary>
     public class SatisIadeIcmal
-    {   
+    {
         public string IadeNo { get; set; }
         public string IadeTarih { get; set; }
         public string HesapKodu { get; set; }
@@ -187,13 +186,8 @@
         WHERE STI1.STK005_EvrakTipi=99 AND STI1.STK005_IslemTipi=2 AND STI1.STK005_GC=0 AND STI1.STK005_Kod11>0 AND STI1.STK005_Kod9<>'' AND
             STI1.STK005_Kod10='Onay Bekliyor' AND SUBSTRING(STI1.STK005_Not5,1,8)='AndMobil' AND 
             STI1.STK005_EvrakSeriNo='{1}' AND STI1.STK005_IslemTarihi='{2}'";
-
-
     }
     #endregion /// SatisIadeDetay Class
-
-
-    
 
     /// <summary>
     /// onay bekleyen sipariş listesi
@@ -207,7 +201,7 @@
         public string Unvan { get; set; }
         public string IslemTuru { get; set; }
         public string OdemeTuru { get; set; }
-      
+
         public decimal Tutar { get; set; }
         public string DovizCinsi { get; set; }
 
@@ -217,7 +211,6 @@
 
         public string Kaydeden { get; set; }
         public string Aciklama { get; set; }
-       
     }
     /// <summary>
     /// fatura kayıt işlemleri için
@@ -249,12 +242,11 @@
         public string KullaniciKodu { get; set; }
         public string MalKodu { get; set; }
         public string GirisDepo { get; set; }
-        public string CikisDepo { get; set; }       
+        public string CikisDepo { get; set; }
         public decimal Miktar { get; set; }
         public string Birim { get; set; }
-        public int MiatTarih { get; set; }      
+        public int MiatTarih { get; set; }
     }
-
 
     public class HesapItem
     {

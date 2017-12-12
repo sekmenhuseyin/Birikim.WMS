@@ -13,7 +13,7 @@ namespace Wms12m.Business
         /// </summary>
         public override Result Operation(UserDetail tbl)
         {
-            _Result = new Result(); bool eklemi = false;
+            _Result = new Result(); var eklemi = false;
             if (tbl.UserID == 0 || tbl.DepoID == 0)
             {
                 _Result.Id = 0;
@@ -21,6 +21,7 @@ namespace Wms12m.Business
                 _Result.Status = false;
                 return _Result;
             }
+
             var tmp = Detail(tbl.UserID);
             if (tmp == null)
             {
@@ -38,11 +39,12 @@ namespace Wms12m.Business
                 tmp.SatistanIadeIrsaliyeSeri = tbl.SatistanIadeIrsaliyeSeri;
                 tmp.SayimSeri = tbl.SayimSeri;
             }
+
             try
             {
                 db.SaveChanges();
                 LogActions("Business", "PersonPerms", "Operation", eklemi == true ? ComboItems.alEkle : ComboItems.alDüzenle, 0, "UserID: " + tbl.UserID + ", DepoID: " + tbl.DepoID);
-                //result
+                // result
                 _Result.Id = tbl.UserID;
                 _Result.Message = "İşlem Başarılı !!!";
                 _Result.Status = true;
@@ -54,6 +56,7 @@ namespace Wms12m.Business
                 _Result.Message = "İşlem Hatalı: " + ex.Message;
                 _Result.Status = false;
             }
+
             return _Result;
         }
         /// <summary>
@@ -86,6 +89,7 @@ namespace Wms12m.Business
                 _Result.Message = ex.Message;
                 _Result.Status = false;
             }
+
             return _Result;
         }
         /// <summary>
@@ -98,16 +102,11 @@ namespace Wms12m.Business
         /// <summary>
         /// liste
         /// </summary>
-        public override List<UserDetail> GetList()
-        {
-            return db.UserDetails.ToList();
-        }
+        public override List<UserDetail> GetList() => db.UserDetails.ToList();
+
         /// <summary>
         /// yetkiye sahip kişiler
         /// </summary>
-        public override List<UserDetail> GetList(int ParentId)
-        {
-            return GetList();
-        }
+        public override List<UserDetail> GetList(int ParentId) => GetList();
     }
 }

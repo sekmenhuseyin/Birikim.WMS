@@ -59,29 +59,28 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
         public JsonResult Onay(string Data)//GM
         {
-            Result _Result = new Result(true);
+            var _Result = new Result(true);
             if (CheckPerm(Perms.FiyatOnaylamaGM, PermTypes.Writing) == false) return null;
 
-            JArray parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
+            var parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
 
-            SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
+            var sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
 
-            int BasTarih = 0;
-            int BitTarih = 0;
-            string ListeAdi = "";//int FytSiraNo = -1;
+            var BasTarih = 0;
+            var BitTarih = 0;
+            var ListeAdi = "";//int FytSiraNo = -1;
             try
             {
                 Dictionary<string, int> FiyatMaxSiraNo = new Dictionary<string, int>();
                 foreach (JObject insertObj in parameters)
                 {
-
                     if (FiyatMaxSiraNo.ContainsKey(insertObj["FiyatListNum"].ToString()))
                     {
                         continue;
                     }
                     else
                     {
-                        int FytSiraNo = -1;
+                        var FytSiraNo = -1;
                         var FLB = db.Database.SqlQuery<short>(string.Format("SELECT ISNULL(MAX(SiraNo),0) FROM [FINSAT6{0}].[FINSAT6{0}].[FYT] WHERE FiyatListNum='{1}'", vUser.SirketKodu, insertObj["FiyatListNum"].ToString())).FirstOrDefault();
                         if (FLB > 0)
                         {
@@ -92,19 +91,20 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                         {
                             FytSiraNo = 0;
                         }
+
                         FiyatMaxSiraNo.Add(insertObj["FiyatListNum"].ToString(), FytSiraNo);
                     }
+
                     if (insertObj["Durum"].ToString() == "Yeni Kayıt")
                     {
                         var fytData = db.Database.SqlQuery<FYT>(string.Format("SELECT ISNULL(Max(FiyatListName),'') as FiyatListName,ISNULL(Max(BasTarih),0) as BasTarih,ISNULL(Max(BitTarih),0) as BitTarih FROM[FINSAT6{0}].[FINSAT6{0}].[FYT] where FiyatListNum = '{1}'", vUser.SirketKodu, insertObj["FiyatListNum"].ToString())).FirstOrDefault();
-                        FYT fyt = new FYT();
+                        var fyt = new FYT();
 
                         if (fytData.FiyatListName != "")
                         {
                             ListeAdi = fytData.FiyatListName;
                             BasTarih = fytData.BasTarih;
                             BitTarih = fytData.BitTarih;
-
                         }
                         else
                         {
@@ -113,9 +113,9 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                             {
                                 ListeAdi = ListeAdi.Substring(0, 30);
                             }
+
                             BasTarih = insertObj["BasTarih"].ToInt32();
                             BitTarih = insertObj["BitTarih"].ToInt32();
-
                         }
 
                         fyt.MalKodu = insertObj["MalKodu"].ToString();
@@ -190,14 +190,14 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                         fyt.DovizSF1KDV = 0;
                         fyt.DovizSF2KDV = 0;
                         fyt.DovizSF3KDV = 0;
-                        //fyt.SF1Birim = insertObj["SatisFiyat1Birim"] == null || insertObj["SatisFiyat1Birim"].ToString() == ""  ? Convert.ToInt16(-1) : insertObj["SatisFiyat1Birim"].ToShort();
+                        // fyt.SF1Birim = insertObj["SatisFiyat1Birim"] == null || insertObj["SatisFiyat1Birim"].ToString() == ""  ? Convert.ToInt16(-1) : insertObj["SatisFiyat1Birim"].ToShort();
                         fyt.SF1Birim = insertObj["SatisFiyat1BirimInt"].ToShort();
                         fyt.SF2Birim = -1;
                         fyt.SF3Birim = -1;
                         fyt.SF4Birim = -1;
                         fyt.SF5Birim = -1;
                         fyt.SF6Birim = -1;
-                        //fyt.DovizSF1Birim = insertObj["DovizSF1Birim"] == null || insertObj["DovizSF1Birim"].ToString() == "" ? Convert.ToInt16(-1) : insertObj["DovizSF1Birim"].ToShort();
+                        // fyt.DovizSF1Birim = insertObj["DovizSF1Birim"] == null || insertObj["DovizSF1Birim"].ToString() == "" ? Convert.ToInt16(-1) : insertObj["DovizSF1Birim"].ToShort();
                         fyt.DovizSF1Birim = insertObj["DovizSF1BirimInt"].ToShort();
                         fyt.DovizSF2Birim = -1;
                         fyt.DovizSF3Birim = -1;
@@ -238,7 +238,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                         fyt.Kod12 = 0;
 
                         fyt.FiyatListeTipi = -1;
-                        DateTime date = DateTime.Now;
+                        var date = DateTime.Now;
                         var shortDate = date.ToString("yyyy-MM-dd HH:mm:ss");
                         sqlexper.Insert(fyt);
                         var sonuc = sqlexper.AcceptChanges();
@@ -246,65 +246,59 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                     }
                     else if (insertObj["Durum"].ToString() == "Silinecek Kayıt")
                     {
-                        string durum2sql = string.Format("SELECT * FROM [FINSAT6{0}].[FINSAT6{0}].[FYT] WHERE ROW_ID = {1}", vUser.SirketKodu, insertObj["ROW_ID"].ToInt32());
+                        var durum2sql = string.Format("SELECT * FROM [FINSAT6{0}].[FINSAT6{0}].[FYT] WHERE ROW_ID = {1}", vUser.SirketKodu, insertObj["ROW_ID"].ToInt32());
                         var fytSilinecek = db.Database.SqlQuery<FYT>(durum2sql).ToList();
                         if (fytSilinecek.Count > 0)
                         {
                             db.Database.ExecuteSqlCommand(string.Format("DELETE FROM [FINSAT6{0}].[FINSAT6{0}].[FYT] WHERE ROW_ID = {1}", vUser.SirketKodu, insertObj["ROW_ID"].ToInt32()));
                         }
-                        DateTime date = DateTime.Now;
+
+                        var date = DateTime.Now;
                         var shortDate = date.ToString("yyyy-MM-dd HH:mm:ss");
                         db.Database.ExecuteSqlCommand(string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[Fiyat] SET GMOnay = 1, GMOnaylayan='" + vUser.UserName + "', GMOnayTarih='{2}'  where ID = '{1}'", vUser.SirketKodu, insertObj["ID"].ToString(), shortDate));
-
-
                     }
                     else if (insertObj["Durum"].ToString() == "Güncellenecek Kayıt")
                     {
-                        string durum3sql = string.Format("SELECT * FROM [FINSAT6{0}].[FINSAT6{0}].[FYT] WHERE ROW_ID = {1}", vUser.SirketKodu, insertObj["ROW_ID"].ToInt32());
+                        var durum3sql = string.Format("SELECT * FROM [FINSAT6{0}].[FINSAT6{0}].[FYT] WHERE ROW_ID = {1}", vUser.SirketKodu, insertObj["ROW_ID"].ToInt32());
                         var fytGuncellenecek = db.Database.SqlQuery<FYT>(durum3sql).FirstOrDefault();
                         if (fytGuncellenecek != null)
                         {
-                            string ss = Convert.ToDecimal(insertObj["SatisFiyat1"].ToString()).ToString().Replace(",", ".");
-                            string sss = string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[FYT] SET SatisFiyat1 = {5}, SF1Birim='" + insertObj["SatisFiyat1BirimInt"].ToShort() + "', DvzSatisFiyat1={1}, SF1DovizCinsi='{2}', DovizSF1Birim={3}  where ROW_ID = '{4}'", vUser.SirketKodu, Convert.ToDecimal(insertObj["DovizSatisFiyat1"].ToString()), insertObj["DovizCinsi"].ToString().Trim(), insertObj["DovizSF1BirimInt"].ToShort(), fytGuncellenecek.ROW_ID, ss);
+                            var ss = Convert.ToDecimal(insertObj["SatisFiyat1"].ToString()).ToString().Replace(",", ".");
+                            var sss = string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[FYT] SET SatisFiyat1 = {5}, SF1Birim='" + insertObj["SatisFiyat1BirimInt"].ToShort() + "', DvzSatisFiyat1={1}, SF1DovizCinsi='{2}', DovizSF1Birim={3}  where ROW_ID = '{4}'", vUser.SirketKodu, Convert.ToDecimal(insertObj["DovizSatisFiyat1"].ToString()), insertObj["DovizCinsi"].ToString().Trim(), insertObj["DovizSF1BirimInt"].ToShort(), fytGuncellenecek.ROW_ID, ss);
                             db.Database.ExecuteSqlCommand(sss);
                         }
-                        DateTime date = DateTime.Now;
+
+                        var date = DateTime.Now;
                         var shortDate = date.ToString("yyyy-MM-dd HH:mm:ss");
                         db.Database.ExecuteSqlCommand(string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[Fiyat] SET GMOnay = 1, GMOnaylayan='" + vUser.UserName + "', GMOnayTarih='{2}'  where ID = '{1}'", vUser.SirketKodu, insertObj["ID"].ToString(), shortDate));
-
-
                     }
-
-
                 }
-                //return "OK";
+                // return "OK";
 
                 _Result.Status = true;
                 _Result.Message = "İşlem Başarılı ";
-
             }
             catch (Exception)
             {
-
                 _Result.Status = false;
                 _Result.Message = "Hata Oluştu. ";
-
             }
+
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
         public JsonResult Onay_Koleksiyon(string Data)//GM
         {
-            Result _Result = new Result(true);
+            var _Result = new Result(true);
 
             if (CheckPerm(Perms.FiyatOnaylamaGM, PermTypes.Writing) == false) return null;
 
-            JArray parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
+            var parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
 
-            SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
+            var sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
 
-            int BasTarih = 0;
-            int BitTarih = 0;
-            string ListeAdi = "";
+            var BasTarih = 0;
+            var BitTarih = 0;
+            var ListeAdi = "";
             try
             {
                 Dictionary<string, int> FiyatMaxSiraNo = new Dictionary<string, int>();
@@ -316,7 +310,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                     }
                     else
                     {
-                        int FytSiraNo = -1;
+                        var FytSiraNo = -1;
                         var FLB = db.Database.SqlQuery<short>(string.Format("SELECT ISNULL(MAX(SiraNo),0) FROM [FINSAT6{0}].[FINSAT6{0}].[FYT] WHERE FiyatListNum='{1}'", vUser.SirketKodu, insertObj["FiyatListNum"].ToString())).FirstOrDefault();
                         if (FLB > 0)
                         {
@@ -327,9 +321,11 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                         {
                             FytSiraNo = 0;
                         }
+
                         FiyatMaxSiraNo.Add(insertObj["FiyatListNum"].ToString(), FytSiraNo);
                     }
-                    string sql = string.Format(@"SELECT ID from [FINSAT6{0}].[FINSAT6{0}].[Fiyat] F
+
+                    var sql = string.Format(@"SELECT ID from [FINSAT6{0}].[FINSAT6{0}].[Fiyat] F
                     JOIN[FINSAT6{0}].[FINSAT6{0}].[STK] S ON S.MalKodu = F.MalKodu
                     WHERE S.GrupKod = 'PARKE' AND F.FiyatListNum = '{1}'
                     AND S.Kod4 = '{2}' AND S.TipKod = '{3}' AND F.SatisFiyat1 = {4}
@@ -340,23 +336,21 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                     insertObj["DovizSatisFiyat1"].ToString().Replace(",", "."), insertObj["DovizSF1Birim"].ToString(), insertObj["DovizSF1BirimInt"].ToInt32(), insertObj["DovizCinsi"].ToString()
                     );
                     var fiyatID = db.Database.SqlQuery<int>(sql).ToList();
-                    var result = String.Join(", ", fiyatID.ToArray());
+                    var result = string.Join(", ", fiyatID.ToArray());
                     sql = string.Format("SELECT * FROM [FINSAT6{0}].[FINSAT6{0}].[Fiyat] where ID in({1})", vUser.SirketKodu, result);
                     var OnayFiyatList = db.Database.SqlQuery<Fiyat>(sql).ToList();
                     foreach (Fiyat rts in OnayFiyatList)
                     {
                         if (rts.Durum == 1) //YENİ KAYIT
                         {
-
                             var fytData = db.Database.SqlQuery<FYT>(string.Format("SELECT ISNULL(Max(FiyatListName),'') as FiyatListName,ISNULL(Max(BasTarih),0) as BasTarih,ISNULL(Max(BitTarih),0) as BitTarih FROM[FINSAT6{0}].[FINSAT6{0}].[FYT] where FiyatListNum = '{1}'", vUser.SirketKodu, rts.FiyatListNum.ToString())).FirstOrDefault();
-                            FYT fyt = new FYT();
+                            var fyt = new FYT();
 
                             if (fytData.FiyatListNum != null)
                             {
                                 ListeAdi = fytData.FiyatListName;
                                 BasTarih = fytData.BasTarih;
                                 BitTarih = fytData.BitTarih;
-
                             }
                             else
                             {
@@ -365,9 +359,9 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                                 {
                                     ListeAdi = ListeAdi.Substring(0, 30);
                                 }
+
                                 BasTarih = rts.BasTarih.ToInt32();
                                 BitTarih = rts.BitTarih.ToInt32();
-
                             }
 
                             fyt.MalKodu = rts.MalKodu.ToString();
@@ -384,6 +378,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                             {
                                 fyt.SiraNo = 0;
                             }
+
                             fyt.RenkBedenKod1 = "";
                             fyt.RenkBedenKod2 = "";
                             fyt.RenkBedenKod3 = "";
@@ -485,50 +480,44 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                             fyt.Kod11 = 0;
                             fyt.Kod12 = 0;
 
-
-                            DateTime date = DateTime.Now;
+                            var date = DateTime.Now;
                             var shortDate = date.ToString("yyyy-MM-dd HH:mm:ss");
                             sqlexper.Insert(fyt);
                             var sonuc = sqlexper.AcceptChanges();
                             db.Database.ExecuteSqlCommand(string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[Fiyat] SET GMOnay = 1, GMOnaylayan='" + vUser.UserName + "', GMOnayTarih='{2}'  where ID = '{1}'", vUser.SirketKodu, rts.ID, shortDate));
-
-
-
                         }
                         else if (rts.Durum == 2)//Silinecek Kayıt
                         {
-                            string durum2sql = string.Format("SELECT * FROM [FINSAT6{0}].[FINSAT6{0}].[FYT] WHERE ROW_ID = {1}", vUser.SirketKodu, rts.ROW_ID);
+                            var durum2sql = string.Format("SELECT * FROM [FINSAT6{0}].[FINSAT6{0}].[FYT] WHERE ROW_ID = {1}", vUser.SirketKodu, rts.ROW_ID);
                             var fytSilinecek = db.Database.SqlQuery<FYT>(durum2sql).ToList();
                             if (fytSilinecek.Count > 0)
                             {
                                 db.Database.ExecuteSqlCommand(string.Format("DELETE FROM [FINSAT6{0}].[FINSAT6{0}].[FYT] WHERE ROW_ID = {1}", vUser.SirketKodu, rts.ROW_ID));
                             }
-                            DateTime date = DateTime.Now;
+
+                            var date = DateTime.Now;
                             var shortDate = date.ToString("yyyy-MM-dd HH:mm:ss");
                             db.Database.ExecuteSqlCommand(string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[Fiyat] SET GMOnay = 1, GMOnaylayan='" + vUser.UserName + "', GMOnayTarih='{2}'  where ID = '{1}'", vUser.SirketKodu, rts.ID, shortDate));
                         }
                         else if (rts.Durum == 3)//"Güncellenecek Kayıt"
                         {
-                            string durum3sql = string.Format("SELECT * FROM [FINSAT6{0}].[FINSAT6{0}].[FYT] WHERE ROW_ID = {1}", vUser.SirketKodu, rts.ROW_ID);
+                            var durum3sql = string.Format("SELECT * FROM [FINSAT6{0}].[FINSAT6{0}].[FYT] WHERE ROW_ID = {1}", vUser.SirketKodu, rts.ROW_ID);
                             var fytGuncellenecek = db.Database.SqlQuery<FYT>(durum3sql).FirstOrDefault();
                             if (fytGuncellenecek != null)
                             {
-                                //fytGuncellenecek.SatisFiyat1 = rts.SatisFiyat1;
-                                //fytGuncellenecek.SF1Birim = (short)rts.SatisFiyat1BirimInt;
-                                //fytGuncellenecek.DvzSatisFiyat1 = rts.DovizSatisFiyat1;
-                                //fytGuncellenecek.SF1DovizCinsi = rts.DovizCinsi.Trim();
-                                //fytGuncellenecek.DovizSF1Birim = (short)rts.DovizSF1BirimInt;
+                                // fytGuncellenecek.SatisFiyat1 = rts.SatisFiyat1;
+                                // fytGuncellenecek.SF1Birim = (short)rts.SatisFiyat1BirimInt;
+                                // fytGuncellenecek.DvzSatisFiyat1 = rts.DovizSatisFiyat1;
+                                // fytGuncellenecek.SF1DovizCinsi = rts.DovizCinsi.Trim();
+                                // fytGuncellenecek.DovizSF1Birim = (short)rts.DovizSF1BirimInt;
                                 db.Database.ExecuteSqlCommand(string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[FYT] SET SatisFiyat1 = " + rts.SatisFiyat1.ToDecimal() + ", SF1Birim='" + rts.SatisFiyat1BirimInt.ToShort() + "', DvzSatisFiyat1={1}, SF1DovizCinsi='{2}', DovizSF1Birim={3}  where ROW_ID = '{4}'", vUser.SirketKodu, rts.DovizSatisFiyat1.ToDecimal(), rts.DovizCinsi.ToString().Trim(), rts.DovizSF1BirimInt.ToShort(), fytGuncellenecek.ROW_ID));
                             }
-                            DateTime date = DateTime.Now;
+
+                            var date = DateTime.Now;
                             var shortDate = date.ToString("yyyy-MM-dd HH:mm:ss");
                             db.Database.ExecuteSqlCommand(string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[Fiyat] SET GMOnay = 1, GMOnaylayan='" + vUser.UserName + "', GMOnayTarih='{2}'  where ID = '{1}'", vUser.SirketKodu, rts.ID, shortDate));
-
                         }
-
                     }
-
-
                 }
 
                 _Result.Status = true;
@@ -539,20 +528,21 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                 _Result.Status = false;
                 _Result.Message = "Hata Oluştu. ";
             }
+
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
         public JsonResult Onay_Grup(string Data)//GM
         {
-            Result _Result = new Result(true);
+            var _Result = new Result(true);
             if (CheckPerm(Perms.FiyatOnaylamaGM, PermTypes.Writing) == false) return null;
 
-            JArray parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
+            var parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
 
-            SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
+            var sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
 
-            int BasTarih = 0;
-            int BitTarih = 0;
-            string ListeAdi = "";
+            var BasTarih = 0;
+            var BitTarih = 0;
+            var ListeAdi = "";
             try
             {
                 Dictionary<string, int> FiyatMaxSiraNo = new Dictionary<string, int>();
@@ -564,7 +554,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                     }
                     else
                     {
-                        int FytSiraNo = -1;
+                        var FytSiraNo = -1;
                         var FLB = db.Database.SqlQuery<short>(string.Format("SELECT ISNULL(MAX(SiraNo),0) FROM [FINSAT6{0}].[FINSAT6{0}].[FYT] WHERE FiyatListNum='{1}'", vUser.SirketKodu, insertObj["FiyatListNum"].ToString())).FirstOrDefault();
                         if (FLB > 0)
                         {
@@ -575,9 +565,11 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                         {
                             FytSiraNo = 0;
                         }
+
                         FiyatMaxSiraNo.Add(insertObj["FiyatListNum"].ToString(), FytSiraNo);
                     }
-                    string sql = string.Format(@"SELECT ID from [FINSAT6{0}].[FINSAT6{0}].[Fiyat] F
+
+                    var sql = string.Format(@"SELECT ID from [FINSAT6{0}].[FINSAT6{0}].[Fiyat] F
                     JOIN[FINSAT6{0}].[FINSAT6{0}].[STK] S ON S.MalKodu = F.MalKodu
                     WHERE S.GrupKod <> 'PARKE' AND S.GrupKod = '{1}' AND F.FiyatListNum = '{2}'
                     AND S.TipKod = '{3}' AND S.Kod2 = '{4}' AND S.Kod3 = '{5}' AND S.Kod1 ='{6}'
@@ -592,24 +584,22 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                     insertObj["DovizSF1Birim"].ToString(), insertObj["DovizSF1BirimInt"].ToInt32(), insertObj["DovizCinsi"].ToString()
                     );
                     var fiyatID = db.Database.SqlQuery<int>(sql).ToList();
-                    var result = String.Join(", ", fiyatID.ToArray());
+                    var result = string.Join(", ", fiyatID.ToArray());
                     sql = string.Format("SELECT * FROM [FINSAT6{0}].[FINSAT6{0}].[Fiyat] where ID in({1})", vUser.SirketKodu, result);
                     var OnayFiyatList = db.Database.SqlQuery<Fiyat>(sql).ToList();
                     foreach (Fiyat rts in OnayFiyatList)
                     {
                         if (rts.Durum == 1) //YENİ KAYIT
                         {
-
                             var fytData = db.Database.SqlQuery<FYT>(string.Format("SELECT ISNULL(Max(FiyatListName),'') as FiyatListName,ISNULL(Max(BasTarih),0) as BasTarih,ISNULL(Max(BitTarih),0) as BitTarih FROM[FINSAT6{0}].[FINSAT6{0}].[FYT] where FiyatListNum = '{1}'", vUser.SirketKodu, rts.FiyatListNum.ToString())).FirstOrDefault();
 
-                            FYT fyt = new FYT();
+                            var fyt = new FYT();
 
                             if (fytData.FiyatListNum != null)
                             {
                                 ListeAdi = fytData.FiyatListName;
                                 BasTarih = fytData.BasTarih;
                                 BitTarih = fytData.BitTarih;
-
                             }
                             else
                             {
@@ -618,9 +608,9 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                                 {
                                     ListeAdi = ListeAdi.Substring(0, 30);
                                 }
+
                                 BasTarih = rts.BasTarih.ToInt32();
                                 BitTarih = rts.BitTarih.ToInt32();
-
                             }
 
                             fyt.MalKodu = rts.MalKodu.ToString();
@@ -637,6 +627,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                             {
                                 fyt.SiraNo = 0;
                             }
+
                             fyt.RenkBedenKod1 = "";
                             fyt.RenkBedenKod2 = "";
                             fyt.RenkBedenKod3 = "";
@@ -738,51 +729,46 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                             fyt.Kod11 = 0;
                             fyt.Kod12 = 0;
 
-
-                            DateTime date = DateTime.Now;
+                            var date = DateTime.Now;
                             var shortDate = date.ToString("yyyy-MM-dd HH:mm:ss");
                             sqlexper.Insert(fyt);
                             var sonuc = sqlexper.AcceptChanges();
                             db.Database.ExecuteSqlCommand(string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[Fiyat] SET GMOnay = 1, GMOnaylayan='" + vUser.UserName + "', GMOnayTarih='{2}'  where ID = '{1}'", vUser.SirketKodu, rts.ID, shortDate));
-
-
-
                         }
                         else if (rts.Durum == 2)//Silinecek Kayıt
                         {
-                            string durum2sql = string.Format("SELECT * FROM [FINSAT6{0}].[FINSAT6{0}].[FYT] WHERE ROW_ID = {1}", vUser.SirketKodu, rts.ROW_ID);
+                            var durum2sql = string.Format("SELECT * FROM [FINSAT6{0}].[FINSAT6{0}].[FYT] WHERE ROW_ID = {1}", vUser.SirketKodu, rts.ROW_ID);
                             var fytSilinecek = db.Database.SqlQuery<FYT>(durum2sql).ToList();
                             if (fytSilinecek.Count > 0)
                             {
                                 db.Database.ExecuteSqlCommand(string.Format("DELETE FROM [FINSAT6{0}].[FINSAT6{0}].[FYT] WHERE ROW_ID = {1}", vUser.SirketKodu, rts.ROW_ID));
                             }
-                            DateTime date = DateTime.Now;
+
+                            var date = DateTime.Now;
                             var shortDate = date.ToString("yyyy-MM-dd HH:mm:ss");
                             db.Database.ExecuteSqlCommand(string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[Fiyat] SET GMOnay = 1, GMOnaylayan='" + vUser.UserName + "', GMOnayTarih='{2}'  where ID = '{1}'", vUser.SirketKodu, rts.ID, shortDate));
                         }
                         else if (rts.Durum == 3)//"Güncellenecek Kayıt"
                         {
-                            string durum3sql = string.Format("SELECT * FROM [FINSAT6{0}].[FINSAT6{0}].[FYT] WHERE ROW_ID = {1}", vUser.SirketKodu, rts.ROW_ID);
+                            var durum3sql = string.Format("SELECT * FROM [FINSAT6{0}].[FINSAT6{0}].[FYT] WHERE ROW_ID = {1}", vUser.SirketKodu, rts.ROW_ID);
                             var fytGuncellenecek = db.Database.SqlQuery<FYT>(durum3sql).FirstOrDefault();
                             if (fytGuncellenecek != null)
                             {
-                                //fytGuncellenecek.SatisFiyat1 = rts.SatisFiyat1;
-                                //fytGuncellenecek.SF1Birim = (short)rts.SatisFiyat1BirimInt;
-                                //fytGuncellenecek.DvzSatisFiyat1 = rts.DovizSatisFiyat1;
-                                //fytGuncellenecek.SF1DovizCinsi = rts.DovizCinsi.Trim();
-                                //fytGuncellenecek.DovizSF1Birim = (short)rts.DovizSF1BirimInt;
+                                // fytGuncellenecek.SatisFiyat1 = rts.SatisFiyat1;
+                                // fytGuncellenecek.SF1Birim = (short)rts.SatisFiyat1BirimInt;
+                                // fytGuncellenecek.DvzSatisFiyat1 = rts.DovizSatisFiyat1;
+                                // fytGuncellenecek.SF1DovizCinsi = rts.DovizCinsi.Trim();
+                                // fytGuncellenecek.DovizSF1Birim = (short)rts.DovizSF1BirimInt;
                                 db.Database.ExecuteSqlCommand(string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[FYT] SET SatisFiyat1 = " + rts.SatisFiyat1.ToDecimal() + ", SF1Birim='" + rts.SatisFiyat1BirimInt.ToShort() + "', DvzSatisFiyat1={1}, SF1DovizCinsi='{2}', DovizSF1Birim={3}  where ROW_ID = '{4}'", vUser.SirketKodu, rts.DovizSatisFiyat1.ToDecimal(), rts.DovizCinsi.ToString().Trim(), rts.DovizSF1BirimInt.ToShort(), fytGuncellenecek.ROW_ID));
                             }
-                            DateTime date = DateTime.Now;
+
+                            var date = DateTime.Now;
                             var shortDate = date.ToString("yyyy-MM-dd HH:mm:ss");
                             db.Database.ExecuteSqlCommand(string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[Fiyat] SET GMOnay = 1, GMOnaylayan='" + vUser.UserName + "', GMOnayTarih='{2}'  where ID = '{1}'", vUser.SirketKodu, rts.ID, shortDate));
-
                         }
-
                     }
-
-
                 }
+
                 _Result.Message = "İşlem Başarılı";
                 _Result.Status = true;
             }
@@ -791,27 +777,26 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                 _Result.Message = "Hata Oluştu";
                 _Result.Status = false;
             }
+
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult Red(string Data)
         {
-            Result _Result = new Result(true);
+            var _Result = new Result(true);
             if (CheckPerm(Perms.FiyatOnaylamaGM, PermTypes.Writing) == false) return null;
 
-            JArray parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
+            var parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
 
-            SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
-
+            var sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
 
             try
             {
                 foreach (JObject insertObj in parameters)
                 {
-
-
                     db.Database.ExecuteSqlCommand(string.Format("DELETE FROM [FINSAT6{0}].[FINSAT6{0}].[Fiyat]  where ID = '{1}'", vUser.SirketKodu, insertObj["ID"].ToString()));
                 }
+
                 _Result.Message = "İşlem Başarılı";
                 _Result.Status = true;
             }
@@ -820,23 +805,23 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                 _Result.Message = "Hata oluştu";
                 _Result.Status = false;
             }
+
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
         public JsonResult Red_Koleksiyon(string Data)
         {
-            Result _Result = new Result(true);
+            var _Result = new Result(true);
             if (CheckPerm(Perms.FiyatOnaylamaGM, PermTypes.Writing) == false) return null;
 
-            JArray parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
+            var parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
 
-            SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
-
+            var sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
 
             try
             {
                 foreach (JObject insertObj in parameters)
                 {
-                    string sql = string.Format(@"SELECT ID from [FINSAT6{0}].[FINSAT6{0}].[Fiyat] F
+                    var sql = string.Format(@"SELECT ID from [FINSAT6{0}].[FINSAT6{0}].[Fiyat] F
                     JOIN[FINSAT6{0}].[FINSAT6{0}].[STK] S ON S.MalKodu = F.MalKodu
                     WHERE S.GrupKod = 'PARKE' AND F.FiyatListNum = '{1}'
                     AND S.Kod4 = '{2}' AND S.TipKod = '{3}' AND F.SatisFiyat1 = {4}
@@ -847,11 +832,11 @@ insertObj["TipKod"].ToString(), insertObj["SatisFiyat1"].ToString().Replace(",",
 insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), insertObj["DovizSF1BirimInt"].ToInt32(), insertObj["DovizCinsi"].ToString()
 );
                     var fiyatID = db.Database.SqlQuery<int>(sql).ToList();
-                    var result = String.Join(", ", fiyatID.ToArray());
-
+                    var result = string.Join(", ", fiyatID.ToArray());
 
                     db.Database.ExecuteSqlCommand(string.Format("DELETE FROM [FINSAT6{0}].[FINSAT6{0}].[Fiyat]  where ID in({1})", vUser.SirketKodu, result));
                 }
+
                 _Result.Message = "İşlem Başarılı";
                 _Result.Status = true;
             }
@@ -860,23 +845,23 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
                 _Result.Message = "Hata Oluştu";
                 _Result.Status = false;
             }
+
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
         public JsonResult Red_Grup(string Data)
         {
-            Result _Result = new Result(true);
+            var _Result = new Result(true);
             if (CheckPerm(Perms.FiyatOnaylamaGM, PermTypes.Writing) == false) return null;
 
-            JArray parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
+            var parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
 
-            SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
-
+            var sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
 
             try
             {
                 foreach (JObject insertObj in parameters)
                 {
-                    string sql = string.Format(@"SELECT ID from [FINSAT6{0}].[FINSAT6{0}].[Fiyat] F
+                    var sql = string.Format(@"SELECT ID from [FINSAT6{0}].[FINSAT6{0}].[Fiyat] F
                     JOIN[FINSAT6{0}].[FINSAT6{0}].[STK] S ON S.MalKodu = F.MalKodu
                     WHERE S.GrupKod <> 'PARKE' AND S.GrupKod = '{1}' AND F.FiyatListNum = '{2}'
                     AND S.TipKod = '{3}' AND S.Kod2 = '{4}' AND S.Kod3 = '{5}' AND S.Kod1 ='{6}'
@@ -891,10 +876,11 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
                     insertObj["DovizSF1Birim"].ToString(), insertObj["DovizSF1BirimInt"].ToInt32(), insertObj["DovizCinsi"].ToString()
                     );
                     var fiyatID = db.Database.SqlQuery<int>(sql).ToList();
-                    var result = String.Join(", ", fiyatID.ToArray());
+                    var result = string.Join(", ", fiyatID.ToArray());
 
                     db.Database.ExecuteSqlCommand(string.Format("DELETE FROM [FINSAT6{0}].[FINSAT6{0}].[Fiyat]  where ID in({1})", vUser.SirketKodu, result));
                 }
+
                 _Result.Message = "İşlem Başarılı";
                 _Result.Status = true;
             }
@@ -902,8 +888,8 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
             {
                 _Result.Message = "Hata Oluştu";
                 _Result.Status = false;
-
             }
+
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
         #endregion
@@ -940,7 +926,6 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
             return json;
         }
 
-
         public PartialViewResult SPGMY_List_Grup()
         {
             if (CheckPerm(Perms.FiyatOnaylamaSPGMY, PermTypes.Reading) == false) return null;
@@ -954,61 +939,52 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
             return json;
         }
 
-
         public JsonResult Onay_SPGMY(string Data)
         {
-            Result _Result = new Result(true);
+            var _Result = new Result(true);
             if (CheckPerm(Perms.FiyatOnaylamaSPGMY, PermTypes.Writing) == false) return null;
 
-            JArray parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
+            var parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
 
-            SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
+            var sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
 
             try
             {
                 Dictionary<string, int> FiyatMaxSiraNo = new Dictionary<string, int>();
                 foreach (JObject insertObj in parameters)
                 {
-                    DateTime date = DateTime.Now;
+                    var date = DateTime.Now;
                     var shortDate = date.ToString("yyyy-MM-dd HH:mm:ss");
                     var sonuc = sqlexper.AcceptChanges();
                     db.Database.ExecuteSqlCommand(string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[Fiyat] SET SPGMYOnay = 1, SPGMYOnaylayan='" + vUser.UserName + "', SPGMYOnayTarih='{2}'  where ID = '{1}'", vUser.SirketKodu, insertObj["ID"].ToString(), shortDate));
-
-
-
-
                 }
-                //return "OK";
+                // return "OK";
 
                 _Result.Status = true;
                 _Result.Message = "İşlem Başarılı ";
-
             }
             catch (Exception)
             {
-
                 _Result.Status = false;
                 _Result.Message = "Hata Oluştu. ";
-
             }
+
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
         public JsonResult Onay_Koleksiyon_SPGMY(string Data)
         {
-            Result _Result = new Result(true);
+            var _Result = new Result(true);
             if (CheckPerm(Perms.FiyatOnaylamaSPGMY, PermTypes.Writing) == false) return null;
 
-            JArray parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
+            var parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
 
-            SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
+            var sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
 
             try
             {
-
                 foreach (JObject insertObj in parameters)
                 {
-
-                    string sql = string.Format(@"SELECT ID from [FINSAT6{0}].[FINSAT6{0}].[Fiyat] F
+                    var sql = string.Format(@"SELECT ID from [FINSAT6{0}].[FINSAT6{0}].[Fiyat] F
                     JOIN[FINSAT6{0}].[FINSAT6{0}].[STK] S ON S.MalKodu = F.MalKodu
                     WHERE S.GrupKod = 'PARKE' AND F.FiyatListNum = '{1}'
                     AND S.Kod4 = '{2}' AND S.TipKod = '{3}' AND F.SatisFiyat1 = {4}
@@ -1019,20 +995,16 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
                     insertObj["DovizSatisFiyat1"].ToString().Replace(",", "."), insertObj["DovizSF1Birim"].ToString(), insertObj["DovizSF1BirimInt"].ToInt32(), insertObj["DovizCinsi"].ToString()
                     );
                     var fiyatID = db.Database.SqlQuery<int>(sql).ToList();
-                    var result = String.Join(", ", fiyatID.ToArray());
+                    var result = string.Join(", ", fiyatID.ToArray());
                     sql = string.Format("SELECT * FROM [FINSAT6{0}].[FINSAT6{0}].[Fiyat] where ID in({1})", vUser.SirketKodu, result);
                     var OnayFiyatList = db.Database.SqlQuery<Fiyat>(sql).ToList();
                     foreach (Fiyat rts in OnayFiyatList)
                     {
-
-                        DateTime date = DateTime.Now;
+                        var date = DateTime.Now;
                         var shortDate = date.ToString("yyyy-MM-dd HH:mm:ss");
                         var sonuc = sqlexper.AcceptChanges();
                         db.Database.ExecuteSqlCommand(string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[Fiyat] SET SPGMYOnay = 1, SPGMYOnaylayan='" + vUser.UserName + "', SPGMYOnayTarih='{2}'  where ID = '{1}'", vUser.SirketKodu, rts.ID, shortDate));
-
                     }
-
-
                 }
 
                 _Result.Message = "İşlem Başarılı";
@@ -1043,25 +1015,24 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
                 _Result.Message = "Hata Oluştu";
                 _Result.Status = false;
             }
-            return Json(_Result, JsonRequestBehavior.AllowGet);
 
+            return Json(_Result, JsonRequestBehavior.AllowGet);
         }
         public JsonResult Onay_Grup_SPGMY(string Data)
         {
-            Result _Result = new Result(true);
+            var _Result = new Result(true);
             if (CheckPerm(Perms.FiyatOnaylamaSPGMY, PermTypes.Writing) == false) return null;
 
-            JArray parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
+            var parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
 
-            SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
+            var sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
 
             try
             {
                 Dictionary<string, int> FiyatMaxSiraNo = new Dictionary<string, int>();
                 foreach (JObject insertObj in parameters)
                 {
-
-                    string sql = string.Format(@"SELECT ID from [FINSAT6{0}].[FINSAT6{0}].[Fiyat] F
+                    var sql = string.Format(@"SELECT ID from [FINSAT6{0}].[FINSAT6{0}].[Fiyat] F
                     JOIN[FINSAT6{0}].[FINSAT6{0}].[STK] S ON S.MalKodu = F.MalKodu
                     WHERE S.GrupKod <> 'PARKE' AND S.GrupKod = '{1}' AND F.FiyatListNum = '{2}'
                     AND S.TipKod = '{3}' AND S.Kod2 = '{4}' AND S.Kod3 = '{5}' AND S.Kod1 ='{6}'
@@ -1076,24 +1047,19 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
                     insertObj["DovizSF1Birim"].ToString(), insertObj["DovizSF1BirimInt"].ToInt32(), insertObj["DovizCinsi"].ToString()
                     );
                     var fiyatID = db.Database.SqlQuery<int>(sql).ToList();
-                    var result = String.Join(", ", fiyatID.ToArray());
+                    var result = string.Join(", ", fiyatID.ToArray());
                     sql = string.Format("SELECT * FROM [FINSAT6{0}].[FINSAT6{0}].[Fiyat] where ID in({1})", vUser.SirketKodu, result);
                     var OnayFiyatList = db.Database.SqlQuery<Fiyat>(sql).ToList();
                     foreach (Fiyat rts in OnayFiyatList)
                     {
-
-                        DateTime date = DateTime.Now;
+                        var date = DateTime.Now;
                         var shortDate = date.ToString("yyyy-MM-dd HH:mm:ss");
 
                         var sonuc = sqlexper.AcceptChanges();
                         db.Database.ExecuteSqlCommand(string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[Fiyat] SET SPGMYOnay = 1, SPGMYOnaylayan='" + vUser.UserName + "', SPGMYOnayTarih='{2}'  where ID = '{1}'", vUser.SirketKodu, rts.ID, shortDate));
-
-
-
                     }
-
-
                 }
+
                 _Result.Message = "İşlem Başarılı";
                 _Result.Status = true;
             }
@@ -1102,27 +1068,26 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
                 _Result.Message = "Hata Oluştu";
                 _Result.Status = false;
             }
+
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult Red_SPGMY(string Data)
         {
-            Result _Result = new Result(true);
+            var _Result = new Result(true);
             if (CheckPerm(Perms.FiyatOnaylamaSPGMY, PermTypes.Writing) == false) return null;
 
-            JArray parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
+            var parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
 
-            SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
-
+            var sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
 
             try
             {
                 foreach (JObject insertObj in parameters)
                 {
-
-
                     db.Database.ExecuteSqlCommand(string.Format("DELETE FROM [FINSAT6{0}].[FINSAT6{0}].[Fiyat]  where ID = '{1}'", vUser.SirketKodu, insertObj["ID"].ToString()));
                 }
+
                 _Result.Message = "İşlem Başarılı";
                 _Result.Status = true;
             }
@@ -1131,23 +1096,23 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
                 _Result.Message = "Hata Oluştu";
                 _Result.Status = false;
             }
+
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
         public JsonResult Red_Koleksiyon_SPGMY(string Data)
         {
-            Result _Result = new Result(true);
+            var _Result = new Result(true);
             if (CheckPerm(Perms.FiyatOnaylamaSPGMY, PermTypes.Writing) == false) return null;
 
-            JArray parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
+            var parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
 
-            SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
-
+            var sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
 
             try
             {
                 foreach (JObject insertObj in parameters)
                 {
-                    string sql = string.Format(@"SELECT ID from [FINSAT6{0}].[FINSAT6{0}].[Fiyat] F
+                    var sql = string.Format(@"SELECT ID from [FINSAT6{0}].[FINSAT6{0}].[Fiyat] F
                     JOIN[FINSAT6{0}].[FINSAT6{0}].[STK] S ON S.MalKodu = F.MalKodu
                     WHERE S.GrupKod = 'PARKE' AND F.FiyatListNum = '{1}'
                     AND S.Kod4 = '{2}' AND S.TipKod = '{3}' AND F.SatisFiyat1 = {4}
@@ -1158,11 +1123,11 @@ insertObj["TipKod"].ToString(), insertObj["SatisFiyat1"].ToString().Replace(",",
 insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), insertObj["DovizSF1BirimInt"].ToInt32(), insertObj["DovizCinsi"].ToString()
 );
                     var fiyatID = db.Database.SqlQuery<int>(sql).ToList();
-                    var result = String.Join(", ", fiyatID.ToArray());
-
+                    var result = string.Join(", ", fiyatID.ToArray());
 
                     db.Database.ExecuteSqlCommand(string.Format("DELETE FROM [FINSAT6{0}].[FINSAT6{0}].[Fiyat]  where ID in({1})", vUser.SirketKodu, result));
                 }
+
                 _Result.Message = "İşlem Başarılı";
                 _Result.Status = true;
             }
@@ -1171,22 +1136,22 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
                 _Result.Message = "Hata Oluştu";
                 _Result.Status = false;
             }
+
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
         public JsonResult Red_Grup_SPGMY(string Data)
         {
-            Result _Result = new Result(true);
+            var _Result = new Result(true);
             if (CheckPerm(Perms.FiyatOnaylamaSPGMY, PermTypes.Writing) == false) return null;
 
-            JArray parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
-            SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
-
+            var parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
+            var sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
 
             try
             {
                 foreach (JObject insertObj in parameters)
                 {
-                    string sql = string.Format(@"SELECT ID from [FINSAT6{0}].[FINSAT6{0}].[Fiyat] F
+                    var sql = string.Format(@"SELECT ID from [FINSAT6{0}].[FINSAT6{0}].[Fiyat] F
                     JOIN[FINSAT6{0}].[FINSAT6{0}].[STK] S ON S.MalKodu = F.MalKodu
                     WHERE S.GrupKod <> 'PARKE' AND S.GrupKod = '{1}' AND F.FiyatListNum = '{2}'
                     AND S.TipKod = '{3}' AND S.Kod2 = '{4}' AND S.Kod3 = '{5}' AND S.Kod1 ='{6}'
@@ -1201,10 +1166,11 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
                     insertObj["DovizSF1Birim"].ToString(), insertObj["DovizSF1BirimInt"].ToInt32(), insertObj["DovizCinsi"].ToString()
                     );
                     var fiyatID = db.Database.SqlQuery<int>(sql).ToList();
-                    var result = String.Join(", ", fiyatID.ToArray());
+                    var result = string.Join(", ", fiyatID.ToArray());
 
                     db.Database.ExecuteSqlCommand(string.Format("DELETE FROM [FINSAT6{0}].[FINSAT6{0}].[Fiyat]  where ID in({1})", vUser.SirketKodu, result));
                 }
+
                 _Result.Message = "İşlem Başarılı";
                 _Result.Status = true;
             }
@@ -1213,6 +1179,7 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
                 _Result.Message = "Hata Oluştu";
                 _Result.Status = false;
             }
+
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
         #endregion
@@ -1264,61 +1231,52 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
             return json;
         }
 
-
         public JsonResult Onay_SM(string Data)
         {
-            Result _Result = new Result(true);
+            var _Result = new Result(true);
             if (CheckPerm(Perms.FiyatOnaylamaSM, PermTypes.Writing) == false) return null;
 
-            JArray parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
+            var parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
 
-            SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
+            var sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
 
             try
             {
                 Dictionary<string, int> FiyatMaxSiraNo = new Dictionary<string, int>();
                 foreach (JObject insertObj in parameters)
                 {
-                    DateTime date = DateTime.Now;
+                    var date = DateTime.Now;
                     var shortDate = date.ToString("yyyy-MM-dd HH:mm:ss");
                     var sonuc = sqlexper.AcceptChanges();
                     db.Database.ExecuteSqlCommand(string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[Fiyat] SET Onay = 1, Onaylayan='" + vUser.UserName + "', SMOnayTarih='{2}'  where ID = '{1}'", vUser.SirketKodu, insertObj["ID"].ToString(), shortDate));
-
-
-
-
                 }
-                //return "OK";
+                // return "OK";
 
                 _Result.Status = true;
                 _Result.Message = "İşlem Başarılı ";
-
             }
             catch (Exception)
             {
-
                 _Result.Status = false;
                 _Result.Message = "Hata Oluştu. ";
-
             }
+
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
         public JsonResult Onay_Koleksiyon_SM(string Data)
         {
-            Result _Result = new Result(true);
+            var _Result = new Result(true);
             if (CheckPerm(Perms.FiyatOnaylamaSM, PermTypes.Writing) == false) return null;
 
-            JArray parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
+            var parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
 
-            SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
+            var sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
 
             try
             {
-
                 foreach (JObject insertObj in parameters)
                 {
-
-                    string sql = string.Format(@"SELECT ID from [FINSAT6{0}].[FINSAT6{0}].[Fiyat] F
+                    var sql = string.Format(@"SELECT ID from [FINSAT6{0}].[FINSAT6{0}].[Fiyat] F
                     JOIN[FINSAT6{0}].[FINSAT6{0}].[STK] S ON S.MalKodu = F.MalKodu
                     WHERE S.GrupKod = 'PARKE' AND F.FiyatListNum = '{1}'
                     AND S.Kod4 = '{2}' AND S.TipKod = '{3}' AND F.SatisFiyat1 = {4}
@@ -1329,20 +1287,16 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
                     insertObj["DovizSatisFiyat1"].ToString().Replace(",", "."), insertObj["DovizSF1Birim"].ToString(), insertObj["DovizSF1BirimInt"].ToInt32(), insertObj["DovizCinsi"].ToString()
                     );
                     var fiyatID = db.Database.SqlQuery<int>(sql).ToList();
-                    var result = String.Join(", ", fiyatID.ToArray());
+                    var result = string.Join(", ", fiyatID.ToArray());
                     sql = string.Format("SELECT * FROM [FINSAT6{0}].[FINSAT6{0}].[Fiyat] where ID in({1})", vUser.SirketKodu, result);
                     var OnayFiyatList = db.Database.SqlQuery<Fiyat>(sql).ToList();
                     foreach (Fiyat rts in OnayFiyatList)
                     {
-
-                        DateTime date = DateTime.Now;
+                        var date = DateTime.Now;
                         var shortDate = date.ToString("yyyy-MM-dd HH:mm:ss");
                         var sonuc = sqlexper.AcceptChanges();
                         db.Database.ExecuteSqlCommand(string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[Fiyat] SET Onay = 1, Onaylayan='" + vUser.UserName + "', SMOnayTarih='{2}'  where ID = '{1}'", vUser.SirketKodu, rts.ID, shortDate));
-
                     }
-
-
                 }
 
                 _Result.Message = "İşlem Başarılı";
@@ -1353,25 +1307,24 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
                 _Result.Message = "Hata Oluştu";
                 _Result.Status = false;
             }
-            return Json(_Result, JsonRequestBehavior.AllowGet);
 
+            return Json(_Result, JsonRequestBehavior.AllowGet);
         }
         public JsonResult Onay_Grup_SM(string Data)
         {
-            Result _Result = new Result(true);
+            var _Result = new Result(true);
             if (CheckPerm(Perms.FiyatOnaylamaSM, PermTypes.Writing) == false) return null;
 
-            JArray parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
+            var parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
 
-            SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
+            var sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
 
             try
             {
                 Dictionary<string, int> FiyatMaxSiraNo = new Dictionary<string, int>();
                 foreach (JObject insertObj in parameters)
                 {
-
-                    string sql = string.Format(@"SELECT ID from [FINSAT6{0}].[FINSAT6{0}].[Fiyat] F
+                    var sql = string.Format(@"SELECT ID from [FINSAT6{0}].[FINSAT6{0}].[Fiyat] F
                     JOIN[FINSAT6{0}].[FINSAT6{0}].[STK] S ON S.MalKodu = F.MalKodu
                     WHERE S.GrupKod <> 'PARKE' AND S.GrupKod = '{1}' AND F.FiyatListNum = '{2}'
                     AND S.TipKod = '{3}' AND S.Kod2 = '{4}' AND S.Kod3 = '{5}' AND S.Kod1 ='{6}'
@@ -1386,24 +1339,19 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
                     insertObj["DovizSF1Birim"].ToString(), insertObj["DovizSF1BirimInt"].ToInt32(), insertObj["DovizCinsi"].ToString()
                     );
                     var fiyatID = db.Database.SqlQuery<int>(sql).ToList();
-                    var result = String.Join(", ", fiyatID.ToArray());
+                    var result = string.Join(", ", fiyatID.ToArray());
                     sql = string.Format("SELECT * FROM [FINSAT6{0}].[FINSAT6{0}].[Fiyat] where ID in({1})", vUser.SirketKodu, result);
                     var OnayFiyatList = db.Database.SqlQuery<Fiyat>(sql).ToList();
                     foreach (Fiyat rts in OnayFiyatList)
                     {
-
-                        DateTime date = DateTime.Now;
+                        var date = DateTime.Now;
                         var shortDate = date.ToString("yyyy-MM-dd HH:mm:ss");
 
                         var sonuc = sqlexper.AcceptChanges();
                         db.Database.ExecuteSqlCommand(string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[Fiyat] SET Onay = 1, Onaylayan='" + vUser.UserName + "', SMOnayTarih='{2}'  where ID = '{1}'", vUser.SirketKodu, rts.ID, shortDate));
-
-
-
                     }
-
-
                 }
+
                 _Result.Message = "İşlem Başarılı";
                 _Result.Status = true;
             }
@@ -1412,27 +1360,26 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
                 _Result.Message = "Hata Oluştu";
                 _Result.Status = false;
             }
+
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult Red_SM(string Data)
         {
-            Result _Result = new Result(true);
+            var _Result = new Result(true);
             if (CheckPerm(Perms.FiyatOnaylamaSM, PermTypes.Writing) == false) return null;
 
-            JArray parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
+            var parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
 
-            SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
-
+            var sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
 
             try
             {
                 foreach (JObject insertObj in parameters)
                 {
-
-
                     db.Database.ExecuteSqlCommand(string.Format("DELETE FROM [FINSAT6{0}].[FINSAT6{0}].[Fiyat]  where ID = '{1}'", vUser.SirketKodu, insertObj["ID"].ToString()));
                 }
+
                 _Result.Message = "İşlem Başarılı";
                 _Result.Status = true;
             }
@@ -1441,23 +1388,23 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
                 _Result.Message = "Hata Oluştu";
                 _Result.Status = false;
             }
+
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
         public JsonResult Red_Koleksiyon_SM(string Data)
         {
-            Result _Result = new Result(true);
+            var _Result = new Result(true);
             if (CheckPerm(Perms.FiyatOnaylamaSM, PermTypes.Writing) == false) return null;
 
-            JArray parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
+            var parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
 
-            SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
-
+            var sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
 
             try
             {
                 foreach (JObject insertObj in parameters)
                 {
-                    string sql = string.Format(@"SELECT ID from [FINSAT6{0}].[FINSAT6{0}].[Fiyat] F
+                    var sql = string.Format(@"SELECT ID from [FINSAT6{0}].[FINSAT6{0}].[Fiyat] F
                     JOIN[FINSAT6{0}].[FINSAT6{0}].[STK] S ON S.MalKodu = F.MalKodu
                     WHERE S.GrupKod = 'PARKE' AND F.FiyatListNum = '{1}'
                     AND S.Kod4 = '{2}' AND S.TipKod = '{3}' AND F.SatisFiyat1 = {4}
@@ -1468,10 +1415,11 @@ insertObj["TipKod"].ToString(), insertObj["SatisFiyat1"].ToString().Replace(",",
 insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), insertObj["DovizSF1BirimInt"].ToInt32(), insertObj["DovizCinsi"].ToString()
 );
                     var fiyatID = db.Database.SqlQuery<int>(sql).ToList();
-                    var result = String.Join(", ", fiyatID.ToArray());
+                    var result = string.Join(", ", fiyatID.ToArray());
 
                     db.Database.ExecuteSqlCommand(string.Format("DELETE FROM [FINSAT6{0}].[FINSAT6{0}].[Fiyat]  where ID in({1})", vUser.SirketKodu, result));
                 }
+
                 _Result.Message = "İşlem Başarılı";
                 _Result.Status = true;
             }
@@ -1480,23 +1428,23 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
                 _Result.Message = "Hata Oluştu";
                 _Result.Status = false;
             }
+
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
         public JsonResult Red_Grup_SM(string Data)
         {
-            Result _Result = new Result(true);
+            var _Result = new Result(true);
             if (CheckPerm(Perms.FiyatOnaylamaSM, PermTypes.Writing) == false) return null;
 
-            JArray parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
+            var parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
 
-            SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
-
+            var sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
 
             try
             {
                 foreach (JObject insertObj in parameters)
                 {
-                    string sql = string.Format(@"SELECT ID from [FINSAT6{0}].[FINSAT6{0}].[Fiyat] F
+                    var sql = string.Format(@"SELECT ID from [FINSAT6{0}].[FINSAT6{0}].[Fiyat] F
                     JOIN[FINSAT6{0}].[FINSAT6{0}].[STK] S ON S.MalKodu = F.MalKodu
                     WHERE S.GrupKod <> 'PARKE' AND S.GrupKod = '{1}' AND F.FiyatListNum = '{2}'
                     AND S.TipKod = '{3}' AND S.Kod2 = '{4}' AND S.Kod3 = '{5}' AND S.Kod1 ='{6}'
@@ -1511,11 +1459,11 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
                     insertObj["DovizSF1Birim"].ToString(), insertObj["DovizSF1BirimInt"].ToInt32(), insertObj["DovizCinsi"].ToString()
                     );
                     var fiyatID = db.Database.SqlQuery<int>(sql).ToList();
-                    var result = String.Join(", ", fiyatID.ToArray());
-
+                    var result = string.Join(", ", fiyatID.ToArray());
 
                     db.Database.ExecuteSqlCommand(string.Format("DELETE FROM [FINSAT6{0}].[FINSAT6{0}].[Fiyat]  where ID in({1})", vUser.SirketKodu, result));
                 }
+
                 _Result.Message = "İşlem Başarılı";
                 _Result.Status = true;
             }
@@ -1524,6 +1472,7 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
                 _Result.Message = "Hata Oluştu";
                 _Result.Status = false;
             }
+
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
         #endregion
@@ -1570,21 +1519,12 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
             return json;
         }
 
-
-
-
-
-
-
-
-
-
         public string SatirEkle(string Data, string Satirlar)
         {
             if (CheckPerm(Perms.FiyatTanim, PermTypes.Writing) == false) return null;
 
-            JObject parameters = JsonConvert.DeserializeObject<JObject>(Request["Data"]);
-            SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
+            var parameters = JsonConvert.DeserializeObject<JObject>(Request["Data"]);
+            var sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
             using (var dbContextTransaction = db.Database.BeginTransaction())
             {
                 try
@@ -1601,7 +1541,6 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
                                 {
                                     return "MEVCUT";
                                 }
-
                             }
                             else
                             {
@@ -1611,7 +1550,8 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
                                 }
                             }
                         }
-                        Fiyat fyt = new Fiyat()
+
+                        var fyt = new Fiyat()
                         {
                             FiyatListNum = parameters["ListeNo"].ToString(),
                             HesapKodu = parameters["HesapKodu"].ToString(),
@@ -1667,23 +1607,18 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
                             fyt.GMOnay = false;
                             fyt.GMOnaylayan = "";
                         }
+
                         sqlexper.Insert(fyt);
                         var sonuc = sqlexper.AcceptChanges();
-                        if (sonuc.Status == false)
-                        {
-                            return "NO";
-                        }
-                        else
-                        {
-                            return "OK";
-                        }
+                        if (sonuc.Status == false) return "NO";
+                        else return "OK";
                     }
                     else
                     {
-                        JArray satirlar = JsonConvert.DeserializeObject<JArray>(Request["Satirlar"]);
+                        var satirlar = JsonConvert.DeserializeObject<JArray>(Request["Satirlar"]);
                         foreach (JObject satir in satirlar)
                         {
-                            Fiyat fyt = new Fiyat()
+                            var fyt = new Fiyat()
                             {
                                 FiyatListNum = parameters["ListeNo"].ToString(),
                                 HesapKodu = satir["MusteriKodu"].ToString(),
@@ -1757,12 +1692,10 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
 
                             sqlexper.Insert(fyt);
                             var sonuc = sqlexper.AcceptChanges();
-                            if (sonuc.Status == false)
-                            {
-                                return "NO";
-                            }
+                            if (sonuc.Status == false) return "NO";
                         }
                     }
+
                     db.SaveChanges();
                     dbContextTransaction.Commit();
                     return "OK";
@@ -1773,8 +1706,6 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
                     return "NO";
                 }
             }
-
-
         }
     }
 }

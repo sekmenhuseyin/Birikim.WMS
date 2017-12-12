@@ -43,7 +43,7 @@ namespace Wms12m.Presentation.Areas.System.Controllers
         public ActionResult Save(ComboItem_Name tbl)
         {
             if (CheckPerm(Perms.Menü, PermTypes.Writing) == false) return Redirect("/");
-            Result _Result = new Result();
+            var _Result = new Result();
             if (ModelState.IsValid)
                 _Result = ComboSub.Operation(tbl);
             return Redirect(Request.UrlReferrer.ToString());
@@ -55,7 +55,7 @@ namespace Wms12m.Presentation.Areas.System.Controllers
         public JsonResult Delete(int id)
         {
             if (CheckPerm(Perms.Menü, PermTypes.Deleting) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
-            Result _Result = ComboSub.Delete(id);
+            var _Result = ComboSub.Delete(id);
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
     }

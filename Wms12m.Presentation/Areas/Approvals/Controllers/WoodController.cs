@@ -12,15 +12,10 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 {
     public class WoodController : RootController
     {
+        public ActionResult TahsisliOnay() => View();
 
-        public ActionResult TahsisliOnay()
-        {
-            return View();
-        }
-        public PartialViewResult TahsisliOnay_List()
-        {
-            return PartialView();
-        }
+        public PartialViewResult TahsisliOnay_List() => PartialView();
+
         public string TahsisliOnayCek()
         {
             var RT = db.Database.SqlQuery<TahsisOnayOdun>(string.Format("[FINSAT6{0}].[dbo].[IHLTAHOnaydaBekleyen] @Tip = 2", vUser.SirketKodu)).ToList();
@@ -29,18 +24,17 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         }
         public JsonResult Onay(string Data)
         {
-            Result _Result = new Result(true);
-            JArray parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
-            SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
+            var _Result = new Result(true);
+            var parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
+            var sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
 
             try
             {
-
                 foreach (JObject insertObj in parameters)
                 {
-                    DateTime date = DateTime.Now;
+                    var date = DateTime.Now;
                     var shortDate = date.ToString("yyyy-MM-dd");
-                    string sql = "";
+                    var sql = "";
                     if (insertObj["Tip"].ToShort() == (short)0)
                     {
                         if (insertObj["TavanMiktar"].ToDecimal() > 0)
@@ -48,65 +42,60 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                         if (insertObj["TavanMiktar"].ToDecimal() > 0)
                             sql += ", TavanFiyat=" + insertObj["TavanFiyat"].ToString().Replace(',', '.').ToDecimal();
                     }
-                    string s = string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[IHLTAH] SET Onay = 1, Onaylayan='" + vUser.UserName + "', OnayTarih='{2}',DegisTarih='{2}'{3}  where ID = {1} AND Onay=0", vUser.SirketKodu, insertObj["ID"].ToString(), shortDate, sql);
+
+                    var s = string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[IHLTAH] SET Onay = 1, Onaylayan='" + vUser.UserName + "', OnayTarih='{2}',DegisTarih='{2}'{3}  where ID = {1} AND Onay=0", vUser.SirketKodu, insertObj["ID"].ToString(), shortDate, sql);
                     db.Database.ExecuteSqlCommand(s);
                 }
+
                 _Result.Status = true;
                 _Result.Message = "İşlem Başarılı ";
-
             }
             catch (Exception)
             {
-
                 _Result.Status = false;
                 _Result.Message = "Hata Oluştu. ";
-
             }
-            return Json(_Result, JsonRequestBehavior.AllowGet);
 
+            return Json(_Result, JsonRequestBehavior.AllowGet);
         }
         public JsonResult Red(string Data)
         {
-            Result _Result = new Result(true);
-            JArray parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
-            SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
+            var _Result = new Result(true);
+            var parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
+            var sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
 
             try
             {
-
                 foreach (JObject insertObj in parameters)
                 {
-                    string s = string.Format("DELETE FROM [FINSAT6{0}].[FINSAT6{0}].[IHLTAH] where ID = {1} AND Onay=0", vUser.SirketKodu, insertObj["ID"].ToString());
+                    var s = string.Format("DELETE FROM [FINSAT6{0}].[FINSAT6{0}].[IHLTAH] where ID = {1} AND Onay=0", vUser.SirketKodu, insertObj["ID"].ToString());
                     db.Database.ExecuteSqlCommand(s);
                 }
+
                 _Result.Status = true;
                 _Result.Message = "İşlem Başarılı ";
-
             }
             catch (Exception)
             {
-
                 _Result.Status = false;
                 _Result.Message = "Hata Oluştu. ";
-
             }
+
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult TahsisliAlim()
         {
-
-            string sorgu = string.Format(@"SELECT HesapKodu, (Unvan1+' '+Unvan2) AS Unvan 
+            var sorgu = string.Format(@"SELECT HesapKodu, (Unvan1+' '+Unvan2) AS Unvan 
 											FROM FINSAT6{0}.FINSAT6{0}.CHK(NOLOCK) 
 											WHERE HesapKodu Like '320%'", vUser.SirketKodu);
             var slctIsletme = db.Database.SqlQuery<CHKSelect1Result>(sorgu).ToList();
 
-            string sorgu1 = string.Format(@"SELECT DISTINCT CONVERT(varchar, Yil) + '-' + CONVERT(varchar, Hafta) AS value,  CONVERT(varchar, Hafta) + '. Hafta (' +  CONVERT(varchar, Yil) + ')' AS name, Yil, Hafta
+            var sorgu1 = string.Format(@"SELECT DISTINCT CONVERT(varchar, Yil) + '-' + CONVERT(varchar, Hafta) AS value,  CONVERT(varchar, Hafta) + '. Hafta (' +  CONVERT(varchar, Yil) + ')' AS name, Yil, Hafta
 										FROM            FINSAT6{0}.FINSAT6{0}.IHLTAH WITH (NOLOCK)
 										WHERE        (Tip = 2)
 										ORDER BY Yil, Hafta", vUser.SirketKodu);
             var slctHafta = db.Database.SqlQuery<IHLTAH>(sorgu1).ToList();
-
 
             ViewBag.Hafta = new SelectList(slctHafta, "value", "name");
             ViewBag.Isletme = new SelectList(slctIsletme, "HesapKodu", "Unvan");
@@ -116,9 +105,9 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         {
             ViewBag.Hafta = Isletme;
             ViewBag.Isletme = Hafta;
-            string s = HttpContext.Request.Url.ToString();
-            Uri uri = new Uri(s);
-            string link = string.Format("{0}:///{1}:{2}", "file", uri.Host, uri.Port);
+            var s = HttpContext.Request.Url.ToString();
+            var uri = new Uri(s);
+            var link = string.Format("{0}:///{1}:{2}", "file", uri.Host, uri.Port);
             ViewBag.Path = link;
             return PartialView();
         }
@@ -133,20 +122,17 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             else
                 s = string.Format("[FINSAT6{0}].[dbo].[IHLTAHKayit] @Tip = 2, @Yil=0, @Hafta=0, @HesapKodu='{1}'", vUser.SirketKodu, Isletme);
 
-
             var RT = db.Database.SqlQuery<IHLTAHKayitResult>(s).ToList();
             var json = new JavaScriptSerializer().Serialize(RT);
 
             return json;
         }
 
-        public ActionResult TahsisliIsletmeKasasi()
-        {
-            return View();
-        }
+        public ActionResult TahsisliIsletmeKasasi() => View();
+
         public PartialViewResult TahsisliIsletmeKasasi_List(string EvrakNo, string HesapKodu)
         {
-            string sql = string.Format(@"SELECT DISTINCT FINSAT6{0}.FINSAT6{0}.CHI.HesapKodu, FINSAT6{0}.FINSAT6{0}.CHK.Unvan1 AS Unvan, FINSAT6{0}.FINSAT6{0}.CHI.EvrakNo, FINSAT6{0}.FINSAT6{0}.CHI.EvrakNo2, CAST(FINSAT6{0}.FINSAT6{0}.CHI.Tarih - 2 AS smalldatetime) 
+            var sql = string.Format(@"SELECT DISTINCT FINSAT6{0}.FINSAT6{0}.CHI.HesapKodu, FINSAT6{0}.FINSAT6{0}.CHK.Unvan1 AS Unvan, FINSAT6{0}.FINSAT6{0}.CHI.EvrakNo, FINSAT6{0}.FINSAT6{0}.CHI.EvrakNo2, CAST(FINSAT6{0}.FINSAT6{0}.CHI.Tarih - 2 AS smalldatetime) 
 															 AS Tarih, FINSAT6{0}.FINSAT6{0}.CHI.Kod13, FINSAT6{0}.FINSAT6{0}.CHI.Kod14,
 																 (SELECT        ISNULL(SUM(FINSAT6{0}.FINSAT6{0}.STI.BirimMiktar), 0) AS Expr1
 																   FROM            FINSAT6{0}.FINSAT6{0}.STI INNER JOIN
@@ -207,26 +193,17 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 																	AND HesapKodu='{2}' AND BirimMiktar>0
 																 )", vUser.SirketKodu, EvrakNo, HesapKodu)).ToList();
 
-
             foreach (MyChi chi in RT)
-            {
                 chi.FaturaDetay = RT1.FindAll(t => t.EvrakNo == chi.EvrakNo);
-            }
-
-
 
             var json = new JavaScriptSerializer().Serialize(RT);
             return json;
         }
 
-        public ActionResult IhaleliOnay()
-        {
-            return View();
-        }
-        public PartialViewResult IhaleliAlim_List()
-        {
-            return PartialView();
-        }
+        public ActionResult IhaleliOnay() => View();
+
+        public PartialViewResult IhaleliAlim_List() => PartialView();
+
         public string IhaleliAlimOnayCek()
         {
             var RT = db.Database.SqlQuery<TahsisOnayOdun>(string.Format("[FINSAT6{0}].[dbo].[IHLTAHOnaydaBekleyen] @Tip = 0", vUser.SirketKodu)).ToList();
@@ -235,18 +212,17 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         }
         public JsonResult IhaleliOnayla(string Data)
         {
-            Result _Result = new Result(true);
-            JArray parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
-            SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
+            var _Result = new Result(true);
+            var parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
+            var sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
 
             try
             {
-
                 foreach (JObject insertObj in parameters)
                 {
-                    DateTime date = DateTime.Now;
+                    var date = DateTime.Now;
                     var shortDate = date.ToString("yyyy-MM-dd");
-                    string sql = "";
+                    var sql = "";
                     if (insertObj["Tip"].ToShort() == (short)0)
                     {
                         if (insertObj["TavanMiktar"].ToDecimal() > 0)
@@ -254,65 +230,59 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                         if (insertObj["TavanMiktar"].ToDecimal() > 0)
                             sql += ", TavanFiyat=" + insertObj["TavanFiyat"].ToString().Replace(',', '.').ToDecimal();
                     }
-                    string s = string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[IHLTAH] SET Onay = 1, Onaylayan='" + vUser.UserName + "', OnayTarih='{2}',DegisTarih='{2}'{3}  where ID = {1} AND Onay=0", vUser.SirketKodu, insertObj["ID"].ToString(), shortDate, sql);
+
+                    var s = string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[IHLTAH] SET Onay = 1, Onaylayan='" + vUser.UserName + "', OnayTarih='{2}',DegisTarih='{2}'{3}  where ID = {1} AND Onay=0", vUser.SirketKodu, insertObj["ID"].ToString(), shortDate, sql);
                     db.Database.ExecuteSqlCommand(s);
                 }
+
                 _Result.Status = true;
                 _Result.Message = "İşlem Başarılı ";
-
             }
             catch (Exception)
             {
-
                 _Result.Status = false;
                 _Result.Message = "Hata Oluştu. ";
-
             }
-            return Json(_Result, JsonRequestBehavior.AllowGet);
 
+            return Json(_Result, JsonRequestBehavior.AllowGet);
         }
         public JsonResult IhaleliRed(string Data)
         {
-            Result _Result = new Result(true);
-            JArray parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
-            SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
+            var _Result = new Result(true);
+            var parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
+            var sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
             try
             {
-
                 foreach (JObject insertObj in parameters)
                 {
-                    string s = string.Format("DELETE FROM [FINSAT6{0}].[FINSAT6{0}].[IHLTAH] where ID = {1} AND Onay=0", vUser.SirketKodu, insertObj["ID"].ToString());
+                    var s = string.Format("DELETE FROM [FINSAT6{0}].[FINSAT6{0}].[IHLTAH] where ID = {1} AND Onay=0", vUser.SirketKodu, insertObj["ID"].ToString());
                     db.Database.ExecuteSqlCommand(s);
                 }
+
                 _Result.Status = true;
                 _Result.Message = "İşlem Başarılı ";
-
             }
             catch (Exception)
             {
-
                 _Result.Status = false;
                 _Result.Message = "Hata Oluştu. ";
-
             }
-            return Json(_Result, JsonRequestBehavior.AllowGet);
 
+            return Json(_Result, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult IhaleAlim()
         {
-
-            string sorgu = string.Format(@"SELECT HesapKodu, (Unvan1+' '+Unvan2) AS Unvan 
+            var sorgu = string.Format(@"SELECT HesapKodu, (Unvan1+' '+Unvan2) AS Unvan 
 											FROM FINSAT6{0}.FINSAT6{0}.CHK(NOLOCK) 
 											WHERE HesapKodu Like '320%'", vUser.SirketKodu);
             var slctIsletme = db.Database.SqlQuery<CHKSelect1Result>(sorgu).ToList();
 
-            string sorgu1 = string.Format(@"SELECT DISTINCT CONVERT(varchar, Yil) + '-' + CONVERT(varchar, Hafta) AS value,  CONVERT(varchar, Hafta) + '. Hafta (' +  CONVERT(varchar, Yil) + ')' AS name, Yil, Hafta
+            var sorgu1 = string.Format(@"SELECT DISTINCT CONVERT(varchar, Yil) + '-' + CONVERT(varchar, Hafta) AS value,  CONVERT(varchar, Hafta) + '. Hafta (' +  CONVERT(varchar, Yil) + ')' AS name, Yil, Hafta
 										FROM            FINSAT6{0}.FINSAT6{0}.IHLTAH WITH (NOLOCK)
 										WHERE        (Tip = 2)
 										ORDER BY Yil, Hafta", vUser.SirketKodu);
             var slctHafta = db.Database.SqlQuery<IHLTAH>(sorgu1).ToList();
-
 
             ViewBag.Hafta = new SelectList(slctHafta, "value", "name");
             ViewBag.Isletme = new SelectList(slctIsletme, "HesapKodu", "Unvan");
@@ -335,20 +305,17 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             else
                 s = string.Format("[FINSAT6{0}].[dbo].[IHLTAHKayit] @Tip = 0, @Yil=0, @Hafta=0, @HesapKodu='{1}'", vUser.SirketKodu, Isletme);
 
-
             var RT = db.Database.SqlQuery<IHLTAHKayitResult>(s).ToList();
             var json = new JavaScriptSerializer().Serialize(RT);
 
             return json;
         }
 
-        public ActionResult IhaleliIsletmeKasasi()
-        {
-            return View();
-        }
+        public ActionResult IhaleliIsletmeKasasi() => View();
+
         public PartialViewResult IhaleliIsletmeKasasi_List(string EvrakNo, string HesapKodu)
         {
-            string sql = string.Format(@"SELECT DISTINCT FINSAT6{0}.FINSAT6{0}.CHI.HesapKodu, FINSAT6{0}.FINSAT6{0}.CHK.Unvan1 AS Unvan, FINSAT6{0}.FINSAT6{0}.CHI.EvrakNo, FINSAT6{0}.FINSAT6{0}.CHI.EvrakNo2, CAST(FINSAT6{0}.FINSAT6{0}.CHI.Tarih - 2 AS smalldatetime) 
+            var sql = string.Format(@"SELECT DISTINCT FINSAT6{0}.FINSAT6{0}.CHI.HesapKodu, FINSAT6{0}.FINSAT6{0}.CHK.Unvan1 AS Unvan, FINSAT6{0}.FINSAT6{0}.CHI.EvrakNo, FINSAT6{0}.FINSAT6{0}.CHI.EvrakNo2, CAST(FINSAT6{0}.FINSAT6{0}.CHI.Tarih - 2 AS smalldatetime) 
 															 AS Tarih, FINSAT6{0}.FINSAT6{0}.CHI.Kod13, FINSAT6{0}.FINSAT6{0}.CHI.Kod14,
 																 (SELECT        ISNULL(SUM(FINSAT6{0}.FINSAT6{0}.STI.BirimMiktar), 0) AS Expr1
 																   FROM            FINSAT6{0}.FINSAT6{0}.STI INNER JOIN
@@ -390,14 +357,10 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             return json;
         }
 
-        public ActionResult NakliyeFiyatOnay()
-        {
-            return View();
-        }
-        public PartialViewResult NakliyeFiyat_List()
-        {
-            return PartialView();
-        }
+        public ActionResult NakliyeFiyatOnay() => View();
+
+        public PartialViewResult NakliyeFiyat_List() => PartialView();
+
         public string NakliyeFiyatOnayCek()
         {
             var RT = db.Database.SqlQuery<MyDep>(string.Format("SELECT *  FROM[FINSAT6{0}].[FINSAT6{0}].[DEP]  WHERE Depo LIKE 'H%' AND Kod2<>''", vUser.SirketKodu)).ToList();
@@ -406,70 +369,60 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         }
         public JsonResult NakliyeFiyatOnayla(string Data)
         {
-            Result _Result = new Result(true);
-            JArray parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
-            SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
+            var _Result = new Result(true);
+            var parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
+            var sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
 
             try
             {
-
                 foreach (JObject insertObj in parameters)
                 {
-                    string s = string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[DEP] SET Kod1 = '{1}', Kod2='', Degistiren='" + vUser.UserName + "',DegisTarih='{2}'  where Depo = '{3}'AND Kod2<>''", vUser.SirketKodu, insertObj["Kod2"].ToString(), (int)DateTime.Now.ToOADate(), insertObj["Depo"].ToString());
+                    var s = string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[DEP] SET Kod1 = '{1}', Kod2='', Degistiren='" + vUser.UserName + "',DegisTarih='{2}'  where Depo = '{3}'AND Kod2<>''", vUser.SirketKodu, insertObj["Kod2"].ToString(), (int)DateTime.Now.ToOADate(), insertObj["Depo"].ToString());
                     db.Database.ExecuteSqlCommand(s);
                 }
+
                 _Result.Status = true;
                 _Result.Message = "İşlem Başarılı ";
-
             }
             catch (Exception)
             {
-
                 _Result.Status = false;
                 _Result.Message = "Hata Oluştu. ";
-
             }
-            return Json(_Result, JsonRequestBehavior.AllowGet);
 
+            return Json(_Result, JsonRequestBehavior.AllowGet);
         }
         public JsonResult NakliyeFiyatRed(string Data)
         {
-            Result _Result = new Result(true);
-            JArray parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
-            SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
+            var _Result = new Result(true);
+            var parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
+            var sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
 
             try
             {
-
                 foreach (JObject insertObj in parameters)
                 {
-                    string s = string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[DEP] SET Kod2 = '', Degistiren='" + vUser.UserName + "',DegisTarih='{1}'  where Depo = '{2}'AND Kod2<>''", vUser.SirketKodu, (int)DateTime.Now.ToOADate(), insertObj["Depo"].ToString());
+                    var s = string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[DEP] SET Kod2 = '', Degistiren='" + vUser.UserName + "',DegisTarih='{1}'  where Depo = '{2}'AND Kod2<>''", vUser.SirketKodu, (int)DateTime.Now.ToOADate(), insertObj["Depo"].ToString());
 
                     db.Database.ExecuteSqlCommand(s);
                 }
+
                 _Result.Status = true;
                 _Result.Message = "İşlem Başarılı ";
-
             }
             catch (Exception)
             {
-
                 _Result.Status = false;
                 _Result.Message = "Hata Oluştu. ";
-
             }
+
             return Json(_Result, JsonRequestBehavior.AllowGet);
-
         }
 
-        public ActionResult NakliyeFiyatlar()
-        {
-            return View();
-        }
-        public PartialViewResult NakliyeFiyatlar_List()
-        {
-            return PartialView();
-        }
+        public ActionResult NakliyeFiyatlar() => View();
+
+        public PartialViewResult NakliyeFiyatlar_List() => PartialView();
+
         public string NakliyeFiyatlarCek()
         {
             var RT = db.Database.SqlQuery<MyDep>(string.Format("SELECT *  FROM[FINSAT6{0}].[FINSAT6{0}].[DEP]  WHERE Depo LIKE 'H%'", vUser.SirketKodu)).ToList();
@@ -477,17 +430,13 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             return json;
         }
 
-        public ActionResult DisDepoStokRapor()
-        {
-            return View();
-        }
-        public PartialViewResult DisDepoStokRapor_List()
-        {
-            return PartialView();
-        }
+        public ActionResult DisDepoStokRapor() => View();
+
+        public PartialViewResult DisDepoStokRapor_List() => PartialView();
+
         public string DisDepoStokCek(string MalKoduBas, string MalKoduBit)
         {
-            string sql = string.Format(@"SELECT DST.Depo, DEP.DepoAdi, DST.MalKodu, STK.MalAdi, STK.Birim1 as Birim
+            var sql = string.Format(@"SELECT DST.Depo, DEP.DepoAdi, DST.MalKodu, STK.MalAdi, STK.Birim1 as Birim
 																, DST.DvrMiktar, DST.GirMiktar, DST.CikMiktar 
 
 																, ISNULL(A.DevirMiktar,0) as STIDvrMiktar, ISNULL(A.GirisMiktar,0) as STIGirMiktar, ISNULL(A.CikisMiktar,0) as STICikMiktar
@@ -523,6 +472,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
                 sql += string.Format(" AND DST.MalKodu BETWEEN '{0}' AND '{1}'", MalKoduBas, MalKoduBit);
             }
+
             sql += " ORDER BY DST.Depo";
             var RT = db.Database.SqlQuery<MyDst>(sql).ToList();
             var json = new JavaScriptSerializer().Serialize(RT);
@@ -536,21 +486,15 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             return json;
         }
 
-        public ActionResult DisDepoStokMaliyetRapor()
-        {
+        public ActionResult DisDepoStokMaliyetRapor() => View();
 
-            return View();
-        }
-        public PartialViewResult DisDepoStokMaliyetRapor_List()
-        {
-            return PartialView();
-        }
+        public PartialViewResult DisDepoStokMaliyetRapor_List() => PartialView();
+
         public string DisDepoStokMaliyetCek(string MalKoduBas, string MalKoduBit, bool isletmeBazli, bool depoBazli, Nullable<int> datebas, Nullable<int> datebit)
         {
-
             List<MySti> list = new List<MySti>();
             List<MySti> RT = new List<MySti>();
-            string malkoduaraliksql = "";
+            var malkoduaraliksql = "";
             if (!string.IsNullOrEmpty(MalKoduBas) || !string.IsNullOrEmpty(MalKoduBit))
             {
                 if (string.IsNullOrEmpty(MalKoduBas))
@@ -561,8 +505,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                 malkoduaraliksql = string.Format("AND MalKodu BETWEEN '{0}' AND '{1}' ", MalKoduBas, MalKoduBit);
             }
 
-
-            string tarihsql = "";
+            var tarihsql = "";
             if (datebas != null && datebit != null)
                 tarihsql = string.Format("AND STI.Tarih BETWEEN {0} AND {1}", datebas, datebit);
             else if (datebas == null && datebit != null)
@@ -570,8 +513,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             else if (datebas != null && datebit == null)
                 tarihsql = string.Format("AND STI.Tarih >= {0}", datebas);
 
-
-            string sorgu = "";
+            var sorgu = "";
             if (depoBazli == false && isletmeBazli == false)
             {
                 sorgu = string.Format(
@@ -593,7 +535,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
                 foreach (MySti item in RT)
                 {
-                    MySti sti = new MySti
+                    var sti = new MySti
                     {
                         MalKodu = item.MalKodu,
                         MalAdi = item.MalAdi,
@@ -605,11 +547,9 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                 }
             }
 
-
             else
             {
-
-                string where = "";
+                var where = "";
                 if (malkoduaraliksql != "")
                     where = "WHERE " + malkoduaraliksql.Substring(4);
 
@@ -647,20 +587,16 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                 , where
                 , tarihsql);
 
-
-
                 List<MySti> list2 = new List<MySti>();
                 RT = db.Database.SqlQuery<MySti>(sorgu).ToList();
                 if (RT.Count() > 0)
                 {
-                    int Sayac = 0;
+                    var Sayac = 0;
                     try
                     {
                         foreach (MySti item in RT)
                         {
-
-
-                            MySti sti = new MySti
+                            var sti = new MySti
                             {
                                 Chk = item.Chk,
                                 Unvan = item.Unvan1,
@@ -676,17 +612,12 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
                             list2.Add(sti);
 
-
                             Sayac++;
                         }
                     }
                     catch (Exception)
                     {
-
-
                     }
-
-
                 }
 
                 if (depoBazli && isletmeBazli)
@@ -697,7 +628,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                 {
                     foreach (var item in list2.GroupBy(t => new { t.Depo, t.MalKodu }))
                     {
-                        MySti sti = new MySti
+                        var sti = new MySti
                         {
                             Depo = item.Key.Depo,
                             DepoAdi = item.First().DepoAdi,
@@ -706,9 +637,8 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                             Birim = item.First().Birim
                         };
 
-
-                        decimal tutar = item.Sum(t => t.Tutar);
-                        decimal birimMiktar = item.Sum(t => t.BirimMiktar);
+                        var tutar = item.Sum(t => t.Tutar);
+                        var birimMiktar = item.Sum(t => t.BirimMiktar);
                         if (birimMiktar > 0)
                             sti.BirimFiyat = tutar / birimMiktar;
 
@@ -719,7 +649,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                 {
                     foreach (var item in list2.GroupBy(t => new { t.Chk, t.MalKodu }))
                     {
-                        MySti sti = new MySti
+                        var sti = new MySti
                         {
                             Chk = item.Key.Chk,
                             Unvan = item.First().Unvan,
@@ -728,8 +658,8 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                             Birim = item.First().Birim
                         };
 
-                        decimal tutar = item.Sum(t => t.Tutar);
-                        decimal birimMiktar = item.Sum(t => t.BirimMiktar);
+                        var tutar = item.Sum(t => t.Tutar);
+                        var birimMiktar = item.Sum(t => t.BirimMiktar);
                         if (birimMiktar > 0)
                             sti.BirimFiyat = tutar / birimMiktar;
 
@@ -738,30 +668,21 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                 }
             }
 
-
-
-
-
             var json = new JavaScriptSerializer().Serialize(list);
             return json;
         }
 
-        public ActionResult StokYaslandirmaRapor()
-        {
+        public ActionResult StokYaslandirmaRapor() => View();
 
-            return View();
-        }
-        public PartialViewResult StokYaslandirmaRapor_List()
-        {
-            return PartialView();
-        }
+        public PartialViewResult StokYaslandirmaRapor_List() => PartialView();
+
         public string StokYaslandirmaRaporCek(string MalKoduBas, string MalKoduBit, string DepoBas, string DepoBit)
         {
             List<MySti> list = new List<MySti>();
             List<MySti> RT = new List<MySti>();
             try
             {
-                string deposql = "";
+                var deposql = "";
                 if (!string.IsNullOrEmpty(DepoBas) && !string.IsNullOrEmpty(DepoBit))
                     deposql = string.Format("AND DST.Depo BETWEEN '{0}' AND '{1}'", DepoBas, DepoBit);
                 else if (string.IsNullOrEmpty(DepoBas) && !string.IsNullOrEmpty(DepoBit))
@@ -769,7 +690,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                 else if (!string.IsNullOrEmpty(DepoBas) && string.IsNullOrEmpty(DepoBit))
                     deposql = string.Format("AND DST.Depo >= '{0}'", DepoBas);
 
-                string malsql = "";
+                var malsql = "";
                 if (!string.IsNullOrEmpty(MalKoduBas) && !string.IsNullOrEmpty(MalKoduBit))
                     malsql = string.Format("AND STK.MalKodu BETWEEN '{0}' AND '{1}'", MalKoduBas, MalKoduBit);
                 else if (string.IsNullOrEmpty(MalKoduBas) && !string.IsNullOrEmpty(MalKoduBit))
@@ -777,7 +698,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                 else if (!string.IsNullOrEmpty(MalKoduBas) && string.IsNullOrEmpty(MalKoduBit))
                     malsql = string.Format("AND STK.MalKodu >= '{0}'", MalKoduBas);
 
-                string sorgu = string.Format(
+                var sorgu = string.Format(
                                             @"SELECT STI.EvrakNo, (CASE STI.KynkEvrakTip WHEN 58 THEN STI.VadeTarih ELSE STI.Tarih END) as Tarih
 											, ISNULL(STI.CHK,'') AS CHK, ISNULL(CHK.Unvan1,'') as Unvan, STI.Birim, STI.BirimMiktar, STI.KynkEvrakTip 
 											, (DST.DvrMiktar+DST.GirMiktar-DST.CikMiktar) as DepoStokMiktar, DST.Depo, DEP.DepoAdi
@@ -792,16 +713,15 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 											AND (DST.DvrMiktar+DST.GirMiktar-DST.CikMiktar)>0
 											ORDER BY STI.MalKodu, STI.Tarih DESC", vUser.SirketKodu, deposql, malsql);
 
-
                 RT = db.Database.SqlQuery<MySti>(sorgu).ToList();
                 Dictionary<string, decimal> dic = new Dictionary<string, decimal>();
                 foreach (MySti item in RT)
                 {
-                    string depo = item.Depo.ToString();
-                    string malKodu = item.MalKodu.ToString();
-                    string key = string.Format("{0}-{1}", depo, malKodu);
+                    var depo = item.Depo.ToString();
+                    var malKodu = item.MalKodu.ToString();
+                    var key = string.Format("{0}-{1}", depo, malKodu);
 
-                    decimal depoStokMik = (decimal)item.DepoStokMiktar;
+                    var depoStokMik = (decimal)item.DepoStokMiktar;
 
                     if (dic.ContainsKey(key))
                     {
@@ -811,9 +731,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                     else
                         dic.Add(key, 0);
 
-
-
-                    MySti sti = new MySti
+                    var sti = new MySti
                     {
                         EvrakNo = item.EvrakNo.ToString(),
                         Tarih = (int)item.Tarih,
@@ -830,7 +748,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                         Kod13 = depoStokMik// depoStokMik;
                     };
 
-                    sti.Kod1 = String.Format("{0}       Depo Stok Miktarı:  {1:N2}", sti.MalKodu, sti.Kod13);
+                    sti.Kod1 = string.Format("{0}       Depo Stok Miktarı:  {1:N2}", sti.MalKodu, sti.Kod13);
 
                     sti.Kod2 = string.Format("{0}    {1}", depo, item.DepoAdi);
 
@@ -840,25 +758,18 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
                     if (dic[key] > depoStokMik) //depoStokMik
                     {
-                        decimal fark = dic[key] - depoStokMik;//depoStokMik;
+                        var fark = dic[key] - depoStokMik;//depoStokMik;
                         sti.BirimMiktar -= fark;
                     }
                 }
-
-
-
-
-
             }
             catch (Exception ex)
             {
                 throw ex;
             }
 
-
             var json = new JavaScriptSerializer().Serialize(list);
             return json;
-
         }
     }
 }

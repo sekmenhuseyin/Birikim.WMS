@@ -1,5 +1,4 @@
-﻿using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 
@@ -22,7 +21,7 @@ namespace Wms12m.Entity
         [DataMember, DisplayName("Mal Adı"), Required(ErrorMessage = "Boş bırakmayınız")]
         public string MalAdi { get; set; }
 
-        [DataMember, DisplayName("Miktar"), Required(ErrorMessage = "Boş bırakmayınız"), Range(1, Int32.MaxValue)]
+        [DataMember, DisplayName("Miktar"), Required(ErrorMessage = "Boş bırakmayınız"), Range(1, int.MaxValue)]
         public decimal Miktar { get; set; }
 
         [DataMember, DisplayName("Birim"), Required(ErrorMessage = "Boş bırakmayınız")]
@@ -44,13 +43,13 @@ namespace Wms12m.Entity
     /// </summary>
     public class frmFromSiparis
     {
-        //irsaliye id
+        // irsaliye id
         public string id { get; set; }
-        //şirket kod
+        // şirket kod
         public string kod { get; set; }
-        //finsat6x.spi.chk
+        // finsat6x.spi.chk
         public string chk { get; set; }
-        //açık miktar
+        // açık miktar
         public string miktar { get; set; }
     }
     /// <summary>

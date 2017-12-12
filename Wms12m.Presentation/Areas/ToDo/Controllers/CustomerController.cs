@@ -32,7 +32,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         /// </summary>
         public PartialViewResult Edit(int? id)
         {
-            Musteri musteri = db.Musteris.Find(id);
+            var musteri = db.Musteris.Find(id);
             return PartialView(musteri);
         }
         /// <summary>
@@ -65,6 +65,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                     tbl.Degistiren = vUser.UserName;
                     tbl.DegisTarih = DateTime.Now;
                 }
+
                 try
                 {
                     db.SaveChanges();
@@ -75,6 +76,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                 {
                 }
             }
+
             return Json(new Result(false, "Hata oldu"), JsonRequestBehavior.AllowGet);
         }
         /// <summary>
@@ -83,7 +85,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         public JsonResult Delete(int Id)
         {
             if (CheckPerm(Perms.TodoMüşteri, PermTypes.Deleting) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
-            Musteri musteri = db.Musteris.Find(Id);
+            var musteri = db.Musteris.Find(Id);
             try
             {
                 db.Musteris.Remove(musteri);

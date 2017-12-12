@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace Wms12m.Entity
 {
@@ -30,7 +29,6 @@ namespace Wms12m.Entity
         public string DovizTutar { get; set; }
         /// <summary> VarChar(20) (Not Null) </summary>
         public string KdvMuafiyetNedeni { get; set; }
-
     }
 
     public class FaturaDetayGenel
@@ -75,9 +73,6 @@ namespace Wms12m.Entity
         /// <summary> VarChar(100) (Not Null) </summary>
         public string EFatTip { get; set; }
 
-
-
-
         /// <summary> VarChar(16) (Not Null) </summary>
         public string EFatNot { get; set; }
         /// <summary> VarChar(10) (Allow Null) </summary>
@@ -92,7 +87,6 @@ namespace Wms12m.Entity
         public string OdemeNotu { get; set; }
         /// <summary> VarChar(8000) (Allow Null) </summary>
         public string OdemeSekli { get; set; }
-
     }
 
     public class FaturaDetaySTI
@@ -112,7 +106,7 @@ namespace Wms12m.Entity
         /// <summary> VarChar(10) (Not Null) </summary>
         public string Depo { get; set; }
         /// <summary> Real (Not Null) </summary>
-        public Single KdvOran { get; set; }
+        public float KdvOran { get; set; }
         /// <summary> VarChar(100) (Allow Null) </summary>
         public string KdvMuafiyetNedeni { get; set; }
         /// <summary> VarChar(10) (Not Null) </summary>
@@ -139,7 +133,6 @@ namespace Wms12m.Entity
         public string Nesne1 { get; set; }
         /// <summary> VarChar(8000) (Allow Null) </summary>
         public short CheckSum { get; set; }
-
     }
 
     public class FaturaOnay
@@ -154,6 +147,5 @@ namespace Wms12m.Entity
         public string Not1 { get; set; }
         /// <summary> VarChar(82) (Allow Null) </summary>
         public string Unvan { get; set; }
-
     }
 }

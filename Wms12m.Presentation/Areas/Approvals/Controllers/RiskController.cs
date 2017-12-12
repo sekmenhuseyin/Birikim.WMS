@@ -30,34 +30,30 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         }
         public JsonResult Red_SM(string Data)
         {
-            Result _Result = new Result(true);
+            var _Result = new Result(true);
             if (CheckPerm(Perms.RiskOnaylamaSM, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
-            JArray parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
-            SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
+            var parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
+            var sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
 
             try
             {
-
                 foreach (JObject insertObj in parameters)
                 {
-                    DateTime date = DateTime.Now;
+                    var date = DateTime.Now;
                     var shortDate = date.ToString("yyyy-MM-dd HH:mm:ss");
                     var sonuc = sqlexper.AcceptChanges();
                     db.Database.ExecuteSqlCommand(string.Format("DELETE FROM [FINSAT6{0}].[FINSAT6{0}].[RiskTanim] where ID = '{1}'", vUser.SirketKodu, insertObj["ID"].ToString()));
-
                 }
 
                 _Result.Status = true;
                 _Result.Message = "İşlem Başarılı ";
-
             }
             catch (Exception)
             {
-
                 _Result.Status = false;
                 _Result.Message = "Hata Oluştu. ";
-
             }
+
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
 
@@ -80,33 +76,30 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         }
         public JsonResult Red_GM(string Data)
         {
-            Result _Result = new Result(true);
+            var _Result = new Result(true);
             if (CheckPerm(Perms.RiskOnaylamaGM, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
-            JArray parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
-            SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
+            var parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
+            var sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
 
             try
             {
-
                 foreach (JObject insertObj in parameters)
                 {
-                    DateTime date = DateTime.Now;
+                    var date = DateTime.Now;
                     var shortDate = date.ToString("yyyy-MM-dd HH:mm:ss");
                     var sonuc = sqlexper.AcceptChanges();
                     db.Database.ExecuteSqlCommand(string.Format("DELETE FROM [FINSAT6{0}].[FINSAT6{0}].[RiskTanim] where ID = '{1}'", vUser.SirketKodu, insertObj["ID"].ToString()));
-
                 }
+
                 _Result.Status = true;
                 _Result.Message = "İşlem Başarılı ";
-
             }
             catch (Exception)
             {
-
                 _Result.Status = false;
                 _Result.Message = "Hata Oluştu. ";
-
             }
+
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
 
@@ -129,34 +122,30 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         }
         public JsonResult Red_SPGMY(string Data)
         {
-            Result _Result = new Result(true);
+            var _Result = new Result(true);
             if (CheckPerm(Perms.RiskOnaylamaSPGMY, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
-            JArray parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
-            SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
+            var parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
+            var sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
 
             try
             {
-
                 foreach (JObject insertObj in parameters)
                 {
-                    DateTime date = DateTime.Now;
+                    var date = DateTime.Now;
                     var shortDate = date.ToString("yyyy-MM-dd HH:mm:ss");
                     var sonuc = sqlexper.AcceptChanges();
                     db.Database.ExecuteSqlCommand(string.Format("DELETE FROM [FINSAT6{0}].[FINSAT6{0}].[RiskTanim] where ID = '{1}'", vUser.SirketKodu, insertObj["ID"].ToString()));
-
                 }
 
                 _Result.Status = true;
                 _Result.Message = "İşlem Başarılı ";
-
             }
             catch (Exception)
             {
-
                 _Result.Status = false;
                 _Result.Message = "Hata Oluştu. ";
-
             }
+
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
 
@@ -179,34 +168,30 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         }
         public JsonResult Red_MIGMY(string Data)
         {
-            Result _Result = new Result(true);
+            var _Result = new Result(true);
             if (CheckPerm(Perms.RiskOnaylamaMIGMY, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
-            JArray parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
-            SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
+            var parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
+            var sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
 
             try
             {
-
                 foreach (JObject insertObj in parameters)
                 {
-                    DateTime date = DateTime.Now;
+                    var date = DateTime.Now;
                     var shortDate = date.ToString("yyyy-MM-dd HH:mm:ss");
                     var sonuc = sqlexper.AcceptChanges();
                     db.Database.ExecuteSqlCommand(string.Format("DELETE FROM [FINSAT6{0}].[FINSAT6{0}].[RiskTanim] where ID = '{1}'", vUser.SirketKodu, insertObj["ID"].ToString()));
-
                 }
 
                 _Result.Status = true;
                 _Result.Message = "İşlem Başarılı ";
-
             }
             catch (Exception)
             {
-
                 _Result.Status = false;
                 _Result.Message = "Hata Oluştu. ";
-
             }
+
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
 
@@ -229,13 +214,12 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         }
         public string OnayRiskInsert(string Data)
         {
-
             if (CheckPerm(Perms.RiskTanim, PermTypes.Writing) == false) return "NO";
-            JArray parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
-            SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
+            var parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
+            var sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
             try
             {
-                string sonucMessage = "OK";
+                var sonucMessage = "OK";
                 foreach (JObject insertObj in parameters)
                 {
                     if (Convert.ToDecimal(insertObj["YeniSahsiCekLimiti"].ToString()) <= 0)
@@ -244,7 +228,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                         continue;
                     }
 
-                    RiskTanim rsk = new RiskTanim
+                    var rsk = new RiskTanim
                     {
                         HesapKodu = insertObj["HesapKodu"].ToString(),
                         Unvan = insertObj["Unvan"].ToString(),
@@ -287,11 +271,9 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
                     sqlexper.Insert(rsk);
                     var sonuc = sqlexper.AcceptChanges();
-                    if (sonuc.Status == false)
-                    {
-                        sonucMessage = "NO";
-                    }
+                    if (sonuc.Status == false) sonucMessage = "NO";
                 }
+
                 return sonucMessage;
             }
             catch (Exception)
@@ -302,15 +284,14 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
         public JsonResult RiskOnay(string Data, int Tip)
         {
-            Result _Result = new Result(true);
+            var _Result = new Result(true);
             if (CheckPerm(Perms.RiskOnaylama, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
-            JArray parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
-            SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
-            string CHK = "";
-            int ID = 0;
+            var parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
+            var sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
+            var CHK = "";
+            var ID = 0;
             try
             {
-
                 foreach (JObject insertObj in parameters)
                 {
                     CHK = insertObj["HesapKodu"].ToString();
@@ -327,15 +308,13 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
                 _Result.Status = true;
                 _Result.Message = "İşlem Başarılı ";
-
             }
             catch (Exception)
             {
-
                 _Result.Status = false;
                 _Result.Message = "Hata Oluştu. ";
-
             }
+
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
     }

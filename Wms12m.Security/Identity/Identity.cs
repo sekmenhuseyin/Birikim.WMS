@@ -8,7 +8,7 @@ namespace Wms12m.Security
     [DataContract, Serializable]
     public class Identity
     {
-        private static Identity _identity = null;
+        static Identity identity;
 
         [DataMember]
         public PresentationIdentity Application { get; set; }
@@ -25,49 +25,45 @@ namespace Wms12m.Security
             {
                 if (OperationContext.Current != null)
                 {
-                    Identity identity = OperationContext.Current.IncomingMessageHeaders.GetHeader<Identity>("Identity", "");
+                    var identity = OperationContext.Current.IncomingMessageHeaders.GetHeader<Identity>("Identity", "");
 
                     if (identity != null)
                     {
                         identity.Application.Layer = Layer.Service;
                     }
+
                     return identity;
                 }
                 else if (HttpContext.Current != null && HttpContext.Current.User != null && HttpContext.Current.User.Identity.IsAuthenticated)
                 {
-                    Identity identity = (HttpContext.Current.User as CustomPrincipal).AppIdentity;
+                    var identity = (HttpContext.Current.User as CustomPrincipal).AppIdentity;
                     if (identity != null)
                     {
                         identity.Application.Layer = Layer.Application;
                     }
+
                     return identity;
                 }
                 else if (HttpContext.Current != null && HttpContext.Current.Session != null)
                 {
-                    Identity identity = HttpContext.Current.Session["Identity"] as Identity;
+                    var identity = HttpContext.Current.Session["Identity"] as Identity;
 
                     if (identity != null)
                     {
                         identity.Application.Layer = Layer.Application;
                     }
+
                     return identity;
                 }
                 else
                 {
-                    if (_identity != null)
-                    {
-                        return _identity;
-                    }
-                    else
-                    {
-                        return null;
-                    }
+                    if (identity != null) return identity;
+                    else return null;
                 }
             }
             set
             {
-                _identity = value;
-
+                identity = value;
             }
         }
     }

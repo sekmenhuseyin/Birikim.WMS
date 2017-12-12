@@ -26,8 +26,8 @@ namespace Wms12m.Presentation.Areas.Constants.Controllers
         {
             if (CheckPerm(Perms.KoridorKartı, PermTypes.Reading) == false) return null;
             List<Koridor> _List = new List<Koridor>();
-            int StoreId = 0;
-            string Locked = "";
+            var StoreId = 0;
+            var Locked = "";
             try
             {
                 if (Id.Right(1) == "#") { }
@@ -42,6 +42,7 @@ namespace Wms12m.Presentation.Areas.Constants.Controllers
                     StoreId = Convert.ToInt16(Id);
                     _List = Corridor.GetList(StoreId).ToList();
                 }
+
                 return PartialView("_CorridorGridPartial", _List);
             }
             catch (Exception ex)
@@ -49,7 +50,6 @@ namespace Wms12m.Presentation.Areas.Constants.Controllers
                 Logger(ex, "Corridor/CorridorGridPartial");
                 return PartialView("_CorridorGridPartial", new List<Koridor>());
             }
-
         }
         /// <summary>
         /// düzenle
@@ -57,7 +57,7 @@ namespace Wms12m.Presentation.Areas.Constants.Controllers
         public PartialViewResult CorridorDetailPartial(string Id)
         {
             if (CheckPerm(Perms.KoridorKartı, PermTypes.Reading) == false) return null;
-            int tmp = Convert.ToInt32(Id);
+            var tmp = Convert.ToInt32(Id);
             if (tmp == 0)
             {
                 ViewBag.DepoID = new SelectList(Store.GetList(), "ID", "DepoAd");
@@ -93,6 +93,7 @@ namespace Wms12m.Presentation.Areas.Constants.Controllers
                         Value = item.ID.ToString()
                     });
                 }
+
                 return Json(List.Select(x => new { Value = x.Value, Text = x.Text, Selected = x.Selected }), JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
@@ -107,11 +108,10 @@ namespace Wms12m.Presentation.Areas.Constants.Controllers
         public JsonResult Delete(int Id)
         {
             if (CheckPerm(Perms.KoridorKartı, PermTypes.Deleting) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
-            Result _Result = Corridor.Delete(Id);
+            var _Result = Corridor.Delete(Id);
             if (_Result.Status == true)
                 LogActions("", "Corridor", "Delete", ComboItems.alSil, Id);
             return Json(_Result, JsonRequestBehavior.AllowGet);
-
         }
         /// <summary>
         /// kayıt işlemleri
@@ -119,7 +119,7 @@ namespace Wms12m.Presentation.Areas.Constants.Controllers
         public JsonResult CorridorOperation(Koridor P)
         {
             if (CheckPerm(Perms.KoridorKartı, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
-            Result _Result = Corridor.Operation(P);
+            var _Result = Corridor.Operation(P);
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
     }

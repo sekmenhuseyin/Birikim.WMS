@@ -13,27 +13,30 @@ namespace Wms12m.Business
         /// </summary>
         public override Result Operation(Kat tbl)
         {
-            _Result = new Result(); bool eklemi = false;
-            //boş mu
+            _Result = new Result(); var eklemi = false;
+            // boş mu
             if (tbl.KatAd == "" || tbl.BolumID == 0)
             {
                 _Result.Message = "Eksik Bilgi Girdiniz";
                 return _Result;
             }
-            //uzun mu
+
+            // uzun mu
             if (tbl.KatAd.Length > 100)
             {
                 _Result.Message = "Daha kısa isim yazın";
                 return _Result;
             }
-            //daha önce yazılmış mı
+
+            // daha önce yazılmış mı
             var kontrol = db.Kats.Where(m => m.KatAd == tbl.KatAd && m.BolumID == tbl.BolumID && m.ID != tbl.ID).FirstOrDefault();
             if (kontrol != null)
             {
                 _Result.Message = "Bu isim kullanılıyor";
                 return _Result;
             }
-            //pasif yapmadan önce içinin boş olması lazım
+
+            // pasif yapmadan önce içinin boş olması lazım
             if (tbl.ID > 0 && tbl.Aktif == false)
             {
                 var kontrol2 = db.Yers.Where(m => m.Miktar > 0 && m.KatID == tbl.ID).FirstOrDefault();
@@ -43,7 +46,8 @@ namespace Wms12m.Business
                     return _Result;
                 }
             }
-            //set details
+
+            // set details
             tbl.Degistiren = vUser.UserName;
             tbl.DegisTarih = DateTime.Today.ToOADateInt();
             if (tbl.ID == 0)
@@ -69,11 +73,12 @@ namespace Wms12m.Business
                 tmp.Degistiren = tbl.Degistiren;
                 tmp.DegisTarih = tbl.DegisTarih;
             }
+
             try
             {
                 db.SaveChanges();
                 LogActions("Business", "Floor", "Operation", eklemi == true ? ComboItems.alEkle : ComboItems.alDüzenle, tbl.ID, tbl.KatAd + ", H: " + tbl.En + "x" + tbl.Boy + "x" + tbl.Derinlik + ", A: " + tbl.AgirlikKapasite);
-                //result
+                // result
                 _Result.Id = tbl.ID;
                 _Result.Message = "İşlem Başarılı !!!";
                 _Result.Status = true;
@@ -84,6 +89,7 @@ namespace Wms12m.Business
                 _Result.Id = 0;
                 _Result.Message = "İşlem Hatalı: " + ex.Message;
             }
+
             return _Result;
         }
         /// <summary>
@@ -92,8 +98,8 @@ namespace Wms12m.Business
         public override Result Delete(int Id)
         {
             _Result = new Result();
-            //kaydı bul
-            Kat tbl = db.Kats.Where(m => m.ID == Id).FirstOrDefault();
+            // kaydı bul
+            var tbl = db.Kats.Where(m => m.ID == Id).FirstOrDefault();
             var rkat = db.GetHucreKatID(tbl.Bolum.Raf.Koridor.DepoID, "R-ZR-V").FirstOrDefault();
             if (rkat != null)
                 if (rkat.Value == tbl.ID)
@@ -101,6 +107,7 @@ namespace Wms12m.Business
                     _Result.Message = "Rezerv katı silemezsiniz.";
                     return _Result;
                 }
+
             if (tbl != null)
             {
                 if (tbl.Yers.FirstOrDefault() == null)
@@ -116,7 +123,8 @@ namespace Wms12m.Business
                 _Result.Message = "Kayıt Yok";
                 return _Result;
             }
-            //sil
+
+            // sil
             try
             {
                 db.SaveChanges();
@@ -130,6 +138,7 @@ namespace Wms12m.Business
                 Logger(ex, "Business/Floor/Delete");
                 _Result.Message = ex.Message;
             }
+
             return _Result;
         }
         /// <summary>
@@ -146,15 +155,12 @@ namespace Wms12m.Business
                 Logger(ex, "Business/Floor/Detail");
                 return new Kat();
             }
-
         }
         /// <summary>
         /// tüm listesi
         /// </summary>
-        public override List<Kat> GetList()
-        {
-            return db.Kats.OrderBy(m => m.KatAd).ToList();
-        }
+        public override List<Kat> GetList() => db.Kats.OrderBy(m => m.KatAd).ToList();
+
         /// <summary>
         /// üst tabloya ait olanları getir
         /// </summary>

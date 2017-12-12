@@ -2,17 +2,11 @@
 
 namespace Wms12m.Presentation.Areas.System
 {
-    public class SystemAreaRegistration : AreaRegistration 
+    public class SystemAreaRegistration : AreaRegistration
     {
-        public override string AreaName 
-        {
-            get 
-            {
-                return "System";
-            }
-        }
+        public override string AreaName => "System";
 
-        public override void RegisterArea(AreaRegistrationContext context) 
+        public override void RegisterArea(AreaRegistrationContext context)
         {
             context.MapRoute(
                 "System_default",

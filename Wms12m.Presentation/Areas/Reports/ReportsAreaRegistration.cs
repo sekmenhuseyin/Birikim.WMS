@@ -2,17 +2,11 @@
 
 namespace Wms12m.Presentation.Areas.Reports
 {
-    public class ReportsAreaRegistration : AreaRegistration 
+    public class ReportsAreaRegistration : AreaRegistration
     {
-        public override string AreaName 
-        {
-            get 
-            {
-                return "Reports";
-            }
-        }
+        public override string AreaName => "Reports";
 
-        public override void RegisterArea(AreaRegistrationContext context) 
+        public override void RegisterArea(AreaRegistrationContext context)
         {
             context.MapRoute(
                 "Reports_default",

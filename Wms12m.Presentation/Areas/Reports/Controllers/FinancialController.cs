@@ -15,8 +15,8 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
         public ActionResult CariCiro()
         {
             if (CheckPerm(Perms.Raporlar, PermTypes.Reading) == false) return Redirect("/");
-            var CHK = db.Database.SqlQuery<CariCiroRaporuResult>(string.Format("[FINSAT6{0}].[wms].[CariCiroRaporu]", vUser.SirketKodu)).ToList();
-            return View(CHK);
+            var cHK = db.Database.SqlQuery<CariCiroRaporuResult>(string.Format("[FINSAT6{0}].[wms].[CariCiroRaporu]", vUser.SirketKodu)).ToList();
+            return View(cHK);
         }
         /// <summary>
         /// cari ekstre
@@ -122,7 +122,7 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
         }
         public string BakiyeDetay(string CHK)
         {
-            JavaScriptSerializer json = new JavaScriptSerializer()
+            var json = new JavaScriptSerializer()
             {
                 MaxJsonLength = int.MaxValue
             };
@@ -146,14 +146,12 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
         }
         public string SatBagSozlesmeDetayListesiSelect(string listeNo)
         {
-
             var STL = db.Database.SqlQuery<BaglantiDetaySelect>(string.Format("[FINSAT6{0}].[wms].[BaglantiDetaySelect] @ListeNo='{1}'", vUser.SirketKodu, listeNo)).ToList();
             var json = new JavaScriptSerializer().Serialize(STL);
             return json;
         }
         public string SatBagHareketListesiSelect(string listeNo)
         {
-
             var STL = db.Database.SqlQuery<SatisBaglantiHareketleri>(string.Format("[FINSAT6{0}].[wms].[SatisBaglantiHareketleri] @SozlesmeNo='{1}'", vUser.SirketKodu, listeNo)).ToList();
             var json = new JavaScriptSerializer().Serialize(STL);
             return json;
@@ -174,7 +172,7 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
         }
         public string RiskAnalizListData(string baschk, string bitchk)
         {
-            JavaScriptSerializer json = new JavaScriptSerializer()
+            var json = new JavaScriptSerializer()
             {
                 MaxJsonLength = int.MaxValue
             };
@@ -186,7 +184,7 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
         /// </summary>
         public string CariDetayCek(string CHK, string EvrakNo)
         {
-            JavaScriptSerializer json = new JavaScriptSerializer()
+            var json = new JavaScriptSerializer()
             {
                 MaxJsonLength = int.MaxValue
             };
@@ -196,7 +194,7 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
         }
         public string CariDetayFatura(string CHK, string EvrakNo)
         {
-            JavaScriptSerializer json = new JavaScriptSerializer()
+            var json = new JavaScriptSerializer()
             {
                 MaxJsonLength = int.MaxValue
             };
@@ -206,7 +204,7 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
         }
         public string CariDetayDiger(string CHK, string EvrakNo)
         {
-            JavaScriptSerializer json = new JavaScriptSerializer()
+            var json = new JavaScriptSerializer()
             {
                 MaxJsonLength = int.MaxValue
             };
@@ -219,7 +217,7 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
         /// </summary>
         public string SiparisKampanyaDetay(string CHK, string EvrakNo, int bastarih, int bittarih)
         {
-            JavaScriptSerializer json = new JavaScriptSerializer()
+            var json = new JavaScriptSerializer()
             {
                 MaxJsonLength = int.MaxValue
             };
@@ -231,12 +229,12 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
         {
             var id = Url.RequestContext.RouteData.Values["id"];
             if (id == null) return null;
-            string sql = "";
-            //generate sql
+            var sql = "";
+            // generate sql
             if (id.ToString() == "0")
                 id = vUser.SirketKodu;
-            sql = String.Format("FINSAT6{0}.[wms].[CHKSearch] @HesapKodu = N'{1}', @Unvan = N'', @top = 200", id.ToString(), term);
-            //return
+            sql = string.Format("FINSAT6{0}.[wms].[CHKSearch] @HesapKodu = N'{1}', @Unvan = N'', @top = 200", id.ToString(), term);
+            // return
             try
             {
                 var list = db.Database.SqlQuery<frmJson>(sql).ToList();

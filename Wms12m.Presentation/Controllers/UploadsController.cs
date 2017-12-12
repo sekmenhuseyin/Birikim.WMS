@@ -16,41 +16,41 @@ namespace Wms12m.Presentation.Controllers
         /// <summary>
         /// irsaliye için malzeme girişi yapar
         /// </summary>
-        public JsonResult Malzeme(string SID, int DID, string Hesap, HttpPostedFileBase file)
+        public JsonResult Malzeme(string sID, int dID, string hesap, HttpPostedFileBase file)
         {
             if (CheckPerm(Perms.MalKabul, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
-            Result _result = new Result(false, 0, "Hatalı dosya!");
+            var _result = new Result(false, 0, "Hatalı dosya!");
             if (file == null || file.ContentLength == 0) return Json(_result, JsonRequestBehavior.AllowGet);
-            //gelen dosyayı oku
-            Stream stream = file.InputStream;
+            // gelen dosyayı oku
+            var stream = file.InputStream;
             IExcelDataReader reader;
-            //dosya tipini bul
+            // dosya tipini bul
             if (file.FileName.EndsWith(".xlsx"))
                 reader = ExcelReaderFactory.CreateOpenXmlReader(stream);
             else
                 return Json(_result, JsonRequestBehavior.AllowGet);
-            //ilk satır başlık
+            // ilk satır başlık
             reader.IsFirstRowAsColumnNames = true;
-            //exceldeki bilgileri datasete aktar
-            DataSet result = reader.AsDataSet();
-            //kontrol
+            // exceldeki bilgileri datasete aktar
+            var result = reader.AsDataSet();
+            // kontrol
             if (result.Tables.Count == 0) return Json(_result, JsonRequestBehavior.AllowGet);
             if (result.Tables[0].Rows == null) return Json(_result, JsonRequestBehavior.AllowGet);
-            //sti listesi oluşturuyoruz. tüm bilgiyi tek seferde veritabanına kaydetçek
+            // sti listesi oluşturuyoruz. tüm bilgiyi tek seferde veritabanına kaydetçek
             List<IRS_Detay> liste = new List<IRS_Detay>();
-            var depo = Store.Detail(DID);
-            //buraya kadar hata yoksa bunu yapar. yine de hata olursa hiçbirini kaydetmez...
-            int tarih = fn.ToOADate();
+            var depo = Store.Detail(dID);
+            // buraya kadar hata yoksa bunu yapar. yine de hata olursa hiçbirini kaydetmez...
+            var tarih = fn.ToOADate();
             var sonuc = new InsertIrsaliye_Result();
-            var gorevno = db.SettingsGorevNo(tarih, DID).FirstOrDefault();
-            string evraklar = "";
+            var gorevno = db.SettingsGorevNo(tarih, dID).FirstOrDefault();
+            var evraklar = "";
             using (var dbContextTransaction = db.Database.BeginTransaction())
             {
                 for (int i = 0; i < result.Tables[0].Rows.Count; i++)
                 {
                     _result = new Result(false, 0, "Hatalı dosya");
-                    DataRow dr = result.Tables[0].Rows[i];
-                    //kontrol
+                    var dr = result.Tables[0].Rows[i];
+                    // kontrol
                     try
                     {
                         if (dr["İrsaliye No"].ToString() == "") return Json(_result, JsonRequestBehavior.AllowGet);
@@ -62,25 +62,26 @@ namespace Wms12m.Presentation.Controllers
                         Logger(ex, "Uploads/Malzeme");
                         return Json(_result, JsonRequestBehavior.AllowGet);
                     }
-                    //satıcı malkodundan malkodunu getir
-                    string sql = String.Format(@"SELECT        FINSAT6{0}.FINSAT6{0}.TTY.MalKodu, FINSAT6{0}.FINSAT6{0}.STK.Birim1
+
+                    // satıcı malkodundan malkodunu getir
+                    var sql = string.Format(@"SELECT        FINSAT6{0}.FINSAT6{0}.TTY.MalKodu, FINSAT6{0}.FINSAT6{0}.STK.Birim1
                                                     FROM            FINSAT6{0}.FINSAT6{0}.TTY WITH(NOLOCK) INNER JOIN
                                                                              FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) ON FINSAT6{0}.FINSAT6{0}.TTY.MalKodu = FINSAT6{0}.FINSAT6{0}.STK.MalKodu 
-                                                    WHERE (FINSAT6{0}.FINSAT6{0}.TTY.SatMalKodu = '{1}') AND (FINSAT6{0}.FINSAT6{0}.TTY.Chk = '{2}')", SID, dr["MalKodu"].ToString(), Hesap);
+                                                    WHERE (FINSAT6{0}.FINSAT6{0}.TTY.SatMalKodu = '{1}') AND (FINSAT6{0}.FINSAT6{0}.TTY.Chk = '{2}')", sID, dr["MalKodu"].ToString(), hesap);
                     var malStk = db.Database.SqlQuery<frmIrsaliyeMalzemeSTK>(sql).FirstOrDefault();
                     _result.Message = "Mal kodu yanlış";
                     if (malStk == null) return Json(_result, JsonRequestBehavior.AllowGet);
-                    //birim kontrol
-                    string birim = dr["Birim"].ToString();
-                    if (birim == "")
-                        birim = malStk.Birim1;
+                    // birim kontrol
+                    var birim = dr["Birim"].ToString();
+                    if (birim == "") birim = malStk.Birim1;
                     else if (birim != malStk.Birim1)
                     {
                         _result.Message = malStk.MalKodu + " için birim hatalı! '" + birim + "' yerine '" + malStk.Birim1 + "' yazılmalı";
                         return Json(_result, JsonRequestBehavior.AllowGet);
                     }
-                    //add irsaliye and gorev
-                    string irsNo = dr["İrsaliye No"].ToString();
+
+                    // add irsaliye and gorev
+                    var irsNo = dr["İrsaliye No"].ToString();
                     if (evraklar.Contains(irsNo) == false)
                     {
                         if (evraklar != "") evraklar += ",";
@@ -92,16 +93,17 @@ namespace Wms12m.Presentation.Controllers
                         if (kontrol1 != null)
                             return Json(new Result(false, 0, kontrol1.IR.EvrakNo + " nolu irsaliye daha önce kaydedilmiş."), JsonRequestBehavior.AllowGet);
                     }
-                    sonuc = db.InsertIrsaliye(SID, DID, gorevno, irsNo, tarih, "", false, ComboItems.MalKabul.ToInt32(), vUser.UserName, tarih, fn.ToOATime(), Hesap, "", 0, "", "").FirstOrDefault();
-                    //add detays
+
+                    sonuc = db.InsertIrsaliye(sID, dID, gorevno, irsNo, tarih, "", false, ComboItems.MalKabul.ToInt32(), vUser.UserName, tarih, fn.ToOATime(), hesap, "", 0, "", "").FirstOrDefault();
+                    // add detays
                     try
                     {
-                        //malkodu kontrol
+                        // malkodu kontrol
                         var kontrol2 = db.IRS_Detay.Where(m => m.MalKodu == malStk.MalKodu && m.IR.EvrakNo == irsNo && m.IR.IslemTur == false).FirstOrDefault();
                         if (kontrol2 != null)
                             return Json(new Result(false, 0, kontrol2.IR.EvrakNo + " nolu irsaliyeye daha önce " + malStk.MalKodu + " eklenmiş."), JsonRequestBehavior.AllowGet);
-                        //irs detay
-                        IRS_Detay sti = new IRS_Detay()
+                        // irs detay
+                        var sti = new IRS_Detay()
                         {
                             IrsaliyeID = sonuc.IrsaliyeID.Value,
                             MalKodu = malStk.MalKodu,
@@ -110,10 +112,10 @@ namespace Wms12m.Presentation.Controllers
                         };
                         if (dr["Kaynak Sipariş No"].ToString() != "")
                         {
-                            //kaynak sipariş
-                            sql = String.Format("SELECT FINSAT6{0}.FINSAT6{0}.SPI.ROW_ID, FINSAT6{0}.FINSAT6{0}.SPI.EvrakNo, FINSAT6{0}.FINSAT6{0}.SPI.Tarih, FINSAT6{0}.FINSAT6{0}.SPI.SiraNo, FINSAT6{0}.FINSAT6{0}.SPI.BirimMiktar, FINSAT6{0}.FINSAT6{0}.STK.Birim1 as Birim " +
+                            // kaynak sipariş
+                            sql = string.Format("SELECT FINSAT6{0}.FINSAT6{0}.SPI.ROW_ID, FINSAT6{0}.FINSAT6{0}.SPI.EvrakNo, FINSAT6{0}.FINSAT6{0}.SPI.Tarih, FINSAT6{0}.FINSAT6{0}.SPI.SiraNo, FINSAT6{0}.FINSAT6{0}.SPI.BirimMiktar, FINSAT6{0}.FINSAT6{0}.STK.Birim1 as Birim " +
                                 "FROM FINSAT6{0}.FINSAT6{0}.SPI WITH(NOLOCK) INNER JOIN FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) ON FINSAT6{0}.FINSAT6{0}.SPI.MalKodu = FINSAT6{0}.FINSAT6{0}.STK.MalKodu " +
-                                "WHERE (FINSAT6{0}.FINSAT6{0}.SPI.IslemTur = 0) AND (FINSAT6{0}.FINSAT6{0}.SPI.KynkEvrakTip = 63) AND (FINSAT6{0}.FINSAT6{0}.SPI.EvrakNo = '{1}') AND (FINSAT6{0}.FINSAT6{0}.SPI.MalKodu = '{2}') AND (FINSAT6{0}.FINSAT6{0}.SPI.Depo = '{3}')", SID, dr["Kaynak Sipariş No"].ToString(), malStk.MalKodu, depo.DepoKodu);
+                                "WHERE (FINSAT6{0}.FINSAT6{0}.SPI.IslemTur = 0) AND (FINSAT6{0}.FINSAT6{0}.SPI.KynkEvrakTip = 63) AND (FINSAT6{0}.FINSAT6{0}.SPI.EvrakNo = '{1}') AND (FINSAT6{0}.FINSAT6{0}.SPI.MalKodu = '{2}') AND (FINSAT6{0}.FINSAT6{0}.SPI.Depo = '{3}')", sID, dr["Kaynak Sipariş No"].ToString(), malStk.MalKodu, depo.DepoKodu);
                             var tbl = db.Database.SqlQuery<frmIrsaliyeMalzeme>(sql).FirstOrDefault();
                             if (tbl != null)
                             {
@@ -125,14 +127,16 @@ namespace Wms12m.Presentation.Controllers
                                 sti.KynkSiparisTarih = tbl.Tarih;
                             }
                         }
-                        //Makara No
-                        var kod1 = db.Database.SqlQuery<string>(string.Format("SELECT Kod1 FROM FINSAT6{0}.FINSAT6{0}.STK WHERE (MalKodu = '{1}')", SID, sti.MalKodu)).FirstOrDefault();
+
+                        // Makara No
+                        var kod1 = db.Database.SqlQuery<string>(string.Format("SELECT Kod1 FROM FINSAT6{0}.FINSAT6{0}.STK WHERE (MalKodu = '{1}')", sID, sti.MalKodu)).FirstOrDefault();
                         if (kod1 == "KKABLO")
                         {
                             if (dr["Makara No"].ToString() != "") sti.MakaraNo = dr["Makara No"].ToString();
-                            else sti.MakaraNo = "Boş-" + db.SettingsMakaraNo(DID).FirstOrDefault();
+                            else sti.MakaraNo = "Boş-" + db.SettingsMakaraNo(dID).FirstOrDefault();
                         }
-                        //ekle
+
+                        // ekle
                         liste.Add(sti);
                     }
                     catch (Exception ex)
@@ -142,8 +146,9 @@ namespace Wms12m.Presentation.Controllers
                         return Json(_result, JsonRequestBehavior.AllowGet);
                     }
                 }
+
                 reader.Close();
-                //update db
+                // update db
                 try
                 {
                     db.IRS_Detay.AddRange(liste);
@@ -157,14 +162,15 @@ namespace Wms12m.Presentation.Controllers
                     return Json(_result, JsonRequestBehavior.AllowGet);
                 }
             }
-            var Unvan = db.Database.SqlQuery<string>(string.Format("SELECT Unvan1+' '+Unvan2 AS Unvan FROM FINSAT6{0}.FINSAT6{0}.CHK WITH(NOLOCK) WHERE HesapKodu = '{1}'", SID, Hesap)).FirstOrDefault();
-            //log
+
+            var unvan = db.Database.SqlQuery<string>(string.Format("SELECT Unvan1+' '+Unvan2 AS Unvan FROM FINSAT6{0}.FINSAT6{0}.CHK WITH(NOLOCK) WHERE HesapKodu = '{1}'", sID, hesap)).FirstOrDefault();
+            // log
             LogActions("", "Uploads", "Malzeme", ComboItems.alYükle, sonuc.GorevID.Value, "GörevID: " + sonuc.GorevID.Value + ", Satır Sayısı: " + liste.Count);
-            //update görev
+            // update görev
             var gorev = db.Gorevs.Where(m => m.ID == sonuc.GorevID.Value).FirstOrDefault();
-            gorev.Bilgi = "Irs: " + evraklar + ", Tedarikçi: " + Unvan;
+            gorev.Bilgi = "Irs: " + evraklar + ", Tedarikçi: " + unvan;
             db.SaveChanges();
-            //return
+            // return
             _result.Id = 1;
             _result.Status = true;
             return Json(_result, JsonRequestBehavior.AllowGet);
@@ -177,27 +183,27 @@ namespace Wms12m.Presentation.Controllers
             if (CheckPerm(Perms.BoyutKartı, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             var _Result = new Result(false, "Hatalı dosya!");
             if (file == null || file.ContentLength == 0) return Json(_Result, JsonRequestBehavior.AllowGet);
-            //gelen dosyayı oku
-            Stream stream = file.InputStream;
+            // gelen dosyayı oku
+            var stream = file.InputStream;
             IExcelDataReader reader;
-            //dosya tipini bul
+            // dosya tipini bul
             if (file.FileName.EndsWith(".xlsx"))
                 reader = ExcelReaderFactory.CreateOpenXmlReader(stream);
             else
                 return Json(_Result, JsonRequestBehavior.AllowGet);
-            //ilk satır başlık
+            // ilk satır başlık
             reader.IsFirstRowAsColumnNames = true;
-            //exceldeki bilgileri datasete aktar
-            DataSet result = reader.AsDataSet();
-            //kontrol
+            // exceldeki bilgileri datasete aktar
+            var result = reader.AsDataSet();
+            // kontrol
             if (result.Tables.Count == 0) return Json(_Result, JsonRequestBehavior.AllowGet);
             if (result.Tables[0].Rows == null) return Json(_Result, JsonRequestBehavior.AllowGet);
-            //her satırı tek tek kaydet
+            // her satırı tek tek kaydet
             int basarili = 0, hatali = 0, tarih = fn.ToOADate(); string hatalilar = "", birim;
             for (int i = 0; i < result.Tables[0].Rows.Count; i++)
             {
-                DataRow dr = result.Tables[0].Rows[i];
-                //kontrol
+                var dr = result.Tables[0].Rows[i];
+                // kontrol
                 try
                 {
                     if (dr["Mal Kodu"].ToString() != "" && dr["En"].ToString2() != "" && dr["Boy"].ToString2() != "" && dr["Derinlik"].ToString2() != "" && dr["Ağırlık"].ToString2() != "")
@@ -210,8 +216,8 @@ namespace Wms12m.Presentation.Controllers
                             var test = db.Olcus.Where(m => m.MalKodu == dr["Mal Kodu"].ToString() && m.Birim == birim).FirstOrDefault();
                             if (test == null)
                             {
-                                //add new
-                                Olcu sti = new Olcu()
+                                // add new
+                                var sti = new Olcu()
                                 {
                                     MalKodu = dr["Mal Kodu"].ToString(),
                                     Birim = dr["Birim"].ToString(),
@@ -224,7 +230,7 @@ namespace Wms12m.Presentation.Controllers
                                     Degistiren = vUser.UserName,
                                     DegisTarih = tarih
                                 };
-                                //ekle
+                                // ekle
                                 if (sti.En != 0 || sti.Boy != 0 || sti.Derinlik != 0 || sti.Agirlik != 0)
                                 {
                                     db.Olcus.Add(sti);
@@ -255,11 +261,12 @@ namespace Wms12m.Presentation.Controllers
                     Logger(ex, "Uploads/Malzeme");
                 }
             }
+
             reader.Close();
             if (basarili > 0)
             {
                 _Result.Message = basarili + " adet satır eklendi";
-                //log
+                // log
                 LogActions("", "Uploads", "Olcu", ComboItems.alYükle, 0, "Satır Sayısı: " + basarili);
             }
             else
@@ -278,33 +285,33 @@ namespace Wms12m.Presentation.Controllers
         public JsonResult Stock(int DID, HttpPostedFileBase file)
         {
             if (CheckPerm(Perms.Stok, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
-            Result _result = new Result(false, 0, "Hatalı dosya!");
+            var _result = new Result(false, 0, "Hatalı dosya!");
             if (file == null || file.ContentLength == 0) return Json(_result, JsonRequestBehavior.AllowGet);
-            //gelen dosyayı oku
-            Stream stream = file.InputStream;
+            // gelen dosyayı oku
+            var stream = file.InputStream;
             IExcelDataReader reader;
-            //dosya tipini bul
+            // dosya tipini bul
             if (file.FileName.EndsWith(".xlsx"))
                 reader = ExcelReaderFactory.CreateOpenXmlReader(stream);
             else
                 return Json(_result, JsonRequestBehavior.AllowGet);
-            //ilk satır başlık
+            // ilk satır başlık
             reader.IsFirstRowAsColumnNames = true;
-            //exceldeki bilgileri datasete aktar
-            DataSet result = reader.AsDataSet();
-            //kontrol
+            // exceldeki bilgileri datasete aktar
+            var result = reader.AsDataSet();
+            // kontrol
             if (result.Tables.Count == 0) return Json(_result, JsonRequestBehavior.AllowGet);
             if (result.Tables[0].Rows == null) return Json(_result, JsonRequestBehavior.AllowGet);
-            //loop all list
-            int basarili = 0, hatali = 0, tarih = fn.ToOADate(); string hatalilar = "";
+            // loop all list
+            int basarili = 0, hatali = 0, tarih = fn.ToOADate(); var hatalilar = "";
             using (var dbContextTransaction = db.Database.BeginTransaction())
             {
-                //add to irs table
+                // add to irs table
                 var sonuc = Irsaliye.Operation(new IR() { SirketKod = vUser.SirketKodu, DepoID = DID, EvrakNo = db.SettingsGorevNo(tarih, DID).FirstOrDefault(), HesapKodu = "Elle Ekleme", Tarih = tarih });
-                //loop
+                // loop
                 for (int i = 0; i < result.Tables[0].Rows.Count; i++)
                 {
-                    DataRow dr = result.Tables[0].Rows[i];
+                    var dr = result.Tables[0].Rows[i];
                     try
                     {
                         if (dr["Hücre Adı"].ToString() != "" && dr["Mal Kodu"].ToString() != "" && dr["Birim"].ToString() != "" && dr["Miktar"].ToString2().IsNumeric() != false)
@@ -324,6 +331,7 @@ namespace Wms12m.Presentation.Controllers
                                     tmp2.Miktar += miktar;
                                     Yerlestirme.Update(tmp2, vUser.Id, "Stok Elle Ekle", miktar, false);
                                 }
+
                                 basarili++;
                             }
                             else
@@ -348,8 +356,9 @@ namespace Wms12m.Presentation.Controllers
                         Logger(ex, "Uploads/Stock");
                     }
                 }
+
                 reader.Close();
-                //update db
+                // update db
                 try
                 {
                     dbContextTransaction.Commit();
@@ -361,10 +370,11 @@ namespace Wms12m.Presentation.Controllers
                     return Json(_result, JsonRequestBehavior.AllowGet);
                 }
             }
+
             if (basarili > 0)
             {
                 _result.Message = basarili + " adet satır eklendi";
-                //log
+                // log
                 LogActions("", "Uploads", "Stock", ComboItems.alYükle, 0, "Satır Sayısı: " + basarili);
             }
             else
@@ -385,36 +395,36 @@ namespace Wms12m.Presentation.Controllers
             if (CheckPerm(Perms.KatKartı, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             var _Result = new Result(false, "Hatalı dosya!");
             if (file == null || file.ContentLength == 0) return Json(_Result, JsonRequestBehavior.AllowGet);
-            //gelen dosyayı oku
-            Stream stream = file.InputStream;
+            // gelen dosyayı oku
+            var stream = file.InputStream;
             IExcelDataReader reader;
-            //dosya tipini bul
+            // dosya tipini bul
             if (file.FileName.EndsWith(".xlsx"))
                 reader = ExcelReaderFactory.CreateOpenXmlReader(stream);
             else
                 return Json(_Result, JsonRequestBehavior.AllowGet);
-            //ilk satır başlık
+            // ilk satır başlık
             reader.IsFirstRowAsColumnNames = true;
-            //exceldeki bilgileri datasete aktar
-            DataSet result = reader.AsDataSet();
-            //kontrol
+            // exceldeki bilgileri datasete aktar
+            var result = reader.AsDataSet();
+            // kontrol
             if (result.Tables.Count == 0) return Json(_Result, JsonRequestBehavior.AllowGet);
             if (result.Tables[0].Rows == null) return Json(_Result, JsonRequestBehavior.AllowGet);
-            //her satırı tek tek kaydet
-            int basarili = 0, hatali = 0, ozelliktipi = Combos.Özellik.ToInt32(); string hatalilar = "";
+            // her satırı tek tek kaydet
+            int basarili = 0, hatali = 0, ozelliktipi = Combos.Özellik.ToInt32(); var hatalilar = "";
             for (int i = 0; i < result.Tables[0].Rows.Count; i++)
             {
-                DataRow dr = result.Tables[0].Rows[i];
-                //kontrol
+                var dr = result.Tables[0].Rows[i];
+                // kontrol
                 try
                 {
-                    string tdepo = dr["Depo"].ToString();
-                    string tkoridor = dr["Koridor"].ToString();
-                    string traf = dr["Raf Grubu"].ToString();
-                    string tbolum = dr["Bölüm"].ToString();
-                    string tkat = dr["Rafın Katı"].ToString();
-                    string tozellik = dr["Özellik"].ToString();
-                    string taciklama = dr["Açıklama"].ToString();
+                    var tdepo = dr["Depo"].ToString();
+                    var tkoridor = dr["Koridor"].ToString();
+                    var traf = dr["Raf Grubu"].ToString();
+                    var tbolum = dr["Bölüm"].ToString();
+                    var tkat = dr["Rafın Katı"].ToString();
+                    var tozellik = dr["Özellik"].ToString();
+                    var taciklama = dr["Açıklama"].ToString();
                     if (tdepo != "" && tkoridor != "" && traf != "" && tbolum != "" && tkat != "" && tozellik != "" &&
                     (dr["Genişlik (mm)"].ToString2().IsNumeric() != false || dr["Genişlik (mm)"].ToString2() == "*") &&
                     (dr["Derinlik (mm)"].ToString2().IsNumeric() != false || dr["Derinlik (mm)"].ToString2() == "*") &&
@@ -436,6 +446,7 @@ namespace Wms12m.Presentation.Controllers
                                 db.Koridors.Add(kr);
                                 db.SaveChanges();
                             }
+
                             var rf = db.Rafs.Where(m => m.RafAd == traf && m.KoridorID == kr.ID).FirstOrDefault();
                             if (rf == null)
                             {
@@ -443,6 +454,7 @@ namespace Wms12m.Presentation.Controllers
                                 db.Rafs.Add(rf);
                                 db.SaveChanges();
                             }
+
                             var bl = db.Bolums.Where(m => m.BolumAd == tbolum && m.RafID == rf.ID).FirstOrDefault();
                             if (bl == null)
                             {
@@ -450,10 +462,11 @@ namespace Wms12m.Presentation.Controllers
                                 db.Bolums.Add(bl);
                                 db.SaveChanges();
                             }
-                            //özellik id bul
+
+                            // özellik id bul
                             var ozellik = db.Database.SqlQuery<int>("SELECT ID FROM ComboItem_Name WHERE (ComboID = 3) AND (Name like '%" + tozellik + "%')").FirstOrDefault();
                             if (ozellik == 0) ozellik = 14;
-                            //kat bul
+                            // kat bul
                             var kt = db.Kats.Where(m => m.KatAd == tkat && m.BolumID == bl.ID).FirstOrDefault();
                             if (kt == null)
                             {
@@ -486,6 +499,7 @@ namespace Wms12m.Presentation.Controllers
                                 kt.Degistiren = vUser.UserName;
                                 kt.DegisTarih = fn.ToOADate();
                             }
+
                             db.SaveChanges();
                             basarili++;
                         }
@@ -505,11 +519,12 @@ namespace Wms12m.Presentation.Controllers
                     Logger(ex, "Uploads/Kat");
                 }
             }
+
             reader.Close();
             if (basarili > 0)
             {
                 _Result.Message = basarili + " adet satır eklendi";
-                //log
+                // log
                 LogActions("", "Uploads", "Kat", ComboItems.alYükle, 0, "Satır Sayısı: " + basarili);
             }
             else
@@ -530,16 +545,16 @@ namespace Wms12m.Presentation.Controllers
             if (CheckPerm(Perms.Kullanıcılar, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             var _Result = new Result(false, "Hatalı dosya!");
             if (file == null || file.ContentLength == 0) return Json(_Result, JsonRequestBehavior.AllowGet);
-            //dosya tipini bul
+            // dosya tipini bul
             if (!file.FileName.EndsWith(".jpg") && !file.FileName.EndsWith(".png"))
                 return Json(_Result, JsonRequestBehavior.AllowGet);
-            //if exists delete
+            // if exists delete
             try
             {
                 if (!Directory.Exists(Server.MapPath("/Content/Uploads/"))) Directory.CreateDirectory(Server.MapPath("/Content/Uploads/"));
                 if (System.IO.File.Exists(Server.MapPath("/Content/Uploads/" + ID + ".jpg")) == true) System.IO.File.Delete(Server.MapPath("/Content/Uploads/" + ID + ".jpg"));
                 file.SaveAs(Server.MapPath("/Content/Uploads/" + ID + ".jpg"));
-                //return
+                // return
                 return Json(new Result(true, ID.ToInt32()), JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
@@ -559,11 +574,11 @@ namespace Wms12m.Presentation.Controllers
             {
                 var guid = Guid.NewGuid();
                 if (!Directory.Exists(Server.MapPath("/Content/Uploads/Proje/"))) Directory.CreateDirectory(Server.MapPath("/Content/Uploads/Proje/"));
-                //if exists delete
+                // if exists delete
                 if (System.IO.File.Exists(Server.MapPath("/Content/Uploads/Proje/" + ID + "-" + guid)) == true) System.IO.File.Delete(Server.MapPath("/Content/Uploads/Proje/" + ID + "-" + guid));
-                //save file
+                // save file
                 file.SaveAs(Server.MapPath("/Content/Uploads/Proje/" + ID + "-" + guid));
-                //save to db
+                // save to db
                 db.ProjeFormDosyas.Add(new ProjeFormDosya()
                 {
                     Guid = guid,
@@ -575,7 +590,7 @@ namespace Wms12m.Presentation.Controllers
                     Tarih = DateTime.Now
                 });
                 db.SaveChanges();
-                //return
+                // return
                 return Json(new Result(true, ID.ToInt32()), JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)

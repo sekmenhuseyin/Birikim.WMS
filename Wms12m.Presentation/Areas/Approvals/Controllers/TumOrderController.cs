@@ -27,6 +27,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             {
                 ViewBag.OnayDurum = onayRed;
             }
+
             return View();
         }
         /// <summary>
@@ -44,8 +45,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         /// </summary>
         public string TumOrderListData(string tip, int bastarih, int bittarih)
         {
-
-            JavaScriptSerializer json = new JavaScriptSerializer()
+            var json = new JavaScriptSerializer()
             {
                 MaxJsonLength = int.MaxValue
             };
@@ -67,12 +67,10 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                     var Kod3Array = tbl.GostKod3OrtBakiye == null ? ";".Split(';') : tbl.GostKod3OrtBakiye.Split(';');
                     var RiskArray = tbl.GostRiskDeger == null ? ";".Split(';') : tbl.GostRiskDeger.Split(';');
 
-
                     if (Kod3Array.Length > 3)
                     {
                         Kod3Araligi = Kod3Array[0] + ";" + Kod3Array[1];
                         Kod3Araligi2 = Kod3Array[2] + ";" + Kod3Array[3];
-
                     }
                     else if (Kod3Array.Length > 1 && Kod3Array[0] != "")
                     {
@@ -89,7 +87,6 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                     {
                         RiskAraligi = RiskArray[0] + ";" + RiskArray[1];
                         RiskAraligi2 = RiskArray[2] + ";" + RiskArray[3];
-
                     }
                     else if (RiskArray.Length > 1 && RiskArray[0] != "")
                     {
@@ -103,7 +100,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                     }
 
                     var Grup = vUser.RoleName;
-                    //TODO: şirket ayrımı
+                    // TODO: şirket ayrımı
                     if (Sirketler.Contains("Tüm;"))
                     {
                         if (Sirketler.Contains("Tümpa;"))
@@ -126,8 +123,8 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             }
             catch (Exception)
             {
-
             }
+
             return json.Serialize(sipBilgi);
         }
         /// <summary>
@@ -136,15 +133,15 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         public JsonResult Onayla(string Data)
         {
             if (CheckPerm(Perms.SiparişOnaylama, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
-            Result _Result = new Result(true);
-            JArray parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
+            var _Result = new Result(true);
+            var parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
             var logDetay = "";
             using (var dbContextTransaction = db.Database.BeginTransaction())
             {
                 var tbl = db.UserDetails.Where(m => m.UserID == vUser.Id).FirstOrDefault();
                 foreach (JObject insertObj in parameters)
                 {
-                    //TODO: şirket ayrımı
+                    // TODO: şirket ayrımı
                     if (insertObj["Firma"].ToString() == "Tümpa")
                     {
                         db.Database.ExecuteSqlCommand(string.Format("[FINSAT6{0}].[wms].[TumpaSiparisOnayla] @OncekiDurum = '{1}',@Kullanici = '{2}', @EvrakNo='{3}'", "71", insertObj["OnayDurumu"].ToString(), vUser.UserName, insertObj["EvrakNo"].ToString()));
@@ -158,7 +155,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
                     LogActions("Approvals", "TumOrder", "Onayla", ComboItems.alOnayla, 0, logDetay);
 
-                    TumSiparisOnayLog sip = new TumSiparisOnayLog()
+                    var sip = new TumSiparisOnayLog()
                     {
                         Bakiye = insertObj["Bakiye"].ToDecimal(),
                         Unvan = insertObj["Unvan"].ToString(),
@@ -192,6 +189,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                     };
                     logdb.TumSiparisOnayLogs.Add(sip);
                 }
+
                 try
                 {
                     db.SaveChanges();
@@ -208,6 +206,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                     _Result.Message = "Hata Oluştu";
                 }
             }
+
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
         /// <summary>
@@ -216,8 +215,8 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         public JsonResult Reddet(string Data)
         {
             if (CheckPerm(Perms.SiparişOnaylama, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
-            Result _Result = new Result(true);
-            JArray parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
+            var _Result = new Result(true);
+            var parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
             var logDetay = "";
             using (var dbContextTransaction = db.Database.BeginTransaction())
             {
@@ -226,7 +225,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                 {
                     foreach (JObject insertObj in parameters)
                     {
-                        //TODO: şirket ayrımı
+                        // TODO: şirket ayrımı
                         if (insertObj["Firma"].ToString() == "Tümpa")
                         {
                             db.Database.ExecuteSqlCommand(string.Format("[FINSAT6{0}].[wms].[TumpaSiparisReddet] @OncekiDurum = '{1}',@Kullanici = '{2}', @EvrakNo='{3}'", "71", insertObj["OnayDurumu"].ToString(), vUser.UserName, insertObj["EvrakNo"].ToString()));
@@ -273,13 +272,13 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                             RiskBakiyesi = insertObj["RiskBakiyesi"].ToDecimal()
                         });
                     }
+
                     try
                     {
                         db.SaveChanges();
                         logdb.SaveChanges();
                         logdbContextTransaction.Commit();
                         dbContextTransaction.Commit();
-
 
                         _Result.Status = true;
                         _Result.Message = "İşlem Başarılı ";
@@ -291,6 +290,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                     }
                 }
             }
+
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
     }

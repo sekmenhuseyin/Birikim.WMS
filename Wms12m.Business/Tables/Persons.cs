@@ -14,7 +14,7 @@ namespace Wms12m.Business
         /// </summary>
         public override Result Operation(User tbl)
         {
-            _Result = new Result(); bool eklemi = false;
+            _Result = new Result(); var eklemi = false;
             if (tbl.AdSoyad == "" || tbl.Kod == "" || (tbl.ID == 0 && tbl.Sifre.ToString2() == ""))
             {
                 _Result.Id = 0;
@@ -22,6 +22,7 @@ namespace Wms12m.Business
                 _Result.Status = false;
                 return _Result;
             }
+
             if (fn.isEmail(tbl.Email) == false)
             {
                 _Result.Id = 0;
@@ -29,6 +30,7 @@ namespace Wms12m.Business
                 _Result.Status = false;
                 return _Result;
             }
+
             var kontrol = db.Users.Where(m => m.Kod == tbl.Kod && m.ID != tbl.ID).FirstOrDefault();
             if (kontrol != null)
             {
@@ -37,9 +39,10 @@ namespace Wms12m.Business
                 _Result.Status = false;
                 return _Result;
             }
+
             if (tbl.Sifre.ToString2() != "") tbl.Sifre = CryptographyExtension.Sifrele(tbl.Sifre);
             tbl.Kod = tbl.Kod.Left(5);
-            //set details
+            // set details
             tbl.Degistiren = vUser.UserName;
             tbl.DegisTarih = DateTime.Today.ToOADateInt();
             tbl.DegisSaat = DateTime.Now.ToOaTime();
@@ -77,11 +80,12 @@ namespace Wms12m.Business
                 tmp.DegisKaynak = tbl.DegisKaynak;
                 tmp.DegisSurum = tbl.DegisSurum;
             }
+
             try
             {
                 db.SaveChanges();
                 LogActions("Business", "Persons", "Operation", eklemi == true ? ComboItems.alEkle : ComboItems.alDüzenle, tbl.ID, tbl.AdSoyad + ", " + tbl.Email + ", " + tbl.RoleName + ", " + tbl.Kod);
-                //result
+                // result
                 _Result.Id = tbl.ID;
                 _Result.Message = "İşlem Başarılı !!!";
                 _Result.Status = true;
@@ -93,6 +97,7 @@ namespace Wms12m.Business
                 _Result.Message = "İşlem Hatalı: " + ex.Message;
                 _Result.Status = false;
             }
+
             return _Result;
         }
         /// <summary>
@@ -101,18 +106,17 @@ namespace Wms12m.Business
         public override Result Delete(int Id)
         {
             _Result = new Result();
-            User tbl = db.Users.Where(m => m.ID == Id).FirstOrDefault();
+            var tbl = db.Users.Where(m => m.ID == Id).FirstOrDefault();
             if (tbl == null)
             {
                 _Result.Message = "Kayıt Yok";
                 return _Result;
             }
+
             var det = db.UserDetails.Where(m => m.UserID == tbl.ID).FirstOrDefault();
-            if (det != null)
-                db.UserDetails.Remove(det);
+            if (det != null) db.UserDetails.Remove(det);
             var dev = db.UserDevices.Where(m => m.UserID == tbl.ID).ToList();
-            if (dev != null)
-                db.UserDevices.RemoveRange(dev);
+            if (dev != null) db.UserDevices.RemoveRange(dev);
             db.Users.Remove(tbl);
             try
             {
@@ -127,6 +131,7 @@ namespace Wms12m.Business
                 Logger(ex, "Business/Persons/Delete");
                 _Result.Message = ex.Message;
             }
+
             return _Result;
         }
         /// <summary>
@@ -146,13 +151,13 @@ namespace Wms12m.Business
                 var tbl = db.Users.Where(a => a.Kod.ToLower() == P.Kod && a.Sirket == "" && a.Tip == 0 && a.Aktif == true).FirstOrDefault();
                 if (tbl != null)//if user exists
                 {
-                    string pass = CryptographyExtension.Cozumle(tbl.Sifre);
+                    var pass = CryptographyExtension.Cozumle(tbl.Sifre);
                     if (P.Sifre == pass)//if password matches
                     {
-                        //update db
+                        // update db
                         db.LogLogins(P.Kod, device, true, "");
                         db.UpdateUserDevice(tbl.ID, device);
-                        //return result
+                        // return result
                         _Result.Status = true;
                         _Result.Id = tbl.ID;
                         _Result.Message = "İşlem Başarılı";
@@ -165,6 +170,7 @@ namespace Wms12m.Business
                 Logger(ex, "Business/Persons/Login");
                 _Result.Message = "İşlem Hata !!!" + ex.Message;
             }
+
             return _Result;
         }
         /// <summary>
@@ -179,6 +185,7 @@ namespace Wms12m.Business
                 _Result.Status = false;
                 return _Result;
             }
+
             _Result = new Result()
             {
                 Status = false,
@@ -195,7 +202,7 @@ namespace Wms12m.Business
                 tmp.DegisSaat = DateTime.Now.ToOaTime();
                 db.SaveChanges();
                 LogActions("Business", "Persons", "ChangePass", ComboItems.alDüzenle, P.ID);
-                //result
+                // result
                 _Result.Id = P.ID;
                 _Result.Message = "İşlem Başarılı !!!";
                 _Result.Status = true;
@@ -205,6 +212,7 @@ namespace Wms12m.Business
                 Logger(ex, "Business/Persons/ChangePass");
                 _Result.Message = "İşlem Hata !!!" + ex.Message;
             }
+
             return _Result;
         }
         /// <summary>
@@ -240,10 +248,8 @@ namespace Wms12m.Business
         /// <summary>
         /// yetkiye sahip kişiler
         /// </summary>
-        public override List<User> GetList(int UserID)
-        {
-            return db.Users.Where(m => m.ID == UserID).ToList();
-        }
+        public override List<User> GetList(int UserID) => db.Users.Where(m => m.ID == UserID).ToList();
+
         public List<User> GetList(string RoleName)
         {
             return db.Users.Where(m => m.Sirket == "" && m.RoleName == RoleName).OrderBy(m => m.AdSoyad).ToList();

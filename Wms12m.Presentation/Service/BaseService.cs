@@ -13,10 +13,7 @@ namespace Wms12m
         /// </summary>
         protected override void Dispose(bool disposing)
         {
-            if (disposing)
-            {
-                db.Dispose();
-            }
+            if (disposing) db.Dispose();
             base.Dispose(disposing);
         }
         /// <summary>
@@ -24,12 +21,13 @@ namespace Wms12m
         /// </summary>
         public void Logger(string user, string machine, Exception ex, string page)
         {
-            string inner = "";
+            var inner = "";
             if (ex.InnerException != null)
             {
                 inner = ex.InnerException == null ? "" : ex.InnerException.Message;
                 if (ex.InnerException.InnerException != null) inner += ": " + ex.InnerException.InnerException.Message;
             }
+
             db.Logger(user, machine, "", ex.Message, inner, page);
         }
         /// <summary>

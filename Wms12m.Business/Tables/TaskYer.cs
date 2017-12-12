@@ -13,7 +13,7 @@ namespace Wms12m.Business
         /// </summary>
         public override Result Operation(GorevYer tbl)
         {
-            _Result = new Result(); bool eklemi = false;
+            _Result = new Result(); var eklemi = false;
             if (tbl.ID == 0)
             {
                 db.GorevYers.Add(tbl);
@@ -24,11 +24,12 @@ namespace Wms12m.Business
                 var tmp = Detail(tbl.ID);
                 tmp.Sira = tbl.Sira;
             }
+
             try
             {
                 db.SaveChanges();
                 LogActions("Business", "TaskYer", "Operation", eklemi == true ? ComboItems.alEkle : ComboItems.alDüzenle, tbl.ID, "GorevID: " + tbl.GorevID + ", YerID: " + tbl.YerID + ", MalKodu: " + tbl.MalKodu + ", Miktar: " + tbl.Miktar);
-                //result
+                // result
                 _Result.Id = tbl.ID;
                 _Result.Message = "İşlem Başarılı !!!";
                 _Result.Status = true;
@@ -40,6 +41,7 @@ namespace Wms12m.Business
                 _Result.Message = "İşlem Hatalı: " + ex.Message;
                 _Result.Status = false;
             }
+
             return _Result;
         }
         /// <summary>
@@ -50,7 +52,7 @@ namespace Wms12m.Business
             _Result = new Result();
             try
             {
-                GorevYer tbl = db.GorevYers.Where(m => m.ID == Id).FirstOrDefault();
+                var tbl = db.GorevYers.Where(m => m.ID == Id).FirstOrDefault();
                 if (tbl != null)
                 {
                     db.GorevYers.Remove(tbl);
@@ -72,6 +74,7 @@ namespace Wms12m.Business
                 _Result.Message = ex.Message;
                 _Result.Status = false;
             }
+
             return _Result;
         }
         /// <summary>

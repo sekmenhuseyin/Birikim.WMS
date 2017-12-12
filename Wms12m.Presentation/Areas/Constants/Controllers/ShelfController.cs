@@ -26,8 +26,8 @@ namespace Wms12m.Presentation.Areas.Constants.Controllers
         public ActionResult ShelfGridPartial(string Id)
         {
             if (CheckPerm(Perms.RafKartı, PermTypes.Reading) == false) return Redirect("/");
-            int StoreId = 0;
-            string Locked = "";
+            var StoreId = 0;
+            var Locked = "";
             List<Raf> _List = new List<Raf>();
             try
             {
@@ -42,6 +42,7 @@ namespace Wms12m.Presentation.Areas.Constants.Controllers
                 {
                     _List = Shelf.GetListByDepo(Convert.ToInt16(Id));
                 }
+
                 return PartialView("_ShelfGridPartial", _List);
             }
             catch (Exception ex)
@@ -56,7 +57,7 @@ namespace Wms12m.Presentation.Areas.Constants.Controllers
         public PartialViewResult ShelfDetailPartial(string Id)
         {
             if (CheckPerm(Perms.RafKartı, PermTypes.Reading) == false) return null;
-            int tmp = Convert.ToInt32(Id);
+            var tmp = Convert.ToInt32(Id);
             if (tmp == 0)
             {
                 ViewBag.DepoID = new SelectList(Store.GetList(), "ID", "DepoAd");
@@ -94,6 +95,7 @@ namespace Wms12m.Presentation.Areas.Constants.Controllers
                         Value = item.ID.ToString()
                     });
                 }
+
                 return Json(List.Select(x => new { Value = x.Value, Text = x.Text, Selected = x.Selected }), JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
@@ -125,6 +127,7 @@ namespace Wms12m.Presentation.Areas.Constants.Controllers
                         Value = item.ID.ToString()
                     });
                 }
+
                 return Json(List.Select(x => new { Value = x.Value, Text = x.Text, Selected = x.Selected }), JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
@@ -139,7 +142,7 @@ namespace Wms12m.Presentation.Areas.Constants.Controllers
         public JsonResult Delete(string Id)
         {
             if (CheckPerm(Perms.RafKartı, PermTypes.Deleting) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
-            Result _Result = Shelf.Delete(string.IsNullOrEmpty(Id) ? 0 : Convert.ToInt32(Id));
+            var _Result = Shelf.Delete(string.IsNullOrEmpty(Id) ? 0 : Convert.ToInt32(Id));
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
         /// <summary>
@@ -148,7 +151,7 @@ namespace Wms12m.Presentation.Areas.Constants.Controllers
         public JsonResult ShelfiOperation(Raf P)
         {
             if (CheckPerm(Perms.RafKartı, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
-            Result _Result = Shelf.Operation(P);
+            var _Result = Shelf.Operation(P);
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
     }

@@ -13,7 +13,7 @@ namespace Wms12m.Business
         /// </summary>
         public override Result Operation(ComboItem_Name tbl)
         {
-            _Result = new Result(); bool eklemi = false;
+            _Result = new Result(); var eklemi = false;
             if (tbl.Name == "" || tbl.ComboID == 0)
             {
                 _Result.Id = 0;
@@ -21,8 +21,9 @@ namespace Wms12m.Business
                 _Result.Status = false;
                 return _Result;
             }
+
             tbl.Visible = true;
-            //set details
+            // set details
             if (tbl.ID == 0)
             {
                 db.ComboItem_Name.Add(tbl);
@@ -35,11 +36,12 @@ namespace Wms12m.Business
                 tmp.ComboID = tbl.ComboID;
                 tmp.Visible = tbl.Visible;
             }
+
             try
             {
                 db.SaveChanges();
                 LogActions("Business", "ComboSub", "Operation", eklemi == true ? ComboItems.alEkle : ComboItems.alDüzenle, tbl.ID, tbl.Name + ", CID: " + tbl.ComboID);
-                //result
+                // result
                 _Result.Id = tbl.ID;
                 _Result.Message = "İşlem Başarılı !!!";
                 _Result.Status = true;
@@ -51,6 +53,7 @@ namespace Wms12m.Business
                 _Result.Message = "İşlem Hatalı: " + ex.Message;
                 _Result.Status = false;
             }
+
             return _Result;
         }
         /// <summary>
@@ -61,7 +64,7 @@ namespace Wms12m.Business
             _Result = new Result();
             try
             {
-                ComboItem_Name tbl = db.ComboItem_Name.Where(m => m.ID == Id).FirstOrDefault();
+                var tbl = db.ComboItem_Name.Where(m => m.ID == Id).FirstOrDefault();
                 if (tbl != null)
                 {
                     db.ComboItem_Name.Remove(tbl);
@@ -83,6 +86,7 @@ namespace Wms12m.Business
                 _Result.Message = ex.Message;
                 _Result.Status = false;
             }
+
             return _Result;
         }
         /// <summary>

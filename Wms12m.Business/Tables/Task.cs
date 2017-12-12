@@ -13,7 +13,7 @@ namespace Wms12m.Business
         /// </summary>
         public override Result Operation(Gorev tbl)
         {
-            _Result = new Result(); bool eklemi = false;
+            _Result = new Result(); var eklemi = false;
             if (tbl.ID == 0)
             {
                 tbl.Olusturan = vUser.UserName;
@@ -23,11 +23,12 @@ namespace Wms12m.Business
                 db.Gorevs.Add(tbl);
                 eklemi = true;
             }
+
             try
             {
                 db.SaveChanges();
                 LogActions("Business", "Task", "Insert", eklemi == true ? ComboItems.alEkle : ComboItems.alDüzenle, tbl.ID, "DepoID: " + tbl.DepoID + ", GorevNo: " + tbl.GorevNo + ", GorevTipiID: " + tbl.GorevTipiID + ", Bilgi: " + tbl.Bilgi);
-                //result
+                // result
                 _Result.Id = tbl.ID;
                 _Result.Message = "İşlem Başarılı !!!";
                 _Result.Status = true;
@@ -39,6 +40,7 @@ namespace Wms12m.Business
                 _Result.Message = "İşlem Hatalı: " + ex.Message;
                 _Result.Status = false;
             }
+
             return _Result;
         }
         /// <summary>
@@ -47,12 +49,12 @@ namespace Wms12m.Business
         public Result Insert(frmGorev tbl)
         {
             _Result = new Result();
-            //add görevlist table
+            // add görevlist table
             try
             {
                 var irsaliye = db.IRS.Where(m => m.ID == tbl.IrsaliyeID).FirstOrDefault();
-                string gorevno = db.SettingsGorevNo(DateTime.Today.ToOADateInt(), irsaliye.DepoID).FirstOrDefault();
-                Gorev gorev = new Gorev()
+                var gorevno = db.SettingsGorevNo(DateTime.Today.ToOADateInt(), irsaliye.DepoID).FirstOrDefault();
+                var gorev = new Gorev()
                 {
                     DepoID = tbl.DepoID,
                     GorevNo = gorevno,
@@ -76,6 +78,7 @@ namespace Wms12m.Business
                 Logger(ex, "Business/Task/Insert");
                 _Result.Message = ex.Message;
             }
+
             return _Result;
         }
         /// <summary>
@@ -97,6 +100,7 @@ namespace Wms12m.Business
                         tmp.BitisTarihi = DateTime.Today.ToOADateInt();
                         tmp.BitisSaati = DateTime.Now.ToOaTime();
                     }
+
                     db.SaveChanges();
                     LogActions("Business", "Task", "Update", ComboItems.alDüzenle, tbl.ID, "DurumID: " + tbl.DurumID + ", Aciklama: " + tbl.Aciklama + ", Bilgi: " + tbl.Bilgi);
                     _Result.Message = "İşlem Başarılı !!!";
@@ -109,6 +113,7 @@ namespace Wms12m.Business
                     _Result.Message = ex.Message;
                 }
             }
+
             return _Result;
         }
         /// <summary>
@@ -137,6 +142,7 @@ namespace Wms12m.Business
                     _Result.Message = ex.Message;
                 }
             }
+
             return _Result;
         }
         /// <summary>
@@ -147,7 +153,7 @@ namespace Wms12m.Business
             _Result = new Result();
             try
             {
-                Gorev tbl = db.Gorevs.Where(m => m.ID == Id).FirstOrDefault();
+                var tbl = db.Gorevs.Where(m => m.ID == Id).FirstOrDefault();
                 if (tbl != null)
                 {
                     db.Gorevs.Remove(tbl);
@@ -168,6 +174,7 @@ namespace Wms12m.Business
                 Logger(ex, "Business/Task/Delete");
                 _Result.Message = ex.Message;
             }
+
             return _Result;
         }
         /// <summary>
@@ -199,10 +206,8 @@ namespace Wms12m.Business
         {
             return db.Gorevs.OrderBy(m => m.DurumID).ThenByDescending(m => m.ID).ToList();
         }
-        public int Count()
-        {
-            return db.Gorevs.Count();
-        }
+        public int Count() => db.Gorevs.Count();
+
         /// <summary>
         /// duruma göre olanları getirir
         /// </summary>

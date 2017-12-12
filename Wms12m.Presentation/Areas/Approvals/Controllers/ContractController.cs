@@ -35,33 +35,30 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             {
                 RT = new List<SozlesmeOnaySelect>();
             }
+
             var json = new JavaScriptSerializer().Serialize(RT);
             return json;
         }
         public JsonResult Onay_GM(string Data)
         {
-            Result _Result = new Result(true);
+            var _Result = new Result(true);
             if (CheckPerm(Perms.SözleşmeOnaylamaGM, PermTypes.Writing) == false) return null;
-            JArray parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
-            SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
+            var parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
+            var sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
             try
             {
-
                 foreach (JObject insertObj in parameters)
                 {
-
-
                     db.Database.ExecuteSqlCommand(string.Format("[FINSAT6{0}].[wms].[SozlesmeGenelMudurOnay] @SozlesmeNo = '{1}',@Kullanici = '{2}'", vUser.SirketKodu, insertObj["ListeNo"].ToString(), vUser.UserName));
 
                     var list = db.Database.SqlQuery<ISS_Temp>(string.Format("SELECT *  FROM [FINSAT6{0}].[FINSAT6{0}].[ISS_Temp] WHERE ListeNo='{1}'", vUser.SirketKodu, insertObj["ListeNo"].ToString())).ToList();
-
 
                     foreach (ISS_Temp lst in list)
                     {
                         if (lst.OnayTip == 2)
                         {
                             db.Database.ExecuteSqlCommand(string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[ISS_Temp] SET Kod12=0, Kod9='' WHERE ListeNo='{1}'", vUser.SirketKodu, insertObj["ListeNo"].ToString()));
-                            ISS insrt = new ISS()
+                            var insrt = new ISS()
                             {
                                 Aciklama = lst.Aciklama,
                                 BasSaat = lst.BasSaat,
@@ -159,45 +156,44 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                                 TutarYuzde8 = lst.TutarYuzde8
                             };
                             sqlexper.Insert(insrt);
-
                         }
                     }
+
                     var sonuc = sqlexper.AcceptChanges();
                 }
+
                 _Result.Status = true;
                 _Result.Message = "İşlem Başarılı ";
-
             }
             catch (Exception)
             {
                 _Result.Status = false;
                 _Result.Message = "Hata Oluştu. ";
-
             }
+
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
         public JsonResult Red_GM(string Data)
         {
-            Result _Result = new Result(true);
+            var _Result = new Result(true);
             if (CheckPerm(Perms.SözleşmeOnaylamaGM, PermTypes.Writing) == false) return null;
-            JArray parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
+            var parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
             try
             {
                 foreach (JObject insertObj in parameters)
                 {
                     db.Database.ExecuteSqlCommand(string.Format("DELETE FROM [FINSAT6{0}].[FINSAT6{0}].[ISS_Temp] WHERE  ListeNo = '{1}'", vUser.SirketKodu, insertObj["ListeNo"].ToString()));
-
                 }
+
                 _Result.Status = true;
                 _Result.Message = "İşlem Başarılı ";
-
             }
             catch (Exception)
             {
                 _Result.Status = false;
                 _Result.Message = "Hata Oluştu. ";
-
             }
+
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
         [HttpPost]
@@ -231,6 +227,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             {
                 RT = new List<SozlesmeOnaySelect>();
             }
+
             var json = new JavaScriptSerializer().Serialize(RT);
             return json;
         }
@@ -243,10 +240,10 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         }
         public JsonResult Onay_SM(string Data)
         {
-            Result _Result = new Result(true);
+            var _Result = new Result(true);
             if (CheckPerm(Perms.SözleşmeOnaylamaSM, PermTypes.Writing) == false) return null;
-            JArray parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
-            SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
+            var parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
+            var sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
             try
             {
                 foreach (JObject insertObj in parameters)
@@ -258,7 +255,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                     {
                         if (lst.OnayTip == 0)
                         {
-                            ISS insrt = new ISS()
+                            var insrt = new ISS()
                             {
                                 Aciklama = lst.Aciklama,
                                 BasSaat = lst.BasSaat,
@@ -356,46 +353,44 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                                 TutarYuzde8 = lst.TutarYuzde8
                             };
                             sqlexper.Insert(insrt);
-
                         }
                     }
+
                     var sonuc = sqlexper.AcceptChanges();
                 }
+
                 _Result.Status = true;
                 _Result.Message = "İşlem Başarılı ";
-
             }
             catch (Exception)
             {
                 _Result.Status = false;
                 _Result.Message = "Hata Oluştu. ";
-
             }
+
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
         public JsonResult Red_SM(string Data)
         {
-            Result _Result = new Result(true);
+            var _Result = new Result(true);
             if (CheckPerm(Perms.SözleşmeOnaylamaSM, PermTypes.Writing) == false) return null;
-            JArray parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
+            var parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
             try
             {
                 foreach (JObject insertObj in parameters)
                 {
                     db.Database.ExecuteSqlCommand(string.Format("DELETE FROM [FINSAT6{0}].[FINSAT6{0}].[ISS_Temp] WHERE  ListeNo = '{1}'", vUser.SirketKodu, insertObj["ListeNo"].ToString()));
-
                 }
+
                 _Result.Status = true;
                 _Result.Message = "İşlem Başarılı ";
-
             }
             catch (Exception)
             {
-
                 _Result.Status = false;
                 _Result.Message = "Hata Oluştu. ";
-
             }
+
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
         #endregion
@@ -422,6 +417,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             {
                 RT = new List<SozlesmeOnaySelect>();
             }
+
             var json = new JavaScriptSerializer().Serialize(RT);
             return json;
         }
@@ -434,13 +430,12 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         }
         public JsonResult Onay_SPGMY(string Data)
         {
-            Result _Result = new Result(true);
+            var _Result = new Result(true);
             if (CheckPerm(Perms.SözleşmeOnaylamaSPGMY, PermTypes.Writing) == false) return null;
-            JArray parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
-            SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
+            var parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
+            var sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
             try
             {
-
                 foreach (JObject insertObj in parameters)
                 {
                     db.Database.ExecuteSqlCommand(string.Format("[FINSAT6{0}].[wms].[SozlesmeFinansmanMuduruOnay] @SozlesmeNo = '{1}',@Kullanici = '{2}'", vUser.SirketKodu, insertObj["ListeNo"].ToString(), vUser.UserName));
@@ -449,7 +444,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                     {
                         if (lst.OnayTip == 1)
                         {
-                            ISS insrt = new ISS()
+                            var insrt = new ISS()
                             {
                                 Aciklama = lst.Aciklama,
                                 BasSaat = lst.BasSaat,
@@ -549,32 +544,33 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                             sqlexper.Insert(insrt);
                         }
                     }
+
                     var sonuc = sqlexper.AcceptChanges();
                 }
+
                 _Result.Status = true;
                 _Result.Message = "İşlem Başarılı ";
-
             }
             catch (Exception)
             {
                 _Result.Status = false;
                 _Result.Message = "Hata Oluştu. ";
-
             }
+
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
         public JsonResult Red_SPGMY(string Data)
         {
-            Result _Result = new Result(true);
+            var _Result = new Result(true);
             if (CheckPerm(Perms.SözleşmeOnaylamaSPGMY, PermTypes.Writing) == false) return null;
-            JArray parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
+            var parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
             try
             {
                 foreach (JObject insertObj in parameters)
                 {
                     db.Database.ExecuteSqlCommand(string.Format("DELETE FROM [FINSAT6{0}].[FINSAT6{0}].[ISS_Temp] WHERE  ListeNo = '{1}'", vUser.SirketKodu, insertObj["ListeNo"].ToString()));
-
                 }
+
                 _Result.Status = true;
                 _Result.Message = "İşlem Başarılı ";
             }
@@ -582,8 +578,8 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             {
                 _Result.Status = false;
                 _Result.Message = "Hata Oluştu. ";
-
             }
+
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
         #endregion
@@ -597,17 +593,17 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         public PartialViewResult Tanim_List(string listeNo, string satir)
         {
             if (CheckPerm(Perms.SözleşmeTanim, PermTypes.Reading) == false) return null;
-            string sat = "";
+            var sat = "";
             if (satir != null)
             {
                 sat = "<tbody>";
-                JArray parameters = JsonConvert.DeserializeObject<JArray>(satir);
+                var parameters = JsonConvert.DeserializeObject<JArray>(satir);
                 foreach (string insertObj in parameters)
-                {
                     sat += insertObj;
-                }
+
                 sat += "</tbody>";
             }
+
             ViewBag.ListeNo = JsonConvert.SerializeObject(listeNo);
             ViewBag.Satir = sat;
             return PartialView("Tanim_List");
@@ -619,6 +615,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             {
                 STL = db.Database.SqlQuery<BaglantiDetaySelect>(string.Format("[FINSAT6{0}].[wms].[BaglantiDetaySelect] @ListeNo='{1}'", vUser.SirketKodu, listeNo)).ToList();
             }
+
             var json = new JavaScriptSerializer().Serialize(STL);
             return json;
         }
@@ -633,12 +630,13 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             {
                 sozlesmeler = db.Database.SqlQuery<SozlesmeListesi>(string.Format("[FINSAT6{0}].[wms].[SozlesmeOnaylanmamisList]", vUser.SirketKodu)).ToList();
             }
+
             var json = new JavaScriptSerializer().Serialize(sozlesmeler);
             return json;
         }
         public string ISSTempList(string SozlesmeNo)
         {
-            JavaScriptSerializer json = new JavaScriptSerializer()
+            var json = new JavaScriptSerializer()
             {
                 MaxJsonLength = int.MaxValue
             };
@@ -647,7 +645,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         }
         public string FiyatListeleriSelect()
         {
-            JavaScriptSerializer json = new JavaScriptSerializer()
+            var json = new JavaScriptSerializer()
             {
                 MaxJsonLength = int.MaxValue
             };
@@ -656,7 +654,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         }
         public string CariBilgileri(string ListeNo, string HesapKodu)
         {
-            JavaScriptSerializer json = new JavaScriptSerializer()
+            var json = new JavaScriptSerializer()
             {
                 MaxJsonLength = int.MaxValue
             };
@@ -669,11 +667,12 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             {
                 chkBilgi = new List<Entity.SozlesmeCariBilgileri>();
             }
+
             return json.Serialize(chkBilgi);
         }
         public string UrunGrupSelect(int Index)
         {
-            JavaScriptSerializer json = new JavaScriptSerializer()
+            var json = new JavaScriptSerializer()
             {
                 MaxJsonLength = int.MaxValue
             };
@@ -687,9 +686,9 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         }
         public JsonResult ISS_TempUpdate_AktifPasif(string SozlesmeNo, bool AktifPasif)
         {
-            Result _Result = new Result(true);
+            var _Result = new Result(true);
             if (CheckPerm(Perms.SözleşmeTanim, PermTypes.Writing) == false) return null;
-            SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
+            var sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
             try
             {
                 var ISSS = db.Database.SqlQuery<ISS_Temp>(string.Format("SELECT * FROM [FINSAT6{0}].[FINSAT6{0}].[ISS_Temp]", vUser.SirketKodu)).ToList();
@@ -703,7 +702,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                     db.Database.ExecuteSqlCommand(string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[ISS_Temp] SET AktifPasif = 1  where ListeNo = '{1}'", vUser.SirketKodu, SozlesmeNo));
                     foreach (ISS_Temp lst in ISSS)
                     {
-                        ISS insrt = new ISS()
+                        var insrt = new ISS()
                         {
                             Aciklama = lst.Aciklama,
                             BasSaat = lst.BasSaat,
@@ -808,42 +807,38 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                             var sonuc = sqlexper.AcceptChanges();
                         }
                     }
-
                 }
+
                 _Result.Status = true;
                 _Result.Message = "İşlem Başarılı ";
-
             }
             catch (Exception)
             {
-
                 _Result.Status = false;
                 _Result.Message = "Hata Oluştu. ";
-
             }
+
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
         public string YeniSatirKayit(string Data)
         {
             if (CheckPerm(Perms.SözleşmeTanim, PermTypes.Writing) == false) return null;
-            JArray parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
-            SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
-            bool filtreKagitVarmi = false;
+            var parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
+            var sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
+            var filtreKagitVarmi = false;
 
-            int SiraNo = 0;
+            var SiraNo = 0;
             bool? AktifPasif = null;
             List<ISS_Temp> listiss = new List<ISS_Temp>();
             foreach (JObject bds in parameters)
             {
-                ISS_Temp isstmp = new ISS_Temp();
+                var isstmp = new ISS_Temp();
                 AktifPasif = bds["AktifPasif"].ToBool();
-                string ListeAdi = bds["Unvan"].ToString().Length >= 10 ? bds["Unvan"].ToString().Substring(0, 10) : bds["Unvan"].ToString();
+                var ListeAdi = bds["Unvan"].ToString().Length >= 10 ? bds["Unvan"].ToString().Substring(0, 10) : bds["Unvan"].ToString();
                 if (bds["VadeTarihInt"].ToInt32() == 0)
                     isstmp.ValorGun = bds["ValorGun"].ToInt32();
                 else if (bds["ValorGun"].ToInt32() == 0)
                     isstmp.VadeTarihi = bds["VadeTarihInt"].ToInt32();
-
-
 
                 isstmp.ListeNo = bds["ListeNo"].ToString();
                 isstmp.ListeAdi = bds["Unvan"].ToString().Length >= 30 ? bds["Unvan"].ToString().Substring(0, 30) : bds["Unvan"].ToString();
@@ -964,10 +959,8 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                    (isstmp.MalKodGrup == 1 && isstmp.MalKod == "FKAĞIT") ||
                     (isstmp.MalKodGrup == 0 && (isstmp.MalKod == "M001001000017051" || isstmp.MalKod == "M001001000022051")))
                 {
-
                     filtreKagitVarmi = true;
                 }
-
 
                 isstmp.OnayTip = -1;
                 isstmp.SatisMuduruOnay = false;
@@ -984,10 +977,8 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                 isstmp.BaglantiParaCinsi = bds["BaglantiParaCinsi"].ToString();
                 isstmp.AktifPasif = AktifPasif.ToBool();
 
-
                 listiss.Add(isstmp);
             }
-
 
             if (filtreKagitVarmi)
             {
@@ -1009,12 +1000,12 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                 {
                     try
                     {
-                        bool kontrol = false;
-                        string SozlesmeSiraNo = "";
+                        var kontrol = false;
+                        var SozlesmeSiraNo = "";
 
                         SozlesmeSiraNo = "SÖZ " + db.Database.SqlQuery<int>(string.Format("[FINSAT6{0}].[wms].[SozlesmeSiraNoSelect]", vUser.SirketKodu)).FirstOrDefault();
-                        string HesapKodu = "";
-                        string ListeNo = "";
+                        var HesapKodu = "";
+                        var ListeNo = "";
                         decimal BaglantiTutari = 0;
                         foreach (ISS_Temp isstemp in listiss)
                         {
@@ -1029,60 +1020,51 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                             BaglantiTutari = isstemp.Kod11;
                             sqlexper.Insert(isstemp);
                             var sonuc = sqlexper.AcceptChanges();
-                            if (sonuc.Status == false)
-                            {
-                                return "NO";
-                            }
+                            if (sonuc.Status == false) return "NO";
                         }
-                        string s = string.Format("[FINSAT6{0}].[wms].[SetSozlesmeOnayTip] @HesapKodu='{1}' , @ListeNo='{2}' , @BaglantiTutari={3}", vUser.SirketKodu, HesapKodu, ListeNo, BaglantiTutari.ToString().Replace(",", "."));
+
+                        var s = string.Format("[FINSAT6{0}].[wms].[SetSozlesmeOnayTip] @HesapKodu='{1}' , @ListeNo='{2}' , @BaglantiTutari={3}", vUser.SirketKodu, HesapKodu, ListeNo, BaglantiTutari.ToString().Replace(",", "."));
                         var xx = db.Database.ExecuteSqlCommand(s);
-                        //var xx = db.Database.SqlQuery<int>(s).ToList();
                         db.SaveChanges();
                         dbContextTransaction.Commit();
-                        if (kontrol)
-                            return SozlesmeSiraNo;
-                        else
-                            return "OK";
-
+                        if (kontrol) return SozlesmeSiraNo;
+                        else return "OK";
                     }
                     catch (Exception hata)
                     {
                         return hata.Message;
                     }
                 }
-
             }
             else
             {
                 return "Satır Girmelisiniz.";
             }
-
         }
         public JsonResult Sil(string SozlesmeNo)
         {
             if (CheckPerm(Perms.SözleşmeTanim, PermTypes.Deleting) == false) return null;
-            Result _Result = new Result(true, "İşlem Başarılı.");
+            var _Result = new Result(true, "İşlem Başarılı.");
             try
             {
                 db.Database.ExecuteSqlCommand(string.Format("DELETE FROM [FINSAT6{0}].[FINSAT6{0}].[ISS_Temp]  WHERE ListeNo = '{1}'", vUser.SirketKodu, SozlesmeNo));
             }
             catch (Exception)
             {
-
                 _Result.Status = false;
                 _Result.Message = "Hata Oluştu. ";
-
             }
+
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
         public JsonResult Guncelle(string SozlesmeNo, int BasTarih, short MusUygSekli, decimal YeniBaglantiTutari, int YeniBitisTarihi)
         {
             if (CheckPerm(Perms.SözleşmeTanim, PermTypes.Writing) == false) return null;
-            Result _Result = new Result(true, 1, "İşlem Başarılı.");
-            SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
+            var _Result = new Result(true, 1, "İşlem Başarılı.");
+            var sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
             try
             {
-                bool filtreKagitVarmi = false;
+                var filtreKagitVarmi = false;
                 var list = db.Database.SqlQuery<ISS_Temp>(string.Format("SELECT * FROM [FINSAT6{0}].[FINSAT6{0}].[ISS_Temp] WHERE ListeNo='{1}' AND BasTarih = {2} AND MusUygSekli={3}", vUser.SirketKodu, SozlesmeNo, BasTarih, MusUygSekli)).ToList();
                 foreach (ISS_Temp item in list)
                 {
@@ -1097,10 +1079,12 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                         item.Kod9 = item.BitTarih.ToString2();
                         item.BitTarih = YeniBitisTarihi;
                     }
+
                     if ((item.MalKodGrup == 0 && item.MalKod.StartsWith("2800")) || (item.MalKodGrup == 1 && item.MalKod == "FKAĞIT") || (item.MalKodGrup == 0 && (item.MalKod == "M001001000017051" || item.MalKod == "M001001000022051")))
                     {
                         filtreKagitVarmi = true;
                     }
+
                     item.SatisMuduruOnay = false;
                     item.FinansmanMuduruOnay = false;
                     item.GenelMudurOnay = false;
@@ -1127,6 +1111,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                         sqlexper.Update(item, null, null, false, "timestamp");
                     }
                 }
+
                 var sonuc = sqlexper.AcceptChanges();
                 if (sonuc.Status == true)
                 {
@@ -1142,8 +1127,8 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             {
                 _Result.Status = false;
                 _Result.Message = "Hata Oluştu. ";
-
             }
+
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
         #endregion

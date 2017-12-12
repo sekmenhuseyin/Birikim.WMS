@@ -7,7 +7,7 @@ namespace Wms12m
 {
     public sealed class Client
     {
-        private static Identity Identity
+        static Identity Identity
         {
             get { return HttpContext.Current.Session["Identity"] as Identity; }
             set { HttpContext.Current.Session["Identity"] = value; }

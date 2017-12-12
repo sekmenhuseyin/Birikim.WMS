@@ -15,7 +15,6 @@ namespace Wms12m.Presentation.Areas.System.Controllers
             {
                 var list = dbx.ELMAH_Error.ToList();
                 return View("Index", list);
-
             }
         }
         public ActionResult Error()
@@ -24,7 +23,6 @@ namespace Wms12m.Presentation.Areas.System.Controllers
             {
                 var list = dbx.ErrorLogs.ToList();
                 return View("Error", list);
-
             }
         }
         public ActionResult Login()
@@ -33,7 +31,6 @@ namespace Wms12m.Presentation.Areas.System.Controllers
             {
                 var list = dbx.LoginLogs.ToList();
                 return View("Login", list);
-
             }
         }
         public ActionResult App()
@@ -42,7 +39,6 @@ namespace Wms12m.Presentation.Areas.System.Controllers
             {
                 var list = dbx.AppLogs.ToList();
                 return View("App", list);
-
             }
         }
         public JsonResult Delete(string ID)
