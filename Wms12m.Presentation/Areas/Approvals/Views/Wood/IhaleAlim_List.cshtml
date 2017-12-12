@@ -134,25 +134,14 @@
             { "data": "Kod2" },//tebsonsatis yok
             { "data": "Kod3" },//Kredi kartı yok
             { "data": "Kod4" },//Havale yok
-
-
-
-
-
         ],
-
         "footerCallback": function (row, data, start, end, display) {
             var Miktar = 0;
             table.rows({ search: 'applied' }).data().each(function (val, index) {
                 Miktar += val.Miktar;
             });
             var api = this.api(), data;
-           
-          
-            $(api.column(7).footer()).html(
-                ondalikBinlik(Math.round(Miktar * 100) / 100, 2)
-            );
-
+            $(api.column(7).footer()).html(numeral(Miktar).format());
         },
         "ordering": false,
         "fnRowCallback": function (nRow, aData, iDisplayIndex) {

@@ -42,7 +42,6 @@
 </table>
 <script type="text/javascript">
     var model =  @Html.Raw(serializer.Serialize(Model));
-
     $(document).ready(function () {
         var table = $('#sample_1').DataTable({
             "ordering": false,
@@ -62,10 +61,8 @@
                         Kod14 += jDecimal(val[5]);
                 });
                 var api = this.api(), data;
-                $(api.column(4).footer()).html(numeral(Kod13).format('0,0.00'));
-                $(api.column(5).footer()).html(numeral(Kod14).format('0,0.00'));
-
-
+                $(api.column(4).footer()).html(numeral(Kod13).format());
+                $(api.column(5).footer()).html(numeral(Kod14).format());
                 $(".select_vteminattutar").digits();
                 $(".select_kteminattutar").digits();
                 $(".select_vpesinattutar").digits();
@@ -73,18 +70,6 @@
                 $(".select_pesinattutartutar").digits();
                 $(".select_kredikartitutar").digits();
                 $(".select_havaletutar").digits();
-
-               // $(".select_vteminatkalan").html(numeral(select_vteminattutar - Kod14).format('0,0.00'));
-                //$(".select_mektupkullanilan").html(numeral(Kod13).format('0,0.00'));
-                //$(".select_mektupkalan").html(numeral(select_mektuptutar - Kod13).format('0,0.00'));
-                //$(".select_ibrelisterkullanilan").html(numeral(topSterIbre).format('0,0.00'));
-                //$(".select_ibrelisterkalan").html(numeral(select_ibrelistermiktar - topSterIbre).format('0,0.00'));
-                //$(".select_ibrelim3kullanilan").html(numeral(topM3Ibre).format('0,0.00'));
-                //$(".select_ibrelim3kalan").html(numeral(select_ibrelim3miktar - topM3Ibre).format('0,0.00'));
-                //$(".select_yapraklisterkullanilan").html(numeral(topSterYaprak).format('0,0.00'));
-                //$(".select_yapraklisterkalan").html(numeral(select_yapraklistermiktar - topSterYaprak).format('0,0.00'));
-                //$(".select_yapraklim3kullanilan").html(numeral(topM3Yaprak).format('0,0.00'));
-                //$(".select_yapraklim3kalan").html(numeral(select_yapraklim3miktar - topM3Yaprak).format('0,0.00'));
             }
         });
     });

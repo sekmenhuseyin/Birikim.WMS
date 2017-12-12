@@ -169,7 +169,7 @@
                     return;
                 }
                 else if (parseInt(data.Miktar) < parseInt($("#Miktar").val())) {
-                    Modaldialog("Bu ürünün stoğu yetersiz: " + ondalikBinlik(data.Miktar, 2), "Hata", "Tamam", "btn-danger");
+                    Modaldialog("Bu ürünün stoğu yetersiz: " + numeral(data.Miktar).format(), "Hata", "Tamam", "btn-danger");
                     return;
                 }
                 $('#myTable tbody tr:first').after('<tr class="deletable">' +
@@ -177,7 +177,7 @@
                     '<td><input class="form-control w-200" type="text" value="' + $("#MalAdi").val() + '" readonly="readonly"></td>' +
                     '<td><input class="form-control w-50 pull-right" name="SeriNo" type="text" value="' + $("#SeriNo").val() + '" readonly="readonly"></td>' +
                     '<td><input class="form-control w-50 pull-right" name="Miktar" type="text" value="' + $("#Miktar").val() + '"></td>' +
-                    '<td class="text-right">' + ondalikBinlik(data.Miktar, 2) + '</td>' +
+                    '<td class="text-right">' + numeral(data.Miktar).format() + '</td>' +
                     '<td><input class="form-control w-50" name="Birim" type="text" value="' + data.Birim + '" readonly="readonly"></td>' +
                     '<td><button type="button" class="btn btn-danger btn-block" onclick="DeleteRow(this);">Sil</button></td>' +
                     '</tr>');

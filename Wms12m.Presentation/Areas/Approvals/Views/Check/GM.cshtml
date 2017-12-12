@@ -210,14 +210,8 @@
                 { "data": "SonPozisyon"},
             ],
             "footerCallback": function (row, data, start, end, display) {
-
                 var api = this.api(), data;
-
-
-                $(api.column(6).footer()).html(
-                    ondalikBinlik(Math.round(Tutar * 100) / 100, 2)
-                );
-
+                $(api.column(6).footer()).html(numeral(Tutar).format());
             }
 
         });

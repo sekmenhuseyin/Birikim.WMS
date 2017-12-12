@@ -132,23 +132,11 @@
                 Miktar += val.Miktar;
             });
             var api = this.api(), data;
-
-
-            $(api.column(6).footer()).html(
-                ondalikBinlik(Math.round(IbreliMiktarSter * 100) / 100, 2)
-            );
-            $(api.column(7).footer()).html(
-                ondalikBinlik(Math.round(IbreliMiktarM3 * 100) / 100, 2)
-            );
-            $(api.column(8).footer()).html(
-                ondalikBinlik(Math.round(YaprakliMiktarSter * 100) / 100, 2)
-            );
-            $(api.column(9).footer()).html(
-                ondalikBinlik(Math.round(YaprakliMiktarM3 * 100) / 100, 2)
-            );
-            $(api.column(10).footer()).html(
-                ondalikBinlik(Math.round(Miktar * 100) / 100, 2)
-            );
+            $(api.column(6).footer()).html(numeral(IbreliMiktarSter).format());
+            $(api.column(7).footer()).html(numeral(IbreliMiktarM3).format());
+            $(api.column(8).footer()).html(numeral(YaprakliMiktarSter).format());
+            $(api.column(9).footer()).html(numeral(YaprakliMiktarM3).format());
+            $(api.column(10).footer()).html(numeral(Miktar).format());
 
         },
     });

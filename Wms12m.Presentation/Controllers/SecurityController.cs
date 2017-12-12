@@ -20,7 +20,6 @@ namespace Wms12m.Presentation.Controllers
             using (var db = new WMSEntities())
                 ViewBag.settings = db.Settings.FirstOrDefault();
 
-
             return View("Login");
         }
         /// <summary>

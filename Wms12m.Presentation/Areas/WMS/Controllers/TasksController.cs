@@ -506,7 +506,6 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             foreach (var item in mGorev.GorevUsers)
                 item.BitisTarihi = null;
 
-
             db.SaveChanges();
             return Json(new Result(true, mGorev.ID, "İşlem tamlandı!"), JsonRequestBehavior.AllowGet);
         }

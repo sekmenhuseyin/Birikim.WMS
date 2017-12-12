@@ -60,21 +60,11 @@
             });
             var api = this.api(), data;
 
-            $(api.column(7).footer()).html(
-                ondalikBinlik(Math.round(BaglantiTutari * 100) / 100, 2)
-            );
-            $(api.column(9).footer()).html(
-                ondalikBinlik(Math.round(ToplamSevkEdilenTutar * 100) / 100, 2)
-            );
-            $(api.column(10).footer()).html(
-                ondalikBinlik(Math.round(KalanTutar * 100) / 100, 2)
-            );
-            $(api.column(12).footer()).html(
-                ondalikBinlik(Math.round(DevirTutar * 100) / 100, 2)
-            );
-            $(api.column(13).footer()).html(
-                ondalikBinlik(Math.round(DevirdenSonrakiSevkedilen * 100) / 100, 2)
-            );
+            $(api.column(7).footer()).html(numeral(BaglantiTutari).format());
+            $(api.column(9).footer()).html(numeral(ToplamSevkEdilenTutar).format());
+            $(api.column(10).footer()).html(numeral(KalanTutar).format());
+            $(api.column(12).footer()).html(numeral(DevirTutar).format());
+            $(api.column(13).footer()).html(numeral(DevirdenSonrakiSevkedilen).format());
         }
     });
     $('#sample_1 tbody').on('click', '.details-control', function () {
@@ -357,10 +347,10 @@
             ],
             "footerCallback": function (row, data, start, end, display) {
                 var api = this.api(), data;
-                $(api.column(8).footer()).html(ondalikBinlik(Math.round(Miktar * 100) / 100, 2));
-                $(api.column(11).footer()).html(ondalikBinlik(Math.round(Tutar * 100) / 100, 2));
-                $(api.column(12).footer()).html(ondalikBinlik(Math.round(ToplamIskonto * 100) / 100, 2));
-                $(api.column(15).footer()).html(ondalikBinlik(Math.round(SevkedilenTutar * 100) / 100, 2));
+                $(api.column(8).footer()).html(numeral(Miktar).format());
+                $(api.column(11).footer()).html(numeral(Tutar).format());
+                $(api.column(12).footer()).html(numeral(ToplamIskonto).format());
+                $(api.column(15).footer()).html(numeral(SevkedilenTutar).format());
             }
         });
     });

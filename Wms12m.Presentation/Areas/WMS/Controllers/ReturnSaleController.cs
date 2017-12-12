@@ -135,7 +135,6 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             foreach (var item in listsirk)
                 liste.Add(item);
 
-
             ViewBag.Sirket = liste;
             return View("Step3", list2);
         }

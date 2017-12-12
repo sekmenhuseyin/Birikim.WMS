@@ -98,10 +98,10 @@
                     $('td', nRow).addClass("degisim");
                 }
                 if (aData["CekTutari"] > 0 || aData["NakitTutari"] > 0) {
-                    $('td:last', nRow).text(ondalikBinlik(aData["CekTutari"] + aData["NakitTutari"]),2);
+                    $('td:last', nRow).text(numeral(aData["CekTutari"] + aData["NakitTutari"]).format());
                 }
                 else {
-                    $('td:last', nRow).text("0");
+                    $('td:last', nRow).text("0,00");
                 }
                 return nRow;
             }

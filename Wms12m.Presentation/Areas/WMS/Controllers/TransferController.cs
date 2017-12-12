@@ -197,7 +197,6 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             List<string> liste = new List<string>();
             foreach (var item in listdb) liste.Add(item);
 
-
             ViewBag.Sirket = liste;
             ViewBag.IrsaliyeId = cevap.IrsaliyeID.Value;
             if (eksikler == "" && malkodlari != "")
@@ -219,7 +218,6 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             string malkodlari = "", eksikler = ""; var listdb = db.GetSirketDBs();
             List<string> liste = new List<string>();
             foreach (var item in listdb) liste.Add(item);
-
 
             // get transfer
             var transfer = db.Transfers.Where(m => m.ID == ID).FirstOrDefault();
@@ -409,7 +407,6 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             var list = db.GetSirketDBs();
             List<string> liste = new List<string>();
             foreach (var item in list) liste.Add(item);
-
 
             ViewBag.Sirket = liste;
             // return

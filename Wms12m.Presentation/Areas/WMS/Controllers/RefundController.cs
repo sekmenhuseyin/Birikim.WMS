@@ -210,7 +210,6 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             foreach (var item in listsirk)
                 liste.Add(item);
 
-
             ViewBag.Sirket = liste;
             return View("Step3", list2);
         }
@@ -251,7 +250,6 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             List<string> liste = new List<string>();
             foreach (var item in listsirk)
                 liste.Add(item);
-
 
             ViewBag.Sirket = liste;
             return View("Step4", list);

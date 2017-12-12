@@ -59,15 +59,9 @@
                         StokMiktar += val.StokMiktar;
                 });
                 var api = this.api(), data;
-                $(api.column(9).footer()).html(
-                    ondalikBinlik(Math.round(GirMiktar * 100) / 100, 2)
-                );
-                $(api.column(10).footer()).html(
-                    ondalikBinlik(Math.round(CikMiktar * 100) / 100, 2)
-                );
-                $(api.column(11).footer()).html(
-                    ondalikBinlik(Math.round(StokMiktar * 100) / 100, 2)
-                );
+                $(api.column(9).footer()).html(numeral(GirMiktar).format());
+                $(api.column(10).footer()).html(numeral(CikMiktar).format());
+                $(api.column(11).footer()).html(numeral(StokMiktar).format());
             }
         });
         $('#sample_1 .tf-search th').each(function ()

@@ -78,12 +78,12 @@
 
                 });
                 var api = this.api(), data;
-                $(api.column(4).footer()).html(numeral(Kod13).format('0,0.00'));
-                $(api.column(5).footer()).html(numeral(Kod14).format('0,0.00'));
-                $(api.column(6).footer()).html(numeral(topSterIbre).format('0,0.00'));
-                $(api.column(7).footer()).html(numeral(topM3Ibre).format('0,0.00'));
-                $(api.column(8).footer()).html(numeral(topSterYaprak).format('0,0.00'));
-                $(api.column(9).footer()).html(numeral(topM3Yaprak).format('0,0.00'));
+                $(api.column(4).footer()).html(numeral(Kod13).format());
+                $(api.column(5).footer()).html(numeral(Kod14).format());
+                $(api.column(6).footer()).html(numeral(topSterIbre).format());
+                $(api.column(7).footer()).html(numeral(topM3Ibre).format());
+                $(api.column(8).footer()).html(numeral(topSterYaprak).format());
+                $(api.column(9).footer()).html(numeral(topM3Yaprak).format());
 
                 $(".select_mektuptutar").digits();
                 $(".select_pesinattutar").digits();
@@ -91,18 +91,18 @@
                 $(".select_ibrelim3miktar").digits();
                 $(".select_yapraklistermiktar").digits();
                 $(".select_yapraklim3miktar").digits();
-                $(".select_pesinatkullanilan").html(numeral(Kod14).format('0,0.00'));
-                $(".select_pesinatkalan").html(numeral(select_pesinattutar - Kod14).format('0,0.00'));
-                $(".select_mektupkullanilan").html(numeral(Kod13).format('0,0.00'));
-                $(".select_mektupkalan").html(numeral(select_mektuptutar - Kod13).format('0,0.00'));
-                $(".select_ibrelisterkullanilan").html(numeral(topSterIbre).format('0,0.00'));
-                $(".select_ibrelisterkalan").html(numeral(select_ibrelistermiktar - topSterIbre).format('0,0.00'));
-                $(".select_ibrelim3kullanilan").html(numeral(topM3Ibre).format('0,0.00'));
-                $(".select_ibrelim3kalan").html(numeral(select_ibrelim3miktar - topM3Ibre).format('0,0.00'));
-                $(".select_yapraklisterkullanilan").html(numeral(topSterYaprak).format('0,0.00'));
-                $(".select_yapraklisterkalan").html(numeral(select_yapraklistermiktar - topSterYaprak).format('0,0.00'));
-                $(".select_yapraklim3kullanilan").html(numeral(topM3Yaprak).format('0,0.00'));
-                $(".select_yapraklim3kalan").html(numeral(select_yapraklim3miktar - topM3Yaprak).format('0,0.00'));
+                $(".select_pesinatkullanilan").html(numeral(Kod14).format());
+                $(".select_pesinatkalan").html(numeral(select_pesinattutar - Kod14).format());
+                $(".select_mektupkullanilan").html(numeral(Kod13).format());
+                $(".select_mektupkalan").html(numeral(select_mektuptutar - Kod13).format());
+                $(".select_ibrelisterkullanilan").html(numeral(topSterIbre).format());
+                $(".select_ibrelisterkalan").html(numeral(select_ibrelistermiktar - topSterIbre).format());
+                $(".select_ibrelim3kullanilan").html(numeral(topM3Ibre).format());
+                $(".select_ibrelim3kalan").html(numeral(select_ibrelim3miktar - topM3Ibre).format());
+                $(".select_yapraklisterkullanilan").html(numeral(topSterYaprak).format());
+                $(".select_yapraklisterkalan").html(numeral(select_yapraklistermiktar - topSterYaprak).format());
+                $(".select_yapraklim3kullanilan").html(numeral(topM3Yaprak).format());
+                $(".select_yapraklim3kalan").html(numeral(select_yapraklim3miktar - topM3Yaprak).format());
             }
         });
     });

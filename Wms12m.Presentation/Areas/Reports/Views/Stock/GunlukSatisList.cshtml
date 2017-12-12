@@ -79,39 +79,17 @@
                     GenelToplam += val.GenelToplam;
                 });
                 var api = this.api(), data;
-                $(api.column(12).footer()).html(
-                    ondalikBinlik(Math.round(BirimMiktar * 100) / 100, 2)
-                );
-                $(api.column(14).footer()).html(
-                    ondalikBinlik(Math.round(AnaBirimMiktar * 100) / 100, 2)
-                );
-                $(api.column(15).footer()).html(
-                    ondalikBinlik(Math.round(AdetCikisMiktar * 100) / 100, 2)
-                );
-                $(api.column(16).footer()).html(
-                    ondalikBinlik(Math.round(MTCikisMiktar * 100) / 100, 2)
-                );
-                $(api.column(17).footer()).html(
-                    ondalikBinlik(Math.round(M2CikisMiktar * 100) / 100, 2)
-                );
-                $(api.column(18).footer()).html(
-                    ondalikBinlik(Math.round(M3CikisMiktar * 100) / 100, 2)
-                );
-                $(api.column(19).footer()).html(
-                    ondalikBinlik(Math.round(KGCikisMiktar * 100) / 100, 2)
-                );
-                $(api.column(20).footer()).html(
-                    ondalikBinlik(Math.round(NetBirimFiyat * 100) / 100, 2)
-                );
-                $(api.column(21).footer()).html(
-                    ondalikBinlik(Math.round(NetTutar * 100) / 100, 2)
-                );
-                $(api.column(22).footer()).html(
-                    ondalikBinlik(Math.round(KDV * 100) / 100, 2)
-                );
-                $(api.column(23).footer()).html(
-                    ondalikBinlik(Math.round(GenelToplam * 100) / 100, 2)
-                );
+                $(api.column(12).footer()).html(numeral(BirimMiktar).format());
+                $(api.column(14).footer()).html(numeral(AnaBirimMiktar).format());
+                $(api.column(15).footer()).html(numeral(AdetCikisMiktar).format());
+                $(api.column(16).footer()).html(numeral(MTCikisMiktar).format());
+                $(api.column(17).footer()).html(numeral(M2CikisMiktar).format());
+                $(api.column(18).footer()).html(numeral(M3CikisMiktar).format());
+                $(api.column(19).footer()).html(numeral(KGCikisMiktar).format());
+                $(api.column(20).footer()).html(numeral(NetBirimFiyat).format());
+                $(api.column(21).footer()).html(numeral(NetTutar).format());
+                $(api.column(22).footer()).html(numeral(KDV).format());
+                $(api.column(23).footer()).html(numeral(GenelToplam).format());
             }
         });
         $('#sample_1 .tf-search th').each(function ()

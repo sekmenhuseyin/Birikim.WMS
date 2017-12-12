@@ -49,9 +49,7 @@
                     Tutar += jDecimal(val[3]);
                 });
                 var api = this.api(), data;
-                $(api.column(3).footer()).html(
-                    ondalikBinlik(Math.round(Tutar * 100) / 100, 2)
-                );
+                $(api.column(3).footer()).html(numeral(Tutar).format());
             }
         });
         $('#sample_1 .tf-search th').each(function ()

@@ -31,7 +31,6 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             List<string> liste = new List<string>();
             foreach (var item in list) liste.Add(item);
 
-
             ViewBag.Sirket = liste;
             ViewBag.Manual = false;
             // id'ye göre liste döner
@@ -83,7 +82,6 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             var list = db.GetSirketDBs();
             List<string> liste = new List<string>();
             foreach (var item in list) liste.Add(item);
-
 
             ViewBag.Sirket = liste;
             ViewBag.Manual = false;

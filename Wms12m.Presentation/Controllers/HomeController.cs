@@ -126,7 +126,6 @@ namespace Wms12m.Presentation.Controllers
                 foreach (var item in tablo.Where(m => m.Okundu == false))
                     item.Okundu = true;
 
-
                 db.SaveChanges();
                 return null;
             }

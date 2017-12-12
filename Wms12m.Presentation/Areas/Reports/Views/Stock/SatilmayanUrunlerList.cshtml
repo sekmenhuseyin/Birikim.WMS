@@ -49,9 +49,7 @@
                        StokMiktar += jDecimal(val[3]);
                });
                 var api = this.api(), data;
-                $(api.column(3).footer()).html(
-                    ondalikBinlik(Math.round(StokMiktar * 100) / 100, 2)
-                );
+                $(api.column(3).footer()).html(numeral(StokMiktar).format());
 
             }
         });

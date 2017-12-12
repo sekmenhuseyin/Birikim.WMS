@@ -51,8 +51,8 @@
                     bakiye2 += jDecimal(val[3]);
                 });
                 var api = this.api(), data;                
-                $(api.column(2).footer()).html(ondalikBinlik(bakiye1, 2));
-                $(api.column(3).footer()).html(ondalikBinlik(bakiye2, 2));
+                $(api.column(2).footer()).html(numeral(bakiye1).format());
+                $(api.column(3).footer()).html(numeral(bakiye2).format());
             }
         });
         $('#sample_1 .tf-search th').each(function ()

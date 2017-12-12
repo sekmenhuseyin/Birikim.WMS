@@ -116,39 +116,28 @@
         </table>
     </div>
 </div>
-
 <script>
     $(document).ready(function () {
-            var model =  @Html.Raw(serializer.Serialize(Model));
-            var table12 = $('#@ViewBag.id').DataTable({
-        "pagingType": "full_numbers",
-        "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
-        "footerCallback": function (row, data, start, end, display) {
-            var BirimMiktar = 0, Tutar = 0, DovizTutar = 0;
-            table12.rows({ search: 'applied' }).data().each(function (val, index) {
-                if (val[5] != '' && val[5] != null)
-                    BirimMiktar += jDecimal(val[5]);
-                if (val[7] != '' && val[7] != null)
-                    Tutar += jDecimal(val[7]);
-                if (val[9] != '' && val[9] != null)
-                    DovizTutar += jDecimal(val[9]);
-
-            });
-            var api = this.api(), data;
-
-
-            // Update footer
-            $(api.column(5).footer()).html(
-                ondalikBinlik(Math.round(BirimMiktar * 100) / 100, 2)
-            );
-            $(api.column(7).footer()).html(
-                ondalikBinlik(Math.round(Tutar * 100) / 100, 2)
-            );
-            $(api.column(9).footer()).html(
-                ondalikBinlik(Math.round(DovizTutar * 100) / 100, 2)
-            );
-        }
+        var model =  @Html.Raw(serializer.Serialize(Model));
+        var table12 = $('#@ViewBag.id').DataTable({
+            "pagingType": "full_numbers",
+            "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
+            "footerCallback": function (row, data, start, end, display) {
+                var BirimMiktar = 0, Tutar = 0, DovizTutar = 0;
+                table12.rows({ search: 'applied' }).data().each(function (val, index) {
+                    if (val[5] != '' && val[5] != null)
+                        BirimMiktar += jDecimal(val[5]);
+                    if (val[7] != '' && val[7] != null)
+                        Tutar += jDecimal(val[7]);
+                    if (val[9] != '' && val[9] != null)
+                        DovizTutar += jDecimal(val[9]);
+                });
+                var api = this.api(), data;
+                // Update footer
+                $(api.column(5).footer()).html(numeral(BirimMiktar).format());
+                $(api.column(7).footer()).html(numeral(Tutar).format());
+                $(api.column(9).footer()).html(numeral(DovizTutar).format());
+            }
+        });
     });
-});</script>
-
-
+</script>

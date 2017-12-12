@@ -49,15 +49,9 @@
                 });
                 var api = this.api(), data;
                 // Update footer
-                $(api.column(3).footer()).html(
-                    ondalikBinlik(Math.round(Borc * 100) / 100, 2)
-                );
-                $(api.column(4).footer()).html(
-                    ondalikBinlik(Math.round(Alacak * 100) / 100, 2)
-                );
-                $(api.column(5).footer()).html(
-                    ondalikBinlik(Math.round(Bakiye * 100) / 100, 2)
-                );
+                $(api.column(3).footer()).html(numeral(Borc).format());
+                $(api.column(4).footer()).html(numeral(Alacak).format());
+                $(api.column(5).footer()).html(numeral(Bakiye).format());
             }
         });
         $('#sample_1 tbody').on('click', '.details-control', function () {
