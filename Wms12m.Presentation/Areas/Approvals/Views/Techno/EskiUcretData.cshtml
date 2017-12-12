@@ -1,25 +1,3 @@
 ﻿@model IEnumerable<TechnoList>
-<tr style='background: transparent;'>
-    <th>Geçerlilik Ayı</th>
-    <th>Geçerlilik Yılı</th>
-    <th>Degisim Tarihi</th>
-    <th>Ucret Tipi</th>
-    <th>Döviz Tipi</th>
-    <th>Birim Ücret</th>
-    <th>Genel Aylık Ücret</th>
-    <th>Brüt/Net</th>
-</tr>
-@foreach (var item in Model)
-{<tr style='background: transparent;'>
-        <td>@item.GecerlilikAyi</td>
-        <td>@item.GecerlilikYili</td>
-        <td>@item.DegisimTarihi</td>
-        @*<td>@{if (item.DegisimTarihi != null) { @item.DegisimTarihi.ToString("dd.MM.yyyy")};}</td>*@
-        <td>@item.UcretTipi</td>
-        <td>@item.DovizTipi</td>
-        <td align="right">@String.Format("{0:n}", item.BirimUcret).ToDecimal().ToOnFormat()</td>
-        <td align="right">@String.Format("{0:n}", item.GenelAylikUcret).ToDecimal().ToOnFormat()</td>
-        @*<td>@Math.Round(item.BirimUcret, 2)</td>
-        <td>@Math.Round(item.GenelAylikUcret, 2)</td>*@
-        <td>@item.BrutNet</td>
-    </tr>}
+<tr style='background: transparent;'><th>Geçerlilik Ayı</th><th>Geçerlilik Yılı</th><th>Degisim Tarihi</th><th>Ucret Tipi</th><th>Döviz Tipi</th><th>Birim Ücret</th><th>Genel Aylık Ücret</th><th>Brüt/Net</th></tr>
+@foreach (var item in Model){<tr style='background: transparent;'><td>@item.GecerlilikAyi</td><td>@item.GecerlilikYili</td><td>@item.DegisimTarihi</td><td>@item.UcretTipi</td><td>@item.DovizTipi</td><td align="right">@String.Format("{0:n}", item.BirimUcret).ToDecimal().ToOnFormat()</td><td align="right">@String.Format("{0:n}", item.GenelAylikUcret).ToDecimal().ToOnFormat()</td><td>@item.BrutNet</td></tr>}

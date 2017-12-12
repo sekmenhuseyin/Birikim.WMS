@@ -136,14 +136,6 @@
         });
         $(".dx-item.dx-radiobutton").hide();
         PartialView("/Approvals/Techno/Ucret_List", 'techno_ucret_data', JSON.stringify({ Tip: rdrValue }));
-        PartialView("/Approvals/Techno/Prim_List", 'techno_prim_data', JSON.stringify({ Tip: rdrValue }));
-        //if (Birim == 'IK') {
-        //    $(".butondiv").hide();
-        //}
-        //else {
-        //    radioGroupItems.push({ text: "Onayladıklarım", value: "Onayladiklarim" })
-        //    $(".butondiv").show();
-        //}
          if (Birim != 'IK') {
              radioGroupItems.push({ text: "Onayladıklarım", value: "Onayladiklarim" })
         }
