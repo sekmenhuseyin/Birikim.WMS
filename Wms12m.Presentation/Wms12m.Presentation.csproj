@@ -275,6 +275,9 @@
     <Content Include="Content\assets\global\scripts\datatable.min.js">
       <DependentUpon>datatable.js</DependentUpon>
     </Content>
+    <Content Include="Content\Scripts\Hub.min.js">
+      <DependentUpon>Hub.js</DependentUpon>
+    </Content>
     <Content Include="Content\Scripts\quick-sidebar.js" />
     <Content Include="Content\assets\layouts\layout\css\custom.css" />
     <Content Include="Content\assets\layouts\layout\css\custom.min.css">
@@ -344,7 +347,7 @@
     <Content Include="Content\Scripts\quick-sidebar.min.js">
       <DependentUpon>quick-sidebar.js</DependentUpon>
     </Content>
-    <Content Include="Content\Scripts\SignalR.js" />
+    <Content Include="Content\Scripts\Hub.js" />
     <Content Include="Content\Scripts\Functions.js" />
     <Content Include="Content\Scripts\Functions.min.js">
       <DependentUpon>Functions.js</DependentUpon>
@@ -356,9 +359,6 @@
     <Content Include="Content\Scripts\Operation.js" />
     <Content Include="Content\Scripts\Operation.min.js">
       <DependentUpon>Operation.js</DependentUpon>
-    </Content>
-    <Content Include="Content\Scripts\SignalR.min.js">
-      <DependentUpon>SignalR.js</DependentUpon>
     </Content>
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />

@@ -64,5 +64,11 @@
     "inputFiles": [
       "Content/Scripts/SignalR.js"
     ]
+  },
+  {
+    "outputFileName": "Content/Scripts/Hub.min.js",
+    "inputFiles": [
+      "Content/Scripts/Hub.js"
+    ]
   }
 ]
