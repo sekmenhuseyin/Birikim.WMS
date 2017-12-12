@@ -18,7 +18,7 @@
             </div>
             <div class="portlet-body">
                 <table class="table table-striped table-bordered" id="sample_1">
-                    <thead><tr><th></th><th>Bağlantı No</th><th>Evrak No </th><th>Tarih </th><th>Hesap Kodu </th><th>Ünvan </th><th>Teslim Yeri Kodu </th><th>Teslim Yeri Ünvan</th><th>Sipariş Tutarı</th><th>Sipariş CHK Bakiyesi</th><th>Bakiye</th><th>Risk Bakiyesi</th><th>Toplam Bakiye</th><th>Toplam Değişim Çek Bakiyesi</th><th>Şahsi Çek Limiti</th><th>Şahsi Çek Riski</th><th>Bekleyen Sipariş Tutarı</th><th>Teminat</th><th>Teminat Alt Bayi</th></tr></thead>
+                    <thead><tr><th></th><th>Evrak No </th><th>Bağlantı No</th><th>Tarih </th><th>Hesap Kodu </th><th>Ünvan </th><th>Teslim Yeri Kodu </th><th>Teslim Yeri Ünvan</th><th>Sipariş Tutarı</th><th>Sipariş CHK Bakiyesi</th><th>Bakiye</th><th>Risk Bakiyesi</th><th>Toplam Bakiye</th><th>Toplam Değişim Çek Bakiyesi</th><th>Şahsi Çek Limiti</th><th>Şahsi Çek Riski</th><th>Bekleyen Sipariş Tutarı</th><th>Teminat</th><th>Teminat Alt Bayi</th></tr></thead>
                     <tfoot><tr><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th>th><th></th><th></th><th></th><th></th><th></th><th></th></tr></tfoot>
                     <tfoot class="tf-search"><tr><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th>th><th></th><th></th><th></th><th></th><th></th><th></th></tr></tfoot>
                     <tbody>
@@ -26,8 +26,8 @@
                         {
                             <tr onclick="toggle(this)">
                                 <td nowrap class="select-checkbox"></td>
-                                <td nowrap> @item.BaglantiNo</td>
                                 <td nowrap> @item.EvrakNo</td>
+                                <td nowrap> @item.BaglantiNo</td>
                                 <td nowrap>@item.Tarih</td>
                                 <td nowrap>@item.Chk</td>
                                 <td nowrap> @item.Unvan</td>
