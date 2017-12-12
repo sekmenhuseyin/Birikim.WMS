@@ -16,7 +16,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         public ActionResult SM()
         {
             if (CheckPerm(Perms.SiparişOnaylamaSM, PermTypes.Reading) == false) return Redirect("/");
-            var KOD = db.Database.SqlQuery<SMSiparisOnaySelect>(string.Format("[FINSAT6{0}].[wms].[SiparisOnayListSM]", vUser.SirketKodu)).ToList();
+            var KOD = db.Database.SqlQuery<SiparisOnaySelect>(string.Format("[FINSAT6{0}].[wms].[SiparisOnayListSM]", vUser.SirketKodu)).ToList();
             ViewBag.OnayTip = 1;
             ViewBag.baslik = "SM";
             return View("Index", KOD);
@@ -27,7 +27,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         public ActionResult SPGMY()
         {
             if (CheckPerm(Perms.SiparişOnaylamaSPGMY, PermTypes.Reading) == false) return Redirect("/");
-            var KOD = db.Database.SqlQuery<SMSiparisOnaySelect>(string.Format("[FINSAT6{0}].[wms].[SiparisOnayListSPGMY]", vUser.SirketKodu)).ToList();
+            var KOD = db.Database.SqlQuery<SiparisOnaySelect>(string.Format("[FINSAT6{0}].[wms].[SiparisOnayListSPGMY]", vUser.SirketKodu)).ToList();
             ViewBag.OnayTip = 2;
             ViewBag.baslik = "SPGMY";
             return View("Index", KOD);
@@ -38,7 +38,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         public ActionResult GM()
         {
             if (CheckPerm(Perms.SiparişOnaylamaGM, PermTypes.Reading) == false) return Redirect("/");
-            var KOD = db.Database.SqlQuery<SMSiparisOnaySelect>(string.Format("[FINSAT6{0}].[wms].[SiparisOnayListGM]", vUser.SirketKodu)).ToList();
+            var KOD = db.Database.SqlQuery<SiparisOnaySelect>(string.Format("[FINSAT6{0}].[wms].[SiparisOnayListGM]", vUser.SirketKodu)).ToList();
             ViewBag.OnayTip = 3;
             ViewBag.baslik = "GM";
             return View("Index", KOD);

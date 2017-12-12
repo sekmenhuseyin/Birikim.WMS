@@ -215,7 +215,7 @@ namespace Wms12m.Entity
         public DateTime? VadeTarih { get; set; }
         public decimal TeminatTutar { get; set; }
     }
-    public class SMSiparisOnaySelect
+    public class SiparisOnaySelect
     {
         public string BaglantiNo { get; set; }
         public bool? Onay { get; set; }
