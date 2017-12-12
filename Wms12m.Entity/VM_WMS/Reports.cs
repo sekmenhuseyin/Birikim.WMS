@@ -15,7 +15,6 @@ namespace Wms12m.Entity
         public int VadeTarih { get; set; }
         public decimal BaglantiTutar { get; set; }
         public DateTime? BaglantininOrtalamaVadesi { get; set; }
-
     }
     public class FiyatOnayGMSelect
     {
@@ -310,96 +309,59 @@ namespace Wms12m.Entity
 
     public class GerceklesenSevkiyatPlani
     {
-        public System.Nullable<System.DateTime> Tarih { get; set; }
-
+        public DateTime? Tarih { get; set; }
         public string EvrakNo { get; set; }
-
         public string Chk { get; set; }
-
         public string Unvan { get; set; }
-
         public string SatisTemsilcisi { get; set; }
-
         public string Malkodu { get; set; }
-
         public string MalAdi { get; set; }
-
         public decimal Birimmiktar { get; set; }
-
         public string Birim { get; set; }
-
-        public System.Nullable<decimal> StokMiktar { get; set; }
-
+        public decimal? StokMiktar { get; set; }
         public string StokBirim { get; set; }
+        public decimal Fiyat { get; set; }
+        public decimal Tutar { get; set; }
     }
 
     public class SatisBaglatiRapru
     {
         public string HesapKodu { get; set; }
-
         public string Unvan { get; set; }
-
-        public System.Nullable<decimal> Bakiye { get; set; }
-
+        public decimal? Bakiye { get; set; }
         public string SozlesmeSiraNo { get; set; }
-
         public string BaglantiNo { get; set; }
-
         public string BaglantiTipi { get; set; }
-
-        public System.Nullable<System.DateTime> BaglantiBitisTarihi { get; set; }
-
+        public DateTime? BaglantiBitisTarihi { get; set; }
         public decimal BaglantiTutari { get; set; }
-
         public string BaglantiParaCinsi { get; set; }
-
-        public System.Nullable<System.DateTime> BaglantiTarihi { get; set; }
-
+        public DateTime? BaglantiTarihi { get; set; }
         public string DevirTarih { get; set; }
-
-        public System.Nullable<decimal> DevirTutar { get; set; }
-
-        public System.Nullable<decimal> ToplamSevkEdilenTutar { get; set; }
-
-        public System.Nullable<decimal> DevirdenSonrakiSevkedilen { get; set; }
-
-        public System.Nullable<decimal> KalanTutar { get; set; }
+        public decimal? DevirTutar { get; set; }
+        public decimal? ToplamSevkEdilenTutar { get; set; }
+        public decimal? DevirdenSonrakiSevkedilen { get; set; }
+        public decimal? KalanTutar { get; set; }
     }
 
     public class SatisBaglantiHareketleri
     {
 
         public string SozlesmeNo { get; set; }
-
         public string EvrakNo { get; set; }
-
         public string Tarih { get; set; }
-
         public string KaynakSiparisNo { get; set; }
-
         public string KaynakSiparisTarih { get; set; }
-
         public string FytListeNo { get; set; }
-
         public string Depo { get; set; }
-
         public string MalKodu { get; set; }
-
         public decimal Miktar { get; set; }
-
         public string Birim { get; set; }
-
         public decimal BirimFiyat { get; set; }
-
         public decimal Tutar { get; set; }
-
         public decimal ToplamIskonto { get; set; }
-
         public float KDVOran { get; set; }
-
         public decimal KDV { get; set; }
-
-        public System.Nullable<decimal> SevkedilenTutar { get; set; }
+        public decimal? SevkedilenTutar { get; set; }
     }
     public class TechnoList
     {
@@ -449,36 +411,24 @@ namespace Wms12m.Entity
         public int DSKALAANAID { get; set; }
         public int DBIRIMID { get; set; }
         public string OnayindaBekleyen { get; set; }
-
     }
-
 
     public class ToplamRiskAnaliziRaporu
     {
         public string HesapKodu { get; set; }
-
         public string Unvan { get; set; }
-
-        public System.Nullable<decimal> Bakiye { get; set; }
-
+        public decimal? Bakiye { get; set; }
         public decimal BekleyenSiparisTutari { get; set; }
-
         public decimal SahsiCekRiski { get; set; }
-
-        public System.Nullable<decimal> ToplamSahsiRisk { get; set; }
-
+        public decimal? ToplamSahsiRisk { get; set; }
         public decimal SahsiCekLimiti { get; set; }
-
         public decimal MusteriCekRiski { get; set; }
-
-        public System.Nullable<decimal> ToplamRisk { get; set; }
-
-        public System.Nullable<decimal> ToplamCekRiski { get; set; }
-
+        public decimal? ToplamRisk { get; set; }
+        public decimal? ToplamCekRiski { get; set; }
         public decimal Teminat { get; set; }
-
         public string SatisTemsilcisi { get; set; }
     }
+
     public partial class CariCiroRaporuResult
     {
         public string HesapKodu { get; set; }
