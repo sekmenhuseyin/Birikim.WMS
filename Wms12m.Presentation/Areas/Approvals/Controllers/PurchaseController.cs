@@ -335,7 +335,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                         return Json(_Result, JsonRequestBehavior.AllowGet);
                     }
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
                     _Result.Message = "İşlem Sırasında Hata Oluştu.";
                     _Result.Status = false;
