@@ -29,7 +29,7 @@ $(function () {
             var input = wrapperChat.find('.page-quick-sidebar-chat-user-form .form-control');
             // handle post
             var time = new Date();
-            var messages = preparePost(currentUserName !== userNameFrom ? 'in' : 'out', (time.getHours() + ':' + time.getMinutes()), userRealName, imageAddress, message);
+            var messages = preparePost(currentUserName !== userNameFrom ? 'in' : 'out', time.getHours() + ':' + time.getMinutes(), userRealName, imageAddress, message);
             messages = $(messages);
             chatContainer.append(messages);
             chatContainer.slimScroll({ scrollTo: '1000000px' });
@@ -75,9 +75,9 @@ $(function () {
                 window.location.href = "/Security/LogOut";
             });
             //send notifications on page load and on new items
-            zigChatHubProxy.server.sendNotifications()
+            zigChatHubProxy.server.sendNotifications();
             $('#send-realtime-notifications').click(function () {
-                zigChatHubProxy.server.sendNotifications()
+                zigChatHubProxy.server.sendNotifications();
             });
             //functions
             var preparePost = function (dir, time, name, avatar, message) {
@@ -107,7 +107,7 @@ $(function () {
                 if (text.length === 0) { alert("boş"); return; }
                 // handle post
                 var time = new Date();
-                var message = preparePost('out', (time.getHours() + ':' + time.getMinutes()), currentRealName, currentUserAvatar, text);
+                var message = preparePost('out', time.getHours() + ':' + time.getMinutes(), currentRealName, currentUserAvatar, text);
                 message = $(message);
                 chatContainer.append(message);
                 chatContainer.slimScroll({ scrollTo: '1000000px' });

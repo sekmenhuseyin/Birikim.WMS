@@ -1,4 +1,5 @@
-﻿function ModalYesNoClick(Message, Title, YesLabel, YesClass, Yescallback, NoLabel, NoClass, Nocallback) {
+﻿function ModalYesNoClick(Message, Title, YesLabel, YesClass, Yescallback, NoLabel, NoClass, Nocallback)
+{
     bootbox.dialog({
         message: Message,
         title: Title,
@@ -6,15 +7,17 @@
             save: {
                 label: YesLabel,
                 className: YesClass,
-                callback: function () {
+                callback: function ()
+                {
                     Yescallback();
                 }
             },
             cancel: {
                 label: NoLabel,
                 className: NoClass,
-                callback: function () {
-                    if (Nocallback != null)
+                callback: function ()
+                {
+                    if (Nocallback !== null)
                     {
                         Nocallback();
                     }
@@ -23,7 +26,8 @@
         }
     });
 }
-function ModalConfirmClick(Message, Title, YesLabel, YesClass, Yescallback, NoLabel, NoClass, Nocallback, MainLabel, MainClass, Maincallback) {
+function ModalConfirmClick(Message, Title, YesLabel, YesClass, Yescallback, NoLabel, NoClass, Nocallback, MainLabel, MainClass, Maincallback)
+{
     bootbox.dialog({
         message: Message,
         title: Title,
@@ -31,28 +35,32 @@ function ModalConfirmClick(Message, Title, YesLabel, YesClass, Yescallback, NoLa
             save: {
                 label: YesLabel,
                 className: YesClass,
-                callback: function () {
+                callback: function ()
+                {
                     Yescallback();
                 }
             },
             cancel: {
                 label: NoLabel,
                 className: NoClass,
-                callback: function () {
+                callback: function ()
+                {
                     Nocallback();
                 }
             },
             main: {
                 label: MainLabel,
                 className: MainClass,
-                callback: function () {
+                callback: function ()
+                {
                     Maincallback();
                 }
             }
         }
     });
 }
-function Modaldialog(message, title, label, className) {
+function Modaldialog(message, title, label, className)
+{
     bootbox.dialog({
         message: message,
         title: title,
@@ -61,8 +69,9 @@ function Modaldialog(message, title, label, className) {
             cancel: {
                 label: label,
                 className: className,
-                callback: function () {
-               
+                callback: function ()
+                {
+
                 }
             }
         }
@@ -73,7 +82,8 @@ function ModalPrompt(title, defaultvalue, YesLabel, NoLabel)
     bootbox.prompt({
         title: title,
         value: defaultvalue,
-        callback: function (result) {
+        callback: function (result)
+        {
             Maincallback(result);
         },
         buttons: {

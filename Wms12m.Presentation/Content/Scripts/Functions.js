@@ -1,4 +1,4 @@
-﻿if (top !== self) { top.location.replace(document.location); }
+﻿if (top !== self) { top.location = self.location; }
 numeral.locale('tr');
 numeral.defaultFormat('0,0.00');
 moment.locale('tr');
@@ -6,10 +6,11 @@ moment.locale('tr');
 String.prototype.addAt = function (index, character)
 {
     return this.substr(0, index) + character + this.substr(index + character.length - 1);
-}
+};
 //dxTextBoxları NumberBox'a çevirme
 function NumbBox(cls, readOnly, ond)
 {
+    var deger = 0;
     $(cls).dxTextBox({
         mode: "fixed-point",
         value: 0,
@@ -17,21 +18,19 @@ function NumbBox(cls, readOnly, ond)
         onKeyPress: function (info)
         {
             var event = info.jQueryEvent;
-
+            var val = info.component.option("text");
             if ((event.keyCode < 48 || event.keyCode > 57) && event.keyCode !== 44/* && event.keyCode != 46*/)
             {
-                var val = info.component.option("text");
-                var deger = ondalikBinlik(val, ond)
+                deger = ondalikBinlik(val, ond);
                 info.component.option("value", deger);
                 event.stopPropagation();
                 event.preventDefault();
             }
             else if (event.keyCode === 44)
             {
-                var val = info.component.option("text");
                 if (val.toString().indexOf(",") > 0)
                 {
-                    var deger = ondalikBinlik(val, ond)
+                    deger = ondalikBinlik(val, ond);
                     info.component.option("value", deger);
                     event.stopPropagation();
                     event.preventDefault();
@@ -62,18 +61,18 @@ function NumbBox(cls, readOnly, ond)
             }
             else if (e.value.toString().substring(e.value.toString().length - 1, e.value.toString().length) === "," || e.value.toString().substring(e.value.toString().length - 1, e.value.toString().length) === ".")
             {
-                xx = e.value.toString().substring(0, e.value.toString().length - 1)
+                xx = e.value.toString().substring(0, e.value.toString().length - 1);
             }
             if (e.value.toString().indexOf(",") < 0)
             {
-                var deger = ondalikBinlik(e.value.toString(), ond)
+                var deger = ondalikBinlik(e.value.toString(), ond);
                 if (deger.toString().split(",")[0] === e.value.toString() && deger.toString().split(",")[0] !== 0)
                 {
                     return;
                 }
             }
 
-            var deger = ondalikBinlik(xx, ond)
+            deger = ondalikBinlik(xx, ond);
             e.component.option("value", deger);
             event.stopPropagation();
             event.preventDefault();
@@ -98,29 +97,28 @@ function NumbBox(cls, readOnly, ond)
 
         }
 
-    })
+    });
 }
 // Sayılara ondalık binlik ayraçları eklemek için
 function ondalikBinlik(Val, Ond)
 {
+    var ond = "";
+    var detVal = "";
+    var a = 0;
+    var b = new Array();
+    var c = 0;
+    var i = 0;
     if (Val === null || Val === undefined || Val === 0 || Val.toString().split(",").length > 2)
     {
-        //var ond = "";
-        //for (var i = 0; i < Ond; i++) {
-        //    ond += "0";
-        //}
-        //return "0," + ond;
         return 0;
     }
-    else if ((Val.toString().indexOf(",") > 0))
+    else if (Val.toString().indexOf(",") > 0)
     {
-        var b = new Array();
-        var detVal = Number(Val.toString().replace(/\./g, "").replace(",", ".")).toFixed(Ond).split(".")[0];
-        //var detVal = Val.split(",")[0].replace(/\./g, "");;
-        var a = detVal.length;
-        for (var i = a; i > 0; i = i - 3)
+        detVal = Number(Val.toString().replace(/\./g, "").replace(",", ".")).toFixed(Ond).split(".")[0];
+        a = detVal.length;
+        for (i = a; i > 0; i = i - 3)
         {
-            var c = i % 3;
+            c = i % 3;
             if (c === 0 && i !== 3)
             {
                 b.push(i - 3);
@@ -134,11 +132,11 @@ function ondalikBinlik(Val, Ond)
         {
             detVal = detVal.addAt(value, '.');
         });
-        var ond = Val.split(",")[1];
+        ond = Val.split(",")[1];
         var sayac = Ond - ond.length;
         if (ond.length < Ond && ond.length !== 0)
         {
-            for (var i = 0; i < sayac; i++)
+            for (i = 0; i < sayac; i++)
             {
                 ond += "0";
             }
@@ -164,7 +162,6 @@ function ondalikBinlik(Val, Ond)
         {
             return 0;
         }
-        var detVal = "";
         if (Val.toString().split(".").length > 2)
         {
             detVal = Number(Val.toString().replace(/\./g, "")).toFixed(Ond).replace(".", ",");
@@ -182,17 +179,15 @@ function ondalikBinlik(Val, Ond)
         {
             detVal = Number(Val.toString()).toFixed(Ond).replace(".", ",");
         }
-        var ond = "";
-        for (var i = 0; i < Ond; i++)
+        for (i = 0; i < Ond; i++)
         {
             ond += "0";
         }
 
-        var b = new Array();
-        var a = detVal.split(",")[0].length;
-        for (var i = a; i > 0; i = i - 3)
+        a = detVal.split(",")[0].length;
+        for (i = a; i > 0; i = i - 3)
         {
-            var c = i % 3;
+            c = i % 3;
             if (c === 0 && i !== 3)
             {
                 b.push(i - 3);
@@ -212,7 +207,7 @@ function ondalikBinlik(Val, Ond)
         }
         return detVal;
     }
-};
+}
 // Ondalık Binliğe cevrilen değeri decimal'a çevirme
 function jDecimal(Val)
 {
@@ -234,7 +229,7 @@ function roundNumber(num, scale)
     } else
     {
         var arr = ("" + num).split("e");
-        var sig = ""
+        var sig = "";
         if (+arr[1] + scale > 0)
         {
             sig = "+";
@@ -247,13 +242,13 @@ $.fn.digits = function ()
     return this.each(function ()
     {
         $(this).text($(this).text().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1."));
-    })
-}
+    });
+};
 //hepsini değiştir
 function replaceAll(str, find, replace)
 {
     return str.replace(new RegExp(find, 'g'), replace);
-};
+}
 //www.developer.com/net/dealing-with-json-dates-in-asp.net-mvc.html
 function ToJavaScriptDate(value)
 {
@@ -261,7 +256,7 @@ function ToJavaScriptDate(value)
     var pattern = /Date\(([^)]+)\)/;
     var results = pattern.exec(value);
     var dt = new Date(parseFloat(results[1]));
-    return (dt.getDate() + "/" + dt.getMonth() + 1) + "/" + dt.getFullYear();
+    return dt.getDate() + "/" + (dt.getMonth() + 1) + "/" + dt.getFullYear();
 }
 //is numeric
 function isNumeric(n)
@@ -286,7 +281,7 @@ function formatDate(date)
     var monthIndex = date.getMonth();
     var year = date.getFullYear();
     return day + ' ' + monthNames[monthIndex] + ' ' + year;
-};
+}
 function formatDateN(date)
 {
     if (date === "" || date === null) return "";
@@ -294,23 +289,23 @@ function formatDateN(date)
     var monthIndex = date.getMonth();
     var year = date.getFullYear();
     return day + '.' + monthIndex + '.' + year;
-};
+}
 //json tipindeki tarihi çevirir
 function formatDateFromJson(date)
 {
     return formatDate(new Date(parseInt(date.substr(6))));
-};
+}
 function formatDateFromJsonN(date)
 {
     return formatDateN(new Date(parseInt(date.substr(6))));
-};
+}
 //oadate to tarih
 function fromOADate(oadate)
 {
-    var date = new Date(((oadate - 25569) * 86400000));
+    var date = new Date((oadate - 25569) * 86400000);
     var tz = date.getTimezoneOffset();
-    return formatDate(new Date(((oadate - 25569 + (tz / (60 * 24))) * 86400000)));
-};
+    return formatDate(new Date((oadate - 25569 + (tz / (60 * 24))) * 86400000));
+}
 //tarih kutusundaki tarihi oadate yapar
 function toOADateFromString(date)
 {
@@ -318,14 +313,14 @@ function toOADateFromString(date)
     var m = date.substr(3, 2) - 1;
     var y = date.substr(6, 4);
     return toOADate(new Date(Date.UTC(y, m, g)));
-};
+}
 //oadate yapar
 function toOADate(date)
 {
     var timezoneOffset = date.getTimezoneOffset() / (60 * 24);
     var msDateObj = (date.getTime() / 86400000) + (25569 - timezoneOffset);
     return parseInt(msDateObj);
-};
+}
 //yine replace all
 String.prototype.replaceAll = function (target, replacement)
 {
@@ -342,18 +337,18 @@ Number.prototype.toHHMMSS = function ()
     if (minutes < 10) { minutes = "0" + minutes; }
     if (seconds < 10) { seconds = "0" + seconds; }
     return hours + ':' + minutes + ':' + seconds;
-}
+};
 //para ve miktar formatı
 Number.prototype.formatMoney = function (c, d, t)
 {
     var n = this,
-        c = isNaN(c = Math.abs(c)) ? 2 : c,
-        d = d === undefined ? "," : d,
-        t = t === undefined ? "." : t,
+        c2 = isNaN(c = Math.abs(c)) ? 2 : c,
+        d2 = d === undefined ? "," : d,
+        t2 = t === undefined ? "." : t,
         s = n < 0 ? "-" : "",
-        i = String(parseInt(n = Math.abs(Number(n) || 0).toFixed(c))),
+        i = String(parseInt(n = Math.abs(Number(n) || 0).toFixed(c2))),
         j = (j = i.length) > 3 ? j % 3 : 0;
-    return s + (j ? i.substr(0, j) + t : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : "");
+    return s + (j ? i.substr(0, j) + t2 : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t2) + (c2 ? d2 + Math.abs(n - i).toFixed(c2).slice(2) : "");
 };
 //create a cookie with javascript
 function setCookie(c_name, value)
