@@ -29,11 +29,10 @@
         <div class="col-xs-7 col-sm-7 col-md-4" style="margin-top:10px;line-height:36px;height:36px;padding:4px;margin-left:10px;">
             <div class="chk-select" style="width:90%;height:29px;"></div>
         </div>
-        <div class="col-xs-6 col-sm-6 col-md-2" style="margin-top:10px;">
-            <div class="btn btn-lg green btn-listele" style="width:222px;height:33px;">Listele<i class="fa fa-check"></i></div>
+        <div class="col-xs-6 col-sm-6 col-md-2 m-t-10">
+            <button class="btn btn-block green input-circle yenile-buton glyphicon glyphicon-refresh"> Yenile </button>
         </div>
     </div>
-
 </div>
 <div class="row" id="cari-extre-grid" style="margin-top:20px;"></div>
 <div class="modal fade" id="x-modal-cari-detay-cek" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="false">
@@ -103,6 +102,7 @@
             displayExpr: 'Unvan',
             onValueChanged: function (e) {
                 chk = e.value;
+                PartialView("/Reports/Financial/CariEkstreList", 'cari-extre-grid', JSON.stringify({ chk: e.value }));
             },
 
             itemTemplate: function (itemData, itemIndex, itemElement) {
@@ -117,17 +117,9 @@
                 itemElement.append(rightBlock);
             }
         });
-        $(".btn-listele").dxButton({
-            onClick: function() {
-                if(chk!="")
-                {
-                    PartialView("/Reports/Financial/CariEkstreList", 'cari-extre-grid', JSON.stringify({ chk: chk }));
-                }
-                else{
-                    Modaldialog("HesapKodu seçin!", "CariExtre", "Tamam", "Guncel");
-                }
-            }
+        $('.yenile-buton').click(function ()
+        {
+            PartialView("/Reports/Financial/CariEkstreList", 'cari-extre-grid', JSON.stringify({ chk: chk }));
         });
-        $(".btn-listele").removeClass("dx-button");   
     });
 </script>}
