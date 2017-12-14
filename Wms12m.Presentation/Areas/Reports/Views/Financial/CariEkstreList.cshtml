@@ -20,7 +20,7 @@
                     {
                         <tr>
                             <td nowrap class='details-control' style="width:20px;"> </td>
-                            <td nowrap>@item.Tarih.Value.ToString("dd.MM.yyyy")</td>
+                            <td nowrap><div class="hidden">@item.Tarih.Value.ToOADateInt()</div>@item.Tarih.Value.ToString("dd.MM.yyyy")</td>
                             <td nowrap>@item.EvrakNo</td>
                             <td nowrap>@item.IslemTip</td>
                             <td nowrap>@item.VadeTarih.Value.ToString("dd.MM.yyyy")</td>
@@ -53,7 +53,7 @@
         table = $('#sample_1').DataTable({
             "pagingType": "full_numbers",
             "ordering": true,
-            "order": [[1, "desc"]],
+            "order": [[1, "asc"]],
             "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
             "columnDefs": [{ "type": "date-uk", targets: [edit_date_col_num] }, { "targets": [0], "orderable": false }],
             "footerCallback": function (row, data, start, end, display) {
