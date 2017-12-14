@@ -139,7 +139,7 @@ namespace Wms12m.Presentation
             // EnableOptimizations
 #if !DEBUG
             BundleTable.EnableOptimizations = true;
-            bundles.UseCdn = true;   //enable CDN support
+            bundles.UseCdn = false;   //enable CDN support
 #endif
         }
     }
