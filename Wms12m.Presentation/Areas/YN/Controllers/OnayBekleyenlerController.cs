@@ -181,14 +181,18 @@ namespace Wms12m.Presentation.Areas.YN.Controllers
         /// <summary>
         /// Fatura onayı bekleyenler listesi
         /// </summary>
-        public string Fatura_List()
+        public string Fatura_List(int Secim)
         {
-            var list = db.Database.SqlQuery<frmOnayFatura>(string.Format(@"SELECT        YNS{0}.YNS{0}.TempFatura.EvrakNo, YNS{0}.YNS{0}.TempFatura.HesapKodu, YNS{0}.YNS{0}.TempFatura.Depo, COUNT(YNS{0}.YNS{0}.TempFatura.ID) AS Cesit, 
-																								 SUM(YNS{0}.YNS{0}.TempFatura.Miktar) AS Miktar, YNS{0}.YNS{0}.TempFatura.Kaydeden, CONVERT(VARCHAR(15), CAST(YNS{0}.YNS{0}.TempFatura.KayitTarih - 2 AS datetime), 104) as KayitTarih, YNS{0}.YNS{0}.CAR002.CAR002_Unvan1 AS Unvan
-																		FROM            YNS{0}.YNS{0}.TempFatura INNER JOIN
-																								 YNS{0}.YNS{0}.CAR002 ON YNS{0}.YNS{0}.TempFatura.HesapKodu = YNS{0}.YNS{0}.CAR002.CAR002_HesapKodu
-																		WHERE        (YNS{0}.YNS{0}.TempFatura.IslemDurumu = 0)
-																		GROUP BY YNS{0}.YNS{0}.TempFatura.EvrakNo, YNS{0}.YNS{0}.TempFatura.HesapKodu, YNS{0}.YNS{0}.TempFatura.Depo, YNS{0}.YNS{0}.TempFatura.Kaydeden, YNS{0}.YNS{0}.TempFatura.KayitTarih, YNS{0}.YNS{0}.CAR002.CAR002_Unvan1", YnsSirketKodu)).ToList();
+            /// Secim => 0 Onay Bekleyenler  1 Onaylanmış  2 Reddedilmiş
+            var list = db.Database.SqlQuery<frmOnayFatura>(string.Format(@"
+            SELECT  TempFatura.EvrakNo, TempFatura.HesapKodu, TempFatura.Depo, COUNT(TempFatura.ID) AS Cesit, 
+		            SUM(TempFatura.Miktar) AS Miktar, TempFatura.Kaydeden, CONVERT(VARCHAR(15), 
+		            CAST(TempFatura.KayitTarih - 2 AS datetime), 104) as KayitTarih, MIN(CAR002.CAR002_Unvan1) AS Unvan
+            FROM  YNS{0}.YNS{0}.TempFatura(NOLOCK) 
+            INNER JOIN YNS{0}.YNS{0}.CAR002(NOLOCK) ON TempFatura.HesapKodu = CAR002.CAR002_HesapKodu
+            WHERE TempFatura.IslemDurumu = {1}
+            GROUP BY TempFatura.EvrakNo, TempFatura.HesapKodu, TempFatura.Depo, TempFatura.Kaydeden, TempFatura.KayitTarih", YnsSirketKodu, Secim)).ToList();
+
             var json = new JavaScriptSerializer().Serialize(list);
             return json;
         }
