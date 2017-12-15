@@ -87,7 +87,6 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             ViewBag.Manual = false;
             // id'ye göre liste döner
             string[] ids = Id.Split('#');
-            var sirketkodu = vUser.SirketKodu;
             string sql; string var;
             if (ids[2] != "0" && ids[2] != "null" && ids[2].ToString2() != "") //bir kattaki ait malzemeler
             {
@@ -109,7 +108,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             {
                 sql = string.Format("SELECT wms.Yer.ID, wms.Yer.KatID, wms.Yer.DepoID, wms.Yer.HucreAd, wms.Yer.MalKodu, wms.Yer.Miktar, wms.Yer.Birim, wms.Yer.MakaraNo, FINSAT6{0}.FINSAT6{0}.STK.MalAdi4 as Marka, FINSAT6{0}.FINSAT6{0}.STK.Nesne2 as Cins, FINSAT6{0}.FINSAT6{0}.STK.Kod15 as Kesit " +
                     "FROM wms.Yer WITH(NOLOCK) INNER JOIN wms.Kat WITH(NOLOCK) ON wms.Yer.KatID = wms.Kat.ID INNER JOIN wms.Bolum WITH(NOLOCK) ON wms.Kat.BolumID = wms.Bolum.ID INNER JOIN wms.Raf WITH(NOLOCK) ON wms.Bolum.RafID = wms.Raf.ID INNER JOIN wms.Koridor WITH(NOLOCK) ON wms.Raf.KoridorID = wms.Koridor.ID INNER JOIN FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) ON wms.Yer.MalKodu = FINSAT6{0}.FINSAT6{0}.STK.MalKodu " +
-                    "WHERE (FINSAT6{0}.FINSAT6{0}.STK.Kod1 = 'KKABLO') AND {1} = {2}", sirketkodu, sql, var);
+                    "WHERE (FINSAT6{0}.FINSAT6{0}.STK.Kod1 = 'KKABLO') AND {1} = {2}", vUser.SirketKodu, sql, var);
                 var lst = db.Database.SqlQuery<frmCableStok>(sql).ToList();
                 return PartialView("CableList", lst);
             }
