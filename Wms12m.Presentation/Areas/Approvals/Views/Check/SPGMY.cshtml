@@ -2,13 +2,8 @@
     ViewBag.Title = "Çek Onay SPGMY";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }@section Styles{<style>
-    td.details-control {
-        background: url('/Content/assets/global/plugins/datatables/images/details_open.png') no-repeat center center;
-        cursor: pointer;
-    }
-    tr.shown td.details-control {
-        background: url('/Content/assets/global/plugins/datatables/images/details_close.png') no-repeat center center;
-    }
+    td.details-control {background: url('/Content/assets/global/plugins/datatables/images/details_open.png') no-repeat center center;cursor: pointer;}
+    tr.shown td.details-control {background: url('/Content/assets/global/plugins/datatables/images/details_close.png') no-repeat center center;}
     .dx-datagrid-headers .dx-row {
         color: white;
         border-bottom: 1px solid #D2D2D2;
@@ -18,12 +13,9 @@
         background: -ms-linear-gradient(top, #32c5d2 0%,#32c5d2 50%,#32c5d2 51%,#32c5d2 100%); /* IE10+ */
         background: linear-gradient(to bottom, #32c5d2 0%,#32c5d2 50%,#32c5d2 51%,#32c5d2 100%); /* W3C */
     }
-    .dx-datagrid .dx-column-indicators .dx-sort.dx-header-filter:after, .dx-datagrid .dx-column-indicators .dx-header-filter.dx-header-filter:before {
-        color: white;
-    }
+    .dx-datagrid .dx-column-indicators .dx-sort.dx-header-filter:after, .dx-datagrid .dx-column-indicators .dx-header-filter.dx-header-filter:before { color: white; }
 </style>
-}
-<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><span>Onaylama</span><i class="fa fa-circle"></i></li><li><span>Çek</span></li></ul></div>
+}<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><span>Onaylama</span><i class="fa fa-circle"></i></li><li><span>Çek</span></li></ul></div>
 <h1 class="page-title">Çek Onay SPGMY</h1>
 <div class="form-horizontal">
     <div class="form-body">
@@ -72,21 +64,15 @@
                                             </tr>
                                         </thead>
                                         <tfoot><tr><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr></tfoot>
-                                        <tfoot class="tf-search"><tr><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr></tfoot>
-  
+                                        <tfoot class="tf-search"><tr><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr></tfoot>  
                                     </table>
-
                                 </div>
                             </div>
                         </div>
-
                     </div>
                 </div>
             </div>
-
         </div>
-
-
     </div>
 </div>
 <div class="modal fade" id="x-modal-spgmy-cek-detay" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="false">
@@ -213,7 +199,6 @@
         });
     });
     $('.onay-buton').click(function () {
-
         var x = table.rows('.selected').data();
         for (var i = 0; i < x.length; i++) {
             secili_table.push(x[i]);
@@ -232,14 +217,11 @@
                 else {
                     if (data.Message == "") data.Message = "Hata oluştu";
                     Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
-                    setTimeout(function () { window.location.reload(); }, 500);
                 }
             }
         });
-
         return _dfd.promise();
     });
-
     $('.reddet-buton').click(function () {
             
             var x = table.rows('.selected').data();
@@ -259,14 +241,11 @@
                     else {
                         if (data.Message == "") data.Message = "Hata oluştu";
                         Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
-                        setTimeout(function () { window.location.reload(); }, 500);
                     }
                 }
             });
-            return _dfd.promise();
-            
+            return _dfd.promise();            
     });
-
     $('.yenile-buton').click(function () {
         table.ajax.reload();
     });

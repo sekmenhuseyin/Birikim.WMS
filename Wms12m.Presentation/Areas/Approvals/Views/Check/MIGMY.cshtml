@@ -2,13 +2,8 @@
     ViewBag.Title = "Çek Onay MIGMY";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }@section Styles{<style>
-    td.details-control {
-        background: url('/Content/assets/global/plugins/datatables/images/details_open.png') no-repeat center center;
-        cursor: pointer;
-    }
-    tr.shown td.details-control {
-        background: url('/Content/assets/global/plugins/datatables/images/details_close.png') no-repeat center center;
-    }
+    td.details-control {background: url('/Content/assets/global/plugins/datatables/images/details_open.png') no-repeat center center;cursor: pointer;}
+    tr.shown td.details-control {background: url('/Content/assets/global/plugins/datatables/images/details_close.png') no-repeat center center;}
     .dx-datagrid-headers .dx-row {
         color: white;
         border-bottom: 1px solid #D2D2D2;
@@ -18,12 +13,9 @@
         background: -ms-linear-gradient(top, #32c5d2 0%,#32c5d2 50%,#32c5d2 51%,#32c5d2 100%); /* IE10+ */
         background: linear-gradient(to bottom, #32c5d2 0%,#32c5d2 50%,#32c5d2 51%,#32c5d2 100%); /* W3C */
     }
-    .dx-datagrid .dx-column-indicators .dx-sort.dx-header-filter:after, .dx-datagrid .dx-column-indicators .dx-header-filter.dx-header-filter:before {
-        color: white;
-    }
+    .dx-datagrid .dx-column-indicators .dx-sort.dx-header-filter:after, .dx-datagrid .dx-column-indicators .dx-header-filter.dx-header-filter:before { color: white; }
 </style>
-}
-<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><span>Onaylama</span><i class="fa fa-circle"></i></li><li><span>Çek</span></li></ul></div>
+}<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><span>Onaylama</span><i class="fa fa-circle"></i></li><li><span>Çek</span></li></ul></div>
 <h1 class="page-title">Çek Onay MIGMY</h1>
 <div class="form-horizontal">
     <div class="form-body">
@@ -46,11 +38,9 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="btn-group">
-
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
- 
+                                    <div class="col-md-6"> 
                                     </div>
                                     <table class="table table-striped table-bordered" id="sample_1">
                                         <thead>
@@ -256,18 +246,14 @@
                     else {
                         if (data.Message == "") data.Message = "Hata oluştu";
                         Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
-                        setTimeout(function () { window.location.reload(); }, 500);
                     }
                 }
             });
             return _dfd.promise();
-
         });
-
         $('.yenile-buton').click(function () {
             table.ajax.reload();
         });
-
         var buttons = new $.fn.dataTable.Buttons(table, {
             buttons: [
                 { "extend": 'pdf', "text": '<span class="fa fa-file-pdf-o f-s-15 red"></span>', "className": 'btn btn-default btn-xs;' },
