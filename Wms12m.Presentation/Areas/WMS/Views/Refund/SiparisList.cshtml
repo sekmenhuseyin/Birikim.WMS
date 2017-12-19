@@ -24,7 +24,7 @@
             <tbody>
                 @foreach (var item in Model)
                 {
-                    <tr data-ID="@item.SirketID-@ViewBag.Depo-@item.EvrakNo-@item.Chk" style="cursor:pointer;" onclick="toggle(this, '@item.SirketID-@item.EvrakNo-@item.Chk')">
+                    <tr data-ID="@ViewBag.Depo-@item.EvrakNo-@item.Chk" style="cursor:pointer;" onclick="toggle(this, '@item.EvrakNo-@item.Chk')">
                         <td style="width:20px!important;"></td>
                         <td style="width:20px!important;" class="details-control"></td>
                         <td>@Html.DisplayFor(modelItem => item.EvrakNo)</td>
@@ -112,7 +112,7 @@
                 degs.push("@ViewBag.Depo");
                 $.ajax({
                     url: window.location.origin + "/WMS/Refund/StokKontrol",
-                    data: {Sirket:degs[0], EvrakNo:degs[1], CHK:degs[2], Depo:degs[3]},
+                    data: {EvrakNo:degs[0], CHK:degs[1], Depo:degs[2]},
                     type: "post",
                     success: function (data) {
                     
