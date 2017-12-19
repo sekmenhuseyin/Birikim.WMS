@@ -11,10 +11,22 @@
 <div class="row">
     <div class="col-md-12">
         <div class="portlet box green">
+           
+
             <div class="portlet-title">
-                <div class="caption"><i class="fa fa-gift"></i>Onay Bekleyen Transferler</div>
-                <div class="col-md-2 pull-right m-t-5"><button class="btn btn-default pull-right input-circle yenile-buton glyphicon glyphicon-refresh"> Yenile </button></div>
+                <div class="col-md-4 pull-left m-t-5">
+                    <select id="DurumID" name="DurumID" class="form-control input-circle pull-right">
+                        <option value="0">Onay Bekleyen Transferler</option>
+                        <option value="1">Onaylanmış Transferler</option>
+                        <option value="2">Reddedilmiş Transferler</option>
+                    </select>
+                </div>
+                <div class="col-md-2 pull-right m-t-5">
+                    <button class="btn btn-default pull-right input-circle yenile-buton glyphicon glyphicon-refresh"> Yenile </button>
+                </div>
             </div>
+
+
             <div class="portlet-body form p-30 p-t-15">
                 <table class="table table-striped table-bordered" id="sample_1">
                     <thead>
@@ -37,6 +49,7 @@
             "ordering": false,
             "ajax": {
                 "url": '/YN/OnayBekleyenler/Transfer_List',
+                "data": function (d) { d.Secim = $('#DurumID').val() },
                 "dataSrc": function (json) {
                     return json;
                 },
@@ -52,11 +65,14 @@
         $('#sample_1 tbody').on('dblclick', 'tr', function () {
             var tr = $(this).closest('tr');
             var row = table.row(tr);
-            editInModal2('/YN/OnayBekleyenler/Transfer_Details', { ID: row.data().TransferNo })
+            editInModal2('/YN/OnayBekleyenler/Transfer_Details', { ID: row.data().TransferNo, Secim: $('#DurumID').val() })
             $('#modalEditPage').modal('toggle');
             selected = row.data().TransferNo;
         });
         $('.yenile-buton').click(function () {
+            table.ajax.reload();
+        });
+        $('#DurumID').change(function () {
             table.ajax.reload();
         });
     });

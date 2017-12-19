@@ -44,6 +44,15 @@
 </div>
 <script>
     $(document).ready(function () {
+
+        if ($('#DurumID').val() == 1) {
+            $('.reddet-buton').hide();
+            $('.onay-buton').hide();
+        }
+        else if ($('#DurumID').val() == 2) {
+            $('.reddet-buton').hide();
+        }
+
         var table = $('#sample_2').DataTable({
             "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" }
         });

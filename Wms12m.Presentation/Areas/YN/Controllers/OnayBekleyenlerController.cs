@@ -19,16 +19,24 @@ namespace Wms12m.Presentation.Areas.YN.Controllers
         /// <summary>
         /// sipariş onayı bekleyenler listesi
         /// </summary>
-        public string Siparis_List()
+        public string Siparis_List(int Secim)
         {
-            var list = db.Database.SqlQuery<frmOnaySiparisList>(string.Format(@"SELECT        YNS{0}.YNS{0}.STK002.STK002_EvrakSeriNo AS EvrakSeriNo, YNS{0}.YNS{0}.CAR002.CAR002_BankaHesapKodu AS HesapKodu, YNS{0}.YNS{0}.CAR002.CAR002_Unvan1 AS Unvan, COUNT(YNS{0}.YNS{0}.STK002.STK002_MalKodu) 
+            string secimParam = "";
+            if (Secim == 0)
+                secimParam = "Onay Bekliyor";
+            else if (Secim == 1)
+                secimParam = "Onaylandı";
+            else if (Secim == 2)
+                secimParam = "Reddedildi";
+
+            var list = db.Database.SqlQuery<frmOnaySiparisList>(string.Format(@"SELECT   YNS{0}.YNS{0}.STK002.STK002_EvrakSeriNo AS EvrakSeriNo, YNS{0}.YNS{0}.CAR002.CAR002_BankaHesapKodu AS HesapKodu, YNS{0}.YNS{0}.CAR002.CAR002_Unvan1 AS Unvan, COUNT(YNS{0}.YNS{0}.STK002.STK002_MalKodu) 
 																							 AS Cesit, SUM(YNS{0}.YNS{0}.STK002.STK002_Miktari) AS Miktar, YNS{0}.YNS{0}.STK002.STK002_GirenKodu AS Kaydeden, CONVERT(VARCHAR(15), CAST(YNS{0}.YNS{0}.STK002.STK002_GirenTarih - 2 AS datetime), 104) 
 																							 AS Tarih
 																	FROM            YNS{0}.YNS{0}.STK002 INNER JOIN
 																							 YNS{0}.YNS{0}.CAR002 ON YNS{0}.YNS{0}.STK002.STK002_CariHesapKodu = YNS{0}.YNS{0}.CAR002.CAR002_HesapKodu
-																	WHERE        (YNS{0}.YNS{0}.STK002.STK002_GC = 1) AND (YNS{0}.YNS{0}.STK002.STK002_SipDurumu = 0) AND (YNS{0}.YNS{0}.STK002.STK002_Kod10 = 'Onay Bekliyor')
+																	WHERE        (YNS{0}.YNS{0}.STK002.STK002_GC = 1) AND (YNS{0}.YNS{0}.STK002.STK002_SipDurumu = 0) AND (YNS{0}.YNS{0}.STK002.STK002_Kod10 = '{1}')
 																	GROUP BY YNS{0}.YNS{0}.CAR002.CAR002_BankaHesapKodu, YNS{0}.YNS{0}.CAR002.CAR002_Unvan1, YNS{0}.YNS{0}.STK002.STK002_EvrakSeriNo, YNS{0}.YNS{0}.STK002.STK002_GirenKodu, CONVERT(VARCHAR(15), 
-																							 CAST(YNS{0}.YNS{0}.STK002.STK002_GirenTarih - 2 AS datetime), 104)", YnsSirketKodu)).ToList();
+																							 CAST(YNS{0}.YNS{0}.STK002.STK002_GirenTarih - 2 AS datetime), 104)", YnsSirketKodu, secimParam)).ToList();
             var json = new JavaScriptSerializer().Serialize(list);
             return json;
         }
@@ -36,16 +44,24 @@ namespace Wms12m.Presentation.Areas.YN.Controllers
         /// liste detayı
         /// </summary>
         [HttpPost]
-        public PartialViewResult Siparis_Details(string ID)
+        public PartialViewResult Siparis_Details(string ID, int Secim)
         {
-            var list = db.Database.SqlQuery<frmOnaySiparisList>(string.Format(@"SELECT        YNS{0}.YNS{0}.STK002.STK002_MalKodu AS MalKodu, YNS{0}.YNS{0}.STK004.STK004_Aciklama AS MalAdi, YNS{0}.YNS{0}.STK002.STK002_CariHesapKodu AS HesapKodu, YNS{0}.YNS{0}.CAR002.CAR002_Unvan1 AS Unvan, 
-																							YNS{0}.YNS{0}.STK002.STK002_EvrakSeriNo AS EvrakSeriNo, YNS{0}.YNS{0}.STK002.STK002_Depo AS Depo, YNS{0}.YNS{0}.STK002.STK002_Miktari AS Miktar, YNS{0}.YNS{0}.STK002.STK002_BirimFiyati AS BirimFiyat, 
+            string secimParam = "";
+            if (Secim == 0)
+                secimParam = "Onay Bekliyor";
+            else if (Secim == 1)
+                secimParam = "Onaylandı";
+            else if (Secim == 2)
+                secimParam = "Reddedildi";
+
+            var list = db.Database.SqlQuery<frmOnaySiparisList>(string.Format(@"SELECT   YNS{0}.YNS{0}.STK002.STK002_MalKodu AS MalKodu, YNS{0}.YNS{0}.STK004.STK004_Aciklama AS MalAdi, YNS{0}.YNS{0}.STK002.STK002_CariHesapKodu AS HesapKodu, YNS{0}.YNS{0}.CAR002.CAR002_Unvan1 AS Unvan, 
+																						YNS{0}.YNS{0}.STK002.STK002_EvrakSeriNo AS EvrakSeriNo, YNS{0}.YNS{0}.STK002.STK002_Depo AS Depo, YNS{0}.YNS{0}.STK002.STK002_Miktari AS Miktar, YNS{0}.YNS{0}.STK002.STK002_BirimFiyati AS BirimFiyat, 
 																							YNS{0}.YNS{0}.STK002.STK002_Tutari AS Tutar, YNS{0}.YNS{0}.STK002.STK002_DovizCinsi AS DovizCinsi, YNS{0}.YNS{0}.STK002.STK002_GirenKodu AS Kaydeden, CONVERT(VARCHAR(15), 
                                                                                             CAST(YNS{0}.YNS{0}.STK002.STK002_GirenTarih - 2 AS datetime), 104) AS Tarih, CONVERT(DECIMAL, STK002_Kod8) AS EsikFiyat
 																FROM            YNS{0}.YNS{0}.STK002 INNER JOIN
 																							YNS{0}.YNS{0}.CAR002 ON YNS{0}.YNS{0}.STK002.STK002_CariHesapKodu = YNS{0}.YNS{0}.CAR002.CAR002_HesapKodu INNER JOIN
 																							YNS{0}.YNS{0}.STK004 ON YNS{0}.YNS{0}.STK002.STK002_MalKodu = YNS{0}.YNS{0}.STK004.STK004_MalKodu
-																WHERE        (YNS{0}.YNS{0}.STK002.STK002_GC = 1) AND (YNS{0}.YNS{0}.STK002.STK002_SipDurumu = 0)  AND (YNS{0}.YNS{0}.STK002.STK002_Kod10 = 'Onay Bekliyor') AND  YNS{0}.YNS{0}.STK002.STK002_EvrakSeriNo = '{1}'", YnsSirketKodu, ID)).ToList();
+																WHERE        (YNS{0}.YNS{0}.STK002.STK002_GC = 1) AND (YNS{0}.YNS{0}.STK002.STK002_SipDurumu = 0)  AND (YNS{0}.YNS{0}.STK002.STK002_Kod10 = '{2}') AND  YNS{0}.YNS{0}.STK002.STK002_EvrakSeriNo = '{1}'", YnsSirketKodu, ID, secimParam)).ToList();
             return PartialView("Siparis_Details", list);
         }
         /// <summary>
@@ -75,15 +91,15 @@ namespace Wms12m.Presentation.Areas.YN.Controllers
         /// <summary>
         /// teklif onay listesi
         /// </summary>
-        public string Teklif_List()
+        public string Teklif_List(int Secim)
         {
             var list = db.Database.SqlQuery<frmOnayTeklifList>(string.Format(@"SELECT TeklifNo,HesapKodu,COUNT(MalKodu) AS Cesit,
 																					SUM(Miktar) AS Miktar,Kaydeden,
 																					CONVERT(VARCHAR(15), CAST(KayitTarih - 2 AS datetime), 104) AS KayitTarihi,
 																					CONVERT(VARCHAR(15), CAST(TeklifTarihi - 2 AS datetime), 104) AS TeklifTarihi
 																					FROM YNS{0}.YNS{0}.[Teklif]
-																					WHERE OnayDurumu=0
-																					  GROUP BY TeklifNo,TeklifTarihi,HesapKodu,KayitTarih,Kaydeden", YnsSirketKodu)).ToList();
+																					WHERE OnayDurumu={1}
+																					  GROUP BY TeklifNo,TeklifTarihi,HesapKodu,KayitTarih,Kaydeden", YnsSirketKodu, Secim)).ToList();
             var json = new JavaScriptSerializer().Serialize(list);
             return json;
         }
@@ -91,7 +107,7 @@ namespace Wms12m.Presentation.Areas.YN.Controllers
         /// teklif detayları
         /// </summary>
         [HttpPost]
-        public PartialViewResult Teklif_Details(string ID)
+        public PartialViewResult Teklif_Details(string ID, int Secim)
         {
             var list = db.Database.SqlQuery<frmOnayTeklifListDetay>(string.Format(@"SELECT TeklifNo,HesapKodu,
 																				YNS{0}.YNS{0}.CAR002.CAR002_Unvan1 AS Unvan,
@@ -100,7 +116,7 @@ namespace Wms12m.Presentation.Areas.YN.Controllers
 																				CONVERT(VARCHAR(15), CAST(KayitTarih - 2 AS datetime), 104) AS KayitTarihi
 																				  FROM YNS{0}.YNS{0}.[Teklif] INNER JOIN 
                                                                                         YNS{0}.YNS{0}.CAR002 ON HesapKodu = YNS{0}.YNS{0}.CAR002.CAR002_HesapKodu INNER JOIN
-    																				    YNS{0}.YNS{0}.STK004 ON MalKodu = YNS{0}.YNS{0}.STK004.STK004_MalKodu WHERE TeklifNo='{1}' AND OnayDurumu=0", YnsSirketKodu, ID)).ToList();
+    																				    YNS{0}.YNS{0}.STK004 ON MalKodu = YNS{0}.YNS{0}.STK004.STK004_MalKodu WHERE TeklifNo='{1}' AND OnayDurumu={2}", YnsSirketKodu, ID, Secim)).ToList();
             return PartialView("Teklif_Details", list);
         }
         /// <summary>
@@ -130,12 +146,12 @@ namespace Wms12m.Presentation.Areas.YN.Controllers
         /// <summary>
         /// transfer onayı bekleyenler listesi
         /// </summary>
-        public string Transfer_List()
+        public string Transfer_List(int Secim)
         {
             var list = db.Database.SqlQuery<frmOnayTransferList>(string.Format(@"SELECT        TransferNo, Kaydeden, CONVERT(VARCHAR(15), CAST(TransferTarihi - 2 AS datetime), 104) AS Tarih
 																	FROM            YNS{0}.YNS{0}.TransferDepo
-																	WHERE        (OnayDurumu = 0)
-																	GROUP BY TransferNo, Kaydeden, CONVERT(VARCHAR(15), CAST(TransferTarihi - 2 AS datetime), 104)", YnsSirketKodu)).ToList();
+																	WHERE        (OnayDurumu = {1})
+																	GROUP BY TransferNo, Kaydeden, CONVERT(VARCHAR(15), CAST(TransferTarihi - 2 AS datetime), 104)", YnsSirketKodu, Secim)).ToList();
             var json = new JavaScriptSerializer().Serialize(list);
             return json;
         }
