@@ -192,13 +192,6 @@ namespace Wms12m.Business
                 return new Gorev();
             }
         }
-        public frmGorevJson DetailJson(int Id)
-        {
-            return db.Gorevs
-                .Where(m => m.ID == Id)
-                .Select(m => new frmGorevJson { Olusturan = m.Olusturan, OlusturmaTarihi = m.OlusturmaTarihi, OlusturmaSaati = m.OlusturmaSaati, Bilgi = m.Bilgi, Aciklama = m.Aciklama, AtamaTarihi = m.AtamaTarihi, BitisTarihi = m.BitisTarihi, BitisSaati = m.BitisSaati, Atayan = m.Atayan, Gorevli = m.Gorevli })
-                .FirstOrDefault();
-        }
         /// <summary>
         /// liste
         /// </summary>
@@ -207,7 +200,6 @@ namespace Wms12m.Business
             return db.Gorevs.OrderBy(m => m.DurumID).ThenByDescending(m => m.ID).ToList();
         }
         public int Count() => db.Gorevs.Count();
-
         /// <summary>
         /// duruma göre olanları getirir
         /// </summary>
@@ -221,6 +213,24 @@ namespace Wms12m.Business
                 return db.Gorevs.Where(m => m.DurumID == DurumID && (m.DepoID == DepoID || m.GorevTipiID == (int)ComboItems.Satıştanİade)).OrderByDescending(m => m.ID).ToList();
             else
                 return db.Gorevs.Where(m => m.DurumID == DurumID).OrderByDescending(m => m.ID).ToList();
+        }
+        public List<frmGorevJson> GetListJson(int DurumID, int? DepoID)
+        {
+            return db.Gorevs
+                .Where(m => m.DurumID == DurumID)
+                .Select(m => new frmGorevJson
+                {
+                    ID = m.ID,
+                    GorevNo = m.GorevNo,
+                    DepoAd = m.Depo.DepoAd,
+                    EvrakNo = m.ID.GetEvrakNosForGorev(),
+                    GorevTipi = m.ComboItem_Name1.Name,
+                    SiparisTarihi = m.ID.GetEvrakTarihsForGorev(),
+                    OlusturmaTarihi = m.OlusturmaTarihi.FromOaDate(),
+                    BitisTarihi = m.BitisTarihi == null ? "" : m.BitisTarihi.Value.FromOADateInt(),
+                    Bilgi = m.Bilgi,
+                    Gorevli = m.Gorevli
+                }).ToList();
         }
         /// <summary>
         /// görev tipi ve duruma göre listeler

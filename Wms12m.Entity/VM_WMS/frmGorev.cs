@@ -108,17 +108,16 @@ namespace Wms12m.Entity
     /// </summary>
     public class frmGorevJson
     {
-        public string Gorevli { get; set; }
-        public string Atayan { get; set; }
-        public string Olusturan { get; set; }
+        public int ID { get; set; }
+        public string GorevNo { get; set; }
+        public string DepoAd { get; set; }
         public string EvrakNo { get; set; }
-        public int OlusturmaTarihi { get; set; }
-        public int OlusturmaSaati { get; set; }
-        public int? AtamaTarihi { get; set; }
-        public int? BitisTarihi { get; set; }
-        public int? BitisSaati { get; set; }
+        public string GorevTipi { get; set; }
+        public string Gorevli { get; set; }
+        public string SiparisTarihi { get; set; }
+        public DateTime OlusturmaTarihi { get; set; }
+        public string BitisTarihi { get; set; }
         public string Bilgi { get; set; }
-        public string Aciklama { get; set; }
     }
     /// <summary>
     /// görev id ve görevli id
