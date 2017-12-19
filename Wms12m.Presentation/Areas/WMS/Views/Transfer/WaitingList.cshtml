@@ -4,13 +4,12 @@
     serializer.MaxJsonLength = Int32.MaxValue;
 }
 <table class="table table-striped table-bordered table-condensed" id="sample_2">
-    <thead><tr><th></th><th>Şirket</th><th>Giriş Depo</th><th>Ara Depo</th><th>Çıkış Depo</th><th>Oluşturan</th><th>Onaylayan</th><th></th></tr></thead>
+    <thead><tr><th></th><th>Giriş Depo</th><th>Ara Depo</th><th>Çıkış Depo</th><th>Oluşturan</th><th>Onaylayan</th><th></th></tr></thead>
     <tbody>
         @foreach (var item in Model)
         {
             <tr data-ID="@item.ID">
                 <td style="width:20px!important;" class="details-control"></td>
-                <td>@item.SirketKod</td>
                 <td>@item.Depo.DepoAd</td>
                 <td>@item.Depo2.DepoAd</td>
                 <td>@item.Depo1.DepoAd</td>
@@ -59,7 +58,7 @@
                 $.ajax({
                     type: 'POST',
                     url: '/WMS/Transfer/TransferDetay',
-                    data: { "ID": trID, "Sirket": sirket },
+                    data: { "ID": trID },
                     dataType: "html",
                     success: function (data) {
                         $('#x-modal-transfer-detay').modal("show");

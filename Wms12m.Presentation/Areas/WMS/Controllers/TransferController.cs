@@ -19,7 +19,6 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         public ActionResult Index()
         {
             if (CheckPerm(Perms.Transfer, PermTypes.Reading) == false) return Redirect("/");
-            ViewBag.SirketID = new SelectList(db.GetSirkets().ToList(), "Kod", "Ad");
             ViewBag.GirisDepo = new SelectList(Store.GetList(vUser.DepoId), "DepoKodu", "DepoAd");
             ViewBag.CikisDepo = new SelectList(Store.GetList(), "DepoKodu", "DepoAd");
             ViewBag.AraDepo = ViewBag.CikisDepo;
@@ -31,10 +30,10 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         public PartialViewResult List(string Id)
         {
             var parameters = JsonConvert.DeserializeObject<JObject>(Id);
-            string SirketID = parameters["SirketID"].ToString(), GirisDepo = parameters["GirisDepo"].ToString(), CikisDepo = parameters["CikisDepo"].ToString(), AraDepo = parameters["AraDepo"].ToString(), listType = parameters["listType"].ToString();
+            string GirisDepo = parameters["GirisDepo"].ToString(), CikisDepo = parameters["CikisDepo"].ToString(), AraDepo = parameters["AraDepo"].ToString(), listType = parameters["listType"].ToString();
             if (GirisDepo == CikisDepo || GirisDepo == AraDepo || CikisDepo == AraDepo || CikisDepo == "" || GirisDepo == "" || AraDepo == "")
                 return PartialView("List", new List<frmTransferMalzemeler>());
-            ViewBag.SirketID = SirketID;
+            ViewBag.SirketID = vUser.SirketKodu;
             ViewBag.GirisDepo = GirisDepo;
             ViewBag.CikisDepo = CikisDepo;
             var sql = listType == "below" ? "AND (ISNULL(DST.DvrMiktar, 0) + ISNULL(DST.GirMiktar, 0) - ISNULL(DST.CikMiktar, 0) - ISNULL(DST.KritikStok, 0)) < 0  " : "";
@@ -42,7 +41,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                             "(ISNULL(DST.DvrMiktar, 0) + ISNULL(DST.GirMiktar, 0) - ISNULL(DST.CikMiktar, 0)) as Depo1StokMiktar, ISNULL(DST.KritikStok, 0) as Depo1KritikMiktar, ((ISNULL(DST.DvrMiktar, 0) + ISNULL(DST.GirMiktar, 0) - ISNULL(DST.CikMiktar, 0)) - ISNULL(DST.KritikStok, 0)) as Depo1GerekenMiktar, ISNULL(DST.AlSiparis, 0) as AlSiparis, ISNULL(DST.SatSiparis, 0) as SatSiparis, " +
                             "BIRIKIM.[wms].[fnGetStock]('{2}',STK.MalKodu,STK.Birim1, 0) as Depo2WmsStok, (ISNULL(DST2.DvrMiktar, 0) + ISNULL(DST2.GirMiktar, 0) - ISNULL(DST2.CikMiktar, 0)) as Depo2GunesStok, isnull(DST2.KritikStok, 0) as Depo2KritikMiktar, ((ISNULL(DST2.DvrMiktar, 0) + ISNULL(DST2.GirMiktar, 0) - ISNULL(DST2.CikMiktar, 0)) - isnull(DST2.KritikStok, 0)) as Depo2GerekenMiktar, CAST(0 AS DECIMAL) Depo2Miktar " +
                             "FROM FINSAT6{0}.FINSAT6{0}.STK(NOLOCK) STK LEFT join FINSAT6{0}.FINSAT6{0}.DST(NOLOCK) DST ON STK.MalKodu = DST.MalKodu and DST.Depo = '{1}' LEFT JOIN FINSAT6{0}.FINSAT6{0}.DST(NOLOCK) DST2 ON STK.MalKodu = DST2.MalKodu AND DST2.Depo = '{2}' LEFT JOIN(SELECT MalKodu, SUM(Miktar-TeslimMiktar) Miktar FROM  FINSAT6{0}.FINSAT6{0}.DTF(NOLOCK) WHERE GirDepo = '{1}' AND Durum = 0 GROUP BY MalKodu) DTF ON DTF.MalKodu = STK.MalKodu " +
-                            "WHERE ((ISNULL(DST2.DvrMiktar, 0) + ISNULL(DST2.GirMiktar, 0) - ISNULL(DST2.CikMiktar, 0)) - (SELECT isnull(SUM(Miktar - TeslimMiktar), 0) Miktar FROM  FINSAT6{0}.FINSAT6{0}.DTF(NOLOCK) WHERE CikDepo = '{2}' AND Durum = 0 and MalKodu = DST2.MalKodu))>0 " + sql + "ORDER BY DST.MalKodu asc", SirketID, GirisDepo, CikisDepo);
+                            "WHERE ((ISNULL(DST2.DvrMiktar, 0) + ISNULL(DST2.GirMiktar, 0) - ISNULL(DST2.CikMiktar, 0)) - (SELECT isnull(SUM(Miktar - TeslimMiktar), 0) Miktar FROM  FINSAT6{0}.FINSAT6{0}.DTF(NOLOCK) WHERE CikDepo = '{2}' AND Durum = 0 and MalKodu = DST2.MalKodu))>0 " + sql + "ORDER BY DST.MalKodu asc", vUser.SirketKodu, GirisDepo, CikisDepo);
             try
             {
                 var list = db.Database.SqlQuery<frmTransferMalzemeler>(sql).ToList();
@@ -63,7 +62,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             ViewBag.Result = new Result(false, "Yetkiniz yok.");
             if (CheckPerm(Perms.Transfer, PermTypes.Writing) == false) return PartialView("Summary");
             ViewBag.Result = new Result(false, "Eksik bilgi girdiniz.");
-            if (tbl.SirketID == "" || tbl.GirisDepo == "" || tbl.AraDepo == "" || tbl.CikisDepo == "" || tbl.checkboxes.ToString2() == "")
+            if (vUser.SirketKodu == "" || tbl.GirisDepo == "" || tbl.AraDepo == "" || tbl.CikisDepo == "" || tbl.checkboxes.ToString2() == "")
                 return PartialView("Summary");
             ViewBag.Result = new Result(false, "Aynı depoları seçemezsiniz.");
             if (tbl.GirisDepo == tbl.AraDepo || tbl.CikisDepo == tbl.AraDepo || tbl.CikisDepo == tbl.GirisDepo)
@@ -115,7 +114,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                                                             ISNULL(DST.DvrMiktar, 0) + ISNULL(DST.GirMiktar, 0) - ISNULL(DST.CikMiktar, 0) AS Depo2GunesStok
                                         FROM FINSAT6{0}.FINSAT6{0}.STK AS STK WITH(NOLOCK) LEFT OUTER JOIN
                                                                     FINSAT6{0}.FINSAT6{0}.DST AS DST WITH(NOLOCK) ON STK.MalKodu = DST.MalKodu AND DST.Depo = '{2}'
-                                        WHERE(STK.MalKodu IN({1}))", tbl.SirketID, malkodlari, tbl.CikisDepo);
+                                        WHERE(STK.MalKodu IN({1}))", vUser.SirketKodu, malkodlari, tbl.CikisDepo);
             var list1 = db.Database.SqlQuery<frmTransferMalzemeler>(sql).ToList();
             malkodlari = "";
             foreach (var item in list1)
@@ -133,7 +132,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             var gDepoID = Store.Detail(tbl.GirisDepo);
             int today = fn.ToOADate(), time = fn.ToOATime();
             // kontrol
-            var kontrol = db.Transfers.Where(m => m.Onay == false && m.Gorev.DurumID == 15 && m.SirketKod == tbl.SirketID && m.GirisDepoID == gDepoID.ID && m.AraDepoID == aDepoID && m.CikisDepoID == cDepoID.ID && m.Gorev.OlusturmaTarihi == today).FirstOrDefault();
+            var kontrol = db.Transfers.Where(m => m.Onay == false && m.Gorev.DurumID == 15 && m.SirketKod == vUser.SirketKodu && m.GirisDepoID == gDepoID.ID && m.AraDepoID == aDepoID && m.CikisDepoID == cDepoID.ID && m.Gorev.OlusturmaTarihi == today).FirstOrDefault();
             if (kontrol != null)
             {
                 db.DeleteTransfer(kontrol.GorevID);
@@ -141,9 +140,9 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
 
             // yeni bir görev eklenir
             var GorevNo = db.SettingsGorevNo(today, cDepoID.ID).FirstOrDefault();
-            var cevap = db.InsertIrsaliye(tbl.SirketID, cDepoID.ID, GorevNo, GorevNo, today, "Giriş: " + tbl.GirisDepo + ", Çıkış: " + tbl.CikisDepo, true, ComboItems.TransferÇıkış.ToInt32(), vUser.UserName, today, time, cDepoID.DepoAd, "", 0, "", "").FirstOrDefault();
+            var cevap = db.InsertIrsaliye(vUser.SirketKodu, cDepoID.ID, GorevNo, GorevNo, today, "Giriş: " + tbl.GirisDepo + ", Çıkış: " + tbl.CikisDepo, true, ComboItems.TransferÇıkış.ToInt32(), vUser.UserName, today, time, cDepoID.DepoAd, "", 0, "", "").FirstOrDefault();
             // yeni transfer eklenir
-            var sonuc = Transfers.Operation(new Transfer() { SirketKod = tbl.SirketID, GirisDepoID = gDepoID.ID, CikisDepoID = cDepoID.ID, AraDepoID = aDepoID, GorevID = cevap.GorevID.Value });
+            var sonuc = Transfers.Operation(new Transfer() { SirketKod = vUser.SirketKodu, GirisDepoID = gDepoID.ID, CikisDepoID = cDepoID.ID, AraDepoID = aDepoID, GorevID = cevap.GorevID.Value });
             ViewBag.Result = new Result(false, "Kayıtta hata oldu. Lütfen tekrar deneyin.");
             if (sonuc.Status == false)
                 return PartialView("Summary");
@@ -193,9 +192,8 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             }
 
             // dbler tempe aktarılıyor
-            var listdb = db.GetSirketDBs();
             List<string> liste = new List<string>();
-            foreach (var item in listdb) liste.Add(item);
+            liste.Add(vUser.SirketKodu);
 
             ViewBag.Sirket = liste;
             ViewBag.IrsaliyeId = cevap.IrsaliyeID.Value;
@@ -215,9 +213,9 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         public PartialViewResult SummaryList(int ID)
         {
             // dbler tempe aktarılıyor
-            string malkodlari = "", eksikler = ""; var listdb = db.GetSirketDBs();
+            string malkodlari = "", eksikler = "";
             List<string> liste = new List<string>();
-            foreach (var item in listdb) liste.Add(item);
+            liste.Add(vUser.SirketKodu);
 
             // get transfer
             var transfer = db.Transfers.Where(m => m.ID == ID).FirstOrDefault();
@@ -233,7 +231,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                                                             ISNULL(DST.DvrMiktar, 0) + ISNULL(DST.GirMiktar, 0) - ISNULL(DST.CikMiktar, 0)  AS Depo2GunesStok
                                         FROM FINSAT6{0}.FINSAT6{0}.STK AS STK WITH(NOLOCK) LEFT OUTER JOIN
                                                                     FINSAT6{0}.FINSAT6{0}.DST AS DST WITH(NOLOCK) ON STK.MalKodu = DST.MalKodu AND DST.Depo = '{2}'
-                                        WHERE (STK.MalKodu = '{1}')", item.Transfer.SirketKod, item.MalKodu, item.Transfer.Depo1.DepoKodu);
+                                        WHERE (STK.MalKodu = '{1}')", vUser.SirketKodu, item.MalKodu, item.Transfer.Depo1.DepoKodu);
                 var list1 = db.Database.SqlQuery<frmTransferMalzemeler>(sql).ToList();
                 foreach (var item2 in list1)
                 {
@@ -403,10 +401,8 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         [HttpPost]
         public PartialViewResult Details(int ID)
         {
-            // dbler tempe aktarılıyor
-            var list = db.GetSirketDBs();
             List<string> liste = new List<string>();
-            foreach (var item in list) liste.Add(item);
+            liste.Add(vUser.SirketKodu);
 
             ViewBag.Sirket = liste;
             // return
@@ -415,13 +411,13 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         }
         #endregion
         [HttpPost]
-        public string TransferDetay(int ID, string Sirket)
+        public string TransferDetay(int ID)
         {
             var json = new JavaScriptSerializer()
             {
                 MaxJsonLength = int.MaxValue
             };
-            var result = db.Database.SqlQuery<frmDepoTransferDetay>(string.Format("FINSAT6{0}.wms.TransferDetayList @TransferID = '{1}'", Sirket, ID)).ToList();
+            var result = db.Database.SqlQuery<frmDepoTransferDetay>(string.Format("FINSAT6{0}.wms.TransferDetayList @TransferID = '{1}'", vUser.SirketKodu, ID)).ToList();
             return json.Serialize(result);
         }
         #region Delete
