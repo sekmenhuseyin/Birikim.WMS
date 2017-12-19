@@ -16,7 +16,6 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         public ActionResult Index()
         {
             if (CheckPerm(Perms.SatistanIade, PermTypes.Reading) == false) return Redirect("/");
-            ViewBag.SirketID = new SelectList(db.GetSirkets().ToList(), "Kod", "Ad");
             ViewBag.DepoID = new SelectList(Store.GetList(), "DepoKodu", "DepoAd");
             return View("Index");
         }
@@ -31,16 +30,15 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             if (CheckPerm(Perms.SatistanIade, PermTypes.Reading) == false) return Redirect("/");
             // şirket id ve evrak nolar bulunur
             string[] tmp = tbl.checkboxes.Split('-');
-            // SirketID - Depo - EvrakNo - Chk
-            var sirket = tmp[0];
-            var depo = tmp[1];
-            var evrak = tmp[2];
-            var chk = tmp[3];
+            // Depo - EvrakNo - Chk
+            var depo = tmp[0];
+            var evrak = tmp[1];
+            var chk = tmp[2];
             // listeyi getir
-            var sql = string.Format("FINSAT6{0}.wms.SatisIptalSecimList @DepoKodu = '{1}', @EvrakNo = '{2}', @CHK = '{3}'", sirket, tbl.DepoID, evrak, chk);
+            var sql = string.Format("FINSAT6{0}.wms.SatisIptalSecimList @DepoKodu = '{1}', @EvrakNo = '{2}', @CHK = '{3}'", vUser.SirketKodu, tbl.DepoID, evrak, chk);
             var list = db.Database.SqlQuery<frmSiparisMalzemeDetay>(sql).ToList();
             // return
-            ViewBag.EvrakNos = sirket + "-" + evrak + "-" + chk;
+            ViewBag.EvrakNos = vUser.SirketKodu + "-" + evrak + "-" + chk;
             ViewBag.DepoID = depo;
             ViewBag.Evrak = tbl.EvrakNos;
             ViewBag.Tarih = tbl.Tarih;
@@ -57,10 +55,9 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             if (CheckPerm(Perms.SatistanIade, PermTypes.Writing) == false) return Redirect("/");
             tbl.checkboxes = tbl.checkboxes.Left(tbl.checkboxes.Length - 1);
             var checkList = tbl.checkboxes.Split('#');
-            // SirketID - EvrakNo - Chk
-            var sirket = tbl.EvrakNos.Split('-')[0];
-            var evrak = tbl.EvrakNos.Split('-')[1];
-            var hesapKodu = tbl.EvrakNos.Split('-')[2];
+            // EvrakNo - Chk
+            var evrak = tbl.EvrakNos.Split('-')[0];
+            var hesapKodu = tbl.EvrakNos.Split('-')[1];
             var malkodlari = new List<string>();
             var birimler = new List<string>();
             var miktars = new List<decimal>();
@@ -103,7 +100,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             var cevap = new InsertIadeIrsaliye_Result();
             Result _Result;
             // loop the list
-            cevap = db.InsertIadeIrsaliye(sirket, idDepo, GorevNo, tbl.SirketID, tarih, "Irs: " + tbl.SirketID + ", Tedarikçi: " + hesapKodu, false, ComboItems.Satıştanİade.ToInt32(), vUser.UserName, today, time, hesapKodu, "", 0, "").FirstOrDefault();
+            cevap = db.InsertIadeIrsaliye(vUser.SirketKodu, idDepo, GorevNo, tbl.SirketID, tarih, "Irs: " + tbl.SirketID + ", Tedarikçi: " + hesapKodu, false, ComboItems.Satıştanİade.ToInt32(), vUser.UserName, today, time, hesapKodu, "", 0, "").FirstOrDefault();
             foreach (var item in checkList)
             {
                 // sti tablosu
@@ -130,10 +127,8 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             var list2 = db.Database.SqlQuery<frmSiparisMalzeme>(sql).ToList();
             ViewBag.GorevID = cevap.GorevID.Value;
             ViewBag.DepoID = idDepo;
-            var listsirk = db.GetSirketDBs();
             List<string> liste = new List<string>();
-            foreach (var item in listsirk)
-                liste.Add(item);
+            liste.Add(vUser.SirketKodu);
 
             ViewBag.Sirket = liste;
             return View("Step3", list2);
@@ -162,19 +157,19 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         ///depo ve şirket seçince açık siparişler gelecek
         ///</summary>
         [HttpPost]
-        public PartialViewResult GetSiparis(string Sirket, string DepoID, string CHK, string Starts, string Ends, string EvrakNo, string Tarih)
+        public PartialViewResult GetSiparis(string DepoID, string CHK, string Starts, string Ends, string EvrakNo, string Tarih)
         {
             // ilk kontrol
-            if (Sirket == "" || CHK == "" || EvrakNo == "" || Tarih == "") return null;
+            if (vUser.SirketKodu == "" || CHK == "" || EvrakNo == "" || Tarih == "") return null;
             var tarihler = DateTime.TryParse(Starts, out DateTime StartDate); if (tarihler == false) return null;
             tarihler = DateTime.TryParse(Ends, out DateTime EndDate); if (tarihler == false) return null;
             if (StartDate > EndDate) return null;
             // perm kontrol
             if (CheckPerm(Perms.SatistanIade, PermTypes.Reading) == false) return null;
-            var sql = string.Format("FINSAT6{0}.wms.SatisIptalSiparisList @DepoKodu = '{1}', @CHK = '{2}', @BasTarih = {3}, @BitTarih = {4}", Sirket, DepoID.ToString(), CHK, StartDate.ToOADateInt(), EndDate.ToOADateInt());
+            var sql = string.Format("FINSAT6{0}.wms.SatisIptalSiparisList @DepoKodu = '{1}', @CHK = '{2}', @BasTarih = {3}, @BitTarih = {4}", vUser.SirketKodu, DepoID.ToString(), CHK, StartDate.ToOADateInt(), EndDate.ToOADateInt());
             // return list
             ViewBag.Depo = DepoID;
-            ViewBag.Sirket = Sirket;
+            ViewBag.Sirket = vUser.SirketKodu;
             ViewBag.CHK = CHK;
             ViewBag.EvrakNos = EvrakNo;
             ViewBag.Tarih = Tarih;
@@ -197,7 +192,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         {
             if (CheckPerm(Perms.SatistanIade, PermTypes.Reading) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             string[] tmp = ID.Split('-');
-            var sql = string.Format("FINSAT6{0}.wms.SatisIptalDetail @DepoKodu = '{1}', @EvrakNo = '{2}', @CHK = '{3}'", tmp[0], tmp[1], tmp[2], tmp[3]);
+            var sql = string.Format("FINSAT6{0}.wms.SatisIptalDetail @DepoKodu = '{1}', @EvrakNo = '{2}', @CHK = '{3}'", vUser.SirketKodu, tmp[0], tmp[1], tmp[2]);
             var list = db.Database.SqlQuery<frmSiparisMalzeme>(sql).ToList();
             return Json(list, JsonRequestBehavior.AllowGet);
         }
@@ -216,9 +211,9 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         /// stok kontrol
         /// </summary>
         [HttpPost]
-        public string StokKontrol(string Sirket, string EvrakNo, string CHK, string Depo)
+        public string StokKontrol(string EvrakNo, string CHK, string Depo)
         {
-            var sql = string.Format("FINSAT6{0}.wms.SatisIptalDetail @DepoKodu = '{1}', @EvrakNo = '{2}', @CHK='{3}'", Sirket, Depo, EvrakNo, CHK);
+            var sql = string.Format("FINSAT6{0}.wms.SatisIptalDetail @DepoKodu = '{1}', @EvrakNo = '{2}', @CHK='{3}'", vUser.SirketKodu, Depo, EvrakNo, CHK);
             var list = db.Database.SqlQuery<frmSiparisMalzeme>(sql).ToList();
             var hataliStok = "##";
             foreach (var item in list)

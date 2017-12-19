@@ -23,7 +23,7 @@
             <tbody>
                 @foreach (var item in Model)
                 {
-                    <tr data-ID="@item.SirketID-@item.Depo-@item.EvrakNo-@item.Chk" style="cursor:pointer;" onclick="toggle(this, '@item.SirketID-@item.Depo-@item.EvrakNo-@item.Chk')">
+                    <tr data-ID="@item.Depo-@item.EvrakNo-@item.Chk" style="cursor:pointer;" onclick="toggle(this, '@item.Depo-@item.EvrakNo-@item.Chk')">
                         <td style="width:20px!important;"></td>
                         <td style="width:20px!important;" class="details-control"></td>
                         <td>@Html.DisplayFor(modelItem => item.EvrakNo)</td>
@@ -91,7 +91,7 @@
                 var degs = deg.split("-");
                 $.ajax({
                     url: "/WMS/ReturnSale/StokKontrol",
-                    data: { Sirket: degs[0], Depo: degs[1], EvrakNo:degs[2], CHK:degs[3]},
+                    data: {Depo: degs[0], EvrakNo:degs[1], CHK:degs[2]},
                     type: "post",
                     success: function (data) {
                         var hata = data.split("##");
