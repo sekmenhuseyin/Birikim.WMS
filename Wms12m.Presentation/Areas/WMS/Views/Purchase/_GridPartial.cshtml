@@ -39,7 +39,7 @@ else
         @{ if (ViewBag.Onay == false && ViewBag.Yetki == true) { <text>$(".showlater").show();</text> } else { <text>$(".showlater").hide();</text> } }
         $("#MalKodu").focus();
         $("#MalKodu").autocomplete({
-            source: "/WMS/Purchase/GetMalzemebyCode/" + $("#SirketID").val(),
+            source: "/WMS/Purchase/GetMalzemebyCode",
             minLength: 2,
             select: function (event, ui) {
                 getBirims(ui.item.id);
@@ -47,7 +47,7 @@ else
             }
         });
         $("#MalAdi").autocomplete({
-            source: "/WMS/Purchase/GetMalzemebyName/" + $("#SirketID").val(),
+            source: "/WMS/Purchase/GetMalzemebyName",
             minLength: 2,
             select: function (event, ui) {
                 getBirims(ui.item.id);
@@ -66,7 +66,7 @@ else
         });
         function editlist(id)
         {
-            PartialView('/WMS/Purchase/EditList', 'tr' + id, JSON.stringify({ Id: id, s: $("#SirketID").val() }));
+            PartialView('/WMS/Purchase/EditList', 'tr' + id, JSON.stringify({ Id: id }));
         }
         function getBirims(id)
         {

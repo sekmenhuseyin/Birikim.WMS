@@ -66,7 +66,7 @@
             if (selected == "") return;
             $.ajax({
                 url: "/WMS/Purchase/FromSiparis",
-                data: { 's': $("#SirketID").val(), 'id': $("#IrsNo").val(), 'ids': selected },
+                data: { 'id': $("#IrsNo").val(), 'ids': selected },
                 type: 'POST',
                 dataType: "html",
                 success: function (data) { if (data != "") $("#StoreGrid").html(data); },

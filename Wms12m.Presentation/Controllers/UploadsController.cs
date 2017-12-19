@@ -16,7 +16,7 @@ namespace Wms12m.Presentation.Controllers
         /// <summary>
         /// irsaliye için malzeme girişi yapar
         /// </summary>
-        public JsonResult Malzeme(string sID, int dID, string hesap, HttpPostedFileBase file)
+        public JsonResult Malzeme(int dID, string hesap, HttpPostedFileBase file)
         {
             if (CheckPerm(Perms.MalKabul, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             var _result = new Result(false, 0, "Hatalı dosya!");
@@ -67,7 +67,7 @@ namespace Wms12m.Presentation.Controllers
                     var sql = string.Format(@"SELECT        FINSAT6{0}.FINSAT6{0}.TTY.MalKodu, FINSAT6{0}.FINSAT6{0}.STK.Birim1
                                                     FROM            FINSAT6{0}.FINSAT6{0}.TTY WITH(NOLOCK) INNER JOIN
                                                                              FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) ON FINSAT6{0}.FINSAT6{0}.TTY.MalKodu = FINSAT6{0}.FINSAT6{0}.STK.MalKodu 
-                                                    WHERE (FINSAT6{0}.FINSAT6{0}.TTY.SatMalKodu = '{1}') AND (FINSAT6{0}.FINSAT6{0}.TTY.Chk = '{2}')", sID, dr["MalKodu"].ToString(), hesap);
+                                                    WHERE (FINSAT6{0}.FINSAT6{0}.TTY.SatMalKodu = '{1}') AND (FINSAT6{0}.FINSAT6{0}.TTY.Chk = '{2}')", vUser.SirketKodu, dr["MalKodu"].ToString(), hesap);
                     var malStk = db.Database.SqlQuery<frmIrsaliyeMalzemeSTK>(sql).FirstOrDefault();
                     _result.Message = "Mal kodu yanlış";
                     if (malStk == null) return Json(_result, JsonRequestBehavior.AllowGet);
@@ -94,7 +94,7 @@ namespace Wms12m.Presentation.Controllers
                             return Json(new Result(false, 0, kontrol1.IR.EvrakNo + " nolu irsaliye daha önce kaydedilmiş."), JsonRequestBehavior.AllowGet);
                     }
 
-                    sonuc = db.InsertIrsaliye(sID, dID, gorevno, irsNo, tarih, "", false, ComboItems.MalKabul.ToInt32(), vUser.UserName, tarih, fn.ToOATime(), hesap, "", 0, "", "").FirstOrDefault();
+                    sonuc = db.InsertIrsaliye(vUser.SirketKodu, dID, gorevno, irsNo, tarih, "", false, ComboItems.MalKabul.ToInt32(), vUser.UserName, tarih, fn.ToOATime(), hesap, "", 0, "", "").FirstOrDefault();
                     // add detays
                     try
                     {
@@ -115,7 +115,7 @@ namespace Wms12m.Presentation.Controllers
                             // kaynak sipariş
                             sql = string.Format("SELECT FINSAT6{0}.FINSAT6{0}.SPI.ROW_ID, FINSAT6{0}.FINSAT6{0}.SPI.EvrakNo, FINSAT6{0}.FINSAT6{0}.SPI.Tarih, FINSAT6{0}.FINSAT6{0}.SPI.SiraNo, FINSAT6{0}.FINSAT6{0}.SPI.BirimMiktar, FINSAT6{0}.FINSAT6{0}.STK.Birim1 as Birim " +
                                 "FROM FINSAT6{0}.FINSAT6{0}.SPI WITH(NOLOCK) INNER JOIN FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) ON FINSAT6{0}.FINSAT6{0}.SPI.MalKodu = FINSAT6{0}.FINSAT6{0}.STK.MalKodu " +
-                                "WHERE (FINSAT6{0}.FINSAT6{0}.SPI.IslemTur = 0) AND (FINSAT6{0}.FINSAT6{0}.SPI.KynkEvrakTip = 63) AND (FINSAT6{0}.FINSAT6{0}.SPI.EvrakNo = '{1}') AND (FINSAT6{0}.FINSAT6{0}.SPI.MalKodu = '{2}') AND (FINSAT6{0}.FINSAT6{0}.SPI.Depo = '{3}')", sID, dr["Kaynak Sipariş No"].ToString(), malStk.MalKodu, depo.DepoKodu);
+                                "WHERE (FINSAT6{0}.FINSAT6{0}.SPI.IslemTur = 0) AND (FINSAT6{0}.FINSAT6{0}.SPI.KynkEvrakTip = 63) AND (FINSAT6{0}.FINSAT6{0}.SPI.EvrakNo = '{1}') AND (FINSAT6{0}.FINSAT6{0}.SPI.MalKodu = '{2}') AND (FINSAT6{0}.FINSAT6{0}.SPI.Depo = '{3}')", vUser.SirketKodu, dr["Kaynak Sipariş No"].ToString(), malStk.MalKodu, depo.DepoKodu);
                             var tbl = db.Database.SqlQuery<frmIrsaliyeMalzeme>(sql).FirstOrDefault();
                             if (tbl != null)
                             {
@@ -129,7 +129,7 @@ namespace Wms12m.Presentation.Controllers
                         }
 
                         // Makara No
-                        var kod1 = db.Database.SqlQuery<string>(string.Format("SELECT Kod1 FROM FINSAT6{0}.FINSAT6{0}.STK WHERE (MalKodu = '{1}')", sID, sti.MalKodu)).FirstOrDefault();
+                        var kod1 = db.Database.SqlQuery<string>(string.Format("SELECT Kod1 FROM FINSAT6{0}.FINSAT6{0}.STK WHERE (MalKodu = '{1}')", vUser.SirketKodu, sti.MalKodu)).FirstOrDefault();
                         if (kod1 == "KKABLO")
                         {
                             if (dr["Makara No"].ToString() != "") sti.MakaraNo = dr["Makara No"].ToString();
@@ -163,7 +163,7 @@ namespace Wms12m.Presentation.Controllers
                 }
             }
 
-            var unvan = db.Database.SqlQuery<string>(string.Format("SELECT Unvan1+' '+Unvan2 AS Unvan FROM FINSAT6{0}.FINSAT6{0}.CHK WITH(NOLOCK) WHERE HesapKodu = '{1}'", sID, hesap)).FirstOrDefault();
+            var unvan = db.Database.SqlQuery<string>(string.Format("SELECT Unvan1+' '+Unvan2 AS Unvan FROM FINSAT6{0}.FINSAT6{0}.CHK WITH(NOLOCK) WHERE HesapKodu = '{1}'", vUser.SirketKodu, hesap)).FirstOrDefault();
             // log
             LogActions("", "Uploads", "Malzeme", ComboItems.alYükle, sonuc.GorevID.Value, "GörevID: " + sonuc.GorevID.Value + ", Satır Sayısı: " + liste.Count);
             // update görev
