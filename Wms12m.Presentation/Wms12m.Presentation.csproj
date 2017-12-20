@@ -283,6 +283,7 @@
     <Content Include="Content\assets\global\scripts\datatable.min.js">
       <DependentUpon>datatable.js</DependentUpon>
     </Content>
+    <Content Include="Content\Scripts\consts.js" />
     <Content Include="Content\Scripts\Hub.min.js">
       <DependentUpon>Hub.js</DependentUpon>
     </Content>
