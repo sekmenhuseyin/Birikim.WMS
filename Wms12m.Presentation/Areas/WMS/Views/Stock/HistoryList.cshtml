@@ -3,11 +3,17 @@
 <div class="form-group">
     <div class="col-sm-3 control-label">Güneşteki Stok</div>
     <div class="col-sm-4">
-        <input class="form-control input-circle text-right" disabled="disabled" type="text" value="@String.Format("{0:n}", ViewBag.Stok)">
+        <input class="form-control input-circle text-right" disabled="disabled" type="text" value="@String.Format("{0:n}", ViewBag.GunesStok)">
     </div>
 </div>
 <div class="form-group">
-    <div class="col-sm-3 control-label">Toplam Stok</div>
+    <div class="col-sm-3 control-label">WMS Stok</div>
+    <div class="col-sm-4">
+        <input class="form-control input-circle text-right" disabled="disabled" type="text" value="@String.Format("{0:n}", ViewBag.WmsStok)">
+    </div>
+</div>
+<div class="form-group">
+    <div class="col-sm-3 control-label">Hareketlerdeki Stok</div>
     <div class="col-sm-4">
         <input class="form-control input-circle text-right" id="Stok" name="Stok" disabled="disabled" type="text" value="">
     </div>
@@ -15,7 +21,7 @@
 <div class="form-group">
     <div class="col-sm-3 control-label">Rezerv Stok</div>
     <div class="col-sm-4">
-        <input class="form-control input-circle text-right" disabled="disabled" type="text" value="@String.Format("{0:n}", ViewBag.RezervMiktar)">
+        <input class="form-control input-circle text-right" disabled="disabled" type="text" value="@String.Format("{0:n}", ViewBag.WmsRezerv)">
     </div>
     <div class="col-sm-1">
         <button class="btn btn-primary btn-block btn-circle" type="button" onclick="Rezervler()">Detay <i class="icon-refresh"></i></button>
@@ -46,14 +52,21 @@
         <tfoot><tr><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr></tfoot>
         <tfoot class="tf-search"><tr><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr></tfoot>
         <tbody>
-            @foreach (var item in Model) {
+            @foreach (var item in Model)
+            {
                 <tr>
                     <td></td>
-                    <td>@if (item.GC == true) { i = i - item.Miktar; <text>Çıktı</text> }else{ i = i + item.Miktar; <text>Girdi</text> }</td>
+                    <td>@if (item.GC == true)
+                    {
+                        i = i - item.Miktar;<text>Çıktı</text> }
+                    else
+                    {
+                        i = i + item.Miktar; <text>Girdi</text>}</td>
                     <td>@item.IslemTipi</td>
                     <td>@item.KayitTarihi.FromOADateInt()</td>
                     <td>@item.KayitSaati.FromOaTime()</td>
-                    <td>@if (item.IR != null) {<a class="btn btn-default input-circle" href="#modalEditPage" data-toggle="modal" onclick="editInModal('/WMS/Stock/Details/@item.IR.ID')"> @item.IR.EvrakNo </a>}</td>
+                    <td>@if (item.IR != null)
+                    {<a class="btn btn-default input-circle" href="#modalEditPage" data-toggle="modal" onclick="editInModal('/WMS/Stock/Details/@item.IR.ID')"> @item.IR.EvrakNo </a>}</td>
                     <td>@Html.DisplayFor(modelItem => item.HucreAd)</td>
                     <td>@Html.DisplayFor(modelItem => item.MakaraNo)</td>
                     <td>@Html.DisplayFor(modelItem => item.Birim)</td>
@@ -65,8 +78,9 @@
     </table>
 </div>
 <script type="text/javascript">
-    $('#Stok').val('@String.Format("{0:n}", i)');
-    $(document).ready(function () {
+    $(document).ready(function ()
+    {
+        $('#Stok').val('@String.Format("{0:n}", i)');
         var table = $('#sample_1').DataTable({
             "pagingType": "full_numbers",
             "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
@@ -76,7 +90,8 @@
                 { "extend": 'excel', "text": '<span class="fa fa-file-excel-o f-s-15 green"></span>', "className": 'btn btn-default btn-xs' }
             ]
         });
-        $('#sample_1 .tf-search th').each(function () {
+        $('#sample_1 .tf-search th').each(function ()
+        {
             var title = $('#sample_1 thead th').eq($(this).index()).text();
             if (title != "" && title.indexOf("Tarih") !== -1)
                 $(this).html('<input class="form-control input-circle tarih" type="text" placeholder="Ara" />');
@@ -84,8 +99,10 @@
                 $(this).html('<input class="form-control input-circle" type="text" placeholder="Ara" />');
         });
         $("#sample_1 tfoot input").on('keyup change', function () { table.column($(this).parent().index() + ':visible').search(this.value).draw(); });
-        table.on('order.dt search.dt', function () {
-            table.column(0, { search: 'applied', order: 'applied' }).nodes().each(function (cell, i) {
+        table.on('order.dt search.dt', function ()
+        {
+            table.column(0, { search: 'applied', order: 'applied' }).nodes().each(function (cell, i)
+            {
                 cell.innerHTML = i + 1;
             });
         }).draw();

@@ -47,7 +47,7 @@
     function FuncSearchBtn() {
         if ($("#MalKodu").val() == "" || $("#DepoID").val() == "") return;
         $('#Grid').html("");
-        PartialView('/WMS/Stock/HistoryList', 'Grid', JSON.stringify({ Id: $("#MalKodu").val() + "#" + $("#DepoID").val() }));
+        PartialView('/WMS/Stock/HistoryList', 'Grid', JSON.stringify({ MalKodu: $("#MalKodu").val(), DepoID: $("#DepoID").val() }));
     }
     function Rezervler() {
         editInModal2('/WMS/Stock/GetRezerv2', { MalKodu: $("#MalKodu").val(), Depo: $("#DepoID").val(), Birim: birim })
@@ -57,32 +57,15 @@
         source: "/WMS/Purchase/getMalzemebyCode/0",
         minLength: 2,
         select: function (event, ui) {
-            getBirims(ui.item.id);
-            $("#MalAdi").val(ui.item.value);
+            setTimeout(function () { $("#MalKodu").val(ui.item.id); $("#MalAdi").val(ui.item.value); FuncSearchBtn(); }, 50);            
         }
     });
     $("#MalAdi").autocomplete({
         source: "/WMS/Purchase/GetMalzemebyName/0",
         minLength: 2,
         select: function (event, ui) {
-            getBirims(ui.item.id);
-            $("#MalAdi").val(ui.item.value);
+            setTimeout(function () { $("#MalKodu").val(ui.item.id); $("#MalAdi").val(ui.item.value); FuncSearchBtn(); }, 50);            
         }
     });
-    function getBirims(id) {
-        $("#Birim option").remove();
-        $.ajax({
-            url: "/WMS/Purchase/getBirim",
-            type: 'POST',
-            data: JSON.stringify({ kod: id, s: 0 }),
-            dataType: "json",
-            contentType: 'application/json; charset=utf-8',
-            success: function (data) {
-                birim = data[0].Birim1;
-                $("#MalKodu").val(id);
-                FuncSearchBtn();
-            }
-        });
-    }
 </script>
 }

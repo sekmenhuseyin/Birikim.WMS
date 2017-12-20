@@ -127,38 +127,17 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         /// hareketler alt sayfa
         /// </summary>
         [HttpPost]
-        public PartialViewResult HistoryList(string Id)
+        public PartialViewResult HistoryList(int DepoID, string MalKodu)
         {
-            if (Id.Contains("#") == false) return null;
-            var ids = Id.Split('#');
-            var depoID = ids[1].ToInt32();
-            var depoKodu = Store.Detail(depoID).DepoKodu;
-            var kod = ids[0];
-            var sql = "";
-            // get stok from finsat
-            var tmps = db.GetSirketDBs();
-            foreach (var item in tmps)
-            {
-                if (sql != "") sql += " UNION ";
-                sql += string.Format("SELECT FINSAT6{0}.FINSAT6{0}.DST.DvrMiktar + FINSAT6{0}.FINSAT6{0}.DST.GirMiktar - FINSAT6{0}.FINSAT6{0}.DST.CikMiktar AS stok " +
-                    "FROM FINSAT6{0}.FINSAT6{0}.DST INNER JOIN FINSAT6{0}.FINSAT6{0}.STK ON FINSAT6{0}.FINSAT6{0}.DST.MalKodu = FINSAT6{0}.FINSAT6{0}.STK.MalKodu " +
-                    "WHERE (FINSAT6{0}.FINSAT6{0}.DST.Depo = '{1}') AND (FINSAT6{0}.FINSAT6{0}.DST.MalKodu = '{2}') AND (FINSAT6{0}.FINSAT6{0}.DST.DvrMiktar + FINSAT6{0}.FINSAT6{0}.DST.GirMiktar - FINSAT6{0}.FINSAT6{0}.DST.CikMiktar > 0)", item, depoKodu, kod);
-            }
-
-            sql = "SELECT ISNULL(SUM(Stok),0) as Stok from (" + sql + ")t";
+            var sql = string.Format(@"SELECT ISNULL(wms.fnGetStockByID({1}, '{2}', ''), 0) AS WmsStok, ISNULL(wms.fnGetRezervStock({1}, '{2}', ''), 0) AS RezervStok, ISNULL(FINSAT6{0}.wms.getStockByDepo('{2}', DepoKodu), 0) AS GunesStok
+                                        FROM wms.Depo
+                                        WHERE (ID = 1)", vUser.SirketKodu, DepoID, MalKodu);
+            var sonuc = db.Database.SqlQuery<frmStokDetay>(sql).FirstOrDefault();
             // return
-            var list = db.Yer_Log.Where(m => m.MalKodu == kod && m.DepoID == depoID).OrderBy(m => m.KayitTarihi).ThenBy(m => m.KayitSaati).ThenBy(m => m.ID).ToList();
-            ViewBag.Stok = db.Database.SqlQuery<decimal>(sql).FirstOrDefault();
-            if (list.Count != 0)
-            {
-                sql = string.Format("SELECT wms.fnGetRezervStock('{0}','{1}','{2}')", depoKodu, kod, list[0].Birim);
-                ViewBag.RezervMiktar = db.Database.SqlQuery<decimal>(sql).FirstOrDefault();
-            }
-            else
-            {
-                ViewBag.RezervMiktar = 0;
-            }
-
+            ViewBag.WmsStok = sonuc.WmsStok;
+            ViewBag.WmsRezerv = sonuc.WmsRezerv;
+            ViewBag.GunesStok = sonuc.GunesStok;
+            var list = db.Yer_Log.Where(m => m.MalKodu == MalKodu && m.DepoID == DepoID).OrderBy(m => m.KayitTarihi).ThenBy(m => m.KayitSaati).ThenBy(m => m.ID).ToList();
             return PartialView("HistoryList", list);
         }
         /// <summary>

@@ -26,4 +26,13 @@
         public string MakaraNo { get; set; }
         public bool MakaraDurum { get; set; }
     }
+    /// <summary>
+    /// stoklar
+    /// </summary>
+    public class frmStokDetay
+    {
+        public decimal WmsStok { get; set; }
+        public decimal WmsRezerv { get; set; }
+        public decimal GunesStok { get; set; }
+    }
 }
