@@ -171,16 +171,16 @@
         source: "/WMS/Purchase/getMalzemebyCode/0",
         minLength: 2,
         select: function (event, ui) {
+            setTimeout(function () { $("#MalKodu").val(ui.item.id); $("#MalAdi").val(ui.item.value); }, 50);
             getBirims(ui.item.id);
-            $("#MalAdi").val(ui.item.value);
         }
     });
     $("#MalAdi").autocomplete({
         source: "/WMS/Purchase/GetMalzemebyName/0",
         minLength: 2,
         select: function (event, ui) {
+            setTimeout(function () { $("#MalKodu").val(ui.item.id); $("#MalAdi").val(ui.item.value); }, 50);
             getBirims(ui.item.id);
-            $("#MalAdi").val(ui.item.value);
         }
     });
     function getBirims(id) {
@@ -198,7 +198,6 @@
                 } else {
                     $('#Grid').html(data);
                 }
-                $("#MalKodu").val(id);
             }
         });
     }
