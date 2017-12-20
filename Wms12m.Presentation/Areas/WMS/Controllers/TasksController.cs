@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Kendo.Mvc.Extensions;
+using Kendo.Mvc.UI;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
@@ -25,9 +27,11 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         /// </summary>
         public PartialViewResult List(int Id)
         {
-            if (CheckPerm(Perms.GörevListesi, PermTypes.Reading) == false) return null;
-            var list = Task.GetList(Id, vUser.DepoId);
-            return PartialView("List", list);
+            return base.PartialView("List", Task.GetList(Id, vUser.DepoId));
+        }
+        public JsonResult List2([DataSourceRequest]DataSourceRequest request)
+        {
+            return Json(Task.GetListJson(9, vUser.DepoId).ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
         /// <summary>
         /// görev ayrıntıları

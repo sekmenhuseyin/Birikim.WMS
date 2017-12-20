@@ -216,21 +216,14 @@ namespace Wms12m.Business
         }
         public List<frmGorevJson> GetListJson(int DurumID, int? DepoID)
         {
-            return db.Gorevs
-                .Where(m => m.DurumID == DurumID)
-                .Select(m => new frmGorevJson
-                {
-                    ID = m.ID,
-                    GorevNo = m.GorevNo,
-                    DepoAd = m.Depo.DepoAd,
-                    EvrakNo = m.ID.GetEvrakNosForGorev(),
-                    GorevTipi = m.ComboItem_Name1.Name,
-                    SiparisTarihi = m.ID.GetEvrakTarihsForGorev(),
-                    OlusturmaTarihi = m.OlusturmaTarihi.FromOaDate(),
-                    BitisTarihi = m.BitisTarihi == null ? "" : m.BitisTarihi.Value.FromOADateInt(),
-                    Bilgi = m.Bilgi,
-                    Gorevli = m.Gorevli
-                }).ToList();
+            var sql = @"SELECT        wms.Gorev.ID, wms.Gorev.GorevNo, wms.Depo.DepoAd, wms.fnGetKynkEvrakNosForGorev(wms.Gorev.ID) AS EvrakNo, ComboItem_Name.Name AS GorevTipi, wms.fnGetKynkTarihsForGorev(wms.Gorev.ID) AS SiparisTarihi, 
+                                                 dbo.fnFormatDateFromInt(wms.Gorev.OlusturmaTarihi) AS OlusturmaTarihi, dbo.fnFormatDateFromInt(wms.Gorev.BitisTarihi) as BitisTarihi, wms.Gorev.Bilgi
+                        FROM            wms.Gorev INNER JOIN
+                                                 wms.Depo ON wms.Gorev.DepoID = wms.Depo.ID INNER JOIN
+                                                 ComboItem_Name ON wms.Gorev.GorevTipiID = ComboItem_Name.ID AND wms.Gorev.GorevTipiID = ComboItem_Name.ID
+                        WHERE        wms.Gorev.DurumID = " + DurumID;
+            if (DepoID != null) sql += " AND(wms.Gorev.DepoID = " + DepoID;
+            return db.Database.SqlQuery<frmGorevJson>(sql).ToList();
         }
         /// <summary>
         /// görev tipi ve duruma göre listeler

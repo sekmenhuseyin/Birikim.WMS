@@ -24,7 +24,9 @@
     <link rel='shortcut icon' type='image/x-icon' href='/favicon.ico' />
     <title>@ViewBag.Title</title>
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=all" rel="stylesheet" type="text/css" />
-    @Styles.Render(BundleConfig.bootstrapCss)    @Styles.Render(BundleConfig.jqueryUiCss)    @Styles.Render(BundleConfig.toastrCss)    @Styles.Render(BundleConfig.FontAwesome)    @Styles.Render(BundleConfig.simpleLineIcons)    @Styles.Render(BundleConfig.CssBundle)    @RenderSection("Styles", required: false)    @{if (ViewBag.Debug == false) {<style>.dx-scrollbar-vertical.dx-scrollbar-hoverable, .slimScrollBar, .slimScrollRail { width: 15px!important; }</style>@*/*Burası teknoloji özürlüler için eklenmiştir*/*@} }
+    @Styles.Render(BundleConfig.bootstrapCss)    @Styles.Render(BundleConfig.jqueryUiCss)    @Styles.Render(BundleConfig.toastrCss)    @Styles.Render(BundleConfig.FontAwesome)    @Styles.Render(BundleConfig.simpleLineIcons)    @Styles.Render(BundleConfig.CssBundle)    
+    @Scripts.Render(BundleConfig.jquery)
+    @RenderSection("Styles", required: false)    @{if (ViewBag.Debug == false) {<style>.dx-scrollbar-vertical.dx-scrollbar-hoverable, .slimScrollBar, .slimScrollRail { width: 15px!important; }</style>@*/*Burası teknoloji özürlüler için eklenmiştir*/*@} }
     <!--[if IE]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
 </head>
 <body class="page-header-fixed page-sidebar-closed-hide-logo page-content-white page-sidebar-fixed page-md page-footer-fixed">
@@ -150,7 +152,7 @@
         <div id="send-realtime-notifications"></div>
     </div>
 <script>var currentUserName = "@ViewBag.vUser.UserName"; var currentRealName = "@ViewBag.vUser.FullName"; var currentUserImage = "@Html.ImageAddressOrDefault(id)"; var SendMessageTo = "x";</script>
-@Scripts.Render(BundleConfig.jquery)@Scripts.Render(BundleConfig.jqueryUiJs)@Scripts.Render(BundleConfig.bootstrapJs)@Scripts.Render(BundleConfig.signalR)@Scripts.Render(BundleConfig.toastrJs)@Scripts.Render(BundleConfig.moment)@Scripts.Render(BundleConfig.numeral)@Scripts.Render(BundleConfig.bootbox)@Scripts.Render(BundleConfig.slimscroll)@Scripts.Render(BundleConfig.blockui)@Scripts.Render(BundleConfig.JsBundle)@Scripts.Render(BundleConfig.DtBundle)<script src="/signalr/hubs"></script>@Scripts.Render(BundleConfig.StBundle)
+@Scripts.Render(BundleConfig.jqueryUiJs)@Scripts.Render(BundleConfig.bootstrapJs)@Scripts.Render(BundleConfig.signalR)@Scripts.Render(BundleConfig.toastrJs)@Scripts.Render(BundleConfig.moment)@Scripts.Render(BundleConfig.numeral)@Scripts.Render(BundleConfig.bootbox)@Scripts.Render(BundleConfig.slimscroll)@Scripts.Render(BundleConfig.blockui)@Scripts.Render(BundleConfig.JsBundle)@Scripts.Render(BundleConfig.DtBundle)<script src="/signalr/hubs"></script>@Scripts.Render(BundleConfig.StBundle)
 <script src="~/Content/assets/global/plugins/datatables/extensions/Buttons/js/buttons.html5.js"></script>
 <script src="~/Content/assets/global/plugins/datatables/extensions/Buttons/js/buttons.flash.js"></script>@{if (ViewBag.Debug == false && ViewBag.vUser.Id > 1) {
 <script src="~/Content/assets/global/plugins/devtools-detect.js"></script><script>window.addEventListener('devtoolschange', function (e) { if (e.detail.open == true) { console.clear(); window.location.href = "@Request.Url.Scheme://@Request.Url.Authority/"; } });</script> }}

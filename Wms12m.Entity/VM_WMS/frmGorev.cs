@@ -115,7 +115,7 @@ namespace Wms12m.Entity
         public string GorevTipi { get; set; }
         public string Gorevli { get; set; }
         public string SiparisTarihi { get; set; }
-        public DateTime OlusturmaTarihi { get; set; }
+        public string OlusturmaTarihi { get; set; }
         public string BitisTarihi { get; set; }
         public string Bilgi { get; set; }
     }
