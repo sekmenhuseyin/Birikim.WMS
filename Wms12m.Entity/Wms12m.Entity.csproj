@@ -363,6 +363,7 @@
       <DependentUpon>ModelKablo.tt</DependentUpon>
     </Compile>
     <Compile Include="VM_Finsat\EMG.cs" />
+    <Compile Include="VM_WMS\frmStok.cs" />
     <Compile Include="VM_YeniNesil\CAR002.cs" />
     <Compile Include="VM_YeniNesil\CAR003.cs" />
     <Compile Include="VM_YeniNesil\CAR005.cs" />

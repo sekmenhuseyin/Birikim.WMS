@@ -288,29 +288,34 @@ namespace Wms12m.Business
         /// depo listesi
         /// </summary>
         public override List<Yer> GetList() => db.Yers.OrderBy(m => m.MalKodu).ToList();
-
         /// <summary>
         /// üst tabloya ait olanları getir
         /// </summary>
-        public override List<Yer> GetList(int ParentId)
+        public override List<Yer> GetList(int ParentId) => new List<Yer>();
+        public List<frmStokYer> GetList(int DepoID, int RafID = 0, int BolumID = 0, int KatID = 0)
         {
-            return db.Yers.Where(m => m.KatID == ParentId && m.Miktar > 0).OrderBy(m => m.MalKodu).ToList();
+            //sql
+            var sql = string.Format(@"SELECT wms.Yer.ID, wms.Yer.KatID, wms.Yer.DepoID, wms.Yer.HucreAd, wms.Yer.MalKodu, FINSAT6{0}.dbo.fnGetMalAdi(MalKodu) as MalAdi, wms.Yer.Miktar, wms.Yer.Birim, wms.Yer.MakaraNo, wms.Yer.MakaraDurum
+                                        FROM            wms.Raf INNER JOIN
+                                                                 wms.Bolum ON wms.Raf.ID = wms.Bolum.RafID INNER JOIN
+                                                                 wms.Kat ON wms.Bolum.ID = wms.Kat.BolumID INNER JOIN
+                                                                 wms.Yer ON wms.Kat.ID = wms.Yer.KatID
+                                    ", vUser.SirketKodu);
+            //filters
+            if (DepoID > 0)
+                sql += "WHERE        wms.Yer.DepoID = " + DepoID;
+            else if (RafID > 0)
+                sql += "WHERE        wms.Raf.ID = " + RafID;
+            else if (BolumID > 0)
+                sql += "WHERE        wms.Bolum.ID = " + BolumID;
+            else if (KatID > 0)
+                sql += "WHERE        wms.Kat.ID = " + KatID;
+            //return
+            return db.Database.SqlQuery<frmStokYer>(sql).ToList();
         }
-        public List<Yer> GetListFromDepo(int ParentId)
+        public List<Yer> GetList(int DepoID, string MalKodu)
         {
-            return db.Yers.Where(m => m.DepoID == ParentId && m.Miktar > 0).OrderBy(m => m.MalKodu).ToList();
-        }
-        public List<Yer> GetListFromKoridor(int ParentId)
-        {
-            return db.Yers.Where(m => m.Kat.Bolum.Raf.KoridorID == ParentId && m.Miktar > 0).OrderBy(m => m.MalKodu).ToList();
-        }
-        public List<Yer> GetListFromRaf(int ParentId)
-        {
-            return db.Yers.Where(m => m.Kat.Bolum.RafID == ParentId && m.Miktar > 0).OrderBy(m => m.MalKodu).ToList();
-        }
-        public List<Yer> GetMalListFromDepo(int ParentId, string MalKodu)
-        {
-            return db.Yers.Where(m => m.DepoID == ParentId && m.MalKodu == MalKodu && m.Miktar > 0).OrderBy(m => m.HucreAd).ToList();
+            return db.Yers.Where(m => m.DepoID == DepoID && m.MalKodu == MalKodu && m.Miktar > 0).OrderBy(m => m.HucreAd).ToList();
         }
         /// <summary>
         /// burada yok

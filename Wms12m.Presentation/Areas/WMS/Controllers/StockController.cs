@@ -26,12 +26,6 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         [HttpPost]
         public PartialViewResult List(string Id)
         {
-            // dbler tempe aktarılıyor
-            var list = db.GetSirketDBs();
-            List<string> liste = new List<string>();
-            foreach (var item in list) liste.Add(item);
-
-            ViewBag.Sirket = liste;
             ViewBag.Manual = false;
             // id'ye göre liste döner
             string[] ids = Id.Split('#');
@@ -40,13 +34,12 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                 if (ids[2] != "0" && ids[2] != "null" && ids[2].ToString2() != "") //bir kattaki ait malzemeler
                 {
                     ViewBag.Manual = ids[3].ToBool();
-
-                    return PartialView("List", Yerlestirme.GetList(ids[2].ToInt32()));
+                    return PartialView("List", Yerlestirme.GetList(0, 0, 0, ids[2].ToInt32()));
                 }
                 else if (ids[1] != "0" && ids[1] != "null" && ids[1].ToString2() != "") //bir raftaki ait malzemeler
-                    return PartialView("List", Yerlestirme.GetListFromRaf(ids[1].ToInt32()));
+                    return PartialView("List", Yerlestirme.GetList(0, ids[1].ToInt32()));
                 else// if (ids[0] != "0") //tüm depoya ait malzemeler: burada timeout verebilir
-                    return PartialView("List", Yerlestirme.GetListFromDepo(ids[0].ToInt32()));
+                    return PartialView("List", Yerlestirme.GetList(ids[0].ToInt32(), 0));
             }
             catch (Exception ex)
             {
@@ -60,7 +53,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         [HttpPost]
         public PartialViewResult List2(string Id)
         {
-            var list = db.Database.SqlQuery<frmStokList2>(string.Format("SELECT wms.fnGetRezervStock(wms.Depo.DepoKodu,wms.Yer.MalKodu,wms.Yer.Birim) AS WmsRezerv, wms.Depo.DepoAd, wms.Depo.ID, wms.Yer.MalKodu, wms.Yer.Birim, SUM(wms.Yer.Miktar) AS Miktar FROM wms.Yer INNER JOIN wms.Depo ON wms.Yer.DepoID = wms.Depo.ID WHERE (wms.Yer.MalKodu = '{0}') GROUP BY wms.Depo.DepoAd, wms.Depo.ID, wms.Yer.MalKodu, wms.Yer.Birim, wms.fnGetRezervStock(wms.Depo.DepoKodu,wms.Yer.MalKodu,wms.Yer.Birim)", Id)).ToList();
+            var list = db.Database.SqlQuery<frmStokList>(string.Format("SELECT wms.fnGetRezervStock(wms.Depo.DepoKodu,wms.Yer.MalKodu,wms.Yer.Birim) AS WmsRezerv, wms.Depo.DepoAd, wms.Depo.ID, wms.Yer.MalKodu, wms.Yer.Birim, SUM(wms.Yer.Miktar) AS Miktar FROM wms.Yer INNER JOIN wms.Depo ON wms.Yer.DepoID = wms.Depo.ID WHERE (wms.Yer.MalKodu = '{0}') GROUP BY wms.Depo.DepoAd, wms.Depo.ID, wms.Yer.MalKodu, wms.Yer.Birim, wms.fnGetRezervStock(wms.Depo.DepoKodu,wms.Yer.MalKodu,wms.Yer.Birim)", Id)).ToList();
             return PartialView("List2", list);
         }
         /// <summary>
@@ -439,7 +432,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         [HttpPost]
         public PartialViewResult Details2(int DepoID, string MalKodu)
         {
-            return PartialView("Details2", Yerlestirme.GetMalListFromDepo(DepoID, MalKodu));
+            return PartialView("Details2", Yerlestirme.GetList(DepoID, MalKodu));
         }
         /// <summary>
         /// rezerv bilgileri

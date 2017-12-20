@@ -110,8 +110,9 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                         }
                         else
                         {
+                            var sql = string.Format("[FINSAT6{0}].[wms].[TumSiparisOnayList] @OnayDurm='{1}', @Secim=0, @ChkAralik='{2}', @Sirketler='{3}', @TipKodlari='{4}',@Kod3Aralik='{5}',@RiskAralik='{6}', @Grup='{7}', @BasTarih={8}, @BitTarih={9},@Kod3Aralik2='{10}',@RiskAralik2='{11}'", "71", tip, CHKAraligi, Sirketler, TipKodlari, Kod3Araligi, RiskAraligi, Grup, bastarih, bittarih, Kod3Araligi2, RiskAraligi2);
                             // TÜm Procedure Çağır
-                            sipBilgi = db.Database.SqlQuery<SipOnay>(string.Format("[FINSAT6{0}].[wms].[TumSiparisOnayList] @OnayDurm='{1}', @Secim=0, @ChkAralik='{2}', @Sirketler='{3}', @TipKodlari='{4}',@Kod3Aralik='{5}',@RiskAralik='{6}', @Grup='{7}', @BasTarih={8}, @BitTarih={9},@Kod3Aralik2='{10}',@RiskAralik2='{11}'", "71", tip, CHKAraligi, Sirketler, TipKodlari, Kod3Araligi, RiskAraligi, Grup, bastarih, bittarih, Kod3Araligi2, RiskAraligi2)).ToList();
+                            sipBilgi = db.Database.SqlQuery<SipOnay>(sql).ToList();
                         }
                     }
                     else if (Sirketler.Contains("Tümpa;"))

@@ -1,5 +1,5 @@
-﻿@model IEnumerable<Yer>
-@{ string tmp; List<string> Sirket = ViewBag.Sirket; var malkod = new List<String>(); var malad = new List<String>(); bool ellemi = ViewBag.Manual; }
+﻿@model IEnumerable<frmStokYer>
+@{ bool ellemi = ViewBag.Manual; }
 <table class="table table-striped table-bordered" id="sample_1">
     <thead>
         <tr>
@@ -18,24 +18,11 @@
    <tbody>
         @foreach (var item in Model)
         {
-            if (malkod.Contains(item.MalKodu) == false)
-            {
-                tmp = item.MalKodu.GetMalAdi(Sirket[0]);
-                if ((tmp == null || tmp == "") && Sirket.Count>1) { tmp = item.MalKodu.GetMalAdi(Sirket[1]); }
-                if (tmp == null) { tmp = ""; }
-                malkod.Add(item.MalKodu);
-                malad.Add(tmp);
-            }
-            else
-            {
-                tmp = malad[malkod.IndexOf(item.MalKodu)];
-            }
-
             <tr>
                 <td></td>
                 <td>@item.HucreAd</td>
                 <td>@item.MalKodu</td>
-                <td>@tmp</td>
+                <td>@item.MalAdi</td>
                 <td>@item.Birim</td>
                 <td align="right">@String.Format("{0:n}", item.Miktar)</td>
                 <td>@item.MakaraNo</td>
