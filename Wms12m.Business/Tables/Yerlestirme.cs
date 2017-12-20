@@ -302,14 +302,14 @@ namespace Wms12m.Business
                                                                  wms.Yer ON wms.Kat.ID = wms.Yer.KatID
                                     ", vUser.SirketKodu);
             //filters
-            if (DepoID > 0)
-                sql += "WHERE        wms.Yer.DepoID = " + DepoID;
-            else if (RafID > 0)
-                sql += "WHERE        wms.Raf.ID = " + RafID;
+            if (KatID > 0)
+                sql += "WHERE        wms.Kat.ID = " + KatID;
             else if (BolumID > 0)
                 sql += "WHERE        wms.Bolum.ID = " + BolumID;
-            else if (KatID > 0)
-                sql += "WHERE        wms.Kat.ID = " + KatID;
+            else if (RafID > 0)
+                sql += "WHERE        wms.Raf.ID = " + RafID;
+            else if (DepoID > 0)
+                sql += "WHERE        wms.Yer.DepoID = " + DepoID;
             //return
             return db.Database.SqlQuery<frmStokYer>(sql).ToList();
         }

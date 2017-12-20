@@ -24,22 +24,12 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         /// listeyi yeniler
         /// </summary>
         [HttpPost]
-        public PartialViewResult List(string Id)
+        public PartialViewResult List(int DepoID, int RafID = 0, int BolumID = 0, int KatID = 0, bool Elle = false)
         {
-            ViewBag.Manual = false;
-            // id'ye göre liste döner
-            string[] ids = Id.Split('#');
             try
             {
-                if (ids[2] != "0" && ids[2] != "null" && ids[2].ToString2() != "") //bir kattaki ait malzemeler
-                {
-                    ViewBag.Manual = ids[3].ToBool();
-                    return PartialView("List", Yerlestirme.GetList(0, 0, 0, ids[2].ToInt32()));
-                }
-                else if (ids[1] != "0" && ids[1] != "null" && ids[1].ToString2() != "") //bir raftaki ait malzemeler
-                    return PartialView("List", Yerlestirme.GetList(0, ids[1].ToInt32()));
-                else// if (ids[0] != "0") //tüm depoya ait malzemeler: burada timeout verebilir
-                    return PartialView("List", Yerlestirme.GetList(ids[0].ToInt32(), 0));
+                ViewBag.Manual = Elle;
+                return PartialView("List", Yerlestirme.GetList(DepoID, RafID, BolumID, KatID));
             }
             catch (Exception ex)
             {
