@@ -369,14 +369,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         {
             if (DepoID == "0") return null;
             // loop dbs
-            var sql = "";
-            var tmps = db.GetSirketDBs().ToList();
-            foreach (var item in tmps)
-            {
-                if (sql != "") sql += " union ";
-                sql += string.Format("SELECT * FROM FINSAT6{0}.wms.fnSiparisList('{0}', '{1}', 1, 0, 0)", item, DepoID);
-            }
-
+            var sql = string.Format("SELECT * FROM FINSAT6{0}.wms.fnSiparisList('{1}', 1, 0, 0)", vUser.SirketKodu, DepoID);
             ViewBag.Depo = DepoID;
             try
             {

@@ -382,17 +382,8 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             tmp = Ends.Split('.');
             var EndDate = new DateTime(tmp[2].ToInt32(), tmp[1].ToInt32(), tmp[0].ToInt32());
             if (StartDate > EndDate) return null;
-            // perm kontrol
-            if (CheckPerm(Perms.GenelSipariş, PermTypes.Reading) == false) return null;
             // loop dbs
-            var sql = "";
-            var tmps = db.GetSirketDBs().ToList();
-            foreach (var item in tmps)
-            {
-                if (sql != "") sql += " union ";
-                sql += string.Format("SELECT * FROM FINSAT6{0}.wms.fnSiparisList('{0}', '{1}', 0, {2}, {3})", item, DepoID.ToString(), StartDate.ToOADateInt(), EndDate.ToOADateInt());
-            }
-
+            var sql = string.Format("SELECT * FROM FINSAT6{0}.wms.fnSiparisList('{1}', 0, {2}, {3})", vUser.SirketKodu, DepoID.ToString(), StartDate.ToOADateInt(), EndDate.ToOADateInt());
             // return list
             ViewBag.Depo = DepoID;
             try
