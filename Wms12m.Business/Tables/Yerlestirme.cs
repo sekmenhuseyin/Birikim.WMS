@@ -342,7 +342,7 @@ namespace Wms12m.Business
         {
             return db.Yers.Where(m => m.DepoID == DepoID && m.MalKodu == MalKodu && m.Miktar > 0).OrderBy(m => m.HucreAd).ToList();
         }
-        public List<frmRezerveStok> GetListRezerve(string MalKodu, int DepoID, string DepoKodu = "")
+        public List<frmRezerveStok> GetListRezerve(string MalKodu, int DepoID, string DepoKodu)
         {
             var sql = string.Format(@"
                         SELECT        wms.Gorev.GorevNo, wms.Gorev.OlusturmaTarihi, wms.Gorev.Bilgi, wms.IRS.SirketKod, wms.IRS.EvrakNo, wms.IRS.HesapKodu, wms.IRS_Detay.MalKodu, wms.IRS_Detay.Miktar, wms.IRS_Detay.Birim, 
@@ -359,7 +359,7 @@ namespace Wms12m.Business
             if (DepoID > 0)
                 sql += " AND wms.Depo.ID = " + DepoID;
             else if (DepoKodu != "")
-                sql += " AND wms.Depo.DepoKodu = " + DepoKodu;
+                sql += " AND wms.Depo.DepoKodu = '" + DepoKodu + "'";
             return db.Database.SqlQuery<frmRezerveStok>(sql).ToList();
         }
         /// <summary>

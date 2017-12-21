@@ -43,10 +43,13 @@
                                 <tr style="cursor:pointer;" onclick="$(this).toggleClass('selected');">
                                     <td>@Html.DisplayFor(modelItem => item.MalKodu)</td>
                                     <td>@item.MalKodu.GetMalAdi(item.SirketID)</td>
-                                    <td align="right">@String.Format("{0:n}", item.Miktar)</td>
-                                    <td align="right">@String.Format("{0:n}", item.GunesStok)</td>
-                                    <td align="right">@String.Format("{0:n}", item.WmsStok)</td>
-                                    <td style="text-align:center">@if (item.WmsRezerv != 0) {<a class="btn btn-default input-circle" onclick="Rezervler('@item.MalKodu','@item.Birim','@ViewBag.DepoID')"> @item.WmsRezerv </a>}</td>
+                                    <td class="text-right">@String.Format("{0:n}", item.Miktar)</td>
+                                    <td class="text-right">@String.Format("{0:n}", item.GunesStok)</td>
+                                    <td class="text-right">@String.Format("{0:n}", item.WmsStok)</td>
+                                    <td class="text-right">
+                                        @if (item.WmsRezerv != 0) {<a class="btn btn-default input-circle green" href="#modalEditPage" data-toggle="modal" onclick="editInModal2('/WMS/Stock/ReserveList', { MalKodu: '@item.MalKodu', DepoID: 0, DepoKodu: '@ViewBag.DepoID' })"> @String.Format("{0:n}", item.WmsRezerv) </a>}
+                                        else { @("0") }
+                                    </td>
                                     <td>@Html.DisplayFor(modelItem => item.Birim)</td>
                                     <td ondblclick="ChangeMiktar(this, '@item.MalKodu', '@x')" align="right" style="background-color:#f56681; color:Window; ">@String.Format("{0:n}", 0)</td>
                                     <td>@item.SirketID-@item.ID</td>
@@ -150,10 +153,6 @@
             if (result == false) $("#submit").click();
         });
     });
-    function Rezervler(malKodu, depo, birim) {
-        editInModal2('/WMS/ReturnSale/GetRezerv', { MalKodu: malKodu, Depo: depo, Birim:birim})
-        $('#modalEditPage').modal('toggle');
-    }
     function ChangeMiktar(td, mal, id) {
         var miktar = 0, stok = 0, rezerv = 0;
         var yeni = prompt(mal + " için yeni miktarı giriniz", parseFloat($(td).text().replace(",", ".")).formatMoney(2));

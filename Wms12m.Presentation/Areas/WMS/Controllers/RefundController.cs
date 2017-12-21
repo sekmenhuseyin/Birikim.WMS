@@ -204,7 +204,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             ViewBag.GorevID = cevap.GorevID.Value;
             ViewBag.DepoID = idDepo;
             List<string> liste = new List<string>();
-                liste.Add(vUser.SirketKodu);
+            liste.Add(vUser.SirketKodu);
 
             ViewBag.Sirket = liste;
             return View("Step3", list2);
@@ -243,7 +243,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             var list = db.Database.SqlQuery<frmSiparisMalzeme>(sql).ToList();
             ViewBag.GorevID = GorevID;
             List<string> liste = new List<string>();
-                liste.Add(vUser.SirketKodu);
+            liste.Add(vUser.SirketKodu);
 
             ViewBag.Sirket = liste;
             return View("Step4", list);
@@ -334,19 +334,6 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             var sql = string.Format("FINSAT6{0}.wms.AlimIptalDetail @DepoKodu = '{1}', @EvrakNo = '{2}', @CHK='{3}'", vUser.SirketKodu, tmp[0], tmp[1], tmp[2]);
             var list = db.Database.SqlQuery<frmSiparisMalzeme>(sql).ToList();
             return Json(list, JsonRequestBehavior.AllowGet);
-        }
-        /// <summary>
-        /// get rezerv list
-        /// </summary>
-        [HttpPost]
-        public PartialViewResult GetRezerv(string MalKodu, string Depo, string Birim)
-        {
-            if (CheckPerm(Perms.AlimdanIade, PermTypes.Reading) == false) return null;
-
-            var list = db.GetStockRezerv(Birim, MalKodu, Depo).ToList();
-
-            if (list == null) return null;
-            return PartialView("Rezervler", list);
         }
         /// <summary>
         /// stok kontrol

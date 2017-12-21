@@ -418,18 +418,5 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             var list = db.Database.SqlQuery<frmSiparisMalzeme>(sql).ToList();
             return Json(list, JsonRequestBehavior.AllowGet);
         }
-        /// <summary>
-        /// get rezerv
-        /// </summary>
-        [HttpPost]
-        public PartialViewResult GetRezerv(string MalKodu, string Depo, string Birim)
-        {
-            if (CheckPerm(Perms.GenelSipariş, PermTypes.Reading) == false) return null;
-
-            var list = db.GetStockRezerv(Birim, MalKodu, Depo).ToList();
-
-            if (list == null) return null;
-            return PartialView("Rezervler", list);
-        }
     }
 }

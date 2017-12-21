@@ -367,9 +367,9 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         /// rezerv bilgileri
         /// </summary>
         [HttpPost]
-        public PartialViewResult ReserveList(string MalKodu, int DepoID)
+        public PartialViewResult ReserveList(string MalKodu, int DepoID, string DepoKodu = "")
         {
-            return PartialView("ReserveList", Yerlestirme.GetListRezerve(MalKodu, DepoID));
+            return PartialView("ReserveList", Yerlestirme.GetListRezerve(MalKodu, DepoID, DepoKodu));
         }
         /// <summary>
         /// stok karşılaştırma sayfası

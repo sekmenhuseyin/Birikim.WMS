@@ -197,17 +197,6 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             return Json(list, JsonRequestBehavior.AllowGet);
         }
         /// <summary>
-        /// rezerv mallar
-        /// </summary>
-        [HttpPost]
-        public PartialViewResult GetRezerv(string MalKodu, string Depo, string Birim)
-        {
-            if (CheckPerm(Perms.SatistanIade, PermTypes.Reading) == false) return null;
-            var list = db.GetStockRezerv(Birim, MalKodu, Depo).ToList();
-            if (list == null) return null;
-            return PartialView("Rezervler", list);
-        }
-        /// <summary>
         /// stok kontrol
         /// </summary>
         [HttpPost]

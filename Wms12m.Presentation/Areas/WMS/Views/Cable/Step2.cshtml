@@ -72,14 +72,13 @@
                                     <td>@item.Saat.FromOaTime()</td>
                                     <td>@item.MalKodu</td>
                                     <td>@item.MalAdi</td>
-                                    <td align="right">@String.Format("{0:n}", item.Miktar)</td>
-                                    <td align="right">@String.Format("{0:n}", item.GunesStok)</td>
-                                    <td align="right">@String.Format("{0:n}", item.WmsStok)</td>
-                                    @*<td align="right">@String.Format("{0:n}", item.WmsRezerv)</td>*@
-                                    <td style="text-align:center">
-                                        @if (item.WmsRezerv != 0)
-                                    {<a class="btn btn-default input-circle" onclick="Rezervler('@item.MalKodu','@item.Birim','@ViewBag.DepoID')"> @item.WmsRezerv </a>}
-                                </td>
+                                    <td class="text-right">@String.Format("{0:n}", item.Miktar)</td>
+                                    <td class="text-right">@String.Format("{0:n}", item.GunesStok)</td>
+                                    <td class="text-right">@String.Format("{0:n}", item.WmsStok)</td>
+                                    <td class="text-right">
+                                        @if (item.WmsRezerv != 0) {<a class="btn btn-default input-circle green" href="#modalEditPage" data-toggle="modal" onclick="editInModal2('/WMS/Stock/ReserveList', { MalKodu: '@item.MalKodu', DepoID: 0, DepoKodu: '@ViewBag.DepoID' })"> @String.Format("{0:n}", item.WmsRezerv) </a>}
+                                        else { @("0") }
+                                    </td>
                                     <td>@item.Birim</td>
                                     <td>@item.SirketID-@item.ID</td>
                                 </tr>
@@ -108,94 +107,81 @@
         </div>
     </div>
 </div>
-@section Scripts{
-    <script>
-        var selected = ""; var selectall = true;
-         var list = [@{for (int i = 0; i < Model.Count(); i++){ if(i>0){<text>,</text>} <text>"</text>@list[i]<text>"</text> }}];
-        $(document).ready(function () {
-            //tarih alanları
-            $.datepicker.setDefaults($.datepicker.regional["tr"]);
-            $("#Alici").on("change paste keyup", function () { filterx(0, $("#Alici").val()); });
-            $("#EvrakNo").on("change paste keyup", function () { filterx(1, $("#EvrakNo").val()); });
-            $("#Tarih").datepicker().on("change", function (e) { filterx(2, e.target.value); });
-            $("#MalKodu").on("change paste keyup", function () { filterx(4, $("#MalKodu").val()); });
-            $("#MalAdi").on("change paste keyup", function () { filterx(5, $("#MalAdi").val()); });
-            var table = $('#sample_2').DataTable({
-                "pagingType": "full_numbers",
-                "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
-                "columnDefs": [{ "targets": [11], "visible": false, "searchable": false }]
-            });
-            function filterx(a, b) { filter(table, a, b); }
-            $("#selector").click(function () {
-                selected = "";
-                if (selectall == true) {
-                    $("#selector").text("Seçimi İptal Et"); selectall = false;
-                    table.rows({ filter: 'applied' }).every(function (rowIdx, tableLoop, rowLoop) {
-                        selected = selected + this.data()[11] + "#";
-                        this.select();
-                    });
-                }
-                else {
-                    $("#selector").text("Hepsini Seç"); selectall = true;
-                    table.rows().every(function (rowIdx, tableLoop, rowLoop) { this.deselect(); });
-                }
-                $("#checkboxes").val(selected);
-            });
-            $(".submit").click(function () {
-                //var result = false;
-                //table.rows(".selected").every(function (rowIdx, tableLoop, rowLoop) {
-                //    result = true;
-                //});
-                //if (result == true) $("#submit").click();
-                //else Modaldialog("Lütfen sipariş seçin", "Hata", "Tamam", "btn-danger");
-                var cells = [, ,]; var result = false;
-                table.rows(".selected").every(function (rowIdx, tableLoop, rowLoop) {
-                    var rezerv = 0;
-                    if (this.data()[9] != "") {
-                        rezerv = parseFloat($(this.data()[9]).text().replace(".", "").replace(",", "."));
-                    }
-                    var miktar = parseFloat(this.data()[6].replace(".", "").replace(",", "."));
-                    var stok = parseFloat(this.data()[8].replace(".", "").replace(",", ".")) - rezerv;
+@section Scripts{<script>
+    var selected = ""; var selectall = true;
+    var list = [@{for (int i = 0; i < Model.Count(); i++){ if(i>0){<text>,</text>} <text>"</text>@list[i]<text>"</text> }}];
+    $(document).ready(function () {
+        //tarih alanları
+        $.datepicker.setDefaults($.datepicker.regional["tr"]);
+        $("#Alici").on("change paste keyup", function () { filterx(0, $("#Alici").val()); });
+        $("#EvrakNo").on("change paste keyup", function () { filterx(1, $("#EvrakNo").val()); });
+        $("#Tarih").datepicker().on("change", function (e) { filterx(2, e.target.value); });
+        $("#MalKodu").on("change paste keyup", function () { filterx(4, $("#MalKodu").val()); });
+        $("#MalAdi").on("change paste keyup", function () { filterx(5, $("#MalAdi").val()); });
+        var table = $('#sample_2').DataTable({
+            "pagingType": "full_numbers",
+            "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
+            "columnDefs": [{ "targets": [11], "visible": false, "searchable": false }]
+        });
+        function filterx(a, b) { filter(table, a, b); }
+        $("#selector").click(function () {
+            selected = "";
+            if (selectall == true) {
+                $("#selector").text("Seçimi İptal Et"); selectall = false;
+                table.rows({ filter: 'applied' }).every(function (rowIdx, tableLoop, rowLoop) {
                     selected = selected + this.data()[11] + "#";
-                    //aynı  malları grupla
-                    if (cells.length > 2) {
-                        for (var i = 2, len = cells.length; i < len; i++) {
-                            if (cells[i][0] === this.data()[4]) {
-                                cells[i][1] += miktar;
-                                result = true;
-                                break;
-                            }
+                    this.select();
+                });
+            }
+            else {
+                $("#selector").text("Hepsini Seç"); selectall = true;
+                table.rows().every(function (rowIdx, tableLoop, rowLoop) { this.deselect(); });
+            }
+            $("#checkboxes").val(selected);
+        });
+        $(".submit").click(function () {
+            var cells = [, ,]; var result = false;
+            table.rows(".selected").every(function (rowIdx, tableLoop, rowLoop) {
+                var rezerv = 0;
+                if (this.data()[9] != "") {
+                    rezerv = parseFloat($(this.data()[9]).text().replace(".", "").replace(",", "."));
+                }
+                var miktar = parseFloat(this.data()[6].replace(".", "").replace(",", "."));
+                var stok = parseFloat(this.data()[8].replace(".", "").replace(",", ".")) - rezerv;
+                selected = selected + this.data()[11] + "#";
+                //aynı  malları grupla
+                if (cells.length > 2) {
+                    for (var i = 2, len = cells.length; i < len; i++) {
+                        if (cells[i][0] === this.data()[4]) {
+                            cells[i][1] += miktar;
+                            result = true;
+                            break;
                         }
                     }
-                    if (result == false) cells.push([this.data()[4], miktar, stok]);
-                });
-                result = false;
-                if (cells.length == 2) {
-                    Modaldialog("Lütfen sipariş seçin", "Hata", "Tamam", "btn-danger");
+                }
+                if (result == false) cells.push([this.data()[4], miktar, stok]);
+            });
+            result = false;
+            if (cells.length == 2) {
+                Modaldialog("Lütfen sipariş seçin", "Hata", "Tamam", "btn-danger");
+                result = true;
+                return;
+            }
+            cells.forEach(function (item) {
+                if (item[2] == 0) {
+                    Modaldialog(item[0] + " için stok bulunmamaktadır.", "Hata", "Tamam", "btn-danger");
                     result = true;
                     return;
                 }
-                cells.forEach(function (item) {
-                    if (item[2] == 0) {
-                        Modaldialog(item[0] + " için stok bulunmamaktadır.", "Hata", "Tamam", "btn-danger");
-                        result = true;
-                        return;
-                    }
-                });
-                $("#checkboxes").val(selected);
-                if (result == false) $("#submit").click();
             });
-        });
-        function toggle(row, id) {
-            $(row).toggleClass('selected');
-            if ($(row).hasClass('selected') == true) selected = selected + id + "#";
-            else selected = selected.replace(id + "#", "");
             $("#checkboxes").val(selected);
-        }
-
-        function Rezervler(malKodu, depo, birim) {
-            editInModal2('/WMS/Cable/GetRezerv', { MalKodu: malKodu, Depo: depo, Birim: birim })
-            $('#modalEditPage').modal('toggle');
-        }
-    </script>
-}
+            if (result == false) $("#submit").click();
+        });
+    });
+    function toggle(row, id) {
+        $(row).toggleClass('selected');
+        if ($(row).hasClass('selected') == true) selected = selected + id + "#";
+        else selected = selected.replace(id + "#", "");
+        $("#checkboxes").val(selected);
+    }
+</script>}
