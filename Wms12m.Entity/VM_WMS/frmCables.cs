@@ -58,6 +58,7 @@ namespace Wms12m.Entity
         public int KatID { get; set; }
         public string HucreAd { get; set; }
         public string MalKodu { get; set; }
+        public string MalAdi { get; set; }
         public string Birim { get; set; }
         public decimal Miktar { get; set; }
         public int? DepoID { get; set; }

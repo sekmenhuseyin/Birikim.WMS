@@ -1,5 +1,4 @@
 ﻿@model IEnumerable<frmCableStok>
-@{ string tmp; List<string> Sirket = ViewBag.Sirket; var malkod = new List<String>(); var malad = new List<String>(); }
 <table class="table table-striped table-bordered" id="sample_1">
     <thead>
         <tr>
@@ -21,22 +20,11 @@
     <tbody>
         @foreach (var item in Model)
         {
-            if (malkod.Contains(item.MalKodu) == false)
-            {
-                tmp = item.MalKodu.GetMalAdi(Sirket[0]);
-                if (tmp == null || tmp == "") { tmp = item.MalKodu.GetMalAdi(Sirket[1]); }
-                malkod.Add(item.MalKodu);
-                malad.Add(tmp);
-            }
-            else
-            {
-                tmp = malad[malkod.IndexOf(item.MalKodu)];
-            }
             <tr>
                 <td></td>
                 <td>@item.HucreAd</td>
                 <td>@item.MalKodu</td>
-                <td>@tmp</td>
+                <td>@item.MalAdi</td>
                 <td>@item.marka</td>
                 <td>@item.cins</td>
                 <td>@item.kesit</td>

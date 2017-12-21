@@ -114,8 +114,8 @@
     }
     function FuncSearchBtn() {
         $('#Grid').html("");
-        if (($("#DepoID").val() == "" || $("#DepoID").val() == null) && ($("#RafID").val() == "" || $("#RafID").val() == null) && ($("#KatID").val() == "" || $("#KatID").val() == null)) return;
-        PartialView("/WMS/Stock/CableList", 'Grid', JSON.stringify({ Id: ($("#DepoID").val() + "#" + $("#RafID").val() + "#" + $("#KatID").val() + "#false") }));
+        if (($("#DepoID").val() == "" || $("#DepoID").val() == null) && ($("#RafID").val() == "" || $("#RafID").val() == null) && ($("#BolumID").val() == "" || $("#BolumID").val() == null) && ($("#KatID").val() == "" || $("#KatID").val() == null)) return;
+        PartialView("/WMS/Stock/CableList", 'Grid', JSON.stringify({ DepoID: $("#DepoID").val(), RafID: $("#RafID").val(), BolumID: $("#BolumID").val(), KatID: $("#KatID").val() }));
     }
 </script>
 }

@@ -295,23 +295,48 @@ namespace Wms12m.Business
         public List<frmStokYer> GetList(int DepoID, int RafID = 0, int BolumID = 0, int KatID = 0)
         {
             //sql
-            var sql = string.Format(@"SELECT wms.Yer.ID, wms.Yer.KatID, wms.Yer.DepoID, wms.Yer.HucreAd, wms.Yer.MalKodu, FINSAT6{0}.dbo.fnGetMalAdi(MalKodu) as MalAdi, wms.Yer.Miktar, wms.Yer.Birim, wms.Yer.MakaraNo, wms.Yer.MakaraDurum
-                                        FROM            wms.Raf INNER JOIN
-                                                                 wms.Bolum ON wms.Raf.ID = wms.Bolum.RafID INNER JOIN
-                                                                 wms.Kat ON wms.Bolum.ID = wms.Kat.BolumID INNER JOIN
-                                                                 wms.Yer ON wms.Kat.ID = wms.Yer.KatID
-                                    ", vUser.SirketKodu);
+            var sql = string.Format(@"SELECT wms.Yer.ID, wms.Yer.HucreAd, wms.Yer.MalKodu, STK.MalAdi, wms.Yer.Miktar, wms.Yer.Birim, wms.Yer.MakaraNo, wms.Yer.MakaraDurum
+                                    FROM            wms.Raf INNER JOIN
+                                                                wms.Bolum ON wms.Raf.ID = wms.Bolum.RafID INNER JOIN
+                                                                wms.Kat ON wms.Bolum.ID = wms.Kat.BolumID INNER JOIN
+                                                                wms.Yer ON wms.Kat.ID = wms.Yer.KatID INNER JOIN
+                                                                FINSAT6{0}.FINSAT6{0}.STK WITH (NOLOCK) ON wms.Yer.MalKodu = FINSAT6{0}.FINSAT6{0}.STK.MalKodu
+                                    WHERE        wms.Yer.Miktar > 0", vUser.SirketKodu);
             //filters
             if (KatID > 0)
-                sql += "WHERE        wms.Kat.ID = " + KatID;
+                sql += " AND wms.Kat.ID = " + KatID;
             else if (BolumID > 0)
-                sql += "WHERE        wms.Bolum.ID = " + BolumID;
+                sql += " AND wms.Bolum.ID = " + BolumID;
             else if (RafID > 0)
-                sql += "WHERE        wms.Raf.ID = " + RafID;
+                sql += " AND wms.Raf.ID = " + RafID;
             else if (DepoID > 0)
-                sql += "WHERE        wms.Yer.DepoID = " + DepoID;
+                sql += " AND wms.Yer.DepoID = " + DepoID;
             //return
             return db.Database.SqlQuery<frmStokYer>(sql).ToList();
+        }
+        public List<frmCableStok> GetListCable(int DepoID, int RafID = 0, int BolumID = 0, int KatID = 0)
+        {
+            //sql
+            var sql = string.Format(@"SELECT        wms.Yer.ID, wms.Yer.HucreAd, wms.Yer.MalKodu, STK.MalAdi, wms.Yer.Miktar, wms.Yer.Birim, wms.Yer.MakaraNo, STK.MalAdi4 AS Marka, 
+                                                             STK.Nesne2 AS Cins, STK.Kod15 AS Kesit
+                                    FROM            wms.Yer WITH (NOLOCK) INNER JOIN
+                                                             wms.Kat WITH (NOLOCK) ON wms.Yer.KatID = wms.Kat.ID INNER JOIN
+                                                             wms.Bolum WITH (NOLOCK) ON wms.Kat.BolumID = wms.Bolum.ID INNER JOIN
+                                                             wms.Raf WITH (NOLOCK) ON wms.Bolum.RafID = wms.Raf.ID INNER JOIN
+                                                             wms.Koridor WITH (NOLOCK) ON wms.Raf.KoridorID = wms.Koridor.ID INNER JOIN
+                                                             FINSAT6{0}.FINSAT6{0}.STK WITH (NOLOCK) ON wms.Yer.MalKodu = FINSAT6{0}.FINSAT6{0}.STK.MalKodu
+                                    WHERE        (STK.Kod1 = 'KKABLO') AND (wms.Yer.Miktar > 0)", vUser.SirketKodu);
+            //filters
+            if (KatID > 0)
+                sql += " AND wms.Kat.ID = " + KatID;
+            else if (BolumID > 0)
+                sql += " AND wms.Bolum.ID = " + BolumID;
+            else if (RafID > 0)
+                sql += " AND wms.Raf.ID = " + RafID;
+            else if (DepoID > 0)
+                sql += " AND wms.Yer.DepoID = " + DepoID;
+            //return
+            return db.Database.SqlQuery<frmCableStok>(sql).ToList();
         }
         public List<Yer> GetList(int DepoID, string MalKodu)
         {

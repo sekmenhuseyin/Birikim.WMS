@@ -59,41 +59,11 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         /// kablo stoğunu getirir
         /// </summary>
         [HttpPost]
-        public PartialViewResult CableList(string Id)
+        public PartialViewResult CableList(int DepoID, int RafID = 0, int BolumID = 0, int KatID = 0)
         {
-            // dbler tempe aktarılıyor
-            var list = db.GetSirketDBs();
-            List<string> liste = new List<string>();
-            foreach (var item in list) liste.Add(item);
-
-            ViewBag.Sirket = liste;
-            ViewBag.Manual = false;
-            // id'ye göre liste döner
-            string[] ids = Id.Split('#');
-            string sql; string var;
-            if (ids[2] != "0" && ids[2] != "null" && ids[2].ToString2() != "") //bir kattaki ait malzemeler
-            {
-                sql = "KatID";
-                var = ids[2].ToString2();
-            }
-            else if (ids[1] != "0" && ids[1] != "null" && ids[1].ToString2() != "") //bir raftaki ait malzemeler
-            {
-                sql = "RafID";
-                var = ids[1].ToString2();
-            }
-            else// if (ids[0] != "0")
-            {
-                sql = "wms.Yer.DepoID";
-                var = ids[0].ToString2();
-            }
-
             try
             {
-                sql = string.Format("SELECT wms.Yer.ID, wms.Yer.KatID, wms.Yer.DepoID, wms.Yer.HucreAd, wms.Yer.MalKodu, wms.Yer.Miktar, wms.Yer.Birim, wms.Yer.MakaraNo, FINSAT6{0}.FINSAT6{0}.STK.MalAdi4 as Marka, FINSAT6{0}.FINSAT6{0}.STK.Nesne2 as Cins, FINSAT6{0}.FINSAT6{0}.STK.Kod15 as Kesit " +
-                    "FROM wms.Yer WITH(NOLOCK) INNER JOIN wms.Kat WITH(NOLOCK) ON wms.Yer.KatID = wms.Kat.ID INNER JOIN wms.Bolum WITH(NOLOCK) ON wms.Kat.BolumID = wms.Bolum.ID INNER JOIN wms.Raf WITH(NOLOCK) ON wms.Bolum.RafID = wms.Raf.ID INNER JOIN wms.Koridor WITH(NOLOCK) ON wms.Raf.KoridorID = wms.Koridor.ID INNER JOIN FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) ON wms.Yer.MalKodu = FINSAT6{0}.FINSAT6{0}.STK.MalKodu " +
-                    "WHERE (FINSAT6{0}.FINSAT6{0}.STK.Kod1 = 'KKABLO') AND {1} = {2}", vUser.SirketKodu, sql, var);
-                var lst = db.Database.SqlQuery<frmCableStok>(sql).ToList();
-                return PartialView("CableList", lst);
+                return PartialView("CableList", Yerlestirme.GetListCable(DepoID, RafID, BolumID, KatID));
             }
             catch (Exception ex)
             {
