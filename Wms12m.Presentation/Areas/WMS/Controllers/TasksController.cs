@@ -122,51 +122,32 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         {
             if (CheckPerm(Perms.GörevListesi, PermTypes.Reading) == false) return null;
             ViewBag.DepoID = new SelectList(Store.GetList(), "ID", "DepoAd");
-            ViewBag.SirketID = new SelectList(db.GetSirkets().ToList(), "Kod", "Ad");
             return PartialView("CountNew");
         }
         /// <summary>
         /// yeni görevi kaydeder
         /// </summary>
         [HttpPost]
-        public JsonResult SaveNew(int DepoID, string SirketID)
+        public JsonResult SaveNew(int DepoID)
         {
             if (CheckPerm(Perms.GörevListesi, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
-            Result _Result;
+            Result _Result = new Result(false, "Bu görev zaten var");
             // kontrol
             var açık = ComboItems.Açık.ToInt32();
             var sayim = ComboItems.KontrolSayım.ToInt32();
-            var grv = db.Gorevs.Where(m => m.DepoID == DepoID && m.IR.SirketKod == SirketID && m.GorevTipiID == sayim && m.DurumID == açık).FirstOrDefault();
+            var grv = db.Gorevs.Where(m => m.DepoID == DepoID && m.GorevTipiID == sayim && m.DurumID == açık).FirstOrDefault();
             if (grv == null)
             {
                 var tarih = fn.ToOADate();
                 var grvNo = db.SettingsGorevNo(tarih, DepoID).FirstOrDefault();
                 var depo = Store.Detail(DepoID).DepoKodu;
-                var cevap = db.InsertIrsaliye(SirketID, DepoID, grvNo, grvNo, tarih, SirketID + "-" + depo + " Kontrollü Sayım", false, sayim, vUser.UserName, tarih, fn.ToOATime(), depo, "", 0, "", "").FirstOrDefault();
+                var cevap = db.InsertIrsaliye(vUser.SirketKodu, DepoID, grvNo, grvNo, tarih, depo + " Kontrollü Sayım", false, sayim, vUser.UserName, tarih, fn.ToOATime(), depo, "", 0, "", "").FirstOrDefault();
                 grv = db.Gorevs.Where(m => m.ID == cevap.GorevID).FirstOrDefault();
                 grv.DurumID = açık;
                 db.SaveChanges();
                 LogActions("WMS", "Tasks", "SaveNew", ComboItems.alEkle, grv.ID, "Sayım: " + grv.IR.HesapKodu);
                 _Result = new Result(true);
             }
-            else
-            {
-                if (grv.IR.SirketKod == SirketID)
-                    _Result = new Result(false, "Bu görev zaten var");
-                else
-                {
-                    var tarih = fn.ToOADate();
-                    var grvNo = db.SettingsGorevNo(tarih, DepoID).FirstOrDefault();
-                    var depo = Store.Detail(DepoID).DepoKodu;
-                    var cevap = db.InsertIrsaliye(SirketID, DepoID, grvNo, grvNo, tarih, SirketID + "-" + depo + " Kontrollü Sayım", false, sayim, vUser.UserName, tarih, fn.ToOATime(), depo, "", 0, "", "").FirstOrDefault();
-                    grv = db.Gorevs.Where(m => m.ID == cevap.GorevID).FirstOrDefault();
-                    grv.DurumID = açık;
-                    db.SaveChanges();
-                    LogActions("WMS", "Tasks", "SaveNew", ComboItems.alEkle, grv.ID, "Sayım: " + grv.IR.HesapKodu);
-                    _Result = new Result(true);
-                }
-            }
-
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
         /// <summary>

@@ -1,12 +1,11 @@
 ﻿@model List<Gorev>
 <table class="table table-striped table-bordered" id="sample_1">
-    <thead><tr><th></th><th>Şirket</th><th>Depo</th><th>Oluşturma Tarihi</th><th>Bitirme Tarihi</th><th></th></tr></thead>
+    <thead><tr><th></th><th>Depo</th><th>Oluşturma Tarihi</th><th>Bitirme Tarihi</th><th></th></tr></thead>
     <tbody id="GorevFrom">
         @foreach (var item in Model)
         {
             <tr data-ID="@item.ID">
                 <td></td>
-                <td>@item.IR.SirketKod</td>
                 <td>@item.Depo.DepoAd</td>
                 <td>@item.OlusturmaTarihi.FromOADateInt()</td>
                 <td>@{if (item.BitisTarihi != null) { @item.BitisTarihi.Value.FromOADateInt() } }</td>

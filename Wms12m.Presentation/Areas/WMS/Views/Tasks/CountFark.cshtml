@@ -14,43 +14,46 @@
                                     <div class="caption">
                                         <i class="fa fa-gift"></i>Sayım Liste
                                     </div>
+                                    <div class="col-md-1 pull-right m-t-5 p-0" id="buttons"></div>
                                 </div>
                                 <div class="portlet-body form">
                                     <div class="form-horizontal">
-                                        <table class="table table-striped table-bordered" id="sample_2">
-                                            <thead>
-                                                <tr>
-                                                    <th>MalKodu</th>
-                                                    <th>MalAdi</th>
-                                                    <th class="text-right">Okutulan Miktar</th>
-                                                    <th class="text-right">WMS Stok</th>
-                                                    <th class="text-right">Güneş Stok</th>
-                                                    <th class="text-right">Sayım Farkı</th>
-                                                    <th>Birim</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                @foreach (var item in Model)
-                                                {
+                                        <div class="form-body">
+                                            <table class="table table-striped table-bordered" id="sample_2">
+                                                <thead>
                                                     <tr>
-                                                        <td>@item.MalKodu</td>
-                                                        <td>@item.MalAdi</td>
-                                                        <td align="right">@String.Format("{0:n}", item.Miktar)</td>
-                                                        <td align="right">@String.Format("{0:n}", item.WmsStok)</td>
-                                                        <td align="right">@String.Format("{0:n}", item.GunesStok)</td>
-                                                        <td align="right">@String.Format("{0:n}", item.Miktar - item.WmsStok)</td>
-                                                        <td>@item.Birim</td>
+                                                        <th>MalKodu</th>
+                                                        <th>MalAdi</th>
+                                                        <th class="text-right">Okutulan Miktar</th>
+                                                        <th class="text-right">WMS Stok</th>
+                                                        <th class="text-right">Güneş Stok</th>
+                                                        <th class="text-right">Sayım Farkı</th>
+                                                        <th>Birim</th>
                                                     </tr>
-                                                }
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-lg-6">
-                                            <button type="button" class="btn btn-danger pull-left" data-dismiss="modal"><i class="fa fa-times"></i> Kapat</button>
-                                        </div>
-                                        <div class="col-lg-6">
-                                            <button type="button" class="btn green pull-right" onclick="editInModal('/WMS/Tasks/CountFark/@ViewBag.ID')"><i class="fa fa-refresh"></i> Yenile</button>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach (var item in Model)
+                                                    {
+                                                        <tr>
+                                                            <td>@item.MalKodu</td>
+                                                            <td>@item.MalAdi</td>
+                                                            <td align="right">@String.Format("{0:n}", item.Miktar)</td>
+                                                            <td align="right">@String.Format("{0:n}", item.WmsStok)</td>
+                                                            <td align="right">@String.Format("{0:n}", item.GunesStok)</td>
+                                                            <td align="right">@String.Format("{0:n}", item.Miktar - item.WmsStok)</td>
+                                                            <td>@item.Birim</td>
+                                                        </tr>
+                                                    }
+                                                </tbody>
+                                            </table>
+                                            <div class="row">
+                                                <div class="col-md-2 col-md-offset-8">
+                                                    <button type="button" class="btn green pull-right" onclick="editInModal('/WMS/Tasks/CountFark/@ViewBag.ID')"><i class="fa fa-refresh"></i> Yenile</button>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <button type="button" class="btn btn-danger pull-right" data-dismiss="modal"><i class="fa fa-times"></i> Kapat</button>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -67,12 +70,14 @@
     $(document).ready(function () {
         var table = $('#sample_2').DataTable({
             "pagingType": "full_numbers",
-            "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
-            "dom": 'lBfrtip',
-            "buttons": [
-                { "extend": 'pdf', "text": '<span class="fa fa-file-pdf-o f-s-15 red"></span>', "className": 'btn btn-default btn-xs' },
-                { "extend": 'excel', "text": '<span class="fa fa-file-excel-o f-s-15 green"></span>', "className": 'btn btn-default btn-xs' }
-                ]
+            "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" }
         });
+        $("#buttons").html("");
+        var buttons = new $.fn.dataTable.Buttons(table, {
+            buttons: [
+                { "extend": 'pdf', "text": '<span class="fa fa-file-pdf-o f-s-15 red"></span>', "className": 'btn btn-default btn-xs;' },
+                { "extend": 'excel', "text": '<span class="fa fa-file-excel-o f-s-15 green"></span>', "className": 'btn btn-default btn-xs;' }
+            ]
+        }).container().appendTo($('#buttons'));
     });
 </script>

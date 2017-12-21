@@ -46,7 +46,6 @@
     </div>
 </div>
 <script>
-
     var secili_satir = new Array();
     var secili_table = new Array();
     var table = $('#sample_1').DataTable({
@@ -59,8 +58,7 @@
         },
         "pagingType": "full_numbers",
         "fixedHeader": true,
-        "columns": [
-            
+        "columns": [            
             { "data": null, "defaultContent": '', "className": 'select-checkbox', "orderable": false },
             { "data": "MalKodu", "sClass": "nowrap" },
             { "data": "MalAdi", "sClass": "nowrap" },
@@ -87,8 +85,6 @@
             return nRow;
         }
     });
-
-
     $('#sample_1 tbody').on('click', 'tr', function () {
         $(this).toggleClass('selected');
     });
@@ -98,6 +94,5 @@
             { "extend": 'pdf', "text": '<span class="fa fa-file-pdf-o f-s-15 red"></span>', "className": 'btn btn-default btn-xs;' },
             { "extend": 'excel', "text": '<span class="fa fa-file-excel-o f-s-15 green"></span>', "className": 'btn btn-default btn-xs;' }
         ]
-    }).container().appendTo($('#buttons'));
-    
+    }).container().appendTo($('#buttons'));    
 </script>
