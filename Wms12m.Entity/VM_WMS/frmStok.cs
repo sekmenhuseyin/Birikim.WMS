@@ -49,7 +49,7 @@
     /// <summary>
     /// rezrve edilmiş stok listesi
     /// </summary>
-    public partial class frmRezerveStok
+    public class frmRezerveStok
     {
         public string SirketKod { get; set; }
         public string GorevNo { get; set; }

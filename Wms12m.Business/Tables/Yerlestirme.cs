@@ -342,9 +342,25 @@ namespace Wms12m.Business
         {
             return db.Yers.Where(m => m.DepoID == DepoID && m.MalKodu == MalKodu && m.Miktar > 0).OrderBy(m => m.HucreAd).ToList();
         }
-        public List<Yer> GetListRezerve(int DepoID, string MalKodu)
+        public List<frmRezerveStok> GetListRezerve(string MalKodu, int DepoID, string DepoKodu = "")
         {
-            return db.Yers.Where(m => m.DepoID == DepoID && m.MalKodu == MalKodu && m.Miktar > 0).OrderBy(m => m.HucreAd).ToList();
+            var sql = string.Format(@"
+                        SELECT        wms.Gorev.GorevNo, wms.Gorev.OlusturmaTarihi, wms.Gorev.Bilgi, wms.IRS.SirketKod, wms.IRS.EvrakNo, wms.IRS.HesapKodu, wms.IRS_Detay.MalKodu, wms.IRS_Detay.Miktar, wms.IRS_Detay.Birim, 
+                                                 wms.IRS_Detay.MakaraNo, wms.IRS_Detay.KynkSiparisID, wms.IRS_Detay.KynkSiparisNo, wms.IRS_Detay.KynkSiparisSiraNo, wms.IRS_Detay.KynkSiparisTarih, wms.IRS_Detay.KynkSiparisMiktar, wms.Depo.DepoKodu, 
+                                                 STK.MalAdi, CHK.Unvan1 as Uvan
+                        FROM            wms.IRS INNER JOIN
+                                                 wms.IRS_Detay ON wms.IRS.ID = wms.IRS_Detay.IrsaliyeID INNER JOIN
+                                                 wms.GorevIRS ON wms.IRS.ID = wms.GorevIRS.IrsaliyeID INNER JOIN
+                                                 wms.Gorev ON wms.GorevIRS.GorevID = wms.Gorev.ID INNER JOIN
+                                                 wms.Depo ON wms.Gorev.DepoID = wms.Depo.ID INNER JOIN
+                                                 FINSAT6{0}.FINSAT6{0}.STK WITH (NOLOCK) ON wms.IRS_Detay.MalKodu = FINSAT6{0}.FINSAT6{0}.STK.MalKodu INNER JOIN
+                                                 FINSAT6{0}.FINSAT6{0}.CHK WITH (NOLOCK) ON wms.IRS.HesapKodu = FINSAT6{0}.FINSAT6{0}.CHK.HesapKodu
+                        WHERE        (wms.Gorev.GorevTipiID = 3) AND (wms.Gorev.DurumID = 9) AND (wms.IRS_Detay.MalKodu = '{1}')", vUser.SirketKodu, MalKodu);
+            if (DepoID > 0)
+                sql += " AND wms.Depo.ID = " + DepoID;
+            else if (DepoKodu != "")
+                sql += " AND wms.Depo.DepoKodu = " + DepoKodu;
+            return db.Database.SqlQuery<frmRezerveStok>(sql).ToList();
         }
         /// <summary>
         /// burada yok

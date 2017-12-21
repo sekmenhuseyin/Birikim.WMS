@@ -1,4 +1,4 @@
-﻿@model List<GetStockRezerv2_Result>
+﻿@model List<frmRezerveStok>
 <div class="modal-content">
     <div class="close-modal" data-dismiss="modal"><div class="lr"><div class="rl"></div></div></div>
     <div class="container">
@@ -7,10 +7,7 @@
                 <div class="modal-body">
                     <h4>Rezerv Ayrıntı</h4>
                     <table class="table table-bordered table-condensed m-t-20">
-                        <thead>
-                            <tr><th>Görev No</th><th>Evrak No</th><th>HesapKodu</th><th>Unvan</th><th>Mal Kodu</th><th>Mal Adı</th><th>Rezerv Miktar</th><th>Birim</th></tr>
-                        </thead>
-
+                        <thead><tr><th>Görev No</th><th>Evrak No</th><th>HesapKodu</th><th>Unvan</th><th>Mal Kodu</th><th>Mal Adı</th><th>Rezerv Miktar</th><th>Birim</th></tr></thead>
                         <tbody>
                             @foreach (var item in Model)
                             {
@@ -18,16 +15,15 @@
                                     <td>@item.GorevNo</td>
                                     <td>@item.KynkSiparisNo</td>
                                     <td>@item.HesapKodu</td>
-                                    <td>@item.HesapKodu</td>
+                                    <td>@item.Unvan</td>
                                     <td>@item.MalKodu</td>
-                                    <td>@item.MalKodu</td>
+                                    <td>@item.MalAdi</td>
                                     <td>@item.Miktar</td>
                                     <td>@item.Birim</td>
                                 </tr>
 
                             }
                         </tbody>
-
                     </table>
                 </div>
                 <div class="col-md-12">

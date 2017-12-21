@@ -99,9 +99,9 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         [HttpPost]
         public PartialViewResult HistoryList(int DepoID, string MalKodu)
         {
-            var sql = string.Format(@"SELECT ISNULL(wms.fnGetStockByID({1}, '{2}', ''), 0) AS WmsStok, ISNULL(wms.fnGetRezervStock({1}, '{2}', ''), 0) AS RezervStok, ISNULL(FINSAT6{0}.wms.getStockByDepo('{2}', DepoKodu), 0) AS GunesStok
+            var sql = string.Format(@"SELECT ISNULL(wms.fnGetStockByID({1}, '{2}', ''), 0) AS WmsStok, ISNULL(wms.fnGetRezervStock(DepoKodu, '{2}', ''), 0) AS WmsRezerv, ISNULL(FINSAT6{0}.wms.getStockByDepo('{2}', DepoKodu), 0) AS GunesStok
                                         FROM wms.Depo
-                                        WHERE (ID = 1)", vUser.SirketKodu, DepoID, MalKodu);
+                                        WHERE (ID = {1})", vUser.SirketKodu, DepoID, MalKodu);
             var sonuc = db.Database.SqlQuery<frmStokDetay>(sql).FirstOrDefault();
             // return
             ViewBag.WmsStok = sonuc.WmsStok;
@@ -367,11 +367,9 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         /// rezerv bilgileri
         /// </summary>
         [HttpPost]
-        public PartialViewResult ReserveList(string MalKodu, int Depo)
+        public PartialViewResult ReserveList(string MalKodu, int DepoID)
         {
-            var list = db.GetStockRezerv2(Depo, MalKodu, "").ToList();
-            if (list == null) return null;
-            return PartialView("ReserveList", list);
+            return PartialView("ReserveList", Yerlestirme.GetListRezerve(MalKodu, DepoID));
         }
         /// <summary>
         /// stok karşılaştırma sayfası
