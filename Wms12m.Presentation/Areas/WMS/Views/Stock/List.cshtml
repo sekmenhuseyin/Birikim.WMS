@@ -26,7 +26,7 @@
                 <td>@item.Birim</td>
                 <td align="right">@String.Format("{0:n}", item.Miktar)</td>
                 <td>@item.MakaraNo</td>
-                @{if (ellemi == true) { <td><a class="btn btn-default btn-circle" href="#modalEditPage" data-toggle="modal" onclick="editInModal('/WMS/Stock/ManualNewPlace/@item.ID')"> Değiştir </a></td> } }
+                @{if (ellemi == true) { <td><a class="btn btn-default btn-circle" href="#modalEditPage" data-toggle="modal" onclick="editInModal('/WMS/Stock/ManualMovementNewPlace/@item.ID')"> Değiştir </a></td> } }
             </tr>
         }
     </tbody>

@@ -342,6 +342,10 @@ namespace Wms12m.Business
         {
             return db.Yers.Where(m => m.DepoID == DepoID && m.MalKodu == MalKodu && m.Miktar > 0).OrderBy(m => m.HucreAd).ToList();
         }
+        public List<Yer> GetListRezerve(int DepoID, string MalKodu)
+        {
+            return db.Yers.Where(m => m.DepoID == DepoID && m.MalKodu == MalKodu && m.Miktar > 0).OrderBy(m => m.HucreAd).ToList();
+        }
         /// <summary>
         /// burada yok
         /// </summary>

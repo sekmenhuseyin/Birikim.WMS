@@ -367,11 +367,11 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         /// rezerv bilgileri
         /// </summary>
         [HttpPost]
-        public PartialViewResult GetRezerv2(string MalKodu, int Depo, string Birim)
+        public PartialViewResult ReserveList(string MalKodu, int Depo)
         {
-            var list = db.GetStockRezerv2(Depo, MalKodu, Birim).ToList();
+            var list = db.GetStockRezerv2(Depo, MalKodu, "").ToList();
             if (list == null) return null;
-            return PartialView("Rezervler", list);
+            return PartialView("ReserveList", list);
         }
         /// <summary>
         /// stok karşılaştırma sayfası

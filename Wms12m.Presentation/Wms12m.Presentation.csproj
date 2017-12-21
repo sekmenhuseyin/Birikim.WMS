@@ -461,7 +461,7 @@
     <Content Include="Areas\YN\Views\OnayBekleyenler\Transfer_Details.cshtml" />
     <Content Include="Areas\WMS\Views\Sales\Rezervler.cshtml" />
     <Content Include="Areas\WMS\Views\Cable\Rezervler.cshtml" />
-    <Content Include="Areas\WMS\Views\Stock\Rezervler.cshtml" />
+    <Content Include="Areas\WMS\Views\Stock\ReserveList.cshtml" />
     <Content Include="Areas\ToDo\Views\DutyWork\NewAll.cshtml" />
     <Content Include="Areas\ToDo\Views\DutyWork\ToDos.cshtml" />
     <Content Include="Areas\ToDo\Views\DutyWork\ToDosList.cshtml" />
