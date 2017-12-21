@@ -137,13 +137,13 @@
         $("#Hesap").val($("#HesapKodu").val());
         if ($("#DepoID").val() == "" || $("#HesapKodu").val() == "" || $("#HesapKodu").val() == null)
         {
-            $("#btnList").attr("disabled", true);
-            $(".showlater2").attr("disabled", true);
+            $("#btnList").hide();
+            $(".showlater2").hide();
         }
         else
         {
-            $("#btnList").attr("disabled", false);
-            $(".showlater2").attr("disabled", false);
+            $("#btnList").show();
+            $(".showlater2").show();
         }
     }
     function CreateNew(ix) {
