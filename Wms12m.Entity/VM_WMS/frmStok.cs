@@ -35,4 +35,15 @@
         public decimal WmsRezerv { get; set; }
         public decimal GunesStok { get; set; }
     }
+    /// <summary>
+    /// stoklar
+    /// </summary>
+    public class frmStokComparison
+    {
+        public string MalKodu { get; set; }
+        public string MalAdi { get; set; }
+        public string Birim { get; set; }
+        public decimal WmsStok { get; set; }
+        public decimal GunesStok { get; set; }
+    }
 }

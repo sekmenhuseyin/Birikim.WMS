@@ -18,7 +18,7 @@
                                 <div class="form-group">
                                     <div class="col-sm-3 control-label">Depo</div>
                                     <div class="col-sm-4">
-                                        @Html.DropDownList("DepoID", null, htmlAttributes: new { @class = "form-control StoreListi input-circle" })
+                                        @Html.DropDownList("DepoID", null, htmlAttributes: new { @class = "form-control input-circle" })
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -35,10 +35,10 @@
                                 </div>
                                 <div class="form-group">
                                     <div class="col-sm-4 col-sm-offset-3">
-                                        <button class="btn btn-default btn-block btn-circle" type="button" onclick="FuncSearchBtn()">Yenile <i class="icon-refresh"></i></button>
+                                        <button class="btn btn-default btn-block btn-circle" type="button" onclick="FuncSearchBtn()">ARA <i class="icon-refresh"></i></button>
                                     </div>
                                 </div>
-                                <div id="GridComparison"></div>
+                                <div id="Grid"></div>
                         </div>
                     </div>
                 </div>
@@ -48,44 +48,24 @@
 </div>
 @section Scripts{<script type="text/javascript">
     $("#DepoID").prepend("<option value=''>Seçiniz !!!</option>"); $("#DepoID")[0].selectedIndex = 0;
-    var birim = "";
     function FuncSearchBtn() {
         if ($("#DepoID").val() == "") return;
-        $('#GridComparison').html("");
-        PartialView('/WMS/Stock/ComparisonList', 'GridComparison', JSON.stringify({ Id: $("#BasMalKodu").val() + "#" + $("#BitMalKodu").val() + "#" + $("#DepoID").val() }));
+        $('#Grid').html("");
+        PartialView('/WMS/Stock/ComparisonList', 'Grid', JSON.stringify({ DepoID: $("#DepoID").val(), BasMalKodu: $("#BasMalKodu").val(), BitMalKodu: $("#BitMalKodu").val() }));
     }
     $("#BasMalKodu").autocomplete({
         source: "/WMS/Purchase/getMalzemebyCode",
         minLength: 2,
         select: function (event, ui) {
-            getBirims(ui.item.id, 0);
+            setTimeout(function () { $("#BasMalKodu").val(ui.item.id); }, 50);            
         }
-        });
-        $("#BitMalKodu").autocomplete({
-            source: "/WMS/Purchase/getMalzemebyCode",
-            minLength: 2,
-            select: function (event, ui) {
-                getBirims(ui.item.id, 1);
-            }
-        });
-
-    function getBirims(id, tip) {
-        $("#Birim option").remove();
-        $.ajax({
-            url: "/WMS/Purchase/getBirim",
-            type: 'POST',
-            data: JSON.stringify({ kod: id, s: 0 }),
-            dataType: "json",
-            contentType: 'application/json; charset=utf-8',
-            success: function (data) {
-                birim = data[0].Birim1;
-                if (tip == 0)
-                    $("#BasMalKodu").val(id);
-                else
-                    $("#BitMalKodu").val(id);       
-                FuncSearchBtn();
-            }
-        });
-    }
-    </script>
+    });
+    $("#BitMalKodu").autocomplete({
+        source: "/WMS/Purchase/getMalzemebyCode",
+        minLength: 2,
+        select: function (event, ui) {
+            setTimeout(function () { $("#BitMalKodu").val(ui.item.id); }, 50);            
+        }
+    });
+</script>
 }

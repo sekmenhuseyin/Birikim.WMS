@@ -389,45 +389,30 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         public ActionResult Comparison()
         {
             if (CheckPerm(Perms.Stok, PermTypes.Reading) == false) return Redirect("/");
-            ViewBag.DepoID = new SelectList(Store.GetList(vUser.DepoId), "ID", "DepoAd");
+            ViewBag.DepoID = new SelectList(Store.GetList(vUser.DepoId), "DepoKodu", "DepoAd");
             return View("Comparison");
         }
         /// <summary>
         /// stok karşılaştırma listesi
         /// </summary>
         [HttpPost]
-        public PartialViewResult ComparisonList(string Id)
+        public PartialViewResult ComparisonList(string DepoID, string BasMalKodu, string BitMalKodu)
         {
-            var ids = Id.Split('#');
-            var BasMalKodu = ids[0];
-            var BitMalKodu = ids[1];
-            var depoID = ids[2].ToInt32();
-            var depoKodu = Store.Detail(depoID).DepoKodu;
             // generate sql
             var sql = "";
-            var listsirk = db.GetSirketDBs();
-            var Sart = "";
-
-            foreach (var item in listsirk)
-            {
-                // TODO: şirket ayrımı
-                if (item == "33")
-                    Sart = " (MalKodu BETWEEN 'a' AND 'zzzzzz') AND ";
-                else if (item == "71")
-                    Sart = " (MalKodu BETWEEN '0' AND '9') AND ";
-                else
-                    Sart = "";
-
-                if (sql != "") sql += " UNION ";
-                sql += string.Format(@"SELECT FINSAT6{0}.FINSAT6{0}.STK.MalKodu, FINSAT6{0}.FINSAT6{0}.STK.MalAdi, FINSAT6{0}.FINSAT6{0}.STK.Birim1 AS Birim, FINSAT6{0}.wms.getStockByDepo(FINSAT6{0}.FINSAT6{0}.STK.MalKodu, '{1}') as Stok
-										FROM FINSAT6{0}.FINSAT6{0}.STK(NOLOCK) WHERE {4} (MalKodu BETWEEN '{2}' AND '{3}') ", item, depoKodu, BasMalKodu, BitMalKodu, Sart);
-            }
-
-            sql = string.Format(@"SELECT MalKodu, MalAdi, Birim, SUM(Stok) AS GunesStok, BIRIKIM.wms.fnGetStock('{0}', t1.MalKodu, t1.Birim, 0) AS WmsStok 
-									FROM (" + sql + ") AS t1 GROUP BY MalKodu, MalAdi, Birim", depoKodu);
-            sql = "SELECT * FROM ( " + sql + " ) AS t2 WHERE t2.GunesStok<>t2.WmsStok ORDER BY MalKodu";
+            if (BasMalKodu != "" && BitMalKodu != "")
+                sql = string.Format("WHERE (MalKodu >= '{0}%') AND (MalKodu <= '{1}%')", BasMalKodu, BitMalKodu);
+            else if (BasMalKodu != "")
+                sql = string.Format("WHERE (MalKodu >= '{0}%')", BasMalKodu);
+            else if (BitMalKodu != "")
+                sql = string.Format("WHERE (MalKodu <= '{0}%')", BitMalKodu);
+            sql = string.Format(@"
+                        SELECT * FROM (
+                            SELECT FINSAT6{0}.FINSAT6{0}.STK.MalKodu, FINSAT6{0}.FINSAT6{0}.STK.MalAdi, FINSAT6{0}.FINSAT6{0}.STK.Birim1 AS Birim, FINSAT6{0}.wms.getStockByDepo(FINSAT6{0}.FINSAT6{0}.STK.MalKodu, '{1}') as GunesStok, BIRIKIM.wms.fnGetStock('{1}', STK.MalKodu, '', 0) AS WmsStok
+						    FROM FINSAT6{0}.FINSAT6{0}.STK(NOLOCK) {2}) t
+                        WHERE (GunesStok <> WmsStok)", vUser.SirketKodu, DepoID, sql);
             // return
-            var list = db.Database.SqlQuery<frmSiparisMalzemeDetay>(sql).ToList();
+            var list = db.Database.SqlQuery<frmStokComparison>(sql).ToList();
             return PartialView("ComparisonList", list);
         }
     }
