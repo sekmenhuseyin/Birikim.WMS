@@ -368,9 +368,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         public PartialViewResult GetSiparis(string DepoID)
         {
             if (DepoID == "0") return null;
-            // loop dbs
             var sql = string.Format("SELECT * FROM FINSAT6{0}.wms.fnSiparisList('{1}', 1, 0, 0)", vUser.SirketKodu, DepoID);
-            ViewBag.Depo = DepoID;
             try
             {
                 var list = db.Database.SqlQuery<frmSiparisler>(sql).ToList();

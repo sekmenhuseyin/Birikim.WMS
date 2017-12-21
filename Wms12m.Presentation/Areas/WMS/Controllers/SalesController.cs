@@ -375,17 +375,15 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         [HttpPost]
         public PartialViewResult GetSiparis(string DepoID, string Starts, string Ends)
         {
-            // ilk kontrol
+            // kontrol
             if (DepoID == "0") return null;
             string[] tmp = Starts.Split('.');
             var StartDate = new DateTime(tmp[2].ToInt32(), tmp[1].ToInt32(), tmp[0].ToInt32());
             tmp = Ends.Split('.');
             var EndDate = new DateTime(tmp[2].ToInt32(), tmp[1].ToInt32(), tmp[0].ToInt32());
             if (StartDate > EndDate) return null;
-            // loop dbs
-            var sql = string.Format("SELECT * FROM FINSAT6{0}.wms.fnSiparisList('{1}', 0, {2}, {3})", vUser.SirketKodu, DepoID.ToString(), StartDate.ToOADateInt(), EndDate.ToOADateInt());
             // return list
-            ViewBag.Depo = DepoID;
+            var sql = string.Format("SELECT * FROM FINSAT6{0}.wms.fnSiparisList('{1}', 0, {2}, {3})", vUser.SirketKodu, DepoID.ToString(), StartDate.ToOADateInt(), EndDate.ToOADateInt());
             try
             {
                 var list = db.Database.SqlQuery<frmSiparisler>(sql).ToList();
@@ -403,9 +401,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         [HttpPost]
         public JsonResult Details(string ID)
         {
-            if (CheckPerm(Perms.GenelSipariş, PermTypes.Reading) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
-            string[] tmp = ID.Split('-');
-            var sql = string.Format("FINSAT6{0}.wms.getSiparisDetail @DepoKodu = '{1}', @EvrakNo = '{2}'", tmp[0], tmp[1], tmp[2]);
+            var sql = string.Format("FINSAT6{0}.wms.getSiparisDetail @EvrakNo = '{1}'", vUser.SirketKodu, ID);
             var list = db.Database.SqlQuery<frmSiparisMalzeme>(sql).ToList();
             return Json(list, JsonRequestBehavior.AllowGet);
         }

@@ -92,6 +92,7 @@
             success: function (data) {
                 if (data == "") { Modaldialog("Lütfen Tekrar Deneyin", "Hata", "Tamam", "btn-danger"); $('#DepoID').val(""); }
                 $("#liste").html(data);
+                $("html, body").animate({ scrollTop: 500 }, "slow");
             },
             error: function (data) {
                 Modaldialog("Lütfen Tekrar Deneyin", "Hata", "Tamam", "btn-danger");

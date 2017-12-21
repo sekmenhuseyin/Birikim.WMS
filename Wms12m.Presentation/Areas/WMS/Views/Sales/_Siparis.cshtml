@@ -24,7 +24,7 @@
             <tbody>
                 @foreach (var item in Model)
                 {
-                    <tr data-ID="@item.SirketID-@ViewBag.Depo-@item.EvrakNo" style="cursor:pointer;" onclick="toggle(this, '@item.SirketID-@item.EvrakNo')">
+                    <tr data-ID="@item.EvrakNo" style="cursor:pointer;" onclick="toggle(this)">
                         <td style="width:20px!important;"></td>
                         <td style="width:20px!important;" class="details-control"></td>
                         <td>@Html.DisplayFor(modelItem => item.EvrakNo)</td>
@@ -37,7 +37,7 @@
                         <td>@Html.DisplayFor(modelItem => item.Aciklama)</td>
                         <td align="right">@item.Çeşit</td>
                         <td align="right">@String.Format("{0:n}", item.Miktar)</td>
-                        <td>@item.SirketID-@item.EvrakNo</td>
+                        <td>@item.EvrakNo</td>
                     </tr>
                 }
             </tbody>
@@ -55,7 +55,7 @@
     </div>
 </div>
 <script>
-    var selected = ""; var selectall = true;
+    var selectall = true;
     $(document).ready(function () {
         var table = $('#sample_2').DataTable({
             "pagingType": "full_numbers",
@@ -86,11 +86,9 @@
             else { row.child(newrow(tr.data('id'))).show(); format(tr.data('id')); tr.addClass('shown'); }
         });
         $("#selector").click(function () {
-            selected = "";
             if (selectall == true) {
                 $("#selector").text("Seçimi İptal Et"); selectall = false;
                 table.rows({ filter: 'applied' }).every(function (rowIdx, tableLoop, rowLoop) {
-                    selected = selected + this.data()[12] + "#";
                     this.select();
                 });
             }
@@ -98,14 +96,17 @@
                 $("#selector").text("Hepsini Seç"); selectall = true;
                 table.rows().every(function (rowIdx, tableLoop, rowLoop) { this.deselect(); });
             }
-            $("#checkboxes").val(selected);
         });
         $(".submit").click(function () {
+            //TODO: burası düzelecek
             var result = false;
             table.rows(".selected").every(function (rowIdx, tableLoop, rowLoop) {
                 result = true;
             });
-            if (result == true) $("#submit").click();
+            if (result == true)
+            {
+                $("#submit").click();
+            }
             else Modaldialog("Lütfen sipariş seçin", "Hata", "Tamam", "btn-danger");
         });
     });
@@ -127,10 +128,7 @@
             }
         });
     }
-    function toggle(row, id) {
+    function toggle(row) {
         $(row).toggleClass('selected');
-        if ($(row).hasClass('selected') == true) selected = selected + id + "#";
-        else selected = selected.replace(id + "#", "");
-        $("#checkboxes").val(selected);
     }
 </script>
