@@ -254,7 +254,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
 
             // görev tablosu için tekrar yeni ve sade bir liste lazım
             var grv = db.Gorevs.Where(m => m.ID == cevap.GorevID).FirstOrDefault();
-            grv.Bilgi = "Irs: " + evraknolar + " Alıcı: " + alıcılar;
+            grv.Bilgi = "Alıcı: " + alıcılar;
             db.SaveChanges();
             // get gorev details
             sql = string.Format("SELECT wms.IRS_Detay.MalKodu, SUM(wms.IRS_Detay.Miktar) AS Miktar, wms.IRS_Detay.Birim " +
