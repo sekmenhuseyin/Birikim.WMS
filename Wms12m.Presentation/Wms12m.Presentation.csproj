@@ -869,7 +869,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Properties\licenses.licx" />
     <EmbeddedResource Include="Reports\SatSipForm.resx">
       <DependentUpon>SatSipForm.cs</DependentUpon>
     </EmbeddedResource>
