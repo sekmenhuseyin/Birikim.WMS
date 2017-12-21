@@ -229,6 +229,8 @@
     <Content Include="Content\assets\global\img\Maintenance_Back.png" />
     <Content Include="Content\assets\global\img\Maintenance_Clipart.png" />
     <Content Include="Content\assets\pages\img\texbox-cal.png" />
+    <Content Include="Content\images\12M-Icon.ico" />
+    <Content Include="Content\images\12M-Icon.png" />
     <Content Include="Content\images\12M-Logo-30.png" />
     <Content Include="Content\images\12M-Logo-90.png" />
     <Content Include="Content\images\12M-Logo.png" />
@@ -237,9 +239,15 @@
     <Content Include="Content\images\Dohler-Logo.png" />
     <Content Include="Content\images\iz-logo-30.png" />
     <Content Include="Content\images\iz-logo-90.png" />
+    <Content Include="Content\images\Medifarm-Logo-30.png" />
+    <Content Include="Content\images\Medifarm-Logo-90.png" />
+    <Content Include="Content\images\Medifarm-Logo.png" />
     <Content Include="Content\images\peli-logo-30.png" />
     <Content Include="Content\images\peli-logo-90.png" />
     <Content Include="Content\images\peli-logo.png" />
+    <Content Include="Content\images\tum-grubu-logo-30.png" />
+    <Content Include="Content\images\tum-grubu-logo-90.png" />
+    <Content Include="Content\images\tum-grubu-logo.png" />
     <Content Include="Content\images\tum-logo-30.png" />
     <Content Include="Content\images\tum-logo-90.png" />
     <Content Include="Content\images\tum-logo.png" />
@@ -283,6 +291,9 @@
     <Content Include="Content\assets\global\scripts\datatable.min.js">
       <DependentUpon>datatable.js</DependentUpon>
     </Content>
+    <Content Include="Content\images\tumpa-logo-30.png" />
+    <Content Include="Content\images\tumpa-logo-90.png" />
+    <Content Include="Content\images\tumpa-logo.png" />
     <Content Include="Content\Scripts\consts.js" />
     <Content Include="Content\Scripts\Hub.min.js">
       <DependentUpon>Hub.js</DependentUpon>
