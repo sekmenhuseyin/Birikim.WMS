@@ -106,26 +106,18 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                     if (kkablo == "KKABLO")
                     {
                         mNo = "Boş-" + db.SettingsMakaraNo(tbl.IR.DepoID).FirstOrDefault();
-                        // return Json(IrsaliyeDetay.Insert(tbl, tbl.IR.DepoID), JsonRequestBehavior.AllowGet);
                     }
                 }
 
                 if (mNo != null && mNo != "")
                 {
                     // depo stoktaki makara noları ve
-                    // deu depodaki durdurulanlar hariç tüm mal kabuldeki makara noları kontrol eder
+                    // bu depodaki durdurulanlar hariç tüm mal kabuldeki makara noları kontrol eder
                     var makara = db.Database.SqlQuery<string>(string.Format("BIRIKIM.wms.MakaraNoKontrol @DepoID = {0} , @MakaraNo='{1}'", tbl.IR.DepoID, mNo)).FirstOrDefault();
                     if (makara != "" && makara != null)
                         return Json(new Result(false, "Bu makara no kullanılıyor"), JsonRequestBehavior.AllowGet);
                 }
             }
-            // if (mNo != "" && mNo != null)
-            // {
-            //    var tmpx = db.Yers.Where(m => m.MakaraNo == tbl.MakaraNo && m.DepoID == tbl.IR.DepoID).FirstOrDefault();
-            //    if (tmpx != null)
-            //        return Json(new Result(false, "Bu makara no kullanılıyor"), JsonRequestBehavior.AllowGet);
-            //    tbl.MakaraNo = mNo;
-            // }
             try
             {
                 tbl.MakaraNo = mNo;
@@ -152,22 +144,22 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             var depo = Store.Detail(tmp[0].ToInt32()).DepoKodu;
             var hesapKodu = tmp[1].ToString();
             var sql = string.Format(@"
-SELECT  FINSAT6{0}.FINSAT6{0}.SPI.ROW_ID AS ID, FINSAT6{0}.FINSAT6{0}.SPI.EvrakNo, FINSAT6{0}.FINSAT6{0}.SPI.Tarih, FINSAT6{0}.FINSAT6{0}.STK.MalAdi, 
-        FINSAT6{0}.FINSAT6{0}.STK.MalKodu, 
-        FINSAT6{0}.FINSAT6{0}.SPI.BirimMiktar - FINSAT6{0}.FINSAT6{0}.SPI.TeslimMiktar - FINSAT6{0}.FINSAT6{0}.SPI.KapatilanMiktar AS AçıkMiktar, 
-        FINSAT6{0}.FINSAT6{0}.SPI.Birim 
-FROM FINSAT6{0}.FINSAT6{0}.SPI WITH(NOLOCK) 
-     INNER JOIN FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) ON FINSAT6{0}.FINSAT6{0}.SPI.MalKodu = FINSAT6{0}.FINSAT6{0}.STK.MalKodu 
-     INNER JOIN FINSAT6{0}.FINSAT6{0}.CHK WITH(NOLOCK) ON FINSAT6{0}.FINSAT6{0}.SPI.Chk = FINSAT6{0}.FINSAT6{0}.CHK.HesapKodu 
-WHERE (FINSAT6{0}.FINSAT6{0}.SPI.IslemTur = 0) AND (FINSAT6{0}.FINSAT6{0}.SPI.SiparisDurumu = 0) AND (FINSAT6{0}.FINSAT6{0}.SPI.KynkEvrakTip = 63) 
-      AND (FINSAT6{0}.FINSAT6{0}.SPI.Depo = '{1}') AND (FINSAT6{0}.FINSAT6{0}.SPI.Chk = '{2}') 
-      AND FINSAT6{0}.FINSAT6{0}.SPI.ROW_ID 
-      NOT IN (SELECT BIRIKIM.wms.IRS_Detay.KynkSiparisID 
-              FROM BIRIKIM.wms.IRS_Detay INNER JOIN BIRIKIM.wms.GorevIRS ON BIRIKIM.wms.IRS_Detay.IrsaliyeID = BIRIKIM.wms.GorevIRS.IrsaliyeID 
-              INNER JOIN BIRIKIM.wms.Gorev ON BIRIKIM.wms.GorevIRS.GorevID = BIRIKIM.wms.Gorev.ID 
-              WHERE (BIRIKIM.wms.Gorev.DurumID = 9 OR BIRIKIM.wms.Gorev.DurumID = 15) 
-      AND (NOT(BIRIKIM.wms.IRS_Detay.KynkSiparisID IS NULL)) 
-GROUP BY BIRIKIM.wms.IRS_Detay.KynkSiparisID)", vUser.SirketKodu, depo, hesapKodu);
+                                SELECT  FINSAT6{0}.FINSAT6{0}.SPI.ROW_ID AS ID, FINSAT6{0}.FINSAT6{0}.SPI.EvrakNo, FINSAT6{0}.FINSAT6{0}.SPI.Tarih, FINSAT6{0}.FINSAT6{0}.STK.MalAdi, 
+                                        FINSAT6{0}.FINSAT6{0}.STK.MalKodu, 
+                                        FINSAT6{0}.FINSAT6{0}.SPI.BirimMiktar - FINSAT6{0}.FINSAT6{0}.SPI.TeslimMiktar - FINSAT6{0}.FINSAT6{0}.SPI.KapatilanMiktar AS AçıkMiktar, 
+                                        FINSAT6{0}.FINSAT6{0}.SPI.Birim 
+                                FROM FINSAT6{0}.FINSAT6{0}.SPI WITH(NOLOCK) 
+                                     INNER JOIN FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) ON FINSAT6{0}.FINSAT6{0}.SPI.MalKodu = FINSAT6{0}.FINSAT6{0}.STK.MalKodu 
+                                     INNER JOIN FINSAT6{0}.FINSAT6{0}.CHK WITH(NOLOCK) ON FINSAT6{0}.FINSAT6{0}.SPI.Chk = FINSAT6{0}.FINSAT6{0}.CHK.HesapKodu 
+                                WHERE (FINSAT6{0}.FINSAT6{0}.SPI.IslemTur = 0) AND (FINSAT6{0}.FINSAT6{0}.SPI.SiparisDurumu = 0) AND (FINSAT6{0}.FINSAT6{0}.SPI.KynkEvrakTip = 63) 
+                                      AND (FINSAT6{0}.FINSAT6{0}.SPI.Depo = '{1}') AND (FINSAT6{0}.FINSAT6{0}.SPI.Chk = '{2}') 
+                                      AND FINSAT6{0}.FINSAT6{0}.SPI.ROW_ID 
+                                      NOT IN (SELECT BIRIKIM.wms.IRS_Detay.KynkSiparisID 
+                                              FROM BIRIKIM.wms.IRS_Detay INNER JOIN BIRIKIM.wms.GorevIRS ON BIRIKIM.wms.IRS_Detay.IrsaliyeID = BIRIKIM.wms.GorevIRS.IrsaliyeID 
+                                              INNER JOIN BIRIKIM.wms.Gorev ON BIRIKIM.wms.GorevIRS.GorevID = BIRIKIM.wms.Gorev.ID 
+                                              WHERE (BIRIKIM.wms.Gorev.DurumID = 9 OR BIRIKIM.wms.Gorev.DurumID = 15) 
+                                      AND (NOT(BIRIKIM.wms.IRS_Detay.KynkSiparisID IS NULL)) 
+                                GROUP BY BIRIKIM.wms.IRS_Detay.KynkSiparisID)", vUser.SirketKodu, depo, hesapKodu);
             var list = db.Database.SqlQuery<frmSiparistenGelen>(sql).ToList();
             return PartialView("SiparisList", list);
         }
@@ -175,9 +167,9 @@ GROUP BY BIRIKIM.wms.IRS_Detay.KynkSiparisID)", vUser.SirketKodu, depo, hesapKod
         /// siparişten malzeme ekler
         /// </summary>
         [HttpPost]
-        public PartialViewResult FromSiparis( string id, string ids)
+        public PartialViewResult FromSiparis(string id, string ids)
         {
-            if ( id == null || ids == null) return null;
+            if (id == null || ids == null) return null;
             if (CheckPerm(Perms.MalKabul, PermTypes.Writing) == false) return null;
             int irsaliyeID = id.ToInt32(), eklenen = 0, sira = 0;
             // split ids into rows
@@ -228,13 +220,13 @@ GROUP BY BIRIKIM.wms.IRS_Detay.KynkSiparisID)", vUser.SirketKodu, depo, hesapKod
                 foreach (var item in tbl)
                 {
                     var sql = string.Format(@"
-SELECT SPI.EvrakNo, SPI.Tarih, SPI.SiraNo, SPI.MalKodu, SPI.BirimMiktar, 
-    (SPI.BirimMiktar - SPI.TeslimMiktar - SPI.KapatilanMiktar) AS Miktar, 
-    SPI.Birim, SPI.DegisSaat , STK.Kod1
-FROM FINSAT6{0}.FINSAT6{0}.SPI WITH(NOLOCK) 
-     INNER JOIN FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) ON SPI.MalKodu=STK.MalKodu
-WHERE (SPI.ROW_ID = {1}) AND (SPI.IslemTur = 0) AND (SPI.KynkEvrakTip = 63) AND (SPI.SiparisDurumu = 0) 
-AND (SPI.MalKodu = '{2}') AND (SPI.Birim = '{3}') AND (LTRIM(SPI.EvrakNo) = '{4}')", vUser.SirketKodu, item.KynkSiparisID, item.MalKodu, item.Birim, item.KynkSiparisNo.Trim());
+                                SELECT SPI.EvrakNo, SPI.Tarih, SPI.SiraNo, SPI.MalKodu, SPI.BirimMiktar, 
+                                    (SPI.BirimMiktar - SPI.TeslimMiktar - SPI.KapatilanMiktar) AS Miktar, 
+                                    SPI.Birim, SPI.DegisSaat , STK.Kod1
+                                FROM FINSAT6{0}.FINSAT6{0}.SPI WITH(NOLOCK) 
+                                     INNER JOIN FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) ON SPI.MalKodu=STK.MalKodu
+                                WHERE (SPI.ROW_ID = {1}) AND (SPI.IslemTur = 0) AND (SPI.KynkEvrakTip = 63) AND (SPI.SiparisDurumu = 0) 
+                                AND (SPI.MalKodu = '{2}') AND (SPI.Birim = '{3}') AND (LTRIM(SPI.EvrakNo) = '{4}')", vUser.SirketKodu, item.KynkSiparisID, item.MalKodu, item.Birim, item.KynkSiparisNo.Trim());
                     try
                     {
                         var tempTbl = db.Database.SqlQuery<frmIrsaliyeMalzeme>(sql).FirstOrDefault();
@@ -428,7 +420,7 @@ AND (SPI.MalKodu = '{2}') AND (SPI.Birim = '{3}') AND (LTRIM(SPI.EvrakNo) = '{4}
         /// </summary>
         public JsonResult GetMalzemebyCode(string term)
         {
-            var sql =  string.Format("FINSAT6{0}.[wms].[getMalzemeByCodeOrName] @MalKodu = N'{1}', @MalAdi = N''", vUser.SirketKodu, term);
+            var sql = string.Format("FINSAT6{0}.[wms].[getMalzemeByCodeOrName] @MalKodu = N'{1}', @MalAdi = N''", vUser.SirketKodu, term);
             // return
             try
             {
@@ -480,8 +472,6 @@ AND (SPI.MalKodu = '{2}') AND (SPI.Birim = '{3}') AND (LTRIM(SPI.EvrakNo) = '{4}
         /// </summary>
         public JsonResult GetChkKod(string term)
         {
-            //var id = Url.RequestContext.RouteData.Values["id"];
-            //if (id == null) return null;
             var sql = string.Format("FINSAT6{0}.[wms].[CHKSearch4] @HesapKodu = N'{1}', @Unvan = N'', @top = 200", vUser.SirketKodu, term);
             // return
             try

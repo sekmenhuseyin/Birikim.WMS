@@ -46,47 +46,46 @@
         </div>
     </div>
 </div>
-@section Scripts{
-        <script type="text/javascript">
-        $("#DepoID").prepend("<option value=''>Seçiniz !!!</option>"); $("#DepoID")[0].selectedIndex = 0;
-        var birim = "";
-        function FuncSearchBtn() {
-            if ($("#DepoID").val() == "") return;
-            $('#GridComparison').html("");
-            PartialView('/WMS/Stock/ComparisonList', 'GridComparison', JSON.stringify({ Id: $("#BasMalKodu").val() + "#" + $("#BitMalKodu").val() + "#" + $("#DepoID").val() }));
+@section Scripts{<script type="text/javascript">
+    $("#DepoID").prepend("<option value=''>Seçiniz !!!</option>"); $("#DepoID")[0].selectedIndex = 0;
+    var birim = "";
+    function FuncSearchBtn() {
+        if ($("#DepoID").val() == "") return;
+        $('#GridComparison').html("");
+        PartialView('/WMS/Stock/ComparisonList', 'GridComparison', JSON.stringify({ Id: $("#BasMalKodu").val() + "#" + $("#BitMalKodu").val() + "#" + $("#DepoID").val() }));
+    }
+    $("#BasMalKodu").autocomplete({
+        source: "/WMS/Purchase/getMalzemebyCode",
+        minLength: 2,
+        select: function (event, ui) {
+            getBirims(ui.item.id, 0);
         }
-        $("#BasMalKodu").autocomplete({
-            source: "/WMS/Purchase/getMalzemebyCode/0",
+        });
+        $("#BitMalKodu").autocomplete({
+            source: "/WMS/Purchase/getMalzemebyCode",
             minLength: 2,
             select: function (event, ui) {
-                getBirims(ui.item.id, 0);
+                getBirims(ui.item.id, 1);
             }
-            });
-            $("#BitMalKodu").autocomplete({
-                source: "/WMS/Purchase/getMalzemebyCode/0",
-                minLength: 2,
-                select: function (event, ui) {
-                    getBirims(ui.item.id, 1);
-                }
-            });
+        });
 
-        function getBirims(id, tip) {
-            $("#Birim option").remove();
-            $.ajax({
-                url: "/WMS/Purchase/getBirim",
-                type: 'POST',
-                data: JSON.stringify({ kod: id, s: 0 }),
-                dataType: "json",
-                contentType: 'application/json; charset=utf-8',
-                success: function (data) {
-                    birim = data[0].Birim1;
-                    if (tip == 0)
-                        $("#BasMalKodu").val(id);
-                    else
-                        $("#BitMalKodu").val(id);       
-                    FuncSearchBtn();
-                }
-            });
-        }
-        </script>
+    function getBirims(id, tip) {
+        $("#Birim option").remove();
+        $.ajax({
+            url: "/WMS/Purchase/getBirim",
+            type: 'POST',
+            data: JSON.stringify({ kod: id, s: 0 }),
+            dataType: "json",
+            contentType: 'application/json; charset=utf-8',
+            success: function (data) {
+                birim = data[0].Birim1;
+                if (tip == 0)
+                    $("#BasMalKodu").val(id);
+                else
+                    $("#BitMalKodu").val(id);       
+                FuncSearchBtn();
+            }
+        });
     }
+    </script>
+}

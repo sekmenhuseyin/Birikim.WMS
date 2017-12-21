@@ -168,14 +168,14 @@
         PartialView("/WMS/Stock/List", 'Grid', JSON.stringify({ DepoID: $("#DepoID").val(), RafID: $("#RafID").val(), BolumID: $("#BolumID").val(), KatID: $("#KatID").val(), Elle: "false" }));
     }
     $("#MalKodu").autocomplete({
-        source: "/WMS/Purchase/getMalzemebyCode/0",
+        source: "/WMS/Purchase/getMalzemebyCode",
         minLength: 2,
         select: function (event, ui) {
             setTimeout(function () { $("#MalKodu").val(ui.item.id); $("#MalAdi").val(ui.item.value); getBirims(ui.item.id); }, 50);            
         }
     });
     $("#MalAdi").autocomplete({
-        source: "/WMS/Purchase/GetMalzemebyName/0",
+        source: "/WMS/Purchase/GetMalzemebyName",
         minLength: 2,
         select: function (event, ui) {
             setTimeout(function () { $("#MalKodu").val(ui.item.id); $("#MalAdi").val(ui.item.value); getBirims(ui.item.id); }, 50);            

@@ -69,7 +69,7 @@
     $(document).ready(function () {
         getBirims($("#MalKodu").val());
         $.ajax({
-            url: "/WMS/Purchase/getMalzemebyCode/0?term=" + $("#MalKodu").val(),
+            url: "/WMS/Purchase/getMalzemebyCode/?term=" + $("#MalKodu").val(),
             type: 'POST',
             dataType: "html",
             success: function (data) {
@@ -84,7 +84,7 @@
             }
         });
         $("#MalKodu").autocomplete({
-            source: "/WMS/Purchase/getMalzemebyCode/0",
+            source: "/WMS/Purchase/getMalzemebyCode/",
             minLength: 2,
             select: function (event, ui) {
                 getBirims(ui.item.id);
@@ -92,7 +92,7 @@
             }
         });
         $("#MalAdi").autocomplete({
-            source: "/WMS/Purchase/GetMalzemebyName/0",
+            source: "/WMS/Purchase/GetMalzemebyName/",
             minLength: 2,
             select: function (event, ui) {
                 getBirims(ui.item.id);

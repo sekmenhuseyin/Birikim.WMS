@@ -83,7 +83,7 @@
             $("#Tarih2").val(toOADateFromString(e.target.value));
         });
         $("#MalKodu").autocomplete({
-            source: "/WMS/Purchase/GetMalzemebyCode/0",
+            source: "/WMS/Purchase/GetMalzemebyCode",
             minLength: 2,
             select: function (event, ui) {
                 setTimeout(function () { $("#MalKodu").val(ui.item.id); $("#MalAdi").val(ui.item.value); $("#SeriNo").focus(); }, 100);
@@ -91,7 +91,7 @@
             }
         });
         $("#MalAdi").autocomplete({
-            source: "/WMS/Purchase/GetMalzemebyName/0",
+            source: "/WMS/Purchase/GetMalzemebyName",
             minLength: 2,
             select: function (event, ui) {
                 setTimeout(function () { $("#MalKodu").val(ui.item.id); $("#MalAdi").val(ui.item.value); $("#SeriNo").focus(); }, 100);
