@@ -702,7 +702,7 @@
     <Content Include="Areas\WMS\Views\Transfer\WaitingList.cshtml" />
     <Content Include="Areas\WMS\Views\Cable\Step4.cshtml" />
     <Content Include="Areas\WMS\Views\Cable\Step5.cshtml" />
-    <Content Include="Areas\WMS\Views\Stock\ManualPlacement.cshtml" />
+    <Content Include="Areas\WMS\Views\Stock\ManualCorrection.cshtml" />
     <Content Include="Views\Menu\Index.cshtml" />
     <Content Include="Areas\WMS\Views\Purchase\List.cshtml" />
     <Content Include="Views\Menu\Permission.cshtml" />
@@ -719,7 +719,7 @@
     <Content Include="Areas\WMS\Views\Terminal\Index.cshtml" />
     <Content Include="Areas\WMS\Views\Terminal\List.cshtml" />
     <Content Include="Areas\WMS\Views\Terminal\Editor.cshtml" />
-    <Content Include="Areas\WMS\Views\Stock\ManualNewPlace.cshtml" />
+    <Content Include="Areas\WMS\Views\Stock\ManualMovementNewPlace.cshtml" />
     <Content Include="Areas\WMS\Views\Tasks\Count.cshtml" />
     <Content Include="Areas\WMS\Views\Tasks\CountList.cshtml" />
     <Content Include="Areas\WMS\Views\Tasks\CountFark.cshtml" />

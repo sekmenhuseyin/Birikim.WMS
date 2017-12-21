@@ -490,21 +490,12 @@ namespace Wms12m
                             stok.Update(tmp2, KullID, "Mal Kabul", item2.Miktar.Value, false);
                         }
                     }
-
                     // add to mysql
                     if (db.Settings.FirstOrDefault().KabloSiparisMySql == true)
                     {
-                        var listedb = db.GetSirketDBs().ToList();
-                        sql = "";
-                        foreach (var itemd in listedb)
-                        {
-                            if (sql != "") sql += " UNION ";
-                            sql = string.Format("SELECT FINSAT6{0}.FINSAT6{0}.STK.MalAdi4 as Marka, FINSAT6{0}.FINSAT6{0}.STK.Nesne2 as Cins, FINSAT6{0}.FINSAT6{0}.STK.Kod15 as Kesit, wms.IRS_Detay.Miktar, wms.IRS_Detay.MakaraNo " +
-                                                        "FROM wms.IRS_Detay INNER JOIN FINSAT6{0}.FINSAT6{0}.STK ON wms.IRS_Detay.MalKodu = FINSAT6{0}.FINSAT6{0}.STK.MalKodu " +
-                                                        "WHERE (FINSAT6{0}.FINSAT6{0}.STK.Kod1 = 'KKABLO') AND (wms.IRS_Detay.IrsaliyeID = {1}) AND (wms.IRS_Detay.Birim = FINSAT6{0}.FINSAT6{0}.STK.Birim1 OR wms.IRS_Detay.Birim = FINSAT6{0}.FINSAT6{0}.STK.Birim2)", itemd, mGorev.IrsaliyeID);
-                        }
-
-                        sql = "SELECT * from (" + sql + ") t";
+                        sql = string.Format("SELECT FINSAT6{0}.FINSAT6{0}.STK.MalAdi4 as Marka, FINSAT6{0}.FINSAT6{0}.STK.Nesne2 as Cins, FINSAT6{0}.FINSAT6{0}.STK.Kod15 as Kesit, wms.IRS_Detay.Miktar, wms.IRS_Detay.MakaraNo " +
+                                                "FROM wms.IRS_Detay INNER JOIN FINSAT6{0}.FINSAT6{0}.STK ON wms.IRS_Detay.MalKodu = FINSAT6{0}.FINSAT6{0}.STK.MalKodu " +
+                                                "WHERE (FINSAT6{0}.FINSAT6{0}.STK.Kod1 = 'KKABLO') AND (wms.IRS_Detay.IrsaliyeID = {1}) AND (wms.IRS_Detay.Birim = FINSAT6{0}.FINSAT6{0}.STK.Birim1 OR wms.IRS_Detay.Birim = FINSAT6{0}.FINSAT6{0}.STK.Birim2)", mGorev.IR.SirketKod, mGorev.IrsaliyeID);
                         var stks = db.Database.SqlQuery<frmCableStk>(sql).ToList();
                         if (stks.Count > 0)
                         {
@@ -2224,17 +2215,9 @@ namespace Wms12m
                     // add to mysql
                     if (db.Settings.FirstOrDefault().KabloSiparisMySql == true)
                     {
-                        var listedb = db.GetSirketDBs().ToList();
-                        sql = "";
-                        foreach (var itemd in listedb)
-                        {
-                            if (sql != "") sql += " UNION ";
-                            sql = string.Format("SELECT FINSAT6{0}.FINSAT6{0}.STK.MalAdi4 as Marka, FINSAT6{0}.FINSAT6{0}.STK.Nesne2 as Cins, FINSAT6{0}.FINSAT6{0}.STK.Kod15 as Kesit, wms.IRS_Detay.Miktar, wms.IRS_Detay.MakaraNo " +
-                                                        "FROM wms.IRS_Detay INNER JOIN FINSAT6{0}.FINSAT6{0}.STK ON wms.IRS_Detay.MalKodu = FINSAT6{0}.FINSAT6{0}.STK.MalKodu " +
-                                                        "WHERE (FINSAT6{0}.FINSAT6{0}.STK.Kod1 = 'KKABLO') AND (wms.IRS_Detay.IrsaliyeID = {1}) AND (wms.IRS_Detay.Birim = FINSAT6{0}.FINSAT6{0}.STK.Birim1 OR wms.IRS_Detay.Birim = FINSAT6{0}.FINSAT6{0}.STK.Birim2)", itemd, mGorev.IrsaliyeID);
-                        }
-
-                        sql = "SELECT * from (" + sql + ") t";
+                        sql = string.Format("SELECT FINSAT6{0}.FINSAT6{0}.STK.MalAdi4 as Marka, FINSAT6{0}.FINSAT6{0}.STK.Nesne2 as Cins, FINSAT6{0}.FINSAT6{0}.STK.Kod15 as Kesit, wms.IRS_Detay.Miktar, wms.IRS_Detay.MakaraNo " +
+                                            "FROM wms.IRS_Detay INNER JOIN FINSAT6{0}.FINSAT6{0}.STK ON wms.IRS_Detay.MalKodu = FINSAT6{0}.FINSAT6{0}.STK.MalKodu " +
+                                            "WHERE (FINSAT6{0}.FINSAT6{0}.STK.Kod1 = 'KKABLO') AND (wms.IRS_Detay.IrsaliyeID = {1}) AND (wms.IRS_Detay.Birim = FINSAT6{0}.FINSAT6{0}.STK.Birim1 OR wms.IRS_Detay.Birim = FINSAT6{0}.FINSAT6{0}.STK.Birim2)", mGorev.IR.SirketKod, mGorev.IrsaliyeID);
                         var stks = db.Database.SqlQuery<frmCableStk>(sql).ToList();
                         if (stks.Count > 0)
                         {

@@ -19,21 +19,21 @@
                         <div class="form-group">
                             <div class="col-sm-3 control-label">Depo</div>
                             <div class="col-sm-4">
-                                @Html.DropDownList("DepoID", null, htmlAttributes: new { @class = "form-control input-circle", required = "required", @onchange = "getShelf(this.value);" })
+                                @Html.DropDownList("DepoID", null, htmlAttributes: new { @class = "form-control input-circle", required = "required", @onchange = "getShelf(this.value);FuncSearchBtn();" })
                                 <span class="field-validation-valid" data-valmsg-for="DepoID" data-valmsg-replace="true" style="color:red;"></span>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-3 control-label">Raf</label>
                             <div class="col-md-4">
-                                @Html.DropDownList("RafID", null, htmlAttributes: new { @class = "form-control input-circle", required = "required", @onchange = "getSection(this.value);" })
+                                @Html.DropDownList("RafID", null, htmlAttributes: new { @class = "form-control input-circle", required = "required", @onchange = "getSection(this.value);FuncSearchBtn();" })
                                 <span class="field-validation-valid" data-valmsg-for="RafID" data-valmsg-replace="true" style="color:red;"></span>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-3 control-label">Bölüm</label>
                             <div class="col-md-4">
-                                @Html.DropDownList("BolumID", null, htmlAttributes: new { @class = "form-control input-circle", required = "required", @onchange = "getFloor(this.value);" })
+                                @Html.DropDownList("BolumID", null, htmlAttributes: new { @class = "form-control input-circle", required = "required", @onchange = "getFloor(this.value);FuncSearchBtn();" })
                                 <span class="field-validation-valid" data-valmsg-for="BolumID" data-valmsg-replace="true" style="color:red;"></span>
                             </div>
                         </div>
@@ -44,11 +44,6 @@
                                 <span class="field-validation-valid" data-valmsg-for="KatID" data-valmsg-replace="true" style="color:red;"></span>
                             </div>
                         </div>
-                        @*<div class="form-group">
-                            <div class="col-sm-4 col-sm-offset-3">
-                                <button class="btn btn-default btn-block btn-circle" type="button" onclick="FuncSearchBtn()">Yenile <i class="icon-refresh"></i></button>
-                            </div>
-                        </div>*@
                     </div>
                 </div>
             </div>
@@ -132,8 +127,9 @@
         });
     }
     function FuncSearchBtn() {
-        $('#FloorGrid').html("");
-        PartialView("/WMS/Stock/List", 'FloorGrid', JSON.stringify({ Id: ($("#DepoID").val() + "#" + $("#RafID").val() + "#" + $("#KatID").val() + "#true") }));
+        $('#Grid').html("");
+        if (($("#DepoID").val() == "" || $("#DepoID").val() == null) && ($("#RafID").val() == "" || $("#RafID").val() == null) && ($("#BolumID").val() == "" || $("#BolumID").val() == null) && ($("#KatID").val() == "" || $("#KatID").val() == null)) return;
+        PartialView("/WMS/Stock/List", 'Grid', JSON.stringify({ DepoID: $("#DepoID").val(), RafID: $("#RafID").val(), BolumID: $("#BolumID").val(), KatID: $("#KatID").val(), Elle: "true" }));
     }
 </script>
 }

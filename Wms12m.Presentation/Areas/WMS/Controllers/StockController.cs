@@ -113,20 +113,20 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         /// <summary>
         /// manual ekle
         /// </summary>
-        public ActionResult ManualPlacement()
+        public ActionResult ManualCorrection()
         {
             if (CheckPerm(Perms.Stok, PermTypes.Reading) == false) return Redirect("/");
             ViewBag.DepoID = new SelectList(Store.GetList(vUser.DepoId), "ID", "DepoAd");
             ViewBag.RafID = new SelectList(Shelf.GetList(0), "ID", "RafAd");
             ViewBag.BolumID = new SelectList(Section.GetList(0), "ID", "BolumAd");
             ViewBag.KatID = new SelectList(Floor.GetList(0), "ID", "KatAd");
-            return View("ManualPlacement", new Yer());
+            return View("ManualCorrection", new Yer());
         }
         /// <summary>
         /// manual ekle
         /// </summary>
         [HttpPost, ValidateAntiForgeryToken]
-        public JsonResult ManualPlacement(Yer tbl, bool GC)
+        public JsonResult ManualCorrection(Yer tbl, bool GC)
         {
             if (CheckPerm(Perms.Stok, PermTypes.Writing) == false || tbl.Miktar < 0) return Json(false, JsonRequestBehavior.AllowGet);
             // yerleştirme kaydı yapılır
@@ -140,7 +140,6 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                         tbl.MakaraNo = "Boş-" + db.SettingsMakaraNo(tbl.DepoID).FirstOrDefault();
                     }
                 }
-
                 if (tbl.MakaraNo == "" || tbl.MakaraNo == null)
                 {
                     var tmp2 = Yerlestirme.Detail(tbl.KatID, tbl.MalKodu, tbl.Birim);
@@ -183,21 +182,12 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                         return Json(new Result(false, "Bu makara no kullanılmaktadır"), JsonRequestBehavior.AllowGet);
                     }
                 }
-
                 // add to mysql
                 if (db.Settings.FirstOrDefault().KabloSiparisMySql == true)
                 {
-                    var listedb = db.GetSirketDBs().ToList();
-                    var sql = "";
-                    foreach (var item in listedb)
-                    {
-                        if (sql != "") sql += " UNION ";
-                        sql += string.Format("SELECT FINSAT6{0}.FINSAT6{0}.STK.MalAdi4 as Marka, FINSAT6{0}.FINSAT6{0}.STK.Nesne2 as Cins, FINSAT6{0}.FINSAT6{0}.STK.Kod15 as Kesit " +
-                                            "FROM FINSAT6{0}.FINSAT6{0}.STK " +
-                                            "WHERE (FINSAT6{0}.FINSAT6{0}.STK.Kod1 = 'KKABLO') AND (FINSAT6{0}.FINSAT6{0}.STK.MalKodu = '{1}')", item, tbl.MalKodu);
-                    }
-
-                    sql = "SELECT * from (" + sql + ") t";
+                    var sql = string.Format("SELECT FINSAT6{0}.FINSAT6{0}.STK.MalAdi4 as Marka, FINSAT6{0}.FINSAT6{0}.STK.Nesne2 as Cins, FINSAT6{0}.FINSAT6{0}.STK.Kod15 as Kesit " +
+                                        "FROM FINSAT6{0}.FINSAT6{0}.STK " +
+                                        "WHERE (FINSAT6{0}.FINSAT6{0}.STK.Kod1 = 'KKABLO') AND (FINSAT6{0}.FINSAT6{0}.STK.MalKodu = '{1}')", vUser.SirketKodu, tbl.MalKodu);
                     var stks = db.Database.SqlQuery<frmCableStk>(sql).FirstOrDefault();
                     if (stks != null)
                     {
@@ -248,7 +238,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                             }
                             catch (Exception ex)
                             {
-                                Logger(ex, "Stock/ManualPlacement");
+                                Logger(ex, "Stock/ManualCorrection");
                                 // return Json(new Result(false, "Kablo kaydı hariç her şey tamamlandı!"), JsonRequestBehavior.AllowGet);
                             }
                         }
@@ -341,7 +331,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         /// elle yerleştirmede yeni yeri belirle
         /// </summary>
         [HttpPost]
-        public PartialViewResult ManualNewPlace(int Id)
+        public PartialViewResult ManualMovementNewPlace(int Id)
         {
             var tbl = Yerlestirme.Detail(Id);
             ViewBag.RafID = new SelectList(Shelf.GetListByDepo(tbl.DepoID.Value), "ID", "RafAd");
@@ -349,7 +339,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             ViewBag.KatID = new SelectList(Floor.GetList(0), "ID", "KatAd");
             ViewBag.Miktar = tbl.Miktar;
             ViewBag.Id = Id;
-            return PartialView("ManualNewPlace", new Yer());
+            return PartialView("ManualMovementNewPlace", new Yer());
         }
         /// <summary>
         /// elle yerleştirmede yeni yeri belirle
