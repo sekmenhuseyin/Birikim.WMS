@@ -57,12 +57,25 @@ namespace Wms12m.Entity
         public string Birim { get; set; }
         public string Depo { get; set; }
     }
+    public partial class frmIrsDetayfromGorev
+    {
+        public int ID { get; set; }
+        public string SirketKod { get; set; }
+        public string GorevNo { get; set; }
+        public string MalKodu { get; set; }
+        public string MalAdi { get; set; }
+        public decimal? Miktar { get; set; }
+        public string Birim { get; set; }
+        public string MakaraNo { get; set; }
+        public int Sira { get; set; }
+        public string HucreAd { get; set; }
+    }
     /// <summary>
     /// görev ayrıntıları
     /// </summary>
     public class frmTaskDetails
     {
-        public List<GetIrsDetayfromGorev_Result> irsdetay { get; set; }
+        public List<frmIrsDetayfromGorev> irsdetay { get; set; }
         public Gorev grv { get; set; }
     }
     /// <summary>
@@ -109,6 +122,7 @@ namespace Wms12m.Entity
     public class frmGorevJson
     {
         public int ID { get; set; }
+        public int DurumID { get; set; }
         public string GorevNo { get; set; }
         public string DepoAd { get; set; }
         public string EvrakNo { get; set; }

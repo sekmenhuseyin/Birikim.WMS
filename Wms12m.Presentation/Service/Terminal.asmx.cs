@@ -460,7 +460,8 @@ namespace Wms12m
                     db.TerminalFinishGorev(GorevID, item.ID, gorevNo, DateTime.Today.ToOADateInt(), DateTime.Now.ToOaTime(), kull, item.EvrakNo, ComboItems.MalKabul.ToInt32(), ComboItems.RafaKaldır.ToInt32()).FirstOrDefault();
                     LogActions(KullID.ToString(), "Terminal", "Service", "Terminal", "MalKabul_GoreviTamamla", ComboItems.alDüzenle, GorevID, "MalKabul => RafaKaldır");
                     // add to stok
-                    var list = db.GetIrsDetayfromGorev(GorevID).ToList();
+                    sql = string.Format("EXEC FINSAT6{0}.wms.GetIrsDetayfromGorev {1}", mGorev.IR.SirketKod, GorevID);
+                    var list = db.Database.SqlQuery<frmIrsDetayfromGorev>(sql).ToList();
                     foreach (var item2 in list)
                     {
                         // yerleştirme kaydı yapılır
@@ -2174,7 +2175,8 @@ namespace Wms12m
                     db.TerminalFinishGorev(GorevID, item.ID, gorevNo, DateTime.Today.ToOADateInt(), DateTime.Now.ToOaTime(), kull.Kod, item.EvrakNo, ComboItems.Satıştanİade.ToInt32(), ComboItems.RafaKaldır.ToInt32()).FirstOrDefault();
                     LogActions(KullID.ToString(), "Terminal", "Service", "Terminal", "SatistanIade_GorevKontrol", ComboItems.alDüzenle, GorevID, "Satış İade => RafaKaldır");
                     // add to stok
-                    var list = db.GetIrsDetayfromGorev(GorevID).ToList();
+                    sql = string.Format("EXEC FINSAT6{0}.wms.GetIrsDetayfromGorev {1}", mGorev.IR.SirketKod, GorevID);
+                    var list = db.Database.SqlQuery<frmIrsDetayfromGorev>(sql).ToList();
                     foreach (var item2 in list)
                     {
                         // yerleştirme kaydı yapılır

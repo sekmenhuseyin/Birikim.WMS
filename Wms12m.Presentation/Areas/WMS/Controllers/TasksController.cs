@@ -27,7 +27,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         /// </summary>
         public PartialViewResult List(int Id)
         {
-            return base.PartialView("List", Task.GetList(Id, vUser.DepoId));
+            return base.PartialView("List", db.GetTaskList(Id, vUser.DepoId));
         }
         public JsonResult List2([DataSourceRequest]DataSourceRequest request)
         {
@@ -40,9 +40,10 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         public PartialViewResult Details(int ID)
         {
             if (CheckPerm(Perms.GörevListesi, PermTypes.Reading) == false) return null;
+            var sql = string.Format("EXEC FINSAT6{0}.wms.GetIrsDetayfromGorev {1}", vUser.SirketKodu, ID);
             var list = new frmTaskDetails()
             {
-                irsdetay = db.GetIrsDetayfromGorev(ID).ToList(),
+                irsdetay = db.Database.SqlQuery<frmIrsDetayfromGorev>(sql).ToList(),
                 grv = Task.Detail(ID)
             };
             return PartialView("Details", list);

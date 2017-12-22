@@ -216,13 +216,13 @@ namespace Wms12m.Business
         }
         public List<frmGorevJson> GetListJson(int DurumID, int? DepoID)
         {
-            var sql = @"SELECT        wms.Gorev.ID, wms.Gorev.GorevNo, wms.Depo.DepoAd, wms.fnGetKynkEvrakNosForGorev(wms.Gorev.ID) AS EvrakNo, ComboItem_Name.Name AS GorevTipi, wms.fnGetKynkTarihsForGorev(wms.Gorev.ID) AS SiparisTarihi, 
+            var sql = @"SELECT        wms.Gorev.ID, wms.Gorev.DurumID, wms.Gorev.GorevNo, wms.Gorev.Gorevli, wms.Depo.DepoAd, wms.fnGetKynkEvrakNosForGorev(wms.Gorev.ID) AS EvrakNo, ComboItem_Name.Name AS GorevTipi, wms.fnGetKynkTarihsForGorev(wms.Gorev.ID) AS SiparisTarihi, 
                                                  dbo.fnFormatDateFromInt(wms.Gorev.OlusturmaTarihi) AS OlusturmaTarihi, dbo.fnFormatDateFromInt(wms.Gorev.BitisTarihi) as BitisTarihi, wms.Gorev.Bilgi
                         FROM            wms.Gorev INNER JOIN
                                                  wms.Depo ON wms.Gorev.DepoID = wms.Depo.ID INNER JOIN
                                                  ComboItem_Name ON wms.Gorev.GorevTipiID = ComboItem_Name.ID AND wms.Gorev.GorevTipiID = ComboItem_Name.ID
                         WHERE        wms.Gorev.DurumID = " + DurumID;
-            if (DepoID != null) sql += " AND(wms.Gorev.DepoID = " + DepoID;
+            if (DepoID != null) sql += " AND (wms.Gorev.DepoID = " + DepoID;
             return db.Database.SqlQuery<frmGorevJson>(sql).ToList();
         }
         /// <summary>
