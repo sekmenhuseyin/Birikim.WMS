@@ -50,14 +50,14 @@
                             {
                                 list[x] = item.Miktar.ToString();
                                 <tr style="cursor:pointer;" onclick="$(this).toggleClass('selected');">
-                                    <td>@Html.DisplayFor(modelItem => item.EvrakNo)</td>
+                                    <td>@item.EvrakNo</td>
                                     <td>@item.Tarih.FromOADateInt()</td>
-                                    <td>@Html.DisplayFor(modelItem => item.MalKodu)</td>
-                                    <td>@Html.DisplayFor(modelItem => item.MalAdi)</td>
+                                    <td>@item.MalKodu</td>
+                                    <td>@item.MalAdi</td>
                                     <td ondblclick="ChangeMiktar(this, '@item.MalKodu', '@item.Miktar', '@x')" align="right">@String.Format("{0:n}", item.Miktar)</td>
                                     <td align="right">@String.Format("{0:n}", item.WmsStok)</td>
-                                    <td>@Html.DisplayFor(modelItem => item.Birim)</td>
-                                    <td>@item.SirketID-@item.ID</td>
+                                    <td>@item.Birim</td>
+                                    <td>@item.ID</td>
                                     <td>@x</td>
                                 </tr>
                                 x++;
@@ -91,11 +91,10 @@
             "columnDefs": [{ "targets": [7, 8], "visible": false, "searchable": false }]
         });
         $(".submit").click(function () {
-            var selected = ""; var cells = [,,]; var result = false;
+            var cells = [,,]; var result = false;
             table.rows(".selected").every(function (rowIdx, tableLoop, rowLoop) {
                 var miktar = parseFloat(list[this.data()[8]]);
                 var stok = parseFloat(this.data()[5].replace(".", "").replace(",", "."));
-                selected = selected + this.data()[7] + "-" + miktar + "#";
                 //aynı  malları grupla
                 if (cells.length > 2) {
                     for (var i = 2, len = cells.length; i < len; i++) {
@@ -122,8 +121,18 @@
                     return;
                 }
             });
-            $("#checkboxes").val(selected);
-            if (result == false) $("#submit").click();
+            if (result == false)
+            {
+                table.rows(".selected").every(function (rowIdx, tableLoop, rowLoop)
+                {
+                    var miktar = parseFloat(list[this.data()[8]]);
+                    $("#localData").html($("#localData").html() + "<input name='MalKodus' value='" + this.data()[2] + "' />" +
+                                                                "<input name='EvrakNos' value='" + this.data()[0] + "' />" +
+                                                                "<input name='IDs' value='" + this.data()[7] + "' />" +
+                                                                "<input name='Miktars' value='" + miktar + "' />")
+                });
+                $("#submit").click();
+            }
         });
         $("#selector").click(function () {
             if (selectall == true) {

@@ -3,6 +3,7 @@
     ViewBag.Title = "Sipariş Planlama - 2. Adım";
     Layout = "~/Views/Shared/_Layout.cshtml";
     string[] list; list = new string[Model.Count()]; int x = 0;
+    string[] EvrakNos = ViewBag.EvrakNos;
 }<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><a href="/WMS/Sales">Sipariş Planlama</a><i class="fa fa-circle"></i></li><li><span>2. Adım</span></li></ul></div>
 <h1 class="page-title">Sipariş Planlama- 2. Adım</h1>
 <div class="row">
@@ -45,7 +46,7 @@
                     @Html.AntiForgeryToken()
                     @Html.ValidationSummary(true)
                     <table class="table table-striped table-bordered table-condensed" id="sample_2">
-                        <thead><tr><th>Mal Kodu</th><th>Mal Adı</th><th class="text-right">Miktar</th><th class="text-right">Stok</th><th class="text-right">Wms Stok</th><th class="text-right">Wms Rezerv</th><th>Birim</th><th></th></tr></thead>
+                        <thead><tr><th>Mal Kodu</th><th>Mal Adı</th><th class="text-right">Miktar</th><th class="text-right">Stok</th><th class="text-right">Wms Stok</th><th class="text-right">Wms Rezerv</th><th>Birim</th></tr></thead>
                         <tfoot><tr><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr></tfoot>
                         <tfoot class="tf-search"><tr><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr></tfoot>
                         <tbody>
@@ -65,7 +66,6 @@
                                     { @("0")}
                                     </td>
                                     <td>@item.Birim</td>
-                                    <td>@item.EvrakNo</td>
                                 </tr>
                             }
                         </tbody>
@@ -84,6 +84,8 @@
                                 <input type="submit" class="hide hidden" value="submit" name="submit" id="submit" />
                                 <input type="button" class="btn btn-primary btn-block green submit" value="İleri >>>" />
                             }
+                            @foreach (var item in EvrakNos)
+                            {<input type="hidden" name="EvrakNos" value="@item" />}
                         </div>
                     </div>
                 }
@@ -98,8 +100,7 @@
     $(document).ready(function () {
         var table = $('#sample_2').DataTable({
             "pagingType": "full_numbers",
-            "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
-            "columnDefs": [{ "targets": [7], "visible": false, "searchable": false }]
+            "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" }
         });
         $('#sample_2 .tf-search th').each(function ()
         {
@@ -163,7 +164,7 @@
             {
                 table.rows(".selected").every(function (rowIdx, tableLoop, rowLoop)
                 {
-                    $("#localData").html($("#localData").html() + "<input name='MalKodus' value='" + this.data()[0] + "' /><input name='EvrakNos' value='" + this.data()[7] + "' />")
+                    $("#localData").html($("#localData").html() + "<input name='MalKodus' value='" + this.data()[0] + "' />")
                 });
                 $("#submit").click();
             }

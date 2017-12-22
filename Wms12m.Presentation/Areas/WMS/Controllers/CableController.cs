@@ -368,7 +368,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         public PartialViewResult GetSiparis(string DepoID)
         {
             if (DepoID == "0") return null;
-            var sql = string.Format("SELECT * FROM FINSAT6{0}.wms.fnSiparisList('{1}', 1, 0, 0)", vUser.SirketKodu, DepoID);
+            var sql = string.Format("EXEC FINSAT6{0}.wms.getSiparisList @DepoKodu = '{1}', @isKable = 1, @BasTarih = 0, @BitTarih = 0", vUser.SirketKodu, DepoID);
             try
             {
                 var list = db.Database.SqlQuery<frmSiparisler>(sql).ToList();
@@ -378,29 +378,6 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             {
                 Logger(ex, "Cable/GetSiparis");
                 return PartialView("_Siparis", new List<frmSiparisler>());
-            }
-        }
-        /// <summary>
-        /// depo ve şirket seçince açık siparişler gelecek
-        /// </summary>
-        [HttpPost]
-        public PartialViewResult Step3Details(string id)
-        {
-            string[] tmp = id.Split('-');
-            string depoid = tmp[0], dbname = tmp[1], rowid = tmp[2];
-            ViewBag.satir = tmp[3];
-            var sql = string.Format("SELECT wms.Yer.* " +
-                "FROM wms.Yer INNER JOIN FINSAT6{0}.FINSAT6{0}.SPI ON wms.Yer.MalKodu = FINSAT6{0}.FINSAT6{0}.SPI.MalKodu INNER JOIN wms.Depo ON wms.Yer.DepoID = wms.Depo.ID " +
-                "WHERE (FINSAT6{0}.FINSAT6{0}.SPI.ROW_ID = {1}) AND (wms.Depo.DepoKodu = '{2}') AND (wms.Yer.Miktar > 0)", dbname, rowid, depoid);
-            try
-            {
-                var list = db.Database.SqlQuery<Yer>(sql).ToList();
-                return PartialView("Step3Details", list);
-            }
-            catch (Exception ex)
-            {
-                Logger(ex, "Cable/Step3Details");
-                return null;
             }
         }
     }
