@@ -351,8 +351,9 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             if (id == null || id.ToString2() == "") return null;
             var ID = id.ToInt32();
             // listeyi getir
-            var list = db.IRS.Where(m => m.ID == ID).FirstOrDefault();
-            if (list == null) return null;
+            var sql = string.Format(@"EXEC FINSAT6{0}.[wms].[getStokDetay] {1}", vUser.SirketKodu, ID);
+            var list = db.Database.SqlQuery<frmStokdetail>(sql).ToList();
+            if (list.Count == 0) return null;
             return PartialView("Details", list);
         }
         /// <summary>

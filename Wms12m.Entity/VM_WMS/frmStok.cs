@@ -47,6 +47,22 @@
         public decimal GunesStok { get; set; }
     }
     /// <summary>
+    /// stok detay
+    /// </summary>
+    public class frmStokdetail
+    {
+        public string SirketKod { get; set; }
+        public bool IslemTur { get; set; }
+        public string EvrakNo { get; set; }
+        public int Tarih { get; set; }
+        public string HesapKodu { get; set; }
+        public string Unvan { get; set; }
+        public string MalKodu { get; set; }
+        public string MalAdi { get; set; }
+        public decimal Miktar { get; set; }
+        public string Birim { get; set; }
+    }
+    /// <summary>
     /// rezrve edilmiş stok listesi
     /// </summary>
     public class frmRezerveStok
