@@ -59,7 +59,7 @@
                                 <span class="field-validation-valid" data-valmsg-for="EvrakNo" data-valmsg-replace="true" style="color:red;"></span>
                             </div>
                             <div class="col-md-1">
-                                <a id="btnList" class="btn btn-default input-circle green" href="#modalEditPage" data-toggle="modal" onclick="editInModal('/WMS/Purchase/List/' + $('#DepoID').val() + ',' + $('#HesapKodu').val())"> Liste </a>
+                                <a id="btnList" class="btn btn-default input-circle green" href="#modalEditPage" data-toggle="modal" onclick="editInModal2('/WMS/Purchase/List', { DepoID: $('#DepoID').val(), HesapKodu: $('#HesapKodu').val() })"> Liste </a>
                             </div>
                         </div>
                         <div class="form-group">
@@ -90,7 +90,7 @@
                 </div>
                 <div class="col-md-3 pull-right m-t-5 showlater">
                     <button type="button" class="btn btn-default input-circle" onclick="Activate()">Görevi Başlat</button>
-                    <a id="btnSiparis" class="btn btn-default input-circle" href="#modalEditPage" data-toggle="modal" onclick="editInModal('/WMS/Purchase/SiparisList/' + $('#DepoID').val() + ',' + $('#HesapKodu').val())"> Siparişten Getir </a>
+                    <a id="btnSiparis" class="btn btn-default input-circle" href="#modalEditPage" data-toggle="modal" onclick="editInModal2('/WMS/Purchase/SiparisList', { DepoID: $('#DepoID').val(), HesapKodu: $('#HesapKodu').val() })"> Siparişten Getir </a>
                 </div>
             </div>
             <div class="portlet-body form">

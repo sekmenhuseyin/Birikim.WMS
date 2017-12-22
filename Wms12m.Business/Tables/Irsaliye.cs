@@ -89,19 +89,10 @@ namespace Wms12m.Business
         /// liste
         /// </summary>
         public override List<IR> GetList() => db.IRS.OrderBy(m => m.EvrakNo).ToList();
-
         /// <summary>
         /// üst tabloya ait olanları getir
         /// </summary>
         public override List<IR> GetList(int ParentId) => GetList();
-
-        /// <summary>
-        /// üst tabloya ait olanları getir
-        /// </summary>
-        public List<IR> GetList(string SirketKod, bool IslemTur, string HesapKodu, int DepoID)
-        {
-            return db.IRS.Where(m => m.SirketKod == SirketKod && m.IslemTur == IslemTur && m.HesapKodu == HesapKodu && m.DepoID == DepoID).OrderByDescending(m => m.ID).ToList();
-        }
         /// <summary>
         /// irsaliye onayı bul
         /// </summary>

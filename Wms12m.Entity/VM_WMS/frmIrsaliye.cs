@@ -83,4 +83,17 @@ namespace Wms12m.Entity
         public string MalKodu { get; set; }
         public string Birim1 { get; set; }
     }
+    /// <summary>
+    /// mal kabul irsaliye listesi
+    /// </summary>
+    public class frmIrsList
+    {
+        public int ID { get; set; }
+        public int DepoID { get; set; }
+        public string EvrakNo { get; set; }
+        public string HesapKodu { get; set; }
+        public string Unvan { get; set; }
+        public int Tarih { get; set; }
+        public bool Onay { get; set; }
+    }
 }

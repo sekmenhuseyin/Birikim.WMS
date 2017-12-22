@@ -21,17 +21,12 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         /// <summary>
         /// irsaliye listesi
         /// </summary>
-        public PartialViewResult List()
+        public PartialViewResult List(int DepoID, string HesapKodu)
         {
-            var id = Url.RequestContext.RouteData.Values["id"];
-            if (id == null || id.ToString2() == "0,") return null;
-            string[] tmp = id.ToString().Split(',');
-            if (tmp.Length != 2) return null;
-            // kontrol
             if (CheckPerm(Perms.MalKabul, PermTypes.Reading) == false) return null;
             // get liste
-            var list = Irsaliye.GetList(vUser.SirketKodu, false, tmp[1], tmp[0].ToInt32());
-            ViewBag.id = id;
+            var sql = string.Format("EXEC FINSAT6{0}.wms.getMalKabulIrsaliyeList @IslemTur = {1}, @HesapKodu = '{2}', @DepoID = {3}", vUser.SirketKodu, 0, HesapKodu, DepoID);
+            var list = db.Database.SqlQuery<frmIrsList>(sql).ToList();
             ViewBag.Yetki = CheckPerm(Perms.MalKabul, PermTypes.Writing);
             ViewBag.Yetki2 = CheckPerm(Perms.MalKabul, PermTypes.Deleting);
             return PartialView("List", list);
@@ -74,14 +69,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             if (CheckPerm(Perms.MalKabul, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             try
             {
-                db.Database.ExecuteSqlCommand(string.Format(@"UPDATE wms.IRS SET Onay = 1 WHERE (ID IN
-                                                                        (SELECT IrsaliyeID FROM wms.GorevIRS WHERE (GorevID IN
-                                                                                    (SELECT GorevID FROM wms.GorevIRS WHERE (IrsaliyeID = {0}))
-                                                                        ))
-                                                                    )
-                                                            UPDATE wms.Gorev SET DurumID = 9 WHERE (ID IN
-                                                                        (SELECT GorevID FROM wms.GorevIRS WHERE (IrsaliyeID = {0}))
-                                                            )", ID));
+                db.Database.ExecuteSqlCommand(string.Format(@"EXEC BIRIKIM.wms.UpdateGorev {0}", ID));
                 return Json(new Result(true), JsonRequestBehavior.AllowGet);
             }
             catch (Exception)
@@ -132,17 +120,10 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         /// <summary>
         /// irsaliye listesi
         /// </summary>
-        public PartialViewResult SiparisList()
+        public PartialViewResult SiparisList(int DepoID, string HesapKodu)
         {
-            var id = Url.RequestContext.RouteData.Values["id"];
-            if (id == null || id.ToString2() == "0,") return null;
-            string[] tmp = id.ToString().Split(',');
-            if (tmp.Length != 2) return null;
-            // kontrol
             if (CheckPerm(Perms.MalKabul, PermTypes.Reading) == false) return null;
             // get list
-            var depo = Store.Detail(tmp[0].ToInt32()).DepoKodu;
-            var hesapKodu = tmp[1].ToString();
             var sql = string.Format(@"
                                 SELECT  FINSAT6{0}.FINSAT6{0}.SPI.ROW_ID AS ID, FINSAT6{0}.FINSAT6{0}.SPI.EvrakNo, FINSAT6{0}.FINSAT6{0}.SPI.Tarih, FINSAT6{0}.FINSAT6{0}.STK.MalAdi, 
                                         FINSAT6{0}.FINSAT6{0}.STK.MalKodu, 
@@ -159,7 +140,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                                               INNER JOIN BIRIKIM.wms.Gorev ON BIRIKIM.wms.GorevIRS.GorevID = BIRIKIM.wms.Gorev.ID 
                                               WHERE (BIRIKIM.wms.Gorev.DurumID = 9 OR BIRIKIM.wms.Gorev.DurumID = 15) 
                                       AND (NOT(BIRIKIM.wms.IRS_Detay.KynkSiparisID IS NULL)) 
-                                GROUP BY BIRIKIM.wms.IRS_Detay.KynkSiparisID)", vUser.SirketKodu, depo, hesapKodu);
+                                GROUP BY BIRIKIM.wms.IRS_Detay.KynkSiparisID)", vUser.SirketKodu, DepoID, HesapKodu);
             var list = db.Database.SqlQuery<frmSiparistenGelen>(sql).ToList();
             return PartialView("SiparisList", list);
         }
