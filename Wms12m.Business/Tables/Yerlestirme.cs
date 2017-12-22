@@ -347,7 +347,7 @@ namespace Wms12m.Business
             var sql = string.Format(@"
                         SELECT        wms.Gorev.GorevNo, wms.Gorev.OlusturmaTarihi, wms.Gorev.Bilgi, wms.IRS.SirketKod, wms.IRS.EvrakNo, wms.IRS.HesapKodu, wms.IRS_Detay.MalKodu, wms.IRS_Detay.Miktar, wms.IRS_Detay.Birim, 
                                                  wms.IRS_Detay.MakaraNo, wms.IRS_Detay.KynkSiparisID, wms.IRS_Detay.KynkSiparisNo, wms.IRS_Detay.KynkSiparisSiraNo, wms.IRS_Detay.KynkSiparisTarih, wms.IRS_Detay.KynkSiparisMiktar, wms.Depo.DepoKodu, 
-                                                 STK.MalAdi, CHK.Unvan1 as Uvan
+                                                 STK.MalAdi, CHK.Unvan1 as Unvan
                         FROM            wms.IRS INNER JOIN
                                                  wms.IRS_Detay ON wms.IRS.ID = wms.IRS_Detay.IrsaliyeID INNER JOIN
                                                  wms.GorevIRS ON wms.IRS.ID = wms.GorevIRS.IrsaliyeID INNER JOIN

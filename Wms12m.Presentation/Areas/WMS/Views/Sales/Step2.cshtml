@@ -73,7 +73,7 @@
                             <button type="button" class="btn btn-default m-r-20" id="selector">Hepsini Seç</button>
                         </div>
                         <div class="col-md-2">
-                            <div id="localData"></div>
+                            <div id="localData" class="hidden"></div>
                             <input type="hidden" name="DepoID" value="@ViewBag.DepoID" />
                             <input type="hidden" name="EvrakNos" value="@ViewBag.EvrakNos" />@if (ViewBag.hataliStok == true)
                             {
@@ -92,8 +92,18 @@
     var list = [@{for (int i = 0; i < Model.Count(); i++){ if(i>0){<text>,</text>} <text>"</text>@list[i]<text>"</text> }}];
     $(document).ready(function () {
         var table = $('#sample_2').DataTable({
+            "pagingType": "full_numbers",
             "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" }
         });
+        $('#sample_2 .tf-search th').each(function ()
+        {
+            var title = $('#sample_2 thead th').eq($(this).index()).text();
+            if (title != "" && title.indexOf("Tarih") !== -1)
+                $(this).html('<input class="form-control input-circle tarih" type="text" placeholder="Ara" />');
+            else if (title != "" && title != "Detay" && title != "Hareket")
+                $(this).html('<input class="form-control input-circle" type="text" placeholder="Ara" />');
+        });
+        $("#sample_2 tfoot input").on('keyup change', function () { table.column($(this).parent().index() + ':visible').search(this.value).draw(); });
         $("#selector").click(function () {
             selected = "";
             if (selectall == true) {
