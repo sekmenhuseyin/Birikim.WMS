@@ -1,5 +1,4 @@
 ﻿using Kendo.Mvc.Extensions;
-using Kendo.Mvc.UI;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -27,7 +26,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         /// </summary>
         public PartialViewResult List(int Id)
         {
-            return base.PartialView("List", db.GetTaskList(Id, vUser.DepoId));
+            return base.PartialView("List", db.GetTaskList(Id, vUser.DepoId ?? 0).ToList());
         }
         //public JsonResult List2([DataSourceRequest]DataSourceRequest request)
         //{
