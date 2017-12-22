@@ -930,5 +930,23 @@ namespace Wms12m.Entity.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetTaskList_Result>("WMSEntities.GetTaskList", durumIDParameter, depoIDParameter);
         }
+    
+        public virtual ObjectResult<SalesStep4Select1_Result> SalesStep4Select1(Nullable<int> gorevID)
+        {
+            var gorevIDParameter = gorevID.HasValue ?
+                new ObjectParameter("GorevID", gorevID) :
+                new ObjectParameter("GorevID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SalesStep4Select1_Result>("WMSEntities.SalesStep4Select1", gorevIDParameter);
+        }
+    
+        public virtual ObjectResult<SalesStep4Select2_Result> SalesStep4Select2(Nullable<int> gorevID)
+        {
+            var gorevIDParameter = gorevID.HasValue ?
+                new ObjectParameter("GorevID", gorevID) :
+                new ObjectParameter("GorevID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SalesStep4Select2_Result>("WMSEntities.SalesStep4Select2", gorevIDParameter);
+        }
     }
 }
