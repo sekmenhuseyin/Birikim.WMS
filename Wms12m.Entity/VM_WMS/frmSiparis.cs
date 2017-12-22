@@ -22,6 +22,21 @@ namespace Wms12m.Entity
         public int ROW_ID { get; set; }
     }
     /// <summary>
+    /// sipariş listesi 2. sayfa
+    /// </summary>
+    public class frmSiparisStep1
+    {
+        public string DepoID { get; set; }
+        public string[] EvrakNos { get; set; }
+    }
+
+
+
+
+
+
+
+    /// <summary>
     /// sipariş listesi onay
     /// </summary>
     public class frmSiparisOnay
@@ -32,6 +47,7 @@ namespace Wms12m.Entity
         [Required]
         public string checkboxes { get; set; }
         public string EvrakNos { get; set; }
+        public string[] EvrakNo { get; set; }
         public string Tarih { get; set; } = "";
     }
     /// <summary>

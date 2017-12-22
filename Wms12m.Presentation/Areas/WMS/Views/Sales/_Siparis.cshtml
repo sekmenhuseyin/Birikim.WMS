@@ -16,28 +16,26 @@
                     <th>Açıklama</th>
                     <th>Çeşit</th>
                     <th class="text-right">Miktar</th>
-                    <th></th>
                 </tr>
             </thead>
-            <tfoot><tr><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr></tfoot>
-            <tfoot class="tf-search"><tr><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr></tfoot>
+            <tfoot><tr><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr></tfoot>
+            <tfoot class="tf-search"><tr><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr></tfoot>
             <tbody>
                 @foreach (var item in Model)
                 {
                     <tr data-ID="@item.EvrakNo" style="cursor:pointer;" onclick="toggle(this)">
                         <td style="width:20px!important;"></td>
                         <td style="width:20px!important;" class="details-control"></td>
-                        <td>@Html.DisplayFor(modelItem => item.EvrakNo)</td>
+                        <td>@item.EvrakNo</td>
                         <td>@item.Tarih.FromOADateInt()</td>
                         <td>@item.Saat.FromOaTime()</td>
-                        <td>@Html.DisplayFor(modelItem => item.Chk)</td>
-                        <td>@Html.DisplayFor(modelItem => item.Unvan)</td>
-                        <td>@Html.DisplayFor(modelItem => item.GrupKod)</td>
-                        <td>@Html.DisplayFor(modelItem => item.FaturaAdres)</td>
-                        <td>@Html.DisplayFor(modelItem => item.Aciklama)</td>
+                        <td>@item.Chk</td>
+                        <td>@item.Unvan</td>
+                        <td>@item.GrupKod</td>
+                        <td>@item.FaturaAdres</td>
+                        <td>@item.Aciklama</td>
                         <td align="right">@item.Çeşit</td>
                         <td align="right">@String.Format("{0:n}", item.Miktar)</td>
-                        <td>@item.EvrakNo</td>
                     </tr>
                 }
             </tbody>
@@ -49,7 +47,7 @@
         <button type="button" class="btn btn-default m-r-20" id="selector">Hepsini Seç</button>
     </div>
     <div class="col-md-2">
-        <input type="hidden" name="checkboxes" id="checkboxes" value="" />
+        <div id="evraklar"></div>
         <input type="submit" class="hide hidden" value="submit" name="submit" id="submit" />
         <input type="button" class="btn btn-primary btn-block green submit" value="İleri >>>" />
     </div>
@@ -61,7 +59,7 @@
             "pagingType": "full_numbers",
             "order": [[3, "desc"]],
             "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
-            "columnDefs": [{ "targets": [12], "visible": false, "searchable": false }, { "targets": [0, 1], "orderable": false }]
+            "columnDefs": [{ "targets": [0, 1], "orderable": false }]
         });
         $('#sample_2 .tf-search th').each(function () {
             var title = $('#sample_2 thead th').eq($(this).index()).text();
@@ -100,8 +98,10 @@
         $(".submit").click(function () {
             //TODO: burası düzelecek
             var result = false;
-            table.rows(".selected").every(function (rowIdx, tableLoop, rowLoop) {
+            table.rows(".selected").every(function (rowIdx, tableLoop, rowLoop)
+            {
                 result = true;
+                $("#evraklar").html($("#evraklar").html() + "<input name='EvrakNos' value='" + this.data()[2] + "' />")
             });
             if (result == true)
             {

@@ -30,7 +30,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             var _Result = new Result(true);
             if (CheckPerm(Perms.ÇekOnaylamaSPGMY, PermTypes.Writing) == false) return null;
 
-            var parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
+            var parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
 
             var sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
 
@@ -61,7 +61,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             var _Result = new Result(true);
             if (CheckPerm(Perms.ÇekOnaylamaSPGMY, PermTypes.Writing) == false) return null;
 
-            var parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
+            var parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
 
             var sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
 
@@ -106,11 +106,8 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         {
             var _Result = new Result(true);
             if (CheckPerm(Perms.ÇekOnaylamaMIGMY, PermTypes.Writing) == false) return null;
-
-            var parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
-
+            var parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
             var sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
-
             try
             {
                 Dictionary<string, int> FiyatMaxSiraNo = new Dictionary<string, int>();
@@ -138,7 +135,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             var _Result = new Result(true);
             if (CheckPerm(Perms.ÇekOnaylamaMIGMY, PermTypes.Writing) == false) return null;
 
-            var parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
+            var parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
 
             var sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
 
@@ -184,7 +181,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             var _Result = new Result(true);
             if (CheckPerm(Perms.ÇekOnaylamaGM, PermTypes.Writing) == false) return null;
 
-            var parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
+            var parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
 
             var sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
 
@@ -215,7 +212,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             var _Result = new Result(true);
             if (CheckPerm(Perms.ÇekOnaylamaGM, PermTypes.Writing) == false) return null;
 
-            var parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
+            var parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
 
             var sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
 

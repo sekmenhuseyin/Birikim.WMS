@@ -23,45 +23,14 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         /// seçili malzemeler gruplanmış olarak gelecek
         /// </summary>
         [HttpPost, ValidateAntiForgeryToken]
-        public ActionResult Step2(frmSiparisOnay tbl)
+        public ActionResult Step2(frmSiparisStep1 tbl)
         {
-            if (tbl.DepoID == "0" || tbl.checkboxes.ToString2() == "")
+            //kontrol
+            if (tbl.DepoID == "0")
                 return RedirectToAction("Index");
             if (CheckPerm(Perms.GenelSipariş, PermTypes.Reading) == false) return Redirect("/");
-            // şirket id ve evrak nolar bulunur
-            tbl.checkboxes = tbl.checkboxes.Left(tbl.checkboxes.Length - 1);
-            string[] tmp = tbl.checkboxes.Split('#');
-            var sirketler = new List<string>();
-            var evraklar = new List<string>();
-            int i;
-            foreach (var item in tmp)
-            {
-                string[] tmp2 = item.Split('-');
-                if (sirketler.Contains(tmp2[0]) == false) { sirketler.Add(tmp2[0]); evraklar.Add("'" + tmp2[1] + "'"); }//eğer şirket yoksa ekle
-                else
-                {
-                    i = sirketler.FindIndex(m => m.Contains(tmp2[0]));
-                    if (evraklar[i] != "") evraklar[i] += ",";
-                    evraklar[i] += "'" + tmp2[1] + "'";
-                }
-            }
-
             // sql oluştur
-            var sql = ""; i = 0;
-            foreach (var item in sirketler)
-            {
-                if (sql != "") sql += " UNION ";
-                sql += string.Format("SELECT '{0}' as SirketID, FINSAT6{0}.FINSAT6{0}.SPI.MalKodu, (FINSAT6{0}.FINSAT6{0}.SPI.BirimMiktar - FINSAT6{0}.FINSAT6{0}.SPI.TeslimMiktar - FINSAT6{0}.FINSAT6{0}.SPI.KapatilanMiktar) AS Miktar, FINSAT6{0}.FINSAT6{0}.SPI.Birim, " +
-                                            "FINSAT6{0}.wms.getStockByDepo(FINSAT6{0}.FINSAT6{0}.STK.MalKodu, '{1}') as Stok, wms.fnGetStock('{1}',FINSAT6{0}.FINSAT6{0}.SPI.MalKodu,FINSAT6{0}.FINSAT6{0}.SPI.Birim, 0) AS WmsStok, wms.fnGetRezervStock('{1}',FINSAT6{0}.FINSAT6{0}.SPI.MalKodu,FINSAT6{0}.FINSAT6{0}.SPI.Birim) AS WmsRezerv " +
-                                    "FROM FINSAT6{0}.FINSAT6{0}.SPI WITH(NOLOCK) INNER JOIN " +
-                                            "FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) ON FINSAT6{0}.FINSAT6{0}.SPI.MalKodu = FINSAT6{0}.FINSAT6{0}.STK.MalKodu LEFT OUTER JOIN " +
-                                            "FINSAT6{0}.FINSAT6{0}.DST WITH(NOLOCK) ON FINSAT6{0}.FINSAT6{0}.STK.MalKodu =FINSAT6{0}. FINSAT6{0}.DST.MalKodu AND FINSAT6{0}.FINSAT6{0}.DST.Depo = '{1}' " +
-                                    "WHERE (FINSAT6{0}.FINSAT6{0}.SPI.Depo = '{1}') AND (FINSAT6{0}.FINSAT6{0}.SPI.KynkEvrakTip = 62) AND(FINSAT6{0}.FINSAT6{0}.SPI.SiparisDurumu = 0) AND(FINSAT6{0}.FINSAT6{0}.SPI.EvrakNo IN({2})) AND(FINSAT6{0}.FINSAT6{0}.SPI.Kod10 IN('Terminal', 'Onaylandı')) AND " +
-                                    "FINSAT6{0}.FINSAT6{0}.SPI.ROW_ID NOT IN (SELECT BIRIKIM.wms.IRS_Detay.KynkSiparisID FROM BIRIKIM.wms.IRS_Detay INNER JOIN BIRIKIM.wms.GorevIRS ON BIRIKIM.wms.IRS_Detay.IrsaliyeID = BIRIKIM.wms.GorevIRS.IrsaliyeID INNER JOIN BIRIKIM.wms.Gorev ON BIRIKIM.wms.GorevIRS.GorevID = BIRIKIM.wms.Gorev.ID WHERE (BIRIKIM.wms.Gorev.DurumID = 9) AND (NOT(BIRIKIM.wms.IRS_Detay.KynkSiparisID IS NULL)) GROUP BY BIRIKIM.wms.IRS_Detay.KynkSiparisID)", item, tbl.DepoID, evraklar[i]);
-                i++;
-            }
-
-            sql = "SELECT MIN(SirketID) as SirketID, MalKodu, SUM(Miktar) AS Miktar, Birim, Stok, WmsStok, WmsRezerv FROM (" + sql + ") AS t1 GROUP BY MalKodu, Birim, Stok, WmsStok, WmsRezerv ORDER BY MalKodu";
+            var sql = string.Format("SELECT * from FINSAT6{0}.wms.fnSiparisListStep2('{1}', '{2}')", vUser.SirketKodu, tbl.DepoID, string.Join(",", tbl.EvrakNos));
             // listeyi getir
             var list = db.Database.SqlQuery<frmSiparisMalzeme>(sql).ToList();
             // çapraz stok kontrol
@@ -89,7 +58,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             if (hataliStok != "")
                 hataliStok += " için stok miktarları uyuşmuyor.<br />";
             // return
-            ViewBag.EvrakNos = tbl.checkboxes;
+            ViewBag.EvrakNos = tbl.EvrakNos;
             ViewBag.DepoID = tbl.DepoID;
             ViewBag.Hatali = sifirStok + hataliStok + "<br /><br />";
             ViewBag.hataliStok = hataliStok == "" && list.Count > 0 ? true : false;
