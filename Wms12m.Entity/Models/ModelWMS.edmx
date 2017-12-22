@@ -1467,12 +1467,6 @@
           <Parameter Name="LinkEvrakNo" Type="varchar" Mode="In" />
           <Parameter Name="Aciklama" Type="varchar" Mode="In" />
         </Function>
-        <Function Name="SalesStep4Select1" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="wms">
-          <Parameter Name="GorevID" Type="int" Mode="In" />
-        </Function>
-        <Function Name="SalesStep4Select2" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="wms">
-          <Parameter Name="GorevID" Type="int" Mode="In" />
-        </Function>
         <Function Name="SettingsGorevNo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="wms">
           <Parameter Name="tarih" Type="int" Mode="In" />
           <Parameter Name="DepoID" Type="int" Mode="In" />
@@ -2267,12 +2261,6 @@
           <FunctionImport Name="GetTaskList" ReturnType="Collection(MModel.GetTaskList_Result)">
             <Parameter Name="DurumID" Mode="In" Type="Int32" />
             <Parameter Name="DepoID" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="SalesStep4Select1" ReturnType="Collection(MModel.SalesStep4Select1_Result)">
-            <Parameter Name="GorevID" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="SalesStep4Select2" ReturnType="Collection(MModel.SalesStep4Select2_Result)">
-            <Parameter Name="GorevID" Mode="In" Type="Int32" />
           </FunctionImport>
           </EntityContainer>
         <ComplexType Name="GetSirkets_Result">
@@ -3860,18 +3848,6 @@
           <Property Type="String" Name="BitisTarihi" Nullable="true" MaxLength="15" />
           <Property Type="String" Name="Bilgi" Nullable="true" />
         </ComplexType>
-        <ComplexType Name="SalesStep4Select1_Result">
-          <Property Type="String" Name="MalKodu" Nullable="false" MaxLength="30" />
-          <Property Type="Decimal" Name="Miktar" Nullable="true" Precision="38" Scale="6" />
-          <Property Type="String" Name="Birim" Nullable="false" MaxLength="4" />
-        </ComplexType>
-        <ComplexType Name="SalesStep4Select2_Result">
-          <Property Type="String" Name="HucreAd" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="MalKodu" Nullable="false" MaxLength="30" />
-          <Property Type="Decimal" Name="Miktar" Nullable="false" Precision="25" Scale="6" />
-          <Property Type="String" Name="Birim" Nullable="false" MaxLength="4" />
-          <Property Type="Decimal" Name="Stok" Nullable="false" Precision="25" Scale="6" />
-        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -4873,26 +4849,6 @@
                 <ScalarProperty Name="OlusturmaTarihi" ColumnName="OlusturmaTarihi" />
                 <ScalarProperty Name="BitisTarihi" ColumnName="BitisTarihi" />
                 <ScalarProperty Name="Bilgi" ColumnName="Bilgi" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="SalesStep4Select1" FunctionName="MModel.Store.SalesStep4Select1">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="MModel.SalesStep4Select1_Result">
-                <ScalarProperty Name="MalKodu" ColumnName="MalKodu" />
-                <ScalarProperty Name="Miktar" ColumnName="Miktar" />
-                <ScalarProperty Name="Birim" ColumnName="Birim" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="SalesStep4Select2" FunctionName="MModel.Store.SalesStep4Select2">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="MModel.SalesStep4Select2_Result">
-                <ScalarProperty Name="HucreAd" ColumnName="HucreAd" />
-                <ScalarProperty Name="MalKodu" ColumnName="MalKodu" />
-                <ScalarProperty Name="Miktar" ColumnName="Miktar" />
-                <ScalarProperty Name="Birim" ColumnName="Birim" />
-                <ScalarProperty Name="Stok" ColumnName="Stok" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

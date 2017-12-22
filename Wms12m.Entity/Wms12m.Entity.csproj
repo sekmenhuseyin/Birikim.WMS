@@ -268,12 +268,6 @@
     <Compile Include="Models\RolePerm.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\SalesStep4Select1_Result.cs">
-      <DependentUpon>ModelWMS.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\SalesStep4Select2_Result.cs">
-      <DependentUpon>ModelWMS.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\Setting.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
     </Compile>
