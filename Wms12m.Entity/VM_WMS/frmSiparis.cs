@@ -35,7 +35,7 @@ namespace Wms12m.Entity
         public string HucreAd { get; set; }
         public string MakaraNo { get; set; }
         public int KatID { get; set; }
-        public int Sira { get; set; }
+        public int? Sira { get; set; }
         public decimal Stok { get; set; }
         public decimal WmsStok { get; set; }
         public decimal WmsRezerv { get; set; }
@@ -105,6 +105,7 @@ namespace Wms12m.Entity
         public string TeslimChk { get; set; }
         public string Unvan { get; set; }
         public string MalKodu { get; set; }
+        public string MalAdi { get; set; }
         public decimal BirimMiktar { get; set; }
         public decimal Miktar { get; set; }
         public decimal Stok { get; set; }

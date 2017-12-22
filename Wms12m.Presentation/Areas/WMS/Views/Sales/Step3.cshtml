@@ -88,6 +88,7 @@
     $(document).ready(function () {
         var table = $('#sample_2').DataTable({
             "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
+            "order": [[2, "desc"]],
             "columnDefs": [{ "targets": [7, 8], "visible": false, "searchable": false }]
         });
         $(".submit").click(function () {

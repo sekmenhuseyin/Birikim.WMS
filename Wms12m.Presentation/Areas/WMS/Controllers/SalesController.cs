@@ -149,10 +149,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             grv.Bilgi = "Alıcı: " + alıcılar;
             db.SaveChanges();
             // get gorev details
-            sql = string.Format("SELECT wms.IRS_Detay.MalKodu, SUM(wms.IRS_Detay.Miktar) AS Miktar, wms.IRS_Detay.Birim " +
-                                "FROM wms.IRS_Detay INNER JOIN wms.GorevIRS ON wms.IRS_Detay.IrsaliyeID = wms.GorevIRS.IrsaliyeID " +
-                                "WHERE(wms.GorevIRS.GorevID = {0}) " +
-                                "GROUP BY wms.IRS_Detay.MalKodu, wms.IRS_Detay.Birim", cevap.GorevID);
+            sql = string.Format("EXEC FINSAT6{0}.wms.getSiparisListStep41 {1}", vUser.SirketKodu, cevap.GorevID);
             list = db.Database.SqlQuery<frmSiparisMalzemeOnay>(sql).ToList();
             foreach (var item in list)
             {
@@ -185,9 +182,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             }
 
             // listeyi getir
-            sql = string.Format("SELECT wms.Yer.HucreAd, wms.GorevYer.MalKodu, wms.GorevYer.Miktar, wms.GorevYer.Birim, wms.Yer.Miktar AS Stok " +
-                                "FROM wms.GorevYer INNER JOIN wms.Yer ON wms.GorevYer.YerID = wms.Yer.ID " +
-                                "WHERE (wms.GorevYer.GorevID = {1})", idDepo, cevap.GorevID.Value);
+            sql = string.Format("EXEC FINSAT6{0}.wms.getSiparisListStep42 {1}", vUser.SirketKodu, cevap.GorevID);
             var list2 = db.Database.SqlQuery<frmSiparisMalzeme>(sql).ToList();
             ViewBag.GorevID = cevap.GorevID.Value;
             ViewBag.DepoID = idDepo;
@@ -227,9 +222,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             }
 
             // listeyi getir
-            var sql = string.Format("SELECT wms.Yer.HucreAd, wms.GorevYer.MalKodu, wms.GorevYer.Miktar, wms.GorevYer.Birim,  wms.GorevYer.Sira, wms.Yer.Miktar AS Stok " +
-                                "FROM wms.GorevYer INNER JOIN wms.Yer ON wms.GorevYer.YerID = wms.Yer.ID " +
-                                "WHERE (wms.GorevYer.GorevID = {1}) ORDER BY  wms.GorevYer.Sira", DepoID, GorevID);
+            var sql = string.Format("EXEC FINSAT6{0}.wms.getSiparisListStep42 {1}", vUser.SirketKodu, GorevID);
             var list = db.Database.SqlQuery<frmSiparisMalzeme>(sql).ToList();
             ViewBag.GorevID = GorevID;
             var listsirk = db.GetSirketDBs();
