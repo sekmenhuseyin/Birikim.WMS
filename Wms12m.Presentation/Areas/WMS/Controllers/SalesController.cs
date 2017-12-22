@@ -23,10 +23,10 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         /// seçili malzemeler gruplanmış olarak gelecek
         /// </summary>
         [HttpPost, ValidateAntiForgeryToken]
-        public ActionResult Step2(frmSiparisStep1 tbl)
+        public ActionResult Step2(frmSiparisSteps tbl)
         {
             //kontrol
-            if (tbl.DepoID == "0")
+            if (tbl.DepoID == "0" || tbl.EvrakNos.Count() == 0)
                 return RedirectToAction("Index");
             if (CheckPerm(Perms.GenelSipariş, PermTypes.Reading) == false) return Redirect("/");
             // sql oluştur
@@ -58,7 +58,6 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             if (hataliStok != "")
                 hataliStok += " için stok miktarları uyuşmuyor.<br />";
             // return
-            ViewBag.EvrakNos = tbl.EvrakNos;
             ViewBag.DepoID = tbl.DepoID;
             ViewBag.Hatali = sifirStok + hataliStok + "<br /><br />";
             ViewBag.hataliStok = hataliStok == "" && list.Count > 0 ? true : false;
@@ -68,47 +67,29 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         /// siparişleri seçince, siparişlerdeki tüm malzemeler gelecek
         /// </summary>
         [HttpPost, ValidateAntiForgeryToken]
-        public ActionResult Step3(frmSiparisOnay tbl)
+        public ActionResult Step3(frmSiparisSteps tbl)
         {
-            if (tbl.DepoID == "0" || tbl.EvrakNos == "" || tbl.checkboxes == "")
+            if (tbl.EvrakNos.Count() == 0 || tbl.MalKodus.Count() == 0)
                 return RedirectToAction("Index");
             if (CheckPerm(Perms.GenelSipariş, PermTypes.Reading) == false) return Redirect("/");
-            var sirketler = new List<string>();
-            var evraklar = new List<string>();
-            int i;
-            // şirket id ve evrak nolar bulunur
-            var malkodlari = "'" + (tbl.checkboxes + "0").Replace("#", "','") + "'";
-            string[] tmp = tbl.EvrakNos.Split('#');
-            foreach (var item in tmp)
-            {
-                string[] tmp2 = item.Split('-');
-                if (sirketler.Contains(tmp2[0]) == false) { sirketler.Add(tmp2[0]); evraklar.Add("'" + tmp2[1] + "'"); }//eğer şirket yoksa ekle
-                else
-                {
-                    i = sirketler.FindIndex(m => m.Contains(tmp2[0]));
-                    if (evraklar[i] != "") evraklar[i] += ",";
-                    evraklar[i] += "'" + tmp2[1] + "'";
-                }
-            }
-
             // sql oluştur
-            var sql = ""; i = 0;
-            foreach (var item in sirketler)
+            var sql = "";
+            for (int i = 0; i < tbl.EvrakNos.Length; i++)
             {
-                if (sql != "") sql += " UNION ";
-                sql += string.Format("SELECT '{0}' AS SirketID, FINSAT6{0}.FINSAT6{0}.SPI.ROW_ID AS ID, FINSAT6{0}.FINSAT6{0}.SPI.EvrakNo, FINSAT6{0}.FINSAT6{0}.SPI.Tarih, FINSAT6{0}.FINSAT6{0}.SPI.MalKodu, FINSAT6{0}.FINSAT6{0}.STK.MalAdi, (FINSAT6{0}.FINSAT6{0}.SPI.BirimMiktar - FINSAT6{0}.FINSAT6{0}.SPI.TeslimMiktar - FINSAT6{0}.FINSAT6{0}.SPI.KapatilanMiktar) AS Miktar, FINSAT6{0}.FINSAT6{0}.SPI.Birim, " +
-                                    "wms.fnGetStock('{1}',FINSAT6{0}.FINSAT6{0}.SPI.MalKodu,FINSAT6{0}.FINSAT6{0}.SPI.Birim, 1) AS WmsStok " +
-                                    "FROM FINSAT6{0}.FINSAT6{0}.SPI WITH(NOLOCK) INNER JOIN FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) ON FINSAT6{0}.FINSAT6{0}.SPI.MalKodu = FINSAT6{0}.FINSAT6{0}.STK.MalKodu " +
-                                    "WHERE (FINSAT6{0}.FINSAT6{0}.SPI.Depo = '{1}') AND (FINSAT6{0}.FINSAT6{0}.SPI.KynkEvrakTip = 62) AND( FINSAT6{0}.FINSAT6{0}.SPI.SiparisDurumu = 0) AND (FINSAT6{0}.FINSAT6{0}.SPI.EvrakNo IN({2})) AND (FINSAT6{0}.FINSAT6{0}.SPI.MalKodu IN ({3})) AND (FINSAT6{0}.FINSAT6{0}.SPI.Kod10 IN('Terminal', 'Onaylandı')) AND " +
-                                    "((SELECT SUM(Miktar) AS Expr1 FROM wms.Yer AS Yer_2 WITH (NOLOCK) WHERE (MalKodu = FINSAT6{0}.FINSAT6{0}.SPI.MalKodu) AND (Birim = FINSAT6{0}.FINSAT6{0}.SPI.Birim)) IS NOT NULL) AND " +
-                                    "FINSAT6{0}.FINSAT6{0}.SPI.ROW_ID NOT IN (SELECT BIRIKIM.wms.IRS_Detay.KynkSiparisID FROM BIRIKIM.wms.IRS_Detay INNER JOIN BIRIKIM.wms.GorevIRS ON BIRIKIM.wms.IRS_Detay.IrsaliyeID = BIRIKIM.wms.GorevIRS.IrsaliyeID INNER JOIN BIRIKIM.wms.Gorev ON BIRIKIM.wms.GorevIRS.GorevID = BIRIKIM.wms.Gorev.ID WHERE (BIRIKIM.wms.Gorev.DurumID = 9) AND (NOT(BIRIKIM.wms.IRS_Detay.KynkSiparisID IS NULL)) GROUP BY BIRIKIM.wms.IRS_Detay.KynkSiparisID)", item, tbl.DepoID, evraklar[i], malkodlari);
-                i++;
+                if (sql != "") sql += " OR ";
+                sql += string.Format(" (FINSAT6{0}.FINSAT6{0}.SPI.EvrakNo = '{1}' AND FINSAT6{0}.FINSAT6{0}.SPI.MalKodu = '{2}')", vUser.SirketKodu, tbl.EvrakNos[i], tbl.MalKodus[i]);
             }
+            sql = string.Format(@"SELECT FINSAT6{0}.FINSAT6{0}.SPI.ROW_ID AS ID, FINSAT6{0}.FINSAT6{0}.SPI.EvrakNo, FINSAT6{0}.FINSAT6{0}.SPI.Tarih, FINSAT6{0}.FINSAT6{0}.SPI.MalKodu, FINSAT6{0}.FINSAT6{0}.STK.MalAdi, (FINSAT6{0}.FINSAT6{0}.SPI.BirimMiktar - FINSAT6{0}.FINSAT6{0}.SPI.TeslimMiktar - FINSAT6{0}.FINSAT6{0}.SPI.KapatilanMiktar) AS Miktar, FINSAT6{0}.FINSAT6{0}.SPI.Birim,
+                                    wms.fnGetStock('{1}',FINSAT6{0}.FINSAT6{0}.SPI.MalKodu,FINSAT6{0}.FINSAT6{0}.SPI.Birim, 1) AS WmsStok 
+                                    FROM FINSAT6{0}.FINSAT6{0}.SPI WITH(NOLOCK) INNER JOIN FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) ON FINSAT6{0}.FINSAT6{0}.SPI.MalKodu = FINSAT6{0}.FINSAT6{0}.STK.MalKodu
+                                    WHERE (FINSAT6{0}.FINSAT6{0}.SPI.Depo = '{1}') AND (FINSAT6{0}.FINSAT6{0}.SPI.KynkEvrakTip = 62) AND( FINSAT6{0}.FINSAT6{0}.SPI.SiparisDurumu = 0) AND (FINSAT6{0}.FINSAT6{0}.SPI.Kod10 IN('Terminal', 'Onaylandı')) AND 
+                                    {2} AND 
+                                    ((SELECT SUM(Miktar) AS Expr1 FROM wms.Yer AS Yer_2 WITH (NOLOCK) WHERE (MalKodu = FINSAT6{0}.FINSAT6{0}.SPI.MalKodu) AND (Birim = FINSAT6{0}.FINSAT6{0}.SPI.Birim)) IS NOT NULL) AND 
+                                    FINSAT6{0}.FINSAT6{0}.SPI.ROW_ID NOT IN (SELECT BIRIKIM.wms.IRS_Detay.KynkSiparisID FROM BIRIKIM.wms.IRS_Detay INNER JOIN BIRIKIM.wms.GorevIRS ON BIRIKIM.wms.IRS_Detay.IrsaliyeID = BIRIKIM.wms.GorevIRS.IrsaliyeID INNER JOIN BIRIKIM.wms.Gorev ON BIRIKIM.wms.GorevIRS.GorevID = BIRIKIM.wms.Gorev.ID WHERE (BIRIKIM.wms.Gorev.DurumID = 9) AND (NOT(BIRIKIM.wms.IRS_Detay.KynkSiparisID IS NULL)) GROUP BY BIRIKIM.wms.IRS_Detay.KynkSiparisID)
+                                    ORDER BY MalKodu", vUser.SirketKodu, tbl.DepoID, sql);
 
-            sql += " ORDER BY MalKodu";
             // listeyi getir
             var list = db.Database.SqlQuery<frmSiparisMalzemeDetay>(sql).ToList();
-            ViewBag.EvrakNos = tbl.EvrakNos;
             ViewBag.DepoID = tbl.DepoID;
             ViewBag.Yetki = CheckPerm(Perms.GenelSipariş, PermTypes.Writing);
             return View("Step3", list);

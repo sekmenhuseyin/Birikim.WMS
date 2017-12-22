@@ -22,12 +22,32 @@ namespace Wms12m.Entity
         public int ROW_ID { get; set; }
     }
     /// <summary>
-    /// sipariş listesi 2. sayfa
+    /// siparişlerin malzemeleri
     /// </summary>
-    public class frmSiparisStep1
+    public class frmSiparisMalzeme
+    {
+        public string SirketID { get; set; }
+        public string EvrakNo { get; set; }
+        public string MalKodu { get; set; }
+        public string MalAdi { get; set; }
+        public decimal Miktar { get; set; }
+        public string Birim { get; set; }
+        public string HucreAd { get; set; }
+        public string MakaraNo { get; set; }
+        public int KatID { get; set; }
+        public int Sira { get; set; }
+        public decimal Stok { get; set; }
+        public decimal WmsStok { get; set; }
+        public decimal WmsRezerv { get; set; }
+    }
+    /// <summary>
+    /// sipariş listesi formları
+    /// </summary>
+    public class frmSiparisSteps
     {
         public string DepoID { get; set; }
         public string[] EvrakNos { get; set; }
+        public string[] MalKodus { get; set; }
     }
 
 
@@ -49,24 +69,6 @@ namespace Wms12m.Entity
         public string EvrakNos { get; set; }
         public string[] EvrakNo { get; set; }
         public string Tarih { get; set; } = "";
-    }
-    /// <summary>
-    /// siparişlerin malzemeleri
-    /// </summary>
-    public class frmSiparisMalzeme
-    {
-        public string SirketID { get; set; }
-        public string MalKodu { get; set; }
-        public string MalAdi { get; set; }
-        public decimal Miktar { get; set; }
-        public string Birim { get; set; }
-        public string HucreAd { get; set; }
-        public string MakaraNo { get; set; }
-        public int KatID { get; set; }
-        public int Sira { get; set; }
-        public decimal Stok { get; set; }
-        public decimal WmsStok { get; set; }
-        public decimal WmsRezerv { get; set; }
     }
     /// <summary>
     /// siparişlerin malzeme detay

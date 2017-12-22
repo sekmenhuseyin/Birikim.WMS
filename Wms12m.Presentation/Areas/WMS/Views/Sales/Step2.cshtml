@@ -1,4 +1,4 @@
-﻿ @model IEnumerable<frmSiparisMalzeme>
+﻿@model IEnumerable<frmSiparisMalzeme>
 @{
     ViewBag.Title = "Sipariş Planlama - 2. Adım";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -45,7 +45,9 @@
                     @Html.AntiForgeryToken()
                     @Html.ValidationSummary(true)
                     <table class="table table-striped table-bordered table-condensed" id="sample_2">
-                        <thead><tr><th>Mal Kodu</th><th>Mal Adı</th><th class="text-right">Miktar</th><th class="text-right">Stok</th><th class="text-right">Wms Stok</th><th class="text-right">Wms Rezerv</th><th>Birim</th></tr></thead>
+                        <thead><tr><th>Mal Kodu</th><th>Mal Adı</th><th class="text-right">Miktar</th><th class="text-right">Stok</th><th class="text-right">Wms Stok</th><th class="text-right">Wms Rezerv</th><th>Birim</th><th></th></tr></thead>
+                        <tfoot><tr><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr></tfoot>
+                        <tfoot class="tf-search"><tr><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr></tfoot>
                         <tbody>
                             @foreach (var item in Model)
                             {
@@ -57,10 +59,13 @@
                                     <td class="text-right">@String.Format("{0:n}", item.Stok)</td>
                                     <td class="text-right">@String.Format("{0:n}", item.WmsStok)</td>
                                     <td class="text-right">
-                                        @if (item.WmsRezerv != 0) {<a class="btn btn-default input-circle green" href="#modalEditPage" data-toggle="modal" onclick="editInModal2('/WMS/Stock/ReserveList', { MalKodu: '@item.MalKodu', DepoID: 0, DepoKodu: '@ViewBag.DepoID' })"> @String.Format("{0:n}", item.WmsRezerv) </a>}
-                                        else { @("0") }
+                                        @if (item.WmsRezerv != 0)
+                                        {<a class="btn btn-default input-circle green" href="#modalEditPage" data-toggle="modal" onclick="editInModal2('/WMS/Stock/ReserveList', { MalKodu: '@item.MalKodu', DepoID: 0, DepoKodu: '@ViewBag.DepoID' })"> @String.Format("{0:n}", item.WmsRezerv) </a>}
+                                    else
+                                    { @("0")}
                                     </td>
                                     <td>@item.Birim</td>
+                                    <td>@item.EvrakNo</td>
                                 </tr>
                             }
                         </tbody>
@@ -73,9 +78,8 @@
                             <button type="button" class="btn btn-default m-r-20" id="selector">Hepsini Seç</button>
                         </div>
                         <div class="col-md-2">
-                            <div id="localData" class="hidden"></div>
                             <input type="hidden" name="DepoID" value="@ViewBag.DepoID" />
-                            <input type="hidden" name="EvrakNos" value="@ViewBag.EvrakNos" />@if (ViewBag.hataliStok == true)
+                            <div id="localData" class="hidden"></div>@if (ViewBag.hataliStok == true)
                             {
                                 <input type="submit" class="hide hidden" value="submit" name="submit" id="submit" />
                                 <input type="button" class="btn btn-primary btn-block green submit" value="İleri >>>" />
@@ -87,13 +91,15 @@
         </div>
     </div>
 </div>
-@section Scripts{<script>
+@section Scripts{
+    <script>
     var selected = ""; var selectall = true;
     var list = [@{for (int i = 0; i < Model.Count(); i++){ if(i>0){<text>,</text>} <text>"</text>@list[i]<text>"</text> }}];
     $(document).ready(function () {
         var table = $('#sample_2').DataTable({
             "pagingType": "full_numbers",
-            "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" }
+            "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
+            "columnDefs": [{ "targets": [7], "visible": false, "searchable": false }]
         });
         $('#sample_2 .tf-search th').each(function ()
         {
@@ -153,11 +159,18 @@
                     return;
                 }
             });
-            if (result == false) $("#submit").click();
+            if (result == false)
+            {
+                table.rows(".selected").every(function (rowIdx, tableLoop, rowLoop)
+                {
+                    $("#localData").html($("#localData").html() + "<input name='MalKodus' value='" + this.data()[0] + "' /><input name='EvrakNos' value='" + this.data()[7] + "' />")
+                });
+                $("#submit").click();
+            }
         });
     });
     function toggle(row)
     {
         $(row).toggleClass('selected');
     }
-</script>}
+    </script>}
