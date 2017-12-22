@@ -93,19 +93,7 @@
     $(document).ready(function () {
         table = $('#sample_2').DataTable({
             "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
-            "columnDefs": [{ "targets": [8], "visible": false, "searchable": false }],
-            initComplete: function () {
-                this.api().columns([0, 1]).every(function () {
-                    var column = this;
-                    var select = $('<br /><select class="form-control input-circle" style="max-width:100px;"><option value=""></option></select>')
-                        .appendTo($(column.header()))
-                        .on('change', function () {
-                            var val = $.fn.dataTable.util.escapeRegex($(this).val());
-                            column.search(val ? '^' + val + '$' : '', true, false).draw();
-                        });
-                    column.data().unique().sort().each(function (d, j) { select.append('<option value="' + d + '">' + d + '</option>') });
-                });
-            }
+            "columnDefs": [{ "targets": [8], "visible": false, "searchable": false }]
         });
         $("#selector").click(function () {
             if (selectall == true) {

@@ -46,19 +46,7 @@
             "pagingType": "full_numbers",
             "ordering": false,
             "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
-            "columnDefs": [{ "targets": [6,7], "visible": false, "searchable": false }],
-            initComplete: function () {
-                this.api().columns().every(function () {
-                    var column = this;
-                    var select = $('<br /><select class="input-circle" style="max-width:100px;"><option value=""></option></select>')
-                        .appendTo($(column.header()))
-                        .on('change', function () {
-                            var val = $.fn.dataTable.util.escapeRegex($(this).val());
-                            column.search(val ? '^' + val + '$' : '', true, false).draw();
-                        });
-                    column.data().unique().sort().each(function (d, j) { select.append('<option value="' + d + '">' + d + '</option>') });
-                });
-            }
+            "columnDefs": [{ "targets": [6,7], "visible": false, "searchable": false }]
         });
         $("#submitter").click(function () {
             var selected = "";

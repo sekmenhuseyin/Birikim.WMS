@@ -47,7 +47,7 @@
         <button type="button" class="btn btn-default m-r-20" id="selector">Hepsini Seç</button>
     </div>
     <div class="col-md-2">
-        <div id="evraklar"></div>
+        <div id="localData"></div>
         <input type="submit" class="hide hidden" value="submit" name="submit" id="submit" />
         <input type="button" class="btn btn-primary btn-block green submit" value="İleri >>>" />
     </div>
@@ -96,17 +96,13 @@
             }
         });
         $(".submit").click(function () {
-            //TODO: burası düzelecek
             var result = false;
             table.rows(".selected").every(function (rowIdx, tableLoop, rowLoop)
             {
                 result = true;
-                $("#evraklar").html($("#evraklar").html() + "<input name='EvrakNos' value='" + this.data()[2] + "' />")
+                $("#localData").html($("#localData").html() + "<input name='EvrakNos' value='" + this.data()[2] + "' />")
             });
-            if (result == true)
-            {
-                $("#submit").click();
-            }
+            if (result == true) $("#submit").click();
             else Modaldialog("Lütfen sipariş seçin", "Hata", "Tamam", "btn-danger");
         });
     });
