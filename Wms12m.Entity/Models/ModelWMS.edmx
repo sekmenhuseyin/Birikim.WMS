@@ -1259,42 +1259,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Yer_Kat">
-          <End Role="Kat" Type="Self.Kat" Multiplicity="1" />
-          <End Role="Yer" Type="Self.Yer" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Kat">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Yer">
-              <PropertyRef Name="KatID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Yer_Log_IRS">
-          <End Role="IRS" Type="Self.IRS" Multiplicity="0..1" />
-          <End Role="Yer_Log" Type="Self.Yer_Log" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="IRS">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Yer_Log">
-              <PropertyRef Name="IrsaliyeID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Yer_Log_Kat">
-          <End Role="Kat" Type="Self.Kat" Multiplicity="1" />
-          <End Role="Yer_Log" Type="Self.Yer_Log" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Kat">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Yer_Log">
-              <PropertyRef Name="KatID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Function Name="DeleteLog" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="table" Type="varchar" Mode="In" />
           <Parameter Name="ID" Type="varchar" Mode="In" />
@@ -1455,23 +1419,8 @@
           <Parameter Name="DepoID" Type="int" Mode="In" />
           <Parameter Name="Kod" Type="varchar" Mode="In" />
         </Function>
-        <Function Name="GetIrsDetayfromGorev" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="wms">
-          <Parameter Name="GorevID" Type="int" Mode="In" />
-        </Function>
         <Function Name="GetKoridorIdFromGorevId" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="wms">
           <Parameter Name="GorevID" Type="int" Mode="In" />
-        </Function>
-        <Function Name="GetKynkEvrakNosForGorev" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="wms">
-          <Parameter Name="GorevID" Type="int" Mode="In" />
-        </Function>
-        <Function Name="GetKynkTarihsForGorev" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="wms">
-          <Parameter Name="GorevID" Type="int" Mode="In" />
-        </Function>
-        <Function Name="GetSTIList" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="wms">
-          <Parameter Name="devamMi" Type="bit" Mode="In" />
-          <Parameter Name="gorevTip" Type="varchar" Mode="In" />
-          <Parameter Name="gorevID" Type="int" Mode="In" />
-          <Parameter Name="transferCount" Type="int" Mode="In" />
         </Function>
         <Function Name="GetStock" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="wms">
           <Parameter Name="DepoID" Type="int" Mode="In" />
@@ -1479,15 +1428,9 @@
           <Parameter Name="Birim" Type="varchar" Mode="In" />
           <Parameter Name="includeRezerv" Type="bit" Mode="In" />
         </Function>
-        <Function Name="GetStockRezerv" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="wms">
-          <Parameter Name="DepoKodu" Type="varchar" Mode="In" />
-          <Parameter Name="MalKodu" Type="varchar" Mode="In" />
-          <Parameter Name="Birim" Type="varchar" Mode="In" />
-        </Function>
-        <Function Name="GetStockRezerv2" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="wms">
-          <Parameter Name="DepoKodu" Type="int" Mode="In" />
-          <Parameter Name="MalKodu" Type="varchar" Mode="In" />
-          <Parameter Name="Birim" Type="varchar" Mode="In" />
+        <Function Name="GetTaskList" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="wms">
+          <Parameter Name="DurumID" Type="int" Mode="In" />
+          <Parameter Name="DepoID" Type="int" Mode="In" />
         </Function>
         <Function Name="InsertIadeIrsaliye" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="wms">
           <Parameter Name="SirketKod" Type="varchar" Mode="In" />
@@ -1809,18 +1752,6 @@
             <End Role="WebMenu" EntitySet="WebMenu" />
             <End Role="WebMenuRol" EntitySet="WebMenuRol" />
           </AssociationSet>
-          <AssociationSet Name="FK_Yer_Kat" Association="Self.FK_Yer_Kat">
-            <End Role="Kat" EntitySet="Kat" />
-            <End Role="Yer" EntitySet="Yer" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Yer_Log_IRS" Association="Self.FK_Yer_Log_IRS">
-            <End Role="IRS" EntitySet="IRS" />
-            <End Role="Yer_Log" EntitySet="Yer_Log" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Yer_Log_Kat" Association="Self.FK_Yer_Log_Kat">
-            <End Role="Kat" EntitySet="Kat" />
-            <End Role="Yer_Log" EntitySet="Yer_Log" />
-          </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
@@ -2042,12 +1973,6 @@
             <Parameter Name="Username" Mode="In" Type="String" />
             <Parameter Name="IpAddress" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="GetKynkEvrakNosForGorev" ReturnType="Collection(String)">
-          <Parameter Name="GorevID" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="GetKynkTarihsForGorev" ReturnType="Collection(String)">
-          <Parameter Name="GorevID" Mode="In" Type="Int32" />
-          </FunctionImport>
           <FunctionImport Name="UpdateGorevDurum">
             <Parameter Name="Tarih" Mode="In" Type="Int32" />
             <Parameter Name="Saat" Mode="In" Type="Int32" />
@@ -2191,12 +2116,6 @@
             <End Role="Gorevler" EntitySet="Gorevlers" />
             <End Role="GorevlerToDoList" EntitySet="GorevlerToDoLists" />
           </AssociationSet>
-          <FunctionImport Name="GetSTIList">
-            <Parameter Name="devamMi" Mode="In" Type="Boolean" />
-            <Parameter Name="gorevTip" Mode="In" Type="String" />
-            <Parameter Name="gorevID" Mode="In" Type="Int32" />
-            <Parameter Name="transferCount" Mode="In" Type="Int32" />
-          </FunctionImport>
           <FunctionImport Name="InsertIadeIrsaliye" ReturnType="Collection(MModel.InsertIadeIrsaliye_Result)">
             <Parameter Name="SirketKod" Mode="In" Type="String" />
             <Parameter Name="DepoID" Mode="In" Type="Int32" />
@@ -2334,13 +2253,14 @@
           <FunctionImport Name="GetCachedChartYear2Day" ReturnType="Collection(MModel.GetCachedChartYear2Day_Result)">
           <Parameter Name="DB" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="GetIrsDetayfromGorev" ReturnType="Collection(MModel.GetIrsDetayfromGorev_Result)">
-          <Parameter Name="GorevID" Mode="In" Type="Int32" />
-          </FunctionImport>
           <FunctionImport Name="GetHomeSummary" ReturnType="Collection(MModel.GetHomeSummary_Result)">
             <Parameter Name="UserName" Mode="In" Type="String" />
             <Parameter Name="UserID" Mode="In" Type="Int32" />
             <Parameter Name="YetkiliDepo" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="GetTaskList" ReturnType="Collection(MModel.GetTaskList_Result)">
+            <Parameter Name="DurumID" Mode="In" Type="Int32" />
+            <Parameter Name="DepoID" Mode="In" Type="Int32" />
           </FunctionImport>
           </EntityContainer>
         <ComplexType Name="GetSirkets_Result">
@@ -3903,17 +3823,6 @@
           <Property Type="String" Name="Unvan" Nullable="false" MaxLength="250" />
           <Property Type="Decimal" Name="GenelTutar" Nullable="false" Precision="25" Scale="6" />
         </ComplexType>
-        <ComplexType Name="GetIrsDetayfromGorev_Result">
-          <Property Type="Int32" Name="ID" Nullable="false" />
-          <Property Type="String" Name="SirketKod" Nullable="false" MaxLength="2" />
-          <Property Type="String" Name="GorevNo" Nullable="false" MaxLength="50" />
-          <Property Type="String" Name="MalKodu" Nullable="false" MaxLength="30" />
-          <Property Type="Decimal" Name="Miktar" Nullable="true" Precision="38" Scale="6" />
-          <Property Type="String" Name="Birim" Nullable="false" MaxLength="4" />
-          <Property Type="String" Name="MakaraNo" Nullable="false" MaxLength="1" />
-          <Property Type="Int32" Name="Sira" Nullable="false" />
-          <Property Type="String" Name="HucreAd" Nullable="false" MaxLength="1" />
-        </ComplexType>
         <ComplexType Name="GetHomeSummary_Result">
           <Property Type="Int32" Name="depo" Nullable="true" />
           <Property Type="Int32" Name="kull" Nullable="true" />
@@ -3925,6 +3834,19 @@
           <Property Type="Int32" Name="Sevkiyat" Nullable="true" />
           <Property Type="Int32" Name="Sayim" Nullable="true" />
           <Property Type="String" Name="yetki" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="GetTaskList_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="Int32" Name="DurumID" Nullable="false" />
+          <Property Type="String" Name="GorevNo" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Gorevli" Nullable="true" MaxLength="5" />
+          <Property Type="String" Name="DepoAd" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="EvrakNo" Nullable="true" />
+          <Property Type="String" Name="GorevTipi" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="SiparisTarihi" Nullable="true" />
+          <Property Type="String" Name="OlusturmaTarihi" Nullable="true" MaxLength="15" />
+          <Property Type="String" Name="BitisTarihi" Nullable="true" MaxLength="15" />
+          <Property Type="String" Name="Bilgi" Nullable="true" />
         </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
@@ -4334,8 +4256,6 @@
           </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="UpdateUserDevice" FunctionName="MModel.Store.UpdateUserDevice" />
           <FunctionImportMapping FunctionImportName="LogActions" FunctionName="MModel.Store.LogActions" />
-          <FunctionImportMapping FunctionImportName="GetKynkEvrakNosForGorev" FunctionName="MModel.Store.GetKynkEvrakNosForGorev" />
-          <FunctionImportMapping FunctionImportName="GetKynkTarihsForGorev" FunctionName="MModel.Store.GetKynkTarihsForGorev" />
           <FunctionImportMapping FunctionImportName="UpdateGorevDurum" FunctionName="MModel.Store.UpdateGorevDurum" />
           <FunctionImportMapping FunctionImportName="SettingsPaketNo" FunctionName="MModel.Store.SettingsPaketNo" />
           <FunctionImportMapping FunctionImportName="TerminalFinishGorev" FunctionName="MModel.Store.TerminalFinishGorev" />
@@ -4511,50 +4431,6 @@
           </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="DeleteTransfer" FunctionName="MModel.Store.DeleteTransfer" />
           <FunctionImportMapping FunctionImportName="DeleteIrsaliye" FunctionName="MModel.Store.DeleteIrsaliye" />
-          <FunctionImportMapping FunctionImportName="GetStockRezerv" FunctionName="MModel.Store.GetStockRezerv">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="MModel.GetStockRezerv_Result">
-                <ScalarProperty Name="GorevNo" ColumnName="GorevNo" />
-                <ScalarProperty Name="OlusturmaTarihi" ColumnName="OlusturmaTarihi" />
-                <ScalarProperty Name="Bilgi" ColumnName="Bilgi" />
-                <ScalarProperty Name="SirketKod" ColumnName="SirketKod" />
-                <ScalarProperty Name="EvrakNo" ColumnName="EvrakNo" />
-                <ScalarProperty Name="HesapKodu" ColumnName="HesapKodu" />
-                <ScalarProperty Name="MalKodu" ColumnName="MalKodu" />
-                <ScalarProperty Name="Miktar" ColumnName="Miktar" />
-                <ScalarProperty Name="Birim" ColumnName="Birim" />
-                <ScalarProperty Name="MakaraNo" ColumnName="MakaraNo" />
-                <ScalarProperty Name="KynkSiparisID" ColumnName="KynkSiparisID" />
-                <ScalarProperty Name="KynkSiparisNo" ColumnName="KynkSiparisNo" />
-                <ScalarProperty Name="KynkSiparisSiraNo" ColumnName="KynkSiparisSiraNo" />
-                <ScalarProperty Name="KynkSiparisTarih" ColumnName="KynkSiparisTarih" />
-                <ScalarProperty Name="KynkSiparisMiktar" ColumnName="KynkSiparisMiktar" />
-                <ScalarProperty Name="DepoKodu" ColumnName="DepoKodu" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="GetStockRezerv2" FunctionName="MModel.Store.GetStockRezerv2">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="MModel.GetStockRezerv2_Result">
-                <ScalarProperty Name="GorevNo" ColumnName="GorevNo" />
-                <ScalarProperty Name="OlusturmaTarihi" ColumnName="OlusturmaTarihi" />
-                <ScalarProperty Name="Bilgi" ColumnName="Bilgi" />
-                <ScalarProperty Name="SirketKod" ColumnName="SirketKod" />
-                <ScalarProperty Name="EvrakNo" ColumnName="EvrakNo" />
-                <ScalarProperty Name="HesapKodu" ColumnName="HesapKodu" />
-                <ScalarProperty Name="MalKodu" ColumnName="MalKodu" />
-                <ScalarProperty Name="Miktar" ColumnName="Miktar" />
-                <ScalarProperty Name="Birim" ColumnName="Birim" />
-                <ScalarProperty Name="MakaraNo" ColumnName="MakaraNo" />
-                <ScalarProperty Name="KynkSiparisID" ColumnName="KynkSiparisID" />
-                <ScalarProperty Name="KynkSiparisNo" ColumnName="KynkSiparisNo" />
-                <ScalarProperty Name="KynkSiparisSiraNo" ColumnName="KynkSiparisSiraNo" />
-                <ScalarProperty Name="KynkSiparisTarih" ColumnName="KynkSiparisTarih" />
-                <ScalarProperty Name="KynkSiparisMiktar" ColumnName="KynkSiparisMiktar" />
-                <ScalarProperty Name="DepoKodu" ColumnName="DepoKodu" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <EntitySetMapping Name="GorevlerToDoLists">
             <EntityTypeMapping TypeName="MModel.GorevlerToDoList">
               <MappingFragment StoreEntitySet="GorevlerToDoList">
@@ -4631,7 +4507,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="GetSTIList" FunctionName="MModel.Store.GetSTIList" />
           <FunctionImportMapping FunctionImportName="InsertIadeIrsaliye" FunctionName="MModel.Store.InsertIadeIrsaliye">
             <ResultMapping>
               <ComplexTypeMapping TypeName="MModel.InsertIadeIrsaliye_Result">
@@ -4944,21 +4819,6 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="GetIrsDetayfromGorev" FunctionName="MModel.Store.GetIrsDetayfromGorev">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="MModel.GetIrsDetayfromGorev_Result">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="SirketKod" ColumnName="SirketKod" />
-                <ScalarProperty Name="GorevNo" ColumnName="GorevNo" />
-                <ScalarProperty Name="MalKodu" ColumnName="MalKodu" />
-                <ScalarProperty Name="Miktar" ColumnName="Miktar" />
-                <ScalarProperty Name="Birim" ColumnName="Birim" />
-                <ScalarProperty Name="MakaraNo" ColumnName="MakaraNo" />
-                <ScalarProperty Name="Sira" ColumnName="Sira" />
-                <ScalarProperty Name="HucreAd" ColumnName="HucreAd" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="GetHomeSummary" FunctionName="MModel.Store.GetHomeSummary">
             <ResultMapping>
               <ComplexTypeMapping TypeName="MModel.GetHomeSummary_Result">
@@ -4972,6 +4832,23 @@
                 <ScalarProperty Name="Sevkiyat" ColumnName="Sevkiyat" />
                 <ScalarProperty Name="Sayim" ColumnName="Sayim" />
                 <ScalarProperty Name="yetki" ColumnName="yetki" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetTaskList" FunctionName="MModel.Store.GetTaskList">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MModel.GetTaskList_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="DurumID" ColumnName="DurumID" />
+                <ScalarProperty Name="GorevNo" ColumnName="GorevNo" />
+                <ScalarProperty Name="Gorevli" ColumnName="Gorevli" />
+                <ScalarProperty Name="DepoAd" ColumnName="DepoAd" />
+                <ScalarProperty Name="EvrakNo" ColumnName="EvrakNo" />
+                <ScalarProperty Name="GorevTipi" ColumnName="GorevTipi" />
+                <ScalarProperty Name="SiparisTarihi" ColumnName="SiparisTarihi" />
+                <ScalarProperty Name="OlusturmaTarihi" ColumnName="OlusturmaTarihi" />
+                <ScalarProperty Name="BitisTarihi" ColumnName="BitisTarihi" />
+                <ScalarProperty Name="Bilgi" ColumnName="Bilgi" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

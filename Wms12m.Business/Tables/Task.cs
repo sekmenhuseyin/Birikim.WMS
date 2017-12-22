@@ -214,17 +214,6 @@ namespace Wms12m.Business
             else
                 return db.Gorevs.Where(m => m.DurumID == DurumID).OrderByDescending(m => m.ID).ToList();
         }
-        public List<frmGorevJson> GetListJson(int DurumID, int? DepoID)
-        {
-            var sql = @"SELECT        wms.Gorev.ID, wms.Gorev.DurumID, wms.Gorev.GorevNo, wms.Gorev.Gorevli, wms.Depo.DepoAd, wms.fnGetKynkEvrakNosForGorev(wms.Gorev.ID) AS EvrakNo, ComboItem_Name.Name AS GorevTipi, wms.fnGetKynkTarihsForGorev(wms.Gorev.ID) AS SiparisTarihi, 
-                                                 dbo.fnFormatDateFromInt(wms.Gorev.OlusturmaTarihi) AS OlusturmaTarihi, dbo.fnFormatDateFromInt(wms.Gorev.BitisTarihi) as BitisTarihi, wms.Gorev.Bilgi
-                        FROM            wms.Gorev INNER JOIN
-                                                 wms.Depo ON wms.Gorev.DepoID = wms.Depo.ID INNER JOIN
-                                                 ComboItem_Name ON wms.Gorev.GorevTipiID = ComboItem_Name.ID AND wms.Gorev.GorevTipiID = ComboItem_Name.ID
-                        WHERE        wms.Gorev.DurumID = " + DurumID;
-            if (DepoID != null) sql += " AND (wms.Gorev.DepoID = " + DepoID;
-            return db.Database.SqlQuery<frmGorevJson>(sql).ToList();
-        }
         /// <summary>
         /// görev tipi ve duruma göre listeler
         /// </summary>

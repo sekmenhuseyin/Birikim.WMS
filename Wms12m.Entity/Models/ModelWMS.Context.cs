@@ -405,24 +405,6 @@ namespace Wms12m.Entity.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("WMSEntities.LogActions", siteParameter, areaParameter, controllerParameter, actionParameter, typeParameter, selectedIDParameter, requestParameter, detailsParameter, usernameParameter, ipAddressParameter);
         }
     
-        public virtual ObjectResult<string> GetKynkEvrakNosForGorev(Nullable<int> gorevID)
-        {
-            var gorevIDParameter = gorevID.HasValue ?
-                new ObjectParameter("GorevID", gorevID) :
-                new ObjectParameter("GorevID", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("WMSEntities.GetKynkEvrakNosForGorev", gorevIDParameter);
-        }
-    
-        public virtual ObjectResult<string> GetKynkTarihsForGorev(Nullable<int> gorevID)
-        {
-            var gorevIDParameter = gorevID.HasValue ?
-                new ObjectParameter("GorevID", gorevID) :
-                new ObjectParameter("GorevID", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("WMSEntities.GetKynkTarihsForGorev", gorevIDParameter);
-        }
-    
         public virtual int UpdateGorevDurum(Nullable<int> tarih, Nullable<int> saat, Nullable<int> irsID)
         {
             var tarihParameter = tarih.HasValue ?
@@ -653,27 +635,6 @@ namespace Wms12m.Entity.Models
                 new ObjectParameter("Birim", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetStockRezerv2_Result>("WMSEntities.GetStockRezerv2", depoKoduParameter, malKoduParameter, birimParameter);
-        }
-    
-        public virtual int GetSTIList(Nullable<bool> devamMi, string gorevTip, Nullable<int> gorevID, Nullable<int> transferCount)
-        {
-            var devamMiParameter = devamMi.HasValue ?
-                new ObjectParameter("devamMi", devamMi) :
-                new ObjectParameter("devamMi", typeof(bool));
-    
-            var gorevTipParameter = gorevTip != null ?
-                new ObjectParameter("gorevTip", gorevTip) :
-                new ObjectParameter("gorevTip", typeof(string));
-    
-            var gorevIDParameter = gorevID.HasValue ?
-                new ObjectParameter("gorevID", gorevID) :
-                new ObjectParameter("gorevID", typeof(int));
-    
-            var transferCountParameter = transferCount.HasValue ?
-                new ObjectParameter("transferCount", transferCount) :
-                new ObjectParameter("transferCount", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("WMSEntities.GetSTIList", devamMiParameter, gorevTipParameter, gorevIDParameter, transferCountParameter);
         }
     
         public virtual ObjectResult<InsertIadeIrsaliye_Result> InsertIadeIrsaliye(string sirketKod, Nullable<int> depoID, string gorevNo, string irsEvrakNo, Nullable<int> irsTarih, string gorevBilgi, Nullable<bool> irsIslemTur, Nullable<int> gorevTipiID, string olusturan, Nullable<int> olusturmaTarihi, Nullable<int> olusturmaSaati, string hesapKodu, string teslimCHK, Nullable<short> valorGun, string linkEvrakNo)
@@ -940,15 +901,6 @@ namespace Wms12m.Entity.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetCachedChartYear2Day_Result>("WMSEntities.GetCachedChartYear2Day", dBParameter);
         }
     
-        public virtual ObjectResult<GetIrsDetayfromGorev_Result> GetIrsDetayfromGorev(Nullable<int> gorevID)
-        {
-            var gorevIDParameter = gorevID.HasValue ?
-                new ObjectParameter("GorevID", gorevID) :
-                new ObjectParameter("GorevID", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetIrsDetayfromGorev_Result>("WMSEntities.GetIrsDetayfromGorev", gorevIDParameter);
-        }
-    
         public virtual ObjectResult<GetHomeSummary_Result> GetHomeSummary(string userName, Nullable<int> userID, Nullable<int> yetkiliDepo)
         {
             var userNameParameter = userName != null ?
@@ -964,6 +916,19 @@ namespace Wms12m.Entity.Models
                 new ObjectParameter("YetkiliDepo", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetHomeSummary_Result>("WMSEntities.GetHomeSummary", userNameParameter, userIDParameter, yetkiliDepoParameter);
+        }
+    
+        public virtual ObjectResult<GetTaskList_Result> GetTaskList(Nullable<int> durumID, Nullable<int> depoID)
+        {
+            var durumIDParameter = durumID.HasValue ?
+                new ObjectParameter("DurumID", durumID) :
+                new ObjectParameter("DurumID", typeof(int));
+    
+            var depoIDParameter = depoID.HasValue ?
+                new ObjectParameter("DepoID", depoID) :
+                new ObjectParameter("DepoID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetTaskList_Result>("WMSEntities.GetTaskList", durumIDParameter, depoIDParameter);
         }
     }
 }

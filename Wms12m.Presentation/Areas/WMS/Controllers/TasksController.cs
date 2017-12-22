@@ -29,10 +29,11 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         {
             return base.PartialView("List", db.GetTaskList(Id, vUser.DepoId));
         }
-        public JsonResult List2([DataSourceRequest]DataSourceRequest request)
-        {
-            return Json(Task.GetListJson(9, vUser.DepoId).ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
-        }
+        //public JsonResult List2([DataSourceRequest]DataSourceRequest request)
+        //{
+        //    return Json(Task.GetListJson(9, vUser.DepoId).ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
+        //}
+
         /// <summary>
         /// görev ayrıntıları
         /// </summary>

@@ -11,16 +11,18 @@ namespace Wms12m.Entity.Models
 {
     using System;
     
-    public partial class GetIrsDetayfromGorev_Result
+    public partial class GetTaskList_Result
     {
         public int ID { get; set; }
-        public string SirketKod { get; set; }
+        public int DurumID { get; set; }
         public string GorevNo { get; set; }
-        public string MalKodu { get; set; }
-        public Nullable<decimal> Miktar { get; set; }
-        public string Birim { get; set; }
-        public string MakaraNo { get; set; }
-        public int Sira { get; set; }
-        public string HucreAd { get; set; }
+        public string Gorevli { get; set; }
+        public string DepoAd { get; set; }
+        public string EvrakNo { get; set; }
+        public string GorevTipi { get; set; }
+        public string SiparisTarihi { get; set; }
+        public string OlusturmaTarihi { get; set; }
+        public string BitisTarihi { get; set; }
+        public string Bilgi { get; set; }
     }
 }
