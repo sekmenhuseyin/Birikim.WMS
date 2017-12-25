@@ -91,7 +91,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         /// <summary>
         /// anasayfa
         /// </summary>
-        public ActionResult Index(string onayRed)
+        public ActionResult Index()
         {
             if (CheckPerm(Perms.SiparişOnaylama, PermTypes.Reading) == false) return Redirect("/");
             return View("TumIndex");

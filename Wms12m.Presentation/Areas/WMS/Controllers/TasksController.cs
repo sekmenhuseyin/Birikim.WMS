@@ -1,4 +1,5 @@
 ﻿using Kendo.Mvc.Extensions;
+using Kendo.Mvc.UI;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -12,6 +13,24 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
 {
     public class TasksController : RootController
     {
+        public ActionResult Index3()
+        {
+            ViewBag.DurumID = new SelectList(ComboSub.GetList(Combos.GorevDurum.ToInt32()), "ID", "Name");
+            return View("Index3");
+        }
+
+
+        public ActionResult Index2()
+        {
+            ViewBag.DurumID = new SelectList(ComboSub.GetList(Combos.GorevDurum.ToInt32()), "ID", "Name");
+            return View("Index2");
+        }
+        public JsonResult List2([DataSourceRequest]DataSourceRequest request, int Id, int Tarih = 0)
+        {
+            return Json(db.GetTaskList(Id, vUser.DepoId ?? 0, Tarih).ToList().ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
+        }
+
+
         /// <summary>
         /// görev anasayfa
         /// </summary>
@@ -28,11 +47,6 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         {
             return base.PartialView("List", db.GetTaskList(Id, vUser.DepoId ?? 0, Tarih).ToList());
         }
-        //public JsonResult List2([DataSourceRequest]DataSourceRequest request)
-        //{
-        //    return Json(Task.GetListJson(9, vUser.DepoId).ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
-        //}
-
         /// <summary>
         /// görev ayrıntıları
         /// </summary>
@@ -341,8 +355,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             short sirano = 0;
             List<STI> stiList = new List<STI>();
             // loop malkods
-            var sql = string.Format("SELECT IslemTur, MalKodu, Miktar, Miktar2, Birim, Depo FROM FINSAT6{0}.FINSAT6{0}.STI " +
-                                        "WHERE (EvrakNo = '{1}') AND (KynkEvrakTip = 95) AND (IslemTip = 18)", mGorev.IR.SirketKod, mGorev.IR.EvrakNo);
+            var sql = string.Format("SELECT IslemTur, MalKodu, Miktar, Miktar2, Birim, Depo FROM FINSAT6{0}.FINSAT6{0}.STI WHERE (EvrakNo = '{1}') AND (KynkEvrakTip = 95) AND (IslemTip = 18)", mGorev.IR.SirketKod, mGorev.IR.EvrakNo);
             var list = db.Database.SqlQuery<frmGorevSayimFisi>(sql).ToList();
             foreach (var item in list)
             {
@@ -572,8 +585,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             var saat = fn.ToOATime();
             List<STI> stiList = new List<STI>();
             // loop malkods
-            var sql = string.Format("SELECT IslemTur, MalKodu, Miktar, Miktar2, Birim, Depo FROM FINSAT6{0}.FINSAT6{0}.STI " +
-                                        "WHERE (EvrakNo = '{1}') AND (KynkEvrakTip = 100) AND (IslemTip = 20)", mGorev.IR.SirketKod, mGorev.IR.LinkEvrakNo);
+            var sql = string.Format("SELECT IslemTur, MalKodu, Miktar, Miktar2, Birim, Depo FROM FINSAT6{0}.FINSAT6{0}.STI WHERE (EvrakNo = '{1}') AND (KynkEvrakTip = 100) AND (IslemTip = 20)", mGorev.IR.SirketKod, mGorev.IR.LinkEvrakNo);
             var list = db.Database.SqlQuery<frmGorevSayimFisi>(sql).ToList();
             sql = "";
             foreach (var item in list)
