@@ -41,8 +41,6 @@
                         <div class="col-md-8 m-l-20 p-r-10 bas-tipkod"></div>
                     </div>
                     <div class="row m-t-10">
-                        <div class="col-md-3 m-l-10" style="line-height:36px;color: #5bc8d2;font-weight:bold;">Şirketler</div>
-                        <div class="col-md-4 m-l-20 bas-sirket"></div>
                         <div class="col-md-4 butondiv yetki-btn m-t-5 p-0"><button class="btn btn-primary pull-right input-circle save-buton"> Kaydet <i class="fa fa-pencil-square-o" style="margin-left:5px;"></i></button></div>
                     </div>
 
@@ -56,12 +54,7 @@
     var ID = "@ViewBag.ID";
     $(".baslik").text(model.AdSoyad);
     $(".yetki-btn").css("display", "none");
-    var sirketlist = new Array();
     var tiplist = new Array();
-    if (model.GosterilecekSirket != null && model.GosterilecekSirket!=""){
-        sirketlist = model.GosterilecekSirket.split(";");
-        sirketlist.pop();
-    }
     if (model.GostSTKDeger != null && model.GostSTKDeger != "") {
         tiplist = model.GostSTKDeger.split(";");
         tiplist.pop();
@@ -106,7 +99,6 @@
     secilirisk = risklist[0] + ";" + risklist[1];
     secilikod32 = ";" + kod3list[2] + ";" + kod3list[3];
     secilirisk2 = ";" + risklist[2] + ";" + risklist[3];
-
     DevExpress.ui.dxOverlay.baseZIndex(20000);
     $(".bas-chk").dxTextBox({
         value: chklist[0],
@@ -147,24 +139,6 @@
         }
     });
     tipKod = new Array();
-    var sirkets = [{ state: "Tüm" }, { state: "Tümpa" }];
-    $(".bas-sirket").dxTagBox({
-        dataSource: sirkets,
-        placeholder: 'Seçiniz...',
-        displayExpr: 'state',
-        valueExpr: 'state',
-        value: sirketlist,
-        showSelectionControls: true,
-        applyValueMode: "useButtons",
-        onValueChanged: function (e) {
-            secilisirket = "";
-            if (e.value != null && e.value != "") {
-                for (var i = 0; i < e.value.length; i++) {
-                    secilisirket += e.value[i] + ";";
-                }
-            }
-        }
-    });
     $(".bas-kod3").dxNumberBox({
         value: kod3list[0],
         min: 0,
@@ -259,7 +233,6 @@
             else {
                 secilirisk += e.value + ";"
             }
-
             if ($(".bit-risk").dxNumberBox("instance").option("value") != 0 && $(".bit-risk").dxNumberBox("instance").option("value") != null) {
                 secilirisk += $(".bit-risk").dxNumberBox("instance").option("value");
             }
@@ -328,46 +301,41 @@
             }
         }
     });
-
     $.ajax({
         url: window.location.origin + "/Users/TipKodSelect",
-                data: {},
-                type: "post",
-                success: function (data)
-                {
-                    var result = JSON.parse(data);
-
-                    jQuery.each(result, function (i, val) {
-                        if (val.Tip == 2) {
-                            var inputAttr = {};
-                            inputAttr["Kod"] = val.Kod;
-                            tipKod.push(inputAttr);
-                        }
-                    });
-
-                    $(".bas-tipkod").dxTagBox({
-                        dataSource: tipKod,
-                        placeholder: 'Seçiniz...',
-                        displayExpr: 'Kod',
-                        valueExpr: 'Kod',
-                        value: tiplist,
-                        showSelectionControls: true,
-                        applyValueMode: "useButtons",
-                        onValueChanged: function (e) {
-                            secilitipkod = "";
-                            if (e.value != null && e.value != "")
-                            {
-                            for (var i = 0; i < e.value.length; i++) {
-                                secilitipkod += e.value[i] + ";";
-                                }
-                            }
-                        }
-                    });
-                    $(".yetki-btn").css("display", "block");
+        data: {},
+        type: "post",
+        success: function (data)
+        {
+            var result = JSON.parse(data);
+            jQuery.each(result, function (i, val) {
+                if (val.Tip == 2) {
+                    var inputAttr = {};
+                    inputAttr["Kod"] = val.Kod;
+                    tipKod.push(inputAttr);
                 }
+            });
+            $(".bas-tipkod").dxTagBox({
+                dataSource: tipKod,
+                placeholder: 'Seçiniz...',
+                displayExpr: 'Kod',
+                valueExpr: 'Kod',
+                value: tiplist,
+                showSelectionControls: true,
+                applyValueMode: "useButtons",
+                onValueChanged: function (e) {
+                    secilitipkod = "";
+                    if (e.value != null && e.value != "")
+                    {
+                    for (var i = 0; i < e.value.length; i++) {
+                        secilitipkod += e.value[i] + ";";
+                        }
+                    }
+                }
+            });
+            $(".yetki-btn").css("display", "block");
+        }
     });
-
-
     $('.save-buton').click(function () {
         secilikod3 += secilikod32;
         secilirisk += secilirisk2;

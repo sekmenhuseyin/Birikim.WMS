@@ -1,0 +1,174 @@
+﻿@{
+    ViewBag.Title = "Sipariş Onay";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}@section Styles{<style>
+        td.details-control {background: url('/Content/assets/global/plugins/datatables/images/details_open.png') no-repeat center center;cursor: pointer;}
+        tr.shown td.details-control {background: url('/Content/assets/global/plugins/datatables/images/details_close.png') no-repeat center center;}
+    </style>
+}<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><span>Onaylama</span><i class="fa fa-circle"></i></li><li><span>Sipariş</span></li></ul></div>
+<h1 class="page-title">Sipariş Onay</h1>
+<div class="row">
+    <div class="form-horizontal">
+        <div class="form-body">
+            <div class="portlet box green">
+                <div class="portlet-title">
+                    <div class="caption">
+                        <i class="fa fa-gift"></i>Sipariş Onay
+                    </div>
+                    <div class="col-md-1 pull-right m-t-5 p-0 " id="buttons"></div>
+                    <div class="col-md-2 butondiv pull-right m-t-5"><button class="btn btn-danger pull-right input-circle siparis-reddet-buton glyphicon glyphicon-remove"> Reddet </button></div>
+                    <div class="col-md-2 butondiv pull-right m-t-5"><button class="btn btn-success pull-right input-circle siparis-onay-buton glyphicon glyphicon-ok"> Onayla </button></div>
+                </div>
+                <div class="portlet-body">
+                    <div class="row m-b-30">
+                        <div class="col-md-1"><select id="DurumID" class="form-control input-circle"><option value="0">Beklemede</option><option value="1">Onaylandı</option><option value="2">Reddedildi</option></select></div>
+                        <div class="col-md-1 text-right color-blue-light bold">Tarih Aralığı: </div>
+                        <div class="col-md-2"><input class="form-control dateboxbg" type="text" id="txtBaslangic" value="@DateTime.Today.ToString("dd.MM.yyyy")" /></div>
+                        <div class="col-md-2"><input class="form-control dateboxbg" type="text" id="txtBitis" value="@DateTime.Today.ToString("dd.MM.yyyy")" /></div>
+                        <div class="col-md-1"><button type="button" class="btn btn-circle green listele-buton"><i class="icon-refresh"></i></button></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <table class="table table-striped table-bordered" id="sample_1">
+                                <thead><tr><th></th><th>Hesap Kodu</th><th>Ünvan</th><th>Tip Kodu</th><th>Kredi Limiti</th><th>Bakiye</th><th>PRT Bakiyesi</th><th>Risk%</th><th>Risk Bakiyesi</th><th>Ş.Çek</th><th>T.Çek</th><th>Kod2</th><th>Ortalama Gun</th><th>Kod3 Ort. Gun</th><th>Kod3 Ort. Bakiye</th><th>Sipariş Türü</th><th>Sıcak Sipariş</th><th>Soğuk Sipariş</th><th>Gün İçindeki Sipariş</th><th>Evrak No</th><th>Onay Durumu</th><th>Tarih</th><th>Onaylayan</th></tr></thead>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{<script type="text/javascript">
+    var basTarih = @DateTime.Today.ToOADateInt();
+    var bitTarih = @DateTime.Today.ToOADateInt();
+    $(document).ready(function ()
+    {
+        var table = $('#sample_1').DataTable({
+            "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
+            "ajax": {
+                "url": '/Approvals/Order/List',
+                "data": function (d) { d.tip = $('#DurumID').val(), d.bastarih = basTarih, d.bittarih = bitTarih },
+                "dataSrc": function (json)
+                {
+                    return json;
+                },
+            },
+            "pagingType": "full_numbers",
+            "columnDefs": [{ "type": "num-fmt", "className": "dt-right" }],
+            "columns": [
+                { "data": null, "defaultContent": '', "className": 'select-checkbox', "orderable": false },
+                { "data": "HesapKodu" },
+                { "data": "Unvan" },
+                { "data": "TipKodu" },
+                { "data": "KrediLimiti", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
+                { "data": "Bakiye", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
+                { "data": "PRTBakiye", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
+                { "data": "Risk", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
+                { "data": "RiskBakiyesi", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
+                { "data": "SCek", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
+                { "data": "TCek", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
+                { "data": "Kod2" },
+                { "data": "OrtGun", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
+                { "data": "Kod3OrtGun", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
+                { "data": "Kod3OrtBakiye", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
+                { "data": "SiparisTuru" },
+                { "data": "SicakSiparis", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
+                { "data": "SogukSiparis", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
+                { "data": "GunIciSiparis", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
+                { "data": "EvrakNo" },
+                { "data": "OnayDurumu" },
+                { "data": "Tarih", "render": function (data) { return data.replace(/\./g, '-') } },
+                { "data": "Onaylayan" },
+            ],
+            "ordering": false,
+            "fnRowCallback": function (nRow, aData, iDisplayIndex)
+            {
+                $('td', nRow).attr('nowrap', 'nowrap');
+                return nRow;
+            }
+        });
+        $('#sample_1 tbody').on('click', 'tr', function ()
+        {
+            $(this).toggleClass('selected');
+        });
+        //buttons
+        $("#buttons").html("");
+        var buttons = new $.fn.dataTable.Buttons(table, {
+            buttons: [
+                { "extend": 'pdf', "exportOptions": { columns: ':visible' }, "text": '<span class="fa fa-file-pdf-o f-s-15 red"></span>', "className": 'btn-xs;' },
+                { "extend": 'excel', "exportOptions": { columns: ':visible' }, "text": '<span class="fa fa-file-excel-o f-s-15 green"></span>', "className": 'btn-xs;' }
+            ]
+        }).container().appendTo($('#buttons'));
+        //dates
+        $.datepicker.setDefaults($.datepicker.regional["tr"]);
+        $("#txtBaslangic").datepicker().on("change", function (e) { basTarih = toOADateFromString(e.target.value); table.ajax.reload(); });
+        $("#txtBitis").datepicker().on("change", function (e) { bitTarih = toOADateFromString(e.target.value); table.ajax.reload(); });
+        //buttons
+        $('.siparis-onay-buton').click(function () { SiparisOnayla(); });
+        $('.siparis-reddet-buton').click(function () { ModalYesNoClick("Reddetmek istediğinize emin misiniz?", "Red Uyarı", "Reddet", "btn-primary", SiparisReddet, "İptal", "btn-danger", null); });
+        $('.listele-buton').click(function () { table.ajax.reload(); });
+        $('#DurumID').change(function () { table.ajax.reload(); });
+        //fns
+        function SiparisOnayla()
+        {
+            var x = table.rows('.selected').data();
+            secili_table = [];
+            for (var i = 0; i < x.length; i++)
+            {
+                secili_table.push(x[i]);
+            }
+            var _dfd = $.Deferred();
+            $.ajax({
+                url: window.location.origin + "/Approvals/Order/Onayla",
+                data: { Data: JSON.stringify(secili_table) },
+                type: "post",
+                success: function (data)
+                {
+                    if (data.Status == true)
+                    {
+                        Modaldialog(data.Message, "Onaylama İşlemi", "Tamam", "btn-success");
+                        table.ajax.reload();
+                    }
+                    else
+                    {
+                        if (data.Message == "") data.Message = "Hata oluştu";
+                        Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
+                    }
+
+                }
+            });
+            return _dfd.promise();
+        }
+        function SiparisReddet()
+        {
+            var x = table.rows('.selected').data();
+            secili_table = [];
+            for (var i = 0; i < x.length; i++)
+            {
+                secili_table.push(x[i]);
+            }
+            var _dfd = $.Deferred();
+            $.ajax({
+                url: window.location.origin + "/Approvals/Order/Reddet",
+                data: { Data: JSON.stringify(secili_table) },
+                type: "post",
+
+                success: function (data)
+                {
+                    if (data.Status == true)
+                    {
+                        Modaldialog(data.Message, "Reddetme İşlemi", "Tamam", "btn-success");
+                        table.ajax.reload();
+                    }
+                    else
+                    {
+                        if (data.Message == "") data.Message = "Hata oluştu";
+                        Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
+                    }
+                }
+            });
+            return _dfd.promise();
+        }
+    });
+</script>}

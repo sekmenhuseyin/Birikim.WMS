@@ -414,7 +414,6 @@ namespace Wms12m.Presentation.Controllers
             if (tbl != null)
             {
                 yetki.GostCHKKodAlani = tbl.GostCHKKodAlani;
-                yetki.GosterilecekSirket = tbl.GosterilecekSirket;
                 yetki.GostKod3OrtBakiye = tbl.GostKod3OrtBakiye;
                 yetki.GostRiskDeger = tbl.GostRiskDeger;
                 yetki.GostSTKDeger = tbl.GostSTKDeger;
@@ -424,7 +423,6 @@ namespace Wms12m.Presentation.Controllers
             {
                 var grv = db.Users.Where(m => m.ID == ID).FirstOrDefault();
                 yetki.GostCHKKodAlani = "";
-                yetki.GosterilecekSirket = "";
                 yetki.GostKod3OrtBakiye = "";
                 yetki.GostRiskDeger = "";
                 yetki.GostSTKDeger = "";
@@ -439,46 +437,41 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public string TipKodSelect()
         {
-            // TODO: şirket ayrımı
-            var KOD = db.Database.SqlQuery<RaporGetKod>(string.Format("[FINSAT6{0}].[wms].[DB_GetTipKod]", "71")).ToList();
+            var KOD = db.Database.SqlQuery<RaporGetKod>(string.Format("[FINSAT6{0}].[wms].[DB_GetTipKod]", vUser.SirketKodu)).ToList();
             var json = new JavaScriptSerializer().Serialize(KOD);
             return json;
         }
         /// <summary>
         /// sipriş yetki update
         /// </summary>
-        public JsonResult ParametreUpdate(string CHKAraligi, string Sirketler, string Tipler, string Kod3, string Risk, int ID)
+        public JsonResult ParametreUpdate(string CHKAraligi, string Tipler, string Kod3, string Risk, int ID)
         {
             if (CheckPerm(Perms.Kullanıcılar, PermTypes.Writing) == false || ID == 1) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
-            var _Result = new Result(true, 1);
+            var _Result = new Result(false, "Hata Oluştu. ");
             var tbl = db.UserDetails.Where(m => m.UserID == ID).FirstOrDefault();
-            // TODO: şirket ayrımı
             if (tbl != null)
-                db.Database.ExecuteSqlCommand(string.Format("[BIRIKIM].[wms].[TumpaSiparisParametreOnayla] @CHKAraligi = '{0}',@Sirketler = '{1}', @Tipler='{2}',@Kod3 = '{3}', @Risk='{4}', @UserID={5}", CHKAraligi, Sirketler, Tipler, Kod3, Risk, ID));
+                db.Database.ExecuteSqlCommand(string.Format("UPDATE BIRIKIM.usr.UserDetails SET GostKod3OrtBakiye = '{0}', GostRiskDeger = '{1}', GostSTKDeger = '{2}', GostCHKKodAlani = '{3}' WHERE UserID = {4}", Kod3, Risk, Tipler, CHKAraligi, ID));
             else
             {
                 db.UserDetails.Add(new UserDetail
                 {
                     UserID = ID,
                     GostCHKKodAlani = CHKAraligi,
-                    GosterilecekSirket = Sirketler,
                     GostSTKDeger = Tipler,
                     GostKod3OrtBakiye = Kod3,
                     GostRiskDeger = Risk
                 });
             }
-
             try
             {
                 db.SaveChanges();
+                _Result.Status = true;
+                _Result.Id = ID;
                 _Result.Message = "İşlem Başarılı ";
             }
             catch (Exception)
             {
-                _Result.Status = false;
-                _Result.Message = "Hata Oluştu. ";
             }
-
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
     }

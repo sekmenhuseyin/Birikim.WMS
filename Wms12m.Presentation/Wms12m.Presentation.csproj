@@ -458,9 +458,6 @@
     <Content Include="Areas\Approvals\Views\Purchase\SonAlimListesi.cshtml" />
     <Content Include="Areas\Approvals\Views\Purchase\TeklifList.cshtml" />
     <Content Include="Areas\YN\Views\OnayBekleyenler\Siparis_Details.cshtml" />
-    <Content Include="Areas\Approvals\Views\TumOrder\Index.cshtml" />
-    <Content Include="Areas\Approvals\Views\TumOrder\List.cshtml" />
-    <Content Include="Areas\Approvals\Views\TumOrder\YetkiDuzenle.cshtml" />
     <Content Include="Areas\Reports\Views\Stock\SiparisOnayRapor.cshtml" />
     <Content Include="Areas\Reports\Views\Stock\SiparisOnayRaporList.cshtml" />
     <Content Include="Areas\WMS\Views\Transfer\SummaryList.cshtml" />
@@ -501,6 +498,7 @@
     <Content Include="Areas\YN\Views\OnayBekleyenler\SatisIade.cshtml" />
     <Content Include="Areas\YN\Views\OnayBekleyenler\SatisIade_Details.cshtml" />
     <Content Include="Areas\WMS\Views\Tasks\Index2.cshtml" />
+    <Content Include="Areas\Approvals\Views\Order\TumIndex.cshtml" />
     <None Include="bundleconfig.json" />
     <Content Include="Content\SizeSablon.xlsx" />
     <Content Include="Content\StockSablon.xlsx" />
@@ -543,7 +541,6 @@
     <Compile Include="Areas\Approvals\ApprovalsAreaRegistration.cs" />
     <Compile Include="Areas\Approvals\Controllers\CheckController.cs" />
     <Compile Include="Areas\Approvals\Controllers\ContractController.cs" />
-    <Compile Include="Areas\Approvals\Controllers\TumOrderController.cs" />
     <Compile Include="Areas\Approvals\Controllers\RiskController.cs" />
     <Compile Include="Areas\Approvals\Controllers\PurchaseController.cs" />
     <Compile Include="Areas\Approvals\Controllers\GuaranteeController.cs" />
