@@ -1,9 +1,16 @@
 ﻿@{
     ViewBag.Title = "Gorev Listesi";
     Layout = "~/Views/Shared/_Layout.cshtml";
-}@section Styles{<style>
-        td.details-control {background: url('/Content/assets/global/plugins/datatables/images/details_open.png') no-repeat center center!important;cursor: pointer;}
-        tr.shown td.details-control {background: url('/Content/assets/global/plugins/datatables/images/details_close.png') no-repeat center center!important;}
+}@section Styles{
+    <style>
+        td.details-control {
+            background: url('/Content/assets/global/plugins/datatables/images/details_open.png') no-repeat center center !important;
+            cursor: pointer;
+        }
+
+        tr.shown td.details-control {
+            background: url('/Content/assets/global/plugins/datatables/images/details_close.png') no-repeat center center !important;
+        }
     </style>
     <link href="~/Content/assets/global/plugins/kendo/styles/kendo.common.min.css" rel="stylesheet" />
     <link href="~/Content/assets/global/plugins/kendo/styles/kendo.rtl.min.css" rel="stylesheet" />
@@ -35,70 +42,97 @@
                             </div>
                             <div class="col-sm-1"><button type="button" class="btn btn-circle green" onclick="FuncSearchBtn();"><i class="icon-refresh"></i></button></div>
                         </div>
+                        <div class="form-group" id="tarihsecim">
+                            <div class="col-sm-3 control-label">Başlangıç Tarihi</div>
+                            <div class="col-sm-4">
+                                <input class="form-control input-circle dateboxbg" type="text" id="txtBaslangic" value="@DateTime.Today.AddDays(-7).ToString("dd.MM.yyyy")" />
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div id="GorevGrid" class="p-30">
-@(Html.Kendo().Grid<frmGorevJson>()
-        .Name("grid")
-        .Columns(columns =>
-        {
-            columns.Bound(c => c.ID);
-            columns.Bound(c => c.GorevNo);
-            columns.Bound(c => c.DepoAd);
-            columns.Bound(c => c.EvrakNo);
-            columns.Bound(c => c.GorevTipi);
-            columns.Bound(c => c.Gorevli);
-            columns.Bound(c => c.SiparisTarihi);
-            columns.Bound(c => c.OlusturmaTarihi);
-            columns.Bound(c => c.BitisTarihi);
-            columns.Bound(c => c.Bilgi);
-        })
-        .HtmlAttributes(new { style = "height: 550px;" })
-        .Scrollable()
-        .Filterable()
-        .Sortable()
-        .Pageable(pageable => pageable
-            .Refresh(true)
-            .PageSizes(true)
-            .ButtonCount(5))
-        .DataSource(dataSource => dataSource
-            .Ajax()
-            .Read(read => read.Action("List2", "Tasks", new { Area = "WMS" }))
-            .PageSize(20)
-        )
-    )
+                    @(Html.Kendo().Grid<GetTaskList_Result>()
+                                .Name("grid")
+                                .Columns(columns =>
+                                {
+                                    columns.Bound(c => c.ID).Hidden();
+                                    columns.Bound(c => c.GorevNo);
+                                    columns.Bound(c => c.DepoAd);
+                                    columns.Bound(c => c.EvrakNo);
+                                    columns.Bound(c => c.GorevTipi);
+                                    columns.Bound(c => c.Gorevli);
+                                    columns.Bound(c => c.SiparisTarihi);
+                                    columns.Bound(c => c.OlusturmaTarihi);
+                                    columns.Bound(c => c.BitisTarihi);
+                                    columns.Bound(c => c.Bilgi);
+                                })
+                                .HtmlAttributes(new { style = "height: 550px;" })
+                                .Scrollable()
+                                .Filterable()
+                                .Sortable()
+                                .Pageable(pageable => pageable
+                                    .Refresh(true)
+                                    .PageSizes(true)
+                                    .ButtonCount(5))
+                                .DataSource(dataSource => dataSource
+                                    .Ajax()
+                                    .Read(read => read.Action("List2", "Tasks", new { Area = "WMS" }).Data("additionalInfo"))
+                                    .PageSize(20)
+                                )
+                    )
                 </div>
             </div>
         </div>
     </div>
 </div>
-@section Scripts{    
-<script type="text/javascript">
-    //FuncSearchBtn();
-    function FuncSearchBtn() {
-        $('#GorevGrid').html("");
-        DuzenleIptal();
-        PartialView('/WMS/Tasks/List', 'GorevGrid', JSON.stringify({ Id: $('#DurumID').val() }));
+@section Scripts{<script type="text/javascript">
+    var tarih = @DateTime.Today.AddDays(-7).ToOADateInt();
+    var tmp = 0;
+    $('#tarihsecim').hide();
+    function additionalInfo()
+    {
+        return {
+            Id: $('#DurumID').val(),
+            Tarih: tmp
+        }
     }
-    function newrow(id) { return "<div id='new" + id +"'></div>"; }
-    function format(d) {
+    function FuncSearchBtn()
+    {
+        DuzenleIptal();
+        if ($('#DurumID').val() != 9)
+        {
+            tmp = tarih;
+            $('#tarihsecim').show();
+        }
+        else
+        {
+            tmp = 0;
+            $('#tarihsecim').hide();
+        }
+     $(".k-pager-refresh").click();
+    }
+    function newrow(id) { return "<div id='new" + id + "'></div>"; }
+    function format(d)
+    {
         $.ajax({
             type: 'POST',
             url: '/WMS/Tasks/Details',
             data: { "ID": d },
             dataType: "html",
-            success: function (data) {
-               $('#new' + d).html(data);
+            success: function (data)
+            {
+                $('#new' + d).html(data);
             }
         });
     }
-    function CreateEdit(Id) {
+    function CreateEdit(Id)
+    {
         PartialView('/WMS/Tasks/GorevDetailPartial', 'CreateEdit', JSON.stringify({ Id: Id == null ? '' : Id }));
         $("#CreateEdit").show();
     }
-    function DuzenleIptal() {
+    function DuzenleIptal()
+    {
         $('#CreateEdit').html('');
         $("#CreateEdit").hide();
     }
-</script>
-}
+</script>}

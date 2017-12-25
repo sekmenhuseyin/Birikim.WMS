@@ -1,4 +1,5 @@
 ﻿using Kendo.Mvc.Extensions;
+using Kendo.Mvc.UI;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -12,6 +13,17 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
 {
     public class TasksController : RootController
     {
+        public ActionResult Index2()
+        {
+            ViewBag.DurumID = new SelectList(ComboSub.GetList(Combos.GorevDurum.ToInt32()), "ID", "Name");
+            return View("Index2");
+        }
+        public JsonResult List2([DataSourceRequest]DataSourceRequest request, int Id, int Tarih = 0)
+        {
+            return Json(db.GetTaskList(Id, vUser.DepoId ?? 0, Tarih).ToList().ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
+        }
+
+
         /// <summary>
         /// görev anasayfa
         /// </summary>
@@ -28,11 +40,6 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         {
             return base.PartialView("List", db.GetTaskList(Id, vUser.DepoId ?? 0, Tarih).ToList());
         }
-        //public JsonResult List2([DataSourceRequest]DataSourceRequest request)
-        //{
-        //    return Json(Task.GetListJson(9, vUser.DepoId).ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
-        //}
-
         /// <summary>
         /// görev ayrıntıları
         /// </summary>
