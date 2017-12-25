@@ -64,10 +64,7 @@ namespace Wms12m.Presentation.Controllers
                     }
 
                     // satıcı malkodundan malkodunu getir
-                    var sql = string.Format(@"SELECT        FINSAT6{0}.FINSAT6{0}.TTY.MalKodu, FINSAT6{0}.FINSAT6{0}.STK.Birim1
-                                                    FROM            FINSAT6{0}.FINSAT6{0}.TTY WITH(NOLOCK) INNER JOIN
-                                                                             FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) ON FINSAT6{0}.FINSAT6{0}.TTY.MalKodu = FINSAT6{0}.FINSAT6{0}.STK.MalKodu 
-                                                    WHERE (FINSAT6{0}.FINSAT6{0}.TTY.SatMalKodu = '{1}') AND (FINSAT6{0}.FINSAT6{0}.TTY.Chk = '{2}')", vUser.SirketKodu, dr["MalKodu"].ToString(), hesap);
+                    var sql = string.Format(@"EXEC FINSAT6{0}.wms.getMalkoduFromSatMalKodu @HesapKodu = '{1}', @SatMalKodu = '{2}'", vUser.SirketKodu, hesap, dr["MalKodu"].ToString());
                     var malStk = db.Database.SqlQuery<frmIrsaliyeMalzemeSTK>(sql).FirstOrDefault();
                     _result.Message = "Mal kodu yanlış";
                     if (malStk == null) return Json(_result, JsonRequestBehavior.AllowGet);
@@ -113,9 +110,7 @@ namespace Wms12m.Presentation.Controllers
                         if (dr["Kaynak Sipariş No"].ToString() != "")
                         {
                             // kaynak sipariş
-                            sql = string.Format("SELECT FINSAT6{0}.FINSAT6{0}.SPI.ROW_ID, FINSAT6{0}.FINSAT6{0}.SPI.EvrakNo, FINSAT6{0}.FINSAT6{0}.SPI.Tarih, FINSAT6{0}.FINSAT6{0}.SPI.SiraNo, FINSAT6{0}.FINSAT6{0}.SPI.BirimMiktar, FINSAT6{0}.FINSAT6{0}.STK.Birim1 as Birim " +
-                                "FROM FINSAT6{0}.FINSAT6{0}.SPI WITH(NOLOCK) INNER JOIN FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) ON FINSAT6{0}.FINSAT6{0}.SPI.MalKodu = FINSAT6{0}.FINSAT6{0}.STK.MalKodu " +
-                                "WHERE (FINSAT6{0}.FINSAT6{0}.SPI.IslemTur = 0) AND (FINSAT6{0}.FINSAT6{0}.SPI.KynkEvrakTip = 63) AND (FINSAT6{0}.FINSAT6{0}.SPI.EvrakNo = '{1}') AND (FINSAT6{0}.FINSAT6{0}.SPI.MalKodu = '{2}') AND (FINSAT6{0}.FINSAT6{0}.SPI.Depo = '{3}')", vUser.SirketKodu, dr["Kaynak Sipariş No"].ToString(), malStk.MalKodu, depo.DepoKodu);
+                            sql = string.Format("EXEC FINSAT6{0}.wms.getMalKabulAsnSiparisler @EvrakNo = '{1}', @MalKodu = '{2}', @Depo = '{3}'", vUser.SirketKodu, dr["Kaynak Sipariş No"].ToString(), malStk.MalKodu, depo.DepoKodu);
                             var tbl = db.Database.SqlQuery<frmIrsaliyeMalzeme>(sql).FirstOrDefault();
                             if (tbl != null)
                             {
@@ -129,8 +124,7 @@ namespace Wms12m.Presentation.Controllers
                         }
 
                         // Makara No
-                        var kod1 = db.Database.SqlQuery<string>(string.Format("SELECT Kod1 FROM FINSAT6{0}.FINSAT6{0}.STK WHERE (MalKodu = '{1}')", vUser.SirketKodu, sti.MalKodu)).FirstOrDefault();
-                        if (kod1 == "KKABLO")
+                        if (malStk.Kod1 == "KKABLO")
                         {
                             if (dr["Makara No"].ToString() != "") sti.MakaraNo = dr["Makara No"].ToString();
                             else sti.MakaraNo = "Boş-" + db.SettingsMakaraNo(dID).FirstOrDefault();

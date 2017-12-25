@@ -10,7 +10,6 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
 {
     public class StockController : RootController
     {
-        public LOGEntities logdb = new LOGEntities();
         /// <summary>
         /// stok
         /// </summary>
@@ -157,15 +156,10 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
         public ActionResult SiparisOnayRapor(string onayRed)
         {
             if (onayRed == null)
-            {
                 ViewBag.OnayDurum = "Onaylandı";
-            }
             else
-            {
                 ViewBag.OnayDurum = onayRed;
-            }
-
-            return View();
+            return View("SiparisOnayRapor");
         }
         public PartialViewResult SiparisOnayRaporList(string Tip, int bastarih, int bittarih)
         {
@@ -180,16 +174,18 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
             {
                 MaxJsonLength = int.MaxValue
             };
-            List<TumSiparisOnayLog> sipBilgi = new List<TumSiparisOnayLog>();
             try
             {
-                sipBilgi = logdb.TumSiparisOnayLogs.Where(m => m.OnayDurumu == tip && m.DegisTarih >= bastarih && m.DegisTarih <= bittarih).ToList();
+                using (LOGEntities logdb = new LOGEntities())
+                {
+                    var sipBilgi = logdb.TumSiparisOnayLogs.Where(m => m.OnayDurumu == tip && m.DegisTarih >= bastarih && m.DegisTarih <= bittarih).ToList();
+                    return json.Serialize(sipBilgi);
+                }
             }
             catch (Exception)
             {
             }
-
-            return json.Serialize(sipBilgi);
+            return json.Serialize(new List<TumSiparisOnayLog>());
         }
     }
 }

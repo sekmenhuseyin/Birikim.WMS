@@ -82,6 +82,7 @@ namespace Wms12m.Entity
     {
         public string MalKodu { get; set; }
         public string Birim1 { get; set; }
+        public string Kod1 { get; set; }
     }
     /// <summary>
     /// mal kabul irsaliye listesi
