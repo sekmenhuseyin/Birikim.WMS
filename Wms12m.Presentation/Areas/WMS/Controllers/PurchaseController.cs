@@ -25,7 +25,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         {
             if (CheckPerm(Perms.MalKabul, PermTypes.Reading) == false) return null;
             // get liste
-            var sql = string.Format("EXEC FINSAT6{0}.wms.getMalKabulIrsaliyeList @IslemTur = {1}, @HesapKodu = '{2}', @DepoID = {3}", vUser.SirketKodu, 0, HesapKodu, DepoID);
+            var sql = string.Format("EXEC FINSAT6{0}.wms.getMalKabulIrsaliyeList @HesapKodu = '{1}', @DepoID = {2}", vUser.SirketKodu, HesapKodu, DepoID);
             var list = db.Database.SqlQuery<frmIrsList>(sql).ToList();
             ViewBag.Yetki = CheckPerm(Perms.MalKabul, PermTypes.Writing);
             ViewBag.Yetki2 = CheckPerm(Perms.MalKabul, PermTypes.Deleting);
@@ -123,24 +123,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         public PartialViewResult SiparisList(int DepoID, string HesapKodu)
         {
             if (CheckPerm(Perms.MalKabul, PermTypes.Reading) == false) return null;
-            // get list
-            var sql = string.Format(@"
-                                SELECT  FINSAT6{0}.FINSAT6{0}.SPI.ROW_ID AS ID, FINSAT6{0}.FINSAT6{0}.SPI.EvrakNo, FINSAT6{0}.FINSAT6{0}.SPI.Tarih, FINSAT6{0}.FINSAT6{0}.STK.MalAdi, 
-                                        FINSAT6{0}.FINSAT6{0}.STK.MalKodu, 
-                                        FINSAT6{0}.FINSAT6{0}.SPI.BirimMiktar - FINSAT6{0}.FINSAT6{0}.SPI.TeslimMiktar - FINSAT6{0}.FINSAT6{0}.SPI.KapatilanMiktar AS AçıkMiktar, 
-                                        FINSAT6{0}.FINSAT6{0}.SPI.Birim 
-                                FROM FINSAT6{0}.FINSAT6{0}.SPI WITH(NOLOCK) 
-                                     INNER JOIN FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) ON FINSAT6{0}.FINSAT6{0}.SPI.MalKodu = FINSAT6{0}.FINSAT6{0}.STK.MalKodu 
-                                     INNER JOIN FINSAT6{0}.FINSAT6{0}.CHK WITH(NOLOCK) ON FINSAT6{0}.FINSAT6{0}.SPI.Chk = FINSAT6{0}.FINSAT6{0}.CHK.HesapKodu 
-                                WHERE (FINSAT6{0}.FINSAT6{0}.SPI.IslemTur = 0) AND (FINSAT6{0}.FINSAT6{0}.SPI.SiparisDurumu = 0) AND (FINSAT6{0}.FINSAT6{0}.SPI.KynkEvrakTip = 63) 
-                                      AND (FINSAT6{0}.FINSAT6{0}.SPI.Depo = '{1}') AND (FINSAT6{0}.FINSAT6{0}.SPI.Chk = '{2}') 
-                                      AND FINSAT6{0}.FINSAT6{0}.SPI.ROW_ID 
-                                      NOT IN (SELECT BIRIKIM.wms.IRS_Detay.KynkSiparisID 
-                                              FROM BIRIKIM.wms.IRS_Detay INNER JOIN BIRIKIM.wms.GorevIRS ON BIRIKIM.wms.IRS_Detay.IrsaliyeID = BIRIKIM.wms.GorevIRS.IrsaliyeID 
-                                              INNER JOIN BIRIKIM.wms.Gorev ON BIRIKIM.wms.GorevIRS.GorevID = BIRIKIM.wms.Gorev.ID 
-                                              WHERE (BIRIKIM.wms.Gorev.DurumID = 9 OR BIRIKIM.wms.Gorev.DurumID = 15) 
-                                      AND (NOT(BIRIKIM.wms.IRS_Detay.KynkSiparisID IS NULL)) 
-                                GROUP BY BIRIKIM.wms.IRS_Detay.KynkSiparisID)", vUser.SirketKodu, DepoID, HesapKodu);
+            var sql = string.Format(@"EXEC FINSAT6{0}.wms.getMalKabulSiparisList @HesapKodu = '{1}', @DepoID = {2}", vUser.SirketKodu, HesapKodu, DepoID);
             var list = db.Database.SqlQuery<frmSiparistenGelen>(sql).ToList();
             return PartialView("SiparisList", list);
         }
@@ -193,30 +176,19 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                     sira = 0;
                 }
             }
-
             // sadece irsaliye daha onaylanmamışsa yani işlemleri bitmeişse ekle
             var irs = Irsaliye.Detail(irsaliyeID);
             if (irs.Onay == false)
             {
-                foreach (var item in tbl)
+                try
                 {
-                    var sql = string.Format(@"
-                                SELECT SPI.EvrakNo, SPI.Tarih, SPI.SiraNo, SPI.MalKodu, SPI.BirimMiktar, 
-                                    (SPI.BirimMiktar - SPI.TeslimMiktar - SPI.KapatilanMiktar) AS Miktar, 
-                                    SPI.Birim, SPI.DegisSaat , STK.Kod1
-                                FROM FINSAT6{0}.FINSAT6{0}.SPI WITH(NOLOCK) 
-                                     INNER JOIN FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) ON SPI.MalKodu=STK.MalKodu
-                                WHERE (SPI.ROW_ID = {1}) AND (SPI.IslemTur = 0) AND (SPI.KynkEvrakTip = 63) AND (SPI.SiparisDurumu = 0) 
-                                AND (SPI.MalKodu = '{2}') AND (SPI.Birim = '{3}') AND (LTRIM(SPI.EvrakNo) = '{4}')", vUser.SirketKodu, item.KynkSiparisID, item.MalKodu, item.Birim, item.KynkSiparisNo.Trim());
-                    try
+                    foreach (var item in tbl)
                     {
+                        var sql = string.Format(@"EXEC FINSAT6{0}.wms.getMalKabulSiparisDetail @ROW_ID = {1}, @MalKodu = '{2}', @Birim = '{3}', @EvrakNo = '{4}'", vUser.SirketKodu, item.KynkSiparisID, item.MalKodu, item.Birim, item.KynkSiparisNo.Trim());
                         var tempTbl = db.Database.SqlQuery<frmIrsaliyeMalzeme>(sql).FirstOrDefault();
-                        // save details
-
                         var mNo = "";
                         if (tempTbl.Kod1 == "KKABLO")
                             mNo = "Boş-" + db.SettingsMakaraNo(irs.DepoID).FirstOrDefault();
-
                         var sti = new IRS_Detay()
                         {
                             IrsaliyeID = irsaliyeID,
@@ -234,13 +206,12 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                         var _Result = IrsaliyeDetay.Operation(sti);
                         eklenen++;
                     }
-                    catch (Exception ex)
-                    {
-                        Logger(ex, "WMS/Purchase/FromSiparis");
-                    }
+                }
+                catch (Exception ex)
+                {
+                    Logger(ex, "WMS/Purchase/FromSiparis");
                 }
             }
-
             // get list
             var list = IrsaliyeDetay.GetList(irsaliyeID);
             ViewBag.IrsaliyeId = irsaliyeID;
@@ -372,7 +343,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             {
                 if (tbl.MakaraNo == "" || tbl.MakaraNo == null)
                 {
-                    var kkablo = db.Database.SqlQuery<string>(string.Format("SELECT Kod1 FROM BIRIKIM.wms.GetSTK('{0}')", tbl.MalKodu)).FirstOrDefault();
+                    var kkablo = db.Database.SqlQuery<string>(string.Format("SELECT Kod1 FROM FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) WHERE (MalKodu = '{1}')", vUser.SirketKodu, tbl.MalKodu)).FirstOrDefault();
                     if (kkablo == "KKABLO")
                     {
                         tbl.MakaraNo = "Boş-" + db.SettingsMakaraNo(irs.DepoID).FirstOrDefault();
@@ -383,7 +354,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                 if (tbl.MakaraNo != null)
                 {
                     // depo stoktaki makara noları ve
-                    // deu depodaki durdurulanlar hariç tüm mal kabuldeki makara noları kontrol eder
+                    // bu depodaki durdurulanlar hariç tüm mal kabuldeki makara noları kontrol eder
                     var makara = db.Database.SqlQuery<string>(string.Format("BIRIKIM.wms.MakaraNoKontrol @DepoID = {0} , @MakaraNo='{1}'", irs.DepoID, tbl.MakaraNo)).FirstOrDefault();
                     if (makara == "" || makara == null)
                         return Json(IrsaliyeDetay.Insert(tbl, irs.DepoID), JsonRequestBehavior.AllowGet);

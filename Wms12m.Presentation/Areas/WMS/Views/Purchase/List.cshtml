@@ -39,7 +39,7 @@
     var tmpID;
     function Deletex(deleteId, depoID, Hesapkodu)
     {
-        ModalYesNoClick('Kaydı silmek istediğinizden eminmisiniz !!!', 'Silme İşlemi', "Evet", 'btn-success', DeleteTrigerx, 'Hayır', 'btn-warning', null);
+        ModalYesNoClick('Kaydı silmek istediğinizden eminmisiniz?', 'Silme İşlemi', "Evet", 'btn-success', DeleteTrigerx, 'Hayır', 'btn-warning', null);
         function DeleteTrigerx()
         {
             var Status = FunctionDelete('/WMS/Purchase/Delete1', deleteId);
