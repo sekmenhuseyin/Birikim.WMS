@@ -13,6 +13,13 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
 {
     public class TasksController : RootController
     {
+        public ActionResult Index3()
+        {
+            ViewBag.DurumID = new SelectList(ComboSub.GetList(Combos.GorevDurum.ToInt32()), "ID", "Name");
+            return View("Index3");
+        }
+
+
         public ActionResult Index2()
         {
             ViewBag.DurumID = new SelectList(ComboSub.GetList(Combos.GorevDurum.ToInt32()), "ID", "Name");
