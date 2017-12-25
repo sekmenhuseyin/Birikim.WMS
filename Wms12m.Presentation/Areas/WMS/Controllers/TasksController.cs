@@ -24,9 +24,9 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         /// <summary>
         /// listeyi gösterir
         /// </summary>
-        public PartialViewResult List(int Id)
+        public PartialViewResult List(int Id, int Tarih = 0)
         {
-            return base.PartialView("List", db.GetTaskList(Id, vUser.DepoId ?? 0).ToList());
+            return base.PartialView("List", db.GetTaskList(Id, vUser.DepoId ?? 0, Tarih).ToList());
         }
         //public JsonResult List2([DataSourceRequest]DataSourceRequest request)
         //{

@@ -1431,6 +1431,7 @@
         <Function Name="GetTaskList" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="wms">
           <Parameter Name="DurumID" Type="int" Mode="In" />
           <Parameter Name="DepoID" Type="int" Mode="In" />
+          <Parameter Name="Tarih" Type="int" Mode="In" />
         </Function>
         <Function Name="InsertIadeIrsaliye" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="wms">
           <Parameter Name="SirketKod" Type="varchar" Mode="In" />
@@ -2261,6 +2262,7 @@
           <FunctionImport Name="GetTaskList" ReturnType="Collection(MModel.GetTaskList_Result)">
             <Parameter Name="DurumID" Mode="In" Type="Int32" />
             <Parameter Name="DepoID" Mode="In" Type="Int32" />
+            <Parameter Name="Tarih" Mode="In" Type="Int32" />
           </FunctionImport>
           </EntityContainer>
         <ComplexType Name="GetSirkets_Result">

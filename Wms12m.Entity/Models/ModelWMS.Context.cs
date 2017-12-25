@@ -918,7 +918,7 @@ namespace Wms12m.Entity.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetHomeSummary_Result>("WMSEntities.GetHomeSummary", userNameParameter, userIDParameter, yetkiliDepoParameter);
         }
     
-        public virtual ObjectResult<GetTaskList_Result> GetTaskList(Nullable<int> durumID, Nullable<int> depoID)
+        public virtual ObjectResult<GetTaskList_Result> GetTaskList(Nullable<int> durumID, Nullable<int> depoID, Nullable<int> tarih)
         {
             var durumIDParameter = durumID.HasValue ?
                 new ObjectParameter("DurumID", durumID) :
@@ -928,7 +928,11 @@ namespace Wms12m.Entity.Models
                 new ObjectParameter("DepoID", depoID) :
                 new ObjectParameter("DepoID", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetTaskList_Result>("WMSEntities.GetTaskList", durumIDParameter, depoIDParameter);
+            var tarihParameter = tarih.HasValue ?
+                new ObjectParameter("Tarih", tarih) :
+                new ObjectParameter("Tarih", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetTaskList_Result>("WMSEntities.GetTaskList", durumIDParameter, depoIDParameter, tarihParameter);
         }
     }
 }
