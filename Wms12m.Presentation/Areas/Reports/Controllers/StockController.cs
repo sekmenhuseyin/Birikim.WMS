@@ -153,23 +153,13 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
         /// <summary>
         /// sipariş onay
         /// </summary>
-        public ActionResult SiparisOnayRapor(string onayRed)
+        public ActionResult SiparisOnay()
         {
-            if (onayRed == null)
-                ViewBag.OnayDurum = "Onaylandı";
-            else
-                ViewBag.OnayDurum = onayRed;
-            return View("SiparisOnayRapor");
+            return View("SiparisOnay");
         }
-        public PartialViewResult SiparisOnayRaporList(string Tip, int bastarih, int bittarih)
+        public string SiparisOnayData(string tip, int bastarih, int bittarih)
         {
-            ViewBag.Tip = Tip;
-            ViewBag.bastarih = bastarih;
-            ViewBag.bittarih = bittarih;
-            return PartialView("SiparisOnayRaporList");
-        }
-        public string SiparisOnayRaporData(string tip, int bastarih, int bittarih)
-        {
+            tip = tip == "0" ? "Beklemede" : tip == "1" ? "Onaylandı" : "Reddedildi";
             var json = new JavaScriptSerializer()
             {
                 MaxJsonLength = int.MaxValue

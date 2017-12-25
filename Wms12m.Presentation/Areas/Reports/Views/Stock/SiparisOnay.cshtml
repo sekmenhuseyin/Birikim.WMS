@@ -1,0 +1,114 @@
+﻿@{
+    ViewBag.Title = "Sipariş Onay Raporu";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}@section Styles{<style>
+        td.details-control {background: url('/Content/assets/global/plugins/datatables/images/details_open.png') no-repeat center center;cursor: pointer;}
+        tr.shown td.details-control {background: url('/Content/assets/global/plugins/datatables/images/details_close.png') no-repeat center center;}
+    </style>
+}<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><span>Raporlar</span><i class="fa fa-circle"></i></li><li><span>Sipariş Onay</span></li></ul></div>
+<h1 class="page-title">Sipariş Onay Raporu</h1>
+<div class="row">
+    <div class="form-horizontal">
+        <div class="form-body">
+            <div class="portlet box green">
+                <div class="portlet-title">
+                    <div class="caption">
+                        <i class="fa fa-gift"></i>Sipariş Onay Raporu
+                    </div>
+                    <div class="col-md-1 pull-right m-t-5 p-0 " id="buttons"></div>
+                </div>
+                <div class="portlet-body">
+                    <div class="row m-b-30">
+                        <div class="col-md-1"><select id="DurumID" class="form-control input-circle"><option value="0">Beklemede</option><option value="1">Onaylandı</option><option value="2">Reddedildi</option></select></div>
+                        <div class="col-md-1 text-right color-blue-light bold">Tarih Aralığı: </div>
+                        <div class="col-md-2"><input class="form-control dateboxbg" type="text" id="txtBaslangic" value="@DateTime.Today.AddDays(-7).ToString("dd.MM.yyyy")" /></div>
+                        <div class="col-md-2"><input class="form-control dateboxbg" type="text" id="txtBitis" value="@DateTime.Today.ToString("dd.MM.yyyy")" /></div>
+                        <div class="col-md-1"><button type="button" class="btn btn-circle green listele-buton"><i class="icon-refresh"></i></button></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <table class="table table-striped table-bordered" id="sample_1">
+                                <thead><tr><th>Hesap Kodu</th><th>Ünvan</th><th>Tip Kodu</th><th>Kredi Limiti</th><th>Bakiye</th><th>PRT Bakiyesi</th><th>Risk%</th><th>Risk Bakiyesi</th><th>Ş.Çek</th><th>T.Çek</th><th>Kod2</th><th>Ortalama Gun</th><th>Kod3 Ort. Gun</th><th>Kod3 Ort. Bakiye</th><th>Sipariş Türü</th><th>Sıcak Sipariş</th><th>Soğuk Sipariş</th><th>Gün İçindeki Sipariş</th><th>Evrak No</th><th>Onay Durumu</th><th>Kaydeden</th><th>KayıtTarih</th></tr></thead>
+                                <tfoot><tr><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr></tfoot>
+                                <tfoot class="tf-search"><tr><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr></tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{<script type="text/javascript">
+    var basTarih = @DateTime.Today.ToOADateInt();
+    var bitTarih = @DateTime.Today.ToOADateInt();
+    $(document).ready(function ()
+    {
+        var table = $('#sample_1').DataTable({
+            "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
+            "ajax": {
+                "url": '/Reports/Stock/SiparisOnayData',
+                "data": function (d) { d.tip = $('#DurumID').val(), d.bastarih = basTarih, d.bittarih = bitTarih },
+                "dataSrc": function (json) {
+                    return json;
+                },
+            },
+            "columnDefs": [{ "type": "num-fmt", "className": "dt-right" }],
+            "columns": [
+                { "data": "HesapKodu" },
+                { "data": "Unvan" },
+                { "data": "TipKodu" },
+                { "data": "KrediLimiti", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
+                { "data": "Bakiye", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
+                { "data": "PRTBakiye", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
+                { "data": "Risk", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
+                { "data": "RiskBakiyesi", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
+                { "data": "SCek", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
+                { "data": "TCek", "render": $.fn.dataTable.render.number('.', ',', 2, '')},
+                { "data": "Kod2" },
+                { "data": "OrtGun", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
+                { "data": "Kod3OrtGun", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
+                { "data": "Kod3OrtBakiye", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
+                { "data": "SiparisTuru" },
+                { "data": "SicakSiparis", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
+                { "data": "SogukSiparis", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
+                { "data": "GunIciSiparis", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
+                { "data": "EvrakNo"},
+                { "data": "OnayDurumu" },
+                { "data": "Degistiren" },
+                { "data": "DegisTarih", "render": function (data) { if (data != null) return fromOADate(data); else return "&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp;"; } }
+            ],
+            "ordering": false,
+            "fnRowCallback": function (nRow, aData, iDisplayIndex) {
+                $('td', nRow).attr('nowrap', 'nowrap');
+                return nRow;
+            }
+        });
+        $('#sample_1 .tf-search th').each(function ()
+        {
+            var title = $('#sample_1 thead th').eq($(this).index()).text();
+            if (title != "" && title.indexOf("Tarih") !== -1)
+                $(this).html('<input class="form-control input-circle tarih" type="text" placeholder="Ara" />');
+            else if (title != "" && title != "Detay" && title != "Hareket")
+                $(this).html('<input class="form-control input-circle" type="text" placeholder="Ara" />');
+        });
+        $("#sample_1 tfoot input").on('keyup change', function () { table.column($(this).parent().index() + ':visible').search(this.value).draw(); });
+        $('#sample_1 tbody').on('click', 'tr', function () { $(this).toggleClass('selected'); });
+        $(".tarih").datepicker();
+        //buttons
+        $("#buttons").html("");
+        var buttons = new $.fn.dataTable.Buttons(table, {
+            buttons: [
+                { "extend": 'pdf', "exportOptions": { columns: ':visible' }, "text": '<span class="fa fa-file-pdf-o f-s-15 red"></span>', "className": 'btn-xs;' },
+                { "extend": 'excel', "exportOptions": { columns: ':visible' }, "text": '<span class="fa fa-file-excel-o f-s-15 green"></span>', "className": 'btn-xs;' }
+            ]
+        }).container().appendTo($('#buttons'));
+        //dates
+        $.datepicker.setDefaults($.datepicker.regional["tr"]);
+        $("#txtBaslangic").datepicker().on("change", function (e) { basTarih = toOADateFromString(e.target.value); table.ajax.reload(); });
+        $("#txtBitis").datepicker().on("change", function (e) { bitTarih = toOADateFromString(e.target.value); table.ajax.reload(); });
+        //buttons
+        $('.listele-buton').click(function () { table.ajax.reload(); });
+        $('#DurumID').change(function () { table.ajax.reload(); });
+    });
+</script>}
