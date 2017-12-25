@@ -20,6 +20,8 @@
         public decimal? Tutar { get; set; }
         public string Tarih { get; set; }
         public string Kaydeden { get; set; }
+
+        public string Notlar { get; set; }
     }
     /// <summary>
     /// onay bekleyen transfer listesi
@@ -96,6 +98,8 @@
         public string Degistiren { get; set; }
         public string DegisTarih { get; set; }
         public string DegisSaat { get; set; }
+
+        public string Notlar { get; set; }
     }
 
     /// <summary>
