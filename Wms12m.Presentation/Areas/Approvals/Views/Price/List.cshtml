@@ -602,11 +602,11 @@
             var dsf = Number(jObject["DovizSatisFiyat"].toString().replace(/\./g, "").replace(",", "."));
 
             if (id == 1 && (dsf > 0) && (sf > 0 )) {
-                Modaldialog("TL ve Döviz fiyat beraber girilemez.", "Güncelleme İşlemi", "Tamam", "Guncel");
+                Modaldialog("TL ve Döviz fiyat beraber girilemez.", "Güncelleme İşlemi", "Tamam", "btn-success");
                 return;
             }
             if (id == 1 && (jObject["ListeNo"] == null || jObject["UrunKodu"] == null || (sf == 0 && dsf == 0) || (sf > 0 && jObject["Birim"] == null) || (dsf > 0 && jObject["DovizBirim"] == null && jObject["DovizCinsi"] == null))) {
-                Modaldialog("Girilen değerleri kontrol edin", "Güncelleme İşlemi", "Tamam", "Guncel");
+                Modaldialog("Girilen değerleri kontrol edin", "Güncelleme İşlemi", "Tamam", "btn-success");
                 return;
             }
             if (id == 1) {
@@ -621,7 +621,7 @@
                     silinecek = table.rows('.selected').data();
                     if (silinecek.length > 0) {
                         if (silinecek.length > 50) {
-                            Modaldialog("50 Satırdan Fazla Seçemezsiniz.", "Güncelleme & Silme İşlemi", "Tamam", "Guncel");
+                            Modaldialog("50 Satırdan Fazla Seçemezsiniz.", "Güncelleme & Silme İşlemi", "Tamam", "btn-success");
                             return;
                         }
                         else {
@@ -630,17 +630,17 @@
                                 if (id == 3) {
                                     if (silinecek[i]["SatisFiyat1"] > 0) {
                                         if (silinecek[i]["SF1Birim"]=="") {
-                                            Modaldialog("Birim Girmelisiniz. Mal Kodu : " + silinecek[i]["MalKodu"], "Güncelleme & Silme İşlemi", "Tamam", "Guncel");
+                                            Modaldialog("Birim Girmelisiniz. Mal Kodu : " + silinecek[i]["MalKodu"], "Güncelleme & Silme İşlemi", "Tamam", "btn-success");
                                             return;
                                         }
                                     }
                                     if (silinecek[i]["DvzSatisFiyat1"] > 0) {
                                         if (silinecek[i]["DovizSF1Birim"] == "") {
-                                            Modaldialog("Döviz Birim Girmelisiniz. Mal Kodu : " + silinecek[i]["MalKodu"], "Güncelleme & Silme İşlemi", "Tamam", "Guncel");
+                                            Modaldialog("Döviz Birim Girmelisiniz. Mal Kodu : " + silinecek[i]["MalKodu"], "Güncelleme & Silme İşlemi", "Tamam", "btn-success");
                                             return;
                                         }
                                         if (silinecek[i]["SF1DovizCinsi"] == "") {
-                                            Modaldialog("Döviz Cinsi Girmelisiniz. Mal Kodu : " + silinecek[i]["MalKodu"], "Güncelleme & Silme İşlemi", "Tamam", "Guncel");
+                                            Modaldialog("Döviz Cinsi Girmelisiniz. Mal Kodu : " + silinecek[i]["MalKodu"], "Güncelleme & Silme İşlemi", "Tamam", "btn-success");
                                             return;
                                         }
                                     }
@@ -650,14 +650,9 @@
                         }
                     }
                     else {
-                        Modaldialog("Satır Seçmelisiniz.", "Güncelleme & Silme İşlemi", "Tamam", "Guncel");
+                        Modaldialog("Satır Seçmelisiniz.", "Güncelleme & Silme İşlemi", "Tamam", "btn-success");
                         return;
                     }
-                //}
-                //else {
-                //    Modaldialog("Satır Seçmelisiniz.", "Güncelleme & Silme İşlemi", "Tamam", "Guncel");
-                //    return;
-                //}
             }
 
             $.ajax({
@@ -675,15 +670,14 @@
                         $(".txt-birim").dxSelectBox("instance").option("value", "");
                         $(".txt-doviz-birim").dxSelectBox("instance").option("value", "");
                         $(".txt-doviz-cinsi").dxSelectBox("instance").option("value", "");
-                        Modaldialog("İşlem Başarılı", "Güncelleme İşlemi", "Tamam", "Guncel");
+                        Modaldialog("İşlem Başarılı", "Güncelleme İşlemi", "Tamam", "btn-success");
                        setTimeout(function () { window.location.reload(); }, 500);
                     }
                     else if (data == "NO") {
-                        Modaldialog("Kayıt sırasında hata oluştu. İşleminiz gerçekleştirilemedi.", "Güncelleme İşlemi", "Tamam", "Guncel");
-                       setTimeout(function () { window.location.reload(); }, 500);
+                        Modaldialog("Kayıt sırasında hata oluştu. İşleminiz gerçekleştirilemedi.", "Güncelleme İşlemi", "Tamam", "btn-success");
                     }
                     else if (data == "MEVCUT") {
-                        Modaldialog("Ürün Listede Mevcut.", "Güncelleme İşlemi", "Tamam", "Guncel");
+                        Modaldialog("Ürün Listede Mevcut.", "Güncelleme İşlemi", "Tamam", "btn-success");
                     }
                 }
             });

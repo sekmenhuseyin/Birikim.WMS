@@ -211,7 +211,7 @@
 
             success: function (data) {
                 if (data.Status == true) {
-                    Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "Guncel");
+                    Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "btn-success");
                     setTimeout(function () { window.location.reload(); }, 500);
                 }
                 else {
@@ -235,7 +235,7 @@
                 type: "post",
                 success: function (data) {
                     if (data.Status == true) {
-                        Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "Guncel");
+                        Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "btn-success");
                         setTimeout(function () { window.location.reload(); }, 500);
                     }
                     else {

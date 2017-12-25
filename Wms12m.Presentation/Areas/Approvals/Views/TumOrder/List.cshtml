@@ -108,9 +108,9 @@
             return nRow;
         }
     });
-       $('#sample_1 tbody').on('click', 'tr', function () {
-           $(this).toggleClass('selected');
-       });
+    $('#sample_1 tbody').on('click', 'tr', function () {
+        $(this).toggleClass('selected');
+    });
     $("#buttons").html("");
     var buttons = new $.fn.dataTable.Buttons(table, {
         buttons: [
@@ -133,21 +133,18 @@
 
             success: function (data) {
                 if (data.Status == true) {
-                    Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "Guncel");
+                    Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "btn-success");
                     setTimeout(function () { window.location.reload(); }, 500);
                 }
                 else {
                     if (data.Message == "") data.Message = "Hata oluştu";
                     Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
-                    setTimeout(function () { window.location.reload(); }, 500);
                 }
 
             }
         });
-
         return _dfd.promise();
     }
-
     function SiparisReddet() {
         var x = table.rows('.selected').data();
         secili_table = [];
@@ -162,18 +159,16 @@
 
             success: function (data) {
                 if (data.Status == true) {
-                    Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "Guncel");
+                    Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "btn-success");
                     setTimeout(function () { window.location.reload(); }, 500);
                 }
                 else {
                     if (data.Message == "") data.Message = "Hata oluştu";
                     Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
-                    setTimeout(function () { window.location.reload(); }, 500);
                 }
 
             }
         });
-
         return _dfd.promise();
     }
 </script>
