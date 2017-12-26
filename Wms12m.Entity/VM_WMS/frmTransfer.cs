@@ -24,11 +24,13 @@
     /// </summary>
     public class frmTransferMalzemeApprove
     {
-        public string checkboxes { get; set; }
         public string SirketID { get; set; }
         public string GirisDepo { get; set; }
         public string CikisDepo { get; set; }
         public string AraDepo { get; set; }
+        public string[] MalKodus { get; set; }
+        public string[] Birims { get; set; }
+        public decimal[] Miktars { get; set; }
     }
     /// <summary>
     /// genel bir şey

@@ -162,6 +162,7 @@
             });
             if (result == false)
             {
+                $("#localData").html("");
                 table.rows(".selected").every(function (rowIdx, tableLoop, rowLoop)
                 {
                     $("#localData").html($("#localData").html() + "<input name='MalKodus' value='" + this.data()[0] + "' />")

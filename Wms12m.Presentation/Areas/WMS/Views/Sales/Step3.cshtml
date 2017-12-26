@@ -124,6 +124,7 @@
             });
             if (result == false)
             {
+                $("#localData").html("");
                 table.rows(".selected").every(function (rowIdx, tableLoop, rowLoop)
                 {
                     var miktar = parseFloat(list[this.data()[8]]);

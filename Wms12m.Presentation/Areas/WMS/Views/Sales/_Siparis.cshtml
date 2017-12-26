@@ -85,6 +85,7 @@
         });
         $(".submit").click(function () {
             var result = false;
+            $("#localData").html("");
             table.rows(".selected").every(function (rowIdx, tableLoop, rowLoop)
             {
                 result = true;

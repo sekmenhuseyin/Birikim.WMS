@@ -1,6 +1,4 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
@@ -54,61 +52,24 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             ViewBag.Result = new Result(false, "Yetkiniz yok.");
             if (CheckPerm(Perms.Transfer, PermTypes.Writing) == false) return PartialView("Summary");
             ViewBag.Result = new Result(false, "Eksik bilgi girdiniz.");
-            if (tbl.GirisDepo == "" || tbl.AraDepo == "" || tbl.CikisDepo == "" || tbl.checkboxes.ToString2() == "")
+            if (tbl.GirisDepo == "" || tbl.AraDepo == "" || tbl.CikisDepo == "" || tbl.MalKodus.Count() == 0)
                 return PartialView("Summary");
             ViewBag.Result = new Result(false, "Aynı depoları seçemezsiniz.");
             if (tbl.GirisDepo == tbl.AraDepo || tbl.CikisDepo == tbl.AraDepo || tbl.CikisDepo == tbl.GirisDepo)
                 return PartialView("Summary");
-            // liste oluştur
-            tbl.checkboxes = tbl.checkboxes.Left(tbl.checkboxes.Length - 1);
-            string[] tmp = tbl.checkboxes.Split('#');
-            var malkodlari = ""; var sira = 0;
-            var mallar = new Transfer_Detay();
-            var mallistesi = new List<Transfer_Detay>();
-            foreach (var item in tmp)
-            {
-                if (sira == 0)
-                {
-                    // malkodunu ve transfer id ekle
-                    mallar.MalKodu = item;
-                    if (malkodlari != "") malkodlari += ",";
-                    malkodlari += "'" + item + "'";
-                    sira++;
-                }
-                else if (sira == 1)
-                {
-                    // birim ekle
-                    mallar.Birim = item;
-                    sira++;
-                }
-                else
-                {
-                    // miktar ekle
-                    mallar.Miktar = item.ToDecimal();
-                    mallistesi.Add(mallar);
-                    mallar = new Transfer_Detay();
-                    sira = 0;
-                }
-            }
-
             // stok kontrol
             var varmi = false;
-            foreach (var item in mallistesi)
+            foreach (var item in tbl.MalKodus)
             {
-                var sayi = db.Yers.Where(m => m.MalKodu == item.MalKodu && m.Miktar > 0 && m.Kat.Bolum.Raf.Koridor.Depo.DepoKodu == tbl.CikisDepo).FirstOrDefault();
+                var sayi = db.Yers.Where(m => m.MalKodu == item && m.Miktar > 0 && m.Kat.Bolum.Raf.Koridor.Depo.DepoKodu == tbl.CikisDepo).FirstOrDefault();
                 if (sayi != null) { varmi = true; break; }
             }
-
             ViewBag.Result = new Result(false, "Seçtiğiniz hiç bir ürün stokta kayıtlı değil.");
             if (varmi == false) return PartialView("Summary");
             // çapraz stok kontrol
-            var sql = string.Format(@"SELECT STK.MalKodu, wms.fnGetStock('{2}', STK.MalKodu, STK.Birim1, 0) AS Depo2WmsStok, 
-                                                            ISNULL(DST.DvrMiktar, 0) + ISNULL(DST.GirMiktar, 0) - ISNULL(DST.CikMiktar, 0) AS Depo2GunesStok
-                                        FROM FINSAT6{0}.FINSAT6{0}.STK AS STK WITH(NOLOCK) LEFT OUTER JOIN
-                                                                    FINSAT6{0}.FINSAT6{0}.DST AS DST WITH(NOLOCK) ON STK.MalKodu = DST.MalKodu AND DST.Depo = '{2}'
-                                        WHERE(STK.MalKodu IN({1}))", vUser.SirketKodu, malkodlari, tbl.CikisDepo);
+            var sql = string.Format(@"EXEC FINSAT6{0}.wms.TransferKontrol @CikisDepo = '{1}', @MalKodus = '{2}'", vUser.SirketKodu, tbl.CikisDepo, string.Join(",", tbl.MalKodus));
             var list1 = db.Database.SqlQuery<frmTransferMalzemeler>(sql).ToList();
-            malkodlari = "";
+            var malkodlari = "";
             foreach (var item in list1)
             {
                 if (item.Depo2GunesStok != item.Depo2WmsStok)
@@ -117,7 +78,6 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                     malkodlari += item.MalKodu;
                 }
             }
-
             // add to list
             var aDepoID = Store.Detail(tbl.AraDepo).ID;
             var cDepoID = Store.Detail(tbl.CikisDepo);
@@ -129,7 +89,6 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             {
                 db.DeleteTransfer(kontrol.GorevID);
             }
-
             // yeni bir görev eklenir
             var GorevNo = db.SettingsGorevNo(today, cDepoID.ID).FirstOrDefault();
             var cevap = db.InsertIrsaliye(vUser.SirketKodu, cDepoID.ID, GorevNo, GorevNo, today, "Giriş: " + tbl.GirisDepo + ", Çıkış: " + tbl.CikisDepo, true, ComboItems.TransferÇıkış.ToInt32(), vUser.UserName, today, time, cDepoID.DepoAd, "", 0, "", "").FirstOrDefault();
@@ -140,17 +99,17 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                 return PartialView("Summary");
             // find detays
             var eksikler = ""; var TransferID = sonuc.Id;
-            foreach (var item in mallistesi)
+            for (int i = 0; i < tbl.MalKodus.Count(); i++)
             {
                 // stok kontrol
-                var tmpYer = db.Yers.Where(m => m.MalKodu == item.MalKodu && m.Birim == item.Birim && m.Kat.Bolum.Raf.Koridor.Depo.DepoKodu == tbl.CikisDepo && m.Miktar > 0).OrderByDescending(m => m.Miktar).ToList();
+                var tmpYer = db.Yers.Where(m => m.MalKodu == tbl.MalKodus[i] && m.Birim == tbl.Birims[i] && m.Kat.Bolum.Raf.Koridor.Depo.DepoKodu == tbl.CikisDepo && m.Miktar > 0).OrderByDescending(m => m.Miktar).ToList();
                 decimal toplam = 0, miktar = 0;
                 if (tmpYer.Count > 0)
                 {
                     foreach (var itemyer in tmpYer)
                     {
-                        if (itemyer.Miktar >= (item.Miktar - toplam))
-                            miktar = item.Miktar - toplam;
+                        if (itemyer.Miktar >= (tbl.Miktars[i] - toplam))
+                            miktar = tbl.Miktars[i] - toplam;
                         else
                             miktar = itemyer.Miktar;
                         toplam += miktar;
@@ -159,27 +118,26 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                         {
                             GorevID = cevap.GorevID.Value,
                             YerID = itemyer.ID,
-                            MalKodu = item.MalKodu,
-                            Birim = item.Birim,
+                            MalKodu = tbl.MalKodus[i],
+                            Birim = tbl.Birims[i],
                             Miktar = miktar,
                             MakaraNo = itemyer.MakaraNo,
                             GC = true
                         };
                         if (miktar > 0) TaskYer.Operation(tblyer);
                         // toplam yeterli miktardaysa
-                        if (toplam == item.Miktar) break;
+                        if (toplam == tbl.Miktars[i]) break;
                     }
 
-                    item.Miktar = toplam;
-                    item.TransferID = TransferID;
+                    tbl.Miktars[i] = toplam;
                     // hepsi eklenince detayı db'ye ekle
-                    if (item.Miktar > 0) { sonuc = Transfers.AddDetay(item); }
-                    if (item.Miktar > 0) IrsaliyeDetay.Operation(new IRS_Detay() { IrsaliyeID = cevap.IrsaliyeID.Value, MalKodu = item.MalKodu, Miktar = miktar, Birim = item.Birim, KynkSiparisID = sonuc.Id, KynkSiparisTarih = TransferID });
+                    if (tbl.Miktars[i] > 0) { sonuc = Transfers.AddDetay(new Transfer_Detay() { TransferID = TransferID, MalKodu = tbl.MalKodus[i], Birim = tbl.Birims[i], Miktar = tbl.Miktars[i] }); }
+                    if (tbl.Miktars[i] > 0) IrsaliyeDetay.Operation(new IRS_Detay() { IrsaliyeID = cevap.IrsaliyeID.Value, MalKodu = tbl.MalKodus[i], Miktar = tbl.Miktars[i], Birim = tbl.Birims[i], KynkSiparisID = sonuc.Id, KynkSiparisTarih = TransferID });
                 }
                 else
                 {
                     if (eksikler != "") eksikler += ", ";
-                    eksikler += item.MalKodu;
+                    eksikler += tbl.MalKodus[i];
                 }
             }
             ViewBag.IrsaliyeId = cevap.IrsaliyeID.Value;
@@ -209,11 +167,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             foreach (var item in transfer.Transfer_Detay)
             {
                 // çapraz stok kontrol
-                var sql = string.Format(@"SELECT STK.MalKodu, wms.fnGetStock('{2}', STK.MalKodu, STK.Birim1, 0) AS Depo2WmsStok, 
-                                                            ISNULL(DST.DvrMiktar, 0) + ISNULL(DST.GirMiktar, 0) - ISNULL(DST.CikMiktar, 0)  AS Depo2GunesStok
-                                        FROM FINSAT6{0}.FINSAT6{0}.STK AS STK WITH(NOLOCK) LEFT OUTER JOIN
-                                                                    FINSAT6{0}.FINSAT6{0}.DST AS DST WITH(NOLOCK) ON STK.MalKodu = DST.MalKodu AND DST.Depo = '{2}'
-                                        WHERE (STK.MalKodu = '{1}')", vUser.SirketKodu, item.MalKodu, item.Transfer.Depo1.DepoKodu);
+                var sql = string.Format(@"EXEC FINSAT6{0}.wms.TransferSummaryListKontrol @CikisDepo = '{1}', @MalKodu = '{2}'", vUser.SirketKodu, item.Transfer.Depo1.DepoKodu, item.MalKodu);
                 var list1 = db.Database.SqlQuery<frmTransferMalzemeler>(sql).ToList();
                 foreach (var item2 in list1)
                 {
@@ -223,7 +177,6 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                         malkodlari += item2.MalKodu;
                     }
                 }
-
                 // stok kontrol
                 var tmpYer = db.Yers.Where(m => m.MalKodu == item.MalKodu && m.Birim == item.Birim && m.Kat.Bolum.Raf.Koridor.DepoID == transfer.CikisDepoID && m.Miktar > 0).OrderByDescending(m => m.Miktar).ToList();
                 decimal toplam = 0, miktar = 0;
@@ -257,7 +210,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                     eksikler += item.MalKodu;
                 }
             }
-
+            //yazıya geçir
             if (eksikler == "" && malkodlari != "")
                 eksikler = malkodlari + " için stok miktarları uyuşmuyor.";
             else if (eksikler != "" && malkodlari != "")

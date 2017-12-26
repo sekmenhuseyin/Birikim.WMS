@@ -33,9 +33,9 @@
                         hataliStoklar += item.MalKodu;
                     }
                     <tr style="cursor:pointer;" onclick="$(this).toggleClass('selected');">
-                        <td>@Html.DisplayFor(modelItem => item.MalKodu)</td>
-                        <td>@Html.DisplayFor(modelItem => item.MalAdi)</td>
-                        <td>@Html.DisplayFor(modelItem => item.Birim)</td>
+                        <td>@item.MalKodu</td>
+                        <td>@item.MalAdi</td>
+                        <td>@item.Birim</td>
                         <td align="right">@String.Format("{0:n}", item.Depo1StokMiktar)</td>
                         <td align="right">@String.Format("{0:n}", item.Depo1KritikMiktar)</td>
                         <td align="right">@String.Format("{0:n}", item.Depo1GerekenMiktar)</td>
@@ -59,7 +59,7 @@
         <button type="button" class="btn btn-default m-r-20" id="selector">Hepsini Seç</button>
     </div>
     <div class="col-md-2">
-        <input type="hidden" name="checkboxes" id="checkboxes" value="" />
+        <div id="localData" class="hidden"></div>
         <input type="submit" class="hide hidden" value="submit" name="submit" id="submit" />
         <input type="button" class="btn btn-primary btn-block green submit" value="Onay" />
     </div>
@@ -80,13 +80,17 @@
             ]
         });
         $(".submit").click(function () {
-            var selected = "";
+            var result = false;
+            $("#localData").html("");
             table.rows(".selected").every(function (rowIdx, tableLoop, rowLoop) {
                 var miktar = parseFloat(list[this.data()[13]]);
-                if (miktar > 0) selected = selected + this.data()[0] + "#" + this.data()[2] + "#" + miktar + "#";
+                if (miktar > 0)
+                {
+                    result = true;
+                    $("#localData").html($("#localData").html() + "<input name='MalKodus' value='" + this.data()[0] + "' />" + "<input name='Birims' value='" + this.data()[2] + "' />" + "<input name='Miktars' value='" + miktar + "' />")
+                }
             });
-            $("#checkboxes").val(selected);
-            if (selected == "") {
+            if (result == false) {
                 Modaldialog("Lütfen malzeme seçin", "Hata", "Tamam", "btn-danger");
                 return;
             }
