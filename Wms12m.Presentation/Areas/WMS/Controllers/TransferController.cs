@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using System.Web.Script.Serialization;
 using Wms12m.Entity;
 using Wms12m.Entity.Models;
 
@@ -333,22 +332,14 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         /// transfere ait mallar
         /// </summary>
         [HttpPost]
-        public PartialViewResult Details(int ID)
+        public PartialViewResult Details(int ID, bool Tip)
         {
-            var result = db.Transfer_Detay.Where(m => m.TransferID == ID).Select(m => new frmMalKoduMiktar { MalKodu = m.MalKodu, Miktar = m.Miktar, Birim = m.Birim }).ToList();
+            var sql = string.Format("EXEC FINSAT6{0}.wms.TransferDetayList @TransferID = '{1}'", vUser.SirketKodu, ID);
+            var result = db.Database.SqlQuery<frmTransferDetails>(sql).ToList();
+            ViewBag.Tip = Tip;
             return PartialView("Details", result);
         }
         #endregion
-        [HttpPost]
-        public string TransferDetay(int ID)
-        {
-            var json = new JavaScriptSerializer()
-            {
-                MaxJsonLength = int.MaxValue
-            };
-            var result = db.Database.SqlQuery<frmDepoTransferDetay>(string.Format("FINSAT6{0}.wms.TransferDetayList @TransferID = '{1}'", vUser.SirketKodu, ID)).ToList();
-            return json.Serialize(result);
-        }
         #region Delete
         /// <summary>
         /// transfer sil
