@@ -24,13 +24,8 @@
                     <div class="mt-step-title uppercase font-grey-cascade">SİPARİŞ Detayları</div>
                     <div class="mt-step-content font-grey-cascade">Detaylardan Seçin</div>
                 </div>
-                <div class="col-md-2 mt-step-col active">
+                <div class="col-md-2 mt-step-col last active">
                     <div class="mt-step-number bg-white">4</div>
-                    <div class="mt-step-title uppercase font-grey-cascade">Toplama Planı</div>
-                    <div class="mt-step-content font-grey-cascade">Kontrol</div>
-                </div>
-                <div class="col-md-2 mt-step-col last">
-                    <div class="mt-step-number bg-white">5</div>
                     <div class="mt-step-title uppercase font-grey-cascade">ONAY</div>
                     <div class="mt-step-content font-grey-cascade">Onaylayın</div>
                 </div>
@@ -39,25 +34,24 @@
         <div class="portlet box green m-t-30">
             <div class="portlet-title"><div class="caption"><i class="fa fa-gift"></i>Sipariş Seçimi</div></div>
             <div class="portlet-body form p-30">
-                @using (Html.BeginForm("Step5", "Sales", new { area = "WMS" }, FormMethod.Post, new { @class = "form-horizontal" }))
+                @using (Html.BeginForm("Approve", "Sales", new { area = "WMS" }, FormMethod.Post, new { @class = "form-horizontal" }))
                 {
                     @Html.AntiForgeryToken()
                     @Html.ValidationSummary(true)
                     <table class="table table-striped table-bordered table-condensed" id="sample_2">
-                        <thead><tr><th>Mal Kodu</th><th>Mal Adı</th><th>Hücre</th><th class="text-right">Miktar</th><th class="text-right">Raf Stok</th><th class="text-right">Raf Kalan</th><th>Birim</th></tr></thead>
+                        <thead><tr><th>Mal Kodu</th><th>Mal Adı</th><th>Hücre</th><th class="text-right">Miktar</th><th class="text-right">Raf Stok</th><th class="text-right">Raf Kalan</th><th>Birim</th><th>Rota Adımı</th></tr></thead>
                         <tbody>
                             @foreach (var item in Model)
                             {
-                                string tmp = item.MalKodu.GetMalAdi(Sirket[0]);
-                                if (tmp == null) { tmp = item.MalKodu.GetMalAdi(Sirket[1]); }
                                 <tr>
                                     <td>@item.MalKodu</td>
-                                    <td>@tmp</td>
+                                    <td>@item.MalAdi</td>
                                     <td>@item.HucreAd</td>
                                     <td align="right">@String.Format("{0:n}", item.Miktar)</td>
                                     <td align="right">@String.Format("{0:n}", item.Stok)</td>
                                     <td align="right">@String.Format("{0:n}", item.Stok - item.Miktar)</td>
                                     <td>@item.Birim</td>
+                                    <td>@item.Sira</td>
                                 </tr>
                             }
                         </tbody>
@@ -67,9 +61,8 @@
                             <button type="button" class="btn btn-default btn-block" onclick="window.history.back();"><<< Geri</button>
                         </div>
                         <div class="col-md-1 col-md-offset-9">
-                            <input type="hidden" name="DepoID" value="@ViewBag.DepoID" />
                             <input type="hidden" name="GorevID" value="@ViewBag.GorevID" />
-                            <input type="submit" class="btn btn-primary btn-block green" value="İleri >>>" />
+                            <input type="submit" class="btn btn-primary btn-block green" value="Onayla" />
                         </div>
                     </div>
                 }
@@ -77,4 +70,5 @@
         </div>
     </div>
 </div>
-@section Scripts{<script>$(document).ready(function () { var table = $('#sample_2').DataTable({ "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" } }); });</script>}
+@section Scripts{
+    <script>$(document).ready(function () { var table = $('#sample_2').DataTable({ "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" } }); });</script>}
