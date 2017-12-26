@@ -17,7 +17,7 @@ else
                     <tr id="tr@{@item.ID}">
                         <td></td>
                         <td>@item.MalKodu</td>
-                        <td>@item.MalKodu.GetMalAdi(tmp)</td>
+                        <td>@item.MalKodu</td>
                         <td align="right">@String.Format("{0:n}", item.Miktar)</td>
                         <td>@item.Birim</td>
                         <td>@item.MakaraNo</td>
@@ -29,7 +29,7 @@ else
                             }
                         </td>
                     </tr>
-    }
+                }
             </tbody>
         </table>
     }
@@ -54,7 +54,7 @@ else
                 $("#MalAdi").val(ui.item.value);
             }
         });
-         var table = $('#sample_7').DataTable({ "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" } });
+        var table = $('#sample_7').DataTable({ "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" } });
         $(document).ready(function () {
 
             table.on('order.dt search.dt', function () {

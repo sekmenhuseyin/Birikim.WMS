@@ -45,17 +45,14 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         /// <summary>
         /// ilk sayfada seçtiklerini gösterip onaylatan bir sayfa
         /// </summary>
-        [HttpPost, ValidateAntiForgeryToken]
-        public PartialViewResult Summary(frmTransferMalzemeApprove tbl)
+        [HttpPost]
+        public JsonResult Summary(frmTransferMalzemeApprove tbl)
         {
-            ViewBag.Result = new Result(false, "Yetkiniz yok.");
-            if (CheckPerm(Perms.Transfer, PermTypes.Writing) == false) return PartialView("Summary");
-            ViewBag.Result = new Result(false, "Eksik bilgi girdiniz.");
+            if (CheckPerm(Perms.Transfer, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok."), JsonRequestBehavior.AllowGet);
             if (tbl.GirisDepo == "" || tbl.AraDepo == "" || tbl.CikisDepo == "" || tbl.MalKodus.Count() == 0)
-                return PartialView("Summary");
-            ViewBag.Result = new Result(false, "Aynı depoları seçemezsiniz.");
+                return Json(new Result(false, "Eksik bilgi girdiniz."), JsonRequestBehavior.AllowGet);
             if (tbl.GirisDepo == tbl.AraDepo || tbl.CikisDepo == tbl.AraDepo || tbl.CikisDepo == tbl.GirisDepo)
-                return PartialView("Summary");
+                return Json(new Result(false, "Aynı depoları seçemezsiniz."), JsonRequestBehavior.AllowGet);
             // stok kontrol
             var varmi = false;
             foreach (var item in tbl.MalKodus)
@@ -63,8 +60,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                 var sayi = db.Yers.Where(m => m.MalKodu == item && m.Miktar > 0 && m.Kat.Bolum.Raf.Koridor.Depo.DepoKodu == tbl.CikisDepo).FirstOrDefault();
                 if (sayi != null) { varmi = true; break; }
             }
-            ViewBag.Result = new Result(false, "Seçtiğiniz hiç bir ürün stokta kayıtlı değil.");
-            if (varmi == false) return PartialView("Summary");
+            if (varmi == false) return Json(new Result(false, "Seçtiğiniz hiç bir ürün stokta kayıtlı değil."), JsonRequestBehavior.AllowGet);
             // çapraz stok kontrol
             var sql = string.Format(@"EXEC FINSAT6{0}.wms.TransferKontrol @CikisDepo = '{1}', @MalKodus = '{2}'", vUser.SirketKodu, tbl.CikisDepo, string.Join(",", tbl.MalKodus));
             var list1 = db.Database.SqlQuery<frmTransferMalzemeler>(sql).ToList();
@@ -77,77 +73,23 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                     malkodlari += item.MalKodu;
                 }
             }
-            // add to list
-            var aDepoID = Store.Detail(tbl.AraDepo).ID;
-            var cDepoID = Store.Detail(tbl.CikisDepo);
-            var gDepoID = Store.Detail(tbl.GirisDepo);
-            int today = fn.ToOADate(), time = fn.ToOATime();
-            // kontrol
-            var kontrol = db.Transfers.Where(m => m.Onay == false && m.Gorev.DurumID == 15 && m.GirisDepoID == gDepoID.ID && m.AraDepoID == aDepoID && m.CikisDepoID == cDepoID.ID && m.Gorev.OlusturmaTarihi == today).FirstOrDefault();
-            if (kontrol != null)
-            {
-                db.DeleteTransfer(kontrol.GorevID);
-            }
-            // yeni bir görev eklenir
-            var GorevNo = db.SettingsGorevNo(today, cDepoID.ID).FirstOrDefault();
-            var cevap = db.InsertIrsaliye(vUser.SirketKodu, cDepoID.ID, GorevNo, GorevNo, today, "Giriş: " + tbl.GirisDepo + ", Çıkış: " + tbl.CikisDepo, true, ComboItems.TransferÇıkış.ToInt32(), vUser.UserName, today, time, cDepoID.DepoAd, "", 0, "", "").FirstOrDefault();
-            // yeni transfer eklenir
-            var sonuc = Transfers.Operation(new Transfer() { SirketKod = vUser.SirketKodu, GirisDepoID = gDepoID.ID, CikisDepoID = cDepoID.ID, AraDepoID = aDepoID, GorevID = cevap.GorevID.Value });
-            ViewBag.Result = new Result(false, "Kayıtta hata oldu. Lütfen tekrar deneyin.");
-            if (sonuc.Status == false)
-                return PartialView("Summary");
-            // find detays
-            var eksikler = ""; var TransferID = sonuc.Id;
+            var eksikler = "";
             for (int i = 0; i < tbl.MalKodus.Count(); i++)
             {
                 // stok kontrol
                 var tmpYer = db.Yers.Where(m => m.MalKodu == tbl.MalKodus[i] && m.Birim == tbl.Birims[i] && m.Kat.Bolum.Raf.Koridor.Depo.DepoKodu == tbl.CikisDepo && m.Miktar > 0).OrderByDescending(m => m.Miktar).ToList();
-                decimal toplam = 0, miktar = 0;
-                if (tmpYer.Count > 0)
-                {
-                    foreach (var itemyer in tmpYer)
-                    {
-                        if (itemyer.Miktar >= (tbl.Miktars[i] - toplam))
-                            miktar = tbl.Miktars[i] - toplam;
-                        else
-                            miktar = itemyer.Miktar;
-                        toplam += miktar;
-                        // miktarı tabloya ekle
-                        var tblyer = new GorevYer()
-                        {
-                            GorevID = cevap.GorevID.Value,
-                            YerID = itemyer.ID,
-                            MalKodu = tbl.MalKodus[i],
-                            Birim = tbl.Birims[i],
-                            Miktar = miktar,
-                            MakaraNo = itemyer.MakaraNo,
-                            GC = true
-                        };
-                        if (miktar > 0) TaskYer.Operation(tblyer);
-                        // toplam yeterli miktardaysa
-                        if (toplam == tbl.Miktars[i]) break;
-                    }
-
-                    tbl.Miktars[i] = toplam;
-                    // hepsi eklenince detayı db'ye ekle
-                    if (tbl.Miktars[i] > 0) { sonuc = Transfers.AddDetay(new Transfer_Detay() { TransferID = TransferID, MalKodu = tbl.MalKodus[i], Birim = tbl.Birims[i], Miktar = tbl.Miktars[i] }); }
-                    if (tbl.Miktars[i] > 0) IrsaliyeDetay.Operation(new IRS_Detay() { IrsaliyeID = cevap.IrsaliyeID.Value, MalKodu = tbl.MalKodus[i], Miktar = tbl.Miktars[i], Birim = tbl.Birims[i], KynkSiparisID = sonuc.Id, KynkSiparisTarih = TransferID });
-                }
-                else
+                if (tmpYer.Count == 0)
                 {
                     if (eksikler != "") eksikler += ", ";
                     eksikler += tbl.MalKodus[i];
                 }
             }
-            ViewBag.IrsaliyeId = cevap.IrsaliyeID.Value;
             if (eksikler == "" && malkodlari != "")
                 eksikler = malkodlari + " için stok miktarları uyuşmuyor.";
             else if (eksikler != "" && malkodlari != "")
                 eksikler += " için stok bulunamadı.<br />Ayrıca " + malkodlari + " için stok miktarları uyuşmuyor.";
-            ViewBag.Result = new Result(true, eksikler);
             // return
-            var list = db.Transfers.Where(m => m.ID == TransferID).FirstOrDefault();
-            return PartialView("Summary", list);
+            return Json(new Result(true, 1, eksikler), JsonRequestBehavior.AllowGet);
         }
         /// <summary>
         /// özet sayfasındaki listeyi yeniler
@@ -301,7 +243,66 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             return PartialView("Details", result);
         }
         #endregion
-        #region Approve & Delete
+        #region save, Approve & Delete
+        /// <summary>
+        /// transferi planını kaydet
+        /// </summary>
+        [HttpPost]
+        public JsonResult Save(frmTransferMalzemeApprove tbl)
+        {
+            if (CheckPerm(Perms.Transfer, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
+            // add to list
+            var aDepoID = Store.Detail(tbl.AraDepo).ID;
+            var cDepoID = Store.Detail(tbl.CikisDepo);
+            var gDepoID = Store.Detail(tbl.GirisDepo);
+            int today = fn.ToOADate(), time = fn.ToOATime();
+            // yeni bir görev eklenir
+            var GorevNo = db.SettingsGorevNo(today, cDepoID.ID).FirstOrDefault();
+            var cevap = db.InsertIrsaliye(vUser.SirketKodu, cDepoID.ID, GorevNo, GorevNo, today, "Giriş: " + tbl.GirisDepo + ", Çıkış: " + tbl.CikisDepo, true, ComboItems.TransferÇıkış.ToInt32(), vUser.UserName, today, time, cDepoID.DepoAd, "", 0, "", "").FirstOrDefault();
+            // yeni transfer eklenir
+            var sonuc = Transfers.Operation(new Transfer() { SirketKod = vUser.SirketKodu, GirisDepoID = gDepoID.ID, CikisDepoID = cDepoID.ID, AraDepoID = aDepoID, GorevID = cevap.GorevID.Value });
+            // find detays
+            var TransferID = sonuc.Id;
+            for (int i = 0; i < tbl.MalKodus.Count(); i++)
+            {
+                // stok kontrol
+                var tmpYer = db.Yers.Where(m => m.MalKodu == tbl.MalKodus[i] && m.Birim == tbl.Birims[i] && m.Kat.Bolum.Raf.Koridor.Depo.DepoKodu == tbl.CikisDepo && m.Miktar > 0).OrderByDescending(m => m.Miktar).ToList();
+                decimal toplam = 0, miktar = 0;
+                if (tmpYer.Count > 0)
+                {
+                    foreach (var itemyer in tmpYer)
+                    {
+                        if (itemyer.Miktar >= (tbl.Miktars[i] - toplam))
+                            miktar = tbl.Miktars[i] - toplam;
+                        else
+                            miktar = itemyer.Miktar;
+                        toplam += miktar;
+                        // miktarı tabloya ekle
+                        var tblyer = new GorevYer()
+                        {
+                            GorevID = cevap.GorevID.Value,
+                            YerID = itemyer.ID,
+                            MalKodu = tbl.MalKodus[i],
+                            Birim = tbl.Birims[i],
+                            Miktar = miktar,
+                            MakaraNo = itemyer.MakaraNo,
+                            GC = true
+                        };
+                        if (miktar > 0) TaskYer.Operation(tblyer);
+                        // toplam yeterli miktardaysa
+                        if (toplam == tbl.Miktars[i]) break;
+                    }
+
+                    tbl.Miktars[i] = toplam;
+                    // hepsi eklenince detayı db'ye ekle
+                    if (tbl.Miktars[i] > 0) { sonuc = Transfers.AddDetay(new Transfer_Detay() { TransferID = TransferID, MalKodu = tbl.MalKodus[i], Birim = tbl.Birims[i], Miktar = tbl.Miktars[i] }); }
+                    if (tbl.Miktars[i] > 0) IrsaliyeDetay.Operation(new IRS_Detay() { IrsaliyeID = cevap.IrsaliyeID.Value, MalKodu = tbl.MalKodus[i], Miktar = tbl.Miktars[i], Birim = tbl.Birims[i], KynkSiparisID = sonuc.Id, KynkSiparisTarih = TransferID });
+                }
+            }
+            ViewBag.IrsaliyeId = cevap.IrsaliyeID.Value;
+            // return
+            return Json(new Result(true, 1), JsonRequestBehavior.AllowGet);
+        }
         /// <summary>
         /// bekleyen transferi onayla
         /// </summary>

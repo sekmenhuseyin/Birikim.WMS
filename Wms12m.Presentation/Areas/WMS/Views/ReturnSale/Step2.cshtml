@@ -42,7 +42,7 @@
                                 list[x] = item.Miktar.ToString();
                                 <tr style="cursor:pointer;" onclick="$(this).toggleClass('selected');">
                                     <td>@Html.DisplayFor(modelItem => item.MalKodu)</td>
-                                    <td>@item.MalKodu.GetMalAdi(item.SirketID)</td>
+                                    <td>@item.MalKodu</td>
                                     <td class="text-right">@String.Format("{0:n}", item.Miktar)</td>
                                     <td class="text-right">@String.Format("{0:n}", item.GunesStok)</td>
                                     <td class="text-right">@String.Format("{0:n}", item.WmsStok)</td>

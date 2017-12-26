@@ -875,7 +875,7 @@ namespace Wms12m
                     db.UpdateIrsaliye(item.IrsaliyeID, fatNo, irsNo);
                     // yeni görev
                     var gorevNo = db.SettingsGorevNo(tarih, mGorev.DepoID).FirstOrDefault();
-                    var alıcı = item.HesapKodu.GetUnvan(item.SirketKod);
+                    var alıcı = "";//TODO: item.HesapKodu.GetUnvan(item.SirketKod);
                     var x = db.InsertIrsaliye(item.SirketKod, mGorev.DepoID, gorevNo, fatNo, item.Tarih, "Fat: " + fatNo + " Alıcı: " + alıcı, true, ComboItems.Paketle.ToInt32(), kull.Kod, tarih, saat, item.HesapKodu, item.TeslimChk, item.ValorGun, "", "").FirstOrDefault();
                     LogActions(KullID.ToString(), "Terminal", "Service", "Terminal", "SiparisTopla_GoreviTamamla", ComboItems.alEkle, x.GorevID.Value, "Fat: " + fatNo + " Alıcı: " + alıcı);
                 }
@@ -1000,7 +1000,7 @@ namespace Wms12m
                                     {
                                         id = kablo.id,
                                         miktar = item2.Miktar,
-                                        musteri = item.HesapKodu.GetUnvan(item.SirketKod).Left(40),
+                                        musteri = "",//TODO: item.HesapKodu.GetUnvan(item.SirketKod).Left(40),
                                         tarih = DateTime.Now,
                                         kaydigiren = tblx.AdSoyad
                                     };
@@ -1907,7 +1907,7 @@ namespace Wms12m
                     db.UpdateIrsaliye(item.IrsaliyeID, fatNo, irsNo);
                     // yeni görev
                     var gorevNo = db.SettingsGorevNo(tarih, mGorev.DepoID).FirstOrDefault();
-                    var alıcı = item.HesapKodu.GetUnvan(item.SirketKod);
+                    var alıcı = "";//TODO: item.HesapKodu.GetUnvan(item.SirketKod);
                     var x = db.InsertIrsaliye(item.SirketKod, mGorev.DepoID, gorevNo, fatNo, item.Tarih, "Fat: " + fatNo + " Alıcı: " + alıcı, true, ComboItems.Paketle.ToInt32(), kull.Kod, tarih, saat, item.HesapKodu, item.TeslimChk, item.ValorGun, "", "").FirstOrDefault();
                     LogActions(KullID.ToString(), "Terminal", "Service", "Terminal", "SiparisTopla_GoreviTamamla", ComboItems.alEkle, x.GorevID.Value, "Fat: " + fatNo + " Alıcı: " + alıcı);
                 }
@@ -2032,7 +2032,7 @@ namespace Wms12m
                                     {
                                         id = kablo.id,
                                         miktar = item2.Miktar,
-                                        musteri = item.HesapKodu.GetUnvan(item.SirketKod).Left(40),
+                                        musteri = "",//TODO: item.HesapKodu.GetUnvan(item.SirketKod).Left(40),
                                         tarih = DateTime.Now,
                                         kaydigiren = tblx.AdSoyad
                                     };

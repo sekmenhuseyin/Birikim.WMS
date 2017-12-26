@@ -2,7 +2,6 @@
 @{
     ViewBag.Title = "Satıştan İade - 3. Adım";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    List<string> Sirket = ViewBag.Sirket;
 }<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><a href="/WMS/ReturnSale">Satıştan İade</a><i class="fa fa-circle"></i></li><li><span>3. Adım</span></li></ul></div>
 <h1 class="page-title">Satıştan İade- 3. Adım</h1>
 <div class="row">
@@ -38,11 +37,9 @@
                         <tbody>
                             @foreach (var item in Model)
                             {
-                                string tmp = item.MalKodu.GetMalAdi(Sirket[0]);
-                                if (tmp == null) { tmp = item.MalKodu.GetMalAdi(Sirket[1]); }
                                 <tr>
                                     <td>@item.MalKodu</td>
-                                    <td>@tmp</td>
+                                    <td>@item.MalKodu</td>
                                     <td align="right">@String.Format("{0:n}", item.Miktar)</td>
                                     <td align="right">@String.Format("{0:n}", item.Stok)</td>
                                     <td>@item.Birim</td>

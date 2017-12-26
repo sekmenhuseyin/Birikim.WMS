@@ -459,7 +459,6 @@
     <Content Include="Areas\Approvals\Views\Purchase\TeklifList.cshtml" />
     <Content Include="Areas\YN\Views\OnayBekleyenler\Siparis_Details.cshtml" />
     <Content Include="Areas\Reports\Views\Stock\SiparisOnay.cshtml" />
-    <Content Include="Areas\WMS\Views\Transfer\SummaryList.cshtml" />
     <Content Include="Areas\WMS\Views\Transfer\SummaryEdit.cshtml" />
     <Content Include="Areas\YN\Views\OnayBekleyenler\Teklif.cshtml" />
     <Content Include="Areas\YN\Views\OnayBekleyenler\Teklif_Details.cshtml" />
