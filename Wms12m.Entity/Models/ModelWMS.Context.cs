@@ -572,19 +572,6 @@ namespace Wms12m.Entity.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("WMSEntities.SettingsMakaraNo", depoIDParameter);
         }
     
-        public virtual int DeleteLog(string table, string iD)
-        {
-            var tableParameter = table != null ?
-                new ObjectParameter("table", table) :
-                new ObjectParameter("table", typeof(string));
-    
-            var iDParameter = iD != null ?
-                new ObjectParameter("ID", iD) :
-                new ObjectParameter("ID", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("WMSEntities.DeleteLog", tableParameter, iDParameter);
-        }
-    
         public virtual int DeleteTransfer(Nullable<int> gorevID)
         {
             var gorevIDParameter = gorevID.HasValue ?
@@ -601,40 +588,6 @@ namespace Wms12m.Entity.Models
                 new ObjectParameter("IrsaliyeID", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("WMSEntities.DeleteIrsaliye", irsaliyeIDParameter);
-        }
-    
-        public virtual ObjectResult<GetStockRezerv_Result> GetStockRezerv(string depoKodu, string malKodu, string birim)
-        {
-            var depoKoduParameter = depoKodu != null ?
-                new ObjectParameter("DepoKodu", depoKodu) :
-                new ObjectParameter("DepoKodu", typeof(string));
-    
-            var malKoduParameter = malKodu != null ?
-                new ObjectParameter("MalKodu", malKodu) :
-                new ObjectParameter("MalKodu", typeof(string));
-    
-            var birimParameter = birim != null ?
-                new ObjectParameter("Birim", birim) :
-                new ObjectParameter("Birim", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetStockRezerv_Result>("WMSEntities.GetStockRezerv", depoKoduParameter, malKoduParameter, birimParameter);
-        }
-    
-        public virtual ObjectResult<GetStockRezerv2_Result> GetStockRezerv2(Nullable<int> depoKodu, string malKodu, string birim)
-        {
-            var depoKoduParameter = depoKodu.HasValue ?
-                new ObjectParameter("DepoKodu", depoKodu) :
-                new ObjectParameter("DepoKodu", typeof(int));
-    
-            var malKoduParameter = malKodu != null ?
-                new ObjectParameter("MalKodu", malKodu) :
-                new ObjectParameter("MalKodu", typeof(string));
-    
-            var birimParameter = birim != null ?
-                new ObjectParameter("Birim", birim) :
-                new ObjectParameter("Birim", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetStockRezerv2_Result>("WMSEntities.GetStockRezerv2", depoKoduParameter, malKoduParameter, birimParameter);
         }
     
         public virtual ObjectResult<InsertIadeIrsaliye_Result> InsertIadeIrsaliye(string sirketKod, Nullable<int> depoID, string gorevNo, string irsEvrakNo, Nullable<int> irsTarih, string gorevBilgi, Nullable<bool> irsIslemTur, Nullable<int> gorevTipiID, string olusturan, Nullable<int> olusturmaTarihi, Nullable<int> olusturmaSaati, string hesapKodu, string teslimCHK, Nullable<short> valorGun, string linkEvrakNo)
@@ -933,6 +886,28 @@ namespace Wms12m.Entity.Models
                 new ObjectParameter("Tarih", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetTaskList_Result>("WMSEntities.GetTaskList", durumIDParameter, depoIDParameter, tarihParameter);
+        }
+    
+        public virtual int DeleteLog(string table, string iD)
+        {
+            var tableParameter = table != null ?
+                new ObjectParameter("table", table) :
+                new ObjectParameter("table", typeof(string));
+    
+            var iDParameter = iD != null ?
+                new ObjectParameter("ID", iD) :
+                new ObjectParameter("ID", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("WMSEntities.DeleteLog", tableParameter, iDParameter);
+        }
+    
+        public virtual int UpdateGorev(Nullable<int> irsID)
+        {
+            var irsIDParameter = irsID.HasValue ?
+                new ObjectParameter("IrsID", irsID) :
+                new ObjectParameter("IrsID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("WMSEntities.UpdateGorev", irsIDParameter);
         }
     }
 }

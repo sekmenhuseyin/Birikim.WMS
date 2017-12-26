@@ -160,12 +160,6 @@
     <Compile Include="Models\GetSirkets_Result.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\GetStockRezerv2_Result.cs">
-      <DependentUpon>ModelWMS.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\GetStockRezerv_Result.cs">
-      <DependentUpon>ModelWMS.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\GetTaskList_Result.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
     </Compile>

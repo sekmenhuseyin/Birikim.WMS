@@ -1492,6 +1492,9 @@
           <Parameter Name="GörevTipiID" Type="int" Mode="In" />
           <Parameter Name="YeniGorevTipiID" Type="int" Mode="In" />
         </Function>
+        <Function Name="UpdateGorev" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="wms">
+          <Parameter Name="IrsID" Type="int" Mode="In" />
+        </Function>
         <Function Name="UpdateGorevDurum" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="wms">
           <Parameter Name="Tarih" Type="int" Mode="In" />
           <Parameter Name="Saat" Type="int" Mode="In" />
@@ -2064,10 +2067,6 @@
             <End Role="Role" EntitySet="Roles" />
             <End Role="WebMenu" EntitySet="WebMenus" />
           </AssociationSet>
-          <FunctionImport Name="DeleteLog">
-            <Parameter Name="table" Mode="In" Type="String" />
-            <Parameter Name="ID" Mode="In" Type="String" />
-          </FunctionImport>
           <EntitySet Name="Yers" EntityType="MModel.Yer" />
           <AssociationSet Name="FK_GorevYer_Yer" Association="MModel.FK_GorevYer_Yer">
             <End Role="Yer" EntitySet="Yers" />
@@ -2082,16 +2081,6 @@
           </FunctionImport>
           <FunctionImport Name="DeleteIrsaliye">
           <Parameter Name="IrsaliyeID" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="GetStockRezerv" ReturnType="Collection(MModel.GetStockRezerv_Result)">
-            <Parameter Name="DepoKodu" Mode="In" Type="String" />
-            <Parameter Name="MalKodu" Mode="In" Type="String" />
-            <Parameter Name="Birim" Mode="In" Type="String" />
-          </FunctionImport>
-          <FunctionImport Name="GetStockRezerv2" ReturnType="Collection(MModel.GetStockRezerv2_Result)">
-            <Parameter Name="DepoKodu" Mode="In" Type="Int32" />
-            <Parameter Name="MalKodu" Mode="In" Type="String" />
-            <Parameter Name="Birim" Mode="In" Type="String" />
           </FunctionImport>
           <EntitySet Name="GorevlerToDoLists" EntityType="MModel.GorevlerToDoList" />
           <EntitySet Name="Musteris" EntityType="MModel.Musteri" />
@@ -2263,6 +2252,13 @@
             <Parameter Name="DurumID" Mode="In" Type="Int32" />
             <Parameter Name="DepoID" Mode="In" Type="Int32" />
             <Parameter Name="Tarih" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="DeleteLog">
+            <Parameter Name="table" Mode="In" Type="String" />
+            <Parameter Name="ID" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="UpdateGorev">
+            <Parameter Name="IrsID" Mode="In" Type="Int32" />
           </FunctionImport>
           </EntityContainer>
         <ComplexType Name="GetSirkets_Result">
@@ -3221,42 +3217,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <ComplexType Name="GetStockRezerv_Result">
-          <Property Type="String" Name="GorevNo" Nullable="false" MaxLength="50" />
-          <Property Type="Int32" Name="OlusturmaTarihi" Nullable="false" />
-          <Property Type="String" Name="Bilgi" Nullable="true" />
-          <Property Type="String" Name="SirketKod" Nullable="false" MaxLength="2" />
-          <Property Type="String" Name="EvrakNo" Nullable="false" MaxLength="16" />
-          <Property Type="String" Name="HesapKodu" Nullable="false" MaxLength="20" />
-          <Property Type="String" Name="MalKodu" Nullable="false" MaxLength="30" />
-          <Property Type="Decimal" Name="Miktar" Nullable="false" Precision="25" Scale="6" />
-          <Property Type="String" Name="Birim" Nullable="false" MaxLength="4" />
-          <Property Type="String" Name="MakaraNo" Nullable="true" MaxLength="50" />
-          <Property Type="Int32" Name="KynkSiparisID" Nullable="true" />
-          <Property Type="String" Name="KynkSiparisNo" Nullable="true" MaxLength="16" />
-          <Property Type="Int16" Name="KynkSiparisSiraNo" Nullable="true" />
-          <Property Type="Int32" Name="KynkSiparisTarih" Nullable="true" />
-          <Property Type="Decimal" Name="KynkSiparisMiktar" Nullable="true" Precision="25" Scale="6" />
-          <Property Type="String" Name="DepoKodu" Nullable="false" MaxLength="5" />
-        </ComplexType>
-        <ComplexType Name="GetStockRezerv2_Result">
-          <Property Type="String" Name="GorevNo" Nullable="false" MaxLength="50" />
-          <Property Type="Int32" Name="OlusturmaTarihi" Nullable="false" />
-          <Property Type="String" Name="Bilgi" Nullable="true" />
-          <Property Type="String" Name="SirketKod" Nullable="false" MaxLength="2" />
-          <Property Type="String" Name="EvrakNo" Nullable="false" MaxLength="16" />
-          <Property Type="String" Name="HesapKodu" Nullable="false" MaxLength="20" />
-          <Property Type="String" Name="MalKodu" Nullable="false" MaxLength="30" />
-          <Property Type="Decimal" Name="Miktar" Nullable="false" Precision="25" Scale="6" />
-          <Property Type="String" Name="Birim" Nullable="false" MaxLength="4" />
-          <Property Type="String" Name="MakaraNo" Nullable="true" MaxLength="50" />
-          <Property Type="Int32" Name="KynkSiparisID" Nullable="true" />
-          <Property Type="String" Name="KynkSiparisNo" Nullable="true" MaxLength="16" />
-          <Property Type="Int16" Name="KynkSiparisSiraNo" Nullable="true" />
-          <Property Type="Int32" Name="KynkSiparisTarih" Nullable="true" />
-          <Property Type="Decimal" Name="KynkSiparisMiktar" Nullable="true" Precision="25" Scale="6" />
-          <Property Type="String" Name="DepoKodu" Nullable="false" MaxLength="5" />
-        </ComplexType>
         <EntityType Name="GorevlerToDoList">
           <Key>
             <PropertyRef Name="ID" />
@@ -4415,7 +4375,6 @@
               <ScalarProperty Name="RoleName" ColumnName="RoleName" />
             </EndProperty>
           </AssociationSetMapping>
-          <FunctionImportMapping FunctionImportName="DeleteLog" FunctionName="MModel.Store.DeleteLog" />
           <EntitySetMapping Name="Yers">
             <EntityTypeMapping TypeName="MModel.Yer">
               <MappingFragment StoreEntitySet="Yer">
@@ -4854,6 +4813,8 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="DeleteLog" FunctionName="MModel.Store.DeleteLog" />
+          <FunctionImportMapping FunctionImportName="UpdateGorev" FunctionName="MModel.Store.UpdateGorev" />
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
