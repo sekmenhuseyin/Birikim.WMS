@@ -1,22 +1,10 @@
 ﻿@model IEnumerable<frmMalKoduMiktar>
-@{ string tmp; List<string> Sirket = ViewBag.Sirket; var malkod = new List<String>(); var malad = new List<String>(); }
 <tr><th>Mal Kodu</th><th>Mal Adı</th><th>Birim</th><th>Miktar</th></tr>
 @foreach (var item in Model) {
-    if (malkod.Contains(item.MalKodu) == false)
-    {
-        tmp = item.MalKodu.GetMalAdi(Sirket[0]);
-        if (tmp == null || tmp == "") { tmp = item.MalKodu.GetMalAdi(Sirket[1]); }
-        malkod.Add(item.MalKodu);
-        malad.Add(tmp);
-    }
-    else
-    {
-        tmp = malad[malkod.IndexOf(item.MalKodu)];
-    }
     <tr>
-        <td>@Html.DisplayFor(modelItem => item.MalKodu)</td>
-        <td>@tmp</td>
-        <td>@Html.DisplayFor(modelItem => item.Birim)</td>
-        <td>@Html.DisplayFor(modelItem => item.Miktar)</td>
+        <td>@item.MalKodu</td>
+        <td>@item.MalKodu</td>
+        <td>@item.Birim</td>
+        <td>@item.Miktar</td>
     </tr>
 }

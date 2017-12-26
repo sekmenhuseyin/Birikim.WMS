@@ -27,21 +27,13 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         /// <summary>
         /// planlamadaki 1. adımdaki malzeme listesi
         /// </summary>
-        public PartialViewResult List(string Id)
+        public PartialViewResult List(string GirisDepo, string AraDepo, string CikisDepo, string Tip)
         {
-            var parameters = JsonConvert.DeserializeObject<JObject>(Id);
-            string GirisDepo = parameters["GirisDepo"].ToString(), CikisDepo = parameters["CikisDepo"].ToString(), AraDepo = parameters["AraDepo"].ToString(), listType = parameters["listType"].ToString();
             if (GirisDepo == CikisDepo || GirisDepo == AraDepo || CikisDepo == AraDepo || CikisDepo == "" || GirisDepo == "" || AraDepo == "")
                 return PartialView("List", new List<frmTransferMalzemeler>());
-            ViewBag.SirketID = vUser.SirketKodu;
             ViewBag.GirisDepo = GirisDepo;
             ViewBag.CikisDepo = CikisDepo;
-            var sql = listType == "below" ? "AND (ISNULL(DST.DvrMiktar, 0) + ISNULL(DST.GirMiktar, 0) - ISNULL(DST.CikMiktar, 0) - ISNULL(DST.KritikStok, 0)) < 0  " : "";
-            sql = string.Format("SELECT STK.MalKodu, STK.MalAdi, STK.Birim1 as Birim, " +
-                            "(ISNULL(DST.DvrMiktar, 0) + ISNULL(DST.GirMiktar, 0) - ISNULL(DST.CikMiktar, 0)) as Depo1StokMiktar, ISNULL(DST.KritikStok, 0) as Depo1KritikMiktar, ((ISNULL(DST.DvrMiktar, 0) + ISNULL(DST.GirMiktar, 0) - ISNULL(DST.CikMiktar, 0)) - ISNULL(DST.KritikStok, 0)) as Depo1GerekenMiktar, ISNULL(DST.AlSiparis, 0) as AlSiparis, ISNULL(DST.SatSiparis, 0) as SatSiparis, " +
-                            "BIRIKIM.[wms].[fnGetStock]('{2}',STK.MalKodu,STK.Birim1, 0) as Depo2WmsStok, (ISNULL(DST2.DvrMiktar, 0) + ISNULL(DST2.GirMiktar, 0) - ISNULL(DST2.CikMiktar, 0)) as Depo2GunesStok, isnull(DST2.KritikStok, 0) as Depo2KritikMiktar, ((ISNULL(DST2.DvrMiktar, 0) + ISNULL(DST2.GirMiktar, 0) - ISNULL(DST2.CikMiktar, 0)) - isnull(DST2.KritikStok, 0)) as Depo2GerekenMiktar, CAST(0 AS DECIMAL) Depo2Miktar " +
-                            "FROM FINSAT6{0}.FINSAT6{0}.STK(NOLOCK) STK LEFT join FINSAT6{0}.FINSAT6{0}.DST(NOLOCK) DST ON STK.MalKodu = DST.MalKodu and DST.Depo = '{1}' LEFT JOIN FINSAT6{0}.FINSAT6{0}.DST(NOLOCK) DST2 ON STK.MalKodu = DST2.MalKodu AND DST2.Depo = '{2}' LEFT JOIN(SELECT MalKodu, SUM(Miktar-TeslimMiktar) Miktar FROM  FINSAT6{0}.FINSAT6{0}.DTF(NOLOCK) WHERE GirDepo = '{1}' AND Durum = 0 GROUP BY MalKodu) DTF ON DTF.MalKodu = STK.MalKodu " +
-                            "WHERE ((ISNULL(DST2.DvrMiktar, 0) + ISNULL(DST2.GirMiktar, 0) - ISNULL(DST2.CikMiktar, 0)) - (SELECT isnull(SUM(Miktar - TeslimMiktar), 0) Miktar FROM  FINSAT6{0}.FINSAT6{0}.DTF(NOLOCK) WHERE CikDepo = '{2}' AND Durum = 0 and MalKodu = DST2.MalKodu))>0 " + sql + "ORDER BY DST.MalKodu asc", vUser.SirketKodu, GirisDepo, CikisDepo);
+            var sql = string.Format("EXEC FINSAT6{0}.wms.TransferList @CikisDepo = '{1}', @GirisDepo = '{2}', @GerekenKadar = {3}", vUser.SirketKodu, CikisDepo, GirisDepo, Tip);
             try
             {
                 var list = db.Database.SqlQuery<frmTransferMalzemeler>(sql).ToList();
@@ -62,7 +54,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             ViewBag.Result = new Result(false, "Yetkiniz yok.");
             if (CheckPerm(Perms.Transfer, PermTypes.Writing) == false) return PartialView("Summary");
             ViewBag.Result = new Result(false, "Eksik bilgi girdiniz.");
-            if (vUser.SirketKodu == "" || tbl.GirisDepo == "" || tbl.AraDepo == "" || tbl.CikisDepo == "" || tbl.checkboxes.ToString2() == "")
+            if (tbl.GirisDepo == "" || tbl.AraDepo == "" || tbl.CikisDepo == "" || tbl.checkboxes.ToString2() == "")
                 return PartialView("Summary");
             ViewBag.Result = new Result(false, "Aynı depoları seçemezsiniz.");
             if (tbl.GirisDepo == tbl.AraDepo || tbl.CikisDepo == tbl.AraDepo || tbl.CikisDepo == tbl.GirisDepo)
@@ -132,7 +124,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             var gDepoID = Store.Detail(tbl.GirisDepo);
             int today = fn.ToOADate(), time = fn.ToOATime();
             // kontrol
-            var kontrol = db.Transfers.Where(m => m.Onay == false && m.Gorev.DurumID == 15 && m.SirketKod == vUser.SirketKodu && m.GirisDepoID == gDepoID.ID && m.AraDepoID == aDepoID && m.CikisDepoID == cDepoID.ID && m.Gorev.OlusturmaTarihi == today).FirstOrDefault();
+            var kontrol = db.Transfers.Where(m => m.Onay == false && m.Gorev.DurumID == 15 && m.GirisDepoID == gDepoID.ID && m.AraDepoID == aDepoID && m.CikisDepoID == cDepoID.ID && m.Gorev.OlusturmaTarihi == today).FirstOrDefault();
             if (kontrol != null)
             {
                 db.DeleteTransfer(kontrol.GorevID);
@@ -190,12 +182,6 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                     eksikler += item.MalKodu;
                 }
             }
-
-            // dbler tempe aktarılıyor
-            List<string> liste = new List<string>();
-            liste.Add(vUser.SirketKodu);
-
-            ViewBag.Sirket = liste;
             ViewBag.IrsaliyeId = cevap.IrsaliyeID.Value;
             if (eksikler == "" && malkodlari != "")
                 eksikler = malkodlari + " için stok miktarları uyuşmuyor.";
@@ -212,11 +198,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         [HttpPost]
         public PartialViewResult SummaryList(int ID)
         {
-            // dbler tempe aktarılıyor
             string malkodlari = "", eksikler = "";
-            List<string> liste = new List<string>();
-            liste.Add(vUser.SirketKodu);
-
             // get transfer
             var transfer = db.Transfers.Where(m => m.ID == ID).FirstOrDefault();
             // delete gorev yer
@@ -282,7 +264,6 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                 eksikler += " için stok bulunamadı.<br />Ayrıca " + malkodlari + " için stok miktarları uyuşmuyor.";
             // return
             ViewBag.IrsaliyeId = transfer.Gorev.IrsaliyeID;
-            ViewBag.Sirket = liste;
             ViewBag.Result = new Result(true, eksikler);
             return PartialView("SummaryList", transfer);
         }
@@ -401,11 +382,6 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         [HttpPost]
         public PartialViewResult Details(int ID)
         {
-            List<string> liste = new List<string>();
-            liste.Add(vUser.SirketKodu);
-
-            ViewBag.Sirket = liste;
-            // return
             var result = db.Transfer_Detay.Where(m => m.TransferID == ID).Select(m => new frmMalKoduMiktar { MalKodu = m.MalKodu, Miktar = m.Miktar, Birim = m.Birim }).ToList();
             return PartialView("Details", result);
         }

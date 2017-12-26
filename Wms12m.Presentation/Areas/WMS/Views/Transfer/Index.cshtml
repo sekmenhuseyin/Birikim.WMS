@@ -1,10 +1,6 @@
-﻿,@{
+﻿@{
     ViewBag.Title = "Transfer Planlama";
     Layout = "~/Views/Shared/_Layout.cshtml";
-}@section Styles{<style>
-        td.details-control {background: url('/Content/assets/global/plugins/datatables/images/details_open.png') no-repeat center center;cursor: pointer;}
-        tr.shown td.details-control {background: url('/Content/assets/global/plugins/datatables/images/details_close.png') no-repeat center center;}
-    </style>
 }<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><span>Transfer Planlama</span></li></ul></div>
 <h1 class="page-title">Depolar Arası Transfer Planlama</h1>
 <div class="row">
@@ -21,13 +17,6 @@
                     @Html.AntiForgeryToken()
                     @Html.ValidationSummary(true)
                     <div class="form-body">
-                        @*<div class="form-group">
-                            <label class="col-md-3 control-label">Şirket</label>
-                            <div class="col-md-4">
-                                @Html.DropDownList("SirketID", null, htmlAttributes: new { @class = "form-control input-circle", required = "required" })
-                                <span class="field-validation-valid" data-valmsg-for="SirketID" data-valmsg-replace="true" style="color:red;"></span>
-                            </div>
-                        </div>*@
                         <div class="form-group">
                             <label class="col-md-3 control-label">Çıkış Depo</label>
                             <div class="col-md-4">
@@ -52,12 +41,14 @@
                         <div class="form-group">
                             <label class="col-md-3 control-label">Kriter</label>
                             <div class="col-md-4">
-                                <select class = "form-control input-circle" name="listType" id="listType"><option value="below">Giriş Depo Gereken Miktar < 0</option><option value="full">Tüm Stoklar</option></select>
+                                <select class = "form-control input-circle" name="listType" id="listType"><option value="1">Giriş Depo Gereken Miktar < 0</option><option value="0">Tüm Stoklar</option></select>
                                 <span class="field-validation-valid" data-valmsg-for="DepoID" data-valmsg-replace="true" style="color:red;"></span>
                             </div>
                         </div>
                         <div class="form-group">
-                            <div class="col-md-4 col-md-offset-3"><input type="button" class="btn btn-primary btn-block input-circle" onclick="FuncSearchBtn()" value="Listele" /></div>
+                            <div class="col-md-4 col-md-offset-3">
+                                <button class="btn btn-default btn-block btn-circle" type="button" onclick="FuncSearchBtn()">Listele <i class="icon-refresh"></i></button>
+                            </div>
                         </div>
                         <div class="form-group p-l-30 p-r-30" id="liste"></div>
                     </div>
@@ -73,16 +64,11 @@
         $('#liste').html("");
         if ($("#GirisDepo").val() == "" || $("#CikisDepo").val() == "" || $("#AraDepo").val() == "") return;
         if ($("#GirisDepo").val() == $("#CikisDepo").val() || $("#GirisDepo").val() == $("#AraDepo").val() || $("#CikisDepo").val() == $("#AraDepo").val()) return;
-        var jObject = {};
-        jObject["GirisDepo"] = $("#GirisDepo").val();
-        jObject["AraDepo"] = $("#AraDepo").val();
-        jObject["CikisDepo"] = $("#CikisDepo").val();
-        jObject["listType"] = $("#listType").val();
         $('#liste').html("");
         $.ajax({
             url: '/WMS/Transfer/List',
             type: 'POST',
-            data: { Id: JSON.stringify(jObject) },
+            data: { GirisDepo: $("#GirisDepo").val(), AraDepo: $("#AraDepo").val(), CikisDepo: $("#CikisDepo").val(), Tip: $("#listType").val() },
             success: function (data) {
                 if (data == "") {
                     Modaldialog("Hata oluştu", "Hata", "Tamam", "btn-danger");
@@ -113,7 +99,6 @@
                     if (data[0].Birim3.replace(" ", "") != "") { $('#sBirim').append($('<option>', { value: data[0].Birim3, text: data[0].Birim3 })); }
                     if (data[0].Birim4.replace(" ", "") != "") { $('#sBirim').append($('<option>', { value: data[0].Birim4, text: data[0].Birim4 })); }
                 }
-                $("#sMalKodu").val(id);
                 $("#sMiktar").focus();
             }
         });

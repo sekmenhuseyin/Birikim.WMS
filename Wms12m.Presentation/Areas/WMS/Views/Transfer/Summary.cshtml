@@ -1,5 +1,5 @@
 ﻿@model Transfer
-@{ Result result = ViewBag.Result; string tmp; List<string> Sirket = ViewBag.Sirket; var malkod = new List<String>(); var malad = new List<String>(); }
+@{ Result result = ViewBag.Result; }
 <div class="modal-content">
     <div class="close-modal" data-dismiss="modal"><div class="lr"><div class="rl"></div></div></div>
     <div class="container">
@@ -38,20 +38,9 @@
                                         <tbody>
                                             @foreach (var item in Model.Transfer_Detay)
                                             {
-                                                if (malkod.Contains(item.MalKodu) == false)
-                                                {
-                                                    tmp = item.MalKodu.GetMalAdi(Sirket[0]);
-                                                    if (tmp == null || tmp == "") { tmp = item.MalKodu.GetMalAdi(Sirket[1]); }
-                                                    malkod.Add(item.MalKodu);
-                                                    malad.Add(tmp);
-                                                }
-                                                else
-                                                {
-                                                    tmp = malad[malkod.IndexOf(item.MalKodu)];
-                                                }
                                                 <tr id="tr@{@item.ID}">
                                                     <td>@item.MalKodu</td>
-                                                    <td>@tmp</td>
+                                                    <td>@item.MalKodu</td>
                                                     <td class="text-right">@String.Format("{0:n}", item.Miktar)</td>
                                                     <td>@item.Birim</td>
                                                     <td>
@@ -103,8 +92,7 @@
             source: "/WMS/Purchase/getMalzemebyCode",
             minLength: 2,
             select: function (event, ui) {
-                getBirims(ui.item.id);
-                $("#sMalAdi").val(ui.item.value);
+                setTimeout(function () { $("#sMalKodu").val(ui.item.id); $("#sMalAdi").val(ui.item.value); getBirims(ui.item.id); }, 50);            
             },
             open: function () {
                 $(this).autocomplete('widget').css('z-index', 1000000000);
@@ -115,8 +103,7 @@
             source: "/WMS/Purchase/GetMalzemebyName",
             minLength: 2,
             select: function (event, ui) {
-                getBirims(ui.item.id);
-                $("#sMalAdi").val(ui.item.value);
+                setTimeout(function () { $("#sMalKodu").val(ui.item.id); $("#sMalAdi").val(ui.item.value); getBirims(ui.item.id); }, 50);            
             },
             open: function () {
                 $(this).autocomplete('widget').css('z-index', 1000000000);
