@@ -220,45 +220,6 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             return PartialView("SummaryList", transfer);
         }
         /// <summary>
-        /// bekleyen transferi onayla
-        /// </summary>
-        [HttpPost, ValidateAntiForgeryToken]
-        public ActionResult Approve(int ID)
-        {
-            if (CheckPerm(Perms.Transfer, PermTypes.Writing) == false) return Redirect("/");
-            // get and set transfer details
-            var tbl = Transfers.Detail(ID);
-            tbl.Onay = true;
-            Transfers.Operation(tbl);
-            var tbl2 = db.Gorevs.Where(m => m.ID == tbl.GorevID).FirstOrDefault();
-            tbl2.DurumID = ComboItems.Açık.ToInt32();
-            // sıralama
-            var lstKoridor = db.GetKoridorIdFromGorevId(tbl.GorevID).ToList();
-            var asc = false; var sira = 1;
-            foreach (var item in lstKoridor)
-            {
-                var lstBolum = db.GetBolumSiralamaFromGorevId(tbl.GorevID, item.Value, asc).ToList();
-                foreach (var item2 in lstBolum)
-                {
-                    var tmptblyer = new GorevYer()
-                    {
-                        ID = item2.Value,
-                        Sira = sira
-                    };
-                    sira++;
-                    TaskYer.Operation(tmptblyer);
-                }
-
-                asc = asc == false ? true : false;
-            }
-
-            db.SaveChanges();
-            // log
-            LogActions("WMS", "Transfer", "Approve", ComboItems.alOnayla, ID);
-            // return
-            return RedirectToAction("Waiting");
-        }
-        /// <summary>
         /// transfer detay ekle
         /// </summary>
         public JsonResult AddDetail(frmMalzeme tbl)
@@ -340,7 +301,48 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             return PartialView("Details", result);
         }
         #endregion
-        #region Delete
+        #region Approve & Delete
+        /// <summary>
+        /// bekleyen transferi onayla
+        /// </summary>
+        [HttpPost]
+        public JsonResult Approve(int ID)
+        {
+            if (CheckPerm(Perms.Transfer, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
+            // get and set transfer details
+            var tbl = Transfers.Detail(ID);
+            tbl.Onay = true;
+            tbl.Onaylayan = vUser.UserName;
+            tbl.OnaylamaTarihi = fn.ToOADate();
+            tbl.OnaylamaSaati = fn.ToOATime();
+            Transfers.Operation(tbl);
+            //görev yer
+            var tbl2 = db.Gorevs.Where(m => m.ID == tbl.GorevID).FirstOrDefault();
+            tbl2.DurumID = ComboItems.Açık.ToInt32();
+            // sıralama
+            var lstKoridor = db.GetKoridorIdFromGorevId(tbl.GorevID).ToList();
+            var asc = false; var sira = 1;
+            foreach (var item in lstKoridor)
+            {
+                var lstBolum = db.GetBolumSiralamaFromGorevId(tbl.GorevID, item.Value, asc).ToList();
+                foreach (var item2 in lstBolum)
+                {
+                    var tmptblyer = new GorevYer()
+                    {
+                        ID = item2.Value,
+                        Sira = sira
+                    };
+                    sira++;
+                    TaskYer.Operation(tmptblyer);
+                }
+                asc = asc == false ? true : false;
+            }
+            db.SaveChanges();
+            // log
+            LogActions("WMS", "Transfer", "Approve", ComboItems.alOnayla, ID);
+            // return
+            return Json(new Result(true, ID), JsonRequestBehavior.AllowGet);
+        }
         /// <summary>
         /// transfer sil
         /// </summary>

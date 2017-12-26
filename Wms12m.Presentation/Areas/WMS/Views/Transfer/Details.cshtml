@@ -89,7 +89,7 @@
     $('.reddet-buton').click(function () {
         $.ajax({
             url: "/WMS/Transfer/Delete",
-            data: { ID: '@Model.FirstOrDefault().ID' },
+            data: { ID: '@Model.FirstOrDefault().GorevID' },
             type: "post",
             success: function (data) {
                 if (data.Status == true) {

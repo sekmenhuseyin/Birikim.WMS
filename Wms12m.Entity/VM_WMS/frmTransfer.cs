@@ -6,6 +6,7 @@
     public class frmTransferDetails
     {
         public int ID { get; set; }
+        public int GorevID { get; set; }
         public string EvrakNo { get; set; }
         public string GirisDepo { get; set; }
         public string CikisDepo { get; set; }
