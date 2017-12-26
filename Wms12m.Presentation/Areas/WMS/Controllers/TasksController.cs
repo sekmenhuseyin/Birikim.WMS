@@ -18,6 +18,10 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             ViewBag.DurumID = new SelectList(ComboSub.GetList(Combos.GorevDurum.ToInt32()), "ID", "Name");
             return View("Index3");
         }
+        public JsonResult List3(int Id=9, int Tarih = 0)
+        {
+            return Json(db.GetTaskList(Id, vUser.DepoId ?? 0, Tarih).ToList(), JsonRequestBehavior.AllowGet);
+        }
 
 
         public ActionResult Index2()
