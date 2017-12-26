@@ -7,7 +7,6 @@ else
 {
     using (Ajax.BeginForm("InsertMalzeme", "Purchase", new { area = "WMS" }, new AjaxOptions { InsertionMode = InsertionMode.Replace, UpdateTargetId = "StoreGrid", OnSuccess = "getresult", OnFailure = "Modaldialog('Lütfen Tekrar Deneyin', 'Hata', 'Tamam', 'btn-danger');" }, new { @class = "form-horizontal" }))
     {
-        string tmp = ViewBag.SirketID;
         <table class="table table-striped table-bordered table-hover" id="sample_7">
             <thead><tr><th></th><th>Malzeme Kodu</th><th>Malzeme Adı</th><th>Miktar</th><th>Birim</th><th>Makara No</th><th>İşlem</th></tr></thead>
             <tbody id="StoreFrom">

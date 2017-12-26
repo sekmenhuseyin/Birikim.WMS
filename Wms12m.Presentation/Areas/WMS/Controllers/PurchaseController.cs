@@ -216,7 +216,6 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             var list = IrsaliyeDetay.GetList(irsaliyeID);
             ViewBag.IrsaliyeId = irsaliyeID;
             ViewBag.Onay = irs.Onay;
-            ViewBag.SirketID = vUser.SirketKodu;
             ViewBag.Yetki = true;
             return PartialView("_GridPartial", list);
         }
@@ -262,7 +261,6 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                     var list = IrsaliyeDetay.GetList(kontrol2.ID);
                     ViewBag.IrsaliyeId = kontrol2.ID;
                     ViewBag.Onay = kontrol2.Onay;
-                    ViewBag.SirketID = vUser.SirketKodu;
                     ViewBag.Yetki = CheckPerm(Perms.MalKabul, PermTypes.Writing);
                     return PartialView("_GridPartial", list);
                 }
@@ -296,7 +294,6 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                 var list = IrsaliyeDetay.GetList(cevap.IrsaliyeID.Value);
                 ViewBag.IrsaliyeId = cevap.IrsaliyeID;
                 ViewBag.Onay = false;
-                ViewBag.SirketID = vUser.SirketKodu;
                 ViewBag.Yetki = CheckPerm(Perms.MalKabul, PermTypes.Writing);
                 return PartialView("_GridPartial", list);
             }
@@ -316,7 +313,6 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             var irs = Irsaliye.Detail(ID);
             ViewBag.IrsaliyeId = ID;
             ViewBag.Onay = irs.Onay;
-            ViewBag.SirketID = vUser.SirketKodu;
             ViewBag.Yetki = CheckPerm(Perms.MalKabul, PermTypes.Writing);
             return PartialView("_GridPartial", list);
         }
@@ -327,7 +323,6 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         {
             if (CheckPerm(Perms.MalKabul, PermTypes.Writing) == false) return null;
             var tbl = IrsaliyeDetay.Detail(ID);
-            ViewBag.SirketID = vUser.SirketKodu;
             return PartialView("EditList", tbl);
         }
         /// <summary>

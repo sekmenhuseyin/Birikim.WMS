@@ -292,11 +292,6 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             ViewBag.GorevID = cevap.GorevID.Value;
             ViewBag.DepoID = idDepo;
             var listsirk = db.GetSirketDBs();
-            List<string> liste = new List<string>();
-            foreach (var item in listsirk)
-                liste.Add(item);
-
-            ViewBag.Sirket = liste;
             return View("Step4", list2);
         }
         /// <summary>
@@ -333,11 +328,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             var list = db.Database.SqlQuery<frmSiparisMalzeme>(sql).ToList();
             ViewBag.GorevID = GorevID;
             var listsirk = db.GetSirketDBs();
-            List<string> liste = new List<string>();
-            foreach (var item in listsirk)
-                liste.Add(item);
 
-            ViewBag.Sirket = liste;
             return View("Step5", list);
         }
         /// <summary>

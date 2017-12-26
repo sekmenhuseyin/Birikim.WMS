@@ -203,10 +203,6 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             var list2 = db.Database.SqlQuery<frmSiparisMalzeme>(sql).ToList();
             ViewBag.GorevID = cevap.GorevID.Value;
             ViewBag.DepoID = idDepo;
-            List<string> liste = new List<string>();
-            liste.Add(vUser.SirketKodu);
-
-            ViewBag.Sirket = liste;
             return View("Step3", list2);
         }
         /// <summary>
@@ -242,10 +238,6 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                                 "WHERE (wms.GorevYer.GorevID = {1}) ORDER BY  wms.GorevYer.Sira", DepoID, GorevID);
             var list = db.Database.SqlQuery<frmSiparisMalzeme>(sql).ToList();
             ViewBag.GorevID = GorevID;
-            List<string> liste = new List<string>();
-            liste.Add(vUser.SirketKodu);
-
-            ViewBag.Sirket = liste;
             return View("Step4", list);
         }
         /// <summary>
@@ -299,7 +291,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         public PartialViewResult GetSiparis(string DepoID, string CHK, string Starts, string Ends)
         {
             // ilk kontrol
-            if (DepoID == "0" || vUser.SirketKodu == "0" || CHK == "") return null;
+            if (DepoID == "0" || CHK == "") return null;
             var tarihler = DateTime.TryParse(Starts, out DateTime StartDate); if (tarihler == false) return null;
             tarihler = DateTime.TryParse(Ends, out DateTime EndDate); if (tarihler == false) return null;
             if (StartDate > EndDate) return null;
@@ -309,12 +301,10 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
 
             // return list
             ViewBag.Depo = DepoID;
-            ViewBag.Sirket = vUser.SirketKodu;
             ViewBag.CHK = CHK;
             try
             {
                 var list = db.Database.SqlQuery<frmSiparisler>(sql).ToList();
-
                 return PartialView("SiparisList", list);
             }
             catch (Exception ex)
