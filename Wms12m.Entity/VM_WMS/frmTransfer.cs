@@ -3,6 +3,25 @@
     /// <summary>
     /// sipariş listesi
     /// </summary>
+    public class frmTransferDetails
+    {
+        public int ID { get; set; }
+        public int GorevID { get; set; }
+        public string EvrakNo { get; set; }
+        public string GirisDepo { get; set; }
+        public string CikisDepo { get; set; }
+        public string AraDepo { get; set; }
+        public string Olusturan { get; set; }
+        public string Onaylayan { get; set; }
+        public string Tarih { get; set; }
+        public string MalKodu { get; set; }
+        public string MalAdi { get; set; }
+        public string Birim { get; set; }
+        public decimal Miktar { get; set; }
+    }
+    /// <summary>
+    /// sipariş listesi
+    /// </summary>
     public class frmTransferMalzemeler
     {
         public string MalKodu { get; set; }
@@ -24,11 +43,13 @@
     /// </summary>
     public class frmTransferMalzemeApprove
     {
-        public string checkboxes { get; set; }
-        public string SirketID { get; set; }
         public string GirisDepo { get; set; }
         public string CikisDepo { get; set; }
         public string AraDepo { get; set; }
+        public string[] MalKodus { get; set; }
+        public string[] Birims { get; set; }
+        public string[] Miktar { get; set; }
+        public decimal[] Miktars { get; set; }
     }
     /// <summary>
     /// genel bir şey
@@ -48,7 +69,6 @@
         public string MalAdi { get; set; }
         public string Birim { get; set; }
         public decimal Miktar { get; set; }
-
         public decimal GirisDepoDoluluk { get; set; }
         public decimal GirisDepoStok { get; set; }
         public decimal GirisDepoKritikStok { get; set; }

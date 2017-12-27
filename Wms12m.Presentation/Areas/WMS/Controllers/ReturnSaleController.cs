@@ -127,10 +127,6 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             var list2 = db.Database.SqlQuery<frmSiparisMalzeme>(sql).ToList();
             ViewBag.GorevID = cevap.GorevID.Value;
             ViewBag.DepoID = idDepo;
-            List<string> liste = new List<string>();
-            liste.Add(vUser.SirketKodu);
-
-            ViewBag.Sirket = liste;
             return View("Step3", list2);
         }
         /// <summary>
@@ -160,7 +156,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         public PartialViewResult GetSiparis(string DepoID, string CHK, string Starts, string Ends, string EvrakNo, string Tarih)
         {
             // ilk kontrol
-            if (vUser.SirketKodu == "" || CHK == "" || EvrakNo == "" || Tarih == "") return null;
+            if (CHK == "" || EvrakNo == "" || Tarih == "") return null;
             var tarihler = DateTime.TryParse(Starts, out DateTime StartDate); if (tarihler == false) return null;
             tarihler = DateTime.TryParse(Ends, out DateTime EndDate); if (tarihler == false) return null;
             if (StartDate > EndDate) return null;
@@ -169,7 +165,6 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             var sql = string.Format("FINSAT6{0}.wms.SatisIptalSiparisList @DepoKodu = '{1}', @CHK = '{2}', @BasTarih = {3}, @BitTarih = {4}", vUser.SirketKodu, DepoID.ToString(), CHK, StartDate.ToOADateInt(), EndDate.ToOADateInt());
             // return list
             ViewBag.Depo = DepoID;
-            ViewBag.Sirket = vUser.SirketKodu;
             ViewBag.CHK = CHK;
             ViewBag.EvrakNos = EvrakNo;
             ViewBag.Tarih = Tarih;

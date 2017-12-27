@@ -11,9 +11,9 @@
                 <td>@{if (item.BitisTarihi != null) { @item.BitisTarihi.Value.FromOADateInt() } }</td>
                 <td>
                     @if (item.DurumID == ComboItems.Açık.ToInt32()){ 
-                        <a class="btn btn-default pull-left input-circle" href="#modalEditPage" data-toggle="modal" onclick="editInModal('/WMS/Tasks/CountFark/0-@item.ID')"> Tüm Liste </a>
-                        <a class="btn btn-default pull-left input-circle" href="#modalEditPage" data-toggle="modal" onclick="editInModal('/WMS/Tasks/CountFark/1-@item.ID')"> Fark Liste </a>
-                        <a class="btn btn-default pull-left input-circle" href="#modalEditPage" data-toggle="modal" onclick="editInModal('/WMS/Tasks/CountFark/2-@item.ID')"> Eksik Liste </a>
+                        <a class="btn btn-default pull-left input-circle" href="#modalEditPage" data-toggle="modal" onclick="editInModal2('/WMS/Tasks/CountFark', { Id: @item.ID, Tip: 0 })"> Tüm Liste </a>
+                        <a class="btn btn-default pull-left input-circle" href="#modalEditPage" data-toggle="modal" onclick="editInModal2('/WMS/Tasks/CountFark', { Id: @item.ID, Tip: 1 })"> Fark Liste </a>
+                        <a class="btn btn-default pull-left input-circle" href="#modalEditPage" data-toggle="modal" onclick="editInModal2('/WMS/Tasks/CountFark', { Id: @item.ID, Tip: 2 })"> Eksik Liste </a>
                         using (Ajax.BeginForm("Finish", "Tasks", new { area = "WMS" }, new AjaxOptions { InsertionMode = InsertionMode.Replace, OnSuccess = "getresult", OnFailure = "Modaldialog('Lütfen Tekrar Deneyin', 'Hata', 'Tamam', 'btn-danger');" }, new { @class = "pull-left" }))
                         {
                             @Html.AntiForgeryToken()
@@ -21,11 +21,11 @@
                             <input type="submit" class="btn btn-danger input-circle" value="Sonlandır" />
                         }
                     }
-                    @if (item.DurumID == ComboItems.Tamamlanan.ToInt32())
+                    else if (item.DurumID == ComboItems.Tamamlanan.ToInt32())
                     {
-                        <a class="btn btn-default pull-left input-circle" href="#modalEditPage" data-toggle="modal" onclick="editInModal('/WMS/Tasks/CountFark/0-@item.ID')"> Tüm Liste </a>
-                        <a class="btn btn-default pull-left input-circle" href="#modalEditPage" data-toggle="modal" onclick="editInModal('/WMS/Tasks/CountFark/1-@item.ID')"> Fark Liste </a>
-                        <a class="btn btn-default pull-left input-circle" href="#modalEditPage" data-toggle="modal" onclick="editInModal('/WMS/Tasks/CountFark/2-@item.ID')"> Eksik Liste </a>
+                        <a class="btn btn-default pull-left input-circle" href="#modalEditPage" data-toggle="modal" onclick="editInModal2('/WMS/Tasks/CountFark', { Id: @item.ID, Tip: 0 })"> Tüm Liste </a>
+                        <a class="btn btn-default pull-left input-circle" href="#modalEditPage" data-toggle="modal" onclick="editInModal2('/WMS/Tasks/CountFark', { Id: @item.ID, Tip: 1 })"> Fark Liste </a>
+                        <a class="btn btn-default pull-left input-circle" href="#modalEditPage" data-toggle="modal" onclick="editInModal2('/WMS/Tasks/CountFark', { Id: @item.ID, Tip: 2 })"> Eksik Liste </a>
                         if (item.IR.Onay == false)
                         {
                             using (Ajax.BeginForm("ReActivate", "Tasks", new { area = "WMS" }, new AjaxOptions { InsertionMode = InsertionMode.Replace, OnSuccess = "getresult", OnFailure = "Modaldialog('Lütfen Tekrar Deneyin', 'Hata', 'Tamam', 'btn-danger');" }, new { @class = "pull-left" }))
@@ -53,7 +53,6 @@
                                     @Html.AntiForgeryToken()
                                     <input name="GorevID" type="hidden" value="@item.ID" />
                                     <button type="button" class="btn btn-danger input-circle" onclick="frmSayimIptal();">Sayım Fişi İptal</button>
-                                    @*<input type="submit" class="btn btn-danger input-circle" value="Sayım FİŞİ İptal" />*@
                                 }
                             }
                             using (Ajax.BeginForm("CountCreateDiff", "Tasks", new { area = "WMS" }, new AjaxOptions { InsertionMode = InsertionMode.Replace, OnSuccess = "getresult", OnFailure = "Modaldialog('Lütfen Tekrar Deneyin', 'Hata', 'Tamam', 'btn-danger');" }, new { @class = "pull-left" }))
@@ -70,7 +69,6 @@
                                 @Html.AntiForgeryToken()
                                 <input name="GorevID" type="hidden" value="@item.ID" />
                                 <button type="button" class="btn btn-danger input-circle" onclick="frmFarkIptal();">Fark Fişi İptal</button>
-                                @*<input type="submit" class="btn btn-danger input-circle" value="Fark FİŞİ İptal" />*@
                             }
                         }
                     }

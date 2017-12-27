@@ -180,33 +180,12 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                     }
                 }
             }
-
-            // listeyi getir
-            sql = string.Format("EXEC FINSAT6{0}.wms.getSiparisListStep42 {1}", vUser.SirketKodu, cevap.GorevID);
-            var list2 = db.Database.SqlQuery<frmSiparisMalzeme>(sql).ToList();
-            ViewBag.GorevID = cevap.GorevID.Value;
-            ViewBag.DepoID = idDepo;
-            var listsirk = db.GetSirketDBs();
-            List<string> liste = new List<string>();
-            foreach (var item in listsirk)
-                liste.Add(item);
-
-            ViewBag.Sirket = liste;
-            return View("Step4", list2);
-        }
-        /// <summary>
-        /// rota adımlarını gör
-        /// </summary>
-        [HttpPost, ValidateAntiForgeryToken]
-        public ActionResult Step5(int GorevID, int DepoID)
-        {
-            if (CheckPerm(Perms.GenelSipariş, PermTypes.Writing) == false) return Redirect("/");
             // sıralama
-            var lstKoridor = db.GetKoridorIdFromGorevId(GorevID).ToList();
+            var lstKoridor = db.GetKoridorIdFromGorevId(cevap.GorevID.Value).ToList();
             var asc = false; var sira = 1;
             foreach (var item in lstKoridor)
             {
-                var lstBolum = db.GetBolumSiralamaFromGorevId(GorevID, item.Value, asc).ToList();
+                var lstBolum = db.GetBolumSiralamaFromGorevId(cevap.GorevID.Value, item.Value, asc).ToList();
                 foreach (var item2 in lstBolum)
                 {
                     var tmptblyer = new GorevYer()
@@ -220,18 +199,11 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
 
                 asc = asc == false ? true : false;
             }
-
             // listeyi getir
-            var sql = string.Format("EXEC FINSAT6{0}.wms.getSiparisListStep42 {1}", vUser.SirketKodu, GorevID);
-            var list = db.Database.SqlQuery<frmSiparisMalzeme>(sql).ToList();
-            ViewBag.GorevID = GorevID;
-            var listsirk = db.GetSirketDBs();
-            List<string> liste = new List<string>();
-            foreach (var item in listsirk)
-                liste.Add(item);
-
-            ViewBag.Sirket = liste;
-            return View("Step5", list);
+            sql = string.Format("EXEC FINSAT6{0}.wms.getSiparisListStep42 {1}", vUser.SirketKodu, cevap.GorevID);
+            var list2 = db.Database.SqlQuery<frmSiparisMalzeme>(sql).ToList();
+            ViewBag.GorevID = cevap.GorevID.Value;
+            return View("Step4", list2);
         }
         /// <summary>
         /// sipariş onaylandı

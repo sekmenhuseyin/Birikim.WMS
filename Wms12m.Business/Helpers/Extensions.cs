@@ -46,6 +46,8 @@ namespace Wms12m
         /// </summary>
         public static string Cozumle(this object value)
         {
+            if (value == null)
+                return "";
             return CryptographyExtension.Cozumle(value.ToString());
         }
         /// <summary>

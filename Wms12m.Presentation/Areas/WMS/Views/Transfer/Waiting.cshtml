@@ -1,37 +1,6 @@
 ﻿@{
     ViewBag.Title = "Transfer Onaylama";
     Layout = "~/Views/Shared/_Layout.cshtml";
-}@section Styles{<style>
-    td.details-control {background: url('/Content/assets/global/plugins/datatables/images/details_open.png') no-repeat center center;cursor: pointer;}
-    tr.shown td.details-control {background: url('/Content/assets/global/plugins/datatables/images/details_close.png') no-repeat center center;}
-    .dx-datagrid-headers .dx-row {
-        color: white;
-        font-size:18px;
-        border-bottom: 1px solid #D2D2D2;
-        background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#32c5d2), color-stop(50%,#2989d8), color-stop(51%,#207cca), color-stop(100%,#7db9e8)); /* Chrome,Safari4+ */
-        background: -webkit-linear-gradient(top, #32c5d2 0%,#2989d8 50%,#207cca 51%,#7db9e8 100%); /* Chrome10+,Safari5.1+ */
-        background: -o-linear-gradient(top, #32c5d2 0%,#2989d8 50%,#207cca 51%,#7db9e8 100%); /* Opera 11.10+ */
-        background: -ms-linear-gradient(top, #32c5d2 0%,#2989d8 50%,#207cca 51%,#7db9e8 100%); /* IE10+ */
-        background: linear-gradient(to bottom, #32c5d2 0%,#2989d8 50%,#207cca 51%,#7db9e8 100%); /* W3C */
-    }
-
-    .dx-datagrid .dx-column-indicators .dx-sort.dx-header-filter:after, .dx-datagrid .dx-column-indicators .dx-header-filter.dx-header-filter:before {
-        color: white;
-    }
-    .dx-column-lines {
-        font-size: 16px !important;
-        font-weight: bold !important;
-    } 
-    .btn {
-        width: 120px;
-        text-align: center;
-    }
-
-    .dx-item-content .dx-popup-cancel {
-        background-color: #ff4d4d !important;
-        color: white !important;
-    }
-</style>
 }<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><span>Transfer Onaylama</span></li></ul></div>
 <h1 class="page-title">Depolar Arası Transfer Onaylama</h1>
 <div class="row">
@@ -48,9 +17,15 @@
                         <div class="form-group">
                             <div class="col-sm-3 control-label">Görev Durumu</div>
                             <div class="col-sm-4">
-                                <select id="DurumID" name="DurumID" class = "form-control input-circle" onchange = "FuncSearchBtn();"><option value="false">Onay Bekleyen</option><option value="true">Onaylanmış</option></select>
+                                <select id="DurumID" name="DurumID" class="form-control input-circle" onchange="FuncSearchBtn();"><option value="false">Bekleyen Transferler</option><option value="true">Onaylanmış Transferler</option></select>
                             </div>
                             <div class="col-sm-1"><button type="button" class="btn btn-circle green" onclick="FuncSearchBtn();"><i class="icon-refresh"></i></button></div>
+                        </div>
+                        <div class="form-group" id="tarihsecim">
+                            <div class="col-sm-3 control-label">Başlangıç Tarihi</div>
+                            <div class="col-sm-4">
+                                <input class="form-control input-circle dateboxbg" type="text" id="txtBaslangic" value="@DateTime.Today.AddDays(-7).ToString("dd.MM.yyyy")" />
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -59,42 +34,23 @@
         </div>
     </div>
 </div>
-<div class="modal fade" id="x-modal-transfer-detay" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="false">
-    <div class="modal-dialog" style="width:65%;">
-        <div class="modal-content"  style="margin-top:10%;">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" style="color:#32c5d2">TRANSFER DETAY</h4>
-            </div>
-            <div class="modal-body x-padding-inside" id="x-t-s-pe1" >
-                <div class="grid_transfer-detay">
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn red" data-dismiss="modal" id="mdlTransferKapat">Kapat</button>
-                <div class="label"></div>
-            </div>
-        </div>
-    </div>
-</div>
 @section Scripts{<script>
     var DeleteFunctionUrl = '/WMS/Transfer/Delete';
     FuncSearchBtn();
+    var tarih = @DateTime.Today.AddDays(-7).ToOADateInt();
+    $('#tarihsecim').hide();
+    $.datepicker.setDefaults($.datepicker.regional["tr"]);
+    $("#txtBaslangic").datepicker().on("change", function (e) { tarih = toOADateFromString(e.target.value); FuncSearchBtn(); });
     function FuncSearchBtn() {
         $('#Grid').html("");
-        PartialView('/WMS/Transfer/WaitingList', 'Grid', JSON.stringify({ Id: $('#DurumID').val() }));
+        var tmp = 0;
+        if ($('#DurumID').val() != "false")
+        {
+            tmp = tarih;
+            $('#tarihsecim').show();
+        }
+        else
+            $('#tarihsecim').hide();
+        PartialView('/WMS/Transfer/WaitingList', 'Grid', JSON.stringify({ Id: $('#DurumID').val(), Tarih: tmp }));
     }
-    function newrow(id) {
-        return "<table style='background:transparent;' id='new" + id + "'></table>";
-    }
-    function format(d) {
-        $.ajax({
-            type: 'POST',
-            url: '/WMS/Transfer/Details',
-            data: { "ID": d },
-            dataType: "html",
-            success: function (data) { $('#new' + d).html(data); }
-        });
-    }
-</script>
-}
+</script>}
