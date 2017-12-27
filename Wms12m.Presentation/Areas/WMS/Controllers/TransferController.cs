@@ -142,9 +142,9 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         /// <summary>
         /// onay bekleyen transfer listesi
         /// </summary>
-        public PartialViewResult WaitingList(bool Id)
+        public PartialViewResult WaitingList(bool Id, int Tarih = 0)
         {
-            var list = Transfers.GetList(Id, vUser.DepoId);
+            var list = Transfers.GetList(Id, Tarih, vUser.DepoId);
             return PartialView("WaitingList", list);
         }
         /// <summary>

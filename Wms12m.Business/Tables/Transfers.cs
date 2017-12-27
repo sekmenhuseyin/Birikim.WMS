@@ -114,18 +114,18 @@ namespace Wms12m.Business
         /// </summary>
         /// <returns></returns>
         public override List<Transfer> GetList() => db.Transfers.ToList();
-
         /// <summary>
         /// get list from parent
         /// </summary>
         public override List<Transfer> GetList(int ParentId) => GetList();
-
-        public List<Transfer> GetList(bool onay, int? DepoId)
+        public List<Transfer> GetList(bool onay, int Tarih, int? DepoId)
         {
-            if (DepoId == null)
-                return db.Transfers.Where(m => m.Onay == onay && m.Gorev.DurumID != (int)ComboItems.Durdurulan).ToList();
-            else
-                return db.Transfers.Where(m => m.Onay == onay && m.Gorev.DurumID != (int)ComboItems.Durdurulan && m.CikisDepoID == DepoId).ToList();
+            var list = db.Transfers.Where(m => m.Onay == onay);
+            if (DepoId != null)
+                list = list.Where(m => m.CikisDepoID == DepoId);
+            if (Tarih > 0)
+                list = list.Where(m => m.OnaylamaTarihi > Tarih);
+            return list.ToList();
         }
     }
 }

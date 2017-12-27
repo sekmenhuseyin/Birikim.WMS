@@ -17,9 +17,15 @@
                         <div class="form-group">
                             <div class="col-sm-3 control-label">Görev Durumu</div>
                             <div class="col-sm-4">
-                                <select id="DurumID" name="DurumID" class = "form-control input-circle" onchange = "FuncSearchBtn();"><option value="false">Bekleyen Transferler</option><option value="true">Onaylanmış Transferler</option></select>
+                                <select id="DurumID" name="DurumID" class="form-control input-circle" onchange="FuncSearchBtn();"><option value="false">Bekleyen Transferler</option><option value="true">Onaylanmış Transferler</option></select>
                             </div>
                             <div class="col-sm-1"><button type="button" class="btn btn-circle green" onclick="FuncSearchBtn();"><i class="icon-refresh"></i></button></div>
+                        </div>
+                        <div class="form-group" id="tarihsecim">
+                            <div class="col-sm-3 control-label">Başlangıç Tarihi</div>
+                            <div class="col-sm-4">
+                                <input class="form-control input-circle dateboxbg" type="text" id="txtBaslangic" value="@DateTime.Today.AddDays(-7).ToString("dd.MM.yyyy")" />
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -31,9 +37,20 @@
 @section Scripts{<script>
     var DeleteFunctionUrl = '/WMS/Transfer/Delete';
     FuncSearchBtn();
+    var tarih = @DateTime.Today.AddDays(-7).ToOADateInt();
+    $('#tarihsecim').hide();
+    $.datepicker.setDefaults($.datepicker.regional["tr"]);
+    $("#txtBaslangic").datepicker().on("change", function (e) { tarih = toOADateFromString(e.target.value); FuncSearchBtn(); });
     function FuncSearchBtn() {
         $('#Grid').html("");
-        PartialView('/WMS/Transfer/WaitingList', 'Grid', JSON.stringify({ Id: $('#DurumID').val() }));
+        var tmp = 0;
+        if ($('#DurumID').val() != "false")
+        {
+            tmp = tarih;
+            $('#tarihsecim').show();
+        }
+        else
+            $('#tarihsecim').hide();
+        PartialView('/WMS/Transfer/WaitingList', 'Grid', JSON.stringify({ Id: $('#DurumID').val(), Tarih: tmp }));
     }
-</script>
-}
+</script>}
