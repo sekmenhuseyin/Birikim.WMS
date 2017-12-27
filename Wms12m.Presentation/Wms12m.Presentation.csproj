@@ -459,7 +459,6 @@
     <Content Include="Areas\Approvals\Views\Purchase\TeklifList.cshtml" />
     <Content Include="Areas\YN\Views\OnayBekleyenler\Siparis_Details.cshtml" />
     <Content Include="Areas\Reports\Views\Stock\SiparisOnay.cshtml" />
-    <Content Include="Areas\WMS\Views\Transfer\SummaryEdit.cshtml" />
     <Content Include="Areas\YN\Views\OnayBekleyenler\Teklif.cshtml" />
     <Content Include="Areas\YN\Views\OnayBekleyenler\Teklif_Details.cshtml" />
     <Content Include="Areas\YN\Views\OnayBekleyenler\Fatura.cshtml" />
@@ -695,7 +694,6 @@
     <Content Include="Areas\WMS\Views\Transfer\Details.cshtml" />
     <Content Include="Areas\WMS\Views\Stock\History.cshtml" />
     <Content Include="Areas\WMS\Views\Stock\HistoryList.cshtml" />
-    <Content Include="Areas\WMS\Views\Transfer\Summary.cshtml" />
     <Content Include="Areas\WMS\Views\Stock\Cable.cshtml" />
     <Content Include="Areas\WMS\Views\Stock\CableList.cshtml" />
     <Content Include="Areas\WMS\Views\Cable\Index.cshtml" />

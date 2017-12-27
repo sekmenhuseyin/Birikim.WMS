@@ -12,7 +12,7 @@
                 </div>
             </div>
             <div class="portlet-body form">
-                @using (Ajax.BeginForm("Summary", "Transfer", new { area = "WMS" }, new AjaxOptions { InsertionMode = InsertionMode.Replace, OnBegin = "$('#modalEditPage').html('');$('#modalEditPage').modal('toggle');", UpdateTargetId = "modalEditPage", OnFailure= "Modaldialog('Lütfen Tekrar Deneyin', 'Hata', 'Tamam', 'btn-danger');" }, new { @class = "form-horizontal" }))
+                @using (Ajax.BeginForm("Summary", "Transfer", new { area = "WMS" }, new AjaxOptions { InsertionMode = InsertionMode.Replace, OnSuccess = "getResult",  OnFailure = "Modaldialog('Lütfen Tekrar Deneyin', 'Hata', 'Tamam', 'btn-danger');" }, new { @class = "form-horizontal" }))
                 {
                     @Html.AntiForgeryToken()
                     @Html.ValidationSummary(true)
@@ -50,6 +50,20 @@
                                 <button class="btn btn-default btn-block btn-circle" type="button" onclick="FuncSearchBtn()">Listele <i class="icon-refresh"></i></button>
                             </div>
                         </div>
+                        <div id="hatali" class="row m-30 color-red bold"></div>
+                        <div class="form-group" id="seciliTable">
+                            <div class="col-md-6 col-md-offset-2">
+                                <table class="table table-striped" id="myTable">
+                                    <thead><tr><th nowrap>Mal Kodu</th><th>Mal Adı</th><th class="text-right">Miktar</th><th class="text-right">Stok</th><th>Birim</th><th></th></tr></thead>
+                                    <tbody><tr class="hidden"></tr></tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-4 col-md-offset-3">
+                                <input type="submit" class="btn btn-primary btn-block btn-circle green submit" value="Onayla" id="submit" />
+                            </div>
+                        </div>
                         <div class="form-group p-l-30 p-r-30" id="liste"></div>
                     </div>
                 }
@@ -59,9 +73,12 @@
 </div>
 @section Scripts{<script type="text/javascript">
     $(".DepoID").prepend("<option value=''>Seçiniz !!!</option>"); $(".DepoID")[0].selectedIndex = 0; $(".DepoID")[1].selectedIndex = 0; $(".DepoID")[2].selectedIndex = 0;
+    $("#submit").hide();
+    $("#seciliTable").hide();
     var DeleteFunctionUrl = '/WMS/Transfer/Delete2';
     function FuncSearchBtn() {
         $('#liste').html("");
+        $('#hatali').html("");
         if ($("#GirisDepo").val() == "" || $("#CikisDepo").val() == "" || $("#AraDepo").val() == "") return;
         if ($("#GirisDepo").val() == $("#CikisDepo").val() || $("#GirisDepo").val() == $("#AraDepo").val() || $("#CikisDepo").val() == $("#AraDepo").val()) return;
         $('#liste').html("");
@@ -74,16 +91,42 @@
                     Modaldialog("Hata oluştu", "Hata", "Tamam", "btn-danger");
                 } else {
                     $('#liste').html(data);
+                    $("html, body").animate({ scrollTop: 400 }, "slow");
                 }
             }
         });
     }
     function getResult(e) {
         if (e.Status == true)
-            PartialView("/WMS/Transfer/SummaryList", 'listSummary', JSON.stringify({ Id: e.Id }));
+        {
+            Modaldialog("İşlem Başarıyla gerçekleşti", "Başarı", "Tamam", "btn-success");
+            $("#submit").hide();
+            $("#seciliTable").hide();
+            $('#liste').html("");
+            $('#hatali').html("");
+            $(".DepoID")[0].selectedIndex = 0; $(".DepoID")[1].selectedIndex = 0; $(".DepoID")[2].selectedIndex = 0;
+        }
         else
             Modaldialog(e.Message, 'Hata', 'Tamam', 'btn-danger');
     };
+    function NewRow(kod, mal, stk, brm, mktr)
+    {
+        $("#seciliTable").show();
+        $("#submit").show();
+        $('#myTable tbody tr:first').after('<tr>' +
+            '<td><input class="form-control" name="MalKodus" type="text" value="' + kod + '" readonly="readonly"></td>' +
+            '<td><input class="form-control w-200" type="text" value="' + mal + '" readonly="readonly"></td>' +
+            '<td><input class="form-control w-50 pull-right" name="Miktar" type="text" value="' + numeral(mktr).format() + '"></td>' +
+            '<td class="text-right"><input class="hidden" name="Miktars" type="text" value="0">' + numeral(stk).format() + '</td>' +
+            '<td><input class="form-control w-50" name="Birims" type="text" value="' + brm + '" readonly="readonly"></td>' +
+            '<td><button type="button" class="btn btn-danger btn-block" onclick="DeleteRow(this);">Sil</button></td>' +
+            '</tr>');
+    }
+    function DeleteRow(btn)
+    {
+        $(btn).closest('tr').remove();
+        satir--;
+    }
     function getBirims(id) {
         $("#sBirim option").remove();
         $.ajax({
