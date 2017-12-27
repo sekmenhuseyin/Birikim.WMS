@@ -317,15 +317,6 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             return PartialView("_GridPartial", list);
         }
         /// <summary>
-        /// irs detay düzenle
-        /// </summary>
-        public PartialViewResult EditList(int ID)
-        {
-            if (CheckPerm(Perms.MalKabul, PermTypes.Writing) == false) return null;
-            var tbl = IrsaliyeDetay.Detail(ID);
-            return PartialView("EditList", tbl);
-        }
-        /// <summary>
         /// yeni malzeme
         /// </summary>
         [HttpPost, ValidateAntiForgeryToken]
