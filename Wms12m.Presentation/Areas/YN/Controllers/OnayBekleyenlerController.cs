@@ -205,7 +205,7 @@ namespace Wms12m.Presentation.Areas.YN.Controllers
         /// </summary>
         public string Fatura_List(int Secim)
         {
-            /// Secim => 0 Onay Bekleyenler  1 Onaylanmış  2 Reddedilmiş
+            /// Secim => 0 Onay Bekleyenler  1 Onaylanmış  2 Reddedilmiş  3 Normal (Direkt)Onaylı
             var list = db.Database.SqlQuery<frmOnayFatura>(string.Format(@"
             SELECT  TempFatura.EvrakNo, TempFatura.HesapKodu, TempFatura.Depo, COUNT(TempFatura.ID) AS Cesit, 
 		            SUM(TempFatura.Miktar) AS Miktar, TempFatura.Kaydeden, CONVERT(VARCHAR(15), 
