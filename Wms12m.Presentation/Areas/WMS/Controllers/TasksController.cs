@@ -1,4 +1,5 @@
-﻿using Kendo.Mvc.Extensions;
+﻿
+using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
 using System;
 using System.Collections.Generic;
@@ -18,7 +19,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             ViewBag.DurumID = new SelectList(ComboSub.GetList(Combos.GorevDurum.ToInt32()), "ID", "Name");
             return View("Index3");
         }
-        public JsonResult List3(int Id=9, int Tarih = 0)
+        public JsonResult List3(int Id = 9, int Tarih = 0)
         {
             return Json(db.GetTaskList(Id, vUser.DepoId ?? 0, Tarih).ToList(), JsonRequestBehavior.AllowGet);
         }
@@ -128,8 +129,6 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         [HttpPost]
         public PartialViewResult CountList(string Id)
         {
-            if (CheckPerm(Perms.GörevListesi, PermTypes.Reading) == false) return null;
-            // id'ye göre liste döner
             var list = Task.GetList(ComboItems.KontrolSayım.ToInt32(), Id.ToInt32());
             return PartialView("CountList", list);
         }
@@ -172,48 +171,20 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         /// <summary>
         /// kontrollü sayima ait fark sayfası
         /// </summary>
-        public PartialViewResult CountFark()
+        public PartialViewResult CountFark(int ID, string Tip)
         {
             if (CheckPerm(Perms.GörevListesi, PermTypes.Reading) == false) return null;
-            var id = Url.RequestContext.RouteData.Values["id"];
-            if (id == null) return null;
-            // split id
-            string[] tmp = id.ToString().Split('-');
-            // get gorev details
-            var GorevID = tmp[1].ToInt32();
-            var mGorev = db.Gorevs.Where(m => m.ID == GorevID).FirstOrDefault();
             // create sql
             var sql = "";
-            if (tmp[0] == "1")//sadece fark liste
-                sql = " WHERE (WmsStok <> Miktar)";
             // eksik liste için farklı sql
-            if (tmp[0] == "2")
-                sql = string.Format(@"SELECT FINSAT6{0}.FINSAT6{0}.STK.MalKodu, FINSAT6{0}.FINSAT6{0}.STK.MalAdi, FINSAT6{0}.FINSAT6{0}.STK.Birim1 as Birim, CAST(0 as DECIMAL) as Miktar, ISNULL(FINSAT6{0}.wms.getStockByDepo(FINSAT6{0}.FINSAT6{0}.STK.MalKodu, '{1}'), 0) AS GunesStok, 
-                                                ISNULL([wms].fnGetStockByID({3}, FINSAT6{0}.FINSAT6{0}.STK.MalKodu, FINSAT6{0}.FINSAT6{0}.STK.Birim1), 0) AS WmsStok
-                                    FROM FINSAT6{0}.FINSAT6{0}.STK INNER JOIN FINSAT6{0}.FINSAT6{0}.DST ON FINSAT6{0}.FINSAT6{0}.STK.MalKodu = FINSAT6{0}.FINSAT6{0}.DST.MalKodu
-                                    WHERE        (FINSAT6{0}.FINSAT6{0}.DST.Depo = '{1}') AND (FINSAT6{0}.wms.getStockByDepo(FINSAT6{0}.FINSAT6{0}.STK.MalKodu, '{1}') <> ISNULL([wms].fnGetStockByID({3}, FINSAT6{0}.FINSAT6{0}.STK.MalKodu, FINSAT6{0}.FINSAT6{0}.STK.Birim1), 0))
-                                                AND FINSAT6{0}.FINSAT6{0}.STK.MalKodu NOT IN (SELECT MalKodu FROM wms.GorevYer WHERE (GorevID = {2}))
-
-                                UNION
-
-                                SELECT        MalKodu, '' AS MalAdi, Birim, 0 AS Miktar, ISNULL(FINSAT6{0}.wms.getStockByDepo(MalKodu, '{1}'), 0) AS GunesStok, ISNULL(wms.fnGetStockByID({3}, MalKodu, Birim), 0) AS WmsStok
-                                FROM            wms.Yer
-                                GROUP BY MalKodu, Birim, ISNULL(FINSAT6{0}.wms.getStockByDepo(MalKodu, '{1}'), 0), ISNULL(wms.fnGetStockByID({3}, MalKodu, Birim), 0)
-                                HAVING        (NOT (MalKodu IN (SELECT MalKodu FROM wms.GorevYer WHERE (GorevID = {2})))) 
-                                            AND (ISNULL(wms.fnGetStockByID({3}, MalKodu, Birim), 0) > 0)
-                                    ORDER BY FINSAT6{0}.FINSAT6{0}.STK.MalKodu", mGorev.IR.SirketKod, mGorev.Depo.DepoKodu, GorevID, mGorev.DepoID);
+            if (Tip == "2")
+                sql = string.Format("EXEC FINSAT6{0}.wms.getSayimEksikList @ID = {1}", vUser.SirketKodu, ID);
             else
-                sql = string.Format("SELECT MalKodu, ISNULL(MalAdi, '') as MalAdi, Birim, ISNULL(Miktar, 0) as Miktar, ISNULL(WmsStok, 0) as WmsStok, ISNULL(GunesStok, 0) as GunesStok FROM (" +
-                                            "SELECT wms.GorevYer.MalKodu, wms.GorevYer.Birim, SUM(wms.GorevYer.Miktar) AS Miktar, " +
-                                                    "(SELECT FINSAT6{0}.FINSAT6{0}.STK.MalAdi from FINSAT6{0}.FINSAT6{0}.STK WHERE FINSAT6{0}.FINSAT6{0}.STK.MalKodu = wms.GorevYer.MalKodu) as MalAdi, " +
-                                                    "FINSAT6{0}.wms.getStockByDepo(wms.GorevYer.MalKodu, '{1}') as GunesStok, [wms].fnGetStockByID(wms.Gorev.DepoID, wms.GorevYer.MalKodu, wms.GorevYer.Birim) as WmsStok " +
-                                            "FROM wms.Gorev WITH(NOLOCK) INNER JOIN wms.GorevYer WITH(NOLOCK) ON wms.Gorev.ID = wms.GorevYer.GorevID " +
-                                            "WHERE (wms.Gorev.ID = {2}) GROUP BY wms.Gorev.DepoID, wms.GorevYer.MalKodu, wms.GorevYer.Birim" +
-                                        ") AS t{3} ORDER BY MalKodu", mGorev.IR.SirketKod, mGorev.Depo.DepoKodu, GorevID, sql);
+                sql = string.Format("EXEC FINSAT6{0}.wms.getSayimList @ID = {1}, @FarkMi = {2}", vUser.SirketKodu, ID, Tip == "1" ? 1 : 0);
             // run
             var list = db.Database.SqlQuery<frmSiparisMalzemeDetay>(sql).ToList();
             // return
-            ViewBag.ID = id;
+            ViewBag.Tip = Tip;
             return PartialView("CountFark", list);
         }
         /// <summary>
@@ -244,13 +215,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             short sirano = 0;
             List<STI> stiList = new List<STI>();
             // loop malkods
-            var sql = string.Format("SELECT MalKodu, MalAdi, Birim, Miktar, GunesStok, WmsStok FROM (" +
-                                            "SELECT wms.GorevYer.MalKodu, wms.GorevYer.Birim, SUM(wms.GorevYer.Miktar) AS Miktar, " +
-                                                    "(SELECT FINSAT6{0}.FINSAT6{0}.STK.MalAdi from FINSAT6{0}.FINSAT6{0}.STK WHERE FINSAT6{0}.FINSAT6{0}.STK.MalKodu = wms.GorevYer.MalKodu) as MalAdi, " +
-                                                    "FINSAT6{0}.wms.getStockByDepo(wms.GorevYer.MalKodu, '{1}') as GunesStok, [wms].fnGetStockByID(wms.Gorev.DepoID, wms.GorevYer.MalKodu, wms.GorevYer.Birim) as WmsStok " +
-                                            "FROM wms.Gorev WITH(NOLOCK) INNER JOIN wms.GorevYer WITH(NOLOCK) ON wms.Gorev.ID = wms.GorevYer.GorevID " +
-                                            "WHERE (wms.Gorev.ID = {2}) GROUP BY wms.Gorev.DepoID, wms.GorevYer.MalKodu, wms.GorevYer.Birim" +
-                                        ") AS t", mGorev.IR.SirketKod, mGorev.Depo.DepoKodu, GorevID);
+            var sql = string.Format("EXEC FINSAT6{0}.wms.getSayimFisiListesi1 @ID = {1}", vUser.SirketKodu, GorevID);
             var list = db.Database.SqlQuery<frmSiparisMalzemeDetay>(sql).ToList();
             foreach (var item in list)
             {
@@ -280,11 +245,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             // eğer eksik listesi de atılacaksa sayım fişine biraz daha ekle
             if (Tip == true)
             {
-                sql = string.Format(@"SELECT FINSAT6{0}.FINSAT6{0}.STK.MalKodu, FINSAT6{0}.FINSAT6{0}.STK.MalAdi, FINSAT6{0}.FINSAT6{0}.STK.Birim1 as Birim, CAST(0 as DECIMAL) as Miktar, FINSAT6{0}.wms.getStockByDepo(FINSAT6{0}.FINSAT6{0}.STK.MalKodu, '{1}') AS GunesStok, 
-                                                ISNULL([wms].fnGetStockByID({3}, FINSAT6{0}.FINSAT6{0}.STK.MalKodu, FINSAT6{0}.FINSAT6{0}.STK.Birim1), 0) AS WmsStok
-                                    FROM FINSAT6{0}.FINSAT6{0}.STK INNER JOIN FINSAT6{0}.FINSAT6{0}.DST ON FINSAT6{0}.FINSAT6{0}.STK.MalKodu = FINSAT6{0}.FINSAT6{0}.DST.MalKodu
-                                    WHERE        (FINSAT6{0}.FINSAT6{0}.DST.Depo = '{1}') AND (FINSAT6{0}.wms.getStockByDepo(FINSAT6{0}.FINSAT6{0}.STK.MalKodu, '{1}') <> ISNULL([wms].fnGetStockByID({3}, FINSAT6{0}.FINSAT6{0}.STK.MalKodu, FINSAT6{0}.FINSAT6{0}.STK.Birim1), 0)) AND 
-                                                FINSAT6{0}.FINSAT6{0}.STK.MalKodu NOT IN (SELECT MalKodu FROM wms.GorevYer WHERE (GorevID = {2}))", mGorev.IR.SirketKod, mGorev.Depo.DepoKodu, GorevID, mGorev.DepoID);
+                sql = string.Format(@"EXEC FINSAT6{0}.wms.getSayimFisiListesi2 @ID = {1}, @DepoKodu = '{2}'", vUser.SirketKodu, GorevID, mGorev.Depo.DepoKodu);
                 list = db.Database.SqlQuery<frmSiparisMalzemeDetay>(sql).ToList();
                 foreach (var item in list)
                 {
