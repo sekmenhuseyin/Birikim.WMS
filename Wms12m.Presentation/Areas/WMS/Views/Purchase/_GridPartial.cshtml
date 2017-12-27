@@ -39,21 +39,23 @@ else
         disableAll()
         @{ if (ViewBag.Onay == false && ViewBag.Yetki == true) { <text>$(".showlater").show();</text> } else { <text>$(".showlater").hide();</text> } }
         $("#MalKodu").focus();
-        $("#MalKodu").autocomplete({
-            source: "/WMS/Purchase/GetMalzemebyCode",
-            minLength: 2,
-            select: function (event, ui) {
-                setTimeout(function () { $("#MalKodu").val(ui.item.id); $("#MalAdi").val(ui.item.value); getBirims(ui.item.id); }, 50);
-            }
-        });
-        $("#MalAdi").autocomplete({
-            source: "/WMS/Purchase/GetMalzemebyName",
-            minLength: 2,
-            select: function (event, ui) {
-                setTimeout(function () { $("#MalKodu").val(ui.item.id); $("#MalAdi").val(ui.item.value); getBirims(ui.item.id); }, 50);
-            }
-        });
         $(document).ready(function () {
+            $("#MalKodu").autocomplete({
+                source: "/WMS/Purchase/GetMalzemebyCode",
+                minLength: 2,
+                select: function (event, ui)
+                {
+                    setTimeout(function () { $("#MalKodu").val(ui.item.id); $("#MalAdi").val(ui.item.value); getBirims(ui.item.id); }, 50);
+                }
+            });
+            $("#MalAdi").autocomplete({
+                source: "/WMS/Purchase/GetMalzemebyName",
+                minLength: 2,
+                select: function (event, ui)
+                {
+                    setTimeout(function () { $("#MalKodu").val(ui.item.id); $("#MalAdi").val(ui.item.value); getBirims(ui.item.id); }, 50);
+                }
+            });
             var table = $('#sample_7').DataTable({ "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" } });
             table.on('order.dt search.dt', function () {
                 table.column(0, { search: 'applied', order: 'applied' }).nodes().each(function (cell, i) {
@@ -61,6 +63,34 @@ else
 
                 });
             }).draw();
+            $('#btnActivate').click(function ()
+            {
+                if (table.rows().count() > 1)
+                {
+                    $.ajax({
+                        url: "/WMS/Purchase/Activate",
+                        data: JSON.stringify({ ID: @ViewBag.IrsaliyeId }),
+                        type: 'POST',
+                        dataType: "json",
+                        contentType: 'application/json; charset=utf-8',
+                        success: function (data)
+                        {
+                            if (data.Status == false)
+                            {
+                                Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
+                            }
+                            else
+                            {
+                                Modaldialog("Görev onaylandı", "Başarı", "Tamam", "btn-success");
+                                $('#submitForm').click();
+                            }
+                        }
+                    });
+                }
+                else {
+                    Modaldialog("Görev kaydı için gönderilen liste boş !", "Hata", "Tamam", "btn-danger");
+                }
+            });
         });
         function savelist(id)
         {
@@ -117,35 +147,6 @@ else
                     $("#Miktar").select();
                 }
             });
-        }
-        function Activate()
-        {
-            if (table.rows().count() > 1)
-            {
-                $.ajax({
-                    url: "/WMS/Purchase/Activate",
-                    data: JSON.stringify({ ID: @ViewBag.IrsaliyeId }),
-                    type: 'POST',
-                    dataType: "json",
-                    contentType: 'application/json; charset=utf-8',
-                    success: function (data)
-                    {
-                        if (data.Status == false)
-                        {
-                            Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
-                        }
-                        else
-                        {
-                            Modaldialog("Görev onaylandı", "Başarı", "Tamam", "btn-success");
-                            $('#submitForm').click();
-                        }
-                    }
-                });
-            }
-            else {
-                Modaldialog("Görev kaydı için gönderilen liste boş !", "Hata", "Tamam", "btn-danger");
-            }
-
         }
     </script>
 }
