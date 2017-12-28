@@ -40,10 +40,10 @@
     </div>
 </div>
 @section Scripts{<script type="text/javascript">
-    FuncSearchBtn();
     var tarih = @DateTime.Today.AddDays(-3).ToOADateInt();
     $.datepicker.setDefaults($.datepicker.regional["tr"]);
     $("#txtBaslangic").datepicker().on("change", function (e) { tarih = toOADateFromString(e.target.value); FuncSearchBtn(); });
+    FuncSearchBtn();
     function FuncSearchBtn() {
         //reset
         $('#GorevGrid').html("");
