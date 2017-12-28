@@ -60,14 +60,18 @@ namespace Wms12m.Presentation.Areas.YN.Controllers
             else if (Secim == 3)
                 secimParam = "Normal";
 
-            var list = db.Database.SqlQuery<frmOnaySiparisList>(string.Format(@"SELECT   YNS{0}.YNS{0}.STK002.STK002_MalKodu AS MalKodu, YNS{0}.YNS{0}.STK004.STK004_Aciklama AS MalAdi, YNS{0}.YNS{0}.STK002.STK002_CariHesapKodu AS HesapKodu, YNS{0}.YNS{0}.CAR002.CAR002_Unvan1 AS Unvan, 
-																						YNS{0}.YNS{0}.STK002.STK002_EvrakSeriNo AS EvrakSeriNo, YNS{0}.YNS{0}.STK002.STK002_Depo AS Depo, YNS{0}.YNS{0}.STK002.STK002_Miktari AS Miktar, YNS{0}.YNS{0}.STK002.STK002_BirimFiyati AS BirimFiyat, 
-																							YNS{0}.YNS{0}.STK002.STK002_Tutari AS Tutar, YNS{0}.YNS{0}.STK002.STK002_DovizCinsi AS DovizCinsi, YNS{0}.YNS{0}.STK002.STK002_GirenKodu AS Kaydeden, CONVERT(VARCHAR(15), 
-                                                                                            CAST(YNS{0}.YNS{0}.STK002.STK002_GirenTarih - 2 AS datetime), 104) AS Tarih, CONVERT(DECIMAL, STK002_Kod8) AS EsikFiyat
-																FROM            YNS{0}.YNS{0}.STK002 INNER JOIN
-																							YNS{0}.YNS{0}.CAR002 ON YNS{0}.YNS{0}.STK002.STK002_CariHesapKodu = YNS{0}.YNS{0}.CAR002.CAR002_HesapKodu INNER JOIN
-																							YNS{0}.YNS{0}.STK004 ON YNS{0}.YNS{0}.STK002.STK002_MalKodu = YNS{0}.YNS{0}.STK004.STK004_MalKodu
-																WHERE        (YNS{0}.YNS{0}.STK002.STK002_GC = 1) AND (YNS{0}.YNS{0}.STK002.STK002_SipDurumu = 0)  AND (YNS{0}.YNS{0}.STK002.STK002_Kod10 = '{2}') AND  YNS{0}.YNS{0}.STK002.STK002_EvrakSeriNo = '{1}'", YnsSirketKodu, ID, secimParam)).ToList();
+            var list = db.Database.SqlQuery<frmOnaySiparisList>(string.Format(@"
+            SELECT  STK002_MalKodu AS MalKodu, STK004.STK004_Aciklama AS MalAdi, STK002_CariHesapKodu AS HesapKodu, CAR002_Unvan1 AS Unvan, 
+		            STK002_EvrakSeriNo AS EvrakSeriNo, STK002_Depo AS Depo, STK002_Miktari AS Miktar, STK002_BirimFiyati AS BirimFiyat, 
+		            STK002_Tutari AS Tutar, STK002_DovizCinsi AS DovizCinsi, STK002_GirenKodu AS Kaydeden, CONVERT(VARCHAR(15), 
+                    CAST(STK002_GirenTarih - 2 AS datetime), 104) AS Tarih,	
+		            CASE WHEN ISNULL(STK002_Kod8,'')='' THEN 0.0 ELSE CONVERT(DECIMAL, STK002_Kod8) END AS EsikFiyat
+																
+            FROM   YNS{0}.YNS{0}.STK002(NOLOCK) 
+            INNER JOIN  YNS{0}.YNS{0}.CAR002(NOLOCK) ON STK002_CariHesapKodu = CAR002_HesapKodu 
+            INNER JOIN	YNS{0}.YNS{0}.STK004(NOLOCK) ON  STK002_MalKodu = STK004_MalKodu
+            WHERE  (STK002_GC = 1) AND (STK002_SipDurumu = 0)  AND (STK002_Kod10 = 'Normal') AND  STK002_EvrakSeriNo = '{1}'", 
+            YnsSirketKodu, ID, secimParam)).ToList();
             return PartialView("Siparis_Details", list);
         }
         /// <summary>
