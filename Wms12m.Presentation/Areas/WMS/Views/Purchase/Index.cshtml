@@ -90,13 +90,11 @@
                 </div>
                 <div class="col-md-3 pull-right m-t-5 showlater">
                     <button type="button" class="btn btn-default input-circle" onclick="Activate()">Görevi Başlat</button>
-                    <a id="btnSiparis" class="btn btn-default input-circle" href="#modalEditPage" data-toggle="modal" onclick="editInModal2('/WMS/Purchase/SiparisList', { DepoID: $('#DepoID').val(), HesapKodu: $('#HesapKodu').val() })"> Siparişten Getir </a>
+                    <a id="btnSiparis" class="btn btn-default input-circle" href="#modalEditPage" data-toggle="modal" onclick="editInModal2('/WMS/Purchase/SiparisList', { DepoID: $('#DepoID').val(), HesapKodu: $('#HesapKodu').val(), IrsNo: $('#IrsNo').val() })"> Siparişten Getir </a>
                 </div>
             </div>
             <div class="portlet-body form">
-                <div id="StoreGrid" class="form-body">
-
-                </div>
+                <div id="StoreGrid" class="form-body"></div>
             </div>
         </div>
     </div>

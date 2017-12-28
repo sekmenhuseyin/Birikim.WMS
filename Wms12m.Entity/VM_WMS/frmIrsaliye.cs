@@ -62,6 +62,17 @@ namespace Wms12m.Entity
     /// <summary>
     /// siparişten getir sayfası
     /// </summary>
+    public class frmSiparisBilgileri
+    {
+        public int Id { get; set; }
+        public int[] IDs { get; set; }
+        public string[] EvrakNos { get; set; }
+        public string[] MalKodus { get; set; }
+        public decimal[] Miktars { get; set; }
+    }
+    /// <summary>
+    /// siparişten getir sayfası
+    /// </summary>
     public class frmIrsaliyeMalzeme
     {
         public int ROW_ID { get; set; }

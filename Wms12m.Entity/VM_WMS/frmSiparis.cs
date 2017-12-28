@@ -51,13 +51,6 @@ namespace Wms12m.Entity
         public decimal[] Miktars { get; set; }
         public int[] IDs { get; set; }
     }
-
-
-
-
-
-
-
     /// <summary>
     /// sipariş listesi onay
     /// </summary>

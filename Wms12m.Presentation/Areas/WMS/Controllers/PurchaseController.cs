@@ -120,91 +120,49 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         /// <summary>
         /// irsaliye listesi
         /// </summary>
-        public PartialViewResult SiparisList(int DepoID, string HesapKodu)
+        public PartialViewResult SiparisList(int DepoID, string HesapKodu, int IrsNo)
         {
             if (CheckPerm(Perms.MalKabul, PermTypes.Reading) == false) return null;
             var sql = string.Format(@"EXEC FINSAT6{0}.wms.getMalKabulSiparisList @HesapKodu = '{1}', @DepoID = {2}", vUser.SirketKodu, HesapKodu, DepoID);
             var list = db.Database.SqlQuery<frmSiparistenGelen>(sql).ToList();
+            ViewBag.IrsNo = IrsNo;
             return PartialView("SiparisList", list);
         }
         /// <summary>
         /// siparişten malzeme ekler
         /// </summary>
-        [HttpPost]
-        public PartialViewResult FromSiparis(string id, string ids)
+        [HttpPost, ValidateAntiForgeryToken]
+        public PartialViewResult FromSiparis(frmSiparisBilgileri tbl)
         {
-            if (id == null || ids == null) return null;
             if (CheckPerm(Perms.MalKabul, PermTypes.Writing) == false) return null;
-            int irsaliyeID = id.ToInt32(), eklenen = 0, sira = 0;
-            // split ids into rows
-            ids = ids.Left(ids.Length - 1);
-            string[] tmp = ids.Split('#');
-            var satir = new IRS_Detay();
-            var tbl = new List<IRS_Detay>();
-            foreach (var item in tmp)
-            {
-                if (sira == 0)
-                {
-                    // evrak no ekle
-                    satir.KynkSiparisNo = item;
-                    sira++;
-                }
-                else if (sira == 1)
-                {
-                    // malkodu ekle
-                    satir.MalKodu = item;
-                    sira++;
-                }
-                else if (sira == 2)
-                {
-                    // birim ekle
-                    satir.Birim = item;
-                    sira++;
-                }
-                else if (sira == 3)
-                {
-                    // row id ekle
-                    satir.KynkSiparisID = item.ToInt32();
-                    sira++;
-                }
-                else
-                {
-                    // miktar ekle
-                    satir.Miktar = item.ToDecimal();
-                    tbl.Add(satir);
-                    satir = new IRS_Detay();
-                    sira = 0;
-                }
-            }
             // sadece irsaliye daha onaylanmamışsa yani işlemleri bitmeişse ekle
-            var irs = Irsaliye.Detail(irsaliyeID);
+            var irs = Irsaliye.Detail(tbl.Id);
             if (irs.Onay == false)
             {
                 try
                 {
-                    foreach (var item in tbl)
+                    for (int i = 0; i < tbl.MalKodus.Count(); i++)
                     {
-                        var sql = string.Format(@"EXEC FINSAT6{0}.wms.getMalKabulSiparisDetail @ROW_ID = {1}, @MalKodu = '{2}', @Birim = '{3}', @EvrakNo = '{4}'", vUser.SirketKodu, item.KynkSiparisID, item.MalKodu, item.Birim, item.KynkSiparisNo.Trim());
-                        var tempTbl = db.Database.SqlQuery<frmIrsaliyeMalzeme>(sql).FirstOrDefault();
+                        var sql = string.Format(@"EXEC FINSAT6{0}.wms.getMalKabulSiparisDetail @ROW_ID = {1}, @MalKodu = '{2}', @EvrakNo = '{3}'", vUser.SirketKodu, tbl.IDs[i], tbl.MalKodus[i], tbl.EvrakNos[i].Trim());
+                        var satir = db.Database.SqlQuery<frmIrsaliyeMalzeme>(sql).FirstOrDefault();
                         var mNo = "";
-                        if (tempTbl.Kod1 == "KKABLO")
+                        if (satir.Kod1 == "KKABLO")
                             mNo = "Boş-" + db.SettingsMakaraNo(irs.DepoID).FirstOrDefault();
                         var sti = new IRS_Detay()
                         {
-                            IrsaliyeID = irsaliyeID,
-                            Birim = tempTbl.Birim,
-                            KynkSiparisMiktar = tempTbl.BirimMiktar,
-                            KynkSiparisID = item.KynkSiparisID,
-                            KynkSiparisNo = tempTbl.EvrakNo,
-                            KynkSiparisSiraNo = tempTbl.SiraNo,
-                            KynkSiparisTarih = tempTbl.Tarih,
-                            KynkDegisSaat = tempTbl.DegisSaat,
-                            MalKodu = tempTbl.MalKodu,
-                            Miktar = item.Miktar > 0 ? item.Miktar : tempTbl.Miktar,
+                            IrsaliyeID = tbl.Id,
+                            Birim = satir.Birim,
+                            KynkSiparisMiktar = satir.BirimMiktar,
+                            KynkSiparisID = tbl.IDs[i],
+                            KynkSiparisNo = satir.EvrakNo,
+                            KynkSiparisSiraNo = satir.SiraNo,
+                            KynkSiparisTarih = satir.Tarih,
+                            KynkDegisSaat = satir.DegisSaat,
+                            MalKodu = satir.MalKodu,
+                            Miktar = tbl.Miktars[0] > 0 ? tbl.Miktars[0] : satir.Miktar,
                             MakaraNo = mNo
                         };
                         var _Result = IrsaliyeDetay.Operation(sti);
-                        eklenen++;
                     }
                 }
                 catch (Exception ex)
@@ -213,8 +171,8 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                 }
             }
             // get list
-            var list = IrsaliyeDetay.GetList(irsaliyeID);
-            ViewBag.IrsaliyeId = irsaliyeID;
+            var list = IrsaliyeDetay.GetList(tbl.Id);
+            ViewBag.IrsaliyeId = tbl.Id;
             ViewBag.Onay = irs.Onay;
             ViewBag.Yetki = true;
             return PartialView("_GridPartial", list);
