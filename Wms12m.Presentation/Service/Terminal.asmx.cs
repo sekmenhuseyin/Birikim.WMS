@@ -23,9 +23,9 @@ namespace Wms12m
         /// login işlemleri
         /// </summary>
         [WebMethod]
-        public Login LoginKontrol(string userID, string sifre, string authGiven)
+        public Login LoginKontrol(string userID, string sifre, string AuthGiven)
         {
-            if (authGiven.Cozumle() != AuthPass) return new Login() { ID = 0, AdSoyad = "Yetkisiz giriş!" };
+            if (AuthGiven.Cozumle() != AuthPass) return new Login() { ID = 0, AdSoyad = "Yetkisiz giriş!" };
             // log in actions
             var person = new Persons();
             var result = person.Login(new User() { Kod = userID.Left(5), Sifre = sifre }, "Terminal");
@@ -100,10 +100,7 @@ namespace Wms12m
             var tbl = db.Users.Where(m => m.ID == KullID && m.Guid.ToString() == Guid).FirstOrDefault();
             if (tbl == null) return new List<GorevOzet>();
             // return
-            var sql = string.Format("SELECT ComboItem_Name.ID, ComboItem_Name.Name AS Ad, COUNT(wms.Gorev.ID) AS Sayi " +
-                "FROM wms.Gorev INNER JOIN ComboItem_Name ON wms.Gorev.GorevTipiID = ComboItem_Name.ID LEFT OUTER JOIN wms.GorevUsers ON wms.Gorev.ID = wms.GorevUsers.GorevID " +
-                "WHERE (wms.Gorev.DepoID = {0}) AND (wms.GorevUsers.UserName = '{1}' OR wms.GorevUsers.UserName IS NULL) AND (wms.GorevUsers.BitisTarihi IS NULL) AND (wms.Gorev.DurumID = 9) " +
-                "GROUP BY ComboItem_Name.Name, ComboItem_Name.ID", ID, tbl.Kod);
+            var sql = string.Format("EXEC BIRIKIM.wms.TerminalGorevOzet @DepoID = {0}, @Username = '{1}'", ID, tbl.Kod);
             return db.Database.SqlQuery<GorevOzet>(sql).ToList();
         }
         /// <summary>
@@ -135,12 +132,7 @@ namespace Wms12m
             if (mGorev.IsNull() || mGorev.IR == null)
                 return new Tip_IRS();
             // return
-            var sql = string.Format("SELECT MIN(IRS.ID) as ID, wms.Depo.DepoKodu AS DepoID, IRS.HesapKodu, wms.fnFormatDateFromInt(IRS.Tarih) AS Tarih, " +
-                "(SELECT Unvan1 + ' ' + Unvan2 AS Expr1 FROM FINSAT6{0}.FINSAT6{0}.CHK WITH(NOLOCK) WHERE (HesapKodu = IRS.HesapKodu)) AS Unvan, " +
-                "(SELECT wms.IRS.EvrakNo + '  ' FROM wms.IRS WITH(nolock) INNER JOIN wms.GorevIRS WITH(nolock) ON wms.IRS.ID = wms.GorevIRS.IrsaliyeID WHERE (wms.GorevIRS.GorevID = {1}) FOR XML PATH('')) as EvrakNo " +
-                "FROM wms.IRS AS IRS WITH(nolock) INNER JOIN wms.Depo WITH(nolock) ON IRS.DepoID = wms.Depo.ID INNER JOIN wms.GorevIRS WITH(nolock) ON IRS.ID = wms.GorevIRS.IrsaliyeID " +
-                "WHERE (wms.GorevIRS.GorevID = {1}) " +
-                "GROUP BY wms.Depo.DepoKodu, IRS.HesapKodu, wms.fnFormatDateFromInt(IRS.Tarih)", mGorev.IR.SirketKod, mGorev.ID);
+            var sql = string.Format("EXEC FINSAT6{0}.wms.TerminalGorevOzet @@GorevID = {1}", mGorev.IR.SirketKod, mGorev.ID);
             return db.Database.SqlQuery<Tip_IRS>(sql).FirstOrDefault();
         }
         /// <summary>
