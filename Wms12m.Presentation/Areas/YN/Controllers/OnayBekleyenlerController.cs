@@ -333,12 +333,13 @@ namespace Wms12m.Presentation.Areas.YN.Controllers
         public string Tahsilat_List()
         {
             var list = db.Database.SqlQuery<frmOnayTahsilatList>(string.Format(@"
-				SELECT TahsilatNo, HesapKodu, YNS{0}.YNS{0}.CAR002.CAR002_Unvan1 AS Unvan,
+				SELECT TahsilatNo, HesapKodu, CAR002_Unvan1 AS Unvan,
 						CONVERT(VARCHAR(15), CAST(TahsilatTarihi - 2 AS datetime), 104) as Tarih,
 						CASE IslemTuru WHEN 0 THEN 'Tahsilat' WHEN 1 THEN 'İskonto' END as IslemTuru,
 						CASE OdemeTuru WHEN 0 THEN 'Nakit' WHEN 1 THEN 'Kredi Kartı' END as OdemeTuru,
 						Tutar, DovizCinsi, KapatilanTL, KapatilanUSD, KapatilanEUR, Kaydeden, Aciklama
-				FROM YNS{0}.YNS{0}.TahsilatMobil(NOLOCK) LEFT JOIN YNS{0}.YNS{0}.CAR002 ON YNS{0}.YNS{0}.TahsilatMobil.HesapKodu = YNS{0}.YNS{0}.CAR002.CAR002_HesapKodu
+				FROM YNS{0}.YNS{0}.TahsilatMobil(NOLOCK) 
+                LEFT JOIN YNS{0}.YNS{0}.CAR002 ON TahsilatMobil.HesapKodu = CAR002_HesapKodu
 				WHERE IslemDurumu=0", YnsSirketKodu)).ToList();
 
             var json = new JavaScriptSerializer().Serialize(list);
@@ -350,10 +351,32 @@ namespace Wms12m.Presentation.Areas.YN.Controllers
         [HttpPost]
         public JsonResult Tahsilat_Onay(string ID, bool Onay)
         {
+            var result = new Result();
             try
             {
-                db.Database.ExecuteSqlCommand(string.Format("UPDATE YNS{0}.YNS{0}.[TahsilatMobil] SET IslemDurumu = '{1}' WHERE TahsilatNo='{2}'", YnsSirketKodu, Onay == true ? 1 : 2, ID));
-                return Json(new Result(true, 1), JsonRequestBehavior.AllowGet);
+                if (Onay == true)
+                {
+                    var item = db.Database.SqlQuery<frmOnayTahsilatList>(string.Format(@"
+                    SELECT TahsilatNo, HesapKodu, CAR002_Unvan1 AS Unvan,
+                        CONVERT(VARCHAR(15), CAST(TahsilatTarihi - 2 AS datetime), 104) as Tarih,
+                        CASE IslemTuru WHEN 0 THEN 'Tahsilat' WHEN 1 THEN 'İskonto' END as IslemTuru,
+                        CASE OdemeTuru WHEN 0 THEN 'Nakit' WHEN 1 THEN 'Kredi Kartı' END as OdemeTuru,
+                        Tutar, DovizCinsi, KapatilanTL, KapatilanUSD, KapatilanEUR, Kaydeden, Aciklama
+
+                    FROM YNS{0}.YNS{0}.TahsilatMobil(NOLOCK)
+                    LEFT JOIN YNS{0}.YNS{0}.CAR002 ON TahsilatMobil.HesapKodu = CAR002_HesapKodu
+                    WHERE TahsilatNo='{1}'", YnsSirketKodu, ID)).FirstOrDefault();
+
+                    var yns = new YeniNesil(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, YnsSirketKodu);
+                    var sepetIslemleri = yns.TahsilatKaydet(item, vUser.UserName);
+                    result = new Result(true, 1);
+                }
+
+                if (result.Status == true)
+                {
+                    db.Database.ExecuteSqlCommand(string.Format("UPDATE YNS{0}.YNS{0}.[TahsilatMobil] SET IslemDurumu = '{1}' WHERE TahsilatNo='{2}'", YnsSirketKodu, Onay == true ? 1 : 2, ID));
+                }
+                return Json(result, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
