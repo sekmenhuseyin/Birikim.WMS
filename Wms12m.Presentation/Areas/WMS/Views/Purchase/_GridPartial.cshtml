@@ -39,6 +39,7 @@ else
         disableAll()
         @{ if (ViewBag.Onay == false && ViewBag.Yetki == true) { <text>$(".showlater").show();</text> } else { <text>$(".showlater").hide();</text> } }
         $("#MalKodu").focus();
+        var satir = @Model.Count;
         $(document).ready(function () {
             $("#MalKodu").autocomplete({
                 source: "/WMS/Purchase/GetMalzemebyCode",
@@ -62,35 +63,36 @@ else
                     @if (ViewBag.Onay == false) { <text>if (i > 0) cell.innerHTML = i;</text> }else{ <text>cell.innerHTML = i + 1;</text> }
                 });
             }).draw();
-            $('#btnActivate').click(function ()
-            {
-                if (table.rows().count() > 1)
-                {
-                    $.ajax({
-                        url: "/WMS/Purchase/Activate",
-                        data: JSON.stringify({ ID: @ViewBag.IrsaliyeId }),
-                        type: 'POST',
-                        dataType: "json",
-                        contentType: 'application/json; charset=utf-8',
-                        success: function (data)
-                        {
-                            if (data.Status == false)
-                            {
-                                Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
-                            }
-                            else
-                            {
-                                Modaldialog("Görev onaylandı", "Başarı", "Tamam", "btn-success");
-                                $('#submitForm').click();
-                            }
-                        }
-                    });
-                }
-                else {
-                    Modaldialog("Görev kaydı için gönderilen liste boş !", "Hata", "Tamam", "btn-danger");
-                }
-            });
         });
+        function Activate()
+        {
+            if (satir > 0)
+            {
+                $.ajax({
+                    url: "/WMS/Purchase/Activate",
+                    data: JSON.stringify({ ID: @ViewBag.IrsaliyeId }),
+                    type: 'POST',
+                    dataType: "json",
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (data)
+                    {
+                        if (data.Status == false)
+                        {
+                            Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
+                        }
+                        else
+                        {
+                            Modaldialog("Görev onaylandı", "Başarı", "Tamam", "btn-success");
+                            $('#submitForm').click();
+                        }
+                    }
+                });
+            }
+            else
+            {
+                Modaldialog("Görev kaydı için gönderilen liste boş !", "Hata", "Tamam", "btn-danger");
+            }
+        }
         function savelist(id)
         {
             $.ajax({

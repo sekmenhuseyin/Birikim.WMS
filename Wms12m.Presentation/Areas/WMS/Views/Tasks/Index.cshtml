@@ -26,10 +26,10 @@
                             </div>
                             <div class="col-sm-1"><button type="button" class="btn btn-circle green" onclick="FuncSearchBtn();"><i class="icon-refresh"></i></button></div>
                         </div>
-                        <div class="form-group" id="tarihsecim">
+                        <div class="form-group">
                             <div class="col-sm-3 control-label">Başlangıç Tarihi</div>
                             <div class="col-sm-4">
-                                <input class="form-control input-circle dateboxbg" type="text" id="txtBaslangic" value="@DateTime.Today.AddDays(-7).ToString("dd.MM.yyyy")" />
+                                <input class="form-control input-circle dateboxbg" type="text" id="txtBaslangic" value="@DateTime.Today.AddDays(-3).ToString("dd.MM.yyyy")" />
                             </div>
                         </div>
                     </div>
@@ -40,24 +40,15 @@
     </div>
 </div>
 @section Scripts{<script type="text/javascript">
-    FuncSearchBtn();
-    var tarih = @DateTime.Today.AddDays(-7).ToOADateInt();
-    $('#tarihsecim').hide();
+    var tarih = @DateTime.Today.AddDays(-3).ToOADateInt();
     $.datepicker.setDefaults($.datepicker.regional["tr"]);
     $("#txtBaslangic").datepicker().on("change", function (e) { tarih = toOADateFromString(e.target.value); FuncSearchBtn(); });
+    FuncSearchBtn();
     function FuncSearchBtn() {
         //reset
         $('#GorevGrid').html("");
         DuzenleIptal();
-        var tmp = 0;
-        if ($('#DurumID').val() != 9)
-        {
-            tmp = tarih;
-            $('#tarihsecim').show();
-        }
-        else
-            $('#tarihsecim').hide();
-        PartialView('/WMS/Tasks/List', 'GorevGrid', JSON.stringify({ Id: $('#DurumID').val(), Tarih: tmp }));
+        PartialView('/WMS/Tasks/List', 'GorevGrid', JSON.stringify({ Id: $('#DurumID').val(), Tarih: tarih }));
     }
     function newrow(id) { return "<div id='new" + id +"'></div>"; }
     function format(d) {

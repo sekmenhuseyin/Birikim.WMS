@@ -1,29 +1,27 @@
 ﻿@model IEnumerable<frmSiparistenGelen>
-@{ string[] list; list = new string[Model.Count()]; int x = 0; }
 <div class="modal-content">
     <div class="close-modal" data-dismiss="modal"><div class="lr"><div class="rl"></div></div></div>
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
                 <div class="modal-body">@*Project Details Go Here*@
-                    <h4>İrsaliye Liste</h4>
+                    <h3 class="m-b-20">İrsaliye Liste</h3>
                     <table class="table table-striped table-bordered" id="sample_3">
-                        <thead><tr><th>EvrakNo</th><th>Tarih</th><th>Mal Kodu</th><th>Mal Adı</th><th>Açık Miktar</th><th>Birim</th><th>ID</th><th>rowID</th></tr></thead>
+                        <thead><tr><th>EvrakNo</th><th>Tarih</th><th>Mal Kodu</th><th>Mal Adı</th><th>Açık Miktar</th><th>Birim</th><th></th></tr></thead>
+                        <tfoot><tr><th></th><th></th><th></th><th></th><th></th><th></th></tr></tfoot>
+                        <tfoot class="tf-search"><tr><th></th><th></th><th></th><th></th><th></th><th></th></tr></tfoot>
                         <tbody>
                             @foreach (var item in Model)
                             {
-                                list[x] = item.AçıkMiktar.ToString(); 
                                 <tr style="cursor:pointer;" onclick="$(this).toggleClass('selected');">
-                                    <td>@Html.DisplayFor(modelItem => item.EvrakNo)</td>
+                                    <td>@item.EvrakNo</td>
                                     <td>@item.Tarih.FromOADateInt()</td>
-                                    <td>@Html.DisplayFor(modelItem => item.MalKodu)</td>
-                                    <td>@Html.DisplayFor(modelItem => item.MalAdi)</td>
-                                    <td ondblclick="ChangeMiktar(this, '@item.MalKodu', '@item.AçıkMiktar', '@x')" align="right">@String.Format("{0:n}", item.AçıkMiktar)</td>
-                                    <td>@Html.DisplayFor(modelItem => item.Birim)</td>
+                                    <td>@item.MalKodu</td>
+                                    <td>@item.MalAdi</td>
+                                    <td><input class="form-control input-circle w-50 pull-right" type="text" id="txtMiktar@{@item.ID}" value="@String.Format("{0:n}", item.AçıkMiktar)" /></td>
+                                    <td>@item.Birim</td>
                                     <td>@item.ID</td>
-                                    <td>@x</td>
                                 </tr>
-                                x++;
                             }
                         </tbody>
                     </table>
@@ -34,50 +32,52 @@
             <div class="col-md-12">
                 <button type="button" class="btn btn-danger pull-left" data-dismiss="modal"><i class="fa fa-times"></i> Kapat</button>
                 <button type="button" class="btn btn-primary pull-right" data-dismiss="modal" id="submitter">Ekle</button>
-                <button type="button" class="btn btn-default pull-right m-r-20" id="selector">Hepsini Seç</button>
             </div>
         </div>
     </div>
+    @using (Ajax.BeginForm("FromSiparis", "Purchase", new { area = "WMS" }, new AjaxOptions { InsertionMode = InsertionMode.Replace, OnSuccess = "$('#submitForm').click()", OnFailure = "Modaldialog('Lütfen Tekrar Deneyin', 'Hata', 'Tamam', 'btn-danger');" }, new { @class = "hidden", id = "frmFromSiparis" }))
+    {
+        @Html.AntiForgeryToken()
+        <input type="text" name="Id" value="@ViewBag.IrsNo" />
+        <div id="localData"></div>
+        <input type="submit" value="submit" id="submit" />
+
+    }
 </div>
 <script>
-    var selectall = true; var list = [@{for (int i = 0; i < Model.Count(); i++){  if(i>0){<text>,</text>} <text>"</text>@list[i]<text>"</text> }}];
     $(document).ready(function () {
         var table = $('#sample_3').DataTable({
             "pagingType": "full_numbers",
             "ordering": false,
             "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
-            "columnDefs": [{ "targets": [6,7], "visible": false, "searchable": false }]
+            "columnDefs": [{ "targets": [6], "visible": false, "searchable": false }]
         });
+        $('#sample_3 .tf-search th').each(function ()
+        {
+            var title = $('#sample_3 thead th').eq($(this).index()).text();
+            if (title != "" && title.indexOf("Tarih") !== -1)
+                $(this).html('<input class="form-control input-circle tarih" type="text" placeholder="Ara" />');
+            else if (title != "" && title != "Detay" && title != "Hareket")
+                $(this).html('<input class="form-control input-circle" type="text" placeholder="Ara" />');
+        });
+        $("#sample_3 tfoot input").on('keyup change', function () { table.column($(this).parent().index() + ':visible').search(this.value).draw(); });
+        //tarih
+        $.datepicker.setDefaults($.datepicker.regional["tr"]);
+        $(".tarih").datepicker();
         $("#submitter").click(function () {
-            var selected = "";
-            table.rows(".selected").every(function (rowIdx, tableLoop, rowLoop) { selected = selected + this.data()[0] + "#" + this.data()[2] + "#" + this.data()[5] + "#" + this.data()[6] + "#" + list[this.data()[7]] + "#"; });
-            if (selected == "") return;
-            $.ajax({
-                url: "/WMS/Purchase/FromSiparis",
-                data: { 'id': $("#IrsNo").val(), 'ids': selected },
-                type: 'POST',
-                dataType: "html",
-                success: function (data) { if (data != "") $("#StoreGrid").html(data); },
-                error: function (data) { Modaldialog("Lütfen Tekrar Deneyin", "Hata", "Tamam", "btn-danger"); }
+            var result = false;
+            table.rows(".selected").every(function (rowIdx, tableLoop, rowLoop)
+            {
+                result = true;
+                $("#localData").html($("#localData").html() +
+                    "<input name='EvrakNos' value='" + this.data()[0] + "' />" +
+                    "<input name='MalKodus' value='" + this.data()[2] + "' />" +
+                    "<input name='IDs' value='" + this.data()[6] + "' />" +
+                    "<input name='Miktars' value='" + $("#txtMiktar" + this.data()[6]).val().replace(",",".") + "' />"
+                )
             });
-        });
-        $("#selector").click(function () {
-            if (selectall == true) {
-                $("#selector").text("Seçimi İptal Et"); selectall = false;
-                table.rows({ filter: 'applied' }).every(function (rowIdx, tableLoop, rowLoop) { this.select(); });
-            }
-            else {
-                $("#selector").text("Hepsini Seç"); selectall = true;
-                table.rows().every(function (rowIdx, tableLoop, rowLoop) { this.deselect(); });
-            }
+            if (result == true) $("#submit").click();
+            else Modaldialog("Lütfen sipariş seçin", "Hata", "Tamam", "btn-danger");
         });
     });
-    function ChangeMiktar(td, mal, miktar, id)
-    {
-        var yeni = prompt(mal + " için yeni miktarı giriniz", miktar);
-        if (yeni == null || yeni == undefined) return;
-        yeni = parseFloat(yeni);
-        list[id] = yeni;
-        $(td).html(yeni.formatMoney(2));
-    }
 </script>
