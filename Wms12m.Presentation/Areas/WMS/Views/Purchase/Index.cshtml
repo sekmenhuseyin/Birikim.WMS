@@ -89,7 +89,7 @@
                     <i class="fa fa-files-o"></i>Malzeme Bilgileri
                 </div>
                 <div class="col-md-3 pull-right m-t-5 showlater">
-                    <button type="button" class="btn btn-default input-circle" id="btnActivate">Görevi Başlat</button>
+                    <button type="button" class="btn btn-default input-circle" onclick="Activate()">Görevi Başlat</button>
                     <a id="btnSiparis" class="btn btn-default input-circle" href="#modalEditPage" data-toggle="modal" onclick="editInModal2('/WMS/Purchase/SiparisList', { DepoID: $('#DepoID').val(), HesapKodu: $('#HesapKodu').val() })"> Siparişten Getir </a>
                 </div>
             </div>
@@ -159,21 +159,6 @@
         $("#EvrakNo").attr("readonly", false);
         $("#Tarih").attr("readonly", false);
         checkEnabled();
-    }
-    function UpdateList(id)
-    {
-        $.ajax({
-            url: "/WMS/Purchase/UpdateList",
-            data: JSON.stringify({ ID: id, M: $("#Miktar"+id).val(), mNo: $("#MakaraNo"+id).val() }),
-            type: 'POST',
-            dataType: "json",
-            contentType: 'application/json; charset=utf-8',
-            success: function (data) {
-                if (data.Status == false)
-                    Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
-                $('#submitForm').click();
-            }
-        });
     }
     function getresult(data) {
         if (data.Status == false)

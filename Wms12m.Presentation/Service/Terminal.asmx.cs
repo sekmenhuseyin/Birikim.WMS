@@ -132,7 +132,7 @@ namespace Wms12m
             if (mGorev.IsNull() || mGorev.IR == null)
                 return new Tip_IRS();
             // return
-            var sql = string.Format("EXEC FINSAT6{0}.wms.TerminalGorevOzet @@GorevID = {1}", mGorev.IR.SirketKod, mGorev.ID);
+            var sql = string.Format("EXEC FINSAT6{0}.wms.TerminalGetIrsaliye @GorevID = {1}", mGorev.IR.SirketKod, mGorev.ID);
             return db.Database.SqlQuery<Tip_IRS>(sql).FirstOrDefault();
         }
         /// <summary>
