@@ -2,6 +2,7 @@
 @{
     ViewBag.Title = "Hesabım";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    GetSirkets_Result sirket = ViewBag.sirket;
 }@section Styles{<link href="~/Content/assets/pages/css/profile.min.css" rel="stylesheet" />
     <link href="~/Content/assets/global/plugins/jquery-file-upload/css/jquery.fileupload.css" rel="stylesheet" />
 }<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><span>Hesabım</span></li></ul></div>
@@ -51,6 +52,10 @@
                                     <div class="form-group">
                                         <label class="control-label">Kullanıcı Adı</label>
                                         <input type="text" placeholder="@Model.Kod" class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label">Şirket Adı</label>
+                                        <input type="text" value="@sirket.Ad" class="form-control" readonly="readonly">
                                     </div>
                                     <div class="margiv-top-10">
                                         <a href="javascript:;" class="btn green"> Kaydet </a>

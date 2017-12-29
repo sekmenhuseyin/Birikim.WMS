@@ -122,16 +122,14 @@
             source: "/WMS/Purchase/getMalzemebyCode/0",
             minLength: 2,
             select: function (event, ui) {
-                getBirims(ui.item.id);
-                $("#MalAdi").val(ui.item.value);
+                setTimeout(function () { $("#MalKodu").val(ui.item.id); $("#MalAdi").val(ui.item.value); getBirims(ui.item.id); }, 50);            
             }
         });
         $("#MalAdi").autocomplete({
             source: "/WMS/Purchase/GetMalzemebyName/0",
             minLength: 2,
             select: function (event, ui) {
-                getBirims(ui.item.id);
-                $("#MalAdi").val(ui.item.value);
+                setTimeout(function () { $("#MalKodu").val(ui.item.id); $("#MalAdi").val(ui.item.value); getBirims(ui.item.id); }, 50);            
             }
         });
     });
@@ -234,7 +232,6 @@
                     if (data[0].Birim3.replace(" ", "") != "") { $('#Birim').append($('<option>', { value: data[0].Birim3, text: data[0].Birim3 })); }
                     if (data[0].Birim4.replace(" ", "") != "") { $('#Birim').append($('<option>', { value: data[0].Birim4, text: data[0].Birim4 })); }
                 }
-                $("#MalKodu").val(id);
             }
         });
     }
@@ -251,7 +248,7 @@
                 if (data.result.Status == false)
                     Modaldialog(data.result.Message, "Hata", "Tamam", "btn-danger");
                 else//listeyi yenile
-                RefreshPage()
+                    RefreshPage()
             }
         });
     });

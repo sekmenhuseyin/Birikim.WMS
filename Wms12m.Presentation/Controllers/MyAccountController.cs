@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System.Linq;
+using System.Web.Mvc;
 using Wms12m.Entity;
 
 namespace Wms12m.Presentation.Controllers
@@ -8,7 +9,11 @@ namespace Wms12m.Presentation.Controllers
         /// <summary>
         /// hesabım sayfası
         /// </summary>
-        public ActionResult Index() => View("Index", Persons.Detail(vUser.Id));
+        public ActionResult Index()
+        {
+            ViewBag.sirket = db.GetSirkets().FirstOrDefault();
+            return View("Index", Persons.Detail(vUser.Id));
+        }
 
         /// <summary>
         /// resim sil

@@ -60,7 +60,6 @@ namespace Wms12m.Presentation.Controllers
         public PartialViewResult New()
         {
             if (CheckPerm(Perms.Kullanıcılar, PermTypes.Reading) == false) return null;
-            ViewBag.Sirket = new SelectList(db.GetSirkets().ToList(), "Kod", "Ad");
             ViewBag.RoleName = new SelectList(Roles.GetList(), "RoleName", "RoleName");
             return PartialView("New", new User());
         }
@@ -71,7 +70,6 @@ namespace Wms12m.Presentation.Controllers
         {
             if (CheckPerm(Perms.Kullanıcılar, PermTypes.Reading) == false) return null;
             var tbl = Persons.Detail(id);
-            ViewBag.Sirket = new SelectList(db.GetSirkets().ToList(), "Kod", "Ad", tbl.Sirket);
             ViewBag.RoleName = new SelectList(Roles.GetList(), "RoleName", "RoleName", tbl.RoleName);
             return PartialView("Edit", tbl);
         }

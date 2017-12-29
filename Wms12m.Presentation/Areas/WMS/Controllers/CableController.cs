@@ -291,7 +291,6 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             var list2 = db.Database.SqlQuery<frmSiparisMalzeme>(sql).ToList();
             ViewBag.GorevID = cevap.GorevID.Value;
             ViewBag.DepoID = idDepo;
-            var listsirk = db.GetSirketDBs();
             return View("Step4", list2);
         }
         /// <summary>
@@ -327,8 +326,6 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                                 "WHERE (wms.GorevYer.GorevID = {1}) ORDER BY  wms.GorevYer.Sira", DepoID, GorevID);
             var list = db.Database.SqlQuery<frmSiparisMalzeme>(sql).ToList();
             ViewBag.GorevID = GorevID;
-            var listsirk = db.GetSirketDBs();
-
             return View("Step5", list);
         }
         /// <summary>
