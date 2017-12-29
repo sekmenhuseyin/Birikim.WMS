@@ -159,7 +159,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                             KynkSiparisTarih = satir.Tarih,
                             KynkDegisSaat = satir.DegisSaat,
                             MalKodu = satir.MalKodu,
-                            Miktar = tbl.Miktars[0] > 0 ? tbl.Miktars[0] : satir.Miktar,
+                            Miktar = tbl.Miktars[i] > 0 ? tbl.Miktars[i] : satir.Miktar,
                             MakaraNo = mNo
                         };
                         var _Result = IrsaliyeDetay.Operation(sti);
