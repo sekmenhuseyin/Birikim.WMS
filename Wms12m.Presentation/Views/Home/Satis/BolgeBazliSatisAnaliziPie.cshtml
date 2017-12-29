@@ -9,13 +9,10 @@
                 </div>
                 <div class="col-md-1 m-l-10 slct_ay_pie"></div>
                 <div class="col-md-1 m-l-10 slct_kriter_pie"></div>
-                <div class="col-md-2">
-                    @Html.DropDownList("SirketID", null, htmlAttributes: new { @class = "form-control SirketIDs", @onchange = "Reloads(this.value)" })
-                </div>
                 <div class="tools">
                     <a href="javascript:;" class="collapse"> </a>
                     <a href="javascript:;" class="fullscreen"> </a>
-                    <a href="javascript:;" class="reload" onclick="Reloads('@ViewBag.SirketKodu');"> </a>
+                    <a href="javascript:;" class="reload" onclick="Reloads();"> </a>
                 </div>
             </div>
             <div class="portlet-body">
@@ -28,11 +25,9 @@
     var ay_value= @ViewBag.Ay;
     var kriter_value=@Html.Raw(Json.Encode(ViewBag.Kriter));
     var ay = [{ id: 0, state: "Tümü"},{ id: 1, state: "Ocak"},{ id: 2, state: "Şubat" },{ id: 3, state: "Mart"},{ id: 4, state: "Nisan"},{ id: 5, state: "Mayıs" },{ id: 6, state: "Haziran"},{ id: 7, state: "Temmuz"},{ id: 8, state: "Ağustos" },{ id: 9, state: "Eylül"},{ id: 10, state: "Ekim"},{ id: 11, state: "Kasım" },{ id: 12, state: "Aralik"}];
-    if ($('.SirketIDs option').size() == 1) $(".SirketIDs").hide();
-    else $(".SirketIDs").val('@ViewBag.SirketKodu');
-    function Reloads(v)
+    function Reloads()
     {
-        PartialView("/Home/PartialBolgeBazliSatisAnaliziPie", 'bolge_bazli_satis_analizi_pie', JSON.stringify({ SirketKodu: v, ay: ay_value, kriter:kriter_value }));
+        PartialView("/Home/PartialBolgeBazliSatisAnaliziPie", 'bolge_bazli_satis_analizi_pie', JSON.stringify({ ay: ay_value, kriter:kriter_value }));
     }
     $(document).ready(function (e) {
         var model = @Html.Raw(Json.Encode(Model));
@@ -49,12 +44,11 @@
             value: ay_value,
             onValueChanged: function (e) {
                 ay_value=e.value;
-                PartialView("/Home/PartialBolgeBazliSatisAnaliziPie", 'bolge_bazli_satis_analizi_pie', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', ay: ay_value, kriter:kriter_value}));
+                PartialView("/Home/PartialBolgeBazliSatisAnaliziPie", 'bolge_bazli_satis_analizi_pie', JSON.stringify({ ay: ay_value, kriter:kriter_value}));
             }
         });
                $.ajax({
            url: "/Home/BolgeBazliSatisAnaliziKriter",
-            data: { SirketKodu: '@ViewBag.SirketKodu'},
             type: "post",
             success: function (data)
             {
@@ -65,7 +59,7 @@
             value: kriter_value,
             onValueChanged: function (e) {
                 kriter_value=e.value;
-                PartialView("/Home/PartialBolgeBazliSatisAnaliziPie", 'bolge_bazli_satis_analizi_pie', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', ay: ay_value, kriter:kriter_value}));
+                PartialView("/Home/PartialBolgeBazliSatisAnaliziPie", 'bolge_bazli_satis_analizi_pie', JSON.stringify({ ay: ay_value, kriter:kriter_value}));
             }
         });
             }

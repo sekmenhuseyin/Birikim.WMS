@@ -7,13 +7,10 @@
                     <i class="icon-bar-chart font-green-haze"></i>
                     <span class="caption-subject bold uppercase font-green-haze"> Bağlantı Ürün Grubu Analizi <span style="color:#8888a7;">3D PIE CHART</span></span>
                 </div>
-                <div class="col-md-2">
-                    @Html.DropDownList("SirketID", null, htmlAttributes: new { @class = "form-control SirketIDm", @onchange = "Reloadm(this.value)" })
-                </div>
                 <div class="tools">
                     <a href="javascript:;" class="collapse"> </a>
                     <a href="javascript:;" class="fullscreen"> </a>
-                    <a href="javascript:;" class="reload" onclick="Reloadm('@ViewBag.SirketKodu');"> </a>
+                    <a href="javascript:;" class="reload" onclick="Reloadm();"> </a>
                 </div>
             </div>
             <div class="portlet-body">
@@ -23,11 +20,9 @@
     </div>
 </div>
 <script>
-    if ($('.SirketIDm option').size() == 1) $(".SirketIDm").hide();
-    else $(".SirketIDm").val('@ViewBag.SirketKodu');
-    function Reloadm(v)
+    function Reloadm()
     {
-        PartialView("/Home/PartialBaglantiUrunGrubuPie", 'baglanti_urun_grubu_pie', JSON.stringify({ SirketKodu: v }));
+        PartialView("/Home/PartialBaglantiUrunGrubuPie", 'baglanti_urun_grubu_pie');
     }
     $(document).ready(function (e) {
         var model = @Html.Raw(Json.Encode(Model));

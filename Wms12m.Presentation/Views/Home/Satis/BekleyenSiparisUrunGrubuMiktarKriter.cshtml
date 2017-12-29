@@ -8,13 +8,10 @@
                     <span class="caption-subject bold uppercase font-green-haze"> Bekleyen Sipariş Ürün Grubu Kriter <span style="color:#8888a7;">3D CHART</span></span>
                 </div>
                 <div class="col-md-1 m-l-10 slct_bekleyen_siparis_kriter kriter_durum"></div>
-                <div class="col-md-2">
-                    @Html.DropDownList("SirketID", null, htmlAttributes: new { @class = "form-control SirketIDi", @onchange = "Reloadi(this.value)" })
-                </div>
                 <div class="tools">
                     <a href="javascript:;" class="collapse"> </a>
                     <a href="javascript:;" class="fullscreen"> </a>
-                    <a href="javascript:;" class="reload" onclick="Reloadi('@ViewBag.SirketKodu');"> </a>
+                    <a href="javascript:;" class="reload" onclick="Reloadi();"> </a>
                 </div>
             </div>
             <div class="portlet-body">
@@ -26,11 +23,9 @@
 <script>
     var doviz = [{ state: "TL" }, { state: "Döviz" }, { state: "Birim" }];
     var kriter_value="@ViewBag.Kriter";
-    if ($('.SirketIDi option').size() == 1) $(".SirketIDi").hide();
-    else $(".SirketIDi").val('@ViewBag.SirketKodu');
-    function Reloadi(v)
+    function Reloadi()
     {
-        PartialView("/Home/PartialBekleyenSiparisUrunGrubuMiktarKriter", 'bekleyen_siparis_urun_grubu_miktar_kriter', JSON.stringify({ SirketKodu: v, kriter: kriter_value }));
+        PartialView("/Home/PartialBekleyenSiparisUrunGrubuMiktarKriter", 'bekleyen_siparis_urun_grubu_miktar_kriter', JSON.stringify({ kriter: kriter_value }));
     }
     $(document).ready(function (e) {
         var model = @Html.Raw(Json.Encode(Model));
@@ -47,7 +42,7 @@
             value: kriter_value,
             onValueChanged: function (e) {
                 kriter_value=e.value;
-                PartialView("/Home/PartialBekleyenSiparisUrunGrubuMiktarKriter", 'bekleyen_siparis_urun_grubu_miktar_kriter', JSON.stringify({ SirketKodu: @ViewBag.SirketKodu, kriter:kriter_value }));
+                PartialView("/Home/PartialBekleyenSiparisUrunGrubuMiktarKriter", 'bekleyen_siparis_urun_grubu_miktar_kriter', JSON.stringify({ kriter:kriter_value }));
             }
         });
         var ChartsAmchartsMik6 = function () {

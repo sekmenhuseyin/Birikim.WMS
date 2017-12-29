@@ -1,11 +1,4 @@
 ﻿@model List<GetCachedChartLocation_Result>
-<style>
-    .morris-hover {position: absolute;z-index: 1000;}
-    .morris-hover.morris-default-style {border-radius: 10px;padding: 6px;color: #666;background: rgba(255, 255, 255, 0.8);border: solid 2px rgba(230, 230, 230, 0.8);font-family: sans-serif;font-size: 12px;text-align: center;}
-    .morris-hover.morris-default-style .morris-hover-row-label {font-weight: bold;margin: 0.25em 0;}
-    .morris-hover.morris-default-style .morris-hover-point {white-space: nowrap;margin: 0.1em 0;}
-    svg {width: 100%;}
-</style>
 <div class="row">
     <div class="col-md-12">
         <div class="portlet light portlet-fit bordered">
@@ -15,13 +8,10 @@
                     <span class="caption-subject font-green-haze bold uppercase">Lokasyon Bazlı Satış Analizi <span style="color:#8888a7;">BAR CHART</span></span>
                 </div>
                 <div class="col-md-1 m-l-10 as_tarih"></div>
-                <div class="col-md-2">
-                    @Html.DropDownList("SirketID", null, htmlAttributes: new { @class = "form-control SirketIDd", @onchange = "Reloadd(this.value)" })
-                </div>
                 <div class="tools">
                     <a href="javascript:;" class="collapse"> </a>
                     <a href="javascript:;" class="fullscreen"> </a>
-                    <a href="javascript:;" class="reload" onclick="Reloadd('@ViewBag.SirketKodu');"> </a>
+                    <a href="javascript:;" class="reload" onclick="Reloadd();"> </a>
                 </div>
             </div>
             <div class="portlet-body">
@@ -32,11 +22,9 @@
 </div>
 <script>
     var f_tarih = @ViewBag.Tarih;
-    if ($('.SirketIDd option').size() == 1) $(".SirketIDd").hide();
-    else $(".SirketIDd").val('@ViewBag.SirketKodu');
-    function Reloadd(v)
+    function Reloadd()
     {
-        PartialView("/Home/PartialLokasyonSatis", 'lokasyon_satis', JSON.stringify({ SirketKodu: v, tarih: f_tarih }));
+        PartialView("/Home/PartialLokasyonSatis", 'lokasyon_satis', JSON.stringify({ tarih: f_tarih }));
     }
     $(document).ready(function (e) {
         var states = [
@@ -60,7 +48,7 @@
             displayExpr: 'state',
             value:f_tarih,
             onValueChanged: function (e) {
-                PartialView("/Home/PartialLokasyonSatis", 'lokasyon_satis', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', tarih: e.value }));
+                PartialView("/Home/PartialLokasyonSatis", 'lokasyon_satis', JSON.stringify({ tarih: e.value }));
             }
         });
         var model = @Html.Raw(Json.Encode(Model));

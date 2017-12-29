@@ -10,13 +10,10 @@
                 <div class="col-md-1">
                     <input type="checkbox" id="toggle-two" checked data-toggle="toggle" name="Miktar" data-on-text="Miktar" data-off-text="Tutar" data-on="Miktar" data-off="Tutar">
                 </div>
-                <div class="col-md-2">
-                    @Html.DropDownList("SirketID", null, htmlAttributes: new { @class = "form-control SirketIDh", @onchange = "Reloadh(this.value)" })
-                </div>
                 <div class="tools">
                     <a href="javascript:;" class="collapse"> </a>
                     <a href="javascript:;" class="fullscreen"> </a>
-                    <a href="javascript:;" class="reload" onclick="Reloadh('@ViewBag.SirketKodu');"> </a>
+                    <a href="javascript:;" class="reload" onclick="Reloadh();"> </a>
                 </div>
             </div>
             <div class="portlet-body">
@@ -26,11 +23,9 @@
     </div>
 </div>
 <script>
-    if ($('.SirketIDh option').size() == 1) $(".SirketIDh").hide();
-    else $(".SirketIDh").val('@ViewBag.SirketKodu');
-    function Reloadh(v)
+    function Reloadh()
     {
-        PartialView("/Home/PartialBekleyenSiparisUrunGrubuMiktar", 'bekleyen_siparis_urun_grubu_miktar', JSON.stringify({ SirketKodu: v, miktarTutar: $('#toggle-two').prop('checked') }));
+        PartialView("/Home/PartialBekleyenSiparisUrunGrubuMiktar", 'bekleyen_siparis_urun_grubu_miktar', JSON.stringify({ miktarTutar: $('#toggle-two').prop('checked') }));
     }
     $(document).ready(function (e) {
         $('#toggle-two').bootstrapToggle({on: 'Miktar',off: 'Tutar'});
@@ -39,7 +34,7 @@
         else
             $('#toggle-two').bootstrapToggle('off')
         $('#toggle-two').change(function () {
-            PartialView("/Home/PartialBekleyenSiparisUrunGrubuMiktar", 'bekleyen_siparis_urun_grubu_miktar', JSON.stringify({ SirketKodu: @ViewBag.SirketKodu, miktarTutar: $(this).prop('checked') }));
+            PartialView("/Home/PartialBekleyenSiparisUrunGrubuMiktar", 'bekleyen_siparis_urun_grubu_miktar', JSON.stringify({ miktarTutar: $(this).prop('checked') }));
         })
         var model = @Html.Raw(Json.Encode(Model));
         var color = ["#FF0F00", "#FF6600", "#FF9E01", "#FCD202", "#F8FF01", "#B0DE09", "#04D215", "#0D8ECF", "#0D52D1", "#2A0CD0", "#8A0CCF", "#CD0D74", "#754DEB", "#DDDDDD", "#999999", "#333333", "#000000"];

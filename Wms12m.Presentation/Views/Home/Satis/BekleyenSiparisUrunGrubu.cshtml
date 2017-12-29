@@ -13,13 +13,10 @@
                 <div class="col-md-1 m-l-10">
                     <input type="text" class="form-control dateboxbg" id="bit_tarih" value="@ViewBag.BitTarih2" />
                 </div>
-                <div class="col-md-2">
-                    @Html.DropDownList("SirketID", null, htmlAttributes: new { @class = "form-control SirketIDg", @onchange = "Reloadg(this.value)" })
-                </div>
                 <div class="tools">
                     <a href="javascript:;" class="collapse"> </a>
                     <a href="javascript:;" class="fullscreen"> </a>
-                    <a href="javascript:;" class="reload" onclick="Reloadg('@ViewBag.SirketKodu');"> </a>
+                    <a href="javascript:;" class="reload" onclick="Reloadg();"> </a>
                 </div>
             </div>
             <div class="portlet-body">
@@ -31,21 +28,19 @@
     </div>
 </div>
 <script>
-    if ($('.SirketIDg option').size() == 1) $(".SirketIDg").hide();
-    else $(".SirketIDg").val('@ViewBag.SirketKodu');
-    function Reloadg(v)
+    function Reloadg()
     {
-        PartialView("/Home/PartialBekleyenSiparisUrunGrubu", 'bekleyen_siparis_urun_grubu', JSON.stringify({ SirketKodu: v, bastarih: @ViewBag.BasTarih, bittarih: @ViewBag.BitTarih }));
+        PartialView("/Home/PartialBekleyenSiparisUrunGrubu", 'bekleyen_siparis_urun_grubu', JSON.stringify({ bastarih: @ViewBag.BasTarih, bittarih: @ViewBag.BitTarih }));
     }
     $(document).ready(function (e) {
         $.datepicker.setDefaults($.datepicker.regional["tr"]);
         $("#bas_tarih").datepicker().on("change", function (e) {
             var oaDate = toOADateFromString(e.target.value);
-            PartialView("/Home/PartialBekleyenSiparisUrunGrubu", 'bekleyen_siparis_urun_grubu', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', bastarih: oaDate, bittarih: @ViewBag.BitTarih }));
+            PartialView("/Home/PartialBekleyenSiparisUrunGrubu", 'bekleyen_siparis_urun_grubu', JSON.stringify({ bastarih: oaDate, bittarih: @ViewBag.BitTarih }));
         });
         $("#bit_tarih").datepicker().on("change", function (e) {
             var oaDate = toOADateFromString(e.target.value);
-            PartialView("/Home/PartialBekleyenSiparisUrunGrubu", 'bekleyen_siparis_urun_grubu', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', basTarih: @ViewBag.BasTarih, bittarih: oaDate }));
+            PartialView("/Home/PartialBekleyenSiparisUrunGrubu", 'bekleyen_siparis_urun_grubu', JSON.stringify({ basTarih: @ViewBag.BasTarih, bittarih: oaDate }));
         });
         var model = @Html.Raw(Json.Encode(Model));
 

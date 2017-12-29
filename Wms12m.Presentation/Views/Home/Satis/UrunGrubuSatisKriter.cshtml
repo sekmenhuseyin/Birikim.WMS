@@ -16,13 +16,10 @@
                 </div>
                 <div class="col-md-1 m-l-10 as_tarih_kriter"></div>
                 <div class="col-md-1 m-l-10 slct_aylik_kod-kriter"></div>
-                <div class="col-md-2">
-                    @Html.DropDownList("SirketID", null, htmlAttributes: new { @class = "form-control SirketIDc", @onchange = "Reloadc(this.value)" })
-                </div>
                 <div class="tools">
                     <a href="javascript:;" class="collapse"> </a>
                     <a href="javascript:;" class="fullscreen"> </a>
-                    <a href="javascript:;" class="reload" onclick="Reloadc('@ViewBag.SirketKodu');"> </a>
+                    <a href="javascript:;" class="reload" onclick="Reloadc();"> </a>
                 </div>
             </div>
             <div class="portlet-body">
@@ -35,11 +32,9 @@
     var f_tarih = @ViewBag.Tarih;
     var kriter_value= @Html.Raw(Json.Encode(ViewBag.Kriter));
     var doviz = [{ state: "TL"},{ state: "Döviz"},{ state: "Birim" }];
-    if ($('.SirketIDc option').size() == 1) $(".SirketIDc").hide();
-    else $(".SirketIDc").val('@ViewBag.SirketKodu');
-    function Reloadc(v)
+    function Reloadc()
     {
-        PartialView("/Home/PartialUrunGrubuSatisKriter", 'urun_grubu_satis_kriter', JSON.stringify({ SirketKodu: v, tarih: f_tarih, kriter: kriter_value }));
+        PartialView("/Home/PartialUrunGrubuSatisKriter", 'urun_grubu_satis_kriter', JSON.stringify({ tarih: f_tarih, kriter: kriter_value }));
     }
     $(document).ready(function (e) {
         var states = [
@@ -63,7 +58,7 @@
             displayExpr: 'state',
             value: f_tarih,
             onValueChanged: function (e) {
-                PartialView("/Home/PartialUrunGrubuSatisKriter", 'urun_grubu_satis_kriter', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', tarih: e.value, kriter: kriter_value }));
+                PartialView("/Home/PartialUrunGrubuSatisKriter", 'urun_grubu_satis_kriter', JSON.stringify({ tarih: e.value, kriter: kriter_value }));
             }
         });
         var model = @Html.Raw(Json.Encode(Model));
@@ -88,7 +83,7 @@
             displayExpr: 'state',
             value: kriter_value,
             onValueChanged: function (e) {
-                PartialView("/Home/PartialUrunGrubuSatisKriter", 'urun_grubu_satis_kriter', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', tarih: f_tarih, kriter: e.value }));
+                PartialView("/Home/PartialUrunGrubuSatisKriter", 'urun_grubu_satis_kriter', JSON.stringify({ tarih: f_tarih, kriter: e.value }));
             }
         });
 

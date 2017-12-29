@@ -7,13 +7,10 @@
                     <i class="icon-bar-chart font-green-haze"></i>
                     <span class="caption-subject bold uppercase font-green-haze"> Satış Analizi YearToDay <span style="color:#8888a7;">3D PIE CHART</span></span>
                 </div>
-                <div class="col-md-2">
-                    @Html.DropDownList("SirketID", null, htmlAttributes: new { @class = "form-control SirketID3", @onchange = "Reload3(this.value)" })
-                </div>
                 <div class="tools">
                     <a href="javascript:;" class="collapse"> </a>
                     <a href="javascript:;" class="fullscreen"> </a>
-                    <a href="javascript:;" class="reload" onclick="Reload3('@ViewBag.SirketKodu');"> </a>
+                    <a href="javascript:;" class="reload" onclick="Reload3();"> </a>
                 </div>
             </div>
             <div class="portlet-body">
@@ -23,11 +20,9 @@
     </div>
 </div>
 <script>
-    if ($('.SirketID3 option').size() == 1) $(".SirketID3").hide();
-    else $(".SirketID3").val('@ViewBag.SirketKodu');
-    function Reload3(v)
+    function Reload3()
     {
-        PartialView("/Home/PartialGunlukSatisYearToDayPie", 'gunluk_satis_yeartoday_pie', JSON.stringify({ SirketKodu: v }));
+        PartialView("/Home/PartialGunlukSatisYearToDayPie", 'gunluk_satis_yeartoday_pie');
     }
     $(document).ready(function (e) {
         var model = @Html.Raw(Json.Encode(Model));

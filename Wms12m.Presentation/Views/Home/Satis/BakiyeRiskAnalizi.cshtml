@@ -7,13 +7,10 @@
                     <i class="icon-bar-chart font-green-haze"></i>
                     <span class="caption-subject bold uppercase font-green-haze"> Bakiye Risk Analizi <span style="color:#8888a7;">3D CHART</span></span>
                 </div>
-                <div class="col-md-2">
-                    @Html.DropDownList("SirketID", null, htmlAttributes: new { @class = "form-control SirketIDf", @onchange = "Reloadf(this.value)" })
-                </div>
                 <div class="tools">
                     <a href="javascript:;" class="collapse"> </a>
                     <a href="javascript:;" class="fullscreen"> </a>
-                    <a href="javascript:;" class="reload" onclick="Reloadf('@ViewBag.SirketKodu');"> </a>
+                    <a href="javascript:;" class="reload" onclick="Reloadf();"> </a>
                 </div>
             </div>
             <div id="portlet-config"></div>
@@ -24,11 +21,9 @@
     </div>
 </div>
 <script>
-    if ($('.SirketIDf option').size() == 1) $(".SirketIDf").hide();
-    else $(".SirketIDf").val('@ViewBag.SirketKodu');
-    function Reloadf(v)
+    function Reloadf()
     {
-        PartialView("/Home/PartialBakiyeRiskAnalizi", 'bakiye_risk', JSON.stringify({ SirketKodu: v }));
+        PartialView("/Home/PartialBakiyeRiskAnalizi", 'bakiye_risk');
     }
     $(document).ready(function (e) {
         var model = @Html.Raw(Json.Encode(Model));

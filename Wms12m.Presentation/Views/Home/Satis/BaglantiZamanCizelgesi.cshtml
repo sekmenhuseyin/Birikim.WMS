@@ -2,8 +2,7 @@
 @{
     System.Web.Script.Serialization.JavaScriptSerializer serializer = new System.Web.Script.Serialization.JavaScriptSerializer();
     serializer.MaxJsonLength = Int32.MaxValue;
-}
-<div class="row">
+}<div class="row">
     <div class="col-md-12">
         <div class="portlet light bordered">
             <div class="portlet-title">
@@ -11,13 +10,10 @@
                     <i class="icon-bar-chart font-green-haze"></i>
                     <span class="caption-subject bold uppercase font-green-haze"> Bağlantı Zaman Çizelgesi <span style="color:#8888a7;">LINE CHART</span></span>
                 </div>
-                <div class="col-md-2">
-                    @Html.DropDownList("SirketID", null, htmlAttributes: new { @class = "form-control SirketIDp", @onchange = "Reloadp(this.value)" })
-                </div>
                 <div class="tools">
                     <a href="javascript:;" class="collapse"> </a>
                     <a href="javascript:;" class="fullscreen"> </a>
-                    <a href="javascript:;" class="reload" onclick="Reloadp('@ViewBag.SirketKodu');"> </a>
+                    <a href="javascript:;" class="reload" onclick="Reloadp();"> </a>
                 </div>
             </div>
             <div class="portlet-body">
@@ -27,11 +23,9 @@
     </div>
 </div>
 <script>
-    if ($('.SirketIDp option').size() == 1) $(".SirketIDp").hide();
-    else $(".SirketIDp").val('@ViewBag.SirketKodu');
     function Reloadp(v)
     {
-        PartialView("/Home/PartialBaglantiZamanCizelgesi", 'baglanti_zaman_cizelgesi', JSON.stringify({ SirketKodu: v }));
+        PartialView("/Home/PartialBaglantiZamanCizelgesi", 'baglanti_zaman_cizelgesi');
     }
     $(document).ready(function (e) {
         var model =  @Html.Raw(serializer.Serialize(Model));

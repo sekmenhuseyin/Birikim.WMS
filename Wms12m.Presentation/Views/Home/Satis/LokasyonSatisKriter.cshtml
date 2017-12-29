@@ -1,11 +1,4 @@
 ﻿@model List<GetCachedChartLocationKriter_Result>
-<style>
-    .morris-hover {position: absolute;z-index: 1000;}
-    .morris-hover.morris-default-style {border-radius: 10px;padding: 6px;color: #666;background: rgba(255, 255, 255, 0.8);border: solid 2px rgba(230, 230, 230, 0.8);font-family: sans-serif;font-size: 12px;text-align: center;}
-    .morris-hover.morris-default-style .morris-hover-row-label {font-weight: bold;margin: 0.25em 0;}
-    .morris-hover.morris-default-style .morris-hover-point {white-space: nowrap;margin: 0.1em 0;}
-    svg {width: 100%;}
-</style>
 <div class="row">
     <div class="col-md-12">
         <div class="portlet light portlet-fit bordered">
@@ -16,13 +9,10 @@
                 </div>
                 <div class="col-md-1 m-l-10 ls_tarih_kriter"></div>
                 <div class="col-md-1 m-l-10 slct_aylik_lokasyon-kriter"></div>
-                <div class="col-md-2">
-                    @Html.DropDownList("SirketID", null, htmlAttributes: new { @class = "form-control SirketIDe", @onchange = "Reloade(this.value)" })
-                </div>
                 <div class="tools">
                     <a href="javascript:;" class="collapse"> </a>
                     <a href="javascript:;" class="fullscreen"> </a>
-                    <a href="javascript:;" class="reload" onclick="Reloade('@ViewBag.SirketKodu');"> </a>
+                    <a href="javascript:;" class="reload" onclick="Reloade();"> </a>
                 </div>
             </div>
             <div class="portlet-body">
@@ -35,11 +25,9 @@
     var kriter_value= @Html.Raw(Json.Encode(ViewBag.Kriter));
     var doviz = [{ state: "TL"},{ state: "Döviz"},{ state: "Birim" }];
     var f_tarih = @ViewBag.Tarih;
-    if ($('.SirketIDe option').size() == 1) $(".SirketIDe").hide();
-    else $(".SirketIDe").val('@ViewBag.SirketKodu');
-    function Reloade(v)
+    function Reloade()
     {
-        PartialView("/Home/PartialLokasyonSatisKriter", 'lokasyon_satis_kriter', JSON.stringify({ SirketKodu: v, tarih: f_tarih, kriter: kriter_value }));
+        PartialView("/Home/PartialLokasyonSatisKriter", 'lokasyon_satis_kriter', JSON.stringify({ tarih: f_tarih, kriter: kriter_value }));
     }
     $(document).ready(function (e) {
         var states = [
@@ -63,7 +51,7 @@
             displayExpr: 'state',
             value:f_tarih,
             onValueChanged: function (e) {
-                PartialView("/Home/PartialLokasyonSatisKriter", 'lokasyon_satis_kriter', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', tarih: e.value, kriter:kriter_value }));
+                PartialView("/Home/PartialLokasyonSatisKriter", 'lokasyon_satis_kriter', JSON.stringify({ tarih: e.value, kriter:kriter_value }));
             }
         });
         var model = @Html.Raw(Json.Encode(Model));
@@ -90,7 +78,7 @@
             value: kriter_value,
             onValueChanged: function (e) {
                 kriter_value=e.value;
-                PartialView("/Home/PartialLokasyonSatisKriter", 'lokasyon_satis_kriter', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', tarih: f_tarih, kriter:kriter_value }));
+                PartialView("/Home/PartialLokasyonSatisKriter", 'lokasyon_satis_kriter', JSON.stringify({ tarih: f_tarih, kriter:kriter_value }));
             }
         });
 

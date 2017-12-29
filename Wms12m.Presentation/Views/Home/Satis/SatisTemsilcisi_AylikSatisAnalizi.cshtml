@@ -13,13 +13,10 @@
                 <div class="col-md-2 m-l-25">
                     <div class="slct_satis_temsilcisi_kod"></div>
                 </div>
-                <div class="col-md-2">
-                    @Html.DropDownList("SirketID", null, htmlAttributes: new { @class = "form-control SirketIDa", @onchange = "Reloada(this.value)" })
-                </div>
                 <div class="tools">
                     <a href="javascript:;" class="collapse"> </a>
                     <a href="javascript:;" class="fullscreen"> </a>
-                    <a href="javascript:;" class="reload" onclick="Reloada('@ViewBag.SirketKodu');"> </a>
+                    <a href="javascript:;" class="reload" onclick="Reloada();"> </a>
                 </div>
             </div>
             <div class="portlet-body">
@@ -31,11 +28,9 @@
 <script>
     var f_tarih = @ViewBag.Tarih;
     var kriter_value=@Html.Raw(Json.Encode(ViewBag.Kriter));
-    if ($('.SirketIDa option').size() == 1) $(".SirketIDa").hide();
-    else $(".SirketIDa").val('@ViewBag.SirketKodu');
-    function Reloada(v)
+    function Reloada()
     {
-        PartialView("/Home/PartialSatisTemsilcisiAylikSatisAnalizi", 'satis_temsilcisi_aylik_satis_analizi', JSON.stringify({ SirketKodu: v, kod: kriter_value, tarih: f_tarih }));
+        PartialView("/Home/PartialSatisTemsilcisiAylikSatisAnalizi", 'satis_temsilcisi_aylik_satis_analizi', JSON.stringify({ kod: kriter_value, tarih: f_tarih }));
     }
     $(document).ready(function (e) {
         var model = @Html.Raw(Json.Encode(Model));
@@ -63,7 +58,6 @@
 
         $.ajax({
             url: "/Home/GunlukSatisAnaliziKriterSelect",
-            data: { SirketKodu: '@ViewBag.SirketKodu'},
             type: "post",
             success: function (data)
             {
@@ -75,7 +69,7 @@
                     onValueChanged: function (e) {
                         if(e.value!=kriter_value){
                             kriter_value=e.value;
-                            PartialView("/Home/PartialSatisTemsilcisiAylikSatisAnalizi", 'satis_temsilcisi_aylik_satis_analizi', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', kod: kriter_value, tarih: f_tarih }));
+                            PartialView("/Home/PartialSatisTemsilcisiAylikSatisAnalizi", 'satis_temsilcisi_aylik_satis_analizi', JSON.stringify({ kod: kriter_value, tarih: f_tarih }));
                         }
                     }
                 });
@@ -91,7 +85,7 @@
             value: f_tarih,
             onValueChanged: function (e) {
                 f_tarih = e.value;
-                PartialView("/Home/PartialSatisTemsilcisiAylikSatisAnalizi", 'satis_temsilcisi_aylik_satis_analizi', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', kod: kriter_value, tarih: f_tarih }));
+                PartialView("/Home/PartialSatisTemsilcisiAylikSatisAnalizi", 'satis_temsilcisi_aylik_satis_analizi', JSON.stringify({ kod: kriter_value, tarih: f_tarih }));
             }
         });
 

@@ -10,13 +10,10 @@
                 <div class="col-md-1">
                     <input type="checkbox" id="toggle-one" checked data-toggle="toggle" name="Miktar" data-on-text="Miktar" data-off-text="Tutar" data-on="Miktar" data-off="Tutar">
                 </div>
-                <div class="col-md-2">
-                    @Html.DropDownList("SirketID", null, htmlAttributes: new { @class = "form-control SirketIDj", @onchange = "Reloadj(this.value)" })
-                </div>
                 <div class="tools">
                     <a href="javascript:;" class="collapse"> </a>
                     <a href="javascript:;" class="fullscreen"> </a>
-                    <a href="javascript:;" class="reload" onclick="Reloadj('@ViewBag.SirketKodu');"> </a>
+                    <a href="javascript:;" class="reload" onclick="Reloadj();"> </a>
                 </div>
            </div>
             <div class="portlet-body">
@@ -26,11 +23,9 @@
     </div>
 </div>
 <script>
-    if ($('.SirketIDj option').size() == 1) $(".SirketIDj").hide();
-    else $(".SirketIDj").val('@ViewBag.SirketKodu');
-    function Reloadj(v)
+    function Reloadj()
     {
-        PartialView("/Home/PartialBekleyenSiparisUrunGrubuMiktarPie", 'bekleyen_siparis_urun_grubu_miktar_pie', JSON.stringify({ SirketKodu: v, miktarTutar: $('#toggle-one').prop('checked') }));
+        PartialView("/Home/PartialBekleyenSiparisUrunGrubuMiktarPie", 'bekleyen_siparis_urun_grubu_miktar_pie', JSON.stringify({ miktarTutar: $('#toggle-one').prop('checked') }));
     }
     $(document).ready(function (e) {
         $('#toggle-one').bootstrapToggle({on: 'Miktar',off: 'Tutar'});
@@ -39,7 +34,7 @@
         else
             $('#toggle-one').bootstrapToggle('off')
         $('#toggle-one').change(function () {
-            PartialView("/Home/PartialBekleyenSiparisUrunGrubuMiktarPie", 'bekleyen_siparis_urun_grubu_miktar_pie', JSON.stringify({ SirketKodu: @ViewBag.SirketKodu, miktarTutar: $(this).prop('checked') }));
+            PartialView("/Home/PartialBekleyenSiparisUrunGrubuMiktarPie", 'bekleyen_siparis_urun_grubu_miktar_pie', JSON.stringify({ miktarTutar: $(this).prop('checked') }));
         })
 
         var model = @Html.Raw(Json.Encode(Model));

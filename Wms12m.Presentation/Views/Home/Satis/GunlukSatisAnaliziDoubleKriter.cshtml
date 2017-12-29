@@ -12,13 +12,10 @@
                 <div class="col-md-1 m-l-10">
                     <input type="text" class="form-control dateboxbg" id="gs_tarih_double" value="@ViewBag.tarih2" />
                 </div>
-                <div class="col-md-2">
-                    @Html.DropDownList("SirketID", null, htmlAttributes: new { @class = "form-control SirketID5", @onchange = "Reload5(this.value)" })
-                </div>
                 <div class="tools">
                     <a href="javascript:;" class="collapse"> </a>
                     <a href="javascript:;" class="fullscreen"> </a>
-                    <a href="javascript:;" class="reload" onclick="Reload5('@ViewBag.SirketKodu');"> </a>
+                    <a href="javascript:;" class="reload" onclick="Reload5();"> </a>
                 </div>
             </div>
             <div class="portlet-body">
@@ -31,17 +28,15 @@
     var islemtip_value = @ViewBag.IslemTip;
     var kriter_value = @Html.Raw(Json.Encode(ViewBag.Kriter));
     var islemtip = [{ id: 0, state: "Tümü"},{ id: 1, state: "İç Piyasa"},{ id: 2, state: "Dış Piyasa" }];
-    if ($('.SirketID5 option').size() == 1) $(".SirketID5").hide();
-    else $(".SirketID5").val('@ViewBag.SirketKodu');
-    function Reload5(v)
+    function Reload5()
     {
-        PartialView("/Home/PartialGunlukSatisDoubleKriter", 'gunluk_satis_double_kriter', JSON.stringify({ SirketKodu: v, kod: kriter_value, islemtip: islemtip_value, tarih: @ViewBag.tarih }));
+        PartialView("/Home/PartialGunlukSatisDoubleKriter", 'gunluk_satis_double_kriter', JSON.stringify({ kod: kriter_value, islemtip: islemtip_value, tarih: @ViewBag.tarih }));
     }
     $(document).ready(function (e) {
          $.datepicker.setDefaults($.datepicker.regional["tr"]);
          $("#gs_tarih_double").datepicker().on("change", function (e) {
             var oaDate = toOADateFromString(e.target.value);
-            PartialView("/Home/PartialGunlukSatisDoubleKriter", 'gunluk_satis_double_kriter', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', kod: kriter_value, islemtip: islemtip_value, tarih: oaDate }));
+            PartialView("/Home/PartialGunlukSatisDoubleKriter", 'gunluk_satis_double_kriter', JSON.stringify({ kod: kriter_value, islemtip: islemtip_value, tarih: oaDate }));
         });
        var model = @Html.Raw(Json.Encode(Model));
         var color = ["#FF0F00","#FF6600","#FF9E01","#FCD202","#F8FF01","#B0DE09","#04D215","#0D8ECF","#0D52D1","#2A0CD0","#8A0CCF","#CD0D74","#754DEB","#DDDDDD","#999999","#333333","#000000"];
@@ -56,7 +51,6 @@
         }
         $.ajax({
             url: "/Home/GunlukSatisAnaliziKriterSelect",
-            data: { SirketKodu: '@ViewBag.SirketKodu'},
             type: "post",
             success: function (data)
             {
@@ -74,7 +68,7 @@
                     onValueChanged: function (e) {
                         if(e.value!=kriter_value){
                             kriter_value=e.value;
-                            PartialView("/Home/PartialGunlukSatisDoubleKriter", 'gunluk_satis_double_kriter', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', kod: kriter_value, islemtip: islemtip_value, tarih: @ViewBag.tarih }));
+                            PartialView("/Home/PartialGunlukSatisDoubleKriter", 'gunluk_satis_double_kriter', JSON.stringify({ kod: kriter_value, islemtip: islemtip_value, tarih: @ViewBag.tarih }));
                         }
                     }
                 });
@@ -88,7 +82,7 @@
             value: islemtip_value,
             onValueChanged: function (e) {
                 islemtip_value=e.value;
-                PartialView("/Home/PartialGunlukSatisDoubleKriter", 'gunluk_satis_double_kriter', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', kod: kriter_value, islemtip: islemtip_value, tarih: @ViewBag.tarih }));
+                PartialView("/Home/PartialGunlukSatisDoubleKriter", 'gunluk_satis_double_kriter', JSON.stringify({ kod: kriter_value, islemtip: islemtip_value, tarih: @ViewBag.tarih }));
             }
         });
         var ChartsAmchartse = function () {

@@ -15,13 +15,10 @@
                     <span class="caption-subject bold uppercase font-green-haze">Ürün Grubu Satış Analizi <span style="color:#8888a7;">BAR CHART</span></span>
                 </div>
                 <div class="col-md-1 m-l-10 as_urungrup_tarih"></div>
-                <div class="col-md-2">
-                    @Html.DropDownList("SirketID", null, htmlAttributes: new { @class = "form-control SirketIDb", @onchange = "Reloadb(this.value)" })
-                </div>
                 <div class="tools">
                     <a href="javascript:;" class="collapse"> </a>
                     <a href="javascript:;" class="fullscreen"> </a>
-                    <a href="javascript:;" class="reload" onclick="Reloadb('@ViewBag.SirketKodu');"> </a>
+                    <a href="javascript:;" class="reload" onclick="Reloadb();"> </a>
                 </div>
             </div>
             <div class="portlet-body">
@@ -32,11 +29,9 @@
 </div>
 <script>
     var f_tarih = @ViewBag.Tarih;
-    if ($('.SirketIDb option').size() == 1) $(".SirketIDb").hide();
-    else $(".SirketIDb").val('@ViewBag.SirketKodu');
-    function Reloadb(v)
+    function Reloadb()
     {
-        PartialView("/Home/PartialUrunGrubuSatis", 'urun_grubu_satis', JSON.stringify({ SirketKodu: v, tarih: f_tarih }));
+        PartialView("/Home/PartialUrunGrubuSatis", 'urun_grubu_satis', JSON.stringify({ tarih: f_tarih }));
     }
     $(document).ready(function (e) {
         var states = [
@@ -60,7 +55,7 @@
             displayExpr: 'state',
             value:f_tarih,
             onValueChanged: function (e) {
-                PartialView("/Home/PartialUrunGrubuSatis", 'urun_grubu_satis', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', tarih: e.value }));
+                PartialView("/Home/PartialUrunGrubuSatis", 'urun_grubu_satis', JSON.stringify({ tarih: e.value }));
             }
         });
         var model = @Html.Raw(Json.Encode(Model));

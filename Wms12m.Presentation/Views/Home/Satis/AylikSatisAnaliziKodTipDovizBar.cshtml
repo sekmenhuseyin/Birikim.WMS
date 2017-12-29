@@ -13,13 +13,10 @@
                 </div>
                 <div class="col-md-1 m-l-10 slct_aylik_kriter_kod" style="width:130px;">
                 </div>
-                <div class="col-md-2">
-                    @Html.DropDownList("SirketID", null, htmlAttributes: new { @class = "form-control SirketID9", @onchange = "Reload9(this.value)" })
-                </div>
                 <div class="tools">
                     <a href="javascript:;" class="collapse"> </a>
                     <a href="javascript:;" class="fullscreen"> </a>
-                    <a href="javascript:;" class="reload" onclick="Reload9('@ViewBag.SirketKodu');"> </a>
+                    <a href="javascript:;" class="reload" onclick="Reload9();"> </a>
                 </div>
             </div>
             <div class="portlet-body">
@@ -32,11 +29,9 @@
     var islemtip_value= @ViewBag.IslemTip;
     var doviz_value= @Html.Raw(Json.Encode(ViewBag.Doviz));
     var kriter_value =@Html.Raw(Json.Encode(ViewBag.Kriter));
-    if ($('.SirketID9 option').size() == 1) $(".SirketID9").hide();
-    else $(".SirketID9").val('@ViewBag.SirketKodu');
-    function Reload9(v)
+    function Reload9()
     {
-        PartialView("/Home/PartialAylikSatisAnaliziKodTipDovizBar", 'aylik_satis_kod_tip_doviz_bar', JSON.stringify({ SirketKodu: v, kod: kriter_value, islemtip: islemtip_value, doviz: doviz_value }));
+        PartialView("/Home/PartialAylikSatisAnaliziKodTipDovizBar", 'aylik_satis_kod_tip_doviz_bar', JSON.stringify({ kod: kriter_value, islemtip: islemtip_value, doviz: doviz_value }));
     }
     $(document).ready(function (e) {
         var model = @Html.Raw(Json.Encode(Model));
@@ -64,7 +59,6 @@
         var doviz = [{ state: "TL"},{ state: "Döviz"},{ state: "Birim" }];
         $.ajax({
             url: "/Home/GunlukSatisAnaliziKriterSelect",
-            data: { SirketKodu: '@ViewBag.SirketKodu'},
             type: "post",
             success: function (data)
             {
@@ -81,7 +75,7 @@
                     onValueChanged: function (e) {
                         if(e.value!=kriter_value){
                             kriter_value=e.value;
-                            PartialView("/Home/PartialAylikSatisAnaliziKodTipDovizBar", 'aylik_satis_kod_tip_doviz_bar', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', kod: kriter_value, islemtip: islemtip_value, doviz: doviz_value }));
+                            PartialView("/Home/PartialAylikSatisAnaliziKodTipDovizBar", 'aylik_satis_kod_tip_doviz_bar', JSON.stringify({ kod: kriter_value, islemtip: islemtip_value, doviz: doviz_value }));
                         }
                     }
                 });
@@ -96,7 +90,7 @@
             value: islemtip_value,
             onValueChanged: function (e) {
                 islemtip_value = e.value;
-                PartialView("/Home/PartialAylikSatisAnaliziKodTipDovizBar", 'aylik_satis_kod_tip_doviz_bar', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', kod: kriter_value, islemtip: islemtip_value, doviz: doviz_value }));
+                PartialView("/Home/PartialAylikSatisAnaliziKodTipDovizBar", 'aylik_satis_kod_tip_doviz_bar', JSON.stringify({ kod: kriter_value, islemtip: islemtip_value, doviz: doviz_value }));
             }
         });
 
@@ -107,7 +101,7 @@
             value: doviz_value,
             onValueChanged: function (e) {
                 doviz_value=e.value;
-                PartialView("/Home/PartialAylikSatisAnaliziKodTipDovizBar", 'aylik_satis_kod_tip_doviz_bar', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', kod: kriter_value, islemtip: islemtip_value, doviz: doviz_value }));
+                PartialView("/Home/PartialAylikSatisAnaliziKodTipDovizBar", 'aylik_satis_kod_tip_doviz_bar', JSON.stringify({ kod: kriter_value, islemtip: islemtip_value, doviz: doviz_value }));
             }
         });
         require.config({

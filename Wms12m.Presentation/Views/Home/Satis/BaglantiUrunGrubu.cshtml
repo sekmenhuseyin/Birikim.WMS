@@ -7,13 +7,10 @@
                     <i class="icon-bar-chart font-green-haze"></i>
                     <span class="caption-subject bold uppercase font-green-haze"> Bağlantı Ürün Grubu Analizi <span style="color:#8888a7;">3D CHART</span></span>
                 </div>
-                <div class="col-md-2">
-                    @Html.DropDownList("SirketID", null, htmlAttributes: new { @class = "form-control SirketIDl", @onchange = "Reloadl(this.value)" })
-                </div>
                 <div class="tools">
                     <a href="javascript:;" class="collapse"> </a>
                     <a href="javascript:;" class="fullscreen"> </a>
-                    <a href="javascript:;" class="reload" onclick="Reloadl('@ViewBag.SirketKodu');"> </a>
+                    <a href="javascript:;" class="reload" onclick="Reloadl();"> </a>
                 </div>
             </div>
             <div class="portlet-body">
@@ -23,11 +20,9 @@
     </div>
 </div>
 <script>
-    if ($('.SirketIDl option').size() == 1) $(".SirketIDl").hide();
-    else $(".SirketIDl").val('@ViewBag.SirketKodu');
-    function Reloadl(v)
+    function Reloadl()
     {
-        PartialView("/Home/PartialBaglantiUrunGrubu", 'baglanti_urun_grubu', JSON.stringify({ SirketKodu: v }));
+        PartialView("/Home/PartialBaglantiUrunGrubu", 'baglanti_urun_grubu');
     }
     $(document).ready(function (e) {
         var model = @Html.Raw(Json.Encode(Model));

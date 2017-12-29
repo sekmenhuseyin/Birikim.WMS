@@ -10,13 +10,10 @@
                 <div class="col-md-1 m-l-10">
                     <input type="text" class="form-control dateboxbg" id="mdf_tarih" value="@ViewBag.tarih2" />
                 </div>
-                <div class="col-md-2">
-                    @Html.DropDownList("SirketID", null, htmlAttributes: new { @class = "form-control SirketIDn", @onchange = "Reloadn(this.value)" })
-                </div>
                 <div class="tools">
                     <a href="javascript:;" class="collapse"> </a>
                     <a href="javascript:;" class="fullscreen"> </a>
-                    <a href="javascript:;" class="reload" onclick="Reloadn('@ViewBag.SirketKodu');"> </a>
+                    <a href="javascript:;" class="reload" onclick="Reloadn();"> </a>
                 </div>
             </div>
             <div class="portlet-body">
@@ -26,17 +23,15 @@
     </div>
 </div>
 <script>
-    if ($('.SirketIDn option').size() == 1) $(".SirketIDn").hide();
-    else $(".SirketIDn").val('@ViewBag.SirketKodu');
-    function Reloadn(v)
+    function Reloadn()
     {
-        PartialView("/Home/PartialGunlukMDFUretimi", 'gunluk_mdf_uretim', JSON.stringify({ SirketKodu: v, tarih: @ViewBag.tarih }));
+        PartialView("/Home/PartialGunlukMDFUretimi", 'gunluk_mdf_uretim', JSON.stringify({ tarih: @ViewBag.tarih }));
     }
     $(document).ready(function (e) {
         $.datepicker.setDefaults($.datepicker.regional["tr"]);
         $("#mdf_tarih").datepicker().on("change", function (e) {
             var oaDate = toOADateFromString(e.target.value);
-            PartialView("/Home/PartialGunlukMDFUretimi", 'gunluk_mdf_uretim', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', tarih: oaDate }));
+            PartialView("/Home/PartialGunlukMDFUretimi", 'gunluk_mdf_uretim', JSON.stringify({ tarih: oaDate }));
         });
         var model = @Html.Raw(Json.Encode(Model));
         var color = ["#FF0F00","#FF6600","#FF9E01","#FCD202","#F8FF01","#B0DE09","#04D215","#0D8ECF","#0D52D1","#2A0CD0","#8A0CCF","#CD0D74","#754DEB","#DDDDDD","#999999","#333333","#000000"];

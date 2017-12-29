@@ -9,13 +9,10 @@
                 </div>
                 <div class="col-md-1 m-l-10 slct_bek_musteri_kriter_doviz"></div>
                 <div class="col-md-1 m-l-10 slct_bek_musteri_kriter_kod"></div>
-                <div class="col-md-2">
-                    @Html.DropDownList("SirketID", null, htmlAttributes: new { @class = "form-control SirketIDt", @onchange = "Reloadt(this.value)" })
-                </div>
                 <div class="tools">
                     <a href="javascript:;" class="collapse"> </a>
                     <a href="javascript:;" class="fullscreen"> </a>
-                    <a href="javascript:;" class="reload" onclick="Reloadt('@ViewBag.SirketKodu');"> </a>
+                    <a href="javascript:;" class="reload" onclick="Reloadt();"> </a>
                 </div>
             </div>
             <div class="portlet-body">
@@ -28,11 +25,9 @@
     var doviz_value= @Html.Raw(Json.Encode(ViewBag.Doviz));
     var kriter_value=@Html.Raw(Json.Encode(ViewBag.Kriter));
     var doviz = [{ state: "TL"},{ state: "Döviz"},{ state: "Birim" }];
-    if ($('.SirketIDt option').size() == 1) $(".SirketIDt").hide();
-    else $(".SirketIDt").val('@ViewBag.SirketKodu');
-    function Reloadt(v)
+    function Reloadt()
     {
-        PartialView("/Home/PartialBekleyenSiparisMusteriAnalizi", 'bekleyen_siparis_musteri_analizi', JSON.stringify({ SirketKodu: v, kod: kriter_value, doviz: doviz_value }));
+        PartialView("/Home/PartialBekleyenSiparisMusteriAnalizi", 'bekleyen_siparis_musteri_analizi', JSON.stringify({ kod: kriter_value, doviz: doviz_value }));
     }
     $(document).ready(function (e) {
         var model = @Html.Raw(Json.Encode(Model));
@@ -44,7 +39,6 @@
         }
         $.ajax({
             url: "/Home/GunlukSatisAnaliziKriterSelect",
-            data: { SirketKodu: '@ViewBag.SirketKodu' },
             type: "post",
             success: function (data) {
                 $(".slct_bek_musteri_kriter_kod").dxSelectBox({
@@ -55,7 +49,7 @@
                     onValueChanged: function (e) {
                         if (e.value != kriter_value) {
                             kriter_value = e.value;
-                            PartialView("/Home/PartialBekleyenSiparisMusteriAnalizi", 'bekleyen_siparis_musteri_analizi', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', kod: kriter_value, doviz: doviz_value }));
+                            PartialView("/Home/PartialBekleyenSiparisMusteriAnalizi", 'bekleyen_siparis_musteri_analizi', JSON.stringify({ kod: kriter_value, doviz: doviz_value }));
                         }
                     }
                 });
@@ -68,7 +62,7 @@
             value: doviz_value,
             onValueChanged: function (e) {
                 doviz_value = e.value;
-                PartialView("/Home/PartialBekleyenSiparisMusteriAnalizi", 'bekleyen_siparis_musteri_analizi', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', kod: kriter_value, doviz: doviz_value }));
+                PartialView("/Home/PartialBekleyenSiparisMusteriAnalizi", 'bekleyen_siparis_musteri_analizi', JSON.stringify({ kod: kriter_value, doviz: doviz_value }));
             }
         });
         var ChartsAmchartsMik = function () {

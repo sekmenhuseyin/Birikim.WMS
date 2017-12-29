@@ -10,13 +10,10 @@
                 <div class="col-md-2">
                     <input type="text" class="form-control dateboxbg" id="gsp_tarih" value="@ViewBag.tarih2" />
                 </div>
-                <div class="col-md-2">
-                    @Html.DropDownList("SirketID", null, htmlAttributes: new { @class = "form-control SirketID1", @onchange = "Reload1(this.value)" })
-                </div>
                 <div class="tools">
                     <a href="javascript:;" class="collapse"> </a>
                     <a href="javascript:;" class="fullscreen"> </a>
-                    <a href="javascript:;" class="reload" onclick="Reload1('@ViewBag.SirketKodu');"> </a>
+                    <a href="javascript:;" class="reload" onclick="Reload1();"> </a>
                 </div>
             </div>
             <div class="portlet-body">
@@ -26,17 +23,15 @@
     </div>
 </div>
 <script>
-    if ($('.SirketID1 option').size() == 1) $(".SirketID1").hide();
-    else $(".SirketID1").val('@ViewBag.SirketKodu');
     function Reload1(v)
     {
-        PartialView("/Home/PartialGunlukSatisPie", 'gunluk_satis_pie', JSON.stringify({ SirketKodu: v, tarih: @ViewBag.tarih }));
+        PartialView("/Home/PartialGunlukSatisPie", 'gunluk_satis_pie', JSON.stringify({ tarih: @ViewBag.tarih }));
     }
     $(document).ready(function (e) {
         $.datepicker.setDefaults($.datepicker.regional["tr"]);
         $("#gsp_tarih").datepicker().on("change", function (e) {
             var oaDate = toOADateFromString(e.target.value);
-                PartialView("/Home/PartialGunlukSatisPie", 'gunluk_satis_pie', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', tarih: oaDate }));
+                PartialView("/Home/PartialGunlukSatisPie", 'gunluk_satis_pie', JSON.stringify({ tarih: oaDate }));
         });
         var model = @Html.Raw(Json.Encode(Model));
         var color = ["#FF0F00","#FF6600","#FF9E01","#FCD202","#F8FF01","#B0DE09","#04D215","#0D8ECF","#0D52D1","#2A0CD0","#8A0CCF","#CD0D74","#754DEB","#DDDDDD","#999999","#333333","#000000"];
