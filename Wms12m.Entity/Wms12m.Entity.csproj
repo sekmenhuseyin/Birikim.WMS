@@ -361,6 +361,7 @@
     <Compile Include="VM_YeniNesil\CAR002.cs" />
     <Compile Include="VM_YeniNesil\CAR003.cs" />
     <Compile Include="VM_YeniNesil\CAR005.cs" />
+    <Compile Include="VM_YeniNesil\EvrakIni.cs" />
     <Compile Include="VM_YeniNesil\STK004.cs" />
     <Compile Include="VM_YeniNesil\STK005.cs" />
     <Compile Include="VM_YeniNesil\YeniNesil.cs" />

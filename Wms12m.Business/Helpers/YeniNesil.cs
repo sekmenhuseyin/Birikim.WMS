@@ -433,258 +433,49 @@ namespace Wms12m
             string EvrakNo = EvrakBilgi[0];
             int SeqNo = EvrakBilgi[1].ToInt32();
 
+
+   
+            int tarih = tahsilatItem.Tarih.ToDatetime().ToOADateInt();
+            DovizKurlari DovizKurlari = Sqlexper.SelectFirst<DovizKurlari>(string.Format(DovizKurlari.Sorgu, tarih, tarih - 1, tarih - 2));
+
+            if(DovizKurlari.IsNull() || DovizKurlari.USD<=0 || DovizKurlari.EUR<=0)
+            {
+                throw new Exception("İlgili tarihle alakalı geçerli(0 dan büyük) döviz kuru bulunamadı ! \n DVZ002 tablosunu kontrol ediniz.");
+            }
+
+            string kayitSaat = DateTime.Now.ToString("HHmmss"); ///O anın saatini döner 
+
             if (tahsilatItem.KapatilanTL > 0)
             {
-                CAR003 Chi = new CAR003();
-
-                Chi.DefaultValueSet();
-                Chi.CAR003_HesapKodu = tahsilatItem.HesapKodu;
-
-                Chi.CAR003_KarsiHesapKodu = "KASA01"; // Ömer bey boşda bırakabilirsiniz başka birşey de atabilirsiniz çok önemli değil dedi.
-
-                Chi.CAR003_Tarih = tahsilatItem.Tarih.ToDatetime().ToOADateInt();
-                Chi.CAR003_IslemTipi = 1;
-                Chi.CAR003_EvrakTipi = 41;
-                Chi.CAR003_EvrakSeriNo = EvrakNo;
-                Chi.CAR003_BA = 1;
-                Chi.CAR003_Tutar = tahsilatItem.KapatilanTL;
-                Chi.CAR003_Aciklama = string.Format("{0} {1} {2}", tahsilatItem.KapatilanTL, "TL", tahsilatItem.OdemeTuru);
-                Chi.CAR003_VadeTarihi = Chi.CAR003_Tarih;
-                Chi.CAR003_Kod8 = "TL";
-                Chi.CAR003_DovizCinsi = "TL";
-
-                Chi.CAR003_VadeTarihi = Chi.CAR003_Tarih;
-                Chi.CAR003_AsilEvrakTarihi = Chi.CAR003_Tarih;
-                Chi.CAR003_ParaBirimi = 1;
-                Chi.CAR003_SEQNo = SeqNo + 1;
-
-                Chi.CAR003_DovizTutari = 0;
-
-                Chi.CAR003_IptalDurumu = 1;
-                Chi.CAR003_MuhasebelesmeSekli = 1;
-
-                Chi.CAR003_Tarih2 = null;
-                Chi.CAR003_SenetCekPozisyonTipi = null;
-                Chi.CAR003_MuhasebeFisTarihi = null;
-                Chi.CAR003_MuhasebeTipi = null;
-                Chi.CAR003_MuhasebeSiraNo = null;
-                Chi.CAR003_MuhasebeYevmiyeSekli = null;
-                Chi.CAR003_VadeFarkiTarihi = null;
-                Chi.CAR003_Ulke = null;
-                Chi.CAR003_MHSMaddeNo = null;
-                Chi.CAR003_KKPOSTableRowID = null;
-                Chi.CAR003_KKTaksitSayisi = null;
-                Chi.CAR003_KKTaksitNo = null;
-                Chi.CAR003_KKKomisyonID = null;
-                Chi.CAR003_KDVTevkIslemTuru = null;
-                Chi.CAR003_IthalatAktarmaFlag = null;
-                Chi.CAR003_EFaturaTipi = null;
-                Chi.CAR003_EFaturaDonemBas = null;
-                Chi.CAR003_EFaturaDonemBit = null;
-                Chi.CAR003_EFaturaSure = null;
-                Chi.CAR003_EFaturaSureBirimi = null;
-                Chi.CAR003_YevEvrakTarihi = null;
-                Chi.CAR003_OdemeTuru = null;
-                Chi.CAR003_GrpSiraNo = null;
-                Chi.CAR003_VergiDairesiKodu = null;
-                Chi.CAR003_FiiliIhracatTarihi = null;
-
-                Chi.CAR003_YevmiyeEvrakTip = null;
-                Chi.CAR003_EFaturaDurumu = null;
-                Chi.CAR003_EArsivFaturaTipi = null;
-                Chi.CAR003_EArsivFaturaTeslimSekli = null;
-                Chi.CAR003_EArsivFaturaDurumu = null;
-                Chi.CAR003_YOKCZRaporuNo = null;
-                Chi.CAR003_YOKCBelgeTipi = null;
-                Chi.CAR003_YOKCBilgiFisiTipi = null;
-                Chi.CAR003_YOKCFisNo = null;
-                Chi.CAR003_YOKCFisTarihi = null;
-                Chi.CAR003_YOKCFisSaat = null;
-                Chi.CAR003_YOKCDuzenlemeTip = null;
-
-                Chi.CAR003_GirenKaynak = "Y6018";
-                Chi.CAR003_GirenSurum = "7.1.00";
-                Chi.CAR003_GirenKodu = user;
-                Chi.CAR003_GirenTarih = DateTime.Today.Date.ToOADate().ToInt32();
-                Chi.CAR003_GirenSaat = DateTime.Now.ToString("HHmmss"); ///O anın saatini döner 154010 gibi
-                Chi.CAR003_DegistirenKaynak = "Y6018";
-                Chi.CAR003_DegistirenSurum = "7.1.00";
-                Chi.CAR003_DegistirenKodu = user;
-                Chi.CAR003_DegistirenTarih = DateTime.Today.Date.ToOADate().ToInt32();
-                Chi.CAR003_DegistirenSaat = DateTime.Now.ToString("HHmmss"); ///O anın saatini döner 
-
-                Sqlexper.Insert(Chi);
-
+                Sqlexper.Komut(string.Format("EXEC YNS{0}.dbo.FaturalariKapat '{1}','{2}',{3},{4},{5},'{6}','{7}','{8}',{9},'{10}','{11}',{12}",
+                                SirketKodu, tahsilatItem.HesapKodu, EvrakNo, tahsilatItem.KapatilanTL.ToDot(), tahsilatItem.KapatilanTL.ToDot(),
+                                tarih, EvrakNo, tahsilatItem.OdemeTuru, "TL", SeqNo + 1, kayitSaat, user, 0.0));
             }
 
             if (tahsilatItem.KapatilanUSD > 0)
             {
-                CAR003 Chi = new CAR003();
-
-                Chi.DefaultValueSet();
-                Chi.CAR003_HesapKodu = tahsilatItem.HesapKodu+"$";
-
-                Chi.CAR003_KarsiHesapKodu = "KASA01"; // Ömer bey boşda bırakabilirsiniz başka birşey de atabilirsiniz çok önemli değil dedi.
-
-                Chi.CAR003_Tarih = tahsilatItem.Tarih.ToDatetime().ToOADateInt();
-                Chi.CAR003_IslemTipi = 1;
-                Chi.CAR003_EvrakTipi = 41;
-                Chi.CAR003_EvrakSeriNo = EvrakNo;
-                Chi.CAR003_BA = 1;
-                Chi.CAR003_Tutar = tahsilatItem.KapatilanUSD;
-           //   Chi.CAR003_Aciklama = string.Format("{0} {1} {2}", tahsilatItem.Tutar, tahsilatItem.DovizCinsi, tahsilatItem.OdemeTuru);
-                Chi.CAR003_Aciklama = string.Format("{0} {1} {2}", tahsilatItem.KapatilanUSD, "USD", tahsilatItem.OdemeTuru);
-                Chi.CAR003_VadeTarihi = Chi.CAR003_Tarih;
-                Chi.CAR003_Kod8 = "USD";
-                Chi.CAR003_DovizCinsi = "USD";
-
-                Chi.CAR003_VadeTarihi = Chi.CAR003_Tarih;
-                Chi.CAR003_AsilEvrakTarihi = Chi.CAR003_Tarih;
-                Chi.CAR003_ParaBirimi = 1;
-                Chi.CAR003_SEQNo = SeqNo + 1;
-
-                Chi.CAR003_DovizTutari = 0;
-
-                Chi.CAR003_IptalDurumu = 1;
-                Chi.CAR003_MuhasebelesmeSekli = 1;
-
-                Chi.CAR003_Tarih2 = null;
-                Chi.CAR003_SenetCekPozisyonTipi = null;
-                Chi.CAR003_MuhasebeFisTarihi = null;
-                Chi.CAR003_MuhasebeTipi = null;
-                Chi.CAR003_MuhasebeSiraNo = null;
-                Chi.CAR003_MuhasebeYevmiyeSekli = null;
-                Chi.CAR003_VadeFarkiTarihi = null;
-                Chi.CAR003_Ulke = null;
-                Chi.CAR003_MHSMaddeNo = null;
-                Chi.CAR003_KKPOSTableRowID = null;
-                Chi.CAR003_KKTaksitSayisi = null;
-                Chi.CAR003_KKTaksitNo = null;
-                Chi.CAR003_KKKomisyonID = null;
-                Chi.CAR003_KDVTevkIslemTuru = null;
-                Chi.CAR003_IthalatAktarmaFlag = null;
-                Chi.CAR003_EFaturaTipi = null;
-                Chi.CAR003_EFaturaDonemBas = null;
-                Chi.CAR003_EFaturaDonemBit = null;
-                Chi.CAR003_EFaturaSure = null;
-                Chi.CAR003_EFaturaSureBirimi = null;
-                Chi.CAR003_YevEvrakTarihi = null;
-                Chi.CAR003_OdemeTuru = null;
-                Chi.CAR003_GrpSiraNo = null;
-                Chi.CAR003_VergiDairesiKodu = null;
-                Chi.CAR003_FiiliIhracatTarihi = null;
-
-                Chi.CAR003_YevmiyeEvrakTip = null;
-                Chi.CAR003_EFaturaDurumu = null;
-                Chi.CAR003_EArsivFaturaTipi = null;
-                Chi.CAR003_EArsivFaturaTeslimSekli = null;
-                Chi.CAR003_EArsivFaturaDurumu = null;
-                Chi.CAR003_YOKCZRaporuNo = null;
-                Chi.CAR003_YOKCBelgeTipi = null;
-                Chi.CAR003_YOKCBilgiFisiTipi = null;
-                Chi.CAR003_YOKCFisNo = null;
-                Chi.CAR003_YOKCFisTarihi = null;
-                Chi.CAR003_YOKCFisSaat = null;
-                Chi.CAR003_YOKCDuzenlemeTip = null;
-
-                Chi.CAR003_GirenKaynak = "Y6018";
-                Chi.CAR003_GirenSurum = "7.1.00";
-                Chi.CAR003_GirenKodu = user;
-                Chi.CAR003_GirenTarih = DateTime.Today.Date.ToOADate().ToInt32();
-                Chi.CAR003_GirenSaat = DateTime.Now.ToString("HHmmss"); ///O anın saatini döner 154010 gibi
-                Chi.CAR003_DegistirenKaynak = "Y6018";
-                Chi.CAR003_DegistirenSurum = "7.1.00";
-                Chi.CAR003_DegistirenKodu = user;
-                Chi.CAR003_DegistirenTarih = DateTime.Today.Date.ToOADate().ToInt32();
-                Chi.CAR003_DegistirenSaat = DateTime.Now.ToString("HHmmss"); ///O anın saatini döner 
-
-                Sqlexper.Insert(Chi);
-
+                Sqlexper.Komut(string.Format("EXEC YNS{0}.dbo.FaturalariKapat '{1}','{2}',{3},{4},{5},'{6}','{7}','{8}',{9},'{10}','{11}',{12}",
+                                SirketKodu, tahsilatItem.HesapKodu+"$", EvrakNo, tahsilatItem.KapatilanUSD.ToDot(), (tahsilatItem.KapatilanUSD * DovizKurlari.USD).ToDot(),
+                                tarih, EvrakNo, tahsilatItem.OdemeTuru, "USD", SeqNo + 1, kayitSaat, user, DovizKurlari.USD.ToDot()));
             }
 
             if (tahsilatItem.KapatilanEUR > 0)
             {
-                CAR003 Chi = new CAR003();
-
-                Chi.DefaultValueSet();
-                Chi.CAR003_HesapKodu = tahsilatItem.HesapKodu+"EU";
-
-                Chi.CAR003_KarsiHesapKodu = "KASA01"; // Ömer bey boşda bırakabilirsiniz başka birşey de atabilirsiniz çok önemli değil dedi.
-
-                Chi.CAR003_Tarih = tahsilatItem.Tarih.ToDatetime().ToOADateInt();
-                Chi.CAR003_IslemTipi = 1;
-                Chi.CAR003_EvrakTipi = 41;
-                Chi.CAR003_EvrakSeriNo = EvrakNo;
-                Chi.CAR003_BA = 1;
-                Chi.CAR003_Tutar = tahsilatItem.KapatilanEUR;
-                Chi.CAR003_Aciklama = string.Format("{0} {1} {2}", tahsilatItem.KapatilanEUR, "EUR", tahsilatItem.OdemeTuru);
-                Chi.CAR003_VadeTarihi = Chi.CAR003_Tarih;
-                Chi.CAR003_Kod8 = "EUR";
-                Chi.CAR003_DovizCinsi = "EUR";
-
-                Chi.CAR003_VadeTarihi = Chi.CAR003_Tarih;
-                Chi.CAR003_AsilEvrakTarihi = Chi.CAR003_Tarih;
-                Chi.CAR003_ParaBirimi = 1;
-                Chi.CAR003_SEQNo = SeqNo + 1;
-
-                Chi.CAR003_DovizTutari = 0;
-
-                Chi.CAR003_IptalDurumu = 1;
-                Chi.CAR003_MuhasebelesmeSekli = 1;
-
-                Chi.CAR003_Tarih2 = null;
-                Chi.CAR003_SenetCekPozisyonTipi = null;
-                Chi.CAR003_MuhasebeFisTarihi = null;
-                Chi.CAR003_MuhasebeTipi = null;
-                Chi.CAR003_MuhasebeSiraNo = null;
-                Chi.CAR003_MuhasebeYevmiyeSekli = null;
-                Chi.CAR003_VadeFarkiTarihi = null;
-                Chi.CAR003_Ulke = null;
-                Chi.CAR003_MHSMaddeNo = null;
-                Chi.CAR003_KKPOSTableRowID = null;
-                Chi.CAR003_KKTaksitSayisi = null;
-                Chi.CAR003_KKTaksitNo = null;
-                Chi.CAR003_KKKomisyonID = null;
-                Chi.CAR003_KDVTevkIslemTuru = null;
-                Chi.CAR003_IthalatAktarmaFlag = null;
-                Chi.CAR003_EFaturaTipi = null;
-                Chi.CAR003_EFaturaDonemBas = null;
-                Chi.CAR003_EFaturaDonemBit = null;
-                Chi.CAR003_EFaturaSure = null;
-                Chi.CAR003_EFaturaSureBirimi = null;
-                Chi.CAR003_YevEvrakTarihi = null;
-                Chi.CAR003_OdemeTuru = null;
-                Chi.CAR003_GrpSiraNo = null;
-                Chi.CAR003_VergiDairesiKodu = null;
-                Chi.CAR003_FiiliIhracatTarihi = null;
-
-                Chi.CAR003_YevmiyeEvrakTip = null;
-                Chi.CAR003_EFaturaDurumu = null;
-                Chi.CAR003_EArsivFaturaTipi = null;
-                Chi.CAR003_EArsivFaturaTeslimSekli = null;
-                Chi.CAR003_EArsivFaturaDurumu = null;
-                Chi.CAR003_YOKCZRaporuNo = null;
-                Chi.CAR003_YOKCBelgeTipi = null;
-                Chi.CAR003_YOKCBilgiFisiTipi = null;
-                Chi.CAR003_YOKCFisNo = null;
-                Chi.CAR003_YOKCFisTarihi = null;
-                Chi.CAR003_YOKCFisSaat = null;
-                Chi.CAR003_YOKCDuzenlemeTip = null;
-
-                Chi.CAR003_GirenKaynak = "Y6018";
-                Chi.CAR003_GirenSurum = "7.1.00";
-                Chi.CAR003_GirenKodu = user;
-                Chi.CAR003_GirenTarih = DateTime.Today.Date.ToOADate().ToInt32();
-                Chi.CAR003_GirenSaat = DateTime.Now.ToString("HHmmss"); ///O anın saatini döner 154010 gibi
-                Chi.CAR003_DegistirenKaynak = "Y6018";
-                Chi.CAR003_DegistirenSurum = "7.1.00";
-                Chi.CAR003_DegistirenKodu = user;
-                Chi.CAR003_DegistirenTarih = DateTime.Today.Date.ToOADate().ToInt32();
-                Chi.CAR003_DegistirenSaat = DateTime.Now.ToString("HHmmss"); ///O anın saatini döner 
-
-                Sqlexper.Insert(Chi);
-
+                Sqlexper.Komut(string.Format("EXEC YNS{0}.dbo.FaturalariKapat '{1}','{2}',{3},{4},{5},'{6}','{7}','{8}',{9},'{10}','{11}',{12}",
+                                SirketKodu, tahsilatItem.HesapKodu+"EU", EvrakNo, tahsilatItem.KapatilanEUR.ToDot(), (tahsilatItem.KapatilanEUR * DovizKurlari.EUR).ToDot(),
+                                tarih, EvrakNo, tahsilatItem.OdemeTuru, "EUR", SeqNo + 1, kayitSaat, user, DovizKurlari.EUR.ToDot()));
             }
+
+            string seri = EvrakNo.Substring(0, 2);
+            EvrakNo = EvrakNo.Remove(0, 2);
+            EvrakNo = EvrakNoOlustur(8, seri, EvrakNo.ToInt32());
+            EvrakIni evrakIni = new EvrakIni
+            {
+                pk_SeriNo = 1,
+                EvrakNo = EvrakNo
+            };
+            Sqlexper.Update(evrakIni);
+
 
             Sqlexper.AcceptChanges();
 
@@ -773,6 +564,19 @@ namespace Wms12m
             HesapList = new List<HesapItem>();
             var Sqlexper = new SqlExper(ConStr, SirketKodu);
             HesapList = Sqlexper.SelectList<HesapItem>(string.Format(HesapItem.Sorgu, HesapKodu));
+        }
+
+
+        public class DovizKurlari
+        {
+            public decimal USD { get; set; }
+            public decimal EUR { get; set; }
+
+            public static string Sorgu = @"
+            SELECT TOP 1 DVZ002_DvzEfektisSatis1 as USD, DVZ002_DvzEfektisSatis2 as EUR
+            FROM   YNS{{0}}.YNS{{0}}.DVZ002(NOLOCK) 
+            WHERE  DVZ002_DvzEfektisSatis1>0 AND DVZ002_DovizDate IN({0},{1},{2})
+            ORDER BY DVZ002_DovizDate DESC";
         }
     }
 }
