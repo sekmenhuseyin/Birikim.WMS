@@ -52,7 +52,6 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         public JsonResult Onay(string Data, int OnayTip, bool OnaylandiMi)
         {
             if (CheckPerm(Perms.SiparişOnaylama, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
-            var _Result = new Result(true);
             var parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
             string sql = "";
             foreach (string insertObj in parameters)
@@ -71,20 +70,15 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                 else if (OnayTip == 1 && OnaylandiMi == false)//SMRet
                 { sql = string.Format("[FINSAT6{0}].[wms].[SP_SiparisOnay] @EvrakNo = '{1}',@Kullanici = '{2}',@OnaylayanTip={3},@OnaylandiMi={4},@OnayTip={5}", vUser.SirketKodu, insertObj, vUser.UserName, 1, 0, OTip); }
             }
-
             try
             {
                 if (sql != "") db.Database.ExecuteSqlCommand(sql);
-                _Result.Status = true;
-                _Result.Message = "İşlem Başarılı ";
+                return Json(new Result(true, OnayTip, "İşlem Başarılı "), JsonRequestBehavior.AllowGet);
             }
             catch (Exception)
             {
-                _Result.Status = false;
-                _Result.Message = "Hata Oluştu.";
+                return Json(new Result(false, "Hata Oluştu."), JsonRequestBehavior.AllowGet);
             }
-
-            return Json(_Result, JsonRequestBehavior.AllowGet);
         }
         #endregion
         #region Tüm
