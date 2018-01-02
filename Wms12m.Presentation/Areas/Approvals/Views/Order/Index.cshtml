@@ -24,7 +24,7 @@
                     <tbody>
                         @foreach (var item in Model)
                         {
-                            <tr onclick="toggle(this)">
+                            <tr class="clickable" onclick="toggle(this)">
                                 <td nowrap class="select-checkbox"></td>
                                 <td nowrap> @item.EvrakNo</td>
                                 <td nowrap> @item.BaglantiNo</td>
@@ -91,7 +91,7 @@
                 type: "post",
                 success: function (data) {
                     if (data.Status == true) {
-                        Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "btn-succes");
+                        Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "btn-success");
                         setTimeout(function () { window.location.reload(); }, 500);
                     }
                     else {
@@ -118,7 +118,7 @@
                 type: "post",
                 success: function (data) {
                     if (data.Status == true) {
-                        Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "btn-succes");
+                        Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "btn-success");
                         setTimeout(function () { window.location.reload(); }, 500);
                     }
                     else {

@@ -57,18 +57,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             foreach (string insertObj in parameters)
             {
                 var OTip = db.Database.SqlQuery<short>(string.Format("SELECT OnayTip FROM FINSAT6{0}.FINSAT6{0}.SiparisOnay WHERE EvrakNo='{1}'", vUser.SirketKodu, insertObj)).FirstOrDefault();
-                if (OnayTip == 3 && OnaylandiMi == true)//GMOnay
-                { sql = string.Format("[FINSAT6{0}].[wms].[SP_SiparisOnay] @EvrakNo = '{1}',@Kullanici = '{2}',@OnaylayanTip={3},@OnaylandiMi={4},@OnayTip={5}", vUser.SirketKodu, insertObj, vUser.UserName, 3, 1, OTip); }
-                else if (OnayTip == 2 && OnaylandiMi == true)//SPGMYOnay
-                { sql = string.Format("[FINSAT6{0}].[wms].[SP_SiparisOnay] @EvrakNo = '{1}',@Kullanici = '{2}',@OnaylayanTip={3},@OnaylandiMi={4},@OnayTip={5}", vUser.SirketKodu, insertObj, vUser.UserName, 2, 1, OTip); }
-                else if (OnayTip == 1 && OnaylandiMi == true)//SMOnay
-                { sql = string.Format("[FINSAT6{0}].[wms].[SP_SiparisOnay] @EvrakNo = '{1}',@Kullanici = '{2}',@OnaylayanTip={3},@OnaylandiMi={4},@OnayTip={5}", vUser.SirketKodu, insertObj, vUser.UserName, 1, 1, OTip); }
-                else if (OnayTip == 3 && OnaylandiMi == false)//GMRet
-                { sql = string.Format("[FINSAT6{0}].[wms].[SP_SiparisOnay] @EvrakNo = '{1}',@Kullanici = '{2}',@OnaylayanTip={3},@OnaylandiMi={4},@OnayTip={5}", vUser.SirketKodu, insertObj, vUser.UserName, 3, 0, OTip); }
-                else if (OnayTip == 2 && OnaylandiMi == false)//SPGMYRet
-                { sql = string.Format("[FINSAT6{0}].[wms].[SP_SiparisOnay] @EvrakNo = '{1}',@Kullanici = '{2}',@OnaylayanTip={3},@OnaylandiMi={4},@OnayTip={5}", vUser.SirketKodu, insertObj, vUser.UserName, 2, 0, OTip); }
-                else if (OnayTip == 1 && OnaylandiMi == false)//SMRet
-                { sql = string.Format("[FINSAT6{0}].[wms].[SP_SiparisOnay] @EvrakNo = '{1}',@Kullanici = '{2}',@OnaylayanTip={3},@OnaylandiMi={4},@OnayTip={5}", vUser.SirketKodu, insertObj, vUser.UserName, 1, 0, OTip); }
+                sql += string.Format("EXEC [FINSAT6{0}].[wms].[SP_SiparisOnay] @EvrakNo = '{1}', @Kullanici = '{2}', @OnaylayanTip={3}, @OnaylandiMi={4}, @OnayTip={5};", vUser.SirketKodu, insertObj, vUser.UserName, OnayTip, OnaylandiMi == true ? 1 : 0, OTip);
             }
             try
             {
