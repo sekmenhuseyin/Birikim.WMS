@@ -11,7 +11,6 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public ActionResult Index()
         {
-            ViewBag.sirket = db.GetSirkets().FirstOrDefault();
             return View("Index", Persons.Detail(vUser.Id));
         }
 
