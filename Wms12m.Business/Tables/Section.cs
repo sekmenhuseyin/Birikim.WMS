@@ -139,7 +139,6 @@ namespace Wms12m.Business
         /// tüm listesi
         /// </summary>
         public override List<Bolum> GetList() => db.Bolums.OrderBy(m => m.BolumAd).ToList();
-
         /// <summary>
         /// üst tabloya ait olanları getir
         /// </summary>

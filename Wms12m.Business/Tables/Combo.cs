@@ -100,7 +100,6 @@ namespace Wms12m.Business
         /// depo listesi
         /// </summary>
         public override List<Combo_Name> GetList() => db.Combo_Name.OrderBy(m => m.ComboName).ToList();
-
         /// <summary>
         /// üst tabloya ait olanları getir
         /// </summary>
