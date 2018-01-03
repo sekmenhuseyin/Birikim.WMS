@@ -103,7 +103,7 @@
         $.ajax({
             type: 'POST',
             url: '/WMS/Sales/Details',
-            data: { "ID": d },
+            data: { EvrakNo: d, Depo: $('#DepoID').val() },
             dataType: "json",
             success: function (data) {
                 for (var i in data) {

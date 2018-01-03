@@ -233,7 +233,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         public PartialViewResult GetSiparis(string DepoID, string Starts, string Ends)
         {
             // kontrol
-            if (DepoID == "0") return null;
+            if (DepoID == "") return null;
             string[] tmp = Starts.Split('.');
             var StartDate = new DateTime(tmp[2].ToInt32(), tmp[1].ToInt32(), tmp[0].ToInt32());
             tmp = Ends.Split('.');
@@ -256,9 +256,9 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         /// evrak noya ait mallar
         /// </summary>
         [HttpPost]
-        public JsonResult Details(string ID)
+        public JsonResult Details(string EvrakNo, string Depo)
         {
-            var sql = string.Format("EXEC FINSAT6{0}.wms.getSiparisDetail @EvrakNo = '{1}'", vUser.SirketKodu, ID);
+            var sql = string.Format("EXEC FINSAT6{0}.wms.getSiparisDetail @EvrakNo = '{1}', @Depo = '{2}'", vUser.SirketKodu, EvrakNo, Depo);
             var list = db.Database.SqlQuery<frmSiparisMalzeme>(sql).ToList();
             return Json(list, JsonRequestBehavior.AllowGet);
         }
