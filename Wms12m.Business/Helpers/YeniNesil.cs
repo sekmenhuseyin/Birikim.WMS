@@ -425,16 +425,22 @@ namespace Wms12m
         {
             SqlExper Sqlexper = new SqlExper(ConStr, SirketKodu);
 
-            List<string> EvrakBilgi = Sqlexper.SelectList<string>(@"
-                SELECT EvrakNo FROM YNS{0}.YNS{0}.EvrakIni(NOLOCK) WHERE SeriNo=1
-                UNION ALL
-                SELECT CAST(MAX(CAR003_SEQNo) as VarChar) EvrakNo FROM YNS{0}.YNS{0}.CAR003(NOLOCK)");
+            int seriNo = 1;
+            if (tahsilatItem.IslemTuru == "Tahsilat")
+                seriNo = 1;
+            else if (tahsilatItem.IslemTuru == "İskonto")
+                seriNo = 3;
+
+
+            List<string> EvrakBilgi = Sqlexper.SelectList<string>(string.Format(@"
+            SELECT EvrakNo FROM YNS{{0}}.YNS{{0}}.EvrakIni(NOLOCK) WHERE SeriNo={0}
+            UNION ALL
+            SELECT CAST(MAX(CAR003_SEQNo) as VarChar) EvrakNo FROM YNS{{0}}.YNS{{0}}.CAR003(NOLOCK)",seriNo));
 
             string EvrakNo = EvrakBilgi[0];
             int SeqNo = EvrakBilgi[1].ToInt32();
 
 
-   
             int tarih = tahsilatItem.Tarih.ToDatetime().ToOADateInt();
             DovizKurlari DovizKurlari = Sqlexper.SelectFirst<DovizKurlari>(string.Format(DovizKurlari.Sorgu, tarih, tarih - 1, tarih - 2));
 
@@ -445,36 +451,68 @@ namespace Wms12m
 
             string kayitSaat = DateTime.Now.ToString("HHmmss"); ///O anın saatini döner 
 
-            if (tahsilatItem.KapatilanTL > 0)
+
+            if (tahsilatItem.IslemTuru == "Tahsilat")
             {
-                Sqlexper.Komut(string.Format("EXEC YNS{0}.dbo.FaturalariKapat '{1}','{2}',{3},{4},{5},'{6}','{7}','{8}',{9},'{10}','{11}',{12}",
-                                SirketKodu, tahsilatItem.HesapKodu, EvrakNo, tahsilatItem.KapatilanTL.ToDot(), tahsilatItem.KapatilanTL.ToDot(),
-                                tarih, EvrakNo, tahsilatItem.OdemeTuru, "TL", SeqNo + 1, kayitSaat, user, 0.0));
+                if (tahsilatItem.KapatilanTL > 0)
+                {
+                    Sqlexper.Komut(string.Format("EXEC YNS{0}.dbo.FaturalariKapat 0,'{1}','{2}',{3},{4},{5},'{6}','{7}','{8}',{9},'{10}','{11}',{12}",
+                                    SirketKodu, tahsilatItem.HesapKodu, EvrakNo, tahsilatItem.KapatilanTL.ToDot(), tahsilatItem.KapatilanTL.ToDot(),
+                                    tarih, EvrakNo, tahsilatItem.OdemeTuru, "TL", SeqNo + 1, kayitSaat, user, 0.0));
+                }
+
+                if (tahsilatItem.KapatilanUSD > 0)
+                {
+                    Sqlexper.Komut(string.Format("EXEC YNS{0}.dbo.FaturalariKapat 0,'{1}','{2}',{3},{4},{5},'{6}','{7}','{8}',{9},'{10}','{11}',{12}",
+                                    SirketKodu, tahsilatItem.HesapKodu + "$", EvrakNo, tahsilatItem.KapatilanUSD.ToDot(), (tahsilatItem.KapatilanUSD * DovizKurlari.USD).ToDot(),
+                                    tarih, EvrakNo, tahsilatItem.OdemeTuru, "USD", SeqNo + 1, kayitSaat, user, DovizKurlari.USD.ToDot()));
+                }
+
+                if (tahsilatItem.KapatilanEUR > 0)
+                {
+                    Sqlexper.Komut(string.Format("EXEC YNS{0}.dbo.FaturalariKapat 0,'{1}','{2}',{3},{4},{5},'{6}','{7}','{8}',{9},'{10}','{11}',{12}",
+                                    SirketKodu, tahsilatItem.HesapKodu + "EU", EvrakNo, tahsilatItem.KapatilanEUR.ToDot(), (tahsilatItem.KapatilanEUR * DovizKurlari.EUR).ToDot(),
+                                    tarih, EvrakNo, tahsilatItem.OdemeTuru, "EUR", SeqNo + 1, kayitSaat, user, DovizKurlari.EUR.ToDot()));
+                }
+
+            }
+            else if(tahsilatItem.IslemTuru == "İskonto")
+            {
+                string paraCinsi = "TL";
+                decimal islemTutar = 0, islemTutarTL = 0, dovizKuru = 0;
+
+                islemTutar = tahsilatItem.Tutar;
+                islemTutarTL = islemTutar;
+                if(tahsilatItem.DovizCinsi=="USD")
+                {
+                    paraCinsi = "USD";
+                    islemTutarTL = islemTutar * DovizKurlari.USD;
+                    dovizKuru = DovizKurlari.USD;
+                }
+                else if (tahsilatItem.DovizCinsi == "EUR")
+                {
+                    paraCinsi = "EUR";
+                    islemTutarTL = islemTutar * DovizKurlari.EUR;
+                    dovizKuru = DovizKurlari.EUR;
+                }
+
+                Sqlexper.Komut(string.Format("EXEC YNS{0}.dbo.FaturalariKapat 1,'{1}','{2}',{3},{4},{5},'{6}','{7}','{8}',{9},'{10}','{11}',{12}",
+                                SirketKodu, tahsilatItem.HesapKodu, EvrakNo, islemTutar.ToDot(), islemTutarTL.ToDot(),
+                                tarih, EvrakNo, tahsilatItem.OdemeTuru, paraCinsi, SeqNo + 1, kayitSaat, user, dovizKuru));
+
             }
 
-            if (tahsilatItem.KapatilanUSD > 0)
-            {
-                Sqlexper.Komut(string.Format("EXEC YNS{0}.dbo.FaturalariKapat '{1}','{2}',{3},{4},{5},'{6}','{7}','{8}',{9},'{10}','{11}',{12}",
-                                SirketKodu, tahsilatItem.HesapKodu+"$", EvrakNo, tahsilatItem.KapatilanUSD.ToDot(), (tahsilatItem.KapatilanUSD * DovizKurlari.USD).ToDot(),
-                                tarih, EvrakNo, tahsilatItem.OdemeTuru, "USD", SeqNo + 1, kayitSaat, user, DovizKurlari.USD.ToDot()));
-            }
-
-            if (tahsilatItem.KapatilanEUR > 0)
-            {
-                Sqlexper.Komut(string.Format("EXEC YNS{0}.dbo.FaturalariKapat '{1}','{2}',{3},{4},{5},'{6}','{7}','{8}',{9},'{10}','{11}',{12}",
-                                SirketKodu, tahsilatItem.HesapKodu+"EU", EvrakNo, tahsilatItem.KapatilanEUR.ToDot(), (tahsilatItem.KapatilanEUR * DovizKurlari.EUR).ToDot(),
-                                tarih, EvrakNo, tahsilatItem.OdemeTuru, "EUR", SeqNo + 1, kayitSaat, user, DovizKurlari.EUR.ToDot()));
-            }
 
             string seri = EvrakNo.Substring(0, 2);
             EvrakNo = EvrakNo.Remove(0, 2);
             EvrakNo = EvrakNoOlustur(8, seri, EvrakNo.ToInt32());
             EvrakIni evrakIni = new EvrakIni
             {
-                pk_SeriNo = 1,
+                pk_SeriNo = seriNo,
                 EvrakNo = EvrakNo
             };
             Sqlexper.Update(evrakIni);
+
 
 
             Sqlexper.AcceptChanges();
