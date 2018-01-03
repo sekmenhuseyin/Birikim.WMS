@@ -785,13 +785,7 @@ namespace Wms12m
             foreach (var item in list)
             {
                 // muhasebe yılı bulunur
-                sql = string.Format(@"SELECT ISNULL(
-                                                SELECT        TOP 1 YEAR(CAST(SDK.Tarih-2 AS DATETIME))
-                                                FROM            SOLAR6.dbo.SDK INNER JOIN
-                                                                            SOLAR6.dbo.SDK AS SDK_1 ON SDK.SirketKod = SDK_1.SirketKod
-                                                WHERE        (SDK.Tip = 0) AND (SDK.Kod = '{0}') AND (SDK_1.Tip = 1) AND (SDK_1.Tarih <= {1})
-                                                ORDER BY SDK_1.Tarih DESC
-                                    , Year(GETDATE())) as Yil", item.SirketKod, item.Tarih);
+                sql = string.Format(@"EXEC BIRIKIM.dbo.GetSirketMuhasebeYear @SirketKodu = '{0}', @Tarih = {1}", item.SirketKod, item.Tarih);
                 var yil = db.Database.SqlQuery<int>(sql).FirstOrDefault();
                 // efatura kullanıcısı mı bul
                 sql = string.Format("SELECT EFatKullanici FROM FINSAT6{0}.FINSAT6{0}.CHK WHERE (HesapKodu = '{1}')", item.SirketKod, item.HesapKodu);
