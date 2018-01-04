@@ -367,9 +367,8 @@ namespace Wms12m.Presentation.Areas.YN.Controllers
                     LEFT JOIN YNS{0}.YNS{0}.CAR002 ON TahsilatMobil.HesapKodu = CAR002_HesapKodu
                     WHERE TahsilatNo='{1}'", YnsSirketKodu, ID)).FirstOrDefault();
 
-                    var yns = new YeniNesil(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, YnsSirketKodu);
-                    var sepetIslemleri = yns.TahsilatKaydet(item, vUser.UserName);
-                    result = new Result(true, 1);
+                    var yns = new YeniNesil(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, YnsSirketKodu);         
+                    result = yns.TahsilatKaydet(item, vUser.UserName);
                 }
 
                 if (result.Status == true)
