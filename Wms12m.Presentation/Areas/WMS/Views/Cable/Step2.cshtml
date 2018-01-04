@@ -47,8 +47,8 @@
                     @Html.ValidationSummary(true)
                     <table class="table table-striped table-bordered table-condensed" id="sample_2">
                         <thead><tr><th>Alıcı</th><th>Evrak No</th><th>Tarih</th><th>Saat</th><th>Mal Kodu</th><th>Mal Adı</th><th class="text-right">Miktar</th><th class="text-right">Stok</th><th class="text-right">Wms Stok</th><th class="text-right">Wms Rezerv</th><th>Birim</th><th></th></tr></thead>
-                        <tfoot><tr><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr></tfoot>
-                        <tfoot class="tf-search"><tr><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr></tfoot>
+                        <tfoot><tr><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr></tfoot>
+                        <tfoot class="tf-search"><tr><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr></tfoot>
                         <tbody>
                             @foreach (var item in Model)
                             {
@@ -98,7 +98,9 @@
     $(document).ready(function () {
         var table = $('#sample_2').DataTable({
             "pagingType": "full_numbers",
-            "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" }
+            "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
+            "order": [[2, "asc"], [3, "asc"]],
+            "columnDefs": [{ "targets": [11], "visible": false, "searchable": false }]
         });
         $('#sample_2 .tf-search th').each(function ()
         {
@@ -114,10 +116,7 @@
             if (selectall == true)
             {
                 $("#selector").text("Seçimi İptal Et"); selectall = false;
-                table.rows({ filter: 'applied' }).every(function (rowIdx, tableLoop, rowLoop)
-                {
-                    this.select();
-                });
+                table.rows({ filter: 'applied' }).every(function (rowIdx, tableLoop, rowLoop) { this.select(); });
             }
             else
             {
@@ -173,8 +172,7 @@
                 $("#localData").html("");
                 table.rows(".selected").every(function (rowIdx, tableLoop, rowLoop)
                 {
-                    $("#localData").html($("#localData").html() + "<input name='MalKodus' value='" + this.data()[4] + "' />" +
-                                                                "<input name='IDs' value='" +  this.data()[11] + "' />")
+                    $("#localData").html($("#localData").html() + "<input name='IDs' value='" +  this.data()[11] + "' />")
                 });
                 $("#submit").click();
             }

@@ -53,7 +53,7 @@
                             @foreach (var item in Model)
                             {
                                 list[x] = item.Miktar.ToString();
-                                <tr data-ID="@ViewBag.DepoID-@item.SirketID-@item.ROW_ID-@x" style="cursor:pointer;" onclick="$(this).toggleClass('selected');">
+                                <tr data-ID="@ViewBag.DepoID-@item.ROW_ID-@x" style="cursor:pointer;" onclick="$(this).toggleClass('selected');">
                                     <td style="width:20px!important;" class="details-control"></td>
                                     <td>@item.Unvan</td>
                                     <td>@item.EvrakNo</td>
@@ -67,7 +67,7 @@
                                     <td id="mkr@{@x}"></td>
                                     <td id="mktr@{@x}" ondblclick="ChangeMiktar(this, '@item.MalKodu', '@item.Miktar', '@x')" align="right">@String.Format("{0:n}", item.Miktar)</td>
                                     <td align="right">@String.Format("{0:n}", item.Stok)</td>
-                                    <td>@item.SirketID-@item.ROW_ID</td>
+                                    <td>@item.ROW_ID</td>
                                     <td>@x</td>
                                 </tr>
                                 x++;
@@ -83,7 +83,6 @@
                         </div>
                         <div class="col-md-2">
                             <input type="hidden" name="DepoID" value="@ViewBag.DepoID" />
-                            <input type="hidden" name="EvrakNos" value="@ViewBag.EvrakNos" />
                             <input type="hidden" name="checkboxes" id="checkboxes" value="" />
                             <input type="submit" class="hide hidden" value="submit" name="submit" id="submit" />
                             @{if (ViewBag.Yetki == true) { <input type="button" class="btn btn-primary btn-block green submit" value="İleri >>>" /> } }
