@@ -199,7 +199,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             // listeyi getir
             sql = string.Format("SELECT wms.Yer.HucreAd, wms.GorevYer.MalKodu, wms.GorevYer.Miktar, wms.GorevYer.Birim, wms.Yer.Miktar AS Stok " +
                                 "FROM wms.GorevYer INNER JOIN wms.Yer ON wms.GorevYer.YerID = wms.Yer.ID " +
-                                "WHERE (wms.GorevYer.GorevID = {1})", idDepo, cevap.GorevID.Value);
+                                "WHERE (wms.GorevYer.GorevID = {0})", cevap.GorevID.Value);
             var list2 = db.Database.SqlQuery<frmSiparisMalzeme>(sql).ToList();
             ViewBag.GorevID = cevap.GorevID.Value;
             ViewBag.DepoID = idDepo;
@@ -235,7 +235,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             // listeyi getir
             var sql = string.Format("SELECT wms.Yer.HucreAd, wms.GorevYer.MalKodu, wms.GorevYer.Miktar, wms.GorevYer.Birim,  wms.GorevYer.Sira, wms.Yer.Miktar AS Stok " +
                                 "FROM wms.GorevYer INNER JOIN wms.Yer ON wms.GorevYer.YerID = wms.Yer.ID " +
-                                "WHERE (wms.GorevYer.GorevID = {1}) ORDER BY  wms.GorevYer.Sira", DepoID, GorevID);
+                                "WHERE (wms.GorevYer.GorevID = {0}) ORDER BY  wms.GorevYer.Sira", GorevID);
             var list = db.Database.SqlQuery<frmSiparisMalzeme>(sql).ToList();
             ViewBag.GorevID = GorevID;
             return View("Step4", list);

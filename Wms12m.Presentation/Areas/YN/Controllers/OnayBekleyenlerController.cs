@@ -50,16 +50,6 @@ namespace Wms12m.Presentation.Areas.YN.Controllers
         [HttpPost]
         public PartialViewResult Siparis_Details(string ID, int Secim)
         {
-            string secimParam = "";
-            if (Secim == 0)
-                secimParam = "Onay Bekliyor";
-            else if (Secim == 1)
-                secimParam = "Onaylandı";
-            else if (Secim == 2)
-                secimParam = "Reddedildi";
-            else if (Secim == 3)
-                secimParam = "Normal";
-
             var list = db.Database.SqlQuery<frmOnaySiparisList>(string.Format(@"
             SELECT  STK002_MalKodu AS MalKodu, STK004.STK004_Aciklama AS MalAdi, STK002_CariHesapKodu AS HesapKodu, CAR002_Unvan1 AS Unvan, 
 		            STK002_EvrakSeriNo AS EvrakSeriNo, STK002_Depo AS Depo, STK002_Miktari AS Miktar, STK002_BirimFiyati AS BirimFiyat, 
@@ -70,8 +60,8 @@ namespace Wms12m.Presentation.Areas.YN.Controllers
             FROM   YNS{0}.YNS{0}.STK002(NOLOCK) 
             INNER JOIN  YNS{0}.YNS{0}.CAR002(NOLOCK) ON STK002_CariHesapKodu = CAR002_HesapKodu 
             INNER JOIN	YNS{0}.YNS{0}.STK004(NOLOCK) ON  STK002_MalKodu = STK004_MalKodu
-            WHERE  (STK002_GC = 1) AND (STK002_SipDurumu = 0)  AND (STK002_Kod10 = 'Normal') AND  STK002_EvrakSeriNo = '{1}'", 
-            YnsSirketKodu, ID, secimParam)).ToList();
+            WHERE  (STK002_GC = 1) AND (STK002_SipDurumu = 0)  AND (STK002_Kod10 = 'Normal') AND  STK002_EvrakSeriNo = '{1}'",
+            YnsSirketKodu, ID)).ToList();
             return PartialView("Siparis_Details", list);
         }
         /// <summary>
@@ -367,7 +357,7 @@ namespace Wms12m.Presentation.Areas.YN.Controllers
                     LEFT JOIN YNS{0}.YNS{0}.CAR002 ON TahsilatMobil.HesapKodu = CAR002_HesapKodu
                     WHERE TahsilatNo='{1}'", YnsSirketKodu, ID)).FirstOrDefault();
 
-                    var yns = new YeniNesil(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, YnsSirketKodu);         
+                    var yns = new YeniNesil(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, YnsSirketKodu);
                     result = yns.TahsilatKaydet(item, vUser.UserName);
                 }
 

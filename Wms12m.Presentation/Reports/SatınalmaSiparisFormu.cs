@@ -199,7 +199,7 @@ namespace Wms12m
 
                     if (talep.GMOnaylayan != null)
                     {
-                        var gm = db.Database.SqlQuery<GenelAyarVeParam>(string.Format("SELECT * FROM [Kaynak].[sta].[GenelAyarVeParams] WHERE Tip=1 AND Tip2=2 AND SiparisSorumlu = '{1}'", sirketKodu, (talep.GMOnaylayan ?? "-1"))).FirstOrDefault();
+                        var gm = db.Database.SqlQuery<GenelAyarVeParam>(string.Format("SELECT * FROM [Kaynak].[sta].[GenelAyarVeParams] WHERE Tip=1 AND Tip2=2 AND SiparisSorumlu = '{0}'", talep.GMOnaylayan ?? "-1")).FirstOrDefault();
                         if (gm != null)
                         {
                             var user = db.Users.Where(m => m.Kod == gm.SiparisSorumlu).FirstOrDefault();

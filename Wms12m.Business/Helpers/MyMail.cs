@@ -10,7 +10,7 @@ using Wms12m.Entity.Models;
 
 namespace Wms12m
 {
-    public class MyMail
+    public class MyMail : IDisposable
     {
         SmtpClient smtp;
         MailMessage message;
@@ -84,7 +84,6 @@ namespace Wms12m
             message.BodyEncoding = Encoding.UTF8;
             message.Body = mesaj;
             message.IsBodyHtml = IsBodyHtml;
-
             smtp = new SmtpClient()
             {
                 Port = smtpPort,
@@ -96,7 +95,6 @@ namespace Wms12m
             try
             {
                 smtp.Send(message);
-
                 MailGonderimBasarili = true;
                 return new Result(true);
             }
@@ -111,6 +109,16 @@ namespace Wms12m
         {
             smtp.Dispose();
             message.Dispose();
+            smtp = null;
+            message = null;
+        }
+
+        public void Dispose()
+        {
+            if (smtp != null)
+                smtp.Dispose();
+            if (message != null)
+                message.Dispose();
         }
     }
 }

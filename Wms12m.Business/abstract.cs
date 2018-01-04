@@ -60,6 +60,21 @@ namespace Wms12m.Business
         /// <summary>
         /// dispose
         /// </summary>
-        public void Dispose() => db.Dispose();
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(true);  // Violates rule
+        }
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (db != null)
+                {
+                    db.Dispose();
+                    db = null;
+                }
+            }
+        }
     }
 }

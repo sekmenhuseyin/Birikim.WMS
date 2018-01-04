@@ -306,26 +306,22 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                             icerik = "Purchase Order Items Information in Attachments";
                         }
 
-                        var m = new MyMail(false)
+                        using (var m = new MyMail(false)
                         {
                             MailHataMesajı = "Sipariş Onay Maili Gönderiminde hata oluştu!! Mail Gönderilelemedi!!",
                             MailBasariMesajı = "Sipariş Onay Maili başarılı bir şekilde gönderildi!!"
-                        };
-                        m.Gonder(kime, mailayar.MailCc, gorunenIsim, konu, icerik, attachList);
-
-                        if (m.MailGonderimBasarili)
+                        })
                         {
-                            db.Database.ExecuteSqlCommand(string.Format("UPDATE Kaynak.sta.Talep SET MailGonder=-1 WHERE TalepNo='{0}'", sipTalep.TalepNo));
+                            m.Gonder(kime, mailayar.MailCc, gorunenIsim, konu, icerik, attachList);
+                            if (m.MailGonderimBasarili)
+                            {
+                                db.Database.ExecuteSqlCommand(string.Format("UPDATE Kaynak.sta.Talep SET MailGonder=-1 WHERE TalepNo='{0}'", sipTalep.TalepNo));
+                            }
+                            else
+                            {
+                                db.Database.ExecuteSqlCommand(string.Format("UPDATE Kaynak.sta.Talep SET MailGonder={0} WHERE TalepNo='{1}'", 0, sipTalep.TalepNo));
+                            }
                         }
-                        else
-                        {
-                            db.Database.ExecuteSqlCommand(string.Format("UPDATE Kaynak.sta.Talep SET MailGonder={0} WHERE TalepNo='{1}'", 0, sipTalep.TalepNo));
-                        }
-
-                        #endregion
-
-                        #region Rapor oluşturma
-
                         #endregion
                     }
                     catch (Exception)

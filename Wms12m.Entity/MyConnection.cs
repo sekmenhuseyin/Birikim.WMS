@@ -37,8 +37,10 @@ namespace Wms12m
             try
             {
                 m_SqlCon = new SqlConnection(configConStr);
-                Cmd = new SqlCommand("", m_SqlCon);
-                Cmd.CommandTimeout = m_SqlCon.ConnectionTimeout;
+                Cmd = new SqlCommand("", m_SqlCon)
+                {
+                    CommandTimeout = m_SqlCon.ConnectionTimeout
+                };
                 Params = Cmd.Parameters;
                 m_DSet = new DataSet();
                 Cmd.CommandType = CommandType.Text;

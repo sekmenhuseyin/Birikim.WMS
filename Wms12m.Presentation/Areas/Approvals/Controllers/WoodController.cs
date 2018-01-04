@@ -763,9 +763,9 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                     }
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw ex;
+                return "";
             }
 
             var json = new JavaScriptSerializer().Serialize(list);

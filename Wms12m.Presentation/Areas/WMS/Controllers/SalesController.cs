@@ -70,7 +70,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         [HttpPost, ValidateAntiForgeryToken]
         public ActionResult Step3(frmSiparisSteps tbl)
         {
-            if (tbl.DepoID == "0" || tbl.EvrakNos.Count() == 0 || tbl.MalKodus.Count() == 0)
+            if (tbl.DepoID == "" || tbl.EvrakNos.Count() == 0 || tbl.MalKodus.Count() == 0)
                 return RedirectToAction("Index");
             if (CheckPerm(Perms.GenelSipariş, PermTypes.Reading) == false) return Redirect("/");
             // sql oluştur
@@ -87,7 +87,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         [HttpPost, ValidateAntiForgeryToken]
         public ActionResult Step4(frmSiparisSteps tbl)
         {
-            if (tbl.DepoID == "0" || tbl.EvrakNos.Count() == 0 || tbl.MalKodus.Count() == 0 || tbl.Miktars.Count() == 0 || tbl.IDs.Count() == 0)
+            if (tbl.DepoID == "" || tbl.EvrakNos.Count() == 0 || tbl.MalKodus.Count() == 0 || tbl.Miktars.Count() == 0 || tbl.IDs.Count() == 0)
                 return RedirectToAction("Index");
             if (CheckPerm(Perms.GenelSipariş, PermTypes.Writing) == false) return Redirect("/");
             // sql oluştur

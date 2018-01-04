@@ -131,6 +131,7 @@ namespace Wms12m.Presentation
                 Floor.Dispose();
                 Irsaliye.Dispose();
                 Persons.Dispose();
+                Roles.Dispose();
                 Section.Dispose();
                 Shelf.Dispose();
                 IrsaliyeDetay.Dispose();
