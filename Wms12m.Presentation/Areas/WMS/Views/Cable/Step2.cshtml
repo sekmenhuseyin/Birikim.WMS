@@ -3,6 +3,7 @@
     ViewBag.Title = "Kablo Sipariş Planlama - 2. Adım";
     Layout = "~/Views/Shared/_Layout.cshtml";
     string[] list; list = new string[Model.Count()]; int x = 0;
+    string[] EvrakNos = ViewBag.EvrakNos;
 }<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><a href="/WMS/Cable">Kablo Sipariş Planlama</a><i class="fa fa-circle"></i></li><li><span>2. Adım</span></li></ul></div>
 <h1 class="page-title">Kablo Sipariş Planlama - 2. Adım</h1>
 <div class="row">
@@ -40,32 +41,19 @@
             <div class="portlet-title"><div class="caption"><i class="fa fa-gift"></i>Kablo Sipariş Seçimi</div></div>
             <div class="portlet-body form p-30">
                 <p class="bold color-red">@Html.Raw(ViewBag.Hatali)</p>
-                @using (Html.BeginForm("Step3", "Cable", new { area = "WMS" }, FormMethod.Post, new { id = "frmSiparis", @class = "form-horizontal" }))
+                @using (Html.BeginForm("Step3", "Cable", new { area = "WMS" }, FormMethod.Post, new { @class = "form-horizontal" }))
                 {
                     @Html.AntiForgeryToken()
                     @Html.ValidationSummary(true)
                     <table class="table table-striped table-bordered table-condensed" id="sample_2">
-                        <thead>
-                            <tr>
-                                <th>Alıcı<br /><input class="w-50 input-circle" type="text" id="Alici" /></th>
-                                <th>Evrak No<br /><input class="w-50 input-circle" type="text" id="EvrakNo" /></th>
-                                <th>Tarih<br /><input class="w-50 input-circle" type="text" id="Tarih" /></th>
-                                <th>Saat</th>
-                                <th>Mal Kodu<br /><input class="w-50 input-circle" type="text" id="MalKodu" /></th>
-                                <th>Mal Adı<br /><input class="w-50 input-circle" type="text" id="MalAdi" /></th>
-                                <th class="text-right">Miktar</th>
-                                <th class="text-right">Stok</th>
-                                <th class="text-right">Wms Stok</th>
-                                <th class="text-right">Wms Rezerv</th>
-                                <th>Birim</th>
-                                <th>ID</th>
-                            </tr>
-                        </thead>
+                        <thead><tr><th>Alıcı</th><th>Evrak No</th><th>Tarih</th><th>Saat</th><th>Mal Kodu</th><th>Mal Adı</th><th class="text-right">Miktar</th><th class="text-right">Stok</th><th class="text-right">Wms Stok</th><th class="text-right">Wms Rezerv</th><th>Birim</th><th></th></tr></thead>
+                        <tfoot><tr><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr></tfoot>
+                        <tfoot class="tf-search"><tr><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr></tfoot>
                         <tbody>
                             @foreach (var item in Model)
                             {
                                 list[x] = item.Miktar.ToString();
-                                <tr style="cursor:pointer;" onclick="toggle(this,'@item.SirketID-@item.ID')">
+                                <tr style="cursor:pointer;" onclick="toggle(this)">
                                     <td>@item.Unvan</td>
                                     <td>@item.EvrakNo</td>
                                     <td>@item.Tarih.FromOADateInt()</td>
@@ -75,12 +63,9 @@
                                     <td class="text-right">@String.Format("{0:n}", item.Miktar)</td>
                                     <td class="text-right">@String.Format("{0:n}", item.GunesStok)</td>
                                     <td class="text-right">@String.Format("{0:n}", item.WmsStok)</td>
-                                    <td class="text-right">
-                                        @if (item.WmsRezerv != 0) {<a class="btn btn-default input-circle green" href="#modalEditPage" data-toggle="modal" onclick="editInModal2('/WMS/Stock/ReserveList', { MalKodu: '@item.MalKodu', DepoID: 0, DepoKodu: '@ViewBag.DepoID' })"> @String.Format("{0:n}", item.WmsRezerv) </a>}
-                                        else { @("0") }
-                                    </td>
+                                    <td class="text-right">@if (item.WmsRezerv != 0) {<a class="btn btn-default input-circle green" href="#modalEditPage" data-toggle="modal" onclick="editInModal2('/WMS/Stock/ReserveList', { MalKodu: '@item.MalKodu', DepoID: 0, DepoKodu: '@ViewBag.DepoID' })"> @String.Format("{0:n}", item.WmsRezerv) </a>} else { @("0") }</td>
                                     <td>@item.Birim</td>
-                                    <td>@item.SirketID-@item.ID</td>
+                                    <td>@item.ID</td>
                                 </tr>
                             }
                         </tbody>
@@ -94,12 +79,12 @@
                         </div>
                         <div class="col-md-2">
                             <input type="hidden" name="DepoID" value="@ViewBag.DepoID" />
-                            <input type="hidden" name="EvrakNos" value="@ViewBag.EvrakNos" />
-                            <input type="hidden" name="checkboxes" id="checkboxes" value="" />@if (ViewBag.hataliStok == true)
+                            <div id="localData" class="hidden"></div>@if (ViewBag.hataliStok == true)
                             {
                                 <input type="submit" class="hide hidden" value="submit" name="submit" id="submit" />
                                 <input type="button" class="btn btn-primary btn-block green submit" value="İleri >>>" />
                             }
+                            @foreach (var item in EvrakNos) {<input type="hidden" name="EvrakNos" value="@item" />}
                         </div>
                     </div>
                 }
@@ -108,51 +93,57 @@
     </div>
 </div>
 @section Scripts{<script>
-    var selected = ""; var selectall = true;
+    var selectall = true;
     var list = [@{for (int i = 0; i < Model.Count(); i++){ if(i>0){<text>,</text>} <text>"</text>@list[i]<text>"</text> }}];
     $(document).ready(function () {
-        //tarih alanları
-        $.datepicker.setDefaults($.datepicker.regional["tr"]);
-        $("#Alici").on("change paste keyup", function () { filterx(0, $("#Alici").val()); });
-        $("#EvrakNo").on("change paste keyup", function () { filterx(1, $("#EvrakNo").val()); });
-        $("#Tarih").datepicker().on("change", function (e) { filterx(2, e.target.value); });
-        $("#MalKodu").on("change paste keyup", function () { filterx(4, $("#MalKodu").val()); });
-        $("#MalAdi").on("change paste keyup", function () { filterx(5, $("#MalAdi").val()); });
         var table = $('#sample_2').DataTable({
             "pagingType": "full_numbers",
-            "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
-            "columnDefs": [{ "targets": [11], "visible": false, "searchable": false }]
+            "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" }
         });
-        function filterx(a, b) { filter(table, a, b); }
-        $("#selector").click(function () {
-            selected = "";
-            if (selectall == true) {
+        $('#sample_2 .tf-search th').each(function ()
+        {
+            var title = $('#sample_2 thead th').eq($(this).index()).text();
+            if (title != "" && title.indexOf("Tarih") !== -1)
+                $(this).html('<input class="form-control input-circle tarih" type="text" placeholder="Ara" />');
+            else if (title != "" && title != "Detay" && title != "Hareket")
+                $(this).html('<input class="form-control input-circle" type="text" placeholder="Ara" />');
+        });
+        $("#sample_2 tfoot input").on('keyup change', function () { table.column($(this).parent().index() + ':visible').search(this.value).draw(); });
+        $("#selector").click(function ()
+        {
+            if (selectall == true)
+            {
                 $("#selector").text("Seçimi İptal Et"); selectall = false;
-                table.rows({ filter: 'applied' }).every(function (rowIdx, tableLoop, rowLoop) {
-                    selected = selected + this.data()[11] + "#";
+                table.rows({ filter: 'applied' }).every(function (rowIdx, tableLoop, rowLoop)
+                {
                     this.select();
                 });
             }
-            else {
+            else
+            {
                 $("#selector").text("Hepsini Seç"); selectall = true;
                 table.rows().every(function (rowIdx, tableLoop, rowLoop) { this.deselect(); });
             }
-            $("#checkboxes").val(selected);
         });
-        $(".submit").click(function () {
+        $(".submit").click(function ()
+        {
             var cells = [, ,]; var result = false;
-            table.rows(".selected").every(function (rowIdx, tableLoop, rowLoop) {
+            table.rows(".selected").every(function (rowIdx, tableLoop, rowLoop)
+            {
                 var rezerv = 0;
-                if (this.data()[9] != "") {
+                if (this.data()[9] != "")
+                {
                     rezerv = parseFloat($(this.data()[9]).text().replace(".", "").replace(",", "."));
                 }
                 var miktar = parseFloat(this.data()[6].replace(".", "").replace(",", "."));
                 var stok = parseFloat(this.data()[8].replace(".", "").replace(",", ".")) - rezerv;
-                selected = selected + this.data()[11] + "#";
                 //aynı  malları grupla
-                if (cells.length > 2) {
-                    for (var i = 2, len = cells.length; i < len; i++) {
-                        if (cells[i][0] === this.data()[4]) {
+                if (cells.length > 2)
+                {
+                    for (var i = 2, len = cells.length; i < len; i++)
+                    {
+                        if (cells[i][0] === this.data()[4])
+                        {
                             cells[i][1] += miktar;
                             result = true;
                             break;
@@ -162,26 +153,35 @@
                 if (result == false) cells.push([this.data()[4], miktar, stok]);
             });
             result = false;
-            if (cells.length == 2) {
+            if (cells.length == 2)
+            {
                 Modaldialog("Lütfen sipariş seçin", "Hata", "Tamam", "btn-danger");
                 result = true;
                 return;
             }
-            cells.forEach(function (item) {
-                if (item[2] == 0) {
+            cells.forEach(function (item)
+            {
+                if (item[2] == 0)
+                {
                     Modaldialog(item[0] + " için stok bulunmamaktadır.", "Hata", "Tamam", "btn-danger");
                     result = true;
                     return;
                 }
             });
-            $("#checkboxes").val(selected);
-            if (result == false) $("#submit").click();
+            if (result == false)
+            {
+                $("#localData").html("");
+                table.rows(".selected").every(function (rowIdx, tableLoop, rowLoop)
+                {
+                    $("#localData").html($("#localData").html() + "<input name='MalKodus' value='" + this.data()[4] + "' />" +
+                                                                "<input name='IDs' value='" +  this.data()[11] + "' />")
+                });
+                $("#submit").click();
+            }
         });
     });
-    function toggle(row, id) {
+    function toggle(row)
+    {
         $(row).toggleClass('selected');
-        if ($(row).hasClass('selected') == true) selected = selected + id + "#";
-        else selected = selected.replace(id + "#", "");
-        $("#checkboxes").val(selected);
     }
 </script>}

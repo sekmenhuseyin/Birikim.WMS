@@ -9,12 +9,13 @@
                     <div class="row">
                         <div class="col-md-12">
                             <table class="table table-bordered table-condensed">
-                                <thead><tr><th>İşlem Türü</th><th>Evrak No</th><th>Hesap Kodu</th><th>Tarih</th></tr></thead>
+                                <thead><tr><th>İşlem Türü</th><th>Evrak No</th><th>Hesap Kodu</th><th>Ünvan</th><th>Tarih</th></tr></thead>
                                 <tbody>
                                     <tr>
-                                        <td> @{if (Model.FirstOrDefault().IslemTur == false) {<text>Giriş</text>} else {<text>Çıkış </text>}} </td>
+                                        <td>@{if (Model.FirstOrDefault().IslemTur == false) {<text>Giriş</text>} else {<text>Çıkış </text>}} </td>
                                         <td>@Model.FirstOrDefault().EvrakNo</td>
                                         <td>@Model.FirstOrDefault().HesapKodu</td>
+                                        <td>@Model.FirstOrDefault().Unvan</td>
                                         <td>@Model.FirstOrDefault().Tarih.FromOADateInt()</td>
                                     </tr>
                                 </tbody>

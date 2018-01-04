@@ -24,7 +24,7 @@
                 <div class="col-md-2 pull-right m-t-5 text-right"><a id="btnSablon" href="~/Content/StockSablon.xlsx" class="btn btn-default showlater">Şablon İndir</a></div>
            </div>
             <div class="portlet-body form">
-                @using (Ajax.BeginForm("ManualPlacement", "Stock", new { area = "WMS" }, new AjaxOptions { InsertionMode = InsertionMode.Replace, OnSuccess= "getresult", OnFailure= "Modaldialog('Lütfen Tekrar Deneyin', 'Hata', 'Tamam', 'btn-danger');" }, new { @class = "form-horizontal" }))
+                @using (Ajax.BeginForm("ManualCorrection", "Stock", new { area = "WMS" }, new AjaxOptions { InsertionMode = InsertionMode.Replace, OnSuccess= "getresult", OnFailure= "Modaldialog('Lütfen Tekrar Deneyin', 'Hata', 'Tamam', 'btn-danger');" }, new { @class = "form-horizontal" }))
                 {
                     @Html.AntiForgeryToken()
                     @Html.ValidationSummary(true)
