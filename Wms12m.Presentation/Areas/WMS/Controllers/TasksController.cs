@@ -318,7 +318,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             var tarih = fn.ToOADate();
             var saat = fn.ToOATime();
             short sirano = 0;
-            List<STI> stiList = new List<STI>();
+            var stiList = new List<STI>();
             // loop malkods
             var sql = string.Format("SELECT IslemTur, MalKodu, Miktar, Miktar2, Birim, Depo FROM FINSAT6{0}.FINSAT6{0}.STI WHERE (EvrakNo = '{1}') AND (KynkEvrakTip = 95) AND (IslemTip = 18)", mGorev.IR.SirketKod, mGorev.IR.EvrakNo);
             var list = db.Database.SqlQuery<frmGorevSayimFisi>(sql).ToList();
@@ -347,7 +347,10 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                     sirano++;
                 }
             }
-
+            if (sirano == 0)
+            {
+                return Json(new Result(false, "Fark fişine gerek yok!"), JsonRequestBehavior.AllowGet);
+            }
             // finsat tanımlama
             var EvrakSeriNo = 7500 + details.SayimSeri.Value - 1;
             var finsat = new Finsat(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, mGorev.IR.SirketKod);
