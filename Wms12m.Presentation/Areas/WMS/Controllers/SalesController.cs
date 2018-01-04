@@ -100,7 +100,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             int today = fn.ToOADate(), time = fn.ToOATime(), valorgun = 0;
             var idDepo = db.Depoes.Where(m => m.DepoKodu == tbl.DepoID).Select(m => m.ID).FirstOrDefault();
             var GorevNo = db.SettingsGorevNo(today, idDepo).FirstOrDefault();
-            string evraknolar = "", alıcılar = "", chk = "", teslimchk = "", aciklama = "", srkt = "";
+            string alıcılar = "", chk = "", teslimchk = "", aciklama = "", srkt = "";
             var cevap = new InsertIrsaliye_Result();
             Result _Result;
             // loop the list
@@ -116,7 +116,6 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                     valorgun = item.ValorGun;
                     teslimchk = item.TeslimChk;
                     aciklama = item.Aciklama;
-                    evraknolar += GorevNo + ",";
                     alıcılar += item.Unvan + ",";
                 }
 

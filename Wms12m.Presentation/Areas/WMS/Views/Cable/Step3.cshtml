@@ -53,7 +53,7 @@
                             @foreach (var item in Model)
                             {
                                 list[x] = item.Miktar.ToString();
-                                <tr data-ID="@ViewBag.DepoID-@item.ROW_ID-@x" style="cursor:pointer;" onclick="$(this).toggleClass('selected');">
+                                <tr data-Depo="@ViewBag.DepoID" data-Mal="@item.MalKodu" data-ID="@x" style="cursor:pointer;" onclick="$(this).toggleClass('selected');">
                                     <td style="width:20px!important;" class="details-control"></td>
                                     <td>@item.Unvan</td>
                                     <td>@item.EvrakNo</td>
@@ -83,8 +83,8 @@
                         </div>
                         <div class="col-md-2">
                             <input type="hidden" name="DepoID" value="@ViewBag.DepoID" />
-                            <input type="hidden" name="checkboxes" id="checkboxes" value="" />
-                            <input type="submit" class="hide hidden" value="submit" name="submit" id="submit" />
+                            <div id="localData" class="hidden"></div>
+                            <input type="submit" class="hide hidden" value="submit" id="submit" />
                             @{if (ViewBag.Yetki == true) { <input type="button" class="btn btn-primary btn-block green submit" value="İleri >>>" /> } }
                         </div>
                     </div>
@@ -102,21 +102,29 @@
         "columnDefs": [{ "targets": [14,13], "visible": false, "searchable": false }]
     });
     $(".submit").click(function () {
-        var selected = ""; var result = false, cont = true;
+        var result = false, cont = true;
         table.rows(".selected").every(function (rowIdx, tableLoop, rowLoop) {
-
             if (this.data()[10] == "" && cont == true) {
                 Modaldialog("Lütfen makara seçin", "Hata", "Tamam", "btn-danger");
                 cont = false;
             }
-            var miktar = parseFloat(list[this.data()[14]]);
-            selected = selected + this.data()[13] + "-" + this.data()[10] + "-" + miktar + "#";
             result = true;
         });
-        $("#checkboxes").val(selected);
         if (cont == true)
-            if (result == true) $("#submit").click();
-            else Modaldialog("Lütfen sipariş seçin", "Hata", "Tamam", "btn-danger");
+            if (result == true)
+            {
+                $("#localData").html("");
+                table.rows(".selected").every(function (rowIdx, tableLoop, rowLoop)
+                {
+                    $("#localData").html($("#localData").html() + "<input name='MalKodus' value='" + this.data()[10] + "' />" +
+                                                                    "<input name='IDs' value='" + this.data()[13] + "' />" +
+                                                                    "<input name='EvrakNos' value='" + this.data()[2] + "' />" +
+                                                                    "<input name='Miktars' value='" + parseFloat(list[this.data()[14]]) + "' />")
+                });
+                $("#submit").click();
+            }
+            else
+                Modaldialog("Lütfen sipariş seçin", "Hata", "Tamam", "btn-danger");
     });
     $("#selector").click(function () {
         if (selectall == true) {
@@ -132,7 +140,7 @@
         var tr = $(this).closest('tr');
         var row = table.row(tr);
         if (row.child.isShown()) { row.child.hide(); tr.removeClass('shown'); }
-        else { row.child(newrow(tr.data('id'))).show(); format(tr.data('id')); tr.addClass('shown'); }
+        else { row.child(newrow(tr.data('id'))).show(); format(tr.data('depo'), tr.data('mal'), tr.data('id')); tr.addClass('shown'); }
     });
     function SelectMakara(id, row, mno, mktr) {
         table.rows().every(function (rowIdx, tableLoop, rowLoop) {
@@ -184,14 +192,14 @@
         $(td).html(yeni.formatMoney(2));
     }
     function newrow(id) { return "<div id='new" + id + "'></div>"; }
-    function format(d) {
+    function format(Depo, MalKodu, id) {
         $.ajax({
             type: 'POST',
             url: '/WMS/Cable/Step3Details',
-            data: { "ID": d },
+            data: { "Depo": Depo, "MalKodu": MalKodu, "Satir": id },
             dataType: "html",
             success: function (data) {
-                $('#new' + d).html(data);
+                $('#new' + id).html(data);
             }
         });
     }

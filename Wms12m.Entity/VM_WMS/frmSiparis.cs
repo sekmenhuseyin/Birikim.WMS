@@ -90,7 +90,6 @@ namespace Wms12m.Entity
     public class frmSiparisMalzemeOnay
     {
         public string ID { get; set; }
-        public int DegisSaat { get; set; }
         public int ROW_ID { get; set; }
         public string SirketID { get; set; }
         public string EvrakNo { get; set; }
@@ -106,6 +105,7 @@ namespace Wms12m.Entity
         public string Aciklama { get; set; }
         public short ValorGun { get; set; }
         public int Tarih { get; set; }
+        public int DegisSaat { get; set; }
         public short SiraNo { get; set; }
         public string MalAdi4 { get; set; }//marka
         public string Nesne2 { get; set; }//cins
