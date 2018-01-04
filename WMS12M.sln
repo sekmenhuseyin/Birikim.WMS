@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.16
+VisualStudioVersion = 15.0.27130.2010
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wms12m.Business", "Wms12m.Business\Wms12m.Business.csproj", "{3B9D880E-FEEC-4E24-9B47-B5F5DB860819}"
 EndProject
@@ -10,6 +10,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wms12m.Entity", "Wms12m.Entity\Wms12m.Entity.csproj", "{8C1BE237-38F4-4170-AE02-AC56D44FDE73}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wms12m.Presentation", "Wms12m.Presentation\Wms12m.Presentation.csproj", "{5BDA8764-6E30-43B3-8BC2-B3168CCF23FF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wms12m.Test", "Wms12m.Test\Wms12m.Test.csproj", "{8726F8A8-C325-4743-9C90-121E6E3C692B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,8 +35,15 @@ Global
 		{5BDA8764-6E30-43B3-8BC2-B3168CCF23FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5BDA8764-6E30-43B3-8BC2-B3168CCF23FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5BDA8764-6E30-43B3-8BC2-B3168CCF23FF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8726F8A8-C325-4743-9C90-121E6E3C692B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8726F8A8-C325-4743-9C90-121E6E3C692B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8726F8A8-C325-4743-9C90-121E6E3C692B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8726F8A8-C325-4743-9C90-121E6E3C692B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8E532432-421C-4CA4-BDC8-D00A63D42F70}
 	EndGlobalSection
 EndGlobal
