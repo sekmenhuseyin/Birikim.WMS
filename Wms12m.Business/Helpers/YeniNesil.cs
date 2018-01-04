@@ -478,7 +478,7 @@ namespace Wms12m
             }
             else if(tahsilatItem.IslemTuru == "İskonto")
             {
-                string paraCinsi = "TL";
+                string paraCinsi = "TL", ekHesapKod = "";
                 decimal islemTutar = 0, islemTutarTL = 0, dovizKuru = 0;
 
                 islemTutar = tahsilatItem.Tutar;
@@ -488,17 +488,19 @@ namespace Wms12m
                     paraCinsi = "USD";
                     islemTutarTL = islemTutar * DovizKurlari.USD;
                     dovizKuru = DovizKurlari.USD;
+                    ekHesapKod = "$";
                 }
                 else if (tahsilatItem.DovizCinsi == "EUR")
                 {
                     paraCinsi = "EUR";
                     islemTutarTL = islemTutar * DovizKurlari.EUR;
                     dovizKuru = DovizKurlari.EUR;
+                    ekHesapKod = "EU";
                 }
 
                 Sqlexper.Komut(string.Format("EXEC YNS{0}.dbo.FaturalariKapat 1,'{1}','{2}',{3},{4},{5},'{6}','{7}','{8}',{9},'{10}','{11}',{12}",
-                                SirketKodu, tahsilatItem.HesapKodu, EvrakNo, islemTutar.ToDot(), islemTutarTL.ToDot(),
-                                tarih, EvrakNo, tahsilatItem.OdemeTuru, paraCinsi, SeqNo + 1, kayitSaat, user, dovizKuru));
+                                SirketKodu, tahsilatItem.HesapKodu+ekHesapKod, EvrakNo, islemTutar.ToDot(), islemTutarTL.ToDot(),
+                                tarih, EvrakNo, tahsilatItem.OdemeTuru, paraCinsi, SeqNo + 1, kayitSaat, user, dovizKuru.ToDot()));
 
             }
 
@@ -512,12 +514,9 @@ namespace Wms12m
                 EvrakNo = EvrakNo
             };
             Sqlexper.Update(evrakIni);
+           
 
-
-
-            Sqlexper.AcceptChanges();
-
-            return new Result();
+            return Sqlexper.AcceptChanges();
         }
 
         /// <summary>
