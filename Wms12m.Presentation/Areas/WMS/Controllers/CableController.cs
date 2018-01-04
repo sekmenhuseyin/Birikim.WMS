@@ -360,12 +360,12 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             try
             {
                 var list = db.Database.SqlQuery<frmSiparisler>(sql).ToList();
-                return PartialView("_Siparis", list);
+                return PartialView("../Sales/_Siparis", list);
             }
             catch (Exception ex)
             {
                 Logger(ex, "Cable/GetSiparis");
-                return PartialView("_Siparis", new List<frmSiparisler>());
+                return PartialView("../Sales/_Siparis", new List<frmSiparisler>());
             }
         }
     }

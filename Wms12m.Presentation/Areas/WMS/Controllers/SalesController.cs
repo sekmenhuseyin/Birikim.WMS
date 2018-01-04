@@ -26,7 +26,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         public ActionResult Step2(frmSiparisSteps tbl)
         {
             //kontrol
-            if (tbl.DepoID == "0" || tbl.EvrakNos.Count() == 0)
+            if (tbl.DepoID == "" || tbl.EvrakNos.Count() == 0)
                 return RedirectToAction("Index");
             if (CheckPerm(Perms.GenelSipariş, PermTypes.Reading) == false) return Redirect("/");
             // sql oluştur

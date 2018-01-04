@@ -696,7 +696,6 @@
     <Content Include="Areas\WMS\Views\Stock\Cable.cshtml" />
     <Content Include="Areas\WMS\Views\Stock\CableList.cshtml" />
     <Content Include="Areas\WMS\Views\Cable\Index.cshtml" />
-    <Content Include="Areas\WMS\Views\Cable\_Siparis.cshtml" />
     <Content Include="Areas\WMS\Views\Cable\Step2.cshtml" />
     <Content Include="Areas\WMS\Views\Cable\Step3.cshtml" />
     <Content Include="Areas\WMS\Views\Transfer\WaitingList.cshtml" />
