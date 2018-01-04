@@ -108,7 +108,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                 // irsaliye tablosu
                 if (chk != item.Chk || valorgun != item.ValorGun || teslimchk != item.TeslimChk || aciklama != item.Aciklama)
                 {
-                    cevap = db.InsertIrsaliye(item.SirketID, idDepo, GorevNo, GorevNo, today, "", true, ComboItems.SiparişTopla.ToInt32(), vUser.UserName, today, time, item.Chk, item.TeslimChk, item.ValorGun, item.EvrakNo, item.Aciklama).FirstOrDefault();
+                    cevap = db.InsertIrsaliye(vUser.SirketKodu, idDepo, GorevNo, GorevNo, today, "", true, ComboItems.SiparişTopla.ToInt32(), vUser.UserName, today, time, item.Chk, item.TeslimChk, item.ValorGun, item.EvrakNo, item.Aciklama).FirstOrDefault();
                     // save sck
                     chk = item.Chk;
                     valorgun = item.ValorGun;
@@ -160,38 +160,6 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             var grv = db.Gorevs.Where(m => m.ID == cevap.GorevID).FirstOrDefault();
             grv.Bilgi = "Alıcı: " + alıcılar;
             db.SaveChanges();
-            // get gorev details
-            sql = string.Format("EXEC FINSAT6{0}.wms.getSiparisListStep41 {1}", vUser.SirketKodu, cevap.GorevID);
-            list = db.Database.SqlQuery<frmSiparisMalzemeOnay>(sql).ToList();
-            foreach (var item in list)
-            {
-                var tmpYer = db.Yers.Where(m => m.MalKodu == item.MalKodu && m.Birim == item.Birim && m.Kat.Bolum.Raf.Koridor.Depo.DepoKodu == tbl.DepoID && m.Miktar > 0).OrderBy(m => m.Miktar).ToList();
-                decimal toplam = 0, miktar = 0;
-                if (tmpYer != null)
-                {
-                    foreach (var itemyer in tmpYer)
-                    {
-                        if (itemyer.Miktar >= (item.Miktar - toplam))
-                            miktar = item.Miktar - toplam;
-                        else
-                            miktar = itemyer.Miktar;
-                        toplam += miktar;
-                        // miktarı tabloya ekle
-                        var tblyer = new GorevYer()
-                        {
-                            GorevID = cevap.GorevID.Value,
-                            YerID = itemyer.ID,
-                            MalKodu = item.MalKodu,
-                            Birim = item.Birim,
-                            Miktar = miktar,
-                            GC = true
-                        };
-                        TaskYer.Operation(tblyer);
-                        // toplam yeterli miktardaysa
-                        if (toplam == item.Miktar) break;
-                    }
-                }
-            }
             // sıralama
             var lstKoridor = db.GetKoridorIdFromGorevId(cevap.GorevID.Value).ToList();
             var asc = false; var sira = 1;

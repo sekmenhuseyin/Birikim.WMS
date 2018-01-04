@@ -700,7 +700,6 @@
     <Content Include="Areas\WMS\Views\Cable\Step3.cshtml" />
     <Content Include="Areas\WMS\Views\Transfer\WaitingList.cshtml" />
     <Content Include="Areas\WMS\Views\Cable\Step4.cshtml" />
-    <Content Include="Areas\WMS\Views\Cable\Step5.cshtml" />
     <Content Include="Areas\WMS\Views\Stock\ManualCorrection.cshtml" />
     <Content Include="Views\Menu\Index.cshtml" />
     <Content Include="Areas\WMS\Views\Purchase\List.cshtml" />
