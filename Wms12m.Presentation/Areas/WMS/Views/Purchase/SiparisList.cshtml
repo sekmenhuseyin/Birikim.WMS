@@ -35,7 +35,7 @@
             </div>
         </div>
     </div>
-    @using (Ajax.BeginForm("FromSiparis", "Purchase", new { area = "WMS" }, new AjaxOptions { InsertionMode = InsertionMode.Replace, OnSuccess = "$('#submitForm').click()", OnFailure = "Modaldialog('Lütfen Tekrar Deneyin', 'Hata', 'Tamam', 'btn-danger');" }, new { @class = "hidden", id = "frmFromSiparis" }))
+    @using (Ajax.BeginForm("FromSiparis", "Purchase", new { area = "WMS" }, new AjaxOptions { InsertionMode = InsertionMode.Replace, UpdateTargetId = "StoreGrid", OnFailure = "Modaldialog('Lütfen Tekrar Deneyin', 'Hata', 'Tamam', 'btn-danger');" }, new { @class = "hidden", id = "frmFromSiparis" }))
     {
         @Html.AntiForgeryToken()
         <input type="text" name="Id" value="@ViewBag.IrsNo" />
@@ -73,7 +73,7 @@
                     "<input name='EvrakNos' value='" + this.data()[0] + "' />" +
                     "<input name='MalKodus' value='" + this.data()[2] + "' />" +
                     "<input name='IDs' value='" + this.data()[6] + "' />" +
-                    "<input name='Miktars' value='" + $("#txtMiktar" + this.data()[6]).val() + "' />"
+                    "<input name='Miktars' value='" + $("#txtMiktar" + this.data()[6]).val().replace(",",".") + "' />"
                 )
             });
             if (result == true) $("#submit").click();
