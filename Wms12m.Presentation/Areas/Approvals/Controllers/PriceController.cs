@@ -505,11 +505,6 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                             var fytGuncellenecek = db.Database.SqlQuery<FYT>(durum3sql).FirstOrDefault();
                             if (fytGuncellenecek != null)
                             {
-                                // fytGuncellenecek.SatisFiyat1 = rts.SatisFiyat1;
-                                // fytGuncellenecek.SF1Birim = (short)rts.SatisFiyat1BirimInt;
-                                // fytGuncellenecek.DvzSatisFiyat1 = rts.DovizSatisFiyat1;
-                                // fytGuncellenecek.SF1DovizCinsi = rts.DovizCinsi.Trim();
-                                // fytGuncellenecek.DovizSF1Birim = (short)rts.DovizSF1BirimInt;
                                 db.Database.ExecuteSqlCommand(string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[FYT] SET SatisFiyat1 = " + rts.SatisFiyat1.ToDecimal() + ", SF1Birim='" + rts.SatisFiyat1BirimInt.ToShort() + "', DvzSatisFiyat1={1}, SF1DovizCinsi='{2}', DovizSF1Birim={3}  where ROW_ID = '{4}'", vUser.SirketKodu, rts.DovizSatisFiyat1.ToDecimal(), rts.DovizCinsi.ToString().Trim(), rts.DovizSF1BirimInt.ToShort(), fytGuncellenecek.ROW_ID));
                             }
 

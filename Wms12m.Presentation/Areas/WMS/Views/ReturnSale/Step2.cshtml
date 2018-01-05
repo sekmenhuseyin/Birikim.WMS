@@ -133,7 +133,7 @@
                 return;
             }
             if (iade == true) {
-                Modaldialog("Seçili satırların iade miktarı 0'dan büyük olmalıdır.", "Uyarı", "Tamam", "btn-danger");
+                Modaldialog("Seçili satırların iade miktarı 0'dan büyük olmalıdır.", "btn-warning", "Tamam", "btn-danger");
                 return;
             }
             $("#checkboxes").val(selected);
@@ -162,7 +162,7 @@
         // kontroller
         if (yeni > parseFloat(miktar))
         {
-            Modaldialog("İade miktarı satış miktarını geçmemelidir.", "Uyarı", "Tamam", "btn-danger");
+            Modaldialog("İade miktarı satış miktarını geçmemelidir.", "btn-warning", "Tamam", "btn-danger");
             return;
         }
         if (yeni > 0)

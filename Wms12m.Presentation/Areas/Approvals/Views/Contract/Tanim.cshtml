@@ -681,21 +681,21 @@
             return;
         //Kontrol
         if ($(".txt_sozlesme_sira_no").dxTextBox("instance").option("readOnly")) {
-            Modaldialog("Sözleşme Değiştirilemez.", "Satır Ekle", "Tamam", "Uyarı");
+            Modaldialog("Sözleşme Değiştirilemez.", "Satır Ekle", "Tamam", "btn-warning");
             return;
         }
         if ($(".select_fiyat_listesi").dxLookup("instance").option("value") == null) {
-            Modaldialog("Fiyat Listesi Seçmelisiniz.", "Satır Ekle", "Tamam", "Uyarı");
+            Modaldialog("Fiyat Listesi Seçmelisiniz.", "Satır Ekle", "Tamam", "btn-warning");
             return;
         }
 
         if ($(".select_urun_grubu").dxSelectBox("instance").option("value") == null) {
-            Modaldialog("Ürün Grubu Seçmelisiniz.", "Satır Ekle", "Tamam", "Uyarı");
+            Modaldialog("Ürün Grubu Seçmelisiniz.", "Satır Ekle", "Tamam", "btn-warning");
             return;
         }
 
         if ($(".select_urun_kodu").dxLookup("instance").option("value") == null) {
-            Modaldialog("Ürün Kodu Seçmelisiniz.", "Satır Ekle", "Tamam", "Uyarı");
+            Modaldialog("Ürün Kodu Seçmelisiniz.", "Satır Ekle", "Tamam", "btn-warning");
             return;
         }
 
@@ -734,7 +734,7 @@
             return;
 
         if ($(".txt_sozlesme_sira_no").dxTextBox("instance").option("value") == "") {
-            Modaldialog("Sözleşme Numarası Girmelisiniz.", "Satır Ekle", "Tamam", "Uyarı");
+            Modaldialog("Sözleşme Numarası Girmelisiniz.", "Satır Ekle", "Tamam", "btn-warning");
             return;
         }
         var ListeNo = $(".txt_sozlesme_sira_no").dxTextBox("instance").option("value");
@@ -758,7 +758,7 @@
                         setTimeout(function () { window.location.reload(); }, 500);
                     }
                     else {
-                        Modaldialog(data.Message, "Kayıt İşlemi", "Tamam", "Uyarı");
+                        Modaldialog(data.Message, "Kayıt İşlemi", "Tamam", "btn-warning");
                     }
 
                 }
@@ -803,11 +803,11 @@
         sozNoReadOnly = $(".txt_sozlesme_sira_no").dxTextBox("instance").option("readOnly");
         sozlesme = $(".select_sozlesmeler").dxLookup("instance").option("value");
         if (sozDurum == true && sozNoReadOnly == true) {
-            Modaldialog("Sözleşme Değiştirilemez", "Sözleşme Sil", "Tamam", "Uyarı");
+            Modaldialog("Sözleşme Değiştirilemez", "Sözleşme Sil", "Tamam", "btn-warning");
             return;
         }
         if (sozlesme == null) {
-            Modaldialog("Sözleşme Seçmelisiniz", "Sözleşme Sil", "Tamam", "Uyarı");
+            Modaldialog("Sözleşme Seçmelisiniz", "Sözleşme Sil", "Tamam", "btn-warning");
             return;
         }
 
@@ -821,7 +821,7 @@
                     setTimeout(function () { window.location.reload(); }, 500);
                 }
                 else {
-                    Modaldialog(data.Message, "Kayıt İşlemi", "Tamam", "Uyarı");
+                    Modaldialog(data.Message, "Kayıt İşlemi", "Tamam", "btn-warning");
                 }
             }
         });
@@ -870,15 +870,15 @@
         if (yeni_bag_tut > 0) {
             if (yeni_bag_tut > 0 && yeni_bag_tut > onc_bag_tut) {
                 if (listeNo == null) {
-                    Modaldialog("ListeNo Boş Geçilemez.", "Sözleşme Güncelle", "Tamam", "Uyarı");
+                    Modaldialog("ListeNo Boş Geçilemez.", "Sözleşme Güncelle", "Tamam", "btn-warning");
                     return;
                 }
                 if (bas_tarih == null) {
-                    Modaldialog("Başlangıç Tarihi Boş Geçilemez.", "Sözleşme Güncelle", "Tamam", "Uyarı");
+                    Modaldialog("Başlangıç Tarihi Boş Geçilemez.", "Sözleşme Güncelle", "Tamam", "btn-warning");
                     return;
                 }
                 if (mus_uyg_sekli == "") {
-                    Modaldialog("Müşteri Uygunluk Şekli Boş Geçilemez.", "Sözleşme Güncelle", "Tamam", "Uyarı");
+                    Modaldialog("Müşteri Uygunluk Şekli Boş Geçilemez.", "Sözleşme Güncelle", "Tamam", "btn-warning");
                     return;
                 }
                 $.ajax({
@@ -892,18 +892,18 @@
                             setTimeout(function () { window.location.reload(); }, 500);
                         }
                         else {
-                            Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "Uyarı");
+                            Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "btn-warning");
                         }
                     }
                 });
             }
             else {
-                Modaldialog("Yeni Bağlantı Tutarı Önceki Bağlantı Tutarından Büyük Olmalıdır.", "Sözleşme Güncelle", "Tamam", "Uyarı");
+                Modaldialog("Yeni Bağlantı Tutarı Önceki Bağlantı Tutarından Büyük Olmalıdır.", "Sözleşme Güncelle", "Tamam", "btn-warning");
                 return;
             }
         }
         else {
-            Modaldialog("Yeni Bağlantı Tutarı Girmelisiniz.", "Sözleşme Güncelle", "Tamam", "Uyarı");
+            Modaldialog("Yeni Bağlantı Tutarı Girmelisiniz.", "Sözleşme Güncelle", "Tamam", "btn-warning");
             return;
         }
 

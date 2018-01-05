@@ -147,7 +147,7 @@
                 }
             });
             if (iade == true) {
-                Modaldialog("Seçili satırların iade miktarı 0'dan büyük olmalıdır.", "Uyarı", "Tamam", "btn-danger");
+                Modaldialog("Seçili satırların iade miktarı 0'dan büyük olmalıdır.", "btn-warning", "Tamam", "btn-danger");
                 return;
             }
             $("#checkboxes").val(selected);
@@ -177,12 +177,12 @@
         // kontroller
         if ((yeni > (stok - rezerv)) || (stok == 0))
         {
-            Modaldialog("Yeterli stok bulunmamaktadır.", "Uyarı", "Tamam", "btn-danger");
+            Modaldialog("Yeterli stok bulunmamaktadır.", "btn-warning", "Tamam", "btn-danger");
             return;
         }
         if (yeni > miktar)
         {
-            Modaldialog("İade miktarı alım miktarını geçmemelidir.", "Uyarı", "Tamam", "btn-danger");
+            Modaldialog("İade miktarı alım miktarını geçmemelidir.", "btn-warning", "Tamam", "btn-danger");
             return;
         }
 

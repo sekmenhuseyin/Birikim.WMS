@@ -353,7 +353,7 @@
                         setTimeout(function () { window.location.reload(); }, 500);
                     }
                     else {
-                        Modaldialog("Hata Oluştu", "Silme İşlemi", "Tamam", "Uyarı");
+                        Modaldialog("Hata Oluştu", "Silme İşlemi", "Tamam", "btn-warning");
                         setTimeout(function () { window.location.reload(); }, 500);
                         return;
                     }
@@ -361,7 +361,7 @@
             });
         }
         else {
-            Modaldialog("Satır Seçiniz", "Silme İşlemi", "Tamam", "Uyarı");
+            Modaldialog("Satır Seçiniz", "Silme İşlemi", "Tamam", "btn-warning");
             return;
         }
     });
@@ -383,19 +383,19 @@
         }
 
         if (jObject["HesapKodu"] == null) {
-            Modaldialog("HesapKodu Seçmelisiniz", "Güncelleme İşlemi", "Tamam", "Uyarı");
+            Modaldialog("HesapKodu Seçmelisiniz", "Güncelleme İşlemi", "Tamam", "btn-warning");
             return;
         }
         if (jObject["TeminatCinsi"] == null) {
-            Modaldialog("Teminat Cinsi Seçmelisiniz", "Güncelleme İşlemi", "Tamam", "Uyarı");
+            Modaldialog("Teminat Cinsi Seçmelisiniz", "Güncelleme İşlemi", "Tamam", "btn-warning");
             return;
         }
         if (jObject["TeminatTutari"] <= 0) {
-            Modaldialog("Teminat Tutarı Girmelisiniz", "Güncelleme İşlemi", "Tamam", "Uyarı");
+            Modaldialog("Teminat Tutarı Girmelisiniz", "Güncelleme İşlemi", "Tamam", "btn-warning");
             return;
         }
         if (jObject["Tarih"] == null) {
-            Modaldialog("Tarih Seçmelisiniz", "Güncelleme İşlemi", "Tamam", "Uyarı");
+            Modaldialog("Tarih Seçmelisiniz", "Güncelleme İşlemi", "Tamam", "btn-warning");
             return;
         }
         $.ajax({
@@ -407,7 +407,7 @@
                     setTimeout(function () { window.location.reload(); }, 500);
                 }
                 else {
-                    Modaldialog("Hata Oluştu", "Silme İşlemi", "Tamam", "Uyarı");
+                    Modaldialog("Hata Oluştu", "Silme İşlemi", "Tamam", "btn-warning");
                     setTimeout(function () { window.location.reload(); }, 500);
                     return;
                 }
