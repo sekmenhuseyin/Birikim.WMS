@@ -104,7 +104,7 @@
                         }
                     },
                     legend: {
-                        data: ['2015', '2016', '2017']
+                        data: ['@(@DateTime.Today.Year-2)', '@(@DateTime.Today.Year-1)', '@DateTime.Today.Year']
                     },
                     calculable: true,
                     xAxis: [{
@@ -118,7 +118,7 @@
                         }
                     }],
                     series: [{
-                        name: '2015',
+                        name: '@(@DateTime.Today.Year-2)',
                         type: 'bar',
                         data: Yil2015,
                         markPoint : {
@@ -133,7 +133,7 @@
                             ]
                         }
                     }, {
-                        name: '2016',
+                        name: '@(@DateTime.Today.Year-1)',
                         type: 'bar',
                         data: Yil2016,
                         markPoint : {
@@ -148,7 +148,7 @@
                             ]
                         }
                     }, {
-                        name: '2017',
+                        name: '@DateTime.Today.Year',
                         type: 'bar',
                         data: Yil2017,
                         markPoint : {
