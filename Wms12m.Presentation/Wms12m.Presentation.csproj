@@ -242,9 +242,9 @@
     <Content Include="Content\images\Medifarm-Logo-30.png" />
     <Content Include="Content\images\Medifarm-Logo-90.png" />
     <Content Include="Content\images\Medifarm-Logo.png" />
-    <Content Include="Content\images\peli-logo-30.png" />
-    <Content Include="Content\images\peli-logo-90.png" />
-    <Content Include="Content\images\peli-logo.png" />
+    <Content Include="Content\images\pelit-logo-30.png" />
+    <Content Include="Content\images\pelit-logo-90.png" />
+    <Content Include="Content\images\pelit-logo.png" />
     <Content Include="Content\images\tum-grubu-logo-30.png" />
     <Content Include="Content\images\tum-grubu-logo-90.png" />
     <Content Include="Content\images\tum-grubu-logo.png" />
