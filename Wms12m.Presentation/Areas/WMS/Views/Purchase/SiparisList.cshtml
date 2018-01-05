@@ -73,7 +73,7 @@
                     "<input name='EvrakNos' value='" + this.data()[0] + "' />" +
                     "<input name='MalKodus' value='" + this.data()[2] + "' />" +
                     "<input name='IDs' value='" + this.data()[6] + "' />" +
-                    "<input name='Miktars' value='" + $("#txtMiktar" + this.data()[6]).val().replace(",",".") + "' />"
+                    "<input name='Miktars' value='" + $("#txtMiktar" + this.data()[6]).val() + "' />"
                 )
             });
             if (result == true) $("#submit").click();
