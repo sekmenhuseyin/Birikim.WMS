@@ -10,6 +10,8 @@ Candan Altıntaş
 Gizem Altıntaş
 Emre Ünal
 Güler Dostdoğru
+Berk Tokgöz
+İlhan Demirtepe
 /* SITE */
 Name: ERP Yönetim Paneli
 Language: Turkish
