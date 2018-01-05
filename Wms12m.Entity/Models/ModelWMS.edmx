@@ -1259,6 +1259,46 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="CachedChartBakiyeRisk" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="DB" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="CachedChartBekleyenUrunMiktarFiyat" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="DB" Type="varchar" Mode="In" />
+          <Parameter Name="Miktarmi" Type="bit" Mode="In" />
+        </Function>
+        <Function Name="CachedChartLocation" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="DB" Type="varchar" Mode="In" />
+          <Parameter Name="Ay" Type="int" Mode="In" />
+        </Function>
+        <Function Name="CachedChartLocationKriter" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="DB" Type="varchar" Mode="In" />
+          <Parameter Name="Ay" Type="int" Mode="In" />
+          <Parameter Name="Kriter" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="CachedChartMonthly" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="DB" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="CachedChartMonthlyByKriter" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="DB" Type="varchar" Mode="In" />
+          <Parameter Name="Grup" Type="varchar" Mode="In" />
+          <Parameter Name="Kriter" Type="varchar" Mode="In" />
+          <Parameter Name="IslemTip" Type="smallint" Mode="In" />
+        </Function>
+        <Function Name="CachedChartSatisBaglanti" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="DB" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="CachedChartUrunGrubu" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="DB" Type="varchar" Mode="In" />
+          <Parameter Name="Ay" Type="int" Mode="In" />
+        </Function>
+        <Function Name="CachedChartUrunGrubuKriter" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="DB" Type="varchar" Mode="In" />
+          <Parameter Name="Ay" Type="int" Mode="In" />
+          <Parameter Name="Kriter" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="CachedChartYear2Day" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="DB" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="DeleteLog" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="table" Type="varchar" Mode="In" />
           <Parameter Name="ID" Type="varchar" Mode="In" />
@@ -1368,46 +1408,6 @@
           <Parameter Name="GorevID" Type="int" Mode="In" />
           <Parameter Name="KoridorID" Type="int" Mode="In" />
           <Parameter Name="desc" Type="bit" Mode="In" />
-        </Function>
-        <Function Name="GetCachedChartBakiyeRisk" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="wms">
-          <Parameter Name="DB" Type="varchar" Mode="In" />
-        </Function>
-        <Function Name="GetCachedChartBekleyenUrunMiktarFiyat" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="wms">
-          <Parameter Name="DB" Type="varchar" Mode="In" />
-          <Parameter Name="Miktarmi" Type="bit" Mode="In" />
-        </Function>
-        <Function Name="GetCachedChartLocation" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="wms">
-          <Parameter Name="DB" Type="varchar" Mode="In" />
-          <Parameter Name="Ay" Type="int" Mode="In" />
-        </Function>
-        <Function Name="GetCachedChartLocationKriter" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="wms">
-          <Parameter Name="DB" Type="varchar" Mode="In" />
-          <Parameter Name="Ay" Type="int" Mode="In" />
-          <Parameter Name="Kriter" Type="varchar" Mode="In" />
-        </Function>
-        <Function Name="GetCachedChartMonthly" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="wms">
-          <Parameter Name="DB" Type="varchar" Mode="In" />
-        </Function>
-        <Function Name="GetCachedChartMonthlyByKriter" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="wms">
-          <Parameter Name="DB" Type="varchar" Mode="In" />
-          <Parameter Name="Grup" Type="varchar" Mode="In" />
-          <Parameter Name="Kriter" Type="varchar" Mode="In" />
-          <Parameter Name="IslemTip" Type="smallint" Mode="In" />
-        </Function>
-        <Function Name="GetCachedChartSatisBaglanti" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="wms">
-          <Parameter Name="DB" Type="varchar" Mode="In" />
-        </Function>
-        <Function Name="GetCachedChartUrunGrubu" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="wms">
-          <Parameter Name="DB" Type="varchar" Mode="In" />
-          <Parameter Name="Ay" Type="int" Mode="In" />
-        </Function>
-        <Function Name="GetCachedChartUrunGrubuKriter" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="wms">
-          <Parameter Name="DB" Type="varchar" Mode="In" />
-          <Parameter Name="Ay" Type="int" Mode="In" />
-          <Parameter Name="Kriter" Type="varchar" Mode="In" />
-        </Function>
-        <Function Name="GetCachedChartYear2Day" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="wms">
-          <Parameter Name="DB" Type="varchar" Mode="In" />
         </Function>
         <Function Name="GetGorevlis" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="wms">
           <Parameter Name="DepoID" Type="int" Mode="In" />
@@ -2203,46 +2203,6 @@
             <End Role="ProjeForm" EntitySet="ProjeForms" />
             <End Role="ProjeFormDosya" EntitySet="ProjeFormDosyas" />
           </AssociationSet>
-          <FunctionImport Name="GetCachedChartBakiyeRisk" ReturnType="Collection(MModel.GetCachedChartBakiyeRisk_Result)">
-          <Parameter Name="DB" Mode="In" Type="String" />
-          </FunctionImport>
-          <FunctionImport Name="GetCachedChartBekleyenUrunMiktarFiyat" ReturnType="Collection(MModel.GetCachedChartBekleyenUrunMiktarFiyat_Result)">
-            <Parameter Name="DB" Mode="In" Type="String" />
-            <Parameter Name="Miktarmi" Mode="In" Type="Boolean" />
-          </FunctionImport>
-          <FunctionImport Name="GetCachedChartLocation" ReturnType="Collection(MModel.GetCachedChartLocation_Result)">
-            <Parameter Name="DB" Mode="In" Type="String" />
-            <Parameter Name="Ay" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="GetCachedChartLocationKriter" ReturnType="Collection(MModel.GetCachedChartLocationKriter_Result)">
-            <Parameter Name="DB" Mode="In" Type="String" />
-            <Parameter Name="Ay" Mode="In" Type="Int32" />
-            <Parameter Name="Kriter" Mode="In" Type="String" />
-          </FunctionImport>
-          <FunctionImport Name="GetCachedChartMonthly" ReturnType="Collection(MModel.GetCachedChartMonthly_Result)">
-          <Parameter Name="DB" Mode="In" Type="String" />
-          </FunctionImport>
-          <FunctionImport Name="GetCachedChartMonthlyByKriter" ReturnType="Collection(MModel.GetCachedChartMonthlyByKriter_Result)">
-            <Parameter Name="DB" Mode="In" Type="String" />
-            <Parameter Name="Grup" Mode="In" Type="String" />
-            <Parameter Name="Kriter" Mode="In" Type="String" />
-            <Parameter Name="IslemTip" Mode="In" Type="Int16" />
-          </FunctionImport>
-          <FunctionImport Name="GetCachedChartSatisBaglanti" ReturnType="Collection(MModel.GetCachedChartSatisBaglanti_Result)">
-          <Parameter Name="DB" Mode="In" Type="String" />
-          </FunctionImport>
-          <FunctionImport Name="GetCachedChartUrunGrubu" ReturnType="Collection(MModel.GetCachedChartUrunGrubu_Result)">
-            <Parameter Name="DB" Mode="In" Type="String" />
-            <Parameter Name="Ay" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="GetCachedChartUrunGrubuKriter" ReturnType="Collection(MModel.GetCachedChartUrunGrubuKriter_Result)">
-            <Parameter Name="DB" Mode="In" Type="String" />
-            <Parameter Name="Ay" Mode="In" Type="Int32" />
-            <Parameter Name="Kriter" Mode="In" Type="String" />
-          </FunctionImport>
-          <FunctionImport Name="GetCachedChartYear2Day" ReturnType="Collection(MModel.GetCachedChartYear2Day_Result)">
-          <Parameter Name="DB" Mode="In" Type="String" />
-          </FunctionImport>
           <FunctionImport Name="GetHomeSummary" ReturnType="Collection(MModel.GetHomeSummary_Result)">
             <Parameter Name="UserName" Mode="In" Type="String" />
             <Parameter Name="UserID" Mode="In" Type="Int32" />
@@ -2258,7 +2218,47 @@
             <Parameter Name="ID" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="UpdateGorev">
-            <Parameter Name="IrsID" Mode="In" Type="Int32" />
+          <Parameter Name="IrsID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="CachedChartBakiyeRisk" ReturnType="Collection(MModel.CachedChartBakiyeRisk_Result)">
+            <Parameter Name="DB" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="CachedChartBekleyenUrunMiktarFiyat" ReturnType="Collection(MModel.CachedChartBekleyenUrunMiktarFiyat_Result)">
+            <Parameter Name="DB" Mode="In" Type="String" />
+            <Parameter Name="Miktarmi" Mode="In" Type="Boolean" />
+          </FunctionImport>
+          <FunctionImport Name="CachedChartLocation" ReturnType="Collection(MModel.CachedChartLocation_Result)">
+            <Parameter Name="DB" Mode="In" Type="String" />
+            <Parameter Name="Ay" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="CachedChartLocationKriter" ReturnType="Collection(MModel.CachedChartLocationKriter_Result)">
+            <Parameter Name="DB" Mode="In" Type="String" />
+            <Parameter Name="Ay" Mode="In" Type="Int32" />
+            <Parameter Name="Kriter" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="CachedChartMonthly" ReturnType="Collection(MModel.CachedChartMonthly_Result)">
+            <Parameter Name="DB" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="CachedChartMonthlyByKriter" ReturnType="Collection(MModel.CachedChartMonthlyByKriter_Result)">
+            <Parameter Name="DB" Mode="In" Type="String" />
+            <Parameter Name="Grup" Mode="In" Type="String" />
+            <Parameter Name="Kriter" Mode="In" Type="String" />
+            <Parameter Name="IslemTip" Mode="In" Type="Int16" />
+          </FunctionImport>
+          <FunctionImport Name="CachedChartSatisBaglanti" ReturnType="Collection(MModel.CachedChartSatisBaglanti_Result)">
+            <Parameter Name="DB" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="CachedChartUrunGrubu" ReturnType="Collection(MModel.CachedChartUrunGrubu_Result)">
+            <Parameter Name="DB" Mode="In" Type="String" />
+            <Parameter Name="Ay" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="CachedChartUrunGrubuKriter" ReturnType="Collection(MModel.CachedChartUrunGrubuKriter_Result)">
+            <Parameter Name="DB" Mode="In" Type="String" />
+            <Parameter Name="Ay" Mode="In" Type="Int32" />
+            <Parameter Name="Kriter" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="CachedChartYear2Day" ReturnType="Collection(MModel.CachedChartYear2Day_Result)">
+            <Parameter Name="DB" Mode="In" Type="String" />
           </FunctionImport>
           </EntityContainer>
         <ComplexType Name="GetSirkets_Result">
@@ -3725,66 +3725,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <ComplexType Name="GetCachedChartBakiyeRisk_Result">
-          <Property Type="String" Name="HesapKodu" Nullable="false" MaxLength="50" />
-          <Property Type="String" Name="Unvan" Nullable="false" MaxLength="250" />
-          <Property Type="Decimal" Name="Borc" Nullable="false" Precision="25" Scale="6" />
-          <Property Type="Decimal" Name="Alacak" Nullable="false" Precision="25" Scale="6" />
-          <Property Type="Decimal" Name="Bakiye" Nullable="false" Precision="25" Scale="6" />
-        </ComplexType>
-        <ComplexType Name="GetCachedChartBekleyenUrunMiktarFiyat_Result">
-          <Property Type="String" Name="GrupKod" Nullable="false" MaxLength="150" />
-          <Property Type="Decimal" Name="KalanMiktar" Nullable="false" Precision="25" Scale="6" />
-        </ComplexType>
-        <ComplexType Name="GetCachedChartLocation_Result">
-          <Property Type="Int32" Name="Ay" Nullable="false" />
-          <Property Type="String" Name="GrupKod" Nullable="false" MaxLength="250" />
-          <Property Type="Decimal" Name="Yil2016" Nullable="false" Precision="25" Scale="6" />
-          <Property Type="Decimal" Name="Yil2017" Nullable="false" Precision="25" Scale="6" />
-          <Property Type="Decimal" Name="Toplam" Nullable="false" Precision="25" Scale="6" />
-        </ComplexType>
-        <ComplexType Name="GetCachedChartLocationKriter_Result">
-          <Property Type="Int32" Name="Ay" Nullable="false" />
-          <Property Type="String" Name="GrupKod" Nullable="false" MaxLength="250" />
-          <Property Type="Decimal" Name="Yil2016" Nullable="false" Precision="25" Scale="6" />
-          <Property Type="Decimal" Name="Yil2017" Nullable="false" Precision="25" Scale="6" />
-          <Property Type="Decimal" Name="Toplam" Nullable="false" Precision="25" Scale="6" />
-        </ComplexType>
-        <ComplexType Name="GetCachedChartMonthly_Result">
-          <Property Type="String" Name="Ay" Nullable="false" MaxLength="50" />
-          <Property Type="Decimal" Name="Yil2015" Nullable="false" Precision="25" Scale="6" />
-          <Property Type="Decimal" Name="Yil2016" Nullable="false" Precision="25" Scale="6" />
-          <Property Type="Decimal" Name="Yil2017" Nullable="false" Precision="25" Scale="6" />
-        </ComplexType>
-        <ComplexType Name="GetCachedChartMonthlyByKriter_Result">
-          <Property Type="String" Name="Ay" Nullable="false" MaxLength="50" />
-          <Property Type="Decimal" Name="Yil2015" Nullable="false" Precision="25" Scale="6" />
-          <Property Type="Decimal" Name="Yil2016" Nullable="false" Precision="25" Scale="6" />
-          <Property Type="Decimal" Name="Yil2017" Nullable="false" Precision="25" Scale="6" />
-        </ComplexType>
-        <ComplexType Name="GetCachedChartSatisBaglanti_Result">
-          <Property Type="String" Name="MalKod" Nullable="false" MaxLength="50" />
-          <Property Type="Decimal" Name="KalanTutar" Nullable="false" Precision="25" Scale="6" />
-        </ComplexType>
-        <ComplexType Name="GetCachedChartUrunGrubu_Result">
-          <Property Type="Int32" Name="Ay" Nullable="false" />
-          <Property Type="String" Name="GrupKod" Nullable="false" MaxLength="250" />
-          <Property Type="Decimal" Name="Yil2016" Nullable="false" Precision="25" Scale="6" />
-          <Property Type="Decimal" Name="Yil2017" Nullable="false" Precision="25" Scale="6" />
-          <Property Type="Decimal" Name="Toplam" Nullable="false" Precision="25" Scale="6" />
-        </ComplexType>
-        <ComplexType Name="GetCachedChartUrunGrubuKriter_Result">
-          <Property Type="Int32" Name="Ay" Nullable="false" />
-          <Property Type="String" Name="GrupKod" Nullable="false" MaxLength="250" />
-          <Property Type="Decimal" Name="Yil2016" Nullable="false" Precision="25" Scale="6" />
-          <Property Type="Decimal" Name="Yil2017" Nullable="false" Precision="25" Scale="6" />
-          <Property Type="Decimal" Name="Toplam" Nullable="false" Precision="25" Scale="6" />
-        </ComplexType>
-        <ComplexType Name="GetCachedChartYear2Day_Result">
-          <Property Type="String" Name="CHK" Nullable="false" MaxLength="50" />
-          <Property Type="String" Name="Unvan" Nullable="false" MaxLength="250" />
-          <Property Type="Decimal" Name="GenelTutar" Nullable="false" Precision="25" Scale="6" />
-        </ComplexType>
         <ComplexType Name="GetHomeSummary_Result">
           <Property Type="Int32" Name="depo" Nullable="true" />
           <Property Type="Int32" Name="kull" Nullable="true" />
@@ -3809,6 +3749,66 @@
           <Property Type="String" Name="OlusturmaTarihi" Nullable="true" MaxLength="15" />
           <Property Type="String" Name="BitisTarihi" Nullable="true" MaxLength="15" />
           <Property Type="String" Name="Bilgi" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="CachedChartBakiyeRisk_Result">
+          <Property Type="String" Name="HesapKodu" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Unvan" Nullable="false" MaxLength="250" />
+          <Property Type="Decimal" Name="Borc" Nullable="false" Precision="25" Scale="6" />
+          <Property Type="Decimal" Name="Alacak" Nullable="false" Precision="25" Scale="6" />
+          <Property Type="Decimal" Name="Bakiye" Nullable="false" Precision="25" Scale="6" />
+        </ComplexType>
+        <ComplexType Name="CachedChartBekleyenUrunMiktarFiyat_Result">
+          <Property Type="String" Name="GrupKod" Nullable="false" MaxLength="150" />
+          <Property Type="Decimal" Name="KalanMiktar" Nullable="false" Precision="25" Scale="6" />
+        </ComplexType>
+        <ComplexType Name="CachedChartLocation_Result">
+          <Property Type="Int32" Name="Ay" Nullable="false" />
+          <Property Type="String" Name="GrupKod" Nullable="false" MaxLength="250" />
+          <Property Type="Decimal" Name="Yil2016" Nullable="false" Precision="25" Scale="6" />
+          <Property Type="Decimal" Name="Yil2017" Nullable="false" Precision="25" Scale="6" />
+          <Property Type="Decimal" Name="Toplam" Nullable="false" Precision="25" Scale="6" />
+        </ComplexType>
+        <ComplexType Name="CachedChartLocationKriter_Result">
+          <Property Type="Int32" Name="Ay" Nullable="false" />
+          <Property Type="String" Name="GrupKod" Nullable="false" MaxLength="250" />
+          <Property Type="Decimal" Name="Yil2016" Nullable="false" Precision="25" Scale="6" />
+          <Property Type="Decimal" Name="Yil2017" Nullable="false" Precision="25" Scale="6" />
+          <Property Type="Decimal" Name="Toplam" Nullable="false" Precision="25" Scale="6" />
+        </ComplexType>
+        <ComplexType Name="CachedChartMonthly_Result">
+          <Property Type="String" Name="Ay" Nullable="false" MaxLength="50" />
+          <Property Type="Decimal" Name="Yil2015" Nullable="false" Precision="25" Scale="6" />
+          <Property Type="Decimal" Name="Yil2016" Nullable="false" Precision="25" Scale="6" />
+          <Property Type="Decimal" Name="Yil2017" Nullable="false" Precision="25" Scale="6" />
+        </ComplexType>
+        <ComplexType Name="CachedChartMonthlyByKriter_Result">
+          <Property Type="String" Name="Ay" Nullable="false" MaxLength="50" />
+          <Property Type="Decimal" Name="Yil2015" Nullable="false" Precision="25" Scale="6" />
+          <Property Type="Decimal" Name="Yil2016" Nullable="false" Precision="25" Scale="6" />
+          <Property Type="Decimal" Name="Yil2017" Nullable="false" Precision="25" Scale="6" />
+        </ComplexType>
+        <ComplexType Name="CachedChartSatisBaglanti_Result">
+          <Property Type="String" Name="MalKod" Nullable="false" MaxLength="50" />
+          <Property Type="Decimal" Name="KalanTutar" Nullable="false" Precision="25" Scale="6" />
+        </ComplexType>
+        <ComplexType Name="CachedChartUrunGrubu_Result">
+          <Property Type="Int32" Name="Ay" Nullable="false" />
+          <Property Type="String" Name="GrupKod" Nullable="false" MaxLength="250" />
+          <Property Type="Decimal" Name="Yil2016" Nullable="false" Precision="25" Scale="6" />
+          <Property Type="Decimal" Name="Yil2017" Nullable="false" Precision="25" Scale="6" />
+          <Property Type="Decimal" Name="Toplam" Nullable="false" Precision="25" Scale="6" />
+        </ComplexType>
+        <ComplexType Name="CachedChartUrunGrubuKriter_Result">
+          <Property Type="Int32" Name="Ay" Nullable="false" />
+          <Property Type="String" Name="GrupKod" Nullable="false" MaxLength="250" />
+          <Property Type="Decimal" Name="Yil2016" Nullable="false" Precision="25" Scale="6" />
+          <Property Type="Decimal" Name="Yil2017" Nullable="false" Precision="25" Scale="6" />
+          <Property Type="Decimal" Name="Toplam" Nullable="false" Precision="25" Scale="6" />
+        </ComplexType>
+        <ComplexType Name="CachedChartYear2Day_Result">
+          <Property Type="String" Name="CHK" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Unvan" Nullable="false" MaxLength="250" />
+          <Property Type="Decimal" Name="GenelTutar" Nullable="false" Precision="25" Scale="6" />
         </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
@@ -4680,106 +4680,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="GetCachedChartBakiyeRisk" FunctionName="MModel.Store.GetCachedChartBakiyeRisk">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="MModel.GetCachedChartBakiyeRisk_Result">
-                <ScalarProperty Name="HesapKodu" ColumnName="HesapKodu" />
-                <ScalarProperty Name="Unvan" ColumnName="Unvan" />
-                <ScalarProperty Name="Borc" ColumnName="Borc" />
-                <ScalarProperty Name="Alacak" ColumnName="Alacak" />
-                <ScalarProperty Name="Bakiye" ColumnName="Bakiye" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="GetCachedChartBekleyenUrunMiktarFiyat" FunctionName="MModel.Store.GetCachedChartBekleyenUrunMiktarFiyat">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="MModel.GetCachedChartBekleyenUrunMiktarFiyat_Result">
-                <ScalarProperty Name="GrupKod" ColumnName="GrupKod" />
-                <ScalarProperty Name="KalanMiktar" ColumnName="KalanMiktar" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="GetCachedChartLocation" FunctionName="MModel.Store.GetCachedChartLocation">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="MModel.GetCachedChartLocation_Result">
-                <ScalarProperty Name="Ay" ColumnName="Ay" />
-                <ScalarProperty Name="GrupKod" ColumnName="GrupKod" />
-                <ScalarProperty Name="Yil2016" ColumnName="Yil2016" />
-                <ScalarProperty Name="Yil2017" ColumnName="Yil2017" />
-                <ScalarProperty Name="Toplam" ColumnName="Toplam" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="GetCachedChartLocationKriter" FunctionName="MModel.Store.GetCachedChartLocationKriter">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="MModel.GetCachedChartLocationKriter_Result">
-                <ScalarProperty Name="Ay" ColumnName="Ay" />
-                <ScalarProperty Name="GrupKod" ColumnName="GrupKod" />
-                <ScalarProperty Name="Yil2016" ColumnName="Yil2016" />
-                <ScalarProperty Name="Yil2017" ColumnName="Yil2017" />
-                <ScalarProperty Name="Toplam" ColumnName="Toplam" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="GetCachedChartMonthly" FunctionName="MModel.Store.GetCachedChartMonthly">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="MModel.GetCachedChartMonthly_Result">
-                <ScalarProperty Name="Ay" ColumnName="Ay" />
-                <ScalarProperty Name="Yil2015" ColumnName="Yil2015" />
-                <ScalarProperty Name="Yil2016" ColumnName="Yil2016" />
-                <ScalarProperty Name="Yil2017" ColumnName="Yil2017" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="GetCachedChartMonthlyByKriter" FunctionName="MModel.Store.GetCachedChartMonthlyByKriter">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="MModel.GetCachedChartMonthlyByKriter_Result">
-                <ScalarProperty Name="Ay" ColumnName="Ay" />
-                <ScalarProperty Name="Yil2015" ColumnName="Yil2015" />
-                <ScalarProperty Name="Yil2016" ColumnName="Yil2016" />
-                <ScalarProperty Name="Yil2017" ColumnName="Yil2017" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="GetCachedChartSatisBaglanti" FunctionName="MModel.Store.GetCachedChartSatisBaglanti">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="MModel.GetCachedChartSatisBaglanti_Result">
-                <ScalarProperty Name="MalKod" ColumnName="MalKod" />
-                <ScalarProperty Name="KalanTutar" ColumnName="KalanTutar" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="GetCachedChartUrunGrubu" FunctionName="MModel.Store.GetCachedChartUrunGrubu">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="MModel.GetCachedChartUrunGrubu_Result">
-                <ScalarProperty Name="Ay" ColumnName="Ay" />
-                <ScalarProperty Name="GrupKod" ColumnName="GrupKod" />
-                <ScalarProperty Name="Yil2016" ColumnName="Yil2016" />
-                <ScalarProperty Name="Yil2017" ColumnName="Yil2017" />
-                <ScalarProperty Name="Toplam" ColumnName="Toplam" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="GetCachedChartUrunGrubuKriter" FunctionName="MModel.Store.GetCachedChartUrunGrubuKriter">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="MModel.GetCachedChartUrunGrubuKriter_Result">
-                <ScalarProperty Name="Ay" ColumnName="Ay" />
-                <ScalarProperty Name="GrupKod" ColumnName="GrupKod" />
-                <ScalarProperty Name="Yil2016" ColumnName="Yil2016" />
-                <ScalarProperty Name="Yil2017" ColumnName="Yil2017" />
-                <ScalarProperty Name="Toplam" ColumnName="Toplam" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="GetCachedChartYear2Day" FunctionName="MModel.Store.GetCachedChartYear2Day">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="MModel.GetCachedChartYear2Day_Result">
-                <ScalarProperty Name="CHK" ColumnName="CHK" />
-                <ScalarProperty Name="Unvan" ColumnName="Unvan" />
-                <ScalarProperty Name="GenelTutar" ColumnName="GenelTutar" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="GetHomeSummary" FunctionName="MModel.Store.GetHomeSummary">
             <ResultMapping>
               <ComplexTypeMapping TypeName="MModel.GetHomeSummary_Result">
@@ -4815,6 +4715,106 @@
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="DeleteLog" FunctionName="MModel.Store.DeleteLog" />
           <FunctionImportMapping FunctionImportName="UpdateGorev" FunctionName="MModel.Store.UpdateGorev" />
+          <FunctionImportMapping FunctionImportName="CachedChartBakiyeRisk" FunctionName="MModel.Store.CachedChartBakiyeRisk">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MModel.CachedChartBakiyeRisk_Result">
+                <ScalarProperty Name="HesapKodu" ColumnName="HesapKodu" />
+                <ScalarProperty Name="Unvan" ColumnName="Unvan" />
+                <ScalarProperty Name="Borc" ColumnName="Borc" />
+                <ScalarProperty Name="Alacak" ColumnName="Alacak" />
+                <ScalarProperty Name="Bakiye" ColumnName="Bakiye" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="CachedChartBekleyenUrunMiktarFiyat" FunctionName="MModel.Store.CachedChartBekleyenUrunMiktarFiyat">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MModel.CachedChartBekleyenUrunMiktarFiyat_Result">
+                <ScalarProperty Name="GrupKod" ColumnName="GrupKod" />
+                <ScalarProperty Name="KalanMiktar" ColumnName="KalanMiktar" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="CachedChartLocation" FunctionName="MModel.Store.CachedChartLocation">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MModel.CachedChartLocation_Result">
+                <ScalarProperty Name="Ay" ColumnName="Ay" />
+                <ScalarProperty Name="GrupKod" ColumnName="GrupKod" />
+                <ScalarProperty Name="Yil2016" ColumnName="Yil2016" />
+                <ScalarProperty Name="Yil2017" ColumnName="Yil2017" />
+                <ScalarProperty Name="Toplam" ColumnName="Toplam" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="CachedChartLocationKriter" FunctionName="MModel.Store.CachedChartLocationKriter">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MModel.CachedChartLocationKriter_Result">
+                <ScalarProperty Name="Ay" ColumnName="Ay" />
+                <ScalarProperty Name="GrupKod" ColumnName="GrupKod" />
+                <ScalarProperty Name="Yil2016" ColumnName="Yil2016" />
+                <ScalarProperty Name="Yil2017" ColumnName="Yil2017" />
+                <ScalarProperty Name="Toplam" ColumnName="Toplam" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="CachedChartMonthly" FunctionName="MModel.Store.CachedChartMonthly">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MModel.CachedChartMonthly_Result">
+                <ScalarProperty Name="Ay" ColumnName="Ay" />
+                <ScalarProperty Name="Yil2015" ColumnName="Yil2015" />
+                <ScalarProperty Name="Yil2016" ColumnName="Yil2016" />
+                <ScalarProperty Name="Yil2017" ColumnName="Yil2017" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="CachedChartMonthlyByKriter" FunctionName="MModel.Store.CachedChartMonthlyByKriter">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MModel.CachedChartMonthlyByKriter_Result">
+                <ScalarProperty Name="Ay" ColumnName="Ay" />
+                <ScalarProperty Name="Yil2015" ColumnName="Yil2015" />
+                <ScalarProperty Name="Yil2016" ColumnName="Yil2016" />
+                <ScalarProperty Name="Yil2017" ColumnName="Yil2017" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="CachedChartSatisBaglanti" FunctionName="MModel.Store.CachedChartSatisBaglanti">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MModel.CachedChartSatisBaglanti_Result">
+                <ScalarProperty Name="MalKod" ColumnName="MalKod" />
+                <ScalarProperty Name="KalanTutar" ColumnName="KalanTutar" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="CachedChartUrunGrubu" FunctionName="MModel.Store.CachedChartUrunGrubu">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MModel.CachedChartUrunGrubu_Result">
+                <ScalarProperty Name="Ay" ColumnName="Ay" />
+                <ScalarProperty Name="GrupKod" ColumnName="GrupKod" />
+                <ScalarProperty Name="Yil2016" ColumnName="Yil2016" />
+                <ScalarProperty Name="Yil2017" ColumnName="Yil2017" />
+                <ScalarProperty Name="Toplam" ColumnName="Toplam" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="CachedChartUrunGrubuKriter" FunctionName="MModel.Store.CachedChartUrunGrubuKriter">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MModel.CachedChartUrunGrubuKriter_Result">
+                <ScalarProperty Name="Ay" ColumnName="Ay" />
+                <ScalarProperty Name="GrupKod" ColumnName="GrupKod" />
+                <ScalarProperty Name="Yil2016" ColumnName="Yil2016" />
+                <ScalarProperty Name="Yil2017" ColumnName="Yil2017" />
+                <ScalarProperty Name="Toplam" ColumnName="Toplam" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="CachedChartYear2Day" FunctionName="MModel.Store.CachedChartYear2Day">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MModel.CachedChartYear2Day_Result">
+                <ScalarProperty Name="CHK" ColumnName="CHK" />
+                <ScalarProperty Name="Unvan" ColumnName="Unvan" />
+                <ScalarProperty Name="GenelTutar" ColumnName="GenelTutar" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

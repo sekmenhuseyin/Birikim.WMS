@@ -11,7 +11,7 @@ namespace Wms12m.Entity.Models
 {
     using System;
     
-    public partial class GetCachedChartLocationKriter_Result
+    public partial class CachedChartUrunGrubu_Result
     {
         public int Ay { get; set; }
         public string GrupKod { get; set; }

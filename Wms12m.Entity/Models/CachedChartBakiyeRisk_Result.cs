@@ -11,9 +11,12 @@ namespace Wms12m.Entity.Models
 {
     using System;
     
-    public partial class GetCachedChartSatisBaglanti_Result
+    public partial class CachedChartBakiyeRisk_Result
     {
-        public string MalKod { get; set; }
-        public decimal KalanTutar { get; set; }
+        public string HesapKodu { get; set; }
+        public string Unvan { get; set; }
+        public decimal Borc { get; set; }
+        public decimal Alacak { get; set; }
+        public decimal Bakiye { get; set; }
     }
 }

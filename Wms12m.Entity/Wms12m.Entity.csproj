@@ -76,6 +76,36 @@
     <Compile Include="Models\Bolum.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\CachedChartBakiyeRisk_Result.cs">
+      <DependentUpon>ModelWMS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CachedChartBekleyenUrunMiktarFiyat_Result.cs">
+      <DependentUpon>ModelWMS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CachedChartLocationKriter_Result.cs">
+      <DependentUpon>ModelWMS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CachedChartLocation_Result.cs">
+      <DependentUpon>ModelWMS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CachedChartMonthlyByKriter_Result.cs">
+      <DependentUpon>ModelWMS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CachedChartMonthly_Result.cs">
+      <DependentUpon>ModelWMS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CachedChartSatisBaglanti_Result.cs">
+      <DependentUpon>ModelWMS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CachedChartUrunGrubuKriter_Result.cs">
+      <DependentUpon>ModelWMS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CachedChartUrunGrubu_Result.cs">
+      <DependentUpon>ModelWMS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CachedChartYear2Day_Result.cs">
+      <DependentUpon>ModelWMS.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\ComboItem_Name.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
     </Compile>
@@ -110,36 +140,6 @@
       <DependentUpon>ModelWMS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\FAQ.cs">
-      <DependentUpon>ModelWMS.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\GetCachedChartBakiyeRisk_Result.cs">
-      <DependentUpon>ModelWMS.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\GetCachedChartBekleyenUrunMiktarFiyat_Result.cs">
-      <DependentUpon>ModelWMS.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\GetCachedChartLocationKriter_Result.cs">
-      <DependentUpon>ModelWMS.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\GetCachedChartLocation_Result.cs">
-      <DependentUpon>ModelWMS.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\GetCachedChartMonthlyByKriter_Result.cs">
-      <DependentUpon>ModelWMS.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\GetCachedChartMonthly_Result.cs">
-      <DependentUpon>ModelWMS.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\GetCachedChartSatisBaglanti_Result.cs">
-      <DependentUpon>ModelWMS.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\GetCachedChartUrunGrubuKriter_Result.cs">
-      <DependentUpon>ModelWMS.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\GetCachedChartUrunGrubu_Result.cs">
-      <DependentUpon>ModelWMS.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\GetCachedChartYear2Day_Result.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\GetGorevlis_Result.cs">

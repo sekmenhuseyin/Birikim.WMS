@@ -11,10 +11,9 @@ namespace Wms12m.Entity.Models
 {
     using System;
     
-    public partial class GetCachedChartYear2Day_Result
+    public partial class CachedChartBekleyenUrunMiktarFiyat_Result
     {
-        public string CHK { get; set; }
-        public string Unvan { get; set; }
-        public decimal GenelTutar { get; set; }
+        public string GrupKod { get; set; }
+        public decimal KalanMiktar { get; set; }
     }
 }

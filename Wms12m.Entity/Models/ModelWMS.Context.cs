@@ -724,136 +724,6 @@ namespace Wms12m.Entity.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<InsertIrsaliye_Result>("WMSEntities.InsertIrsaliye", sirketKodParameter, depoIDParameter, gorevNoParameter, irsEvrakNoParameter, irsTarihParameter, gorevBilgiParameter, irsIslemTurParameter, gorevTipiIDParameter, olusturanParameter, olusturmaTarihiParameter, olusturmaSaatiParameter, hesapKoduParameter, teslimCHKParameter, valorGunParameter, linkEvrakNoParameter, aciklamaParameter);
         }
     
-        public virtual ObjectResult<GetCachedChartBakiyeRisk_Result> GetCachedChartBakiyeRisk(string dB)
-        {
-            var dBParameter = dB != null ?
-                new ObjectParameter("DB", dB) :
-                new ObjectParameter("DB", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetCachedChartBakiyeRisk_Result>("WMSEntities.GetCachedChartBakiyeRisk", dBParameter);
-        }
-    
-        public virtual ObjectResult<GetCachedChartBekleyenUrunMiktarFiyat_Result> GetCachedChartBekleyenUrunMiktarFiyat(string dB, Nullable<bool> miktarmi)
-        {
-            var dBParameter = dB != null ?
-                new ObjectParameter("DB", dB) :
-                new ObjectParameter("DB", typeof(string));
-    
-            var miktarmiParameter = miktarmi.HasValue ?
-                new ObjectParameter("Miktarmi", miktarmi) :
-                new ObjectParameter("Miktarmi", typeof(bool));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetCachedChartBekleyenUrunMiktarFiyat_Result>("WMSEntities.GetCachedChartBekleyenUrunMiktarFiyat", dBParameter, miktarmiParameter);
-        }
-    
-        public virtual ObjectResult<GetCachedChartLocation_Result> GetCachedChartLocation(string dB, Nullable<int> ay)
-        {
-            var dBParameter = dB != null ?
-                new ObjectParameter("DB", dB) :
-                new ObjectParameter("DB", typeof(string));
-    
-            var ayParameter = ay.HasValue ?
-                new ObjectParameter("Ay", ay) :
-                new ObjectParameter("Ay", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetCachedChartLocation_Result>("WMSEntities.GetCachedChartLocation", dBParameter, ayParameter);
-        }
-    
-        public virtual ObjectResult<GetCachedChartLocationKriter_Result> GetCachedChartLocationKriter(string dB, Nullable<int> ay, string kriter)
-        {
-            var dBParameter = dB != null ?
-                new ObjectParameter("DB", dB) :
-                new ObjectParameter("DB", typeof(string));
-    
-            var ayParameter = ay.HasValue ?
-                new ObjectParameter("Ay", ay) :
-                new ObjectParameter("Ay", typeof(int));
-    
-            var kriterParameter = kriter != null ?
-                new ObjectParameter("Kriter", kriter) :
-                new ObjectParameter("Kriter", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetCachedChartLocationKriter_Result>("WMSEntities.GetCachedChartLocationKriter", dBParameter, ayParameter, kriterParameter);
-        }
-    
-        public virtual ObjectResult<GetCachedChartMonthly_Result> GetCachedChartMonthly(string dB)
-        {
-            var dBParameter = dB != null ?
-                new ObjectParameter("DB", dB) :
-                new ObjectParameter("DB", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetCachedChartMonthly_Result>("WMSEntities.GetCachedChartMonthly", dBParameter);
-        }
-    
-        public virtual ObjectResult<GetCachedChartMonthlyByKriter_Result> GetCachedChartMonthlyByKriter(string dB, string grup, string kriter, Nullable<short> islemTip)
-        {
-            var dBParameter = dB != null ?
-                new ObjectParameter("DB", dB) :
-                new ObjectParameter("DB", typeof(string));
-    
-            var grupParameter = grup != null ?
-                new ObjectParameter("Grup", grup) :
-                new ObjectParameter("Grup", typeof(string));
-    
-            var kriterParameter = kriter != null ?
-                new ObjectParameter("Kriter", kriter) :
-                new ObjectParameter("Kriter", typeof(string));
-    
-            var islemTipParameter = islemTip.HasValue ?
-                new ObjectParameter("IslemTip", islemTip) :
-                new ObjectParameter("IslemTip", typeof(short));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetCachedChartMonthlyByKriter_Result>("WMSEntities.GetCachedChartMonthlyByKriter", dBParameter, grupParameter, kriterParameter, islemTipParameter);
-        }
-    
-        public virtual ObjectResult<GetCachedChartSatisBaglanti_Result> GetCachedChartSatisBaglanti(string dB)
-        {
-            var dBParameter = dB != null ?
-                new ObjectParameter("DB", dB) :
-                new ObjectParameter("DB", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetCachedChartSatisBaglanti_Result>("WMSEntities.GetCachedChartSatisBaglanti", dBParameter);
-        }
-    
-        public virtual ObjectResult<GetCachedChartUrunGrubu_Result> GetCachedChartUrunGrubu(string dB, Nullable<int> ay)
-        {
-            var dBParameter = dB != null ?
-                new ObjectParameter("DB", dB) :
-                new ObjectParameter("DB", typeof(string));
-    
-            var ayParameter = ay.HasValue ?
-                new ObjectParameter("Ay", ay) :
-                new ObjectParameter("Ay", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetCachedChartUrunGrubu_Result>("WMSEntities.GetCachedChartUrunGrubu", dBParameter, ayParameter);
-        }
-    
-        public virtual ObjectResult<GetCachedChartUrunGrubuKriter_Result> GetCachedChartUrunGrubuKriter(string dB, Nullable<int> ay, string kriter)
-        {
-            var dBParameter = dB != null ?
-                new ObjectParameter("DB", dB) :
-                new ObjectParameter("DB", typeof(string));
-    
-            var ayParameter = ay.HasValue ?
-                new ObjectParameter("Ay", ay) :
-                new ObjectParameter("Ay", typeof(int));
-    
-            var kriterParameter = kriter != null ?
-                new ObjectParameter("Kriter", kriter) :
-                new ObjectParameter("Kriter", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetCachedChartUrunGrubuKriter_Result>("WMSEntities.GetCachedChartUrunGrubuKriter", dBParameter, ayParameter, kriterParameter);
-        }
-    
-        public virtual ObjectResult<GetCachedChartYear2Day_Result> GetCachedChartYear2Day(string dB)
-        {
-            var dBParameter = dB != null ?
-                new ObjectParameter("DB", dB) :
-                new ObjectParameter("DB", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetCachedChartYear2Day_Result>("WMSEntities.GetCachedChartYear2Day", dBParameter);
-        }
-    
         public virtual ObjectResult<GetHomeSummary_Result> GetHomeSummary(string userName, Nullable<int> userID, Nullable<int> yetkiliDepo)
         {
             var userNameParameter = userName != null ?
@@ -908,6 +778,136 @@ namespace Wms12m.Entity.Models
                 new ObjectParameter("IrsID", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("WMSEntities.UpdateGorev", irsIDParameter);
+        }
+    
+        public virtual ObjectResult<CachedChartBakiyeRisk_Result> CachedChartBakiyeRisk(string dB)
+        {
+            var dBParameter = dB != null ?
+                new ObjectParameter("DB", dB) :
+                new ObjectParameter("DB", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<CachedChartBakiyeRisk_Result>("WMSEntities.CachedChartBakiyeRisk", dBParameter);
+        }
+    
+        public virtual ObjectResult<CachedChartBekleyenUrunMiktarFiyat_Result> CachedChartBekleyenUrunMiktarFiyat(string dB, Nullable<bool> miktarmi)
+        {
+            var dBParameter = dB != null ?
+                new ObjectParameter("DB", dB) :
+                new ObjectParameter("DB", typeof(string));
+    
+            var miktarmiParameter = miktarmi.HasValue ?
+                new ObjectParameter("Miktarmi", miktarmi) :
+                new ObjectParameter("Miktarmi", typeof(bool));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<CachedChartBekleyenUrunMiktarFiyat_Result>("WMSEntities.CachedChartBekleyenUrunMiktarFiyat", dBParameter, miktarmiParameter);
+        }
+    
+        public virtual ObjectResult<CachedChartLocation_Result> CachedChartLocation(string dB, Nullable<int> ay)
+        {
+            var dBParameter = dB != null ?
+                new ObjectParameter("DB", dB) :
+                new ObjectParameter("DB", typeof(string));
+    
+            var ayParameter = ay.HasValue ?
+                new ObjectParameter("Ay", ay) :
+                new ObjectParameter("Ay", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<CachedChartLocation_Result>("WMSEntities.CachedChartLocation", dBParameter, ayParameter);
+        }
+    
+        public virtual ObjectResult<CachedChartLocationKriter_Result> CachedChartLocationKriter(string dB, Nullable<int> ay, string kriter)
+        {
+            var dBParameter = dB != null ?
+                new ObjectParameter("DB", dB) :
+                new ObjectParameter("DB", typeof(string));
+    
+            var ayParameter = ay.HasValue ?
+                new ObjectParameter("Ay", ay) :
+                new ObjectParameter("Ay", typeof(int));
+    
+            var kriterParameter = kriter != null ?
+                new ObjectParameter("Kriter", kriter) :
+                new ObjectParameter("Kriter", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<CachedChartLocationKriter_Result>("WMSEntities.CachedChartLocationKriter", dBParameter, ayParameter, kriterParameter);
+        }
+    
+        public virtual ObjectResult<CachedChartMonthly_Result> CachedChartMonthly(string dB)
+        {
+            var dBParameter = dB != null ?
+                new ObjectParameter("DB", dB) :
+                new ObjectParameter("DB", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<CachedChartMonthly_Result>("WMSEntities.CachedChartMonthly", dBParameter);
+        }
+    
+        public virtual ObjectResult<CachedChartMonthlyByKriter_Result> CachedChartMonthlyByKriter(string dB, string grup, string kriter, Nullable<short> islemTip)
+        {
+            var dBParameter = dB != null ?
+                new ObjectParameter("DB", dB) :
+                new ObjectParameter("DB", typeof(string));
+    
+            var grupParameter = grup != null ?
+                new ObjectParameter("Grup", grup) :
+                new ObjectParameter("Grup", typeof(string));
+    
+            var kriterParameter = kriter != null ?
+                new ObjectParameter("Kriter", kriter) :
+                new ObjectParameter("Kriter", typeof(string));
+    
+            var islemTipParameter = islemTip.HasValue ?
+                new ObjectParameter("IslemTip", islemTip) :
+                new ObjectParameter("IslemTip", typeof(short));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<CachedChartMonthlyByKriter_Result>("WMSEntities.CachedChartMonthlyByKriter", dBParameter, grupParameter, kriterParameter, islemTipParameter);
+        }
+    
+        public virtual ObjectResult<CachedChartSatisBaglanti_Result> CachedChartSatisBaglanti(string dB)
+        {
+            var dBParameter = dB != null ?
+                new ObjectParameter("DB", dB) :
+                new ObjectParameter("DB", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<CachedChartSatisBaglanti_Result>("WMSEntities.CachedChartSatisBaglanti", dBParameter);
+        }
+    
+        public virtual ObjectResult<CachedChartUrunGrubu_Result> CachedChartUrunGrubu(string dB, Nullable<int> ay)
+        {
+            var dBParameter = dB != null ?
+                new ObjectParameter("DB", dB) :
+                new ObjectParameter("DB", typeof(string));
+    
+            var ayParameter = ay.HasValue ?
+                new ObjectParameter("Ay", ay) :
+                new ObjectParameter("Ay", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<CachedChartUrunGrubu_Result>("WMSEntities.CachedChartUrunGrubu", dBParameter, ayParameter);
+        }
+    
+        public virtual ObjectResult<CachedChartUrunGrubuKriter_Result> CachedChartUrunGrubuKriter(string dB, Nullable<int> ay, string kriter)
+        {
+            var dBParameter = dB != null ?
+                new ObjectParameter("DB", dB) :
+                new ObjectParameter("DB", typeof(string));
+    
+            var ayParameter = ay.HasValue ?
+                new ObjectParameter("Ay", ay) :
+                new ObjectParameter("Ay", typeof(int));
+    
+            var kriterParameter = kriter != null ?
+                new ObjectParameter("Kriter", kriter) :
+                new ObjectParameter("Kriter", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<CachedChartUrunGrubuKriter_Result>("WMSEntities.CachedChartUrunGrubuKriter", dBParameter, ayParameter, kriterParameter);
+        }
+    
+        public virtual ObjectResult<CachedChartYear2Day_Result> CachedChartYear2Day(string dB)
+        {
+            var dBParameter = dB != null ?
+                new ObjectParameter("DB", dB) :
+                new ObjectParameter("DB", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<CachedChartYear2Day_Result>("WMSEntities.CachedChartYear2Day", dBParameter);
         }
     }
 }

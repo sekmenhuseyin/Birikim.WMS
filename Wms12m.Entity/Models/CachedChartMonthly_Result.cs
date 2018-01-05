@@ -11,12 +11,11 @@ namespace Wms12m.Entity.Models
 {
     using System;
     
-    public partial class GetCachedChartUrunGrubuKriter_Result
+    public partial class CachedChartMonthly_Result
     {
-        public int Ay { get; set; }
-        public string GrupKod { get; set; }
+        public string Ay { get; set; }
+        public decimal Yil2015 { get; set; }
         public decimal Yil2016 { get; set; }
         public decimal Yil2017 { get; set; }
-        public decimal Toplam { get; set; }
     }
 }

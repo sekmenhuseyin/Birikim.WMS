@@ -53,10 +53,10 @@ namespace Wms12m
         /// <summary>
         /// Home / PartialGunlukSatisYearToDay
         /// </summary>
-        public List<GetCachedChartYear2Day_Result> GetCachedChartYear2Day_Result(string SirketKodu)
+        public List<CachedChartYear2Day_Result> CachedChartYear2Day_Result(string SirketKodu)
         {
             using (var db = new WMSEntities())
-                return db.Database.SqlQuery<GetCachedChartYear2Day_Result>(string.Format("[FINSAT6{0}].[wms].[DB_GunlukSatisAnaliziYearToDay]", SirketKodu)).ToList();
+                return db.Database.SqlQuery<CachedChartYear2Day_Result>(string.Format("[FINSAT6{0}].[wms].[DB_GunlukSatisAnaliziYearToDay]", SirketKodu)).ToList();
         }
         /// <summary>
         /// Home / PartialGunlukSatisDoubleKriter
@@ -69,10 +69,10 @@ namespace Wms12m
         /// <summary>
         /// Home / PartialAylikSatisAnaliziBar
         /// </summary>
-        public List<GetCachedChartMonthly_Result> GetCachedChartMonthly_Result(string SirketKodu)
+        public List<CachedChartMonthly_Result> CachedChartMonthly_Result(string SirketKodu)
         {
             using (var db = new WMSEntities())
-                return db.Database.SqlQuery<GetCachedChartMonthly_Result>(string.Format("[FINSAT6{0}].[wms].[DB_Aylik_SatisAnalizi]", SirketKodu)).ToList();
+                return db.Database.SqlQuery<CachedChartMonthly_Result>(string.Format("[FINSAT6{0}].[wms].[DB_Aylik_SatisAnalizi]", SirketKodu)).ToList();
         }
         /// <summary>
         /// Home / PartialAylikSatisCHKAnaliziBar
@@ -85,42 +85,42 @@ namespace Wms12m
         /// <summary>
         /// Home / PartialAylikSatisAnaliziKodTipDovizBar
         /// </summary>
-        public List<GetCachedChartMonthlyByKriter_Result> GetCachedChartMonthlyByKriter_Result(string SirketKodu, string kod, int islemtip, string doviz)
+        public List<CachedChartMonthlyByKriter_Result> CachedChartMonthlyByKriter_Result(string SirketKodu, string kod, int islemtip, string doviz)
         {
             using (var db = new WMSEntities())
-                return db.Database.SqlQuery<GetCachedChartMonthlyByKriter_Result>(string.Format("[FINSAT6{0}].[wms].[DB_Aylik_SatisAnalizi_Tip_Kod_Doviz] @Grup = '{1}', @Kriter = '{2}', @IslemTip = {3}", SirketKodu, kod, doviz, islemtip)).ToList();
+                return db.Database.SqlQuery<CachedChartMonthlyByKriter_Result>(string.Format("[FINSAT6{0}].[wms].[DB_Aylik_SatisAnalizi_Tip_Kod_Doviz] @Grup = '{1}', @Kriter = '{2}', @IslemTip = {3}", SirketKodu, kod, doviz, islemtip)).ToList();
         }
         /// <summary>
         /// Home / PartialUrunGrubuSatis
         /// </summary>
-        public List<GetCachedChartUrunGrubu_Result> GetCachedChartUrunGrubu_Result(string SirketKodu, short tarih)
+        public List<CachedChartUrunGrubu_Result> CachedChartUrunGrubu_Result(string SirketKodu, short tarih)
         {
             using (var db = new WMSEntities())
-                return db.Database.SqlQuery<GetCachedChartUrunGrubu_Result>(string.Format("[FINSAT6{0}].[wms].[DB_UrunGrubu_SatisAnalizi] @Ay = {1}", SirketKodu, tarih)).ToList();
+                return db.Database.SqlQuery<CachedChartUrunGrubu_Result>(string.Format("[FINSAT6{0}].[wms].[DB_UrunGrubu_SatisAnalizi] @Ay = {1}", SirketKodu, tarih)).ToList();
         }
         /// <summary>
         /// Home / PartialUrunGrubuSatisKriter
         /// </summary>
-        public List<GetCachedChartUrunGrubuKriter_Result> GetCachedChartUrunGrubuKriter_Result(string SirketKodu, short tarih, string kriter)
+        public List<CachedChartUrunGrubuKriter_Result> CachedChartUrunGrubuKriter_Result(string SirketKodu, short tarih, string kriter)
         {
             using (var db = new WMSEntities())
-                return db.Database.SqlQuery<GetCachedChartUrunGrubuKriter_Result>(string.Format("[FINSAT6{0}].[wms].[DB_UrunGrubu_SatisAnalizi_Kriter] @Ay = {1}, @Kriter='{2}'", SirketKodu, tarih, kriter)).ToList();
+                return db.Database.SqlQuery<CachedChartUrunGrubuKriter_Result>(string.Format("[FINSAT6{0}].[wms].[DB_UrunGrubu_SatisAnalizi_Kriter] @Ay = {1}, @Kriter='{2}'", SirketKodu, tarih, kriter)).ToList();
         }
         /// <summary>
         /// Home / PartialLokasyonSatis
         /// </summary>
-        public List<GetCachedChartLocation_Result> GetCachedChartLocation_Result(string SirketKodu, short tarih)
+        public List<CachedChartLocation_Result> CachedChartLocation_Result(string SirketKodu, short tarih)
         {
             using (var db = new WMSEntities())
-                return db.Database.SqlQuery<GetCachedChartLocation_Result>(string.Format("[FINSAT6{0}].[wms].[DB_LokasyonBazli_SatisAnalizi] @Ay = {1}", SirketKodu, tarih)).ToList();
+                return db.Database.SqlQuery<CachedChartLocation_Result>(string.Format("[FINSAT6{0}].[wms].[DB_LokasyonBazli_SatisAnalizi] @Ay = {1}", SirketKodu, tarih)).ToList();
         }
         /// <summary>
         /// Home / PartialLokasyonSatisKriter
         /// </summary>
-        public List<GetCachedChartLocationKriter_Result> GetCachedChartLocationKriter_Result(string SirketKodu, int tarih, string kriter)
+        public List<CachedChartLocationKriter_Result> CachedChartLocationKriter_Result(string SirketKodu, int tarih, string kriter)
         {
             using (var db = new WMSEntities())
-                return db.Database.SqlQuery<GetCachedChartLocationKriter_Result>(string.Format("[FINSAT6{0}].[wms].[DB_LokasyonBazli_SatisAnalizi_Kriter] @Ay = {1}, @Kriter='{2}'", SirketKodu, tarih, kriter)).ToList();
+                return db.Database.SqlQuery<CachedChartLocationKriter_Result>(string.Format("[FINSAT6{0}].[wms].[DB_LokasyonBazli_SatisAnalizi_Kriter] @Ay = {1}, @Kriter='{2}'", SirketKodu, tarih, kriter)).ToList();
         }
     }
 }
