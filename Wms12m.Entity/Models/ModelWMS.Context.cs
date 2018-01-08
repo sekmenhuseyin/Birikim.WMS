@@ -68,11 +68,6 @@ namespace Wms12m.Entity.Models
         public virtual DbSet<Setting> Settings { get; set; }
         public virtual DbSet<ProjeFormDosya> ProjeFormDosyas { get; set; }
     
-        public virtual ObjectResult<string> GetSirketDBs()
-        {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("WMSEntities.GetSirketDBs");
-        }
-    
         public virtual ObjectResult<GetSirkets_Result> GetSirkets()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetSirkets_Result>("WMSEntities.GetSirkets");

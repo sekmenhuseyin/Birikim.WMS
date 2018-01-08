@@ -1322,7 +1322,6 @@
           <Parameter Name="RoleName" Type="varchar" Mode="In" />
           <Parameter Name="Group" Type="varchar" Mode="In" />
         </Function>
-        <Function Name="GetSirketDBs" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="GetSirkets" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="GetUserPermsFor" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="UserID" Type="int" Mode="In" />
@@ -1762,7 +1761,6 @@
     <edmx:ConceptualModels>
       <Schema Namespace="MModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="WMSEntities" annotation:LazyLoadingEnabled="true">
-          <FunctionImport Name="GetSirketDBs" ReturnType="Collection(String)" />
           <FunctionImport Name="GetSirkets" ReturnType="Collection(MModel.GetSirkets_Result)" />
           <FunctionImport Name="Logger">
             <Parameter Name="UserName" Mode="In" Type="String" />
@@ -3816,7 +3814,6 @@
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="MModelStoreContainer" CdmEntityContainer="WMSEntities">
-          <FunctionImportMapping FunctionImportName="GetSirketDBs" FunctionName="MModel.Store.GetSirketDBs" />
           <FunctionImportMapping FunctionImportName="GetSirkets" FunctionName="MModel.Store.GetSirkets">
             <ResultMapping>
               <ComplexTypeMapping TypeName="MModel.GetSirkets_Result">
