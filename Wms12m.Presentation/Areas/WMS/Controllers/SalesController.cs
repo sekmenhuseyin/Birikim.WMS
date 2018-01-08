@@ -239,7 +239,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             var EndDate = new DateTime(tmp[2].ToInt32(), tmp[1].ToInt32(), tmp[0].ToInt32());
             if (StartDate > EndDate) return null;
             // return list
-            var sql = string.Format("EXEC FINSAT6{0}.wms.getSiparisList @DepoKodu = '{1}', @isKable = 0, @BasTarih = {2}, @BitTarih = {3}", vUser.SirketKodu, DepoID.ToString(), StartDate.ToOADateInt(), EndDate.ToOADateInt());
+            var sql = string.Format("EXEC FINSAT6{0}.wms.getSiparisList @DepoKodu = '{1}', @isKable = 0, @BasTarih = {2}, @BitTarih = {3}", vUser.SirketKodu, DepoID, StartDate.ToOADateInt(), EndDate.ToOADateInt());
             try
             {
                 var list = db.Database.SqlQuery<frmSiparisler>(sql).ToList();
