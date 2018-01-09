@@ -23,7 +23,7 @@
                     <div class="row m-b-30">
                         <div class="col-md-1"><select id="DurumID" class="form-control input-circle"><option value="0">Beklemede</option><option value="1">Onaylandı</option><option value="2">Reddedildi</option></select></div>
                         <div class="col-md-1 text-right color-blue-light bold">Tarih Aralığı: </div>
-                        <div class="col-md-2"><input class="form-control dateboxbg" type="text" id="txtBaslangic" value="@DateTime.Today.ToString("dd.MM.yyyy")" /></div>
+                        <div class="col-md-2"><input class="form-control dateboxbg" type="text" id="txtBaslangic" value="@DateTime.Today.AddDays(-7).ToString("dd.MM.yyyy")" /></div>
                         <div class="col-md-2"><input class="form-control dateboxbg" type="text" id="txtBitis" value="@DateTime.Today.ToString("dd.MM.yyyy")" /></div>
                         <div class="col-md-1"><button type="button" class="btn btn-circle green listele-buton"><i class="icon-refresh"></i></button></div>
                     </div>
@@ -40,7 +40,7 @@
     </div>
 </div>
 @section Scripts{<script type="text/javascript">
-    var basTarih = @DateTime.Today.ToOADateInt();
+    var basTarih = @DateTime.Today.AddDays(-7).ToOADateInt();
     var bitTarih = @DateTime.Today.ToOADateInt();
     $(document).ready(function ()
     {

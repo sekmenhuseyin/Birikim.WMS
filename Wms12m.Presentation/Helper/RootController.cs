@@ -33,7 +33,7 @@ namespace Wms12m.Presentation
         /// <summary>
         /// hata kaydını tek yerden kontrol etmek için
         /// </summary>
-        public void Logger(Exception ex, string page)
+        public void Logger(Exception ex, string page, string detay = "")
         {
             var inner = "";
             if (ex.InnerException != null)
@@ -42,7 +42,7 @@ namespace Wms12m.Presentation
                 if (ex.InnerException.InnerException != null) inner += ": " + ex.InnerException.InnerException.Message;
             }
 
-            db.Logger(vUser.UserName, "", fn.GetIPAddress(), ex.Message, inner, page);
+            db.Logger(vUser.UserName, "", fn.GetIPAddress(), ex.Message + ": " + detay, inner, page);
         }
         /// <summary>
         /// işlem kaydı

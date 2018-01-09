@@ -93,7 +93,6 @@
         }
     }
     secilitipkod = model.GostSTKDeger;
-    secilisirket = model.GosterilecekSirket;
     secilichk = model.GostCHKKodAlani;
     secilikod3 = kod3list[0] + ";" + kod3list[1];
     secilirisk = risklist[0] + ";" + risklist[1];
@@ -341,7 +340,7 @@
         secilirisk += secilirisk2;
         $.ajax({
             url: window.location.origin + "/Users/ParametreUpdate",
-            data: { CHKAraligi: secilichk, Sirketler: secilisirket, Tipler: secilitipkod, Kod3: secilikod3, Risk: secilirisk, ID :ID},
+            data: { CHKAraligi: secilichk, Tipler: secilitipkod, Kod3: secilikod3, Risk: secilirisk, ID :ID},
             type: "post",
             success: function (data) {
                 if (data.Status == true) {
