@@ -25,8 +25,8 @@
                             <td nowrap align="right">@String.Format("{0:n}", item.StokMiktar)</td>
                             <td nowrap align="right">@String.Format("{0:n}", item.KritikStok)</td>
                             <td nowrap>@item.SonFaturaNo</td>
-                            <td nowrap>@Convert.ToDateTime(@item.SonFaturaTarihi).ToString("dd.MM.yyyy") </td>
-                            <td nowrap>@(item.SonUretimTarihi != null && item.SonUretimTarihi != "" ? Convert.ToDateTime(item.SonUretimTarihi).ToString("dd.MM.yyyy") : "")</td>
+                            <td nowrap>@Convert.ToDateTime(@item.SonFaturaTarihi).ToString("dd-MM-yyyy") </td>
+                            <td nowrap>@(item.SonUretimTarihi != null && item.SonUretimTarihi != "" ? Convert.ToDateTime(item.SonUretimTarihi).ToString("dd-MM-yyyy") : "")</td>
                             <td nowrap align="right">@String.Format("{0:n}", item.SonSatisMiktari)</td>
                             <td nowrap>@item.SonSatisMiktariBirim</td>
                         </tr>

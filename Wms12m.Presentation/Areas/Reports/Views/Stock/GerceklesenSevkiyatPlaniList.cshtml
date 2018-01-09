@@ -35,7 +35,7 @@
             },
             "columnDefs": [{ "type": "num-fmt", "className": "dt-right", "targets": [7, 9, 10, 11] }],
             "columns": [
-                { "data": "Tarih", "render": function (data) { if (data != null) return moment(data).format("DD.MM.YYYY"); else return "&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp;"; }, "sClass": "nowrap" },
+                { "data": "Tarih", "render": function (data) { if (data != null) return moment(data).format("DD-MM-YYYY"); else return "&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp;"; }, "sClass": "nowrap" },
                 { "data": "EvrakNo" },
                 { "data": "Chk" },
                 { "data": "Unvan" },
