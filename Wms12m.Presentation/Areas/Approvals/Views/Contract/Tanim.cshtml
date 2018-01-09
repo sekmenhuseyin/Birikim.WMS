@@ -737,6 +737,41 @@
             Modaldialog("Sözleşme Numarası Girmelisiniz.", "Satır Ekle", "Tamam", "btn-warning");
             return;
         }
+
+        if ($(".select_baglanti_tutari_doviz").dxSelectBox("instance").option("value") == "" || $(".select_baglanti_tutari_doviz").dxSelectBox("instance").option("value") == null)
+        {
+            Modaldialog("Bağlantı Tutarı Döviz Alanında Seçim Yapmalısınız!", "Satır Ekle", "Tamam", "btn-warning");
+            return;
+        }
+
+        if ($(".select_baglanti_tipi").dxSelectBox("instance").option("value") == null || $(".select_baglanti_tipi").dxSelectBox("instance").option("value") == "")
+        {
+            Modaldialog("Bağlantı Tipi Seçmelisiniz.", "Kayıt İşlemi", "Tamam", "btn-warning");
+            return;
+        }
+
+        if ($(".numb_baglanti_tutari").dxTextBox("instance").option("value") == null || $(".numb_baglanti_tutari").dxTextBox("instance").option("value") == "")
+        {
+            Modaldialog("Bağlantı Tutarını Sıfırdan Büyük Olacak Şekilde Girmelisiniz.", "Kayıt İşlemi", "Tamam", "btn-warning");
+            return;
+        }
+        if ($(".select_musteri_kodu").dxLookup("instance").option("value") == null || $(".select_musteri_kodu").dxLookup("instance").option("value") == "")
+        {
+            Modaldialog("Müşteri Kodu Seçmelisiniz.", "Kayıt İşlemi", "Tamam", "btn-warning");
+            return;
+        }
+
+        if ($(".date_bitis_tarihi").dxDateBox("instance").option("value") == null || $(".date_baslangic_tarihi").dxDateBox("instance").option("value") == "")
+        {
+            Modaldialog("Bitiş Tarihi Boş Olamaz.", "Kayıt İşlemi", "Tamam", "btn-warning");
+            return;
+        }
+        if ($(".date_baslangic_tarihi").dxDateBox("instance").option("value") == null || $(".date_baslangic_tarihi").dxDateBox("instance").option("value") == "")
+        {
+            Modaldialog("Başlangıç Tarihi Boş Olamaz.", "Kayıt İşlemi", "Tamam", "btn-warning");
+            return;
+        }
+
         var ListeNo = $(".txt_sozlesme_sira_no").dxTextBox("instance").option("value");
         var AktifPasif = null;
         if ($(".txt_sozlesme_sira_no").dxTextBox("instance").option("readOnly") == true) {
