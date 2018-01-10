@@ -68,7 +68,7 @@ namespace Wms12m.Entity
         public int[] IDs { get; set; }
         public string[] EvrakNos { get; set; }
         public string[] MalKodus { get; set; }
-        public decimal[] Miktars { get; set; }
+        public string[] Miktars { get; set; }
     }
     /// <summary>
     /// siparişten getir sayfası

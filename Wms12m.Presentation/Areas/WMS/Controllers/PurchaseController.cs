@@ -132,50 +132,52 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         /// siparişten malzeme ekler
         /// </summary>
         [HttpPost, ValidateAntiForgeryToken]
-        public PartialViewResult FromSiparis(frmSiparisBilgileri tbl)
+        public JsonResult FromSiparis(frmSiparisBilgileri tbl)
         {
-            if (CheckPerm(Perms.MalKabul, PermTypes.Writing) == false) return null;
-            // sadece irsaliye daha onaylanmamışsa yani işlemleri bitmeişse ekle
+            if (tbl.Miktars == null) return Json(new Result(false, "Miktarlar gelmedi"), JsonRequestBehavior.AllowGet);
+            if (CheckPerm(Perms.MalKabul, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
+            // sadece irsaliye daha onaylanmamışsa yani işlemleri bitmemişse ekle
             var irs = Irsaliye.Detail(tbl.Id);
             if (irs.Onay == false)
             {
+                for (int i = 0; i < tbl.MalKodus.Count(); i++)
+                {
+                    var sql = string.Format(@"EXEC FINSAT6{0}.wms.getMalKabulSiparisDetail @ROW_ID = {1}, @MalKodu = '{2}', @EvrakNo = '{3}'", vUser.SirketKodu, tbl.IDs[i], tbl.MalKodus[i], tbl.EvrakNos[i].Trim());
+                    var satir = db.Database.SqlQuery<frmIrsaliyeMalzeme>(sql).FirstOrDefault();
+                    if (satir == null)
+                        return Json(new Result(false, tbl.EvrakNos[i] + " ve " + tbl.MalKodus[i] + " için satır bulunamadı"), JsonRequestBehavior.AllowGet);
+                    var mNo = "";
+                    if (satir.Kod1 == "KKABLO")
+                        mNo = "Boş-" + db.SettingsMakaraNo(irs.DepoID).FirstOrDefault();
+                    tbl.Miktars[i] = tbl.Miktars[i].Replace(".", "");
+                    decimal miktar = tbl.Miktars[i].ToDecimal();
+                    miktar = miktar > 0 ? miktar : satir.Miktar;
+                    db.IRS_Detay.Add(new IRS_Detay()
+                    {
+                        IrsaliyeID = tbl.Id,
+                        Birim = satir.Birim,
+                        KynkSiparisMiktar = satir.BirimMiktar,
+                        KynkSiparisID = tbl.IDs[i],
+                        KynkSiparisNo = satir.EvrakNo,
+                        KynkSiparisSiraNo = satir.SiraNo,
+                        KynkSiparisTarih = satir.Tarih,
+                        KynkDegisSaat = satir.DegisSaat,
+                        MalKodu = satir.MalKodu,
+                        Miktar = miktar,
+                        MakaraNo = mNo
+                    });
+                }
                 try
                 {
-                    for (int i = 0; i < tbl.MalKodus.Count(); i++)
-                    {
-                        var sql = string.Format(@"EXEC FINSAT6{0}.wms.getMalKabulSiparisDetail @ROW_ID = {1}, @MalKodu = '{2}', @EvrakNo = '{3}'", vUser.SirketKodu, tbl.IDs[i], tbl.MalKodus[i], tbl.EvrakNos[i].Trim());
-                        var satir = db.Database.SqlQuery<frmIrsaliyeMalzeme>(sql).FirstOrDefault();
-                        var mNo = "";
-                        if (satir.Kod1 == "KKABLO")
-                            mNo = "Boş-" + db.SettingsMakaraNo(irs.DepoID).FirstOrDefault();
-                        var sti = new IRS_Detay()
-                        {
-                            IrsaliyeID = tbl.Id,
-                            Birim = satir.Birim,
-                            KynkSiparisMiktar = satir.BirimMiktar,
-                            KynkSiparisID = tbl.IDs[i],
-                            KynkSiparisNo = satir.EvrakNo,
-                            KynkSiparisSiraNo = satir.SiraNo,
-                            KynkSiparisTarih = satir.Tarih,
-                            KynkDegisSaat = satir.DegisSaat,
-                            MalKodu = satir.MalKodu,
-                            Miktar = tbl.Miktars[i] > 0 ? tbl.Miktars[i] : satir.Miktar,
-                            MakaraNo = mNo
-                        };
-                        var _Result = IrsaliyeDetay.Operation(sti);
-                    }
+                    db.SaveChanges();
                 }
                 catch (Exception ex)
                 {
                     Logger(ex, "WMS/Purchase/FromSiparis");
+                    return Json(new Result(false, "Hata oldu"), JsonRequestBehavior.AllowGet);
                 }
             }
-            // get list
-            var list = IrsaliyeDetay.GetList(tbl.Id);
-            ViewBag.IrsaliyeId = tbl.Id;
-            ViewBag.Onay = irs.Onay;
-            ViewBag.Yetki = true;
-            return PartialView("_GridPartial", list);
+            return Json(new Result(true, tbl.Id), JsonRequestBehavior.AllowGet);
         }
         /// <summary>
         /// yeni irsaliye fatura kaydeder

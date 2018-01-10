@@ -163,6 +163,20 @@
             Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
         $('#submitForm').click();
     };
+    function getresult2(data)
+    {
+        if (data.Status == false)
+        {
+            $(".btnModals").prop('disabled', false);
+            Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
+        }
+        else
+        {
+            $('#submitForm').click();
+            Modaldialog("Siparişler eklendi", "Başarı", "Tamam", "btn-success");
+            $('#modalEditPage').modal('toggle');
+        }
+    };
     $(function () {
         $('#linkUpload').click(function () {
             if ($("#DID").val() != "" && $("#Hesap").val() != "")

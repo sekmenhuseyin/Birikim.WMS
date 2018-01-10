@@ -30,12 +30,12 @@
         </div>
         <div class="row">
             <div class="col-md-12">
-                <button type="button" class="btn btn-danger pull-left" data-dismiss="modal"><i class="fa fa-times"></i> Kapat</button>
-                <button type="button" class="btn btn-primary pull-right" data-dismiss="modal" id="submitter">Ekle</button>
+                <button type="button" class="btn btn-danger pull-left btnModals" data-dismiss="modal"><i class="fa fa-times"></i> Kapat</button>
+                <button type="button" class="btn btn-primary pull-right btnModals" id="submitter">Ekle</button>
             </div>
         </div>
     </div>
-    @using (Ajax.BeginForm("FromSiparis", "Purchase", new { area = "WMS" }, new AjaxOptions { InsertionMode = InsertionMode.Replace, UpdateTargetId = "StoreGrid", OnFailure = "Modaldialog('Lütfen Tekrar Deneyin', 'Hata', 'Tamam', 'btn-danger');" }, new { @class = "hidden", id = "frmFromSiparis" }))
+    @using (Ajax.BeginForm("FromSiparis", "Purchase", new { area = "WMS" }, new AjaxOptions { OnSuccess = "getresult2", OnBegin = "$('.btnModals').prop('disabled', true);", OnFailure = "$('.btnModals').prop('disabled', false);Modaldialog('Lütfen Tekrar Deneyin', 'Hata', 'Tamam', 'btn-danger');" }, new { @class = "hidden", id = "frmFromSiparis" }))
     {
         @Html.AntiForgeryToken()
         <input type="text" name="Id" value="@ViewBag.IrsNo" />
