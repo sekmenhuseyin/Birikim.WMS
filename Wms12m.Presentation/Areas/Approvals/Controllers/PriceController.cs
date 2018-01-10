@@ -192,12 +192,12 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                         fyt.DvzSF3ValorGun = 0;
                         fyt.KayitTuru = -1;
                         fyt.GuvenlikKod = "";
-                        fyt.Kaydeden = vUser.UserName.ToString();
-                        fyt.KayitTarih = (int)DateTime.Now.ToOADate();
+                        fyt.Kaydeden = vUser.UserName;
+                        fyt.KayitTarih = fn.ToOADate();
                         fyt.KayitSaat = fn.ToOATime();
                         fyt.KayitKaynak = 117;
                         fyt.KayitSurum = "8.10.100";
-                        fyt.Degistiren = vUser.UserName.ToString();
+                        fyt.Degistiren = vUser.UserName;
                         fyt.DegisTarih = fn.ToOADate();
                         fyt.DegisSaat = fn.ToOATime();
                         fyt.DegisKaynak = 117;
@@ -235,7 +235,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                         if (fytGuncellenecek != null)
                         {
                             var ss = Convert.ToDecimal(insertObj["SatisFiyat1"].ToString()).ToString().Replace(",", ".");
-                            var sss = string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[FYT] SET SatisFiyat1 = {5}, SF1Birim='" + insertObj["SatisFiyat1BirimInt"].ToShort() + "', DvzSatisFiyat1={1}, SF1DovizCinsi='{2}', DovizSF1Birim={3}  where ROW_ID = '{4}'", vUser.SirketKodu, Convert.ToDecimal(insertObj["DovizSatisFiyat1"].ToString()), insertObj["DovizCinsi"].ToString().Trim(), insertObj["DovizSF1BirimInt"].ToShort(), fytGuncellenecek.ROW_ID, ss);
+                            var sss = string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[FYT] SET SatisFiyat1 = {5}, SF1Birim='" + insertObj["SatisFiyat1BirimInt"].ToShort() + "', DvzSatisFiyat1={1}, SF1DovizCinsi='{2}', DovizSF1Birim={3}  where ROW_ID = '{4}'", vUser.SirketKodu, insertObj["DovizSatisFiyat1"].ToString().Replace(",", "."), insertObj["DovizCinsi"].ToString().Trim(), insertObj["DovizSF1BirimInt"].ToShort(), fytGuncellenecek.ROW_ID, ss);
                             db.Database.ExecuteSqlCommand(sss);
                         }
                         db.Database.ExecuteSqlCommand(string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[Fiyat] SET GMOnay = 1, GMOnaylayan='" + vUser.UserName + "', GMOnayTarih='{2}'  where ID = '{1}'", vUser.SirketKodu, insertObj["ID"].ToString(), DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")));
