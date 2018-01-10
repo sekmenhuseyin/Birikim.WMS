@@ -1,15 +1,7 @@
 ﻿@{
     ViewBag.Title = "Fiyat Onay";
     Layout = "~/Views/Shared/_Layout.cshtml";
-}@section Styles{
-    <style>
-        .btn {
-            width: 120px;
-            text-align: center;
-        }
-    </style>
-}
-<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><span>Onaylama</span><i class="fa fa-circle"></i></li><li><span>Fiyat</span></li></ul></div>
+}<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><span>Onaylama</span><i class="fa fa-circle"></i></li><li><span>Fiyat</span></li></ul></div>
 <h1 class="page-title">Fiyat Onay GM</h1>
 <div class="form-horizontal">
     <div class="form-body">
@@ -35,253 +27,232 @@
             <div class="portlet-body">
                 <div class="row">
                     <div class="col-xs-12">
-                        <div id="liste">
-                        </div>
-                        <div id="listekoleksiyon" style="display:none; ">
-                        </div>
-                        <div id="listegrup" style="display:none; ">
-                        </div>
+                        <div id="liste"></div>
+                        <div id="listekoleksiyon" style="display:none; "></div>
+                        <div id="listegrup" style="display:none; "></div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-@section Scripts{
-    <script>
+</div>@section Scripts{<script>
+    function FuncSearchBtn() {
+        var Type = $("input[type='checkbox'][name='Locked']:checked").val();
+        PartialView("/Approvals/Price/GM_List", 'liste', JSON.stringify({ Durum: Type }));
+    }
+    $(document).ready(function () {
         PartialView("/Approvals/Price/GM_List", 'liste');
-        function FuncSearchBtn() {
-            var Type = $("input[type='checkbox'][name='Locked']:checked").val();
-            PartialView("/Approvals/Price/GM_List", 'liste', JSON.stringify({ Durum: Type }));
+        $('#chkKoleksiyon').click(function () {
+            $("#buttons2").html("");
+            if (this.checked) {
+                $("#buttons").hide();
+                PartialView("/Approvals/Price/GM_List_Koleksiyon", 'listekoleksiyon');
+                $("#listekoleksiyon").css("display", "block");
+                $("#liste").css("display", "none");
+                $("#listegrup").css("display", "none");
+                $("#chkGrup").prop("checked", false);
+            }
+            else {
+                $("#buttons").show();
+                $("#listegrup").css("display", "none");
+                $("#listekoleksiyon").css("display", "none");
+                $("#liste").css("display", "block");
+                $("#buttons").css("display", "block");
+            }
+        });
+        $('#chkGrup').click(function () {
+            $("#buttons2").html("");
+            if (this.checked) {
+                $("#buttons").hide();
+                PartialView("/Approvals/Price/GM_List_Grup", 'listegrup');
+                $("#listegrup").css("display", "block");
+                $("#liste").css("display", "none");
+                $("#listekoleksiyon").css("display", "none");
+                $("#chkKoleksiyon").prop("checked", false);
+            }
+            else if ($("#chkKoleksiyon").prop("checked") == false) {
+                $("#buttons").show();
+                $("#listegrup").css("display", "none");
+                $("#listekoleksiyon").css("display", "none");
+                $("#liste").css("display", "block");
+                $("#buttons").css("display", "block");
+            }
+        });
+    });
+    $('.onay-buton').click(function () {
+        secili_table = [];
+        if ($("#chkKoleksiyon").prop("checked") == false && $("#chkGrup").prop("checked") == false) {
+            var x = table.rows('.selected').data();
+            for (var i = 0; i < x.length; i++) {
+                secili_table.push(x[i]);
+            }
+            if (secili_table.length == 0) {
+                Modaldialog("Satır Seçiniz", "Onay", "Tamam", "Onay");
+                return;
+            }
+            var _dfd = $.Deferred();
+            $.ajax({
+                url: window.location.origin + "/Approvals/Price/Onay",
+                data: { Data: JSON.stringify(secili_table) },
+                type: "post",
+
+                success: function (data) {
+                    if (data.Status == true) {
+                        Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "btn-success");
+                        setTimeout(function () { window.location.reload(); }, 500);
+                    }
+                    else {
+                        if (data.Message == "") data.Message = "Hata oluştu";
+                        Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
+                    }
+                }
+            });
+            return _dfd.promise();
+        }
+        else if ($("#chkKoleksiyon").prop("checked") == true && $("#chkGrup").prop("checked") == false) {
+            var x = table2.rows('.selected').data();
+            for (var i = 0; i < x.length; i++) {
+                secili_table.push(x[i]);
+            }
+            if (secili_table.length == 0) {
+                Modaldialog("Satır Seçiniz", "Onay", "Tamam", "Onay");
+                return;
+            }
+            var _dfd = $.Deferred();
+            $.ajax({
+                url: window.location.origin + "/Approvals/Price/Onay_Koleksiyon",
+                data: { Data: JSON.stringify(secili_table) },
+                type: "post",
+                success: function (data) {
+                    if (data.Status == true) {
+                        Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "btn-success");
+                        setTimeout(function () { window.location.reload(); }, 500);
+                    }
+                    else {
+                        if (data.Message == "") data.Message = "Hata oluştu";
+                        Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
+                    }
+                }
+            });
+            return _dfd.promise();
+        }
+        else if ($("#chkKoleksiyon").prop("checked") == false && $("#chkGrup").prop("checked") == true) {
+            var x = table3.rows('.selected').data();
+            for (var i = 0; i < x.length; i++) {
+                secili_table.push(x[i]);
+            }
+            if (secili_table.length == 0) {
+                Modaldialog("Satır Seçiniz", "Onay", "Tamam", "Onay");
+                return;
+            }
+            var _dfd = $.Deferred();
+            $.ajax({
+                url: window.location.origin + "/Approvals/Price/Onay_Grup",
+                data: { Data: JSON.stringify(secili_table) },
+                type: "post",
+                success: function (data) {
+                    if (data.Status == true) {
+                        Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "btn-success");
+                        setTimeout(function () { window.location.reload(); }, 500);
+                    }
+                    else {
+                        if (data.Message == "") data.Message = "Hata oluştu";
+                        Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
+                    }
+                }
+            });
+            return _dfd.promise();
+        }
+    });
+    $('.reddet-buton').click(function () {
+        secili_table = [];
+        if ($("#chkKoleksiyon").prop("checked") == false && $("#chkGrup").prop("checked") == false) {
+            var x = table.rows('.selected').data();
+            for (var i = 0; i < x.length; i++) {
+                secili_table.push(x[i]);
+            }
+            if (secili_table.length == 0) {
+                Modaldialog("Satır Seçiniz", "Onay", "Tamam", "Onay");
+                return;
+            }
+            var _dfd = $.Deferred();
+            $.ajax({
+                url: window.location.origin + "/Approvals/Price/Red",
+                data: { Data: JSON.stringify(secili_table) },
+                type: "post",
+                success: function (data) {
+                    if (data.Status == true) {
+                        Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "btn-success");
+                        setTimeout(function () { window.location.reload(); }, 500);
+                    }
+                    else {
+                        if (data.Message == "") data.Message = "Hata oluştu";
+                        Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
+                    }
+                }
+            });
+            return _dfd.promise();
+        }
+        else if ($("#chkKoleksiyon").prop("checked") == true && $("#chkGrup").prop("checked") == false) {
+            var x = table2.rows('.selected').data();
+            for (var i = 0; i < x.length; i++) {
+                secili_table.push(x[i]);
+            }
+            if (secili_table.length == 0) {
+                Modaldialog("Satır Seçiniz", "Onay", "Tamam", "Onay");
+                return;
+            }
+            var _dfd = $.Deferred();
+            $.ajax({
+                url: window.location.origin + "/Approvals/Price/Red_Koleksiyon",
+                data: { Data: JSON.stringify(secili_table) },
+                type: "post",
+                success: function (data) {
+                    if (data.Status == true) {
+                        Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "btn-success");
+                        setTimeout(function () { window.location.reload(); }, 500);
+                    }
+                    else {
+                        if (data.Message == "") data.Message = "Hata oluştu";
+                        Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
+                    }
+                }
+            });
+            return _dfd.promise();
+
         }
 
-        $(document).ready(function () {
-
-            $('#chkKoleksiyon').click(function () {
-                $("#buttons2").html("");
-                if (this.checked) {
-                    $("#buttons").hide();
-                    PartialView("/Approvals/Price/GM_List_Koleksiyon", 'listekoleksiyon');
-                    $("#listekoleksiyon").css("display", "block");
-                    $("#liste").css("display", "none");
-                    $("#listegrup").css("display", "none");
-                    $("#chkGrup").prop("checked", false);
-
-
+        else if ($("#chkKoleksiyon").prop("checked") == false && $("#chkGrup").prop("checked") == true) {
+            var x = table3.rows('.selected').data();
+            for (var i = 0; i < x.length; i++) {
+                secili_table.push(x[i]);
+            }
+            if (secili_table.length == 0) {
+                Modaldialog("Satır Seçiniz", "Onay", "Tamam", "Onay");
+                return;
+            }
+            var _dfd = $.Deferred();
+            $.ajax({
+                url: window.location.origin + "/Approvals/Price/Red_Grup",
+                data: { Data: JSON.stringify(secili_table) },
+                type: "post",
+                success: function (data) {
+                    if (data.Status == true) {
+                        Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "btn-success");
+                        setTimeout(function () { window.location.reload(); }, 500);
+                    }
+                    else {
+                        if (data.Message == "") data.Message = "Hata oluştu";
+                        Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
+                    }
                 }
-                else {
-                    $("#buttons").show();
-                    $("#listegrup").css("display", "none");
-                    $("#listekoleksiyon").css("display", "none");
-                    $("#liste").css("display", "block");
-                    $("#buttons").css("display", "block");
-                }
-
-
             });
+            return _dfd.promise();
 
-            $('#chkGrup').click(function () {
-                $("#buttons2").html("");
-                if (this.checked) {
-                    $("#buttons").hide();
-                    PartialView("/Approvals/Price/GM_List_Grup", 'listegrup');
-                    $("#listegrup").css("display", "block");
-                    $("#liste").css("display", "none");
-                    $("#listekoleksiyon").css("display", "none");
-                    $("#chkKoleksiyon").prop("checked", false);
-                }
-                else if ($("#chkKoleksiyon").prop("checked") == false) {
-                    $("#buttons").show();
-                    $("#listegrup").css("display", "none");
-                    $("#listekoleksiyon").css("display", "none");
-                    $("#liste").css("display", "block");
-                    $("#buttons").css("display", "block");
-
-                }
-
-            });
-        });
-        $('.onay-buton').click(function () {
-            secili_table = [];
-            if ($("#chkKoleksiyon").prop("checked") == false && $("#chkGrup").prop("checked") == false) {
-                var x = table.rows('.selected').data();
-                for (var i = 0; i < x.length; i++) {
-                    secili_table.push(x[i]);
-                }
-                if (secili_table.length == 0) {
-                    Modaldialog("Satır Seçiniz", "Onay", "Tamam", "Onay");
-                    return;
-                }
-                var _dfd = $.Deferred();
-                $.ajax({
-                    url: window.location.origin + "/Approvals/Price/Onay",
-                    data: { Data: JSON.stringify(secili_table) },
-                    type: "post",
-
-                    success: function (data) {
-                        if (data.Status == true) {
-                            Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "btn-success");
-                           setTimeout(function () { window.location.reload(); }, 500);
-                        }
-                        else {
-                            if (data.Message == "") data.Message = "Hata oluştu";
-                            Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
-                        }
-                    }
-                });
-
-                return _dfd.promise();
-
-            }
-            else if ($("#chkKoleksiyon").prop("checked") == true && $("#chkGrup").prop("checked") == false) {
-                var x = table2.rows('.selected').data();
-                for (var i = 0; i < x.length; i++) {
-                    secili_table.push(x[i]);
-                }
-                if (secili_table.length == 0) {
-                    Modaldialog("Satır Seçiniz", "Onay", "Tamam", "Onay");
-                    return;
-                }
-                var _dfd = $.Deferred();
-                $.ajax({
-                    url: window.location.origin + "/Approvals/Price/Onay_Koleksiyon",
-                    data: { Data: JSON.stringify(secili_table) },
-                    type: "post",
-                    success: function (data) {
-                        if (data.Status == true) {
-                            Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "btn-success");
-                           setTimeout(function () { window.location.reload(); }, 500);
-                        }
-                        else {
-                            if (data.Message == "") data.Message = "Hata oluştu";
-                            Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
-                        }
-                    }
-                });
-                return _dfd.promise();
-
-            }
-            else if ($("#chkKoleksiyon").prop("checked") == false && $("#chkGrup").prop("checked") == true) {
-                var x = table3.rows('.selected').data();
-                for (var i = 0; i < x.length; i++) {
-                    secili_table.push(x[i]);
-                }
-                if (secili_table.length == 0) {
-                    Modaldialog("Satır Seçiniz", "Onay", "Tamam", "Onay");
-                    return;
-                }
-                var _dfd = $.Deferred();
-                $.ajax({
-                    url: window.location.origin + "/Approvals/Price/Onay_Grup",
-                    data: { Data: JSON.stringify(secili_table) },
-                    type: "post",
-                    success: function (data) {
-                        if (data.Status == true) {
-                            Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "btn-success");
-                           setTimeout(function () { window.location.reload(); }, 500);
-                        }
-                        else {
-                            if (data.Message == "") data.Message = "Hata oluştu";
-                            Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
-                        }
-                    }
-                });
-                return _dfd.promise();
-            }
-
-        });
-
-        $('.reddet-buton').click(function () {
-            secili_table = [];
-            if ($("#chkKoleksiyon").prop("checked") == false && $("#chkGrup").prop("checked") == false) {
-                var x = table.rows('.selected').data();
-                for (var i = 0; i < x.length; i++) {
-                    secili_table.push(x[i]);
-                }
-                if (secili_table.length == 0) {
-                    Modaldialog("Satır Seçiniz", "Onay", "Tamam", "Onay");
-                    return;
-                }
-                var _dfd = $.Deferred();
-                $.ajax({
-                    url: window.location.origin + "/Approvals/Price/Red",
-                    data: { Data: JSON.stringify(secili_table) },
-                    type: "post",
-                    success: function (data) {
-                        if (data.Status == true) {
-                            Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "btn-success");
-                           setTimeout(function () { window.location.reload(); }, 500);
-                        }
-                        else {
-                            if (data.Message == "") data.Message = "Hata oluştu";
-                            Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
-                        }
-                    }
-                });
-                return _dfd.promise();
-
-            }
-            else if ($("#chkKoleksiyon").prop("checked") == true && $("#chkGrup").prop("checked") == false) {
-                var x = table2.rows('.selected').data();
-                for (var i = 0; i < x.length; i++) {
-                    secili_table.push(x[i]);
-                }
-                if (secili_table.length == 0) {
-                    Modaldialog("Satır Seçiniz", "Onay", "Tamam", "Onay");
-                    return;
-                }
-                var _dfd = $.Deferred();
-                $.ajax({
-                    url: window.location.origin + "/Approvals/Price/Red_Koleksiyon",
-                    data: { Data: JSON.stringify(secili_table) },
-                    type: "post",
-                    success: function (data) {
-                        if (data.Status == true) {
-                            Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "btn-success");
-                           setTimeout(function () { window.location.reload(); }, 500);
-                        }
-                        else {
-                            if (data.Message == "") data.Message = "Hata oluştu";
-                            Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
-                        }
-                    }
-                });
-                return _dfd.promise();
-
-            }
-
-            else if ($("#chkKoleksiyon").prop("checked") == false && $("#chkGrup").prop("checked") == true) {
-                var x = table3.rows('.selected').data();
-                for (var i = 0; i < x.length; i++) {
-                    secili_table.push(x[i]);
-                }
-                if (secili_table.length == 0) {
-                    Modaldialog("Satır Seçiniz", "Onay", "Tamam", "Onay");
-                    return;
-                }
-                var _dfd = $.Deferred();
-                $.ajax({
-                    url: window.location.origin + "/Approvals/Price/Red_Grup",
-                    data: { Data: JSON.stringify(secili_table) },
-                    type: "post",
-                    success: function (data) {
-                        if (data.Status == true) {
-                            Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "btn-success");
-                           setTimeout(function () { window.location.reload(); }, 500);
-                        }
-                        else {
-                            if (data.Message == "") data.Message = "Hata oluştu";
-                            Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
-                        }
-                    }
-                });
-                return _dfd.promise();
-
-            }
-        });
-
-        $('.yenile-buton').click(function () {
-           setTimeout(function () { window.location.reload(); }, 500);
-        });
-    </script>
+        }
+    });
+    $('.yenile-buton').click(function () {
+        setTimeout(function () { window.location.reload(); }, 500);
+    });
+</script>
 }

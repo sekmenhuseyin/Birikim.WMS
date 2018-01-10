@@ -68,31 +68,21 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
             var BasTarih = 0;
             var BitTarih = 0;
-            var ListeAdi = "";//int FytSiraNo = -1;
+            var ListeAdi = "";
+            short FytSiraNo = -1;
             try
             {
-                Dictionary<string, int> FiyatMaxSiraNo = new Dictionary<string, int>();
                 foreach (JObject insertObj in parameters)
                 {
-                    if (FiyatMaxSiraNo.ContainsKey(insertObj["FiyatListNum"].ToString()))
+                    var FLB = db.Database.SqlQuery<short>(string.Format("SELECT ISNULL(MAX(SiraNo),0) FROM [FINSAT6{0}].[FINSAT6{0}].[FYT] WHERE FiyatListNum='{1}'", vUser.SirketKodu, insertObj["FiyatListNum"].ToString())).FirstOrDefault();
+                    if (FLB > 0)
                     {
-                        continue;
+                        FytSiraNo = FLB;
+                        FytSiraNo++;
                     }
                     else
                     {
-                        var FytSiraNo = -1;
-                        var FLB = db.Database.SqlQuery<short>(string.Format("SELECT ISNULL(MAX(SiraNo),0) FROM [FINSAT6{0}].[FINSAT6{0}].[FYT] WHERE FiyatListNum='{1}'", vUser.SirketKodu, insertObj["FiyatListNum"].ToString())).FirstOrDefault();
-                        if (FLB > 0)
-                        {
-                            FytSiraNo = FLB;
-                            FytSiraNo++;
-                        }
-                        else
-                        {
-                            FytSiraNo = 0;
-                        }
-
-                        FiyatMaxSiraNo.Add(insertObj["FiyatListNum"].ToString(), FytSiraNo);
+                        FytSiraNo = 0;
                     }
 
                     if (insertObj["Durum"].ToString() == "Yeni Kayıt")
@@ -117,23 +107,12 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                             BasTarih = insertObj["BasTarih"].ToInt32();
                             BitTarih = insertObj["BitTarih"].ToInt32();
                         }
-
                         fyt.MalKodu = insertObj["MalKodu"].ToString();
                         fyt.BasTarih = BasTarih;
                         fyt.BasSaat = fn.ToOATime();
                         fyt.BitTarih = BitTarih;
                         fyt.BitSaat = fn.ToOATime();
-
-                        if (FiyatMaxSiraNo.ContainsKey(insertObj["FiyatListNum"].ToString()))
-                        {
-                            fyt.SiraNo = Convert.ToInt16(FiyatMaxSiraNo[insertObj["FiyatListNum"].ToString()]);
-                            FiyatMaxSiraNo[insertObj["FiyatListNum"].ToString()] = FiyatMaxSiraNo[insertObj["FiyatListNum"].ToString()]++;
-                        }
-                        else
-                        {
-                            fyt.SiraNo = 0;
-                        }
-
+                        fyt.SiraNo = FytSiraNo;
                         fyt.RenkBedenKod1 = "";
                         fyt.RenkBedenKod2 = "";
                         fyt.RenkBedenKod3 = "";
@@ -190,14 +169,12 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                         fyt.DovizSF1KDV = 0;
                         fyt.DovizSF2KDV = 0;
                         fyt.DovizSF3KDV = 0;
-                        // fyt.SF1Birim = insertObj["SatisFiyat1Birim"] == null || insertObj["SatisFiyat1Birim"].ToString() == ""  ? Convert.ToInt16(-1) : insertObj["SatisFiyat1Birim"].ToShort();
                         fyt.SF1Birim = insertObj["SatisFiyat1BirimInt"].ToShort();
                         fyt.SF2Birim = -1;
                         fyt.SF3Birim = -1;
                         fyt.SF4Birim = -1;
                         fyt.SF5Birim = -1;
                         fyt.SF6Birim = -1;
-                        // fyt.DovizSF1Birim = insertObj["DovizSF1Birim"] == null || insertObj["DovizSF1Birim"].ToString() == "" ? Convert.ToInt16(-1) : insertObj["DovizSF1Birim"].ToShort();
                         fyt.DovizSF1Birim = insertObj["DovizSF1BirimInt"].ToShort();
                         fyt.DovizSF2Birim = -1;
                         fyt.DovizSF3Birim = -1;
@@ -221,7 +198,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                         fyt.KayitKaynak = 117;
                         fyt.KayitSurum = "8.10.100";
                         fyt.Degistiren = vUser.UserName.ToString();
-                        fyt.DegisTarih = (int)DateTime.Now.ToOADate();
+                        fyt.DegisTarih = fn.ToOADate();
                         fyt.DegisSaat = fn.ToOATime();
                         fyt.DegisKaynak = 117;
                         fyt.DegisSurum = "8.10.100";
@@ -236,13 +213,10 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                         fyt.Kod10 = "";
                         fyt.Kod11 = 0;
                         fyt.Kod12 = 0;
-
                         fyt.FiyatListeTipi = -1;
-                        var date = DateTime.Now;
-                        var shortDate = date.ToString("yyyy-MM-dd HH:mm:ss");
                         sqlexper.Insert(fyt);
                         var sonuc = sqlexper.AcceptChanges();
-                        db.Database.ExecuteSqlCommand(string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[Fiyat] SET GMOnay = 1, GMOnaylayan='" + vUser.UserName + "', GMOnayTarih='{2}'  where ID = '{1}'", vUser.SirketKodu, insertObj["ID"].ToString(), shortDate));
+                        db.Database.ExecuteSqlCommand(string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[Fiyat] SET GMOnay = 1, GMOnaylayan='" + vUser.UserName + "', GMOnayTarih='{2}'  where ID = '{1}'", vUser.SirketKodu, insertObj["ID"].ToString(), DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")));
                     }
                     else if (insertObj["Durum"].ToString() == "Silinecek Kayıt")
                     {
@@ -252,10 +226,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                         {
                             db.Database.ExecuteSqlCommand(string.Format("DELETE FROM [FINSAT6{0}].[FINSAT6{0}].[FYT] WHERE ROW_ID = {1}", vUser.SirketKodu, insertObj["ROW_ID"].ToInt32()));
                         }
-
-                        var date = DateTime.Now;
-                        var shortDate = date.ToString("yyyy-MM-dd HH:mm:ss");
-                        db.Database.ExecuteSqlCommand(string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[Fiyat] SET GMOnay = 1, GMOnaylayan='" + vUser.UserName + "', GMOnayTarih='{2}'  where ID = '{1}'", vUser.SirketKodu, insertObj["ID"].ToString(), shortDate));
+                        db.Database.ExecuteSqlCommand(string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[Fiyat] SET GMOnay = 1, GMOnaylayan='" + vUser.UserName + "', GMOnayTarih='{2}'  where ID = '{1}'", vUser.SirketKodu, insertObj["ID"].ToString(), DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")));
                     }
                     else if (insertObj["Durum"].ToString() == "Güncellenecek Kayıt")
                     {
@@ -267,14 +238,9 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                             var sss = string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[FYT] SET SatisFiyat1 = {5}, SF1Birim='" + insertObj["SatisFiyat1BirimInt"].ToShort() + "', DvzSatisFiyat1={1}, SF1DovizCinsi='{2}', DovizSF1Birim={3}  where ROW_ID = '{4}'", vUser.SirketKodu, Convert.ToDecimal(insertObj["DovizSatisFiyat1"].ToString()), insertObj["DovizCinsi"].ToString().Trim(), insertObj["DovizSF1BirimInt"].ToShort(), fytGuncellenecek.ROW_ID, ss);
                             db.Database.ExecuteSqlCommand(sss);
                         }
-
-                        var date = DateTime.Now;
-                        var shortDate = date.ToString("yyyy-MM-dd HH:mm:ss");
-                        db.Database.ExecuteSqlCommand(string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[Fiyat] SET GMOnay = 1, GMOnaylayan='" + vUser.UserName + "', GMOnayTarih='{2}'  where ID = '{1}'", vUser.SirketKodu, insertObj["ID"].ToString(), shortDate));
+                        db.Database.ExecuteSqlCommand(string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[Fiyat] SET GMOnay = 1, GMOnaylayan='" + vUser.UserName + "', GMOnayTarih='{2}'  where ID = '{1}'", vUser.SirketKodu, insertObj["ID"].ToString(), DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")));
                     }
                 }
-                // return "OK";
-
                 _Result.Status = true;
                 _Result.Message = "İşlem Başarılı ";
             }
