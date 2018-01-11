@@ -438,10 +438,12 @@ if (tst.CrmOzet == true)
         </div>
     </div>
 }
-    }
-    </div>
-<div id="gorev_gunluk_calisma"></div><div id="gorev_gunluk_calisma_pie"></div><div id="gorev_musteri_analizi"></div><div id="gorev_musteri_analizi_pie"></div>
-<div id="gorev_proje_analizi"></div><div id="gorev_aylik_calisma"></div><div id="gorev_calisma_analizi"></div><div id="gorev_git"></div>
+}</div>
+@if (tst.GorevProjesi == true)
+{
+    if (Model.yetki.Contains("'ChartGörevProjesi'") == true) {<div id="gorev_gunluk_calisma"></div><div id="gorev_gunluk_calisma_pie"></div><div id="gorev_musteri_analizi"></div><div id="gorev_musteri_analizi_pie"></div><div id="gorev_proje_analizi"></div><div id="gorev_aylik_calisma"></div><div id="gorev_calisma_analizi"></div><div id="gorev_git"></div>}
+    else {<div id="gorev_karma"></div>}
+}
 <div id="gunluk_satis"></div><div id="gunluk_satis_pie"></div><div id="gunluk_satis_zaman_cizelgesi"></div><div id="gunluk_satis_yeartoday"></div>
 <div id="gunluk_satis_yeartoday_pie"></div><div id="gunluk_satis_double_kriter"></div><div id="gunluk_satis_double_kriter_pie"></div>
 <div id="aylik_satis_bar"></div><div id="aylik_satis_chk_bar"></div><div id="aylik_satis_kod_tip_doviz_bar"></div>
@@ -458,7 +460,8 @@ if (tst.CrmOzet == true)
 <script src="~/Content/assets/global/plugins/amcharts/amstockcharts/amstock.js"></script>
 <script src="~/Content/assets/global/plugins/echarts/echarts.js"></script>
 <script src="~/Content/assets/global/plugins/bootstrap-toggle/js/bootstrap-toggle.min.js"></script>
-<script>var dateVal = new Date(); dateVal.setHours(0, 0, 0); var oaDate = Math.ceil((dateVal - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000));
+<script>
+var dateVal = new Date(); dateVal.setHours(0, 0, 0); var oaDate = Math.ceil((dateVal - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000));
     $(document).ready(function (e) {@{
     if (tst.GorevProjesi == true){
         if (Model.yetki.Contains("'ChartGörevProjesi'") == true) {<text>
@@ -471,10 +474,9 @@ if (tst.CrmOzet == true)
             PartialView('/Home/GorevCalismaListesi', 'gorev_calisma_analizi', JSON.stringify({ tarihStart: oaDate - 7, tarihEnd: oaDate }));
             PartialView('/Home/GorevGit', 'gorev_git', JSON.stringify({ tarih: oaDate - @if (DateTime.Today.DayOfWeek == DayOfWeek.Monday) { @("3") }else if (DateTime.Today.DayOfWeek == DayOfWeek.Sunday) { @("2") } else { @("1") } }));
         </text> }
-        else
-        {
-            <text>window.location.href = "/ToDo/DutyWork/Todos";</text>
-        }
+        else {<text>
+
+        </text>}
     }
     if (Model.yetki.Contains("'ChartGunlukSatis'") == true){<text>
         PartialView('/Home/PartialGunlukSatis', 'gunluk_satis', JSON.stringify({ tarih: oaDate }));
