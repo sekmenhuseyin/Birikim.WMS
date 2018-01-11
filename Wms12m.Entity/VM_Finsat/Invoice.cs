@@ -95,6 +95,8 @@ namespace Wms12m.Entity
         public string MalKodu { get; set; }
         /// <summary> VarChar(50) (Allow Null) </summary>
         public string MalAdi { get; set; }
+        /// <summary> VarChar(50) (Allow Null) </summary>
+        public string BaglantiKodu { get; set; }
         /// <summary> VarChar(4) (Not Null) </summary>
         public string Birim { get; set; }
         /// <summary> VarChar(8000) (Allow Null) </summary>

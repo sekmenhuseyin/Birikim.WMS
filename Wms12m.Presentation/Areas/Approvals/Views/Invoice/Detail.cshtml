@@ -141,6 +141,7 @@
                             <th> # </th>
                             <th> Mal Kodu </th>
                             <th> Mal Adı </th>
+                            <th> Bağlantı Kodu </th>
                             <th> Birim </th>
                             <th> Birim Miktar </th>
                             <th> Birim Fiyat </th>
@@ -164,29 +165,30 @@
                     <tbody>
                         @foreach (var item in Model.STI)
                         {
-                            <tr>
-                                <td> @ii </td>
-                                <td> @item.MalKodu </td>
-                                <td nowrap> @item.MalAdi  </td>
-                                <td> @item.Birim  </td>
-                                <td align="right"> @item.BirimMiktar  </td>
-                                <td align="right"> @item.BirimFiyat  </td>
-                                <td align="right"> @item.Tutar  </td>
-                                <td> @item.Depo  </td>
-                                <td align="right"> @item.KdvOran  </td>
-                                <td align="right"> @item.KdvMuafiyetNedeni  </td>
-                                <td> @item.DvzTL  </td>
-                                <td> @item.DovizCinsi  </td>
-                                <td align="right"> @item.DovizKuru  </td>
-                                <td align="right"> @item.DovizTutar  </td>
-                                <td align="right"> @item.IskontoOran1  </td>
-                                <td align="right"> @item.IskontoOran2  </td>
-                                <td align="right"> @item.IskontoOran3  </td>
-                                <td align="right"> @item.IskontoOran4  </td>
-                                <td align="right"> @item.IskontoOran5  </td>
-                                <td align="right"> @item.NetTutar  </td>
-                                <td> @item.Nesne1  </td>
-                            </tr>
+                        <tr>
+                            <td> @ii </td>
+                            <td> @item.MalKodu </td>
+                            <td nowrap> @item.MalAdi  </td>
+                            <td nowrap> @item.BaglantiKodu  </td>
+                            <td> @item.Birim  </td>
+                            <td align="right"> @item.BirimMiktar  </td>
+                            <td align="right"> @item.BirimFiyat  </td>
+                            <td align="right"> @item.Tutar  </td>
+                            <td> @item.Depo  </td>
+                            <td align="right"> @item.KdvOran  </td>
+                            <td align="right"> @item.KdvMuafiyetNedeni  </td>
+                            <td> @item.DvzTL  </td>
+                            <td> @item.DovizCinsi  </td>
+                            <td align="right"> @item.DovizKuru  </td>
+                            <td align="right"> @item.DovizTutar  </td>
+                            <td align="right"> @item.IskontoOran1  </td>
+                            <td align="right"> @item.IskontoOran2  </td>
+                            <td align="right"> @item.IskontoOran3  </td>
+                            <td align="right"> @item.IskontoOran4  </td>
+                            <td align="right"> @item.IskontoOran5  </td>
+                            <td align="right"> @item.NetTutar  </td>
+                            <td> @item.Nesne1  </td>
+                        </tr>
                             ii++;
                         }
                     </tbody>
