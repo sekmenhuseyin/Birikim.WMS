@@ -91,25 +91,12 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public PartialViewResult UsersChat(string ID)
         {
-            var sql = "";
             if (ID == "")
-            {
-                sql = string.Format("[Messages].MesajTipi = " + ComboItems.GrupMesajı.ToInt32());
                 ViewBag.guid = "0";
-            }
             else
-            {
-                sql = string.Format("([Messages].MesajTipi = {0}) AND (([Messages].Kimden = '{1}') AND ([Messages].Kime = '{2}') OR ([Messages].Kimden = '{2}') AND ([Messages].Kime = '{1}'))", ComboItems.KişiselMesaj.ToInt32(), vUser.UserName, ID);
                 ViewBag.guid = db.Users.Where(m => m.Kod == ID).Select(m => m.Guid.ToString()).FirstOrDefault();
-                // set as read
-                db.Database.ExecuteSqlCommand("UPDATE [Messages] Set Okundu = 1 WHERE [Messages].MesajTipi = " + ComboItems.KişiselMesaj.ToInt32() + " AND [Messages].Kimden = '" + ID + "' AND [Messages].Kime = '" + vUser.UserName + "'");
-            }
-
-            var list = db.Database.SqlQuery<frmMessages>(string.Format(@"
-                                SELECT        TOP (100) usr.Users.AdSoyad, usr.Users.Kod, [Messages].Tarih, [Messages].Mesaj, usr.Users.[Guid] AS [ID]
-                                FROM            [Messages] INNER JOIN usr.Users ON [Messages].Kimden = usr.Users.Kod
-                                WHERE        {0}
-                                ORDER BY [Messages].Tarih", sql)).ToList();
+            var sql = string.Format("BIRIKIM.dbo.GetChats @MesajTipi = {0}, @Kimden = N'{1}', @Kime = N'{2}'", ID == "" ? ComboItems.GrupMesajı.ToInt32() : ComboItems.KişiselMesaj.ToInt32(), ID, vUser.UserName);
+            var list = db.Database.SqlQuery<frmMessages>(sql).ToList();
             return PartialView("../Shared/UsersChat", list);
         }
         /// <summary>
@@ -146,7 +133,7 @@ namespace Wms12m.Presentation.Controllers
                 satir.Okundu = true;
                 db.SaveChanges();
             }
-
+            //url varsa oraya git
             if (satir.URL != null) return Redirect(satir.URL);
             else return RedirectToAction("Index");
         }
