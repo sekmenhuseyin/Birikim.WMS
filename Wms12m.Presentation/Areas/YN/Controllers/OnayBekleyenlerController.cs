@@ -275,10 +275,38 @@ namespace Wms12m.Presentation.Areas.YN.Controllers
             return json;
         }
         /// <summary>
-        /// Fatura onay
+        /// SatisIade onay
         /// </summary>
         [HttpPost]
-        public JsonResult SatisIade_Onay(string ID, bool Onay)
+        public JsonResult SatisIade_Onay(SatisIadeOnayList tbl)
+        {
+            var result = new Result();
+            try
+            {
+                string[] ids = tbl.ID.Split(',');
+                var yns = new YeniNesil(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, YnsSirketKodu);
+                yns.SatisIadeOnay(new SatisIadeOnay
+                {
+                    IadeNo = ids[0],
+                    IadeTarih = ids[1],
+                    Onay = true,
+                    Kaydeden = vUser.UserName,
+                    tbl=tbl
+                });
+                result = new Result(true, 1);
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Logger(ex, "YN/OnayBekleyenler/SatisIade_Onay");
+                return Json(new Result(false, "Hata Oluştu"), JsonRequestBehavior.AllowGet);
+            }
+        }
+        /// <summary>
+        /// SatisIade_Red
+        /// </summary>
+        [HttpPost]
+        public JsonResult SatisIade_Red(string ID)
         {
             var result = new Result();
             try
@@ -289,7 +317,7 @@ namespace Wms12m.Presentation.Areas.YN.Controllers
                 {
                     IadeNo = ids[0],
                     IadeTarih = ids[1],
-                    Onay = Onay,
+                    Onay = false,
                     Kaydeden = vUser.UserName
                 });
                 result = new Result(true, 1);
@@ -309,6 +337,7 @@ namespace Wms12m.Presentation.Areas.YN.Controllers
         {
             string[] ids = ID.Split(',');
             var list = db.Database.SqlQuery<SatisIadeDetay>(string.Format(SatisIadeDetay.Sorgu, YnsSirketKodu, ids[0], ids[1])).ToList();
+            ViewBag.ID = ID;
             return PartialView("SatisIade_Details", list);
         }
         #endregion

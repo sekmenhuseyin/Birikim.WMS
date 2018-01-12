@@ -6,13 +6,17 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="modal-body">
-                    @*Project Details Go Here*@
-                <div class="row m-b-30">
+ @using (Ajax.BeginForm("SatisIade_Onay", "OnayBekleyenler", new { area = "YN" }, new AjaxOptions { OnFailure = "Modaldialog('Lütfen Tekrar Deneyin', 'Hata', 'Tamam', 'btn-danger');" }, new { @class = "form-horizontal" }))
+ {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+     <input type="hidden" name="ID" value="@ViewBag.ID" />
+               <div class="row m-b-30">
                     <div class="col-lg-offset-8 col-lg-2">
-                        <button class="btn btn-danger pull-right input-circle reddet-buton glyphicon glyphicon-remove"> Reddet </button>
+                        <button type="button" class="btn btn-danger pull-right input-circle reddet-buton glyphicon glyphicon-remove"> Reddet </button>
                     </div>
                     <div class="col-lg-2">
-                        <button class="btn btn-success pull-right input-circle onay-buton glyphicon glyphicon-ok"> Onayla </button>
+                        <button type="submit" class="btn btn-success pull-right input-circle onay-buton glyphicon glyphicon-ok"> Onayla </button>
                     </div>
                 </div>
                 <table class="table table-striped table-bordered" id="sample_2">
@@ -26,7 +30,7 @@
                             else if (item.DovizCinsi == "EUR") { avro += item.Tutar.ToDecimal(); }
                             else { dolar += item.Tutar.ToDecimal(); }
                             <tr class="clickable" onclick="satir_click('@item.IadeNo')">
-                                <td>@item.IadeNo</td>
+                                <td>@item.IadeNo<input type="hidden" name="Row_ID" value="@item.ID" /></td>
                                 <td>@item.IadeTarih</td>
                                 <td>@item.HesapKodu</td>
                                 <td>@item.Unvan</td>
@@ -35,7 +39,7 @@
                                 <td>@item.MalAdi</td>
                                 <td align="right">@String.Format("{0:n}", item.Miktar)</td>
                                 <td>@item.Birim</td>
-                                <td align="right">@String.Format("{0:n}", item.Fiyat)</td>
+                                <td><input class="form-control input-circle w-50 pull-right" type="text" name="Fiyat" id="txtFiyat@{@item.ID}" value="@String.Format("{0:n}", item.Fiyat)" onchange="" /></td>
                                 <td>@item.DovizCinsi</td>
                                 <td align="right">@String.Format("{0:n}", item.Tutar)</td>
                                 <td>@item.FaturaNo</td>
@@ -51,6 +55,7 @@
                     <div class="col-lg-1">@String.Format("{0:n}", dolar) $</div>
                     <div class="col-lg-1">@String.Format("{0:n}", avro) €</div>
                 </div>
+    }
             </div>
         </div>
     </div>
@@ -61,34 +66,11 @@
         var table = $('#sample_2').DataTable({
             "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" }
         });
-        $('.onay-buton').click(function () {
-            $.ajax({
-                type: 'POST',
-                url: '/YN/OnayBekleyenler/SatisIade_Onay',
-                data: { "ID": selected, "Onay": true },
-                dataType: "json",
-                success: function (data) {
-                    if (data.Status == true)
-                    {
-                        Modaldialog("İşlem Tamamlandı", 'Onaylandı', 'Tamam', 'btn-success');
-                        $('#modalEditPage').modal('toggle');
-                        $('.yenile-buton').click();
-                    }
-                    else if (data.Message != "" && data.Message != null)
-                        Modaldialog(data.Message, 'Hata', 'Tamam', 'btn-danger');
-                    else
-                        Modaldialog("Hata oldu", 'Hata', 'Tamam', 'btn-danger');
-                },
-                error: function (data) {
-                    Modaldialog("Hata oldu", 'Hata', 'Tamam', 'btn-danger');
-                }
-            });
-        });
         $('.reddet-buton').click(function () {
             $.ajax({
                 type: 'POST',
                 url: '/YN/OnayBekleyenler/SatisIade_Onay',
-                data: { "ID": selected, "Onay": false },
+                data: { "ID": selected },
                 dataType: "json",
                 success: function (data) {
                     if (data.Status == true)

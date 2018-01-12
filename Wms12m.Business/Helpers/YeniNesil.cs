@@ -39,6 +39,9 @@ namespace Wms12m
             var tarih = DateTime.Today.ToOADateInt();
             if (SIOnay.Onay)
             {
+
+                var veriList = Sqlexper.SelectList<STK005>(@"").ToList();
+
                 Sorgu = string.Format(@"
                 UPDATE STI1 
                 SET STI1.STK005_Kod10='Onaylandı', STI1.STK005_DegistirenKodu='{1}', STI1.STK005_DegistirenTarih={2}, STI1.STK005_DegistirenSaat='{3}',
@@ -50,8 +53,15 @@ namespace Wms12m
 
                 WHERE STI1.STK005_EvrakTipi=99 AND STI1.STK005_IslemTipi=2 AND STI1.STK005_GC=0 AND STI1.STK005_Kod11>0 AND STI1.STK005_Kod9<>'' AND
                       STI1.STK005_Kod10='Onay Bekliyor' AND SUBSTRING(STI1.STK005_Not5,1,8)='AndMobil' AND 
-	                  STI1.STK005_EvrakSeriNo='{4}' AND STI1.STK005_IslemTarihi={5} ",
+	                  STI1.STK005_EvrakSeriNo='{4}' AND STI1.STK005_IslemTarihi={5}; ",
                 SirketKodu, SIOnay.Kaydeden, tarih, saat, SIOnay.IadeNo, SIOnay.IadeTarih);
+
+                for (int i = 0; i < SIOnay.tbl.Row_ID.Length; i++)
+                {
+                    Sorgu += string.Format("update YNS{0}.YNS{0}.STK005 STI set STK005_BirimFiyati={1} where STK005_Row_ID={2};", SirketKodu, SIOnay.tbl.Fiyat[i], SIOnay.tbl.Row_ID[i]);
+                }
+
+
             }
             else
             {
