@@ -27,7 +27,7 @@ namespace Wms12m.Presentation.Controllers
         {
             if (CheckPerm(Perms.Kullanıcılar, PermTypes.Reading) == false) return null;
             ViewBag.Yetki = CheckPerm(Perms.Kullanıcılar, PermTypes.Writing);
-            return PartialView("List", Persons.GetList());
+            return PartialView("List", Persons.GetListAll());
         }
         /// <summary>
         /// chat için kullanıcı listesi

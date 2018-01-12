@@ -243,6 +243,10 @@ namespace Wms12m.Business
         /// </summary>
         public override List<User> GetList()
         {
+            return db.Users.Where(m => m.ID > 1 & m.Aktif == true).OrderBy(m => m.AdSoyad).ToList();
+        }
+        public List<User> GetListAll()
+        {
             return db.Users.Where(m => m.ID > 1).OrderBy(m => m.AdSoyad).ToList();
         }
         /// <summary>
@@ -251,15 +255,15 @@ namespace Wms12m.Business
         public override List<User> GetList(int UserID) => db.Users.Where(m => m.ID == UserID).ToList();
         public List<User> GetList(string RoleName)
         {
-            return db.Users.Where(m => m.Sirket == "" && m.RoleName == RoleName).OrderByDescending(m => m.Aktif).ThenBy(m => m.AdSoyad).ToList();
+            return db.Users.Where(m => m.Sirket == "" && m.RoleName == RoleName & m.Aktif == true).OrderByDescending(m => m.Aktif).ThenBy(m => m.AdSoyad).ToList();
         }
         public List<User> GetList(string[] RoleName)
         {
-            return db.Users.Where(m => m.Sirket == "" && RoleName.Contains(m.RoleName)).OrderByDescending(m => m.Aktif).ThenBy(m => m.AdSoyad).ToList();
+            return db.Users.Where(m => m.Sirket == "" && RoleName.Contains(m.RoleName) & m.Aktif == true).OrderByDescending(m => m.Aktif).ThenBy(m => m.AdSoyad).ToList();
         }
         public List<User> GetListWithoutTerminal()
         {
-            return db.Users.Where(m => m.Sirket == "" && m.UserDetail == null && m.ID > 1).OrderByDescending(m => m.Aktif).ThenBy(m => m.AdSoyad).ToList();
+            return db.Users.Where(m => m.Sirket == "" && m.UserDetail == null && m.ID > 1 & m.Aktif == true).OrderByDescending(m => m.Aktif).ThenBy(m => m.AdSoyad).ToList();
         }
     }
 }
