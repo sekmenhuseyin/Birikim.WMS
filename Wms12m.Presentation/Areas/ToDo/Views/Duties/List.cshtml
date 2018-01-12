@@ -1,14 +1,12 @@
 ﻿@model IEnumerable<Gorevler>
 <table class="table table-bordered table-striped table-condensed" id="sample_1">
-    <thead><tr><th></th><th></th><th>Madde</th><th>Firma</th><th>Proje</th><th>Form</th><th>Görev</th><th>Sorumlular</th><th>Durum</th><th>Görev Tipi</th><th>Departman</th><th>Oluşturma Tarihi</th><th></th></tr></thead>
-    <tfoot><tr><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr></tfoot>
-    <tfoot class="tf-search"><tr>@if (ViewBag.Yetki2 == true) {<th></th>}<th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr></tfoot>
+    <thead><tr><th>Madde</th><th>Firma</th><th>Proje</th><th>Form</th><th>Görev</th><th>Sorumlular</th><th>Durum</th><th>Görev Tipi</th><th>Departman</th><th>Oluşturma Tarihi</th><th></th></tr></thead>
+    <tfoot><tr><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr></tfoot>
+    <tfoot class="tf-search"><tr><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr></tfoot>
     <tbody>
         @foreach (var item in Model)
         {
             <tr data-id="@item.ID" data-order="@item.OncelikID"@if (ViewBag.Yetki == true) {<text> ondblclick = "showEdit(@item.ID)" class = "clickable"</text>}>
-                <td><div style="display:flex;"><i class='fa fa-arrow-up list-up-down item-up' onclick='RowUp(this)' style='color:#a0e4a0;'></i><i class='fa fa-arrow-down list-up-down item-down' onclick='RowDown(this)'  style='color:#ec9696;'></i></div></td>
-                <td></td>
                 <td class="details-control"></td>
                 <td>@item.ProjeForm.Musteri.Firma</td>
                 <td>@item.ProjeForm.Proje</td>
@@ -32,16 +30,14 @@
     </tbody>
 </table>
 <script language="text/javascript">
-    var secili_table = new Array(); var eskiData = new Array(); var yeniData = new Array(); var selected = 0;
-    $("tbody tr").each(function () { eskiData.push($(this).children("td").eq(1).text()); });
+    var selected = 0;
     var table = $('#sample_1').DataTable({
-        "paging": false,
-        "ordering": false,
-        "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" }
-    });
-    table.on('order.dt search.dt', function () { table.column(1, { search: 'applied', order: 'applied' }).nodes().each(function (cell, i) { cell.innerHTML = i + 1; }); }).draw();
+        "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
+            "order": [[1, "asc"]],
+        "columnDefs": [{ "targets": [0], "orderable": false }]
+});
     $('#sample_1 .tf-search th').each(function () {
-        var title = $('#sample_1 thead th').eq($(this).index()@if (ViewBag.Yetki2 != true) { @("+1") }).text();
+        var title = $('#sample_1 thead th').eq($(this).index()).text();
         if (title != "" && title.indexOf("Tarih") !== -1)
             $(this).html('<input class="form-control input-circle tarih" type="text" placeholder="Ara" />');
         else if (title != "" && title != "Çalışma" && title != "Sıra")
@@ -80,61 +76,6 @@
             $(this).toggleClass('selected');
         });</text>
         }<text>
-    function RowUp(item) {
-        var sayac = 0;
-        yeniData = [];
-        if ($(item).closest('tr').prev().length == 1) {
-            var tempOnc = $(item).closest('tr').prev().attr("data-order");
-            $(item).closest('tr').prev().attr("data-order", $(item).closest('tr').attr("data-order"));
-            $(item).closest('tr').attr("data-order", tempOnc);
-            $(item).closest('tr').insertBefore($(item).closest('tr').prev())
-        }
-        $("tbody tr").each(function (index) { yeniData.push($(this).attr("data-id")); });
-        $.each(yeniData, function (index, value) { if (yeniData[index] != eskiData[index]) { sayac++; } });
-        if (sayac > 0) { $(".oncelik-kayit-buton").removeClass('hidden'); }
-        else { $(".oncelik-kayit-buton").addClass('hidden') }
-    }
-    function RowDown(item) {
-        var sayac = 0;
-        yeniData = [];
-        if ($(item).closest('tr').next().length == 1) {
-            var tempOnc = $(item).closest('tr').next().attr("data-order");
-            $(item).closest('tr').next().attr("data-order", $(item).closest('tr').attr("data-order"));
-            $(item).closest('tr').attr("data-order", tempOnc);
-            $(item).closest('tr').insertAfter($(item).closest('tr').next())
-        }
-        $("tbody tr").each(function (index) { yeniData.push($(this).attr("data-id")); });
-        $.each(yeniData, function (index, value) { if (yeniData[index] != eskiData[index]) { sayac++; } });
-        if (sayac > 0) { $(".oncelik-kayit-buton").removeClass('hidden'); }
-        else { $(".oncelik-kayit-buton").addClass('hidden') }
-    }
-    function OncelikKaydet() {
-        secili_table = [];
-        $("tbody tr").each(function (index) {
-            var jObject = {};
-            jObject["ID"] = $(this).attr("data-id");
-            jObject["OncelikID"] = $(this).attr("data-order");
-            secili_table.push(jObject);
-        });
-        $.ajax({
-            url: window.location.origin + "/ToDo/Duties/OncelikGuncelle",
-            data: { Data: JSON.stringify(secili_table) },
-            type: "post",
-            success: function (data) {
-                if (data.Status == true) {
-                    Modaldialog("İşlem Başarılı", "Güncelleme İşlemi", "Tamam", "btn-success");
-                    FuncSearchBtn();
-                }
-                else if (data.Message != "" && data.Message != null)
-                    Modaldialog(data.Message, 'Hata', 'Tamam', 'btn-danger');
-                else
-                    Modaldialog("Hata oldu", 'Hata', 'Tamam', 'btn-danger');
-            },
-            error: function (data) {
-                Modaldialog("Hata oldu", 'Hata', 'Tamam', 'btn-danger');
-            }
-        });
-    }
     function GorevOnay(tip, id) {
         var tmp = 0; if (id > 0) tmp = id; else tmp = selected;
         if (tmp == 0) return;

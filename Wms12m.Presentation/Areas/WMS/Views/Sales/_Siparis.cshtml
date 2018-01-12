@@ -41,9 +41,9 @@
     var selectall = true;
     $(document).ready(function () {
         var table = $('#sample_2').DataTable({
+            "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
             "pagingType": "full_numbers",
             "order": [[3, "desc"]],
-            "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
             "columnDefs": [{ "targets": [0, 1], "orderable": false }]
         });
         $('#sample_2 .tf-search th').each(function ()

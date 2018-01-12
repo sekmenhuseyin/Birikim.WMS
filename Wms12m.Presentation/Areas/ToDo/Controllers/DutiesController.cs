@@ -68,7 +68,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             ViewBag.Yetki2 = CheckPerm(Perms.TodoGörevler, PermTypes.Deleting);
             ViewBag.Yetki = CheckPerm(Perms.TodoGörevler, PermTypes.Writing);
             ViewBag.Tip = Tip;
-            return PartialView(list.OrderByDescending(m => m.OncelikID).ToList());
+            return PartialView(list.ToList());
         }
         /// <summary>
         /// sadece onay listesi
@@ -81,7 +81,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             ViewBag.Yetki = CheckPerm(Perms.TodoGörevler, PermTypes.Deleting);
             ViewBag.Yetki1 = CheckPerm(Perms.TodoGörevler, PermTypes.Writing);
             ViewBag.Tip = Tip;
-            return PartialView(list.OrderBy(m => m.OncelikID).ToList());
+            return PartialView(list.ToList());
         }
         /// <summary>
         /// düzenleme sayfası
@@ -90,14 +90,9 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         {
             if (CheckPerm(Perms.TodoGörevler, PermTypes.Writing) == false) return null;
             var tbl = db.Gorevlers.Find(id);
-            var list = db.Database.SqlQuery<SelectListItem>(string.Format(@"SELECT        CONVERT(varchar(10), ong.ProjeForm.ID) as Value, ong.ProjeForm.Proje as Text
-                                                                            FROM            ong.ProjeForm INNER JOIN
-                                                                                                     ong.ProjeForm AS ProjeForm_1 ON ong.ProjeForm.ID = ProjeForm_1.PID
-                                                                            WHERE        (ong.ProjeForm.MusteriID = {0}) AND (ong.ProjeForm.PID IS NULL) AND (ong.ProjeForm.Aktif = 1)
-                                                                            GROUP BY ong.ProjeForm.ID, ong.ProjeForm.Proje
-                                                                            ORDER BY ong.ProjeForm.Proje", tbl.ProjeForm.MusteriID)).ToList();
-            ViewBag.MusteriID = new SelectList(db.Musteris.OrderBy(m => m.Unvan).ToList(), "ID", "Unvan", tbl.ProjeForm.MusteriID);
+            var list = db.Database.SqlQuery<SelectListItem>(string.Format("EXEC BIRIKIM.ong.GetProjeFormFromMusteri {0}", tbl.ProjeForm.MusteriID)).ToList();
             ViewBag.Proje = new SelectList(list, "Value", "Text", tbl.ProjeForm.PID);
+            ViewBag.MusteriID = new SelectList(db.Musteris.OrderBy(m => m.Unvan).ToList(), "ID", "Unvan", tbl.ProjeForm.MusteriID);
             ViewBag.ProjeFormID = new SelectList(db.ProjeForms.Where(m => m.PID == tbl.ProjeForm.PID).ToList(), "ID", "Form", tbl.ProjeForm.ID);
             ViewBag.GorevTipiID = new SelectList(ComboSub.GetList(Combos.GörevYönetimTipleri.ToInt32()), "ID", "Name", tbl.GorevTipiID);
             ViewBag.DepartmanID = new SelectList(ComboSub.GetList(Combos.Departman.ToInt32()), "ID", "Name", tbl.DepartmanID);
@@ -106,37 +101,6 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             ViewBag.Sorumlu3 = new SelectList(Persons.GetList(), "Kod", "AdSoyad", tbl.Sorumlu3);
             ViewBag.KontrolSorumlusu = new SelectList(Persons.GetList(new string[] { "Destek", "Admin" }), "Kod", "AdSoyad", tbl.KontrolSorumlusu);
             return PartialView("Edit", tbl);
-        }
-        /// <summary>
-        /// öncelik update
-        /// </summary>
-        public JsonResult OncelikGuncelle(string Data)
-        {
-            if (CheckPerm(Perms.SözleşmeTanim, PermTypes.Writing) == false) return null;
-            var parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
-            foreach (JObject bds in parameters)
-            {
-                var id = bds["ID"].ToInt32();
-                var grv = db.Gorevlers.ToList();
-                foreach (Gorevler item in grv)
-                {
-                    if (item.ID == id)
-                    {
-                        item.OncelikID = bds["OncelikID"].ToInt32();
-                    }
-                }
-            }
-
-            try
-            {
-                db.SaveChanges();
-                return Json(new Result(true, 1), JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception ex)
-            {
-                Logger(ex, "ToDo/Duties/OncelikGuncelle");
-                return Json(new Result(false, "Hata oldu"), JsonRequestBehavior.AllowGet);
-            }
         }
         /// <summary>
         /// görev onay / ret / durdur
@@ -232,13 +196,12 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                 if (work[0] == null || work[0] == "")
                     return Json(new Result(false, "Lütfen bir madde yazınız!"), JsonRequestBehavior.AllowGet);
                 // set
-                var maxSira = db.Database.SqlQuery<int>("SELECT ISNULL(MAX(OncelikID), 0) AS Expr1 FROM ong.Gorevler").FirstOrDefault();
                 gorevler.Aciklama = gorevler.Aciklama ?? "";
                 gorevler.Degistiren = vUser.UserName;
                 gorevler.DegisTarih = DateTime.Now;
                 gorevler.Kaydeden = vUser.UserName;
                 gorevler.KayitTarih = gorevler.DegisTarih;
-                gorevler.OncelikID = maxSira + 1;
+                gorevler.OncelikID = 0;
                 if (CheckPerm(Perms.TodoGörevler, PermTypes.Deleting) == false && gorevler.GorevTipiID == ComboItems.gytGeliştirme.ToInt32())
                     gorevler.DurumID = ComboItems.gydOnayVer.ToInt32();
                 else
