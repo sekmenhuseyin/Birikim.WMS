@@ -39,6 +39,8 @@ namespace Wms12m.Entity.Models
         public System.DateTime KayitTarih { get; set; }
         public string Degistiren { get; set; }
         public System.DateTime DegisTarih { get; set; }
+        public Nullable<System.DateTime> TahminiBaslama { get; set; }
+        public Nullable<int> TahminiSure { get; set; }
     
         public virtual ComboItem_Name ComboItem_Name { get; set; }
         public virtual ComboItem_Name ComboItem_Name1 { get; set; }

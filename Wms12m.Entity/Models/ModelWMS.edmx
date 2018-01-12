@@ -147,7 +147,9 @@
           <Property Name="DurumID" Type="int" Nullable="false" />
           <Property Name="GorevTipiID" Type="int" Nullable="false" />
           <Property Name="DepartmanID" Type="int" Nullable="false" />
+          <Property Name="TahminiBaslama" Type="smalldatetime" />
           <Property Name="TahminiBitis" Type="smalldatetime" />
+          <Property Name="TahminiSure" Type="int" />
           <Property Name="BitisTarih" Type="smalldatetime" />
           <Property Name="Kaydeden" Type="varchar" MaxLength="5" Nullable="false" />
           <Property Name="KayitTarih" Type="smalldatetime" Nullable="false" />
@@ -2219,7 +2221,7 @@
           <Parameter Name="IrsID" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="CachedChartBakiyeRisk" ReturnType="Collection(MModel.CachedChartBakiyeRisk_Result)">
-            <Parameter Name="DB" Mode="In" Type="String" />
+          <Parameter Name="DB" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="CachedChartBekleyenUrunMiktarFiyat" ReturnType="Collection(MModel.CachedChartBekleyenUrunMiktarFiyat_Result)">
             <Parameter Name="DB" Mode="In" Type="String" />
@@ -2235,7 +2237,7 @@
             <Parameter Name="Kriter" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="CachedChartMonthly" ReturnType="Collection(MModel.CachedChartMonthly_Result)">
-            <Parameter Name="DB" Mode="In" Type="String" />
+          <Parameter Name="DB" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="CachedChartMonthlyByKriter" ReturnType="Collection(MModel.CachedChartMonthlyByKriter_Result)">
             <Parameter Name="DB" Mode="In" Type="String" />
@@ -2244,7 +2246,7 @@
             <Parameter Name="IslemTip" Mode="In" Type="Int16" />
           </FunctionImport>
           <FunctionImport Name="CachedChartSatisBaglanti" ReturnType="Collection(MModel.CachedChartSatisBaglanti_Result)">
-            <Parameter Name="DB" Mode="In" Type="String" />
+          <Parameter Name="DB" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="CachedChartUrunGrubu" ReturnType="Collection(MModel.CachedChartUrunGrubu_Result)">
             <Parameter Name="DB" Mode="In" Type="String" />
@@ -2256,7 +2258,7 @@
             <Parameter Name="Kriter" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="CachedChartYear2Day" ReturnType="Collection(MModel.CachedChartYear2Day_Result)">
-            <Parameter Name="DB" Mode="In" Type="String" />
+          <Parameter Name="DB" Mode="In" Type="String" />
           </FunctionImport>
           </EntityContainer>
         <ComplexType Name="GetSirkets_Result">
@@ -3295,6 +3297,8 @@
           <NavigationProperty Name="GorevlerCalismas" Relationship="MModel.FK_GorevlerCalisma_Gorevler" FromRole="Gorevler" ToRole="GorevlerCalisma" />
           <NavigationProperty Name="GorevlerToDoLists" Relationship="MModel.FK_GorevlerToDoList_Gorevler" FromRole="Gorevler" ToRole="GorevlerToDoList" />
           <NavigationProperty Name="ProjeForm" Relationship="MModel.FK_Gorevler_ProjeForm" FromRole="Gorevler" ToRole="ProjeForm" />
+          <Property Name="TahminiBaslama" Type="DateTime" Precision="0" />
+          <Property Name="TahminiSure" Type="Int32" />
         </EntityType>
         <Association Name="FK_Gorevler_ComboItem_Name_Departman">
           <End Type="MModel.ComboItem_Name" Role="ComboItem_Name" Multiplicity="1" />
@@ -4444,6 +4448,8 @@
           <EntitySetMapping Name="Gorevlers">
             <EntityTypeMapping TypeName="MModel.Gorevler">
               <MappingFragment StoreEntitySet="Gorevler">
+                <ScalarProperty Name="TahminiSure" ColumnName="TahminiSure" />
+                <ScalarProperty Name="TahminiBaslama" ColumnName="TahminiBaslama" />
                 <ScalarProperty Name="DegisTarih" ColumnName="DegisTarih" />
                 <ScalarProperty Name="Degistiren" ColumnName="Degistiren" />
                 <ScalarProperty Name="KayitTarih" ColumnName="KayitTarih" />

@@ -132,12 +132,21 @@
         GROUP BY STK005_EvrakSeriNo, STK005_IslemTarihi, STK005_Kod8, STK005_Depo, STK005_Kod9, STK005_Kod11, STK005_GirenKodu";
     }
 
+    public class SatisIadeOnayList
+    {
+        public string ID { get; set; }
+        public int[] Row_ID { get; set; }
+        public decimal[] Fiyat { get; set; }
+    }
+
     public class SatisIadeOnay
     {
         public bool Onay { get; set; }
         public string IadeNo { get; set; }
         public string IadeTarih { get; set; }
         public string Kaydeden { get; set; }
+        public SatisIadeOnayList tbl { get; set; }
+
     }
 
     #region SatisIadeDetay Class
@@ -173,6 +182,7 @@
         public string FaturaTarih { get; set; }
         /// <summary> NVarChar(10) (Allow Null) </summary>
         public string Kaydeden { get; set; }
+        public  int ID { get; set; }
 
         /// <summary>Parametreler : ŞirketKodu, EvrakNo, Tarih</summary>
         public static string Sorgu = @"
@@ -181,7 +191,8 @@
             STI1.STK005_MalKodu as MalKodu, STK004_Aciklama as MalAdi, STI1.STK005_Miktari as Miktar, STK004_Birim1 as Birim,
             STI2.STK005_BirimFiyati as Fiyat, STI2.STK005_DovizCinsi as DovizCinsi,
             (STI1.STK005_Miktari * STI2.STK005_BirimFiyati) as Tutar, STI1.STK005_Kod9 as FaturaNo, 
-            CONVERT(VARCHAR, CAST(STI1.STK005_Kod11 - 2 AS datetime), 104) as FaturaTarih, STI1.STK005_GirenKodu as Kaydeden
+            CONVERT(VARCHAR, CAST(STI1.STK005_Kod11 - 2 AS datetime), 104) as FaturaTarih, STI1.STK005_GirenKodu as Kaydeden,
+            STI1.STK005_ROW_ID AS ID
         FROM  YNS{0}.YNS{0}.STK005(NOLOCK) STI1
         LEFT JOIN YNS{0}.YNS{0}.STK005(NOLOCK) STI2 ON STI1.STK005_Kod9=STI2.STK005_EvrakSeriNo AND 
             CAST(STI1.STK005_Kod11 as INT)=STI2.STK005_Row_ID AND  STI2.STK005_EvrakTipi=11 AND STI1.STK005_MalKodu=STI2.STK005_MalKodu
