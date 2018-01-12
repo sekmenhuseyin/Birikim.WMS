@@ -18,15 +18,20 @@ namespace Wms12m.Presentation.Controllers
         public ActionResult Login()
         {
             using (var db = new WMSEntities())
+            {
                 ViewBag.settings = db.Settings.FirstOrDefault();
+                var sirkets = db.GetSirkets().ToList();
+                ViewBag.SirketKodu = new SelectList(sirkets, "Kod", "Ad");
+                ViewBag.sayi = sirkets.Count;
+                return View("Login");
+            }
 
-            return View("Login");
         }
         /// <summary>
         /// giriş işlemleri
         /// </summary>
         [HttpPost]
-        public JsonResult Login(User P, string RememberMe)
+        public JsonResult Login(User P, string RememberMe, string SirketKodu = "")
         {
             var _Person = new Persons();
             Result = new Result();
@@ -40,7 +45,10 @@ namespace Wms12m.Presentation.Controllers
                     {
                         Result = _Person.Login(P, fn.GetIPAddress());
                         if (Result.Id > 0)
-                            Authentication.CreateAuth((User)Result.Data, RememberMe == "1" ? true : false, db.GetSirkets().FirstOrDefault());
+                        {
+                            var sirket = SirketKodu == "" ? db.GetSirkets().FirstOrDefault() : db.GetSirkets().Where(m => m.Kod == SirketKodu).FirstOrDefault();
+                            Authentication.CreateAuth((User)Result.Data, RememberMe == "1" ? true : false, sirket);
+                        }
                         else
                             db.LogLogins(P.Kod, fn.GetIPAddress(), false, Result.Message);
                     }
