@@ -1,16 +1,9 @@
 ﻿@{
     ViewBag.Title = "Gorev Listesi";
     Layout = "~/Views/Shared/_Layout.cshtml";
-}@section Styles{
-    <style>
-        td.details-control {
-            background: url('/Content/assets/global/plugins/datatables/images/details_open.png') no-repeat center center !important;
-            cursor: pointer;
-        }
-
-        tr.shown td.details-control {
-            background: url('/Content/assets/global/plugins/datatables/images/details_close.png') no-repeat center center !important;
-        }
+}@section Styles{<style>
+        td.details-control {background: url('/Content/assets/global/plugins/datatables/images/details_open.png') no-repeat center center !important;cursor: pointer;}
+        tr.shown td.details-control {background: url('/Content/assets/global/plugins/datatables/images/details_close.png') no-repeat center center !important;}
     </style>
     <link href="~/Content/assets/global/plugins/kendo/styles/kendo.common.min.css" rel="stylesheet" />
     <link href="~/Content/assets/global/plugins/kendo/styles/kendo.rtl.min.css" rel="stylesheet" />

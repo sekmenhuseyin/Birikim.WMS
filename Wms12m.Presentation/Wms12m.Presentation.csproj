@@ -496,6 +496,7 @@
     <Content Include="Areas\WMS\Views\Tasks\Index2.cshtml" />
     <Content Include="Areas\Approvals\Views\Order\TumIndex.cshtml" />
     <Content Include="Areas\WMS\Views\Order\Index.cshtml" />
+    <Content Include="Areas\Constants\Views\Size\Index2.cshtml" />
     <None Include="bundleconfig.json" />
     <Content Include="Content\SizeSablon.xlsx" />
     <Content Include="Content\StockSablon.xlsx" />

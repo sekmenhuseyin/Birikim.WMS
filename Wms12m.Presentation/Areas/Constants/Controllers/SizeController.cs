@@ -23,7 +23,7 @@ namespace Wms12m.Presentation.Areas.Constants.Controllers
         /// <summary>
         /// listeyi yenile
         /// </summary>
-        public string List()
+        public string List2()
         {
             var sql = string.Format("EXEC FINSAT6{0}.wms.getOlcuList", vUser.SirketKodu);
             var list = db.Database.SqlQuery<Olcu>(sql).ToList();
