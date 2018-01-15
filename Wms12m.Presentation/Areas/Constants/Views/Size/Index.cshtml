@@ -141,11 +141,11 @@
         </div>
     </div>
 </div>
-@section Scripts{
-    <script src="~/Content/assets/global/plugins/jquery-file-upload/js/jquery.iframe-transport.js" type="text/javascript"></script>
-    <script src="~/Content/assets/global/plugins/jquery-file-upload/js/vendor/jquery.ui.widget.js" type="text/javascript"></script>
-    <script src="~/Content/assets/global/plugins/jquery-file-upload/js/jquery.fileupload.js" type="text/javascript"></script>
-    <script>
+@section Scripts{<script src="~/Content/assets/global/plugins/jquery-file-upload/js/jquery.iframe-transport.js" type="text/javascript"></script>
+<script src="~/Content/assets/global/plugins/jquery-file-upload/js/vendor/jquery.ui.widget.js" type="text/javascript"></script>
+<script src="~/Content/assets/global/plugins/jquery-file-upload/js/jquery.fileupload.js" type="text/javascript"></script>
+<script>
+    var DeleteFunctionUrl = '/Constants/Size/Delete';
     $(document).ready(function () {
         $("#MalKodu").autocomplete({
             source: "/WMS/Purchase/getMalzemebyCode/0",
@@ -162,34 +162,35 @@
             }
         });
     });
+    function Refresh()
+    {
+        $(".k-pager-refresh").click();
+        $("#MalKodu").attr("readonly", false);
+        $("#MalAdi").attr("readonly", false);
+        $("#MalKodu").val("");
+        $("#MalAdi").val("");
+        $("#Birim option").remove();
+        $("#Boy").val("");
+        $("#En").val("");
+        $("#Derinlik").val("");
+        $("#Agirlik").val("");
+        $("#btnSubmit").html("Ekle");
+        $("#txtTitle").html("Yeni Ekle");
+    }
     function fnDelete(e)
     {
+        //Delete2(e, Refresh());
         ModalYesNoClick('Kaydı silmek istediğinizden eminmisiniz?', 'Silme İşlemi', "Evet", 'btn-success', DeleteTrigerx, 'Hayır', 'btn-warning', null);
         function DeleteTrigerx()
         {
             var Status = FunctionDelete("/Constants/Size/Delete", e);
             if (Status)
-            {
-                CreateEdit(0);
-                $(".k-pager-refresh").click();
-            }
+                Refresh();
         }
     }
     function CreateEdit(Id) {
         if (Id == 0)
-        {
-            $("#MalKodu").attr("readonly", false);
-            $("#MalAdi").attr("readonly", false);
-            $("#MalKodu").val("");
-            $("#MalAdi").val("");
-            $("#Birim option").remove();
-            $("#Boy").val("");
-            $("#En").val("");
-            $("#Derinlik").val("");
-            $("#Agirlik").val("");
-            $("#btnSubmit").html("Ekle");
-            $("#txtTitle").html("Yeni Ekle");
-        }
+            Refresh();
         else
         {
             $("html, body").animate({ scrollTop: 0 }, "slow");
@@ -229,16 +230,7 @@
         if (data.Status == false)
             Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
         else
-        {
-            $(".k-pager-refresh").click();
-            $("#MalKodu").val("");
-            $("#MalAdi").val("");
-            $("#Birim option").remove();
-            $("#Boy").val("");
-            $("#En").val("");
-            $("#Derinlik").val("");
-            $("#Agirlik").val("");
-        }
+            Refresh();
     };
     function getBirims(id) {
         $("#Birim option").remove();
