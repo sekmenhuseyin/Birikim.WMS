@@ -10,7 +10,7 @@
         <div class="portlet box green">
             <div class="portlet-title">
                 <div class="caption">
-                    <i class="fa fa-gift"></i>Yeni Ekle
+                    <i class="fa fa-gift"></i><span id="txtTitle">Yeni Ekle</span>
                 </div>
                 @{if (ViewBag.Yetki == true){
                     <div class="col-md-1 pull-right m-t-5">
@@ -28,6 +28,7 @@
                 @using (Ajax.BeginForm("Save", "Size", new { area = "Constants" }, new AjaxOptions { OnSuccess = "getresult", HttpMethod = "post" }, htmlAttributes: new { @class = "form-horizontal", role = "form" }))
                 {
                     @Html.AntiForgeryToken()
+                    @Html.HiddenFor(m => m.ID)
                     <div class="form-body">
                         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                         <div class="form-group">
@@ -86,7 +87,7 @@
                     <div class="form-actions">
                         <div class="row">
                             <div class="col-md-offset-3 col-md-4">
-                                <button type="submit" class="btn btn-circle green">Ekle</button>
+                                <button type="submit" class="btn btn-circle green" id="btnSubmit">Ekle</button>
                                 <button type="button" class="btn btn-circle grey-salsa btn-outline" onclick="CreateEdit('0')">Temizle</button>
                             </div>
                         </div>
@@ -110,7 +111,6 @@
                             .Name("grid")
                             .Columns(columns =>
                             {
-                                columns.Bound(c => c.ID).Hidden();
                                 columns.Bound(c => c.MalKodu).Title("Mal Kodu");
                                 columns.Bound(c => c.Kaydeden).Title("Mal Adı");
                                 columns.Bound(c => c.Birim).Width(100);
@@ -119,11 +119,13 @@
                                 columns.Bound(c => c.Derinlik).Width(100).HtmlAttributes(new { @class = "text-right" });
                                 columns.Bound(c => c.Hacim).Width(100).HtmlAttributes(new { @class = "text-right" });
                                 columns.Bound(c => c.Agirlik).Width(100).Title("Ağırlık").HtmlAttributes(new { @class = "text-right" });
+                                columns.Bound(c => c.ID).Title("").Width(180).Filterable(false).Sortable(false).ClientTemplate("<a class='btn btn-default' href='javascript:;' onclick='CreateEdit(this)'> Düzenle </a><a class='btn btn-danger' href='javascript:;' onclick='fnDelete(#=ID#)'> Sil </a>");
                             })
                             .HtmlAttributes(new { style = "height: 550px;" })
                             .Scrollable()
                             .Filterable()
                             .Sortable()
+                            .ToolBar(toolbar => toolbar.Excel().Text("Excel").HtmlAttributes(new { @class = "pull-right" }))
                             .Pageable(pageable => pageable
                                 .Refresh(true)
                                 .PageSizes(true)
@@ -160,22 +162,61 @@
             }
         });
     });
+    function fnDelete(e)
+    {
+        ModalYesNoClick('Kaydı silmek istediğinizden eminmisiniz?', 'Silme İşlemi', "Evet", 'btn-success', DeleteTrigerx, 'Hayır', 'btn-warning', null);
+        function DeleteTrigerx()
+        {
+            var Status = FunctionDelete("/Constants/Size/Delete", e);
+            if (Status)
+            {
+                CreateEdit(0);
+                $(".k-pager-refresh").click();
+            }
+        }
+    }
     function CreateEdit(Id) {
         if (Id == 0)
         {
-            $("#MalKodu").val("");
             $("#MalKodu").attr("readonly", false);
+            $("#MalAdi").attr("readonly", false);
+            $("#MalKodu").val("");
             $("#MalAdi").val("");
             $("#Birim option").remove();
             $("#Boy").val("");
             $("#En").val("");
             $("#Derinlik").val("");
             $("#Agirlik").val("");
+            $("#btnSubmit").html("Ekle");
+            $("#txtTitle").html("Yeni Ekle");
         }
         else
         {
             $("html, body").animate({ scrollTop: 0 }, "slow");
-            PartialView("/Constants/Size/Edit", 'CreateEdit', JSON.stringify({ Id: Id }));
+            var i = 0;
+            $("#Birim option").remove();
+            $("#MalKodu").attr("readonly", true);
+            $("#MalAdi").attr("readonly", true);
+            $("#btnSubmit").html("Kaydet");
+            $("#txtTitle").html("Düzenle");
+            $(Id).closest('tr').children().each(function (column, td)
+            {
+                if (i==0)
+                    $("#MalKodu").val($(td).html());
+                else if (i == 1)
+                    $("#MalAdi").val($(td).html());
+                else if (i == 2)
+                    $("#Birim").html("<option value='" + $(td).html() + "'>" + $(td).html() + "</option>");
+                else if (i == 3)
+                    $("#Boy").val($(td).html());
+                else if (i == 4)
+                    $("#En").val($(td).html());
+                else if (i == 5)
+                    $("#Derinlik").val($(td).html());
+                else if (i == 7)
+                    $("#Agirlik").val($(td).html());
+                i++;
+            }); 
         }
     }
     function ClearPoints() {
@@ -232,4 +273,4 @@
             }
         });
     });
-    </script>}
+</script>}
