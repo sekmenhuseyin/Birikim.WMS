@@ -3,15 +3,6 @@
     ViewBag.Title = "Boyut Kartı işlemleri";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }@section Styles{<link href="~/Content/assets/global/plugins/jquery-file-upload/css/jquery.fileupload.css" rel="stylesheet" />
-    <link href="~/Content/assets/global/plugins/kendo/styles/kendo.common.min.css" rel="stylesheet" />
-    <link href="~/Content/assets/global/plugins/kendo/styles/kendo.rtl.min.css" rel="stylesheet" />
-    <link href="~/Content/assets/global/plugins/kendo/styles/kendo.bootstrap.min.css" rel="stylesheet" />
-    <link href="~/Content/assets/global/plugins/kendo/styles/kendo.bootstrap.mobile.min.css" rel="stylesheet" />
-    <script src="~/Content/assets/global/plugins/kendo/js/kendo.all.min.js"></script>
-    <script src="~/Content/assets/global/plugins/kendo/js/kendo.aspnetmvc.min.js"></script>
-    <script src="~/Content/assets/global/plugins/kendo/js/kendo.timezones.min.js"></script>
-    <script src="~/Content/assets/global/plugins/kendo/js/cultures/kendo.culture.tr-TR.min.js"></script>
-    <script src="~/Content/assets/global/plugins/kendo/js/messages/kendo.messages.tr-TR.min.js"></script>
 }<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><a href="javascript:;">Depo İşlemleri</a><i class="fa fa-circle"></i></li><li><span>Boyut Kartı</span></li></ul></div>
 <h1 class="page-title">Boyut Kartı</h1>
 <div class="row">
@@ -21,18 +12,17 @@
                 <div class="caption">
                     <i class="fa fa-gift"></i>Yeni Ekle
                 </div>
-                @{if (ViewBag.Yetki == true)
-                    {
-                        <div class="col-md-1 pull-right m-t-5">
-                            @using (Ajax.BeginForm("Olcu", "Uploads", new { area = "" }, new AjaxOptions { HttpMethod = "post" }, htmlAttributes: new { @class = "form", enctype = "multipart/form-data", id = "fileupload", role = "form" }))
-                            {
-                                @Html.AntiForgeryToken()
-                                <a id="linkUpload" class="btn btn-warning">Yükle</a>
-                                <input id="btnUpload" type="file" name="file" />
-                            }
-                        </div>
-                        <div class="col-md-2 pull-right m-t-5 text-right"><a id="btnSablon" href="~/Content/SizeSablon.xlsx" class="btn btn-default">Şablon İndir</a></div>
-                    }}
+                @{if (ViewBag.Yetki == true){
+                    <div class="col-md-1 pull-right m-t-5">
+                        @using (Ajax.BeginForm("Olcu", "Uploads", new { area = "" }, new AjaxOptions { HttpMethod = "post" }, htmlAttributes: new { @class = "form", enctype = "multipart/form-data", id = "fileupload", role = "form" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            <a id="linkUpload" class="btn btn-warning">Yükle</a>
+                            <input id="btnUpload" type="file" name="file" />
+                        }
+                    </div>
+                    <div class="col-md-2 pull-right m-t-5 text-right"><a id="btnSablon" href="~/Content/SizeSablon.xlsx" class="btn btn-default">Şablon İndir</a></div>
+                }}
             </div>
             <div class="portlet-body form" id="CreateEdit">
                 @using (Ajax.BeginForm("Save", "Size", new { area = "Constants" }, new AjaxOptions { OnSuccess = "getresult", HttpMethod = "post" }, htmlAttributes: new { @class = "form-horizontal", role = "form" }))

@@ -28,6 +28,8 @@ namespace Wms12m.Presentation
         public static string slimscroll = "~/Content/Scripts/slimscroll.js";
         public static string signalR = "~/Content/Scripts/signalR.js";
         public static string blockui = "~/Content/Scripts/blockui.js";
+        public static string KendoJs = "~/Content/Scripts/Kendo.js";
+        public static string KendoCss = "~/Content/Styles/Kendo.css";
         /// <summary>
         /// register
         /// </summary>
@@ -50,16 +52,10 @@ namespace Wms12m.Presentation
             bundles.Add(new StyleBundle(toastrCss, "https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.3/toastr.min.css").IncludeFallback("~/Content/assets/global/plugins/toastr/toastr.min.css", "toast-title", "font-weight", "bold").Include("~/Content/assets/global/plugins/toastr/toastr.min.css"));
             bundles.Add(new StyleBundle(FontAwesome, "https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css").IncludeFallback("~/Content/assets/global/plugins/font-awesome/css/font-awesome.min.css", "fa", "text-rendering", "auto").Include("~/Content/assets/global/plugins/font-awesome/css/font-awesome.min.css"));
             bundles.Add(new StyleBundle(simpleLineIcons, "https://cdnjs.cloudflare.com/ajax/libs/simple-line-icons/2.4.1/css/simple-line-icons.css").IncludeFallback("~/Content/assets/global/plugins/simple-line-icons/css/simple-line-icons.min.css", "icon-user", "font-family", "simple-line-icons").Include("~/Content/assets/global/plugins/simple-line-icons/css/simple-line-icons.min.css"));
-            // vars
+            //////////////////////////////////////////// bundles/////////////////////////////////
+            //general jquery
             var scriptBundle = new ScriptBundle(JsBundle);
-            var scriptBundle2 = new ScriptBundle(DtBundle);
-            var scriptBundle3 = new ScriptBundle(StBundle);
-            var styleBundle = new StyleBundle(CssBundle);
-            var scriptBundleLogin = new ScriptBundle(LoginJs);
-            var styleBundleLogin = new StyleBundle(LoginCss);
-            // ///////////////////// scripts
             scriptBundle
-                //jquery
                 .Include("~/Content/assets/global/plugins/jquery/jquery-migrate-3.0.0.min.js")
                 .Include("~/Content/assets/global/plugins/js.cookie.min.js")
                 //validation
@@ -72,8 +68,9 @@ namespace Wms12m.Presentation
                 .Include("~/Content/assets/global/plugins/Numeral/locales.js")
                 .Include("~/Content/assets/global/plugins/devextreme/js/dx.all.js")
                 ;
+            //datatables js
+            var scriptBundle2 = new ScriptBundle(DtBundle);
             scriptBundle2
-                //datatables
                 .Include("~/Content/assets/global/plugins/datatables/dataTables.min.js")
                 .Include("~/Content/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.min.js")
                 .Include("~/Content/assets/global/scripts/datatable.min.js")
@@ -84,8 +81,9 @@ namespace Wms12m.Presentation
                 .Include("~/Content/assets/global/plugins/pdfmake.min.js")
                 .Include("~/Content/assets/global/plugins/vfs_fonts.js")
                 ;
+            //general layout
+            var scriptBundle3 = new ScriptBundle(StBundle);
             scriptBundle3
-                //theme scripts
                 .Include("~/Content/assets/global/scripts/app.min.js")
                 .Include("~/Content/assets/layouts/layout/scripts/layout.min.js")
                 .Include("~/Content/Scripts/quick-sidebar.min.js")
@@ -94,19 +92,8 @@ namespace Wms12m.Presentation
                 .Include("~/Content/Scripts/Functions.min.js")
                 .Include("~/Content/Scripts/Hub.min.js")
                 ;
-            // login bundle
-            scriptBundleLogin
-                .Include("~/Content/assets/global/plugins/jquery/jquery-migrate-3.0.0.min.js")
-                .Include("~/Content/assets/global/plugins/jquery-validation/jquery.validate.min.js")
-                .Include("~/Content/assets/global/plugins/jquery-validation/jquery.validate.unobtrusive.min.js")
-                .Include("~/Content/assets/global/plugins/jquery-validation/jquery.unobtrusive-ajax.min.js")
-                .Include("~/Content/assets/global/plugins/jquery-validation/additional-methods.min.js")
-                .Include("~/Content/assets/global/scripts/app.min.js")
-                .Include("~/Content/assets/layouts/layout/scripts/layout.min.js")
-                .Include("~/Content/Scripts/Operation.min.js")
-                .Include("~/Content/Scripts/MessageBox.min.js")
-                ;
-            // styles
+            // generalstyles
+            var styleBundle = new StyleBundle(CssBundle);
             styleBundle
                 // DevExtreme
                 .Include("~/Content/assets/global/plugins/DevExtreme/css/dx.common.css")
@@ -122,20 +109,52 @@ namespace Wms12m.Presentation
                 .Include("~/Content/assets/global/plugins/datatables/dataTables.min.css")
                 .Include("~/Content/assets/global/plugins/datatables/extensions/Buttons/css/buttons.dataTables.min.css")
                 ;
-            // login bundle
+            //login js bundle
+            var scriptBundleLogin = new ScriptBundle(LoginJs);
+            scriptBundleLogin
+                .Include("~/Content/assets/global/plugins/jquery/jquery-migrate-3.0.0.min.js")
+                .Include("~/Content/assets/global/plugins/jquery-validation/jquery.validate.min.js")
+                .Include("~/Content/assets/global/plugins/jquery-validation/jquery.validate.unobtrusive.min.js")
+                .Include("~/Content/assets/global/plugins/jquery-validation/jquery.unobtrusive-ajax.min.js")
+                .Include("~/Content/assets/global/plugins/jquery-validation/additional-methods.min.js")
+                .Include("~/Content/assets/global/scripts/app.min.js")
+                .Include("~/Content/assets/layouts/layout/scripts/layout.min.js")
+                .Include("~/Content/Scripts/Operation.min.js")
+                .Include("~/Content/Scripts/MessageBox.min.js")
+                ;
+            // login css bundle
+            var styleBundleLogin = new StyleBundle(LoginCss);
             styleBundleLogin
                 //theme
                 .Include("~/Content/assets/global/css/components-md.min.css")
                 .Include("~/Content/assets/global/css/plugins-md.min.css")
                 .Include("~/Content/assets/layouts/layout/css/custom.min.css")
                 ;
-            // bundle
+            var scriptBundleKendo = new ScriptBundle(KendoJs);
+            scriptBundleKendo
+                .Include("~/Content/assets/global/plugins/kendo/js/kendo.all.min.js")
+                .Include("~/Content/assets/global/plugins/kendo/js/kendo.aspnetmvc.min.js")
+                .Include("~/Content/assets/global/plugins/kendo/js/kendo.timezones.min.js")
+                .Include("~/Content/assets/global/plugins/kendo/js/cultures/kendo.culture.tr-TR.min.js")
+                .Include("~/Content/assets/global/plugins/kendo/js/messages/kendo.messages.tr-TR.min.js")
+                ;
+            var styleBundleKendo = new StyleBundle(KendoCss);
+            styleBundleKendo
+                //theme
+                .Include("~/Content/assets/global/plugins/kendo/styles/kendo.common.min.css")
+                .Include("~/Content/assets/global/plugins/kendo/styles/kendo.rtl.min.css")
+                .Include("~/Content/assets/global/plugins/kendo/styles/kendo.bootstrap.min.css")
+                .Include("~/Content/assets/global/plugins/kendo/styles/kendo.bootstrap.mobile.min.css")
+                ;
+            // add bundles
             bundles.Add(scriptBundle);
             bundles.Add(scriptBundle2);
             bundles.Add(scriptBundle3);
             bundles.Add(styleBundle);
             bundles.Add(scriptBundleLogin);
             bundles.Add(styleBundleLogin);
+            bundles.Add(scriptBundleKendo);
+            bundles.Add(styleBundleKendo);
             // EnableOptimizations
 #if !DEBUG
             BundleTable.EnableOptimizations = true;
