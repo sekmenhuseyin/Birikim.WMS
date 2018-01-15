@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Kendo.Mvc.Extensions;
+using Kendo.Mvc.UI;
+using System;
 using System.Linq;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
@@ -19,6 +21,12 @@ namespace Wms12m.Presentation.Areas.Constants.Controllers
             ViewBag.Yetki = CheckPerm(Perms.BoyutKartı, PermTypes.Writing);
             ViewBag.YetkiSil = CheckPerm(Perms.BoyutKartı, PermTypes.Deleting);
             return View("Index", new Olcu());
+        }
+        public JsonResult List([DataSourceRequest]DataSourceRequest request)
+        {
+            var sql = string.Format("EXEC FINSAT6{0}.wms.getOlcuList", vUser.SirketKodu);
+            var list = db.Database.SqlQuery<frmOlcu>(sql);
+            return Json(list.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
         /// <summary>
         /// listeyi yenile

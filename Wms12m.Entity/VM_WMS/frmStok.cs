@@ -86,4 +86,19 @@
         public int? KynkSiparisTarih { get; set; }
         public decimal? KynkSiparisMiktar { get; set; }
     }
+    /// <summary>
+    /// ölçü tablosu
+    /// </summary>
+    public class frmOlcu
+    {
+        public int ID { get; set; }
+        public string MalKodu { get; set; }
+        public string Birim { get; set; }
+        public decimal En { get; set; }
+        public decimal Boy { get; set; }
+        public decimal Derinlik { get; set; }
+        public decimal Agirlik { get; set; }
+        public decimal Hacim { get; set; }
+        public string Kaydeden { get; set; }
+    }
 }

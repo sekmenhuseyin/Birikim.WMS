@@ -116,20 +116,19 @@
             </div>
             <div class="portlet-body form">
                 <div class="form-body">
-            @(Html.Kendo().Grid<GetTaskList_Result>()
+                    @(Html.Kendo().Grid<frmOlcu>()
                             .Name("grid")
                             .Columns(columns =>
                             {
                                 columns.Bound(c => c.ID).Hidden();
-                                columns.Bound(c => c.GorevNo);
-                                columns.Bound(c => c.DepoAd);
-                                columns.Bound(c => c.EvrakNo);
-                                columns.Bound(c => c.GorevTipi);
-                                columns.Bound(c => c.Gorevli);
-                                columns.Bound(c => c.SiparisTarihi);
-                                columns.Bound(c => c.OlusturmaTarihi);
-                                columns.Bound(c => c.BitisTarihi);
-                                columns.Bound(c => c.Bilgi);
+                                columns.Bound(c => c.MalKodu).Title("Mal Kodu");
+                                columns.Bound(c => c.Kaydeden).Title("Mal Adı");
+                                columns.Bound(c => c.Birim).Width(100);
+                                columns.Bound(c => c.En).Width(100).HtmlAttributes(new { @class = "text-right" });
+                                columns.Bound(c => c.Boy).Width(100).HtmlAttributes(new { @class = "text-right" });
+                                columns.Bound(c => c.Derinlik).Width(100).HtmlAttributes(new { @class = "text-right" });
+                                columns.Bound(c => c.Hacim).Width(100).HtmlAttributes(new { @class = "text-right" });
+                                columns.Bound(c => c.Agirlik).Width(100).Title("Ağırlık").HtmlAttributes(new { @class = "text-right" });
                             })
                             .HtmlAttributes(new { style = "height: 550px;" })
                             .Scrollable()
@@ -144,7 +143,7 @@
                                 .Read(read => read.Action("List", "Size", new { Area = "Constants" }))
                                 .PageSize(20)
                             )
-                )
+                        )
                 </div>
             </div>
         </div>
@@ -200,6 +199,7 @@
             Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
         else
         {
+            $(".k-pager-refresh").click();
             $("#MalKodu").val("");
             $("#MalAdi").val("");
             $("#Birim option").remove();
