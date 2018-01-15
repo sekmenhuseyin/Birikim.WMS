@@ -495,6 +495,7 @@
     <Content Include="Areas\YN\Views\OnayBekleyenler\SatisIade_Details.cshtml" />
     <Content Include="Areas\WMS\Views\Tasks\Index2.cshtml" />
     <Content Include="Areas\Approvals\Views\Order\TumIndex.cshtml" />
+    <Content Include="Areas\WMS\Views\Order\Index.cshtml" />
     <None Include="bundleconfig.json" />
     <Content Include="Content\SizeSablon.xlsx" />
     <Content Include="Content\StockSablon.xlsx" />
@@ -559,6 +560,7 @@
     <Compile Include="Areas\ToDo\ToDoAreaRegistration.cs" />
     <Compile Include="Areas\UYS\Controllers\TransferController.cs" />
     <Compile Include="Areas\UYS\UYSAreaRegistration.cs" />
+    <Compile Include="Areas\WMS\Controllers\OrderController.cs" />
     <Compile Include="Areas\WMS\Controllers\RefundController.cs" />
     <Compile Include="Areas\WMS\Controllers\ReturnSaleController.cs" />
     <Compile Include="Areas\WMS\WMSAreaRegistration.cs" />
