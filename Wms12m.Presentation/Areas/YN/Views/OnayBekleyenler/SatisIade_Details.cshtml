@@ -66,10 +66,12 @@
         var table = $('#sample_2').DataTable({
             "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" }
         });
+
+
         $('.reddet-buton').click(function () {
             $.ajax({
                 type: 'POST',
-                url: '/YN/OnayBekleyenler/SatisIade_Onay',
+                url: '/YN/OnayBekleyenler/SatisIade_Red',
                 data: { "ID": selected },
                 dataType: "json",
                 success: function (data) {

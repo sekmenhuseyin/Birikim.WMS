@@ -356,7 +356,9 @@ namespace Wms12m.Presentation.Areas.YN.Controllers
 						CONVERT(VARCHAR(15), CAST(TahsilatTarihi - 2 AS datetime), 104) as Tarih,
 						CASE IslemTuru WHEN 0 THEN 'Tahsilat' WHEN 1 THEN 'İskonto' END as IslemTuru,
 						CASE OdemeTuru WHEN 0 THEN 'Nakit' WHEN 1 THEN 'Kredi Kartı' END as OdemeTuru,
-						Tutar, DovizCinsi, KapatilanTL, KapatilanUSD, KapatilanEUR, Kaydeden, Aciklama
+						Tutar, DovizCinsi, KapatilanTL, KapatilanUSD, KapatilanEUR, Kaydeden, Aciklama,
+                        (CASE WHEN KapatilanUSD>0 THEN ISNULL(DvzEfektisSatis1, 0) ELSE 0 END) AS USDKur,
+						(CASE WHEN KapatilanEUR>0 THEN ISNULL(DvzEfektisSatis2, 0) ELSE 0 END) AS EURKur
 				FROM YNS{0}.YNS{0}.TahsilatMobil(NOLOCK) 
                 LEFT JOIN YNS{0}.YNS{0}.CAR002 ON TahsilatMobil.HesapKodu = CAR002_HesapKodu
 				WHERE IslemDurumu=0", YnsSirketKodu)).ToList();
@@ -381,7 +383,6 @@ namespace Wms12m.Presentation.Areas.YN.Controllers
                         CASE IslemTuru WHEN 0 THEN 'Tahsilat' WHEN 1 THEN 'İskonto' END as IslemTuru,
                         CASE OdemeTuru WHEN 0 THEN 'Nakit' WHEN 1 THEN 'Kredi Kartı' END as OdemeTuru,
                         Tutar, DovizCinsi, KapatilanTL, KapatilanUSD, KapatilanEUR, Kaydeden, Aciklama
-
                     FROM YNS{0}.YNS{0}.TahsilatMobil(NOLOCK)
                     LEFT JOIN YNS{0}.YNS{0}.CAR002 ON TahsilatMobil.HesapKodu = CAR002_HesapKodu
                     WHERE TahsilatNo='{1}'", YnsSirketKodu, ID)).FirstOrDefault();
