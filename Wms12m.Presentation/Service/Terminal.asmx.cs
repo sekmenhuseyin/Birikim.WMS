@@ -275,7 +275,10 @@ namespace Wms12m
                 var mGorev = db.Gorevs.Where(m => m.ID == GorevID).FirstOrDefault();
                 var sql = string.Format("EXEC FINSAT6{0}.wms.getStkOzet @Malkodu = '{1}', @Barkod = '{2}'", mGorev.IR.SirketKod, malkodu, barkod);
                 //return
-                return db.Database.SqlQuery<Tip_Malzeme>(sql).FirstOrDefault();
+                var satir = db.Database.SqlQuery<Tip_Malzeme>(sql).FirstOrDefault();
+                if (satir == null)
+                    return new Tip_Malzeme();
+                else return satir;
             }
             catch (Exception ex)
             {
