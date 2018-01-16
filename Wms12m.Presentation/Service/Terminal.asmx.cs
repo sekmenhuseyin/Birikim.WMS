@@ -241,10 +241,16 @@ namespace Wms12m
             if (tbl == null) return new List<Tip_STI>();
             var mGorev = db.Gorevs.Where(m => m.ID == GorevID).FirstOrDefault();
             if (mGorev.IsNull()) return new List<Tip_STI>();
+            var sql = "";
+            if (mGorev.GorevTipiID == ComboItems.SiparişTopla.ToInt32() || mGorev.GorevTipiID == ComboItems.TransferÇıkış.ToInt32() || mGorev.GorevTipiID == ComboItems.KontrolSayım.ToInt32())
+                sql = string.Format("EXEC FINSAT6{0}.wms.TerminalGetMalzemeSiparis {1}, {2}", mGorev.IR.SirketKod, GorevID, devamMi == true && mGorev.GorevTipiID != ComboItems.KontrolSayım.ToInt32() ? 1 : 0);
+            else if (mGorev.GorevTipiID == ComboItems.TransferGiriş.ToInt32() && mGorev.Transfers.Count == 0)
+                sql = string.Format("EXEC FINSAT6{0}.wms.TerminalGetMalzemeTransfer {1}, {2}", mGorev.IR.SirketKod, GorevID, devamMi == true ? 1 : 0);
+            else
+                sql = string.Format("EXEC FINSAT6{0}.wms.TerminalGetMalzemeGenel {1}, {2}, {3}, {4}", mGorev.IR.SirketKod, GorevID, devamMi == true ? 1 : 0, mGorev.GorevTipiID == ComboItems.MalKabul.ToInt32() || mGorev.GorevTipiID == ComboItems.Paketle.ToInt32() || mGorev.GorevTipiID == ComboItems.Sevket.ToInt32() ? 1 : 0, mGorev.GorevTipiID == ComboItems.Paketle.ToInt32() || mGorev.GorevTipiID == ComboItems.BarkodHazırla.ToInt32() || mGorev.GorevTipiID == ComboItems.Sevket.ToInt32() ? 1 : 0);
             try
             {
-                //TODO: düzelt
-                return db.Database.SqlQuery<Tip_STI>(string.Format("[BIRIKIM].[wms].[GetSTIList] {0},'{1}',{2},{3}", devamMi, mGorev.ComboItem_Name1.Name, GorevID, mGorev.Transfers.Count)).ToList();
+                return db.Database.SqlQuery<Tip_STI>(sql).ToList();
             }
             catch (Exception ex)
             {
@@ -269,7 +275,10 @@ namespace Wms12m
                 var mGorev = db.Gorevs.Where(m => m.ID == GorevID).FirstOrDefault();
                 var sql = string.Format("EXEC FINSAT6{0}.wms.getStkOzet @Malkodu = '{1}', @Barkod = '{2}'", mGorev.IR.SirketKod, malkodu, barkod);
                 //return
-                return db.Database.SqlQuery<Tip_Malzeme>(sql).FirstOrDefault();
+                var satir = db.Database.SqlQuery<Tip_Malzeme>(sql).FirstOrDefault();
+                if (satir == null)
+                    return new Tip_Malzeme();
+                else return satir;
             }
             catch (Exception ex)
             {
