@@ -39,28 +39,24 @@ namespace Wms12m
             var tarih = DateTime.Today.ToOADateInt();
             if (SIOnay.Onay)
             {
+                for (int i = 0; i < SIOnay.tbl.Row_ID.Length; i++)
+                {
+                    Sorgu = Sorgu + string.Format("update YNS{0}.YNS{0}.STK005 set STK005_BirimFiyati={1} where STK005_Row_ID={2}", SirketKodu, SIOnay.tbl.Fiyat[i], SIOnay.tbl.Row_ID[i]);
+                }
 
-                var veriList = Sqlexper.SelectList<STK005>(@"").ToList();
-
-                Sorgu = string.Format(@"
+                Sorgu = Sorgu+ string.Format(@"
                 UPDATE STI1 
                 SET STI1.STK005_Kod10='Onaylandı', STI1.STK005_DegistirenKodu='{1}', STI1.STK005_DegistirenTarih={2}, STI1.STK005_DegistirenSaat='{3}',
-                    STI1.STK005_CariHesapKodu=STI2.STK005_CariHesapKodu, STI1.STK005_BirimFiyati=STI2.STK005_BirimFiyati, 
-	                STI1.STK005_Tutari=(STI1.STK005_Miktari * STI2.STK005_BirimFiyati), STI1.STK005_DovizCinsi=STI2.STK005_DovizCinsi
+                    STI1.STK005_CariHesapKodu=STI2.STK005_CariHesapKodu, 
+	                STI1.STK005_Tutari=(STI1.STK005_Miktari * STI1.STK005_BirimFiyati), STI1.STK005_DovizCinsi=STI2.STK005_DovizCinsi
                 FROM  YNS{0}.YNS{0}.STK005(NOLOCK) STI1
                 INNER JOIN YNS{0}.YNS{0}.STK005(NOLOCK) STI2 ON STI1.STK005_Kod9=STI2.STK005_EvrakSeriNo AND 
-                      CAST(STI1.STK005_Kod11 as INT)=STI2.STK005_IslemTarihi AND  STI2.STK005_EvrakTipi=11 AND STI1.STK005_MalKodu=STI2.STK005_MalKodu
+                      CAST(STI1.STK005_Kod11 as INT)=STI2.STK005_Row_ID AND  STI2.STK005_EvrakTipi=11 AND STI1.STK005_MalKodu=STI2.STK005_MalKodu
 
                 WHERE STI1.STK005_EvrakTipi=99 AND STI1.STK005_IslemTipi=2 AND STI1.STK005_GC=0 AND STI1.STK005_Kod11>0 AND STI1.STK005_Kod9<>'' AND
                       STI1.STK005_Kod10='Onay Bekliyor' AND SUBSTRING(STI1.STK005_Not5,1,8)='AndMobil' AND 
-	                  STI1.STK005_EvrakSeriNo='{4}' AND STI1.STK005_IslemTarihi={5}; ",
-                SirketKodu, SIOnay.Kaydeden, tarih, saat, SIOnay.IadeNo, SIOnay.IadeTarih);
-
-                for (int i = 0; i < SIOnay.tbl.Row_ID.Length; i++)
-                {
-                    Sorgu += string.Format("update YNS{0}.YNS{0}.STK005 STI set STK005_BirimFiyati={1} where STK005_Row_ID={2};", SirketKodu, SIOnay.tbl.Fiyat[i], SIOnay.tbl.Row_ID[i]);
-                }
-
+	                  STI1.STK005_EvrakSeriNo='{4}' AND STI1.STK005_IslemTarihi={5} ",
+                              SirketKodu, SIOnay.Kaydeden, tarih, saat, SIOnay.IadeNo, SIOnay.IadeTarih);
 
             }
             else
