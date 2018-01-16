@@ -249,6 +249,10 @@ namespace Wms12m.Business
         {
             return db.Users.Where(m => m.ID > 1).OrderBy(m => m.AdSoyad).ToList();
         }
+        public IQueryable<frmChatUser> GetListAll2()
+        {
+            return db.Users.Where(m => m.ID > 1).Select(m => new frmChatUser { ID = m.ID, Guid = m.Guid.ToString(), AdSoyad = m.AdSoyad, Email = m.Email, Kod = m.Kod, RoleName = m.RoleName, Aktif = m.Aktif }).OrderByDescending(m => m.Aktif).ThenBy(m => m.AdSoyad);
+        }
         /// <summary>
         /// yetkiye sahip kişiler
         /// </summary>

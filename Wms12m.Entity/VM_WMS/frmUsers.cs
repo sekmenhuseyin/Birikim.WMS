@@ -102,6 +102,7 @@ namespace Wms12m.Entity
         public string Kod { get; set; }
         public string AdSoyad { get; set; }
         public string RoleName { get; set; }
+        public string Email { get; set; }
         public bool Aktif { get; set; }
     }
 }

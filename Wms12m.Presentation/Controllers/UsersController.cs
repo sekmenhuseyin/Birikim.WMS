@@ -1,4 +1,6 @@
 ﻿using Humanizer;
+using Kendo.Mvc.Extensions;
+using Kendo.Mvc.UI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,6 +30,10 @@ namespace Wms12m.Presentation.Controllers
             if (CheckPerm(Perms.Kullanıcılar, PermTypes.Reading) == false) return null;
             ViewBag.Yetki = CheckPerm(Perms.Kullanıcılar, PermTypes.Writing);
             return PartialView("List", Persons.GetListAll());
+        }
+        public JsonResult List2([DataSourceRequest]DataSourceRequest request)
+        {
+            return Json(Persons.GetListAll2().ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
         /// <summary>
         /// chat için kullanıcı listesi
