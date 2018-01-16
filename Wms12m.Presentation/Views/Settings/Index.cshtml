@@ -1,5 +1,4 @@
-﻿
-@model Setting
+﻿@model Setting
 @{
     ViewBag.Title = "Ayarlar";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -106,6 +105,15 @@
                                 <div class="checkbox">
                                     @Html.CheckBoxFor(a => a.SevkiyatVarmi, new { @checked = Model.SevkiyatVarmi ? "checked" : string.Empty, @class = "make-switch", @data_size = "normal", @data_on_color = "success", @data_off_text = "Hayır", @data_on_text = "Evet", @data_off_color = "danger" })
                                     @Html.ValidationMessageFor(model => model.SevkiyatVarmi, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.SiparisOnayParametre, "Sipariş Onay Parametre Olacak mı", htmlAttributes: new { @class = "control-label col-md-3" })
+                            <div class="col-md-9">
+                                <div class="checkbox">
+                                    @Html.CheckBoxFor(a => a.SiparisOnayParametre, new { @checked = Model.SiparisOnayParametre ? "checked" : string.Empty, @class = "make-switch", @data_size = "normal", @data_on_color = "success", @data_off_text = "Hayır", @data_on_text = "Evet", @data_off_color = "danger" })
+                                    @Html.ValidationMessageFor(model => model.SiparisOnayParametre, "", new { @class = "text-danger" })
                                 </div>
                             </div>
                         </div>
@@ -217,6 +225,15 @@
                                 <div class="checkbox">
                                     @Html.CheckBoxFor(a => a.OnayTekno, new { @checked = Model.OnayTekno ? "checked" : string.Empty, @class = "make-switch", @data_size = "normal", @data_on_color = "success", @data_off_text = "Pasif", @data_on_text = "Aktif", @data_off_color = "danger" })
                                     @Html.ValidationMessageFor(model => model.OnayTekno, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.CrmOzet, "CRM Özet", htmlAttributes: new { @class = "control-label col-md-3" })
+                            <div class="col-md-9">
+                                <div class="checkbox">
+                                    @Html.CheckBoxFor(a => a.CrmOzet, new { @checked = Model.CrmOzet ? "checked" : string.Empty, @class = "make-switch", @data_size = "normal", @data_on_color = "success", @data_off_text = "Pasif", @data_on_text = "Aktif", @data_off_color = "danger" })
+                                    @Html.ValidationMessageFor(model => model.CrmOzet, "", new { @class = "text-danger" })
                                 </div>
                             </div>
                         </div>

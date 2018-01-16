@@ -3,7 +3,7 @@ using System.Web.Mvc;
 using Wms12m.Entity;
 using Wms12m.Entity.Models;
 
-namespace Wms12m.Presentation.Areas.System.Controllers
+namespace Wms12m.Presentation.Controllers
 {
     public class SettingsController : RootController
     {
@@ -47,6 +47,7 @@ namespace Wms12m.Presentation.Areas.System.Controllers
                 set.OnayTekno = tbl.OnayTekno;
                 set.SevkiyatVarmi = tbl.SevkiyatVarmi;
                 set.GitServerAddress = tbl.GitServerAddress;
+                set.SiparisOnayParametre = tbl.SiparisOnayParametre;
                 set.CrmOzet = tbl.CrmOzet;
                 set.Aktif = tbl.Aktif;
                 db.SaveChanges();

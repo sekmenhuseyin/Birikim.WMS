@@ -4,9 +4,9 @@ using System.Web.Mvc;
 using Wms12m.Entity;
 using Wms12m.Entity.Models;
 
-namespace Wms12m.Presentation.Areas.System.Controllers
+namespace Wms12m.Presentation.Controllers
 {
-    public class LogsController : RootController
+    public class RecordsController : RootController
     {
         // GET: Logs
         public ActionResult Index()
