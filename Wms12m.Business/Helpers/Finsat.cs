@@ -245,7 +245,7 @@ namespace Wms12m
                     tempEvrakNo = item.EvrakNo;
                     sql = string.Format("SELECT SPI.Chk, SPI.IslemTip, SPI.Miktar, SPI.MalKodu, SPI.Fiyat, SPI.Birim, SPI.Depo, SPI.ToplamIskonto, SPI.KDV, SPI.KDVOran, SPI.IskontoOran1, SPI.IskontoOran2, SPI.IskontoOran3, SPI.IskontoOran4, SPI.IskontoOran5, " +
                                         "SPI.EvrakNo as KaynakSiparisNo,SPI.VadeTarih, SPI.Tarih as KaynakSiparisTarih, SPI.SiraNo as SiparisSiraNo, SPI.Miktar as SiparisMiktar, SPI.TeslimMiktar, SPI.KapatilanMiktar, SPI.FytListeNo, SPI.ValorGun, SPI.Kod1, SPI.Kod2, SPI.Kod3, SPI.Kod4, SPI.Kod5, SPI.Kod6, SPI.Kod7, SPI.Kod8, SPI.Kod9, SPI.Kod10, SPI.Kod11, SPI.Kod12, SPI.Kod13, SPI.Kod14, SPI.KayitKaynak, SPI.KayitSurum, SPI.DegisKaynak, SPI.DegisSurum," +
-                                        "CHK.EFatKullanici, ISNULL(BIRIKIM.wms.fnGetSatislarHesabi(SPI.MalKodu),'') AS SatislarHesabi, CHK.EArsivTeslimSekli, CHK.MhsKod, CHK.EFatSenaryo " +
+                                        "CHK.EFatKullanici, STK.SatislarHesabi, CHK.EArsivTeslimSekli, CHK.MhsKod, CHK.EFatSenaryo " +
                                         ", MFK.Tutar AS MFKTutar, MFK.Aciklama AS MFKAciklama , MFK.Aciklama2 AS MFKAciklama2 , MFK.Aciklama3 AS MFKAciklama3 , MFK.Aciklama4 AS MFKAciklama4 , MFK.Aciklama5  AS MFKAciklama5, MFK.Aciklama6 AS MFKAciklama6 " +
                                         "FROM FINSAT6{0}.FINSAT6{0}.SPI WITH (NOLOCK) LEFT JOIN FINSAT6{0}.FINSAT6{0}.CHK WITH (NOLOCK) ON SPI.Chk=CHK.HesapKodu LEFT JOIN FINSAT6{0}.FINSAT6{0}.STK WITH (NOLOCK) ON STK.MalKodu=SPI.MalKodu " +
                                         "LEFT JOIN FINSAT6{0}.FINSAT6{0}.MFK WITH (NOLOCK) ON MFK.EvrakNo=SPI.EvrakNo  AND  MFK.KynkEvrakTip=SPI.KynkEvrakTip AND  MFK.HesapKod=SPI.Chk " +
@@ -477,7 +477,7 @@ namespace Wms12m
                         "STI.Tarih as KaynakSiparisTarih,STI.SiraNo,STI.KaynakSiraNo,STI.SiparisSiraNo," +
                         "STI.Miktar as SiparisMiktar,STI.FytListeNo,STI.ValorGun,STI.Kod1,STI.Kod2,STI.Kod3,STI.Kod4,STI.Kod5,STI.Kod6,STI.Kod7,STI.Kod8,STI.Kod9,STI.Kod10," +
                         "STI.Kod11,STI.Kod12,STI.Kod13,STI.Kod14,STI.KayitKaynak,STI.KayitSurum,STI.DegisKaynak,STI.DegisSurum,STI.SevkTarih as SevkTarih,STI.KaynakIrsTarih as KaynakIrsTarih," +
-                        "STI.KaynakSiparisTarih as KaynakSiparisTarih2,STI.Kredi_Donem_VadeTarih,STI.KaynakIrsEvrakNo,STK.AlimdanIade as MhsKod,CHK.EFatKullanici,ISNULL(BIRIKIM.wms.fnGetSatislarHesabi(STI.MalKodu), '') AS SatislarHesabi," +
+                        "STI.KaynakSiparisTarih as KaynakSiparisTarih2,STI.Kredi_Donem_VadeTarih,STI.KaynakIrsEvrakNo,STK.AlimdanIade as MhsKod,CHK.EFatKullanici, STK.SatislarHesabi," +
                         "CHK.EArsivTeslimSekli,CHK.MhsKod As CHKMhsKod,CHK.EFatSenaryo " +
                         ", MFK.Tutar AS MFKTutar, MFK.Aciklama AS MFKAciklama , MFK.Aciklama2 AS MFKAciklama2 , MFK.Aciklama3 AS MFKAciklama3 , MFK.Aciklama4 AS MFKAciklama4 , MFK.Aciklama5  AS MFKAciklama5, MFK.Aciklama6 AS MFKAciklama6 " +
                         "FROM FINSAT6{0}.FINSAT6{0}.STI WITH (NOLOCK) LEFT JOIN FINSAT6{0}.FINSAT6{0}.CHK WITH (NOLOCK) ON STI.Chk=CHK.HesapKodu LEFT JOIN FINSAT6{0}.FINSAT6{0}.STK WITH (NOLOCK) ON STK.MalKodu=STI.MalKodu " +
