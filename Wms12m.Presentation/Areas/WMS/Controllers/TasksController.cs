@@ -375,17 +375,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
 
                 db.Database.ExecuteSqlCommand(sql);
                 // son olarak bizim stoka kaydet
-                // get list
-                if (mGorev.IR.ValorGun == 1)
-                    sql = string.Format(@"SELECT        wms.Yer.KatID, wms.Yer.MalKodu, wms.Yer.Birim, wms.Yer.Miktar AS Stok, 
-                                                        ISNULL((SELECT Sum(Miktar) FROM wms.GorevYer WHERE (GorevID = {0}) AND(MalKodu = wms.Yer.MalKodu) AND (YerID = wms.Yer.ID)), 0) AS Miktar
-                                        FROM wms.Yer INNER JOIN wms.Gorev ON wms.Yer.DepoID = wms.Gorev.DepoID
-                                        WHERE (wms.Gorev.ID = {0})", GorevID);
-                else
-                    sql = string.Format(@"SELECT        wms.Yer.KatID, wms.GorevYer.MalKodu, wms.GorevYer.Birim, wms.Yer.Miktar AS Stok, wms.GorevYer.Miktar
-                                        FROM            wms.GorevYer INNER JOIN
-                                                                    wms.Yer ON wms.GorevYer.YerID = wms.Yer.ID 
-                                        WHERE (wms.GorevYer.GorevID  = {0})", GorevID);
+                sql = string.Format(@"EXEC BIRIKIM.wms.GetSayimFarki {0}, {1}", GorevID, mGorev.IR.ValorGun);
                 var list2 = db.Database.SqlQuery<frmSiparisToplama>(sql).ToList();
                 // loop list
                 foreach (var item in list2)
