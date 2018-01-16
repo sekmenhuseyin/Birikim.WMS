@@ -30,5 +30,16 @@ namespace Wms12m.Entity.Models
         public virtual DbSet<ErrorLog> ErrorLogs { get; set; }
         public virtual DbSet<LoginLog> LoginLogs { get; set; }
         public virtual DbSet<TumSiparisOnayLog> TumSiparisOnayLogs { get; set; }
+        public virtual DbSet<DB_Aylik_SatisAnalizi> DB_Aylik_SatisAnalizi { get; set; }
+        public virtual DbSet<DB_Aylik_SatisAnalizi_Tip_Kod_Doviz> DB_Aylik_SatisAnalizi_Tip_Kod_Doviz { get; set; }
+        public virtual DbSet<DB_BakiyeRiskAnalizi> DB_BakiyeRiskAnalizi { get; set; }
+        public virtual DbSet<DB_BekleyenSiparis_UrunGrubu_Fiyat> DB_BekleyenSiparis_UrunGrubu_Fiyat { get; set; }
+        public virtual DbSet<DB_BekleyenSiparis_UrunGrubu_Miktar> DB_BekleyenSiparis_UrunGrubu_Miktar { get; set; }
+        public virtual DbSet<DB_GunlukSatisAnaliziYearToDay> DB_GunlukSatisAnaliziYearToDay { get; set; }
+        public virtual DbSet<DB_LokasyonBazli_SatisAnalizi> DB_LokasyonBazli_SatisAnalizi { get; set; }
+        public virtual DbSet<DB_LokasyonBazli_SatisAnalizi_Kriter> DB_LokasyonBazli_SatisAnalizi_Kriter { get; set; }
+        public virtual DbSet<DB_SatisBaglanti_UrunGrubu> DB_SatisBaglanti_UrunGrubu { get; set; }
+        public virtual DbSet<DB_UrunGrubu_SatisAnalizi> DB_UrunGrubu_SatisAnalizi { get; set; }
+        public virtual DbSet<DB_UrunGrubu_SatisAnalizi_Kriter> DB_UrunGrubu_SatisAnalizi_Kriter { get; set; }
     }
 }

@@ -4,12 +4,23 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="1e1d06baa6a5408e8171fbb1601d3cb2" Name="Diagram1" ZoomLevel="82" >
+      <Diagram DiagramId="1e1d06baa6a5408e8171fbb1601d3cb2" Name="Diagram1" ZoomLevel="61" >
         <EntityTypeShape EntityType="BIRIKIM_LOGModel.AppLog" Width="1.5" PointX="0.75" PointY="0.75" />
         <EntityTypeShape EntityType="BIRIKIM_LOGModel.ELMAH_Error" Width="1.5" PointX="2.75" PointY="0.75" />
-        <EntityTypeShape EntityType="BIRIKIM_LOGModel.ErrorLog" Width="1.5" PointX="4.75" PointY="0.75" />
-        <EntityTypeShape EntityType="BIRIKIM_LOGModel.LoginLog" Width="1.5" PointX="7" PointY="0.875" />
-        <EntityTypeShape EntityType="BIRIKIM_LOGModel.TumSiparisOnayLog" Width="1.5" PointX="9.125" PointY="0.875" />
+        <EntityTypeShape EntityType="BIRIKIM_LOGModel.ErrorLog" Width="1.5" PointX="2.625" PointY="4.5" />
+        <EntityTypeShape EntityType="BIRIKIM_LOGModel.LoginLog" Width="1.5" PointX="2.5" PointY="7.625" />
+        <EntityTypeShape EntityType="BIRIKIM_LOGModel.TumSiparisOnayLog" Width="1.5" PointX="0.5" PointY="5" />
+        <EntityTypeShape EntityType="BIRIKIM_LOGModel.DB_Aylik_SatisAnalizi" Width="1.5" PointX="5.375" PointY="0.75" />
+        <EntityTypeShape EntityType="BIRIKIM_LOGModel.DB_Aylik_SatisAnalizi_Tip_Kod_Doviz" Width="1.5" PointX="5.375" PointY="3.75" />
+        <EntityTypeShape EntityType="BIRIKIM_LOGModel.DB_BakiyeRiskAnalizi" Width="1.5" PointX="7.375" PointY="0.75" />
+        <EntityTypeShape EntityType="BIRIKIM_LOGModel.DB_BekleyenSiparis_UrunGrubu_Fiyat" Width="1.5" PointX="7.375" PointY="3.75" />
+        <EntityTypeShape EntityType="BIRIKIM_LOGModel.DB_BekleyenSiparis_UrunGrubu_Miktar" Width="1.5" PointX="11.5" PointY="0.75" />
+        <EntityTypeShape EntityType="BIRIKIM_LOGModel.DB_GunlukSatisAnaliziYearToDay" Width="1.5" PointX="11.5" PointY="3.75" />
+        <EntityTypeShape EntityType="BIRIKIM_LOGModel.DB_LokasyonBazli_SatisAnalizi" Width="1.5" PointX="9.375" PointY="0.75" />
+        <EntityTypeShape EntityType="BIRIKIM_LOGModel.DB_LokasyonBazli_SatisAnalizi_Kriter" Width="1.5" PointX="9.375" PointY="3.75" />
+        <EntityTypeShape EntityType="BIRIKIM_LOGModel.DB_SatisBaglanti_UrunGrubu" Width="1.5" PointX="9.375" PointY="7.375" />
+        <EntityTypeShape EntityType="BIRIKIM_LOGModel.DB_UrunGrubu_SatisAnalizi" Width="1.5" PointX="5.25" PointY="7.375" />
+        <EntityTypeShape EntityType="BIRIKIM_LOGModel.DB_UrunGrubu_SatisAnalizi_Kriter" Width="1.5" PointX="7.375" PointY="7.375" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

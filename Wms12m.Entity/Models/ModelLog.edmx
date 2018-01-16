@@ -23,6 +23,130 @@
           <Property Name="IpAddress" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="TypeName" Type="varchar" MaxLength="50" StoreGeneratedPattern="Computed" />
         </EntityType>
+        <EntityType Name="DB_Aylik_SatisAnalizi">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DB" Type="varchar" MaxLength="5" Nullable="false" />
+          <Property Name="Ay" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Yil2015" Type="decimal" Precision="25" Scale="6" Nullable="false" />
+          <Property Name="Yil2016" Type="decimal" Precision="25" Scale="6" Nullable="false" />
+          <Property Name="Yil2017" Type="decimal" Precision="25" Scale="6" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DB_Aylik_SatisAnalizi_Tip_Kod_Doviz">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DB" Type="varchar" MaxLength="5" Nullable="false" />
+          <Property Name="Grup" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Kriter" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="IslemTip" Type="int" Nullable="false" />
+          <Property Name="Ay" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Yil2015" Type="decimal" Precision="25" Scale="6" Nullable="false" />
+          <Property Name="Yil2016" Type="decimal" Precision="25" Scale="6" Nullable="false" />
+          <Property Name="Yil2017" Type="decimal" Precision="25" Scale="6" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DB_BakiyeRiskAnalizi">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DB" Type="varchar" MaxLength="5" Nullable="false" />
+          <Property Name="HesapKodu" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Unvan" Type="nvarchar" MaxLength="250" Nullable="false" />
+          <Property Name="Borc" Type="decimal" Precision="25" Scale="6" Nullable="false" />
+          <Property Name="Alacak" Type="decimal" Precision="25" Scale="6" Nullable="false" />
+          <Property Name="Bakiye" Type="decimal" Precision="25" Scale="6" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DB_BekleyenSiparis_UrunGrubu_Fiyat">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DB" Type="varchar" MaxLength="5" Nullable="false" />
+          <Property Name="GrupKod" Type="varchar" MaxLength="150" Nullable="false" />
+          <Property Name="KalanMiktar" Type="decimal" Precision="25" Scale="6" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DB_BekleyenSiparis_UrunGrubu_Miktar">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DB" Type="varchar" MaxLength="5" Nullable="false" />
+          <Property Name="GrupKod" Type="varchar" MaxLength="150" Nullable="false" />
+          <Property Name="KalanMiktar" Type="decimal" Precision="25" Scale="6" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DB_GunlukSatisAnaliziYearToDay">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DB" Type="varchar" MaxLength="5" Nullable="false" />
+          <Property Name="CHK" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Unvan" Type="nvarchar" MaxLength="250" Nullable="false" />
+          <Property Name="GenelTutar" Type="decimal" Precision="25" Scale="6" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DB_LokasyonBazli_SatisAnalizi">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DB" Type="varchar" MaxLength="5" Nullable="false" />
+          <Property Name="Ay" Type="int" Nullable="false" />
+          <Property Name="GrupKod" Type="nvarchar" MaxLength="250" Nullable="false" />
+          <Property Name="Yil2016" Type="decimal" Precision="25" Scale="6" Nullable="false" />
+          <Property Name="Yil2017" Type="decimal" Precision="25" Scale="6" Nullable="false" />
+          <Property Name="Toplam" Type="decimal" Precision="25" Scale="6" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DB_LokasyonBazli_SatisAnalizi_Kriter">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DB" Type="varchar" MaxLength="5" Nullable="false" />
+          <Property Name="Ay" Type="int" Nullable="false" />
+          <Property Name="Kriter" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="GrupKod" Type="nvarchar" MaxLength="250" Nullable="false" />
+          <Property Name="Yil2016" Type="decimal" Precision="25" Scale="6" Nullable="false" />
+          <Property Name="Yil2017" Type="decimal" Precision="25" Scale="6" Nullable="false" />
+          <Property Name="Toplam" Type="decimal" Precision="25" Scale="6" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DB_SatisBaglanti_UrunGrubu">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DB" Type="varchar" MaxLength="5" Nullable="false" />
+          <Property Name="MalKod" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="KalanTutar" Type="decimal" Precision="25" Scale="6" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DB_UrunGrubu_SatisAnalizi">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DB" Type="varchar" MaxLength="5" Nullable="false" />
+          <Property Name="Ay" Type="int" Nullable="false" />
+          <Property Name="GrupKod" Type="nvarchar" MaxLength="250" Nullable="false" />
+          <Property Name="Yil2016" Type="decimal" Precision="25" Scale="6" Nullable="false" />
+          <Property Name="Yil2017" Type="decimal" Precision="25" Scale="6" Nullable="false" />
+          <Property Name="Toplam" Type="decimal" Precision="25" Scale="6" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DB_UrunGrubu_SatisAnalizi_Kriter">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DB" Type="varchar" MaxLength="5" Nullable="false" />
+          <Property Name="Ay" Type="int" Nullable="false" />
+          <Property Name="Kriter" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="GrupKod" Type="nvarchar" MaxLength="250" Nullable="false" />
+          <Property Name="Yil2016" Type="decimal" Precision="25" Scale="6" Nullable="false" />
+          <Property Name="Yil2017" Type="decimal" Precision="25" Scale="6" Nullable="false" />
+          <Property Name="Toplam" Type="decimal" Precision="25" Scale="6" Nullable="false" />
+        </EntityType>
         <EntityType Name="ELMAH_Error">
           <Key>
             <PropertyRef Name="ErrorId" />
@@ -100,6 +224,17 @@
         </EntityType>
         <EntityContainer Name="BIRIKIM_LOGModelStoreContainer">
           <EntitySet Name="AppLog" EntityType="Self.AppLog" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DB_Aylik_SatisAnalizi" EntityType="Self.DB_Aylik_SatisAnalizi" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DB_Aylik_SatisAnalizi_Tip_Kod_Doviz" EntityType="Self.DB_Aylik_SatisAnalizi_Tip_Kod_Doviz" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DB_BakiyeRiskAnalizi" EntityType="Self.DB_BakiyeRiskAnalizi" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DB_BekleyenSiparis_UrunGrubu_Fiyat" EntityType="Self.DB_BekleyenSiparis_UrunGrubu_Fiyat" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DB_BekleyenSiparis_UrunGrubu_Miktar" EntityType="Self.DB_BekleyenSiparis_UrunGrubu_Miktar" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DB_GunlukSatisAnaliziYearToDay" EntityType="Self.DB_GunlukSatisAnaliziYearToDay" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DB_LokasyonBazli_SatisAnalizi" EntityType="Self.DB_LokasyonBazli_SatisAnalizi" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DB_LokasyonBazli_SatisAnalizi_Kriter" EntityType="Self.DB_LokasyonBazli_SatisAnalizi_Kriter" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DB_SatisBaglanti_UrunGrubu" EntityType="Self.DB_SatisBaglanti_UrunGrubu" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DB_UrunGrubu_SatisAnalizi" EntityType="Self.DB_UrunGrubu_SatisAnalizi" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DB_UrunGrubu_SatisAnalizi_Kriter" EntityType="Self.DB_UrunGrubu_SatisAnalizi_Kriter" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ELMAH_Error" EntityType="Self.ELMAH_Error" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ErrorLog" EntityType="Self.ErrorLog" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="LoginLog" EntityType="Self.LoginLog" Schema="dbo" store:Type="Tables" />
@@ -115,6 +250,17 @@
           <EntitySet Name="ErrorLogs" EntityType="BIRIKIM_LOGModel.ErrorLog" />
           <EntitySet Name="LoginLogs" EntityType="BIRIKIM_LOGModel.LoginLog" />
           <EntitySet Name="TumSiparisOnayLogs" EntityType="BIRIKIM_LOGModel.TumSiparisOnayLog" />
+          <EntitySet Name="DB_Aylik_SatisAnalizi" EntityType="BIRIKIM_LOGModel.DB_Aylik_SatisAnalizi" />
+          <EntitySet Name="DB_Aylik_SatisAnalizi_Tip_Kod_Doviz" EntityType="BIRIKIM_LOGModel.DB_Aylik_SatisAnalizi_Tip_Kod_Doviz" />
+          <EntitySet Name="DB_BakiyeRiskAnalizi" EntityType="BIRIKIM_LOGModel.DB_BakiyeRiskAnalizi" />
+          <EntitySet Name="DB_BekleyenSiparis_UrunGrubu_Fiyat" EntityType="BIRIKIM_LOGModel.DB_BekleyenSiparis_UrunGrubu_Fiyat" />
+          <EntitySet Name="DB_BekleyenSiparis_UrunGrubu_Miktar" EntityType="BIRIKIM_LOGModel.DB_BekleyenSiparis_UrunGrubu_Miktar" />
+          <EntitySet Name="DB_GunlukSatisAnaliziYearToDay" EntityType="BIRIKIM_LOGModel.DB_GunlukSatisAnaliziYearToDay" />
+          <EntitySet Name="DB_LokasyonBazli_SatisAnalizi" EntityType="BIRIKIM_LOGModel.DB_LokasyonBazli_SatisAnalizi" />
+          <EntitySet Name="DB_LokasyonBazli_SatisAnalizi_Kriter" EntityType="BIRIKIM_LOGModel.DB_LokasyonBazli_SatisAnalizi_Kriter" />
+          <EntitySet Name="DB_SatisBaglanti_UrunGrubu" EntityType="BIRIKIM_LOGModel.DB_SatisBaglanti_UrunGrubu" />
+          <EntitySet Name="DB_UrunGrubu_SatisAnalizi" EntityType="BIRIKIM_LOGModel.DB_UrunGrubu_SatisAnalizi" />
+          <EntitySet Name="DB_UrunGrubu_SatisAnalizi_Kriter" EntityType="BIRIKIM_LOGModel.DB_UrunGrubu_SatisAnalizi_Kriter" />
         </EntityContainer>
         <EntityType Name="AppLog">
           <Key>
@@ -208,6 +354,130 @@
           <Property Name="RoleName" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="Degistiren" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
           <Property Name="DegisTarih" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DB_Aylik_SatisAnalizi">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DB" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="Ay" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Yil2015" Type="Decimal" Nullable="false" Precision="25" Scale="6" />
+          <Property Name="Yil2016" Type="Decimal" Nullable="false" Precision="25" Scale="6" />
+          <Property Name="Yil2017" Type="Decimal" Nullable="false" Precision="25" Scale="6" />
+        </EntityType>
+        <EntityType Name="DB_Aylik_SatisAnalizi_Tip_Kod_Doviz">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DB" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="Grup" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Kriter" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="IslemTip" Type="Int32" Nullable="false" />
+          <Property Name="Ay" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Yil2015" Type="Decimal" Nullable="false" Precision="25" Scale="6" />
+          <Property Name="Yil2016" Type="Decimal" Nullable="false" Precision="25" Scale="6" />
+          <Property Name="Yil2017" Type="Decimal" Nullable="false" Precision="25" Scale="6" />
+        </EntityType>
+        <EntityType Name="DB_BakiyeRiskAnalizi">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DB" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="HesapKodu" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Unvan" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Borc" Type="Decimal" Nullable="false" Precision="25" Scale="6" />
+          <Property Name="Alacak" Type="Decimal" Nullable="false" Precision="25" Scale="6" />
+          <Property Name="Bakiye" Type="Decimal" Nullable="false" Precision="25" Scale="6" />
+        </EntityType>
+        <EntityType Name="DB_BekleyenSiparis_UrunGrubu_Fiyat">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DB" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="GrupKod" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="KalanMiktar" Type="Decimal" Nullable="false" Precision="25" Scale="6" />
+        </EntityType>
+        <EntityType Name="DB_BekleyenSiparis_UrunGrubu_Miktar">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DB" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="GrupKod" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="KalanMiktar" Type="Decimal" Nullable="false" Precision="25" Scale="6" />
+        </EntityType>
+        <EntityType Name="DB_GunlukSatisAnaliziYearToDay">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DB" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="CHK" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Unvan" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="GenelTutar" Type="Decimal" Nullable="false" Precision="25" Scale="6" />
+        </EntityType>
+        <EntityType Name="DB_LokasyonBazli_SatisAnalizi">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DB" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="Ay" Type="Int32" Nullable="false" />
+          <Property Name="GrupKod" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Yil2016" Type="Decimal" Nullable="false" Precision="25" Scale="6" />
+          <Property Name="Yil2017" Type="Decimal" Nullable="false" Precision="25" Scale="6" />
+          <Property Name="Toplam" Type="Decimal" Nullable="false" Precision="25" Scale="6" />
+        </EntityType>
+        <EntityType Name="DB_LokasyonBazli_SatisAnalizi_Kriter">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DB" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="Ay" Type="Int32" Nullable="false" />
+          <Property Name="Kriter" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="GrupKod" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Yil2016" Type="Decimal" Nullable="false" Precision="25" Scale="6" />
+          <Property Name="Yil2017" Type="Decimal" Nullable="false" Precision="25" Scale="6" />
+          <Property Name="Toplam" Type="Decimal" Nullable="false" Precision="25" Scale="6" />
+        </EntityType>
+        <EntityType Name="DB_SatisBaglanti_UrunGrubu">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DB" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="MalKod" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="KalanTutar" Type="Decimal" Nullable="false" Precision="25" Scale="6" />
+        </EntityType>
+        <EntityType Name="DB_UrunGrubu_SatisAnalizi">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DB" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="Ay" Type="Int32" Nullable="false" />
+          <Property Name="GrupKod" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Yil2016" Type="Decimal" Nullable="false" Precision="25" Scale="6" />
+          <Property Name="Yil2017" Type="Decimal" Nullable="false" Precision="25" Scale="6" />
+          <Property Name="Toplam" Type="Decimal" Nullable="false" Precision="25" Scale="6" />
+        </EntityType>
+        <EntityType Name="DB_UrunGrubu_SatisAnalizi_Kriter">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DB" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="Ay" Type="Int32" Nullable="false" />
+          <Property Name="Kriter" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="GrupKod" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Yil2016" Type="Decimal" Nullable="false" Precision="25" Scale="6" />
+          <Property Name="Yil2017" Type="Decimal" Nullable="false" Precision="25" Scale="6" />
+          <Property Name="Toplam" Type="Decimal" Nullable="false" Precision="25" Scale="6" />
         </EntityType>
         </Schema>
     </edmx:ConceptualModels>
@@ -309,6 +579,141 @@
                 <ScalarProperty Name="EvrakNo" ColumnName="EvrakNo" />
                 <ScalarProperty Name="Unvan" ColumnName="Unvan" />
                 <ScalarProperty Name="HesapKodu" ColumnName="HesapKodu" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DB_Aylik_SatisAnalizi">
+            <EntityTypeMapping TypeName="BIRIKIM_LOGModel.DB_Aylik_SatisAnalizi">
+              <MappingFragment StoreEntitySet="DB_Aylik_SatisAnalizi">
+                <ScalarProperty Name="Yil2017" ColumnName="Yil2017" />
+                <ScalarProperty Name="Yil2016" ColumnName="Yil2016" />
+                <ScalarProperty Name="Yil2015" ColumnName="Yil2015" />
+                <ScalarProperty Name="Ay" ColumnName="Ay" />
+                <ScalarProperty Name="DB" ColumnName="DB" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DB_Aylik_SatisAnalizi_Tip_Kod_Doviz">
+            <EntityTypeMapping TypeName="BIRIKIM_LOGModel.DB_Aylik_SatisAnalizi_Tip_Kod_Doviz">
+              <MappingFragment StoreEntitySet="DB_Aylik_SatisAnalizi_Tip_Kod_Doviz">
+                <ScalarProperty Name="Yil2017" ColumnName="Yil2017" />
+                <ScalarProperty Name="Yil2016" ColumnName="Yil2016" />
+                <ScalarProperty Name="Yil2015" ColumnName="Yil2015" />
+                <ScalarProperty Name="Ay" ColumnName="Ay" />
+                <ScalarProperty Name="IslemTip" ColumnName="IslemTip" />
+                <ScalarProperty Name="Kriter" ColumnName="Kriter" />
+                <ScalarProperty Name="Grup" ColumnName="Grup" />
+                <ScalarProperty Name="DB" ColumnName="DB" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DB_BakiyeRiskAnalizi">
+            <EntityTypeMapping TypeName="BIRIKIM_LOGModel.DB_BakiyeRiskAnalizi">
+              <MappingFragment StoreEntitySet="DB_BakiyeRiskAnalizi">
+                <ScalarProperty Name="Bakiye" ColumnName="Bakiye" />
+                <ScalarProperty Name="Alacak" ColumnName="Alacak" />
+                <ScalarProperty Name="Borc" ColumnName="Borc" />
+                <ScalarProperty Name="Unvan" ColumnName="Unvan" />
+                <ScalarProperty Name="HesapKodu" ColumnName="HesapKodu" />
+                <ScalarProperty Name="DB" ColumnName="DB" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DB_BekleyenSiparis_UrunGrubu_Fiyat">
+            <EntityTypeMapping TypeName="BIRIKIM_LOGModel.DB_BekleyenSiparis_UrunGrubu_Fiyat">
+              <MappingFragment StoreEntitySet="DB_BekleyenSiparis_UrunGrubu_Fiyat">
+                <ScalarProperty Name="KalanMiktar" ColumnName="KalanMiktar" />
+                <ScalarProperty Name="GrupKod" ColumnName="GrupKod" />
+                <ScalarProperty Name="DB" ColumnName="DB" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DB_BekleyenSiparis_UrunGrubu_Miktar">
+            <EntityTypeMapping TypeName="BIRIKIM_LOGModel.DB_BekleyenSiparis_UrunGrubu_Miktar">
+              <MappingFragment StoreEntitySet="DB_BekleyenSiparis_UrunGrubu_Miktar">
+                <ScalarProperty Name="KalanMiktar" ColumnName="KalanMiktar" />
+                <ScalarProperty Name="GrupKod" ColumnName="GrupKod" />
+                <ScalarProperty Name="DB" ColumnName="DB" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DB_GunlukSatisAnaliziYearToDay">
+            <EntityTypeMapping TypeName="BIRIKIM_LOGModel.DB_GunlukSatisAnaliziYearToDay">
+              <MappingFragment StoreEntitySet="DB_GunlukSatisAnaliziYearToDay">
+                <ScalarProperty Name="GenelTutar" ColumnName="GenelTutar" />
+                <ScalarProperty Name="Unvan" ColumnName="Unvan" />
+                <ScalarProperty Name="CHK" ColumnName="CHK" />
+                <ScalarProperty Name="DB" ColumnName="DB" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DB_LokasyonBazli_SatisAnalizi">
+            <EntityTypeMapping TypeName="BIRIKIM_LOGModel.DB_LokasyonBazli_SatisAnalizi">
+              <MappingFragment StoreEntitySet="DB_LokasyonBazli_SatisAnalizi">
+                <ScalarProperty Name="Toplam" ColumnName="Toplam" />
+                <ScalarProperty Name="Yil2017" ColumnName="Yil2017" />
+                <ScalarProperty Name="Yil2016" ColumnName="Yil2016" />
+                <ScalarProperty Name="GrupKod" ColumnName="GrupKod" />
+                <ScalarProperty Name="Ay" ColumnName="Ay" />
+                <ScalarProperty Name="DB" ColumnName="DB" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DB_LokasyonBazli_SatisAnalizi_Kriter">
+            <EntityTypeMapping TypeName="BIRIKIM_LOGModel.DB_LokasyonBazli_SatisAnalizi_Kriter">
+              <MappingFragment StoreEntitySet="DB_LokasyonBazli_SatisAnalizi_Kriter">
+                <ScalarProperty Name="Toplam" ColumnName="Toplam" />
+                <ScalarProperty Name="Yil2017" ColumnName="Yil2017" />
+                <ScalarProperty Name="Yil2016" ColumnName="Yil2016" />
+                <ScalarProperty Name="GrupKod" ColumnName="GrupKod" />
+                <ScalarProperty Name="Kriter" ColumnName="Kriter" />
+                <ScalarProperty Name="Ay" ColumnName="Ay" />
+                <ScalarProperty Name="DB" ColumnName="DB" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DB_SatisBaglanti_UrunGrubu">
+            <EntityTypeMapping TypeName="BIRIKIM_LOGModel.DB_SatisBaglanti_UrunGrubu">
+              <MappingFragment StoreEntitySet="DB_SatisBaglanti_UrunGrubu">
+                <ScalarProperty Name="KalanTutar" ColumnName="KalanTutar" />
+                <ScalarProperty Name="MalKod" ColumnName="MalKod" />
+                <ScalarProperty Name="DB" ColumnName="DB" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DB_UrunGrubu_SatisAnalizi">
+            <EntityTypeMapping TypeName="BIRIKIM_LOGModel.DB_UrunGrubu_SatisAnalizi">
+              <MappingFragment StoreEntitySet="DB_UrunGrubu_SatisAnalizi">
+                <ScalarProperty Name="Toplam" ColumnName="Toplam" />
+                <ScalarProperty Name="Yil2017" ColumnName="Yil2017" />
+                <ScalarProperty Name="Yil2016" ColumnName="Yil2016" />
+                <ScalarProperty Name="GrupKod" ColumnName="GrupKod" />
+                <ScalarProperty Name="Ay" ColumnName="Ay" />
+                <ScalarProperty Name="DB" ColumnName="DB" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DB_UrunGrubu_SatisAnalizi_Kriter">
+            <EntityTypeMapping TypeName="BIRIKIM_LOGModel.DB_UrunGrubu_SatisAnalizi_Kriter">
+              <MappingFragment StoreEntitySet="DB_UrunGrubu_SatisAnalizi_Kriter">
+                <ScalarProperty Name="Toplam" ColumnName="Toplam" />
+                <ScalarProperty Name="Yil2017" ColumnName="Yil2017" />
+                <ScalarProperty Name="Yil2016" ColumnName="Yil2016" />
+                <ScalarProperty Name="GrupKod" ColumnName="GrupKod" />
+                <ScalarProperty Name="Kriter" ColumnName="Kriter" />
+                <ScalarProperty Name="Ay" ColumnName="Ay" />
+                <ScalarProperty Name="DB" ColumnName="DB" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>

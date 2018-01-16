@@ -127,6 +127,39 @@
     <Compile Include="Models\CRM_TeklifAnaliz_Result.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\DB_Aylik_SatisAnalizi.cs">
+      <DependentUpon>ModelLog.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DB_Aylik_SatisAnalizi_Tip_Kod_Doviz.cs">
+      <DependentUpon>ModelLog.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DB_BakiyeRiskAnalizi.cs">
+      <DependentUpon>ModelLog.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DB_BekleyenSiparis_UrunGrubu_Fiyat.cs">
+      <DependentUpon>ModelLog.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DB_BekleyenSiparis_UrunGrubu_Miktar.cs">
+      <DependentUpon>ModelLog.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DB_GunlukSatisAnaliziYearToDay.cs">
+      <DependentUpon>ModelLog.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DB_LokasyonBazli_SatisAnalizi.cs">
+      <DependentUpon>ModelLog.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DB_LokasyonBazli_SatisAnalizi_Kriter.cs">
+      <DependentUpon>ModelLog.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DB_SatisBaglanti_UrunGrubu.cs">
+      <DependentUpon>ModelLog.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DB_UrunGrubu_SatisAnalizi.cs">
+      <DependentUpon>ModelLog.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DB_UrunGrubu_SatisAnalizi_Kriter.cs">
+      <DependentUpon>ModelLog.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Depo.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
     </Compile>
