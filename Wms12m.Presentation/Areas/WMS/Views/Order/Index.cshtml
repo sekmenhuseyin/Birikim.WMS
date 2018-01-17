@@ -17,115 +17,115 @@
                 <div class="caption">
                     <i class="fa fa-gift"></i>Sipariş Planlama
                 </div>
-                <div class="col-md-1 pull-right m-t-5">
+                <div class="col-sm-2 pull-right m-t-5">
                     <button type="button" class="btn btn-block input-circle btn-danger" onclick="ClearAll(true);">Temizle</button>
                 </div>
-               
+
             </div>
             <div class="portlet-body form">
-@using (Ajax.BeginForm("Save", "Transfer", new { area = "UYS" }, new AjaxOptions { InsertionMode = InsertionMode.Replace, OnSuccess = "getresult", OnFailure = "Modaldialog('Lütfen Tekrar Deneyin', 'Hata', 'Tamam', 'btn-danger');" }, new { @class = "form-horizontal", @id = "frmTransfer" }))
-{
-    @Html.AntiForgeryToken()
-    @Html.ValidationSummary(true)
+                @using (Ajax.BeginForm("Save", "Transfer", new { area = "UYS" }, new AjaxOptions { InsertionMode = InsertionMode.Replace, OnSuccess = "getresult", OnFailure = "Modaldialog('Lütfen Tekrar Deneyin', 'Hata', 'Tamam', 'btn-danger');" }, new { @class = "form-horizontal", @id = "frmTransfer" }))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true)
 
-                <div class="form-horizontal">
-                    <div class="form-body">
+                    <div class="form-horizontal">
+                        <div class="form-body">
+
+                            <div class="form-group">
+                                <div class="col-sm-3 control-label">Müşteri Seçimi</div>
+                                <div class="col-sm-3">
+                                    <input class="form-control input-circle" id="HesapKodu" name="HesapKodu" placeholder="Müşteri Seçimi" required="required" type="text" value="" aria-required="true">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-3 control-label">Mal Seçimi</div>
+                                <div class="col-sm-3">
+                                    <input class="form-control input-circle" id="MalKodu" name="MalKodu" placeholder="Mal Kodu" required="required" type="text" onchange="KDVOran();" value="" aria-required="true">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-3 control-label">Mal Adı</div>
+                                <div class="col-sm-3">
+                                    <input class="form-control input-circle" id="MalAdi" name="MalAdi" placeholder="Mal Adı" required="required" type="text" value="" aria-required="true">
+                                </div>
+                            </div>
                            
-                        <div class="form-group">
-                            <div class="col-sm-3 control-label">Müşteri Seçimi</div>
-                            <div class="col-sm-3">
-                                <input class="form-control input-circle" id="HesapKodu" name="HesapKodu" placeholder="Müşteri Seçimi" required="required" type="text" value="" aria-required="true">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-sm-3 control-label">Mal Seçimi</div>
-                            <div class="col-sm-3">
-                                <input class="form-control input-circle" id="MalKodu" name="MalKodu" placeholder="Mal Kodu" required="required" type="text" onchange="KDVOran();" value="" aria-required="true">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-sm-3 control-label">Mal Adı</div>
-                            <div class="col-sm-3">
-                                <input class="form-control input-circle" id="MalAdi" name="MalAdi" placeholder="Mal Adı" required="required" type="text" value="" aria-required="true">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-md-3 control-label">KDV Oran</label>
-                            <div class="col-sm-2">
-                                <input class="form-control input-circle" type="text" name="kdvoran1" id="kdvoran1">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-sm-3 control-label">Depo</div>
-                            <div class="col-sm-3">
-                                @Html.DropDownList("DepoID", null, htmlAttributes: new { @class = "form-control input-circle" })
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="col-md-3 control-label">Fiyat</label>
-                            <div class="col-sm-2">
-                                <input class="form-control input-circle" type="text" name="fiyat" id="fiyat" value="0">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-md-3 control-label">Valor</label>
-                            <div class="col-sm-2">
-                                <table>
-                                    <tr>
-                                        <td>
-                                            <input class="form-control input-circle" type="text" name="valor" id="valor" value="0">
-                                        </td>
-                                        <td>
-                                            &nbsp;&nbsp; <input type="checkbox" name="valortarih" id="valortarih">
-                                        </td>
-                                    </tr>
-                                </table>
                              
                               
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-md-3 control-label">Vade Tarihi</label>
-                            <div class="col-sm-2">
-                                <input class="form-control input-circle dateboxbg" type="text" name="vadetarih" id="vadetarih">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-md-3 control-label">Sipariş Tarihi</label>
-                            <div class="col-sm-2">
-                                <input class="form-control input-circle dateboxbg" type="text" name="siparistarih" id="siparistarih">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-md-3 control-label">Miktar Seçimi</label>
-                            <div class="col-sm-1">
-                                <input class="form-control input-circle" type="number" name="miktar" id="miktar">
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="col-md-3 control-label">İskonto Oranı</label>
-                            <div class="col-sm-1">
-                                <input class="form-control input-circle" type="number" name="iskoran" id="iskoran">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-md-3 control-label">Açıklama</label>
-                            <div class="col-sm-3">
-                                <input class="form-control input-circle" type="text" name="aciklama" id="aciklama">
+                          
+                            <div class="form-group">
+                                <div class="col-sm-3 control-label">Depo</div>
+                                <div class="col-sm-3">
+                                    @Html.DropDownList("DepoID", null, htmlAttributes: new { @class = "form-control input-circle" })
+                                </div>
                             </div>
 
-                        </div>
-                        <div class="form-group">
-                            <div class="col-sm-1 col-md-offset-3">
-                                <button type="button" class="btn btn-block input-circle green" onclick="NewRow();">Satır Ekle</button>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">Fiyat</label>
+                                <div class="col-sm-2">
+                                    <input class="form-control input-circle" type="text" name="fiyat" id="fiyat" value="0">
+                                </div>
                             </div>
-                           
-                        </div>                         
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">Valor</label>
+                                <div class="col-sm-2">
+                                    <table>
+                                        <tr>
+                                            <td>
+                                                <input class="form-control input-circle" type="text" name="valor" id="valor" value="0">
+                                            </td>
+                                            <td>
+                                              <input type="checkbox" name="valortarih" id="valortarih">
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">Vade Tarihi</label>
+                                <div class="col-sm-2">
+                                    <input class="form-control input-circle dateboxbg" type="text" name="vadetarih" id="vadetarih">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">Sipariş Tarihi</label>
+                                <div class="col-sm-2">
+                                    <input class="form-control input-circle dateboxbg" type="text" name="siparistarih" id="siparistarih">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">Miktar Seçimi</label>
+                                <div class="col-sm-1">
+                                    <input class="form-control input-circle" type="number" name="miktar" id="miktar">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">İskonto Oranı</label>
+                                <div class="col-sm-1">
+                                    <input class="form-control input-circle" type="number" name="iskoran" id="iskoran">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">Açıklama</label>
+                                <div class="col-sm-3">
+                                    <input class="form-control input-circle" type="text" name="aciklama" id="aciklama">
+                                </div>
+                            </div>
+
+                            <div>
+                                <input class="form-control input-circle" type="hidden" name="kdvoran1" id="kdvoran1">
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-sm-2 col-md-offset-3">
+                                    <button type="button" class="btn btn-block input-circle green" onclick="NewRow();">Satır Ekle</button>
+                                </div>
+
+                            </div>
+                        </div>
                     </div>
-                </div>
-}
+                }
             </div>
         </div>
     </div>
@@ -137,7 +137,7 @@
                 <div class="caption">
                     <i class="fa fa-gift"></i>Liste
                 </div>
-                <div class="col-md-2 pull-right m-t-5">
+                <div class="col-sm-2 pull-right m-t-5">
                     <a class="btn btn-default pull-right input-circle" href="javascript:;" onclick="Kaydet();"> Kaydet </a>
                 </div>
             </div>
@@ -162,145 +162,155 @@
                                     <th>Vade Tarihi</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                            </tbody>
+                            <tbody></tbody>
                         </table>
                     </div>
                 </div>
-           
+
             </div>
         </div>
     </div>
 </div>
-@section Scripts{<script type="text/javascript">
-    var satir = 0;
-    $("#DepoID").prepend("<option value=''>Seçiniz !!!</option>"); $("#DepoID")[0].selectedIndex = 0;
-    $.datepicker.setDefaults($.datepicker.regional["tr"]);
-    $(".dateboxbg").datepicker();
+@section Scripts{
+    <script type="text/javascript">
+        var satir = 0;
+        $("#DepoID").prepend("<option value=''>Seçiniz !!!</option>"); $("#DepoID")[0].selectedIndex = 0;
+        $.datepicker.setDefaults($.datepicker.regional["tr"]);
+        $(".dateboxbg").datepicker();
+        $("#kdvoran1").prop("readonly", true);
 
-    $("#MalKodu").autocomplete({
-        source: "/WMS/Order/getMalzemebyCode",
-        minLength: 2,
-        select: function (event, ui) {
-            setTimeout(function () { $("#MalKodu").val(ui.item.id); $("#MalAdi").val(ui.item.value); }, 50);
-        }
-    });
-
-    $("#MalAdi").autocomplete({
-        source: "/WMS/Order/GetMalzemebyName",
-        minLength: 2,
-        select: function (event, ui) {
-            setTimeout(function () { $("#MalAdi").val(ui.item.value); $("#MalKodu").val(ui.item.id); }, 100);
-            GetSeri(ui.item.id);
-        }
-    });
-
-    $("#HesapKodu").autocomplete({
-        source: "/WMS/Order/GetChkKod",
-        minLength: 2,
-        select: function (event, ui) {
-            setTimeout(function () { $("#HesapKodu").val(ui.item.id); }, 50);
-        }
-    });
-
-    //Valor - Vade Tarih CheckBox Kontrol
-
-    $(function () {
-        var valortarih = $('input:checkbox[name=valortarih]');
-        if (valortarih.is(':checked') === false) {
-            $("#valor").prop("readonly", true);
-            $("#vadetarih").prop("readonly", false);
-        }
-      });
-    $('input[type=checkbox][name=valortarih]').change(function () {
-        if (this.checked) {
-            $("#valor").prop("readonly", false);
-            $("#vadetarih").prop("readonly", true);
-        }
-        else if (this.checked === false) {
-            $("#valor").prop("readonly", true);
-            $("#vadetarih").prop("readonly", false);
-        }
-    });
-
-
-
-    var miktar = Convert.ToDecimal($("#miktar").val(""));
-    var tutar = miktar * $("#fiyat").val("").ToDecimal();
-    var  iskoran = 0;
-    if ($("#iskoran").val("") != null)
-        iskoran = $("#iskoran").val("").ToDecimal();
-    var iskontotutar = tutar * (iskoran / 100);
-    var aratoplam = tutar - iskontotutar;
-    var KDVOran //bu nerden geliyo anlamadım
-    var kdvtutar = aratoplam * (KDVOran.ToDecimal() / 100);
-    var geneltoplam = aratoplam + kdvtutar;
-
-
-    function NewRow() {
-        if ($("#HesapKodu").val() == "" || $("#MalKodu").val() == "") {
-            Modaldialog("Tüm alanları doldurunuz", 'Hata', 'Tamam', 'btn-danger');
-            return;
-        }
-        $.ajax({
-            type: 'POST',
-            url: "/WMS/Order/GetStock/",
-            data: { MalKodu: $("#MalKodu").val(), DepoKodu: $("#DepoID").val() },
-            dataType: "json",
-            success: function (data) {
-                if (data == null) {
-                    Modaldialog("Bu ürünün stoğu yok", "Hata", "Tamam", "btn-danger");
-                    return;
-                }
-                else if (data.MalKodu == "Hata") {
-                    Modaldialog(data.Birim, "Hata", "Tamam", "btn-danger");
-                    return;
-                }
-                else if (parseInt(data.Miktar) < parseInt($("#miktar").val())) {
-                    Modaldialog("Bu ürünün stoğu yetersiz: " + numeral(data.Miktar).format(), "Hata", "Tamam", "btn-danger");
-                    return;
-                }
-                $('#myTable tbody tr:first').after('<tr class="deletable">' +
-                    '<td><input class="form-control" name="MalKodu" type="text" value="' + $("#MalKodu").val() + '" readonly="readonly"></td>' +
-                    '<td><input class="form-control w-200" name="MalAdi" type="text" value="' + $("#MalAdi").val() + '" readonly="readonly"></td>' +
-                    '<td><input class="form-control w-200" name="DepoID" type="text" value="' + $("#DepoID").val() + '" readonly="readonly"></td>' + 
-                    '<td><input class="form-control w-50 pull-right" name="miktar" type="text" value="' + $("#miktar").val() + '"></td>' +
-                    '<td><input class="form-control w-50 pull-right" name="Fiyat" type="text" value="' + $("#fiyat").val() + '"></td>' +
-                    '<td><input class="form-control w-50 pull-right" name="tutar" type="text" value="' + tutar + '"></td>' +   
-                    '<td><input class="form-control w-50 pull-right" name="iskoran" type="text" value="' + iskoran + '"></td>' +
-                    '<td><input class="form-control w-50 pull-right" name="isktutar" type="text" value="' + iskontotutar + '"></td>' + 
-                    '<td><input class="form-control w-50 pull-right" name="aratoplam" type="text" value="' + aratoplam + '"></td>' + 
-                    '<td><input class="form-control w-50 pull-right" name="KDVtutar" type="text" value="' + kdvtutar + '"></td>' + 
-                    '<td><input class="form-control w-50 pull-right" name="geneltoplam" type="text" value="' + geneltoplam + '"></td>' + 
-                    '<td><input class="form-control w-50 pull-right" name="valor" type="text" value="' + $("#valor").val() + '"></td>' +
-                    '<td><input class="form-control w-50 pull-right" name="vadetarih" type="text" value="' + $("#vadetarih").val() + '"></td>' +
-                    '<td><button type="button" class="btn btn-danger btn-block" onclick="DeleteRow(this);">Sil</button></td>' +
-                    '</tr>');
-                ClearAll(false);
-                satir++;
-                $("#HesapKodu").prop("readonly", true);
-            },
-            error: function (data) { Modaldialog("Bu ürünün stoğu yok", "Hata", "Tamam", "btn-danger"); }
+        $("#MalKodu").autocomplete({
+            source: "/WMS/Order/getMalzemebyCode",
+            minLength: 2,
+            select: function (event, ui) {
+                setTimeout(function () { $("#MalKodu").val(ui.item.id); $("#MalAdi").val(ui.item.value); }, 50);
+            }
         });
-    }
+
+        $("#MalAdi").autocomplete({
+            source: "/WMS/Order/GetMalzemebyName",
+            minLength: 2,
+            select: function (event, ui) {
+                setTimeout(function () { $("#MalAdi").val(ui.item.value); $("#MalKodu").val(ui.item.id); }, 100);
+                GetSeri(ui.item.id);
+            }
+        });
+
+        $("#HesapKodu").autocomplete({
+            source: "/WMS/Order/GetChkKod",
+            minLength: 2,
+            select: function (event, ui) {
+                setTimeout(function () { $("#HesapKodu").val(ui.item.id); }, 50);
+            }
+        });
+
+        //Valor - Vade Tarih CheckBox Kontrol
+
+        $(function () {
+            var valortarih = $('input:checkbox[name=valortarih]');
+            if (valortarih.is(':checked') === false) {
+                $("#valor").prop("readonly", true);
+                $("#vadetarih").prop("readonly", false);
+            }
+        });
+        $('input[type=checkbox][name=valortarih]').change(function () {
+            if (this.checked) {
+                $("#valor").prop("readonly", false);
+                $("#vadetarih").prop("readonly", true);
+            }
+            else if (this.checked === false) {
+                $("#valor").prop("readonly", true);
+                $("#vadetarih").prop("readonly", false);
+            }
+        });
 
 
-
-    function DeleteRow(btn) {
-        $(btn).closest('tr').remove();
-        satir--;
-    }
+        
 
 
-    function Transfer() {
-        if ($("#HesapKodu").val() == "" || $("#MalKodu").val() == "" || satir == 0) {
-            Modaldialog("Tüm alanları doldurunuz", 'Hata', 'Tamam', 'btn-danger');
-            return;
+        function NewRow() {
+            if ($("#HesapKodu").val() == "" || $("#MalKodu").val() == "") {
+                Modaldialog("Tüm alanları doldurunuz", 'Hata', 'Tamam', 'btn-danger');
+                return;
+            }
+      
+           $.ajax({
+                type: 'GET',
+                url: "/WMS/Order/GetStock/",
+                data: { MalKodu: $("#MalKodu").val(), DepoKodu: $("#DepoID").val() },
+                dataType: "json",
+                success: function (data) {
+                    if (data == null) {
+                        Modaldialog("Bu ürünün stoğu yok", "Hata", "Tamam", "btn-danger");
+                        return;
+                    }
+                    else if (parseInt(data) < parseInt($("#miktar").val())) {
+                        Modaldialog("Bu ürünün stoğu yetersiz: " + numeral(data).format(), "Hata", "Tamam", "btn-danger");
+                        return;
+                    }
+                  
+
+                    var miktar = $("#miktar").val();
+                    var tutar = miktar * $("#fiyat").val();
+                    var iskoran = 0;
+                    if ($("#iskoran").val() != null || $("#iskoran").val() != "")
+                    { iskoran = $("#iskoran").val(); }
+                    var iskontotutar = tutar * (iskoran / 100);
+                    var aratoplam = tutar - iskontotutar;
+                    var KDVOran = $("#kdvoran1").val();
+                    var kdvtutar = aratoplam * (KDVOran / 100);
+                    var geneltoplam = aratoplam + kdvtutar;
+
+
+                    $('#myTable tbody').after('<tr class="deletable">' +
+                        '<td>' + $("#MalKodu").val() + '</td>' +
+                        '<td>' + $("#MalAdi").val() + '</td>' +
+                        '<td>' + $("#DepoID").val() + '</td>' +
+                        '<td>' + $("#miktar").val() + '</td>' +
+                        '<td>' + $("#fiyat").val() + '</td>' +
+                        '<td>' + tutar + '</td>' +
+                        '<td>' + iskoran + '</td>' +
+                        '<td>' + iskontotutar + '</td>' +
+                        '<td>' + aratoplam + '</td>' +
+                        '<td>' + kdvtutar + '</td>' +
+                        '<td>' + geneltoplam + '</td>' +
+                        '<td>' + $("#valor").val() + '</td>' +
+                        '<td>' + $("#vadetarih").val() + '</td>' +
+                        '<td>' +
+                        '<input name="MalKodu" type="hidden" value="' + $("#DepoID").val() + '">' +
+                        '<input name="MalKodu" type="hidden" value="' + $("#MalKodu").val() + '">' +
+                        '<input name="Miktar" type="hidden" value="' + $("#miktar").val() + '">' +
+                        '<input name="Fiyat" type="hidden" value="' + $("#fiyat").val() + '">' +
+                        '<input name="Fiyat" type="hidden" value="' + $("#valor").val() + '">' +
+                        '<input name="Fiyat" type="hidden" value="' + $("#vadetarih").val() + '">' +
+                                '<button type="button" class="btn btn-danger btn-block" onclick="DeleteRow(this);">Sil</button>' +
+                        '</td>' +
+                        '</tr>');
+                    ClearAll(false);
+                    satir++;
+                    $("#HesapKodu").prop("readonly", true);
+                },
+                error: function (data) { Modaldialog("Bu ürünün stoğu yok", "Hata", "Tamam", "btn-danger"); }
+            });
         }
-        $("#frmTransfer").submit();
-    }
 
-    function ClearAll(ch) {
+
+
+        function DeleteRow(btn) {
+            $(btn).closest('tr').remove();
+            satir--;
+        }
+
+
+        function Transfer() {
+            if ($("#HesapKodu").val() == "" || $("#MalKodu").val() == "" || satir == 0) {
+                Modaldialog("Tüm alanları doldurunuz", 'Hata', 'Tamam', 'btn-danger');
+                return;
+            }
+            $("#frmTransfer").submit();
+        }
+
+        function ClearAll(ch) {
             $("#MalKodu").val("");
             $("#MalAdi").val("");
             $("#fiyat").val("");
@@ -313,40 +323,56 @@
             $("#valortarih").prop("checked", false);
             $("#valor").prop("readonly", true);
             $("#vadetarih").prop("readonly", false);
-               //burada seçili depoda temizlenecek
-            if (ch == true)
-            {
+            $("#kdvoran1").val("");
+            //burada seçili depoda temizlenecek
+            if (ch == true) {
                 satir = 0;
+                $("#HesapKodu").prop("readonly", false);
                 $("#HesapKodu").val("");
                 $("#HesapKodu").focus();
+                $("#DepoID").val("");
                 //burada tabloda temizlenecek
             }
-            if (ch == false)
-            {
+            if (ch == false) {
                 $("#MalKodu").focus();
             }
 
-               
-    }
-  
-    function KDVOran() {
-        $.ajax({
-            type: 'GET',
-            url: "/WMS/Order/GetKDVOran/",
-            data: { MalKodu: $("#MalKodu").val() },
-            dataType: "json",
-            success: function (data) {
-                if (data != null) {
-                    $("#kdvoran1").val(data);
-                }
-              
+
+        }
+
+        function Kaydet() {
+            if (satir == 0) {
+                Modaldialog("Ürün Eklemediniz!", "Hata", "Tamam", "btn-danger");
+                return;
             }
-        });
-    }
+            if ($("#siparistarih").val() == null || $("#siparistarih").val() == "") {
+                Modaldialog("Kayıt Sırasında Sipariş Tarihi Boş Bırakılamaz!", "Hata", "Tamam", "btn-danger");
+                return;
+            }
+
+
+        }
+
+      
+
+        function KDVOran() {
+            $.ajax({
+                type: 'GET',
+                url: "/WMS/Order/GetKDVOran/",
+                data: { MalKodu: $("#MalKodu").val() },
+                dataType: "json",
+                success: function (data) {
+                    if (data != null) {
+                        $("#kdvoran1").val(data);
+                    }
+
+                }
+            });
+        }
 
 
 
 
 
-</script>
+    </script>
 }
