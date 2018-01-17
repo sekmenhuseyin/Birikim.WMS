@@ -59,87 +59,44 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             // return
             ViewBag.Hatali = sifirStok + hataliStok + "<br /><br />";
             ViewBag.hataliStok = hataliStok == "" && list.Count > 0 ? true : false;
-            ViewBag.DepoID = tbl.DepoID;
-            ViewBag.EvrakNos = tbl.EvrakNos;
+            ViewBag.tbl = tbl;
             return View("Step2", list);
         }
         /// <summary>
         /// step 3
         /// </summary>
         [HttpPost, ValidateAntiForgeryToken]
-        public ActionResult Step3(frmSiparisOnay tbl)
+        public ActionResult Step3(frmSiparisIadeSteps tbl)
         {
-            if (tbl.checkboxes == "")
-                return RedirectToAction("Index");
             if (CheckPerm(Perms.SatistanIade, PermTypes.Writing) == false) return Redirect("/");
-            tbl.checkboxes = tbl.checkboxes.Left(tbl.checkboxes.Length - 1);
-            var checkList = tbl.checkboxes.Split('#');
-            // EvrakNo - Chk
-            var evrak = tbl.EvrakNos.Split('-')[0];
-            var hesapKodu = tbl.EvrakNos.Split('-')[1];
-            var malkodlari = new List<string>();
-            var birimler = new List<string>();
-            var miktars = new List<decimal>();
-            var rowID = new List<int>();
-            var i = 0;
-
             var kontrol1 = DateTime.TryParse(tbl.Tarih, out DateTime tmpTarih);
             if (kontrol1 == false)
             {
                 db.Logger(vUser.UserName, "", fn.GetIPAddress(), "Tarih hatası: " + tbl.Tarih, "", "WMS/ReturnSale/Step3");
                 return Redirect("/");
             }
-
-            var tarih = tmpTarih.ToOADateInt();
-            // malkodları,miktarları,birimleri ayır
-            foreach (var item in checkList)
-            {
-                if (item != "")
-                {
-                    string[] tmp2 = item.Split('!');
-
-                    malkodlari.Add(tmp2[0]);
-                    birimler.Add(tmp2[1]);
-                    miktars.Add(tmp2[2].Replace(".", ",").ToDecimal());
-                    rowID.Add(tmp2[4].Replace(".", ",").ToInt32());
-                }
-            }
-
-            if (checkList == null)
-                return RedirectToAction("Index");
             // variables and consts
+            var tarih = tmpTarih.ToOADateInt();
             int today = fn.ToOADate(), time = fn.ToOATime();
-            int idDepo;
-            if (vUser.DepoId != null)//tek bir depoya yetkisi varsa
-                idDepo = vUser.DepoId.Value;
-            else//tüm depolara yetkisi varsa siparişin deposuna gönder
-                idDepo = db.Depoes.Where(m => m.DepoKodu == tbl.DepoID).Select(m => m.ID).FirstOrDefault();
+            var idDepo = Store.Detail(tbl.DepoID).ID;
             // yeni görev
             var GorevNo = db.SettingsGorevNo(today, idDepo).FirstOrDefault();
-            var cevap = new InsertIadeIrsaliye_Result();
-            Result _Result;
-            // loop the list
-            cevap = db.InsertIadeIrsaliye(vUser.SirketKodu, idDepo, GorevNo, tbl.SirketID, tarih, "Irs: " + tbl.SirketID + ", Tedarikçi: " + hesapKodu, false, ComboItems.Satıştanİade.ToInt32(), vUser.UserName, today, time, hesapKodu, "", 0, "").FirstOrDefault();
-            foreach (var item in checkList)
+            var cevap = db.InsertIadeIrsaliye(vUser.SirketKodu, idDepo, GorevNo, vUser.SirketKodu, tarih, "Irs: " + tbl.EvrakNo + ", Tedarikçi: " + tbl.HesapKodu, false, ComboItems.Satıştanİade.ToInt32(), vUser.UserName, today, time, tbl.HesapKodu, "", 0, "").FirstOrDefault();
+            for (int i = 0; i < tbl.MalKodus.Length; i++)
             {
-                // sti tablosu
-                var sti = new IRS_Detay()
+                IrsaliyeDetay.Operation(new IRS_Detay()
                 {
                     IrsaliyeID = cevap.IrsaliyeID.Value,
-                    MalKodu = malkodlari[i],
-                    Birim = birimler[i],
-                    Miktar = miktars[i],
-                    KynkSiparisNo = evrak,
-                    KynkSiparisID = rowID[i]
-                };
-                var op2 = new IrsaliyeDetay();
-                _Result = op2.Operation(sti);
-                i++;
+                    MalKodu = tbl.MalKodus[i],
+                    Birim = tbl.Birims[i],
+                    Miktar = tbl.Miktars[i],
+                    KynkSiparisNo = tbl.EvrakNos[0],
+                    KynkSiparisID = tbl.IDs[i]
+                });
             }
-
             // görev tablosu için tekrar yeni ve sade bir liste lazım
             var grv = db.Gorevs.Where(m => m.ID == cevap.GorevID).FirstOrDefault();
-            grv.Bilgi = "Irs: " + evrak + " Alıcı: " + hesapKodu;
+            grv.Bilgi = "Irs: " + tbl.EvrakNo + " Alıcı: " + tbl.HesapKodu;
             db.SaveChanges();
             // listeyi getir
             var sql = string.Format("SELECT MalKodu,miktar,Birim,BIRIKIM.wms.fnGetStock('{0}', MalKodu, Birim,0) AS Stok FROM BIRIKIM.wms.IRS_Detay WHERE IrsaliyeID = {1}", tbl.DepoID, cevap.IrsaliyeID.Value);

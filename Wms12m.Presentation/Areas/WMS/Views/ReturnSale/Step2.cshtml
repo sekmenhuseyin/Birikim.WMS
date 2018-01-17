@@ -3,7 +3,7 @@
     ViewBag.Title = "Satıştan İade - 2. Adım";
     Layout = "~/Views/Shared/_Layout.cshtml";
     string[] list; list = new string[Model.Count()]; int x = 0;
-    string[] EvrakNos = ViewBag.EvrakNos;
+    frmSiparisIadeSteps tbl = ViewBag.tbl;
 }<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><a href="/WMS/ReturnSale">Satıştan İade</a><i class="fa fa-circle"></i></li><li><span>2. Adım</span></li></ul></div>
 <h1 class="page-title">Satıştan İade- 2. Adım</h1>
 <div class="row">
@@ -36,7 +36,7 @@
                     @Html.AntiForgeryToken()
                     @Html.ValidationSummary(true)
                     <table class="table table-striped table-bordered table-condensed" id="sample_2">
-                        <thead><tr><th>Mal Kodu</th><th>Mal Adı</th><th class="text-right">Miktar</th><th class="text-right">Stok</th><th class="text-right">Wms Stok</th><th class="text-right">Wms Rezerv</th><th>Birim</th><th>İade Miktarı</th></tr></thead>
+                        <thead><tr><th>Mal Kodu</th><th>Mal Adı</th><th class="text-right">Miktar</th><th class="text-right">Stok</th><th class="text-right">Wms Stok</th><th class="text-right">Wms Rezerv</th><th>Birim</th><th>İade Miktarı</th><th></th><th></th></tr></thead>
                         <tfoot><tr><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr></tfoot>
                         <tfoot class="tf-search"><tr><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr></tfoot>
                         <tbody>
@@ -50,8 +50,10 @@
                                     <td class="text-right">@String.Format("{0:n}", item.GunesStok)</td>
                                     <td class="text-right">@String.Format("{0:n}", item.WmsStok)</td>
                                     <td class="text-right">@if (item.WmsRezerv != 0) {<a class="btn btn-default input-circle green" href="#modalEditPage" data-toggle="modal" onclick="editInModal2('/WMS/Stock/ReserveList', { MalKodu: '@item.MalKodu', DepoID: 0, DepoKodu: '@ViewBag.DepoID' })"> @String.Format("{0:n}", item.WmsRezerv) </a>} else { @("0") }</td>
-                                    <td>@Html.DisplayFor(modelItem => item.Birim)</td>
+                                    <td>@item.Birim</td>
                                     <td ondblclick="ChangeMiktar(this, '@item.MalKodu', '@x')" align="right" style="background-color:#f56681; color:Window; ">@String.Format("{0:n}", 0)</td>
+                                    <td>@item.ID</td>
+                                    <td>@x</td>
                                 </tr>
                                 x++;
                             }
@@ -65,7 +67,10 @@
                             <button type="button" class="btn btn-default m-r-20" id="selector" style="width:100%;">Hepsini Seç</button>
                         </div>
                         <div class="col-md-2">
-                            <input type="hidden" name="DepoID" value="@ViewBag.DepoID" />
+                            <input type="hidden" name="DepoID" value="@tbl.DepoID" />
+                            <input type="hidden" name="EvrakNo" value="@tbl.EvrakNo" />
+                            <input type="hidden" name="HesapKodu" value="@tbl.HesapKodu" />
+                            <input type="hidden" name="Tarih" value="@tbl.Tarih" />
                             <div id="localData" class="hidden"></div>@if (ViewBag.hataliStok == true)
                             {
                                 <input type="submit" class="hide hidden" value="submit" name="submit" id="submit" />
@@ -86,6 +91,7 @@
     $(document).ready(function () {
         table = $('#sample_2').DataTable({
             "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
+            "columnDefs": [{ "targets": [8, 9], "visible": false, "searchable": false }]
         });
         $("#selector").click(function () {
             if (selectall == true) {
@@ -133,9 +139,19 @@
                 Modaldialog("Seçili satırların iade miktarı 0'dan büyük olmalıdır.", "btn-warning", "Tamam", "btn-danger");
                 return;
             }
-
-            //selected = selected + this.data()[0] + '!' + this.data()[6] + '!' + kont + '!' + this.data()[8].replace("-", "!") + "#";
-            if (result == false) $("#submit").click();
+            if (result == false)
+            {
+                $("#localData").html("");
+                table.rows(".selected").every(function (rowIdx, tableLoop, rowLoop)
+                {
+                    var miktar = parseFloat(list[this.data()[9]]);
+                    $("#localData").html($("#localData").html() +   "<input name='MalKodus' value='" + this.data()[0] + "' />" +
+                                                                    "<input name='Birims' value='" + this.data()[6] + "' />" +
+                                                                    "<input name='IDs' value='" + this.data()[8] + "' />" +
+                                                                    "<input name='Miktars' value='" + miktar + "' />");
+                });
+                $("#submit").click();
+            }
         });
     });
     function ChangeMiktar(td, mal, id) {

@@ -62,6 +62,7 @@ namespace Wms12m.Entity
         public string HesapKodu { get; set; }
         public string[] EvrakNos { get; set; }
         public string[] MalKodus { get; set; }
+        public string[] Birims { get; set; }
         public decimal[] Miktars { get; set; }
         public int[] IDs { get; set; }
     }
