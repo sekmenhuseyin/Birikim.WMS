@@ -93,10 +93,11 @@ WHERE GuvenlikKod<>1 and AktifPasif=0 and KartTip in (0,4)  order by Unvan1 asc"
         public JsonResult GetStock(string MalKodu, string DepoKodu)
         {
 
-            var sql = string.Format(@"FINSAT6{0}.[wms].[getStockByDepo] @MalKodu = '{1}', @DepoKodu ='{2}'",
+            var sql = string.Format(@"SELECT FINSAT6{0}.[wms].[getStockByDepo] ('{1}','{2}')",
                                     vUser.SirketKodu, MalKodu, DepoKodu);
 
-            return Json(db.Database.SqlQuery<int>(sql).FirstOrDefault(), JsonRequestBehavior.AllowGet);
+            var result = db.Database.SqlQuery<decimal>(sql).FirstOrDefault();
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
 
 

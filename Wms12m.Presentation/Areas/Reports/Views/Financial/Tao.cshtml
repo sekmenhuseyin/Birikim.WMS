@@ -1,0 +1,119 @@
+﻿@{
+    ViewBag.Title = "Tao";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><span>Raporlar</span><i class="fa fa-circle"></i></li><li><span>Tao</span></li></ul></div>
+<h1 class="page-title">Tao Raporu</h1>
+<div class="row m-t-20">
+    <div class="col-md-2 text-right p-0 m-t-5 color-blue-light bold">Mali Yıl: </div>
+    <div class="col-md-2 p-l-5 p-r-0"> 
+        <select class="form-control" id="maliyil">
+            <option value="2013">2013</option><option value="2014">2014</option><option value="2015">2015</option><option value="2016">2016</option><option value="2017">2017</option>
+            <option selected="selected" value="2018">2018</option><option value="2019">2019</option><option value="2020">2020</option>
+        </select>
+    </div>
+</div>
+<div class="row m-t-20">
+    <div class="col-md-2 text-right p-0 m-t-5 color-blue-light bold">Kart Tipi: </div>
+    <div class="col-md-2 p-l-5 p-r-0">
+        <select class="form-control" id="kartipi">
+            <option selected="selected" value="musteri">Müşteri Kartı</option>
+            <option value="satici">Satıcı Kartı</option>
+        </select>
+    </div>
+</div>
+<div class="row m-t-20">
+    <div class="col-md-2 text-right p-0 m-t-5 color-blue-light bold">Vade Farkı Oranı: </div>
+    <div class="col-md-2 p-l-5 p-r-0"><input class="form-control" type="number" id="vadefarki" value="2" /></div>
+</div>
+<div class="row m-t-20">
+    <div class="col-md-offset-2 col-md-2 p-0 m-t-5 color-blue-light bold">Başlangıç: </div>
+    <div class="col-md-2 p-0 m-t-5 color-blue-light bold">Bitiş: </div>
+</div>
+
+<div class="row m-t-20">
+    <div class="col-md-2 text-right p-0 m-t-5 color-blue-light bold">Hesap Kodu: </div>
+    <div class="col-md-2 p-l-5 p-r-0"><input class="form-control" type="text" id="bashesapkod" /></div>
+    <div class="col-md-2 p-l-5 p-r-0"><input class="form-control" type="text" id="bithesapkod" /></div>
+</div>
+
+<div class="row m-t-20">
+    <div class="col-md-2 text-right p-0 m-t-5 color-blue-light bold">Grup Kodu: </div>
+    <div class="col-md-2 p-l-5 p-r-0"><input class="form-control" type="text" id="basgrupkod" /></div>
+    <div class="col-md-2 p-l-5 p-r-0"><input class="form-control" type="text" id="bitgrupkod" /></div>
+</div>
+<div class="row m-t-20">
+    <div class="col-md-2 text-right p-0 m-t-5 color-blue-light bold">Tip Kodu: </div>
+    <div class="col-md-2 p-l-5 p-r-0"><input class="form-control" type="text" id="bastipkod" /></div>
+    <div class="col-md-2 p-l-5 p-r-0"><input class="form-control" type="text" id="bittipkod" /></div>
+</div>
+<div class="form-group m-t-20">
+    <div class="col-md-2 col-md-offset-3">
+        <button type="button" class="btn btn-block input-circle green" id="btnListele">Listele</button>
+    </div>
+</div>
+<div class="row m-t-20" id="tao-grid"></div>
+@section Scripts{<script>
+    var chk_bas = "", chk_bit = "ZZZZZZZZZZ";
+    var grup_bas = "", grup_bit = "ZZZZZZZZZZ";
+    var tip_bas = "", tip_bit = "ZZZZZZZZZZ";
+
+    $("#btnListele").click(function () {
+        PartialView("/Reports/Financial/TaoList", 'tao-grid', JSON.stringify({ chk_bas: chk_bas, chk_bit: chk_bit }));
+    });
+
+    $("#bashesapkod").autocomplete({
+        source: "/Reports/Financial/GetChKCode",
+        minLength: 1,
+        select: function (event, ui) {
+            setTimeout(function () { $("#bashesapkod").val(ui.item.id); chk_bas = ui.item.id; }, 0);                
+        },
+        scroll: true
+    });
+
+
+    $("#bithesapkod").autocomplete({
+        source: "/Reports/Financial/GetChKCode",
+        minLength: 1,
+        select: function (event, ui) {
+            setTimeout(function () { $("#bithesapkod").val(ui.item.id); chk_bit = ui.item.id; }, 0);                
+        },
+        scroll: true
+    });
+       
+
+    $("#basgrupkod").autocomplete({
+        source: "/Reports/Financial/GetGrupCode",
+        minLength: 1,
+        select: function (event, ui) {
+            setTimeout(function () { $("#basgrupkod").val(ui.item.id); grup_bas = ui.item.id; }, 0);                
+        },
+        scroll: true
+    });
+        
+    $("#bitgrupkod").autocomplete({
+        source: "/Reports/Financial/GetGrupCode",
+        minLength: 1,
+        select: function (event, ui) {
+            setTimeout(function () { $("#bitgrupkod").val(ui.item.id); grup_bit = ui.item.id; }, 0);               
+        },
+        scroll: true
+    });
+
+    $("#bastipkod").autocomplete({
+        source: "/Reports/Financial/GetTipCode",
+        minLength: 1,
+        select: function (event, ui) {
+            setTimeout(function () { $("#bastipkod").val(ui.item.id); tip_bas = ui.item.id; }, 0);                
+        },
+        scroll: true
+    });
+      
+    $("#bittipkod").autocomplete({
+        source: "/Reports/Financial/GetTipCode",
+        minLength: 1,
+        select: function (event, ui) {
+            setTimeout(function () { $("#bittipkod").val(ui.item.id); tip_bit = ui.item.id; }, 0);               
+        },
+        scroll: true
+    });
+</script>}
