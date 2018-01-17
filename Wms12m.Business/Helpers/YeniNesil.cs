@@ -37,6 +37,7 @@ namespace Wms12m
             var Sorgu = string.Empty;
             var saat = DateTime.Now.ToString("HHmmss");
             var tarih = DateTime.Today.ToOADateInt();
+
             if (SIOnay.Onay)
             {
                 for (int i = 0; i < SIOnay.tbl.Row_ID.Length; i++)
@@ -44,26 +45,111 @@ namespace Wms12m
                     Sorgu = Sorgu + string.Format("update YNS{0}.YNS{0}.STK005 set STK005_BirimFiyati={1} where STK005_Row_ID={2}", SirketKodu, SIOnay.tbl.Fiyat[i], SIOnay.tbl.Row_ID[i]);
                 }
 
-                Sorgu = Sorgu+ string.Format(@"
-                UPDATE STI1 
-                SET STI1.STK005_Kod10='Onaylandı', STI1.STK005_DegistirenKodu='{1}', STI1.STK005_DegistirenTarih={2}, STI1.STK005_DegistirenSaat='{3}',
+                Sorgu = Sorgu + string.Format(@"
+                 UPDATE STI1 
+                 SET STI1.STK005_Kod10='Onaylandı', STI1.STK005_DegistirenKodu='{1}', STI1.STK005_DegistirenTarih={2}, STI1.STK005_DegistirenSaat='{3}',
                     STI1.STK005_CariHesapKodu=STI2.STK005_CariHesapKodu, 
 	                STI1.STK005_Tutari=(STI1.STK005_Miktari * STI1.STK005_BirimFiyati), STI1.STK005_DovizCinsi=STI2.STK005_DovizCinsi
-                FROM  YNS{0}.YNS{0}.STK005(NOLOCK) STI1
-                INNER JOIN YNS{0}.YNS{0}.STK005(NOLOCK) STI2 ON STI1.STK005_Kod9=STI2.STK005_EvrakSeriNo AND 
+                 FROM  YNS{0}.YNS{0}.STK005(NOLOCK) STI1
+                 INNER JOIN YNS{0}.YNS{0}.STK005(NOLOCK) STI2 ON STI1.STK005_Kod9=STI2.STK005_EvrakSeriNo AND 
                       CAST(STI1.STK005_Kod11 as INT)=STI2.STK005_Row_ID AND  STI2.STK005_EvrakTipi=11 AND STI1.STK005_MalKodu=STI2.STK005_MalKodu
 
-                WHERE STI1.STK005_EvrakTipi=99 AND STI1.STK005_IslemTipi=2 AND STI1.STK005_GC=0 AND STI1.STK005_Kod11>0 AND STI1.STK005_Kod9<>'' AND
+                 WHERE STI1.STK005_EvrakTipi=99 AND STI1.STK005_IslemTipi=2 AND STI1.STK005_GC=0 AND STI1.STK005_Kod11>0 AND STI1.STK005_Kod9<>'' AND
                       STI1.STK005_Kod10='Onay Bekliyor' AND SUBSTRING(STI1.STK005_Not5,1,8)='AndMobil' AND 
 	                  STI1.STK005_EvrakSeriNo='{4}' AND STI1.STK005_IslemTarihi={5} ",
                               SirketKodu, SIOnay.Kaydeden, tarih, saat, SIOnay.IadeNo, SIOnay.IadeTarih);
+
+
+                SatisIadeKayit evrakBilgi = Sqlexper.SelectList<SatisIadeKayit>(string.Format(@"
+                SELECT  STI2.STK005_CariHesapKodu, STI1.STK005_IslemTarihi, STI1.STK005_EvrakSeriNo,
+                        STI1.STK005_IadeFaturaNo, STI1.STK005_VadeTarihi, STI2.STK005_ParaBirimi, 
+                        STI1.STK005_AsilEvrakTarihi, STI2.STK005_DovizCinsi, STI2.STK005_DovizKuru, 
+                        STI1.STK005_SEQNo
+                FROM  YNS{0}.YNS{0}.STK005(NOLOCK) STI1
+                INNER JOIN YNS{0}.YNS{0}.STK005(NOLOCK) STI2 ON STI1.STK005_Kod9=STI2.STK005_EvrakSeriNo AND 
+	            CAST(STI1.STK005_Kod11 as INT)=STI2.STK005_Row_ID AND  STI2.STK005_EvrakTipi=11 AND STI1.STK005_MalKodu=STI2.STK005_MalKodu
+                WHERE STI1.STK005_Row_ID={1}", SirketKodu, SIOnay.tbl.Row_ID[0])).FirstOrDefault();
+
+                if (evrakBilgi.IsNotNull())
+                {
+                    #region  CHI INSERT
+
+                    var chiMal = new CAR003();
+                    chiMal.DefaultValueSet();
+                    chiMal.CAR003_HesapKodu = evrakBilgi.STK005_CariHesapKodu;
+                    chiMal.CAR003_Tarih = evrakBilgi.STK005_IslemTarihi;
+                    chiMal.CAR003_IslemTipi = 8;
+                    chiMal.CAR003_EvrakSeriNo = evrakBilgi.STK005_EvrakSeriNo;
+                    chiMal.CAR003_Aciklama = "Faturası";
+                    chiMal.CAR003_BA = (byte)1;
+                    chiMal.CAR003_Tutar = 0;
+                    chiMal.CAR003_VadeTarihi = evrakBilgi.STK005_VadeTarihi;
+                    chiMal.CAR003_KDVOrani = 4;
+                    chiMal.CAR003_ParaBirimi = evrakBilgi.STK005_ParaBirimi;
+                    chiMal.CAR003_SEQNo = evrakBilgi.STK005_SEQNo;
+                    chiMal.CAR003_IptalDurumu = 1;
+                    chiMal.CAR003_AsilEvrakTarihi = evrakBilgi.STK005_AsilEvrakTarihi;
+                    chiMal.CAR003_DovizCinsi = evrakBilgi.STK005_DovizCinsi;
+                    chiMal.CAR003_DovizTutari = 0;
+                    chiMal.CAR003_DovizKuru = evrakBilgi.STK005_DovizKuru;
+                    chiMal.CAR003_MuhasebelesmeSekli = 1;
+                    chiMal.CAR003_EvrakSayisi = 1;
+                    chiMal.CAR003_EvrakTipi = 22;
+
+                    chiMal.CAR003_YevmiyeEvrakTip = null;
+                    chiMal.CAR003_EFaturaDurumu = null;
+                    chiMal.CAR003_EArsivFaturaTipi = null;
+                    chiMal.CAR003_EArsivFaturaTeslimSekli = null;
+                    chiMal.CAR003_EArsivFaturaDurumu = null;
+                    chiMal.CAR003_YOKCZRaporuNo = null;
+                    chiMal.CAR003_YOKCBelgeTipi = null;
+                    chiMal.CAR003_YOKCBilgiFisiTipi = null;
+                    chiMal.CAR003_YOKCFisNo = null;
+                    chiMal.CAR003_YOKCFisSaat = null;
+                    chiMal.CAR003_YOKCDuzenlemeTip = null;
+
+                    chiMal.CAR003_GirenKaynak = "EL001";
+                    chiMal.CAR003_GirenSurum = "7.1.00";
+                    chiMal.CAR003_GirenKodu = SIOnay.Kaydeden;
+                    chiMal.CAR003_GirenTarih = DateTime.Today.Date.ToOADate().ToInt32();
+                    chiMal.CAR003_GirenSaat = saat;
+                    chiMal.CAR003_DegistirenKaynak = "EL001";
+                    chiMal.CAR003_DegistirenSurum = "7.1.00";
+                    chiMal.CAR003_DegistirenKodu = SIOnay.Kaydeden;
+                    chiMal.CAR003_DegistirenTarih = DateTime.Today.Date.ToOADate().ToInt32();
+                    chiMal.CAR003_DegistirenSaat = saat;
+
+                    Sqlexper.Insert(chiMal);
+
+                    #endregion  CHI INSERT END
+
+                    #region  CHK UPDATE
+
+                    //CHI Tutar Update
+                    Sorgu += string.Format(@"
+                 UPDATE YNS{0}.YNS{0}.CAR003 SET CAR003_Tutar=(SELECT SUM(STK005_Tutari) FROM YNS{0}.YNS{0}.STK005(NOLOCK) WHERE 
+                    STK005_EvrakTipi=99 AND STK005_IslemTipi=2 AND STK005_GC=0 AND STK005_EvrakSeriNo='{1}')
+                 WHERE CAR003_EvrakTipi=22 and CAR003_IslemTipi=8 and CAR003_EvrakSeriNo='{1}'",
+               SirketKodu, evrakBilgi.STK005_EvrakSeriNo);
+
+
+                    //CHK IadeAlacak Update
+                    Sorgu += string.Format(@"
+                 UPDATE YNS{0}.YNS{0}.CAR002 SET CAR002_IadeAlacak+=(SELECT SUM(STK005_Tutari) FROM YNS{0}.YNS{0}.STK005(NOLOCK) WHERE 
+                    STK005_EvrakTipi=99 AND STK005_IslemTipi=2 AND STK005_GC=0 AND STK005_EvrakSeriNo='{1}')
+                 WHERE CAR002_HesapKodu='{2}' 
+                ",
+               SirketKodu, evrakBilgi.STK005_EvrakSeriNo, evrakBilgi.STK005_CariHesapKodu);
+
+                    #endregion   CHK UPDATE END  
+                }
 
             }
             else
             {
                 Sorgu = string.Format(@"
-                UPDATE YNS{0}.YNS{0}.STK005 SET STK005_Kod10='Reddedildi', STK005_DegistirenKodu='{1}', STK005_DegistirenTarih={2}, STK005_DegistirenSaat='{3}'
-                WHERE STK005_EvrakTipi=99 AND STK005_IslemTipi=2 AND STK005_GC=0 AND STK005_Kod11>0 AND STK005_Kod9<>'' AND
+                 UPDATE YNS{0}.YNS{0}.STK005 SET STK005_Kod10='Reddedildi', STK005_DegistirenKodu='{1}', STK005_DegistirenTarih={2}, STK005_DegistirenSaat='{3}'
+                 WHERE STK005_EvrakTipi=99 AND STK005_IslemTipi=2 AND STK005_GC=0 AND STK005_Kod11>0 AND STK005_Kod9<>'' AND
                       STK005_Kod10='Onay Bekliyor' AND SUBSTRING(STK005_Not5,1,8)='AndMobil' AND 
 	                  STK005_EvrakSeriNo='{4}' AND STK005_IslemTarihi={5} ",
                 SirketKodu, SIOnay.Kaydeden, tarih, saat, SIOnay.IadeNo, SIOnay.IadeTarih);
