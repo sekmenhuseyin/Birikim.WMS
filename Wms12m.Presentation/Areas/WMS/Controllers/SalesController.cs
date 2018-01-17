@@ -229,7 +229,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         /// depo ve şirket seçince açık siparişler gelecek
         /// </summary>
         [HttpPost]
-        public PartialViewResult GetSiparis(string DepoID, string Starts, string Ends)
+        public PartialViewResult List(string DepoID, string Starts, string Ends)
         {
             // kontrol
             if (DepoID == "") return null;
@@ -243,12 +243,12 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             try
             {
                 var list = db.Database.SqlQuery<frmSiparisler>(sql).ToList();
-                return PartialView("_Siparis", list);
+                return PartialView("List", list);
             }
             catch (Exception ex)
             {
-                Logger(ex, "Sales/GetSiparis");
-                return PartialView("_Siparis", new List<frmSiparisler>());
+                Logger(ex, "Sales/List");
+                return PartialView("List", new List<frmSiparisler>());
             }
         }
         /// <summary>

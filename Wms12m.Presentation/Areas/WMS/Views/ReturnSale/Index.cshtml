@@ -4,7 +4,6 @@
 }@section Styles{<style>
         td.details-control {background: url('/Content/assets/global/plugins/datatables/images/details_open.png') no-repeat center center;cursor: pointer;}
         tr.shown td.details-control {background: url('/Content/assets/global/plugins/datatables/images/details_close.png') no-repeat center center;}
-        .ui-autocomplete {max-height: 200px;overflow-y: auto;overflow-x: hidden;padding-right: 20px;}
     </style>
 }<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><span>Satıştan İade</span></li></ul></div>
 <h1 class="page-title">Satıştan İade</h1>
@@ -37,13 +36,6 @@
                     @Html.AntiForgeryToken()
                     @Html.ValidationSummary(true)
                     <div class="form-body">
-                        @*<div class="form-group">
-                            <label class="col-md-3 control-label">Şirket</label>
-                            <div class="col-md-4">
-                                @Html.DropDownList("SirketID", null, htmlAttributes: new { @class = "form-control input-circle", required = "required", @onchange = "sirketKod()" })
-                                <span class="field-validation-valid" data-valmsg-for="SirketID" data-valmsg-replace="true" style="color:red;"></span>
-                            </div>
-                        </div>*@
                         <div class="form-group">
                             <label class="col-md-3 control-label">Depo</label>
                             <div class="col-md-4">
@@ -54,8 +46,8 @@
                         <div class="form-group">
                             <label class="col-md-3 control-label">Hesap Kodu</label>
                             <div class="col-md-4">
-                                <input class="form-control input-circle" type="text" id="txtHesap" name="CHK" required = "required" />
-                                <span class="field-validation-valid" data-valmsg-for="CHK" data-valmsg-replace="true" style="color:red;"></span>
+                                <input class="form-control input-circle" type="text" id="txtHesap" name="HesapKodu" required = "required" />
+                                <span class="field-validation-valid" data-valmsg-for="HesapKodu" data-valmsg-replace="true" style="color:red;"></span>
                             </div>
                         </div>
                         <div class="form-group">
@@ -114,7 +106,7 @@
         minLength: 2,
         scroll: true,
         select: function (event, ui) {
-            setTimeout(function () { $("#txtHesap").val(ui.item.id); $("#txtUnvan").val(ui.item.label); checkEnabled(); }, 50);
+            setTimeout(function () { $("#txtHesap").val(ui.item.id); $("#txtUnvan").val(ui.item.label); }, 50);
         }
     });
     $("#txtUnvan").autocomplete({
@@ -122,36 +114,10 @@
         minLength: 2,
         scroll: true,
         select: function (event, ui) {
-            setTimeout(function () { $("#txtHesap").val(ui.item.id); $("#txtUnvan").val(ui.item.label); checkEnabled(); }, 50);
+            setTimeout(function () { $("#txtHesap").val(ui.item.id); $("#txtUnvan").val(ui.item.label); }, 50);
         }
     });
     CreateNew(0);
-    //function sirketKod() {
-    //    if ($("#SirketID").val() != "") {
-    //        $("#txtHesap").attr("disabled", false);
-    //        $("#txtUnvan").attr("disabled", false);
-    //        $("#txtHesap").autocomplete({
-    //            source: "/WMS/Purchase/GetChkKod",
-    //            minLength: 2,
-    //            scroll: true,
-    //            select: function (event, ui) {
-    //                setTimeout(function () { $("#txtHesap").val(ui.item.id); $("#txtUnvan").val(ui.item.label); checkEnabled(); }, 50);
-    //            }
-    //        });
-    //        $("#txtUnvan").autocomplete({
-    //            source: "/WMS/Purchase/GetChkUnvan",
-    //            minLength: 2,
-    //            scroll: true,
-    //            select: function (event, ui) {
-    //                setTimeout(function () { $("#txtHesap").val(ui.item.id); $("#txtUnvan").val(ui.item.label); checkEnabled(); }, 50);
-    //            }
-    //        });
-    //    }
-    //    else {
-    //        $("#txtHesap").attr("disabled", true);
-    //        $("#txtUnvan").attr("disabled", true);
-    //    }
-    //}
     function CreateNew(ix) {
         if (ix == 0)
         {
@@ -163,7 +129,7 @@
         if ($('#Starts').val() == "" || $('#Ends').val() == "" || $("#txtEvrakNo").val() == "" || $("#Tarih").val() == "") return;
         $.ajax({
             type: 'POST',
-            url: "/WMS/ReturnSale/GetSiparis/",
+            url: "/WMS/ReturnSale/List",
             data: {DepoID: $('#DepoID').val(), CHK: $("#txtHesap").val(), Starts: $("#Starts").val(), Ends: $("#Ends").val(), EvrakNo: $("#txtEvrakNo").val(), Tarih: $("#Tarih").val() },
             dataType: "html",
             success: function (data) {
