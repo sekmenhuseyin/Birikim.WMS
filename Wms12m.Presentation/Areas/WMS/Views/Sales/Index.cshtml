@@ -81,7 +81,7 @@
         if ($('#DepoID').val() == 0 || $('#Starts').val() == "" || $('#Ends').val() == "") return;
         $.ajax({
             type: 'POST',
-            url: "/WMS/Sales/GetSiparis/",
+            url: "/WMS/Sales/List",
             data: { DepoID: $('#DepoID').val(), Starts: $("#Starts").val(), Ends: $("#Ends").val() },
             dataType: "html",
             success: function (data) {

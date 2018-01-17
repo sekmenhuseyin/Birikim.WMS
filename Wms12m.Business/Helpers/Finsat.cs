@@ -392,7 +392,7 @@ namespace Wms12m
                 }
 
                 if (STIBaseList.Count < 0 && STIBaseListSPI.Count < 0)
-                    return new Result(false, "Bu sipariş kapanmış. Evrak No= " + tempEvrakNo);//TODO: hangi sipariş???
+                    return new Result(false, "Bu sipariş kapanmış. Evrak No= " + tempEvrakNo);
                 else
                     return new Result(IslemSonuc, IslemMesaj);
             }
@@ -506,7 +506,7 @@ namespace Wms12m
                     return new Result(sonuc.Basarili, sonuc.Mesaj);
                 }
                 else
-                    return new Result(false, "Bu sipariş kapanmış. Evrak No= " + tempEvrakNo);//TODO: hangi 
+                    return new Result(false, "Bu sipariş kapanmış. Evrak No= " + tempEvrakNo);
             }
             catch (Exception ex)
             {
@@ -526,7 +526,7 @@ namespace Wms12m
             using (WMSEntities db = new WMSEntities())
             {
                 var kaydeden = db.Users.Where(m => m.ID == kulID).Select(m => m.Kod).FirstOrDefault();
-                var sql = string.Format("FINSAT6{0}.wms.SatisIadeKayitList @IrsaliyeID = '{1}'", irsaliye.SirketKod, irsaliye.ID);
+                var sql = string.Format("FINSAT6{0}.wms.SatisIadeKayitList {1}", irsaliye.SirketKod, irsaliye.ID);
                 var STList = db.Database.SqlQuery<STIMax>(sql).ToList();
                 foreach (STIMax stItem in STList)
                 {
@@ -557,7 +557,6 @@ namespace Wms12m
                     if (stItem.SiparisNo != "")
                     {
                         sti.KayitTipi = STIKayitTipi.Irsaliye;
-                        // sti.KaynakSiparisNo = stItem.SiparisNo;
                         sti.KaynakSiparisTarih = stItem.KaynakSiparisTarih;
                         sti.SiparisSiraNo = stItem.SiparisSiraNo;
                         sti.SiparisMiktar = stItem.KynkSiparisMiktar;
@@ -568,7 +567,6 @@ namespace Wms12m
                         sti.IskontoOran3 = stItem.IskontoOran3;
                         sti.IskontoOran4 = stItem.IskontoOran4;
                         sti.IskontoOran5 = stItem.IskontoOran5;
-
                         sti.Kod1 = stItem.Kod1;
                         sti.Kod2 = stItem.Kod2;
                         sti.Kod3 = stItem.Kod3;
@@ -593,7 +591,6 @@ namespace Wms12m
                         sti.MFKAciklama = stItem.MFKAciklama;
                         sti.MFKTarih = stItem.MFKTarih;
                         sti.Kredi_Donem_VadeTarih = stItem.Kredi_Donem_VadeTarih;
-
                         sti.Nesne1 = stItem.Nesne1;
                         sti.Nesne2 = stItem.Nesne2;
                         sti.Nesne3 = stItem.Nesne3;
@@ -624,7 +621,6 @@ namespace Wms12m
                 Sonuc.Basarili = false;
                 Sonuc.Hata = ex;
             }
-
             // sonuç döner
             if (Sonuc.Hata.IsNull())
                 return new Result(true, Sonuc.Veri.ToString2());

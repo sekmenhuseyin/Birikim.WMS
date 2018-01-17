@@ -473,7 +473,7 @@
     <Content Include="Areas\WMS\Views\Refund\Step3.cshtml" />
     <Content Include="Areas\WMS\Views\Refund\Step4.cshtml" />
     <Content Include="Areas\WMS\Views\ReturnSale\Index.cshtml" />
-    <Content Include="Areas\WMS\Views\ReturnSale\SiparisList.cshtml" />
+    <Content Include="Areas\WMS\Views\ReturnSale\List.cshtml" />
     <Content Include="Areas\WMS\Views\ReturnSale\Step2.cshtml" />
     <Content Include="Areas\WMS\Views\ReturnSale\Step3.cshtml" />
     <Content Include="Areas\ToDo\Views\GorevTakvimi\Details.cshtml" />
@@ -670,7 +670,7 @@
     <Content Include="Areas\Constants\Views\Size\Index.cshtml" />
     <Content Include="Views\Users\Index.cshtml" />
     <Content Include="Areas\WMS\Views\Sales\Index.cshtml" />
-    <Content Include="Areas\WMS\Views\Sales\_Siparis.cshtml" />
+    <Content Include="Areas\WMS\Views\Sales\List.cshtml" />
     <Content Include="Areas\WMS\Views\Sales\Step2.cshtml" />
     <Content Include="Areas\WMS\Views\Sales\Step3.cshtml" />
     <Content Include="Views\Users\Edit.cshtml" />

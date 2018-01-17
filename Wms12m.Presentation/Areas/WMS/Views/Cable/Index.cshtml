@@ -64,7 +64,7 @@
         if ($('#DepoID').val() == 0) return;
         $.ajax({
             type: 'POST',
-            url: "/WMS/Cable/GetSiparis/",
+            url: "/WMS/Cable/List",
             data: { DepoID: $('#DepoID').val() },
             dataType: "html",
             success: function (data) {

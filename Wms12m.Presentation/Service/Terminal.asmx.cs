@@ -1800,11 +1800,7 @@ namespace Wms12m
             foreach (var item in list)
             {
                 // muhasebe yılı bulunur
-                sql = string.Format("SELECT ISNULL(" +
-                                        "(SELECT TOP 1 YEAR(CAST(SDK.Tarih-2 AS DATETIME)) " +
-                                        "FROM SOLAR6.DBO.SIR(NOLOCK) INNER JOIN SOLAR6.DBO.SDK(NOLOCK) ON SIR.Kod = SDK.SirketKod AND SDK.Tip = 1 " +
-                                        "WHERE SDK.Kod = '{0}' ORDER BY Tarih DESC)" +
-                                    ",Year(GETDATE())) as Yil", item.SirketKod);
+                sql = string.Format(@"EXEC BIRIKIM.dbo.GetSirketMuhasebeYear @SirketKodu = '{0}', @Tarih = {1}", item.SirketKod, item.Tarih);
                 var yil = db.Database.SqlQuery<int>(sql).FirstOrDefault();
                 // efatura kullanıcısı mı bul
                 sql = string.Format("SELECT EFatKullanici FROM FINSAT6{0}.FINSAT6{0}.CHK WHERE (HesapKodu = '{1}')", item.SirketKod, item.HesapKodu);
@@ -2069,11 +2065,7 @@ namespace Wms12m
                 if (KatID == null)
                     return new Result(false, "Deponun rezerv katı bulunamadı");
                 // muhasebe yılı bulunur
-                sql = string.Format("SELECT ISNULL(" +
-                                        "(SELECT TOP 1 YEAR(CAST(SDK.Tarih-2 AS DATETIME)) " +
-                                        "FROM SOLAR6.DBO.SIR(NOLOCK) INNER JOIN SOLAR6.DBO.SDK(NOLOCK) ON SIR.Kod = SDK.SirketKod AND SDK.Tip = 1 " +
-                                        "WHERE SDK.Kod = '{0}' ORDER BY Tarih DESC)" +
-                                    ",Year(GETDATE())) as Yil", item.SirketKod);
+                sql = string.Format(@"EXEC BIRIKIM.dbo.GetSirketMuhasebeYear @SirketKodu = '{0}', @Tarih = {1}", item.SirketKod, item.Tarih);
                 var yil = db.Database.SqlQuery<int>(sql).FirstOrDefault();
                 // efatura kullanıcısı mı bul
                 sql = string.Format("SELECT EFatKullanici FROM FINSAT6{0}.FINSAT6{0}.CHK WHERE (HesapKodu = '{1}')", item.SirketKod, item.HesapKodu);
