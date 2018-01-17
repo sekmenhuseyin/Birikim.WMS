@@ -5,7 +5,7 @@
     string[] list; list = new string[Model.Count()]; int x = 0;
     frmSiparisIadeSteps tbl = ViewBag.tbl;
 }<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><a href="/WMS/ReturnSale">Satıştan İade</a><i class="fa fa-circle"></i></li><li><span>2. Adım</span></li></ul></div>
-<h1 class="page-title">Satıştan İade- 2. Adım</h1>
+<h1 class="page-title">Satıştan İade - 2. Adım</h1>
 <div class="row">
     <div class="col-md-12">
         <div class="mt-element-step">
@@ -76,7 +76,7 @@
                                 <input type="submit" class="hide hidden" value="submit" name="submit" id="submit" />
                                 <input type="button" class="btn btn-primary btn-block green submit" value="İleri >>>" />
                             }
-                            @foreach (var item in EvrakNos) {<input type="hidden" name="EvrakNos" value="@item" />}
+                            @foreach (var item in tbl.EvrakNos) {<input type="hidden" name="EvrakNos" value="@item" />}
                         </div>
                     </div>
                 }

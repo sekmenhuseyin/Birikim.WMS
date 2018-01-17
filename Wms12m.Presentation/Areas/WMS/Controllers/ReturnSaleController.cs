@@ -94,12 +94,8 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                     KynkSiparisID = tbl.IDs[i]
                 });
             }
-            // görev tablosu için tekrar yeni ve sade bir liste lazım
-            var grv = db.Gorevs.Where(m => m.ID == cevap.GorevID).FirstOrDefault();
-            grv.Bilgi = "Irs: " + tbl.EvrakNo + " Alıcı: " + tbl.HesapKodu;
-            db.SaveChanges();
             // listeyi getir
-            var sql = string.Format("SELECT MalKodu,miktar,Birim,BIRIKIM.wms.fnGetStock('{0}', MalKodu, Birim,0) AS Stok FROM BIRIKIM.wms.IRS_Detay WHERE IrsaliyeID = {1}", tbl.DepoID, cevap.IrsaliyeID.Value);
+            var sql = string.Format("EXEC FINSAT6{0}.wms.getIrsaliyeDetay {1}", vUser.SirketKodu, cevap.IrsaliyeID.Value);
             var list2 = db.Database.SqlQuery<frmSiparisMalzeme>(sql).ToList();
             ViewBag.GorevID = cevap.GorevID.Value;
             ViewBag.DepoID = idDepo;

@@ -3,7 +3,7 @@
     ViewBag.Title = "Satıştan İade - 3. Adım";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><a href="/WMS/ReturnSale">Satıştan İade</a><i class="fa fa-circle"></i></li><li><span>3. Adım</span></li></ul></div>
-<h1 class="page-title">Satıştan İade- 3. Adım</h1>
+<h1 class="page-title">Satıştan İade - 3. Adım</h1>
 <div class="row">
     <div class="col-md-12">
         <div class="mt-element-step">
@@ -39,7 +39,7 @@
                             {
                                 <tr>
                                     <td>@item.MalKodu</td>
-                                    <td>@item.MalKodu</td>
+                                    <td>@item.MalAdi</td>
                                     <td align="right">@String.Format("{0:n}", item.Miktar)</td>
                                     <td align="right">@String.Format("{0:n}", item.Stok)</td>
                                     <td>@item.Birim</td>
@@ -52,7 +52,6 @@
                             <button type="button" class="btn btn-default btn-block" onclick="window.history.back();"><<< Geri</button>
                         </div>
                         <div class="col-md-2 col-md-offset-8">
-                            <input type="hidden" name="DepoID" value="@ViewBag.DepoID" />
                             <input type="hidden" name="GorevID" value="@ViewBag.GorevID" />
                             <input type="submit" class="btn btn-primary btn-block green" value="Onayla" />
                         </div>
