@@ -29,9 +29,8 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             if (tbl.DepoID == "" || tbl.EvrakNos.Count() == 0)
                 return RedirectToAction("Index");
             if (CheckPerm(Perms.GenelSipariş, PermTypes.Reading) == false) return Redirect("/");
-            // sql oluştur
-            var sql = string.Format("EXEC FINSAT6{0}.wms.getSiparisListStep2 @DepoKodu = '{1}', @EvrakNos = '{2}'", vUser.SirketKodu, tbl.DepoID, string.Join(",", tbl.EvrakNos));
             // listeyi getir
+            var sql = string.Format("EXEC FINSAT6{0}.wms.getSiparisListStep2 @DepoKodu = '{1}', @EvrakNos = '{2}'", vUser.SirketKodu, tbl.DepoID, string.Join(",", tbl.EvrakNos));
             var list = db.Database.SqlQuery<frmSiparisMalzeme>(sql).ToList();
             // çapraz stok kontrol
             string hataliStok = "", sifirStok = ""; var newList = new List<frmSiparisMalzeme>();

@@ -8,7 +8,7 @@
             <tbody>
                 @foreach (var item in Model)
                 {
-                    <tr data-ID="@item.EvrakNo" style="cursor:pointer;" onclick="toggle(this)">
+                    <tr data-ID="@item.EvrakNo" style="cursor:pointer;" onclick="$(this).toggleClass('selected');">
                         <td style="width:20px!important;"></td>
                         <td style="width:20px!important;" class="details-control"></td>
                         <td>@item.EvrakNo</td>
@@ -112,8 +112,5 @@
                 $('#new' + d.replaceAll(" ", "")).html(html);
             }
         });
-    }
-    function toggle(row) {
-        $(row).toggleClass('selected');
     }
 </script>

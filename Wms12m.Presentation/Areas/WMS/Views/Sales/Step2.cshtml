@@ -48,7 +48,7 @@
                             @foreach (var item in Model)
                             {
                                 list[x] = item.Miktar.ToString();
-                                <tr style="cursor:pointer;" onclick="toggle(this)">
+                                <tr style="cursor:pointer;" onclick="$(this).toggleClass('selected');">
                                     <td>@item.MalKodu</td>
                                     <td>@item.MalAdi</td>
                                     <td class="text-right">@String.Format("{0:n}", item.Miktar)</td>
@@ -156,8 +156,4 @@
             }
         });
     });
-    function toggle(row)
-    {
-        $(row).toggleClass('selected');
-    }
 </script>}

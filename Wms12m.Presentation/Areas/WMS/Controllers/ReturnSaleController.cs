@@ -32,7 +32,33 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             // listeyi getir
             var sql = string.Format("FINSAT6{0}.wms.SatisIptalSecimList @DepoKodu = '{1}', @EvrakNo = '{2}', @CHK = '{3}'", vUser.SirketKodu, tbl.DepoID, string.Join(",", tbl.EvrakNos), tbl.HesapKodu);
             var list = db.Database.SqlQuery<frmSiparisMalzemeDetay>(sql).ToList();
+            // çapraz stok kontrol
+            string hataliStok = "", sifirStok = ""; var newList = new List<frmSiparisMalzemeDetay>();
+            foreach (var item in list)
+            {
+                if (item.WmsStok == 0)
+                {
+                    if (sifirStok != "") sifirStok += ", ";
+                    sifirStok += item.MalKodu;
+                    newList.Add(item);
+                }
+                else if (item.GunesStok != item.WmsStok)
+                {
+                    if (hataliStok != "") hataliStok += ", ";
+                    hataliStok += item.MalKodu;
+                }
+            }
+
+            if (newList.Count > 0)
+                foreach (var item in newList)
+                    list.Remove(item);
+            if (sifirStok != "")
+                sifirStok += " için stok bulunamadı.<br />";
+            if (hataliStok != "")
+                hataliStok += " için stok miktarları uyuşmuyor.<br />";
             // return
+            ViewBag.Hatali = sifirStok + hataliStok + "<br /><br />";
+            ViewBag.hataliStok = hataliStok == "" && list.Count > 0 ? true : false;
             ViewBag.DepoID = tbl.DepoID;
             ViewBag.EvrakNos = tbl.EvrakNos;
             return View("Step2", list);
