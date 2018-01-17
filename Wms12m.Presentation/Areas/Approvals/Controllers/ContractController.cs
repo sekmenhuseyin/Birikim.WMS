@@ -15,17 +15,17 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         #region GM
         public ActionResult GM()
         {
-            if (CheckPerm(Perms.SözleşmeOnaylamaGM, PermTypes.Reading) == false) return Redirect("/");
+            if (CheckPerm(Perms.SözleşmeOnaylama, PermTypes.Reading) == false) return Redirect("/");
             return View();
         }
         public PartialViewResult GM_List()
         {
-            if (CheckPerm(Perms.SözleşmeOnaylamaGM, PermTypes.Reading) == false) return null;
+
             return PartialView();
         }
         public string OnayCekGM()
         {
-            if (CheckPerm(Perms.SözleşmeOnaylamaGM, PermTypes.Reading) == false) return null;
+
             List<SozlesmeOnaySelect> RT;
             try
             {
@@ -42,7 +42,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         public JsonResult Onay_GM(string Data)
         {
             var _Result = new Result(true);
-            if (CheckPerm(Perms.SözleşmeOnaylamaGM, PermTypes.Writing) == false) return null;
+            if (CheckPerm(Perms.SözleşmeOnaylama, PermTypes.Writing) == false) return null;
             var parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
             var sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
             try
@@ -176,7 +176,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         public JsonResult Red_GM(string Data)
         {
             var _Result = new Result(true);
-            if (CheckPerm(Perms.SözleşmeOnaylamaGM, PermTypes.Writing) == false) return null;
+            if (CheckPerm(Perms.SözleşmeOnaylama, PermTypes.Writing) == false) return null;
             var parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
             try
             {
@@ -199,7 +199,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         [HttpPost]
         public PartialViewResult GM_Details(string ListeNo)
         {
-            if (CheckPerm(Perms.SözleşmeOnaylamaGM, PermTypes.Reading) == false) return null;
+
             var list = db.Database.SqlQuery<BaglantiDetaySelect>(string.Format("[FINSAT6{0}].[wms].[BaglantiDetaySelect] '{1}'", vUser.SirketKodu, ListeNo)).ToList();
             return PartialView("Details", list);
         }
@@ -207,17 +207,17 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         #region SM
         public ActionResult SM()
         {
-            if (CheckPerm(Perms.SözleşmeOnaylamaSM, PermTypes.Reading) == false) return Redirect("/");
+            if (CheckPerm(Perms.SözleşmeOnaylama, PermTypes.Reading) == false) return Redirect("/");
             return View();
         }
         public PartialViewResult SM_List()
         {
-            if (CheckPerm(Perms.SözleşmeOnaylamaSM, PermTypes.Reading) == false) return null;
+
             return PartialView();
         }
         public string OnayCekSM()
         {
-            if (CheckPerm(Perms.SözleşmeOnaylamaSM, PermTypes.Reading) == false) return null;
+
             List<SozlesmeOnaySelect> RT;
             try
             {
@@ -234,14 +234,14 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         [HttpPost]
         public PartialViewResult SM_Details(string ListeNo)
         {
-            if (CheckPerm(Perms.SözleşmeOnaylamaSM, PermTypes.Reading) == false) return null;
+
             var list = db.Database.SqlQuery<BaglantiDetaySelect>(string.Format("[FINSAT6{0}].[wms].[BaglantiDetaySelect] '{1}'", vUser.SirketKodu, ListeNo)).ToList();
             return PartialView("Details", list);
         }
         public JsonResult Onay_SM(string Data)
         {
             var _Result = new Result(true);
-            if (CheckPerm(Perms.SözleşmeOnaylamaSM, PermTypes.Writing) == false) return null;
+            if (CheckPerm(Perms.SözleşmeOnaylama, PermTypes.Writing) == false) return null;
             var parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
             var sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
             try
@@ -373,7 +373,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         public JsonResult Red_SM(string Data)
         {
             var _Result = new Result(true);
-            if (CheckPerm(Perms.SözleşmeOnaylamaSM, PermTypes.Writing) == false) return null;
+            if (CheckPerm(Perms.SözleşmeOnaylama, PermTypes.Writing) == false) return null;
             var parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
             try
             {
@@ -397,17 +397,17 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         #region SPGMY
         public ActionResult SPGMY()
         {
-            if (CheckPerm(Perms.SözleşmeOnaylamaSPGMY, PermTypes.Reading) == false) return Redirect("/");
+            if (CheckPerm(Perms.SözleşmeOnaylama, PermTypes.Reading) == false) return Redirect("/");
             return View();
         }
         public PartialViewResult SPGMY_List()
         {
-            if (CheckPerm(Perms.SözleşmeOnaylamaSPGMY, PermTypes.Reading) == false) return null;
+
             return PartialView();
         }
         public string OnayCekSPGMY()
         {
-            if (CheckPerm(Perms.SözleşmeOnaylamaSPGMY, PermTypes.Reading) == false) return null;
+
             List<SozlesmeOnaySelect> RT;
             try
             {
@@ -424,14 +424,14 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         [HttpPost]
         public PartialViewResult SPGMY_Details(string ListeNo)
         {
-            if (CheckPerm(Perms.SözleşmeOnaylamaSPGMY, PermTypes.Reading) == false) return null;
+
             var list = db.Database.SqlQuery<BaglantiDetaySelect>(string.Format("[FINSAT6{0}].[wms].[BaglantiDetaySelect] '{1}'", vUser.SirketKodu, ListeNo)).ToList();
             return PartialView("Details", list);
         }
         public JsonResult Onay_SPGMY(string Data)
         {
             var _Result = new Result(true);
-            if (CheckPerm(Perms.SözleşmeOnaylamaSPGMY, PermTypes.Writing) == false) return null;
+            if (CheckPerm(Perms.SözleşmeOnaylama, PermTypes.Writing) == false) return null;
             var parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
             var sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
             try
@@ -562,7 +562,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         public JsonResult Red_SPGMY(string Data)
         {
             var _Result = new Result(true);
-            if (CheckPerm(Perms.SözleşmeOnaylamaSPGMY, PermTypes.Writing) == false) return null;
+            if (CheckPerm(Perms.SözleşmeOnaylama, PermTypes.Writing) == false) return null;
             var parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
             try
             {

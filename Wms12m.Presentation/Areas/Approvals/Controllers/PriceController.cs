@@ -15,17 +15,17 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         #region GM
         public ActionResult GM()
         {
-            if (CheckPerm(Perms.FiyatOnaylamaGM, PermTypes.Reading) == false) return Redirect("/");
+            if (CheckPerm(Perms.FiyatOnaylama, PermTypes.Reading) == false) return Redirect("/");
             return View();
         }
         public PartialViewResult GM_List()
         {
-            if (CheckPerm(Perms.FiyatOnaylamaGM, PermTypes.Reading) == false) return null;
+
             return PartialView();
         }
         public string GMOnayCek()
         {
-            if (CheckPerm(Perms.FiyatOnaylamaGM, PermTypes.Reading) == false) return null;
+
             var RT = db.Database.SqlQuery<FiyatOnayGMSelect>(string.Format("[FINSAT6{0}].[wms].[FiyatOnayListGM]", vUser.SirketKodu)).ToList();
             var json = new JavaScriptSerializer().Serialize(RT);
             return json;
@@ -33,12 +33,12 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
         public PartialViewResult GM_List_Koleksiyon()
         {
-            if (CheckPerm(Perms.FiyatOnaylamaGM, PermTypes.Reading) == false) return null;
+
             return PartialView();
         }
         public string GMOnayCekGMKoleksiyon()
         {
-            if (CheckPerm(Perms.FiyatOnaylamaGM, PermTypes.Reading) == false) return null;
+
             var RT = db.Database.SqlQuery<FiyatKoleksiyonSelect>(string.Format("[FINSAT6{0}].[wms].[FiyatOnayListGM_Koleksiyon]", vUser.SirketKodu)).ToList();
             var json = new JavaScriptSerializer().Serialize(RT);
             return json;
@@ -46,12 +46,12 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
         public PartialViewResult GM_List_Grup()
         {
-            if (CheckPerm(Perms.FiyatOnaylamaGM, PermTypes.Reading) == false) return null;
+
             return PartialView();
         }
         public string GMOnayCekGMGrup()
         {
-            if (CheckPerm(Perms.FiyatOnaylamaGM, PermTypes.Reading) == false) return null;
+
             var RT = db.Database.SqlQuery<FiyatGrupSelect>(string.Format("[FINSAT6{0}].[wms].[FiyatOnayListGM_GrupEbatYuzey]", vUser.SirketKodu)).ToList();
             var json = new JavaScriptSerializer().Serialize(RT);
             return json;
@@ -60,7 +60,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         public JsonResult Onay(string Data)//GM
         {
             var _Result = new Result(true);
-            if (CheckPerm(Perms.FiyatOnaylamaGM, PermTypes.Writing) == false) return null;
+            if (CheckPerm(Perms.FiyatOnaylama, PermTypes.Writing) == false) return null;
 
             var parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
 
@@ -256,7 +256,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         {
             var _Result = new Result(true);
 
-            if (CheckPerm(Perms.FiyatOnaylamaGM, PermTypes.Writing) == false) return null;
+            if (CheckPerm(Perms.FiyatOnaylama, PermTypes.Writing) == false) return null;
 
             var parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
 
@@ -495,7 +495,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         public JsonResult Onay_Grup(string Data)//GM
         {
             var _Result = new Result(true);
-            if (CheckPerm(Perms.FiyatOnaylamaGM, PermTypes.Writing) == false) return null;
+            if (CheckPerm(Perms.FiyatOnaylama, PermTypes.Writing) == false) return null;
 
             var parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
 
@@ -745,7 +745,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         public JsonResult Red(string Data)
         {
             var _Result = new Result(true);
-            if (CheckPerm(Perms.FiyatOnaylamaGM, PermTypes.Writing) == false) return null;
+            if (CheckPerm(Perms.FiyatOnaylama, PermTypes.Writing) == false) return null;
 
             var parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
 
@@ -772,7 +772,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         public JsonResult Red_Koleksiyon(string Data)
         {
             var _Result = new Result(true);
-            if (CheckPerm(Perms.FiyatOnaylamaGM, PermTypes.Writing) == false) return null;
+            if (CheckPerm(Perms.FiyatOnaylama, PermTypes.Writing) == false) return null;
 
             var parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
 
@@ -812,7 +812,7 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
         public JsonResult Red_Grup(string Data)
         {
             var _Result = new Result(true);
-            if (CheckPerm(Perms.FiyatOnaylamaGM, PermTypes.Writing) == false) return null;
+            if (CheckPerm(Perms.FiyatOnaylama, PermTypes.Writing) == false) return null;
 
             var parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
 
@@ -858,17 +858,17 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
         #region SPGMY
         public ActionResult SPGMY()
         {
-            if (CheckPerm(Perms.FiyatOnaylamaSPGMY, PermTypes.Reading) == false) return Redirect("/");
+            if (CheckPerm(Perms.FiyatOnaylama, PermTypes.Reading) == false) return Redirect("/");
             return View();
         }
         public PartialViewResult SPGMY_List()
         {
-            if (CheckPerm(Perms.FiyatOnaylamaSPGMY, PermTypes.Reading) == false) return null;
+
             return PartialView();
         }
         public string SPGMYOnayCek()
         {
-            if (CheckPerm(Perms.FiyatOnaylamaSPGMY, PermTypes.Reading) == false) return null;
+
             var RT = db.Database.SqlQuery<FiyatOnayGMSelect>(string.Format("[FINSAT6{0}].[wms].[FiyatOnayListSPGMY]", vUser.SirketKodu)).ToList();
             var json = new JavaScriptSerializer().Serialize(RT);
             return json;
@@ -876,12 +876,12 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
 
         public PartialViewResult SPGMY_List_Koleksiyon()
         {
-            if (CheckPerm(Perms.FiyatOnaylamaSPGMY, PermTypes.Reading) == false) return null;
+
             return PartialView();
         }
         public string SPGMYOnayCekSPGMYKoleksiyon()
         {
-            if (CheckPerm(Perms.FiyatOnaylamaSPGMY, PermTypes.Reading) == false) return null;
+
             var RT = db.Database.SqlQuery<FiyatKoleksiyonSelect>(string.Format("[FINSAT6{0}].[wms].[FiyatOnayListSPGMY_Koleksiyon]", vUser.SirketKodu)).ToList();
             var json = new JavaScriptSerializer().Serialize(RT);
             return json;
@@ -889,12 +889,12 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
 
         public PartialViewResult SPGMY_List_Grup()
         {
-            if (CheckPerm(Perms.FiyatOnaylamaSPGMY, PermTypes.Reading) == false) return null;
+
             return PartialView();
         }
         public string SPGMYOnayCekSPGMYGrup()
         {
-            if (CheckPerm(Perms.FiyatOnaylamaSPGMY, PermTypes.Reading) == false) return null;
+
             var RT = db.Database.SqlQuery<FiyatGrupSelect>(string.Format("[FINSAT6{0}].[wms].[FiyatOnayListSPGMY_GrupEbatYuzey]", vUser.SirketKodu)).ToList();
             var json = new JavaScriptSerializer().Serialize(RT);
             return json;
@@ -903,7 +903,7 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
         public JsonResult Onay_SPGMY(string Data)
         {
             var _Result = new Result(true);
-            if (CheckPerm(Perms.FiyatOnaylamaSPGMY, PermTypes.Writing) == false) return null;
+            if (CheckPerm(Perms.FiyatOnaylama, PermTypes.Writing) == false) return null;
 
             var parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
 
@@ -935,7 +935,7 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
         public JsonResult Onay_Koleksiyon_SPGMY(string Data)
         {
             var _Result = new Result(true);
-            if (CheckPerm(Perms.FiyatOnaylamaSPGMY, PermTypes.Writing) == false) return null;
+            if (CheckPerm(Perms.FiyatOnaylama, PermTypes.Writing) == false) return null;
 
             var parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
 
@@ -982,7 +982,7 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
         public JsonResult Onay_Grup_SPGMY(string Data)
         {
             var _Result = new Result(true);
-            if (CheckPerm(Perms.FiyatOnaylamaSPGMY, PermTypes.Writing) == false) return null;
+            if (CheckPerm(Perms.FiyatOnaylama, PermTypes.Writing) == false) return null;
 
             var parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
 
@@ -1036,7 +1036,7 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
         public JsonResult Red_SPGMY(string Data)
         {
             var _Result = new Result(true);
-            if (CheckPerm(Perms.FiyatOnaylamaSPGMY, PermTypes.Writing) == false) return null;
+            if (CheckPerm(Perms.FiyatOnaylama, PermTypes.Writing) == false) return null;
 
             var parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
 
@@ -1063,7 +1063,7 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
         public JsonResult Red_Koleksiyon_SPGMY(string Data)
         {
             var _Result = new Result(true);
-            if (CheckPerm(Perms.FiyatOnaylamaSPGMY, PermTypes.Writing) == false) return null;
+            if (CheckPerm(Perms.FiyatOnaylama, PermTypes.Writing) == false) return null;
 
             var parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
 
@@ -1103,7 +1103,7 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
         public JsonResult Red_Grup_SPGMY(string Data)
         {
             var _Result = new Result(true);
-            if (CheckPerm(Perms.FiyatOnaylamaSPGMY, PermTypes.Writing) == false) return null;
+            if (CheckPerm(Perms.FiyatOnaylama, PermTypes.Writing) == false) return null;
 
             var parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
             var sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
@@ -1148,18 +1148,18 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
         #region SM
         public ActionResult SM()
         {
-            if (CheckPerm(Perms.FiyatOnaylamaSM, PermTypes.Reading) == false) return Redirect("/");
+            if (CheckPerm(Perms.FiyatOnaylama, PermTypes.Reading) == false) return Redirect("/");
             return View();
         }
         public PartialViewResult SM_List()
         {
-            if (CheckPerm(Perms.FiyatOnaylamaSM, PermTypes.Reading) == false) return null;
+
             ViewBag.username = vUser.UserName;
             return PartialView();
         }
         public string SMOnayCek()
         {
-            if (CheckPerm(Perms.FiyatOnaylamaSM, PermTypes.Reading) == false) return null;
+
 
             var RT = db.Database.SqlQuery<FiyatOnayGMSelect>(string.Format("[FINSAT6{0}].[wms].[FiyatOnayList]", vUser.SirketKodu)).ToList();
             var json = new JavaScriptSerializer().Serialize(RT);
@@ -1168,12 +1168,12 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
 
         public PartialViewResult SM_List_Koleksiyon()
         {
-            if (CheckPerm(Perms.FiyatOnaylamaSM, PermTypes.Reading) == false) return null;
+
             return PartialView();
         }
         public string SMOnayCekSMKoleksiyon()
         {
-            if (CheckPerm(Perms.FiyatOnaylamaSM, PermTypes.Reading) == false) return null;
+
             var RT = db.Database.SqlQuery<FiyatKoleksiyonSelect>(string.Format("[FINSAT6{0}].[wms].[FiyatOnayList_Koleksiyon]", vUser.SirketKodu)).ToList();
             var json = new JavaScriptSerializer().Serialize(RT);
             return json;
@@ -1181,12 +1181,12 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
 
         public PartialViewResult SM_List_Grup()
         {
-            if (CheckPerm(Perms.FiyatOnaylamaSM, PermTypes.Reading) == false) return null;
+
             return PartialView();
         }
         public string SMOnayCekSMGrup()
         {
-            if (CheckPerm(Perms.FiyatOnaylamaSM, PermTypes.Reading) == false) return null;
+
             var RT = db.Database.SqlQuery<FiyatGrupSelect>(string.Format("[FINSAT6{0}].[wms].[FiyatOnayList_GrupEbatYuzey]", vUser.SirketKodu)).ToList();
             var json = new JavaScriptSerializer().Serialize(RT);
             return json;
@@ -1195,7 +1195,7 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
         public JsonResult Onay_SM(string Data)
         {
             var _Result = new Result(true);
-            if (CheckPerm(Perms.FiyatOnaylamaSM, PermTypes.Writing) == false) return null;
+            if (CheckPerm(Perms.FiyatOnaylama, PermTypes.Writing) == false) return null;
 
             var parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
 
@@ -1227,7 +1227,7 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
         public JsonResult Onay_Koleksiyon_SM(string Data)
         {
             var _Result = new Result(true);
-            if (CheckPerm(Perms.FiyatOnaylamaSM, PermTypes.Writing) == false) return null;
+            if (CheckPerm(Perms.FiyatOnaylama, PermTypes.Writing) == false) return null;
 
             var parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
 
@@ -1274,7 +1274,7 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
         public JsonResult Onay_Grup_SM(string Data)
         {
             var _Result = new Result(true);
-            if (CheckPerm(Perms.FiyatOnaylamaSM, PermTypes.Writing) == false) return null;
+            if (CheckPerm(Perms.FiyatOnaylama, PermTypes.Writing) == false) return null;
 
             var parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
 
@@ -1328,7 +1328,7 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
         public JsonResult Red_SM(string Data)
         {
             var _Result = new Result(true);
-            if (CheckPerm(Perms.FiyatOnaylamaSM, PermTypes.Writing) == false) return null;
+            if (CheckPerm(Perms.FiyatOnaylama, PermTypes.Writing) == false) return null;
 
             var parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
 
@@ -1355,7 +1355,7 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
         public JsonResult Red_Koleksiyon_SM(string Data)
         {
             var _Result = new Result(true);
-            if (CheckPerm(Perms.FiyatOnaylamaSM, PermTypes.Writing) == false) return null;
+            if (CheckPerm(Perms.FiyatOnaylama, PermTypes.Writing) == false) return null;
 
             var parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
 
@@ -1395,7 +1395,7 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
         public JsonResult Red_Grup_SM(string Data)
         {
             var _Result = new Result(true);
-            if (CheckPerm(Perms.FiyatOnaylamaSM, PermTypes.Writing) == false) return null;
+            if (CheckPerm(Perms.FiyatOnaylama, PermTypes.Writing) == false) return null;
 
             var parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
 

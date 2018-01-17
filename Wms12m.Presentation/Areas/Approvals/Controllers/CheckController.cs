@@ -15,12 +15,12 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         #region SPGMY
         public ActionResult SPGMY()
         {
-            if (CheckPerm(Perms.ÇekOnaylamaSPGMY, PermTypes.Reading) == false) return Redirect("/");
+            if (CheckPerm(Perms.ÇekOnaylama, PermTypes.Reading) == false) return Redirect("/");
             return View();
         }
         public string SPGMY_List()
         {
-            if (CheckPerm(Perms.ÇekOnaylamaSPGMY, PermTypes.Reading) == false) return null;
+
             var RT = db.Database.SqlQuery<CekOnaySelect>(string.Format("[FINSAT6{0}].[wms].[CekOnaySPGMY]", vUser.SirketKodu)).ToList();
             var json = new JavaScriptSerializer().Serialize(RT);
             return json;
@@ -28,7 +28,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         public JsonResult Onay_SPGMY(string Data)
         {
             var _Result = new Result(true);
-            if (CheckPerm(Perms.ÇekOnaylamaSPGMY, PermTypes.Writing) == false) return null;
+            if (CheckPerm(Perms.ÇekOnaylama, PermTypes.Writing) == false) return null;
 
             var parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
 
@@ -59,7 +59,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         public JsonResult Red_SPGMY(string Data)
         {
             var _Result = new Result(true);
-            if (CheckPerm(Perms.ÇekOnaylamaSPGMY, PermTypes.Writing) == false) return null;
+            if (CheckPerm(Perms.ÇekOnaylama, PermTypes.Writing) == false) return null;
 
             var parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
 
@@ -92,12 +92,12 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         #region MIGMY
         public ActionResult MIGMY()
         {
-            if (CheckPerm(Perms.ÇekOnaylamaMIGMY, PermTypes.Reading) == false) return Redirect("/");
+            if (CheckPerm(Perms.ÇekOnaylama, PermTypes.Reading) == false) return Redirect("/");
             return View();
         }
         public string MIGMY_List()
         {
-            if (CheckPerm(Perms.ÇekOnaylamaMIGMY, PermTypes.Reading) == false) return null;
+
             var RT = db.Database.SqlQuery<CekOnaySelect>(string.Format("[FINSAT6{0}].[wms].[CekOnayMIGMY]", vUser.SirketKodu)).ToList();
             var json = new JavaScriptSerializer().Serialize(RT);
             return json;
@@ -105,7 +105,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         public JsonResult Onay_MIGMY(string Data)
         {
             var _Result = new Result(true);
-            if (CheckPerm(Perms.ÇekOnaylamaMIGMY, PermTypes.Writing) == false) return null;
+            if (CheckPerm(Perms.ÇekOnaylama, PermTypes.Writing) == false) return null;
             var parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
             var sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
             try
@@ -133,7 +133,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         public JsonResult Red_MIGMY(string Data)
         {
             var _Result = new Result(true);
-            if (CheckPerm(Perms.ÇekOnaylamaMIGMY, PermTypes.Writing) == false) return null;
+            if (CheckPerm(Perms.ÇekOnaylama, PermTypes.Writing) == false) return null;
 
             var parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
 
@@ -166,12 +166,12 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         #region GM
         public ActionResult GM()
         {
-            if (CheckPerm(Perms.ÇekOnaylamaGM, PermTypes.Reading) == false) return Redirect("/");
+            if (CheckPerm(Perms.ÇekOnaylama, PermTypes.Reading) == false) return Redirect("/");
             return View();
         }
         public string GM_List()
         {
-            if (CheckPerm(Perms.ÇekOnaylamaGM, PermTypes.Reading) == false) return null;
+
             var RT = db.Database.SqlQuery<CekOnaySelect>(string.Format("[FINSAT6{0}].[wms].[CekOnayGM]", vUser.SirketKodu)).ToList();
             var json = new JavaScriptSerializer().Serialize(RT);
             return json;
@@ -179,7 +179,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         public JsonResult Onay_GM(string Data)
         {
             var _Result = new Result(true);
-            if (CheckPerm(Perms.ÇekOnaylamaGM, PermTypes.Writing) == false) return null;
+            if (CheckPerm(Perms.ÇekOnaylama, PermTypes.Writing) == false) return null;
 
             var parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
 
@@ -210,7 +210,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         public JsonResult Red_GM(string Data)
         {
             var _Result = new Result(true);
-            if (CheckPerm(Perms.ÇekOnaylamaGM, PermTypes.Writing) == false) return null;
+            if (CheckPerm(Perms.ÇekOnaylama, PermTypes.Writing) == false) return null;
 
             var parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
 
@@ -246,7 +246,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             {
                 MaxJsonLength = int.MaxValue
             };
-            if (CheckPerm(Perms.ÇekOnaylama, PermTypes.Reading) == false) return null;
+
             var CE = db.Database.SqlQuery<CekOnayDetay>(string.Format("[FINSAT6{0}].[wms].[CekOnayDetay] @EvrakNo = '{1}'", vUser.SirketKodu, EvrakNo)).ToList();
             return json.Serialize(CE);
         }
