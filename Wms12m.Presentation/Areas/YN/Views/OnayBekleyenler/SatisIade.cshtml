@@ -68,5 +68,15 @@
             table.ajax.reload();
         });
     });
+    function getresult(data) {
+        if (data.Status == false) {
+            Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
+        }
+        else {
+            Modaldialog("Kaydedildi", "Başarı", "Tamam", "btn-success");
+            $('#modalEditPage').modal('toggle');
+            $('.yenile-buton').click();
+        }
+    };
     </script>}
 

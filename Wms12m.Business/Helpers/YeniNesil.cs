@@ -42,7 +42,7 @@ namespace Wms12m
             {
                 for (int i = 0; i < SIOnay.tbl.Row_ID.Length; i++)
                 {
-                    Sorgu = Sorgu + string.Format("update YNS{0}.YNS{0}.STK005 set STK005_BirimFiyati={1} where STK005_Row_ID={2}", SirketKodu, SIOnay.tbl.Fiyat[i], SIOnay.tbl.Row_ID[i]);
+                    Sorgu = Sorgu + string.Format("update YNS{0}.YNS{0}.STK005 set STK005_BirimFiyati={1} where STK005_Row_ID={2}", SirketKodu, SIOnay.tbl.Fiyat[i].ToDot(), SIOnay.tbl.Row_ID[i]);
                 }
 
                 Sorgu = Sorgu + string.Format(@"
@@ -123,7 +123,7 @@ namespace Wms12m
 
                     #endregion  CHI INSERT END
 
-                    #region  CHK UPDATE
+                    #region  CHI - CHK UPDATE
 
                     //CHI Tutar Update
                     Sorgu += string.Format(@"
@@ -141,7 +141,7 @@ namespace Wms12m
                 ",
                SirketKodu, evrakBilgi.STK005_EvrakSeriNo, evrakBilgi.STK005_CariHesapKodu);
 
-                    #endregion   CHK UPDATE END  
+                    #endregion   CHI - CHK UPDATE END  
                 }
 
             }
