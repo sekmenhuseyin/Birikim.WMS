@@ -103,7 +103,7 @@
             // 
             this.btnSayim.BackColor = System.Drawing.Color.Green;
             this.btnSayim.ForeColor = System.Drawing.Color.White;
-            this.btnSayim.Location = new System.Drawing.Point(3, 188);
+            this.btnSayim.Location = new System.Drawing.Point(3, 240);
             this.btnSayim.Name = "btnSayim";
             this.btnSayim.Size = new System.Drawing.Size(115, 50);
             this.btnSayim.TabIndex = 7;
@@ -162,7 +162,7 @@
             this.lblSayim.BackColor = System.Drawing.Color.Green;
             this.lblSayim.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold);
             this.lblSayim.ForeColor = System.Drawing.Color.White;
-            this.lblSayim.Location = new System.Drawing.Point(44, 220);
+            this.lblSayim.Location = new System.Drawing.Point(44, 272);
             this.lblSayim.Name = "lblSayim";
             this.lblSayim.Size = new System.Drawing.Size(32, 16);
             this.lblSayim.Tag = "";
@@ -243,7 +243,7 @@
             // 
             this.btnBarcode.BackColor = System.Drawing.Color.DarkViolet;
             this.btnBarcode.ForeColor = System.Drawing.Color.White;
-            this.btnBarcode.Location = new System.Drawing.Point(123, 188);
+            this.btnBarcode.Location = new System.Drawing.Point(123, 240);
             this.btnBarcode.Name = "btnBarcode";
             this.btnBarcode.Size = new System.Drawing.Size(115, 50);
             this.btnBarcode.TabIndex = 8;
@@ -255,7 +255,7 @@
             // 
             this.btnAlim.BackColor = System.Drawing.Color.DarkCyan;
             this.btnAlim.ForeColor = System.Drawing.Color.White;
-            this.btnAlim.Location = new System.Drawing.Point(3, 240);
+            this.btnAlim.Location = new System.Drawing.Point(3, 188);
             this.btnAlim.Name = "btnAlim";
             this.btnAlim.Size = new System.Drawing.Size(115, 50);
             this.btnAlim.TabIndex = 8;
@@ -267,7 +267,7 @@
             // 
             this.btnSatis.BackColor = System.Drawing.Color.CornflowerBlue;
             this.btnSatis.ForeColor = System.Drawing.Color.White;
-            this.btnSatis.Location = new System.Drawing.Point(123, 240);
+            this.btnSatis.Location = new System.Drawing.Point(123, 188);
             this.btnSatis.Name = "btnSatis";
             this.btnSatis.Size = new System.Drawing.Size(115, 50);
             this.btnSatis.TabIndex = 8;
@@ -280,7 +280,7 @@
             this.lblAlim.BackColor = System.Drawing.Color.DarkCyan;
             this.lblAlim.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold);
             this.lblAlim.ForeColor = System.Drawing.Color.White;
-            this.lblAlim.Location = new System.Drawing.Point(45, 273);
+            this.lblAlim.Location = new System.Drawing.Point(45, 221);
             this.lblAlim.Name = "lblAlim";
             this.lblAlim.Size = new System.Drawing.Size(32, 14);
             this.lblAlim.Tag = "";
@@ -291,7 +291,7 @@
             this.lblSatis.BackColor = System.Drawing.Color.CornflowerBlue;
             this.lblSatis.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold);
             this.lblSatis.ForeColor = System.Drawing.Color.White;
-            this.lblSatis.Location = new System.Drawing.Point(164, 273);
+            this.lblSatis.Location = new System.Drawing.Point(164, 221);
             this.lblSatis.Name = "lblSatis";
             this.lblSatis.Size = new System.Drawing.Size(32, 14);
             this.lblSatis.Tag = "";

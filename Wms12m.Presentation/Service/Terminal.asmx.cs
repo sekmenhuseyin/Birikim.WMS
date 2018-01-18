@@ -1108,14 +1108,12 @@ namespace Wms12m
             if (barkod == "" || barkod == null)
                 return new Tip_IRS();
             // return
-            var sql = string.Format("SELECT wms.IRS.SirketKod FROM wms.GorevPaketler INNER JOIN wms.GorevIRS ON wms.GorevPaketler.GorevID = wms.GorevIRS.GorevID INNER JOIN wms.IRS ON wms.GorevIRS.IrsaliyeID = wms.IRS.ID WHERE (wms.GorevPaketler.PaketNo = '{0}')", barkod);
-            var sirketkodu = db.Database.SqlQuery<string>(sql).FirstOrDefault();
-            sql = string.Format("SELECT MIN(GorevPaketler.GorevID) AS ID, wms.Depo.DepoKodu AS DepoID, IRS.HesapKodu, CONVERT(varchar(15), wms.fnRoundUp(wms.GorevPaketler.Agirlik,2)) as TeslimCHK,  wms.fnFormatDateFromInt(wms.GorevPaketler.KayitTarih) AS Tarih, " +
+            var sql = string.Format("SELECT MIN(GorevPaketler.GorevID) AS ID, wms.Depo.DepoKodu AS DepoID, IRS.HesapKodu, CONVERT(varchar(15), BIRIKIM.dbo.fnRoundUp(wms.GorevPaketler.Agirlik,2)) as TeslimCHK,  BIRIKIM.dbo.fnFormatDateFromInt(wms.GorevPaketler.KayitTarih) AS Tarih, " +
                 "(SELECT Unvan1 + ' ' + Unvan2 AS Expr1 FROM FINSAT6{0}.FINSAT6{0}.CHK WITH(NOLOCK) WHERE(HesapKodu = IRS.HesapKodu)) AS Unvan, " +
                 "(SELECT wms.IRS.EvrakNo + '  ' FROM wms.IRS WITH(nolock) INNER JOIN wms.GorevIRS WITH(nolock) ON wms.IRS.ID = wms.GorevIRS.IrsaliyeID INNER JOIN wms.GorevPaketler ON wms.GorevIRS.GorevID = wms.GorevPaketler.GorevID WHERE(wms.GorevPaketler.PaketNo = '{1}') FOR XML PATH('')) as EvrakNo " +
                 "FROM wms.IRS AS IRS WITH(nolock) INNER JOIN wms.Depo WITH(nolock) ON IRS.DepoID = wms.Depo.ID INNER JOIN wms.GorevIRS WITH(nolock) ON IRS.ID = wms.GorevIRS.IrsaliyeID INNER JOIN wms.GorevPaketler ON wms.GorevIRS.GorevID = wms.GorevPaketler.GorevID " +
                 "WHERE (wms.GorevPaketler.PaketNo = '{1}') " +
-                "GROUP BY wms.Depo.DepoKodu, IRS.HesapKodu, CONVERT(varchar(15), wms.fnRoundUp(wms.GorevPaketler.Agirlik,2)), wms.fnFormatDateFromInt(wms.GorevPaketler.KayitTarih)", sirketkodu, barkod);
+                "GROUP BY wms.Depo.DepoKodu, IRS.HesapKodu, CONVERT(varchar(15), BIRIKIM.dbo.fnRoundUp(wms.GorevPaketler.Agirlik,2)), BIRIKIM.dbo.fnFormatDateFromInt(wms.GorevPaketler.KayitTarih)", db.GetSirkets().FirstOrDefault().Kod, barkod);
             return db.Database.SqlQuery<Tip_IRS>(sql).FirstOrDefault();
         }
         /// <summary>
