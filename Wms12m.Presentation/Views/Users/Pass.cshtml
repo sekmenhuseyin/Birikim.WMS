@@ -3,35 +3,47 @@
     <div class="close-modal" data-dismiss="modal"><div class="lr"><div class="rl"></div></div></div>
     <div class="container">
         <div class="row">
-            <div class="col-lg-12">
+            <div class="col-lg-offset-2 col-lg-8">
                 <div class="modal-body">
-                    <h4>@ViewBag.UserName için Şifre Değiştir</h4>
-                    @using (Ajax.BeginForm("ChangePass", "Users", new { }, new AjaxOptions { InsertionMode = InsertionMode.Replace, UpdateTargetId = "modalEditPage", OnSuccess = "$('#modalEditPage').modal('toggle');" }, new { @class = "form-horizontal" }))
-                    {
-                        @Html.AntiForgeryToken()
-                        <input type="hidden" name="ID" value="@ViewBag.ID" />
-                        <div class="form-horizontal">
-                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.Password, "Yeni Şifre", htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-10">
-                                    @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control", @type = "password", required = "required" } })
-                                    @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.Password2, "Yeni Şifre (Tekrar)", htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-10">
-                                    @Html.EditorFor(model => model.Password2, new { htmlAttributes = new { @class = "form-control", @type = "password", required = "required" } })
-                                    @Html.ValidationMessageFor(model => model.Password2, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-                            <div class="form-group col-md-12">
-                                <button type="button" class="btn btn-danger pull-left" data-dismiss="modal"><i class="fa fa-times"></i> Kapat</button>
-                                <input type="submit" class="btn btn-primary pull-right" id="submitter" value="Kaydet" />
+                    <div class="portlet box green">
+                        <div class="portlet-title">
+                            <div class="caption">
+                                <i class="fa fa-gift"></i>@ViewBag.UserName için Şifre Değiştir
                             </div>
                         </div>
-                    }
+                        <div class="portlet-body form">
+                            <div class="form-body">
+                                @using (Ajax.BeginForm("ChangePass", "Users", new { }, new AjaxOptions { InsertionMode = InsertionMode.Replace, UpdateTargetId = "modalEditPage", OnSuccess = "$('#modalEditPage').modal('toggle');" }, new { @class = "form-horizontal" }))
+                                {
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" name="ID" value="@ViewBag.ID" />
+                                    <div class="form-horizontal">
+                                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.Password, "Yeni Şifre", htmlAttributes: new { @class = "control-label col-md-3" })
+                                            <div class="col-md-9">
+                                                @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control", @type = "password", required = "required" } })
+                                                @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.Password2, "Yeni Şifre (Tekrar)", htmlAttributes: new { @class = "control-label col-md-3" })
+                                            <div class="col-md-9">
+                                                @Html.EditorFor(model => model.Password2, new { htmlAttributes = new { @class = "form-control", @type = "password", required = "required" } })
+                                                @Html.ValidationMessageFor(model => model.Password2, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                        <div class="form-group m-t-40">
+                                            <div class="col-md-offset-1 col-md-11">
+                                                <button type="button" class="btn btn-danger pull-left" data-dismiss="modal"><i class="fa fa-times"></i> Kapat</button>
+                                                <input type="submit" class="btn btn-primary pull-right" id="submitter" value="Kaydet" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
