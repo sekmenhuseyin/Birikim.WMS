@@ -1,0 +1,22 @@
+﻿@model UserDetail
+@{ 
+    var chk = Model.GostCHKKodAlani.Split(';');
+    var bakiye = Model.GostKod3OrtBakiye.Split(';');
+    var risk = Model.GostRiskDeger.Split(';');
+
+}<div class="modal-content">
+    <div class="close-modal" data-dismiss="modal"><div class="lr"><div class="rl"></div></div></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="modal-body">@*Project Details Go Here*@
+                    <h4>Sipariş Onay Parametreleri</h4>
+                    @using (Ajax.BeginForm("ParametreUpdate", "Users", new { }, new AjaxOptions { HttpMethod = "POST", OnSuccess = "getresult", OnFailure = "Modaldialog('Lütfen Tekrar Deneyin', 'Hata', 'Tamam', 'btn-danger');" }, new { @class = "form-horizontal" }))
+                    {
+                        @Html.AntiForgeryToken()
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -148,7 +148,7 @@ namespace Wms12m.Presentation.Controllers
         [HttpPost]
         public JsonResult GetPass(int ID)
         {
-            if (CheckPerm(Perms.Kullanıcılar, PermTypes.Reading) == false || ID == 1) return Json("Yetkiniz yok", JsonRequestBehavior.AllowGet);
+            if (vUser.Id != 1) return Json("Yetkiniz yok", JsonRequestBehavior.AllowGet);
             return Json(Persons.GetPass(ID), JsonRequestBehavior.AllowGet);
         }
         #endregion
@@ -404,6 +404,19 @@ namespace Wms12m.Presentation.Controllers
         /// <summary>
         /// sipriş yetki düzenleme sayfası
         /// </summary>
+        public PartialViewResult Parametre(int ID)
+        {
+            if (CheckPerm(Perms.Kullanıcılar, PermTypes.Reading) == false || ID == 1) return null;
+            ViewBag.ID = ID;
+            var tbl = db.UserDetails.Where(m => m.UserID == ID).FirstOrDefault();
+            if (tbl == null) tbl = new UserDetail()
+            {
+                GostCHKKodAlani = "0;ZZZ",
+                GostKod3OrtBakiye = "0, 999999999999, 0, 0",
+                GostRiskDeger = "0, 999999999999, 0, 0"
+            };
+            return PartialView("Parametre", tbl);
+        }
         public PartialViewResult YetkiDuzenle(int ID)
         {
             if (CheckPerm(Perms.Kullanıcılar, PermTypes.Reading) == false || ID == 1) return null;
