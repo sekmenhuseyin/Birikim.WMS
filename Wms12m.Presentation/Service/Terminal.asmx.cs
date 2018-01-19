@@ -1039,8 +1039,8 @@ namespace Wms12m
             // finish gorev
             var gorevNo = db.SettingsGorevNo(tarih, mGorev.DepoID).FirstOrDefault();
             var sevkiyat = db.Settings.Select(m => m.SevkiyatVarmi).FirstOrDefault();
-            var idx = db.TerminalFinishGorev(GorevID, mGorev.IrsaliyeID, gorevNo, tarih, DateTime.Now.ToOaTime(), tblx.Kod, "", ComboItems.Paketle.ToInt32(), sevkiyat ? ComboItems.Sevket.ToInt32() : 0).FirstOrDefault();
-            LogActions(KullID.ToString(), "Terminal", "Service", "Terminal", "Paketle_GoreviTamamla", ComboItems.alDüzenle, idx.ToInt32(), "Paketle => Sevkiyat");
+            var id = db.TerminalFinishGorev(GorevID, mGorev.IrsaliyeID, gorevNo, tarih, DateTime.Now.ToOaTime(), tblx.Kod, "", ComboItems.Paketle.ToInt32(), sevkiyat ? ComboItems.Sevket.ToInt32() : 0).FirstOrDefault();
+            LogActions(KullID.ToString(), "Terminal", "Service", "Terminal", "Paketle_GoreviTamamla", ComboItems.alDüzenle, id.ToInt32(), "Paketle => Sevkiyat");
             // görev user tablosu
             var tbl = db.GorevUsers.Where(m => m.GorevID == GorevID && m.UserName == tblx.Kod).FirstOrDefault();
             tbl.BitisTarihi = DateTime.Today.ToOADateInt();

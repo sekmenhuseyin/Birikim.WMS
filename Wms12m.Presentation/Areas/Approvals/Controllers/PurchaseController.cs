@@ -235,12 +235,12 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                     {
                         #region Kayıt ve Mail
                         if (string.IsNullOrEmpty(sipEvrakNo) || string.IsNullOrEmpty(hesapKodu))
-                            throw new ArgumentException("parametreler hatalı!!");
+                            throw new ArgumentException("parametreler hatalı!");
 
                         var mailayar = db.Database.SqlQuery<GenelAyarVeParams>(string.Format("SELECT * FROM [Kaynak].[sta].[GenelAyarVeParams]  where Tip = 4 and Tip2 = 0")).FirstOrDefault();
                         if (mailayar == null)
                         {
-                            _Result.Message = "Sipariş Onay Mail ayarları yapılandırılmamış!!";
+                            _Result.Message = "Sipariş Onay Mail ayarları yapılandırılmamış!";
                             _Result.Status = false;
                             return Json(_Result, JsonRequestBehavior.AllowGet);
                         }
@@ -250,7 +250,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                         var sirketemail = db.Database.SqlQuery<string>(sorgu).FirstOrDefault();
                         if (string.IsNullOrEmpty(sirketemail) || sirketemail.Trim() == "")
                         {
-                            _Result.Message = string.Format("Tedarikçiye ait mail bulunamadı!! (Hesap Kodu: {0})", hesapKodu);
+                            _Result.Message = string.Format("Tedarikçiye ait mail bulunamadı! (Hesap Kodu: {0})", hesapKodu);
                             _Result.Status = false;
                         }
 
@@ -266,14 +266,14 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                         var sipTalep = db.Database.SqlQuery<SatTalep>(string.Format("SELECT TOP (1) TalepNo, SipIslemTip FROM Kaynak.sta.Talep (nolock) WHERE SipEvrakNo={0}", sipEvrakNo)).FirstOrDefault();
                         if (sipTalep == null)
                         {
-                            _Result.Message = "Siparişin Talep ile ilişkisi bulunamadı!! (Sipariş Onay Mail Gönderim)";
+                            _Result.Message = "Siparişin Talep ile ilişkisi bulunamadı! (Sipariş Onay Mail Gönderim)";
                             _Result.Status = false;
                             return Json(_Result, JsonRequestBehavior.AllowGet);
                         }
 
                         if (sipTalep.SipIslemTip == null)
                         {
-                            _Result.Message = "Sipariş iç/Dış Piyasa olduğu belirlenemedi!!";
+                            _Result.Message = "Sipariş iç/Dış Piyasa olduğu belirlenemedi!";
                             _Result.Status = false;
                             return Json(_Result, JsonRequestBehavior.AllowGet);
                         }
@@ -308,8 +308,8 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
                         using (var m = new MyMail(false)
                         {
-                            MailHataMesajı = "Sipariş Onay Maili Gönderiminde hata oluştu!! Mail Gönderilelemedi!!",
-                            MailBasariMesajı = "Sipariş Onay Maili başarılı bir şekilde gönderildi!!"
+                            MailHataMesajı = "Sipariş Onay Maili Gönderiminde hata oluştu! Mail Gönderilemedi!",
+                            MailBasariMesajı = "Sipariş Onay Maili başarılı bir şekilde gönderildi!"
                         })
                         {
                             m.Gonder(kime, mailayar.MailCc, gorunenIsim, konu, icerik, attachList);
@@ -326,7 +326,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                     }
                     catch (Exception)
                     {
-                        _Result.Message = string.Format("Sipariş Onay Maili Gönderiminde hata oluştu!! Mail Gönderilelemedi!!)");
+                        _Result.Message = string.Format("Sipariş Onay Maili Gönderiminde hata oluştu! Mail Gönderilemedi!)");
                         _Result.Status = false;
                         return Json(_Result, JsonRequestBehavior.AllowGet);
                     }
@@ -348,7 +348,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
             if (MyGlobalVariables.GridSource == null || MyGlobalVariables.GridSource.Count == 0 || MyGlobalVariables.SipEvrak == null)
             {
-                _Result.Message = "Siparis Seçmelisiniz!!";
+                _Result.Message = "Siparis Seçmelisiniz!";
                 _Result.Status = false;
                 return Json(_Result, JsonRequestBehavior.AllowGet);
             }
@@ -371,7 +371,7 @@ WHERE ID={4} AND Durum=11 AND SipTalepNo IS NOT NULL";
             catch (Exception)
             {
                 if (con.Trans != null) con.Trans.Rollback();
-                _Result.Message = "Geri Çevirme açıklamasını girmek zorundasınız!!";
+                _Result.Message = "Geri Çevirme açıklamasını girmek zorundasınız!";
                 _Result.Status = false;
             }
 

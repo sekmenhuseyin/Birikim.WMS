@@ -1,6 +1,4 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using System;
+﻿using System;
 using System.Data;
 using System.Linq;
 using System.Web.Mvc;
@@ -292,8 +290,8 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
 
                 for (int j = 0; j < sl.Length - 1; j++)
                 {
-                    var idx = Convert.ToInt32(sl[j]);
-                    var silGrv = db.GorevlerToDoLists.Where(m => m.ID == idx).FirstOrDefault();
+                    var tmpId = Convert.ToInt32(sl[j]);
+                    var silGrv = db.GorevlerToDoLists.Where(m => m.ID == tmpId).FirstOrDefault();
                     db.GorevlerToDoLists.Remove(silGrv);
                 }
 
