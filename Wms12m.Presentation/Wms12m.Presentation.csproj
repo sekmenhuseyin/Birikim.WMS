@@ -33,7 +33,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <IntermediateOutputPath>C:\Users\user\AppData\Local\Temp\vs8B87.tmp\Debug\</IntermediateOutputPath>
+    <IntermediateOutputPath>C:\Users\lenovo\AppData\Local\Temp\vs1743.tmp\Debug\</IntermediateOutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -42,7 +42,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <IntermediateOutputPath>C:\Users\user\AppData\Local\Temp\vs8B87.tmp\Release\</IntermediateOutputPath>
+    <IntermediateOutputPath>C:\Users\lenovo\AppData\Local\Temp\vs1743.tmp\Release\</IntermediateOutputPath>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Antlr3.Runtime, Version=3.5.0.2, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
@@ -497,6 +497,7 @@
     <Content Include="Areas\WMS\Views\Order\Index.cshtml" />
     <Content Include="Areas\Reports\Views\Financial\Tao.cshtml" />
     <Content Include="Areas\Reports\Views\Financial\TaoList.cshtml" />
+    <Content Include="Areas\Approvals\Views\Account\Index.cshtml" />
     <None Include="bundleconfig.json" />
     <Content Include="Content\SizeSablon.xlsx" />
     <Content Include="Content\StockSablon.xlsx" />
@@ -537,6 +538,7 @@
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="Areas\Approvals\ApprovalsAreaRegistration.cs" />
+    <Compile Include="Areas\Approvals\Controllers\AccountController.cs" />
     <Compile Include="Areas\Approvals\Controllers\CheckController.cs" />
     <Compile Include="Areas\Approvals\Controllers\ContractController.cs" />
     <Compile Include="Areas\Approvals\Controllers\RiskController.cs" />
