@@ -13,6 +13,7 @@ namespace Wms12m.Presentation
     {
         public Functions fn = new Functions();
         public WMSEntities db = new WMSEntities();
+        public LOGEntities dbl = new LOGEntities();
         public Combo Combo = new Combo();
         public ComboSub ComboSub = new ComboSub();
         public Corridor Corridor = new Corridor();
@@ -124,6 +125,7 @@ namespace Wms12m.Presentation
             if (disposing)
             {
                 db.Dispose();
+                dbl.Dispose();
                 Combo.Dispose();
                 ComboSub.Dispose();
                 Corridor.Dispose();

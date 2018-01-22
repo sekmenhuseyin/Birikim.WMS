@@ -166,11 +166,8 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
             };
             try
             {
-                using (LOGEntities logdb = new LOGEntities())
-                {
-                    var sipBilgi = logdb.TumSiparisOnayLogs.Where(m => m.OnayDurumu == tip && m.DegisTarih >= bastarih && m.DegisTarih <= bittarih).ToList();
-                    return json.Serialize(sipBilgi);
-                }
+                var sipBilgi = dbl.TumSiparisOnayLogs.Where(m => m.OnayDurumu == tip && m.DegisTarih >= bastarih && m.DegisTarih <= bittarih).ToList();
+                return json.Serialize(sipBilgi);
             }
             catch (Exception)
             {

@@ -122,5 +122,26 @@
             }
         });
     }
+    $(function () {
+        $('#linkUpload').click(function () {
+            $("#btnUpload").click();
+        });
+        $('#fileupload').fileupload({
+            maxFileSize: 2000000,
+            acceptFileTypes: /(\.|\/)(jpg|png)$/i,
+            dataType: 'json',
+            add: function (e, data) { data.submit(); },
+            done: function (e, data) {
+                if (data.result.Status == true) {
+                    PartialView('/Users/Image/@Model.ID', 'modalEditPage', "");
+                }
+                else if (data.result.Message != "" && data.result.Message != null)
+                    Modaldialog(data.result.Message, 'Hata', 'Tamam', 'btn-danger');
+                else
+                    Modaldialog("Hata oldu", 'Hata', 'Tamam', 'btn-danger');
+            },
+            fail: function (e, data) { Modaldialog("Lütfen Tekrar Deneyin", "Hata", "Tamam", "btn-danger"); }
+        });
+    });
 </script>
 }

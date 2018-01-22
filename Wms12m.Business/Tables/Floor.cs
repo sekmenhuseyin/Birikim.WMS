@@ -160,7 +160,6 @@ namespace Wms12m.Business
         /// tüm listesi
         /// </summary>
         public override List<Kat> GetList() => db.Kats.OrderBy(m => m.KatAd).ToList();
-
         /// <summary>
         /// üst tabloya ait olanları getir
         /// </summary>

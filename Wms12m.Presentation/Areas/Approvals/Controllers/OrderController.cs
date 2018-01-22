@@ -155,79 +155,76 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             var parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
             var logDetay = "";
             Exception exx = null;
-            using (var logdb = new LOGEntities())
+            using (var dbContextTransaction = db.Database.BeginTransaction())
             {
-                using (var dbContextTransaction = db.Database.BeginTransaction())
+                var tbl = db.UserDetails.Where(m => m.UserID == vUser.Id).FirstOrDefault();
+                foreach (JObject insertObj in parameters)
                 {
-                    var tbl = db.UserDetails.Where(m => m.UserID == vUser.Id).FirstOrDefault();
-                    foreach (JObject insertObj in parameters)
+                    db.Database.ExecuteSqlCommand(string.Format("[FINSAT6{0}].[wms].[SiparisOnayla] @OncekiDurum = '{1}',@Kullanici = '{2}', @EvrakNo='{3}'", vUser.SirketKodu, insertObj["OnayDurumu"].ToString(), vUser.UserName, insertObj["EvrakNo"].ToString()));
+                    logDetay = vUser.SirketKodu + ".SPI tablosunda Evrak Numarası '" + insertObj["EvrakNo"].ToString() + "' ve Onay Durumu '" + insertObj["OnayDurumu"].ToString() + "' olan satırların OnayDurumu " + vUser.UserName + " kullanıcısının siparişi onaylaması sonucu 'Onaylandı' olarak güncellenmiştir.";
+                    LogActions("Approvals", "TumOrder", "Onayla", ComboItems.alOnayla, 0, logDetay);
+                    dbl.TumSiparisOnayLogs.Add(new TumSiparisOnayLog()
                     {
-                        db.Database.ExecuteSqlCommand(string.Format("[FINSAT6{0}].[wms].[SiparisOnayla] @OncekiDurum = '{1}',@Kullanici = '{2}', @EvrakNo='{3}'", vUser.SirketKodu, insertObj["OnayDurumu"].ToString(), vUser.UserName, insertObj["EvrakNo"].ToString()));
-                        logDetay = vUser.SirketKodu + ".SPI tablosunda Evrak Numarası '" + insertObj["EvrakNo"].ToString() + "' ve Onay Durumu '" + insertObj["OnayDurumu"].ToString() + "' olan satırların OnayDurumu " + vUser.UserName + " kullanıcısının siparişi onaylaması sonucu 'Onaylandı' olarak güncellenmiştir.";
-                        LogActions("Approvals", "TumOrder", "Onayla", ComboItems.alOnayla, 0, logDetay);
-                        logdb.TumSiparisOnayLogs.Add(new TumSiparisOnayLog()
-                        {
-                            Bakiye = insertObj["Bakiye"].ToDecimal(),
-                            Unvan = insertObj["Unvan"].ToString(),
-                            EvrakNo = insertObj["EvrakNo"].ToString(),
-                            DegisTarih = (int)DateTime.Now.ToOADate(),
-                            Degistiren = vUser.UserName,
-                            SirketAralik = "",
-                            CHKAralik = tbl.GostCHKKodAlani,
-                            TipKodlari = tbl.GostSTKDeger,
-                            RiskBakiyeAralik = tbl.GostKod3OrtBakiye,
-                            RiskAralik = tbl.GostRiskDeger,
-                            Risk = insertObj["Risk"].ToDecimal(),
-                            RoleName = vUser.RoleName,
-                            Firma = insertObj["Firma"].ToString(),
-                            GunIciSiparis = insertObj["GunIciSiparis"].ToDecimal(),
-                            HesapKodu = insertObj["HesapKodu"].ToString(),
-                            Kod2 = insertObj["Kod2"].ToString(),
-                            Kod3OrtBakiye = insertObj["Kod3OrtBakiye"].ToDecimal(),
-                            Kod3OrtGun = insertObj["Kod3OrtGun"].ToDecimal(),
-                            KrediLimiti = insertObj["KrediLimiti"].ToDecimal(),
-                            OnayDurumu = "Onaylandı",
-                            OrtGun = insertObj["OrtGun"].ToDecimal(),
-                            PRTBakiye = insertObj["PRTBakiye"].ToDecimal(),
-                            SCek = insertObj["SCek"].ToDecimal(),
-                            SicakSiparis = insertObj["SicakSiparis"].ToDecimal(),
-                            SiparisTuru = insertObj["SiparisTuru"].ToString(),
-                            SogukSiparis = insertObj["SogukSiparis"].ToDecimal(),
-                            TCek = insertObj["TCek"].ToDecimal(),
-                            TipKodu = insertObj["TipKodu"].ToString(),
-                            RiskBakiyesi = insertObj["RiskBakiyesi"].ToDecimal()
-                        });
-                    }
+                        Bakiye = insertObj["Bakiye"].ToDecimal(),
+                        Unvan = insertObj["Unvan"].ToString(),
+                        EvrakNo = insertObj["EvrakNo"].ToString(),
+                        DegisTarih = (int)DateTime.Now.ToOADate(),
+                        Degistiren = vUser.UserName,
+                        SirketAralik = "",
+                        CHKAralik = tbl.GostCHKKodAlani,
+                        TipKodlari = tbl.GostSTKDeger,
+                        RiskBakiyeAralik = tbl.GostKod3OrtBakiye,
+                        RiskAralik = tbl.GostRiskDeger,
+                        Risk = insertObj["Risk"].ToDecimal(),
+                        RoleName = vUser.RoleName,
+                        Firma = insertObj["Firma"].ToString(),
+                        GunIciSiparis = insertObj["GunIciSiparis"].ToDecimal(),
+                        HesapKodu = insertObj["HesapKodu"].ToString(),
+                        Kod2 = insertObj["Kod2"].ToString(),
+                        Kod3OrtBakiye = insertObj["Kod3OrtBakiye"].ToDecimal(),
+                        Kod3OrtGun = insertObj["Kod3OrtGun"].ToDecimal(),
+                        KrediLimiti = insertObj["KrediLimiti"].ToDecimal(),
+                        OnayDurumu = "Onaylandı",
+                        OrtGun = insertObj["OrtGun"].ToDecimal(),
+                        PRTBakiye = insertObj["PRTBakiye"].ToDecimal(),
+                        SCek = insertObj["SCek"].ToDecimal(),
+                        SicakSiparis = insertObj["SicakSiparis"].ToDecimal(),
+                        SiparisTuru = insertObj["SiparisTuru"].ToString(),
+                        SogukSiparis = insertObj["SogukSiparis"].ToDecimal(),
+                        TCek = insertObj["TCek"].ToDecimal(),
+                        TipKodu = insertObj["TipKodu"].ToString(),
+                        RiskBakiyesi = insertObj["RiskBakiyesi"].ToDecimal()
+                    });
+                }
 
-                    try
+                try
+                {
+                    db.SaveChanges();
+                    dbl.SaveChanges();
+                    dbContextTransaction.Commit();
+                    _Result.Status = true;
+                    _Result.Message = "İşlem Başarılı ";
+                }
+                catch (DbEntityValidationException e)
+                {
+                    logDetay = "";
+                    foreach (var eve in e.EntityValidationErrors)
                     {
-                        db.SaveChanges();
-                        logdb.SaveChanges();
-                        dbContextTransaction.Commit();
-                        _Result.Status = true;
-                        _Result.Message = "İşlem Başarılı ";
-                    }
-                    catch (DbEntityValidationException e)
-                    {
-                        logDetay = "";
-                        foreach (var eve in e.EntityValidationErrors)
+                        logDetay += string.Format("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:", eve.Entry.Entity.GetType().Name, eve.Entry.State);
+                        foreach (var ve in eve.ValidationErrors)
                         {
-                            logDetay += string.Format("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:", eve.Entry.Entity.GetType().Name, eve.Entry.State);
-                            foreach (var ve in eve.ValidationErrors)
-                            {
-                                logDetay += string.Format("- Property: \"{0}\", Error: \"{1}\"", ve.PropertyName, ve.ErrorMessage);
-                            }
+                            logDetay += string.Format("- Property: \"{0}\", Error: \"{1}\"", ve.PropertyName, ve.ErrorMessage);
                         }
-                        exx = e;
-                        _Result.Status = false;
-                        _Result.Message = "Hata Oluştu";
                     }
-                    catch (Exception ex)
-                    {
-                        exx = ex;
-                        _Result.Status = false;
-                        _Result.Message = "Hata Oluştu";
-                    }
+                    exx = e;
+                    _Result.Status = false;
+                    _Result.Message = "Hata Oluştu";
+                }
+                catch (Exception ex)
+                {
+                    exx = ex;
+                    _Result.Status = false;
+                    _Result.Message = "Hata Oluştu";
                 }
             }
             if (exx != null) Logger(exx, "TumOrder", logDetay);
@@ -242,18 +239,17 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             var _Result = new Result(true);
             var parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
             var logDetay = "";
-            LOGEntities logdb = new LOGEntities();
             using (var dbContextTransaction = db.Database.BeginTransaction())
             {
                 var tbl = db.UserDetails.Where(m => m.UserID == vUser.Id).FirstOrDefault();
-                using (var logdbContextTransaction = logdb.Database.BeginTransaction())
+                using (var logdbContextTransaction = dbl.Database.BeginTransaction())
                 {
                     foreach (JObject insertObj in parameters)
                     {
                         db.Database.ExecuteSqlCommand(string.Format("[FINSAT6{0}].[wms].[SiparisReddet] @OncekiDurum = '{1}',@Kullanici = '{2}', @EvrakNo='{3}'", vUser.SirketKodu, insertObj["OnayDurumu"].ToString(), vUser.UserName, insertObj["EvrakNo"].ToString()));
                         logDetay = vUser.SirketKodu + "SPI tablosunda Evrak Numarası '" + insertObj["EvrakNo"].ToString() + "' ve Onay Durumu '" + insertObj["OnayDurumu"].ToString() + "' olan satırların OnayDurumu " + vUser.UserName + " kullanıcısının siparişi reddetmesi sonucu 'Reddedildi' olarak güncellenmiştir.";
                         LogActions("Approvals", "TumOrder", "Reddet", ComboItems.alRed, 0, logDetay);
-                        logdb.TumSiparisOnayLogs.Add(new TumSiparisOnayLog
+                        dbl.TumSiparisOnayLogs.Add(new TumSiparisOnayLog
                         {
                             Bakiye = insertObj["Bakiye"].ToDecimal(),
                             Unvan = insertObj["Unvan"].ToString(),
@@ -289,7 +285,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                     try
                     {
                         db.SaveChanges();
-                        logdb.SaveChanges();
+                        dbl.SaveChanges();
                         logdbContextTransaction.Commit();
                         dbContextTransaction.Commit();
                         _Result.Status = true;
@@ -302,7 +298,6 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                     }
                 }
             }
-            logdb.Dispose();
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
         #endregion
