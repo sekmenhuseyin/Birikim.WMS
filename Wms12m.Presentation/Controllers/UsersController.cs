@@ -80,6 +80,26 @@ namespace Wms12m.Presentation.Controllers
             return PartialView("Edit", tbl);
         }
         /// <summary>
+        /// kaydet
+        /// </summary>
+        [HttpPost, ValidateAntiForgeryToken]
+        public JsonResult Save(User tbl)
+        {
+            if (CheckPerm(Perms.Kullanıcılar, PermTypes.Writing) == false || tbl.ID == 1) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
+            var _Result = Persons.Operation(tbl);
+            return Json(_Result, JsonRequestBehavior.AllowGet);
+        }
+        /// <summary>
+        /// sil
+        /// </summary>
+        [HttpPost]
+        public JsonResult Delete(int Id)
+        {
+            if (vUser.Id > 1 || Id == 1) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
+            var _Result = Persons.Delete(Id);
+            return Json(_Result, JsonRequestBehavior.AllowGet);
+        }
+        /// <summary>
         /// resim değiştirme ekranı
         /// </summary>
         public PartialViewResult Image()
@@ -89,6 +109,7 @@ namespace Wms12m.Presentation.Controllers
             if (id == null || id.ToString2() == "") return null;
             return PartialView("Image", Persons.Detail(id.ToInt32()));
         }
+        #region Password
         /// <summary>
         /// şifre değiştirme ekranı
         /// </summary>
@@ -101,6 +122,37 @@ namespace Wms12m.Presentation.Controllers
             ViewBag.UserName = Persons.Detail(id.ToInt32()).Kod;
             return PartialView("Pass", new frmUserChangePass());
         }
+        /// <summary>
+        /// şifreyi değiştir
+        /// </summary>
+        [HttpPost]
+        public JsonResult ChangePass(frmUserChangePass tmp)
+        {
+            if (CheckPerm(Perms.Kullanıcılar, PermTypes.Writing) == false || tmp.ID == 1) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
+            var _Result = new Result();
+            if (tmp.Password == tmp.Password2)
+            {
+                var tbl = new User()
+                {
+                    ID = tmp.ID,
+                    Sifre = tmp.Password
+                };
+                _Result = Persons.ChangePass(tbl);
+            }
+
+            return Json(_Result, JsonRequestBehavior.AllowGet);
+        }
+        /// <summary>
+        /// şifreyi çözümler ve gösterir
+        /// </summary>
+        [HttpPost]
+        public JsonResult GetPass(int ID)
+        {
+            if (vUser.Id != 1) return Json("Yetkiniz yok", JsonRequestBehavior.AllowGet);
+            return Json(Persons.GetPass(ID), JsonRequestBehavior.AllowGet);
+        }
+        #endregion
+        #region Permissions
         /// <summary>
         /// kişiye yetki atama sayfası
         /// </summary>
@@ -215,55 +267,8 @@ namespace Wms12m.Presentation.Controllers
             };
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
-        /// <summary>
-        /// kaydet
-        /// </summary>
-        [HttpPost, ValidateAntiForgeryToken]
-        public JsonResult Save(User tbl)
-        {
-            if (CheckPerm(Perms.Kullanıcılar, PermTypes.Writing) == false || tbl.ID == 1) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
-            var _Result = Persons.Operation(tbl);
-            return Json(_Result, JsonRequestBehavior.AllowGet);
-        }
-        /// <summary>
-        /// şifreyi değiştir
-        /// </summary>
-        [HttpPost]
-        public JsonResult ChangePass(frmUserChangePass tmp)
-        {
-            if (CheckPerm(Perms.Kullanıcılar, PermTypes.Writing) == false || tmp.ID == 1) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
-            var _Result = new Result();
-            if (tmp.Password == tmp.Password2)
-            {
-                var tbl = new User()
-                {
-                    ID = tmp.ID,
-                    Sifre = tmp.Password
-                };
-                _Result = Persons.ChangePass(tbl);
-            }
-
-            return Json(_Result, JsonRequestBehavior.AllowGet);
-        }
-        /// <summary>
-        /// şifreyi çözümler ve gösterir
-        /// </summary>
-        [HttpPost]
-        public JsonResult GetPass(int ID)
-        {
-            if (CheckPerm(Perms.Kullanıcılar, PermTypes.Reading) == false || ID == 1) return Json("Yetkiniz yok", JsonRequestBehavior.AllowGet);
-            return Json(Persons.GetPass(ID), JsonRequestBehavior.AllowGet);
-        }
-        /// <summary>
-        /// sil
-        /// </summary>
-        [HttpPost]
-        public JsonResult Delete(int Id)
-        {
-            if (vUser.Id > 1 || Id == 1) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
-            var _Result = Persons.Delete(Id);
-            return Json(_Result, JsonRequestBehavior.AllowGet);
-        }
+        #endregion
+        #region B2B
         /// <summary>
         /// b2b kullanıcı sayfası
         /// </summary>
@@ -363,17 +368,11 @@ namespace Wms12m.Presentation.Controllers
             }
         }
         /// <summary>
-        /// malzeme autocomplete
+        /// b2b chk
         /// </summary>
         public JsonResult GetChKCode(string term)
         {
-            var id = Url.RequestContext.RouteData.Values["id"];
-            if (id == null) return null;
-            var sql = "";
-            // generate sql
-            if (id.ToString() == "0")
-                id = vUser.SirketKodu;
-            sql = string.Format("FINSAT6{0}.[wms].[BTBCHKSearch] @HesapKodu = N'{1}', @Unvan = N'', @top = 20", id.ToString(), term);
+            var sql = string.Format("FINSAT6{0}.[wms].[BTBCHKSearch] @HesapKodu = N'{1}', @Unvan = N'', @top = 20", vUser.SirketKodu, term);
             // return
             try
             {
@@ -388,13 +387,7 @@ namespace Wms12m.Presentation.Controllers
         }
         public JsonResult GetChKUnvan(string term)
         {
-            var id = Url.RequestContext.RouteData.Values["id"];
-            if (id == null) return null;
-            var sql = "";
-            // generate sql
-            if (id.ToString() == "0")
-                id = vUser.SirketKodu;
-            sql = string.Format("FINSAT6{0}.[wms].[BTBCHKSearch] @HesapKodu = N'', @Unvan = N'{1}', @top = 20", id.ToString(), term);
+            var sql = string.Format("FINSAT6{0}.[wms].[BTBCHKSearch] @HesapKodu = N'', @Unvan = N'{1}', @top = 20", vUser.SirketKodu, term);
             // return
             try
             {
@@ -403,13 +396,27 @@ namespace Wms12m.Presentation.Controllers
             }
             catch (Exception ex)
             {
-                Logger(ex, "Users/GetChKCode");
+                Logger(ex, "Users/GetChKUnvan");
                 return Json(new List<frmJson>(), JsonRequestBehavior.AllowGet);
             }
         }
+        #endregion
         /// <summary>
         /// sipriş yetki düzenleme sayfası
         /// </summary>
+        public PartialViewResult Parametre(int ID)
+        {
+            if (CheckPerm(Perms.Kullanıcılar, PermTypes.Reading) == false || ID == 1) return null;
+            ViewBag.ID = ID;
+            var tbl = db.UserDetails.Where(m => m.UserID == ID).FirstOrDefault();
+            if (tbl == null) tbl = new UserDetail()
+            {
+                GostCHKKodAlani = "0;ZZZ",
+                GostKod3OrtBakiye = "0, 999999999999, 0, 0",
+                GostRiskDeger = "0, 999999999999, 0, 0"
+            };
+            return PartialView("Parametre", tbl);
+        }
         public PartialViewResult YetkiDuzenle(int ID)
         {
             if (CheckPerm(Perms.Kullanıcılar, PermTypes.Reading) == false || ID == 1) return null;

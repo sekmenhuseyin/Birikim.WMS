@@ -853,6 +853,7 @@
     <Content Include="Views\Home\GorevProjesi\GorevGit.cshtml" />
     <Content Include="Views\Error\Index.cshtml" />
     <Content Include="Views\Error\Lost.cshtml" />
+    <Content Include="Views\Users\Parametre.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

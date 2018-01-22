@@ -66,7 +66,6 @@ namespace Wms12m.Presentation
                 //essentials
                 .Include("~/Content/assets/global/plugins/jquery-ui/datepicker-tr.js")
                 .Include("~/Content/assets/global/plugins/Numeral/locales.js")
-                .Include("~/Content/assets/global/plugins/devextreme/js/dx.all.js")
                 ;
             //datatables js
             var scriptBundle2 = new ScriptBundle(DtBundle);
@@ -95,10 +94,6 @@ namespace Wms12m.Presentation
             // generalstyles
             var styleBundle = new StyleBundle(CssBundle);
             styleBundle
-                // DevExtreme
-                .Include("~/Content/assets/global/plugins/DevExtreme/css/dx.common.css")
-                .Include("~/Content/assets/global/plugins/DevExtreme/css/dx.spa.css")
-                .Include("~/Content/assets/global/plugins/DevExtreme/css/dx.light.css")
                 //theme
                 .Include("~/Content/assets/global/css/components-md.min.css")
                 .Include("~/Content/assets/global/css/plugins-md.min.css")

@@ -53,11 +53,11 @@
 </div>
 <script>
     $("#HesapKodu").autocomplete({
-        source: "/Users/GetChKCode/0",
+        source: "/Users/GetChKCode",
         minLength: 2,
         select: function (event, ui) {
-            setTimeout(function () { $("#HesapKodu").val(ui.item.id); }, 0);
-            $("#Unvan").val(ui.item.value);
+            setTimeout(function () { $("#HesapKodu").val(ui.item.id); $("#Unvan").val(ui.item.value); }, 0);
+           
         },
         open: function () {
             $(this).autocomplete('widget').css('z-index', 1000000000);
@@ -65,10 +65,10 @@
         }
     });
     $("#Unvan").autocomplete({
-        source: "/Users/GetChKUnvan/0",
+        source: "/Users/GetChKUnvan",
         minLength: 2,
         select: function (event, ui) {
-            $("#HesapKodu").val(ui.item.id);
+            setTimeout(function () { $("#HesapKodu").val(ui.item.id); $("#Unvan").val(ui.item.value); }, 0);
         },
         open: function () {
             $(this).autocomplete('widget').css('z-index', 10000000000);

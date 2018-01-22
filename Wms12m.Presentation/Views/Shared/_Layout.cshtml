@@ -5,6 +5,7 @@
     if (id == "" || id == null) { id = "0"; }
     if (ViewBag.Title != "") { ViewBag.Title += " | " + setts.SiteName; }
     else { ViewBag.Title = setts.SiteName; }
+    var devexpressVarMi = true;// (Request.Url.ToString().Contains("Approval")==true || Request.Url.ToString().Contains("Reports")==true);
 }<!DOCTYPE html>
 <!--[if IE 8]> <html lang="en" class="ie8 no-js"> <![endif]-->
 <!--[if IE 9]> <html lang="en" class="ie9 no-js"> <![endif]-->
@@ -21,11 +22,15 @@
     <meta name="Copyright" content="Copyright © @DateTime.Today.Year" />
     <meta name="description" content="12M Consulting ERP Yönetim Paneli" />
     <meta name="keywords" content="12M, Link, Güneş, ERP, Yönetim, Birikim, Finans" />
-    <link rel='shortcut icon' type='image/x-icon' href='/favicon.ico' />
+    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+    <meta name="author" content="/humans.txt">
     <title>@ViewBag.Title</title>
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=all" rel="stylesheet" type="text/css" />
-    @Styles.Render(BundleConfig.bootstrapCss)    @Styles.Render(BundleConfig.jqueryUiCss)    @Styles.Render(BundleConfig.toastrCss)    @Styles.Render(BundleConfig.FontAwesome)    @Styles.Render(BundleConfig.simpleLineIcons)    @Styles.Render(BundleConfig.KendoCss)    @Styles.Render(BundleConfig.CssBundle)    @Scripts.Render(BundleConfig.jquery)    @Scripts.Render(BundleConfig.KendoJs)
-    @RenderSection("Styles", required: false)    @{if (ViewBag.Debug == false) {<style>.dx-scrollbar-vertical.dx-scrollbar-hoverable, .slimScrollBar, .slimScrollRail { width: 15px!important; }</style>@*/*Burası teknoloji özürlüler için eklenmiştir*/*@} }
+    @Styles.Render(BundleConfig.bootstrapCss)    @Styles.Render(BundleConfig.jqueryUiCss)    @Styles.Render(BundleConfig.toastrCss)    @Styles.Render(BundleConfig.FontAwesome)    @Styles.Render(BundleConfig.simpleLineIcons)    @Styles.Render(BundleConfig.KendoCss)    @Styles.Render(BundleConfig.CssBundle)    @Scripts.Render(BundleConfig.jquery)    @Scripts.Render(BundleConfig.KendoJs)@if (devexpressVarMi==true) {
+    <link href="~/Content/assets/global/plugins/DevExtreme/css/dx.common.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/assets/global/plugins/DevExtreme/css/dx.spa.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/assets/global/plugins/DevExtreme/css/dx.light.css" rel="stylesheet" type="text/css" />
+    }@RenderSection("Styles", required: false)    @{if (ViewBag.Debug == false) {<style>.dx-scrollbar-vertical.dx-scrollbar-hoverable, .slimScrollBar, .slimScrollRail { width: 15px!important; }</style>@*/*Burası teknoloji özürlüler için eklenmiştir*/*@} }
     <!--[if IE]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
 </head>
 <body class="page-header-fixed page-sidebar-closed-hide-logo page-content-white page-sidebar-fixed page-md page-footer-fixed">
@@ -153,7 +158,8 @@
 <script>var currentUserName = "@ViewBag.vUser.UserName"; var currentRealName = "@ViewBag.vUser.FullName"; var currentUserImage = "@Html.ImageAddressOrDefault(id)"; var SendMessageTo = "x";</script>
 @Scripts.Render(BundleConfig.jqueryUiJs)@Scripts.Render(BundleConfig.bootstrapJs)@Scripts.Render(BundleConfig.signalR)@Scripts.Render(BundleConfig.toastrJs)@Scripts.Render(BundleConfig.moment)@Scripts.Render(BundleConfig.numeral)@Scripts.Render(BundleConfig.bootbox)@Scripts.Render(BundleConfig.slimscroll)@Scripts.Render(BundleConfig.blockui)@Scripts.Render(BundleConfig.JsBundle)@Scripts.Render(BundleConfig.DtBundle)<script src="/signalr/hubs"></script>@Scripts.Render(BundleConfig.StBundle)
 <script src="~/Content/assets/global/plugins/datatables/extensions/Buttons/js/buttons.html5.js"></script>
-<script src="~/Content/assets/global/plugins/datatables/extensions/Buttons/js/buttons.flash.js"></script>@{if (ViewBag.Debug == false && ViewBag.vUser.Id > 1) {
+<script src="~/Content/assets/global/plugins/datatables/extensions/Buttons/js/buttons.flash.js"></script>@if (devexpressVarMi == true) {
+<script src="~/Content/assets/global/plugins/devextreme/js/dx.all.js"></script>}@{if (ViewBag.Debug == false && ViewBag.vUser.Id > 1) {
 <script src="~/Content/assets/global/plugins/devtools-detect.js"></script><script>window.addEventListener('devtoolschange', function (e) { if (e.detail.open == true) { console.clear(); window.location.href = "@Request.Url.Scheme://@Request.Url.Authority/"; } });</script> }}
 @RenderSection("Scripts", required: false)
 </body>
