@@ -1,5 +1,5 @@
 ﻿@model IEnumerable<SatisIadeDetay>
-@{ decimal tl = 0, avro = 0, dolar = 0; }
+@{ decimal tl = 0, avro = 0, dolar = 0, tutar=0;}
 <div class="modal-content">
     <div class="close-modal" data-dismiss="modal"><div class="lr"><div class="rl"></div></div></div>
     <div class="p-40">
@@ -37,11 +37,15 @@
                                 <td>@item.Depo</td>
                                 <td>@item.MalKodu</td>
                                 <td>@item.MalAdi</td>
-                                <td align="right">@String.Format("{0:n}", item.Miktar)</td>
+                                @*<td align="right">@String.Format("{0:n}", item.Miktar)</td>*@
+                                <td><input class="form-control input-circle w-50 pull-right" type="text" name="Miktar" id="txtMiktar@{@item.ID}" value="@String.Format("{0:n}", item.Miktar) " readonly="readonly" /></td>
                                 <td>@item.Birim</td>
-                                <td><input class="form-control input-circle w-50 pull-right" type="text" name="Fiyat" id="txtFiyat@{@item.ID}" value="@String.Format("{0:n}", item.Fiyat)" onchange="" /></td>
-                                <td>@item.DovizCinsi</td>
-                                <td align="right">@String.Format("{0:n}", item.Tutar)</td>
+                                <td><input class="form-control input-circle w-50 pull-right" type="text" name="Fiyat" id="txtFiyat@{@item.ID}" value="@String.Format("{0:n}", item.Fiyat)" 
+                                           onchange="editlist(@item.ID, @Model.Min(x=> x.ID), @Model.Max(x=> x.ID))" /></td>
+                                @*<td>@item.DovizCinsi</td>*@
+                                <td><label class="col-md-3 control-label" name="DovizCinsi" id="lblDovizCinsi@{@item.ID}">@item.DovizCinsi</label></td>
+                                @*<td align="right">@String.Format("{0:n}", item.Tutar)</td>*@
+                                <td><input class="form-control input-circle w-50 pull-right" type="text" name="Tutar" id="txtTutar@{@item.ID}" value="@String.Format("{0:n}", item.Tutar) " readonly="readonly" /></td>
                                 <td>@item.FaturaNo</td>
                                 <td>@item.FaturaTarih</td>
                                 <td>@item.Kaydeden</td>
@@ -51,9 +55,12 @@
                 </table>
                 <div class="row m-t-40">
                     <div class="col-lg-9 text-right">Toplam Tutar</div>
-                    <div class="col-lg-1">@String.Format("{0:n}", tl) ₺</div>
+                    @*<div class="col-lg-1">@String.Format("{0:n}", tl) ₺</div>
                     <div class="col-lg-1">@String.Format("{0:n}", dolar) $</div>
-                    <div class="col-lg-1">@String.Format("{0:n}", avro) €</div>
+                    <div class="col-lg-1">@String.Format("{0:n}", avro) €</div>*@
+                    <div class="col-lg-1"> <label name="tl" id="lbltl">@String.Format("{0:n}", tl) ₺</label> </div>
+                    <div class="col-lg-1"> <label name="dolar" id="lbldolar">@String.Format("{0:n}", dolar) $ </label></div>
+                    <div class="col-lg-1"> <label name="avro" id="lblavro">@String.Format("{0:n}", avro) € </label></div>
                 </div>
     }
             </div>
@@ -94,4 +101,34 @@
 
     });
 
+    Number.prototype.format = function (n, x, s, c) {
+        var re = '\\d(?=(\\d{' + (x || 3) + '})+' + (n > 0 ? '\\D' : '$') + ')',
+            num = this.toFixed(Math.max(0, ~~n));
+
+        return (c ? num.replace('.', c) : num).replace(new RegExp(re, 'g'), '$&' + (s || ','));
+    };
+
+    function editlist(id, minID, maxID) {
+
+        tl = 0; avro = 0; dolar = 0;
+
+        for (i = minID; i <= maxID; i++) {
+            tutar = parseFloat(replaceAll(document.getElementById('txtFiyat' + i).value, ',', '.')) * parseFloat(replaceAll(document.getElementById('txtMiktar' + i).value, ',', '.'));
+
+            if (i == id)
+                document.getElementById('txtTutar' + id).value = tutar.format(2, 3, '.', ',');
+
+            if (document.getElementById('lblDovizCinsi' + i).value == "TL")
+            { tl += tutar; }
+            else if (document.getElementById('lblDovizCinsi' + i).value == "EUR")
+            { avro += tutar; }
+            else { dolar += tutar; }
+        }
+
+        document.getElementById('lbltl').textContent = tl.format(2, 3, '.', ',') + "₺";
+        document.getElementById('lbldolar').textContent = dolar.format(2, 3, '.', ',') + "$";
+        document.getElementById('lblavro').textContent = avro.format(2, 3, '.', ',') + "€";
+
+
+    }
 </script>
