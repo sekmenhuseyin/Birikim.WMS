@@ -87,30 +87,30 @@ namespace Wms12m
         /// <summary>
         /// Home / PartialUrunGrubuSatis
         /// </summary>
-        public List<CachedChartUrunGrubu_Result> CachedChartUrunGrubu(short tarih)
+        public List<DB_UrunGrubu_SatisAnalizi> CachedChartUrunGrubu(int tarih)
         {
-            return db.Database.SqlQuery<CachedChartUrunGrubu_Result>(string.Format("[FINSAT6{0}].[wms].[DB_UrunGrubu_SatisAnalizi] @Ay = {1}", SirketKodu, tarih)).ToList();
+            return db.Database.SqlQuery<DB_UrunGrubu_SatisAnalizi>(string.Format("[FINSAT6{0}].[wms].[DB_UrunGrubu_SatisAnalizi] @Ay = {1}", SirketKodu, tarih)).ToList();
         }
         /// <summary>
         /// Home / PartialUrunGrubuSatisKriter
         /// </summary>
-        public List<CachedChartUrunGrubuKriter_Result> CachedChartUrunGrubuKriter(short tarih, string kriter)
+        public List<DB_UrunGrubu_SatisAnalizi_Kriter> CachedChartUrunGrubuKriter(int tarih, string kriter)
         {
-            return db.Database.SqlQuery<CachedChartUrunGrubuKriter_Result>(string.Format("[FINSAT6{0}].[wms].[DB_UrunGrubu_SatisAnalizi_Kriter] @Ay = {1}, @Kriter='{2}'", SirketKodu, tarih, kriter)).ToList();
+            return db.Database.SqlQuery<DB_UrunGrubu_SatisAnalizi_Kriter>(string.Format("[FINSAT6{0}].[wms].[DB_UrunGrubu_SatisAnalizi_Kriter] @Ay = {1}, @Kriter='{2}'", SirketKodu, tarih, kriter)).ToList();
         }
         /// <summary>
         /// Home / PartialLokasyonSatis
         /// </summary>
-        public List<CachedChartLocation_Result> CachedChartLocation(short tarih)
+        public List<DB_LokasyonBazli_SatisAnalizi> CachedChartLocation(int tarih)
         {
-            return db.Database.SqlQuery<CachedChartLocation_Result>(string.Format("[FINSAT6{0}].[wms].[DB_LokasyonBazli_SatisAnalizi] @Ay = {1}", SirketKodu, tarih)).ToList();
+            return db.Database.SqlQuery<DB_LokasyonBazli_SatisAnalizi>(string.Format("[FINSAT6{0}].[wms].[DB_LokasyonBazli_SatisAnalizi] @Ay = {1}", SirketKodu, tarih)).ToList();
         }
         /// <summary>
         /// Home / PartialLokasyonSatisKriter
         /// </summary>
-        public List<CachedChartLocationKriter_Result> CachedChartLocationKriter(int tarih, string kriter)
+        public List<DB_LokasyonBazli_SatisAnalizi_Kriter> CachedChartLocationKriter(int tarih, string kriter)
         {
-            return db.Database.SqlQuery<CachedChartLocationKriter_Result>(string.Format("[FINSAT6{0}].[wms].[DB_LokasyonBazli_SatisAnalizi_Kriter] @Ay = {1}, @Kriter='{2}'", SirketKodu, tarih, kriter)).ToList();
+            return db.Database.SqlQuery<DB_LokasyonBazli_SatisAnalizi_Kriter>(string.Format("[FINSAT6{0}].[wms].[DB_LokasyonBazli_SatisAnalizi_Kriter] @Ay = {1}, @Kriter='{2}'", SirketKodu, tarih, kriter)).ToList();
         }
     }
 }
