@@ -20,6 +20,11 @@ namespace Wms12m.Presentation.Controllers
             var theCharts = new Charts(db, vUser.SirketKodu);
             Setting setts = ViewBag.settings;
             var bo = new BekleyenOnaylar();
+            var tarih = fn.ToOADate();
+            var islemtip = 0;
+            var doviz = "TL";
+            var kod = "Tümü";
+            //kutucuklar
             var tbl = new GetHomeSummary_Result { depo = 0, gorev = 0, kull = 0, MalKabul = 0, Paketle = 0, RafaKaldir = 0, Sayim = 0, Sevkiyat = 0, SiparisTopla = 0, yetki = "" };
             try
             {
@@ -28,7 +33,6 @@ namespace Wms12m.Presentation.Controllers
             catch (Exception)
             {
             }
-
             // Bekleyen Onaylar
             if (setts.OnayCek == true || setts.OnayFiyat == true || setts.OnayRisk == true || setts.OnaySiparis == true || setts.OnaySozlesme == true || setts.OnayStok == true || setts.OnayTekno == true || setts.OnayTeminat == true)
                 try
@@ -39,7 +43,7 @@ namespace Wms12m.Presentation.Controllers
                 {
                     Logger(ex, "Home/Index");
                 }
-
+            ViewBag.BekleyenOnaylar = bo;
             // etkinlikler
             var tblEtki = db.Etkinliks.Where(m => m.Tekrarlayan == false && (m.TatilTipi == 76 || m.TatilTipi == 78) && m.Tarih == DateTime.Today).ToList();
             var tekrarlayan = db.Etkinliks.Where(m => m.Tekrarlayan == true && (m.TatilTipi == 76 || m.TatilTipi == 78) && m.Tarih.Day == DateTime.Today.Day && m.Tarih.Month == DateTime.Today.Month).ToList();
@@ -53,24 +57,27 @@ namespace Wms12m.Presentation.Controllers
                 };
                 tblEtki.Add(item2);
             }
-            var tarih = fn.ToOADate();
-            var islemtip = 0;
-            var kod = "Tümü";
+            ViewBag.Tatil = tblEtki;
+            //charts
             ViewBag.tarih = tarih;
             ViewBag.tarih2 = tarih.FromOADateInt();
             ViewBag.IslemTip = islemtip;
             ViewBag.Kriter = kod;
-            //charts
+            ViewBag.Doviz = doviz;
             if (tbl.yetki.Contains("'ChartGunlukSatis'") == true)
             {
                 ViewBag.ChartGunlukSatis = theCharts.ChartGunlukSatisAnalizi(tarih);
                 ViewBag.ChartGunlukZaman = theCharts.ChartBaglantiZaman();
                 ViewBag.ChartYear2Day = theCharts.CachedChartYear2Day();
-                ViewBag.CachedGunlukSatisAnalizi = theCharts.ChartGunlukSatisAnalizi(kod, islemtip, tarih);
+                ViewBag.ChartGunlukSatisAnalizi = theCharts.ChartGunlukSatisAnalizi(kod, islemtip, tarih);
+            }
+            if (tbl.yetki.Contains("'ChartAylikSatisAnaliziBar'") == true)
+            {
+                ViewBag.ChartAylikSatisAnalizi = dbl.DB_Aylik_SatisAnalizi.Where(m => m.DB == vUser.SirketKodu).ToList();
+                ViewBag.ChartAylikSatisCHKAnalizi = new List<ChartAylikSatisAnalizi> { new ChartAylikSatisAnalizi() { Ay = "0", Yil2015 = 0, Yil2016 = 0, Yil2017 = 0 } };
+                ViewBag.ChartAylikSatisAnaliziKodTipDoviz = dbl.DB_Aylik_SatisAnalizi_Tip_Kod_Doviz.Where(m => m.DB == vUser.SirketKodu && m.Grup == kod && m.Kriter == doviz && m.IslemTip == islemtip).ToList();
             }
             // return
-            ViewBag.BekleyenOnaylar = bo;
-            ViewBag.Tatil = tblEtki;
             return View("Index", tbl);
         }
         /// <summary>
@@ -327,7 +334,7 @@ namespace Wms12m.Presentation.Controllers
             ViewBag.IslemTip = islemtip;
             ViewBag.Kriter = kod;
             if (CheckPerm(Perms.ChartAylikSatisAnaliziBar, PermTypes.Reading) == false) return PartialView("Satis/AylikSatisAnaliziKodTipDovizBar", new List<DB_Aylik_SatisAnalizi_Tip_Kod_Doviz>());
-            var liste = new List<DB_Aylik_SatisAnalizi_Tip_Kod_Doviz>();
+            var liste = dbl.DB_Aylik_SatisAnalizi_Tip_Kod_Doviz.Where(m => m.DB == vUser.SirketKodu && m.Grup == kod && m.Kriter == doviz && m.IslemTip == islemtip).ToList();
             try
             {
                 var theCharts = new Charts(db, vUser.SirketKodu);

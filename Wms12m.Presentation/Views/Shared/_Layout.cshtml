@@ -5,7 +5,7 @@
     if (id == "" || id == null) { id = "0"; }
     if (ViewBag.Title != "") { ViewBag.Title += " | " + setts.SiteName; }
     else { ViewBag.Title = setts.SiteName; }
-    var devexpressVarMi = true;// (Request.Url.ToString().Contains("Approval")==true || Request.Url.ToString().Contains("Reports")==true);
+    var devexpressVarMi = (Request.Url.ToString().Contains("Approval")==true || Request.Url.ToString().Contains("Reports")==true);
 }<!DOCTYPE html>
 <!--[if IE 8]> <html lang="en" class="ie8 no-js"> <![endif]-->
 <!--[if IE 9]> <html lang="en" class="ie9 no-js"> <![endif]-->
