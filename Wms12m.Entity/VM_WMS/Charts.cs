@@ -494,13 +494,6 @@ namespace Wms12m.Entity
         public decimal? Yil2016 { get; set; }
         public decimal? Yil2017 { get; set; }
     }
-    public class ChartAylikSatisAnalizi2
-    {
-        public string Yil { get; set; }
-        public string m { get; set; }
-        public string Ay { get; set; }
-        public decimal Tutar { get; set; }
-    }
     public class ChartBaglantiUrunGrup
     {
         public string MalKod { get; set; }
