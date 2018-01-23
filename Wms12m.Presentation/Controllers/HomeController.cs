@@ -41,29 +41,37 @@ namespace Wms12m.Presentation.Controllers
                 }
 
             // etkinlikler
-            var tblEtki = db.Etkinliks.Where(m => m.Tekrarlayan == false && (m.TatilTipi == 76 || m.TatilTipi == 78) && m.Tarih == DateTime.Today);
-            var lstEtkinlik = tblEtki.ToList();
+            var tblEtki = db.Etkinliks.Where(m => m.Tekrarlayan == false && (m.TatilTipi == 76 || m.TatilTipi == 78) && m.Tarih == DateTime.Today).ToList();
             var tekrarlayan = db.Etkinliks.Where(m => m.Tekrarlayan == true && (m.TatilTipi == 76 || m.TatilTipi == 78) && m.Tarih.Day == DateTime.Today.Day && m.Tarih.Month == DateTime.Today.Month).ToList();
             foreach (var item in tekrarlayan)
             {
                 var fark = DateTime.Today.Year - item.Tarih.Year;
                 var item2 = new Etkinlik()
                 {
-                    ID = item.ID,
-                    Username = item.Username,
-                    TatilTipi = item.TatilTipi,
-                    Tarih = item.Tarih.AddYears(fark),
-                    Aciklama = item.Username + " " + item.Aciklama + " (" + fark + ". Tekrar)",
-                    Tekrarlayan = item.Tekrarlayan,
+                    Aciklama = item.Username + " " + item.Aciklama + " (" + fark + ". Yıldönümü)",
                     ComboItem_Name = item.ComboItem_Name
                 };
-                lstEtkinlik.Add(item2);
+                tblEtki.Add(item2);
             }
-
+            var charts = new Charts();
+            var tarih = fn.ToOADate();
+            var islemtip = 0;
+            var kod = "Tümü";
+            ViewBag.tarih = tarih;
+            ViewBag.tarih2 = tarih.FromOADateInt();
+            ViewBag.IslemTip = islemtip;
+            ViewBag.Kriter = kod;
+            //charts
+            if (tbl.yetki.Contains("'ChartGunlukSatis'") == true)
+            {
+                ViewBag.ChartGunlukSatis = charts.ChartGunlukSatisAnalizi(vUser.SirketKodu, tarih);
+                ViewBag.ChartGunlukZaman = charts.ChartBaglantiZaman(vUser.SirketKodu);
+                ViewBag.ChartYear2Day = charts.CachedChartYear2Day(vUser.SirketKodu);
+                ViewBag.CachedGunlukSatisAnalizi = charts.ChartGunlukSatisAnalizi(vUser.SirketKodu, kod, islemtip, tarih);
+            }
             // return
             ViewBag.BekleyenOnaylar = bo;
-            ViewBag.RoleName = vUser.RoleName;
-            ViewBag.Tatil = lstEtkinlik;
+            ViewBag.Tatil = tblEtki;
             return View("Index", tbl);
         }
         /// <summary>
@@ -199,7 +207,7 @@ namespace Wms12m.Presentation.Controllers
                 try
                 {
                     var tmp = new Charts();
-                    liste = tmp.CachedChartYear2Day_Result(vUser.SirketKodu);
+                    liste = tmp.CachedChartYear2Day(vUser.SirketKodu);
                 }
                 catch (Exception ex)
                 {
@@ -217,7 +225,7 @@ namespace Wms12m.Presentation.Controllers
                 try
                 {
                     var tmp = new Charts();
-                    liste = tmp.CachedChartYear2Day_Result(vUser.SirketKodu);
+                    liste = tmp.CachedChartYear2Day(vUser.SirketKodu);
                 }
                 catch (Exception ex)
                 {
@@ -276,7 +284,7 @@ namespace Wms12m.Presentation.Controllers
                 try
                 {
                     var tmp = new Charts();
-                    liste = tmp.CachedChartMonthly_Result(vUser.SirketKodu);
+                    liste = tmp.CachedChartMonthly(vUser.SirketKodu);
                 }
                 catch (Exception ex)
                 {
@@ -325,7 +333,7 @@ namespace Wms12m.Presentation.Controllers
                 try
                 {
                     var tmp = new Charts();
-                    liste = tmp.CachedChartMonthlyByKriter_Result(vUser.SirketKodu, kod, islemtip, doviz);
+                    liste = tmp.CachedChartMonthlyByKriter(vUser.SirketKodu, kod, islemtip, doviz);
                 }
                 catch (Exception ex)
                 {
@@ -345,7 +353,7 @@ namespace Wms12m.Presentation.Controllers
                 try
                 {
                     var tmp = new Charts();
-                    liste = tmp.CachedChartUrunGrubu_Result(vUser.SirketKodu, tarih);
+                    liste = tmp.CachedChartUrunGrubu(vUser.SirketKodu, tarih);
                 }
                 catch (Exception)
                 {
@@ -364,7 +372,7 @@ namespace Wms12m.Presentation.Controllers
                 try
                 {
                     var tmp = new Charts();
-                    liste = tmp.CachedChartUrunGrubuKriter_Result(vUser.SirketKodu, tarih, kriter);
+                    liste = tmp.CachedChartUrunGrubuKriter(vUser.SirketKodu, tarih, kriter);
                 }
                 catch (Exception)
                 {
@@ -383,7 +391,7 @@ namespace Wms12m.Presentation.Controllers
                 try
                 {
                     var tmp = new Charts();
-                    liste = tmp.CachedChartLocation_Result(vUser.SirketKodu, tarih);
+                    liste = tmp.CachedChartLocation(vUser.SirketKodu, tarih);
                 }
                 catch (Exception)
                 {
@@ -402,7 +410,7 @@ namespace Wms12m.Presentation.Controllers
                 try
                 {
                     var tmp = new Charts();
-                    liste = tmp.CachedChartLocationKriter_Result(vUser.SirketKodu, tarih, kriter);
+                    liste = tmp.CachedChartLocationKriter(vUser.SirketKodu, tarih, kriter);
                 }
                 catch (Exception)
                 {
