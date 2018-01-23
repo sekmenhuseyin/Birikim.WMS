@@ -16,6 +16,8 @@
     List<DB_UrunGrubu_SatisAnalizi_Kriter> tmpChartUrunGrubuSatisKriter = new List<DB_UrunGrubu_SatisAnalizi_Kriter>();
     List<DB_LokasyonBazli_SatisAnalizi> tmpChartLokasyonSatis = new List<DB_LokasyonBazli_SatisAnalizi>();
     List<DB_LokasyonBazli_SatisAnalizi_Kriter> tmpChartLokasyonSatisKriter = new List<DB_LokasyonBazli_SatisAnalizi_Kriter>();
+    List<DB_BakiyeRiskAnalizi> tmpChartBakiyeRisk = new List<DB_BakiyeRiskAnalizi>();
+    List<ChartSatisTemsilcisiAylikSatisAnalizi> tmpChartSatisTemsilcisiAylikSatis = new List<ChartSatisTemsilcisiAylikSatisAnalizi>();
     if (Model.yetki.Contains("'ChartGunlukSatis'") == true)
     {
         tmpChartGunlukSatis = ViewBag.ChartGunlukSatis;
@@ -38,6 +40,14 @@
     {
         tmpChartLokasyonSatis = ViewBag.ChartLokasyonSatis;
         tmpChartLokasyonSatisKriter = ViewBag.ChartLokasyonSatisKriter;
+    }
+    if (Model.yetki.Contains("'ChartBakiyeRiskAnalizi'") == true)
+    {
+        tmpChartBakiyeRisk = ViewBag.ChartBakiyeRisk;
+    }
+    if (Model.yetki.Contains("'ChartSatisTemsilcisiAylikSatisAnalizi'") == true)
+    {
+        tmpChartSatisTemsilcisiAylikSatis = ViewBag.ChartSatisTemsilcisiAylikSatis;
     }
 }@section Styles{<link href="~/Content/assets/global/plugins/bootstrap-toggle/css/bootstrap-toggle.min.css" rel="stylesheet" type="text/css" />
     <script>var dateVal = new Date(); dateVal.setHours(0, 0, 0); var oaDate = Math.ceil((dateVal - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000));</script>
@@ -496,14 +506,18 @@ if (tst.CrmOzet == true)
 {
     <div id="lokasyon_satis">@{Html.RenderPartial("Satis/LokasyonSatis", tmpChartLokasyonSatis);}</div>
     <div id="lokasyon_satis_kriter">@{Html.RenderPartial("Satis/LokasyonSatisKriter", tmpChartLokasyonSatisKriter);}</div>
+}@if (Model.yetki.Contains("'ChartBakiyeRiskAnalizi'") == true)
+{
+    <div id="bakiye_risk">@{Html.RenderPartial("Satis/BakiyeRiskAnalizi", tmpChartBakiyeRisk);}</div>
+}@if (Model.yetki.Contains("'ChartBakiyeRiskAnalizi'") == true)
+{
+    <div id="satis_temsilcisi_aylik_satis_analizi">@{Html.RenderPartial("Satis/SatisTemsilcisi_AylikSatisAnalizi", tmpChartSatisTemsilcisiAylikSatis);}</div>
 }
-<div id="bakiye_risk"></div>
-<div id="bekleyen_siparis_urun_grubu"></div><div id="bekleyen_siparis_urun_grubu_miktar"></div><div id="bekleyen_siparis_urun_grubu_miktar_pie"></div><div id="bekleyen_siparis_urun_grubu_miktar_kriter"></div><div id="bekleyen_siparis_urun_grubu_miktar_kriter_pie"></div><div id="bekleyen_siparis_musteri_analizi"></div>
-<div id="satis_temsilcisi_aylik_satis_analizi"></div>
 <div id="baglanti_urun_grubu"></div><div id="baglanti_urun_grubu_pie"></div>
 <div id="gunluk_mdf_uretim"></div><div id="gunluk_mdf_uretim_pie"></div>
 <div id="baglanti_zaman_cizelgesi"></div>
 <div id="bolge_bazli_satis_analizi"></div><div id="bolge_bazli_satis_analizi_pie"></div>
+<div id="bekleyen_siparis_urun_grubu"></div><div id="bekleyen_siparis_urun_grubu_miktar"></div><div id="bekleyen_siparis_urun_grubu_miktar_pie"></div><div id="bekleyen_siparis_urun_grubu_miktar_kriter"></div><div id="bekleyen_siparis_urun_grubu_miktar_kriter_pie"></div><div id="bekleyen_siparis_musteri_analizi"></div>
 @section Scripts{<script src="~/Content/assets/global/plugins/waypoints/lib/jquery.waypoints.min.js"></script>
 <script src="~/Content/assets/global/plugins/counterup/jquery.counterup.min.js"></script>
 <script src="~/Content/assets/global/plugins/amcharts/amcharts/amcharts.js"></script>
@@ -531,7 +545,6 @@ if (tst.CrmOzet == true)
         </text>}
     }
     @*
-    if (Model.yetki.Contains("'ChartBakiyeRiskAnalizi'") == true){<text>PartialView('/Home/PartialBakiyeRiskAnalizi', 'bakiye_risk', JSON.stringify({  }));</text>}
     if (Model.yetki.Contains("'ChartBekleyenSiparisUrunGrubu'") == true){<text>
         PartialView('/Home/PartialBekleyenSiparisUrunGrubu', 'bekleyen_siparis_urun_grubu', JSON.stringify({ bastarih: oaDate - 7, bittarih: oaDate }));
         PartialView('/Home/PartialBekleyenSiparisUrunGrubuMiktar', 'bekleyen_siparis_urun_grubu_miktar', JSON.stringify({ miktarTutar: true }));

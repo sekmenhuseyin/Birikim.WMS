@@ -91,7 +91,11 @@ namespace Wms12m.Presentation.Controllers
             }
             if (tbl.yetki.Contains("'ChartBakiyeRiskAnalizi'") == true)
             {
-                ViewBag.ChartBakiyeRisk = dbl.DB_LokasyonBazli_SatisAnalizi_Kriter.Where(m => m.DB == vUser.SirketKodu && m.Ay == tarih && m.GrupKod == doviz).ToList();
+                ViewBag.ChartBakiyeRisk = dbl.DB_BakiyeRiskAnalizi.Where(m => m.DB == vUser.SirketKodu).ToList();
+            }
+            if (tbl.yetki.Contains("'ChartSatisTemsilcisiAylikSatisAnalizi'") == true)
+            {
+                ViewBag.ChartSatisTemsilcisiAylikSatis = new List<ChartSatisTemsilcisiAylikSatisAnalizi>();
             }
             // return
             return View("Index", tbl);
@@ -709,19 +713,18 @@ namespace Wms12m.Presentation.Controllers
         }
         public PartialViewResult PartialBakiyeRiskAnalizi()
         {
-            if (CheckPerm(Perms.ChartBakiyeRiskAnalizi, PermTypes.Reading) == false) return PartialView("Satis/BakiyeRiskAnalizi", new List<CachedChartBakiyeRisk_Result>());
-            var BRA = db.CachedChartBakiyeRisk(vUser.SirketKodu).ToList();
-            if (BRA.Count == 0)
+            if (CheckPerm(Perms.ChartBakiyeRiskAnalizi, PermTypes.Reading) == false) return PartialView("Satis/BakiyeRiskAnalizi", new List<DB_BakiyeRiskAnalizi>());
+            var liste = dbl.DB_BakiyeRiskAnalizi.Where(m => m.DB == vUser.SirketKodu).ToList();
+            if (liste.Count == 0)
                 try
                 {
-                    BRA = db.Database.SqlQuery<CachedChartBakiyeRisk_Result>(string.Format("[FINSAT6{0}].[wms].[DB_BakiyeRiskAnalizi]", vUser.SirketKodu)).ToList();
+                    liste = db.Database.SqlQuery<DB_BakiyeRiskAnalizi>(string.Format("[FINSAT6{0}].[wms].[DB_BakiyeRiskAnalizi]", vUser.SirketKodu)).ToList();
                 }
                 catch (Exception)
                 {
-                    BRA = new List<CachedChartBakiyeRisk_Result>();
                 }
 
-            return PartialView("Satis/BakiyeRiskAnalizi", BRA);
+            return PartialView("Satis/BakiyeRiskAnalizi", liste);
         }
         public PartialViewResult PartialSatisTemsilcisiAylikSatisAnalizi(string kod, short tarih)
         {
