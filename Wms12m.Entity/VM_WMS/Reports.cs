@@ -240,6 +240,50 @@ namespace Wms12m.Entity
         public decimal TeminatAltBayi { get; set; }
     }
 
+    public class CariHesapOnaySelect
+    {
+        public bool? Onay { get; set; }
+        public string HesapKodu { get; set; }
+        public string Unvan1 { get; set; }
+        public string Unvan2 { get; set; }
+        public string FaturaAdres1 { get; set; }
+        public string FaturaAdres2 { get; set; }
+        public string FaturaAdres3 { get; set; }
+        public string VergiDairesi { get; set; }
+        public string HesapNo { get; set; }
+        public Int16 OpsiyonGunu { get; set; }
+        public string BolgeKod { get; set; }
+        public string OzelKod { get; set; }
+        public string GrupKod { get; set; }
+        public string TipKod { get; set; }
+        public string Kod1 { get; set; }
+        public string Kod2 { get; set; }
+        public string Kod3 { get; set; }
+        public string Kod4 { get; set; }
+        public decimal Kod5 { get; set; }
+        public decimal Kod6 { get; set; }
+        public string Kod7 { get; set; }
+        public string Kod8 { get; set; }
+        public string Kod9 { get; set; }
+        public Int16 Kod10 { get; set; }
+        public Int16 Kod11 { get; set; }
+        public decimal Kod12 { get; set; }
+        public decimal Kod13 { get; set; }
+        public string Kod14 { get; set; }
+        public string Kod15 { get; set; }
+        public string Kod16 { get; set; }
+        public string Kod17 { get; set; }
+        public string Kod18 { get; set; }
+        public string MhsKod { get; set; }
+        public decimal KrediLimiti { get; set; }
+        public Int16 EFatKullanici { get; set; }
+        public Int16 EFatSenaryo { get; set; }
+        public string EFatEtiket { get; set; }
+        public string Ad { get; set; }
+        public string SoyAd { get; set; }
+    }
+
+
     public class KampanyaliSatisRaporu
     {
         public string Chk { get; set; }

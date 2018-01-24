@@ -1,8 +1,297 @@
-﻿
+﻿@model List<CariHesapOnaySelect>
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Cari Hesap Onaylama";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<div class="page-bar">
+    <ul class="page-breadcrumb">
+        <li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li>
+        <li><span>Onaylama</span><i class="fa fa-circle"></i></li>
+        <li><span>Cari Hesap</span></li>
+    </ul>
+</div>
+<h1 class="page-title">Cari Hesap Onaylama</h1>
 
-<h2>Index</h2>
+<div class="row">
+    <div class="col-md-12" style="width:100%;">
+        <div class="portlet box green">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-gift"></i>Cari Hesap Onay Onaylama
+                </div>
+                <div class="col-md-1 pull-right m-t-5 p-0" id="buttons"></div>
+                <div class="col-md-2 pull-right m-t-5"><button class="btn btn-default pull-right input-circle yenile-buton glyphicon glyphicon-refresh"> Yenile </button></div>
+                <div class="col-md-2 pull-right m-t-5"><button class="btn btn-success pull-right input-circle onay-buton glyphicon glyphicon-ok"> Onayla </button></div>
+                <div class="col-md-2 pull-right m-t-5"><button class="btn btn-danger pull-right input-circle reddet-buton glyphicon glyphicon-remove"> Reddet </button></div>
+            </div>
+            <div class="portlet-body">
+                <table class="table table-striped table-bordered" id="sample_1">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Hesap Kodu </th>
+                            <th>Unvan 1</th>
+                            <th>Unvan 2 </th>
+                            <th>Fatura Adres 1</th>
+                            <th>Fatura Adres 2 </th>
+                            <th>Fatura Adres 3 </th>
+                            <th>Vergi Dairesi</th>
+                            <th>Hesap No</th>
+                            <th>Opsiyon Gunu</th>
+                            <th>Bolge Kod</th>
+                            <th>Ozel Kod</th>
+                            <th>Grup Kod</th>
+                            <th>Tip Kod</th>
+                            <th>Kod 1</th>
+                            <th>Kod 2</th>
+                            <th>Kod 3</th>
+                            <th>Kod 4</th>
+                            <th>Kod 5</th>
+                            <th>Kod 6</th>
+                            <th>Kod 7</th>
+                            <th>Kod 8</th>
+                            <th>Kod 9</th>
+                            <th>Kod 10</th>
+                            <th>Kod 11</th>
+                            <th>Kod 12</th>
+                            <th>Kod 13</th>
+                            <th>Kod 14</th>
+                            <th>Kod 15</th>
+                            <th>Kod 16</th>
+                            <th>Kod 17</th>
+                            <th>Kod 18</th>
+                            <th>MhsKod</th>
+                            <th>KrediLimiti</th>
+                            <th>EFatKullanici</th>
+                            <th>EFatSenaryo</th>
+                            <th>EFatEtiket</th>
+                            <th>Ad</th>
+                            <th>SoyAd</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </tfoot>
+                    <tfoot class="tf-search">
+                        <tr>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </tfoot>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr class="clickable" onclick="toggle(this)">
+                                <td nowrap class="select-checkbox"></td>
+                                <td nowrap>@item.HesapKodu</td>
+                                <td nowrap>@item.Unvan1</td>
+                                <td nowrap>@item.Unvan2</td>
+                                <td nowrap>@item.FaturaAdres1</td>
+                                <td nowrap>@item.FaturaAdres2</td>
+                                <td nowrap>@item.FaturaAdres3</td>
+                                <td nowrap>@item.VergiDairesi</td>
+                                <td nowrap>@item.HesapNo</td>
+                                <td nowrap>@item.OpsiyonGunu</td>
+                                <td nowrap>@item.BolgeKod</td>
+                                <td nowrap>@item.OzelKod</td>
+                                <td nowrap>@item.GrupKod</td>
+                                <td nowrap>@item.TipKod</td>
+                                <td nowrap>@item.Kod1</td>
+                                <td nowrap>@item.Kod2</td>
+                                <td nowrap>@item.Kod3</td>
+                                <td nowrap>@item.Kod4</td>
+                                <td nowrap>@item.Kod5</td>
+                                <td nowrap>@item.Kod6</td>
+                                <td nowrap>@item.Kod7</td>
+                                <td nowrap>@item.Kod8</td>
+                                <td nowrap>@item.Kod9</td>
+                                <td nowrap>@item.Kod10</td>
+                                <td nowrap>@item.Kod11</td>
+                                <td nowrap>@item.Kod12</td>
+                                <td nowrap>@item.Kod13</td>
+                                <td nowrap>@item.Kod14</td>
+                                <td nowrap>@item.Kod15</td>
+                                <td nowrap>@item.Kod16</td>
+                                <td nowrap>@item.Kod17</td>
+                                <td nowrap>@item.Kod18</td>
+                                <td nowrap>@item.MhsKod</td>
+                                <td nowrap>@item.KrediLimiti</td>
+                                <td nowrap>@item.EFatKullanici</td>
+                                <td nowrap>@item.EFatSenaryo</td>
+                                <td nowrap>@item.EFatEtiket</td>
+                                <td nowrap>@item.Ad</td>
+                                <td nowrap>@item.SoyAd</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script>
+        var secili_table = new Array();
+        $(document).ready(function () {
+            table = $('#sample_1').DataTable({
+                "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
+                "order": [[1, "desc"]],
+                "pagingType": "full_numbers"
+            });
+            $('#sample_1 .tf-search th').each(function () {
+                var title = $('#sample_1 thead th').eq($(this).index()).text();
+                if (title != "" && title.indexOf("Tarih") !== -1)
+                    $(this).html('<input class="form-control input-circle tarih" type="text" placeholder="Ara" />');
+                else if (title != "" && title != "Detay" && title != "Hareket")
+                    $(this).html('<input class="form-control input-circle" type="text" placeholder="Ara" />');
+            });
+            $("#sample_1 tfoot input").on('keyup change', function () { table.column($(this).parent().index() + ':visible').search(this.value).draw(); });
+            //tarih
+            $.datepicker.setDefaults($.datepicker.regional["tr"]);
+            $(".tarih").datepicker();
+            $("#buttons").html("");
+            var buttons = new $.fn.dataTable.Buttons(table, {
+                buttons: [
+                    { "extend": 'pdf', "text": '<span class="fa fa-file-pdf-o f-s-15 red"></span>', "className": 'btn-xs;' },
+                    { "extend": 'excel', "text": '<span class="fa fa-file-excel-o f-s-15 green"></span>', "className": 'btn-xs;' }
+                ]
+            }).container().appendTo($('#buttons'));
+            $('.onay-buton').click(function (e) {
+                var x = table.rows('.selected').data();
 
+                for (var i = 0; i < x.length; i++) {
+                    secili_table.push(x[i][1]);
+                }
+                var _dfd = $.Deferred();
+
+                $.ajax({
+                    url: window.location.origin + "/Approvals/Account/Onay",
+                    data: { Data: JSON.stringify(secili_table) },
+                    type: "post",
+                    success: function (data) {
+                        if (data.Status == true) {
+                            Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "btn-success");
+                            setTimeout(function () { window.location.reload(); }, 500);
+                        }
+                        else {
+                            if (data.Message == "") data.Message = "Hata oluştu";
+                            Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
+                            setTimeout(function () { window.location.reload(); }, 500);
+                        }
+
+                    }
+                });
+                return _dfd.promise();
+            });
+            $('.reddet-buton').click(function (e) {
+                var x = table.rows('.selected').data();
+                for (var i = 0; i < x.length; i++) {
+                    secili_table.push(x[i][1]);
+                }
+                console.log(table.rows('.selected').data());
+                console.log(secili_table);
+                var _dfd = $.Deferred();
+                $.ajax({
+                    url: window.location.origin + "/Approvals/Account/Onay",
+                    data: { Data: JSON.stringify(secili_table), OnaylandiMi: false },
+                    type: "post",
+                    success: function (data) {
+                        if (data.Status == true) {
+                            Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "btn-success");
+                            setTimeout(function () { window.location.reload(); }, 500);
+                        }
+                        else {
+                            if (data.Message == "") data.Message = "Hata oluştu";
+                            Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
+                            setTimeout(function () { window.location.reload(); }, 500);
+                        }
+
+                    }
+                });
+                return _dfd.promise();
+            });
+            $('.yenile-buton').click(function (e) {
+                window.location.reload();
+            });
+        });
+        function toggle(row) {
+            $(row).toggleClass('selected');
+        }
+    </script>}
