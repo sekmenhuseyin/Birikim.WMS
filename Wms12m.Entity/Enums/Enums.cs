@@ -173,6 +173,7 @@
         Stok,
         Transfer,
         SiparişOnaylama,
+        CariHesapOnaylama,
         StokOnaylama,
         FiyatOnaylama,
         FiyatTanim,
