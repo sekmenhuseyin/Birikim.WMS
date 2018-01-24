@@ -136,7 +136,7 @@
     {
         public string ID { get; set; }
         public int[] Row_ID { get; set; }
-        public string Fiyat { get; set; }
+        public string[] Fiyat { get; set; }
     }
 
     public class SatisIadeOnay
