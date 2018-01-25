@@ -52,9 +52,9 @@ namespace Wms12m
         /// <summary>
         /// Home / PartialGunlukSatisYearToDay
         /// </summary>
-        public List<CachedChartYear2Day_Result> CachedChartYear2Day()
+        public List<DB_GunlukSatisAnaliziYearToDay> CachedChartYear2Day()
         {
-            return db.Database.SqlQuery<CachedChartYear2Day_Result>(string.Format("[FINSAT6{0}].[wms].[DB_GunlukSatisAnaliziYearToDay]", SirketKodu)).ToList();
+            return db.Database.SqlQuery<DB_GunlukSatisAnaliziYearToDay>(string.Format("[FINSAT6{0}].[wms].[DB_GunlukSatisAnaliziYearToDay]", SirketKodu)).ToList();
         }
         /// <summary>
         /// Home / PartialGunlukSatisDoubleKriter

@@ -227,8 +227,8 @@ namespace Wms12m.Presentation.Controllers
         }
         public PartialViewResult PartialGunlukSatisYearToDay()
         {
-            if (CheckPerm(Perms.ChartGunlukSatis, PermTypes.Reading) == false) return PartialView("Satis/GunlukSatısAnaliziYearToDay", new List<CachedChartYear2Day_Result>());
-            var liste = db.CachedChartYear2Day(vUser.SirketKodu).ToList();
+            if (CheckPerm(Perms.ChartGunlukSatis, PermTypes.Reading) == false) return PartialView("Satis/GunlukSatısAnaliziYearToDay", new List<DB_GunlukSatisAnaliziYearToDay>());
+            var liste = dbl.DB_GunlukSatisAnaliziYearToDay.Where(m => m.DB == vUser.SirketKodu).ToList();
             if (liste.Count == 0)
                 try
                 {
@@ -238,15 +238,15 @@ namespace Wms12m.Presentation.Controllers
                 catch (Exception ex)
                 {
                     Logger(ex, "Home/ChartGunlukSatisYearToDay");
-                    liste = new List<CachedChartYear2Day_Result>();
+                    liste = new List<DB_GunlukSatisAnaliziYearToDay>();
                 }
 
             return PartialView("Satis/GunlukSatısAnaliziYearToDay", liste);
         }
         public PartialViewResult PartialGunlukSatisYearToDayPie()
         {
-            if (CheckPerm(Perms.ChartGunlukSatis, PermTypes.Reading) == false) return PartialView("PartialGunlukSatisYearToDayPie", new List<CachedChartYear2Day_Result>());
-            var liste = db.CachedChartYear2Day(vUser.SirketKodu).ToList();
+            if (CheckPerm(Perms.ChartGunlukSatis, PermTypes.Reading) == false) return PartialView("PartialGunlukSatisYearToDayPie", new List<DB_GunlukSatisAnaliziYearToDay>());
+            var liste = dbl.DB_GunlukSatisAnaliziYearToDay.Where(m => m.DB == vUser.SirketKodu).ToList();
             if (liste.Count == 0)
                 try
                 {
@@ -256,7 +256,7 @@ namespace Wms12m.Presentation.Controllers
                 catch (Exception ex)
                 {
                     Logger(ex, "Home/PartialGunlukSatisYearToDayPie");
-                    liste = new List<CachedChartYear2Day_Result>();
+                    liste = new List<DB_GunlukSatisAnaliziYearToDay>();
                 }
 
             return PartialView("Satis/GunlukSatısAnaliziYearToDayPie", liste);
