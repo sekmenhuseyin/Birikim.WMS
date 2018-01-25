@@ -392,7 +392,8 @@ namespace Wms12m.Presentation.Areas.YN.Controllers
                         CONVERT(VARCHAR(15), CAST(TahsilatTarihi - 2 AS datetime), 104) as Tarih,
                         CASE IslemTuru WHEN 0 THEN 'Tahsilat' WHEN 1 THEN 'İskonto' END as IslemTuru,
                         CASE OdemeTuru WHEN 0 THEN 'Nakit' WHEN 1 THEN 'Kredi Kartı' END as OdemeTuru,
-                        Tutar, DovizCinsi, KapatilanTL, KapatilanUSD, KapatilanEUR, Kaydeden, Aciklama
+                        Tutar, DovizCinsi, KapatilanTL, KapatilanUSD, KapatilanEUR, Kaydeden, Aciklama,
+                        ISNULL(DvzEfektisSatis1,0) AS USDKur , ISNULL(DvzEfektisSatis2,0) AS EURKur
                     FROM YNS{0}.YNS{0}.TahsilatMobil(NOLOCK)
                     LEFT JOIN YNS{0}.YNS{0}.CAR002 ON TahsilatMobil.HesapKodu = CAR002_HesapKodu
                     WHERE TahsilatNo='{1}'", YnsSirketKodu, ID)).FirstOrDefault();

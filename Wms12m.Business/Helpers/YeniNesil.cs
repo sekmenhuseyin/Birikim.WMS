@@ -534,12 +534,6 @@ namespace Wms12m
 
 
             int tarih = tahsilatItem.Tarih.ToDatetime().ToOADateInt();
-            DovizKurlari DovizKurlari = Sqlexper.SelectFirst<DovizKurlari>(string.Format(DovizKurlari.Sorgu, tarih, tarih - 1, tarih - 2));
-
-            if(DovizKurlari.IsNull() || DovizKurlari.USD<=0 || DovizKurlari.EUR<=0)
-            {
-                throw new Exception("İlgili tarihle alakalı geçerli(0 dan büyük) döviz kuru bulunamadı ! \n DVZ002 tablosunu kontrol ediniz.");
-            }
 
             string kayitSaat = DateTime.Now.ToString("HHmmss"); ///O anın saatini döner 
 
@@ -556,20 +550,27 @@ namespace Wms12m
                 if (tahsilatItem.KapatilanUSD > 0)
                 {
                     Sqlexper.Komut(string.Format("EXEC YNS{0}.dbo.FaturalariKapat 0,'{1}','{2}',{3},{4},{5},'{6}','{7}','{8}',{9},'{10}','{11}',{12}",
-                                    SirketKodu, tahsilatItem.HesapKodu + "$", EvrakNo, tahsilatItem.KapatilanUSD.ToDot(), (tahsilatItem.KapatilanUSD * DovizKurlari.USD).ToDot(),
-                                    tarih, EvrakNo, tahsilatItem.OdemeTuru, "USD", SeqNo + 1, kayitSaat, user, DovizKurlari.USD.ToDot()));
+                                    SirketKodu, tahsilatItem.HesapKodu + "$", EvrakNo, tahsilatItem.KapatilanUSD.ToDot(), (tahsilatItem.KapatilanUSD * tahsilatItem.USDKur).ToDot(),
+                                    tarih, EvrakNo, tahsilatItem.OdemeTuru, "USD", SeqNo + 1, kayitSaat, user, tahsilatItem.USDKur.ToDot()));
                 }
 
                 if (tahsilatItem.KapatilanEUR > 0)
                 {
                     Sqlexper.Komut(string.Format("EXEC YNS{0}.dbo.FaturalariKapat 0,'{1}','{2}',{3},{4},{5},'{6}','{7}','{8}',{9},'{10}','{11}',{12}",
-                                    SirketKodu, tahsilatItem.HesapKodu + "EU", EvrakNo, tahsilatItem.KapatilanEUR.ToDot(), (tahsilatItem.KapatilanEUR * DovizKurlari.EUR).ToDot(),
-                                    tarih, EvrakNo, tahsilatItem.OdemeTuru, "EUR", SeqNo + 1, kayitSaat, user, DovizKurlari.EUR.ToDot()));
+                                    SirketKodu, tahsilatItem.HesapKodu + "EU", EvrakNo, tahsilatItem.KapatilanEUR.ToDot(), (tahsilatItem.KapatilanEUR * tahsilatItem.EURKur).ToDot(),
+                                    tarih, EvrakNo, tahsilatItem.OdemeTuru, "EUR", SeqNo + 1, kayitSaat, user, tahsilatItem.EURKur.ToDot()));
                 }
 
             }
             else if(tahsilatItem.IslemTuru == "İskonto")
             {
+                DovizKurlari DovizKurlari = Sqlexper.SelectFirst<DovizKurlari>(string.Format(DovizKurlari.Sorgu, tarih, tarih - 1, tarih - 2));
+
+                if (DovizKurlari.IsNull() || DovizKurlari.USD <= 0 || DovizKurlari.EUR <= 0)
+                {
+                    throw new Exception("İlgili tarihle alakalı geçerli(0 dan büyük) döviz kuru bulunamadı ! \n DVZ002 tablosunu kontrol ediniz.");
+                }
+
                 string paraCinsi = "TL", ekHesapKod = "";
                 decimal islemTutar = 0, islemTutarTL = 0, dovizKuru = 0;
 
