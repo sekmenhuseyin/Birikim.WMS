@@ -217,7 +217,8 @@
         TodoTroubleshooting,
         TerminalAlimdanİade,
         TerminalSatıştanİade,
-        ChartGörevProjesi
+        ChartGörevProjesi,
+        SatinalmaGMYTedarikciOnaylama
     }
     /// <summary>
     /// aylar

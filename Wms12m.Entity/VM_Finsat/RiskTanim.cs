@@ -848,6 +848,40 @@ namespace Wms12m.Entity
             }
             private set { }
         }
+
+        public string TalepEden { get; set; }
+        public bool OneriDurum { get; set; }
+        public decimal AcikTalepMiktar { get; set; }
+        public decimal TeklifMiktar { get; set; }
+        public int TerminSure { get; set; }
+        public decimal MinSipMiktar { get; set; }
+        public Nullable<DateTime> TeklifBasTarih { get; set; }
+        public Nullable<DateTime> TeklifBitTarih { get; set; }
+        public Nullable<short> Vade { get; set; }
+        public string TeslimYeri { get; set; }
+
+        public string DurumStr
+        {
+            get
+            {
+                if (Durum == (short)TeklifDurum.Giris)
+                    return "Teklif Giriş";
+                else if (Durum == (short)TeklifDurum.Fiyat)
+                    return "Teklif Fiyat";
+                else if (Durum == (short)TeklifDurum.TedarikciSecimiYapildi)
+                    return "Tedarikçi Seçimi Yapıldı";
+                else if (Durum == (short)TeklifDurum.GMYOrmanElenen)
+                    return "GMY Tedarikçi Elenen";
+                else if (Durum == (short)TeklifDurum.GMYOrmanOnayli)
+                    return "GMY Tedarikçi Onay";
+                else if (Durum == (short)TeklifDurum.GMYMaliElenen)
+                    return "GMY Mali Elenen";
+                else if (Durum == (short)TeklifDurum.GMYMaliOnayli)
+                    return "Onaylı";
+                return "";
+            }
+            private set { }
+        }
     }
 
     #region TeklifDurum Enum

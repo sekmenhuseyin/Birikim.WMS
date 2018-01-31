@@ -500,6 +500,8 @@
     <Content Include="Areas\Approvals\Views\Account\Index.cshtml" />
     <Content Include="Areas\Reports\Views\Financial\TahsilatKontrolRaporu.cshtml" />
     <Content Include="Areas\Approvals\Views\Account\MHK.cshtml" />
+    <Content Include="Areas\Approvals\Views\Purchase\GMYTedarikciOnay_List.cshtml" />
+    <Content Include="Areas\Approvals\Views\Purchase\GMYTedarikci_Onay.cshtml" />
     <None Include="bundleconfig.json" />
     <Content Include="Content\SizeSablon.xlsx" />
     <Content Include="Content\StockSablon.xlsx" />
