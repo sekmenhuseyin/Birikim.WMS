@@ -1,0 +1,163 @@
+﻿@model IEnumerable<RP_TahsilatKontrol>
+@{
+    ViewBag.Title = "Sözleşme Tahsilat Kontrol Raporu";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><span>Raporlar</span><i class="fa fa-circle"></i></li><li><span>Sözleşme Tahsilat Kontrol Raporu</span></li></ul></div>
+<h1 class="page-title">Sözleşme Tahsilat Kontrol Raporu</h1>
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet box green">
+            <div class="portlet-title"><div class="caption"><i class="fa fa-gift"></i>Sözleşme Tahsilat Kontrol Raporu</div></div>
+            <div class="portlet-body form p-30 p-t-15">
+                <table class="table table-striped table-bordered table-condensed" id="sample_1">
+                    <thead>
+                        <tr>
+                            <th>Hesap Kodu</th>
+                            <th>Ünvan</th>
+                            <th>Bakiye</th>
+                            <th>SozlesmeSiraNo</th>
+                            <th>BaglantiNo</th>
+                            <th>BaglantiTipi</th>
+                            <th>BaglantiBitisTarihi</th>
+                            <th>BaglantiTutari</th>
+                            <th>BaglantiParaCinsi</th>
+                            <th>BaglantiTarihi</th>
+                            <th>DevirTarih</th>
+                            <th>DevirTutar</th>
+                            <th>ToplamSevkEdilenTutar</th>
+                            <th>DevirdenSonrakiSevkedilen</th>
+                            <th>KalanTutar</th>
+                            <th>BekleyenIrsaliye</th>
+                            <th>BekleyenSiparis</th>
+                            <th>CekTahsilati</th>
+                            <th>NakitTahsilati</th>
+                            <th>KKTahsilati</th>
+                            <th>Havaletahsilati</th>
+                            <th>ToplamTahsilat</th>
+                            <th>FaturaBekleyenler</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </tfoot>
+                    <tfoot class="tf-search">
+                        <tr>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            var table = $('#sample_1').DataTable({
+                "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
+                "ordering": true,
+                "pagingType": "full_numbers",
+                "scrollX": true,
+                "scrollY": true,
+                "dom": 'lBfrtip',
+                "buttons": [
+                    { "extend": 'pdf', "text": '<span class="fa fa-file-pdf-o f-s-15 red"></span>', "className": 'btn btn-default btn-xs' },
+                    { "extend": 'excel', "text": '<span class="fa fa-file-excel-o f-s-15 green"></span>', "className": 'btn btn-default btn-xs' }
+                ],
+                "ajax": {
+                    "url": '/Reports/Financial/TahsilatKontrolRaporuList',
+                    "dataSrc": function (json) {
+                        return json;
+                    }
+                },
+                "columns": [
+
+                    { "data": "HesapKodu" },
+                    { "data": "Unvan" },
+                    { "data": "Bakiye", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
+                    { "data": "SozlesmeSiraNo"},
+                    { "data": "BaglantiNo"},
+                    { "data": "BaglantiTipi"},
+                    { "data": "BaglantiBitisTarihi","render": function (data) { if (data != null) return formatDateFromJson(data); else return "&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp;"; }, "sClass": "nowrap" },
+                    { "data": "BaglantiTutari", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
+                    { "data": "BaglantiParaCinsi"},
+                    { "data": "BaglantiTarihi", "render": function (data) { if (data != null) return formatDateFromJson(data); else return "&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp;"; }, "sClass": "nowrap" },
+                    { "data": "DevirTarih"},
+                    { "data": "DevirTutar", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
+                    { "data": "ToplamSevkEdilenTutar", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
+                    { "data": "DevirdenSonrakiSevkedilen", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
+                    { "data": "KalanTutar", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
+                    { "data": "BekleyenIrsaliye", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
+                    { "data": "BekleyenSiparis", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
+                    { "data": "CekTahsilati", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
+                    { "data": "NakitTahsilati", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
+                    { "data": "KKTahsilati", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
+                    { "data": "Havaletahsilati", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
+                    { "data": "ToplamTahsilat", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
+                    { "data": "FaturaBekleyenler", "render": $.fn.dataTable.render.number('.', ',', 2, '') }
+               
+                ]
+
+            });
+            $('#sample_1 .tf-search th').each(function () {
+                var title = $('#sample_1 thead th').eq($(this).index()).text();
+                if (title != "" && title.length < 100) {
+                    $(this).html('<input type="text" placeholder="Ara" />');
+                }
+            });
+            $("#sample_1 tfoot input").on('keyup change', function () {
+                table
+                    .column($(this).parent().index() + ':visible')
+                    .search(this.value)
+                    .draw();
+            });
+            $('#sample_1 .tf-search tr').insertAfter($('#sample_1 thead tr'))
+        });
+    </script>}
