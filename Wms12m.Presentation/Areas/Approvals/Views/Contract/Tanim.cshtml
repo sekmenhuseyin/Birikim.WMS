@@ -918,7 +918,7 @@
                 }
                 $.ajax({
                     url: window.location.origin + "/Approvals/Contract/Guncelle",
-                    data: { SozlesmeNo: listeNo, BasTarih: bas_tarih, MusUygSekli: mus_uyg_sekli, YeniBaglantiTutari: yeni_bag_tut, YeniBitisTarihi: yeni_bit_tarih },
+                    data: { SozlesmeNo: listeNo, BasTarih: bas_tarih, MusUygSekli: mus_uyg_sekli, YeniBaglantiTutari: yeni_bag_tut.toString().replace(",", "."), YeniBitisTarihi: yeni_bit_tarih },
                     type: "post",
                     success: function (data) {
                         if (data.Status == true) {
