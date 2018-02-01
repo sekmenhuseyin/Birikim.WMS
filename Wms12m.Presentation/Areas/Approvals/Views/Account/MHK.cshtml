@@ -1,0 +1,166 @@
+﻿@model List<MuhasebeOnaySelect>
+@{
+    ViewBag.Title = "Muhasebe Kartı Onaylama";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="page-bar">
+    <ul class="page-breadcrumb">
+        <li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li>
+        <li><span>Onaylama</span><i class="fa fa-circle"></i></li>
+        <li><span>Muhasebe Kartı</span></li>
+    </ul>
+</div>
+<h1 class="page-title">Muhasebe Kartı Onaylama</h1>
+
+<div class="row">
+    <div class="col-md-12" style="width:100%;">
+        <div class="portlet box green">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-gift"></i>Muhasebe Kartı Onaylama
+                </div>
+                <div class="col-md-1 pull-right m-t-5 p-0" id="buttons"></div>
+                <div class="col-md-2 pull-right m-t-5"><button class="btn btn-default pull-right input-circle yenile-buton glyphicon glyphicon-refresh"> Yenile </button></div>
+                <div class="col-md-2 pull-right m-t-5"><button class="btn btn-success pull-right input-circle onay-buton glyphicon glyphicon-ok"> Onayla </button></div>
+                <div class="col-md-2 pull-right m-t-5"><button class="btn btn-danger pull-right input-circle reddet-buton glyphicon glyphicon-remove"> Reddet </button></div>
+            </div>
+            <div class="portlet-body">
+                <table class="table table-striped table-bordered" id="sample_1">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th> Eski Hesap Kodu </th>
+                            <th>Yeni Hesap Kodu</th>
+                            <th>Eski Ünvan </th>
+                            <th>Yeni Ünvan</th>
+                           
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                          
+                        </tr>
+                    </tfoot>
+                    <tfoot class="tf-search">
+                        <tr>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                           
+                        </tr>
+                    </tfoot>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr class="clickable" onclick="toggle(this)">
+                                <td nowrap class="select-checkbox"></td>
+                                <td nowrap>@item.EskiHesapKod</td>
+                                <td nowrap>@item.YeniHesapKod</td>
+                                <td nowrap>@item.EskiHesapAd</td>
+                                <td nowrap>@item.YeniHesapAd</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script>
+        var secili_table = new Array();
+        var OnaylandiMi;
+        $(document).ready(function () {
+            table = $('#sample_1').DataTable({
+                "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
+                "order": [[1, "desc"]],
+                "pagingType": "full_numbers"
+            });
+            $('#sample_1 .tf-search th').each(function () {
+                var title = $('#sample_1 thead th').eq($(this).index()).text();
+                if (title != "" && title.indexOf("Tarih") !== -1)
+                    $(this).html('<input class="form-control input-circle tarih" type="text" placeholder="Ara" />');
+                else if (title != "" && title != "Detay" && title != "Hareket")
+                    $(this).html('<input class="form-control input-circle" type="text" placeholder="Ara" />');
+            });
+            $("#sample_1 tfoot input").on('keyup change', function () { table.column($(this).parent().index() + ':visible').search(this.value).draw(); });
+            //tarih
+            $.datepicker.setDefaults($.datepicker.regional["tr"]);
+            $(".tarih").datepicker();
+            $("#buttons").html("");
+            var buttons = new $.fn.dataTable.Buttons(table, {
+                buttons: [
+                    { "extend": 'pdf', "text": '<span class="fa fa-file-pdf-o f-s-15 red"></span>', "className": 'btn-xs;' },
+                    { "extend": 'excel', "text": '<span class="fa fa-file-excel-o f-s-15 green"></span>', "className": 'btn-xs;' }
+                ]
+            }).container().appendTo($('#buttons'));
+            $('.onay-buton').click(function (e) {
+                var x = table.rows('.selected').data();
+
+                for (var i = 0; i < x.length; i++) {
+                    secili_table.push(x[i][1]);
+                }
+                var _dfd = $.Deferred();
+
+                $.ajax({
+                    url: window.location.origin + "/Approvals/Account/MHKOnay",
+                    data: { Data: JSON.stringify(secili_table) },
+                    type: "post",
+                    success: function (data) {
+                        if (data.Status == true) {
+                            Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "btn-success");
+                            setTimeout(function () { window.location.reload(); }, 500);
+                        }
+                        else {
+                            if (data.Message == "") data.Message = "Hata oluştu";
+                            Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
+                            setTimeout(function () { window.location.reload(); }, 500);
+                        }
+
+                    }
+                });
+                return _dfd.promise();
+            });
+            $('.reddet-buton').click(function (e) {
+                var x = table.rows('.selected').data();
+                for (var i = 0; i < x.length; i++) {
+                    secili_table.push(x[i][1]);
+                }
+                console.log(table.rows('.selected').data());
+                console.log(secili_table);
+                var _dfd = $.Deferred();
+                OnaylandiMi = false;
+                $.ajax({
+                    url: window.location.origin + "/Approvals/Account/MHKOnay",
+                    data: { Data: JSON.stringify(secili_table), OnaylandiMi: OnaylandiMi },
+                    type: "post",
+                    success: function (data) {
+                        if (data.Status == true) {
+                            Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "btn-success");
+                            setTimeout(function () { window.location.reload(); }, 500);
+                        }
+                        else {
+                            if (data.Message == "") data.Message = "Hata oluştu";
+                            Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
+                            setTimeout(function () { window.location.reload(); }, 500);
+                        }
+
+                    }
+                });
+                return _dfd.promise();
+            });
+            $('.yenile-buton').click(function (e) {
+                window.location.reload();
+            });
+        });
+        function toggle(row) {
+            $(row).toggleClass('selected');
+        }
+    </script>}

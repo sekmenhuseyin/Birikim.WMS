@@ -209,6 +209,7 @@
 @section Scripts{
     <script>
         var secili_table = new Array();
+        var OnaylandiMi;
         $(document).ready(function () {
             table = $('#sample_1').DataTable({
                 "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
@@ -240,10 +241,11 @@
                     secili_table.push(x[i][1]);
                 }
                 var _dfd = $.Deferred();
+                OnaylandiMi = true;
 
                 $.ajax({
                     url: window.location.origin + "/Approvals/Account/Onay",
-                    data: { Data: JSON.stringify(secili_table) },
+                    data: { Data: JSON.stringify(secili_table), OnaylandiMi: OnaylandiMi },
                     type: "post",
                     success: function (data) {
                         if (data.Status == true) {
@@ -268,9 +270,10 @@
                 console.log(table.rows('.selected').data());
                 console.log(secili_table);
                 var _dfd = $.Deferred();
+                OnaylandiMi = false;
                 $.ajax({
                     url: window.location.origin + "/Approvals/Account/Onay",
-                    data: { Data: JSON.stringify(secili_table), OnaylandiMi: false },
+                    data: { Data: JSON.stringify(secili_table), OnaylandiMi: OnaylandiMi },
                     type: "post",
                     success: function (data) {
                         if (data.Status == true) {

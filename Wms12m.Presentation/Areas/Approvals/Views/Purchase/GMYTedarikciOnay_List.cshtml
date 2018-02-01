@@ -1,0 +1,184 @@
+﻿@using Newtonsoft.Json;
+<div class="satinalma_gmytedarikci_onay_data" style="width: 100%; box-shadow: 2px 4px 2px #5d5959;">
+    <div class="col-md-12" style="width:100%;">
+        <div class="portlet box green">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-gift"></i>Teklif GMY Tedarikçi Onay
+                </div>
+                <div class="col-md-1 pull-right m-t-5 p-0" id="buttons"></div>
+            </div>
+
+            <div class="portlet-body">
+
+                <div class="row">
+                    <div class="col-xs-12">
+                        <table class="table table-striped table-bordered" id="sample_1">
+                            <thead class="aaaaa">
+                                <tr>
+                                    <th nowrap>Önerilen</th>
+                                    <th nowrap>Mal Kodu</th>
+                                    <th nowrap>Mal Adi</th>
+                                    <th nowrap>Hesap Kodu</th>
+                                    <th nowrap>Ünvan</th>
+                                    <th nowrap>Teklif Açıklaması</th>
+                                    <th nowrap>Birim</th>
+                                    <th nowrap>Satınalmacı</th>
+                                    <th nowrap>Talep Eden</th>
+                                    <th nowrap>Talep Açıklaması</th>
+
+                                    <th nowrap>Açık Talep Miktar</th>
+                                    <th nowrap>Teklif Miktar</th>
+                                    <th nowrap>Birim Fiyat</th>
+                                    <th nowrap>Tutar</th>
+
+                                    <th nowrap>Döviz / TL</th>
+                                    <th nowrap>Döviz Cinsi</th>
+                                    <th nowrap>Termin Süresi</th>
+                                    <th nowrap>Min. Sip. Miktarı</th>
+
+                                    <th nowrap>Teklif Baş. Tarihi</th>
+                                    <th nowrap>Teklif Bit. Tarihi</th>
+
+                                    <th nowrap>Durum</th>
+                                    <th nowrap>Teklif No</th>
+                                    <th nowrap>Vade</th>
+                                    <th nowrap>Teslim Yeri</th>
+                                    <th nowrap>Dvz Kuru</th>
+                                    <th nowrap>Dvz Tutar</th>
+                                    <th nowrap>Tesis Kodu</th>
+                                    <th nowrap>ID</th>
+                                </tr>
+                            </thead>
+                            @*<tfoot>
+                                <tr>
+                                    <th colspan="5"></th>
+                                    <th class="text-right"></th>
+                                    <th class="text-right"></th>
+                                    <th class="text-right"></th>
+                                    <th colspan="2"></th>
+                                    <th class="text-right"></th>
+                                    <th colspan="7"></th>
+                                </tr>
+                            </tfoot>*@
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+
+    var table = $('#sample_1').DataTable({
+        "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
+        "ajax": {
+            "url": '/Approvals/Purchase/GMYTedarikciOnayListData',
+            "data": {TalepNo:'@ViewBag.TalepNo'},
+            "dataSrc": function (json) {
+
+                return json;
+            },
+        },
+        "pagingType": "full_numbers",
+        "fixedHeader": true,
+        "scrollX": true,
+        "columnDefs": [{ "visible": false, "targets": [27] }, { "type": "num-fmt", "className": "dt-right", "targets": [11, 12, 13, 14, 18, 25, 26] }],
+        "columns": [
+            { "data": "OneriDurum" },
+            { "data": "MalKodu" },
+            { "data": "MalAdi" },
+            { "data": "HesapKodu" },
+            { "data": "Unvan" },
+            { "data": "Aciklama" },
+            { "data": "Birim" },
+            { "data": "Satinalmaci" },
+            { "data": "TalepEden" },
+            { "data": "TeklifAciklamasi" },
+
+            { "data": "AcikTalepMiktar", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
+            { "data": "TeklifMiktar", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
+            { "data": "BirimFiyat", "render": $.fn.dataTable.render.number('.', ',', 4, '') },
+            { "data": "Tutar", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
+
+            { "data": "DvzTLStr" },
+            { "data": "DvzCinsi" },
+
+            { "data": "TerminSure" },
+            { "data": "MinSipMiktar", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
+            { "data": "TeklifBasTarih" },
+            { "data": "TeklifBitTarih" },
+
+            { "data": "DurumStr" },
+            { "data": "TeklifNo" },
+            { "data": "Vade" },
+            { "data": "TeslimYeri" },
+            { "data": "DvzKuru", "render": $.fn.dataTable.render.number('.', ',', 4, '') },
+            { "data": "DvzTutar", "render": $.fn.dataTable.render.number('.', ',', 4, '') },
+            { "data": "TesisKodu" },
+            { "data": "ID" }
+
+        ],
+        "ordering": false,
+        "fnRowCallback": function (nRow, aData, iDisplayIndex) {
+            $('td', nRow).attr('nowrap', 'nowrap');
+            return nRow;
+        }
+        //,"footerCallback": function (row, data, start, end, display) {
+        //    var BirimMiktar = 0, Tutar = 0, KDV = 0;
+        //    table.rows({ search: 'applied' }).data().each(function (val, index) {
+        //        BirimMiktar += val.BirimMiktar;
+        //        Tutar += val.Tutar;
+        //        KDV += val.KDV;
+        //    });
+        //    var api = this.api(), data;
+        //    $(api.column(5).footer()).html(numeral(BirimMiktar).format());
+        //    $(api.column(7).footer()).html(numeral(Tutar).format());
+        //    $(api.column(10).footer()).html(numeral(KDV).format());
+        //}
+
+     });
+    //$.contextMenu({
+    //    selector: '#sample_1 tbody tr',
+    //    callback: function (key, options) {
+    //        var rowIndex = parseInt(options.$trigger[0].rowIndex) - 1;
+    //        var satir = table.row(rowIndex).data();
+    //        MLK = satir.MalKodu;
+    //        MLA = satir.MalAdi;
+    //        switch (key) {
+    //            case 'teklif':
+    //                $('#modalEditPage').modal('toggle');
+    //                editInModal('/Approvals/Purchase/SatGMContext/teklif')
+    //                break;
+    //            case 'tedarikci':
+    //                $('#modalEditPage').modal('toggle');
+    //                editInModal('/Approvals/Purchase/SatGMContext/tedarikci')
+    //                break;
+    //            case 'sonalim':
+    //                $('#modalEditPage').modal('toggle');
+    //                editInModal('/Approvals/Purchase/SatGMContext/sonalim')
+    //                break;
+    //            default:
+    //                break;
+    //        }
+    //    },
+    //    items: {
+    //        "teklif": { name: "Teklif Listesi", icon: "file" },
+    //        "tedarikci": { name: "Onaylı Tedarikçi Listesi", icon: "file" },
+    //        "sonalim": { name: "Son Alım Listesi", icon: "file" },
+    //    }
+    //});
+
+
+
+    $(document).ready(function () {
+        var buttons = new $.fn.dataTable.Buttons(table, {
+            buttons: [
+                { "extend": 'pdf', "text": '<span class="fa fa-file-pdf-o f-s-15 red"></span>', "className": 'btn btn-default btn-xs;' },
+                { "extend": 'excel', "text": '<span class="fa fa-file-excel-o f-s-15 green"></span>', "className": 'btn btn-default btn-xs;' }
+            ]
+        }).container().appendTo($('#buttons'));
+
+    });
+
+</script>

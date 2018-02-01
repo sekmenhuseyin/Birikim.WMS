@@ -19,7 +19,10 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         public static List<MMK> TesisList { get; set; }
         public static List<SatTalep> SipTalepList { get; set; }
         public static List<SatTalep> TalepSource { get; set; }
+        public static List<SatTalep> GMYTedarikciOnayList { get; set; }
+        public static List<SatTalep> GMYTedarikciOnayDetayList { get; set; }
         public static List<KKP_SPI> GridSource { get; set; }
+        public static List<SatTalep> GridTedarikciSource { get; set; }
         public static List<KKP_FTD> GridFTD { get; set; }
         public static bool DovizDurum { get; set; }
         public static string Birim { get; set; }
@@ -437,5 +440,120 @@ GROUP BY (CASE WHEN ST.Birim = STK.Birim1 THEN 1
 
             return PartialView(SAL);
         }
+
+        #region GMY Tedarikçi Onay
+
+        public ActionResult GMYTedarikci_Onay()
+        {
+            if (CheckPerm(Perms.SatinalmaGMYTedarikciOnaylama, PermTypes.Reading) == false) return Redirect("/");
+            MyGlobalVariables.GMYTedarikciOnayList = db.Database.SqlQuery<SatTalep>(string.Format(@"
+            SELECT DISTINCT ST.KynkTalepNo AS TalepNo,
+            (select TOP(1) Tp.Kaydeden FROM KAYNAK.sta.Talep as Tp (nolock) where Tp.TalepNo = St.KynkTalepNo) AS TalepEden
+            FROM KAYNAk.sta.Teklif as ST (nolock)
+            LEFT JOIN FINSAT6{0}.FINSAT6{0}.STK (nolock) on STK.MalKodu=ST.MalKodu
+            WHERE ST.Durum=2 AND  ST.KynkTalepNo<>''
+            GROUP BY ST.KynkTalepNo
+            ORDER BY ST.KynkTalepNo", vUser.SirketKodu)).ToList();
+            return View("GMYTedarikci_Onay", MyGlobalVariables.GMYTedarikciOnayList);
+        }
+
+        public PartialViewResult GMYTedarikciOnayList(string TalepNo)
+        {
+            if (CheckPerm(Perms.SatinalmaOnaylama, PermTypes.Reading) == false) return null;
+
+            ViewBag.TalepNo = TalepNo;
+            return PartialView("GMYTedarikciOnay_List");
+        }
+
+        public JsonResult GMYTedarikciReddet(string redAciklama)
+        {
+            if (CheckPerm(Perms.SatinalmaOnaylama, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
+            var _Result = new Result(true, "İşlem Başarılı");
+
+            if (MyGlobalVariables.GridSource == null || MyGlobalVariables.GridSource.Count == 0 || MyGlobalVariables.SipEvrak == null)
+            {
+                _Result.Message = "Siparis Seçmelisiniz!";
+                _Result.Status = false;
+                return Json(_Result, JsonRequestBehavior.AllowGet);
+            }
+
+            var con = Connection.GetConnectionWithTrans();
+            try
+            {
+                foreach (var item in MyGlobalVariables.TalepSource)
+                {
+                    var sql = @"UPDATE Kaynak.sta.Talep 
+SET GMOnaylayan='{0}', GMOnayTarih='{1}', Durum=13
+, Degistiren='{0}', DegisTarih='{1}', DegisSirKodu={3}, Aciklama2='{2}'
+WHERE ID={4} AND Durum=11 AND SipTalepNo IS NOT NULL";
+
+                    db.Database.ExecuteSqlCommand(string.Format(sql, vUser.UserName.ToString(), DateTime.Now.ToString("yyyy-dd-MM"), redAciklama, vUser.SirketKodu, item.ID));
+                }
+
+                con.Trans.Commit();
+            }
+            catch (Exception)
+            {
+                if (con.Trans != null) con.Trans.Rollback();
+                _Result.Message = "Geri Çevirme açıklamasını girmek zorundasınız!";
+                _Result.Status = false;
+            }
+
+            con.Dispose();
+            return Json(_Result, JsonRequestBehavior.AllowGet);
+        }
+
+        public string GMYTedarikciOnayListData(string TalepNo)
+        {
+            if (CheckPerm(Perms.SatinalmaOnaylama, PermTypes.Reading) == false) return null;
+           
+            if (MyGlobalVariables.GridTedarikciSource == null)
+                MyGlobalVariables.GridTedarikciSource = new List<SatTalep>();
+            else
+                MyGlobalVariables.GridTedarikciSource.Clear();
+
+            MyGlobalVariables.GridTedarikciSource= db.Database.SqlQuery<SatTalep>(string.Format(@"
+            SELECT ST.ID, ST.TeklifNo, ST.Tarih, ST.HesapKodu, ST.MalKodu,
+            (SELECT MalAdi FROM FINSAT6{0}.FINSAT6{0}.STK (NOLOCK) WHERE MalKodu = ST.MalKodu) AS MalAdi, ST.Birim,
+            ST.BirimFiyat, ST.TeklifMiktar, ST.Durum,
+            ST.DvzTL, ST.DvzCinsi, ST.TerminSure,
+            ST.MinSipMiktar, ST.TeklifBasTarih, ST.TeklifBitTarih, ST.OneriDurum,
+            ST.Vade, ST.TeslimYeri,
+            ST.Aciklama, ST.Aciklama2, ST.Aciklama3,ST.TeklifAciklamasi, ST.Satinalmaci,
+
+            ST.Kademe2Onaylayan, ST.Kademe2OnayTarih,
+            ST.Kademe1Onaylayan, ST.Kademe1OnayTarih,
+            ST.Durum2, ST.KynkTalepNo, ST.KynkTalepEkDosya,
+
+            ST.Kaydeden, ST.KayitTarih,
+            ST.Degistiren, ST.DegisTarih,
+
+            ISNULL((select TOP(1)Tp.TesisKodu FROM KAYNAK.sta.Talep as Tp (nolock) where Tp.TalepNo = St.KynkTalepNo),'') AS TesisKodu,
+
+            STK.MalAdi, CHK.Unvan1 as Unvan,
+            ISNULL(AT.AcikTalepMiktar,0) as AcikTalepMiktar,
+            CASE WHEN ST.DvzCinsi='JPY' then DVZ.Kur01/100 else DVZ.Kur01 end as DvzKuru,
+            (select TOP(1)Tp.Kaydeden FROM KAYNAK.sta.Talep as Tp (nolock) where Tp.TalepNo = St.KynkTalepNo) AS TLPKaydeden
+
+            FROM KAYNAK.sta.Teklif as ST (nolock)
+            LEFT JOIN FINSAT6{0}.FINSAT6{0}.STK (nolock) on STK.MalKodu=ST.MalKodu
+            LEFT JOIN FINSAT6{0}.FINSAT6{0}.CHK (nolock) on CHK.HesapKodu=ST.HesapKodu
+            LEFT JOIN
+            (
+	            SELECT MalKodu, SUM(BirimMiktar) as AcikTalepMiktar FROM KAYNAK.sta.Talep (nolock)
+	            WHERE 
+	            --Durum NOT IN ({1}) AND 
+	            Durum < 15
+	            GROUP BY MalKodu
+            ) as AT on AT.MalKodu=ST.MalKodu
+            LEFT JOIN SOLAR6.dbo.DVZ (nolock) on DVZ.DovizCinsi=ST.DvzCinsi AND DVZ.Tarih=CAST( DATEADD(dd, 0, DATEDIFF(dd, 0, GETDATE()))+2 AS INT)
+            WHERE 
+            ST.KynkTalepNo='{1}' AND ST.Durum=2", vUser.SirketKodu, TalepNo)).ToList();
+
+            var json = new JavaScriptSerializer().Serialize(MyGlobalVariables.GridTedarikciSource);
+            return json;
+        }
+
+        #endregion
     }
 }

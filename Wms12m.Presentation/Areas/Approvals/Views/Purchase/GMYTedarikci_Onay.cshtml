@@ -1,0 +1,159 @@
+﻿@model List<SatTalep>
+@{
+    ViewBag.Title = "Teklif GMY Tedarikçi Onay";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}@section Styles{<link href="~/Content/assets/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/assets/global/plugins/jQuery-contextMenu/dist/jquery.contextMenu.min.css" rel="stylesheet" />
+    <style>
+        .input_content {
+            margin-bottom: 3px;
+            height: 40px;
+            line-height: 20px;
+        }
+
+        .input_label {
+            float: left;
+            width: 35%;
+            font-weight: bold;
+            color: #5bc8d2;
+            font-size: 9px;
+            padding-top: 4px;
+        }
+
+        .input {
+            float: left;
+            width: 60%;
+            font-size: 10px;
+            height: 30px;
+        }
+
+        .input_style {
+            background-color: rgba(245, 239, 239, 0.85);
+            padding: 10px;
+            margin: 0;
+        }
+
+        .dx-header-row {
+            background-color: #86d8ea;
+            color: window;
+        }
+
+        .dx-overlay-content.dx-popup-normal.dx-resizable {
+            width: 400px;
+        }
+
+        table {
+            margin: 0 !important;
+        }
+    </style>
+}
+<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><span>Onaylama</span><i class="fa fa-circle"></i></li><li><span>GMY Tedarikçi Onay</span></li></ul></div>
+<h1 class="page-title">Teklif GMY Tedarikçi Onay</h1>
+<div class="row">
+    <div>
+        <div class="col-xs-6 col-sm-6" style="padding:0 2px 0 5px">
+            <div class="col-xs-12 col-sm-4" style="padding:0 1px 0 1px"><button type="button" class="btn btn-lg blue yenile-buton" style="width:99%;font-size:9px; margin-bottom:10px;">Yenile<i class="fa fa-eraser" style="margin-left:5px;"></i></button></div>
+            <div class="col-xs-12 col-sm-4" style="padding:0 1px 0 1px"><button type="button" class="btn btn-lg purple onayla-buton" style="width:99%;font-size:9px; margin-bottom:10px;">Onayla<i class="fa fa-binoculars" style="margin-left:5px;"></i></button></div>
+            <div class="col-xs-12 col-sm-4" style="padding:0 1px 0 1px"><button type="button" class="btn btn-lg yellow reddet-buton" style="width:99%;font-size:9px; margin-bottom:10px;">Reddet<i class="fa fa-save" style="margin-left:5px;"></i></button></div>
+        </div>
+    </div>
+</div>
+<hr />
+<div class="row">
+    <div style="position:relative;margin-top:10px;width:100%;height:40px;">
+        <div style="float:left;width:20%;margin-left:10px;color:#12ccee;line-height:35px;"><span>Onayda Bekleyenler</span></div>
+        <div class="select_onay" style="float:left;width:20%;margin-left:10px;"></div>
+    </div>
+    <div style="position:relative;margin-top:10px;width:100%;height:40px;">
+        <div style="float:left;width:20%;margin-left:10px;color:#12ccee;line-height:35px;"><span>Geri Çevirme Açıklaması</span></div>
+        <div class="txt_geri_cevirme_aciklamasi" style="float:left;width:60%;margin-left:10px;"></div>
+    </div>
+</div>
+<hr />
+<div class="row">
+    <div id="satinalma_gmytedarikci_onay_data">
+    </div>
+</div>
+
+
+@section Scripts{
+    <script src="~/Content/assets/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js" type="text/javascript"></script>
+    <script src="~/Content/assets/global/plugins/jQuery-contextMenu/dist/jquery.contextMenu.min.js"></script>
+    <script type="text/javascript">
+        var TLP = "";
+    $(document).ready(function () {
+        var model = @Html.Raw(Json.Encode(Model));
+
+        $(".txt_geri_cevirme_aciklamasi").dxTextBox({
+            maxLength: 250
+        });
+
+        $(".select_onay").dxLookup({
+            dataSource: model,
+            searchEnabled: true,
+            pageLoadMode: "nextButton",
+            searchExpr: ["TalepNo", "TalepEden"],
+            displayExpr: 'TalepNo',
+            onValueChanged: function (e) {
+                if (e.value == null) {
+                    return;
+                }
+                TLP = e.value.TalepNo;
+                PartialView("/Approvals/Purchase/GMYTedarikciOnayList", 'satinalma_gmytedarikci_onay_data', JSON.stringify({ TalepNo: e.value.TalepNo }));
+            },
+            itemTemplate: function (itemData, itemIndex, itemElement) {
+                itemElement.css({ "text-align": "left", "border-bottom": "1px solid #2fc1d8" });
+                if (itemIndex > 0) {
+                    itemElement.css({ "margin-top": "-40px" });
+                }
+                var rightBlock = $("<div style=' margin: 2px; width:100%;'>");
+                rightBlock.append("<div><p style='font-size:11px; font-weight:bold; line-height: 0%;'><b>" + itemData.TalepNo + "</b></p>");
+                rightBlock.append("<p style='line-height: 0%;font-size:11px;'><span style='font-weight:bold'>Talep Eden: </span><i>" + itemData.TalepEden + "</i></p></div>");
+                itemElement.append(rightBlock);
+            }
+        });
+
+    });
+
+    $('.onayla-buton').click(function () {
+        var secimKontrol = $(".select_onay").dxLookup("instance").option("value");
+        if (secimKontrol == null) {
+            Modaldialog("Teklif Seçiniz!!", "Hata", "Tamam", "btn-danger");
+            return;
+        }
+
+    });
+
+    $('.reddet-buton').click(function () {
+        var aciklama = $(".txt_geri_cevirme_aciklamasi").dxTextBox("instance").option("value");
+        if (aciklama == "") {
+            Modaldialog("Geri Çevirme açıklamasını girmek zorundasınız!!", "Hata", "Tamam", "btn-danger");
+            return;
+        }
+
+        $.ajax({
+            url: window.location.origin + "/Approvals/Purchase/GMYTedarikciReddet?redAciklama=" + aciklama,
+            data: {},
+            type: "post",
+            success: function (data) {
+                if (data.Status == true) {
+                    Modaldialog(data.Message, "Red İşlemi", "Tamam", "Red");
+                    setTimeout(function () { window.location.reload(); }, 500);
+                }
+                else {
+                    if (data.Message == "") data.Message = "Hata oluştu";
+                    Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
+                    setTimeout(function () { window.location.reload(); }, 500);
+                }
+            }
+        });
+    });
+
+    $('.yenile-buton').click(function () {
+        window.location.reload();
+    });
+
+
+
+    </script>
+}

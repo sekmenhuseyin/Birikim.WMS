@@ -282,6 +282,13 @@ namespace Wms12m.Entity
         public string Ad { get; set; }
         public string SoyAd { get; set; }
     }
+    public class MuhasebeOnaySelect
+    {
+        public string YeniHesapKod { get; set; }
+        public string YeniHesapAd { get; set; }
+        public string EskiHesapKod { get; set; }
+        public string EskiHesapAd { get; set; }
+    }
 
 
     public class KampanyaliSatisRaporu

@@ -278,6 +278,19 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
             var CE = db.Database.SqlQuery<RaporCariEkstre>(string.Format("[FINSAT6{0}].[wms].[DB_CariEkstre] @HesapKodu = '{1}'", vUser.SirketKodu, CHK)).ToList();
             return json.Serialize(CE);
         }
+
+        public ActionResult TahsilatKontrolRaporu()
+        {
+            if (CheckPerm(Perms.Raporlar, PermTypes.Reading) == false) return Redirect("/");
+            return View();
+        }
+        public JsonResult TahsilatKontrolRaporuList()
+        {
+            var list = db.Database.SqlQuery<RP_TahsilatKontrol>(string.Format("[FINSAT6{0}].[wms].[RP_TahsilatKontrol]", vUser.SirketKodu)).ToList();
+            return Json(list, JsonRequestBehavior.AllowGet);
+
+        }
+
         #endregion
     }
 }
