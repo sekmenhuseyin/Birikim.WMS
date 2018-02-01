@@ -1,0 +1,156 @@
+﻿@model List<GidenBarkodListe>
+@{
+    System.Web.Script.Serialization.JavaScriptSerializer serializer = new System.Web.Script.Serialization.JavaScriptSerializer();
+    serializer.MaxJsonLength = Int32.MaxValue;
+}
+
+
+<div class="col-md-12" style="width:100%;">
+    <div class="portlet box green">
+        <div class="portlet-title">
+            <div class="caption">
+                <i class="fa fa-gift"></i>Sevkiyat İle Giden Palet Barkod Listesi
+            </div>
+            <div class="col-md-1 pull-right m-t-5 p-0" id="buttons"></div>
+        </div>
+        <div class="portlet-body">
+            <div class="row" style="margin-bottom:5px;margin-left:5px;">
+                <div class="col-md-6">
+                    <div id="buttons"></div>
+                </div>
+            </div>
+
+
+
+
+
+
+            <table class="table table-striped table-bordered table-condensed" id="sample_1">
+                <thead>
+                    <tr>
+                        <th style="width:20px;"></th>
+                        <th>SevkEvrakNo</th>
+                        <th>SiparisNo</th>
+                        <th>Donem</th>
+                        <th>Chk</th>
+                        <th>SipSiraNo</th>
+                        <th>MalKodu</th>
+                        <th>BarkodNo</th>
+                        <th>BarkodMiktar</th>
+                        <th>Birim</th>
+                        <th>Depo</th>
+                        <th>IslemTip</th>
+                        <th>AktarimDurum</th>
+                        <th>Kaydeden</th>
+                        <th>KayitTarih</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th colspan="15"></th>
+                    </tr>
+                </tfoot>
+                <tfoot>
+                    <tr>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </tfoot>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td nowrap class='details-control' style="width:20px;"> </td>
+                            <td nowrap>@item.SevkEvrakNo</td>
+                            <td nowrap>@item.SiparisNo</td>
+                            <td nowrap>@item.Donem</td>
+                            <td nowrap>@item.Chk</td>
+                            <td nowrap>@item.SipSiraNo</td>
+                            <td nowrap>@item.MalKodu</td>
+                            <td nowrap>@item.BarkodNo</td>
+                            <td nowrap>@item.BarkodMiktar</td>
+                            <td nowrap>@item.Birim</td>
+                            <td nowrap>@item.Depo</td>
+                            <td nowrap>@item.IslemTip</td>
+                            <td nowrap>@item.AktarimDurum</td>
+                            <td nowrap>@item.Kaydeden</td>
+                            <td nowrap>@item.KayitTarih.ToString("dd-MM-yyyy")</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        $.extend(jQuery.fn.dataTableExt.oSort, {
+            "date-uk-pre": function (a) {
+                return parseInt(moment(a, "DD/MM/YYYY").format("X"), 10);
+            },
+            "date-uk-asc": function (a, b) {
+                return a - b;
+            },
+            "date-uk-desc": function (a, b) {
+                return b - a;
+            }
+        });
+        var edit_date_col_num = $('th:contains("Tarih")').index();
+        var model =  @Html.Raw(serializer.Serialize(Model));
+        $('#sample_1 tfoot th').each(function () {
+            var title = $('#sample_1 thead th').eq($(this).index()).text();
+            if(title!=""){
+                $(this).html('<input type="text" placeholder="'+ title +' Ara" />');
+            }
+        });
+        table = $('#sample_1').DataTable({
+            "pagingType": "full_numbers",
+            "ordering": true,
+            "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
+            "columnDefs": [
+                { "type": "date-uk", targets: [edit_date_col_num] }
+            ],
+            "footerCallback": function (row, data, start, end, display) {
+             
+                table.rows({ search: 'applied' }).data().each(function (val, index) {
+             
+                });
+                var api = this.api(), data;
+            }
+
+        });
+        $("#sample_1 tfoot input").on('keyup change', function () {
+            table
+                .column($(this).parent().index() + ':visible')
+                .search(this.value)
+                .draw();
+        });
+      
+
+        var buttons = new $.fn.dataTable.Buttons(table, {
+            buttons: [
+                { "extend": 'pdf', "text": '<span class="fa fa-file-pdf-o f-s-15 red"></span>', "className": 'btn btn-default btn-xs;' },
+                { "extend": 'excel', "text": '<span class="fa fa-file-excel-o f-s-15 green"></span>', "className": 'btn btn-default btn-xs;' }
+            ]
+        }).container().appendTo($('#buttons'));
+        $('.buttons-pdf').removeClass('btn btn-default');
+        $('.buttons-excel').removeClass('btn btn-default');
+
+    });
+    $('#sample_1').on('draw.dt', function () {
+        setTimeout(function () { $("td").removeClass('sorting_1'); }, 0);
+    });
+</script>
