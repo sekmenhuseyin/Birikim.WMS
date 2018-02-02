@@ -178,12 +178,20 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
         public ActionResult GidenBarkod()
         {
             if (CheckPerm(Perms.Raporlar, PermTypes.Reading) == false) return Redirect("/");
-            var CHK = db.Database.SqlQuery<GidenBarkodSelect>(string.Format(@"SELECT 
-                 [SevkEvrakNo],[SiparisNo]
+            var CHK = db.Database.SqlQuery<GidenBarkodSelect>(string.Format(@"SELECT DISTINCT
+                 [SevkEvrakNo]
                  FROM[solar6].[dbo].[Onikim_Terminal](NOLOCK) T
                  where T.Sirketkodu = '{0}' AND T.[AktarimDurum] = 1 AND T.Islemtip = 1 ", vUser.SirketKodu)).ToList();
+
+            var siparis = db.Database.SqlQuery<GidenBarkodSelect>(string.Format(@"SELECT DISTINCT
+                 [SiparisNo]
+                 FROM[solar6].[dbo].[Onikim_Terminal](NOLOCK) T
+                 where T.Sirketkodu = '{0}' AND T.[AktarimDurum] = 1 AND T.Islemtip = 1 ", vUser.SirketKodu)).ToList();
+
+            ViewBag.siparis = siparis;
             return View(CHK);
         }
+       
         public PartialViewResult GidenBarkodList(string sip, string sevk)
         {
             if (CheckPerm(Perms.Raporlar, PermTypes.Reading) == false) return null;

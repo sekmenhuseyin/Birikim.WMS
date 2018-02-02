@@ -1,5 +1,6 @@
 ﻿@model List<GidenBarkodSelect>
 @{
+    
     Layout = "~/Views/Shared/_Layout.cshtml";
     ViewBag.Title = "Cari Ekstre";
 }@section Styles{
@@ -76,11 +77,12 @@
         var sevk = "";
     $(document).ready(function () {
         var model = @Html.Raw(Json.Encode(Model));
+        var model2 = @Html.Raw(Json.Encode(ViewBag.siparis));
 
         $(".sip-select").dxLookup({
-            dataSource: model,
+            dataSource: model2,
             searchEnabled: true,
-            pageLoadMode:"nextButton",
+            pageLoadMode: "nextButton",
             searchExpr: ["SiparisNo"],
             valueExpr: 'SiparisNo',
             displayExpr: 'SiparisNo',
@@ -91,10 +93,9 @@
             },
 
             itemTemplate: function (itemData, itemIndex, itemElement) {
-                itemElement.css({"text-align":"left", "border-bottom":"1px solid #2fc1d8"});
-                if(itemIndex>0)
-                {
-                    itemElement.css({ "margin-top":"-40px" });
+                itemElement.css({ "text-align": "left", "border-bottom": "1px solid #2fc1d8" });
+                if (itemIndex > 0) {
+                    itemElement.css({ "margin-top": "-40px" });
                 }
                 var rightBlock = $("<div style=' margin: 2px; width:100%;'>");
                 rightBlock.append("<div><p style='font-size:11px; font-weight:bold; line-height: 0%;'><b>" + itemData.SiparisNo + "</b></p>");
@@ -164,16 +165,14 @@
         });
 
         $(".btn-listele").dxButton({
-            onClick: function() {
-                if(sip!="")
-                {
+            onClick: function () {
+                if (sip != "") {
                     PartialView("/Reports/Stock/GidenBarkodList", 'cari-extre-grid', JSON.stringify({ sip: sip }));
                 }
-                else if ( sevk!="")
-                    {
-                        PartialView("/Reports/Stock/GidenBarkodList", 'cari-extre-grid', JSON.stringify({ sevk: sevk }));
-                    }
-                else{
+                else if (sevk != "") {
+                    PartialView("/Reports/Stock/GidenBarkodList", 'cari-extre-grid', JSON.stringify({ sevk: sevk }));
+                }
+                else {
                     Modaldialog("Sipariş veya Sevkiyat No seçin!", "Giden Barkod", "Tamam", "btn-success");
                 }
             }
@@ -182,7 +181,7 @@
 
 
 
-    });
+        });
     </script>
 }
 
