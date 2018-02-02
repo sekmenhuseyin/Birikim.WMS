@@ -181,13 +181,13 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
             var CHK = db.Database.SqlQuery<GidenBarkodSelect>(string.Format(@"SELECT 
                  [SevkEvrakNo],[SiparisNo]
                  FROM[solar6].[dbo].[Onikim_Terminal](NOLOCK) T
-                 where T.Sirketkodu = {0} AND T.[AktarimDurum] = 1 AND T.Islemtip = 1 ", vUser.SirketKodu)).ToList();
+                 where T.Sirketkodu = '{0}' AND T.[AktarimDurum] = 1 AND T.Islemtip = 1 ", vUser.SirketKodu)).ToList();
             return View(CHK);
         }
         public PartialViewResult GidenBarkodList(string sip, string sevk)
         {
             if (CheckPerm(Perms.Raporlar, PermTypes.Reading) == false) return null;
-            if (sip != null )
+            if (sip != null)
             {
                 var CE = db.Database.SqlQuery<GidenBarkodListe>(string.Format(@"
 SELECT 
@@ -207,7 +207,7 @@ SELECT
       ,[KayitTarih]
       
   FROM [solar6].[dbo].[Onikim_Terminal] (NOLOCK) T
-  where T.Sirketkodu= {0} AND T.[AktarimDurum]=1 AND T.Islemtip=1 AND [SiparisNo] = '{1}'", vUser.SirketKodu, sip)).ToList();
+  where T.Sirketkodu= '{0}' AND T.[AktarimDurum]=1 AND T.Islemtip=1 AND [SiparisNo] = '{1}'", vUser.SirketKodu, sip)).ToList();
                 return PartialView("GidenBarkodList", CE);
             }
             else
@@ -230,7 +230,7 @@ SELECT
       ,[KayitTarih]
       
   FROM [solar6].[dbo].[Onikim_Terminal] (NOLOCK) T
-  where T.Sirketkodu= {0} AND T.[AktarimDurum]=1 AND T.Islemtip=1 AND [SevkEvrakNo] = '{1}'", vUser.SirketKodu, sevk)).ToList();
+  where T.Sirketkodu= '{0}' AND T.[AktarimDurum]=1 AND T.Islemtip=1 AND [SevkEvrakNo] = '{1}'", vUser.SirketKodu, sevk)).ToList();
                 return PartialView("GidenBarkodList", CE);
             }
 
