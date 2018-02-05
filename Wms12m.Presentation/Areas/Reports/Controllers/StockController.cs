@@ -191,54 +191,30 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
             ViewBag.siparis = siparis;
             return View(CHK);
         }
-       
+
         public PartialViewResult GidenBarkodList(string sip, string sevk)
         {
             if (CheckPerm(Perms.Raporlar, PermTypes.Reading) == false) return null;
             if (sip != null)
             {
                 var CE = db.Database.SqlQuery<GidenBarkodListe>(string.Format(@"
-SELECT 
-       [SevkEvrakNo]
-      ,[SiparisNo]
-      ,[Donem]
-      ,[Chk]
-      ,[SipSiraNo]
-      ,[MalKodu]
-      ,[BarkodNo]
-      ,[BarkodMiktar]
-      ,[Birim]
-      ,[Depo]
-      ,[IslemTip]
-      ,[AktarimDurum]
-      ,[Kaydeden]
-      ,[KayitTarih]
-      
-  FROM [solar6].[dbo].[Onikim_Terminal] (NOLOCK) T
-  where T.Sirketkodu= '{0}' AND T.[AktarimDurum]=1 AND T.Islemtip=1 AND [SiparisNo] = '{1}'", vUser.SirketKodu, sip)).ToList();
+SELECT  OT.ID, OT.SirketKodu, OT.SevkEvrakNo, STI.EvrakNo as IrsaliyeNo, OT.SiparisNo, OT.Chk, CHK.Unvan1 + CHK.Unvan2 AS Unvan, OT.SipSiraNo, OT.MalKodu,STK.MalAdi, OT.BarkodNo, OT.BarkodMiktar, STI.Birim, STI.Depo, OT.IslemTip, OT.AktarimDurum, OT.Kaydeden, OT.KayitTarih, OT.KayitTarih2
+FROM            SOLAR6.dbo.Onikim_Terminal OT (NOLOCK)
+INNER JOIN FINSAT617.FINSAT617.STI STI (NOLOCK) on OT.Malkodu=STI.Malkodu and OT.SiparisNo=STI.KaynakSiparisNo and OT.SipSiraNo=STI.KaynakSiraNo
+INNER JOIN FINSAT617.FINSAT617.STK STK (NOLOCK) ON OT.Malkodu=STK.Malkodu
+INNER JOIN FINSAT617.FINSAT617.CHK CHK (NOLOCK) ON OT.CHK=CHK.HesapKodu
+WHERE OT.Sirketkodu='{0}' AND OT.[AktarimDurum]=1 AND OT.Islemtip=1 AND [SiparisNo] = '{1}'", vUser.SirketKodu, sip)).ToList();
                 return PartialView("GidenBarkodList", CE);
             }
             else
             {
                 var CE = db.Database.SqlQuery<GidenBarkodListe>(string.Format(@"
-SELECT 
-       [SevkEvrakNo]
-      ,[SiparisNo]
-      ,[Donem]
-      ,[Chk]
-      ,[SipSiraNo]
-      ,[MalKodu]
-      ,[BarkodNo]
-      ,[BarkodMiktar]
-      ,[Birim]
-      ,[Depo]
-      ,[IslemTip]
-      ,[AktarimDurum]
-      ,[Kaydeden]
-      ,[KayitTarih]
-      
-  FROM [solar6].[dbo].[Onikim_Terminal] (NOLOCK) T
-  where T.Sirketkodu= '{0}' AND T.[AktarimDurum]=1 AND T.Islemtip=1 AND [SevkEvrakNo] = '{1}'", vUser.SirketKodu, sevk)).ToList();
+SELECT  OT.ID, OT.SirketKodu, OT.SevkEvrakNo, STI.EvrakNo as IrsaliyeNo, OT.SiparisNo, OT.Chk, CHK.Unvan1 + CHK.Unvan2 AS Unvan, OT.SipSiraNo, OT.MalKodu,STK.MalAdi, OT.BarkodNo, OT.BarkodMiktar, STI.Birim, STI.Depo, OT.IslemTip, OT.AktarimDurum, OT.Kaydeden, OT.KayitTarih, OT.KayitTarih2
+FROM            SOLAR6.dbo.Onikim_Terminal OT (NOLOCK)
+INNER JOIN FINSAT617.FINSAT617.STI STI (NOLOCK) on OT.Malkodu=STI.Malkodu and OT.SiparisNo=STI.KaynakSiparisNo and OT.SipSiraNo=STI.KaynakSiraNo
+INNER JOIN FINSAT617.FINSAT617.STK STK (NOLOCK) ON OT.Malkodu=STK.Malkodu
+INNER JOIN FINSAT617.FINSAT617.CHK CHK (NOLOCK) ON OT.CHK=CHK.HesapKodu
+WHERE OT.Sirketkodu='{0}' AND OT.[AktarimDurum]=1 AND OT.Islemtip=1 AND [SevkEvrakNo] = '{1}'", vUser.SirketKodu, sevk)).ToList();
                 return PartialView("GidenBarkodList", CE);
             }
 

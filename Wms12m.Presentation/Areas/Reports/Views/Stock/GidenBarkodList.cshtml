@@ -29,12 +29,14 @@
                 <thead>
                     <tr>
                         <th style="width:20px;"></th>
+                        <th>SirketKodu</th>
                         <th>SevkEvrakNo</th>
+                        <th>IrsaliyeNo</th>
                         <th>SiparisNo</th>
-                        <th>Donem</th>
                         <th>Chk</th>
                         <th>SipSiraNo</th>
                         <th>MalKodu</th>
+                        <th>MalAdi</th>
                         <th>BarkodNo</th>
                         <th>BarkodMiktar</th>
                         <th>Birim</th>
@@ -43,11 +45,12 @@
                         <th>AktarimDurum</th>
                         <th>Kaydeden</th>
                         <th>KayitTarih</th>
+                   
                     </tr>
                 </thead>
                 <tfoot>
                     <tr>
-                        <th colspan="15"></th>
+                        <th colspan="17"></th>
                     </tr>
                 </tfoot>
                 <tfoot>
@@ -67,6 +70,9 @@
                         <th></th>
                         <th></th>
                         <th></th>
+                        <th></th>
+                        <th></th>
+                      
                     </tr>
                 </tfoot>
                 <tbody>
@@ -74,12 +80,14 @@
                     {
                         <tr>
                             <th></th>
+                            <td nowrap>@item.SirketKodu</td>
                             <td nowrap>@item.SevkEvrakNo</td>
+                            <td nowrap>@item.IrsaliyeNo</td>
                             <td nowrap>@item.SiparisNo</td>
-                            <td nowrap>@item.Donem</td>
                             <td nowrap>@item.Chk</td>
                             <td nowrap>@item.SipSiraNo</td>
                             <td nowrap>@item.MalKodu</td>
+                            <td nowrap>@item.MalAdi</td>
                             <td nowrap>@item.BarkodNo</td>
                             <td nowrap>@item.BarkodMiktar</td>
                             <td nowrap>@item.Birim</td>
