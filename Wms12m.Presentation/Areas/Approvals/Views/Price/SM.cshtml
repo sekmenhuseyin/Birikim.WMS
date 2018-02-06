@@ -1,13 +1,6 @@
 ﻿@{
     ViewBag.Title = "Fiyat Onay";
     Layout = "~/Views/Shared/_Layout.cshtml";
-}@section Styles{
-    <style>
-        .btn {
-            width: 120px;
-            text-align: center;
-        }
-    </style>
 }
 <div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><span>Onaylama</span><i class="fa fa-circle"></i></li><li><span>Fiyat</span></li></ul></div>
 <h1 class="page-title">Fiyat Onay SM</h1>
@@ -27,7 +20,12 @@
                 <div class="caption">
                     <i class="fa fa-gift"></i>Fiyat Onay SM
                 </div>
-                <div class="col-md-1 pull-right m-t-5 p-0" id="buttons"></div>
+                <div class="col-md-1 pull-right m-t-5 p-0">
+                    <div id="buttons"></div>
+                    <div id="buttonsgrup"> </div>
+                    <div id="buttonskoleksiyon"> </div>
+
+                </div>
                 <div class="col-md-2 pull-right m-t-5"><button class="btn btn-default pull-right input-circle yenile-buton glyphicon glyphicon-refresh"> Yenile </button></div>
                 <div class="col-md-2 pull-right m-t-5"><button class="btn btn-success pull-right input-circle onay-buton glyphicon glyphicon-ok"> Onayla </button></div>
                 <div class="col-md-2 pull-right m-t-5"><button class="btn btn-danger pull-right input-circle reddet-buton glyphicon glyphicon-remove"> Reddet </button></div>
@@ -35,12 +33,9 @@
             <div class="portlet-body">
                 <div class="row">
                     <div class="col-xs-12">
-                        <div id="liste">
-                        </div>
-                        <div id="listekoleksiyon" style="display:none; ">
-                        </div>
-                        <div id="listegrup" style="display:none; ">
-                        </div>
+                        <div id="liste"></div>
+                        <div id="listekoleksiyon" style="display:none; "></div>
+                        <div id="listegrup" style="display:none; "></div>
                     </div>
                 </div>
                 <div class="row">
@@ -50,8 +45,6 @@
                 </div>
             </div>
         </div>
-       
-        
     </div>
 </div>
 @section Scripts{
@@ -64,28 +57,33 @@
 
         $(document).ready(function () {
 
-            $('#chkKoleksiyon').click(function () {
+            $('#chkKoleksiyon').click(function ()
+            {
+                $('#buttons').hide();
+                $('#buttonsgrup').html("");
+                $('#buttonskoleksiyon').html("");
                 if (this.checked) {
                     PartialView("/Approvals/Price/SM_List_Koleksiyon", 'listekoleksiyon');
                     $("#listekoleksiyon").css("display", "block");
                     $("#liste").css("display", "none");
                     $("#listegrup").css("display", "none");
                     $("#chkGrup").prop("checked", false);
-
-
                 }
                 else {
+                    $('#buttons').show();
                     $("#listegrup").css("display", "none");
                     $("#listekoleksiyon").css("display", "none");
                     $("#liste").css("display", "block");
-                    $("#buttons").css("display", "block");
                 }
 
 
             });
 
             $('#chkGrup').click(function () {
-                if (this.checked) {
+                $('#buttons').hide();
+                $('#buttonsgrup').html("");
+                $('#buttonskoleksiyon').html("");
+               if (this.checked) {
                     PartialView("/Approvals/Price/SM_List_Grup", 'listegrup');
                     $("#listegrup").css("display", "block");
                     $("#liste").css("display", "none");
@@ -93,11 +91,10 @@
                     $("#chkKoleksiyon").prop("checked", false);
                 }
                 else if ($("#chkKoleksiyon").prop("checked") == false) {
+                   $('#buttons').show();
                     $("#listegrup").css("display", "none");
                     $("#listekoleksiyon").css("display", "none");
                     $("#liste").css("display", "block");
-                    $("#buttons").css("display", "block");
-
                 }
 
             });

@@ -2,48 +2,8 @@
 @{
     
     Layout = "~/Views/Shared/_Layout.cshtml";
-    ViewBag.Title = "Cari Ekstre";
-}@section Styles{
-    <style>
-        td.details-control {
-            background: url('/Content/assets/global/plugins/datatables/images/details_open.png') no-repeat center center;
-            cursor: pointer;
-        }
-
-        tr.shown td.details-control {
-            background: url('/Content/assets/global/plugins/datatables/images/details_close.png') no-repeat center center;
-        }
-
-        .dx-lookup {
-            margin: 0;
-            height: 29px;
-        }
-
-        .dx-datagrid-headers .dx-row {
-            color: white;
-            border-bottom: 1px solid #D2D2D2;
-            background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#32c5d2), color-stop(50%,#2989d8), color-stop(51%,#207cca), color-stop(100%,#7db9e8)); /* Chrome,Safari4+ */
-            background: -webkit-linear-gradient(top, #32c5d2 0%,#2989d8 50%,#207cca 51%,#7db9e8 100%); /* Chrome10+,Safari5.1+ */
-            background: -o-linear-gradient(top, #32c5d2 0%,#2989d8 50%,#207cca 51%,#7db9e8 100%); /* Opera 11.10+ */
-            background: -ms-linear-gradient(top, #32c5d2 0%,#2989d8 50%,#207cca 51%,#7db9e8 100%); /* IE10+ */
-            background: linear-gradient(to bottom, #32c5d2 0%,#2989d8 50%,#207cca 51%,#7db9e8 100%); /* W3C */
-        }
-
-        .dx-datagrid .dx-column-indicators .dx-sort.dx-header-filter:after, .dx-datagrid .dx-column-indicators .dx-header-filter.dx-header-filter:before {
-            color: white;
-        }
-
-        .btn {
-            width: 120px;
-            text-align: center;
-        }
-
-        .dx-item-content .dx-popup-cancel {
-            background-color: #ff4d4d !important;
-            color: white !important;
-        }
-    </style>
-}<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><span>Raporlar</span><i class="fa fa-circle"></i></li><li><span>Cari Ekstre</span></li></ul></div>
+    ViewBag.Title = "Sevkiyat İle Giden Palet Barkod Listesi";
+}<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><span>Raporlar</span><i class="fa fa-circle"></i></li><li><span>Sevkiyat İle Giden Palet Barkod Listesi</span></li></ul></div>
 <h1 class="page-title">Sevkiyat İle Giden Palet Barkod Listesi</h1>
 <div class="row control-content">
     <div class="row col-md-10">
@@ -66,15 +26,9 @@
 
 </div>
 <div class="row" id="cari-extre-grid" style="margin-top:20px;"></div>
-<div class="modal fade" id="x-modal-cari-detay-cek" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="false">
-    <div class="modal-dialog" style="width:950px;">
-    </div>
-</div>
-
-@section Scripts{
-    <script>
-        var sip = "";
-        var sevk = "";
+@section Scripts{<script>
+    var sip = "";
+    var sevk = "";
     $(document).ready(function () {
         var model = @Html.Raw(Json.Encode(Model));
         var model2 = @Html.Raw(Json.Encode(ViewBag.siparis));
@@ -178,11 +132,5 @@
             }
         });
         $(".btn-listele").removeClass("dx-button");
-
-
-
-        });
-    </script>
-}
-
-
+    });
+</script>}
