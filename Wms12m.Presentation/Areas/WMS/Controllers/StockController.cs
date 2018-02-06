@@ -301,8 +301,19 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             try
             {
                 // ilk önce görevler ve irsaliye kaydedilir
-                var GorevÇıkNo = db.SettingsGorevNo(today, ilk.DepoID).FirstOrDefault();
-                var GorevGirNo = db.SettingsGorevNo(today, ilk.DepoID).FirstOrDefault();
+                var GorevÇıkNo = "";
+                var s1 = db.Gorevs.Where(m => m.DepoID == ilk.DepoID && m.GorevTipiID == (int)ComboItems.TransferÇıkış && m.DurumID == 9 && m.Bilgi == "Yer Değiştir").FirstOrDefault();
+                if (s1 == null)
+                    GorevÇıkNo = db.SettingsGorevNo(today, ilk.DepoID).FirstOrDefault();
+                else
+                    GorevÇıkNo = s1.GorevNo;
+                var GorevGirNo = "";
+                var s2 = db.Gorevs.Where(m => m.DepoID == ilk.DepoID && m.GorevTipiID == (int)ComboItems.TransferGiriş && m.DurumID == 15 && m.Bilgi == "Yer Değiştir").FirstOrDefault();
+                if (s2 == null)
+                    GorevGirNo = db.SettingsGorevNo(today, ilk.DepoID).FirstOrDefault();
+                else
+                    GorevGirNo = s2.GorevNo;
+                //irsaliye oluştur
                 var cevapGir = db.InsertIrsaliye(vUser.SirketKodu, ilk.DepoID, GorevGirNo, GorevGirNo, today, "Yer Değiştir", true, ComboItems.TransferGiriş.ToInt32(), vUser.UserName, today, time, "Yer Değiştir", "", 0, "", "").FirstOrDefault();
                 var cevapÇık = db.InsertIrsaliye(vUser.SirketKodu, ilk.DepoID, GorevÇıkNo, GorevGirNo, today, "Yer Değiştir", true, ComboItems.TransferÇıkış.ToInt32(), vUser.UserName, today, time, "Yer Değiştir", "", 0, cevapGir.GorevID.Value.ToString(), "").FirstOrDefault();
                 // GorevYer tablosu - çıkış
@@ -334,7 +345,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         public PartialViewResult ManualMovementNewPlace(int Id)
         {
             var tbl = Yerlestirme.Detail(Id);
-            ViewBag.RafID = new SelectList(Shelf.GetListByDepo(tbl.DepoID.Value), "ID", "RafAd");
+            ViewBag.RafID = new SelectList(Shelf.GetList().Where(a => a.Koridor.DepoID == Convert.ToInt16(tbl.DepoID)).ToList(), "ID", "RafAd");
             ViewBag.BolumID = new SelectList(Section.GetList(0), "ID", "BolumAd");
             ViewBag.KatID = new SelectList(Floor.GetList(0), "ID", "KatAd");
             ViewBag.Miktar = tbl.Miktar;
