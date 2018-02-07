@@ -27,7 +27,7 @@
     var ay = [{ id: 0, state: "Tümü"},{ id: 1, state: "Ocak"},{ id: 2, state: "Şubat" },{ id: 3, state: "Mart"},{ id: 4, state: "Nisan"},{ id: 5, state: "Mayıs" },{ id: 6, state: "Haziran"},{ id: 7, state: "Temmuz"},{ id: 8, state: "Ağustos" },{ id: 9, state: "Eylül"},{ id: 10, state: "Ekim"},{ id: 11, state: "Kasım" },{ id: 12, state: "Aralik"}];
     function Reloads()
     {
-        PartialView("/Home/PartialBolgeBazliSatisAnaliziPie", 'bolge_bazli_satis_analizi_pie', JSON.stringify({ ay: ay_value, kriter:kriter_value }));
+        PartialView("/Home/BolgeBazliSatisAnaliziPie", 'bolge_bazli_satis_analizi_pie', JSON.stringify({ ay: ay_value, kriter:kriter_value }));
     }
     $(document).ready(function (e) {
         var model = @Html.Raw(Json.Encode(Model));
@@ -44,7 +44,7 @@
             value: ay_value,
             onValueChanged: function (e) {
                 ay_value=e.value;
-                PartialView("/Home/PartialBolgeBazliSatisAnaliziPie", 'bolge_bazli_satis_analizi_pie', JSON.stringify({ ay: ay_value, kriter:kriter_value}));
+                PartialView("/Home/BolgeBazliSatisAnaliziPie", 'bolge_bazli_satis_analizi_pie', JSON.stringify({ ay: ay_value, kriter:kriter_value}));
             }
         });
                $.ajax({
@@ -59,7 +59,7 @@
             value: kriter_value,
             onValueChanged: function (e) {
                 kriter_value=e.value;
-                PartialView("/Home/PartialBolgeBazliSatisAnaliziPie", 'bolge_bazli_satis_analizi_pie', JSON.stringify({ ay: ay_value, kriter:kriter_value}));
+                PartialView("/Home/BolgeBazliSatisAnaliziPie", 'bolge_bazli_satis_analizi_pie', JSON.stringify({ ay: ay_value, kriter:kriter_value}));
             }
         });
             }

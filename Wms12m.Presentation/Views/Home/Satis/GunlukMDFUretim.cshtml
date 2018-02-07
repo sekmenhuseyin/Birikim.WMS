@@ -25,13 +25,13 @@
 <script>
     function Reloadn()
     {
-        PartialView("/Home/PartialGunlukMDFUretimi", 'gunluk_mdf_uretim', JSON.stringify({ tarih: @ViewBag.tarih }));
+        PartialView("/Home/GunlukMDFUretimi", 'gunluk_mdf_uretim', JSON.stringify({ tarih: @ViewBag.tarih }));
     }
     $(document).ready(function (e) {
         $.datepicker.setDefaults($.datepicker.regional["tr"]);
         $("#mdf_tarih").datepicker().on("change", function (e) {
             var oaDate = toOADateFromString(e.target.value);
-            PartialView("/Home/PartialGunlukMDFUretimi", 'gunluk_mdf_uretim', JSON.stringify({ tarih: oaDate }));
+            PartialView("/Home/GunlukMDFUretimi", 'gunluk_mdf_uretim', JSON.stringify({ tarih: oaDate }));
         });
         var model = @Html.Raw(Json.Encode(Model));
         var color = ["#FF0F00","#FF6600","#FF9E01","#FCD202","#F8FF01","#B0DE09","#04D215","#0D8ECF","#0D52D1","#2A0CD0","#8A0CCF","#CD0D74","#754DEB","#DDDDDD","#999999","#333333","#000000"];

@@ -25,7 +25,7 @@
 <script>
     function Reloadh()
     {
-        PartialView("/Home/PartialBekleyenSiparisUrunGrubuMiktar", 'bekleyen_siparis_urun_grubu_miktar', JSON.stringify({ miktarTutar: $('#toggle-two').prop('checked') }));
+        PartialView("/Home/BekleyenSiparisUrunGrubuMiktar", 'bekleyen_siparis_urun_grubu_miktar', JSON.stringify({ miktarTutar: $('#toggle-two').prop('checked') }));
     }
     $(document).ready(function (e) {
         $('#toggle-two').bootstrapToggle({on: 'Miktar',off: 'Tutar'});
@@ -34,7 +34,7 @@
         else
             $('#toggle-two').bootstrapToggle('off')
         $('#toggle-two').change(function () {
-            PartialView("/Home/PartialBekleyenSiparisUrunGrubuMiktar", 'bekleyen_siparis_urun_grubu_miktar', JSON.stringify({ miktarTutar: $(this).prop('checked') }));
+            PartialView("/Home/BekleyenSiparisUrunGrubuMiktar", 'bekleyen_siparis_urun_grubu_miktar', JSON.stringify({ miktarTutar: $(this).prop('checked') }));
         })
         var model = @Html.Raw(Json.Encode(Model));
         var color = ["#FF0F00", "#FF6600", "#FF9E01", "#FCD202", "#F8FF01", "#B0DE09", "#04D215", "#0D8ECF", "#0D52D1", "#2A0CD0", "#8A0CCF", "#CD0D74", "#754DEB", "#DDDDDD", "#999999", "#333333", "#000000"];

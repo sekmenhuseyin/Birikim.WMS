@@ -27,7 +27,7 @@
     var doviz = [{ state: "TL"},{ state: "Döviz"},{ state: "Birim" }];
     function Reloadc()
     {
-        PartialView("/Home/PartialUrunGrubuSatisKriter", 'urun_grubu_satis_kriter', JSON.stringify({ tarih: f_tarih, kriter: kriter_value }));
+        PartialView("/Home/UrunGrubuSatisKriter", 'urun_grubu_satis_kriter', JSON.stringify({ tarih: f_tarih, kriter: kriter_value }));
     }
     $(document).ready(function (e) {
         var states = [
@@ -51,7 +51,7 @@
             displayExpr: 'state',
             value: f_tarih,
             onValueChanged: function (e) {
-                PartialView("/Home/PartialUrunGrubuSatisKriter", 'urun_grubu_satis_kriter', JSON.stringify({ tarih: e.value, kriter: kriter_value }));
+                PartialView("/Home/UrunGrubuSatisKriter", 'urun_grubu_satis_kriter', JSON.stringify({ tarih: e.value, kriter: kriter_value }));
             }
         });
         var model = @Html.Raw(Json.Encode(Model));
@@ -76,7 +76,7 @@
             displayExpr: 'state',
             value: kriter_value,
             onValueChanged: function (e) {
-                PartialView("/Home/PartialUrunGrubuSatisKriter", 'urun_grubu_satis_kriter', JSON.stringify({ tarih: f_tarih, kriter: e.value }));
+                PartialView("/Home/UrunGrubuSatisKriter", 'urun_grubu_satis_kriter', JSON.stringify({ tarih: f_tarih, kriter: e.value }));
             }
         });
 

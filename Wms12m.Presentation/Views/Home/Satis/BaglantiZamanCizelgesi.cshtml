@@ -25,7 +25,7 @@
 <script>
     function Reloadp(v)
     {
-        PartialView("/Home/PartialBaglantiZamanCizelgesi", 'baglanti_zaman_cizelgesi');
+        PartialView("/Home/BaglantiZamanCizelgesi", 'baglanti_zaman_cizelgesi');
     }
     $(document).ready(function (e) {
         var model =  @Html.Raw(serializer.Serialize(Model));

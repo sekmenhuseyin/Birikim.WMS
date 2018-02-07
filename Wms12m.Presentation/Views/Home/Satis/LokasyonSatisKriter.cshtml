@@ -27,7 +27,7 @@
     var f_tarih = @ViewBag.Tarih;
     function Reloade()
     {
-        PartialView("/Home/PartialLokasyonSatisKriter", 'lokasyon_satis_kriter', JSON.stringify({ tarih: f_tarih, kriter: kriter_value }));
+        PartialView("/Home/LokasyonSatisKriter", 'lokasyon_satis_kriter', JSON.stringify({ tarih: f_tarih, kriter: kriter_value }));
     }
     $(document).ready(function (e) {
         var states = [
@@ -51,7 +51,7 @@
             displayExpr: 'state',
             value:f_tarih,
             onValueChanged: function (e) {
-                PartialView("/Home/PartialLokasyonSatisKriter", 'lokasyon_satis_kriter', JSON.stringify({ tarih: e.value, kriter:kriter_value }));
+                PartialView("/Home/LokasyonSatisKriter", 'lokasyon_satis_kriter', JSON.stringify({ tarih: e.value, kriter:kriter_value }));
             }
         });
         var model = @Html.Raw(Json.Encode(Model));
@@ -78,7 +78,7 @@
             value: kriter_value,
             onValueChanged: function (e) {
                 kriter_value=e.value;
-                PartialView("/Home/PartialLokasyonSatisKriter", 'lokasyon_satis_kriter', JSON.stringify({ tarih: f_tarih, kriter:kriter_value }));
+                PartialView("/Home/LokasyonSatisKriter", 'lokasyon_satis_kriter', JSON.stringify({ tarih: f_tarih, kriter:kriter_value }));
             }
         });
 

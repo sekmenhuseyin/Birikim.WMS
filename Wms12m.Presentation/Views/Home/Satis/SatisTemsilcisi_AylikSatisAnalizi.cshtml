@@ -30,7 +30,7 @@
     var kriter_value=@Html.Raw(Json.Encode(ViewBag.Kriter));
     function Reloada()
     {
-        PartialView("/Home/PartialSatisTemsilcisiAylikSatisAnalizi", 'satis_temsilcisi_aylik_satis_analizi', JSON.stringify({ kod: kriter_value, tarih: f_tarih }));
+        PartialView("/Home/SatisTemsilcisiAylikSatisAnalizi", 'satis_temsilcisi_aylik_satis_analizi', JSON.stringify({ kod: kriter_value, tarih: f_tarih }));
     }
     $(document).ready(function (e) {
         var model = @Html.Raw(Json.Encode(Model));
@@ -69,7 +69,7 @@
                     onValueChanged: function (e) {
                         if(e.value!=kriter_value){
                             kriter_value=e.value;
-                            PartialView("/Home/PartialSatisTemsilcisiAylikSatisAnalizi", 'satis_temsilcisi_aylik_satis_analizi', JSON.stringify({ kod: kriter_value, tarih: f_tarih }));
+                            PartialView("/Home/SatisTemsilcisiAylikSatisAnalizi", 'satis_temsilcisi_aylik_satis_analizi', JSON.stringify({ kod: kriter_value, tarih: f_tarih }));
                         }
                     }
                 });
@@ -85,7 +85,7 @@
             value: f_tarih,
             onValueChanged: function (e) {
                 f_tarih = e.value;
-                PartialView("/Home/PartialSatisTemsilcisiAylikSatisAnalizi", 'satis_temsilcisi_aylik_satis_analizi', JSON.stringify({ kod: kriter_value, tarih: f_tarih }));
+                PartialView("/Home/SatisTemsilcisiAylikSatisAnalizi", 'satis_temsilcisi_aylik_satis_analizi', JSON.stringify({ kod: kriter_value, tarih: f_tarih }));
             }
         });
 

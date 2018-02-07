@@ -31,7 +31,7 @@
     var f_tarih = @ViewBag.Tarih;
     function Reloadb()
     {
-        PartialView("/Home/PartialUrunGrubuSatis", 'urun_grubu_satis', JSON.stringify({ tarih: f_tarih }));
+        PartialView("/Home/UrunGrubuSatis", 'urun_grubu_satis', JSON.stringify({ tarih: f_tarih }));
     }
     $(document).ready(function (e) {
         var states = [
@@ -55,7 +55,7 @@
             displayExpr: 'state',
             value:f_tarih,
             onValueChanged: function (e) {
-                PartialView("/Home/PartialUrunGrubuSatis", 'urun_grubu_satis', JSON.stringify({ tarih: e.value }));
+                PartialView("/Home/UrunGrubuSatis", 'urun_grubu_satis', JSON.stringify({ tarih: e.value }));
             }
         });
         var model = @Html.Raw(Json.Encode(Model));

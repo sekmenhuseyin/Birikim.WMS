@@ -25,7 +25,7 @@
 <script>
     function Reloadj()
     {
-        PartialView("/Home/PartialBekleyenSiparisUrunGrubuMiktarPie", 'bekleyen_siparis_urun_grubu_miktar_pie', JSON.stringify({ miktarTutar: $('#toggle-one').prop('checked') }));
+        PartialView("/Home/BekleyenSiparisUrunGrubuMiktarPie", 'bekleyen_siparis_urun_grubu_miktar_pie', JSON.stringify({ miktarTutar: $('#toggle-one').prop('checked') }));
     }
     $(document).ready(function (e) {
         $('#toggle-one').bootstrapToggle({on: 'Miktar',off: 'Tutar'});
@@ -34,7 +34,7 @@
         else
             $('#toggle-one').bootstrapToggle('off')
         $('#toggle-one').change(function () {
-            PartialView("/Home/PartialBekleyenSiparisUrunGrubuMiktarPie", 'bekleyen_siparis_urun_grubu_miktar_pie', JSON.stringify({ miktarTutar: $(this).prop('checked') }));
+            PartialView("/Home/BekleyenSiparisUrunGrubuMiktarPie", 'bekleyen_siparis_urun_grubu_miktar_pie', JSON.stringify({ miktarTutar: $(this).prop('checked') }));
         })
 
         var model = @Html.Raw(Json.Encode(Model));

@@ -30,17 +30,17 @@
 <script>
     function Reloadg()
     {
-        PartialView("/Home/PartialBekleyenSiparisUrunGrubu", 'bekleyen_siparis_urun_grubu', JSON.stringify({ bastarih: @ViewBag.BasTarih, bittarih: @ViewBag.BitTarih }));
+        PartialView("/Home/BekleyenSiparisUrunGrubu", 'bekleyen_siparis_urun_grubu', JSON.stringify({ bastarih: @ViewBag.BasTarih, bittarih: @ViewBag.BitTarih }));
     }
     $(document).ready(function (e) {
         $.datepicker.setDefaults($.datepicker.regional["tr"]);
         $("#bas_tarih").datepicker().on("change", function (e) {
             var oaDate = toOADateFromString(e.target.value);
-            PartialView("/Home/PartialBekleyenSiparisUrunGrubu", 'bekleyen_siparis_urun_grubu', JSON.stringify({ bastarih: oaDate, bittarih: @ViewBag.BitTarih }));
+            PartialView("/Home/BekleyenSiparisUrunGrubu", 'bekleyen_siparis_urun_grubu', JSON.stringify({ bastarih: oaDate, bittarih: @ViewBag.BitTarih }));
         });
         $("#bit_tarih").datepicker().on("change", function (e) {
             var oaDate = toOADateFromString(e.target.value);
-            PartialView("/Home/PartialBekleyenSiparisUrunGrubu", 'bekleyen_siparis_urun_grubu', JSON.stringify({ basTarih: @ViewBag.BasTarih, bittarih: oaDate }));
+            PartialView("/Home/BekleyenSiparisUrunGrubu", 'bekleyen_siparis_urun_grubu', JSON.stringify({ basTarih: @ViewBag.BasTarih, bittarih: oaDate }));
         });
         var model = @Html.Raw(Json.Encode(Model));
 

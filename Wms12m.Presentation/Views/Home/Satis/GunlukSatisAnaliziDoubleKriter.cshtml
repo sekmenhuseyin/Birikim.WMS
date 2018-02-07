@@ -30,13 +30,13 @@
     var islemtip = [{ id: 0, state: "Tümü"},{ id: 1, state: "İç Piyasa"},{ id: 2, state: "Dış Piyasa" }];
     function Reload5()
     {
-        PartialView("/Home/PartialGunlukSatisDoubleKriter", 'gunluk_satis_double_kriter', JSON.stringify({ kod: kriter_value, islemtip: islemtip_value, tarih: @ViewBag.tarih }));
+        PartialView("/Home/GunlukSatisDoubleKriter", 'gunluk_satis_double_kriter', JSON.stringify({ kod: kriter_value, islemtip: islemtip_value, tarih: @ViewBag.tarih }));
     }
     $(document).ready(function (e) {
          $.datepicker.setDefaults($.datepicker.regional["tr"]);
          $("#gs_tarih_double").datepicker().on("change", function (e) {
             var oaDate = toOADateFromString(e.target.value);
-            PartialView("/Home/PartialGunlukSatisDoubleKriter", 'gunluk_satis_double_kriter', JSON.stringify({ kod: kriter_value, islemtip: islemtip_value, tarih: oaDate }));
+            PartialView("/Home/GunlukSatisDoubleKriter", 'gunluk_satis_double_kriter', JSON.stringify({ kod: kriter_value, islemtip: islemtip_value, tarih: oaDate }));
         });
        var model = @Html.Raw(Json.Encode(Model));
         var color = ["#FF0F00","#FF6600","#FF9E01","#FCD202","#F8FF01","#B0DE09","#04D215","#0D8ECF","#0D52D1","#2A0CD0","#8A0CCF","#CD0D74","#754DEB","#DDDDDD","#999999","#333333","#000000"];
@@ -68,7 +68,7 @@
                     onValueChanged: function (e) {
                         if(e.value!=kriter_value){
                             kriter_value=e.value;
-                            PartialView("/Home/PartialGunlukSatisDoubleKriter", 'gunluk_satis_double_kriter', JSON.stringify({ kod: kriter_value, islemtip: islemtip_value, tarih: @ViewBag.tarih }));
+                            PartialView("/Home/GunlukSatisDoubleKriter", 'gunluk_satis_double_kriter', JSON.stringify({ kod: kriter_value, islemtip: islemtip_value, tarih: @ViewBag.tarih }));
                         }
                     }
                 });
@@ -82,7 +82,7 @@
             value: islemtip_value,
             onValueChanged: function (e) {
                 islemtip_value=e.value;
-                PartialView("/Home/PartialGunlukSatisDoubleKriter", 'gunluk_satis_double_kriter', JSON.stringify({ kod: kriter_value, islemtip: islemtip_value, tarih: @ViewBag.tarih }));
+                PartialView("/Home/GunlukSatisDoubleKriter", 'gunluk_satis_double_kriter', JSON.stringify({ kod: kriter_value, islemtip: islemtip_value, tarih: @ViewBag.tarih }));
             }
         });
         var ChartsAmchartse = function () {

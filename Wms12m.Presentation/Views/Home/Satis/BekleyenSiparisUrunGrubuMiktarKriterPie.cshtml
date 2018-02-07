@@ -25,7 +25,7 @@
     var kriter_value="@ViewBag.Kriter";
     function Reloadk()
     {
-        PartialView("/Home/PartialBekleyenSiparisUrunGrubuMiktarKriterPie", 'bekleyen_siparis_urun_grubu_miktar_kriter_pie', JSON.stringify({kriter: kriter_value }));
+        PartialView("/Home/BekleyenSiparisUrunGrubuMiktarKriterPie", 'bekleyen_siparis_urun_grubu_miktar_kriter_pie', JSON.stringify({kriter: kriter_value }));
     }
     $(document).ready(function (e) {
         var model = @Html.Raw(Json.Encode(Model));
@@ -42,7 +42,7 @@
             value: kriter_value,
             onValueChanged: function (e) {
                 kriter_value=e.value;
-                PartialView("/Home/PartialBekleyenSiparisUrunGrubuMiktarKriterPie", 'bekleyen_siparis_urun_grubu_miktar_kriter_pie', JSON.stringify({ kriter:kriter_value}));
+                PartialView("/Home/BekleyenSiparisUrunGrubuMiktarKriterPie", 'bekleyen_siparis_urun_grubu_miktar_kriter_pie', JSON.stringify({ kriter:kriter_value}));
             }
         });
         var ChartsAmcharts7 = function () {

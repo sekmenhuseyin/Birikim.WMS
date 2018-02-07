@@ -24,7 +24,7 @@
     var f_tarih = @ViewBag.Tarih;
     function Reloadd()
     {
-        PartialView("/Home/PartialLokasyonSatis", 'lokasyon_satis', JSON.stringify({ tarih: f_tarih }));
+        PartialView("/Home/LokasyonSatis", 'lokasyon_satis', JSON.stringify({ tarih: f_tarih }));
     }
     $(document).ready(function (e) {
         var states = [
@@ -48,7 +48,7 @@
             displayExpr: 'state',
             value:f_tarih,
             onValueChanged: function (e) {
-                PartialView("/Home/PartialLokasyonSatis", 'lokasyon_satis', JSON.stringify({ tarih: e.value }));
+                PartialView("/Home/LokasyonSatis", 'lokasyon_satis', JSON.stringify({ tarih: e.value }));
             }
         });
         var model = @Html.Raw(Json.Encode(Model));

@@ -23,7 +23,7 @@
 <script>
     function Reload8()
     {
-        PartialView("/Home/PartialAylikSatisCHKAnaliziBar", 'aylik_satis_chk_bar', JSON.stringify({ chk : '@ViewBag.CHK' }));
+        PartialView("/Home/AylikSatisCHKAnaliziBar", 'aylik_satis_chk_bar', JSON.stringify({ chk : '@ViewBag.CHK' }));
     }
     $.ajax({
         url: "/Home/CHKSelect",
@@ -40,7 +40,7 @@
                 value:'@ViewBag.CHK',
                 onValueChanged: function (e) {
                     if(e.value!=null && e.value!=""){
-                        PartialView("/Home/PartialAylikSatisCHKAnaliziBar", 'aylik_satis_chk_bar', JSON.stringify({ chk: e.value }));
+                        PartialView("/Home/AylikSatisCHKAnaliziBar", 'aylik_satis_chk_bar', JSON.stringify({ chk: e.value }));
                     }
                 },
                 itemTemplate: function (itemData, itemIndex, itemElement) {
