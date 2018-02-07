@@ -32,7 +32,7 @@
     $(document).ready(function () {
         var model = @Html.Raw(Json.Encode(Model));
         var model2 = @Html.Raw(Json.Encode(ViewBag.siparis));
-
+   
         $(".sip-select").dxLookup({
             dataSource: model2,
             searchEnabled: true,

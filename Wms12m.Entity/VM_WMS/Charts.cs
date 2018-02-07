@@ -133,6 +133,12 @@ namespace Wms12m.Entity
         public string SevkEvrakNo { get; set; }
         public string SiparisNo { get; set; }
     }
+    public class STIDepoSelect
+    {
+        /// <summary> VarChar(10) (Not Null) </summary>
+        public string Depo { get; set; }
+    }
+
     public class GidenBarkodListe
     {
         public int ID { get; set; }
@@ -424,8 +430,7 @@ namespace Wms12m.Entity
 
     public class SevkiyatKalanRapor
     {
-        /// <summary> VarChar(30) (Not Null) </summary>
-        public string SeriNo { get; set; }
+
         /// <summary> Char(10) (Allow Null) </summary>
         public string Tarih { get; set; }
         /// <summary> VarChar(30) (Not Null) </summary>
