@@ -18,6 +18,7 @@
     List<DB_LokasyonBazli_SatisAnalizi_Kriter> tmpChartLokasyonSatisKriter = new List<DB_LokasyonBazli_SatisAnalizi_Kriter>();
     List<DB_BakiyeRiskAnalizi> tmpChartBakiyeRisk = new List<DB_BakiyeRiskAnalizi>();
     List<ChartSatisTemsilcisiAylikSatisAnalizi> tmpChartSatisTemsilcisiAylikSatis = new List<ChartSatisTemsilcisiAylikSatisAnalizi>();
+    List<DB_SatisBaglanti_UrunGrubu> tmpChartBaglantiUrunGrubu = new List<DB_SatisBaglanti_UrunGrubu>();
     if (Model.yetki.Contains("'ChartGunlukSatis'") == true)
     {
         tmpChartGunlukSatis = ViewBag.ChartGunlukSatis;
@@ -48,6 +49,10 @@
     if (Model.yetki.Contains("'ChartSatisTemsilcisiAylikSatisAnalizi'") == true)
     {
         tmpChartSatisTemsilcisiAylikSatis = ViewBag.ChartSatisTemsilcisiAylikSatis;
+    }
+    if (Model.yetki.Contains("'ChartBaglantiUrunGrubu'") == true)
+    {
+        tmpChartBaglantiUrunGrubu = ViewBag.ChartBaglantiUrunGrubu;
     }
 }@section Styles{<link href="~/Content/assets/global/plugins/bootstrap-toggle/css/bootstrap-toggle.min.css" rel="stylesheet" type="text/css" />
     <script>var dateVal = new Date(); dateVal.setHours(0, 0, 0); var oaDate = Math.ceil((dateVal - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000));</script>
@@ -88,6 +93,10 @@
 }@if (Model.yetki.Contains("'ChartBakiyeRiskAnalizi'") == true)
 {
     <div id="satis_temsilcisi_aylik_satis_analizi">@{Html.RenderPartial("Satis/SatisTemsilcisi_AylikSatisAnalizi", tmpChartSatisTemsilcisiAylikSatis);}</div>
+}@if (Model.yetki.Contains("'ChartBaglantiUrunGrubu'") == true)
+{
+    <div id="baglanti_urun_grubu">@{Html.RenderPartial("Satis/BaglantiUrunGrubu", tmpChartBaglantiUrunGrubu);}</div>
+    <div id="baglanti_urun_grubu_pie">@{Html.RenderPartial("Satis/BaglantiUrunGrubuPie", tmpChartBaglantiUrunGrubu);}</div>
 }
 <div id="baglanti_urun_grubu"></div><div id="baglanti_urun_grubu_pie"></div>
 <div id="gunluk_mdf_uretim"></div><div id="gunluk_mdf_uretim_pie"></div>
@@ -129,9 +138,6 @@
         PartialView('/Home/PartialBekleyenSiparisUrunGrubuMiktarKriterPie', 'bekleyen_siparis_urun_grubu_miktar_kriter_pie', JSON.stringify({ miktarTutar: true, kriter: 'TL' }));
         PartialView('/Home/PartialBekleyenSiparisMusteriAnalizi', 'bekleyen_siparis_musteri_analizi', JSON.stringify({ kod: 'Tümü', doviz: 'TL' }));
     </text>}
-    if (Model.yetki.Contains("'ChartSatisTemsilcisiAylikSatisAnalizi'") == true){<text>PartialView('/Home/PartialSatisTemsilcisiAylikSatisAnalizi', 'satis_temsilcisi_aylik_satis_analizi', JSON.stringify({ kod: 'Tümü', tarih: dateVal.getMonth() + 1 }));</text>}
-    if (Model.yetki.Contains("'ChartBaglantiUrunGrubu'") == true){<text>PartialView('/Home/PartialBaglantiUrunGrubu', 'baglanti_urun_grubu', JSON.stringify({  }));</text>}
-    if (Model.yetki.Contains("'ChartBaglantiUrunGrubu'") == true){<text>PartialView('/Home/PartialBaglantiUrunGrubuPie', 'baglanti_urun_grubu_pie', JSON.stringify({  }));</text>}
     if (Model.yetki.Contains("'ChartGunlukMDFUretimi'") == true){<text>PartialView('/Home/PartialGunlukMDFUretimi', 'gunluk_mdf_uretim', JSON.stringify({ tarih: oaDate }));</text>}
     if (Model.yetki.Contains("'ChartGunlukMDFUretimi'") == true){<text>PartialView('/Home/PartialGunlukMDFUretimiPie', 'gunluk_mdf_uretim_pie', JSON.stringify({ tarih: oaDate }));</text>}
     if (Model.yetki.Contains("'ChartBaglantiZamanCizelgesi'") == true){<text>PartialView('/Home/PartialBaglantiZamanCizelgesi', 'baglanti_zaman_cizelgesi', JSON.stringify({  }));</text>}

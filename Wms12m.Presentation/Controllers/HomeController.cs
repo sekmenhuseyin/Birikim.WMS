@@ -97,6 +97,10 @@ namespace Wms12m.Presentation.Controllers
             {
                 ViewBag.ChartSatisTemsilcisiAylikSatis = new List<ChartSatisTemsilcisiAylikSatisAnalizi>();
             }
+            if (tbl.yetki.Contains("'ChartBaglantiUrunGrubu'") == true)
+            {
+                ViewBag.ChartBaglantiUrunGrubu = dbl.DB_SatisBaglanti_UrunGrubu.Where(m => m.DB == vUser.SirketKodu).ToList();
+            }
             // return
             return View("Index", tbl);
         }
@@ -592,37 +596,37 @@ namespace Wms12m.Presentation.Controllers
 
         public PartialViewResult PartialBaglantiUrunGrubu()
         {
-            if (CheckPerm(Perms.ChartBaglantiUrunGrubu, PermTypes.Reading) == false) return PartialView("Satis/BaglantiUrunGrubu", new List<CachedChartSatisBaglanti_Result>());
-            var BUGS = db.CachedChartSatisBaglanti(vUser.SirketKodu).ToList();
-            if (BUGS.Count == 0)
+            if (CheckPerm(Perms.ChartBaglantiUrunGrubu, PermTypes.Reading) == false) return PartialView("Satis/BaglantiUrunGrubu", new List<DB_SatisBaglanti_UrunGrubu>());
+            var liste = dbl.DB_SatisBaglanti_UrunGrubu.Where(m => m.DB == vUser.SirketKodu).ToList();
+            if (liste.Count == 0)
                 try
                 {
-                    BUGS = db.Database.SqlQuery<CachedChartSatisBaglanti_Result>(string.Format("[FINSAT6{0}].[wms].[DB_SatisBaglanti_UrunGrubu]", vUser.SirketKodu)).ToList();
+                    liste = db.Database.SqlQuery<DB_SatisBaglanti_UrunGrubu>(string.Format("[FINSAT6{0}].[wms].[DB_SatisBaglanti_UrunGrubu]", vUser.SirketKodu)).ToList();
                 }
                 catch (Exception ex)
                 {
                     Logger(ex, "Home/PartialBaglantiUrunGrubu");
-                    BUGS = new List<CachedChartSatisBaglanti_Result>();
+                    liste = new List<DB_SatisBaglanti_UrunGrubu>();
                 }
 
-            return PartialView("Satis/BaglantiUrunGrubu", BUGS);
+            return PartialView("Satis/BaglantiUrunGrubu", liste);
         }
         public PartialViewResult PartialBaglantiUrunGrubuPie()
         {
-            if (CheckPerm(Perms.ChartBaglantiUrunGrubu, PermTypes.Reading) == false) return PartialView("Satis/BaglantiUrunGrubuPie", new List<CachedChartSatisBaglanti_Result>());
-            var BUGS = db.CachedChartSatisBaglanti(vUser.SirketKodu).ToList();
-            if (BUGS.Count == 0)
+            if (CheckPerm(Perms.ChartBaglantiUrunGrubu, PermTypes.Reading) == false) return PartialView("Satis/BaglantiUrunGrubuPie", new List<DB_SatisBaglanti_UrunGrubu>());
+            var liste = dbl.DB_SatisBaglanti_UrunGrubu.Where(m => m.DB == vUser.SirketKodu).ToList();
+            if (liste.Count == 0)
                 try
                 {
-                    BUGS = db.Database.SqlQuery<CachedChartSatisBaglanti_Result>(string.Format("[FINSAT6{0}].[wms].[DB_SatisBaglanti_UrunGrubu]", vUser.SirketKodu)).ToList();
+                    liste = db.Database.SqlQuery<DB_SatisBaglanti_UrunGrubu>(string.Format("[FINSAT6{0}].[wms].[DB_SatisBaglanti_UrunGrubu]", vUser.SirketKodu)).ToList();
                 }
                 catch (Exception ex)
                 {
                     Logger(ex, "Home/PartialBaglantiUrunGrubuPie");
-                    BUGS = new List<CachedChartSatisBaglanti_Result>();
+                    liste = new List<DB_SatisBaglanti_UrunGrubu>();
                 }
 
-            return PartialView("Satis/BaglantiUrunGrubuPie", BUGS);
+            return PartialView("Satis/BaglantiUrunGrubuPie", liste);
         }
 
         public PartialViewResult PartialGunlukMDFUretimi(int tarih)
