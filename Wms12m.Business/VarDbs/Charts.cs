@@ -41,7 +41,7 @@ namespace Wms12m
         /// <summary>
         /// Home / PartialLokasyonSatis
         /// </summary>
-        public List<DB_LokasyonBazli_SatisAnalizi> CachedChartLocation(int tarih)
+        public List<DB_LokasyonBazli_SatisAnalizi> ChartLocation(int tarih)
         {
             return db.Database.SqlQuery<DB_LokasyonBazli_SatisAnalizi>(string.Format("[FINSAT6{0}].[wms].[DB_LokasyonBazli_SatisAnalizi] @Ay = {1}", SirketKodu, tarih)).ToList();
         }
@@ -49,7 +49,7 @@ namespace Wms12m
         /// <summary>
         /// Home / PartialLokasyonSatisKriter
         /// </summary>
-        public List<DB_LokasyonBazli_SatisAnalizi_Kriter> CachedChartLocationKriter(int tarih, string kriter)
+        public List<DB_LokasyonBazli_SatisAnalizi_Kriter> ChartLocationKriter(int tarih, string kriter)
         {
             return db.Database.SqlQuery<DB_LokasyonBazli_SatisAnalizi_Kriter>(string.Format("[FINSAT6{0}].[wms].[DB_LokasyonBazli_SatisAnalizi_Kriter] @Ay = {1}, @Kriter='{2}'", SirketKodu, tarih, kriter)).ToList();
         }
@@ -57,7 +57,7 @@ namespace Wms12m
         /// <summary>
         /// Home / PartialAylikSatisAnaliziBar
         /// </summary>
-        public List<DB_Aylik_SatisAnalizi> CachedChartMonthly()
+        public List<DB_Aylik_SatisAnalizi> ChartMonthly()
         {
             return db.Database.SqlQuery<DB_Aylik_SatisAnalizi>(string.Format("[FINSAT6{0}].[wms].[DB_Aylik_SatisAnalizi]", SirketKodu)).ToList();
         }
@@ -65,7 +65,7 @@ namespace Wms12m
         /// <summary>
         /// Home / PartialAylikSatisAnaliziKodTipDovizBar
         /// </summary>
-        public List<DB_Aylik_SatisAnalizi_Tip_Kod_Doviz> CachedChartMonthlyByKriter(string kod, int islemtip, string doviz)
+        public List<DB_Aylik_SatisAnalizi_Tip_Kod_Doviz> ChartMonthlyByKriter(string kod, int islemtip, string doviz)
         {
             return db.Database.SqlQuery<DB_Aylik_SatisAnalizi_Tip_Kod_Doviz>(string.Format("[FINSAT6{0}].[wms].[DB_Aylik_SatisAnalizi_Tip_Kod_Doviz] @Grup = '{1}', @Kriter = '{2}', @IslemTip = {3}", SirketKodu, kod, doviz, islemtip)).ToList();
         }
@@ -73,7 +73,7 @@ namespace Wms12m
         /// <summary>
         /// Home / PartialUrunGrubuSatis
         /// </summary>
-        public List<DB_UrunGrubu_SatisAnalizi> CachedChartUrunGrubu(int tarih)
+        public List<DB_UrunGrubu_SatisAnalizi> ChartUrunGrubu(int tarih)
         {
             return db.Database.SqlQuery<DB_UrunGrubu_SatisAnalizi>(string.Format("[FINSAT6{0}].[wms].[DB_UrunGrubu_SatisAnalizi] @Ay = {1}", SirketKodu, tarih)).ToList();
         }
@@ -81,7 +81,7 @@ namespace Wms12m
         /// <summary>
         /// Home / PartialUrunGrubuSatisKriter
         /// </summary>
-        public List<DB_UrunGrubu_SatisAnalizi_Kriter> CachedChartUrunGrubuKriter(int tarih, string kriter)
+        public List<DB_UrunGrubu_SatisAnalizi_Kriter> ChartUrunGrubuKriter(int tarih, string kriter)
         {
             return db.Database.SqlQuery<DB_UrunGrubu_SatisAnalizi_Kriter>(string.Format("[FINSAT6{0}].[wms].[DB_UrunGrubu_SatisAnalizi_Kriter] @Ay = {1}, @Kriter='{2}'", SirketKodu, tarih, kriter)).ToList();
         }
@@ -89,7 +89,7 @@ namespace Wms12m
         /// <summary>
         /// Home / PartialGunlukSatisYearToDay
         /// </summary>
-        public List<DB_GunlukSatisAnaliziYearToDay> CachedChartYear2Day()
+        public List<DB_GunlukSatisAnaliziYearToDay> ChartYear2Day()
         {
             return db.Database.SqlQuery<DB_GunlukSatisAnaliziYearToDay>(string.Format("[FINSAT6{0}].[wms].[DB_GunlukSatisAnaliziYearToDay]", SirketKodu)).ToList();
         }
