@@ -22,6 +22,22 @@ namespace Wms12m
         private string Veritabani { get; set; }
 
         /// <summary>
+        /// Home / BaglantiUrunGrubu
+        /// </summary>
+        public List<DB_SatisBaglanti_UrunGrubu> BaglantiUrunGrubu()
+        {
+            return Db.Database.SqlQuery<DB_SatisBaglanti_UrunGrubu>(string.Format("[FINSAT6{0}].[wms].[DB_SatisBaglanti_UrunGrubu]", SirketKodu)).ToList();
+        }
+
+        /// <summary>
+        /// Home / BakiyeRiskAnalizi
+        /// </summary>
+        public List<DB_BakiyeRiskAnalizi> BakiyeRiskAnalizi()
+        {
+            return Db.Database.SqlQuery<DB_BakiyeRiskAnalizi>(string.Format("[FINSAT6{0}].[wms].[DB_BakiyeRiskAnalizi]", SirketKodu)).ToList();
+        }
+
+        /// <summary>
         /// Home / Index
         /// </summary>
         public BekleyenOnaylar BekleyenOnaylar(bool dashboardKasa)
@@ -172,6 +188,14 @@ namespace Wms12m
         public List<ChartBolgeBazliSatisAnaliziKriter> GunlukSatisAnaliziKriterSelect()
         {
             return Db.Database.SqlQuery<ChartBolgeBazliSatisAnaliziKriter>(string.Format("[FINSAT6{0}].[wms].[GunlukSatisAnaliziKriterSelect]", SirketKodu)).ToList();
+        }
+
+        /// <summary>
+        /// Home / SatisTemsilcisiAylikSatisAnalizi
+        /// </summary>
+        public List<ChartSatisTemsilcisiAylikSatisAnalizi> SatisTemsilcisiAylikSatisAnalizi(int tarih, string kriter)
+        {
+            return Db.Database.SqlQuery<ChartSatisTemsilcisiAylikSatisAnalizi>(string.Format("[FINSAT6{0}].[wms].[SatisTemsilcisi_AylikSatisAnalizi] @Ay = {1}, @Kriter='{2}'", SirketKodu, tarih, kriter)).ToList();
         }
     }
 }

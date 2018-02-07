@@ -399,7 +399,7 @@ namespace Wms12m.Presentation.Controllers
             if (liste.Count == 0)
                 try
                 {
-                    liste = db.Database.SqlQuery<DB_SatisBaglanti_UrunGrubu>(string.Format("[FINSAT6{0}].[wms].[DB_SatisBaglanti_UrunGrubu]", vUser.SirketKodu)).ToList();
+                    liste = new Charts(db, vUser.SirketKodu).BaglantiUrunGrubu();
                 }
                 catch (Exception ex)
                 {
@@ -417,7 +417,7 @@ namespace Wms12m.Presentation.Controllers
             if (liste.Count == 0)
                 try
                 {
-                    liste = db.Database.SqlQuery<DB_SatisBaglanti_UrunGrubu>(string.Format("[FINSAT6{0}].[wms].[DB_SatisBaglanti_UrunGrubu]", vUser.SirketKodu)).ToList();
+                    liste = new Charts(db, vUser.SirketKodu).BaglantiUrunGrubu();
                 }
                 catch (Exception ex)
                 {
@@ -452,7 +452,7 @@ namespace Wms12m.Presentation.Controllers
             if (liste.Count == 0)
                 try
                 {
-                    liste = db.Database.SqlQuery<DB_BakiyeRiskAnalizi>(string.Format("[FINSAT6{0}].[wms].[DB_BakiyeRiskAnalizi]", vUser.SirketKodu)).ToList();
+                    liste = new Charts(db, vUser.SirketKodu).BakiyeRiskAnalizi();
                 }
                 catch (Exception)
                 {
@@ -850,22 +850,22 @@ namespace Wms12m.Presentation.Controllers
             return PartialView("Satis/LokasyonSatisKriter", liste);
         }
 
-        public PartialViewResult SatisTemsilcisiAylikSatisAnalizi(string kod, short tarih)
+        public PartialViewResult SatisTemsilcisiAylikSatisAnalizi(string kod, int tarih)
         {
             ViewBag.Tarih = tarih;
             ViewBag.Kriter = kod;
             if (CheckPerm(Perms.ChartSatisTemsilcisiAylikSatisAnalizi, PermTypes.Reading) == false) return PartialView("Satis/SatisTemsilcisi_AylikSatisAnalizi", new List<ChartSatisTemsilcisiAylikSatisAnalizi>());
-            List<ChartSatisTemsilcisiAylikSatisAnalizi> list;
+            List<ChartSatisTemsilcisiAylikSatisAnalizi> liste;
             try
             {
-                list = db.Database.SqlQuery<ChartSatisTemsilcisiAylikSatisAnalizi>(string.Format("[FINSAT6{0}].[wms].[SatisTemsilcisi_AylikSatisAnalizi] @Ay = '{1}', @Kriter = '{2}'", vUser.SirketKodu, tarih, kod)).ToList();
+                liste = new Charts(db, vUser.SirketKodu).SatisTemsilcisiAylikSatisAnalizi(tarih, kod);
             }
             catch (Exception)
             {
-                list = new List<ChartSatisTemsilcisiAylikSatisAnalizi>();
+                liste = new List<ChartSatisTemsilcisiAylikSatisAnalizi>();
             }
 
-            return PartialView("Satis/SatisTemsilcisi_AylikSatisAnalizi", list);
+            return PartialView("Satis/SatisTemsilcisi_AylikSatisAnalizi", liste);
         }
 
         public PartialViewResult UrunGrubuSatis(int tarih)
