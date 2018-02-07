@@ -6,7 +6,8 @@ namespace Wms12m
 {
     public class Statics
     {
-        static string uploadsDirectory = "/Content/Uploads/";
+        private static string uploadsDirectory = "/Content/Uploads/";
+
         /// <summary>
         /// PutUsersOffline
         /// </summary>
@@ -19,6 +20,7 @@ namespace Wms12m
                 db.SaveChanges();
             }
         }
+
         /// <summary>
         /// ImageAddressOrDefault
         /// </summary>

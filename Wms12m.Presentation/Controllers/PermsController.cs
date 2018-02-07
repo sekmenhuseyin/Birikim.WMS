@@ -18,6 +18,7 @@ namespace Wms12m.Presentation.Controllers
             ViewBag.RoleName = new SelectList(db.Roles.Where(m => m.RoleName != "").ToList(), "RoleName", "RoleName");
             return View("Index");
         }
+
         /// <summary>
         /// yetki oluşturma sayfası
         /// </summary>
@@ -28,6 +29,7 @@ namespace Wms12m.Presentation.Controllers
             ViewBag.RoleName = id;
             return PartialView("List", list);
         }
+
         /// <summary>
         /// yetki oluştur
         /// </summary>

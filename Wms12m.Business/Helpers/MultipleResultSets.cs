@@ -17,25 +17,15 @@ namespace Wms12m
 
         public class MultipleResultSetWrapper
         {
-            readonly DbContext db;
-            readonly string storedProcedure;
             public List<Func<IObjectContextAdapter, DbDataReader, IEnumerable>> _resultSets;
+            private readonly DbContext db;
+            private readonly string storedProcedure;
 
             public MultipleResultSetWrapper(DbContext db, string storedProcedure)
             {
                 this.db = db;
                 this.storedProcedure = storedProcedure;
                 _resultSets = new List<Func<IObjectContextAdapter, DbDataReader, IEnumerable>>();
-            }
-
-            public MultipleResultSetWrapper With<TResult>()
-            {
-                _resultSets.Add((adapter, reader) => adapter
-                    .ObjectContext
-                    .Translate<TResult>(reader)
-                    .ToList());
-
-                return this;
             }
 
             public List<IEnumerable> Execute()
@@ -60,6 +50,16 @@ namespace Wms12m
 
                     return results;
                 }
+            }
+
+            public MultipleResultSetWrapper With<TResult>()
+            {
+                _resultSets.Add((adapter, reader) => adapter
+                    .ObjectContext
+                    .Translate<TResult>(reader)
+                    .ToList());
+
+                return this;
             }
         }
     }

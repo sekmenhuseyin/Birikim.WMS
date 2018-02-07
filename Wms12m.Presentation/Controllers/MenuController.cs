@@ -19,6 +19,7 @@ namespace Wms12m.Presentation.Controllers
             ViewBag.Sub = false;
             return View("Index", webMenus.ToList());
         }
+
         /// <summary>
         /// list sub menus
         /// </summary>
@@ -31,6 +32,7 @@ namespace Wms12m.Presentation.Controllers
             ViewBag.Sub = true;
             return View("Index", webMenus);
         }
+
         /// <summary>
         /// seçili menüye ait yetkileri listeler
         /// </summary>
@@ -41,6 +43,7 @@ namespace Wms12m.Presentation.Controllers
             var yetki = db.MenuRolGetir(id);
             return View("Permission", yetki);
         }
+
         /// <summary>
         /// seçili menüye yeni yetki ekle
         /// </summary>
@@ -69,6 +72,7 @@ namespace Wms12m.Presentation.Controllers
             else
                 return Redirect("/Menu/SubMenu/" + mn.UstMenuID);
         }
+
         /// <summary>
         /// create menu form page
         /// </summary>
@@ -83,6 +87,7 @@ namespace Wms12m.Presentation.Controllers
             ViewBag.Simge = "";
             return PartialView("New", new WebMenu());
         }
+
         /// <summary>
         /// creates menu
         /// </summary>
@@ -103,6 +108,7 @@ namespace Wms12m.Presentation.Controllers
 
             return RedirectToAction("Index");
         }
+
         /// <summary>
         /// edit menu page
         /// </summary>
@@ -122,6 +128,7 @@ namespace Wms12m.Presentation.Controllers
             ViewBag.Simge = webMenu.Simge != null ? webMenu.Simge.Ad : "";
             return PartialView("New", webMenu);
         }
+
         /// <summary>
         /// edits menu
         /// </summary>
@@ -143,6 +150,7 @@ namespace Wms12m.Presentation.Controllers
             else
                 return Redirect("/Menu/SubMenu/" + webMenu.UstMenuID);
         }
+
         /// <summary>
         /// menü sırasını değiştirir
         /// </summary>
@@ -169,6 +177,7 @@ namespace Wms12m.Presentation.Controllers
 
             return Redirect(Request.UrlReferrer.ToString());
         }
+
         /// <summary>
         /// Yetkiler
         /// </summary>
@@ -178,6 +187,7 @@ namespace Wms12m.Presentation.Controllers
             ViewBag.RoleName = new SelectList(db.Roles.Where(m => m.RoleName != "").ToList(), "RoleName", "RoleName");
             return View("Permissions");
         }
+
         /// <summary>
         /// yetki oluşturma sayfası
         /// </summary>
@@ -188,6 +198,7 @@ namespace Wms12m.Presentation.Controllers
             ViewBag.RoleName = id;
             return PartialView("PermissionsList", list);
         }
+
         /// <summary>
         /// yetkileri kaydet
         /// </summary>

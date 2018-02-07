@@ -15,6 +15,7 @@ namespace Wms12m.Presentation.Controllers
             if (CheckPerm(Perms.Menü, PermTypes.Reading) == false) return Redirect("/");
             return View("Index", ViewBag.settings);
         }
+
         /// <summary>
         /// kaydet
         /// </summary>
@@ -55,6 +56,7 @@ namespace Wms12m.Presentation.Controllers
 
             return Redirect(Request.UrlReferrer.ToString());
         }
+
         /// <summary>
         /// ayarlar
         /// </summary>
@@ -63,6 +65,7 @@ namespace Wms12m.Presentation.Controllers
             if (CheckPerm(Perms.Menü, PermTypes.Reading) == false) return Redirect("/");
             return View("Sql");
         }
+
         /// <summary>
         /// stok malzeme sil
         /// </summary>

@@ -30,6 +30,7 @@ namespace Wms12m.Presentation
         public static string blockui = "~/Content/Scripts/blockui.js";
         public static string KendoJs = "~/Content/Scripts/Kendo.js";
         public static string KendoCss = "~/Content/Styles/Kendo.css";
+
         /// <summary>
         /// register
         /// </summary>

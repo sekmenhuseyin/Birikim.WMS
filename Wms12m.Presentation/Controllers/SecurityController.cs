@@ -14,7 +14,8 @@ namespace Wms12m.Presentation.Controllers
         /// <summary>
         /// giriş sayfası
         /// </summary>
-        Result Result;
+        private Result Result;
+
         public ActionResult Login()
         {
             using (var db = new WMSEntities())
@@ -25,8 +26,8 @@ namespace Wms12m.Presentation.Controllers
                 ViewBag.sayi = sirkets.Count;
                 return View("Login");
             }
-
         }
+
         /// <summary>
         /// giriş işlemleri
         /// </summary>
@@ -70,6 +71,7 @@ namespace Wms12m.Presentation.Controllers
 
             return Json(new { data = (Result.Status) }, JsonRequestBehavior.AllowGet);
         }
+
         /// <summary>
         /// çıkış işlemleri
         /// </summary>
@@ -87,6 +89,7 @@ namespace Wms12m.Presentation.Controllers
             });
             return RedirectToAction("Login", "Security");
         }
+
         /// <summary>
         /// yeni kullanıcı kaydı
         /// </summary>
@@ -94,6 +97,7 @@ namespace Wms12m.Presentation.Controllers
         {
             return Json(new Result(false, 0, "Şu anda bu işlemi gerçekleştiremiyoruz.", "Yeni Kullanıcı"), JsonRequestBehavior.AllowGet);
         }
+
         /// <summary>
         /// şifre hatırlatma
         /// </summary>

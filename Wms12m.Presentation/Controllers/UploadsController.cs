@@ -169,6 +169,7 @@ namespace Wms12m.Presentation.Controllers
             _result.Status = true;
             return Json(_result, JsonRequestBehavior.AllowGet);
         }
+
         /// <summary>
         /// boyut kartı için toplu giriş yapar
         /// </summary>
@@ -273,6 +274,7 @@ namespace Wms12m.Presentation.Controllers
                 _Result.Status = true;
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
+
         /// <summary>
         /// stoğa excelden elle ekleme
         /// </summary>
@@ -381,6 +383,7 @@ namespace Wms12m.Presentation.Controllers
                 _result.Status = true;
             return Json(_result, JsonRequestBehavior.AllowGet);
         }
+
         /// <summary>
         /// boyut kartı için toplu giriş yapar
         /// </summary>
@@ -531,6 +534,7 @@ namespace Wms12m.Presentation.Controllers
                 _Result.Status = true;
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
+
         /// <summary>
         /// kullanıcı resmi yükle
         /// </summary>
@@ -556,6 +560,7 @@ namespace Wms12m.Presentation.Controllers
                 return Json(new Result(false, ex.Message), JsonRequestBehavior.AllowGet);
             }
         }
+
         /// <summary>
         /// görevler için dosya yükle
         /// </summary>
@@ -592,6 +597,7 @@ namespace Wms12m.Presentation.Controllers
                 return Json(new Result(false, ex.Message), JsonRequestBehavior.AllowGet);
             }
         }
+
         /// <summary>
         /// görevler için dosya sil
         /// </summary>
@@ -611,6 +617,7 @@ namespace Wms12m.Presentation.Controllers
                 return Json(new Result(false, ex.Message), JsonRequestBehavior.AllowGet);
             }
         }
+
         /// <summary>
         /// görveler için dosya indir
         /// </summary>

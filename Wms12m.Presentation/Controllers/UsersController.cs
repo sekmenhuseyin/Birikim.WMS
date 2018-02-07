@@ -22,6 +22,7 @@ namespace Wms12m.Presentation.Controllers
             ViewBag.Yetki = CheckPerm(Perms.Kullanıcılar, PermTypes.Writing);
             return View("Index");
         }
+
         /// <summary>
         /// kullanıcı listesi
         /// </summary>
@@ -31,10 +32,12 @@ namespace Wms12m.Presentation.Controllers
             ViewBag.Yetki = CheckPerm(Perms.Kullanıcılar, PermTypes.Writing);
             return PartialView("List", Persons.GetListAll());
         }
+
         public JsonResult List2([DataSourceRequest]DataSourceRequest request)
         {
             return Json(Persons.GetListAll2().ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
+
         /// <summary>
         /// chat için kullanıcı listesi
         /// </summary>
@@ -51,6 +54,7 @@ namespace Wms12m.Presentation.Controllers
                             ORDER BY Aktif DESC, usr.Users.AdSoyad", vUser.Id, vUser.UserName)).ToList();
             return PartialView("../Shared/Users", list);
         }
+
         /// <summary>
         /// ayrıntılar
         /// </summary>
@@ -60,6 +64,7 @@ namespace Wms12m.Presentation.Controllers
             var tbl = Persons.Detail(id);
             return PartialView("Details", tbl);
         }
+
         /// <summary>
         /// yeni form
         /// </summary>
@@ -69,6 +74,7 @@ namespace Wms12m.Presentation.Controllers
             ViewBag.RoleName = new SelectList(Roles.GetList(), "RoleName", "RoleName");
             return PartialView("New", new User());
         }
+
         /// <summary>
         /// düzenle form
         /// </summary>
@@ -79,6 +85,7 @@ namespace Wms12m.Presentation.Controllers
             ViewBag.RoleName = new SelectList(Roles.GetList(), "RoleName", "RoleName", tbl.RoleName);
             return PartialView("Edit", tbl);
         }
+
         /// <summary>
         /// kaydet
         /// </summary>
@@ -89,6 +96,7 @@ namespace Wms12m.Presentation.Controllers
             var _Result = Persons.Operation(tbl);
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
+
         /// <summary>
         /// sil
         /// </summary>
@@ -99,6 +107,7 @@ namespace Wms12m.Presentation.Controllers
             var _Result = Persons.Delete(Id);
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
+
         /// <summary>
         /// resim değiştirme ekranı
         /// </summary>
@@ -109,7 +118,9 @@ namespace Wms12m.Presentation.Controllers
             if (id == null || id.ToString2() == "") return null;
             return PartialView("Image", Persons.Detail(id.ToInt32()));
         }
+
         #region Password
+
         /// <summary>
         /// şifre değiştirme ekranı
         /// </summary>
@@ -122,6 +133,7 @@ namespace Wms12m.Presentation.Controllers
             ViewBag.UserName = Persons.Detail(id.ToInt32()).Kod;
             return PartialView("Pass", new frmUserChangePass());
         }
+
         /// <summary>
         /// şifreyi değiştir
         /// </summary>
@@ -142,6 +154,7 @@ namespace Wms12m.Presentation.Controllers
 
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
+
         /// <summary>
         /// şifreyi çözümler ve gösterir
         /// </summary>
@@ -151,8 +164,11 @@ namespace Wms12m.Presentation.Controllers
             if (vUser.Id != 1) return Json("Yetkiniz yok", JsonRequestBehavior.AllowGet);
             return Json(Persons.GetPass(ID), JsonRequestBehavior.AllowGet);
         }
-        #endregion
+
+        #endregion Password
+
         #region Permissions
+
         /// <summary>
         /// kişiye yetki atama sayfası
         /// </summary>
@@ -170,6 +186,7 @@ namespace Wms12m.Presentation.Controllers
             ViewBag.UserName = Persons.Detail(ID).Kod;
             return PartialView("Perm", list);
         }
+
         /// <summary>
         /// yetkileri kaydet
         /// </summary>
@@ -233,6 +250,7 @@ namespace Wms12m.Presentation.Controllers
                 }
             }
         }
+
         /// <summary>
         /// yetkileri kaydet
         /// </summary>
@@ -267,8 +285,11 @@ namespace Wms12m.Presentation.Controllers
             };
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
-        #endregion
+
+        #endregion Permissions
+
         #region B2B
+
         /// <summary>
         /// b2b kullanıcı sayfası
         /// </summary>
@@ -278,6 +299,7 @@ namespace Wms12m.Presentation.Controllers
             ViewBag.Yetki = CheckPerm(Perms.Kullanıcılar, PermTypes.Writing);
             return View("B2B");
         }
+
         /// <summary>
         /// b2b kullanıcı listesi
         /// </summary>
@@ -302,6 +324,7 @@ namespace Wms12m.Presentation.Controllers
             ViewBag.Yetki2 = CheckPerm(Perms.Kullanıcılar, PermTypes.Deleting);
             return PartialView("B2BList", list);
         }
+
         /// <summary>
         /// şifreyi değiştir
         /// </summary>
@@ -321,6 +344,7 @@ namespace Wms12m.Presentation.Controllers
                 return Json(new Result(false, "Hata oldu"), JsonRequestBehavior.AllowGet);
             }
         }
+
         /// <summary>
         /// sil
         /// </summary>
@@ -340,6 +364,7 @@ namespace Wms12m.Presentation.Controllers
                 return Json(new Result(false, "Hata oldu"), JsonRequestBehavior.AllowGet);
             }
         }
+
         /// <summary>
         /// yeni form
         /// </summary>
@@ -348,6 +373,7 @@ namespace Wms12m.Presentation.Controllers
             if (CheckPerm(Perms.Kullanıcılar, PermTypes.Reading) == false) return null;
             return PartialView("B2BNew", new mdlB2BUsers());
         }
+
         /// <summary>
         /// kaydet
         /// </summary>
@@ -367,6 +393,7 @@ namespace Wms12m.Presentation.Controllers
                 return Json(new Result(false, "Hata oldu"), JsonRequestBehavior.AllowGet);
             }
         }
+
         /// <summary>
         /// b2b chk
         /// </summary>
@@ -385,6 +412,7 @@ namespace Wms12m.Presentation.Controllers
                 return Json(new List<frmJson>(), JsonRequestBehavior.AllowGet);
             }
         }
+
         public JsonResult GetChKUnvan(string term)
         {
             var sql = string.Format("FINSAT6{0}.[wms].[BTBCHKSearch] @HesapKodu = N'', @Unvan = N'{1}', @top = 20", vUser.SirketKodu, term);
@@ -400,7 +428,9 @@ namespace Wms12m.Presentation.Controllers
                 return Json(new List<frmJson>(), JsonRequestBehavior.AllowGet);
             }
         }
-        #endregion
+
+        #endregion B2B
+
         /// <summary>
         /// sipriş yetki düzenleme sayfası
         /// </summary>
@@ -417,6 +447,7 @@ namespace Wms12m.Presentation.Controllers
             };
             return PartialView("Parametre", tbl);
         }
+
         public PartialViewResult YetkiDuzenle(int ID)
         {
             if (CheckPerm(Perms.Kullanıcılar, PermTypes.Reading) == false || ID == 1) return null;
@@ -443,6 +474,7 @@ namespace Wms12m.Presentation.Controllers
             ViewBag.ID = ID;
             return PartialView("YetkiDuzenle", yetki);
         }
+
         /// <summary>
         /// select box doldurur
         /// </summary>
@@ -452,6 +484,7 @@ namespace Wms12m.Presentation.Controllers
             var json = new JavaScriptSerializer().Serialize(KOD);
             return json;
         }
+
         /// <summary>
         /// sipriş yetki update
         /// </summary>

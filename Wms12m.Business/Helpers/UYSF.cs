@@ -7,8 +7,6 @@ namespace Wms12m
 {
     public class UYSF
     {
-        string ConStr { get; set; }
-        string SirketKodu { get; set; }
         /// <summary>
         /// yeni finsat
         /// </summary>
@@ -17,16 +15,10 @@ namespace Wms12m
             ConStr = conStr;
             SirketKodu = sirketKodu;
         }
-        /// <summary>
-        /// evrak no oluştur
-        /// </summary>
-        public string EvrakNoArttir(string evrakNo, string seri)
-        {
-            if (evrakNo == null || evrakNo == "") evrakNo = seri + "000000";
-            var sonemirNo = evrakNo.RemoveFirstCharacter(2).ToInt32();
-            evrakNo = seri + ("000000" + (sonemirNo + 1)).Right(6);
-            return evrakNo;
-        }
+
+        private string ConStr { get; set; }
+        private string SirketKodu { get; set; }
+
         /// <summary>
         /// depo transfer fişi
         /// </summary>
@@ -108,6 +100,17 @@ namespace Wms12m
                 Message = Sonuc.Hata != null ? Sonuc.Hata.Message : ""
             };
             return _Result;
+        }
+
+        /// <summary>
+        /// evrak no oluştur
+        /// </summary>
+        public string EvrakNoArttir(string evrakNo, string seri)
+        {
+            if (evrakNo == null || evrakNo == "") evrakNo = seri + "000000";
+            var sonemirNo = evrakNo.RemoveFirstCharacter(2).ToInt32();
+            evrakNo = seri + ("000000" + (sonemirNo + 1)).Right(6);
+            return evrakNo;
         }
     }
 }

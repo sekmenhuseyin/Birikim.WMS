@@ -24,6 +24,7 @@ namespace Wms12m.Presentation.Controllers
                 liste = liste.Where(m => m.Title.Contains(search) || m.Detail.Contains(search));
             return PartialView("List", liste.OrderBy(m => m.TopicTypeID).ToList());
         }
+
         /// <summary>
         /// yeni sayfası
         /// </summary>
@@ -32,6 +33,7 @@ namespace Wms12m.Presentation.Controllers
             ViewBag.TopicTypeID = new SelectList(ComboSub.GetList(Combos.FaqTopics.ToInt32()), "ID", "Name");
             return PartialView(new FAQ());
         }
+
         /// <summary>
         /// kaydet
         /// </summary>
@@ -64,6 +66,7 @@ namespace Wms12m.Presentation.Controllers
 
             return Json(new Result(false, "Hata oldu"), JsonRequestBehavior.AllowGet);
         }
+
         /// <summary>
         /// sil
         /// </summary>
@@ -81,6 +84,7 @@ namespace Wms12m.Presentation.Controllers
                 return Json(new Result(false, "Silme işlemi gerçekleştirilemedi."), JsonRequestBehavior.AllowGet);
             }
         }
+
         /// <summary>
         /// düzenleme listesi
         /// </summary>

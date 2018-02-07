@@ -7,13 +7,15 @@ namespace Wms12m
 {
     public sealed class Client
     {
-        static Identity Identity
+        private static Identity Identity
         {
             get { return HttpContext.Current.Session["Identity"] as Identity; }
             set { HttpContext.Current.Session["Identity"] = value; }
         }
 
-        private Client() { }
+        private Client()
+        {
+        }
 
         public static void Initialize()
         {
@@ -41,6 +43,7 @@ namespace Wms12m
                 }
             };
         }
+
         public static string GenerateTrackingCode()
         {
             return string.Format("{0}/{1}", Environment.TickCount, new Random().Next(1000, 9999));

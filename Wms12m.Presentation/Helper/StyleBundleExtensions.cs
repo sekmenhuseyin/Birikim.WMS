@@ -40,7 +40,7 @@ namespace Wms12m
             return bundle;
         }
 
-        static StyleBundle CdnFallbackExpress(this StyleBundle bundle, string fallback, string className = null, string ruleName = null, string ruleValue = null)
+        private static StyleBundle CdnFallbackExpress(this StyleBundle bundle, string fallback, string className = null, string ruleName = null, string ruleValue = null)
         {
             bundle.Include(fallback);
 

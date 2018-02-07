@@ -7,31 +7,12 @@ namespace Wms12m
 {
     public class Connection : IDisposable
     {
-        SqlConnection m_SqlCon;
-        public SqlConnection SqlCon => m_SqlCon;
-        public SqlParameterCollection Params { get; set; }
+        private static string configConStr;
+        private static Connection instance;
+        private static bool transActive;
+        private DataSet m_DSet;
+        private SqlConnection m_SqlCon;
 
-        public SqlCommand Cmd { get; set; }
-
-        DataSet m_DSet;
-        public DataSet DSet => m_DSet;
-        public SqlDataReader Reader { get; set; }
-
-        public CommandType CommandType
-        {
-            get { return Cmd.CommandType; }
-            set { Cmd.CommandType = value; }
-        }
-
-        static string configConStr;
-
-        static bool transActive;
-
-        public SqlTransaction Trans
-        {
-            get { return Cmd.Transaction; }
-            set { Cmd.Transaction = value; }
-        }
         private Connection()
         {
             try
@@ -53,34 +34,62 @@ namespace Wms12m
             catch { }
         }
 
-        public DataSet GetTables(string sqlString, params string[] tableNames)
+        public SqlCommand Cmd { get; set; }
+
+        public CommandType CommandType
         {
-            m_DSet = new DataSet();
+            get { return Cmd.CommandType; }
+            set { Cmd.CommandType = value; }
+        }
+
+        public DataSet DSet => m_DSet;
+        public SqlParameterCollection Params { get; set; }
+        public SqlDataReader Reader { get; set; }
+        public SqlConnection SqlCon => m_SqlCon;
+
+        public SqlTransaction Trans
+        {
+            get { return Cmd.Transaction; }
+            set { Cmd.Transaction = value; }
+        }
+
+        public static void ClearParams()
+        {
+            if (instance != null) instance.Params.Clear();
+        }
+
+        public static Connection GetConnection()
+        {
+            transActive = false;
+            return GetCon(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString);
+        }
+
+        public static Connection GetConnection(string ConStr)
+        {
+            transActive = false;
+            return GetCon(ConStr);
+        }
+
+        public static Connection GetConnectionWithTrans()
+        {
+            transActive = true;
+            var con = GetCon(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString);
+            if (con.Cmd.Transaction == null)
+            {
+                if (con.SqlCon.State == ConnectionState.Closed)
+                    con.SqlCon.Open();
+                con.Cmd.Transaction = con.SqlCon.BeginTransaction();
+            }
+
+            return con;
+        }
+
+        public object ExecuteScalar(string sqlString)
+        {
             if (SqlCon.State == ConnectionState.Closed)
                 SqlCon.Open();
             Cmd.CommandText = sqlString;
-            DSet.Load(Cmd.ExecuteReader(), LoadOption.OverwriteChanges, tableNames);
-            return m_DSet;
-        }
-
-        public DataTable GetTable(string sqlString)
-        {
-            GetTables(sqlString, "Table1");
-            return m_DSet.Tables[0];
-        }
-
-        public DataTable GetTable(string sqlString, string TableName)
-        {
-            GetTables(sqlString, TableName);
-            return m_DSet.Tables[0];
-        }
-
-        public int SqlExecute(string sqlString)
-        {
-            if (SqlCon.State == ConnectionState.Closed)
-                SqlCon.Open();
-            Cmd.CommandText = sqlString;
-            return Cmd.ExecuteNonQuery();
+            return Cmd.ExecuteScalar();
         }
 
         public SqlDataReader GetReader(string sqlString)
@@ -96,40 +105,37 @@ namespace Wms12m
             return Cmd.ExecuteReader(behavior);
         }
 
-        public object ExecuteScalar(string sqlString)
+        public DataTable GetTable(string sqlString)
+        {
+            GetTables(sqlString, "Table1");
+            return m_DSet.Tables[0];
+        }
+
+        public DataTable GetTable(string sqlString, string TableName)
+        {
+            GetTables(sqlString, TableName);
+            return m_DSet.Tables[0];
+        }
+
+        public DataSet GetTables(string sqlString, params string[] tableNames)
+        {
+            m_DSet = new DataSet();
+            if (SqlCon.State == ConnectionState.Closed)
+                SqlCon.Open();
+            Cmd.CommandText = sqlString;
+            DSet.Load(Cmd.ExecuteReader(), LoadOption.OverwriteChanges, tableNames);
+            return m_DSet;
+        }
+
+        public int SqlExecute(string sqlString)
         {
             if (SqlCon.State == ConnectionState.Closed)
                 SqlCon.Open();
             Cmd.CommandText = sqlString;
-            return Cmd.ExecuteScalar();
+            return Cmd.ExecuteNonQuery();
         }
 
-        static Connection instance;
-        public static Connection GetConnectionWithTrans()
-        {
-            transActive = true;
-            var con = GetCon(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString);
-            if (con.Cmd.Transaction == null)
-            {
-                if (con.SqlCon.State == ConnectionState.Closed)
-                    con.SqlCon.Open();
-                con.Cmd.Transaction = con.SqlCon.BeginTransaction();
-            }
-
-            return con;
-        }
-        public static Connection GetConnection()
-        {
-            transActive = false;
-            return GetCon(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString);
-        }
-
-        public static Connection GetConnection(string ConStr)
-        {
-            transActive = false;
-            return GetCon(ConStr);
-        }
-        static Connection GetCon(string ConStr)
+        private static Connection GetCon(string ConStr)
         {
             if (configConStr == null || configConStr != ConStr)
             {
@@ -140,18 +146,14 @@ namespace Wms12m
             ClearParams();
             return GetConnectionInstance();
         }
-        static Connection GetConnectionInstance()
+
+        private static Connection GetConnectionInstance()
         {
             lock (typeof(Connection))
             {
                 if (instance == null) instance = new Connection();
                 return instance;
             }
-        }
-
-        public static void ClearParams()
-        {
-            if (instance != null) instance.Params.Clear();
         }
 
         #region IDisposable Members
@@ -187,6 +189,7 @@ namespace Wms12m
 
             if (instance != null) instance = null;
         }
-        #endregion
+
+        #endregion IDisposable Members
     }
 }

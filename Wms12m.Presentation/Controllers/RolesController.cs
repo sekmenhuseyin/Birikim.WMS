@@ -16,6 +16,7 @@ namespace Wms12m.Presentation.Controllers
             var list = db.Roles.Where(m => m.RoleName != "").ToList();
             return View("Index", list);
         }
+
         /// <summary>
         /// rol listesini güncelle
         /// </summary>
@@ -25,6 +26,7 @@ namespace Wms12m.Presentation.Controllers
             var list = db.Roles.Where(m => m.RoleName != "").ToList();
             return PartialView("List", list);
         }
+
         /// <summary>
         /// yeni rol sayfası
         /// </summary>
@@ -33,6 +35,7 @@ namespace Wms12m.Presentation.Controllers
             if (CheckPerm(Perms.Gruplar, PermTypes.Reading) == false) return null;
             return PartialView("Editor", new Role());
         }
+
         /// <summary>
         /// rol düzenleme sayfası
         /// </summary>
@@ -46,6 +49,7 @@ namespace Wms12m.Presentation.Controllers
             var tbl = db.Roles.Where(m => m.ID == ID).FirstOrDefault();
             return PartialView("Editor", tbl);
         }
+
         /// <summary>
         /// yeni rolü kaydet
         /// </summary>
@@ -72,6 +76,7 @@ namespace Wms12m.Presentation.Controllers
 
             return RedirectToAction("Index");
         }
+
         /// <summary>
         /// rol sil
         /// </summary>

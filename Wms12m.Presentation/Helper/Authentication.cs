@@ -30,6 +30,7 @@ namespace Wms12m
             cookie.Expires = expiration;
             HttpContext.Current.Response.Cookies.Add(cookie);
         }
+
         /// <summary>
         /// UpdateAuth
         /// </summary>
@@ -60,10 +61,11 @@ namespace Wms12m
             cookie.Expires = ticket.Expiration;
             HttpContext.Current.Response.Cookies.Set(cookie);
         }
+
         /// <summary>
         /// AuthIdentity
         /// </summary>
-        static CustomPrincipalSerializeModel AuthIdentity(User person, bool isUpdate, GetSirkets_Result sirket)
+        private static CustomPrincipalSerializeModel AuthIdentity(User person, bool isUpdate, GetSirkets_Result sirket)
         {
             var identity = HttpContext.Current.User as CustomPrincipal;
             var serializeModel = new CustomPrincipalSerializeModel();

@@ -16,8 +16,9 @@ namespace Wms12m
     /// </summary>
     public static class HtmlHelperExtension
     {
-        static string defaultImage = "/Content/Uploads/0.jpg";
-        static string uploadsDirectory = "/Content/Uploads/";
+        private static string defaultImage = "/Content/Uploads/0.jpg";
+        private static string uploadsDirectory = "/Content/Uploads/";
+
         /// <summary>
         /// stackoverflow.com/questions/19931698/how-to-display-a-default-image-in-case-the-source-does-not-exists
         /// eğer istenen resim yoksa varsayılan resim gösterilecek
@@ -28,12 +29,14 @@ namespace Wms12m
             var imageSrc = File.Exists(HttpContext.Current.Server.MapPath(imagePath)) ? imagePath : defaultImage;
             return imageSrc;
         }
+
         public static string ImageAddressOrDefault(this HtmlHelper helper, string filename)
         {
             var imagePath = uploadsDirectory + filename + ".jpg";
             var imageSrc = File.Exists(HttpContext.Current.Server.MapPath(imagePath)) ? filename : "0";
             return imageSrc;
         }
+
         /// <summary>
         /// git serverdan son commit tarihi getirir
         /// </summary>
@@ -55,13 +58,14 @@ namespace Wms12m
             }
         }
     }
+
     /// <summary>
     /// enumdan combobox yapmak için lazım
     /// </summary>
     public static class EnumHelperExtension
     {
-        // Get the value of the description attribute if the   
-        // enum has one, otherwise use the value.  
+        // Get the value of the description attribute if the
+        // enum has one, otherwise use the value.
         public static string GetDescription<TEnum>(this TEnum value)
         {
             var fi = value.GetType().GetField(value.ToString());
@@ -78,6 +82,7 @@ namespace Wms12m
 
             return value.ToString();
         }
+
         /// <summary>
         /// Build a select list for an enum
         /// </summary>
@@ -87,8 +92,9 @@ namespace Wms12m
             return !t.IsEnum ? null
                              : new SelectList(BuildSelectListItems(t), "Value", "Text");
         }
+
         /// <summary>
-        /// Build a select list for an enum with a particular value selected 
+        /// Build a select list for an enum with a particular value selected
         /// </summary>
         public static SelectList SelectListFor<T>(T selected) where T : struct
         {
@@ -96,7 +102,8 @@ namespace Wms12m
             return !t.IsEnum ? null
                              : new SelectList(BuildSelectListItems(t), "Text", "Value", selected.ToInt32());
         }
-        static IEnumerable<SelectListItem> BuildSelectListItems(Type t)
+
+        private static IEnumerable<SelectListItem> BuildSelectListItems(Type t)
         {
             return Enum.GetValues(t)
                        .Cast<Enum>()

@@ -15,6 +15,7 @@ namespace Wms12m.Presentation.Controllers
             var list = dbl.ELMAH_Error.ToList();
             return View("Index", list);
         }
+
         /// <summary>
         /// Error logs
         /// </summary>
@@ -23,6 +24,7 @@ namespace Wms12m.Presentation.Controllers
             var list = dbl.ErrorLogs.ToList();
             return View("Error", list);
         }
+
         /// <summary>
         /// Login Logs
         /// </summary>
@@ -31,6 +33,7 @@ namespace Wms12m.Presentation.Controllers
             var list = dbl.LoginLogs.ToList();
             return View("Login", list);
         }
+
         /// <summary>
         /// App Logs
         /// </summary>
@@ -39,6 +42,7 @@ namespace Wms12m.Presentation.Controllers
             var list = dbl.AppLogs.ToList();
             return View("App", list);
         }
+
         /// <summary>
         /// Delete
         /// </summary>

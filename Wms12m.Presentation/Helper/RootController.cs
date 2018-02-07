@@ -31,6 +31,7 @@ namespace Wms12m.Presentation
         public Yerlestirme Yerlestirme = new Yerlestirme();
         public Transfers Transfers = new Transfers();
         public PersonDetails PersonDetails = new PersonDetails();
+
         /// <summary>
         /// hata kaydını tek yerden kontrol etmek için
         /// </summary>
@@ -45,6 +46,7 @@ namespace Wms12m.Presentation
 
             db.Logger(vUser.UserName, "", fn.GetIPAddress(), ex.Message + ": " + detay, inner, page);
         }
+
         /// <summary>
         /// işlem kaydı
         /// </summary>
@@ -52,6 +54,7 @@ namespace Wms12m.Presentation
         {
             db.LogActions("WMS", area, controller, action, type.ToInt32(), ID, request, details, vUser.UserName, fn.GetIPAddress());
         }
+
         /// <summary>
         /// her bir sayfa için yetki kontrolü yapar
         /// </summary>
@@ -60,6 +63,7 @@ namespace Wms12m.Presentation
             var sonuc = db.GetPermissionFor(vUser.Id, vUser.RoleName, permName.ToString(), "WMS", permtype.ToString()).FirstOrDefault().Value;
             return sonuc;
         }
+
         /// <summary>
         /// user için kısayol
         /// </summary>
@@ -72,6 +76,7 @@ namespace Wms12m.Presentation
                 return null;
             }
         }
+
         /// <summary>
         /// actiona olmadan hemen önce
         /// </summary>
@@ -116,6 +121,7 @@ namespace Wms12m.Presentation
             // end
             base.OnActionExecuting(filterContext);
         }
+
         /// <summary>
         /// dispose override
         /// </summary>

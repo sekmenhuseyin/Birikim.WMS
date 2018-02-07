@@ -31,6 +31,7 @@ namespace Wms12m.Hubs
                     }
             }
         }
+
         /// <summary>
         /// send message
         /// </summary>
@@ -93,6 +94,7 @@ namespace Wms12m.Hubs
                 }
             }
         }
+
         /// <summary>
         /// update users online
         /// </summary>
@@ -110,6 +112,7 @@ namespace Wms12m.Hubs
                 Clients.All.UpdateUsersOnline(new { Success = false, ErrorMessage = ex.Message });
             }
         }
+
         /// <summary>
         /// connect user
         /// </summary>
@@ -144,6 +147,7 @@ namespace Wms12m.Hubs
                 return new { Success = false, ErrorMessage = ex.Message };
             }
         }
+
         /// <summary>
         /// reconnect
         /// </summary>
@@ -162,6 +166,7 @@ namespace Wms12m.Hubs
             UsersOnline();
             return base.OnReconnected();
         }
+
         /// <summary>
         /// disconnect
         /// </summary>
@@ -180,6 +185,7 @@ namespace Wms12m.Hubs
             UsersOnline();
             return base.OnDisconnected(stopCalled);
         }
+
         /// <summary>
         /// logging
         /// </summary>

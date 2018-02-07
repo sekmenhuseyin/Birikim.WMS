@@ -14,31 +14,67 @@ namespace Wms12m
         /// <summary>
         /// most used passwords
         /// </summary>
-        string[] mostUsedPass = { "11111", "111111", "1111111", "12345", "123456", "1234567", "12345678", "123456789", "654321", "1qaz2wsx", "password", "iloveyou", "princess", "football", "baseball", "rockyou", "abc123", "nicole", "daniel", "babygirl", "monkey", "master", "admin", "login", "jessica", "lovely", "michael", "ashley", "winter", "summer", "qwerty", "qwertyuiop", "sifre", "welcome", "welcome1", "welcome2", "welcome01", "passw0rd", "password1", "password2", "password3", "password4", "password6", "password7", "password8", "password9", "password01", "password123" };
-        /// <summary>
-        /// db için oadate oluşturur
-        /// </summary>
-        public int ToOADate() => DateTime.Today.ToOADateInt();
+        private string[] mostUsedPass = { "11111", "111111", "1111111", "12345", "123456", "1234567", "12345678", "123456789", "654321", "1qaz2wsx", "password", "iloveyou", "princess", "football", "baseball", "rockyou", "abc123", "nicole", "daniel", "babygirl", "monkey", "master", "admin", "login", "jessica", "lovely", "michael", "ashley", "winter", "summer", "qwerty", "qwertyuiop", "sifre", "welcome", "welcome1", "welcome2", "welcome01", "passw0rd", "password1", "password2", "password3", "password4", "password6", "password7", "password8", "password9", "password01", "password123" };
 
         /// <summary>
-        /// db için saat oluşturur
+        /// find browser name
         /// </summary>
-        public int ToOATime() => DateTime.Now.ToOaTime();
-
-        /// <summary>
-        /// iiif in c#
-        /// </summary>
-        public object iif(bool expression, object truePart, object falsePart)
-        { return expression ? truePart : falsePart; }
-        /// <summary>
-        /// Türkçe karakterleri silen fonksiyon
-        /// </summary>
-        public string RemoveNonAscii(string str)
+        public string FindBrowser()
         {
-            str = str.Replace("Ç", "C").Replace("Ş", "S").Replace("Ö", "O").Replace("Ü", "U").Replace("İ", "I").Replace("Ğ", "G");
-            str = str.Replace("ç", "c").Replace("ş", "s").Replace("ö", "o").Replace("ü", "u").Replace("ı", "i").Replace("ğ", "g");
-            return str;
+            var context = HttpContext.Current;
+            return context.Request.Browser.Browser;
         }
+
+        /// <summary>
+        /// find is mobile from from browser
+        /// </summary>
+        public bool FindisMobile()
+        {
+            var context = HttpContext.Current;
+            return context.Request.Browser.IsMobileDevice;
+        }
+
+        /// <summary>
+        /// find os name from browser
+        /// </summary>
+        public string FindOS()
+        {
+            var context = HttpContext.Current;
+            var OS = context.Request.Browser.Platform;
+            if (OS == "Unknown")
+            {
+                if (context.Request.UserAgent.IndexOf("Windows Phone") > 0) { OS = "Windows Phone"; }
+                else if (context.Request.UserAgent.IndexOf("iPhone") > 0) { OS = "iPhone"; }
+                else if (context.Request.UserAgent.IndexOf("iPad") > 0) { OS = "iPad"; }
+                else if (context.Request.UserAgent.IndexOf("iPod") > 0) { OS = "iPod"; }
+                else if (context.Request.UserAgent.IndexOf("Macintosh") > 0) { OS = "Macintosh"; }
+                else if (context.Request.UserAgent.IndexOf("Android") > 0) { OS = "Android"; }
+                else if (context.Request.UserAgent.IndexOf("Nokia") > 0) { OS = "Nokia"; }
+                else if (context.Request.UserAgent.IndexOf("BlackBerry") > 0) { OS = "BlackBerry"; }
+                else { OS = ""; }
+            }
+            else if (OS == "WinNT")
+            {
+                if (context.Request.UserAgent.IndexOf("Windows NT 10") > 0) { OS = "Windows 10"; }
+                else if (context.Request.UserAgent.IndexOf("Windows NT 6.3") > 0) { OS = "Windows 8.1"; }
+                else if (context.Request.UserAgent.IndexOf("Windows NT 6.2") > 0) { OS = "Windows 8"; }
+                else if (context.Request.UserAgent.IndexOf("Windows NT 6.1") > 0) { OS = "Windows 7"; }
+                else if (context.Request.UserAgent.IndexOf("Windows NT 6.0") > 0) { OS = "Windows Vista"; }
+                else { OS = "Old Windows"; }
+            }
+
+            return OS;
+        }
+
+        /// <summary>
+        /// finds user agent
+        /// </summary>
+        public string FindUserAgent()
+        {
+            var context = HttpContext.Current;
+            return context.Request.UserAgent;
+        }
+
         /// <summary>
         /// kullanıcının IP sini bulan prosedür
         /// </summary>
@@ -54,6 +90,22 @@ namespace Wms12m
 
             return context.Request.ServerVariables["REMOTE_ADDR"];
         }
+
+        /// <summary>
+        /// iiif in c#
+        /// </summary>
+        public object iif(bool expression, object truePart, object falsePart)
+        { return expression ? truePart : falsePart; }
+
+        /// <summary>
+        /// isBoolean
+        /// </summary>
+        public bool isBoolean(bool str)
+        {
+            if (str == true || str == false) return true;
+            else return false;
+        }
+
         /// <summary>
         /// email mi değilmi bulan fonksiyonu
         /// </summary>
@@ -86,6 +138,7 @@ namespace Wms12m
             else if (email.IndexOf("@mailinator") > 0) return false;
             else return true;
         }
+
         /// <summary>
         /// isnumeric
         /// </summary>
@@ -102,6 +155,7 @@ namespace Wms12m
                 return false;
             }
         }
+
         /// <summary>
         /// şifrenin zorluğunu doğrulayan fonksiyon
         /// </summary>
@@ -114,21 +168,7 @@ namespace Wms12m
             if (Array.IndexOf(mostUsedPass, pass) == -1) sonuc = true;
             return sonuc;
         }
-        /// <summary>
-        /// isBoolean
-        /// </summary>
-        public bool isBoolean(bool str)
-        {
-            if (str == true || str == false) return true;
-            else return false;
-        }
-        /// <summary>
-        /// titlecase dönüştürme prosedürü
-        /// </summary>
-        public string ToTitleCase(string Text)
-        {
-            return CultureInfo.CurrentCulture.TextInfo.ToTitleCase(Text);
-        }
+
         /// <summary>
         /// internet adresini doğrulayan prosedür
         /// </summary>
@@ -137,6 +177,35 @@ namespace Wms12m
             var r = new Regex(@"http(s)?://([\w-]+\.)+[\w-]+(/[\w- ./?%&=]*)?");
             return r.IsMatch(text);
         }
+
+        /// <summary>
+        /// Türkçe karakterleri silen fonksiyon
+        /// </summary>
+        public string RemoveNonAscii(string str)
+        {
+            str = str.Replace("Ç", "C").Replace("Ş", "S").Replace("Ö", "O").Replace("Ü", "U").Replace("İ", "I").Replace("Ğ", "G");
+            str = str.Replace("ç", "c").Replace("ş", "s").Replace("ö", "o").Replace("ü", "u").Replace("ı", "i").Replace("ğ", "g");
+            return str;
+        }
+
+        /// <summary>
+        /// db için oadate oluşturur
+        /// </summary>
+        public int ToOADate() => DateTime.Today.ToOADateInt();
+
+        /// <summary>
+        /// db için saat oluşturur
+        /// </summary>
+        public int ToOATime() => DateTime.Now.ToOaTime();
+
+        /// <summary>
+        /// titlecase dönüştürme prosedürü
+        /// </summary>
+        public string ToTitleCase(string Text)
+        {
+            return CultureInfo.CurrentCulture.TextInfo.ToTitleCase(Text);
+        }
+
         /// <summary>
         /// check if an url exists
         /// </summary>
@@ -151,67 +220,11 @@ namespace Wms12m
                 request.Method = "HEAD";
                 using (var response = (HttpWebResponse)request.GetResponse())
                     return response.StatusCode == HttpStatusCode.OK;
-
             }
             catch
             {
                 return false;
             }
-        }
-        /// <summary>
-        /// find os name from browser
-        /// </summary>
-        public string FindOS()
-        {
-            var context = HttpContext.Current;
-            var OS = context.Request.Browser.Platform;
-            if (OS == "Unknown")
-            {
-                if (context.Request.UserAgent.IndexOf("Windows Phone") > 0) { OS = "Windows Phone"; }
-                else if (context.Request.UserAgent.IndexOf("iPhone") > 0) { OS = "iPhone"; }
-                else if (context.Request.UserAgent.IndexOf("iPad") > 0) { OS = "iPad"; }
-                else if (context.Request.UserAgent.IndexOf("iPod") > 0) { OS = "iPod"; }
-                else if (context.Request.UserAgent.IndexOf("Macintosh") > 0) { OS = "Macintosh"; }
-                else if (context.Request.UserAgent.IndexOf("Android") > 0) { OS = "Android"; }
-                else if (context.Request.UserAgent.IndexOf("Nokia") > 0) { OS = "Nokia"; }
-                else if (context.Request.UserAgent.IndexOf("BlackBerry") > 0) { OS = "BlackBerry"; }
-                else { OS = ""; }
-            }
-            else if (OS == "WinNT")
-            {
-                if (context.Request.UserAgent.IndexOf("Windows NT 10") > 0) { OS = "Windows 10"; }
-                else if (context.Request.UserAgent.IndexOf("Windows NT 6.3") > 0) { OS = "Windows 8.1"; }
-                else if (context.Request.UserAgent.IndexOf("Windows NT 6.2") > 0) { OS = "Windows 8"; }
-                else if (context.Request.UserAgent.IndexOf("Windows NT 6.1") > 0) { OS = "Windows 7"; }
-                else if (context.Request.UserAgent.IndexOf("Windows NT 6.0") > 0) { OS = "Windows Vista"; }
-                else { OS = "Old Windows"; }
-            }
-
-            return OS;
-        }
-        /// <summary>
-        /// find browser name
-        /// </summary>
-        public string FindBrowser()
-        {
-            var context = HttpContext.Current;
-            return context.Request.Browser.Browser;
-        }
-        /// <summary>
-        /// finds user agent
-        /// </summary>
-        public string FindUserAgent()
-        {
-            var context = HttpContext.Current;
-            return context.Request.UserAgent;
-        }
-        /// <summary>
-        /// find is mobile from from browser
-        /// </summary>
-        public bool FindisMobile()
-        {
-            var context = HttpContext.Current;
-            return context.Request.Browser.IsMobileDevice;
         }
     }
 }

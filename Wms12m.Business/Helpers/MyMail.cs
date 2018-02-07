@@ -12,23 +12,33 @@ namespace Wms12m
 {
     public class MyMail : IDisposable
     {
-        SmtpClient smtp;
-        MailMessage message;
-        public string MailHataMesajı { get; set; }
-        public string MailBasariMesajı { get; set; }
-        public bool IsBodyHtml { get; set; }
+        private MailMessage message;
+        private SmtpClient smtp;
 
         public MyMail(bool isBodyHtml = false)
         {
             IsBodyHtml = isBodyHtml;
         }
+
+        public bool IsBodyHtml { get; set; }
+        public string MailBasariMesajı { get; set; }
         public bool MailGonderimBasarili { get; private set; }
+        public string MailHataMesajı { get; set; }
+
         /// <summary>
         /// Mail Adresi geçerli mi değilmi bunu regexle kontrol eder. Geçerli ise true döner.
         /// </summary>
         public static bool MailGecerlimi(string emailaddress)
         {
             return Regex.IsMatch(emailaddress, @"^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$");
+        }
+
+        public void Dispose()
+        {
+            if (smtp != null)
+                smtp.Dispose();
+            if (message != null)
+                message.Dispose();
         }
 
         public Result Gonder(string kime, string cc, string gorunenIsim, string konu, string mesaj, List<string> dosyaList)
@@ -105,20 +115,12 @@ namespace Wms12m
             }
         }
 
-        void smtp_SendCompleted(object sender, AsyncCompletedEventArgs e)
+        private void smtp_SendCompleted(object sender, AsyncCompletedEventArgs e)
         {
             smtp.Dispose();
             message.Dispose();
             smtp = null;
             message = null;
-        }
-
-        public void Dispose()
-        {
-            if (smtp != null)
-                smtp.Dispose();
-            if (message != null)
-                message.Dispose();
         }
     }
 }
