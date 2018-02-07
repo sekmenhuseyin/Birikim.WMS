@@ -22,6 +22,7 @@ namespace Wms12m.Presentation.Controllers
             var bo = new BekleyenOnaylar();
             var tarih = fn.ToOADate();
             var islemtip = 0;
+            var ay = 0;
             var doviz = "TL";
             var kod = "Tümü";
             //kutucuklar
@@ -59,6 +60,7 @@ namespace Wms12m.Presentation.Controllers
             }
             ViewBag.Tatil = tblEtki;
             //charts
+            ViewBag.Ay = ay;
             ViewBag.tarih = tarih;
             ViewBag.tarih2 = tarih.FromOADateInt();
             ViewBag.IslemTip = islemtip;
@@ -67,7 +69,7 @@ namespace Wms12m.Presentation.Controllers
             if (tbl.yetki.Contains("'ChartGunlukSatis'") == true)
             {
                 ViewBag.ChartGunlukSatis = theCharts.ChartGunlukSatisAnalizi(tarih);
-                ViewBag.ChartGunlukZaman = theCharts.ChartBaglantiZaman();
+                ViewBag.ChartGunlukZaman = theCharts.ChartGunlukZaman();
                 ViewBag.ChartYear2Day = theCharts.ChartYear2Day();
                 ViewBag.ChartGunlukSatisKriter = theCharts.ChartGunlukSatisAnalizi(kod, islemtip, tarih);
             }
@@ -98,15 +100,15 @@ namespace Wms12m.Presentation.Controllers
             }
             if (tbl.yetki.Contains("'ChartGunlukMDFUretimi'") == true)
             {
-                ViewBag.ChartGunlukMDFUretimi = new List<ChartGunlukMDFUretimi>();
+                ViewBag.ChartGunlukMDFUretimi = theCharts.ChartGunlukMDFUretimi(tarih);
             }
             if (tbl.yetki.Contains("'ChartBaglantiZamanCizelgesi'") == true)
             {
-                ViewBag.ChartBaglantiZamanCizelgesi = new List<ChartBaglantiZaman>();
+                ViewBag.ChartBaglantiZamanCizelgesi = theCharts.ChartBaglantiZaman();
             }
             if (tbl.yetki.Contains("'ChartBolgeBazliSatisAnalizi'") == true)
             {
-                ViewBag.ChartBolgeBazliSatis = new List<ChartBolgeBazliSatisAnalizi>();
+                ViewBag.ChartBolgeBazliSatis = theCharts.ChartBolgeBazliSatisAnalizi(ay, kod);
             }
             if (tbl.yetki.Contains("'ChartBekleyenSiparisUrunGrubu'") == true)
             {
@@ -332,8 +334,7 @@ namespace Wms12m.Presentation.Controllers
             if (liste.Count == 0)
                 try
                 {
-                    var theCharts = new Charts(db, vUser.SirketKodu);
-                    liste = theCharts.ChartMonthly();
+                    liste = new Charts(db, vUser.SirketKodu).ChartMonthly();
                 }
                 catch (Exception ex)
                 {
@@ -353,8 +354,7 @@ namespace Wms12m.Presentation.Controllers
             var liste = dbl.DB_Aylik_SatisAnalizi_Tip_Kod_Doviz.Where(m => m.DB == vUser.SirketKodu && m.Grup == kod && m.Kriter == doviz && m.IslemTip == islemtip).ToList();
             try
             {
-                var theCharts = new Charts(db, vUser.SirketKodu);
-                liste = theCharts.ChartMonthlyByKriter(kod, islemtip, doviz);
+                liste = new Charts(db, vUser.SirketKodu).ChartMonthlyByKriter(kod, islemtip, doviz);
             }
             catch (Exception ex)
             {
@@ -379,8 +379,7 @@ namespace Wms12m.Presentation.Controllers
             else
                 try
                 {
-                    var theCharts = new Charts(db, vUser.SirketKodu);
-                    liste = theCharts.ChartAylikSatisAnalizi(chk);
+                    liste = new Charts(db, vUser.SirketKodu).ChartAylikSatisAnalizi(chk);
                 }
                 catch (Exception)
                 {
@@ -435,7 +434,7 @@ namespace Wms12m.Presentation.Controllers
             List<ChartBaglantiZaman> liste;
             try
             {
-                liste = db.Database.SqlQuery<ChartBaglantiZaman>(string.Format("[FINSAT6{0}].[wms].[DB_BaglantiLogGetir]", vUser.SirketKodu)).ToList();
+                liste = new Charts(db, vUser.SirketKodu).ChartBaglantiZaman();
             }
             catch (Exception ex)
             {
@@ -621,7 +620,7 @@ namespace Wms12m.Presentation.Controllers
             List<ChartBolgeBazliSatisAnalizi> liste;
             try
             {
-                liste = db.Database.SqlQuery<ChartBolgeBazliSatisAnalizi>(string.Format("[FINSAT6{0}].[wms].[DB_Bolge_Bazinda_SatisAnalizi] @Ay = {1}, @Kriter = '{2}'", vUser.SirketKodu, ay, kriter)).ToList();
+                liste = new Charts(db, vUser.SirketKodu).ChartBolgeBazliSatisAnalizi(ay, kriter);
             }
             catch (Exception)
             {
@@ -639,7 +638,7 @@ namespace Wms12m.Presentation.Controllers
             List<ChartBolgeBazliSatisAnalizi> liste;
             try
             {
-                liste = db.Database.SqlQuery<ChartBolgeBazliSatisAnalizi>(string.Format("[FINSAT6{0}].[wms].[DB_Bolge_Bazinda_SatisAnalizi] @Ay = {1}, @Kriter = '{2}'", vUser.SirketKodu, ay, kriter)).ToList();
+                liste = new Charts(db, vUser.SirketKodu).ChartBolgeBazliSatisAnalizi(ay, kriter);
             }
             catch (Exception)
             {
@@ -657,7 +656,7 @@ namespace Wms12m.Presentation.Controllers
             List<ChartGunlukMDFUretimi> liste;
             try
             {
-                liste = db.Database.SqlQuery<ChartGunlukMDFUretimi>(string.Format("[FINSAT6{0}].[wms].[MDF_UretimRapor_Chart] @BasTarih = {1}, @BitTarih = {2}, @Tip={3}", vUser.SirketKodu, tarih, tarih, 1)).ToList();
+                liste = new Charts(db, vUser.SirketKodu).ChartGunlukMDFUretimi(tarih);
             }
             catch (Exception)
             {
@@ -672,17 +671,17 @@ namespace Wms12m.Presentation.Controllers
             ViewBag.tarih = tarih;
             ViewBag.tarih2 = tarih.FromOADateInt();
             if (CheckPerm(Perms.ChartGunlukMDFUretimi, PermTypes.Reading) == false) return PartialView("Satis/GunlukMDFUretimPie", new List<ChartGunlukMDFUretimi>());
-            List<ChartGunlukMDFUretimi> GSA;
+            List<ChartGunlukMDFUretimi> liste;
             try
             {
-                GSA = db.Database.SqlQuery<ChartGunlukMDFUretimi>(string.Format("[FINSAT6{0}].[wms].[MDF_UretimRapor_Chart] @BasTarih = {1}, @BitTarih = {2}, @Tip={3}", vUser.SirketKodu, tarih, tarih, 1)).ToList();
+                liste = new Charts(db, vUser.SirketKodu).ChartGunlukMDFUretimi(tarih);
             }
             catch (Exception)
             {
-                GSA = new List<ChartGunlukMDFUretimi>();
+                liste = new List<ChartGunlukMDFUretimi>();
             }
 
-            return PartialView("Satis/GunlukMDFUretimPie", GSA);
+            return PartialView("Satis/GunlukMDFUretimPie", liste);
         }
 
         public PartialViewResult GunlukSatis(int tarih)
@@ -693,8 +692,7 @@ namespace Wms12m.Presentation.Controllers
             List<ChartGunlukSatisAnalizi> liste;
             try
             {
-                var theCharts = new Charts(db, vUser.SirketKodu);
-                liste = theCharts.ChartGunlukSatisAnalizi(tarih);
+                liste = new Charts(db, vUser.SirketKodu).ChartGunlukSatisAnalizi(tarih);
             }
             catch (Exception)
             {
@@ -714,8 +712,7 @@ namespace Wms12m.Presentation.Controllers
             List<ChartGunlukSatisAnalizi> liste;
             try
             {
-                var theCharts = new Charts(db, vUser.SirketKodu);
-                liste = theCharts.ChartGunlukSatisAnalizi(kod, islemtip, tarih);
+                liste = new Charts(db, vUser.SirketKodu).ChartGunlukSatisAnalizi(kod, islemtip, tarih);
             }
             catch (Exception)
             {
@@ -735,8 +732,7 @@ namespace Wms12m.Presentation.Controllers
             List<ChartGunlukSatisAnalizi> liste;
             try
             {
-                var theCharts = new Charts(db, vUser.SirketKodu);
-                liste = theCharts.ChartGunlukSatisAnalizi(kod, islemtip, tarih);
+                liste = new Charts(db, vUser.SirketKodu).ChartGunlukSatisAnalizi(kod, islemtip, tarih);
             }
             catch (Exception)
             {
@@ -754,8 +750,7 @@ namespace Wms12m.Presentation.Controllers
             List<ChartGunlukSatisAnalizi> liste;
             try
             {
-                var theCharts = new Charts(db, vUser.SirketKodu);
-                liste = theCharts.ChartGunlukSatisAnalizi(tarih);
+                liste = new Charts(db, vUser.SirketKodu).ChartGunlukSatisAnalizi(tarih);
             }
             catch (Exception)
             {
@@ -772,8 +767,7 @@ namespace Wms12m.Presentation.Controllers
             if (liste.Count == 0)
                 try
                 {
-                    var theCharts = new Charts(db, vUser.SirketKodu);
-                    liste = theCharts.ChartYear2Day();
+                    liste = new Charts(db, vUser.SirketKodu).ChartYear2Day();
                 }
                 catch (Exception ex)
                 {
@@ -791,8 +785,7 @@ namespace Wms12m.Presentation.Controllers
             if (liste.Count == 0)
                 try
                 {
-                    var theCharts = new Charts(db, vUser.SirketKodu);
-                    liste = theCharts.ChartYear2Day();
+                    liste = new Charts(db, vUser.SirketKodu).ChartYear2Day();
                 }
                 catch (Exception ex)
                 {
@@ -809,8 +802,7 @@ namespace Wms12m.Presentation.Controllers
             List<ChartBaglantiZaman> liste;
             try
             {
-                var theCharts = new Charts(db, vUser.SirketKodu);
-                liste = theCharts.ChartBaglantiZaman();
+                liste = new Charts(db, vUser.SirketKodu).ChartGunlukZaman();
             }
             catch (Exception ex)
             {
@@ -829,8 +821,7 @@ namespace Wms12m.Presentation.Controllers
             if (liste.Count == 0)
                 try
                 {
-                    var theCharts = new Charts(db, vUser.SirketKodu);
-                    liste = theCharts.ChartLocation(tarih);
+                    liste = new Charts(db, vUser.SirketKodu).ChartLocation(tarih);
                 }
                 catch (Exception)
                 {
@@ -849,8 +840,7 @@ namespace Wms12m.Presentation.Controllers
             if (liste.Count == 0)
                 try
                 {
-                    var theCharts = new Charts(db, vUser.SirketKodu);
-                    liste = theCharts.ChartLocationKriter(tarih, kriter);
+                    liste = new Charts(db, vUser.SirketKodu).ChartLocationKriter(tarih, kriter);
                 }
                 catch (Exception)
                 {
@@ -886,8 +876,7 @@ namespace Wms12m.Presentation.Controllers
             if (liste.Count == 0)
                 try
                 {
-                    var theCharts = new Charts(db, vUser.SirketKodu);
-                    liste = theCharts.ChartUrunGrubu(tarih);
+                    liste = new Charts(db, vUser.SirketKodu).ChartUrunGrubu(tarih);
                 }
                 catch (Exception)
                 {
@@ -906,8 +895,7 @@ namespace Wms12m.Presentation.Controllers
             if (liste.Count == 0)
                 try
                 {
-                    var theCharts = new Charts(db, vUser.SirketKodu);
-                    liste = theCharts.ChartUrunGrubuKriter(tarih, kriter);
+                    liste = new Charts(db, vUser.SirketKodu).ChartUrunGrubuKriter(tarih, kriter);
                 }
                 catch (Exception)
                 {
