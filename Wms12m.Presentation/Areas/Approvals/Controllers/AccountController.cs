@@ -30,11 +30,11 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             {
                 if (OnaylandiMi)
                 {
-                    sql += string.Format(@"UPDATE FINSAT6{0}.FINSAT6{0}.CHK SET [CheckSum]=1 WHERE HesapKodu ='{1}'", vUser.SirketKodu, insertObj, vUser.UserName);
+                    sql += string.Format(@"UPDATE FINSAT6{0}.FINSAT6{0}.CHK SET [CheckSum]=1, AktifPasif=0 WHERE HesapKodu ='{1}'", vUser.SirketKodu, insertObj, vUser.UserName);
                 }
                 else
                 {
-                    sql += string.Format(@"UPDATE FINSAT6{0}.FINSAT6{0}.CHK SET [CheckSum]=-1 WHERE HesapKodu ='{1}'", vUser.SirketKodu, insertObj, vUser.UserName);
+                    sql += string.Format(@"UPDATE FINSAT6{0}.FINSAT6{0}.CHK SET [CheckSum]=-1, AktifPasif=0 WHERE HesapKodu ='{1}'", vUser.SirketKodu, insertObj, vUser.UserName);
                 }
 
             }
