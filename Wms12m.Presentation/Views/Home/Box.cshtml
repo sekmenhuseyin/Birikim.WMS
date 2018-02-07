@@ -1,0 +1,429 @@
+﻿@model GetHomeSummary_Result
+@{
+    BekleyenOnaylar tbl = ViewBag.BekleyenOnaylar;
+    Setting tst = ViewBag.Settings;
+}<div class="row">@{
+if (Model.yetki.Contains("'DashboardDepo'") == true)
+{
+    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+        <a class="dashboard-stat dashboard-stat-v2 red" href="/Constants/Storage">
+            <div class="visual"><i class="fa fa-bar-chart-o"></i></div>
+            <div class="details">
+                <div class="number"><span data-counter="counterup" data-value="@Model.depo">@Model.depo</span></div>
+                <div class="desc"> Depo Sayısı </div>
+            </div>
+        </a>
+    </div>
+}
+if (Model.yetki.Contains("'DashboardKullanici'") == true)
+{
+    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+        <a class="dashboard-stat dashboard-stat-v2 green" href="/Users">
+            <div class="visual"><i class="fa fa-shopping-cart"></i></div>
+            <div class="details">
+                <div class="number"><span data-counter="counterup" data-value="@Model.kull">@Model.kull</span></div>
+                <div class="desc"> Kullanıcı Sayısı </div>
+            </div>
+        </a>
+    </div>
+}
+if (Model.yetki.Contains("'DashboardGorevler'") == true)
+{
+    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+        <a class="dashboard-stat dashboard-stat-v2 blue" href="/WMS/Tasks">
+            <div class="visual"><i class="fa fa-comments"></i></div>
+            <div class="details">
+                <div class="number"><span data-counter="counterup" data-value="@Model.MalKabul">@Model.MalKabul</span></div>
+                <div class="desc"> Kabul Edilecek Mal </div>
+            </div>
+        </a>
+    </div>
+    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+        <a class="dashboard-stat dashboard-stat-v2 blue-chambray" href="/WMS/Tasks">
+            <div class="visual"><i class="fa fa-comments"></i></div>
+            <div class="details">
+                <div class="number"><span data-counter="counterup" data-value="@Model.RafaKaldir">@Model.RafaKaldir</span></div>
+                <div class="desc"> Rafa Kaldırılacak </div>
+            </div>
+        </a>
+    </div>
+    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+        <a class="dashboard-stat dashboard-stat-v2 blue-oleo" href="/WMS/Tasks">
+            <div class="visual"><i class="fa fa-comments"></i></div>
+            <div class="details">
+                <div class="number"><span data-counter="counterup" data-value="@Model.SiparisTopla">@Model.SiparisTopla</span></div>
+                <div class="desc"> Faturalandırılacak </div>
+            </div>
+        </a>
+    </div>
+    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+        <a class="dashboard-stat dashboard-stat-v2 purple-medium" href="/WMS/Tasks">
+            <div class="visual"><i class="fa fa-comments"></i></div>
+            <div class="details">
+                <div class="number"><span data-counter="counterup" data-value="@Model.Paketle">@Model.Paketle</span></div>
+                <div class="desc"> Paketlenecek </div>
+            </div>
+        </a>
+    </div>
+    if (tst.SevkiyatVarmi == true)
+    {
+        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <a class="dashboard-stat dashboard-stat-v2 yellow" href="/WMS/Tasks">
+                <div class="visual"><i class="fa fa-comments"></i></div>
+                <div class="details">
+                    <div class="number"><span data-counter="counterup" data-value="@Model.Sevkiyat">@Model.Sevkiyat</span></div>
+                    <div class="desc"> Sevkiyat </div>
+                </div>
+            </a>
+        </div>
+    }
+    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+        <a class="dashboard-stat dashboard-stat-v2 green-jungle" href="/WMS/Tasks">
+            <div class="visual"><i class="fa fa-comments"></i></div>
+            <div class="details">
+                <div class="number"><span data-counter="counterup" data-value="@Model.Sayim">@Model.Sayim</span></div>
+                <div class="desc"> Sayım </div>
+            </div>
+        </a>
+    </div>
+}
+if (tst.OnayStok == true)
+{
+    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+        <a class="dashboard-stat dashboard-stat-v2 yellow-mint" href="/Approvals/Stock">
+            <div class="visual"><i class="fa fa-bar-chart-o"></i></div>
+            <div class="details">
+                <div class="number"><span data-counter="counterup" data-value="@tbl.StokOnay">@tbl.StokOnay</span></div>
+                <div class="desc">Bekleyen Stok Onayları</div>
+            </div>
+        </a>
+    </div>
+}
+if (tst.OnayTeminat == true)
+{
+    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+        <a class="dashboard-stat dashboard-stat-v2 yellow-casablanca" href="/Approvals/Guarantee">
+            <div class="visual"><i class="fa fa-bar-chart-o"></i></div>
+            <div class="details">
+                <div class="number"><span data-counter="counterup" data-value="@tbl.TeminatOnay">@tbl.TeminatOnay</span></div>
+                <div class="desc">Bekleyen Teminat Onayları</div>
+            </div>
+        </a>
+    </div>
+}
+if (tst.OnaySiparis == true)
+{
+    if (ViewBag.vUser.RoleName == "GM" || ViewBag.vUser.Id == 1)
+    {
+        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <a class="dashboard-stat dashboard-stat-v2 blue-oleo" href="/Approvals/Order/GM">
+                <div class="visual"><i class="fa fa-bar-chart-o"></i></div>
+                <div class="details">
+                    <div class="number"><span data-counter="counterup" data-value="@tbl.SiparisOnay_GM">@tbl.SiparisOnay_GM</span></div>
+                    <div class="desc">Bekleyen Sipariş Onayları</div>
+                </div>
+            </a>
+        </div>
+    }
+    else if (ViewBag.vUser.RoleName == "SPGMY")
+    {
+        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <a class="dashboard-stat dashboard-stat-v2 blue-oleo" href="/Approvals/Order/SPGMY">
+                <div class="visual"><i class="fa fa-bar-chart-o"></i></div>
+                <div class="details">
+                    <div class="number"><span data-counter="counterup" data-value="@tbl.SiparisOnay_SPGMY">@tbl.SiparisOnay_SPGMY</span></div>
+                    <div class="desc">Bekleyen Sipariş Onayları</div>
+                </div>
+            </a>
+        </div>
+    }
+    else if (ViewBag.vUser.RoleName == "SM")
+    {
+        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <a class="dashboard-stat dashboard-stat-v2 blue-oleo" href="/Approvals/Order/SM">
+                <div class="visual"><i class="fa fa-bar-chart-o"></i></div>
+                <div class="details">
+                    <div class="number"><span data-counter="counterup" data-value="@tbl.SiparisOnay_SM">@tbl.SiparisOnay_SM</span></div>
+                    <div class="desc">Bekleyen Sipariş Onayları</div>
+                </div>
+            </a>
+        </div>
+    }
+}
+if (tst.OnaySozlesme == true)
+{
+    if (ViewBag.vUser.RoleName == "GM" || ViewBag.vUser.Id == 1)
+    {
+        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <a class="dashboard-stat dashboard-stat-v2 blue-chambray" href="/Approvals/Contract/GM">
+                <div class="visual"><i class="fa fa-bar-chart-o"></i></div>
+                <div class="details">
+                    <div class="number"><span data-counter="counterup" data-value="@tbl.SozlesmeOnay_GM">@tbl.SozlesmeOnay_GM</span></div>
+                    <div class="desc">Bekleyen Sözleşme Onayları</div>
+                </div>
+            </a>
+        </div>
+    }
+    else if (ViewBag.vUser.RoleName == "SPGMY")
+    {
+        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <a class="dashboard-stat dashboard-stat-v2 blue-chambray" href="/Approvals/Contract/SPGMY">
+                <div class="visual"><i class="fa fa-bar-chart-o"></i></div>
+                <div class="details">
+                    <div class="number"><span data-counter="counterup" data-value="@tbl.SozlesmeOnay_SPGMY">@tbl.SozlesmeOnay_SPGMY</span></div>
+                    <div class="desc">Bekleyen Sözleşme Onayları</div>
+                </div>
+            </a>
+        </div>
+    }
+    else if (ViewBag.vUser.RoleName == "SM")
+    {
+        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <a class="dashboard-stat dashboard-stat-v2 blue-chambray" href="/Approvals/Contract/SM">
+                <div class="visual"><i class="fa fa-bar-chart-o"></i></div>
+                <div class="details">
+                    <div class="number"><span data-counter="counterup" data-value="@tbl.SozlesmeOnay_SM">@tbl.SozlesmeOnay_SM</span></div>
+                    <div class="desc">Bekleyen Sözleşme Onayları</div>
+                </div>
+            </a>
+        </div>
+    }
+}
+if (tst.OnayRisk == true)
+{
+    if (ViewBag.vUser.RoleName == "GM" || ViewBag.vUser.Id == 1)
+    {
+        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <a class="dashboard-stat dashboard-stat-v2 green-jungle" href="/Approvals/Risk/GM">
+                <div class="visual"><i class="fa fa-bar-chart-o"></i></div>
+                <div class="details">
+                    <div class="number"><span data-counter="counterup" data-value="@tbl.RiskLimitOnay_GM">@tbl.RiskLimitOnay_GM</span></div>
+                    <div class="desc">Bekleyen Risk Limit Onayları</div>
+                </div>
+            </a>
+        </div>
+    }
+    else if (ViewBag.vUser.RoleName == "SPGMY")
+    {
+        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <a class="dashboard-stat dashboard-stat-v2 green-jungle" href="/Approvals/Risk/SPGMY">
+                <div class="visual"><i class="fa fa-bar-chart-o"></i></div>
+                <div class="details">
+                    <div class="number"><span data-counter="counterup" data-value="@tbl.SozlesmeOnay_SPGMY">@tbl.SozlesmeOnay_SPGMY</span></div>
+                    <div class="desc">Bekleyen Risk Limit Onayları</div>
+                </div>
+            </a>
+        </div>
+    }
+    else if (ViewBag.vUser.RoleName == "MIGMY")
+    {
+        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <a class="dashboard-stat dashboard-stat-v2 green-jungle" href="/Approvals/Risk/MIGMY">
+                <div class="visual"><i class="fa fa-bar-chart-o"></i></div>
+                <div class="details">
+                    <div class="number"><span data-counter="counterup" data-value="@tbl.RiskLimitOnay_MIGMY">@tbl.RiskLimitOnay_MIGMY</span></div>
+                    <div class="desc">Bekleyen Risk Limit Onayları</div>
+                </div>
+            </a>
+        </div>
+    }
+    else if (ViewBag.vUser.RoleName == "SM")
+    {
+        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <a class="dashboard-stat dashboard-stat-v2 green-jungle" href="/Approvals/Risk/SM">
+                <div class="visual"><i class="fa fa-bar-chart-o"></i></div>
+                <div class="details">
+                    <div class="number"><span data-counter="counterup" data-value="@tbl.RiskLimitOnay_SM">@tbl.RiskLimitOnay_SM</span></div>
+                    <div class="desc">Bekleyen Risk Limit Onayları</div>
+                </div>
+            </a>
+        </div>
+    }
+}
+if (tst.OnayFiyat == true)
+{
+    if (ViewBag.vUser.RoleName == "GM" || ViewBag.vUser.Id == 1)
+    {
+        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <a class="dashboard-stat dashboard-stat-v2 purple-intense" href="/Approvals/Price/GM">
+                <div class="visual"><i class="fa fa-bar-chart-o"></i></div>
+                <div class="details">
+                    <div class="number"><span data-counter="counterup" data-value="@tbl.FiyatOnay_GM">@tbl.FiyatOnay_GM</span></div>
+                    <div class="desc">Bekleyen Fiyat Listesi Onayları</div>
+                </div>
+            </a>
+        </div>
+    }
+    else if (ViewBag.vUser.RoleName == "SPGMY")
+    {
+        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <a class="dashboard-stat dashboard-stat-v2 purple-intense" href="/Approvals/Price/SPGMY">
+                <div class="visual"><i class="fa fa-bar-chart-o"></i></div>
+                <div class="details">
+                    <div class="number"><span data-counter="counterup" data-value="@tbl.FiyatOnay_SPGMY">@tbl.FiyatOnay_SPGMY</span></div>
+                    <div class="desc">Bekleyen Fiyat Listesi Onayları</div>
+                </div>
+            </a>
+        </div>
+    }
+    else if (ViewBag.vUser.RoleName == "SM")
+    {
+        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <a class="dashboard-stat dashboard-stat-v2 purple-intense" href="/Approvals/Price/SM">
+                <div class="visual"><i class="fa fa-bar-chart-o"></i></div>
+                <div class="details">
+                    <div class="number"><span data-counter="counterup" data-value="@tbl.FiyatOnay_SM">@tbl.FiyatOnay_SM</span></div>
+                    <div class="desc">Bekleyen Fiyat Listesi Onayları</div>
+                </div>
+            </a>
+        </div>
+    }
+}
+if (tst.OnayCek == true)
+{
+    if (ViewBag.vUser.RoleName == "GM" || ViewBag.vUser.Id == 1)
+    {
+        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <a class="dashboard-stat dashboard-stat-v2 yellow" href="/Approvals/Check/GM">
+                <div class="visual"><i class="fa fa-bar-chart-o"></i></div>
+                <div class="details">
+                    <div class="number"><span data-counter="counterup" data-value="@tbl.CekOnay_GM">@tbl.CekOnay_GM</span></div>
+                    <div class="desc">Bekleyen Çek Onayları</div>
+                </div>
+            </a>
+        </div>
+    }
+    else if (ViewBag.vUser.RoleName == "SPGMY")
+    {
+        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <a class="dashboard-stat dashboard-stat-v2 yellow" href="/Approvals/Check/SPGMY">
+                <div class="visual"><i class="fa fa-bar-chart-o"></i></div>
+                <div class="details">
+                    <div class="number"><span data-counter="counterup" data-value="@tbl.CekOnay_SPGMY">@tbl.CekOnay_SPGMY</span></div>
+                    <div class="desc">Bekleyen Çek Onayları</div>
+                </div>
+            </a>
+        </div>
+    }
+    else if (ViewBag.vUser.RoleName == "MIGMY")
+    {
+        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <a class="dashboard-stat dashboard-stat-v2 yellow" href="/Approvals/Check/MIGMY">
+                <div class="visual"><i class="fa fa-bar-chart-o"></i></div>
+                <div class="details">
+                    <div class="number"><span data-counter="counterup" data-value="@tbl.CekOnay_MIGMY">@tbl.CekOnay_MIGMY</span></div>
+                    <div class="desc">Bekleyen Çek Onayları</div>
+                </div>
+            </a>
+        </div>
+    }
+}
+if (tst.OnayTekno == true && (ViewBag.vUser.RoleName == "GM" || ViewBag.vUser.Id == 1 || ViewBag.vUser.RoleName == "YKU" || ViewBag.vUser.RoleName == "MIGMY" || ViewBag.vUser.RoleName == "SPGMY" || ViewBag.vUser.RoleName == "USGMY" || ViewBag.vUser.RoleName == "IKGM"))
+{
+    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+        <a class="dashboard-stat dashboard-stat-v2 green-soft" href="/Approvals/Techno">
+            <div class="visual"><i class="fa fa-bar-chart-o"></i></div>
+            <div class="details">
+                @if (ViewBag.vUser.RoleName == "GM" || ViewBag.vUser.Id == 1)
+                {
+                    <div class="number"><span data-counter="counterup" data-value="@tbl.TechnoIKOnay_GM">@tbl.TechnoIKOnay_GM</span></div>
+                }
+                else if (ViewBag.vUser.RoleName == "YKU")
+                {
+                    <div class="number"><span data-counter="counterup" data-value="@tbl.TechnoIKOnay_YKU">@tbl.TechnoIKOnay_YKU</span></div>
+                }
+                else if (ViewBag.vUser.RoleName == "MIGMY")
+                {
+                    <div class="number"><span data-counter="counterup" data-value="@tbl.CekOnay_MIGMY">@tbl.CekOnay_MIGMY</span></div>
+                }
+                else if (ViewBag.vUser.RoleName == "SPGMY")
+                {
+                    <div class="number"><span data-counter="counterup" data-value="@tbl.TechnoIKOnay_SPGMY">@tbl.TechnoIKOnay_SPGMY</span></div>
+                }
+                else if (ViewBag.vUser.RoleName == "USGMY")
+                {
+                    <div class="number"><span data-counter="counterup" data-value="@tbl.TechnoIKOnay_USGMY">@tbl.TechnoIKOnay_USGMY</span></div>
+                }
+                else if (ViewBag.vUser.RoleName == "IKGM")
+                {
+                    <div class="number"><span data-counter="counterup" data-value="@tbl.TechnoIKOnay_IKGM">@tbl.TechnoIKOnay_IKGM</span></div>
+                }
+                <div class="desc">Techno IK Onayları</div>
+            </div>
+        </a>
+    </div>
+}
+if (Model.yetki.Contains("'DashboardKasa'") == true)
+{
+    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+        <a class="dashboard-stat dashboard-stat-v2 red-thunderbird" href="javascript:">
+            <div class="visual"><i class="fa fa-bar-chart-o"></i></div>
+            <div class="details">
+                <div class="number"><span>@String.Format("{0:n}", tbl.MevcudBanka)</span></div>
+                <div class="desc"> Banka Mevcudu </div>
+            </div>
+        </a>
+    </div>
+    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+        <a class="dashboard-stat dashboard-stat-v2 blue-soft" href="javascript:">
+            <div class="visual"><i class="fa fa-bar-chart-o"></i></div>
+            <div class="details">
+                <div class="number"><span>@String.Format("{0:n}", tbl.MevcudCek)</span></div>
+                <div class="desc"> Çek Mevcudu </div>
+            </div>
+        </a>
+    </div>
+    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+        <a class="dashboard-stat dashboard-stat-v2 purple-studio" href="javascript:">
+            <div class="visual"><i class="fa fa-bar-chart-o"></i></div>
+            <div class="details">
+                <div class="number"><span>@String.Format("{0:n}", tbl.MevcudKasa)</span></div>
+                <div class="desc"> Kasa Mevcudu </div>
+            </div>
+        </a>
+    </div>
+    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+        <a class="dashboard-stat dashboard-stat-v2 blue-dark" href="javascript:">
+            <div class="visual"><i class="fa fa-bar-chart-o"></i></div>
+            <div class="details">
+                <div class="number"><span>@String.Format("{0:n}", tbl.MevcudPOS)</span></div>
+                <div class="desc"> POS Mevcudu </div>
+            </div>
+        </a>
+    </div>
+}
+if (tst.CrmOzet == true)
+{
+    <div class="col-lg-4 col-md-4 col-sm-8 col-xs-12">
+        <div class="dashboard-stat dashboard-stat-v2 blue-hoki" href="javascript:" style="height:150px;">
+            <div class="visual"><i class="fa fa-bar-chart-o"></i></div>
+            <div class="details col-md-12">
+                <div class="desc f-s-24 m-t-15"> CRM Özet </div>
+                <div class="row desc f-s-12">
+                    <div class="col-md-offset-6 col-md-2">Tümü</div>
+                    <div class="col-md-2">Hafta</div>
+                    <div class="col-md-2">Bugün</div>
+                </div>
+                <div class="row desc f-s-14">
+                    <div class="col-md-6"><a href="/Reports/CRM/Institution/0" class="color-white">Kurum Kartları</a></div>
+                    <div class="col-md-2"><a href="/Reports/CRM/Institution/0" class="color-white">@tbl.KurumKartlari</a></div>
+                    <div class="col-md-2"><a href="/Reports/CRM/Institution/1" class="color-white">@tbl.KurumKartlariBuHafta</a></div>
+                    <div class="col-md-2"><a href="/Reports/CRM/Institution/2" class="color-white">@tbl.KurumKartlariBugun</a></div>
+                </div>
+                <div class="row desc f-s-14">
+                    <div class="col-md-6"><a href="/Reports/CRM/Meeting/0" class="color-white">Görüşme Notu</a></div>
+                    <div class="col-md-2"><a href="/Reports/CRM/Meeting/0" class="color-white">@tbl.GorusmeNotlari</a></div>
+                    <div class="col-md-2"><a href="/Reports/CRM/Meeting/1" class="color-white">@tbl.GorusmeNotlariBuHafta</a></div>
+                    <div class="col-md-2"><a href="/Reports/CRM/Meeting/2" class="color-white">@tbl.GorusmeNotlariBugun</a></div>
+                </div>
+                <div class="row desc f-s-14">
+                    <div class="col-md-6"><a href="/Reports/CRM/Bid/0" class="color-white">Teklif Analiz</a></div>
+                    <div class="col-md-2"><a href="/Reports/CRM/Bid/0" class="color-white">@tbl.TeklifAnalizi</a></div>
+                    <div class="col-md-2"><a href="/Reports/CRM/Bid/1" class="color-white">@tbl.TeklifAnaliziBuHafta</a></div>
+                    <div class="col-md-2"><a href="/Reports/CRM/Bid/2" class="color-white">@tbl.TeklifAnaliziBugun</a></div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+}</div>

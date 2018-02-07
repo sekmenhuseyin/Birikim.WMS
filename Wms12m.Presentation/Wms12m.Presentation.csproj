@@ -862,6 +862,7 @@
     <Content Include="Views\Error\Index.cshtml" />
     <Content Include="Views\Error\Lost.cshtml" />
     <Content Include="Views\Users\Parametre.cshtml" />
+    <Content Include="Views\Home\Box.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
