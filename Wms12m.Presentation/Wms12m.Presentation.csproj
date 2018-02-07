@@ -504,6 +504,8 @@
     <Content Include="Areas\Approvals\Views\Purchase\GMYTedarikci_Onay.cshtml" />
     <Content Include="Areas\Reports\Views\Stock\GidenBarkod.cshtml" />
     <Content Include="Areas\Reports\Views\Stock\GidenBarkodList.cshtml" />
+    <Content Include="Areas\Reports\Views\Stock\SevkiyatKalanStok.cshtml" />
+    <Content Include="Areas\Reports\Views\Stock\SevkiyatKalanStokList.cshtml" />
     <None Include="bundleconfig.json" />
     <Content Include="Content\SizeSablon.xlsx" />
     <Content Include="Content\StockSablon.xlsx" />
