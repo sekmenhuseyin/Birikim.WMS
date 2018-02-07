@@ -221,6 +221,17 @@ WHERE OT.Sirketkodu='{0}' AND OT.[AktarimDurum]=1 AND OT.Islemtip=1 AND [SevkEvr
 
         }
 
+        public ActionResult SevkiyatKalanStok()
+        {
+            if (CheckPerm(Perms.Raporlar, PermTypes.Reading) == false) return Redirect("/");
+            var STI = db.Database.SqlQuery<string>(string.Format("SELECT Depo FROM FINSAT6{0}.FINSAT6{0}.STI GROUP BY Depo", vUser.SirketKodu)).ToList();
+            return View(STI);
+        }
+        public PartialViewResult SevkiyatKalanStokList(int bastarih, int bittarih, string depo)
+        {
+            var RP = db.Database.SqlQuery<SevkiyatKalanRapor>(string.Format("[FINSAT6{0}].[wms].[RP_SevkiyatKalanStok] @BasTarih = {1}, @BitTarih={2}, @Depo='{3}'", vUser.SirketKodu, bastarih, bittarih, depo)).ToList();
+            return PartialView("SevkiyatKalanStokList", RP);
+        }
 
     }
 }

@@ -517,7 +517,10 @@ WHERE ID={4} AND Durum=11 AND SipTalepNo IS NOT NULL";
             (SELECT MalAdi FROM FINSAT6{0}.FINSAT6{0}.STK (NOLOCK) WHERE MalKodu = ST.MalKodu) AS MalAdi, ST.Birim,
             ST.BirimFiyat, ST.TeklifMiktar, ST.Durum,
             ST.DvzTL, ST.DvzCinsi, ST.TerminSure,
-            ST.MinSipMiktar, ST.TeklifBasTarih, ST.TeklifBitTarih, ST.OneriDurum,
+            ST.MinSipMiktar, 
+            CONVERT(DATETIME,ST.TeklifBasTarih) AS TeklifBasTarih, 
+			CONVERT(DATETIME,ST.TeklifBitTarih) AS TeklifBitTarih, 
+            ST.OneriDurum,
             ST.Vade, ST.TeslimYeri,
             ST.Aciklama, ST.Aciklama2, ST.Aciklama3,ST.TeklifAciklamasi, ST.Satinalmaci,
 

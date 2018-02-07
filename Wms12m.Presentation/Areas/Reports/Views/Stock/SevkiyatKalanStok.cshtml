@@ -1,0 +1,101 @@
+﻿@model List<string>
+@{
+
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Sevkiyat Planına Alınan Ürünler Hariç Stok Raporu";
+}<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><span>Raporlar</span><i class="fa fa-circle"></i></li><li><span>Sevkiyat Planına Alınan Ürünler Hariç Stok Raporu</span></li></ul></div>
+<h1 class="page-title">Sevkiyat Planına Alınan Ürünler Hariç Stok Raporu</h1>
+<div class="row control-content">
+    <div class="row col-md-10">
+        <div class="col-xs-12 col-sm-12 col-md-2" style="margin-top:10px;">
+        <span style="line-height:36px;height:36px;width:90%;color:#32c5d2;font-weight:bold;">Depo</span><span style="line-height:36px;height:36px;width:10%;right:0;color:#2fc1d8;font-weight:bold;">:</span>
+        </div>
+        <div class="col-xs-7 col-sm-7 col-md-4" style="margin-top:10px;line-height:36px;height:36px;padding:4px;margin-left:10px;">
+            <div class="depo-select" style="width:90%;height:29px;">
+
+            </div>
+        </div><br /><br /><br />
+       
+        <div class="col-xs-6 col-sm-6 col-md-2" style="margin-top:10px;">
+            <div class="btn btn-lg green btn-listele" style="width:222px;height:33px;">Listele<i class="fa fa-check"></i></div>
+        </div>
+    </div>
+
+</div>
+<div class="row" id="cari-extre-grid" style="margin-top:20px;"></div>
+@section Scripts{
+    <script>
+    var sip = "";
+    var sevk = "";
+    $(document).ready(function () {
+        var model = @Html.Raw(Json.Encode(Model));
+        var model2 = @Html.Raw(Json.Encode(ViewBag.siparis));
+
+        $(".depo-select").dxLookup({
+            dataSource: model2,
+            searchEnabled: true,
+            pageLoadMode: "nextButton",
+            searchExpr: ["SiparisNo"],
+            valueExpr: 'SiparisNo',
+            displayExpr: 'SiparisNo',
+
+            onValueChanged: function (e) {
+           
+            },
+
+            itemTemplate: function (itemData, itemIndex, itemElement) {
+                itemElement.css({ "text-align": "left", "border-bottom": "1px solid #2fc1d8" });
+                if (itemIndex > 0) {
+                    itemElement.css({ "margin-top": "-40px" });
+                }
+                var rightBlock = $("<div style=' margin: 2px; width:100%;'>");
+                rightBlock.append("<div><p style='font-size:11px; font-weight:bold; line-height: 0%;'><b>" + itemData.Depo + "</b></p>");
+                itemElement.append(rightBlock);
+            }
+        });
+
+
+
+        $(".sevk-select").dxLookup({
+            dataSource: model,
+            searchEnabled: true,
+            pageLoadMode: "nextButton",
+            searchExpr: ["SevkEvrakNo"],
+            valueExpr: 'SevkEvrakNo',
+            displayExpr: 'SevkEvrakNo',
+
+            onValueChanged: function (e) {
+                sevk = e.value;
+                sip = "";
+            },
+
+            itemTemplate: function (itemData, itemIndex, itemElement) {
+                itemElement.css({ "text-align": "left", "border-bottom": "1px solid #2fc1d8" });
+                if (itemIndex > 0) {
+                    itemElement.css({ "margin-top": "-40px" });
+                }
+                var rightBlock = $("<div style=' margin: 2px; width:100%;'>");
+                rightBlock.append("<div><p style='font-size:11px; font-weight:bold; line-height: 0%;'><b>" + itemData.SevkEvrakNo + "</b></p>");
+                itemElement.append(rightBlock);
+            }
+        });
+
+   
+   
+
+        $(".btn-listele").dxButton({
+            onClick: function () {
+                if (sip != "") {
+                    PartialView("/Reports/Stock/GidenBarkodList", 'cari-extre-grid', JSON.stringify({ sip: sip }));
+                }
+                else if (sevk != "") {
+                    PartialView("/Reports/Stock/GidenBarkodList", 'cari-extre-grid', JSON.stringify({ sevk: sevk }));
+                }
+                else {
+                    Modaldialog("Sipariş veya Sevkiyat No seçin!", "Giden Barkod", "Tamam", "btn-success");
+                }
+            }
+        });
+        $(".btn-listele").removeClass("dx-button");
+    });
+    </script>}
