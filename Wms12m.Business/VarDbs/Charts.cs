@@ -39,6 +39,70 @@ namespace Wms12m
         }
 
         /// <summary>
+        /// Home / BolgeBazliSatisAnaliziKriter
+        /// </summary>
+        public List<ChartBolgeBazliSatisAnaliziKriter> BolgeBazliSatisAnaliziKriter()
+        {
+            return Db.Database.SqlQuery<ChartBolgeBazliSatisAnaliziKriter>(string.Format("[FINSAT6{0}].[wms].[BolgeBazliSatisAnaliziKriterSelect]", SirketKodu)).ToList();
+        }
+
+        /// <summary>
+        /// Home / AylikSatisCHKAnaliziBar
+        /// </summary>
+        public List<ChartAylikSatisAnalizi> ChartAylikSatisAnalizi(string chk)
+        {
+            return Db.Database.SqlQuery<ChartAylikSatisAnalizi>(string.Format("[FINSAT6{0}].[wms].[DB_Aylik_SatisAnalizi_CHK] @chk='{1}'", SirketKodu, chk)).ToList();
+        }
+
+        /// <summary>
+        /// Home / BaglantiZamanCizelgesi
+        /// </summary>
+        public List<ChartBaglantiZaman> ChartBaglantiZaman()
+        {
+            return Db.Database.SqlQuery<ChartBaglantiZaman>(string.Format("[FINSAT6{0}].[wms].[DB_BaglantiLogGetir]", SirketKodu)).ToList();
+        }
+
+        /// <summary>
+        /// Home / BolgeBazliSatisAnalizi
+        /// </summary>
+        public List<ChartBolgeBazliSatisAnalizi> ChartBolgeBazliSatisAnalizi(int ay, string kriter)
+        {
+            return Db.Database.SqlQuery<ChartBolgeBazliSatisAnalizi>(string.Format("[FINSAT6{0}].[wms].[DB_Bolge_Bazinda_SatisAnalizi] @Ay = {1}, @Kriter = '{2}'", SirketKodu, ay, kriter)).ToList();
+        }
+
+        /// <summary>
+        /// Home / GunlukMDFUretimi
+        /// </summary>
+        public List<ChartGunlukMDFUretimi> ChartGunlukMDFUretimi(int tarih)
+        {
+            return Db.Database.SqlQuery<ChartGunlukMDFUretimi>(string.Format("[FINSAT6{0}].[wms].[MDF_UretimRapor_Chart] @BasTarih = {1}, @BitTarih = {2}, @Tip={3}", SirketKodu, tarih, tarih, 1)).ToList();
+        }
+
+        /// <summary>
+        /// Home / GunlukSatis
+        /// </summary>
+        public List<ChartGunlukSatisAnalizi> ChartGunlukSatisAnalizi(int tarih)
+        {
+            return Db.Database.SqlQuery<ChartGunlukSatisAnalizi>(string.Format("[FINSAT6{0}].[wms].[DB_GunlukSatisAnalizi] @Tarih = {1}", SirketKodu, tarih)).ToList();
+        }
+
+        /// <summary>
+        /// Home / GunlukSatisDoubleKriter
+        /// </summary>
+        public List<ChartGunlukSatisAnalizi> ChartGunlukSatisAnalizi(string kod, int islemtip, int tarih)
+        {
+            return Db.Database.SqlQuery<ChartGunlukSatisAnalizi>(string.Format("[FINSAT6{0}].[wms].[DB_GunlukSatisAnaliziDoubleKriter] @Tarih = {1}, @IslemTip = {2}, @Grup = '{3}'", SirketKodu, tarih, islemtip, kod)).ToList();
+        }
+
+        /// <summary>
+        /// Home / GunlukSatisZamanCizelgesi
+        /// </summary>
+        public List<ChartBaglantiZaman> ChartGunlukZaman()
+        {
+            return Db.Database.SqlQuery<ChartBaglantiZaman>(string.Format("[FINSAT6{0}].[wms].[DB_GunlukSatisGetir]", SirketKodu)).ToList();
+        }
+
+        /// <summary>
         /// Home / LokasyonSatis
         /// </summary>
         public List<DB_LokasyonBazli_SatisAnalizi> ChartLocation(int tarih)
@@ -95,59 +159,19 @@ namespace Wms12m
         }
 
         /// <summary>
-        /// Home / AylikSatisCHKAnaliziBar
+        /// Home / CHKSelect
         /// </summary>
-        public List<ChartAylikSatisAnalizi> ChartAylikSatisAnalizi(string chk)
+        public List<RaporCHKSelect> CHKSelect()
         {
-            return Db.Database.SqlQuery<ChartAylikSatisAnalizi>(string.Format("[FINSAT6{0}].[wms].[DB_Aylik_SatisAnalizi_CHK] @chk='{1}'", SirketKodu, chk)).ToList();
+            return Db.Database.SqlQuery<RaporCHKSelect>(string.Format("[FINSAT6{0}].[wms].[CHKSelectKartTip]", SirketKodu)).ToList();
         }
 
         /// <summary>
-        /// Home / GunlukSatisZamanCizelgesi
+        /// Home / GunlukSatisAnaliziKriterSelect
         /// </summary>
-        public List<ChartBaglantiZaman> ChartGunlukZaman()
+        public List<ChartBolgeBazliSatisAnaliziKriter> GunlukSatisAnaliziKriterSelect()
         {
-            return Db.Database.SqlQuery<ChartBaglantiZaman>(string.Format("[FINSAT6{0}].[wms].[DB_GunlukSatisGetir]", SirketKodu)).ToList();
-        }
-
-        /// <summary>
-        /// Home / BaglantiZamanCizelgesi
-        /// </summary>
-        public List<ChartBaglantiZaman> ChartBaglantiZaman()
-        {
-            return Db.Database.SqlQuery<ChartBaglantiZaman>(string.Format("[FINSAT6{0}].[wms].[DB_BaglantiLogGetir]", SirketKodu)).ToList();
-        }
-
-        /// <summary>
-        /// Home / GunlukSatis
-        /// </summary>
-        public List<ChartGunlukSatisAnalizi> ChartGunlukSatisAnalizi(int tarih)
-        {
-            return Db.Database.SqlQuery<ChartGunlukSatisAnalizi>(string.Format("[FINSAT6{0}].[wms].[DB_GunlukSatisAnalizi] @Tarih = {1}", SirketKodu, tarih)).ToList();
-        }
-
-        /// <summary>
-        /// Home / GunlukSatisDoubleKriter
-        /// </summary>
-        public List<ChartGunlukSatisAnalizi> ChartGunlukSatisAnalizi(string kod, int islemtip, int tarih)
-        {
-            return Db.Database.SqlQuery<ChartGunlukSatisAnalizi>(string.Format("[FINSAT6{0}].[wms].[DB_GunlukSatisAnaliziDoubleKriter] @Tarih = {1}, @IslemTip = {2}, @Grup = '{3}'", SirketKodu, tarih, islemtip, kod)).ToList();
-        }
-
-        /// <summary>
-        /// Home / GunlukMDFUretimi
-        /// </summary>
-        public List<ChartGunlukMDFUretimi> ChartGunlukMDFUretimi(int tarih)
-        {
-            return Db.Database.SqlQuery<ChartGunlukMDFUretimi>(string.Format("[FINSAT6{0}].[wms].[MDF_UretimRapor_Chart] @BasTarih = {1}, @BitTarih = {2}, @Tip={3}", SirketKodu, tarih, tarih, 1)).ToList();
-        }
-
-        /// <summary>
-        /// Home / BolgeBazliSatisAnalizi
-        /// </summary>
-        public List<ChartBolgeBazliSatisAnalizi> ChartBolgeBazliSatisAnalizi(int ay, string kriter)
-        {
-            return Db.Database.SqlQuery<ChartBolgeBazliSatisAnalizi>(string.Format("[FINSAT6{0}].[wms].[DB_Bolge_Bazinda_SatisAnalizi] @Ay = {1}, @Kriter = '{2}'", SirketKodu, ay, kriter)).ToList();
+            return Db.Database.SqlQuery<ChartBolgeBazliSatisAnaliziKriter>(string.Format("[FINSAT6{0}].[wms].[GunlukSatisAnaliziKriterSelect]", SirketKodu)).ToList();
         }
     }
 }

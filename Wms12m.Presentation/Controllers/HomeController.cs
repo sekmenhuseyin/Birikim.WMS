@@ -907,16 +907,14 @@ namespace Wms12m.Presentation.Controllers
 
         public string BolgeBazliSatisAnaliziKriter()
         {
-            var Kriter = db.Database.SqlQuery<ChartBolgeBazliSatisAnaliziKriter>(string.Format("[FINSAT6{0}].[wms].[BolgeBazliSatisAnaliziKriterSelect]", vUser.SirketKodu)).ToList();
-            var json = new JavaScriptSerializer().Serialize(Kriter);
-            return json;
+            var liste = new Charts(db, vUser.SirketKodu).BolgeBazliSatisAnaliziKriter();
+            return new JavaScriptSerializer().Serialize(liste);
         }
 
         public string CHKSelect()
         {
-            var CHK = db.Database.SqlQuery<RaporCHKSelect>(string.Format("[FINSAT6{0}].[wms].[CHKSelectKartTip]", vUser.SirketKodu)).ToList();
-            var json = new JavaScriptSerializer().Serialize(CHK);
-            return json;
+            var liste = new Charts(db, vUser.SirketKodu).CHKSelect();
+            return new JavaScriptSerializer().Serialize(liste);
         }
 
         public string Connection()
@@ -926,9 +924,8 @@ namespace Wms12m.Presentation.Controllers
 
         public string GunlukSatisAnaliziKriterSelect()
         {
-            var Kriter = db.Database.SqlQuery<ChartBolgeBazliSatisAnaliziKriter>(string.Format("[FINSAT6{0}].[wms].[GunlukSatisAnaliziKriterSelect]", vUser.SirketKodu)).ToList();
-            var json = new JavaScriptSerializer().Serialize(Kriter);
-            return json;
+            var liste = new Charts(db, vUser.SirketKodu).GunlukSatisAnaliziKriterSelect();
+            return new JavaScriptSerializer().Serialize(liste);
         }
     }
 }
