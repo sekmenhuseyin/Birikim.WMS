@@ -17,6 +17,9 @@
     List<DB_LokasyonBazli_SatisAnalizi_Kriter> tmpChartLokasyonSatisKriter = new List<DB_LokasyonBazli_SatisAnalizi_Kriter>();
     List<DB_BakiyeRiskAnalizi> tmpChartBakiyeRisk = new List<DB_BakiyeRiskAnalizi>();
     List<DB_SatisBaglanti_UrunGrubu> tmpChartBaglantiUrunGrubu = new List<DB_SatisBaglanti_UrunGrubu>();
+    List<ChartGunlukMDFUretimi> tmpChartGunlukMDFUretimi = new List<ChartGunlukMDFUretimi>();
+    List<ChartBaglantiZaman> tmpChartBaglantiZaman = new List<ChartBaglantiZaman>();
+    List<ChartBolgeBazliSatisAnalizi> tmpChartBolgeBazliSatis = new List<ChartBolgeBazliSatisAnalizi>();
     if (Model.yetki.Contains("'ChartGunlukSatis'") == true)
     {
         tmpChartGunlukSatis = ViewBag.ChartGunlukSatis;
@@ -46,6 +49,18 @@
     if (Model.yetki.Contains("'ChartBaglantiUrunGrubu'") == true)
     {
         tmpChartBaglantiUrunGrubu = ViewBag.ChartBaglantiUrunGrubu;
+    }
+    if (Model.yetki.Contains("'ChartGunlukMDFUretimi'") == true)
+    {
+        tmpChartGunlukMDFUretimi = ViewBag.ChartGunlukMDFUretimi;
+    }
+    if (Model.yetki.Contains("'ChartBaglantiZamanCizelgesi'") == true)
+    {
+        tmpChartBaglantiZaman = ViewBag.ChartBaglantiZamanCizelgesi;
+    }
+    if (Model.yetki.Contains("'ChartBolgeBazliSatisAnalizi'") == true)
+    {
+        tmpChartBolgeBazliSatis = ViewBag.ChartBolgeBazliSatis;
     }
 }@section Styles{<link href="~/Content/assets/global/plugins/bootstrap-toggle/css/bootstrap-toggle.min.css" rel="stylesheet" type="text/css" />
     <script>var dateVal = new Date(); dateVal.setHours(0, 0, 0); var oaDate = Math.ceil((dateVal - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000));</script>
@@ -87,15 +102,15 @@
     <div id="baglanti_urun_grubu_pie">@{Html.RenderPartial("Satis/BaglantiUrunGrubuPie", tmpChartBaglantiUrunGrubu);}</div>
 }@if (Model.yetki.Contains("'ChartGunlukMDFUretimi'") == true)
 {
-    <div id="gunluk_mdf_uretim">@{Html.RenderPartial("Satis/GunlukMDFUretim", new List<ChartGunlukMDFUretimi>());}</div>
-    <div id="gunluk_mdf_uretim_pie">@{Html.RenderPartial("Satis/GunlukMDFUretimPie", new List<ChartGunlukMDFUretimi>());}</div>
+    <div id="gunluk_mdf_uretim">@{Html.RenderPartial("Satis/GunlukMDFUretim", tmpChartGunlukMDFUretimi);}</div>
+    <div id="gunluk_mdf_uretim_pie">@{Html.RenderPartial("Satis/GunlukMDFUretimPie", tmpChartGunlukMDFUretimi);}</div>
 }@if (Model.yetki.Contains("'ChartBaglantiZamanCizelgesi'") == true)
 {
-    <div id="baglanti_zaman_cizelgesi">@{Html.RenderPartial("Satis/BaglantiZamanCizelgesi", new List<ChartBaglantiZaman>());}</div>
+    <div id="baglanti_zaman_cizelgesi">@{Html.RenderPartial("Satis/BaglantiZamanCizelgesi", tmpChartBaglantiZaman);}</div>
 }@if (Model.yetki.Contains("'ChartBolgeBazliSatisAnalizi'") == true)
 {
-    <div id="bolge_bazli_satis_analizi">@{Html.RenderPartial("Satis/BolgeBazliSatisAnalizi", new List<ChartBolgeBazliSatisAnalizi>());}</div>
-    <div id="bolge_bazli_satis_analizi_pie">@{Html.RenderPartial("Satis/BolgeBazliSatisAnaliziPie", new List<ChartBolgeBazliSatisAnalizi>());}</div>
+    <div id="bolge_bazli_satis_analizi">@{Html.RenderPartial("Satis/BolgeBazliSatisAnalizi", tmpChartBolgeBazliSatis);}</div>
+    <div id="bolge_bazli_satis_analizi_pie">@{Html.RenderPartial("Satis/BolgeBazliSatisAnaliziPie", tmpChartBolgeBazliSatis);}</div>
 }@if (Model.yetki.Contains("'ChartBekleyenSiparisUrunGrubu'") == true)
 {
     @*<div id="bekleyen_siparis_urun_grubu">@{Html.RenderPartial("Satis/BekleyenSiparisUrunGrubu", new List<ChartBekleyenSiparisUrunGrubu>());}</div>

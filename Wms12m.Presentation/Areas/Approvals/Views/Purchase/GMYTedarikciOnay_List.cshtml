@@ -16,9 +16,10 @@
                         <table class="table table-striped table-bordered" id="sample_1">
                             <thead class="aaaaa">
                                 <tr>
+                                    <th><input type="checkbox" id="selectall" /></th>
                                     <th nowrap>Önerilen</th>
                                     <th nowrap>Mal Kodu</th>
-                                    <th nowrap>Mal Adi</th>
+                                    <th nowrap>Mal Adı</th>
                                     <th nowrap>Hesap Kodu</th>
                                     <th nowrap>Ünvan</th>
                                     <th nowrap>Teklif Açıklaması</th>
@@ -106,8 +107,8 @@
 
             { "data": "TerminSure" },
             { "data": "MinSipMiktar", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
-            { "data": "TeklifBasTarih" },
-            { "data": "TeklifBitTarih" },
+            { "data": "TeklifBasTarih", "render": function (data) { if (data != null) return moment(data).format("DD-MM-YYYY"); else return "&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp;"; }, "sClass": "nowrap" },
+            { "data": "TeklifBitTarih", "render": function (data) { if (data != null) return moment(data).format("DD-MM-YYYY"); else return "&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp;"; }, "sClass": "nowrap" },
 
             { "data": "DurumStr" },
             { "data": "TeklifNo" },
@@ -137,7 +138,7 @@
         //    $(api.column(10).footer()).html(numeral(KDV).format());
         //}
 
-     });
+    });
     //$.contextMenu({
     //    selector: '#sample_1 tbody tr',
     //    callback: function (key, options) {

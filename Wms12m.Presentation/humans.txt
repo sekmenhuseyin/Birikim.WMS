@@ -7,11 +7,11 @@ Derviş Akdeniz
 Ruhi Göktaş
 Fatih Bingöl
 Candan Altıntaş
+Berk Tokgöz
+Ömer Yusuf Başavul
 Gizem Altıntaş
 Emre Ünal
 Güler Dostdoğru
-Berk Tokgöz
-İlhan Demirtepe
 /* SITE */
 Name: ERP Yönetim Paneli
 Language: Turkish
