@@ -65,7 +65,6 @@
             searchEnabled: true,
             pageLoadMode: "nextButton",
             searchExpr: ["HesapKodu", "Unvan","SipTalepNo"],
-            //valueExpr: 'Kod',
             displayExpr: 'SipTalepNo',
             onValueChanged: function (e) {
                 if (e.value == null) {
@@ -84,14 +83,8 @@
                     type: "post",
                     success: function (data) {
                         if (data == 0) {
-                            Modaldialog("Stok kartında birim güncellemesi bulunmaktadır. Mevcut talebin reddedilip yeniden oluşturulması gerekmektedir.", "Onay İşlemi", "Tamam", "Onay");
+                            Modaldialog("Stok kartında birim güncellemesi bulunmaktadır. Mevcut talebin reddedilip yeniden oluşturulması gerekmektedir.", "Onay İşlemi", "Tamam", "btn-success");
                         }
-                        //else {
-                        //    $(".musteri_unvan").text(e.value.Unvan);
-                        //    $(".musteri_unvan").show();
-                        //    PartialView("/Approvals/Purchase/SipGMOnayList", 'satinalma_gm_onay_data', JSON.stringify({ HesapKodu: e.value.HesapKodu, SipTalepNo: e.value.SipTalepNo }));
-                        //    PartialView("/Approvals/Purchase/SipGMOnayListFTD", 'satinalma_gm_onay_ftd_data', JSON.stringify({ HesapKodu: e.value.HesapKodu, SipTalepNo: e.value.SipTalepNo }));
-                        //}
                     }
                 });
                 }, 1000);
@@ -124,7 +117,7 @@
             type: "post",
             success: function (data) {
                 if (data == 0) {
-                    Modaldialog("Stok kartında birim güncellemesi bulunmaktadır. Mevcut talebin reddedilip yeniden oluşturulması gerekmektedir.", "Onay İşlemi", "Tamam", "Onay");
+                    Modaldialog("Stok kartında birim güncellemesi bulunmaktadır. Mevcut talebin reddedilip yeniden oluşturulması gerekmektedir.", "Onay İşlemi", "Tamam", "btn-success");
                     setTimeout(function () { window.location.reload(); }, 500);
                 }
                 else {
@@ -134,7 +127,7 @@
                         type: "post",
                         success: function (data) {
                             if (data.Status == true) {
-                                Modaldialog(data.Message, "Onay İşlemi", "Tamam", "Onay");
+                                Modaldialog(data.Message, "Onay İşlemi", "Tamam", "btn-success");
                                 setTimeout(function () { window.location.reload(); }, 500);
                             }
                             else {
@@ -162,7 +155,7 @@
             type: "post",
             success: function (data) {
                 if (data.Status == true) {
-                    Modaldialog(data.Message, "Red İşlemi", "Tamam", "Red");
+                    Modaldialog(data.Message, "Red İşlemi", "Tamam", "btn-success");
                     setTimeout(function () { window.location.reload(); }, 500);
                 }
                 else {

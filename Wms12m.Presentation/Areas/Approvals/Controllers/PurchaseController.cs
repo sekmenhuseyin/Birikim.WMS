@@ -31,11 +31,15 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
     public class PurchaseController : RootController
     {
+        /// <summary>
+        /// gm sipariş onaylama sayfası
+        /// </summary>
         public ActionResult GMOnayHTML()
         {
             if (CheckPerm(Perms.SatinalmaOnaylama, PermTypes.Reading) == false) return Redirect("/");
             return View();
         }
+
         public ActionResult GM_Onay()
         {
             if (CheckPerm(Perms.SatinalmaOnaylama, PermTypes.Reading) == false) return Redirect("/");
@@ -53,6 +57,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             ViewBag.SipTalepNo = SipTalepNo;
             return PartialView("GMOnay_List");
         }
+
         public PartialViewResult SipGMOnayListFTD(string HesapKodu, int SipTalepNo)
         {
             if (CheckPerm(Perms.SatinalmaOnaylama, PermTypes.Reading) == false) return null;
@@ -61,6 +66,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             ViewBag.SipTalepNo = SipTalepNo;
             return PartialView("GMOnayFTD_List");
         }
+
         public string SipGMOnayListData(string HesapKodu, int SipTalepNo)
         {
             if (CheckPerm(Perms.SatinalmaOnaylama, PermTypes.Reading) == false) return null;
@@ -160,6 +166,9 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             return json;
         }
 
+        /// <summary>
+        /// gm için sipariş oanylama
+        /// </summary>
         public JsonResult SipGMOnayla()
         {
             if (CheckPerm(Perms.SatinalmaOnaylama, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
@@ -178,7 +187,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                     var evrakno = kkp.YeniEvrakNo(KKPKynkEvrakTip.AlımSiparişi, 1);
                     foreach (var item in MyGlobalVariables.TalepSource)
                     {
-                        var sql = string.Format(@"UPDATE Kaynak.sta.Talep 
+                        var sql = string.Format(@"UPDATE Kaynak.sta.Talep
 	                        SET GMOnaylayan=@Degistiren, GMOnayTarih=@DegisTarih, Durum=15, SipEvrakNo=@SipEvrakNo
 	                        , SirketKodu='{0}'
 	                        , Degistiren=@Degistiren, DegisTarih=@DegisTarih, DegisSirKodu='{0}'
@@ -237,6 +246,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                     try
                     {
                         #region Kayıt ve Mail
+
                         if (string.IsNullOrEmpty(sipEvrakNo) || string.IsNullOrEmpty(hesapKodu))
                             throw new ArgumentException("parametreler hatalı!");
 
@@ -290,7 +300,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
                         List<SatTalep> listTalep = db.Database.SqlQuery<SatTalep>(string.Format("SELECT TalepNo, MalKodu, EkDosya FROM Kaynak.sta.Talep (nolock) WHERE SipEvrakNo ='{0}' AND HesapKodu = '{1}' AND ISNULL(EkDosya,'')<> '' ", sipEvrakNo, hesapKodu)).ToList();
 
-                        var dosyaYolu = db.Database.SqlQuery<string>(string.Format("SELECT DosyaYolu FROM [Kaynak].[sta].[GenelAyarVeParams]  where Tip = 7 and DosyaYolu IS NOT NULL")).FirstOrDefault();
+                        var dosyaYolu = db.Database.SqlQuery<string>(string.Format("SELECT top 1 DosyaYolu FROM [Kaynak].[sta].[GenelAyarVeParams]  where Tip = 7 and DosyaYolu IS NOT NULL")).FirstOrDefault();
 
                         foreach (SatTalep talep in listTalep)
                         {
@@ -322,12 +332,13 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                             }
                             else
                             {
-                                db.Database.ExecuteSqlCommand(string.Format("UPDATE Kaynak.sta.Talep SET MailGonder={0} WHERE TalepNo='{1}'", 0, sipTalep.TalepNo));
+                                db.Database.ExecuteSqlCommand(string.Format("UPDATE Kaynak.sta.Talep SET MailGonder=0 WHERE TalepNo='{0}'", sipTalep.TalepNo));
                             }
                         }
-                        #endregion
+
+                        #endregion Kayıt ve Mail
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
                         _Result.Message = string.Format("Sipariş Onay Maili Gönderiminde hata oluştu! Mail Gönderilemedi!)");
                         _Result.Status = false;
@@ -344,6 +355,9 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             }
         }
 
+        /// <summary>
+        /// gm için sipariş reddetme
+        /// </summary>
         public JsonResult SipGMReddet(string redAciklama)
         {
             if (CheckPerm(Perms.SatinalmaOnaylama, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
@@ -361,7 +375,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             {
                 foreach (var item in MyGlobalVariables.TalepSource)
                 {
-                    var sql = @"UPDATE Kaynak.sta.Talep 
+                    var sql = @"UPDATE Kaynak.sta.Talep
 SET GMOnaylayan='{0}', GMOnayTarih='{1}', Durum=13
 , Degistiren='{0}', DegisTarih='{1}', DegisSirKodu={3}, Aciklama2='{2}'
 WHERE ID={4} AND Durum=11 AND SipTalepNo IS NOT NULL";
@@ -388,8 +402,8 @@ WHERE ID={4} AND Durum=11 AND SipTalepNo IS NOT NULL";
             var query = string.Format(
    @"SELECT (CASE WHEN ST.Birim = STK.Birim1 THEN 1
 		WHEN ST.Birim = STK.Birim2 THEN 1
-		WHEN ST.Birim = STK.Birim3 THEN 1 
-		WHEN ST.Birim = STK.Birim4 THEN 1 
+		WHEN ST.Birim = STK.Birim3 THEN 1
+		WHEN ST.Birim = STK.Birim4 THEN 1
 		ELSE 0 END ) AS Miktar
 
 FROM Kaynak.sta.Talep as ST (nolock)
@@ -397,8 +411,8 @@ LEFT JOIN FINSAT6{0}.FINSAT6{0}.STK (nolock) on ST.MalKodu=STK.MalKodu
 WHERE ST.Durum=11 AND ST.SipTalepNo={1} AND ST.HesapKodu='{2}'
 GROUP BY (CASE WHEN ST.Birim = STK.Birim1 THEN 1
 		WHEN ST.Birim = STK.Birim2 THEN 1
-		WHEN ST.Birim = STK.Birim3 THEN 1 
-		WHEN ST.Birim = STK.Birim4 THEN 1 
+		WHEN ST.Birim = STK.Birim3 THEN 1
+		WHEN ST.Birim = STK.Birim4 THEN 1
 		ELSE 0 END )"
       , vUser.SirketKodu
       , talepNo, hesapKodu);
@@ -425,6 +439,7 @@ GROUP BY (CASE WHEN ST.Birim = STK.Birim1 THEN 1
 
             return PartialView(TL);
         }
+
         public PartialViewResult OnayliTedarikciList()
         {
             var id = Url.RequestContext.RouteData.Values["id"];
@@ -432,6 +447,7 @@ GROUP BY (CASE WHEN ST.Birim = STK.Birim1 THEN 1
             List<SatOnayliTed> OTL = db.Database.SqlQuery<SatOnayliTed>(string.Format("[FINSAT6{0}].[wms].[OnayliTedarikciListesi] @MalKodu='{1}'", vUser.SirketKodu, id)).ToList();
             return PartialView(OTL);
         }
+
         public PartialViewResult SonAlimListesi()
         {
             var id = Url.RequestContext.RouteData.Values["id"];
@@ -482,7 +498,7 @@ GROUP BY (CASE WHEN ST.Birim = STK.Birim1 THEN 1
             {
                 foreach (var item in MyGlobalVariables.TalepSource)
                 {
-                    var sql = @"UPDATE Kaynak.sta.Talep 
+                    var sql = @"UPDATE Kaynak.sta.Talep
 SET GMOnaylayan='{0}', GMOnayTarih='{1}', Durum=13
 , Degistiren='{0}', DegisTarih='{1}', DegisSirKodu={3}, Aciklama2='{2}'
 WHERE ID={4} AND Durum=11 AND SipTalepNo IS NOT NULL";
@@ -506,20 +522,20 @@ WHERE ID={4} AND Durum=11 AND SipTalepNo IS NOT NULL";
         public string GMYTedarikciOnayListData(string TalepNo)
         {
             if (CheckPerm(Perms.SatinalmaOnaylama, PermTypes.Reading) == false) return null;
-           
+
             if (MyGlobalVariables.GridTedarikciSource == null)
                 MyGlobalVariables.GridTedarikciSource = new List<SatTalep>();
             else
                 MyGlobalVariables.GridTedarikciSource.Clear();
 
-            MyGlobalVariables.GridTedarikciSource= db.Database.SqlQuery<SatTalep>(string.Format(@"
+            MyGlobalVariables.GridTedarikciSource = db.Database.SqlQuery<SatTalep>(string.Format(@"
             SELECT ST.ID, ST.TeklifNo, ST.Tarih, ST.HesapKodu, ST.MalKodu,
             (SELECT MalAdi FROM FINSAT6{0}.FINSAT6{0}.STK (NOLOCK) WHERE MalKodu = ST.MalKodu) AS MalAdi, ST.Birim,
             ST.BirimFiyat, ST.TeklifMiktar, ST.Durum,
             ST.DvzTL, ST.DvzCinsi, ST.TerminSure,
-            ST.MinSipMiktar, 
-            CONVERT(DATETIME,ST.TeklifBasTarih) AS TeklifBasTarih, 
-			CONVERT(DATETIME,ST.TeklifBitTarih) AS TeklifBitTarih, 
+            ST.MinSipMiktar,
+            CONVERT(DATETIME,ST.TeklifBasTarih) AS TeklifBasTarih,
+			CONVERT(DATETIME,ST.TeklifBitTarih) AS TeklifBitTarih,
             ST.OneriDurum,
             ST.Vade, ST.TeslimYeri,
             ST.Aciklama, ST.Aciklama2, ST.Aciklama3,ST.TeklifAciklamasi, ST.Satinalmaci,
@@ -544,19 +560,19 @@ WHERE ID={4} AND Durum=11 AND SipTalepNo IS NOT NULL";
             LEFT JOIN
             (
 	            SELECT MalKodu, SUM(BirimMiktar) as AcikTalepMiktar FROM KAYNAK.sta.Talep (nolock)
-	            WHERE 
-	            --Durum NOT IN ({1}) AND 
+	            WHERE
+	            --Durum NOT IN ({1}) AND
 	            Durum < 15
 	            GROUP BY MalKodu
             ) as AT on AT.MalKodu=ST.MalKodu
             LEFT JOIN SOLAR6.dbo.DVZ (nolock) on DVZ.DovizCinsi=ST.DvzCinsi AND DVZ.Tarih=CAST( DATEADD(dd, 0, DATEDIFF(dd, 0, GETDATE()))+2 AS INT)
-            WHERE 
+            WHERE
             ST.KynkTalepNo='{1}' AND ST.Durum=2", vUser.SirketKodu, TalepNo)).ToList();
 
             var json = new JavaScriptSerializer().Serialize(MyGlobalVariables.GridTedarikciSource);
             return json;
         }
 
-        #endregion
+        #endregion GMY Tedarikçi Onay
     }
 }

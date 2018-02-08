@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Net.Mail;
 using System.Text;
@@ -64,7 +65,7 @@ namespace Wms12m
                 if (string.IsNullOrWhiteSpace(mail)) continue;
 
                 if (!MailGecerlimi(mail.Trim()))
-                    return new Result(false, string.Format("Mail gönderimi başarısız!! Mail Formatı hatalı (mail: {0})", mail));
+                    return new Result(false, string.Format("Mail gönderimi başarısız! Mail Formatı hatalı (mail: {0})", mail));
 
                 message.To.Add(mail);
             }
@@ -74,7 +75,7 @@ namespace Wms12m
                 if (string.IsNullOrWhiteSpace(mail)) continue;
 
                 if (!MailGecerlimi(mail.Trim()))
-                    return new Result(false, string.Format("Mail gönderimi başarısız!! Mail Formatı hatalı (mail: {0})", mail));
+                    return new Result(false, string.Format("Mail gönderimi başarısız! Mail Formatı hatalı (mail: {0})", mail));
 
                 message.CC.Add(mail);
             }
@@ -84,6 +85,8 @@ namespace Wms12m
                 foreach (string filepath in dosyaList)
                 {
                     if (string.IsNullOrEmpty(filepath) || filepath.Length < 2)
+                        continue;
+                    if (!File.Exists(filepath))
                         continue;
                     message.Attachments.Add(new Attachment(filepath));
                 }
