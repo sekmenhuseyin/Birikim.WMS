@@ -91,7 +91,7 @@
     <Compile Include="Tables\Floor.cs" />
     <Compile Include="Tables\Shelf.cs" />
     <Compile Include="Tables\Store.cs" />
-    <Compile Include="VarDbs\Charts.cs" />
+    <Compile Include="Helpers\Charts.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Wms12m.Entity\Wms12m.Entity.csproj">
