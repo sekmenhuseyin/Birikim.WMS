@@ -228,6 +228,7 @@ WHERE OT.Sirketkodu='{0}' AND OT.[AktarimDurum]=1 AND OT.Islemtip=1 AND [SevkEvr
             ViewBag.STI = STI;
             return View(STI);
         }
+
         public PartialViewResult SevkiyatKalanStokList(int bastarih, int bittarih, string depo)
         {
             var RP = db.Database.SqlQuery<SevkiyatKalanRapor>(string.Format("[FINSAT6{0}].[wms].[RP_SevkiyatKalanStok] @BasTarih = {1}, @BitTarih={2}, @Depo='{3}'", vUser.SirketKodu, bastarih, bittarih, depo)).ToList();

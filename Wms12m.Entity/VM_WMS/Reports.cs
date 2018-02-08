@@ -278,6 +278,8 @@ namespace Wms12m.Entity
         public decimal KrediLimiti { get; set; }
         public Int16 EFatKullanici { get; set; }
         public Int16 EFatSenaryo { get; set; }
+        public string EFatKullanici1 { get; set; }
+        public string EFatSenaryo1 { get; set; }
         public string EFatEtiket { get; set; }
         public string Ad { get; set; }
         public string SoyAd { get; set; }
