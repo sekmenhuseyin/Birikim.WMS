@@ -34,15 +34,7 @@ namespace Wms12m
             return Regex.IsMatch(emailaddress, @"^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$");
         }
 
-        public void Dispose()
-        {
-            if (smtp != null)
-                smtp.Dispose();
-            if (message != null)
-                message.Dispose();
-        }
-
-        public Result Gonder(string kime, string cc, string gorunenIsim, string konu, string mesaj, List<string> dosyaList)
+        public Result Gonder(string kime, string cc, string gorunenIsim, string konu, string mesaj, List<string> dosyaList, string UserName, string IP)
         {
             string smtpEmail, smtpPass, smtpHost; int smtpPort; bool smtpSSL;
             using (WMSEntities db = new WMSEntities())
@@ -109,10 +101,22 @@ namespace Wms12m
             {
                 smtp.Send(message);
                 MailGonderimBasarili = true;
+                using (WMSEntities db = new WMSEntities())
+                    db.LogActions("WMS", "Business", "MyMail", "Gonder", (int)ComboItems.alMailGönder, 0, kime + ";" + cc, konu + ": " + mesaj, UserName, IP);
                 return new Result(true);
             }
             catch (Exception ex)
             {
+                //log
+                var inner = "";
+                if (ex.InnerException != null)
+                {
+                    inner = ex.InnerException == null ? "" : ex.InnerException.Message;
+                    if (ex.InnerException.InnerException != null) inner += ": " + ex.InnerException.InnerException.Message;
+                }
+                using (WMSEntities db = new WMSEntities())
+                    db.Logger(UserName, "", IP, ex.Message, inner, "Business/MyMail/Gonder");
+                //return
                 MailGonderimBasarili = false;
                 return new Result(false, ex.Message);
             }
@@ -124,6 +128,14 @@ namespace Wms12m
             message.Dispose();
             smtp = null;
             message = null;
+        }
+
+        public void Dispose()
+        {
+            if (smtp != null)
+                smtp.Dispose();
+            if (message != null)
+                message.Dispose();
         }
     }
 }

@@ -1,6 +1,109 @@
-﻿@{
+﻿@model  List<RaporGrupKod>
+@{
     ViewBag.Title = "Hedef Raporu";
-    RaporGrupKod RaporGrupKod = ViewData["RaporGrupKod"] as RaporGrupKod;
+    string RaporGrupKod = Convert.ToString(ViewData["RaporGrupKod"]);
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><span>Raporlar</span><i class="fa fa-circle"></i></li><li><span>Hedef Raporu</span></li></ul></div>
+<h1 class="page-title">Hedef Raporu</h1>
+<div class="row m-t-20">
+    <div class="col-md-6">
+        <div class="row">
+            <div class="col-md-2 text-right color-blue-light bold">Vade Yıl</div>
+            <div class="col-md-4"><div class="yil-select"></div></div>
+        </div>
+        <div class="row">
+            <div class="col-md-2 text-right color-blue-light bold">Vade Ay</div>
+            <div class="col-md-4"><div class="ay-select"></div></div>
+        </div>
+        @*<div class="row">
+            <div class="col-md-2 text-right color-blue-light bold">Ara</div>
+            <div class="col-md-4"><input class="form-control" type="text" id="txtAra" /></div>
+        </div>*@
+        @*<div class="row">
+                <div class="col-md-2 text-right color-blue-light bold">Bölge</div>
+                <div class="col-md-4"><div class="grup-bas-Bolge"></div></div>
+            </div>
+            <div class="row">
+                <div class="col-md-2 text-right color-blue-light bold">Temsilci</div>
+                <div class="col-md-4"><div class="grup-bas-Temsilci"></div></div>
+            </div>*@
+    </div>
+</div>
+<div class="row m-t-20">
+    <div class="col-md-2"><button id="btnListele" class="btn btn-block green">Listele<i class="fa fa-check"></i></button></div>
+</div>
+<div class="row m-t-20" id="hedef-raporu-grid"></div>
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            var Ay, Yil;
+            var aylar = [
+                { id: 1, Ay: "Ocak" },
+                { id: 2, Ay: "Şubat" },
+                { id: 3, Ay: "Mart" },
+                { id: 4, Ay: "Nisan" },
+                { id: 5, Ay: "Mayıs" },
+                { id: 6, Ay: "Haziran" },
+                { id: 7, Ay: "Temmuz" },
+                { id: 8, Ay: "Ağustos" },
+                { id: 9, Ay: "Eylül" },
+                { id: 10, Ay: "Ekim" },
+                { id: 11, Ay: "Kasım" },
+                { id: 12, Ay: "Aralik" }
+            ];
+            var yillar = [
+                { Yil: 2016 },
+                { Yil: 2017 },
+                { Yil: 2018 },
+            ];
 
+            $(".ay-select").dxSelectBox({
+                dataSource: aylar,
+                valueExpr: 'id',
+                displayExpr: 'Ay',
+                searchEnabled: false,
+                onValueChanged: function (e) {
+                    Ay = e.value;
+                }
+            });
+            $(".yil-select").dxSelectBox({
+                dataSource: yillar,
+                valueExpr: 'Yil',
+                displayExpr: 'Yil',
+                searchEnabled: false,
+                onValueChanged: function (e) {
+                    Yil = e.value;
+                }
+            });
+            $("#btnListele").click(function () { PartialView("/Reports/Financial/TargetList", 'hedef-raporu-grid', JSON.stringify({ Ay: Ay, Yil: Yil })); });
+        })
+
+        @*$(".grup-bas-Bolge").dxSelectBox({
+            dataSource: @Html.Raw(RaporGrupKod),
+            valueExpr: 'GrupKod',
+            displayExpr: 'GrupKod',
+            onValueChanged: function (e) {
+                grupKod1 = e.value;
+
+                $.ajax({
+                    url: window.location.origin + "/Reports/Financial/TargetTemsilciList?GrupKod=" + grupKod1,
+                    data: { grupKod1},
+                    type: "post",
+                    success: function (data) {
+                        var result = JSON.parse(data);
+                        $(".grup-bas-Temsilci").dxLookup("instance").option("dataSource", result);
+                    }
+                });
+            }
+        });
+        $(".grup-bas-Temsilci").dxLookup({
+            searchEnabled: true,
+            pageLoadMode: "nextButton",
+            searchExpr: ["GrupKod", "TipKod"],
+            displayExpr: 'TipKod',
+            onValueChanged: function (e) {
+            }
+        });*@
+    </script>
+}

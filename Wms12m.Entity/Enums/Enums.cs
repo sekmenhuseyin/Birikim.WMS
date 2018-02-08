@@ -84,7 +84,7 @@
         alEkle = 55,
         alDüzenle = 56,
         alSil = 57,
-        alZiyaret = 58,
+        alMailGönder = 58,
         alİndir = 59,
         alYükle = 60,
         alOnayla = 61,
