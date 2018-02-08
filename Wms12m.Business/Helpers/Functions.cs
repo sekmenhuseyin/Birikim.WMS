@@ -92,12 +92,6 @@ namespace Wms12m
         }
 
         /// <summary>
-        /// iiif in c#
-        /// </summary>
-        public object iif(bool expression, object truePart, object falsePart)
-        { return expression ? truePart : falsePart; }
-
-        /// <summary>
         /// isBoolean
         /// </summary>
         public bool isBoolean(bool str)

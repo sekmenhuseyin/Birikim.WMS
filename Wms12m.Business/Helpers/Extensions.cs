@@ -13,24 +13,6 @@ namespace Wms12m
     public static class Extensions
     {
         /// <summary>
-        /// BoyutHesapla
-        /// </summary>
-        public static string BoyutHesapla(this int value)
-        {
-            string[] sizes = { "B", "KB", "MB", "GB", "TB" };
-            var len = value.ToDouble();
-            var order = 0;
-            while (len >= 1024 && order < sizes.Length - 1)
-            {
-                order++;
-                len = len / 1024;
-            }
-            // Adjust the format string to your preferences. For example "{0:0.#}{1}" would
-            // show a single decimal place, and no space.
-            return string.Format("{0:0} {1}", len, sizes[order]);
-        }
-
-        /// <summary>
         /// clean html codes
         /// </summary>
         public static string CleanHtmlCodes(this string s)
@@ -160,18 +142,22 @@ namespace Wms12m
         /// <summary>
         /// Nicely formatted file size. This method will return file size with bytes, KB, MB and GB in it. You can use this alongside the Extension method named FileSize.
         /// </summary>
-        public static string FormatFileSize(this long fileSize)
+        public static string FormatFileSize(this int fileSize)
         {
-            string[] suffix = { "bytes", "KB", "MB", "GB" };
-            long j = 0;
+            //declarations
+            string[] suffix = { "B", "KB", "MB", "GB", "TB" };
+            var j = 0;
 
-            while (fileSize > 1024 && j < 4)
+            //loop and divide
+            while (fileSize > 1024 && j < (suffix.Length - 1))
             {
                 fileSize = fileSize / 1024;
                 j++;
             }
 
-            return (fileSize + " " + suffix[j]);
+            // Adjust the format string to your preferences. For example "{0:0.#}{1}" would
+            // show a single decimal place, and no space.
+            return string.Format("{0:0} {1}", fileSize, suffix[j]);
         }
 
         /// <summary>
@@ -244,17 +230,6 @@ namespace Wms12m
             {
                 return t;
             }
-        }
-
-        /// <summary>
-        /// ? operatöründe kullanılan karşılaştırmayı yapar.
-        /// İlk parametre hangi değerle karşılaştırıldığını gösterir.
-        /// Eğer sonuc true ise ikinci parametre değilse üçüncü parametre döner.
-        /// </summary>
-        public static string IfElse(this object Deger, object EsitKosulu, string Esitse, string Degilse)
-        {
-            if (Deger.Equals(EsitKosulu)) return Esitse;
-            else return Degilse;
         }
 
         /// <summary>
@@ -402,7 +377,7 @@ namespace Wms12m
         /// <summary>
         /// Removes first n chars from a string
         /// </summary>
-        public static string RemoveFirstCharacter(this string instr, int number = 1)
+        public static string RemoveFromStart(this string instr, int number = 1)
         {
             return instr.Substring(number);
         }
@@ -410,7 +385,7 @@ namespace Wms12m
         /// <summary>
         /// Removes last n chars from a string
         /// </summary>
-        public static string RemoveLastCharacter(this string instr, int number = 1)
+        public static string RemoveFromEnd(this string instr, int number = 1)
         {
             return instr.Substring(0, instr.Length - number);
         }

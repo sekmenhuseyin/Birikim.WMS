@@ -108,7 +108,7 @@ namespace Wms12m
         public string EvrakNoArttir(string evrakNo, string seri)
         {
             if (evrakNo == null || evrakNo == "") evrakNo = seri + "000000";
-            var sonemirNo = evrakNo.RemoveFirstCharacter(2).ToInt32();
+            var sonemirNo = evrakNo.RemoveFromStart(2).ToInt32();
             evrakNo = seri + ("000000" + (sonemirNo + 1)).Right(6);
             return evrakNo;
         }
