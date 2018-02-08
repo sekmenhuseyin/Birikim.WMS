@@ -380,7 +380,6 @@
     <Content Include="Content\Scripts\Operation.min.js">
       <DependentUpon>Operation.js</DependentUpon>
     </Content>
-    <Content Include="Content\Site.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="robots.txt" />
