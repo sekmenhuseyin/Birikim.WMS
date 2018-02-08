@@ -2,6 +2,26 @@
 numeral.locale('tr');
 numeral.defaultFormat('0,0.00');
 moment.locale('tr');
+//ay ve yıl
+var aylar = [
+    { id: 1, ay: "Ocak" },
+    { id: 2, ay: "Şubat" },
+    { id: 3, ay: "Mart" },
+    { id: 4, ay: "Nisan" },
+    { id: 5, ay: "Mayıs" },
+    { id: 6, ay: "Haziran" },
+    { id: 7, ay: "Temmuz" },
+    { id: 8, ay: "Ağustos" },
+    { id: 9, ay: "Eylül" },
+    { id: 10, ay: "Ekim" },
+    { id: 11, ay: "Kasım" },
+    { id: 12, ay: "Aralik" }
+];
+var yillar = [
+    { yil: 2016 },
+    { yil: 2017 },
+    { yil: 2018 },
+];
 // Stringe karakter eklemek için
 String.prototype.addAt = function (index, character)
 {
