@@ -859,6 +859,7 @@ namespace Wms12m.Entity
         public Nullable<DateTime> TeklifBitTarih { get; set; }
         public Nullable<short> Vade { get; set; }
         public string TeslimYeri { get; set; }
+        public string TLPKaydeden { get; set; }
 
         public string DurumStr
         {

@@ -533,9 +533,9 @@ WHERE ID={4} AND Durum=11 AND SipTalepNo IS NOT NULL";
             (SELECT MalAdi FROM FINSAT6{0}.FINSAT6{0}.STK (NOLOCK) WHERE MalKodu = ST.MalKodu) AS MalAdi, ST.Birim,
             ST.BirimFiyat, ST.TeklifMiktar, ST.Durum,
             ST.DvzTL, ST.DvzCinsi, ST.TerminSure,
-            ST.MinSipMiktar,
-            CONVERT(DATETIME,ST.TeklifBasTarih) AS TeklifBasTarih,
-			CONVERT(DATETIME,ST.TeklifBitTarih) AS TeklifBitTarih,
+            ST.MinSipMiktar, 
+            CONVERT(DATETIME,ST.TeklifBasTarih) AS TeklifBasTarih, 
+			CONVERT(DATETIME,ST.TeklifBitTarih) AS TeklifBitTarih, 
             ST.OneriDurum,
             ST.Vade, ST.TeslimYeri,
             ST.Aciklama, ST.Aciklama2, ST.Aciklama3,ST.TeklifAciklamasi, ST.Satinalmaci,
@@ -548,11 +548,14 @@ WHERE ID={4} AND Durum=11 AND SipTalepNo IS NOT NULL";
             ST.Degistiren, ST.DegisTarih,
 
             ISNULL((select TOP(1)Tp.TesisKodu FROM KAYNAK.sta.Talep as Tp (nolock) where Tp.TalepNo = St.KynkTalepNo),'') AS TesisKodu,
+            ISNULL((select TOP(1) (select MMK.HesapAd from MUHASEBE6{0}.MUHASEBE6{0}.MMK (nolock) WHERE MMK.HesapKod=Tp.TesisKodu) 
+            FROM KAYNAK.sta.Talep (nolock) Tp where Tp.TalepNo = St.KynkTalepNo),'') AS TesisAdi,
 
             STK.MalAdi, CHK.Unvan1 as Unvan,
             ISNULL(AT.AcikTalepMiktar,0) as AcikTalepMiktar,
             CASE WHEN ST.DvzCinsi='JPY' then DVZ.Kur01/100 else DVZ.Kur01 end as DvzKuru,
-            (select TOP(1)Tp.Kaydeden FROM KAYNAK.sta.Talep as Tp (nolock) where Tp.TalepNo = St.KynkTalepNo) AS TLPKaydeden
+            (select TOP(1)Tp.Kaydeden FROM KAYNAK.sta.Talep as Tp (nolock) where Tp.TalepNo = St.KynkTalepNo) AS TLPKaydeden,
+            ST.TeklifMiktar AS BirimMiktar
 
             FROM KAYNAK.sta.Teklif as ST (nolock)
             LEFT JOIN FINSAT6{0}.FINSAT6{0}.STK (nolock) on STK.MalKodu=ST.MalKodu
@@ -560,13 +563,13 @@ WHERE ID={4} AND Durum=11 AND SipTalepNo IS NOT NULL";
             LEFT JOIN
             (
 	            SELECT MalKodu, SUM(BirimMiktar) as AcikTalepMiktar FROM KAYNAK.sta.Talep (nolock)
-	            WHERE
-	            --Durum NOT IN ({1}) AND
+	            WHERE 
+	            --Durum NOT IN ({1}) AND 
 	            Durum < 15
 	            GROUP BY MalKodu
             ) as AT on AT.MalKodu=ST.MalKodu
             LEFT JOIN SOLAR6.dbo.DVZ (nolock) on DVZ.DovizCinsi=ST.DvzCinsi AND DVZ.Tarih=CAST( DATEADD(dd, 0, DATEDIFF(dd, 0, GETDATE()))+2 AS INT)
-            WHERE
+            WHERE 
             ST.KynkTalepNo='{1}' AND ST.Durum=2", vUser.SirketKodu, TalepNo)).ToList();
 
             var json = new JavaScriptSerializer().Serialize(MyGlobalVariables.GridTedarikciSource);
