@@ -332,7 +332,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                         MailBasariMesajı = "Sipariş Onay Maili başarılı bir şekilde gönderildi!"
                     })
                     {
-                        m.Gonder(kime, mailayar.MailCc, gorunenIsim, konu, icerik, attachList);
+                        m.Gonder(kime, mailayar.MailCc, gorunenIsim, konu, icerik, attachList, vUser.UserName, fn.GetIPAddress());
                         if (m.MailGonderimBasarili)
                         {
                             db.Database.ExecuteSqlCommand(string.Format("UPDATE Kaynak.sta.Talep SET MailGonder=-1 WHERE TalepNo='{0}'", sipTalep.TalepNo));
