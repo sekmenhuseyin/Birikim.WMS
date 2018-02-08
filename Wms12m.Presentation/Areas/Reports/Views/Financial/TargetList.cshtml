@@ -17,7 +17,7 @@
                         <th>Bakiye</th>
                     </tr>
                 </thead>
-                <tfoot><tr><th colspan="15"></th></tr></tfoot>
+                <tfoot><tr><th colspan="4"></th></tr></tfoot>
                 <tfoot class="tf-search">
                     <tr>
                         <th></th>
@@ -49,17 +49,13 @@
             "pagingType": "full_numbers",
             "ordering": false,
             "footerCallback": function (row, data, start, end, display) {
-                var Borc = 0, Alacak = 0, Bakiye = 0;
+           
                 table.rows({ search: 'applied' }).data().each(function (val, index) {
-                    Borc   += jDecimal(val[1]);
-                    Alacak += jDecimal(val[2]);
-                    Bakiye += jDecimal(val[3]);
+       
                 });
                 var api = this.api(), data;
                 // Update footer
-                $(api.column(1).footer()).html(numeral(Borc).format());
-                $(api.column(2).footer()).html(numeral(Alacak).format());
-                $(api.column(3).footer()).html(numeral(Bakiye).format());
+      
             }
         });
         $('#sample_1 .tf-search th').each(function () {
