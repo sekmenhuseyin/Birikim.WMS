@@ -1,6 +1,6 @@
 ﻿@model List<SatTalep>
 @{
-    ViewBag.Title = "Teklif GMY Tedarikçi Onay";
+    ViewBag.Title = "GMY Tedarikçi Onay";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }@section Styles{<link href="~/Content/assets/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css" rel="stylesheet" type="text/css" />
     <link href="~/Content/assets/global/plugins/jQuery-contextMenu/dist/jquery.contextMenu.min.css" rel="stylesheet" />
@@ -48,7 +48,7 @@
     </style>
 }
 <div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><span>Onaylama</span><i class="fa fa-circle"></i></li><li><span>GMY Tedarikçi Onay</span></li></ul></div>
-<h1 class="page-title">Teklif GMY Tedarikçi Onay</h1>
+<h1 class="page-title">GMY Tedarikçi Onay</h1>
 <div class="row">
     <div>
         <div class="col-xs-6 col-sm-6" style="padding:0 2px 0 5px">
@@ -115,14 +115,28 @@
 
     });
 
-    $('.onayla-buton').click(function () {
-        var secimKontrol = $(".select_onay").dxLookup("instance").option("value");
-        if (secimKontrol == null) {
-            Modaldialog("Teklif Seçiniz!!", "Hata", "Tamam", "btn-danger");
-            return;
-        }
-
-    });
+        $('.onayla-buton').click(function () {
+            var secimKontrol = $(".select_onay").dxLookup("instance").option("value");
+            if (secimKontrol == null) {
+                Modaldialog("Talep Seçiniz!!", "Hata", "Tamam", "btn-danger");
+                return;
+            }
+            $.ajax({
+                url: window.location.origin + "/Approvals/Purchase/GMYTedarikciOnayla",
+                data: {},
+                type: "post",
+                success: function (data) {
+                    if (data.Status == true) {
+                        Modaldialog(data.Message, "Onay İşlemi", "Tamam", "btn-success");
+                        setTimeout(function () { window.location.reload(); }, 500);
+                    }
+                    else {
+                        if (data.Message == "") data.Message = "Hata oluştu";
+                        Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
+                    }
+                }
+            });
+        });
 
     $('.reddet-buton').click(function () {
         var aciklama = $(".txt_geri_cevirme_aciklamasi").dxTextBox("instance").option("value");

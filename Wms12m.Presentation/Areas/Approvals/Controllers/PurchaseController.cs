@@ -481,43 +481,7 @@ GROUP BY (CASE WHEN ST.Birim = STK.Birim1 THEN 1
             return PartialView("GMYTedarikciOnay_List");
         }
 
-        public JsonResult GMYTedarikciReddet(string redAciklama)
-        {
-            if (CheckPerm(Perms.SatinalmaOnaylama, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
-            var _Result = new Result(true, "İşlem Başarılı");
 
-            if (MyGlobalVariables.GridSource == null || MyGlobalVariables.GridSource.Count == 0 || MyGlobalVariables.SipEvrak == null)
-            {
-                _Result.Message = "Siparis Seçmelisiniz!";
-                _Result.Status = false;
-                return Json(_Result, JsonRequestBehavior.AllowGet);
-            }
-
-            var con = Connection.GetConnectionWithTrans();
-            try
-            {
-                foreach (var item in MyGlobalVariables.TalepSource)
-                {
-                    var sql = @"UPDATE Kaynak.sta.Talep
-SET GMOnaylayan='{0}', GMOnayTarih='{1}', Durum=13
-, Degistiren='{0}', DegisTarih='{1}', DegisSirKodu={3}, Aciklama2='{2}'
-WHERE ID={4} AND Durum=11 AND SipTalepNo IS NOT NULL";
-
-                    db.Database.ExecuteSqlCommand(string.Format(sql, vUser.UserName.ToString(), DateTime.Now.ToString("yyyy-dd-MM"), redAciklama, vUser.SirketKodu, item.ID));
-                }
-
-                con.Trans.Commit();
-            }
-            catch (Exception)
-            {
-                if (con.Trans != null) con.Trans.Rollback();
-                _Result.Message = "Geri Çevirme açıklamasını girmek zorundasınız!";
-                _Result.Status = false;
-            }
-
-            con.Dispose();
-            return Json(_Result, JsonRequestBehavior.AllowGet);
-        }
 
         public string GMYTedarikciOnayListData(string TalepNo)
         {
@@ -576,6 +540,87 @@ WHERE ID={4} AND Durum=11 AND SipTalepNo IS NOT NULL";
             return json;
         }
 
+        /// <summary>
+        /// gmy için teklif onaylama
+        /// </summary>
+        public JsonResult GMYTedarikciOnayla()
+        {
+            if (CheckPerm(Perms.SatinalmaGMYTedarikciOnaylama, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
+            var _Result = new Result(true, "İşlem Başarılı");
+            if (MyGlobalVariables.GridTedarikciSource.Where(x => x.OneriDurum).Count() == 0)
+            {
+                _Result.Message = "Satınalmacı tarafından öneri yapılmamış. İşlem devam edemez!!";
+                _Result.Status = false;
+                return Json(_Result, JsonRequestBehavior.AllowGet);
+            }
+
+            var con = Connection.GetConnectionWithTrans();
+
+            try
+            {
+                foreach (var item in MyGlobalVariables.GridTedarikciSource)
+                {
+                    var sql = string.Format(@"UPDATE Kaynak.sta.Teklif SET
+	                        Durum=4, Aciklama2='{0}', Degistiren='{1}', DegisTarih=GETDATE(), DegisSirKodu='{3}',
+                            Kademe2Onaylayan='{1}', Kademe2OnayTarih=GETDATE()
+	                        WHERE ID={2} AND Durum=2",  item.Aciklama2, vUser.UserName.ToString(), item.ID, vUser.SirketKodu);
+
+                    db.Database.ExecuteSqlCommand(sql);
+                }
+                con.Trans.Commit();
+            }
+            catch (Exception)
+            {
+                if (con.Trans != null) con.Trans.Rollback();
+                _Result.Message = "İşlem Sırasında Hata Oluştu.";
+                _Result.Status = false;
+            }
+
+            con.Dispose();
+            return Json(_Result, JsonRequestBehavior.AllowGet);
+
+        }
+
+        /// <summary>
+        /// gmy için teklif reddetme
+        /// </summary>
+        public JsonResult GMYTedarikciReddet(string redAciklama)
+        {
+            if (CheckPerm(Perms.SatinalmaGMYTedarikciOnaylama, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
+            var _Result = new Result(true, "İşlem Başarılı");
+
+            if (MyGlobalVariables.GridTedarikciSource.Where(x => x.OneriDurum).Count() == 0)
+            {
+                _Result.Message = "Satınalmacı tarafından öneri yapılmamış. İşlem devam edemez!!";
+                _Result.Status = false;
+                return Json(_Result, JsonRequestBehavior.AllowGet);
+            }
+
+            var con = Connection.GetConnectionWithTrans();
+            try
+            {
+                foreach (var item in MyGlobalVariables.TalepSource)
+                {
+                    var sql = string.Format(@"UPDATE Kaynak.sta.Teklif SET
+                                            Durum=3, Aciklama2='{0}', Degistiren='{1}', DegisTarih=GETDATE(), DegisSirKodu='{3}',
+                                            Kademe2Onaylayan='{1}', Kademe2OnayTarih=GETDATE()
+                                            WHERE ID={2} AND Durum=2", redAciklama, vUser.UserName.ToString(), item.ID, vUser.SirketKodu);
+
+                    db.Database.ExecuteSqlCommand(sql);
+                }
+
+                con.Trans.Commit();
+            }
+            catch (Exception)
+            {
+                if (con.Trans != null) con.Trans.Rollback();
+                _Result.Message = "Geri Çevirme açıklamasını girmek zorundasınız!";
+                _Result.Status = false;
+            }
+
+            con.Dispose();
+            return Json(_Result, JsonRequestBehavior.AllowGet);
+        }
         #endregion GMY Tedarikçi Onay
     }
 }
