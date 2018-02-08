@@ -292,5 +292,15 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
         }
 
         #endregion
+        public ActionResult Target()
+        {
+            if (CheckPerm(Perms.Raporlar, PermTypes.Reading) == false) { return Redirect("/"); }
+            var RaporGrupKod = db.Database.SqlQuery<RaporGrupKod>(string.Format(@"
+                SELECT DISTINCT Grupkod AS Bölge FROM [FINSAT6{0}].[FINSAT6{0}].CHK(NOLOCK) 
+                WHERE KartTip IN(0, 4) AND (HesapKodu BETWEEN '1' AND '8') AND Grupkod <> ' ' ORDER BY Grupkod
+                ", vUser.SirketKodu)).ToList();
+            ViewData["RaporGrupKod"] = RaporGrupKod;
+            return View();
+        }
     }
 }

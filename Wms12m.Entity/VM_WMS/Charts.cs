@@ -111,6 +111,10 @@ namespace Wms12m.Entity
         public string HesapKodu { get; set; }
         public string Unvan { get; set; }
     }
+    public class RaporGrupKod
+    {
+        public string GrupKod { get; set; }
+    }
     public class RaporTaoSelect
     {
         public string HesapKodu { get; set; }
