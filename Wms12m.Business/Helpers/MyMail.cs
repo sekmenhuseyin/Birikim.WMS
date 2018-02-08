@@ -113,6 +113,16 @@ namespace Wms12m
             }
             catch (Exception ex)
             {
+                //log
+                var inner = "";
+                if (ex.InnerException != null)
+                {
+                    inner = ex.InnerException == null ? "" : ex.InnerException.Message;
+                    if (ex.InnerException.InnerException != null) inner += ": " + ex.InnerException.InnerException.Message;
+                }
+                using (WMSEntities db = new WMSEntities())
+                    db.Logger("", "", "", ex.Message, inner, "MyMail");
+                //return
                 MailGonderimBasarili = false;
                 return new Result(false, ex.Message);
             }
