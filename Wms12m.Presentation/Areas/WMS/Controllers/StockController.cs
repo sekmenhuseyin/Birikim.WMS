@@ -336,6 +336,15 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                     cevap = Yerlestirme.Insert(new Yer() { KatID = tbl.KatID, MalKodu = ilk.MalKodu, Birim = ilk.Birim, Miktar = 0 }, vUser.Id, "Yer Değiştir");
                     yertmp = new Yer() { ID = cevap.Id };
                 }
+                else
+                {
+                    var tmpYerLog = db.Yer_Log.Where(m => m.KatID == tbl.KatID && m.MalKodu == tbl.MalKodu && m.Birim == tbl.Birim).FirstOrDefault();
+                    if (tmpYerLog == null)
+                    {
+                        db.Yer_Log.Add(new Yer_Log() { KatID = tbl.KatID, MalKodu = tbl.MalKodu, Birim = tbl.Birim, GC = false, Miktar = 0, Kaydeden = vUser.UserName, KayitTarihi = today, KayitSaati = time });
+                        db.SaveChanges();
+                    }
+                }
 
                 cevap = TaskYer.Operation(new GorevYer() { GorevID = cevapGir.GorevID.Value, YerID = yertmp.ID, MalKodu = ilk.MalKodu, Birim = ilk.Birim, Miktar = tbl.Miktar, GC = false });
                 // irs detay
