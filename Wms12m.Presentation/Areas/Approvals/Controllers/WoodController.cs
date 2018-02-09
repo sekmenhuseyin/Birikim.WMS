@@ -22,6 +22,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             var json = new JavaScriptSerializer().Serialize(RT);
             return json;
         }
+
         public JsonResult Onay(string Data)
         {
             var _Result = new Result(true);
@@ -58,6 +59,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
+
         public JsonResult Red(string Data)
         {
             var _Result = new Result(true);
@@ -86,8 +88,8 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
         public ActionResult TahsisliAlim()
         {
-            var sorgu = string.Format(@"SELECT HesapKodu, (Unvan1+' '+Unvan2) AS Unvan 
-											FROM FINSAT6{0}.FINSAT6{0}.CHK(NOLOCK) 
+            var sorgu = string.Format(@"SELECT HesapKodu, (Unvan1+' '+Unvan2) AS Unvan
+											FROM FINSAT6{0}.FINSAT6{0}.CHK(NOLOCK)
 											WHERE HesapKodu Like '320%'", vUser.SirketKodu);
             var slctIsletme = db.Database.SqlQuery<CHKSelect1Result>(sorgu).ToList();
 
@@ -101,6 +103,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             ViewBag.Isletme = new SelectList(slctIsletme, "HesapKodu", "Unvan");
             return View();
         }
+
         public PartialViewResult TahsisliAlim_List(string Hafta, string Isletme)
         {
             ViewBag.Hafta = Isletme;
@@ -111,6 +114,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             ViewBag.Path = link;
             return PartialView();
         }
+
         public string TahsisliAlimCek(string Hafta, string Isletme)
         {
             string s;
@@ -132,7 +136,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
         public PartialViewResult TahsisliIsletmeKasasi_List(string EvrakNo, string HesapKodu)
         {
-            var sql = string.Format(@"SELECT DISTINCT FINSAT6{0}.FINSAT6{0}.CHI.HesapKodu, FINSAT6{0}.FINSAT6{0}.CHK.Unvan1 AS Unvan, FINSAT6{0}.FINSAT6{0}.CHI.EvrakNo, FINSAT6{0}.FINSAT6{0}.CHI.EvrakNo2, CAST(FINSAT6{0}.FINSAT6{0}.CHI.Tarih - 2 AS smalldatetime) 
+            var sql = string.Format(@"SELECT DISTINCT FINSAT6{0}.FINSAT6{0}.CHI.HesapKodu, FINSAT6{0}.FINSAT6{0}.CHK.Unvan1 AS Unvan, FINSAT6{0}.FINSAT6{0}.CHI.EvrakNo, FINSAT6{0}.FINSAT6{0}.CHI.EvrakNo2, CAST(FINSAT6{0}.FINSAT6{0}.CHI.Tarih - 2 AS smalldatetime)
 															 AS Tarih, FINSAT6{0}.FINSAT6{0}.CHI.Kod13, FINSAT6{0}.FINSAT6{0}.CHI.Kod14,
 																 (SELECT        ISNULL(SUM(FINSAT6{0}.FINSAT6{0}.STI.BirimMiktar), 0) AS Expr1
 																   FROM            FINSAT6{0}.FINSAT6{0}.STI INNER JOIN
@@ -153,15 +157,16 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
 									FROM            FINSAT6{0}.FINSAT6{0}.CHI WITH (nolock) LEFT OUTER JOIN
 															 FINSAT6{0}.FINSAT6{0}.CHK WITH (nolock) ON FINSAT6{0}.FINSAT6{0}.CHK.HesapKodu = FINSAT6{0}.FINSAT6{0}.CHI.HesapKodu
-									WHERE        (FINSAT6{0}.FINSAT6{0}.CHI.KynkEvrakTip = 4) AND (FINSAT6{0}.FINSAT6{0}.CHI.Kod13 > 0) AND (FINSAT6{0}.FINSAT6{0}.CHI.Kod14 > 0) AND 
+									WHERE        (FINSAT6{0}.FINSAT6{0}.CHI.KynkEvrakTip = 4) AND (FINSAT6{0}.FINSAT6{0}.CHI.Kod13 > 0) AND (FINSAT6{0}.FINSAT6{0}.CHI.Kod14 > 0) AND
 									(FINSAT6{0}.FINSAT6{0}.CHI.EvrakNo2 = '{1}') AND  (FINSAT6{0}.FINSAT6{0}.CHI.HesapKodu = '{2}')", vUser.SirketKodu, EvrakNo, HesapKodu);
             var RT = db.Database.SqlQuery<MyChi>(sql).ToList();
 
             return PartialView(RT);
         }
+
         public string KasaEvrakCek()
         {
-            var RT = db.Database.SqlQuery<TahsisliIsletmeKasa>(string.Format(@"SELECT IHL.EvrakNo, IHL.OrmIslt, CHK.Unvan1 as OrmIsltUnvan, IHL.Yil, IHL.Hafta 
+            var RT = db.Database.SqlQuery<TahsisliIsletmeKasa>(string.Format(@"SELECT IHL.EvrakNo, IHL.OrmIslt, CHK.Unvan1 as OrmIsltUnvan, IHL.Yil, IHL.Hafta
 																		, IHL.TahTopMektupTutar, IHL.TahPesinat
 																		, IHL.IbreliMiktarSter, IHL.IbreliMiktarM3
 																		, IHL.YaprakliMiktarSter, IHL.YaprakliMiktarM3
@@ -173,23 +178,24 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             var json = new JavaScriptSerializer().Serialize(RT);
             return json;
         }
+
         public string KasaEvrakCekEvrakNoIle(string EvrakNo, string HesapKodu)
         {
             var RT = db.Database.SqlQuery<MyChi>(string.Format(@"SELECT DISTINCT CHI.HesapKodu, CHK.Unvan1 as Unvan, CHI.EvrakNo, CHI.EvrakNo2
-																, CAST(CHI.Tarih-2 as smalldatetime) as Tarih, CHI.Kod13, CHI.Kod14 
+																, CAST(CHI.Tarih-2 as smalldatetime) as Tarih, CHI.Kod13, CHI.Kod14
 
 																FROM FINSAT6{0}.FINSAT6{0}.CHI (nolock)
 																LEFT JOIN FINSAT6{0}.FINSAT6{0}.CHK (nolock) ON CHK.HesapKodu=CHI.HesapKodu
-																WHERE CHI.KynkEvrakTip=4 AND CHI.Kod13>0 AND CHI.Kod14>0 
+																WHERE CHI.KynkEvrakTip=4 AND CHI.Kod13>0 AND CHI.Kod14>0
 																AND CHI.EvrakNo2='{1}' AND CHI.HesapKodu='{2}' ", vUser.SirketKodu, EvrakNo, HesapKodu)).ToList();
 
-            var RT1 = db.Database.SqlQuery<MySti>(string.Format(@"SELECT STI.EvrakNo, STI.Tarih, STI.Chk, STI.MalKodu, STK.MalAdi, STI.BirimMiktar, STI.Birim 
+            var RT1 = db.Database.SqlQuery<MySti>(string.Format(@"SELECT STI.EvrakNo, STI.Tarih, STI.Chk, STI.MalKodu, STK.MalAdi, STI.BirimMiktar, STI.Birim
 																  FROM FINSAT6{0}.FINSAT6{0}.STI (nolock)
 																INNER JOIN FINSAT6{0}.FINSAT6{0}.STK (nolock) ON STK.MalKodu=STI.MalKodu
-																WHERE STI.KynkEvrakTip=4 AND STI.Chk='{2}' AND STI.EvrakNo IN  
+																WHERE STI.KynkEvrakTip=4 AND STI.Chk='{2}' AND STI.EvrakNo IN
 																(
-																	SELECT EvrakNo FROM FINSAT6{0}.FINSAT6{0}.CHI (nolock) 
-																	WHERE KynkEvrakTip=4 AND Kod13>0 AND Kod14>0 AND EvrakNo2='{1}' 
+																	SELECT EvrakNo FROM FINSAT6{0}.FINSAT6{0}.CHI (nolock)
+																	WHERE KynkEvrakTip=4 AND Kod13>0 AND Kod14>0 AND EvrakNo2='{1}'
 																	AND HesapKodu='{2}' AND BirimMiktar>0
 																 )", vUser.SirketKodu, EvrakNo, HesapKodu)).ToList();
 
@@ -210,6 +216,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             var json = new JavaScriptSerializer().Serialize(RT);
             return json;
         }
+
         public JsonResult IhaleliOnayla(string Data)
         {
             var _Result = new Result(true);
@@ -246,6 +253,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
+
         public JsonResult IhaleliRed(string Data)
         {
             var _Result = new Result(true);
@@ -273,8 +281,8 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
         public ActionResult IhaleAlim()
         {
-            var sorgu = string.Format(@"SELECT HesapKodu, (Unvan1+' '+Unvan2) AS Unvan 
-											FROM FINSAT6{0}.FINSAT6{0}.CHK(NOLOCK) 
+            var sorgu = string.Format(@"SELECT HesapKodu, (Unvan1+' '+Unvan2) AS Unvan
+											FROM FINSAT6{0}.FINSAT6{0}.CHK(NOLOCK)
 											WHERE HesapKodu Like '320%'", vUser.SirketKodu);
             var slctIsletme = db.Database.SqlQuery<CHKSelect1Result>(sorgu).ToList();
 
@@ -288,12 +296,14 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             ViewBag.Isletme = new SelectList(slctIsletme, "HesapKodu", "Unvan");
             return View();
         }
+
         public PartialViewResult IhaleAlim_List(string Hafta, string Isletme)
         {
             ViewBag.Hafta = Isletme;
             ViewBag.Isletme = Hafta;
             return PartialView();
         }
+
         public string IhaleAlimCek(string Hafta, string Isletme)
         {
             string s;
@@ -315,7 +325,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
         public PartialViewResult IhaleliIsletmeKasasi_List(string EvrakNo, string HesapKodu)
         {
-            var sql = string.Format(@"SELECT DISTINCT FINSAT6{0}.FINSAT6{0}.CHI.HesapKodu, FINSAT6{0}.FINSAT6{0}.CHK.Unvan1 AS Unvan, FINSAT6{0}.FINSAT6{0}.CHI.EvrakNo, FINSAT6{0}.FINSAT6{0}.CHI.EvrakNo2, CAST(FINSAT6{0}.FINSAT6{0}.CHI.Tarih - 2 AS smalldatetime) 
+            var sql = string.Format(@"SELECT DISTINCT FINSAT6{0}.FINSAT6{0}.CHI.HesapKodu, FINSAT6{0}.FINSAT6{0}.CHK.Unvan1 AS Unvan, FINSAT6{0}.FINSAT6{0}.CHI.EvrakNo, FINSAT6{0}.FINSAT6{0}.CHI.EvrakNo2, CAST(FINSAT6{0}.FINSAT6{0}.CHI.Tarih - 2 AS smalldatetime)
 															 AS Tarih, FINSAT6{0}.FINSAT6{0}.CHI.Kod13, FINSAT6{0}.FINSAT6{0}.CHI.Kod14,
 																 (SELECT        ISNULL(SUM(FINSAT6{0}.FINSAT6{0}.STI.BirimMiktar), 0) AS Expr1
 																   FROM            FINSAT6{0}.FINSAT6{0}.STI INNER JOIN
@@ -336,15 +346,16 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
 									FROM            FINSAT6{0}.FINSAT6{0}.CHI WITH (nolock) LEFT OUTER JOIN
 															 FINSAT6{0}.FINSAT6{0}.CHK WITH (nolock) ON FINSAT6{0}.FINSAT6{0}.CHK.HesapKodu = FINSAT6{0}.FINSAT6{0}.CHI.HesapKodu
-									WHERE        (FINSAT6{0}.FINSAT6{0}.CHI.KynkEvrakTip = 4) AND (FINSAT6{0}.FINSAT6{0}.CHI.Kod13 > 0) AND (FINSAT6{0}.FINSAT6{0}.CHI.Kod14 > 0) AND 
+									WHERE        (FINSAT6{0}.FINSAT6{0}.CHI.KynkEvrakTip = 4) AND (FINSAT6{0}.FINSAT6{0}.CHI.Kod13 > 0) AND (FINSAT6{0}.FINSAT6{0}.CHI.Kod14 > 0) AND
 									(FINSAT6{0}.FINSAT6{0}.CHI.EvrakNo2 = '{1}') AND  (FINSAT6{0}.FINSAT6{0}.CHI.HesapKodu = '{2}')", vUser.SirketKodu, EvrakNo, HesapKodu);
             var RT = db.Database.SqlQuery<MyChi>(sql).ToList();
 
             return PartialView(RT);
         }
+
         public string IhaleEvrakCek()
         {
-            var RT = db.Database.SqlQuery<TahsisliIsletmeKasa>(string.Format(@"SELECT DISTINCT IHL.EvrakNo, IHL.OrmIslt, CHK.Unvan1 as OrmIsltUnvan, IHL.Yil, IHL.Hafta 
+            var RT = db.Database.SqlQuery<TahsisliIsletmeKasa>(string.Format(@"SELECT DISTINCT IHL.EvrakNo, IHL.OrmIslt, CHK.Unvan1 as OrmIsltUnvan, IHL.Yil, IHL.Hafta
 																				, IHL.TebVadeliTeminat, IHL.TebVadeliPesinat
 																				, IHL.TebKampTeminat, IHL.TebKampPesinat, IHL.TebPesinTutar
 																				, IHL.TebKrediKartOdeme, IHL.TebHavaleOdeme
@@ -367,6 +378,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             var json = new JavaScriptSerializer().Serialize(RT);
             return json;
         }
+
         public JsonResult NakliyeFiyatOnayla(string Data)
         {
             var _Result = new Result(true);
@@ -392,6 +404,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
+
         public JsonResult NakliyeFiyatRed(string Data)
         {
             var _Result = new Result(true);
@@ -437,7 +450,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         public string DisDepoStokCek(string MalKoduBas, string MalKoduBit)
         {
             var sql = string.Format(@"SELECT DST.Depo, DEP.DepoAdi, DST.MalKodu, STK.MalAdi, STK.Birim1 as Birim
-																, DST.DvrMiktar, DST.GirMiktar, DST.CikMiktar 
+																, DST.DvrMiktar, DST.GirMiktar, DST.CikMiktar
 
 																, ISNULL(A.DevirMiktar,0) as STIDvrMiktar, ISNULL(A.GirisMiktar,0) as STIGirMiktar, ISNULL(A.CikisMiktar,0) as STICikMiktar
 
@@ -448,19 +461,17 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 																LEFT JOIN
 																(
 																	SELECT Depo, MalKodu
-																	, SUM(CASE WHEN STI.IslemTur=0 AND STI.IslemTip=0 THEN STI.Miktar WHEN STI.IslemTur=1 AND STI.IslemTip=0 THEN -STI.Miktar ELSE 0 END) 
+																	, SUM(CASE WHEN STI.IslemTur=0 AND STI.IslemTip=0 THEN STI.Miktar WHEN STI.IslemTur=1 AND STI.IslemTip=0 THEN -STI.Miktar ELSE 0 END)
 																	as DevirMiktar
 																	, SUM(CASE WHEN STI.IslemTur=0 and STI.IslemTip  not in (0,18) AND STI.Irsfat not in (2,3) THEN STI.Miktar ELSE 0 END)
 																	as GirisMiktar
 																	, SUM(CASE WHEN STI.Islemtur=1 AND STI.Islemtip not in (0,18) AND STI.Irsfat not in (2,3)  THEN STI.Miktar ELSE 0 END)
 																	as CikisMiktar
 
- 
 																	FROM FINSAT6{0}.FINSAT6{0}.STI (nolock)
-																	WHERE Depo LIKE 'H%' 	
+																	WHERE Depo LIKE 'H%'
 																	GROUP BY Depo, MalKodu
 																) AS A ON A.Depo=DST.Depo AND A.MalKodu=DST.MalKodu
-
 
 																WHERE DST.Depo LIKE 'H%'", vUser.SirketKodu);
             if (!string.IsNullOrEmpty(MalKoduBas) || !string.IsNullOrEmpty(MalKoduBit))
@@ -478,6 +489,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             var json = new JavaScriptSerializer().Serialize(RT);
             return json;
         }
+
         public string MalKoduCek()
         {
             var RT = db.Database.SqlQuery<MyStk>(string.Format(@"SELECT MalKodu, MalAdi, Birim1, Birim2, Birim3 FROM FINSAT6{0}.FINSAT6{0}.STK (nolock)
@@ -517,7 +529,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             if (depoBazli == false && isletmeBazli == false)
             {
                 sorgu = string.Format(
-                    @"SELECT A.MalKodu, STK.MalAdi, STK.Birim1 as Birim, ISNULL(A.Fiyat,0) as BirimFiyat 
+                    @"SELECT A.MalKodu, STK.MalAdi, STK.Birim1 as Birim, ISNULL(A.Fiyat,0) as BirimFiyat
 										FROM FINSAT6{0}.FINSAT6{0}.STK (nolock)
 										INNER JOIN
 										(
@@ -546,7 +558,6 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                     list.Add(sti);
                 }
             }
-
             else
             {
                 var where = "";
@@ -567,7 +578,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 						SELECT Chk, Depo, MalKodu, Tutar, BirimMiktar
 						FROM FINSAT6{0}.FINSAT6{0}.STI (nolock)
 						WHERE STI.KynkEvrakTip=4 {2}
-						AND Depo LIKE 'H%' 
+						AND Depo LIKE 'H%'
 
 						union all
 
@@ -575,7 +586,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 						FROM FINSAT6{0}.FINSAT6{0}.STI (nolock)
 						INNER JOIN FINSAT6{0}.FINSAT6{0}.DEP (nolock) on DEP.Depo=STI.Depo
 						WHERE STI.KynkEvrakTip=58 AND STI.IslemTip=0
-						AND STI.Depo LIKE 'H%' {2} 
+						AND STI.Depo LIKE 'H%' {2}
 					) as B
 					{1}
 					GROUP BY Chk, Depo, MalKodu
@@ -700,7 +711,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
                 var sorgu = string.Format(
                                             @"SELECT STI.EvrakNo, (CASE STI.KynkEvrakTip WHEN 58 THEN STI.VadeTarih ELSE STI.Tarih END) as Tarih
-											, ISNULL(STI.CHK,'') AS CHK, ISNULL(CHK.Unvan1,'') as Unvan, STI.Birim, STI.BirimMiktar, STI.KynkEvrakTip 
+											, ISNULL(STI.CHK,'') AS CHK, ISNULL(CHK.Unvan1,'') as Unvan, STI.Birim, STI.BirimMiktar, STI.KynkEvrakTip
 											, (DST.DvrMiktar+DST.GirMiktar-DST.CikMiktar) as DepoStokMiktar, DST.Depo, DEP.DepoAdi
 											, STI.MalKodu, STK.MalAdi
 											FROM FINSAT6{0}.FINSAT6{0}.STI (nolock)
@@ -708,7 +719,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 											LEFT JOIN FINSAT6{0}.FINSAT6{0}.CHK (nolock) ON CHK.HesapKodu=STI.Chk
 											INNER JOIN FINSAT6{0}.FINSAT6{0}.STK (nolock) ON STK.MalKodu=STI.MalKodu
 											INNER JOIN FINSAT6{0}.FINSAT6{0}.DEP (nolock) ON DST.Depo=DEP.Depo
-											WHERE (STI.KynkEvrakTip=4 OR (STI.KynkEvrakTip=58 AND STI.IslemTip=0)) 
+											WHERE (STI.KynkEvrakTip=4 OR (STI.KynkEvrakTip=58 AND STI.IslemTip=0))
 											{1} {2} AND STI.BirimMiktar>0 AND DST.Depo LIKE 'H%'
 											AND (DST.DvrMiktar+DST.GirMiktar-DST.CikMiktar)>0
 											ORDER BY STI.MalKodu, STI.Tarih DESC", vUser.SirketKodu, deposql, malsql);

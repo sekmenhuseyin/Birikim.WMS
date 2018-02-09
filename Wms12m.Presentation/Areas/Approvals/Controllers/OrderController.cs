@@ -14,6 +14,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
     public class OrderController : RootController
     {
         #region genel sipariş
+
         /// <summary>
         /// SM sayfası
         /// </summary>
@@ -25,6 +26,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             ViewBag.baslik = "SM";
             return View("Index", kOD);
         }
+
         /// <summary>
         /// SPGMY sayfası
         /// </summary>
@@ -36,6 +38,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             ViewBag.baslik = "SPGMY";
             return View("Index", KOD);
         }
+
         /// <summary>
         /// GM sayfası
         /// </summary>
@@ -47,6 +50,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             ViewBag.baslik = "GM";
             return View("Index", KOD);
         }
+
         /// <summary>
         /// Onaylama
         /// </summary>
@@ -70,8 +74,11 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                 return Json(new Result(false, "Hata Oluştu."), JsonRequestBehavior.AllowGet);
             }
         }
-        #endregion
+
+        #endregion genel sipariş
+
         #region Tüm
+
         /// <summary>
         /// anasayfa
         /// </summary>
@@ -80,6 +87,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             if (CheckPerm(Perms.SiparişOnaylama, PermTypes.Reading) == false) return Redirect("/");
             return View("TumIndex");
         }
+
         /// <summary>
         /// liste
         /// </summary>
@@ -145,6 +153,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             }
             return json.Serialize(new List<SipOnay>());
         }
+
         /// <summary>
         /// onayla
         /// </summary>
@@ -230,6 +239,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             if (exx != null) Logger(exx, "TumOrder", logDetay);
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
+
         /// <summary>
         /// reddet
         /// </summary>
@@ -300,6 +310,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             }
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
-        #endregion
+
+        #endregion Tüm
     }
 }

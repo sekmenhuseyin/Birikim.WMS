@@ -13,21 +13,6 @@ using Wms12m.Entity;
 
 namespace Wms12m.Presentation.Areas.Approvals.Controllers
 {
-    public static class MyGlobalVariables
-    {
-        public static KKPEvrakSiparis SipEvrak { get; set; }
-        public static List<MMK> TesisList { get; set; }
-        public static List<SatTalep> SipTalepList { get; set; }
-        public static List<SatTalep> TalepSource { get; set; }
-        public static List<SatTalep> GMYTedarikciOnayList { get; set; }
-        public static List<SatTalep> GMYTedarikciOnayDetayList { get; set; }
-        public static List<KKP_SPI> GridSource { get; set; }
-        public static List<SatTalep> GridTedarikciSource { get; set; }
-        public static List<KKP_FTD> GridFTD { get; set; }
-        public static bool DovizDurum { get; set; }
-        public static string Birim { get; set; }
-        public static string Depo { get; set; }
-    }
 
     public class PurchaseController : RootController
     {
@@ -483,8 +468,6 @@ GROUP BY (CASE WHEN ST.Birim = STK.Birim1 THEN 1
             return PartialView("GMYTedarikciOnay_List");
         }
 
-
-
         public string GMYTedarikciOnayListData(string TalepNo)
         {
             if (CheckPerm(Perms.SatinalmaOnaylama, PermTypes.Reading) == false) return null;
@@ -565,7 +548,7 @@ GROUP BY (CASE WHEN ST.Birim = STK.Birim1 THEN 1
                     var sql = string.Format(@"UPDATE Kaynak.sta.Teklif SET
 	                        Durum=4, Aciklama2='{0}', Degistiren='{1}', DegisTarih=GETDATE(), DegisSirKodu='{3}',
                             Kademe2Onaylayan='{1}', Kademe2OnayTarih=GETDATE()
-	                        WHERE ID={2} AND Durum=2",  item.Aciklama2, vUser.UserName.ToString(), item.ID, vUser.SirketKodu);
+	                        WHERE ID={2} AND Durum=2", item.Aciklama2, vUser.UserName.ToString(), item.ID, vUser.SirketKodu);
 
                     db.Database.ExecuteSqlCommand(sql);
                 }
@@ -580,7 +563,6 @@ GROUP BY (CASE WHEN ST.Birim = STK.Birim1 THEN 1
 
             con.Dispose();
             return Json(_Result, JsonRequestBehavior.AllowGet);
-
         }
 
         /// <summary>
@@ -623,6 +605,7 @@ GROUP BY (CASE WHEN ST.Birim = STK.Birim1 THEN 1
             con.Dispose();
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
+
         #endregion GMY Tedarikçi Onay
     }
 }

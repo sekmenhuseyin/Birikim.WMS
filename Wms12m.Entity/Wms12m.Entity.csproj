@@ -375,6 +375,7 @@
       <DependentUpon>ModelKablo.tt</DependentUpon>
     </Compile>
     <Compile Include="VM_Finsat\EMG.cs" />
+    <Compile Include="VM_Finsat\MyGlobalVariables.cs" />
     <Compile Include="VM_WMS\Charts\BekleyenOnaylar.cs" />
     <Compile Include="VM_WMS\Charts\ChartAylikSatisAnalizi.cs" />
     <Compile Include="VM_WMS\Charts\ChartBaglantiUrunGrup.cs" />

@@ -17,6 +17,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             if (CheckPerm(Perms.TeminatOnay, PermTypes.Reading) == false) return Redirect("/");
             return View();
         }
+
         public string List()
         {
             if (CheckPerm(Perms.TeminatOnay, PermTypes.Reading) == false) return null;
@@ -54,6 +55,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
+
         public JsonResult Red(string Data)
         {
             var _Result = new Result(true);
@@ -83,12 +85,14 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
+
         public ActionResult Tanim()
         {
             if (CheckPerm(Perms.TeminatTanim, PermTypes.Reading) == false) return Redirect("/");
             var CHK = db.Database.SqlQuery<RaporCHKSelect>(string.Format("[FINSAT6{0}].[wms].[CHKSelect1]", vUser.SirketKodu)).ToList();
             return View(CHK);
         }
+
         public string Durbun()
         {
             var DRBN = db.Database.SqlQuery<RaporCHKSelect>(string.Format("[FINSAT6{0}].[wms].[TeminatDurbunSelect]", vUser.SirketKodu)).ToList();
@@ -152,7 +156,6 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                 if (sonuc.Status == true) return "OK";
                 else return "NO";
             }
-
             catch (Exception)
             {
                 return "NO";

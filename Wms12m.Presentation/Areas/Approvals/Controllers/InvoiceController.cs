@@ -16,6 +16,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             if (CheckPerm(Perms.FaturaOnaylama, PermTypes.Reading) == false) return null;
             return View();
         }
+
         /// <summary>
         /// lsiteyi getirir
         /// </summary>
@@ -30,6 +31,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
             return PartialView("List", FO);
         }
+
         /// <summary>
         /// detaylar
         /// </summary>
@@ -55,6 +57,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             ViewBag.EvrakNo = EvrakNo;
             return View(_FDD);
         }
+
         /// <summary>
         /// onaylama
         /// </summary>
@@ -80,6 +83,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                 return "NO";
             }
         }
+
         /// <summary>
         /// reddetme
         /// </summary>

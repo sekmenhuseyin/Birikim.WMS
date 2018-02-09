@@ -13,19 +13,20 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
     public class ContractController : RootController
     {
         #region GM
+
         public ActionResult GM()
         {
             if (CheckPerm(Perms.SözleşmeOnaylama, PermTypes.Reading) == false) return Redirect("/");
             return View();
         }
+
         public PartialViewResult GM_List()
         {
-
             return PartialView();
         }
+
         public string OnayCekGM()
         {
-
             List<SozlesmeOnaySelect> RT;
             try
             {
@@ -39,6 +40,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             var json = new JavaScriptSerializer().Serialize(RT);
             return json;
         }
+
         public JsonResult Onay_GM(string Data)
         {
             var _Result = new Result(true);
@@ -173,6 +175,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
+
         public JsonResult Red_GM(string Data)
         {
             var _Result = new Result(true);
@@ -196,28 +199,31 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
+
         [HttpPost]
         public PartialViewResult GM_Details(string ListeNo)
         {
-
             var list = db.Database.SqlQuery<BaglantiDetaySelect>(string.Format("[FINSAT6{0}].[wms].[BaglantiDetaySelect] '{1}'", vUser.SirketKodu, ListeNo)).ToList();
             return PartialView("Details", list);
         }
-        #endregion
+
+        #endregion GM
+
         #region SM
+
         public ActionResult SM()
         {
             if (CheckPerm(Perms.SözleşmeOnaylama, PermTypes.Reading) == false) return Redirect("/");
             return View();
         }
+
         public PartialViewResult SM_List()
         {
-
             return PartialView();
         }
+
         public string OnayCekSM()
         {
-
             List<SozlesmeOnaySelect> RT;
             try
             {
@@ -231,13 +237,14 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             var json = new JavaScriptSerializer().Serialize(RT);
             return json;
         }
+
         [HttpPost]
         public PartialViewResult SM_Details(string ListeNo)
         {
-
             var list = db.Database.SqlQuery<BaglantiDetaySelect>(string.Format("[FINSAT6{0}].[wms].[BaglantiDetaySelect] '{1}'", vUser.SirketKodu, ListeNo)).ToList();
             return PartialView("Details", list);
         }
+
         public JsonResult Onay_SM(string Data)
         {
             var _Result = new Result(true);
@@ -370,6 +377,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
+
         public JsonResult Red_SM(string Data)
         {
             var _Result = new Result(true);
@@ -393,21 +401,24 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
-        #endregion
+
+        #endregion SM
+
         #region SPGMY
+
         public ActionResult SPGMY()
         {
             if (CheckPerm(Perms.SözleşmeOnaylama, PermTypes.Reading) == false) return Redirect("/");
             return View();
         }
+
         public PartialViewResult SPGMY_List()
         {
-
             return PartialView();
         }
+
         public string OnayCekSPGMY()
         {
-
             List<SozlesmeOnaySelect> RT;
             try
             {
@@ -421,13 +432,14 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             var json = new JavaScriptSerializer().Serialize(RT);
             return json;
         }
+
         [HttpPost]
         public PartialViewResult SPGMY_Details(string ListeNo)
         {
-
             var list = db.Database.SqlQuery<BaglantiDetaySelect>(string.Format("[FINSAT6{0}].[wms].[BaglantiDetaySelect] '{1}'", vUser.SirketKodu, ListeNo)).ToList();
             return PartialView("Details", list);
         }
+
         public JsonResult Onay_SPGMY(string Data)
         {
             var _Result = new Result(true);
@@ -559,6 +571,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
+
         public JsonResult Red_SPGMY(string Data)
         {
             var _Result = new Result(true);
@@ -582,14 +595,18 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
-        #endregion
+
+        #endregion SPGMY
+
         #region Tanim
+
         public ActionResult Tanim()
         {
             if (CheckPerm(Perms.SözleşmeTanim, PermTypes.Reading) == false) return Redirect("/");
             ViewBag.SRNO = "SOZ " + db.Database.SqlQuery<int>(string.Format("[FINSAT6{0}].[wms].[SozlesmeSiraNoSelect]", vUser.SirketKodu)).FirstOrDefault();
             return View();
         }
+
         public PartialViewResult Tanim_List(string listeNo, string satir)
         {
             if (CheckPerm(Perms.SözleşmeTanim, PermTypes.Reading) == false) return null;
@@ -608,6 +625,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             ViewBag.Satir = sat;
             return PartialView("Tanim_List");
         }
+
         public string TanimListesiSelect(string listeNo)
         {
             var STL = new List<BaglantiDetaySelect>();
@@ -619,6 +637,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             var json = new JavaScriptSerializer().Serialize(STL);
             return json;
         }
+
         public string List(int tip)
         {
             var sozlesmeler = new List<SozlesmeListesi>();
@@ -634,6 +653,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             var json = new JavaScriptSerializer().Serialize(sozlesmeler);
             return json;
         }
+
         public string ISSTempList(string SozlesmeNo)
         {
             var json = new JavaScriptSerializer()
@@ -643,6 +663,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             var ISSTemp = db.Database.SqlQuery<ISS_Temp>(string.Format("SELECT * FROM [FINSAT6{0}].[FINSAT6{0}].[ISS_Temp] WHERE ListeNo='{1}'", vUser.SirketKodu, SozlesmeNo)).ToList();
             return json.Serialize(ISSTemp);
         }
+
         public string FiyatListeleriSelect()
         {
             var json = new JavaScriptSerializer()
@@ -652,6 +673,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             var FYTList = db.Database.SqlQuery<ListeNoSelect>(string.Format("[FINSAT6{0}].[wms].[FYTSelect2]", vUser.SirketKodu)).ToList();
             return json.Serialize(FYTList);
         }
+
         public string CariBilgileri(string ListeNo, string HesapKodu)
         {
             var json = new JavaScriptSerializer()
@@ -670,6 +692,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
             return json.Serialize(chkBilgi);
         }
+
         public string UrunGrupSelect(int Index)
         {
             var json = new JavaScriptSerializer()
@@ -679,11 +702,13 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             var FUGS = db.Database.SqlQuery<UrunGrup>(string.Format("[FINSAT6{0}].[wms].[STKSelect2] @Index={1}", vUser.SirketKodu, Index)).ToList();
             return json.Serialize(FUGS);
         }
+
         public int ListeNoKontrol(string ListeNo)
         {
             var VarMi = db.Database.SqlQuery<int>(string.Format("SELECT Count(ListeNo) FROM [FINSAT6{0}].[FINSAT6{0}].[ISS_Temp] WHERE ListeNo='{1}'", vUser.SirketKodu, ListeNo)).FirstOrDefault();
             return VarMi;
         }
+
         public JsonResult ISS_TempUpdate_AktifPasif(string SozlesmeNo, bool AktifPasif)
         {
             var _Result = new Result(true);
@@ -820,6 +845,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
+
         public string YeniSatirKayit(string Data)
         {
             if (CheckPerm(Perms.SözleşmeTanim, PermTypes.Writing) == false) return null;
@@ -1041,6 +1067,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                 return "Satır Girmelisiniz.";
             }
         }
+
         public JsonResult Sil(string SozlesmeNo)
         {
             if (CheckPerm(Perms.SözleşmeTanim, PermTypes.Deleting) == false) return null;
@@ -1057,6 +1084,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
+
         public JsonResult Guncelle(string SozlesmeNo, int BasTarih, short MusUygSekli, decimal YeniBaglantiTutari, int YeniBitisTarihi)
         {
             if (CheckPerm(Perms.SözleşmeTanim, PermTypes.Writing) == false) return null;
@@ -1131,6 +1159,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
-        #endregion
+
+        #endregion Tanim
     }
 }

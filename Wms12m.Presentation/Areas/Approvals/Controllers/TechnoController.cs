@@ -68,6 +68,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
             return json.Serialize(ucretBilgi);
         }
+
         public string PrimListData(string tip)
         {
             var json = new JavaScriptSerializer()
@@ -170,6 +171,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
+
         public JsonResult Prim_Onayla(string Data)
         {
             if (CheckPerm(Perms.TechnoIKOnaylama, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
@@ -296,6 +298,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
+
         public JsonResult Prim_Reddet(string Data, string RedNeden)
         {
             var _Result = new Result(true);

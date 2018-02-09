@@ -20,6 +20,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             if (CheckPerm(Perms.StokOnaylama, PermTypes.Reading) == false) return Redirect("/");
             return View();
         }
+
         /// <summary>
         /// liste
         /// </summary>
@@ -28,8 +29,9 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             if (CheckPerm(Perms.StokOnaylama, PermTypes.Reading) == false) return null;
             return PartialView();
         }
+
         /// <summary>
-        /// 
+        ///
         /// </summary>
         public string OnayCek(string Durum)
         {
@@ -47,6 +49,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             var KOD = db.Database.SqlQuery<StokOnaySelect>(string.Format("[FINSAT6{0}].[wms].[StokOnaySelect] {1}", vUser.SirketKodu, param)).ToList();
             return json.Serialize(KOD);
         }
+
         /// <summary>
         /// onayla
         /// </summary>
@@ -78,6 +81,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
+
         /// <summary>
         /// reddet
         /// </summary>

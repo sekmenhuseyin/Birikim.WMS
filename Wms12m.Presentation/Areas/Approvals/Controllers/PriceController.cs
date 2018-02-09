@@ -13,19 +13,20 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
     public class PriceController : RootController
     {
         #region GM
+
         public ActionResult GM()
         {
             if (CheckPerm(Perms.FiyatOnaylama, PermTypes.Reading) == false) return Redirect("/");
             return View();
         }
+
         public PartialViewResult GM_List()
         {
-
             return PartialView();
         }
+
         public string GMOnayCek()
         {
-
             var RT = db.Database.SqlQuery<FiyatOnayGMSelect>(string.Format("[FINSAT6{0}].[wms].[FiyatOnayListGM]", vUser.SirketKodu)).ToList();
             var json = new JavaScriptSerializer().Serialize(RT);
             return json;
@@ -33,12 +34,11 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
         public PartialViewResult GM_List_Koleksiyon()
         {
-
             return PartialView();
         }
+
         public string GMOnayCekGMKoleksiyon()
         {
-
             var RT = db.Database.SqlQuery<FiyatKoleksiyonSelect>(string.Format("[FINSAT6{0}].[wms].[FiyatOnayListGM_Koleksiyon]", vUser.SirketKodu)).ToList();
             var json = new JavaScriptSerializer().Serialize(RT);
             return json;
@@ -46,12 +46,11 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
         public PartialViewResult GM_List_Grup()
         {
-
             return PartialView();
         }
+
         public string GMOnayCekGMGrup()
         {
-
             var RT = db.Database.SqlQuery<FiyatGrupSelect>(string.Format("[FINSAT6{0}].[wms].[FiyatOnayListGM_GrupEbatYuzey]", vUser.SirketKodu)).ToList();
             var json = new JavaScriptSerializer().Serialize(RT);
             return json;
@@ -252,6 +251,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
+
         public JsonResult Onay_Koleksiyon(string Data)//GM
         {
             var _Result = new Result(true);
@@ -492,6 +492,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
+
         public JsonResult Onay_Grup(string Data)//GM
         {
             var _Result = new Result(true);
@@ -769,6 +770,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
+
         public JsonResult Red_Koleksiyon(string Data)
         {
             var _Result = new Result(true);
@@ -809,6 +811,7 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
 
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
+
         public JsonResult Red_Grup(string Data)
         {
             var _Result = new Result(true);
@@ -853,22 +856,24 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
 
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
-        #endregion
+
+        #endregion GM
 
         #region SPGMY
+
         public ActionResult SPGMY()
         {
             if (CheckPerm(Perms.FiyatOnaylama, PermTypes.Reading) == false) return Redirect("/");
             return View();
         }
+
         public PartialViewResult SPGMY_List()
         {
-
             return PartialView();
         }
+
         public string SPGMYOnayCek()
         {
-
             var RT = db.Database.SqlQuery<FiyatOnayGMSelect>(string.Format("[FINSAT6{0}].[wms].[FiyatOnayListSPGMY]", vUser.SirketKodu)).ToList();
             var json = new JavaScriptSerializer().Serialize(RT);
             return json;
@@ -876,12 +881,11 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
 
         public PartialViewResult SPGMY_List_Koleksiyon()
         {
-
             return PartialView();
         }
+
         public string SPGMYOnayCekSPGMYKoleksiyon()
         {
-
             var RT = db.Database.SqlQuery<FiyatKoleksiyonSelect>(string.Format("[FINSAT6{0}].[wms].[FiyatOnayListSPGMY_Koleksiyon]", vUser.SirketKodu)).ToList();
             var json = new JavaScriptSerializer().Serialize(RT);
             return json;
@@ -889,12 +893,11 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
 
         public PartialViewResult SPGMY_List_Grup()
         {
-
             return PartialView();
         }
+
         public string SPGMYOnayCekSPGMYGrup()
         {
-
             var RT = db.Database.SqlQuery<FiyatGrupSelect>(string.Format("[FINSAT6{0}].[wms].[FiyatOnayListSPGMY_GrupEbatYuzey]", vUser.SirketKodu)).ToList();
             var json = new JavaScriptSerializer().Serialize(RT);
             return json;
@@ -932,6 +935,7 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
 
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
+
         public JsonResult Onay_Koleksiyon_SPGMY(string Data)
         {
             var _Result = new Result(true);
@@ -979,6 +983,7 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
 
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
+
         public JsonResult Onay_Grup_SPGMY(string Data)
         {
             var _Result = new Result(true);
@@ -1060,6 +1065,7 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
 
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
+
         public JsonResult Red_Koleksiyon_SPGMY(string Data)
         {
             var _Result = new Result(true);
@@ -1100,6 +1106,7 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
 
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
+
         public JsonResult Red_Grup_SPGMY(string Data)
         {
             var _Result = new Result(true);
@@ -1143,24 +1150,25 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
 
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
-        #endregion
+
+        #endregion SPGMY
 
         #region SM
+
         public ActionResult SM()
         {
             if (CheckPerm(Perms.FiyatOnaylama, PermTypes.Reading) == false) return Redirect("/");
             return View();
         }
+
         public PartialViewResult SM_List()
         {
-
             ViewBag.username = vUser.UserName;
             return PartialView();
         }
+
         public string SMOnayCek()
         {
-
-
             var RT = db.Database.SqlQuery<FiyatOnayGMSelect>(string.Format("[FINSAT6{0}].[wms].[FiyatOnayList]", vUser.SirketKodu)).ToList();
             var json = new JavaScriptSerializer().Serialize(RT);
             return json;
@@ -1168,12 +1176,11 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
 
         public PartialViewResult SM_List_Koleksiyon()
         {
-
             return PartialView();
         }
+
         public string SMOnayCekSMKoleksiyon()
         {
-
             var RT = db.Database.SqlQuery<FiyatKoleksiyonSelect>(string.Format("[FINSAT6{0}].[wms].[FiyatOnayList_Koleksiyon]", vUser.SirketKodu)).ToList();
             var json = new JavaScriptSerializer().Serialize(RT);
             return json;
@@ -1181,12 +1188,11 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
 
         public PartialViewResult SM_List_Grup()
         {
-
             return PartialView();
         }
+
         public string SMOnayCekSMGrup()
         {
-
             var RT = db.Database.SqlQuery<FiyatGrupSelect>(string.Format("[FINSAT6{0}].[wms].[FiyatOnayList_GrupEbatYuzey]", vUser.SirketKodu)).ToList();
             var json = new JavaScriptSerializer().Serialize(RT);
             return json;
@@ -1224,6 +1230,7 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
 
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
+
         public JsonResult Onay_Koleksiyon_SM(string Data)
         {
             var _Result = new Result(true);
@@ -1271,6 +1278,7 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
 
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
+
         public JsonResult Onay_Grup_SM(string Data)
         {
             var _Result = new Result(true);
@@ -1352,6 +1360,7 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
 
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
+
         public JsonResult Red_Koleksiyon_SM(string Data)
         {
             var _Result = new Result(true);
@@ -1392,6 +1401,7 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
 
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
+
         public JsonResult Red_Grup_SM(string Data)
         {
             var _Result = new Result(true);
@@ -1436,7 +1446,8 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
 
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
-        #endregion
+
+        #endregion SM
 
         public ActionResult List()
         {
@@ -1549,11 +1560,11 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
                             fyt.GMOnaylayan = "";
                         }
                         /// Fiyatlar İçin KağıtFiltre Kontrolü
-                        else if (fyt.MalKodu.StartsWith("2800") || parameters["GrupKod"].ToString() == "FKAĞIT" || fyt.MalKodu == "M001001000017051" || fyt.MalKodu == "M001001000022051") ///2800% ile başlayan ve Navlun ile Sigorta  
+                        else if (fyt.MalKodu.StartsWith("2800") || parameters["GrupKod"].ToString() == "FKAĞIT" || fyt.MalKodu == "M001001000017051" || fyt.MalKodu == "M001001000022051") ///2800% ile başlayan ve Navlun ile Sigorta
                         {
                             ///Filtre kağıt önce SM sonra da GMye düşecek.
                             fyt.Onay = false;
-                            fyt.Onaylayan = "OZ";  ///SMden Sadece Özgür Beye düşmesi için yapıldı. 
+                            fyt.Onaylayan = "OZ";  ///SMden Sadece Özgür Beye düşmesi için yapıldı.
                             fyt.SPGMYOnay = true;  ///SPGMY düşmemesi için direk true diyorum
                             fyt.SPGMYOnaylayan = "";
                             fyt.GMOnay = false;
@@ -1631,7 +1642,7 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
                                 fyt.GMOnaylayan = "";
                             }
                             /// Fiyatlar İçin KağıtFiltre Kontrolü
-                            else if (fyt.MalKodu.StartsWith("2800") || satir["GrupKod"].ToString() == "FKAĞIT" || fyt.MalKodu == "M001001000017051" || fyt.MalKodu == "M001001000022051") ///2800% ile başlayan ve Navlun ile Sigorta  
+                            else if (fyt.MalKodu.StartsWith("2800") || satir["GrupKod"].ToString() == "FKAĞIT" || fyt.MalKodu == "M001001000017051" || fyt.MalKodu == "M001001000022051") ///2800% ile başlayan ve Navlun ile Sigorta
                             {
                                 ///Filtre kağıt önce SM sonra da GMye düşecek.
                                 fyt.Onay = false;
