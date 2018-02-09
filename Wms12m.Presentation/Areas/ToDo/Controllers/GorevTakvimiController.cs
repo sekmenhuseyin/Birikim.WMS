@@ -20,6 +20,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                 ViewBag.UserKod = new SelectList(Persons.GetList(), "Kod", "AdSoyad", vUser.UserName);
             return View("Index");
         }
+
         /// <summary>
         /// liste
         /// </summary>
@@ -59,6 +60,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             var list = db.GorevlerCalismas.Where(m => m.Kaydeden == UserName).GroupBy(m => m.Tarih).Select(m => new frmGorevlerCalismalar { Tarih = m.Key, Sure = m.Sum(n => n.Sure) }).ToList();
             return PartialView("List", list);
         }
+
         /// <summary>
         /// tatil liste
         /// </summary>
@@ -70,6 +72,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                 list = list.Where(m => m.Username == vUser.UserName);
             return PartialView("ListTatil", list.OrderByDescending(m => m.Tarih).ToList());
         }
+
         /// <summary>
         /// ayrıntılar
         /// </summary>
@@ -81,6 +84,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             ViewBag.Yetki2 = CheckPerm(Perms.TodoÇalışma, PermTypes.Deleting);
             return PartialView("Details", list);
         }
+
         /// <summary>
         /// yeni izin sayfası
         /// </summary>
@@ -102,6 +106,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             ViewBag.New = 0;
             return PartialView("New", new Etkinlik());
         }
+
         /// <summary>
         /// izin düzenleme sayfası
         /// </summary>
@@ -114,6 +119,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             ViewBag.New = 1;
             return PartialView("New", tbl);
         }
+
         /// <summary>
         /// izin çoğaltma sayfası
         /// </summary>
@@ -127,6 +133,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             ViewBag.New = 2;
             return PartialView("New", tbl);
         }
+
         /// <summary>
         /// kaydet
         /// </summary>
@@ -186,6 +193,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
 
             return Json(new Result(false, "Hata oldu"), JsonRequestBehavior.AllowGet);
         }
+
         /// <summary>
         /// sil
         /// </summary>
@@ -204,6 +212,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                 return Json(new Result(false, "Hata oldu."), JsonRequestBehavior.AllowGet);
             }
         }
+
         /// <summary>
         /// yıllık izin onay
         /// </summary>

@@ -19,6 +19,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             ViewBag.DepoID = new SelectList(Store.GetListCable(vUser.DepoId), "DepoKodu", "DepoAd");
             return View("Index");
         }
+
         /// <summary>
         /// seçili malzemeler gruplanmış olarak gelecek
         /// </summary>
@@ -64,6 +65,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             ViewBag.hataliStok = hataliStok == "" && list.Count > 0 ? true : false;
             return View("Step2", list);
         }
+
         /// <summary>
         /// siparişler içi kablo makara listesi gelecek
         /// </summary>
@@ -81,6 +83,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             ViewBag.Yetki = CheckPerm(Perms.KabloSiparişi, PermTypes.Writing);
             return View("Step3", list);
         }
+
         /// <summary>
         /// siparişler son adım
         /// </summary>
@@ -185,6 +188,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             ViewBag.GorevID = cevap.GorevID.Value;
             return View("Step4", list2);
         }
+
         /// <summary>
         /// sipariş onaylandı
         /// </summary>
@@ -206,6 +210,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             // görevlere git
             return Redirect("/WMS/Tasks");
         }
+
         /// <summary>
         /// depo ve şirket seçince açık siparişler gelecek
         /// </summary>
@@ -225,6 +230,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                 return PartialView("../Sales/_Siparis", new List<frmSiparisler>());
             }
         }
+
         /// <summary>
         /// depo ve şirket seçince açık siparişler gelecek
         /// </summary>

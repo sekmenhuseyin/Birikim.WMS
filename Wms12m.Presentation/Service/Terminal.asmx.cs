@@ -54,6 +54,7 @@ namespace Wms12m
                 db.LogLogins(userID, "Terminal", false, result.Message);
             return new Login() { ID = 0, AdSoyad = "Hatalı Kullanıcı adı ve şifre!" };
         }
+
         /// <summary>
         /// login işlemleri
         /// </summary>
@@ -88,6 +89,7 @@ namespace Wms12m
                 return new Login { ID = tbl.ID, Kod = tbl.Kod, Guid = tbl.Guid.Sifrele(), AdSoyad = tbl.AdSoyad, DepoKodu = tbl.UserDetail.Depo.DepoKodu, DepoID = tbl.UserDetail.Depo.ID };
             }
         }
+
         /// <summary>
         /// depoya ait görev özetini getirir
         /// </summary>
@@ -103,6 +105,7 @@ namespace Wms12m
             var sql = string.Format("EXEC BIRIKIM.wms.TerminalGorevOzet @DepoID = {0}, @Username = '{1}'", ID, tbl.Kod);
             return db.Database.SqlQuery<GorevOzet>(sql).ToList();
         }
+
         /// <summary>
         /// irsaliyeleri getir
         /// </summary>
@@ -117,6 +120,7 @@ namespace Wms12m
             // return
             return db.IRS.Select(m => new Tip_IRS { ID = m.ID, DepoID = m.Depo.DepoKodu, EvrakNo = m.EvrakNo, HesapKodu = m.HesapKodu, SirketKod = m.SirketKod, Tarih = m.Tarih.ToString(), TeslimCHK = m.TeslimCHK, Unvan = "" }).ToList();
         }
+
         /// <summary>
         /// seçili irsaliyenin bilgileri
         /// </summary>
@@ -135,6 +139,7 @@ namespace Wms12m
             var sql = string.Format("EXEC FINSAT6{0}.wms.TerminalGetIrsaliye @GorevID = {1}", mGorev.IR.SirketKod, mGorev.ID);
             return db.Database.SqlQuery<Tip_IRS>(sql).FirstOrDefault();
         }
+
         /// <summary>
         /// seçili malkoduna malzeme ait bilgileri
         /// </summary>
@@ -164,6 +169,7 @@ namespace Wms12m
                     sql += "HAVING (wms.IRS_Detay.Miktar <> ISNULL(YerlestirmeMiktari,0))";
             return db.Database.SqlQuery<Tip_STI2>(sql).ToList();
         }
+
         /// <summary>
         /// görev listelerini filtreye göre getirir
         /// </summary>
@@ -186,6 +192,7 @@ namespace Wms12m
             }
             return new List<Tip_GOREV>();
         }
+
         /// <summary>
         /// bir şirkete ait kullanıcıları getirir
         /// </summary>
@@ -200,6 +207,7 @@ namespace Wms12m
             // return
             return db.GetGorevlis(DepoID).ToList();
         }
+
         /// <summary>
         /// durumları listeler
         /// </summary>
@@ -214,6 +222,7 @@ namespace Wms12m
             // return
             return db.ComboItem_Name.Where(m => m.Visible == true && m.ComboID == (int)Combos.GorevDurum).Select(m => new Durum { ID = m.ID, Name = m.Name }).ToList();
         }
+
         /// <summary>
         /// paket tiplerini listeler
         /// </summary>
@@ -228,6 +237,7 @@ namespace Wms12m
             // return
             return db.ComboItem_Name.Where(m => m.Visible == true && m.ComboID == (int)Combos.PaketTipi).Select(m => new Durum { ID = m.ID, Name = m.Name }).ToList();
         }
+
         /// <summary>
         /// malzemeleri getir
         /// </summary>
@@ -258,6 +268,7 @@ namespace Wms12m
                 return new List<Tip_STI>();
             }
         }
+
         /// <summary>
         /// malzemeyi barkoda göre bulur
         /// </summary>
@@ -286,6 +297,7 @@ namespace Wms12m
                 return new Tip_Malzeme();
             }
         }
+
         /// <summary>
         /// seçili depoda böyle bir raf var mı
         /// </summary>
@@ -295,6 +307,7 @@ namespace Wms12m
             var kat = db.GetHucreKatID(DepoID, Raf).FirstOrDefault();
             return kat != null;
         }
+
         /// <summary>
         /// Rafraki Stok Kontrolü
         /// </summary>
@@ -305,6 +318,7 @@ namespace Wms12m
             miktar = miktar.IsNull() ? 0 : miktar;
             return miktar;
         }
+
         /// <summary>
         /// mal kabul kayıt işlemleri
         /// </summary>
@@ -354,6 +368,7 @@ namespace Wms12m
 
             return new Result(true);
         }
+
         /// <summary>
         /// mal kabul için miktar kontrol
         /// </summary>
@@ -376,6 +391,7 @@ namespace Wms12m
                 return new Result(false, -1, "İşlem bitmemiş !");
             return new Result(true);
         }
+
         /// <summary>
         /// mal kabul onay
         /// </summary>
@@ -504,6 +520,7 @@ namespace Wms12m
             db.SaveChanges();
             return new Result(true);
         }
+
         /// <summary>
         /// rafa yerleştir
         /// </summary>
@@ -610,6 +627,7 @@ namespace Wms12m
 
             return _result;
         }
+
         /// <summary>
         /// rafa kaldır görevi tamamlanınca
         /// </summary>
@@ -638,6 +656,7 @@ namespace Wms12m
             db.SaveChanges();
             return new Result(true);
         }
+
         /// <summary>
         /// raftan indir
         /// </summary>
@@ -739,6 +758,7 @@ namespace Wms12m
 
             return _result;
         }
+
         /// <summary>
         /// sipariş toplama görevi tamamlma
         /// </summary>
@@ -958,6 +978,7 @@ namespace Wms12m
 
             return new Result(true);
         }
+
         /// <summary>
         /// mal kabul kayıt işlemleri
         /// </summary>
@@ -1013,6 +1034,7 @@ namespace Wms12m
 
             return _result;
         }
+
         /// <summary>
         /// paketle görevini tamamla
         /// </summary>
@@ -1048,6 +1070,7 @@ namespace Wms12m
             // return
             return new Result(true);
         }
+
         /// <summary>
         /// seçili irsaliyenin bilgileri
         /// </summary>
@@ -1065,6 +1088,7 @@ namespace Wms12m
             // return
             return db.Database.SqlQuery<frmGorevPaket>(string.Format("[BIRIKIM].[wms].[TerminalPackageBarcodeDetails] {0}", GorevID)).FirstOrDefault();
         }
+
         /// <summary>
         /// paketle görevini tamamla
         /// </summary>
@@ -1094,6 +1118,7 @@ namespace Wms12m
             // return
             return new Result(true);
         }
+
         /// <summary>
         /// barkoddan irsaliyenin bilgileri
         /// </summary>
@@ -1116,6 +1141,7 @@ namespace Wms12m
                 "GROUP BY wms.Depo.DepoKodu, IRS.HesapKodu, CONVERT(varchar(15), BIRIKIM.dbo.fnRoundUp(wms.GorevPaketler.Agirlik,2)), BIRIKIM.dbo.fnFormatDateFromInt(wms.GorevPaketler.KayitTarih)", db.GetSirkets().FirstOrDefault().Kod, barkod);
             return db.Database.SqlQuery<Tip_IRS>(sql).FirstOrDefault();
         }
+
         /// <summary>
         /// paketle görevini tamamla
         /// </summary>
@@ -1142,6 +1168,7 @@ namespace Wms12m
             db.SaveChanges();
             return new Result(true);
         }
+
         /// <summary>
         /// transfer çıkış görevleri tamamlma
         /// </summary>
@@ -1317,6 +1344,7 @@ namespace Wms12m
 
             return sonuc;
         }
+
         /// <summary>
         /// rafa yerleştir
         /// </summary>
@@ -1442,6 +1470,7 @@ namespace Wms12m
 
             return _result;
         }
+
         /// <summary>
         /// transfer giriş görevleri tamamlma
         /// </summary>
@@ -1556,6 +1585,7 @@ namespace Wms12m
 
             return sonuc;
         }
+
         /// <summary>
         /// kontrollü sayımda satırları kaydet
         /// </summary>
@@ -1647,6 +1677,7 @@ namespace Wms12m
 
             return new Result(true);
         }
+
         /// <summary>
         /// kontrollü sayımda satırları kaydet
         /// </summary>
@@ -1682,6 +1713,7 @@ namespace Wms12m
 
             return new Result(false, "Kayıt hatası");
         }
+
         /// <summary>
         /// Alimdan İade İşlem Yap
         /// </summary>
@@ -1755,6 +1787,7 @@ namespace Wms12m
 
             return _result;
         }
+
         /// <summary>
         /// Alimdan İade Görevi Tamamla
         /// </summary>
@@ -1962,6 +1995,7 @@ namespace Wms12m
 
             return new Result(true);
         }
+
         /// <summary>
         /// satıştan iade kayıt
         /// </summary>
@@ -2012,6 +2046,7 @@ namespace Wms12m
 
             return new Result(true);
         }
+
         /// <summary>
         /// satıştan iade görev tamamla
         /// </summary>
@@ -2034,6 +2069,7 @@ namespace Wms12m
                 return new Result(false, -1, "İşlem bitmemiş !");
             return new Result(true);
         }
+
         /// <summary>
         /// mal kabul onay
         /// </summary>

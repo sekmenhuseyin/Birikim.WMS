@@ -20,6 +20,7 @@ namespace Wms12m.Presentation.Areas.Constants.Controllers
             ViewBag.YetkiSil = CheckPerm(Perms.BoyutKartı, PermTypes.Deleting);
             return View("Index", new Olcu());
         }
+
         /// <summary>
         /// listeyi yenile
         /// </summary>
@@ -29,6 +30,7 @@ namespace Wms12m.Presentation.Areas.Constants.Controllers
             var list = db.Database.SqlQuery<frmOlcu>(sql);
             return Json(list.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
+
         /// <summary>
         /// düzenleme
         /// </summary>
@@ -39,6 +41,7 @@ namespace Wms12m.Presentation.Areas.Constants.Controllers
             if (tbl == null) return null;
             return PartialView("_Edit", tbl);
         }
+
         /// <summary>
         /// yeni boyut kartı
         /// </summary>
@@ -49,6 +52,7 @@ namespace Wms12m.Presentation.Areas.Constants.Controllers
             var _Result = Dimension.Operation(tbl);
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
+
         /// <summary>
         /// silme
         /// </summary>

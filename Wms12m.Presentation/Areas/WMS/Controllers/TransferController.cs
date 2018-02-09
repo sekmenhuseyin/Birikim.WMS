@@ -9,7 +9,6 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
 {
     public class TransferController : RootController
     {
-        #region Planlama
         /// <summary>
         /// transfer planlama
         /// </summary>
@@ -21,6 +20,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             ViewBag.AraDepo = ViewBag.CikisDepo;
             return View("Index");
         }
+
         /// <summary>
         /// planlamadaki 1. adımdaki malzeme listesi
         /// </summary>
@@ -42,6 +42,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                 return PartialView("List", new List<frmTransferMalzemeler>());
             }
         }
+
         /// <summary>
         /// ilk sayfada seçtiklerini gösterip onaylatan bir sayfa
         /// </summary>
@@ -126,11 +127,11 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             }
             return Json(new Result(true, TransferID), JsonRequestBehavior.AllowGet);
         }
+
         /// <summary>
         /// özet sayfasındaki listeyi yeniler
         /// </summary>
-        #endregion
-        #region Onaylama
+
         /// <summary>
         /// onay bekleyen transfer sayfası
         /// </summary>
@@ -139,6 +140,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             if (CheckPerm(Perms.Transfer, PermTypes.Reading) == false) return Redirect("/");
             return View("Waiting");
         }
+
         /// <summary>
         /// onay bekleyen transfer listesi
         /// </summary>
@@ -147,6 +149,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             var list = Transfers.GetList(Id, Tarih, vUser.DepoId);
             return PartialView("WaitingList", list);
         }
+
         /// <summary>
         /// transfere ait mallar
         /// </summary>
@@ -158,8 +161,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             ViewBag.Tip = Tip;
             return PartialView("Details", result);
         }
-        #endregion
-        #region save, Approve & Delete
+
         /// <summary>
         /// transferi planını kaydet
         /// </summary>
@@ -219,6 +221,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             // return
             return Json(new Result(true, 1), JsonRequestBehavior.AllowGet);
         }
+
         /// <summary>
         /// bekleyen transferi onayla
         /// </summary>
@@ -260,6 +263,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             // return
             return Json(new Result(true, ID), JsonRequestBehavior.AllowGet);
         }
+
         /// <summary>
         /// transfer sil
         /// </summary>
@@ -281,6 +285,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
 
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
+
         /// <summary>
         /// transfer detay sil
         /// </summary>
@@ -308,6 +313,5 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
 
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
-        #endregion
     }
 }

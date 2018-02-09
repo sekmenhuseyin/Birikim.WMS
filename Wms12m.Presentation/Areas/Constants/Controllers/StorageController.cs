@@ -30,6 +30,7 @@ namespace Wms12m.Presentation.Areas.Constants.Controllers
             ViewBag.Yetki = CheckPerm(Perms.DepoKartı, PermTypes.Writing);
             return View("Index", new Depo());
         }
+
         /// <summary>
         /// listesi
         /// </summary>
@@ -40,6 +41,7 @@ namespace Wms12m.Presentation.Areas.Constants.Controllers
             _List = Id == "Locked" ? Store.GetList().Where(a => a.Aktif == true).ToList() : Id == "noLocked" ? Store.GetList().Where(a => a.Aktif == false).ToList() : Store.GetList();
             return PartialView("_StoreGridPartial", _List);
         }
+
         /// <summary>
         /// düzenle
         /// </summary>
@@ -60,6 +62,7 @@ namespace Wms12m.Presentation.Areas.Constants.Controllers
             ViewBag.Yetki = CheckPerm(Perms.DepoKartı, PermTypes.Writing);
             return PartialView("_StoreDetailPartial", item);
         }
+
         /// <summary>
         /// sil
         /// </summary>
@@ -69,6 +72,7 @@ namespace Wms12m.Presentation.Areas.Constants.Controllers
             var _Result = Store.Delete(string.IsNullOrEmpty(Id) ? 0 : Convert.ToInt32(Id));
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
+
         /// <summary>
         /// kayıt işlemleri
         /// </summary>

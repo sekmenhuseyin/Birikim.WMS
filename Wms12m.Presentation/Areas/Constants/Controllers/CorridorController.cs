@@ -19,6 +19,7 @@ namespace Wms12m.Presentation.Areas.Constants.Controllers
             ViewBag.DepoID = new SelectList(Store.GetList(), "ID", "DepoAd");
             return View("Index", new Koridor());
         }
+
         /// <summary>
         /// listesi
         /// </summary>
@@ -51,6 +52,7 @@ namespace Wms12m.Presentation.Areas.Constants.Controllers
                 return PartialView("_CorridorGridPartial", new List<Koridor>());
             }
         }
+
         /// <summary>
         /// düzenle
         /// </summary>
@@ -70,6 +72,7 @@ namespace Wms12m.Presentation.Areas.Constants.Controllers
                 return PartialView("_CorridorDetailPartial", new Corridor().Detail(tmp));
             }
         }
+
         /// <summary>
         /// listesi
         /// </summary>
@@ -102,6 +105,7 @@ namespace Wms12m.Presentation.Areas.Constants.Controllers
                 return Json(_List, JsonRequestBehavior.AllowGet);
             }
         }
+
         /// <summary>
         /// sil ss
         /// </summary>
@@ -113,6 +117,7 @@ namespace Wms12m.Presentation.Areas.Constants.Controllers
                 LogActions("", "Corridor", "Delete", ComboItems.alSil, Id);
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
+
         /// <summary>
         /// kayıt işlemleri
         /// </summary>

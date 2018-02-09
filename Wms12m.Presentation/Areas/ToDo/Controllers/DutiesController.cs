@@ -20,6 +20,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             ViewBag.DurumID = new SelectList(ComboSub.GetList(Combos.GörevYönetimDurumları.ToInt32()), "ID", "Name");
             return View();
         }
+
         /// <summary>
         /// yeni görev sayfası
         /// </summary>
@@ -35,6 +36,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             ViewBag.Sorumlu3 = ViewBag.Sorumlu;
             return PartialView(new Gorevler());
         }
+
         /// <summary>
         /// ayrıntılar
         /// </summary>
@@ -45,6 +47,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             ViewBag.ID = ID;
             return PartialView("Details", list);
         }
+
         /// <summary>
         /// liste
         /// </summary>
@@ -68,6 +71,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             ViewBag.Tip = Tip;
             return PartialView(list.ToList());
         }
+
         /// <summary>
         /// sadece onay listesi
         /// </summary>
@@ -81,6 +85,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             ViewBag.Tip = Tip;
             return PartialView(list.ToList());
         }
+
         /// <summary>
         /// düzenleme sayfası
         /// </summary>
@@ -100,6 +105,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             ViewBag.KontrolSorumlusu = new SelectList(Persons.GetList(new string[] { "Destek", "Admin" }), "Kod", "AdSoyad", tbl.KontrolSorumlusu);
             return PartialView("Edit", tbl);
         }
+
         /// <summary>
         /// görev onay / ret / durdur
         /// </summary>
@@ -177,6 +183,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                 return Json(new Result(false, "Hata oldu"), JsonRequestBehavior.AllowGet);
             }
         }
+
         /// <summary>
         /// kaydetme
         /// </summary>
@@ -393,6 +400,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                 return Json(new Result(false, "Kayıt hatası. Sayfayı yenileyin"), JsonRequestBehavior.AllowGet);
             }
         }
+
         /// <summary>
         /// sil
         /// </summary>

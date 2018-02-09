@@ -20,6 +20,7 @@ namespace Wms12m.Presentation.Areas.Constants.Controllers
             ViewBag.KoridorID = new SelectList(Corridor.GetList(0), "ID", "KoridorAd");
             return View("Index", new Raf());
         }
+
         /// <summary>
         /// listesi
         /// </summary>
@@ -51,6 +52,7 @@ namespace Wms12m.Presentation.Areas.Constants.Controllers
                 return PartialView("_ShelfGridPartial", _List);
             }
         }
+
         /// <summary>
         /// düzenle
         /// </summary>
@@ -72,6 +74,7 @@ namespace Wms12m.Presentation.Areas.Constants.Controllers
                 return PartialView("_ShelfDetailPartial", tablo);
             }
         }
+
         /// <summary>
         /// koridora ait raf listesi
         /// </summary>
@@ -104,6 +107,7 @@ namespace Wms12m.Presentation.Areas.Constants.Controllers
                 return Json(_List, JsonRequestBehavior.AllowGet);
             }
         }
+
         /// <summary>
         /// depoya ait raf listesi
         /// </summary>
@@ -136,6 +140,7 @@ namespace Wms12m.Presentation.Areas.Constants.Controllers
                 return Json(_List, JsonRequestBehavior.AllowGet);
             }
         }
+
         /// <summary>
         /// sil
         /// </summary>
@@ -145,6 +150,7 @@ namespace Wms12m.Presentation.Areas.Constants.Controllers
             var _Result = Shelf.Delete(string.IsNullOrEmpty(Id) ? 0 : Convert.ToInt32(Id));
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
+
         /// <summary>
         /// kayıt işlemleri
         /// </summary>

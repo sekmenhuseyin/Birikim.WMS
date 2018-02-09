@@ -17,6 +17,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             ViewBag.Yetki = CheckPerm(Perms.TodoMüşteri, PermTypes.Writing);
             return View(new Musteri());
         }
+
         /// <summary>
         /// liste
         /// </summary>
@@ -27,6 +28,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             ViewBag.Yetki2 = CheckPerm(Perms.TodoMüşteri, PermTypes.Deleting);
             return PartialView(db.Musteris.ToList());
         }
+
         /// <summary>
         /// düzenleme sayfası
         /// </summary>
@@ -35,6 +37,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             var musteri = db.Musteris.Find(id);
             return PartialView(musteri);
         }
+
         /// <summary>
         /// kaydet
         /// </summary>
@@ -79,6 +82,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
 
             return Json(new Result(false, "Hata oldu"), JsonRequestBehavior.AllowGet);
         }
+
         /// <summary>
         /// sil
         /// </summary>

@@ -19,6 +19,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             ViewBag.DepoID = new SelectList(Store.GetList(vUser.DepoId), "DepoKodu", "DepoAd");
             return View("Index");
         }
+
         /// <summary>
         /// seçili malzemeler gruplanmış olarak gelecek
         /// </summary>
@@ -88,6 +89,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             ViewBag.hataliStok = hataliStok == "" ? true : false;
             return View("Step2", list);
         }
+
         /// <summary>
         /// adım 4: yerleştirme kaydet
         /// </summary>
@@ -147,7 +149,6 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                         Miktar = miktars[i] <= stokMiktari.Value ? miktars[i] : stokMiktari.Value,
                         KynkSiparisNo = evrak,
                         KynkSiparisID = rowID[i]
-
                     };
                     var op2 = new IrsaliyeDetay();
                     _Result = op2.Operation(sti);
@@ -205,6 +206,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             ViewBag.DepoID = idDepo;
             return View("Step3", list2);
         }
+
         /// <summary>
         /// step 4
         /// </summary>
@@ -240,6 +242,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             ViewBag.GorevID = GorevID;
             return View("Step4", list);
         }
+
         /// <summary>
         /// alımdan iade onaylandı
         /// </summary>
@@ -261,6 +264,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             // görevlere git
             return Redirect("/WMS/Tasks");
         }
+
         /// <summary>
         /// chk kodlarını getir
         /// </summary>
@@ -284,6 +288,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                 return Json(new List<frmJson>(), JsonRequestBehavior.AllowGet);
             }
         }
+
         ///<summary>
         ///depo ve şirket seçince açık siparişler gelecek
         ///</summary>
@@ -313,6 +318,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                 return PartialView("SiparisList", new List<frmSiparisler>());
             }
         }
+
         /// <summary>
         /// evrak noya ait mallar
         /// </summary>
@@ -325,6 +331,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             var list = db.Database.SqlQuery<frmSiparisMalzeme>(sql).ToList();
             return Json(list, JsonRequestBehavior.AllowGet);
         }
+
         /// <summary>
         /// stok kontrol
         /// </summary>

@@ -9,7 +9,6 @@ namespace Wms12m.Presentation.Areas.UYS.Controllers
 {
     public class TransferController : RootController
     {
-        #region Planlama
         /// <summary>
         /// transfer planlama
         /// </summary>
@@ -24,6 +23,7 @@ namespace Wms12m.Presentation.Areas.UYS.Controllers
             ViewBag.CikisDepo = new SelectList(cikisDepo, "Depo", "DepoAdi");
             return View("Index");
         }
+
         /// <summary>
         /// malzeme koduna göre stok ve serinoyu getirir
         /// </summary>
@@ -45,6 +45,7 @@ namespace Wms12m.Presentation.Areas.UYS.Controllers
                 return Json(new List<frmJson>(), JsonRequestBehavior.AllowGet);
             }
         }
+
         /// <summary>
         /// ürün stoğu bul
         /// </summary>
@@ -71,11 +72,12 @@ namespace Wms12m.Presentation.Areas.UYS.Controllers
                 return Json(new frmMalKoduMiktar() { MalKodu = "Hata", Birim = "Stok yetersiz" }, JsonRequestBehavior.AllowGet);
             // return
             sql = string.Format(@"SELECT '{1}' as MalKodu, isnull(sum(case when IslemTur = 0 then Miktar else -Miktar end), 0) as Miktar, Birim1 as Birim
-									FROM FINSAT6{0}.FINSAT6{0}.STI WITH (nolock) left join FINSAT6{0}.FINSAT6{0}.STK WITH (nolock) ON STK.MalKodu = STI.MalKodu 
+									FROM FINSAT6{0}.FINSAT6{0}.STI WITH (nolock) left join FINSAT6{0}.FINSAT6{0}.STK WITH (nolock) ON STK.MalKodu = STI.MalKodu
 									where STI.MalKodu = '{1}' and Tarih <= {2} and SeriNo = '{4}' and DATALENGTH(SeriNo) = {5} and Depo ='{3}' and IrsFat <> 2 and KynkEvrakTip <> 95 and KynkEvrakTip not in (141,142,143,144) and not (KynkEvrakTip in (68,69) and ErekIIFKEvrakTip in (5,2) and IrsFat = 3)
 									GROUP by STI.MalKodu, Depo, SeriNo, Birim1", vUser.SirketKodu, MalKodu, Tarih, Depo, SeriNo, SeriNo.Length);
             return Json(db.Database.SqlQuery<frmMalKoduMiktar>(sql).FirstOrDefault(), JsonRequestBehavior.AllowGet);
         }
+
         /// <summary>
         /// transfer kaydet
         /// </summary>
@@ -137,7 +139,7 @@ namespace Wms12m.Presentation.Areas.UYS.Controllers
             var saat = fn.ToOATime();
             // get son emir no
             var EmirVeEvrak = db.Database.SqlQuery<frmUysEmirEvrak>(string.Format(@"SELECT
-										ISNULL((SELECT TOP (1) EmirNo FROM UYSPLN6{0}.UYSPLN6{0}.EMG WHERE (EmirNo LIKE 'DD%') ORDER BY Row_ID DESC), 'DD000000') as EmirNo, 
+										ISNULL((SELECT TOP (1) EmirNo FROM UYSPLN6{0}.UYSPLN6{0}.EMG WHERE (EmirNo LIKE 'DD%') ORDER BY Row_ID DESC), 'DD000000') as EmirNo,
 										ISNULL((SELECT TOP (1) EvrakNo FROM (
 													SELECT EvrakNo FROM FINSAT6{0}.FINSAT6{0}.STI WHERE (EvrakNo LIKE 'DD%')
 													UNION
@@ -181,8 +183,7 @@ namespace Wms12m.Presentation.Areas.UYS.Controllers
             var sonuc = uysf.DepoTransfer(liste, emir, false);
             return Json(sonuc, JsonRequestBehavior.AllowGet);
         }
-        #endregion
-        #region Onaylama
+
         /// <summary>
         /// onay bekleyen transfer sayfası
         /// </summary>
@@ -210,6 +211,7 @@ namespace Wms12m.Presentation.Areas.UYS.Controllers
             var liste = db.Database.SqlQuery<frmUysWaitingTransfer>(string.Format(sql, vUser.SirketKodu)).ToList();
             return PartialView("WaitingList", liste);
         }
+
         /// <summary>
         /// onay bekleyen transfer listesi
         /// </summary>
@@ -238,6 +240,7 @@ namespace Wms12m.Presentation.Areas.UYS.Controllers
             ViewBag.Tip = Tip;
             return PartialView("Details", liste);
         }
+
         /// <summary>
         /// bekleyen transferi onayla
         /// </summary>
@@ -249,7 +252,7 @@ namespace Wms12m.Presentation.Areas.UYS.Controllers
             var tarih = fn.ToOADate();
             var saat = fn.ToOATime();
             // get son emir no
-            var EmirVeEvrak = db.Database.SqlQuery<frmUysEmirEvrak>(string.Format(@"SELECT '' as EmirNo, 
+            var EmirVeEvrak = db.Database.SqlQuery<frmUysEmirEvrak>(string.Format(@"SELECT '' as EmirNo,
 										ISNULL((SELECT TOP (1) EvrakNo FROM (
 													SELECT EvrakNo FROM FINSAT6{0}.FINSAT6{0}.STI WHERE (EvrakNo LIKE 'DG%')
 													UNION
@@ -259,7 +262,7 @@ namespace Wms12m.Presentation.Areas.UYS.Controllers
             EmirVeEvrak.EvrakNo = uysf.EvrakNoArttir(EmirVeEvrak.EvrakNo, "DG");
             // create list
             var liste = db.Database.SqlQuery<frmUysWaitingTransfer>(string.Format(@"
-									SELECT       '{2}' as EvrakNo, 'TD' as AraDepo, UYSPLN6{0}.UYSPLN6{0}.EMG.Kod2 as CikisDepo, UYSPLN6{0}.UYSPLN6{0}.EMG.Kod3 as GirisDepo, '{3}' as Kaydeden, '{4}' AS Kaydeden2, FINSAT6{0}.FINSAT6{0}.STI.MalKodu, FINSAT6{0}.FINSAT6{0}.STI.SeriNo, 
+									SELECT       '{2}' as EvrakNo, 'TD' as AraDepo, UYSPLN6{0}.UYSPLN6{0}.EMG.Kod2 as CikisDepo, UYSPLN6{0}.UYSPLN6{0}.EMG.Kod3 as GirisDepo, '{3}' as Kaydeden, '{4}' AS Kaydeden2, FINSAT6{0}.FINSAT6{0}.STI.MalKodu, FINSAT6{0}.FINSAT6{0}.STI.SeriNo,
 																FINSAT6{0}.FINSAT6{0}.STI.Birim, FINSAT6{0}.FINSAT6{0}.STI.Miktar, {5} as Tarih
 									FROM            UYSPLN6{0}.UYSPLN6{0}.EMG INNER JOIN
 																FINSAT6{0}.FINSAT6{0}.STI ON UYSPLN6{0}.UYSPLN6{0}.EMG.StiNo = FINSAT6{0}.FINSAT6{0}.STI.EvrakNo
@@ -269,13 +272,14 @@ namespace Wms12m.Presentation.Areas.UYS.Controllers
             var sonuc = uysf.DepoTransfer(liste, null, true);
             if (sonuc.Status == true)
             {
-                db.Database.ExecuteSqlCommand(string.Format(@"UPDATE UYSPLN6{0}.UYSPLN6{0}.EMG 
+                db.Database.ExecuteSqlCommand(string.Format(@"UPDATE UYSPLN6{0}.UYSPLN6{0}.EMG
                         SET BitTarih = {2}, BitSaat = {3}, Talimat3 = '{4}', TrsfrNo = '{5}', Degistiren= '{6}', DegisTarih = {2}, DegisSaat = {3}, CurDurum = 1, RecID = -1, Birim = -1, CurDurSb = -1, SonDurSb = -1, PlOnay = -1, YMUret = -1, YMMly = -1, YMEndMly = -1, YMDepo = -1, YMHmdCik = -1, Teklif = -1, KayitTuru = -1
                         WHERE EmirNo = '{1}'", vUser.SirketKodu, ID, tarih, saat, vUser.FullName, EmirVeEvrak.EvrakNo, vUser.UserName));
             }
 
             return Json(sonuc, JsonRequestBehavior.AllowGet);
         }
+
         /// <summary>
         /// transfer sil
         /// </summary>
@@ -291,7 +295,7 @@ namespace Wms12m.Presentation.Areas.UYS.Controllers
             }
             else//onaylanmışsa sadece güncelle
             {
-                sql += string.Format(@"UPDATE UYSPLN6{0}.UYSPLN6{0}.EMG 
+                sql += string.Format(@"UPDATE UYSPLN6{0}.UYSPLN6{0}.EMG
                         SET BitTarih = 0, BitSaat = 0, Talimat3 = '', TrsfrNo = '', Degistiren= '{4}', DegisTarih = {2}, DegisSaat = {3}, RecID = 0, Birim = 0, CurDurum = 0, CurDurSb = 0, SonDurSb = 0, PlOnay = 0, YMUret = 0, YMMly = 0, YMEndMly = 0, YMDepo = 0, YMHmdCik = 0, Teklif = 0, KayitTuru = 0
                         WHERE TrsfrNo = '{1}'", vUser.SirketKodu, ID, tarih, saat, vUser.UserName);
             }
@@ -332,6 +336,5 @@ namespace Wms12m.Presentation.Areas.UYS.Controllers
                 return Json(new Result(false), JsonRequestBehavior.AllowGet);
             }
         }
-        #endregion
     }
 }

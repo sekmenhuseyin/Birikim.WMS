@@ -19,6 +19,7 @@ namespace Wms12m.Presentation.Areas.Constants.Controllers
             ViewBag.DepoID = new SelectList(Store.GetList(), "ID", "DepoAd");
             return View("Index");
         }
+
         /// <summary>
         /// listesi
         /// </summary>
@@ -54,6 +55,7 @@ namespace Wms12m.Presentation.Areas.Constants.Controllers
                 return PartialView("_FloorGridPartial", _List);
             }
         }
+
         /// <summary>
         /// düzenle
         /// </summary>
@@ -79,6 +81,7 @@ namespace Wms12m.Presentation.Areas.Constants.Controllers
                 return PartialView("_FloorDetailPartial", tablo);
             }
         }
+
         /// <summary>
         /// bölüme ait kat listesi
         /// </summary>
@@ -111,6 +114,7 @@ namespace Wms12m.Presentation.Areas.Constants.Controllers
                 return Json(_List, JsonRequestBehavior.AllowGet);
             }
         }
+
         /// <summary>
         /// sil
         /// </summary>
@@ -120,6 +124,7 @@ namespace Wms12m.Presentation.Areas.Constants.Controllers
             var _Result = Floor.Delete(string.IsNullOrEmpty(Id) ? 0 : Convert.ToInt32(Id));
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
+
         /// <summary>
         /// kayıt işlemleri
         /// </summary>

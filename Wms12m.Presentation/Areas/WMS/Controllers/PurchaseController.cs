@@ -18,6 +18,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             ViewBag.DepoID = new SelectList(Store.GetList(vUser.DepoId), "ID", "DepoAd");
             return View("Index", new frmIrsaliye());
         }
+
         /// <summary>
         /// irsaliye listesi
         /// </summary>
@@ -31,6 +32,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             ViewBag.Yetki2 = CheckPerm(Perms.MalKabul, PermTypes.Deleting);
             return PartialView("List", list);
         }
+
         /// <summary>
         /// irsaliye evrak no günceller
         /// </summary>
@@ -60,6 +62,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             _Result = Irsaliye.Operation(tbl);
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
+
         /// <summary>
         /// seçili görewvi başlatır
         /// </summary>
@@ -77,6 +80,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                 return Json(new Result(false, "Kayıtta hata oldu"), JsonRequestBehavior.AllowGet);
             }
         }
+
         /// <summary>
         /// irs detay güncelle
         /// </summary>
@@ -117,6 +121,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                 return Json(new Result(false, "Kayıtta hata oldu"), JsonRequestBehavior.AllowGet);
             }
         }
+
         /// <summary>
         /// irsaliye listesi
         /// </summary>
@@ -128,6 +133,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             ViewBag.IrsNo = IrsNo;
             return PartialView("SiparisList", list);
         }
+
         /// <summary>
         /// siparişten malzeme ekler
         /// </summary>
@@ -179,6 +185,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             }
             return Json(new Result(true, tbl.Id), JsonRequestBehavior.AllowGet);
         }
+
         /// <summary>
         /// yeni irsaliye fatura kaydeder
         /// </summary>
@@ -263,6 +270,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                 return null;
             }
         }
+
         /// <summary>
         /// listeyi günceller
         /// </summary>
@@ -276,6 +284,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             ViewBag.Yetki = CheckPerm(Perms.MalKabul, PermTypes.Writing);
             return PartialView("_GridPartial", list);
         }
+
         /// <summary>
         /// yeni malzeme
         /// </summary>
@@ -313,6 +322,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
 
             return Json(new Result(false, "Bu irsaliyeye ürün eklenemez"), JsonRequestBehavior.AllowGet);
         }
+
         /// <summary>
         /// malzeme autocomplete
         /// </summary>
@@ -331,6 +341,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                 return Json(new List<frmJson>(), JsonRequestBehavior.AllowGet);
             }
         }
+
         public JsonResult GetMalzemebyName(string term)
         {
             var sql = string.Format("FINSAT6{0}.[wms].[getMalzemeByCodeOrName] @MalKodu = N'{1}', @MalAdi = N''", vUser.SirketKodu, term);
@@ -346,6 +357,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                 return Json(new List<frmJson>(), JsonRequestBehavior.AllowGet);
             }
         }
+
         /// <summary>
         /// malzeme koduna göre birim getirir
         /// </summary>
@@ -365,6 +377,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                 return Json(new List<frmBirims>(), JsonRequestBehavior.AllowGet);
             }
         }
+
         /// <summary>
         /// get chk codes
         /// </summary>
@@ -383,6 +396,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                 return Json(new List<frmJson>(), JsonRequestBehavior.AllowGet);
             }
         }
+
         /// <summary>
         /// get chk codes
         /// </summary>
@@ -401,6 +415,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                 return Json(new List<frmJson>(), JsonRequestBehavior.AllowGet);
             }
         }
+
         /// <summary>
         /// yeni malzeme satırı formu
         /// </summary>
@@ -410,6 +425,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             ViewBag.IrsaliyeId = id;
             return PartialView("_GridNewPartial", new frmMalzeme());
         }
+
         /// <summary>
         /// irsaliye sil
         /// </summary>
@@ -419,6 +435,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             var _Result = Irsaliye.Delete(ID);
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
+
         /// <summary>
         /// stok malzeme sil
         /// </summary>

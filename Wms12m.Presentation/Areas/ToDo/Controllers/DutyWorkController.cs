@@ -18,6 +18,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             ViewBag.RoleName = vUser.RoleName;
             return View();
         }
+
         /// <summary>
         /// yeni çalışma
         /// </summary>
@@ -34,6 +35,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             };
             return PartialView("New", tbl);
         }
+
         /// <summary>
         /// yeni çalışma
         /// </summary>
@@ -43,6 +45,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             ViewBag.GorevID = new SelectList(ComboSub.GetList(Combos.DestekTipi.ToInt32()), "ID", "Name", "");
             return PartialView(new GorevlerCalisma());
         }
+
         /// <summary>
         /// liste
         /// </summary>
@@ -55,6 +58,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             ViewBag.UserName = vUser.UserName;
             return PartialView("List", gorevCalismas.OrderByDescending(m => m.Tarih).ToList());
         }
+
         /// <summary>
         /// düzenle
         /// </summary>
@@ -65,6 +69,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             ViewBag.GorevID = new SelectList(db.Gorevlers.Where(m => m.ID == gorevCalisma.GorevID).ToList(), "ID", "Gorev", gorevCalisma.GorevID);
             return PartialView(gorevCalisma);
         }
+
         /// <summary>
         /// kaydet
         /// </summary>
@@ -128,6 +133,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                 return Json(new Result(false, "Kayıt hatası"), JsonRequestBehavior.AllowGet);
             }
         }
+
         /// <summary>
         /// destek çalışma kaydet
         /// </summary>
@@ -176,7 +182,6 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                 KayitTarih = DateTime.Now,
                 Degistiren = vUser.UserName,
                 DegisTarih = DateTime.Now
-
             };
             // add todolist
             var todo = new GorevlerToDoList()
@@ -221,6 +226,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                 return Json(new Result(false, "Kayıt hatası"), JsonRequestBehavior.AllowGet);
             }
         }
+
         /// <summary>
         /// sil
         /// </summary>
@@ -243,6 +249,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                 return Json(new Result(false, "Hata oldu"), JsonRequestBehavior.AllowGet);
             }
         }
+
         /// <summary>
         /// todo lists page
         /// </summary>
@@ -253,6 +260,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             ViewBag.RoleName = vUser.RoleName;
             return View();
         }
+
         /// <summary>
         /// liste
         /// </summary>
@@ -280,6 +288,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             ViewBag.RoleName = vUser.RoleName;
             return PartialView("ToDosList", list.OrderBy(m => m.Gorevler.OncelikID).ThenBy(m => m.ID).ToList());
         }
+
         /// <summary>
         /// ToDos onay / ret
         /// </summary>
@@ -437,6 +446,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                 return Json(new Result(false, "Kayıt hatası"), JsonRequestBehavior.AllowGet);
             }
         }
+
         /// <summary>
         /// ayrıntı
         /// </summary>

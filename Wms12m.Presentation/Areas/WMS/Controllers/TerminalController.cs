@@ -15,6 +15,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             if (CheckPerm(Perms.TerminalİçinYetkilendirme, PermTypes.Reading) == false) return Redirect("/");
             return View("Index");
         }
+
         /// <summary>
         /// kullanıcılar
         /// </summary>
@@ -24,6 +25,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             var list = PersonDetails.GetList();
             return PartialView("List", list);
         }
+
         /// <summary>
         /// yeni form
         /// </summary>
@@ -34,6 +36,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             ViewBag.UserID = new SelectList(Persons.GetListWithoutTerminal(), "ID", "AdSoyad");
             return PartialView("Editor", new UserDetail());
         }
+
         /// <summary>
         /// düzenler
         /// </summary>
@@ -48,6 +51,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             ViewBag.UserID = new SelectList(db.Users.Where(m => m.ID == tbl.UserID).ToList(), "ID", "AdSoyad");
             return PartialView("Editor", tbl);
         }
+
         /// <summary>
         /// düzenler
         /// </summary>
@@ -60,6 +64,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             var tbl = Persons.Detail(id.ToInt32());
             return PartialView("Barcode", tbl);
         }
+
         /// <summary>
         /// kaydet
         /// </summary>
@@ -71,6 +76,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             LogActions("WMS", "Terminal", "Save", ComboItems.alEkle, tbl.UserID);
             return RedirectToAction("Index");
         }
+
         /// <summary>
         /// sil
         /// </summary>

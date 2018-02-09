@@ -20,6 +20,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             ViewBag.DepoID = new SelectList(Store.GetList(vUser.DepoId), "ID", "DepoAd");
             return View("Index");
         }
+
         /// <summary>
         /// listeyi yeniler
         /// </summary>
@@ -37,6 +38,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                 return PartialView("List", new List<Yer>());
             }
         }
+
         /// <summary>
         /// ürün bazlı liste
         /// </summary>
@@ -46,6 +48,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             var list = db.Database.SqlQuery<frmStokList>(string.Format("SELECT wms.fnGetRezervStock(wms.Depo.DepoKodu,wms.Yer.MalKodu,wms.Yer.Birim) AS WmsRezerv, wms.Depo.DepoAd, wms.Depo.ID, wms.Yer.MalKodu, wms.Yer.Birim, SUM(wms.Yer.Miktar) AS Miktar FROM wms.Yer INNER JOIN wms.Depo ON wms.Yer.DepoID = wms.Depo.ID WHERE (wms.Yer.MalKodu = '{0}') GROUP BY wms.Depo.DepoAd, wms.Depo.ID, wms.Yer.MalKodu, wms.Yer.Birim, wms.fnGetRezervStock(wms.Depo.DepoKodu,wms.Yer.MalKodu,wms.Yer.Birim)", Id)).ToList();
             return PartialView("List2", list);
         }
+
         /// <summary>
         /// kablo stok ana sayfası
         /// </summary>
@@ -55,6 +58,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             ViewBag.DepoID = new SelectList(Store.GetListCable(vUser.DepoId), "ID", "DepoAd");
             return View("Cable");
         }
+
         /// <summary>
         /// kablo stoğunu getirir
         /// </summary>
@@ -71,6 +75,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                 return PartialView("CableList", new List<frmCableStok>());
             }
         }
+
         /// <summary>
         /// evrak noya ait mallar
         /// </summary>
@@ -84,6 +89,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                 return Json(list, JsonRequestBehavior.AllowGet);
             }
         }
+
         /// <summary>
         /// mal hareketleri
         /// </summary>
@@ -93,6 +99,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             ViewBag.DepoID = new SelectList(Store.GetList(vUser.DepoId), "ID", "DepoAd");
             return View("History");
         }
+
         /// <summary>
         /// hareketler alt sayfa
         /// </summary>
@@ -110,6 +117,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             var list = db.Yer_Log.Where(m => m.MalKodu == MalKodu && m.DepoID == DepoID).OrderBy(m => m.KayitTarihi).ThenBy(m => m.KayitSaati).ThenBy(m => m.ID).ToList();
             return PartialView("HistoryList", list);
         }
+
         /// <summary>
         /// manual ekle
         /// </summary>
@@ -122,6 +130,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             ViewBag.KatID = new SelectList(Floor.GetList(0), "ID", "KatAd");
             return View("ManualCorrection", new Yer());
         }
+
         /// <summary>
         /// manual ekle
         /// </summary>
@@ -272,6 +281,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             // return
             return Json(new Result(true), JsonRequestBehavior.AllowGet);
         }
+
         /// <summary>
         /// manual yer değiştir
         /// </summary>
@@ -284,6 +294,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             ViewBag.KatID = new SelectList(Floor.GetList(0), "ID", "KatAd");
             return View("ManualMovement", new Yer());
         }
+
         /// <summary>
         /// elle yer değiştirmeyi kaydet
         /// </summary>
@@ -338,6 +349,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                 return Json(new Result(false, "Kayıt hatası"), JsonRequestBehavior.AllowGet);
             }
         }
+
         /// <summary>
         /// elle yerleştirmede yeni yeri belirle
         /// </summary>
@@ -352,6 +364,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             ViewBag.Id = Id;
             return PartialView("ManualMovementNewPlace", new Yer());
         }
+
         /// <summary>
         /// elle yerleştirmede yeni yeri belirle
         /// </summary>
@@ -367,6 +380,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             if (list.Count == 0) return null;
             return PartialView("Details", list);
         }
+
         /// <summary>
         /// depoya bir ürünü listeler
         /// </summary>
@@ -375,6 +389,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         {
             return PartialView("Details2", Yerlestirme.GetList(DepoID, MalKodu));
         }
+
         /// <summary>
         /// rezerv bilgileri
         /// </summary>
@@ -383,6 +398,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         {
             return PartialView("ReserveList", Yerlestirme.GetListRezerve(MalKodu, DepoID, DepoKodu));
         }
+
         /// <summary>
         /// stok karşılaştırma sayfası
         /// </summary>
@@ -392,6 +408,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             ViewBag.DepoID = new SelectList(Store.GetList(vUser.DepoId), "DepoKodu", "DepoAd");
             return View("Comparison");
         }
+
         /// <summary>
         /// stok karşılaştırma listesi
         /// </summary>

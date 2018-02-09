@@ -19,6 +19,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             ViewBag.DepoID = new SelectList(Store.GetList(), "DepoKodu", "DepoAd");
             return View("Index");
         }
+
         /// <summary>
         /// seçili malzemeler gruplanmış olarak gelecek
         /// </summary>
@@ -62,6 +63,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             ViewBag.tbl = tbl;
             return View("Step2", list);
         }
+
         /// <summary>
         /// step 3
         /// </summary>
@@ -101,6 +103,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             ViewBag.DepoID = idDepo;
             return View("Step3", list2);
         }
+
         /// <summary>
         /// alımdan iade onaylandı
         /// </summary>
@@ -121,6 +124,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             // görevlere git
             return Redirect("/WMS/Tasks");
         }
+
         ///<summary>
         ///depo ve şirket seçince açık siparişler gelecek
         ///</summary>
@@ -146,6 +150,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                 return PartialView("List", new List<frmSiparisler>());
             }
         }
+
         /// <summary>
         /// detaylar
         /// </summary>
@@ -156,6 +161,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             var list = db.Database.SqlQuery<frmSiparisMalzeme>(sql).ToList();
             return Json(list, JsonRequestBehavior.AllowGet);
         }
+
         /// <summary>
         /// stok kontrol
         /// </summary>

@@ -1,5 +1,4 @@
-﻿
-using Kendo.Mvc.Extensions;
+﻿using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
 using System;
 using System.Collections.Generic;
@@ -19,11 +18,11 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             ViewBag.DurumID = new SelectList(ComboSub.GetList(Combos.GorevDurum.ToInt32()), "ID", "Name");
             return View("Index2");
         }
+
         public JsonResult List2([DataSourceRequest]DataSourceRequest request, int Id, int Tarih = 0)
         {
             return Json(db.GetTaskList(Id, vUser.DepoId ?? 0, Tarih).ToList().ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
-
 
         /// <summary>
         /// görev anasayfa
@@ -34,6 +33,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             ViewBag.DurumID = new SelectList(ComboSub.GetList(Combos.GorevDurum.ToInt32()), "ID", "Name");
             return View("Index");
         }
+
         /// <summary>
         /// listeyi gösterir
         /// </summary>
@@ -41,6 +41,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         {
             return base.PartialView("List", db.GetTaskList(Id, vUser.DepoId ?? 0, Tarih).ToList());
         }
+
         /// <summary>
         /// görev ayrıntıları
         /// </summary>
@@ -56,6 +57,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             };
             return PartialView("Details", list);
         }
+
         /// <summary>
         /// görev düzenle
         /// </summary>
@@ -67,6 +69,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             ViewBag.DurumID = new SelectList(ComboSub.GetList(Combos.GorevDurum.ToInt32()), "ID", "Name", list.DurumID);
             return PartialView("_GorevDetailPartial", list);
         }
+
         /// <summary>
         /// görev güncelle
         /// </summary>
@@ -78,6 +81,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             // get list
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
+
         /// <summary>
         /// görevli ata
         /// </summary>
@@ -92,6 +96,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             ViewBag.Gorevli = new SelectList(Persons.GetList(), "Kod", "AdSoyad", list.Gorevli);
             return PartialView("GorevliAta", list);
         }
+
         /// <summary>
         /// görevliyi kaydeder
         /// </summary>
@@ -103,6 +108,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             var _Result = tmpTable.UpdateGorevli(tbl);
             return RedirectToAction("Index");
         }
+
         /// <summary>
         /// kontrollü sayin sayfası
         /// </summary>
@@ -112,6 +118,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             ViewBag.DurumID = new SelectList(ComboSub.GetList(Combos.GorevDurum.ToInt32()), "ID", "Name");
             return View("Count");
         }
+
         /// <summary>
         /// listeyi yeniler
         /// </summary>
@@ -121,6 +128,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             var list = Task.GetList(ComboItems.KontrolSayım.ToInt32(), Id.ToInt32());
             return PartialView("CountList", list);
         }
+
         /// <summary>
         /// yeni kontrollü sayım görevi ekle
         /// </summary>
@@ -131,6 +139,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             ViewBag.DepoID = new SelectList(Store.GetList(), "ID", "DepoAd");
             return PartialView("CountNew");
         }
+
         /// <summary>
         /// yeni görevi kaydeder
         /// </summary>
@@ -157,6 +166,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             }
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
+
         /// <summary>
         /// kontrollü sayima ait fark sayfası
         /// </summary>
@@ -176,6 +186,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             ViewBag.Tip = Tip;
             return PartialView("CountFark", list);
         }
+
         /// <summary>
         /// sayım fişi kaydeder
         /// </summary>
@@ -278,6 +289,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
 
             return Json(sonuc, JsonRequestBehavior.AllowGet);
         }
+
         /// <summary>
         /// sayım fark fişi kaydeder
         /// </summary>
@@ -413,6 +425,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
 
             return Json(sonuc, JsonRequestBehavior.AllowGet);
         }
+
         /// <summary>
         /// sayım fişi kaydeder
         /// </summary>
@@ -434,6 +447,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             db.SaveChanges();
             return Json(new Result(true, mGorev.ID, "İşlem tamlandı!"), JsonRequestBehavior.AllowGet);
         }
+
         /// <summary>
         /// sayımı tekrar aktif et
         /// </summary>
@@ -455,6 +469,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             db.SaveChanges();
             return Json(new Result(true, mGorev.ID, "İşlem tamlandı!"), JsonRequestBehavior.AllowGet);
         }
+
         /// <summary>
         /// paketleme sonrası, sevkiyat öncesi barkod hazırlama
         /// </summary>
@@ -470,6 +485,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             ViewBag.PaketTipiID = new SelectList(ComboSub.GetList(Combos.PaketTipi.ToInt32()), "ID", "Name", tbl.PaketTipiID);
             return PartialView("Barcode", tbl);
         }
+
         /// <summary>
         /// paketleme sonrası, sevkiyat öncesi barkod yazdırma
         /// </summary>
@@ -487,6 +503,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             ViewBag.Details = db.Database.SqlQuery<frmPaketBarkod>(string.Format("EXEC [FINSAT6{0}].[wms].[getBarcodeDetails] @SirketKodu = N'{0}', @DepoKodu = N'{1}', @EvrakNo = N'{2}'", tblx.Gorev.IR.SirketKod, tblx.Gorev.Depo.DepoKodu, tblx.Gorev.IR.EvrakNo)).FirstOrDefault();
             return View("BarcodePrint", tblx);
         }
+
         /// <summary>
         /// sayım fişi iptal
         /// </summary>
@@ -511,6 +528,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             LogActions("WMS", "Tasks", "CountBack", ComboItems.alSil, mGorev.ID, "Sayım Fişi İptal: " + mGorev.IR.EvrakNo);
             return Json(new Result(true, mGorev.ID, "İşlem tamlandı!"), JsonRequestBehavior.AllowGet);
         }
+
         /// <summary>
         /// sayım fark fişi iptal
         /// </summary>

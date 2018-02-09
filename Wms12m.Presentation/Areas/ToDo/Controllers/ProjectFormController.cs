@@ -21,6 +21,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             ViewBag.RoleName = vUser.RoleName;
             return View("Index", new ProjeForm());
         }
+
         /// <summary>
         /// liste
         /// </summary>
@@ -32,6 +33,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             ViewBag.RoleName = vUser.RoleName;
             return PartialView("List", db.ProjeForms.Where(a => a.PID == null).ToList());
         }
+
         /// <summary>
         /// düzeneleme sayfası
         /// </summary>
@@ -43,6 +45,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             ViewBag.RoleName = vUser.RoleName;
             return PartialView(projeForm);
         }
+
         /// <summary>
         /// kaydet
         /// </summary>
@@ -94,6 +97,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
 
             return Json(new Result(false, "Hata oldu"), JsonRequestBehavior.AllowGet);
         }
+
         /// <summary>
         /// sil
         /// </summary>
@@ -113,6 +117,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                 return Json(new Result(false, "Projeye ait form bulunduğu için silme işlemi gerçekleştirilememiştir."), JsonRequestBehavior.AllowGet);
             }
         }
+
         /// <summary>
         /// formlar
         /// </summary>
@@ -132,6 +137,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             ViewBag.Yetki = CheckPerm(Perms.TodoProje, PermTypes.Writing);
             return PartialView(projeForm);
         }
+
         /// <summary>
         /// form listesi
         /// </summary>
@@ -145,6 +151,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             ViewBag.Yetki2 = CheckPerm(Perms.TodoProje, PermTypes.Deleting);
             return PartialView("FormList", db.ProjeForms.Where(a => a.PID == ID).ToList());
         }
+
         /// <summary>
         /// form edit
         /// </summary>
@@ -155,6 +162,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             ViewBag.PID = new SelectList(db.ProjeForms.Where(x => x.PID == null).ToList(), "ID", "Proje", projeForm.PID);
             return PartialView(projeForm);
         }
+
         /// <summary>
         /// form kaydeder
         /// </summary>
@@ -195,6 +203,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
 
             return Json(new Result(false, "Hata oldu"), JsonRequestBehavior.AllowGet);
         }
+
         /// <summary>
         /// projeler
         /// </summary>
@@ -210,6 +219,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                                                                             ORDER BY ong.ProjeForm.Proje", ID)).ToList();
             return Json(list, JsonRequestBehavior.AllowGet);
         }
+
         /// <summary>
         /// formlar
         /// </summary>
@@ -224,6 +234,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                                                                             ORDER BY Text", ID)).ToList();
             return Json(list, JsonRequestBehavior.AllowGet);
         }
+
         /// <summary>
         /// dosyalar
         /// </summary>
