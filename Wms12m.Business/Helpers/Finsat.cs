@@ -10,6 +10,9 @@ namespace Wms12m
 {
     public class Finsat
     {
+        private string ConStr { get; set; }
+        private string SirketKodu { get; set; }
+
         /// <summary>
         /// yeni finsat
         /// </summary>
@@ -18,9 +21,6 @@ namespace Wms12m
             ConStr = conStr;
             SirketKodu = sirketKodu;
         }
-
-        private string ConStr { get; set; }
-        private string SirketKodu { get; set; }
 
         /// <summary>
         /// Alımdan Iade faturası

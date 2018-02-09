@@ -504,6 +504,7 @@
     <Compile Include="VM_WMS\Rapor\SevkiyatKalanRapor.cs" />
     <Compile Include="VM_WMS\STI\STIDepoSelect.cs" />
     <Compile Include="VM_YeniNesil\DepoTran.cs" />
+    <Compile Include="VM_YeniNesil\DovizKurlari.cs" />
     <Compile Include="VM_YeniNesil\frmOnayFatura.cs" />
     <Compile Include="VM_YeniNesil\frmOnaySiparisList.cs" />
     <Compile Include="VM_YeniNesil\frmOnayTahsilatList.cs" />

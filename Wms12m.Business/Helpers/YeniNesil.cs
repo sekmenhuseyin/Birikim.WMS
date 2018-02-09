@@ -6,11 +6,13 @@ using Wms12m.Entity;
 
 namespace Wms12m
 {
-    public class YeniNesil
+    public partial class YeniNesil
     {
         private List<STIEvrakBilgi> EvrakNoList;
         private List<STK005> FaturaSatirlari;
         private List<HesapItem> HesapList;
+        private string ConStr { get; set; }
+        private string SirketKodu { get; set; }
 
         /// <summary>
         /// yeni finsat
@@ -20,9 +22,6 @@ namespace Wms12m
             ConStr = conStr;
             SirketKodu = sirketKodu;
         }
-
-        private string ConStr { get; set; }
-        private string SirketKodu { get; set; }
 
         public Result DepoTransferKaydet(List<DepoTran> TransferUrunleri)
         {
@@ -686,18 +685,6 @@ namespace Wms12m
             HesapList = new List<HesapItem>();
             var Sqlexper = new SqlExper(ConStr, SirketKodu);
             HesapList = Sqlexper.SelectList<HesapItem>(string.Format(HesapItem.Sorgu, HesapKodu));
-        }
-
-        public class DovizKurlari
-        {
-            public static string Sorgu = @"
-            SELECT TOP 1 DVZ002_DvzEfektisSatis1 as USD, DVZ002_DvzEfektisSatis2 as EUR
-            FROM   YNS{{0}}.YNS{{0}}.DVZ002(NOLOCK)
-            WHERE  DVZ002_DvzEfektisSatis1>0 AND DVZ002_DovizDate IN({0},{1},{2})
-            ORDER BY DVZ002_DovizDate DESC";
-
-            public decimal EUR { get; set; }
-            public decimal USD { get; set; }
         }
     }
 }
