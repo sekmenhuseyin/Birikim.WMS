@@ -1,8 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
-using System.Collections.Generic;
-using System.Configuration;
 using System.Linq;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
@@ -13,6 +11,59 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
     public class CheckController : RootController
     {
         #region SPGMY
+
+        public JsonResult Onay_SPGMY(string Data)
+        {
+            var _Result = new Result(false, "Yetkiniz yok");
+            if (CheckPerm(Perms.ÇekOnaylama, PermTypes.Writing) == false) return Json(_Result, JsonRequestBehavior.AllowGet);
+
+            var parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
+            var shortDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+            var sql = "";
+            foreach (JObject insertObj in parameters)
+            {
+                sql += string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[CEK] SET SPGMYOnay = 1, SPGMYOnaylayan='" + vUser.UserName + "', SPGMYOnayTarih='{2}'  where ID = '{1}';", vUser.SirketKodu, insertObj["ID"].ToString(), shortDate);
+            }
+
+            try
+            {
+                db.Database.ExecuteSqlCommand(sql);
+                _Result.Status = true;
+                _Result.Message = "İşlem Başarılı ";
+            }
+            catch (Exception)
+            {
+                _Result.Message = "Hata Oluştu. ";
+            }
+
+            return Json(_Result, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult Red_SPGMY(string Data)
+        {
+            var _Result = new Result(false, "Yetkiniz yok");
+            if (CheckPerm(Perms.ÇekOnaylama, PermTypes.Writing) == false) return Json(_Result, JsonRequestBehavior.AllowGet);
+
+            var parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
+            var shortDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+            var sql = "";
+            foreach (JObject insertObj in parameters)
+            {
+                sql += string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[CEK] SET SPGMYOnay = 0, SPGMYOnaylayan='" + vUser.UserName + "', SPGMYOnayTarih='{2}', Durum = 1 where ID = '{1}';", vUser.SirketKodu, insertObj["ID"].ToString(), shortDate);
+            }
+            try
+            {
+                db.Database.ExecuteSqlCommand(sql);
+                _Result.Status = true;
+                _Result.Message = "İşlem Başarılı ";
+            }
+            catch (Exception)
+            {
+                _Result.Message = "Hata Oluştu. ";
+            }
+
+            return Json(_Result, JsonRequestBehavior.AllowGet);
+        }
 
         public ActionResult SPGMY()
         {
@@ -25,70 +76,6 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             var RT = db.Database.SqlQuery<CekOnaySelect>(string.Format("[FINSAT6{0}].[wms].[CekOnaySPGMY]", vUser.SirketKodu)).ToList();
             var json = new JavaScriptSerializer().Serialize(RT);
             return json;
-        }
-
-        public JsonResult Onay_SPGMY(string Data)
-        {
-            var _Result = new Result(true);
-            if (CheckPerm(Perms.ÇekOnaylama, PermTypes.Writing) == false) return null;
-
-            var parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
-
-            var sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
-
-            try
-            {
-                Dictionary<string, int> FiyatMaxSiraNo = new Dictionary<string, int>();
-                foreach (JObject insertObj in parameters)
-                {
-                    var date = DateTime.Now;
-                    var shortDate = date.ToString("yyyy-MM-dd HH:mm:ss");
-                    var sonuc = sqlexper.AcceptChanges();
-                    db.Database.ExecuteSqlCommand(string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[CEK] SET SPGMYOnay = 1, SPGMYOnaylayan='" + vUser.UserName + "', SPGMYOnayTarih='{2}'  where ID = '{1}'", vUser.SirketKodu, insertObj["ID"].ToString(), shortDate));
-                }
-
-                _Result.Status = true;
-                _Result.Message = "İşlem Başarılı ";
-            }
-            catch (Exception)
-            {
-                _Result.Status = false;
-                _Result.Message = "Hata Oluştu. ";
-            }
-
-            return Json(_Result, JsonRequestBehavior.AllowGet);
-        }
-
-        public JsonResult Red_SPGMY(string Data)
-        {
-            var _Result = new Result(true);
-            if (CheckPerm(Perms.ÇekOnaylama, PermTypes.Writing) == false) return null;
-
-            var parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
-
-            var sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
-
-            try
-            {
-                Dictionary<string, int> FiyatMaxSiraNo = new Dictionary<string, int>();
-                foreach (JObject insertObj in parameters)
-                {
-                    var date = DateTime.Now;
-                    var shortDate = date.ToString("yyyy-MM-dd HH:mm:ss");
-                    var sonuc = sqlexper.AcceptChanges();
-                    db.Database.ExecuteSqlCommand(string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[CEK] SET SPGMYOnay = 0, SPGMYOnaylayan='" + vUser.UserName + "', SPGMYOnayTarih='{2}', Durum = 1 where ID = '{1}'", vUser.SirketKodu, insertObj["ID"].ToString(), shortDate));
-                }
-
-                _Result.Status = true;
-                _Result.Message = "İşlem Başarılı ";
-            }
-            catch (Exception)
-            {
-                _Result.Status = false;
-                _Result.Message = "Hata Oluştu. ";
-            }
-
-            return Json(_Result, JsonRequestBehavior.AllowGet);
         }
 
         #endregion SPGMY
@@ -110,27 +97,23 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
         public JsonResult Onay_MIGMY(string Data)
         {
-            var _Result = new Result(true);
-            if (CheckPerm(Perms.ÇekOnaylama, PermTypes.Writing) == false) return null;
+            var _Result = new Result(false, "Yetkiniz yok");
+            if (CheckPerm(Perms.ÇekOnaylama, PermTypes.Writing) == false) return Json(_Result, JsonRequestBehavior.AllowGet);
             var parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
-            var sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
+            var shortDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+            var sql = "";
+            foreach (JObject insertObj in parameters)
+            {
+                sql += string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[CEK] SET MIGMYOnay = 1, MIGMYOnaylayan='" + vUser.UserName + "', MIGMYOnayTarih='{2}'  where ID = '{1}'", vUser.SirketKodu, insertObj["ID"].ToString(), shortDate);
+            }
             try
             {
-                Dictionary<string, int> FiyatMaxSiraNo = new Dictionary<string, int>();
-                foreach (JObject insertObj in parameters)
-                {
-                    var date = DateTime.Now;
-                    var shortDate = date.ToString("yyyy-MM-dd HH:mm:ss");
-                    var sonuc = sqlexper.AcceptChanges();
-                    db.Database.ExecuteSqlCommand(string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[CEK] SET MIGMYOnay = 1, MIGMYOnaylayan='" + vUser.UserName + "', MIGMYOnayTarih='{2}'  where ID = '{1}'", vUser.SirketKodu, insertObj["ID"].ToString(), shortDate));
-                }
-
+                db.Database.ExecuteSqlCommand(sql);
                 _Result.Status = true;
                 _Result.Message = "İşlem Başarılı ";
             }
             catch (Exception)
             {
-                _Result.Status = false;
                 _Result.Message = "Hata Oluştu. ";
             }
 
@@ -139,30 +122,24 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
         public JsonResult Red_MIGMY(string Data)
         {
-            var _Result = new Result(true);
-            if (CheckPerm(Perms.ÇekOnaylama, PermTypes.Writing) == false) return null;
+            var _Result = new Result(false, "Yetkiniz yok");
+            if (CheckPerm(Perms.ÇekOnaylama, PermTypes.Writing) == false) return Json(_Result, JsonRequestBehavior.AllowGet);
 
             var parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
-
-            var sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
-
+            var shortDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+            var sql = "";
+            foreach (JObject insertObj in parameters)
+            {
+                sql += string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[CEK] SET MIGMYOnay = 0, MIGMYOnaylayan='" + vUser.UserName + "', MIGMYOnayTarih='{2}', Durum = 1 where ID = '{1}'", vUser.SirketKodu, insertObj["ID"].ToString(), shortDate);
+            }
             try
             {
-                Dictionary<string, int> FiyatMaxSiraNo = new Dictionary<string, int>();
-                foreach (JObject insertObj in parameters)
-                {
-                    var date = DateTime.Now;
-                    var shortDate = date.ToString("yyyy-MM-dd HH:mm:ss");
-                    var sonuc = sqlexper.AcceptChanges();
-                    db.Database.ExecuteSqlCommand(string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[CEK] SET MIGMYOnay = 0, MIGMYOnaylayan='" + vUser.UserName + "', MIGMYOnayTarih='{2}', Durum = 1 where ID = '{1}'", vUser.SirketKodu, insertObj["ID"].ToString(), shortDate));
-                }
-
+                db.Database.ExecuteSqlCommand(sql);
                 _Result.Status = true;
                 _Result.Message = "İşlem Başarılı ";
             }
             catch (Exception)
             {
-                _Result.Status = false;
                 _Result.Message = "Hata Oluştu. ";
             }
 
@@ -188,30 +165,24 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
         public JsonResult Onay_GM(string Data)
         {
-            var _Result = new Result(true);
-            if (CheckPerm(Perms.ÇekOnaylama, PermTypes.Writing) == false) return null;
+            var _Result = new Result(false, "Yetkiniz yok");
+            if (CheckPerm(Perms.ÇekOnaylama, PermTypes.Writing) == false) return Json(_Result, JsonRequestBehavior.AllowGet);
 
             var parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
-
-            var sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
-
+            var shortDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+            var sql = "";
+            foreach (JObject insertObj in parameters)
+            {
+                sql += string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[CEK] SET GMOnay = 1, GMOnaylayan='" + vUser.UserName + "', GMOnayTarih='{2}', Durum=1  where ID = '{1}'", vUser.SirketKodu, insertObj["ID"].ToString(), shortDate);
+            }
             try
             {
-                Dictionary<string, int> FiyatMaxSiraNo = new Dictionary<string, int>();
-                foreach (JObject insertObj in parameters)
-                {
-                    var date = DateTime.Now;
-                    var shortDate = date.ToString("yyyy-MM-dd HH:mm:ss");
-                    var sonuc = sqlexper.AcceptChanges();
-                    db.Database.ExecuteSqlCommand(string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[CEK] SET GMOnay = 1, GMOnaylayan='" + vUser.UserName + "', GMOnayTarih='{2}', Durum=1  where ID = '{1}'", vUser.SirketKodu, insertObj["ID"].ToString(), shortDate));
-                }
-
+                db.Database.ExecuteSqlCommand(sql);
                 _Result.Status = true;
                 _Result.Message = "İşlem Başarılı ";
             }
             catch (Exception)
             {
-                _Result.Status = false;
                 _Result.Message = "Hata Oluştu. ";
             }
 
@@ -220,30 +191,24 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
         public JsonResult Red_GM(string Data)
         {
-            var _Result = new Result(true);
-            if (CheckPerm(Perms.ÇekOnaylama, PermTypes.Writing) == false) return null;
+            var _Result = new Result(false, "Yetkiniz yok");
+            if (CheckPerm(Perms.ÇekOnaylama, PermTypes.Writing) == false) return Json(_Result, JsonRequestBehavior.AllowGet);
 
             var parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
-
-            var sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
-
+            var shortDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+            var sql = "";
+            foreach (JObject insertObj in parameters)
+            {
+                sql += string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[CEK] SET GMOnay = 0, GMOnaylayan='" + vUser.UserName + "', GMOnayTarih='{2}', Durum = 1 where ID = '{1}'", vUser.SirketKodu, insertObj["ID"].ToString(), shortDate);
+            }
             try
             {
-                Dictionary<string, int> FiyatMaxSiraNo = new Dictionary<string, int>();
-                foreach (JObject insertObj in parameters)
-                {
-                    var date = DateTime.Now;
-                    var shortDate = date.ToString("yyyy-MM-dd HH:mm:ss");
-                    var sonuc = sqlexper.AcceptChanges();
-                    db.Database.ExecuteSqlCommand(string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[CEK] SET GMOnay = 0, GMOnaylayan='" + vUser.UserName + "', GMOnayTarih='{2}', Durum = 1 where ID = '{1}'", vUser.SirketKodu, insertObj["ID"].ToString(), shortDate));
-                }
-
+                db.Database.ExecuteSqlCommand(sql);
                 _Result.Status = true;
                 _Result.Message = "İşlem Başarılı ";
             }
             catch (Exception)
             {
-                _Result.Status = false;
                 _Result.Message = "Hata Oluştu. ";
             }
 
