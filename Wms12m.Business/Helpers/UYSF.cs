@@ -1,4 +1,4 @@
-﻿using OnikimCore.GunesCore;
+﻿using OnikimCore;
 using System;
 using System.Collections.Generic;
 using Wms12m.Entity;
@@ -47,7 +47,7 @@ namespace Wms12m
                 });
             }
 
-            var Emir = new OnikimCore.GunesCore.EMG();
+            var Emir = new OnikimCore.EMG();
             if (emir != null)
             {
                 Emir.DefaultValueSet();
