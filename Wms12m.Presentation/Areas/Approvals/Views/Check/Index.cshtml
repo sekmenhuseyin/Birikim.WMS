@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = "Çek Onay GM";
+    ViewBag.Title = "Çek Onay " + ViewBag.Tip;
     Layout = "~/Views/Shared/_Layout.cshtml";
 }@section Styles{<style>
     td.details-control {background: url('/Content/assets/global/plugins/datatables/images/details_open.png') no-repeat center center;cursor: pointer;}
@@ -17,13 +17,13 @@
     .dx-datagrid .dx-sort.dx-header { background-color: #32c5d2; }
 </style>
 }<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><span>Onaylama</span><i class="fa fa-circle"></i></li><li><span>Çek</span></li></ul></div>
-<h1 class="page-title">Çek Onay GM</h1>
+<h1 class="page-title">Çek Onay @ViewBag.Tip</h1>
 <div class="form-horizontal">
     <div class="form-body">
         <div class="portlet box green">
             <div class="portlet-title">
                 <div class="caption">
-                    <i class="fa fa-gift"></i>Çek Onay GM
+                    <i class="fa fa-gift"></i>Çek Onay @ViewBag.Tip
                 </div>
                 <div class="col-md-1 pull-right m-t-5 p-0" id="buttons"></div>
                 <div class="col-md-2 pull-right m-t-5"><button class="btn btn-default pull-right input-circle yenile-buton glyphicon glyphicon-refresh"> Yenile </button></div>
@@ -39,29 +39,12 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="btn-group">
-
                                         </div>
                                     </div>
                                     <div class="col-md-6">
-
                                     </div>
                                     <table class="table table-striped table-bordered" id="sample_1">
-                                        <thead>
-                                            <tr>
-                                                <th></th>
-                                                <th></th>
-                                                <th> Evrak No </th>
-                                                <th> Veren </th>
-                                                <th> Ünvan </th>
-                                                <th> Borçlu </th>
-                                                <th> Borçlu Ünvan </th>
-                                                <th> Vade Tarihi</th>
-                                                <th> Tutar</th>
-                                                <th> Bağlantı Tutar</th>
-                                                <th> Bağlantının Ortalama Vadesi</th>
-                                                <th></th>
-                                            </tr>
-                                        </thead>
+                                        <thead><tr><th></th><th></th><th> Evrak No </th><th> Veren </th><th> Ünvan </th><th> Borçlu </th><th> Borçlu Ünvan </th><th> Vade Tarihi</th><th> Tutar</th><th> Bağlantı Tutar</th><th> Bağlantının Ortalama Vadesi</th><th></th></tr></thead>
                                         <tfoot><tr><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr></tfoot>
                                         <tfoot class="tf-search"><tr><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr></tfoot>
                                     </table>
@@ -73,10 +56,7 @@
                     </div>
                 </div>
             </div>
-
         </div>
-
-
     </div>
 </div>
 <div class="modal fade" id="x-modal-gm-cek-detay" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="false">
@@ -105,7 +85,8 @@
     var table = $('#sample_1').DataTable({
         "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
         "ajax": {
-            "url": '/Approvals/Check/GM_List',
+            "url": '/Approvals/Check/List',
+            "data": {Tip: "@ViewBag.Tip"},
             "dataSrc": function (json) {
                 model = json;
                 return json;
@@ -134,13 +115,16 @@
             return nRow;
         }
     });
+
     $('#sample_1 .tf-search th').each(function () {
-        var title = $('#sample_1 thead th').eq($(this).index()).text();
-        if (title != "" && title.length < 100) {
-            $(this).html('<input type="text" placeholder="Ara" />');
-        }
+        var title = $('#sample_2 thead th').eq($(this).index()).text();
+        if (title != "" && title.indexOf("Tarih") !== -1)
+            $(this).html('<input class="form-control input-circle tarih" type="text" placeholder="Ara" />');
+        else if (title != "" && title != "Detay" && title != "Hareket")
+            $(this).html('<input class="form-control input-circle" type="text" placeholder="Ara" />');
         table.columns([0]).visible(false, false);
     });
+
     $("#sample_1 tfoot input").on('keyup change', function () {
         table
             .column($(this).parent().index() + ':visible')
@@ -203,6 +187,7 @@
 
         });
     });
+
     $('.onay-buton').click(function () {
         var x = table.rows('.selected').data();
         for (var i = 0; i < x.length; i++) {
@@ -210,8 +195,8 @@
         }
         var _dfd = $.Deferred();
         $.ajax({
-            url: window.location.origin + "/Approvals/Check/Onay_GM",
-            data: { Data: JSON.stringify(secili_table) },
+            url: window.location.origin + "/Approvals/Check/Onay",
+            data: { Data: JSON.stringify(secili_table), Tip: "@ViewBag.Tip", Onay: true },
             type: "post",
 
             success: function (data) {
@@ -237,8 +222,8 @@
             }
             var _dfd = $.Deferred();
             $.ajax({
-                url: window.location.origin + "/Approvals/Check/Red_GM",
-                data: { Data: JSON.stringify(secili_table) },
+                url: window.location.origin + "/Approvals/Check/Onay",
+                data: { Data: JSON.stringify(secili_table), Tip: "@ViewBag.Tip", Onay: false },
                 type: "post",
                 success: function (data) {
                     if (data.Status == true) {
@@ -258,6 +243,7 @@
     $('.yenile-buton').click(function () {
         table.ajax.reload();
     });
+
     var buttons = new $.fn.dataTable.Buttons(table, {
         buttons: [
             { "extend": 'pdf', "text": '<span class="fa fa-file-pdf-o f-s-15 red"></span>', "className": 'btn btn-default btn-xs;' },
