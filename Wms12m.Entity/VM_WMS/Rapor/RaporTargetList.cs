@@ -10,7 +10,6 @@
         public decimal Alacak { get; set; }
         /// <summary> Decimal(38,6) (Not Null) </summary>
         public decimal Bakiye { get; set; }
-
         public static string Sorgu = @"
         SELECT 
         B.GrupKod,
@@ -21,20 +20,23 @@
         SELECT 
         KarsiHesapKodu AS HesapKodu,
         (CASE IslemTip WHEN 5 THEN -Tutar WHEN 9 THEN -Tutar ELSE Tutar END) AS Tutar,
-        (CASE WHEN BA = 0 THEN 1 ELSE 0 END) AS BA FROM [FINSAT6{0}].[FINSAT6{0}].CHI (NOLOCK) WHERE KarsiHesapKodu IS NOT NULL AND KarsiHesapKodu <> '' AND IslemTip NOT IN (16,21,27,32,36,37,41,42) AND (Tarih BETWEEN 18264 AND 55000 ) 
+        (CASE WHEN BA = 0 THEN 1 ELSE 0 END) AS BA FROM [FINSAT6{0}].[FINSAT6{0}].CHI (NOLOCK) WHERE KarsiHesapKodu IS NOT NULL AND KarsiHesapKodu <> '' AND IslemTip NOT IN (16,21,27,32,36,37,41,42) AND 
+        DATEPART(yyyy,CAST(Tarih AS DATETIME))='{1}' AND DATEPART(mm,CAST(Tarih AS DATETIME))='{2}' 
         UNION ALL 
         SELECT 
         HesapKodu,
         (CASE IslemTip WHEN 5 THEN -Tutar WHEN 9 THEN -Tutar ELSE Tutar END) AS Tutar,
-        BA FROM [FINSAT6{0}].[FINSAT6{0}].CHI (NOLOCK) WHERE IslemTip NOT IN (16,21,27,32,36,37,41,42) AND (Tarih BETWEEN 18264 AND 55000 )
+        BA FROM [FINSAT6{0}].[FINSAT6{0}].CHI (NOLOCK) WHERE IslemTip NOT IN (16,21,27,32,36,37,41,42) AND
+        DATEPART(yyyy,CAST(Tarih AS DATETIME))='{1}' AND DATEPART(mm,CAST(Tarih AS DATETIME))='{2}'
         ) AS A 
-        LEFT JOIN [FINSAT6{0}].[FINSAT6{0}].CHK B (NOLOCK) ON B.HesapKodu = A.HesapKodu 
+        LEFT JOIN [FINSAT6{0}].[FINSAT6{0}].CHK AS B (NOLOCK) ON B.HesapKodu = A.HesapKodu 
         WHERE 
-        (B.karttip in (0,4) AND (B.hesapkodu BETWEEN '1' AND '8') AND (B.GrupKod BETWEEN '' AND 'ZZZZZ') AND 
+        (B.KartTip in (0,4) AND (B.HesapKodu BETWEEN '1' AND '8') AND (B.GrupKod BETWEEN '' AND 'ZZZZZ') AND 
         (B.TipKod BETWEEN '' AND 'ZZZZZ') AND (B.BolgeKod BETWEEN '' AND '9999') AND (B.OzelKod BETWEEN '' AND 'ZZZZZ') AND 
         (B.DovizCinsi BETWEEN '' AND 'ZZZ') AND (B.KartTip BETWEEN 0 AND 4) AND (B.Kod1 BETWEEN '' AND 'ZZZZZ') AND 
         (B.Kod2 BETWEEN '' AND 'ZZZZZ') AND (B.Kod3 BETWEEN '' AND 'ZZZZZ') AND (B.Kod4 BETWEEN '' AND 'ZZZZZ')
         )
-        GROUP BY B.Grupkod ORDER BY B.GrupKod";
+        GROUP BY B.Grupkod ORDER BY B.GrupKod
+        ";
     }
 }

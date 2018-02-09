@@ -400,6 +400,7 @@
     <Compile Include="VM_WMS\Others\frmMusteriler.cs" />
     <Compile Include="VM_WMS\Mal\frmUrunler.cs" />
     <Compile Include="VM_WMS\Gorev\GorevOzet.cs" />
+    <Compile Include="VM_WMS\Rapor\RaporTargetUrunGrup.cs" />
     <Compile Include="VM_WMS\STI\STIMax.cs" />
     <Compile Include="VM_WMS\Gorev\Tip_GOREV.cs" />
     <Compile Include="VM_WMS\Irsaliye\Tip_IRS.cs" />
