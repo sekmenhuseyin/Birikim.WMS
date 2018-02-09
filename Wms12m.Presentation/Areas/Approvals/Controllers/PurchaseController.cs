@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
-using System.IO;
 using System.Linq;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
@@ -13,7 +12,6 @@ using Wms12m.Entity;
 
 namespace Wms12m.Presentation.Areas.Approvals.Controllers
 {
-
     public class PurchaseController : RootController
     {
         /// <summary>
@@ -237,8 +235,6 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                 var teklifNo = Convert.ToInt32(MyGlobalVariables.SipEvrak.Satirlar[0].Kod4);
                 try
                 {
-                    #region Kayıt ve Mail
-
                     if (string.IsNullOrEmpty(sipEvrakNo) || string.IsNullOrEmpty(hesapKodu))
                         throw new ArgumentException("parametreler hatalı!");
 
@@ -286,9 +282,9 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                     SatınalmaSiparisFormu.SatinalmaSiparisFormu(sipEvrakNo, hesapKodu, sipTarih, true, vUser.SirketKodu);
 
                     List<string> attachList = new List<string>
-                        {
-                            string.Format("{0}{1}.pdf", Path.GetTempPath(), sipEvrakNo)
-                        };
+                    {
+                        string.Format("{0}{1}.pdf", ConfigurationManager.AppSettings["TeklifDosyaAdres"].ToString(), sipEvrakNo)
+                    };
 
                     List<SatTalep> listTalep = db.Database.SqlQuery<SatTalep>(string.Format("SELECT TalepNo, MalKodu, EkDosya FROM Kaynak.sta.Talep (nolock) WHERE SipEvrakNo ='{0}' AND HesapKodu = '{1}' AND ISNULL(EkDosya,'')<> '' ", sipEvrakNo, hesapKodu)).ToList();
 
@@ -327,8 +323,6 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                             db.Database.ExecuteSqlCommand(string.Format("UPDATE Kaynak.sta.Talep SET MailGonder=0 WHERE TalepNo='{0}'", sipTalep.TalepNo));
                         }
                     }
-
-                    #endregion Kayıt ve Mail
                 }
                 catch (Exception ex)
                 {
@@ -443,8 +437,6 @@ GROUP BY (CASE WHEN ST.Birim = STK.Birim1 THEN 1
 
             return PartialView(SAL);
         }
-
-        #region GMY Tedarikçi Onay
 
         public ActionResult GMYTedarikci_Onay()
         {
@@ -611,7 +603,5 @@ GROUP BY (CASE WHEN ST.Birim = STK.Birim1 THEN 1
             con.Dispose();
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
-
-        #endregion GMY Tedarikçi Onay
     }
 }
