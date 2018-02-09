@@ -11,25 +11,76 @@ namespace Wms12m.Hubs
     public class ZigChatHub : Hub
     {
         /// <summary>
-        /// send notification
+        /// connect user
         /// </summary>
-        public void SendNotifications()
+        public object ConnectUser(string userName)
+        {
+            try
+            {
+                using (var db = new WMSEntities())
+                {
+                    // Check if there if a connection for the specified user name have ever been made
+                    var existingConnection = db.Connections.Where(x => x.UserName.ToLower() == userName.ToLower()).SingleOrDefault();
+                    if (existingConnection != null)
+                    {
+                        // If there's an old connection only the connection id and the online status are changed.
+                        existingConnection.ConnectionId = Context.ConnectionId;
+                        existingConnection.IsOnline = true;
+                    }
+                    else
+                    {
+                        // If not, then a new connection is created
+                        db.Connections.Add(new Entity.Models.Connection { ConnectionId = Context.ConnectionId, UserName = userName, IsOnline = true });
+                    }
+
+                    db.SaveChanges();
+                }
+
+                UsersOnline();
+                return new { Success = true };
+            }
+            catch (Exception ex)
+            {
+                return new { Success = false, ErrorMessage = ex.Message };
+            }
+        }
+
+        /// <summary>
+        /// disconnect
+        /// </summary>
+        public override Task OnDisconnected(bool stopCalled)
         {
             using (var db = new WMSEntities())
             {
-                var list = db.Database.SqlQuery<frmNewNotification>(@"SELECT        Messages.ID, Messages.Kime, ComboItem_Name.Name, Messages.Mesaj, Connections.ConnectionId
-                                                        FROM            Messages INNER JOIN
-                                                                                    Connections ON Messages.Kime = Connections.UserName INNER JOIN
-                                                                                    ComboItem_Name ON Messages.MesajTipi = ComboItem_Name.ID
-                                                        WHERE        (Connections.IsOnline = 1) AND (Messages.Goruldu = 0) AND (Messages.MesajTipi = 85)").ToList();
-                // eğer liste varsa gönder
-                if (list.Count > 0)
-                    foreach (var item in list)
-                    {
-                        db.Database.ExecuteSqlCommand("UPDATE Messages SET Goruldu = 1 WHERE (ID = " + item.ID + ")");
-                        Clients.Clients(new List<string> { item.ConnectionId }).ReceiveNotification(item.Name, item.Mesaj);
-                    }
+                var connection = db.Connections.Where(x => x.ConnectionId == Context.ConnectionId).SingleOrDefault();
+                if (connection != null)
+                {
+                    connection.IsOnline = false;
+                    db.SaveChanges();
+                }
             }
+
+            UsersOnline();
+            return base.OnDisconnected(stopCalled);
+        }
+
+        /// <summary>
+        /// reconnect
+        /// </summary>
+        public override Task OnReconnected()
+        {
+            using (var db = new WMSEntities())
+            {
+                var connection = db.Connections.Where(x => x.ConnectionId == Context.ConnectionId).SingleOrDefault();
+                if (connection != null)
+                {
+                    connection.IsOnline = true;
+                    db.SaveChanges();
+                }
+            }
+
+            UsersOnline();
+            return base.OnReconnected();
         }
 
         /// <summary>
@@ -96,6 +147,21 @@ namespace Wms12m.Hubs
         }
 
         /// <summary>
+        /// send notification
+        /// </summary>
+        public void SendNotifications()
+        {
+            using (var db = new WMSEntities())
+            {
+                var list = db.Database.SqlQuery<frmNewNotification>(@"EXEC BIRIKIM.dbo.GetNotificationsForActiveUsers").ToList();
+                // eğer liste varsa gönder
+                if (list.Count > 0)
+                    foreach (var item in list)
+                        Clients.Clients(new List<string> { item.ConnectionId }).ReceiveNotification(item.Name, item.Mesaj);
+            }
+        }
+
+        /// <summary>
         /// update users online
         /// </summary>
         public void UsersOnline()
@@ -111,79 +177,6 @@ namespace Wms12m.Hubs
             {
                 Clients.All.UpdateUsersOnline(new { Success = false, ErrorMessage = ex.Message });
             }
-        }
-
-        /// <summary>
-        /// connect user
-        /// </summary>
-        public object ConnectUser(string userName)
-        {
-            try
-            {
-                using (var db = new WMSEntities())
-                {
-                    // Check if there if a connection for the specified user name have ever been made
-                    var existingConnection = db.Connections.Where(x => x.UserName.ToLower() == userName.ToLower()).SingleOrDefault();
-                    if (existingConnection != null)
-                    {
-                        // If there's an old connection only the connection id and the online status are changed.
-                        existingConnection.ConnectionId = Context.ConnectionId;
-                        existingConnection.IsOnline = true;
-                    }
-                    else
-                    {
-                        // If not, then a new connection is created
-                        db.Connections.Add(new Entity.Models.Connection { ConnectionId = Context.ConnectionId, UserName = userName, IsOnline = true });
-                    }
-
-                    db.SaveChanges();
-                }
-
-                UsersOnline();
-                return new { Success = true };
-            }
-            catch (Exception ex)
-            {
-                return new { Success = false, ErrorMessage = ex.Message };
-            }
-        }
-
-        /// <summary>
-        /// reconnect
-        /// </summary>
-        public override Task OnReconnected()
-        {
-            using (var db = new WMSEntities())
-            {
-                var connection = db.Connections.Where(x => x.ConnectionId == Context.ConnectionId).SingleOrDefault();
-                if (connection != null)
-                {
-                    connection.IsOnline = true;
-                    db.SaveChanges();
-                }
-            }
-
-            UsersOnline();
-            return base.OnReconnected();
-        }
-
-        /// <summary>
-        /// disconnect
-        /// </summary>
-        public override Task OnDisconnected(bool stopCalled)
-        {
-            using (var db = new WMSEntities())
-            {
-                var connection = db.Connections.Where(x => x.ConnectionId == Context.ConnectionId).SingleOrDefault();
-                if (connection != null)
-                {
-                    connection.IsOnline = false;
-                    db.SaveChanges();
-                }
-            }
-
-            UsersOnline();
-            return base.OnDisconnected(stopCalled);
         }
 
         /// <summary>
