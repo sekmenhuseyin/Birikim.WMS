@@ -184,11 +184,13 @@ namespace Wms12m
             foreach (var item in FaturaSatirlari)
             {
                 Sqlexper.Insert(item);
-                var stk = new STK004();
-                stk.pk_STK004_MalKodu = item.STK005_MalKodu;
-                stk.STK004_DegistirenKodu = item.STK005_DegistirenKodu;
-                stk.STK004_DegistirenSaat = item.STK005_DegistirenSaat;
-                stk.STK004_DegistirenTarih = item.STK005_DegistirenTarih;
+                var stk = new STK004
+                {
+                    pk_STK004_MalKodu = item.STK005_MalKodu,
+                    STK004_DegistirenKodu = item.STK005_DegistirenKodu,
+                    STK004_DegistirenSaat = item.STK005_DegistirenSaat,
+                    STK004_DegistirenTarih = item.STK005_DegistirenTarih
+                };
 
                 stk.SetAdd(STK004E.STK004_CikisMiktari, STK004E.STK004_CikisMiktari, SetIslem.Arti, item.STK005_Miktari.ToDot());
                 stk.SetAdd(STK004E.STK004_CikisTutari, STK004E.STK004_CikisTutari, SetIslem.Arti, item.STK005_Tutari.ToDot());
@@ -359,8 +361,10 @@ namespace Wms12m
 
                 #region CHK UPDATE
 
-                var chk = new CAR002();
-                chk.pk_CAR002_HesapKodu = firstItem.STK005_CariHesapKodu;
+                var chk = new CAR002
+                {
+                    pk_CAR002_HesapKodu = firstItem.STK005_CariHesapKodu
+                };
                 chk.SetAdd(CAR002E.CAR002_CiroBorc, CAR002E.CAR002_CiroBorc, SetIslem.Arti, chiMal.CAR003_Tutar.ToDot());
                 chk.CAR002_SonBorcTarihi = firstItem.STK005_IslemTarihi;
                 Sqlexper.Update(chk);

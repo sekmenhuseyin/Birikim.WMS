@@ -1,7 +1,5 @@
 ﻿namespace Wms12m.Entity
 {
-    #endregion /// SatisIadeDetay Class
-
     public class DepoTran
     {
         public string KullaniciKodu { get; set; }
