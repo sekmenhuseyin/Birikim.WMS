@@ -344,7 +344,7 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
             }
             ViewData["RaporGrupKod"] = json.Serialize(_raporGrupKod);
             ViewData["RaporTargetUrunGrup"] = json.Serialize(_raporTargetUrunGrup);
-            return View(new HDF());
+            return View();
         }
         public string TargetTemsilciList(string GrupKod)
         {
@@ -376,6 +376,11 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
             return PartialView("TargetList", tL);
         }
         public string TargetEkle(string Data)
+        {
+            var parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
+            return null;
+        }
+        public string TargetEkle(FormCollection Data)
         {
             var parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
             return null;

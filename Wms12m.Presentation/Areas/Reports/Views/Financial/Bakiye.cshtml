@@ -71,7 +71,7 @@
         });
         $(".bakiye").dxNumberBox({ value: 0, min: 0, placeholder: 'Gün sayısı girin' });    
         $("#chk-bas-select").autocomplete({
-            source: "/Reports/Financial/GetChKCode/0",
+            source: "/Reports/Financial/GetChKCode",
             minLength: 2,
             select: function (event, ui) {
                 setTimeout(function () { $("#chk-bas-select").val(ui.item.id); }, 0);
@@ -80,7 +80,7 @@
             scroll: true
         });
         $("#chk-bit-select").autocomplete({
-            source: "/Reports/Financial/GetChKCode/0",
+            source: "/Reports/Financial/GetChKCode",
             minLength: 2,
             select: function (event, ui) {
                 setTimeout(function () { $("#chk-bit-select").val(ui.item.id); }, 0);
