@@ -18,6 +18,7 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
             var cHK = db.Database.SqlQuery<CariCiroRaporuResult>(string.Format("[FINSAT6{0}].[wms].[CariCiroRaporu]", vUser.SirketKodu)).ToList();
             return View(cHK);
         }
+
         /// <summary>
         /// cari ekstre
         /// </summary>
@@ -27,11 +28,13 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
             var CHK = db.Database.SqlQuery<RaporCHKSelect>(string.Format("[FINSAT6{0}].[wms].[CHKSelectKartTip]", vUser.SirketKodu)).ToList();
             return View(CHK);
         }
+
         public PartialViewResult CariEkstreList(string chk)
         {
             var CE = db.Database.SqlQuery<RaporCariEkstre>(string.Format("[FINSAT6{0}].[wms].[DB_CariEkstre] @HesapKodu = '{1}'", vUser.SirketKodu, chk)).ToList();
             return PartialView("CariEkstreList", CE);
         }
+
         /// <summary>
         /// Vadesi Gelmemis Cekler
         /// </summary>
@@ -40,11 +43,13 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
             if (CheckPerm(Perms.Raporlar, PermTypes.Reading) == false) return Redirect("/");
             return View();
         }
+
         public PartialViewResult VadesiGelmemisCekList(int bastarih, int bittarih)
         {
             var VGC = db.Database.SqlQuery<RaporVadesiGelmemisCekler>(string.Format("[FINSAT6{0}].[wms].[VadesiGelmemisCekler] @BasTarih = {1}, @BitTarih = {2}", vUser.SirketKodu, bastarih, bittarih)).ToList();
             return PartialView("VadesiGelmemisCekList", VGC);
         }
+
         /// <summary>
         /// çek listesi
         /// </summary>
@@ -54,11 +59,13 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
             var PZ = db.Database.SqlQuery<RaporPozisyonCekSenet>(string.Format("[FINSAT6{0}].[wms].[PozisyonCekSenet]", vUser.SirketKodu)).ToList();
             return View(PZ);
         }
+
         public PartialViewResult CekList(int pozisyon, int ay, int yil)
         {
             var CLR = db.Database.SqlQuery<RaporCekListesi>(string.Format("[FINSAT6{0}].[wms].[CekListesiRaporu] @Ay = {1}, @IslemTip = {2}, @Yil = {3}", vUser.SirketKodu, ay, pozisyon, yil)).ToList();
             return PartialView("CekList", CLR);
         }
+
         /// <summary>
         /// toplam risk bakiyesi
         /// </summary>
@@ -67,11 +74,13 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
             if (CheckPerm(Perms.Raporlar, PermTypes.Reading) == false) return Redirect("/");
             return View();
         }
+
         public PartialViewResult RiskBakiyeList(int bastarih, int bittarih, int basvadetarih, int bitvadetarih, string chk_bas, string chk_bit)
         {
             var TRB = db.Database.SqlQuery<RaporToplamRiskBakiyesi>(string.Format("[FINSAT6{0}].[wms].[ToplamRiskBakiyesi] @BasTarih = {1}, @BitTarih = {2},@VadeBaslangic = {3}, @VadeBitis = {4},@BasHesapKodu= '{5}', @BitHesapKodu = '{6}'", vUser.SirketKodu, bastarih, bittarih, basvadetarih, bitvadetarih, chk_bas, chk_bit)).ToList();
             return PartialView("RiskBakiyeList", TRB);
         }
+
         /// <summary>
         /// çek portfoy listesi
         /// </summary>
@@ -80,11 +89,13 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
             if (CheckPerm(Perms.Raporlar, PermTypes.Reading) == false) return Redirect("/");
             return View();
         }
+
         public PartialViewResult CekPortfoyList(int bastarih, int bittarih, int basvadetarih, int bitvadetarih)
         {
             var GS = db.Database.SqlQuery<RaporCekPortfoyListesi>(string.Format("[FINSAT6{0}].[wms].[CekPortfoyListesi] @BasTarih = {1}, @BitTarih = {2},@BasVadeTarih = {3}, @BitVadeTarih = {4}", vUser.SirketKodu, bastarih, bittarih, basvadetarih, bitvadetarih)).ToList();
             return PartialView("CekPortfoyList", GS);
         }
+
         /// <summary>
         /// ödeme yapmayan müşteriler
         /// </summary>
@@ -94,11 +105,13 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
             if (CheckPerm(Perms.Raporlar, PermTypes.Reading) == false) return Redirect("/");
             return View();
         }
+
         public PartialViewResult OdemeYapmayanMusterilerList(int gunsayisi)
         {
             var OYM = db.Database.SqlQuery<RaporOdemeYapmayanMusteriler>(string.Format("[FINSAT6{0}].[wms].[OdemeYapmayanMusteriler] @Number = {1}", vUser.SirketKodu, gunsayisi)).ToList();
             return PartialView("OdemeYapmayanMusterilerList", OYM);
         }
+
         /// <summary>
         /// bakiye
         /// </summary>
@@ -108,11 +121,13 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
             var CHK = db.Database.SqlQuery<RaporCHKSelect>(string.Format("[FINSAT6{0}].[wms].[CHKSelectKartTip]", vUser.SirketKodu)).ToList();
             return View(CHK);
         }
+
         public PartialViewResult BakiyeList(int bastarih, int bittarih, int basvadetarih, int bitvadetarih, string chk_bas, string chk_bit, decimal bakiye)
         {
             var BR = db.Database.SqlQuery<RaporBakiye>(string.Format("[FINSAT6{0}].[wms].[BakiyeRaporu] @BasTarih = {1}, @BitTarih = {2},@VadeBaslangic = {3}, @VadeBitis = {4},@BasHesapKodu = '{5}', @BitHesapKodu = '{6}', @Bakiye = {7}", vUser.SirketKodu, bastarih, bittarih, basvadetarih, bitvadetarih, chk_bas, chk_bit, bakiye)).ToList();
             return PartialView("BakiyeList", BR);
         }
+
         public string BakiyeDetay(string CHK)
         {
             var json = new JavaScriptSerializer()
@@ -122,6 +137,7 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
             var CE = db.Database.SqlQuery<RaporCariEkstre>(string.Format("[FINSAT6{0}].[wms].[DB_CariEkstre] @HesapKodu = '{1}'", vUser.SirketKodu, CHK)).ToList();
             return json.Serialize(CE);
         }
+
         /// <summary>
         /// satış bağlantı
         /// </summary>
@@ -130,23 +146,27 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
             if (CheckPerm(Perms.Raporlar, PermTypes.Reading) == false) return Redirect("/");
             return View();
         }
+
         public PartialViewResult SatisBaglantiList(int tip)
         {
             var SBR = db.Database.SqlQuery<SatisBaglatiRapru>(string.Format("[FINSAT6{0}].[wms].[SatisBaglantiRaporu] @Tip={1}", vUser.SirketKodu, tip)).ToList();
             return PartialView("SatisBaglantiList", SBR);
         }
+
         public string SatBagSozlesmeDetayListesiSelect(string listeNo)
         {
             var STL = db.Database.SqlQuery<BaglantiDetaySelect>(string.Format("[FINSAT6{0}].[wms].[BaglantiDetaySelect] @ListeNo='{1}'", vUser.SirketKodu, listeNo)).ToList();
             var json = new JavaScriptSerializer().Serialize(STL);
             return json;
         }
+
         public string SatBagHareketListesiSelect(string listeNo)
         {
             var STL = db.Database.SqlQuery<SatisBaglantiHareketleri>(string.Format("[FINSAT6{0}].[wms].[SatisBaglantiHareketleri] @SozlesmeNo='{1}'", vUser.SirketKodu, listeNo)).ToList();
             var json = new JavaScriptSerializer().Serialize(STL);
             return json;
         }
+
         /// <summary>
         /// toplam risk analiz raporu
         /// </summary>
@@ -155,10 +175,12 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
             if (CheckPerm(Perms.Raporlar, PermTypes.Reading) == false) return Redirect("/");
             return View();
         }
+
         public PartialViewResult RiskAnalizList(string baschk, string bitchk)
         {
             return PartialView("RiskAnalizList");
         }
+
         public string RiskAnalizListData(string baschk, string bitchk)
         {
             var json = new JavaScriptSerializer()
@@ -168,6 +190,7 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
             var TRAR = db.Database.SqlQuery<ToplamRiskAnaliziRaporu>(string.Format("[FINSAT6{0}].[wms].[ToplamRiskAnaliziRaporu] @BasHesapKodu='{1}', @BitHesapKodu='{2}'", vUser.SirketKodu, baschk, bitchk)).ToList();
             return json.Serialize(TRAR);
         }
+
         /// <summary>
         /// cari detay
         /// </summary>
@@ -180,6 +203,7 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
             var CE = db.Database.SqlQuery<RaporCariEkstreCek>(string.Format("[FINSAT6{0}].[wms].[BTB_RP_CariEkstreDetay_Cek] @Tip='', @HesapKodu = '{1}', @EvrakNo='{2}'", vUser.SirketKodu, CHK, EvrakNo)).ToList();
             return json.Serialize(CE);
         }
+
         public string CariDetayFatura(string CHK, string EvrakNo)
         {
             var json = new JavaScriptSerializer()
@@ -189,6 +213,7 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
             var CE = db.Database.SqlQuery<RaporCariEkstreFatura>(string.Format("[FINSAT6{0}].[wms].[BTB_RP_CariEkstreDetay_Fatura]  @Tip='', @HesapKodu = '{1}', @EvrakNo='{2}'", vUser.SirketKodu, CHK, EvrakNo)).ToList();
             return json.Serialize(CE);
         }
+
         public string CariDetayDiger(string CHK, string EvrakNo)
         {
             var json = new JavaScriptSerializer()
@@ -198,6 +223,7 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
             var CE = db.Database.SqlQuery<RaporCariEkstreDiger>(string.Format("[FINSAT6{0}].[wms].[BTB_RP_CariEkstreDetay_Diger]  @HesapKodu = '{1}', @EvrakNo='{2}'", vUser.SirketKodu, CHK, EvrakNo)).ToList();
             return json.Serialize(CE);
         }
+
         /// <summary>
         /// sipariş kampanya
         /// </summary>
@@ -210,6 +236,7 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
             var list = db.Database.SqlQuery<KampanyaSiparisDetay>(string.Format("[FINSAT6{0}].[wms].[SiparisKampanyaDetay] @CHK='{1}', @EvrakNo='{2}', @BasTarih={3}, @BitTarih={4}", vUser.SirketKodu, CHK, EvrakNo, bastarih, bittarih)).ToList();
             return json.Serialize(list);
         }
+
         public JsonResult GetChKCode(string term)
         {
             var sql = string.Format("FINSAT6{0}.[wms].[CHKSearch] @HesapKodu = N'{1}', @Unvan = N'', @top = 200", vUser.SirketKodu, term);
@@ -225,12 +252,15 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
                 return Json(new List<frmJson>(), JsonRequestBehavior.AllowGet);
             }
         }
+
         #region Tao
+
         public ActionResult Tao()
         {
             if (CheckPerm(Perms.Raporlar, PermTypes.Reading) == false) return Redirect("/");
             return View("Tao");
         }
+
         public PartialViewResult TaoList(string chk_bas, string chk_bit)
         {
             var BR = db.Database.SqlQuery<RaporBakiye>(string.Format("[FINSAT6{0}].[wms].[BakiyeRaporu] @BasHesapKodu = '{1}', @BitHesapKodu = '{2}'", vUser.SirketKodu, chk_bas, chk_bit)).ToList();
@@ -284,14 +314,15 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
             if (CheckPerm(Perms.Raporlar, PermTypes.Reading) == false) return Redirect("/");
             return View();
         }
+
         public JsonResult TahsilatKontrolRaporuList()
         {
             var list = db.Database.SqlQuery<RP_TahsilatKontrol>(string.Format("[FINSAT6{0}].[wms].[RP_TahsilatKontrol]", vUser.SirketKodu)).ToList();
             return Json(list, JsonRequestBehavior.AllowGet);
-
         }
 
-        #endregion
+        #endregion Tao
+
         public ActionResult Target()
         {
             //TODO : try catch
@@ -301,6 +332,7 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
             ViewData["RaporGrupKod"] = json.Serialize(_raporGrupKod);
             return View();
         }
+
         public string TargetTemsilciList(string GrupKod)
         {
             //TODO : try catch
@@ -308,6 +340,7 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
             var _raporTemsilci = db.Database.SqlQuery<RaporTemsilci>(string.Format(RaporTemsilci.Sorgu, vUser.SirketKodu, GrupKod)).ToList();
             return json.Serialize(_raporTemsilci);
         }
+
         public PartialViewResult TargetList(string Ay, string Yil)
         {
             List<RaporTargetList> tL;

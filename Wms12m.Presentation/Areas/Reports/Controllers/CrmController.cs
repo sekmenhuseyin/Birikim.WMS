@@ -16,6 +16,7 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
             ViewBag.id = id;
             return View("Bid");
         }
+
         /// <summary>
         /// teklif analizi listesi
         /// </summary>
@@ -24,6 +25,7 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
             var list = db.CRM_TeklifAnaliz(Start == null ? DateTime.Today.AddYears(-10) : Start.ToDatetime(), End == null ? DateTime.Today.AddYears(10) : End.ToDatetime()).ToList();
             return PartialView("BidList", list);
         }
+
         /// <summary>
         /// teklif analiz detay
         /// </summary>
@@ -32,6 +34,7 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
             var list = db.CRM_TeklifAnaliz_Detay(ID).ToList();
             return PartialView("BidDetail", list);
         }
+
         /// <summary>
         /// görüşme notları
         /// </summary>
@@ -42,6 +45,7 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
             ViewBag.id = id;
             return View("Meeting");
         }
+
         /// <summary>
         /// görüşme notları listesi
         /// </summary>
@@ -50,6 +54,7 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
             var list = db.CRM_GorusmeNotlari(Start == null ? DateTime.Today.AddYears(-10) : Start.ToDatetime(), End == null ? DateTime.Today.AddYears(10) : End.ToDatetime()).ToList();
             return PartialView("MeetingList", list);
         }
+
         /// <summary>
         /// teklif analiz detay
         /// </summary>
@@ -57,6 +62,7 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
         {
             return Json(db.CRM_GorusmeNotlariDetay(ID).FirstOrDefault(), JsonRequestBehavior.AllowGet);
         }
+
         /// <summary>
         /// kurum kartları
         /// </summary>
@@ -67,6 +73,7 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
             ViewBag.id = id;
             return View("Institution");
         }
+
         /// <summary>
         /// kurum kartları listesi
         /// </summary>
