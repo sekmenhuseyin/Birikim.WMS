@@ -49,13 +49,9 @@
             "pagingType": "full_numbers",
             "ordering": false,
             "footerCallback": function (row, data, start, end, display) {
-           
                 table.rows({ search: 'applied' }).data().each(function (val, index) {
-       
                 });
                 var api = this.api(), data;
-                // Update footer
-      
             }
         });
         $('#sample_1 .tf-search th').each(function () {
@@ -67,15 +63,12 @@
         });
         $("#sample_1 tfoot input").on('keyup change', function () { table.column($(this).parent().index() + ':visible').search(this.value).draw(); });
         //tarih
-
-
         $("#buttons").html("");
         var buttons = new $.fn.dataTable.Buttons(table, {
             buttons: [
                 { "extend": 'pdf', "text": '<span class="fa fa-file-pdf-o f-s-15 red"></span>', "className": 'btn btn-default btn-xs;' },
                 { "extend": 'excel', "text": '<span class="fa fa-file-excel-o f-s-15 green"></span>', "className": 'btn btn-default btn-xs;' }
             ]
-            }).container().appendTo($('#buttons'));
-
-      });
+        }).container().appendTo($('#buttons'));
+    });
 </script>

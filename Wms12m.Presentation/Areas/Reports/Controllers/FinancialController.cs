@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
@@ -325,28 +327,46 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
 
         public ActionResult Target()
         {
-            //TODO : try catch
             var json = new JavaScriptSerializer();
+            List<RaporGrupKod> _raporGrupKod;
+            List<RaporTargetUrunGrup> _raporTargetUrunGrup;
             if (CheckPerm(Perms.Raporlar, PermTypes.Reading) == false) { return Redirect("/"); }
-            var _raporGrupKod = db.Database.SqlQuery<RaporGrupKod>(string.Format(RaporGrupKod.Sorgu, vUser.SirketKodu)).ToList();
+            try
+            {
+                _raporGrupKod = db.Database.SqlQuery<RaporGrupKod>(string.Format(RaporGrupKod.Sorgu, vUser.SirketKodu)).ToList();
+                _raporTargetUrunGrup = db.Database.SqlQuery<RaporTargetUrunGrup>(string.Format(RaporTargetUrunGrup.Sorgu, vUser.SirketKodu)).ToList();
+            }
+            catch (Exception ex)
+            {
+                Logger(ex, "/Reports/Financial/Target");
+                _raporGrupKod = new List<RaporGrupKod>();
+                _raporTargetUrunGrup = new List<RaporTargetUrunGrup>();
+            }
             ViewData["RaporGrupKod"] = json.Serialize(_raporGrupKod);
-            return View();
+            ViewData["RaporTargetUrunGrup"] = json.Serialize(_raporTargetUrunGrup);
+            return View(new HDF());
         }
-
         public string TargetTemsilciList(string GrupKod)
         {
-            //TODO : try catch
             var json = new JavaScriptSerializer();
-            var _raporTemsilci = db.Database.SqlQuery<RaporTemsilci>(string.Format(RaporTemsilci.Sorgu, vUser.SirketKodu, GrupKod)).ToList();
+            List<RaporTemsilci> _raporTemsilci;
+            try
+            {
+                _raporTemsilci = db.Database.SqlQuery<RaporTemsilci>(string.Format(RaporTemsilci.Sorgu, vUser.SirketKodu, GrupKod)).ToList();
+            }
+            catch (Exception ex)
+            {
+                Logger(ex, "/Reports/Financial/TargetTemsilciList");
+                _raporTemsilci = new List<RaporTemsilci>();
+            }
             return json.Serialize(_raporTemsilci);
         }
-
-        public PartialViewResult TargetList(string Ay, string Yil)
+        public PartialViewResult TargetList(string Yil, string Ay)
         {
             List<RaporTargetList> tL;
             try
             {
-                tL = db.Database.SqlQuery<RaporTargetList>(string.Format(RaporTargetList.Sorgu, vUser.SirketKodu)).ToList();
+                tL = db.Database.SqlQuery<RaporTargetList>(string.Format(RaporTargetList.Sorgu, vUser.SirketKodu, Yil, Ay)).ToList();
             }
             catch (Exception ex)
             {
@@ -354,6 +374,11 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
                 tL = new List<RaporTargetList>();
             }
             return PartialView("TargetList", tL);
+        }
+        public string TargetEkle(string Data)
+        {
+            var parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
+            return null;
         }
     }
 }
