@@ -9,20 +9,20 @@ namespace Wms12m.Business
 {
     public abstract class abstractTables<T> : IDisposable
     {
-        // public vars
+        /// <summary>
+        /// result class
+        /// </summary>
         public Result _Result;
+
+        /// <summary>
+        /// db context
+        /// </summary>
         public WMSEntities db = new WMSEntities();
+
+        /// <summary>
+        /// functions
+        /// </summary>
         public Functions fn = new Functions();
-        // abstracts
-        public abstract T Detail(int id);
-
-        public abstract List<T> GetList();
-
-        public abstract List<T> GetList(int ParentId);
-
-        public abstract Result Delete(int Id);
-
-        public abstract Result Operation(T tbl);
 
         /// <summary>
         /// user için kısayol
@@ -36,6 +36,45 @@ namespace Wms12m.Business
                 return new UserIdentity() { UserName = "" };
             }
         }
+
+        /// <summary>
+        /// delete actions
+        /// </summary>
+        public abstract Result Delete(int Id);
+
+        /// <summary>
+        /// detail
+        /// </summary>
+        public abstract T Detail(int id);
+
+        /// <summary>
+        /// dispose
+        /// </summary>
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(true);  // Violates rule
+        }
+
+        /// <summary>
+        /// get list
+        /// </summary>
+        public abstract List<T> GetList();
+
+        /// <summary>
+        /// get list from same parent
+        /// </summary>
+        /// <returns></returns>
+        public abstract List<T> GetList(int ParentId);
+
+        /// <summary>
+        /// işlem kaydı
+        /// </summary>
+        public void LogActions(string area, string controller, string action, ComboItems type, int ID, string details = "", string request = "")
+        {
+            db.LogActions("WMS", area, controller, action, type.ToInt32(), ID, request, details, vUser.UserName, fn.GetIPAddress());
+        }
+
         /// <summary>
         /// hata kaydını tek yerden kontrol etmek için
         /// </summary>
@@ -50,21 +89,15 @@ namespace Wms12m.Business
 
             db.Logger(vUser.UserName, "", fn.GetIPAddress(), ex.Message, inner, page);
         }
+
         /// <summary>
-        /// işlem kaydı
+        /// save and update operations
         /// </summary>
-        public void LogActions(string area, string controller, string action, ComboItems type, int ID, string details = "", string request = "")
-        {
-            db.LogActions("WMS", area, controller, action, type.ToInt32(), ID, request, details, vUser.UserName, fn.GetIPAddress());
-        }
+        public abstract Result Operation(T tbl);
+
         /// <summary>
         /// dispose
         /// </summary>
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(true);  // Violates rule
-        }
         protected virtual void Dispose(bool disposing)
         {
             if (disposing)

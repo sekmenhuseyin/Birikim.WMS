@@ -9,6 +9,85 @@ namespace Wms12m.Business
     public class Floor : abstractTables<Kat>
     {
         /// <summary>
+        /// silme
+        /// </summary>
+        public override Result Delete(int Id)
+        {
+            _Result = new Result();
+            // kaydı bul
+            var tbl = db.Kats.Where(m => m.ID == Id).FirstOrDefault();
+            var rkat = db.GetHucreKatID(tbl.Bolum.Raf.Koridor.DepoID, "R-ZR-V").FirstOrDefault();
+            if (rkat != null)
+                if (rkat.Value == tbl.ID)
+                {
+                    _Result.Message = "Rezerv katı silemezsiniz.";
+                    return _Result;
+                }
+
+            if (tbl != null)
+            {
+                if (tbl.Yers.FirstOrDefault() == null)
+                    db.Kats.Remove(tbl);
+                else
+                {
+                    _Result.Message = "Buraya ait mal var";
+                    return _Result;
+                }
+            }
+            else
+            {
+                _Result.Message = "Kayıt Yok";
+                return _Result;
+            }
+
+            // sil
+            try
+            {
+                db.SaveChanges();
+                LogActions("Business", "Floor", "Delete", ComboItems.alSil, tbl.ID);
+                _Result.Id = Id;
+                _Result.Message = "İşlem Başarılı !!!";
+                _Result.Status = true;
+            }
+            catch (Exception ex)
+            {
+                Logger(ex, "Business/Floor/Delete");
+                _Result.Message = ex.Message;
+            }
+
+            return _Result;
+        }
+
+        /// <summary>
+        /// bir tanesinin ayrıntıları
+        /// </summary>
+        public override Kat Detail(int Id)
+        {
+            try
+            {
+                return db.Kats.Where(m => m.ID == Id).FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                Logger(ex, "Business/Floor/Detail");
+                return new Kat();
+            }
+        }
+
+        /// <summary>
+        /// tüm listesi
+        /// </summary>
+        public override List<Kat> GetList() => db.Kats.OrderBy(m => m.KatAd).ToList();
+
+        /// <summary>
+        /// üst tabloya ait olanları getir
+        /// </summary>
+        public override List<Kat> GetList(int ParentId)
+        {
+            return db.Kats.Where(m => m.BolumID == ParentId).ToList();
+        }
+
+        /// <summary>
         /// ekle ve güncelle
         /// </summary>
         public override Result Operation(Kat tbl)
@@ -91,81 +170,6 @@ namespace Wms12m.Business
             }
 
             return _Result;
-        }
-        /// <summary>
-        /// silme
-        /// </summary>
-        public override Result Delete(int Id)
-        {
-            _Result = new Result();
-            // kaydı bul
-            var tbl = db.Kats.Where(m => m.ID == Id).FirstOrDefault();
-            var rkat = db.GetHucreKatID(tbl.Bolum.Raf.Koridor.DepoID, "R-ZR-V").FirstOrDefault();
-            if (rkat != null)
-                if (rkat.Value == tbl.ID)
-                {
-                    _Result.Message = "Rezerv katı silemezsiniz.";
-                    return _Result;
-                }
-
-            if (tbl != null)
-            {
-                if (tbl.Yers.FirstOrDefault() == null)
-                    db.Kats.Remove(tbl);
-                else
-                {
-                    _Result.Message = "Buraya ait mal var";
-                    return _Result;
-                }
-            }
-            else
-            {
-                _Result.Message = "Kayıt Yok";
-                return _Result;
-            }
-
-            // sil
-            try
-            {
-                db.SaveChanges();
-                LogActions("Business", "Floor", "Delete", ComboItems.alSil, tbl.ID);
-                _Result.Id = Id;
-                _Result.Message = "İşlem Başarılı !!!";
-                _Result.Status = true;
-            }
-            catch (Exception ex)
-            {
-                Logger(ex, "Business/Floor/Delete");
-                _Result.Message = ex.Message;
-            }
-
-            return _Result;
-        }
-        /// <summary>
-        /// bir tanesinin ayrıntıları
-        /// </summary>
-        public override Kat Detail(int Id)
-        {
-            try
-            {
-                return db.Kats.Where(m => m.ID == Id).FirstOrDefault();
-            }
-            catch (Exception ex)
-            {
-                Logger(ex, "Business/Floor/Detail");
-                return new Kat();
-            }
-        }
-        /// <summary>
-        /// tüm listesi
-        /// </summary>
-        public override List<Kat> GetList() => db.Kats.OrderBy(m => m.KatAd).ToList();
-        /// <summary>
-        /// üst tabloya ait olanları getir
-        /// </summary>
-        public override List<Kat> GetList(int ParentId)
-        {
-            return db.Kats.Where(m => m.BolumID == ParentId).ToList();
         }
     }
 }

@@ -9,6 +9,61 @@ namespace Wms12m.Business
     public class Dimension : abstractTables<Olcu>
     {
         /// <summary>
+        /// sil
+        /// </summary>
+        public override Result Delete(int Id)
+        {
+            _Result = new Result();
+            try
+            {
+                var tbl = db.Olcus.Where(m => m.ID == Id).FirstOrDefault();
+                if (tbl != null)
+                {
+                    db.Olcus.Remove(tbl);
+                    db.SaveChanges();
+                    LogActions("Business", "Dimension", "Delete", ComboItems.alSil, tbl.ID);
+                    _Result.Id = Id;
+                    _Result.Message = "İşlem Başarılı !!!";
+                    _Result.Status = true;
+                }
+                else
+                {
+                    _Result.Message = "Kayıt Yok";
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger(ex, "Business/Dimension/Delete");
+                _Result.Message = ex.Message;
+            }
+
+            return _Result;
+        }
+
+        /// <summary>
+        /// ayrıntılar
+        /// </summary>
+        public override Olcu Detail(int Id)
+        {
+            try
+            {
+                return db.Olcus.Where(m => m.ID == Id).FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                Logger(ex, "Business/Dimension/Detail");
+                return new Olcu();
+            }
+        }
+
+        /// <summary>
+        /// tüm liste
+        /// </summary>
+        public override List<Olcu> GetList() => db.Olcus.OrderBy(m => m.MalKodu).ToList();
+
+        public override List<Olcu> GetList(int ParentId) => GetList();
+
+        /// <summary>
         /// ekle-kaydet
         /// </summary>
         public override Result Operation(Olcu tbl)
@@ -68,57 +123,5 @@ namespace Wms12m.Business
 
             return _Result;
         }
-        /// <summary>
-        /// sil
-        /// </summary>
-        public override Result Delete(int Id)
-        {
-            _Result = new Result();
-            try
-            {
-                var tbl = db.Olcus.Where(m => m.ID == Id).FirstOrDefault();
-                if (tbl != null)
-                {
-                    db.Olcus.Remove(tbl);
-                    db.SaveChanges();
-                    LogActions("Business", "Dimension", "Delete", ComboItems.alSil, tbl.ID);
-                    _Result.Id = Id;
-                    _Result.Message = "İşlem Başarılı !!!";
-                    _Result.Status = true;
-                }
-                else
-                {
-                    _Result.Message = "Kayıt Yok";
-                }
-            }
-            catch (Exception ex)
-            {
-                Logger(ex, "Business/Dimension/Delete");
-                _Result.Message = ex.Message;
-            }
-
-            return _Result;
-        }
-        /// <summary>
-        /// ayrıntılar
-        /// </summary>
-        public override Olcu Detail(int Id)
-        {
-            try
-            {
-                return db.Olcus.Where(m => m.ID == Id).FirstOrDefault();
-            }
-            catch (Exception ex)
-            {
-                Logger(ex, "Business/Dimension/Detail");
-                return new Olcu();
-            }
-        }
-        /// <summary>
-        /// tüm liste
-        /// </summary>
-        public override List<Olcu> GetList() => db.Olcus.OrderBy(m => m.MalKodu).ToList();
-
-        public override List<Olcu> GetList(int ParentId) => GetList();
     }
 }

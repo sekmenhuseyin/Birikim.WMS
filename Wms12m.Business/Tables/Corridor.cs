@@ -9,6 +9,77 @@ namespace Wms12m.Business
     public class Corridor : abstractTables<Koridor>
     {
         /// <summary>
+        /// silme
+        /// </summary>
+        public override Result Delete(int Id)
+        {
+            _Result = new Result();
+            // kaydı bul
+            var tbl = db.Koridors.Where(m => m.ID == Id).FirstOrDefault();
+            if (tbl != null)
+            {
+                if (tbl.Rafs.FirstOrDefault() == null)
+                    db.Koridors.Remove(tbl);
+                else
+                {
+                    _Result.Message = "Buraya ait raf var";
+                    return _Result;
+                }
+            }
+            else
+            {
+                _Result.Message = "Kayıt Yok";
+                return _Result;
+            }
+
+            // sil
+            try
+            {
+                db.SaveChanges();
+                LogActions("Business", "Corridor", "Delete", ComboItems.alSil, tbl.ID);
+                _Result.Id = Id;
+                _Result.Message = "İşlem Başarılı !!!";
+                _Result.Status = true;
+            }
+            catch (Exception ex)
+            {
+                Logger(ex, "Business/Corridor/Delete");
+                _Result.Message = ex.Message;
+            }
+
+            return _Result;
+        }
+
+        /// <summary>
+        /// bir tanesinin ayrıntıları
+        /// </summary>
+        public override Koridor Detail(int Id)
+        {
+            try
+            {
+                return db.Koridors.Where(m => m.ID == Id).FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                Logger(ex, "Business/Corridor/Detail");
+                return new Koridor();
+            }
+        }
+
+        /// <summary>
+        /// tüm listesi
+        /// </summary>
+        public override List<Koridor> GetList() => db.Koridors.OrderBy(m => m.KoridorAd).ToList();
+
+        /// <summary>
+        /// üst tabloya ait olanları getir
+        /// </summary>
+        public override List<Koridor> GetList(int ParentId)
+        {
+            return db.Koridors.Where(m => m.DepoID == ParentId).ToList();
+        }
+
+        /// <summary>
         /// ekle ve güncelle
         /// </summary>
         public override Result Operation(Koridor tbl)
@@ -86,74 +157,6 @@ namespace Wms12m.Business
             }
 
             return _Result;
-        }
-        /// <summary>
-        /// silme
-        /// </summary>
-        public override Result Delete(int Id)
-        {
-            _Result = new Result();
-            // kaydı bul
-            var tbl = db.Koridors.Where(m => m.ID == Id).FirstOrDefault();
-            if (tbl != null)
-            {
-                if (tbl.Rafs.FirstOrDefault() == null)
-                    db.Koridors.Remove(tbl);
-                else
-                {
-                    _Result.Message = "Buraya ait raf var";
-                    return _Result;
-                }
-            }
-            else
-            {
-                _Result.Message = "Kayıt Yok";
-                return _Result;
-            }
-
-            // sil
-            try
-            {
-                db.SaveChanges();
-                LogActions("Business", "Corridor", "Delete", ComboItems.alSil, tbl.ID);
-                _Result.Id = Id;
-                _Result.Message = "İşlem Başarılı !!!";
-                _Result.Status = true;
-            }
-            catch (Exception ex)
-            {
-                Logger(ex, "Business/Corridor/Delete");
-                _Result.Message = ex.Message;
-            }
-
-            return _Result;
-        }
-        /// <summary>
-        /// bir tanesinin ayrıntıları
-        /// </summary>
-        public override Koridor Detail(int Id)
-        {
-            try
-            {
-                return db.Koridors.Where(m => m.ID == Id).FirstOrDefault();
-            }
-            catch (Exception ex)
-            {
-                Logger(ex, "Business/Corridor/Detail");
-                return new Koridor();
-            }
-        }
-        /// <summary>
-        /// tüm listesi
-        /// </summary>
-        public override List<Koridor> GetList() => db.Koridors.OrderBy(m => m.KoridorAd).ToList();
-
-        /// <summary>
-        /// üst tabloya ait olanları getir
-        /// </summary>
-        public override List<Koridor> GetList(int ParentId)
-        {
-            return db.Koridors.Where(m => m.DepoID == ParentId).ToList();
         }
     }
 }

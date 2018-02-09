@@ -9,6 +9,69 @@ namespace Wms12m.Business
     public class Section : abstractTables<Bolum>
     {
         /// <summary>
+        /// silme
+        /// </summary>
+        public override Result Delete(int Id)
+        {
+            _Result = new Result();
+            try
+            {
+                var tbl = db.Bolums.Where(m => m.ID == Id).FirstOrDefault();
+                if (tbl != null)
+                {
+                    db.Bolums.Remove(tbl);
+                    db.SaveChanges();
+                    LogActions("Business", "Section", "Delete", ComboItems.alSil, tbl.ID);
+                    _Result.Id = Id;
+                    _Result.Message = "İşlem Başarılı !!!";
+                    _Result.Status = true;
+                }
+                else
+                {
+                    _Result.Message = "Kayıt Yok";
+                    _Result.Status = false;
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger(ex, "Business/Section/Delete");
+                _Result.Message = ex.Message;
+                _Result.Status = false;
+            }
+
+            return _Result;
+        }
+
+        /// <summary>
+        /// bir tanesinin ayrıntıları
+        /// </summary>
+        public override Bolum Detail(int Id)
+        {
+            try
+            {
+                return db.Bolums.Where(m => m.ID == Id).FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                Logger(ex, "Business/Section/Detail");
+                return new Bolum();
+            }
+        }
+
+        /// <summary>
+        /// tüm listesi
+        /// </summary>
+        public override List<Bolum> GetList() => db.Bolums.OrderBy(m => m.BolumAd).ToList();
+
+        /// <summary>
+        /// üst tabloya ait olanları getir
+        /// </summary>
+        public override List<Bolum> GetList(int ParentId)
+        {
+            return db.Bolums.Where(m => m.RafID == ParentId).ToList();
+        }
+
+        /// <summary>
         /// ekle ve güncelle
         /// </summary>
         public override Result Operation(Bolum tbl)
@@ -86,65 +149,6 @@ namespace Wms12m.Business
             }
 
             return _Result;
-        }
-        /// <summary>
-        /// silme
-        /// </summary>
-        public override Result Delete(int Id)
-        {
-            _Result = new Result();
-            try
-            {
-                var tbl = db.Bolums.Where(m => m.ID == Id).FirstOrDefault();
-                if (tbl != null)
-                {
-                    db.Bolums.Remove(tbl);
-                    db.SaveChanges();
-                    LogActions("Business", "Section", "Delete", ComboItems.alSil, tbl.ID);
-                    _Result.Id = Id;
-                    _Result.Message = "İşlem Başarılı !!!";
-                    _Result.Status = true;
-                }
-                else
-                {
-                    _Result.Message = "Kayıt Yok";
-                    _Result.Status = false;
-                }
-            }
-            catch (Exception ex)
-            {
-                Logger(ex, "Business/Section/Delete");
-                _Result.Message = ex.Message;
-                _Result.Status = false;
-            }
-
-            return _Result;
-        }
-        /// <summary>
-        /// bir tanesinin ayrıntıları
-        /// </summary>
-        public override Bolum Detail(int Id)
-        {
-            try
-            {
-                return db.Bolums.Where(m => m.ID == Id).FirstOrDefault();
-            }
-            catch (Exception ex)
-            {
-                Logger(ex, "Business/Section/Detail");
-                return new Bolum();
-            }
-        }
-        /// <summary>
-        /// tüm listesi
-        /// </summary>
-        public override List<Bolum> GetList() => db.Bolums.OrderBy(m => m.BolumAd).ToList();
-        /// <summary>
-        /// üst tabloya ait olanları getir
-        /// </summary>
-        public override List<Bolum> GetList(int ParentId)
-        {
-            return db.Bolums.Where(m => m.RafID == ParentId).ToList();
         }
     }
 }

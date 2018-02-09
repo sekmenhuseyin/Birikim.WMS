@@ -9,6 +9,58 @@ namespace Wms12m.Business
     public class PersonDetails : abstractTables<UserDetail>
     {
         /// <summary>
+        /// sil
+        /// </summary>
+        public override Result Delete(int Id)
+        {
+            _Result = new Result();
+            try
+            {
+                var tbl = db.UserDetails.Where(m => m.UserID == Id).FirstOrDefault();
+                if (tbl != null)
+                {
+                    db.UserDetails.Remove(tbl);
+                    db.SaveChanges();
+                    LogActions("Business", "Combo", "Delete", ComboItems.alSil, tbl.UserID);
+                    _Result.Id = Id;
+                    _Result.Message = "İşlem Başarılı !!!";
+                    _Result.Status = true;
+                }
+                else
+                {
+                    _Result.Message = "Kayıt Yok";
+                    _Result.Status = false;
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger(ex, "Business/PersonPerms/Delete");
+                _Result.Message = ex.Message;
+                _Result.Status = false;
+            }
+
+            return _Result;
+        }
+
+        /// <summary>
+        /// bir kişinin ayrıntıları
+        /// </summary>
+        public override UserDetail Detail(int Id)
+        {
+            return db.UserDetails.Where(m => m.UserID == Id).FirstOrDefault();
+        }
+
+        /// <summary>
+        /// liste
+        /// </summary>
+        public override List<UserDetail> GetList() => db.UserDetails.ToList();
+
+        /// <summary>
+        /// yetkiye sahip kişiler
+        /// </summary>
+        public override List<UserDetail> GetList(int ParentId) => GetList();
+
+        /// <summary>
         /// ekle, güncelle
         /// </summary>
         public override Result Operation(UserDetail tbl)
@@ -59,54 +111,5 @@ namespace Wms12m.Business
 
             return _Result;
         }
-        /// <summary>
-        /// sil
-        /// </summary>
-        public override Result Delete(int Id)
-        {
-            _Result = new Result();
-            try
-            {
-                var tbl = db.UserDetails.Where(m => m.UserID == Id).FirstOrDefault();
-                if (tbl != null)
-                {
-                    db.UserDetails.Remove(tbl);
-                    db.SaveChanges();
-                    LogActions("Business", "Combo", "Delete", ComboItems.alSil, tbl.UserID);
-                    _Result.Id = Id;
-                    _Result.Message = "İşlem Başarılı !!!";
-                    _Result.Status = true;
-                }
-                else
-                {
-                    _Result.Message = "Kayıt Yok";
-                    _Result.Status = false;
-                }
-            }
-            catch (Exception ex)
-            {
-                Logger(ex, "Business/PersonPerms/Delete");
-                _Result.Message = ex.Message;
-                _Result.Status = false;
-            }
-
-            return _Result;
-        }
-        /// <summary>
-        /// bir kişinin ayrıntıları
-        /// </summary>
-        public override UserDetail Detail(int Id)
-        {
-            return db.UserDetails.Where(m => m.UserID == Id).FirstOrDefault();
-        }
-        /// <summary>
-        /// liste
-        /// </summary>
-        public override List<UserDetail> GetList() => db.UserDetails.ToList();
-
-        /// <summary>
-        /// yetkiye sahip kişiler
-        /// </summary>
-        public override List<UserDetail> GetList(int ParentId) => GetList();
     }
 }

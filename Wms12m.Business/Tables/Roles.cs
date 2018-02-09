@@ -9,6 +9,69 @@ namespace Wms12m.Business
     public class Roles : abstractTables<Role>
     {
         /// <summary>
+        /// depo silme
+        /// </summary>
+        public override Result Delete(int Id)
+        {
+            _Result = new Result();
+            try
+            {
+                var tbl = db.Roles.Where(m => m.ID == Id).FirstOrDefault();
+                if (tbl != null)
+                {
+                    db.Roles.Remove(tbl);
+                    db.SaveChanges();
+                    LogActions("Business", "Roles", "Delete", ComboItems.alSil, tbl.ID);
+                    _Result.Id = Id;
+                    _Result.Message = "İşlem Başarılı !!!";
+                    _Result.Status = true;
+                }
+                else
+                {
+                    _Result.Message = "Kayıt Yok";
+                    _Result.Status = false;
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger(ex, "Business/Roles/Delete");
+                _Result.Message = ex.Message;
+                _Result.Status = false;
+            }
+
+            return _Result;
+        }
+
+        /// <summary>
+        /// depo bilgileri
+        /// </summary>
+        public override Role Detail(int Id)
+        {
+            try
+            {
+                return db.Roles.Where(m => m.ID == Id).FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                Logger(ex, "Business/Roles/Detail");
+                return new Role();
+            }
+        }
+
+        /// <summary>
+        /// depo listesi
+        /// </summary>
+        public override List<Role> GetList()
+        {
+            return db.Roles.Where(m => m.RoleName != "").OrderBy(m => m.RoleName).ToList();
+        }
+
+        /// <summary>
+        /// üst tabloya ait olanları getir
+        /// </summary>
+        public override List<Role> GetList(int ParentId) => GetList();
+
+        /// <summary>
         /// ekle ve güncelle
         /// </summary>
         public override Result Operation(Role tbl)
@@ -44,64 +107,5 @@ namespace Wms12m.Business
 
             return _Result;
         }
-        /// <summary>
-        /// depo silme
-        /// </summary>
-        public override Result Delete(int Id)
-        {
-            _Result = new Result();
-            try
-            {
-                var tbl = db.Roles.Where(m => m.ID == Id).FirstOrDefault();
-                if (tbl != null)
-                {
-                    db.Roles.Remove(tbl);
-                    db.SaveChanges();
-                    LogActions("Business", "Roles", "Delete", ComboItems.alSil, tbl.ID);
-                    _Result.Id = Id;
-                    _Result.Message = "İşlem Başarılı !!!";
-                    _Result.Status = true;
-                }
-                else
-                {
-                    _Result.Message = "Kayıt Yok";
-                    _Result.Status = false;
-                }
-            }
-            catch (Exception ex)
-            {
-                Logger(ex, "Business/Roles/Delete");
-                _Result.Message = ex.Message;
-                _Result.Status = false;
-            }
-
-            return _Result;
-        }
-        /// <summary>
-        /// depo bilgileri
-        /// </summary>
-        public override Role Detail(int Id)
-        {
-            try
-            {
-                return db.Roles.Where(m => m.ID == Id).FirstOrDefault();
-            }
-            catch (Exception ex)
-            {
-                Logger(ex, "Business/Roles/Detail");
-                return new Role();
-            }
-        }
-        /// <summary>
-        /// depo listesi
-        /// </summary>
-        public override List<Role> GetList()
-        {
-            return db.Roles.Where(m => m.RoleName != "").OrderBy(m => m.RoleName).ToList();
-        }
-        /// <summary>
-        /// üst tabloya ait olanları getir
-        /// </summary>
-        public override List<Role> GetList(int ParentId) => GetList();
     }
 }

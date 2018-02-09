@@ -9,36 +9,6 @@ namespace Wms12m.Business
     public class Irsaliye : abstractTables<IR>
     {
         /// <summary>
-        /// ekle/güncelle
-        /// </summary>
-        public override Result Operation(IR tbl)
-        {
-            _Result = new Result(); var eklemi = false;
-            if (tbl.ID == 0)
-            {
-                db.IRS.Add(tbl);
-                eklemi = true;
-            }
-
-            try
-            {
-                db.SaveChanges();
-                LogActions("Business", "Irsaliye", "Operation", eklemi == true ? ComboItems.alEkle : ComboItems.alDüzenle, tbl.ID, "EvrakNo: " + tbl.EvrakNo + ", Şirket:" + tbl.SirketKod + ", Depo:" + tbl.Depo.DepoKodu);
-                // result
-                _Result.Id = tbl.ID;
-                _Result.Message = "İşlem Başarılı !!!";
-                _Result.Status = true;
-            }
-            catch (Exception ex)
-            {
-                Logger(ex, "Business/Irsaliye/Operation");
-                _Result.Id = 0;
-                _Result.Message = "İşlem Hatalı: " + ex.Message;
-            }
-
-            return _Result;
-        }
-        /// <summary>
         /// silme
         /// </summary>
         public override Result Delete(int Id)
@@ -70,6 +40,7 @@ namespace Wms12m.Business
 
             return _Result;
         }
+
         /// <summary>
         /// ayrıntılar
         /// </summary>
@@ -85,20 +56,54 @@ namespace Wms12m.Business
                 return new IR();
             }
         }
+
         /// <summary>
         /// liste
         /// </summary>
         public override List<IR> GetList() => db.IRS.OrderBy(m => m.EvrakNo).ToList();
+
         /// <summary>
         /// üst tabloya ait olanları getir
         /// </summary>
         public override List<IR> GetList(int ParentId) => GetList();
+
         /// <summary>
         /// irsaliye onayı bul
         /// </summary>
         public bool GetOnay(int ID)
         {
             return db.IRS.Where(m => m.ID == ID).Select(m => m.Onay).FirstOrDefault();
+        }
+
+        /// <summary>
+        /// ekle/güncelle
+        /// </summary>
+        public override Result Operation(IR tbl)
+        {
+            _Result = new Result(); var eklemi = false;
+            if (tbl.ID == 0)
+            {
+                db.IRS.Add(tbl);
+                eklemi = true;
+            }
+
+            try
+            {
+                db.SaveChanges();
+                LogActions("Business", "Irsaliye", "Operation", eklemi == true ? ComboItems.alEkle : ComboItems.alDüzenle, tbl.ID, "EvrakNo: " + tbl.EvrakNo + ", Şirket:" + tbl.SirketKod + ", Depo:" + tbl.Depo.DepoKodu);
+                // result
+                _Result.Id = tbl.ID;
+                _Result.Message = "İşlem Başarılı !!!";
+                _Result.Status = true;
+            }
+            catch (Exception ex)
+            {
+                Logger(ex, "Business/Irsaliye/Operation");
+                _Result.Id = 0;
+                _Result.Message = "İşlem Hatalı: " + ex.Message;
+            }
+
+            return _Result;
         }
     }
 }

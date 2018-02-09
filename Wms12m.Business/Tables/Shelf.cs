@@ -9,6 +9,82 @@ namespace Wms12m.Business
     public class Shelf : abstractTables<Raf>
     {
         /// <summary>
+        /// silme
+        /// </summary>
+        public override Result Delete(int Id)
+        {
+            _Result = new Result();
+            // kaydı bul
+            var tbl = db.Rafs.Where(m => m.ID == Id).FirstOrDefault();
+            if (tbl != null)
+            {
+                if (tbl.Bolums.FirstOrDefault() == null)
+                    db.Rafs.Remove(tbl);
+                else
+                {
+                    _Result.Message = "Buraya ait bölüm var";
+                    return _Result;
+                }
+            }
+            else
+            {
+                _Result.Message = "Kayıt Yok";
+                return _Result;
+            }
+
+            // sil
+            try
+            {
+                db.SaveChanges();
+                LogActions("Business", "Shelf", "Delete", ComboItems.alSil, tbl.ID);
+                _Result.Id = Id;
+                _Result.Message = "İşlem Başarılı !!!";
+                _Result.Status = true;
+            }
+            catch (Exception ex)
+            {
+                Logger(ex, "Business/Shelf/Delete");
+                _Result.Message = ex.Message;
+            }
+
+            return _Result;
+        }
+
+        /// <summary>
+        /// bir tanesinin ayrıntıları
+        /// </summary>
+        public override Raf Detail(int Id)
+        {
+            try
+            {
+                return db.Rafs.Where(m => m.ID == Id).FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                Logger(ex, "Business/Shelf/Detail");
+                return new Raf();
+            }
+        }
+
+        /// <summary>
+        /// tüm listesi
+        /// </summary>
+        public override List<Raf> GetList() => db.Rafs.OrderBy(m => m.RafAd).ToList();
+
+        /// <summary>
+        /// üst tabloya ait olanları getir
+        /// </summary>
+        public override List<Raf> GetList(int ParentId)
+        {
+            return db.Rafs.Where(m => m.KoridorID == ParentId).ToList();
+        }
+
+        public List<Raf> GetListByDepo(int DepoID)
+        {
+            return db.Rafs.Where(m => m.Koridor.DepoID == DepoID).ToList();
+        }
+
+        /// <summary>
         /// ekle ve güncelle
         /// </summary>
         public override Result Operation(Raf tbl)
@@ -86,78 +162,6 @@ namespace Wms12m.Business
             }
 
             return _Result;
-        }
-        /// <summary>
-        /// silme
-        /// </summary>
-        public override Result Delete(int Id)
-        {
-            _Result = new Result();
-            // kaydı bul
-            var tbl = db.Rafs.Where(m => m.ID == Id).FirstOrDefault();
-            if (tbl != null)
-            {
-                if (tbl.Bolums.FirstOrDefault() == null)
-                    db.Rafs.Remove(tbl);
-                else
-                {
-                    _Result.Message = "Buraya ait bölüm var";
-                    return _Result;
-                }
-            }
-            else
-            {
-                _Result.Message = "Kayıt Yok";
-                return _Result;
-            }
-
-            // sil
-            try
-            {
-                db.SaveChanges();
-                LogActions("Business", "Shelf", "Delete", ComboItems.alSil, tbl.ID);
-                _Result.Id = Id;
-                _Result.Message = "İşlem Başarılı !!!";
-                _Result.Status = true;
-            }
-            catch (Exception ex)
-            {
-                Logger(ex, "Business/Shelf/Delete");
-                _Result.Message = ex.Message;
-            }
-
-            return _Result;
-        }
-        /// <summary>
-        /// bir tanesinin ayrıntıları
-        /// </summary>
-        public override Raf Detail(int Id)
-        {
-            try
-            {
-                return db.Rafs.Where(m => m.ID == Id).FirstOrDefault();
-            }
-            catch (Exception ex)
-            {
-                Logger(ex, "Business/Shelf/Detail");
-                return new Raf();
-            }
-        }
-        /// <summary>
-        /// tüm listesi
-        /// </summary>
-        public override List<Raf> GetList() => db.Rafs.OrderBy(m => m.RafAd).ToList();
-
-        /// <summary>
-        /// üst tabloya ait olanları getir
-        /// </summary>
-        public override List<Raf> GetList(int ParentId)
-        {
-            return db.Rafs.Where(m => m.KoridorID == ParentId).ToList();
-        }
-        public List<Raf> GetListByDepo(int DepoID)
-        {
-            return db.Rafs.Where(m => m.Koridor.DepoID == DepoID).ToList();
         }
     }
 }

@@ -9,6 +9,72 @@ namespace Wms12m.Business
     public class TaskYer : abstractTables<GorevYer>
     {
         /// <summary>
+        /// depo silme
+        /// </summary>
+        public override Result Delete(int Id)
+        {
+            _Result = new Result();
+            try
+            {
+                var tbl = db.GorevYers.Where(m => m.ID == Id).FirstOrDefault();
+                if (tbl != null)
+                {
+                    db.GorevYers.Remove(tbl);
+                    db.SaveChanges();
+                    LogActions("Business", "TaskYer", "Delete", ComboItems.alSil, tbl.ID);
+                    _Result.Id = Id;
+                    _Result.Message = "İşlem Başarılı !!!";
+                    _Result.Status = true;
+                }
+                else
+                {
+                    _Result.Message = "Kayıt Yok";
+                    _Result.Status = false;
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger(ex, "Business/TaskYer/Delete");
+                _Result.Message = ex.Message;
+                _Result.Status = false;
+            }
+
+            return _Result;
+        }
+
+        /// <summary>
+        /// depo bilgileri
+        /// </summary>
+        public override GorevYer Detail(int Id)
+        {
+            try
+            {
+                return db.GorevYers.Where(m => m.ID == Id).FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                Logger(ex, "Business/TaskYer/Detail");
+                return new GorevYer();
+            }
+        }
+
+        /// <summary>
+        /// depo listesi
+        /// </summary>
+        public override List<GorevYer> GetList()
+        {
+            return db.GorevYers.OrderBy(m => m.Sira).ThenBy(m => m.MalKodu).ToList();
+        }
+
+        /// <summary>
+        /// üst tabloya ait olanları getir
+        /// </summary>
+        public override List<GorevYer> GetList(int ParentId)
+        {
+            return db.GorevYers.Where(m => m.GorevID == ParentId).OrderBy(m => m.Sira).ThenBy(m => m.MalKodu).ToList();
+        }
+
+        /// <summary>
         /// ekle ve güncelle
         /// </summary>
         public override Result Operation(GorevYer tbl)
@@ -43,68 +109,6 @@ namespace Wms12m.Business
             }
 
             return _Result;
-        }
-        /// <summary>
-        /// depo silme
-        /// </summary>
-        public override Result Delete(int Id)
-        {
-            _Result = new Result();
-            try
-            {
-                var tbl = db.GorevYers.Where(m => m.ID == Id).FirstOrDefault();
-                if (tbl != null)
-                {
-                    db.GorevYers.Remove(tbl);
-                    db.SaveChanges();
-                    LogActions("Business", "TaskYer", "Delete", ComboItems.alSil, tbl.ID);
-                    _Result.Id = Id;
-                    _Result.Message = "İşlem Başarılı !!!";
-                    _Result.Status = true;
-                }
-                else
-                {
-                    _Result.Message = "Kayıt Yok";
-                    _Result.Status = false;
-                }
-            }
-            catch (Exception ex)
-            {
-                Logger(ex, "Business/TaskYer/Delete");
-                _Result.Message = ex.Message;
-                _Result.Status = false;
-            }
-
-            return _Result;
-        }
-        /// <summary>
-        /// depo bilgileri
-        /// </summary>
-        public override GorevYer Detail(int Id)
-        {
-            try
-            {
-                return db.GorevYers.Where(m => m.ID == Id).FirstOrDefault();
-            }
-            catch (Exception ex)
-            {
-                Logger(ex, "Business/TaskYer/Detail");
-                return new GorevYer();
-            }
-        }
-        /// <summary>
-        /// depo listesi
-        /// </summary>
-        public override List<GorevYer> GetList()
-        {
-            return db.GorevYers.OrderBy(m => m.Sira).ThenBy(m => m.MalKodu).ToList();
-        }
-        /// <summary>
-        /// üst tabloya ait olanları getir
-        /// </summary>
-        public override List<GorevYer> GetList(int ParentId)
-        {
-            return db.GorevYers.Where(m => m.GorevID == ParentId).OrderBy(m => m.Sira).ThenBy(m => m.MalKodu).ToList();
         }
     }
 }

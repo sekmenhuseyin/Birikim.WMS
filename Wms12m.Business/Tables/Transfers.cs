@@ -8,6 +8,89 @@ namespace Wms12m.Business
 {
     public class Transfers : abstractTables<Transfer>
     {
+        public Result AddDetay(Transfer_Detay tbl)
+        {
+            _Result = new Result();
+            try
+            {
+                db.Transfer_Detay.Add(tbl);
+                db.SaveChanges();
+                LogActions("Business", "Combo", "Operation", ComboItems.alEkle, tbl.ID, "TransferID: " + tbl.TransferID + ", MalKodu: " + tbl.MalKodu + ", Miktar: " + tbl.Miktar);
+                // result
+                _Result.Id = tbl.ID;
+                _Result.Message = "İşlem Başarılı !!!";
+                _Result.Status = true;
+            }
+            catch (Exception ex)
+            {
+                Logger(ex, "Business/Transfers/AddDetay");
+                _Result.Message = "İşlem Hatalı: " + ex.Message;
+            }
+
+            return _Result;
+        }
+
+        /// <summary>
+        /// delete
+        /// </summary>
+        public override Result Delete(int Id)
+        {
+            _Result = new Result();
+            try
+            {
+                var tbl = db.Transfers.Where(m => m.ID == Id).FirstOrDefault();
+                if (tbl != null)
+                {
+                    db.Transfers.Remove(tbl);
+                    db.SaveChanges();
+                    LogActions("Business", "Transfers", "Delete", ComboItems.alSil, tbl.ID);
+                    _Result.Id = Id;
+                    _Result.Message = "İşlem Başarılı !!!";
+                    _Result.Status = true;
+                }
+                else
+                {
+                    _Result.Message = "Kayıt Yok";
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger(ex, "Business/Transfers/Delete");
+                _Result.Message = ex.Message;
+            }
+
+            return _Result;
+        }
+
+        /// <summary>
+        /// details
+        /// </summary>
+        public override Transfer Detail(int Id)
+        {
+            return db.Transfers.Where(m => m.ID == Id).FirstOrDefault();
+        }
+
+        /// <summary>
+        /// get list
+        /// </summary>
+        /// <returns></returns>
+        public override List<Transfer> GetList() => db.Transfers.ToList();
+
+        /// <summary>
+        /// get list from parent
+        /// </summary>
+        public override List<Transfer> GetList(int ParentId) => GetList();
+
+        public List<Transfer> GetList(bool onay, int Tarih, int? DepoId)
+        {
+            var list = db.Transfers.Where(m => m.Onay == onay);
+            if (DepoId != null)
+                list = list.Where(m => m.CikisDepoID == DepoId);
+            if (Tarih > 0)
+                list = list.Where(m => m.OnaylamaTarihi > Tarih);
+            return list.ToList();
+        }
+
         /// <summary>
         /// save
         /// </summary>
@@ -46,86 +129,10 @@ namespace Wms12m.Business
 
             return _Result;
         }
-        public Result AddDetay(Transfer_Detay tbl)
-        {
-            _Result = new Result();
-            try
-            {
-                db.Transfer_Detay.Add(tbl);
-                db.SaveChanges();
-                LogActions("Business", "Combo", "Operation", ComboItems.alEkle, tbl.ID, "TransferID: " + tbl.TransferID + ", MalKodu: " + tbl.MalKodu + ", Miktar: " + tbl.Miktar);
-                // result
-                _Result.Id = tbl.ID;
-                _Result.Message = "İşlem Başarılı !!!";
-                _Result.Status = true;
-            }
-            catch (Exception ex)
-            {
-                Logger(ex, "Business/Transfers/AddDetay");
-                _Result.Message = "İşlem Hatalı: " + ex.Message;
-            }
 
-            return _Result;
-        }
-        /// <summary>
-        /// delete
-        /// </summary>
-        public override Result Delete(int Id)
-        {
-            _Result = new Result();
-            try
-            {
-                var tbl = db.Transfers.Where(m => m.ID == Id).FirstOrDefault();
-                if (tbl != null)
-                {
-                    db.Transfers.Remove(tbl);
-                    db.SaveChanges();
-                    LogActions("Business", "Transfers", "Delete", ComboItems.alSil, tbl.ID);
-                    _Result.Id = Id;
-                    _Result.Message = "İşlem Başarılı !!!";
-                    _Result.Status = true;
-                }
-                else
-                {
-                    _Result.Message = "Kayıt Yok";
-                }
-            }
-            catch (Exception ex)
-            {
-                Logger(ex, "Business/Transfers/Delete");
-                _Result.Message = ex.Message;
-            }
-
-            return _Result;
-        }
-        /// <summary>
-        /// details
-        /// </summary>
-        public override Transfer Detail(int Id)
-        {
-            return db.Transfers.Where(m => m.ID == Id).FirstOrDefault();
-        }
         public Transfer_Detay SubDetail(int Id)
         {
             return db.Transfer_Detay.Where(m => m.ID == Id).FirstOrDefault();
-        }
-        /// <summary>
-        /// get list
-        /// </summary>
-        /// <returns></returns>
-        public override List<Transfer> GetList() => db.Transfers.ToList();
-        /// <summary>
-        /// get list from parent
-        /// </summary>
-        public override List<Transfer> GetList(int ParentId) => GetList();
-        public List<Transfer> GetList(bool onay, int Tarih, int? DepoId)
-        {
-            var list = db.Transfers.Where(m => m.Onay == onay);
-            if (DepoId != null)
-                list = list.Where(m => m.CikisDepoID == DepoId);
-            if (Tarih > 0)
-                list = list.Where(m => m.OnaylamaTarihi > Tarih);
-            return list.ToList();
         }
     }
 }

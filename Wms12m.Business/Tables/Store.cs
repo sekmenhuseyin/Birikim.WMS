@@ -9,6 +9,105 @@ namespace Wms12m.Business
     public class Store : abstractTables<Depo>
     {
         /// <summary>
+        /// depo silme
+        /// </summary>
+        public override Result Delete(int Id)
+        {
+            _Result = new Result();
+            // kaydı bul
+            var tbl = db.Depoes.Where(m => m.ID == Id).FirstOrDefault();
+            if (tbl != null)
+            {
+                if (tbl.Koridors.FirstOrDefault() == null)
+                    db.Depoes.Remove(tbl);
+                else
+                {
+                    _Result.Message = "Buraya ait koridor var";
+                    return _Result;
+                }
+            }
+            else
+            {
+                _Result.Message = "Kayıt Yok";
+                return _Result;
+            }
+
+            // sil
+            try
+            {
+                db.SaveChanges();
+                LogActions("Business", "Store", "Delete", ComboItems.alSil, tbl.ID);
+                _Result.Id = Id;
+                _Result.Message = "İşlem Başarılı !!!";
+                _Result.Status = true;
+            }
+            catch (Exception ex)
+            {
+                Logger(ex, "Business/Store/Delete");
+                _Result.Message = ex.Message;
+            }
+
+            return _Result;
+        }
+
+        /// <summary>
+        /// depo bilgileri
+        /// </summary>
+        public override Depo Detail(int Id)
+        {
+            try
+            {
+                return db.Depoes.Where(m => m.ID == Id).FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                Logger(ex, "Business/Store/Detail");
+                return new Depo();
+            }
+        }
+
+        public Depo Detail(string Kod)
+        {
+            try
+            {
+                return db.Depoes.Where(m => m.DepoKodu == Kod).FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                Logger(ex, "Business/Store/Detail");
+                return new Depo();
+            }
+        }
+
+        /// <summary>
+        /// depo listesi
+        /// </summary>
+        public override List<Depo> GetList() => db.Depoes.OrderBy(m => m.DepoAd).ToList();
+
+        /// <summary>
+        /// üst tabloya ait olanları getir
+        /// </summary>
+        public override List<Depo> GetList(int ParentId) => GetList();
+
+        public List<Depo> GetList(int? Id)
+        {
+            if (Id == null) return GetList();
+            else
+                return db.Depoes.Where(m => m.ID == Id).ToList();
+        }
+
+        /// <summary>
+        /// kablo siparişi için liste
+        /// </summary>
+        public List<Depo> GetListCable(int? Id)
+        {
+            if (Id == null)
+                return db.Depoes.Where(m => m.KabloDepoID != null).OrderBy(m => m.DepoAd).ToList();
+            else
+                return db.Depoes.Where(m => m.KabloDepoID != null && m.ID == Id).ToList();
+        }
+
+        /// <summary>
         /// ekle ve güncelle
         /// </summary>
         public override Result Operation(Depo tbl)
@@ -85,100 +184,6 @@ namespace Wms12m.Business
             }
 
             return _Result;
-        }
-        /// <summary>
-        /// depo silme
-        /// </summary>
-        public override Result Delete(int Id)
-        {
-            _Result = new Result();
-            // kaydı bul
-            var tbl = db.Depoes.Where(m => m.ID == Id).FirstOrDefault();
-            if (tbl != null)
-            {
-                if (tbl.Koridors.FirstOrDefault() == null)
-                    db.Depoes.Remove(tbl);
-                else
-                {
-                    _Result.Message = "Buraya ait koridor var";
-                    return _Result;
-                }
-            }
-            else
-            {
-                _Result.Message = "Kayıt Yok";
-                return _Result;
-            }
-
-            // sil
-            try
-            {
-                db.SaveChanges();
-                LogActions("Business", "Store", "Delete", ComboItems.alSil, tbl.ID);
-                _Result.Id = Id;
-                _Result.Message = "İşlem Başarılı !!!";
-                _Result.Status = true;
-            }
-            catch (Exception ex)
-            {
-                Logger(ex, "Business/Store/Delete");
-                _Result.Message = ex.Message;
-            }
-
-            return _Result;
-        }
-        /// <summary>
-        /// depo bilgileri
-        /// </summary>
-        public override Depo Detail(int Id)
-        {
-            try
-            {
-                return db.Depoes.Where(m => m.ID == Id).FirstOrDefault();
-            }
-            catch (Exception ex)
-            {
-                Logger(ex, "Business/Store/Detail");
-                return new Depo();
-            }
-        }
-        public Depo Detail(string Kod)
-        {
-            try
-            {
-                return db.Depoes.Where(m => m.DepoKodu == Kod).FirstOrDefault();
-            }
-            catch (Exception ex)
-            {
-                Logger(ex, "Business/Store/Detail");
-                return new Depo();
-            }
-        }
-        /// <summary>
-        /// depo listesi
-        /// </summary>
-        public override List<Depo> GetList() => db.Depoes.OrderBy(m => m.DepoAd).ToList();
-
-        /// <summary>
-        /// kablo siparişi için liste
-        /// </summary>
-        public List<Depo> GetListCable(int? Id)
-        {
-            if (Id == null)
-                return db.Depoes.Where(m => m.KabloDepoID != null).OrderBy(m => m.DepoAd).ToList();
-            else
-                return db.Depoes.Where(m => m.KabloDepoID != null && m.ID == Id).ToList();
-        }
-        /// <summary>
-        /// üst tabloya ait olanları getir
-        /// </summary>
-        public override List<Depo> GetList(int ParentId) => GetList();
-
-        public List<Depo> GetList(int? Id)
-        {
-            if (Id == null) return GetList();
-            else
-                return db.Depoes.Where(m => m.ID == Id).ToList();
         }
     }
 }

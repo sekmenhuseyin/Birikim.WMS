@@ -9,6 +9,64 @@ namespace Wms12m.Business
     public class Combo : abstractTables<Combo_Name>, IDisposable
     {
         /// <summary>
+        /// depo silme
+        /// </summary>
+        public override Result Delete(int Id)
+        {
+            _Result = new Result();
+            try
+            {
+                var tbl = db.Combo_Name.Where(m => m.ID == Id).FirstOrDefault();
+                if (tbl != null)
+                {
+                    db.Combo_Name.Remove(tbl);
+                    db.SaveChanges();
+                    LogActions("Business", "Combo", "Delete", ComboItems.alSil, tbl.ID);
+                    _Result.Id = Id;
+                    _Result.Message = "İşlem Başarılı !!!";
+                    _Result.Status = true;
+                }
+                else
+                {
+                    _Result.Message = "Kayıt Yok";
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger(ex, "Business/Combo/Delete");
+                _Result.Message = ex.Message;
+            }
+
+            return _Result;
+        }
+
+        /// <summary>
+        /// depo bilgileri
+        /// </summary>
+        public override Combo_Name Detail(int Id)
+        {
+            try
+            {
+                return db.Combo_Name.Where(m => m.ID == Id).FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                Logger(ex, "Business/Combo/Detail");
+                return new Combo_Name();
+            }
+        }
+
+        /// <summary>
+        /// depo listesi
+        /// </summary>
+        public override List<Combo_Name> GetList() => db.Combo_Name.OrderBy(m => m.ComboName).ToList();
+
+        /// <summary>
+        /// üst tabloya ait olanları getir
+        /// </summary>
+        public override List<Combo_Name> GetList(int ParentId) => GetList();
+
+        /// <summary>
         /// ekle ve güncelle
         /// </summary>
         public override Result Operation(Combo_Name tbl)
@@ -50,59 +108,5 @@ namespace Wms12m.Business
 
             return _Result;
         }
-        /// <summary>
-        /// depo silme
-        /// </summary>
-        public override Result Delete(int Id)
-        {
-            _Result = new Result();
-            try
-            {
-                var tbl = db.Combo_Name.Where(m => m.ID == Id).FirstOrDefault();
-                if (tbl != null)
-                {
-                    db.Combo_Name.Remove(tbl);
-                    db.SaveChanges();
-                    LogActions("Business", "Combo", "Delete", ComboItems.alSil, tbl.ID);
-                    _Result.Id = Id;
-                    _Result.Message = "İşlem Başarılı !!!";
-                    _Result.Status = true;
-                }
-                else
-                {
-                    _Result.Message = "Kayıt Yok";
-                }
-            }
-            catch (Exception ex)
-            {
-                Logger(ex, "Business/Combo/Delete");
-                _Result.Message = ex.Message;
-            }
-
-            return _Result;
-        }
-        /// <summary>
-        /// depo bilgileri
-        /// </summary>
-        public override Combo_Name Detail(int Id)
-        {
-            try
-            {
-                return db.Combo_Name.Where(m => m.ID == Id).FirstOrDefault();
-            }
-            catch (Exception ex)
-            {
-                Logger(ex, "Business/Combo/Detail");
-                return new Combo_Name();
-            }
-        }
-        /// <summary>
-        /// depo listesi
-        /// </summary>
-        public override List<Combo_Name> GetList() => db.Combo_Name.OrderBy(m => m.ComboName).ToList();
-        /// <summary>
-        /// üst tabloya ait olanları getir
-        /// </summary>
-        public override List<Combo_Name> GetList(int ParentId) => GetList();
     }
 }

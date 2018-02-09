@@ -10,6 +10,187 @@ namespace Wms12m.Business
     public class Persons : abstractTables<User>
     {
         /// <summary>
+        /// şifre değiştirme işlemleri
+        /// </summary>
+        public Result ChangePass(User P)
+        {
+            if (P.Sifre.ToString2() == "")
+            {
+                _Result.Id = 0;
+                _Result.Message = "Eksik Bilgi Girdiniz";
+                _Result.Status = false;
+                return _Result;
+            }
+
+            _Result = new Result()
+            {
+                Status = false,
+                Message = "İşlem Hata !!!",
+                Id = 0
+            };
+            P.Sifre = CryptographyExtension.Sifrele(P.Sifre);
+            try
+            {
+                var tmp = Detail(P.ID);
+                tmp.Sifre = P.Sifre ?? "";
+                tmp.Degistiren = vUser.UserName;
+                tmp.DegisTarih = DateTime.Today.ToOADateInt();
+                tmp.DegisSaat = DateTime.Now.ToOaTime();
+                db.SaveChanges();
+                LogActions("Business", "Persons", "ChangePass", ComboItems.alDüzenle, P.ID);
+                // result
+                _Result.Id = P.ID;
+                _Result.Message = "İşlem Başarılı !!!";
+                _Result.Status = true;
+            }
+            catch (Exception ex)
+            {
+                Logger(ex, "Business/Persons/ChangePass");
+                _Result.Message = "İşlem Hata !!!" + ex.Message;
+            }
+
+            return _Result;
+        }
+
+        /// <summary>
+        /// sil
+        /// </summary>
+        public override Result Delete(int Id)
+        {
+            _Result = new Result();
+            var tbl = db.Users.Where(m => m.ID == Id).FirstOrDefault();
+            if (tbl == null)
+            {
+                _Result.Message = "Kayıt Yok";
+                return _Result;
+            }
+
+            var det = db.UserDetails.Where(m => m.UserID == tbl.ID).FirstOrDefault();
+            if (det != null) db.UserDetails.Remove(det);
+            var dev = db.UserDevices.Where(m => m.UserID == tbl.ID).ToList();
+            if (dev != null) db.UserDevices.RemoveRange(dev);
+            db.Users.Remove(tbl);
+            try
+            {
+                db.SaveChanges();
+                LogActions("Business", "Persons", "Delete", ComboItems.alSil, tbl.ID);
+                _Result.Id = Id;
+                _Result.Message = "İşlem Başarılı !!!";
+                _Result.Status = true;
+            }
+            catch (Exception ex)
+            {
+                Logger(ex, "Business/Persons/Delete");
+                _Result.Message = ex.Message;
+            }
+
+            return _Result;
+        }
+
+        /// <summary>
+        /// bir kişinin ayrıntıları
+        /// </summary>
+        public override User Detail(int Id)
+        {
+            try
+            {
+                return db.Users.Where(m => m.ID == Id).FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                Logger(ex, "Business/Persons/Detail");
+                return new User();
+            }
+        }
+
+        /// <summary>
+        /// liste
+        /// </summary>
+        public override List<User> GetList()
+        {
+            return db.Users.Where(m => m.ID > 1 & m.Aktif == true).OrderBy(m => m.AdSoyad).ToList();
+        }
+
+        /// <summary>
+        /// yetkiye sahip kişiler
+        /// </summary>
+        public override List<User> GetList(int UserID) => db.Users.Where(m => m.ID == UserID).ToList();
+
+        public List<User> GetList(string RoleName)
+        {
+            return db.Users.Where(m => m.Sirket == "" && m.RoleName == RoleName & m.Aktif == true).OrderByDescending(m => m.Aktif).ThenBy(m => m.AdSoyad).ToList();
+        }
+
+        public List<User> GetList(string[] RoleName)
+        {
+            return db.Users.Where(m => m.Sirket == "" && RoleName.Contains(m.RoleName) & m.Aktif == true).OrderByDescending(m => m.Aktif).ThenBy(m => m.AdSoyad).ToList();
+        }
+
+        public List<User> GetListAll()
+        {
+            return db.Users.Where(m => m.ID > 1).OrderBy(m => m.AdSoyad).ToList();
+        }
+
+        public IQueryable<frmChatUser> GetListAll2()
+        {
+            return db.Users.Where(m => m.ID > 1).Select(m => new frmChatUser { ID = m.ID, Guid = m.Guid.ToString(), AdSoyad = m.AdSoyad, Email = m.Email, Kod = m.Kod, RoleName = m.RoleName, Aktif = m.Aktif }).OrderByDescending(m => m.Aktif).ThenBy(m => m.AdSoyad);
+        }
+
+        public List<User> GetListWithoutTerminal()
+        {
+            return db.Users.Where(m => m.Sirket == "" && m.UserDetail == null && m.ID > 1 & m.Aktif == true).OrderByDescending(m => m.Aktif).ThenBy(m => m.AdSoyad).ToList();
+        }
+
+        /// <summary>
+        /// şifre göster
+        /// </summary>
+        public string GetPass(int ID)
+        {
+            var P = Detail(ID);
+            return CryptographyExtension.Cozumle(P.Sifre);
+        }
+
+        /// <summary>
+        /// giriş işlemleri
+        /// </summary>
+        public Result Login(User P, string device)
+        {
+            _Result = new Result()
+            {
+                Status = false,
+                Message = "Hatalı kombinasyon",
+                Id = 0
+            };
+            try
+            {
+                P.Kod = P.Kod.Left(5);
+                var tbl = db.Users.Where(a => a.Kod.Equals(P.Kod) && a.Sirket == "" && a.Tip == 0 && a.Aktif == true).FirstOrDefault();
+                if (tbl != null)//if user exists
+                {
+                    var pass = CryptographyExtension.Cozumle(tbl.Sifre);
+                    if (P.Sifre == pass)//if password matches
+                    {
+                        // update db
+                        db.LogLogins(P.Kod, device, true, "");
+                        db.UpdateUserDevice(tbl.ID, device);
+                        // return result
+                        _Result.Status = true;
+                        _Result.Id = tbl.ID;
+                        _Result.Message = "İşlem Başarılı";
+                        _Result.Data = tbl;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger(ex, "Business/Persons/Login");
+                _Result.Message = "İşlem Hata !!!" + ex.Message;
+            }
+
+            return _Result;
+        }
+
+        /// <summary>
         /// ekle, güncelle
         /// </summary>
         public override Result Operation(User tbl)
@@ -99,175 +280,6 @@ namespace Wms12m.Business
             }
 
             return _Result;
-        }
-        /// <summary>
-        /// sil
-        /// </summary>
-        public override Result Delete(int Id)
-        {
-            _Result = new Result();
-            var tbl = db.Users.Where(m => m.ID == Id).FirstOrDefault();
-            if (tbl == null)
-            {
-                _Result.Message = "Kayıt Yok";
-                return _Result;
-            }
-
-            var det = db.UserDetails.Where(m => m.UserID == tbl.ID).FirstOrDefault();
-            if (det != null) db.UserDetails.Remove(det);
-            var dev = db.UserDevices.Where(m => m.UserID == tbl.ID).ToList();
-            if (dev != null) db.UserDevices.RemoveRange(dev);
-            db.Users.Remove(tbl);
-            try
-            {
-                db.SaveChanges();
-                LogActions("Business", "Persons", "Delete", ComboItems.alSil, tbl.ID);
-                _Result.Id = Id;
-                _Result.Message = "İşlem Başarılı !!!";
-                _Result.Status = true;
-            }
-            catch (Exception ex)
-            {
-                Logger(ex, "Business/Persons/Delete");
-                _Result.Message = ex.Message;
-            }
-
-            return _Result;
-        }
-        /// <summary>
-        /// giriş işlemleri
-        /// </summary>
-        public Result Login(User P, string device)
-        {
-            _Result = new Result()
-            {
-                Status = false,
-                Message = "Hatalı kombinasyon",
-                Id = 0
-            };
-            try
-            {
-                P.Kod = P.Kod.Left(5);
-                var tbl = db.Users.Where(a => a.Kod.Equals(P.Kod) && a.Sirket == "" && a.Tip == 0 && a.Aktif == true).FirstOrDefault();
-                if (tbl != null)//if user exists
-                {
-                    var pass = CryptographyExtension.Cozumle(tbl.Sifre);
-                    if (P.Sifre == pass)//if password matches
-                    {
-                        // update db
-                        db.LogLogins(P.Kod, device, true, "");
-                        db.UpdateUserDevice(tbl.ID, device);
-                        // return result
-                        _Result.Status = true;
-                        _Result.Id = tbl.ID;
-                        _Result.Message = "İşlem Başarılı";
-                        _Result.Data = tbl;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                Logger(ex, "Business/Persons/Login");
-                _Result.Message = "İşlem Hata !!!" + ex.Message;
-            }
-
-            return _Result;
-        }
-        /// <summary>
-        /// şifre değiştirme işlemleri
-        /// </summary>
-        public Result ChangePass(User P)
-        {
-            if (P.Sifre.ToString2() == "")
-            {
-                _Result.Id = 0;
-                _Result.Message = "Eksik Bilgi Girdiniz";
-                _Result.Status = false;
-                return _Result;
-            }
-
-            _Result = new Result()
-            {
-                Status = false,
-                Message = "İşlem Hata !!!",
-                Id = 0
-            };
-            P.Sifre = CryptographyExtension.Sifrele(P.Sifre);
-            try
-            {
-                var tmp = Detail(P.ID);
-                tmp.Sifre = P.Sifre ?? "";
-                tmp.Degistiren = vUser.UserName;
-                tmp.DegisTarih = DateTime.Today.ToOADateInt();
-                tmp.DegisSaat = DateTime.Now.ToOaTime();
-                db.SaveChanges();
-                LogActions("Business", "Persons", "ChangePass", ComboItems.alDüzenle, P.ID);
-                // result
-                _Result.Id = P.ID;
-                _Result.Message = "İşlem Başarılı !!!";
-                _Result.Status = true;
-            }
-            catch (Exception ex)
-            {
-                Logger(ex, "Business/Persons/ChangePass");
-                _Result.Message = "İşlem Hata !!!" + ex.Message;
-            }
-
-            return _Result;
-        }
-        /// <summary>
-        /// şifre göster
-        /// </summary>
-        public string GetPass(int ID)
-        {
-            var P = Detail(ID);
-            return CryptographyExtension.Cozumle(P.Sifre);
-        }
-        /// <summary>
-        /// bir kişinin ayrıntıları
-        /// </summary>
-        public override User Detail(int Id)
-        {
-            try
-            {
-                return db.Users.Where(m => m.ID == Id).FirstOrDefault();
-            }
-            catch (Exception ex)
-            {
-                Logger(ex, "Business/Persons/Detail");
-                return new User();
-            }
-        }
-        /// <summary>
-        /// liste
-        /// </summary>
-        public override List<User> GetList()
-        {
-            return db.Users.Where(m => m.ID > 1 & m.Aktif == true).OrderBy(m => m.AdSoyad).ToList();
-        }
-        public List<User> GetListAll()
-        {
-            return db.Users.Where(m => m.ID > 1).OrderBy(m => m.AdSoyad).ToList();
-        }
-        public IQueryable<frmChatUser> GetListAll2()
-        {
-            return db.Users.Where(m => m.ID > 1).Select(m => new frmChatUser { ID = m.ID, Guid = m.Guid.ToString(), AdSoyad = m.AdSoyad, Email = m.Email, Kod = m.Kod, RoleName = m.RoleName, Aktif = m.Aktif }).OrderByDescending(m => m.Aktif).ThenBy(m => m.AdSoyad);
-        }
-        /// <summary>
-        /// yetkiye sahip kişiler
-        /// </summary>
-        public override List<User> GetList(int UserID) => db.Users.Where(m => m.ID == UserID).ToList();
-        public List<User> GetList(string RoleName)
-        {
-            return db.Users.Where(m => m.Sirket == "" && m.RoleName == RoleName & m.Aktif == true).OrderByDescending(m => m.Aktif).ThenBy(m => m.AdSoyad).ToList();
-        }
-        public List<User> GetList(string[] RoleName)
-        {
-            return db.Users.Where(m => m.Sirket == "" && RoleName.Contains(m.RoleName) & m.Aktif == true).OrderByDescending(m => m.Aktif).ThenBy(m => m.AdSoyad).ToList();
-        }
-        public List<User> GetListWithoutTerminal()
-        {
-            return db.Users.Where(m => m.Sirket == "" && m.UserDetail == null && m.ID > 1 & m.Aktif == true).OrderByDescending(m => m.Aktif).ThenBy(m => m.AdSoyad).ToList();
         }
     }
 }

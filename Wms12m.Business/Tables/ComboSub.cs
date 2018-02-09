@@ -9,6 +9,87 @@ namespace Wms12m.Business
     public class ComboSub : abstractTables<ComboItem_Name>
     {
         /// <summary>
+        /// depo silme
+        /// </summary>
+        public override Result Delete(int Id)
+        {
+            _Result = new Result();
+            try
+            {
+                var tbl = db.ComboItem_Name.Where(m => m.ID == Id).FirstOrDefault();
+                if (tbl != null)
+                {
+                    db.ComboItem_Name.Remove(tbl);
+                    db.SaveChanges();
+                    LogActions("Business", "Combo", "Delete", ComboItems.alSil, tbl.ID);
+                    _Result.Id = Id;
+                    _Result.Message = "İşlem Başarılı !!!";
+                    _Result.Status = true;
+                }
+                else
+                {
+                    _Result.Message = "Kayıt Yok";
+                    _Result.Status = false;
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger(ex, "Business/ComboSub/Delete");
+                _Result.Message = ex.Message;
+                _Result.Status = false;
+            }
+
+            return _Result;
+        }
+
+        /// <summary>
+        /// depo bilgileri
+        /// </summary>
+        public override ComboItem_Name Detail(int Id)
+        {
+            try
+            {
+                return db.ComboItem_Name.Where(m => m.ID == Id).FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                Logger(ex, "Business/ComboSub/Detail");
+                return new ComboItem_Name();
+            }
+        }
+
+        /// <summary>
+        /// depo listesi
+        /// </summary>
+        public override List<ComboItem_Name> GetList()
+        {
+            return db.ComboItem_Name.OrderBy(m => m.Name).ToList();
+        }
+
+        public List<ComboItem_Name> GetList(bool visible)
+        {
+            return db.ComboItem_Name.Where(m => m.Visible == visible).OrderBy(m => m.Name).ToList();
+        }
+
+        /// <summary>
+        /// üst tabloya ait olanları getir
+        /// </summary>
+        public override List<ComboItem_Name> GetList(int ParentId)
+        {
+            return db.ComboItem_Name.Where(m => m.Visible == true && m.ComboID == ParentId).OrderBy(m => m.Name).ToList();
+        }
+
+        public List<ComboItem_Name> GetList(int[] Id)
+        {
+            return db.ComboItem_Name.Where(m => m.Visible == true && Id.Contains(m.ID)).OrderBy(m => m.Name).ToList();
+        }
+
+        public List<ComboItem_Name> GetList(int ParentId, bool visible)
+        {
+            return db.ComboItem_Name.Where(m => m.Visible == visible && m.ComboID == ParentId).OrderBy(m => m.Name).ToList();
+        }
+
+        /// <summary>
         /// ekle ve güncelle
         /// </summary>
         public override Result Operation(ComboItem_Name tbl)
@@ -55,80 +136,6 @@ namespace Wms12m.Business
             }
 
             return _Result;
-        }
-        /// <summary>
-        /// depo silme
-        /// </summary>
-        public override Result Delete(int Id)
-        {
-            _Result = new Result();
-            try
-            {
-                var tbl = db.ComboItem_Name.Where(m => m.ID == Id).FirstOrDefault();
-                if (tbl != null)
-                {
-                    db.ComboItem_Name.Remove(tbl);
-                    db.SaveChanges();
-                    LogActions("Business", "Combo", "Delete", ComboItems.alSil, tbl.ID);
-                    _Result.Id = Id;
-                    _Result.Message = "İşlem Başarılı !!!";
-                    _Result.Status = true;
-                }
-                else
-                {
-                    _Result.Message = "Kayıt Yok";
-                    _Result.Status = false;
-                }
-            }
-            catch (Exception ex)
-            {
-                Logger(ex, "Business/ComboSub/Delete");
-                _Result.Message = ex.Message;
-                _Result.Status = false;
-            }
-
-            return _Result;
-        }
-        /// <summary>
-        /// depo bilgileri
-        /// </summary>
-        public override ComboItem_Name Detail(int Id)
-        {
-            try
-            {
-                return db.ComboItem_Name.Where(m => m.ID == Id).FirstOrDefault();
-            }
-            catch (Exception ex)
-            {
-                Logger(ex, "Business/ComboSub/Detail");
-                return new ComboItem_Name();
-            }
-        }
-        /// <summary>
-        /// depo listesi
-        /// </summary>
-        public override List<ComboItem_Name> GetList()
-        {
-            return db.ComboItem_Name.OrderBy(m => m.Name).ToList();
-        }
-        public List<ComboItem_Name> GetList(bool visible)
-        {
-            return db.ComboItem_Name.Where(m => m.Visible == visible).OrderBy(m => m.Name).ToList();
-        }
-        /// <summary>
-        /// üst tabloya ait olanları getir
-        /// </summary>
-        public override List<ComboItem_Name> GetList(int ParentId)
-        {
-            return db.ComboItem_Name.Where(m => m.Visible == true && m.ComboID == ParentId).OrderBy(m => m.Name).ToList();
-        }
-        public List<ComboItem_Name> GetList(int[] Id)
-        {
-            return db.ComboItem_Name.Where(m => m.Visible == true && Id.Contains(m.ID)).OrderBy(m => m.Name).ToList();
-        }
-        public List<ComboItem_Name> GetList(int ParentId, bool visible)
-        {
-            return db.ComboItem_Name.Where(m => m.Visible == visible && m.ComboID == ParentId).OrderBy(m => m.Name).ToList();
         }
     }
 }
