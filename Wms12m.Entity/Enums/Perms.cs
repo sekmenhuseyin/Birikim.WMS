@@ -70,6 +70,7 @@
         TerminalAlimdanİade,
         TerminalSatıştanİade,
         ChartGörevProjesi,
-        SatinalmaGMYTedarikciOnaylama
+        SatinalmaGMYTedarikciOnay,
+        SatinalmaGMYMaliOnay
     }
 }

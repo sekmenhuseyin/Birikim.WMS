@@ -99,7 +99,7 @@
                     return;
                 }
                 TLP = e.value.TalepNo;
-                PartialView("/Approvals/Purchase/GMYTedarikciOnayList", 'satinalma_gmy_onay_data', JSON.stringify({ TalepNo: e.value.TalepNo, OnayTip: @ViewBag.OnayTip }));
+                PartialView("/Approvals/Purchase/GMYOnayList", 'satinalma_gmy_onay_data', JSON.stringify({ TalepNo: e.value.TalepNo, OnayTip: @ViewBag.OnayTip }));
             },
             itemTemplate: function (itemData, itemIndex, itemElement) {
                 itemElement.css({ "text-align": "left", "border-bottom": "1px solid #2fc1d8" });
@@ -122,7 +122,7 @@
                 return;
             }
             $.ajax({
-                url: window.location.origin + "/Approvals/Purchase/GMYTedarikciOnayla?OnayTip="+@ViewBag.OnayTip,
+                url: window.location.origin + "/Approvals/Purchase/GMYOnayla?OnayTip="+@ViewBag.OnayTip,
                 data: {},
                 type: "post",
                 success: function (data) {
@@ -146,7 +146,7 @@
         }
 
         $.ajax({
-            url: window.location.origin + "/Approvals/Purchase/GMYTedarikciReddet?redAciklama=" + aciklama +"&OnayTip="+@ViewBag.OnayTip,
+            url: window.location.origin + "/Approvals/Purchase/GMYReddet?redAciklama=" + aciklama +"&OnayTip="+@ViewBag.OnayTip,
             data: {},
             type: "post",
             success: function (data) {

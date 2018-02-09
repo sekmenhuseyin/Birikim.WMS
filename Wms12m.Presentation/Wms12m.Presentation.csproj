@@ -500,7 +500,6 @@
     <Content Include="Areas\Approvals\Views\Account\Index.cshtml" />
     <Content Include="Areas\Reports\Views\Financial\TahsilatKontrolRaporu.cshtml" />
     <Content Include="Areas\Approvals\Views\Account\MHK.cshtml" />
-    <Content Include="Areas\Approvals\Views\Purchase\GMYTedarikciOnay_List.cshtml" />
     <Content Include="Areas\Approvals\Views\Purchase\GMY_Onay.cshtml" />
     <Content Include="Areas\Reports\Views\Stock\GidenBarkod.cshtml" />
     <Content Include="Areas\Reports\Views\Stock\GidenBarkodList.cshtml" />
@@ -509,6 +508,7 @@
     <Content Include="Areas\Reports\Views\Financial\Target.cshtml" />
     <Content Include="Areas\Reports\Views\Financial\TargetList.cshtml" />
     <Content Include="Areas\Approvals\Views\Check\Index.cshtml" />
+    <Content Include="Areas\Approvals\Views\Purchase\GMYOnay_List.cshtml" />
     <None Include="bundleconfig.json" />
     <Content Include="Content\SizeSablon.xlsx" />
     <Content Include="Content\StockSablon.xlsx" />

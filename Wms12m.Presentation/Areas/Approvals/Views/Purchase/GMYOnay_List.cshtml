@@ -4,7 +4,7 @@
         <div class="portlet box green">
             <div class="portlet-title">
                 <div class="caption">
-                    <i class="fa fa-gift"></i>GMY Tedarikçi Onay
+                    <i class="fa fa-gift"></i>@ViewBag.basli
                 </div>
                 <div class="col-md-1 pull-right m-t-5 p-0" id="buttons"></div>
             </div>
@@ -72,7 +72,7 @@
     var table = $('#sample_1').DataTable({
         "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
         "ajax": {
-            "url": '/Approvals/Purchase/GMYTedarikciOnayListData',
+            "url": '/Approvals/Purchase/GMYOnayListData',
             "data": { TalepNo: '@ViewBag.TalepNo', OnayTip:'@ViewBag.OnayTip'},
             "dataSrc": function (json) {
 
