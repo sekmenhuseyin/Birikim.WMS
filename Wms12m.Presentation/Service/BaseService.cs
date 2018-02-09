@@ -6,16 +6,17 @@ namespace Wms12m
 {
     public class BaseService : WebService, IDisposable
     {
-        public WMSEntities db = new WMSEntities();
         public string AuthPass = "http://www.12mconsulting.com.tr/";
+        public WMSEntities db = new WMSEntities();
+
         /// <summary>
-        /// dispose override
+        /// işlem kaydı
         /// </summary>
-        protected override void Dispose(bool disposing)
+        public void LogActions(string user, string machine, string area, string controller, string action, ComboItems type, int ID, string details = "", string request = "")
         {
-            if (disposing) db.Dispose();
-            base.Dispose(disposing);
+            db.LogActions("WMS", area, controller, action, type.ToInt32(), ID, request, details, user, machine);
         }
+
         /// <summary>
         /// hata kaydını tek yerden kontrol etmek için
         /// </summary>
@@ -30,12 +31,14 @@ namespace Wms12m
 
             db.Logger(user, machine, "", ex.Message, inner, page);
         }
+
         /// <summary>
-        /// işlem kaydı
+        /// dispose override
         /// </summary>
-        public void LogActions(string user, string machine, string area, string controller, string action, ComboItems type, int ID, string details = "", string request = "")
+        protected override void Dispose(bool disposing)
         {
-            db.LogActions("WMS", area, controller, action, type.ToInt32(), ID, request, details, user, machine);
+            if (disposing) db.Dispose();
+            base.Dispose(disposing);
         }
     }
 }

@@ -128,7 +128,7 @@ namespace Wms12m
                         if (user != null)
                         {
                             rep.lblBirinciKisiAd.Text = user.AdSoyad;
-                            rep.picBirinciKisiImza.Image = ByteArrayToImage.byteArrayToImage(satisUzmani.SiparisSorumluImza);
+                            rep.picBirinciKisiImza.Image = ByteArrayToImage.ToImage(satisUzmani.SiparisSorumluImza);
                         }
                     }
 
@@ -137,7 +137,7 @@ namespace Wms12m
                         var user = db.Users.Where(m => m.Kod == gmy.SiparisSorumlu).FirstOrDefault();
                         if (user != null)
                         {
-                            rep.PicikinciKisiImza.Image = ByteArrayToImage.byteArrayToImage(gmy.SiparisSorumluImza);
+                            rep.PicikinciKisiImza.Image = ByteArrayToImage.ToImage(gmy.SiparisSorumluImza);
                         }
                     }
 
@@ -149,7 +149,7 @@ namespace Wms12m
                             var user = db.Users.Where(m => m.Kod == gm.SiparisSorumlu).FirstOrDefault();
                             if (user != null)
                             {
-                                rep.PicUcuncuKisiImza.Image = ByteArrayToImage.byteArrayToImage(gm.SiparisSorumluImza);
+                                rep.PicUcuncuKisiImza.Image = ByteArrayToImage.ToImage(gm.SiparisSorumluImza);
                             }
                         }
                     }
@@ -184,7 +184,7 @@ namespace Wms12m
                         if (user != null)
                         {
                             rep.lblBirinciKisiAd.Text = user.AdSoyad;
-                            rep.picBirinciKisiImza.Image = ByteArrayToImage.byteArrayToImage(satisUzmani.SiparisSorumluImza);
+                            rep.picBirinciKisiImza.Image = ByteArrayToImage.ToImage(satisUzmani.SiparisSorumluImza);
                         }
                     }
 
@@ -193,7 +193,7 @@ namespace Wms12m
                         var user = db.Users.Where(m => m.Kod == gmy.SiparisSorumlu).FirstOrDefault();
                         if (user != null)
                         {
-                            rep.PicikinciKisiImza.Image = ByteArrayToImage.byteArrayToImage(gmy.SiparisSorumluImza);
+                            rep.PicikinciKisiImza.Image = ByteArrayToImage.ToImage(gmy.SiparisSorumluImza);
                         }
                     }
 
@@ -205,7 +205,7 @@ namespace Wms12m
                             var user = db.Users.Where(m => m.Kod == gm.SiparisSorumlu).FirstOrDefault();
                             if (user != null)
                             {
-                                rep.PicUcuncuKisiImza.Image = ByteArrayToImage.byteArrayToImage(gm.SiparisSorumluImza);
+                                rep.PicUcuncuKisiImza.Image = ByteArrayToImage.ToImage(gm.SiparisSorumluImza);
                             }
                         }
                     }
