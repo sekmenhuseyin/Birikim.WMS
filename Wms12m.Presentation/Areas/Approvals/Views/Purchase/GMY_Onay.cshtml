@@ -1,6 +1,6 @@
 ﻿@model List<SatTalep>
 @{
-    ViewBag.Title = "GMY Tedarikçi Onay";
+    ViewBag.Title = ViewBag.baslik;
     Layout = "~/Views/Shared/_Layout.cshtml";
 }@section Styles{<link href="~/Content/assets/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css" rel="stylesheet" type="text/css" />
     <link href="~/Content/assets/global/plugins/jQuery-contextMenu/dist/jquery.contextMenu.min.css" rel="stylesheet" />
@@ -48,7 +48,7 @@
     </style>
 }
 <div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><span>Onaylama</span><i class="fa fa-circle"></i></li><li><span>GMY Tedarikçi Onay</span></li></ul></div>
-<h1 class="page-title">GMY Tedarikçi Onay</h1>
+<h1 class="page-title">@ViewBag.baslik</h1>
 <div class="row">
     <div>
         <div class="col-xs-6 col-sm-6" style="padding:0 2px 0 5px">
@@ -71,7 +71,7 @@
 </div>
 <hr />
 <div class="row">
-    <div id="satinalma_gmytedarikci_onay_data">
+    <div id="satinalma_gmy_onay_data">
     </div>
 </div>
 
@@ -99,7 +99,7 @@
                     return;
                 }
                 TLP = e.value.TalepNo;
-                PartialView("/Approvals/Purchase/GMYTedarikciOnayList", 'satinalma_gmytedarikci_onay_data', JSON.stringify({ TalepNo: e.value.TalepNo }));
+                PartialView("/Approvals/Purchase/GMYTedarikciOnayList", 'satinalma_gmy_onay_data', JSON.stringify({ TalepNo: e.value.TalepNo, OnayTip: @ViewBag.OnayTip }));
             },
             itemTemplate: function (itemData, itemIndex, itemElement) {
                 itemElement.css({ "text-align": "left", "border-bottom": "1px solid #2fc1d8" });
@@ -122,7 +122,7 @@
                 return;
             }
             $.ajax({
-                url: window.location.origin + "/Approvals/Purchase/GMYTedarikciOnayla",
+                url: window.location.origin + "/Approvals/Purchase/GMYTedarikciOnayla?OnayTip="+@ViewBag.OnayTip,
                 data: {},
                 type: "post",
                 success: function (data) {
@@ -146,7 +146,7 @@
         }
 
         $.ajax({
-            url: window.location.origin + "/Approvals/Purchase/GMYTedarikciReddet?redAciklama=" + aciklama,
+            url: window.location.origin + "/Approvals/Purchase/GMYTedarikciReddet?redAciklama=" + aciklama +"&OnayTip="+@ViewBag.OnayTip,
             data: {},
             type: "post",
             success: function (data) {

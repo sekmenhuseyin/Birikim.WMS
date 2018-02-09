@@ -449,6 +449,10 @@ GROUP BY (CASE WHEN ST.Birim = STK.Birim1 THEN 1
         public ActionResult GMYTedarikci_Onay()
         {
             if (CheckPerm(Perms.SatinalmaGMYTedarikciOnaylama, PermTypes.Reading) == false) return Redirect("/");
+
+            ViewBag.OnayTip = 0;
+            ViewBag.baslik = "Teklif GMY Tedarikçi Onay";
+
             MyGlobalVariables.GMYTedarikciOnayList = db.Database.SqlQuery<SatTalep>(string.Format(@"
             SELECT DISTINCT ST.KynkTalepNo AS TalepNo,
             (select TOP(1) Tp.Kaydeden FROM KAYNAK.sta.Talep as Tp (nolock) where Tp.TalepNo = St.KynkTalepNo) AS TalepEden
@@ -457,27 +461,29 @@ GROUP BY (CASE WHEN ST.Birim = STK.Birim1 THEN 1
             WHERE ST.Durum=2 AND  ST.KynkTalepNo<>''
             GROUP BY ST.KynkTalepNo
             ORDER BY ST.KynkTalepNo", vUser.SirketKodu)).ToList();
-            return View("GMYTedarikci_Onay", MyGlobalVariables.GMYTedarikciOnayList);
+
+            return View("GMY_Onay", MyGlobalVariables.GMYTedarikciOnayList);
         }
 
-        public PartialViewResult GMYTedarikciOnayList(string TalepNo)
+        public PartialViewResult GMYTedarikciOnayList(string TalepNo, int OnayTip)
         {
             if (CheckPerm(Perms.SatinalmaOnaylama, PermTypes.Reading) == false) return null;
 
             ViewBag.TalepNo = TalepNo;
+            ViewBag.OnayTip = OnayTip;
             return PartialView("GMYTedarikciOnay_List");
         }
 
-        public string GMYTedarikciOnayListData(string TalepNo)
+        public string GMYTedarikciOnayListData(string TalepNo, int OnayTip)
         {
             if (CheckPerm(Perms.SatinalmaOnaylama, PermTypes.Reading) == false) return null;
 
-            if (MyGlobalVariables.GridTedarikciSource == null)
-                MyGlobalVariables.GridTedarikciSource = new List<SatTalep>();
+            if (MyGlobalVariables.GridGMYSource == null)
+                MyGlobalVariables.GridGMYSource = new List<SatTalep>();
             else
-                MyGlobalVariables.GridTedarikciSource.Clear();
+                MyGlobalVariables.GridGMYSource.Clear();
 
-            MyGlobalVariables.GridTedarikciSource = db.Database.SqlQuery<SatTalep>(string.Format(@"
+            MyGlobalVariables.GridGMYSource = db.Database.SqlQuery<SatTalep>(string.Format(@"
             SELECT ST.ID, ST.TeklifNo, ST.Tarih, ST.HesapKodu, ST.MalKodu,
             (SELECT MalAdi FROM FINSAT6{0}.FINSAT6{0}.STK (NOLOCK) WHERE MalKodu = ST.MalKodu) AS MalAdi, ST.Birim,
             ST.BirimFiyat, ST.TeklifMiktar, ST.Durum,
@@ -521,18 +527,18 @@ GROUP BY (CASE WHEN ST.Birim = STK.Birim1 THEN 1
             WHERE
             ST.KynkTalepNo='{1}' AND ST.Durum=2", vUser.SirketKodu, TalepNo)).ToList();
 
-            var json = new JavaScriptSerializer().Serialize(MyGlobalVariables.GridTedarikciSource);
+            var json = new JavaScriptSerializer().Serialize(MyGlobalVariables.GridGMYSource);
             return json;
         }
 
         /// <summary>
         /// gmy için teklif onaylama
         /// </summary>
-        public JsonResult GMYTedarikciOnayla()
+        public JsonResult GMYTedarikciOnayla(int OnayTip)
         {
             if (CheckPerm(Perms.SatinalmaGMYTedarikciOnaylama, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             var _Result = new Result(true, "İşlem Başarılı");
-            if (MyGlobalVariables.GridTedarikciSource.Where(x => x.OneriDurum).Count() == 0)
+            if (MyGlobalVariables.GridGMYSource.Where(x => x.OneriDurum).Count() == 0)
             {
                 _Result.Message = "Satınalmacı tarafından öneri yapılmamış. İşlem devam edemez!!";
                 _Result.Status = false;
@@ -543,7 +549,7 @@ GROUP BY (CASE WHEN ST.Birim = STK.Birim1 THEN 1
 
             try
             {
-                foreach (var item in MyGlobalVariables.GridTedarikciSource)
+                foreach (var item in MyGlobalVariables.GridGMYSource)
                 {
                     var sql = string.Format(@"UPDATE Kaynak.sta.Teklif SET
 	                        Durum=4, Aciklama2='{0}', Degistiren='{1}', DegisTarih=GETDATE(), DegisSirKodu='{3}',
@@ -568,12 +574,12 @@ GROUP BY (CASE WHEN ST.Birim = STK.Birim1 THEN 1
         /// <summary>
         /// gmy için teklif reddetme
         /// </summary>
-        public JsonResult GMYTedarikciReddet(string redAciklama)
+        public JsonResult GMYTedarikciReddet(string redAciklama, int OnayTip)
         {
             if (CheckPerm(Perms.SatinalmaGMYTedarikciOnaylama, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             var _Result = new Result(true, "İşlem Başarılı");
 
-            if (MyGlobalVariables.GridTedarikciSource.Where(x => x.OneriDurum).Count() == 0)
+            if (MyGlobalVariables.GridGMYSource.Where(x => x.OneriDurum).Count() == 0)
             {
                 _Result.Message = "Satınalmacı tarafından öneri yapılmamış. İşlem devam edemez!!";
                 _Result.Status = false;

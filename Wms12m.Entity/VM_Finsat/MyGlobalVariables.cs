@@ -12,7 +12,7 @@ namespace Wms12m.Entity
         public static List<SatTalep> GMYTedarikciOnayList { get; set; }
         public static List<SatTalep> GMYTedarikciOnayDetayList { get; set; }
         public static List<KKP_SPI> GridSource { get; set; }
-        public static List<SatTalep> GridTedarikciSource { get; set; }
+        public static List<SatTalep> GridGMYSource { get; set; }
         public static List<KKP_FTD> GridFTD { get; set; }
         public static bool DovizDurum { get; set; }
         public static string Birim { get; set; }

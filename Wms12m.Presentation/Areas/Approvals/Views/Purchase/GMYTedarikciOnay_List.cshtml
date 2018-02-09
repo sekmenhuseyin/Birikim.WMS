@@ -1,5 +1,5 @@
 ﻿@using Newtonsoft.Json;
-<div class="satinalma_gmytedarikci_onay_data" style="width: 100%; box-shadow: 2px 4px 2px #5d5959;">
+<div class="satinalma_gmy_onay_data" style="width: 100%; box-shadow: 2px 4px 2px #5d5959;">
     <div class="col-md-12" style="width:100%;">
         <div class="portlet box green">
             <div class="portlet-title">
@@ -73,7 +73,7 @@
         "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
         "ajax": {
             "url": '/Approvals/Purchase/GMYTedarikciOnayListData',
-            "data": {TalepNo:'@ViewBag.TalepNo'},
+            "data": { TalepNo: '@ViewBag.TalepNo', OnayTip:'@ViewBag.OnayTip'},
             "dataSrc": function (json) {
 
                 return json;
