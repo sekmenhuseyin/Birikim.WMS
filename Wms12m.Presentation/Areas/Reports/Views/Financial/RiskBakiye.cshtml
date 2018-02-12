@@ -37,7 +37,7 @@
         $("#txtTeslimBaslangic").datepicker().on("change", function (e) { basVadeTarih = toOADateFromString(e.target.value); });
         $("#txtTeslimBitis").datepicker().on("change", function (e) { bitVadeTarih = toOADateFromString(e.target.value); });
         $("#txtHesapBas").autocomplete({
-            source: "/Reports/Financial/GetChKCode/0",
+            source: "/Reports/Financial/GetChKCode",
             minLength: 2,
             select: function (event, ui) {
                 setTimeout(function () { $("#txtHesapBas").val(ui.item.id) }, 0);
@@ -46,7 +46,7 @@
             scroll: true
         });
         $("#txtHesapBit").autocomplete({
-            source: "/Reports/Financial/GetChKCode/0",
+            source: "/Reports/Financial/GetChKCode",
             minLength: 2,
             select: function (event, ui) {
                 setTimeout(function () { $("#txtHesapBit").val(ui.item.id); }, 0);
