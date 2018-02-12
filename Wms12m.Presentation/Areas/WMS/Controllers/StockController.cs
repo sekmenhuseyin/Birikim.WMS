@@ -336,15 +336,6 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                     cevap = Yerlestirme.Insert(new Yer() { KatID = tbl.KatID, MalKodu = ilk.MalKodu, Birim = ilk.Birim, Miktar = 0 }, vUser.Id, "Yer Değiştir");
                     yertmp = new Yer() { ID = cevap.Id };
                 }
-                else
-                {
-                    var tmpYerLog = db.Yer_Log.Where(m => m.KatID == tbl.KatID && m.MalKodu == tbl.MalKodu && m.Birim == tbl.Birim).FirstOrDefault();
-                    if (tmpYerLog == null)
-                    {
-                        db.Yer_Log.Add(new Yer_Log() { KatID = tbl.KatID, MalKodu = tbl.MalKodu, Birim = tbl.Birim, GC = false, Miktar = 0, Kaydeden = vUser.UserName, KayitTarihi = today, KayitSaati = time });
-                        db.SaveChanges();
-                    }
-                }
 
                 cevap = TaskYer.Operation(new GorevYer() { GorevID = cevapGir.GorevID.Value, YerID = yertmp.ID, MalKodu = ilk.MalKodu, Birim = ilk.Birim, Miktar = tbl.Miktar, GC = false });
                 // irs detay
@@ -366,7 +357,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         public PartialViewResult ManualMovementNewPlace(int Id)
         {
             var tbl = Yerlestirme.Detail(Id);
-            ViewBag.RafID = new SelectList(Shelf.GetList().Where(a => a.Koridor.DepoID == Convert.ToInt16(tbl.DepoID)).ToList(), "ID", "RafAd");
+            ViewBag.RafID = new SelectList(Shelf.GetListByDepo(tbl.DepoID.Value).Select(m => new SelectListItem { Text = m.Koridor.KoridorAd + "-" + m.RafAd, Value = Convert.ToString(m.ID) }), "Value", "Text");
             ViewBag.BolumID = new SelectList(Section.GetList(0), "ID", "BolumAd");
             ViewBag.KatID = new SelectList(Floor.GetList(0), "ID", "KatAd");
             ViewBag.Miktar = tbl.Miktar;

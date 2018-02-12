@@ -245,7 +245,7 @@ namespace Wms12m.Business
             };
             if (tbl.MakaraNo != "" && tbl.MakaraNo != null) yerLog.MakaraNo = tbl.MakaraNo;
             if (irsID > 0) yerLog.IrsaliyeID = irsID;
-            if (yerLog.Miktar > 0) db.Yer_Log.Add(yerLog);
+            db.Yer_Log.Add(yerLog);
             // save
             try
             {
@@ -348,7 +348,7 @@ namespace Wms12m.Business
                 IrsaliyeID = IrsID,
                 IRSDetayID = IrsDetayID
             };
-            if (yerLog.Miktar > 0) db.Yer_Log.Add(yerLog);
+            db.Yer_Log.Add(yerLog);
             if (gc == true) tbl.MakaraDurum = false;
             // stok
             var log = Detail(tbl.ID);
