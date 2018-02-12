@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
+using System.IO;
 using System.Linq;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
@@ -173,9 +174,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                     foreach (var item in MyGlobalVariables.TalepSource)
                     {
                         var sql = string.Format(@"UPDATE Kaynak.sta.Talep
-	                        SET GMOnaylayan=@Degistiren, GMOnayTarih=@DegisTarih, Durum=15, SipEvrakNo=@SipEvrakNo
-	                        , SirketKodu='{0}'
-	                        , Degistiren=@Degistiren, DegisTarih=@DegisTarih, DegisSirKodu='{0}'
+	                        SET GMOnaylayan=@Degistiren, GMOnayTarih=@DegisTarih, Durum=15, SipEvrakNo=@SipEvrakNo, SirketKodu='{0}', Degistiren=@Degistiren, DegisTarih=@DegisTarih, DegisSirKodu='{0}'
 	                        WHERE ID=@ID AND Durum=11 AND SipTalepNo IS NOT NULL", vUser.SirketKodu);
 
                         SqlParameter[] paramlist = new SqlParameter[4]
@@ -283,10 +282,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
                     SatınalmaSiparisFormu.SatinalmaSiparisFormu(sipEvrakNo, hesapKodu, sipTarih, true, vUser.SirketKodu);
 
-                    List<string> attachList = new List<string>
-                        {
-                        string.Format("{0}{1}.pdf", ConfigurationManager.AppSettings["TeklifDosyaAdres"].ToString(), sipEvrakNo)
-                        };
+                    List<string> attachList = new List<string>() { string.Format("{0}{1}.pdf", Path.GetTempPath(), sipEvrakNo) };
 
                     List<SatTalep> listTalep = db.Database.SqlQuery<SatTalep>(string.Format("SELECT TalepNo, MalKodu, EkDosya FROM Kaynak.sta.Talep (nolock) WHERE SipEvrakNo ='{0}' AND HesapKodu = '{1}' AND ISNULL(EkDosya,'')<> '' ", sipEvrakNo, hesapKodu)).ToList();
 
@@ -294,7 +290,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
                     foreach (SatTalep talep in listTalep)
                     {
-                        var yol = string.Format("{0}{1}\\{2}", dosyaYolu, "SatTalep", talep.EkDosya);
+                        var yol = string.Format("{0}SatTalep\\{1}\\{2}", dosyaYolu, talep.TalepNo, talep.EkDosya);
                         if (yol.FileExists()) attachList.Add(yol);
                     }
 
