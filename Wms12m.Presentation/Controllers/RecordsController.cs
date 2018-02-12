@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Kendo.Mvc.Extensions;
+using Kendo.Mvc.UI;
+using System;
 using System.Linq;
 using System.Web.Mvc;
 using Wms12m.Entity;
@@ -8,12 +10,18 @@ namespace Wms12m.Presentation.Controllers
     public class RecordsController : RootController
     {
         /// <summary>
-        /// Elmah Logs
+        /// App Logs
         /// </summary>
-        public ActionResult Index()
+        public ActionResult App()
         {
-            var list = dbl.ELMAH_Error.ToList();
-            return View("Index", list);
+            ViewBag.DurumID = new SelectList(ComboSub.GetList(Combos.İşlemKayıtTipi.ToInt32()), "ID", "Name");
+            return View("App");
+        }
+
+        public JsonResult AppList([DataSourceRequest]DataSourceRequest request, int Id, int Tarih = 0)
+        {
+            var trh = Tarih.FromOaDate();
+            return Json(dbl.AppLogs.Where(m => m.Type == Id && m.Tarih >= trh).ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
 
         /// <summary>
@@ -21,8 +29,27 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public ActionResult Error()
         {
-            var list = dbl.ErrorLogs.ToList();
-            return View("Error", list);
+            return View("Error");
+        }
+
+        public JsonResult ErrorList([DataSourceRequest]DataSourceRequest request, int Tarih = 0)
+        {
+            var trh = Tarih.FromOaDate();
+            return Json(dbl.ErrorLogs.Where(m => m.DateTime >= trh).ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
+        }
+
+        /// <summary>
+        /// Elmah Logs
+        /// </summary>
+        public ActionResult Index()
+        {
+            return View("Index");
+        }
+
+        public JsonResult List([DataSourceRequest]DataSourceRequest request, int Tarih = 0)
+        {
+            var trh = Tarih.FromOaDate();
+            return Json(dbl.ELMAH_Error.Where(m => m.TimeUtc >= trh).ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
 
         /// <summary>
@@ -30,17 +57,13 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public ActionResult Login()
         {
-            var list = dbl.LoginLogs.ToList();
-            return View("Login", list);
+            return View("Login");
         }
 
-        /// <summary>
-        /// App Logs
-        /// </summary>
-        public ActionResult App()
+        public JsonResult LoginList([DataSourceRequest]DataSourceRequest request, int Tarih = 0)
         {
-            var list = dbl.AppLogs.ToList();
-            return View("App", list);
+            var trh = Tarih.FromOaDate();
+            return Json(dbl.LoginLogs.Where(m => m.DateTime >= trh).ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
 
         /// <summary>
