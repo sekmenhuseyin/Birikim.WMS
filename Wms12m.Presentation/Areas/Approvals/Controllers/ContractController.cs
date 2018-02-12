@@ -1160,10 +1160,16 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
 
-        public int BaglantiTutariGuncelle(string BaglantiNumarasi)
+        public bool BaglantiTutariGuncelle(string BaglantiNumarasi, decimal YeniBaglantiTutari)
         {
-            var UygunMu = db.Database.SqlQuery<int>(string.Format("SELECT Count(ListeNo) FROM [FINSAT6{0}].[FINSAT6{0}].[ISS_Temp] WHERE ListeNo='{1}'", vUser.SirketKodu, BaglantiNumarasi)).FirstOrDefault();
-            return UygunMu;
+            var toplam = db.Database.SqlQuery<decimal>(string.Format("exec [FINSAT6{0}].[wms].[BaglantiTutariGuncelle]  @BaglantiNumarasi='{1}'", vUser.SirketKodu, BaglantiNumarasi)).FirstOrDefault();
+            var yenitutar = YeniBaglantiTutari;
+            bool uygunluk;
+            if (toplam <= yenitutar)
+                uygunluk = true;
+            else
+                uygunluk = false;
+            return uygunluk;
         }
 
         #endregion Tanim
