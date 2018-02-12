@@ -787,6 +787,9 @@
         NumbBox(".numb_yeni_baglanti_tutari", false,2);
     });
 
+
+   
+
     $('.soz_gunc_kaydet').click(function () {
         var listeNo = $(".txt_sozlesme_sira_no").dxTextBox("instance").option("value");
         var onc_bag_tut = Number($(".numb_onc_baglanti_tutari").dxTextBox("instance").option("value").toString().replace(/\./g, "").replace(",", "."));
@@ -796,7 +799,7 @@
         var mus_uyg_sekli = MusteriUygunlukKodu;
         var bas_tarih = Math.ceil(($(".date_baslangic_tarihi").dxDateBox("instance").option("value") - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000));
         if (yeni_bag_tut > 0) {
-            if (yeni_bag_tut > 0 && yeni_bag_tut > onc_bag_tut) {
+           
                 if (listeNo == null) {
                     Modaldialog("ListeNo Boş Geçilemez.", "Sözleşme Güncelle", "Tamam", "btn-warning");
                     return;
@@ -809,45 +812,36 @@
                     Modaldialog("Müşteri Uygunluk Şekli Boş Geçilemez.", "Sözleşme Güncelle", "Tamam", "btn-warning");
                     return;
                 }
-
                 $.ajax({
-                    url: window.location.origin + "/Approvals/Contract/Guncelle",
-                    data: { SozlesmeNo: listeNo, BasTarih: bas_tarih, MusUygSekli: mus_uyg_sekli, YeniBaglantiTutari: yeni_bag_tut.toString().replace(",", "."), YeniBitisTarihi: yeni_bit_tarih },
-                    type: "post",
+                    url: window.location.origin + "/Approvals/Contract/BaglantiTutariGuncelle",
+                    data: { BaglantiNumarasi: listeNo, YeniBaglantiTutari: yeni_bag_tut.toString().replace(",", ".") },
+                    type: "get",
                     success: function (data) {
-                        if (data.Status == true) {
-                            $('#x-modal-sozlesme-guncelle').modal("hide");
-                            Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "Güncelleme");
-                            setTimeout(function () { window.location.reload(); }, 500);
+                        if (data == "True") {
+                   
+                            $.ajax({
+                                url: window.location.origin + "/Approvals/Contract/Guncelle",
+                                data: { SozlesmeNo: listeNo, BasTarih: bas_tarih, MusUygSekli: mus_uyg_sekli, YeniBaglantiTutari: yeni_bag_tut.toString().replace(",", "."), YeniBitisTarihi: yeni_bit_tarih },
+                                type: "post",
+                                success: function (data) {
+                               
+                                    if (data.Status == true) {
+                                        $('#x-modal-sozlesme-guncelle').modal("hide");
+                                        Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "Güncelleme");
+                                        setTimeout(function () { window.location.reload(); }, 500);
+                                    }
+                                    else {
+                                        Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "btn-warning");
+                                    }
+                                }
+                            });
                         }
                         else {
                             Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "btn-warning");
                         }
                     }
                 });
-
-
-
-                $.ajax({
-                    url: window.location.origin + "/Approvals/Contract/Guncelle",
-                    data: { SozlesmeNo: listeNo, BasTarih: bas_tarih, MusUygSekli: mus_uyg_sekli, YeniBaglantiTutari: yeni_bag_tut.toString().replace(",", "."), YeniBitisTarihi: yeni_bit_tarih },
-                    type: "post",
-                    success: function (data) {
-                        if (data.Status == true) {
-                            $('#x-modal-sozlesme-guncelle').modal("hide");
-                            Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "Güncelleme");
-                            setTimeout(function () { window.location.reload(); }, 500);
-                        }
-                        else {
-                            Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "btn-warning");
-                        }
-                    }
-                });
-            }
-            else {
-                Modaldialog("Yeni Bağlantı Tutarı Önceki Bağlantı Tutarından Büyük Olmalıdır.", "Sözleşme Güncelle", "Tamam", "btn-warning");
-                return;
-            }
+          
         }
         else {
             Modaldialog("Yeni Bağlantı Tutarı Girmelisiniz.", "Sözleşme Güncelle", "Tamam", "btn-warning");
@@ -864,6 +858,8 @@
         YeniBitisTarihi = "";
         $('#x-modal-sozlesme-guncelle').modal("hide");
     });
+
+
 
     function inputDisable() {
         $(".txt_sozlesme_notu").dxTextBox("instance").option("readOnly", true);
