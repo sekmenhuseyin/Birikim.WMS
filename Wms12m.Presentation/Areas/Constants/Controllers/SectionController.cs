@@ -10,8 +10,6 @@ namespace Wms12m.Presentation.Areas.Constants.Controllers
 {
     public class SectionController : RootController
     {
-        private abstractTables<Bolum> SectionOperation;
-
         /// <summary>
         /// anasayfası
         /// </summary>
@@ -32,7 +30,6 @@ namespace Wms12m.Presentation.Areas.Constants.Controllers
             var StoreId = 0;
             var ShelfId = 0;
             var Locked = "";
-            SectionOperation = new Section();
             List<Bolum> _List = new List<Bolum>();
             try
             {
@@ -42,11 +39,11 @@ namespace Wms12m.Presentation.Areas.Constants.Controllers
                     Locked = Id.Split('#')[0];
                     StoreId = Convert.ToInt16(Id.Split('#')[1]);
                     ShelfId = Convert.ToInt16(Id.Split('#')[2]);
-                    _List = Locked == "Locked" ? SectionOperation.GetList(ShelfId).Where(a => a.Aktif == true).ToList() : Locked == "noLocked" ? SectionOperation.GetList(ShelfId).Where(a => a.Aktif == false).ToList() : SectionOperation.GetList(ShelfId).ToList();
+                    _List = Locked == "Locked" ? Section.GetList(ShelfId).Where(a => a.Aktif == true).ToList() : Locked == "noLocked" ? Section.GetList(ShelfId).Where(a => a.Aktif == false).ToList() : Section.GetList(ShelfId).ToList();
                 }
                 else
                 {
-                    _List = SectionOperation.GetList(Convert.ToInt16(Id));
+                    _List = Section.GetList(Convert.ToInt16(Id));
                 }
 
                 return PartialView("_SectionGridPartial", _List);
@@ -90,10 +87,9 @@ namespace Wms12m.Presentation.Areas.Constants.Controllers
             if (id == null) return null;
             if (CheckPerm(Perms.BölümKartı, PermTypes.Reading) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             List<Bolum> _List = new List<Bolum>();
-            SectionOperation = new Section();
             try
             {
-                _List = SectionOperation.GetList().Where(a => a.RafID == Convert.ToInt16(id)).ToList();
+                _List = Section.GetList().Where(a => a.RafID == Convert.ToInt16(id)).ToList();
                 List<SelectListItem> List = new List<SelectListItem>();
                 foreach (Bolum item in _List)
                 {
@@ -105,7 +101,7 @@ namespace Wms12m.Presentation.Areas.Constants.Controllers
                     });
                 }
 
-                return Json(List.Select(x => new { Value = x.Value, Text = x.Text, Selected = x.Selected }), JsonRequestBehavior.AllowGet);
+                return Json(List, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
@@ -120,8 +116,7 @@ namespace Wms12m.Presentation.Areas.Constants.Controllers
         public JsonResult Delete(string Id)
         {
             if (CheckPerm(Perms.BölümKartı, PermTypes.Deleting) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
-            SectionOperation = new Section();
-            var _Result = SectionOperation.Delete(string.IsNullOrEmpty(Id) ? 0 : Convert.ToInt32(Id));
+            var _Result = Section.Delete(string.IsNullOrEmpty(Id) ? 0 : Convert.ToInt32(Id));
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
 
@@ -131,8 +126,7 @@ namespace Wms12m.Presentation.Areas.Constants.Controllers
         public JsonResult SectioniOperation(Bolum P)
         {
             if (CheckPerm(Perms.BölümKartı, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
-            SectionOperation = new Section();
-            var _Result = SectionOperation.Operation(P);
+            var _Result = Section.Operation(P);
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
     }
