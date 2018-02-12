@@ -73,7 +73,9 @@
     var tarih = @DateTime.Today.AddDays(-7).ToOADateInt();
     var tmp = 0;
     $('#tarihsecim').hide();
-    function additionalInfo()
+    $.datepicker.setDefaults($.datepicker.regional["tr"]);
+    $("#txtBaslangic").datepicker().on("change", function (e) { tarih = toOADateFromString(e.target.value); FuncSearchBtn(); });
+   function additionalInfo()
     {
         return {
             Id: $('#DurumID').val(),

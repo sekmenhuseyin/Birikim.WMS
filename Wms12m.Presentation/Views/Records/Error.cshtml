@@ -1,5 +1,4 @@
-﻿@model IEnumerable<ErrorLog>
-@{
+﻿@{
     ViewBag.Title = "Kayıtlı Hatalar";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><a href="/System/Logs">Kayıtlar</a><i class="fa fa-circle"></i></li><li><span>Kayıtlı Hatalar</span></li></ul></div>
@@ -8,43 +7,70 @@
     <div class="col-md-12">
         <div class="portlet box green">
             <div class="portlet-title"><div class="caption"><i class="fa fa-gift"></i>Kayıtlı Hatalar</div></div>
-            <div class="portlet-body form p-30 p-t-15">
-                <table class="table table-striped table-bordered table-hover table-responsive" id="sample_1">
-                    <thead><tr><th>Description</th><th>Message</th><th>Source</th><th>DateTime</th><th>Machine</th><th>IpAddress</th><th>UserName</th><th></th></tr></thead>
-                    <tbody>
-                        @foreach (var item in Model)
-                        {
-                            <tr>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Description)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Message)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Source)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.DateTime)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Machine)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.IpAddress)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.UserName)
-                                </td>
-                                <td>
-                                    <a class="btn btn-danger" href="javascript:;" onclick="Delete('@item.ID','','','')"> Sil </a>
-                                </td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
+            <div class="portlet-body form">
+                <div class="form-horizontal">
+                    <div class="form-body">
+                        <div class="form-group" id="tarihsecim">
+                            <div class="col-sm-3 control-label">Başlangıç Tarihi</div>
+                            <div class="col-sm-4">
+                                <input class="form-control input-circle dateboxbg" type="text" id="txtBaslangic" value="@DateTime.Today.AddDays(-7).ToString("dd.MM.yyyy")" />
+                            </div>
+                        </div>
+                        @(Html.Kendo().Grid<ErrorLog>()
+                                    .Name("grid")
+                                    .Columns(columns =>
+                                    {
+                                        columns.Bound(c => c.Description);
+                                        columns.Bound(c => c.Message);
+                                        columns.Bound(c => c.Source).Width(250);
+                                        columns.Bound(c => c.Machine).Width(100);
+                                        columns.Bound(c => c.IpAddress).Width(100);
+                                        columns.Bound(c => c.UserName).Width(60);
+                                        columns.Bound(c => c.DateTime).Format("{0:dd.MM.yyyy}").Width(120);
+                                        columns.Bound(c => c.ID).Title("").Width(80).Filterable(false).Sortable(false).ClientTemplate("<a class='btn btn-danger' href='javascript:;' onclick='fnDelete(#=ID#)'> Sil </a>");
+                                    })
+                                    .HtmlAttributes(new { style = "height: 550px;" })
+                                    .Scrollable()
+                                    .Filterable()
+                                    .Sortable()
+                                    .Pageable(pageable => pageable
+                                        .Refresh(true)
+                                        .PageSizes(true)
+                                        .ButtonCount(5))
+                                    .DataSource(dataSource => dataSource
+                                        .Ajax()
+                                        .Read(read => read.Action("ErrorList", "Records", new { Area = "" }).Data("additionalInfo"))
+                                        .PageSize(20)
+                                    )
+                        )
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </div>
-<script>var DeleteFunctionUrl = '/System/Logs/Delete/Error';</script>
+@section Scripts{<script>
+    var tarih = @DateTime.Today.AddDays(-7).ToOADateInt();
+    $.datepicker.setDefaults($.datepicker.regional["tr"]);
+    $("#txtBaslangic").datepicker().on("change", function (e) { tarih = toOADateFromString(e.target.value); FuncSearchBtn(); });
+    function fnDelete(e)
+    {
+        ModalYesNoClick('Kaydı silmek istediğinizden eminmisiniz?', 'Silme İşlemi', "Evet", 'btn-success', DeleteTrigerx, 'Hayır', 'btn-warning', null);
+        function DeleteTrigerx()
+        {
+            var Status = FunctionDelete("/Records/Delete/Error", e);
+            if (Status)
+                Refresh();
+        }
+    }
+    function additionalInfo()
+    {
+        return {
+            Tarih: tarih
+        }
+    }
+    function FuncSearchBtn()
+    {
+        $(".k-pager-refresh").click();
+    }
+</script>}
