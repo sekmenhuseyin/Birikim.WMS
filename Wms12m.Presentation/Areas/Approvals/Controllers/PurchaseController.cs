@@ -13,10 +13,8 @@ using Wms12m.Entity;
 
 namespace Wms12m.Presentation.Areas.Approvals.Controllers
 {
-
     public class PurchaseController : RootController
     {
-
         /// <summary>
         /// gm sipariş onaylama sayfası
         /// </summary>
@@ -436,7 +434,6 @@ GROUP BY (CASE WHEN ST.Birim = STK.Birim1 THEN 1
             return PartialView(SAL);
         }
 
-
         public ActionResult GMYTedarikci_Onay()
         {
             if (CheckPerm(Perms.SatinalmaGMYTedarikciOnay, PermTypes.Reading) == false) return Redirect("/");
@@ -474,7 +471,6 @@ GROUP BY (CASE WHEN ST.Birim = STK.Birim1 THEN 1
 
             return View("GMY_Onay", MyGlobalVariables.GMYOnayList);
         }
-
 
         public PartialViewResult GMYOnayList(string TalepNo, int OnayTip)
         {
@@ -547,18 +543,19 @@ GROUP BY (CASE WHEN ST.Birim = STK.Birim1 THEN 1
             LEFT JOIN SOLAR6.dbo.DVZ (nolock) on DVZ.DovizCinsi=ST.DvzCinsi AND DVZ.Tarih=CAST( DATEADD(dd, 0, DATEDIFF(dd, 0, GETDATE()))+2 AS INT)
             WHERE
             ST.KynkTalepNo='{1}' AND ST.Durum=2", vUser.SirketKodu, TalepNo)).ToList();
-#endregion
+
+                #endregion Teklif GMY Tedarikçi Onay
             }
             else if (OnayTip == 1)
             {
                 #region Teklif GMY Mali Onay
 
                 MyGlobalVariables.GridGMYSource = db.Database.SqlQuery<SatTalep>(string.Format(@"
-           SELECT ST.ID, ST.TeklifNo, ST.Tarih, ST.HesapKodu,  
+           SELECT ST.ID, ST.TeklifNo, ST.Tarih, ST.HesapKodu,
                 ST.MalKodu, (SELECT MalAdi FROM FINSAT6{0}.FINSAT6{0}.STK (NOLOCK) WHERE MalKodu = ST.MalKodu) AS MalAdi, ST.Birim,
                 ST.BirimFiyat, ST.TeklifMiktar, ST.Durum,
                 ST.DvzTL, ST.DvzCinsi, ST.TerminSure,
-                ST.MinSipMiktar, 
+                ST.MinSipMiktar,
                 CONVERT(DATETIME,ST.TeklifBasTarih) AS TeklifBasTarih,
 			    CONVERT(DATETIME,ST.TeklifBitTarih) AS TeklifBitTarih,
                 ST.OneriDurum,
@@ -594,7 +591,7 @@ GROUP BY (CASE WHEN ST.Birim = STK.Birim1 THEN 1
              LEFT JOIN SOLAR6.dbo.DVZ (nolock) on DVZ.DovizCinsi=ST.DvzCinsi AND DVZ.Tarih=CAST( DATEADD(dd, 0, DATEDIFF(dd, 0, GETDATE()))+2 AS INT)
             WHERE ST.KynkTalepNo='{1}' AND ST.Durum=4", vUser.SirketKodu, TalepNo)).ToList();
 
-                #endregion
+                #endregion Teklif GMY Mali Onay
             }
 
             var json = new JavaScriptSerializer().Serialize(MyGlobalVariables.GridGMYSource);
@@ -636,14 +633,12 @@ GROUP BY (CASE WHEN ST.Birim = STK.Birim1 THEN 1
                             Kademe2Onaylayan='{1}', Kademe2OnayTarih=GETDATE()
 	                        WHERE ID={2} AND Durum=2", item.Aciklama2, vUser.UserName.ToString(), item.ID, vUser.SirketKodu);
 
-                        #endregion
+                        #endregion Teklif GMY Tedarikçi Onay
                     }
                     else if (OnayTip == 1)
                     {
-                        #region Teklif GMY Mali Onay
-                        #endregion
                     }
-                        db.Database.ExecuteSqlCommand(sql);
+                    db.Database.ExecuteSqlCommand(sql);
                 }
                 con.Trans.Commit();
             }
@@ -693,12 +688,10 @@ GROUP BY (CASE WHEN ST.Birim = STK.Birim1 THEN 1
                                             Kademe2Onaylayan='{1}', Kademe2OnayTarih=GETDATE()
                                             WHERE ID={2} AND Durum=2", redAciklama, vUser.UserName.ToString(), item.ID, vUser.SirketKodu);
 
-                        #endregion
+                        #endregion Teklif GMY Tedarikçi Onay
                     }
                     else if (OnayTip == 1)
                     {
-                        #region Teklif GMY Mali Onay
-                        #endregion
                     }
 
                     db.Database.ExecuteSqlCommand(sql);
