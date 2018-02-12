@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
-using System.IO;
 using System.Linq;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
@@ -16,15 +15,10 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
     public class PurchaseController : RootController
     {
+
         /// <summary>
         /// gm sipariş onaylama sayfası
         /// </summary>
-        public ActionResult GMOnayHTML()
-        {
-            if (CheckPerm(Perms.SatinalmaOnaylama, PermTypes.Reading) == false) return Redirect("/");
-            return View();
-        }
-
         public ActionResult GM_Onay()
         {
             if (CheckPerm(Perms.SatinalmaOnaylama, PermTypes.Reading) == false) return Redirect("/");
@@ -34,6 +28,9 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             return View("GM_Onay", MyGlobalVariables.SipTalepList);
         }
 
+        /// <summary>
+        /// onaylanacak malzeme listesi
+        /// </summary>
         public PartialViewResult SipGMOnayList(string HesapKodu, int SipTalepNo)
         {
             if (CheckPerm(Perms.SatinalmaOnaylama, PermTypes.Reading) == false) return null;
@@ -43,6 +40,9 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             return PartialView("GMOnay_List");
         }
 
+        /// <summary>
+        /// onaylanacak fatura biilgileri
+        /// </summary>
         public PartialViewResult SipGMOnayListFTD(string HesapKodu, int SipTalepNo)
         {
             if (CheckPerm(Perms.SatinalmaOnaylama, PermTypes.Reading) == false) return null;

@@ -800,7 +800,6 @@
     <Content Include="Areas\ToDo\Views\Customer\List.cshtml" />
     <Content Include="Areas\ToDo\Views\ProjectForm\Edit.cshtml" />
     <Content Include="Areas\ToDo\Views\ProjectForm\Index.cshtml" />
-    <Content Include="Areas\Approvals\Views\Purchase\GMOnayHTML.cshtml" />
     <Content Include="Areas\ToDo\Views\Duties\Edit.cshtml" />
     <Content Include="Areas\ToDo\Views\Duties\Index.cshtml" />
     <Content Include="Areas\ToDo\Views\DutyWork\Edit.cshtml" />
