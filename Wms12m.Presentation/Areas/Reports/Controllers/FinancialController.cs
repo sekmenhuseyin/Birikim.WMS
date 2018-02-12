@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
-using Wms12m.Entity;
 
 namespace Wms12m.Presentation.Areas.Reports.Controllers
 {
@@ -311,13 +310,13 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
             return json.Serialize(CE);
         }
 
-        public ActionResult TahsilatKontrolRaporu()
+        public ActionResult TahsilatKontrol()
         {
             if (CheckPerm(Perms.Raporlar, PermTypes.Reading) == false) return Redirect("/");
             return View();
         }
 
-        public JsonResult TahsilatKontrolRaporuList()
+        public JsonResult TahsilatKontrolList()
         {
             var list = db.Database.SqlQuery<RP_TahsilatKontrol>(string.Format("[FINSAT6{0}].[wms].[RP_TahsilatKontrol]", vUser.SirketKodu)).ToList();
             return Json(list, JsonRequestBehavior.AllowGet);
