@@ -1160,6 +1160,12 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
 
+        public int BaglantiTutariGuncelle(string BaglantiNumarasi)
+        {
+            var UygunMu = db.Database.SqlQuery<int>(string.Format("SELECT Count(ListeNo) FROM [FINSAT6{0}].[FINSAT6{0}].[ISS_Temp] WHERE ListeNo='{1}'", vUser.SirketKodu, BaglantiNumarasi)).FirstOrDefault();
+            return UygunMu;
+        }
+
         #endregion Tanim
     }
 }

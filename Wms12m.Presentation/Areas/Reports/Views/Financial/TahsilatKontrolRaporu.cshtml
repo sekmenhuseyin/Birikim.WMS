@@ -16,26 +16,26 @@
                             <th>Hesap Kodu</th>
                             <th>Ünvan</th>
                             <th>Bakiye</th>
-                            <th>SozlesmeSiraNo</th>
-                            <th>BaglantiNo</th>
-                            <th>BaglantiTipi</th>
-                            <th>BaglantiBitisTarihi</th>
-                            <th>BaglantiTutari</th>
-                            <th>BaglantiParaCinsi</th>
-                            <th>BaglantiTarihi</th>
-                            <th>DevirTarih</th>
-                            <th>DevirTutar</th>
+                            <th>Sozlesme SiraNo</th>
+                            <th>Baglanti No</th>
+                            <th>Baglanti Tipi</th>
+                            <th>Baglanti BitisTarihi</th>
+                            <th>Baglanti Tutari</th>
+                            <th>Baglanti ParaCinsi</th>
+                            <th>Baglanti Tarihi</th>
+                            <th>Devir Tarih</th>
+                            <th>Devir Tutar</th>
                             <th>ToplamSevkEdilenTutar</th>
                             <th>DevirdenSonrakiSevkedilen</th>
-                            <th>KalanTutar</th>
-                            <th>BekleyenIrsaliye</th>
-                            <th>BekleyenSiparis</th>
-                            <th>CekTahsilati</th>
-                            <th>NakitTahsilati</th>
-                            <th>KKTahsilati</th>
-                            <th>Havaletahsilati</th>
-                            <th>ToplamTahsilat</th>
-                            <th>FaturaBekleyenler</th>
+                            <th>Kalan Tutar</th>
+                            <th>Bekleyen Irsaliye</th>
+                            <th>Bekleyen Siparis</th>
+                            <th>Cek Tahsilati</th>
+                            <th>Nakit Tahsilati</th>
+                            <th>KK Tahsilati</th>
+                            <th>Havale Tahsilati</th>
+                            <th>Toplam Tahsilat</th>
+                            <th>Fatura + Bekleyen</th>
                         </tr>
                     </thead>
                     <tfoot>
@@ -100,6 +100,7 @@
 @section Scripts{
     <script>
         $(document).ready(function () {
+         
             var table = $('#sample_1').DataTable({
                 "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
                 "ordering": true,
@@ -117,6 +118,7 @@
                         return json;
                     }
                 },
+                "columnDefs": [{ "type": "num-fmt", "className": "dt-right", "targets": [2,7,11,12,13,14,15,16,17,18,19,20,21,22] }, { "className": "dt-center", "targets": "_all" }],
                 "columns": [
 
                     { "data": "HesapKodu" },
@@ -125,10 +127,10 @@
                     { "data": "SozlesmeSiraNo"},
                     { "data": "BaglantiNo"},
                     { "data": "BaglantiTipi"},
-                    { "data": "BaglantiBitisTarihi","render": function (data) { if (data != null) return formatDateFromJson(data); else return "&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp;"; }, "sClass": "nowrap" },
+                    { "data": "BaglantiBitisTarihi", "render": function (data) { if (data != null) return formatDateFromJson(data); else return "&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp;"; }, "sClass": "dt-center" },
                     { "data": "BaglantiTutari", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
                     { "data": "BaglantiParaCinsi"},
-                    { "data": "BaglantiTarihi", "render": function (data) { if (data != null) return formatDateFromJson(data); else return "&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp;"; }, "sClass": "nowrap" },
+                    { "data": "BaglantiTarihi", "render": function (data) { if (data != null) return formatDateFromJson(data); else return "&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp;"; }, "sClass": "dt-center" },
                     { "data": "DevirTarih"},
                     { "data": "DevirTutar", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
                     { "data": "ToplamSevkEdilenTutar", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
@@ -143,15 +145,99 @@
                     { "data": "ToplamTahsilat", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
                     { "data": "FaturaBekleyenler", "render": $.fn.dataTable.render.number('.', ',', 2, '') }
                
-                ]
-
-            });
-            $('#sample_1 .tf-search th').each(function () {
-                var title = $('#sample_1 thead th').eq($(this).index()).text();
-                if (title != "" && title.length < 100) {
-                    $(this).html('<input type="text" placeholder="Ara" />');
+                ],
+                "ordering": false,
+                "fnRowCallback": function (nRow, aData, iDisplayIndex) {
+                    $('td', nRow).attr('nowrap', 'nowrap');
+                    return nRow;
+                },
+                "footerCallback": function (row, data, start, end, display) {
+                    var Bakiye = 0,
+                        BaglantiTutari = 0,
+                        DevirTutar = 0,
+                        ToplamSevkEdilenTutar = 0,
+                        DevirdenSonrakiSevkedilen = 0,
+                        KalanTutar = 0,
+                        BekleyenIrsaliye = 0,
+                        BekleyenSiparis = 0,
+                        CekTahsilati = 0,
+                        NakitTahsilati = 0,
+                        KKTahsilati = 0,
+                        Havaletahsilati = 0,
+                        ToplamTahsilat = 0,
+                        FaturaBekleyenler = 0;
+                    table.rows({ search: 'applied' }).data().each(function (val, index) {
+                        Bakiye += val.Bakiye;
+                        BaglantiTutari += val.BaglantiTutari;
+                        DevirTutar += val.DevirTutar;
+                        ToplamSevkEdilenTutar += val.ToplamSevkEdilenTutar;
+                        DevirdenSonrakiSevkedilen += val.DevirdenSonrakiSevkedilen;
+                        KalanTutar += val.KalanTutar;
+                        BekleyenIrsaliye += val.BekleyenIrsaliye;
+                        BekleyenSiparis += val.BekleyenSiparis;
+                        CekTahsilati += val.CekTahsilati;
+                        NakitTahsilati += val.NakitTahsilati;
+                        KKTahsilati += val.KKTahsilati;
+                        Havaletahsilati += val.Havaletahsilati;
+                        ToplamTahsilat += val.ToplamTahsilat;
+                        FaturaBekleyenler += val.FaturaBekleyenler;
+                       
+                    });
+                    var api = this.api(), data;
+                    $(api.column(2).footer()).html(
+                        ondalikBinlik(Math.round(Bakiye * 100) / 100, 2)
+                    );
+                    $(api.column(7).footer()).html(
+                        ondalikBinlik(Math.round(BaglantiTutari * 100) / 100, 2)
+                    );
+                    $(api.column(11).footer()).html(
+                        ondalikBinlik(Math.round(DevirTutar * 100) / 100, 2)
+                    );
+                    $(api.column(12).footer()).html(
+                        ondalikBinlik(Math.round(ToplamSevkEdilenTutar * 100) / 100, 2)
+                    );
+                    $(api.column(13).footer()).html(
+                        ondalikBinlik(Math.round(DevirdenSonrakiSevkedilen * 100) / 100, 2)
+                    );
+                    $(api.column(14).footer()).html(
+                        ondalikBinlik(Math.round(KalanTutar * 100) / 100, 2)
+                    );
+                    $(api.column(15).footer()).html(
+                        ondalikBinlik(Math.round(BekleyenIrsaliye * 100) / 100, 2)
+                    );
+                    $(api.column(16).footer()).html(
+                        ondalikBinlik(Math.round(BekleyenSiparis * 100) / 100, 2)
+                    );
+                    $(api.column(17).footer()).html(
+                        ondalikBinlik(Math.round(CekTahsilati * 100) / 100, 2)
+                    );
+                    $(api.column(18).footer()).html(
+                        ondalikBinlik(Math.round(NakitTahsilati * 100) / 100, 2)
+                    );
+                    $(api.column(19).footer()).html(
+                        ondalikBinlik(Math.round(KKTahsilati * 100) / 100, 2)
+                    );
+                    $(api.column(20).footer()).html(
+                        ondalikBinlik(Math.round(Havaletahsilati * 100) / 100, 2)
+                    );
+                    $(api.column(21).footer()).html(
+                        ondalikBinlik(Math.round(ToplamTahsilat * 100) / 100, 2)
+                    );
+                    $(api.column(22).footer()).html(
+                        ondalikBinlik(Math.round(FaturaBekleyenler * 100) / 100, 2)
+                    );
                 }
             });
+
+           
+            $('#sample_1 .tf-search th').each(function () {
+                var title = $('#sample_1 thead th').eq($(this).index()).text();
+                if (title != "" && title.indexOf("Tarih") !== -1)
+                    $(this).html('<input class="form-control input-circle tarih" type="text" placeholder="Ara" />');
+                else if (title != "" && title != "Detay" && title != "Hareket")
+                    $(this).html('<input class="form-control input-circle" type="text" placeholder="Ara" />');
+            });
+ 
             $("#sample_1 tfoot input").on('keyup change', function () {
                 table
                     .column($(this).parent().index() + ':visible')
