@@ -809,6 +809,25 @@
                     Modaldialog("Müşteri Uygunluk Şekli Boş Geçilemez.", "Sözleşme Güncelle", "Tamam", "btn-warning");
                     return;
                 }
+
+                $.ajax({
+                    url: window.location.origin + "/Approvals/Contract/Guncelle",
+                    data: { SozlesmeNo: listeNo, BasTarih: bas_tarih, MusUygSekli: mus_uyg_sekli, YeniBaglantiTutari: yeni_bag_tut.toString().replace(",", "."), YeniBitisTarihi: yeni_bit_tarih },
+                    type: "post",
+                    success: function (data) {
+                        if (data.Status == true) {
+                            $('#x-modal-sozlesme-guncelle').modal("hide");
+                            Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "Güncelleme");
+                            setTimeout(function () { window.location.reload(); }, 500);
+                        }
+                        else {
+                            Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "btn-warning");
+                        }
+                    }
+                });
+
+
+
                 $.ajax({
                     url: window.location.origin + "/Approvals/Contract/Guncelle",
                     data: { SozlesmeNo: listeNo, BasTarih: bas_tarih, MusUygSekli: mus_uyg_sekli, YeniBaglantiTutari: yeni_bag_tut.toString().replace(",", "."), YeniBitisTarihi: yeni_bit_tarih },
