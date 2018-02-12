@@ -42,8 +42,7 @@
                             <div class="form-group">
                                 <div class="col-md-4 col-md-offset-3">
                                     <input type="hidden" name="ID" id="ID" value="@ViewBag.Id" />
-                                    <input type="submit" class="hide" />
-                                    <button type="button" class="btn btn-circle btn-block green" id="submitter">Ekle</button>
+                                    <input type="submit" class="btn btn-circle btn-block green" value="Ekle" />
                                 </div>
                             </div>
                         </div>
@@ -58,15 +57,7 @@
 </div>
 <script>
     $(".RafID").prepend("<option value=''>Seçiniz !!!</option>"); $(".RafID")[0].selectedIndex = 0;
-    $(".touchspin").TouchSpin({ buttondown_class: "btn blue", buttonup_class: "btn red" });
-    $("#submitter").click(function () {
-        if ($("#Miktar").val() < 1 || $("#Miktar").val() > @String.Format("{0:0}", ViewBag.Miktar))
-        {
-            Modaldialog("Miktarı düzgün yazınız", 'Hata', 'Tamam', 'btn-danger');
-            return;
-        }
-        $('#frmNew').submit();
-    })
+    $(".touchspin").TouchSpin({ buttondown_class: "btn blue", buttonup_class: "btn red", min: 1, max: @String.Format("{0:0}", ViewBag.Miktar) });
     function getresult(e) {
         if (e.Status == true)
         {
