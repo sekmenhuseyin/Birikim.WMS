@@ -440,6 +440,7 @@ GROUP BY (CASE WHEN ST.Birim = STK.Birim1 THEN 1
             return PartialView(SAL);
         }
 
+
         public ActionResult GMYTedarikci_Onay()
         {
             if (CheckPerm(Perms.SatinalmaGMYTedarikciOnay, PermTypes.Reading) == false) return Redirect("/");
@@ -478,6 +479,7 @@ GROUP BY (CASE WHEN ST.Birim = STK.Birim1 THEN 1
             return View("GMY_Onay", MyGlobalVariables.GMYOnayList);
         }
 
+
         public PartialViewResult GMYOnayList(string TalepNo, int OnayTip)
         {
             if (OnayTip == 0)
@@ -504,6 +506,8 @@ GROUP BY (CASE WHEN ST.Birim = STK.Birim1 THEN 1
 
             if (OnayTip == 0)
             {
+                #region Teklif GMY Tedarikçi Onay
+
                 MyGlobalVariables.GridGMYSource = db.Database.SqlQuery<SatTalep>(string.Format(@"
             SELECT ST.ID, ST.TeklifNo, ST.Tarih, ST.HesapKodu, ST.MalKodu,
             (SELECT MalAdi FROM FINSAT6{0}.FINSAT6{0}.STK (NOLOCK) WHERE MalKodu = ST.MalKodu) AS MalAdi, ST.Birim,
@@ -547,33 +551,42 @@ GROUP BY (CASE WHEN ST.Birim = STK.Birim1 THEN 1
             LEFT JOIN SOLAR6.dbo.DVZ (nolock) on DVZ.DovizCinsi=ST.DvzCinsi AND DVZ.Tarih=CAST( DATEADD(dd, 0, DATEDIFF(dd, 0, GETDATE()))+2 AS INT)
             WHERE
             ST.KynkTalepNo='{1}' AND ST.Durum=2", vUser.SirketKodu, TalepNo)).ToList();
+#endregion
             }
             else if (OnayTip == 1)
             {
+                #region Teklif GMY Mali Onay
+
                 MyGlobalVariables.GridGMYSource = db.Database.SqlQuery<SatTalep>(string.Format(@"
-           SELECT ST.ID,ST.MalKodu
-                ,(SELECT MalAdi FROM FINSAT617.FINSAT617.STK (NOLOCK) WHERE MalKodu = ST.MalKodu) AS MalAdi
-                , ST.TeklifNo, ST.Tarih, ST.HesapKodu, ST.MalKodu, ST.Birim
-                , ST.BirimFiyat, ST.TeklifMiktar, ST.Durum
-                , ST.DvzTL, ST.DvzCinsi, ST.TerminSure
-                , ST.MinSipMiktar, ST.TeklifBasTarih, ST.TeklifBitTarih, ST.OneriDurum
-                , ST.Vade, ST.TeslimYeri
-                , ST.Aciklama, ST.Aciklama2, ST.Aciklama3,ST.TeklifAciklamasi, ST.Satinalmaci
+           SELECT ST.ID, ST.TeklifNo, ST.Tarih, ST.HesapKodu,  
+                ST.MalKodu, (SELECT MalAdi FROM FINSAT6{0}.FINSAT6{0}.STK (NOLOCK) WHERE MalKodu = ST.MalKodu) AS MalAdi, ST.Birim,
+                ST.BirimFiyat, ST.TeklifMiktar, ST.Durum,
+                ST.DvzTL, ST.DvzCinsi, ST.TerminSure,
+                ST.MinSipMiktar, 
+                CONVERT(DATETIME,ST.TeklifBasTarih) AS TeklifBasTarih,
+			    CONVERT(DATETIME,ST.TeklifBitTarih) AS TeklifBitTarih,
+                ST.OneriDurum,
+                ST.Vade, ST.TeslimYeri,
+                ST.Aciklama, ST.Aciklama2, ST.Aciklama3,ST.TeklifAciklamasi, ST.Satinalmaci,
 
-                , ST.Kademe2Onaylayan, ST.Kademe2OnayTarih
-                , ST.Kademe1Onaylayan, ST.Kademe1OnayTarih
-                , ST.Durum2, ST.KynkTalepNo, ST.KynkTalepEkDosya
+                ST.Kademe2Onaylayan, ST.Kademe2OnayTarih,
+                ST.Kademe1Onaylayan, ST.Kademe1OnayTarih,
+                ST.Durum2, ST.KynkTalepNo, ST.KynkTalepEkDosya,
 
-                , ST.Kaydeden, ST.KayitTarih
-                , ST.Degistiren, ST.DegisTarih 
+                ST.Kaydeden, ST.KayitTarih,
+                ST.Degistiren, ST.DegisTarih,
 
-                , STK.MalAdi, CHK.Unvan1 as Unvan
-                , ISNULL(AT.AcikTalepMiktar,0) as AcikTalepMiktar
-                , CASE WHEN ST.DvzCinsi='JPY' then DVZ.Kur01/100 else DVZ.Kur01 end as DvzKuru
-                , (select TOP(1)Tp.Kaydeden FROM sta.Talep as Tp (nolock) where Tp.TalepNo = St.KynkTalepNo) AS TLPKaydeden
-                , ISNULL((select TOP(1)Tp.TesisKodu FROM sta.Talep as Tp (nolock) where Tp.TalepNo = St.KynkTalepNo),'') AS TesisKodu
+                ISNULL((select TOP(1)Tp.TesisKodu FROM KAYNAK.sta.Talep as Tp (nolock) where Tp.TalepNo = St.KynkTalepNo),'') AS TesisKodu,
+                ISNULL((select TOP(1) (select MMK.HesapAd from MUHASEBE6{0}.MUHASEBE6{0}.MMK (nolock) WHERE MMK.HesapKod=Tp.TesisKodu)
+                FROM KAYNAK.sta.Talep (nolock) Tp where Tp.TalepNo = St.KynkTalepNo),'') AS TesisAdi,
 
-            FROM sta.Teklif as ST (nolock)
+                STK.MalAdi, CHK.Unvan1 as Unvan,
+                ISNULL(AT.AcikTalepMiktar,0) as AcikTalepMiktar,
+                CASE WHEN ST.DvzCinsi='JPY' then DVZ.Kur01/100 else DVZ.Kur01 end as DvzKuru,
+                (select TOP(1)Tp.Kaydeden FROM sta.Talep as Tp (nolock) where Tp.TalepNo = St.KynkTalepNo) AS TLPKaydeden,
+                ST.TeklifMiktar AS BirimMiktar
+
+            FROM KAYNAK.sta.Teklif as ST (nolock)
             LEFT JOIN FINSAT6{0}.FINSAT6{0}.STK (nolock) on STK.MalKodu=ST.MalKodu
             LEFT JOIN FINSAT6{0}.FINSAT6{0}.CHK (nolock) on CHK.HesapKodu=ST.HesapKodu
             LEFT JOIN
@@ -584,6 +597,8 @@ GROUP BY (CASE WHEN ST.Birim = STK.Birim1 THEN 1
              ) as AT on AT.MalKodu=ST.MalKodu
              LEFT JOIN SOLAR6.dbo.DVZ (nolock) on DVZ.DovizCinsi=ST.DvzCinsi AND DVZ.Tarih=CAST( DATEADD(dd, 0, DATEDIFF(dd, 0, GETDATE()))+2 AS INT)
             WHERE ST.KynkTalepNo='{1}' AND ST.Durum=4", vUser.SirketKodu, TalepNo)).ToList();
+
+                #endregion
             }
 
             var json = new JavaScriptSerializer().Serialize(MyGlobalVariables.GridGMYSource);
@@ -618,13 +633,21 @@ GROUP BY (CASE WHEN ST.Birim = STK.Birim1 THEN 1
 
                     if (OnayTip == 0)
                     {
+                        #region Teklif GMY Tedarikçi Onay
+
                         sql = string.Format(@"UPDATE Kaynak.sta.Teklif SET
 	                        Durum=4, Aciklama2='{0}', Degistiren='{1}', DegisTarih=GETDATE(), DegisSirKodu='{3}',
                             Kademe2Onaylayan='{1}', Kademe2OnayTarih=GETDATE()
 	                        WHERE ID={2} AND Durum=2", item.Aciklama2, vUser.UserName.ToString(), item.ID, vUser.SirketKodu);
-                    }
 
-                    db.Database.ExecuteSqlCommand(sql);
+                        #endregion
+                    }
+                    else if (OnayTip == 1)
+                    {
+                        #region Teklif GMY Mali Onay
+                        #endregion
+                    }
+                        db.Database.ExecuteSqlCommand(sql);
                 }
                 con.Trans.Commit();
             }
@@ -667,10 +690,19 @@ GROUP BY (CASE WHEN ST.Birim = STK.Birim1 THEN 1
 
                     if (OnayTip == 0)
                     {
+                        #region Teklif GMY Tedarikçi Onay
+
                         sql = string.Format(@"UPDATE Kaynak.sta.Teklif SET
                                             Durum=3, Aciklama2='{0}', Degistiren='{1}', DegisTarih=GETDATE(), DegisSirKodu='{3}',
                                             Kademe2Onaylayan='{1}', Kademe2OnayTarih=GETDATE()
                                             WHERE ID={2} AND Durum=2", redAciklama, vUser.UserName.ToString(), item.ID, vUser.SirketKodu);
+
+                        #endregion
+                    }
+                    else if (OnayTip == 1)
+                    {
+                        #region Teklif GMY Mali Onay
+                        #endregion
                     }
 
                     db.Database.ExecuteSqlCommand(sql);
