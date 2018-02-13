@@ -109,8 +109,6 @@
             for (var i = 0; i < x.length; i++) {
                 secili_table.push(x[i][1]);
             }
-            console.log(table.rows('.selected').data());
-            console.log(secili_table);
             var _dfd = $.Deferred();
             $.ajax({
                 url: window.location.origin + "/Approvals/Order/Onay",
