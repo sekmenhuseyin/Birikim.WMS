@@ -32,24 +32,22 @@ namespace Wms12m
             {
                 var results = new List<IEnumerable>();
 
-                using (var connection = db.Database.Connection)
+                var connection = db.Database.Connection;
+                connection.Open();
+                var command = connection.CreateCommand();
+                command.CommandText = "EXEC " + storedProcedure;
+
+                using (var reader = command.ExecuteReader())
                 {
-                    connection.Open();
-                    var command = connection.CreateCommand();
-                    command.CommandText = "EXEC " + storedProcedure;
-
-                    using (var reader = command.ExecuteReader())
+                    var adapter = ((IObjectContextAdapter)db);
+                    foreach (var resultSet in _resultSets)
                     {
-                        var adapter = ((IObjectContextAdapter)db);
-                        foreach (var resultSet in _resultSets)
-                        {
-                            results.Add(resultSet(adapter, reader));
-                            reader.NextResult();
-                        }
+                        results.Add(resultSet(adapter, reader));
+                        reader.NextResult();
                     }
-
-                    return results;
                 }
+
+                return results;
             }
 
             public MultipleResultSetWrapper With<TResult>()

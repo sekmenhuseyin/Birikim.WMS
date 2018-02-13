@@ -279,7 +279,8 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                     }
                     try
                     {
-                        SatınalmaSiparisFormu.SatinalmaSiparisFormu(sipEvrakNo, hesapKodu, sipTarih, true, vUser.SirketKodu);
+                        SatınalmaSiparisFormu sspf = new SatınalmaSiparisFormu(); ;
+                        sspf.SatinalmaSiparisFormu(sipEvrakNo, hesapKodu, sipTarih, true, vUser.SirketKodu);
                     }
                     catch (Exception ex)
                     {

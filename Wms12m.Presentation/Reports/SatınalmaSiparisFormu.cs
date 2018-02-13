@@ -4,18 +4,16 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Wms12m.Entity;
-using Wms12m.Entity.Models;
 using Wms12m.Presentation.Reports;
 
-namespace Wms12m
+namespace Wms12m.Presentation
 {
-    public static class SatınalmaSiparisFormu
+    public class SatınalmaSiparisFormu : RootController
     {
-        public static void SatinalmaSiparisFormu(string sipEvrakNo, string hesapKodu, int siparisTarih, bool pdfKaydet, string sirketKodu)
+        public void SatinalmaSiparisFormu(string sipEvrakNo, string hesapKodu, int siparisTarih, bool pdfKaydet, string sirketKodu)
         {
             if (string.IsNullOrEmpty(sipEvrakNo) || string.IsNullOrEmpty(hesapKodu)) return;
 
-            WMSEntities db = new WMSEntities();
             var dset = new DsSatinalma();
             var dvzCinsi = "TL";
             short islemTip = 1;
@@ -116,7 +114,6 @@ namespace Wms12m
 
             try
             {
-                db = new WMSEntities();
                 var satisUzmani = db.Database.SqlQuery<GenelAyarVeParam>(string.Format("SELECT * FROM [Kaynak].[sta].[GenelAyarVeParams] WHERE Tip=1 AND Tip2=0 AND SiparisSorumlu = '{0}'", talep.Kaydeden)).FirstOrDefault();
                 var gmy = db.Database.SqlQuery<GenelAyarVeParam>(string.Format("SELECT * FROM [Kaynak].[sta].[GenelAyarVeParams] WHERE Tip=1 AND Tip2=1 AND SiparisSorumlu = '{0}'", talep.GMYMaliOnaylayan)).FirstOrDefault();
 
@@ -219,20 +216,13 @@ namespace Wms12m
                 if (pdfKaydet)
                 {
                     var temp = string.Format("{0}{1}.pdf", Path.GetTempPath(), sipEvrakNo);
-                    if (File.Exists(temp)) File.Delete(temp);
+                    if (System.IO.File.Exists(temp)) System.IO.File.Delete(temp);
                     rep.ExportToPdf(temp);
                 }
             }
             catch (Exception ex)
             {
-                var inner = "";
-                if (ex.InnerException != null)
-                {
-                    inner = ex.InnerException == null ? "" : ex.InnerException.Message;
-                    if (ex.InnerException.InnerException != null) inner += ": " + ex.InnerException.InnerException.Message;
-                }
-
-                db.Logger("", "", "", ex.Message, inner, "Reports/SatınalmaSiparisFormu");
+                Logger(ex, "Reports/SatınalmaSiparisFormu");
 
                 return;
             }
