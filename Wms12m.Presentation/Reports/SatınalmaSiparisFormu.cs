@@ -13,9 +13,9 @@ namespace Wms12m
     {
         public static void SatinalmaSiparisFormu(string sipEvrakNo, string hesapKodu, int siparisTarih, bool pdfKaydet, string sirketKodu)
         {
-            var db = new WMSEntities();
             if (string.IsNullOrEmpty(sipEvrakNo) || string.IsNullOrEmpty(hesapKodu)) return;
 
+            WMSEntities db = new WMSEntities();
             var dset = new DsSatinalma();
             var dvzCinsi = "TL";
             short islemTip = 1;
@@ -104,7 +104,7 @@ namespace Wms12m
                 foreach (var item in dset.Siparis)
                 {
                     if (talep.IstenenTarih != null)
-                        item.IstenenTarih = ((DateTime)talep.IstenenTarih).ToString("dd.MM.yyyy");
+                        item.IstenenTarih = talep.IstenenTarih.ToString("dd.MM.yyyy");
                 }
             }
             catch (Exception)
@@ -116,6 +116,7 @@ namespace Wms12m
 
             try
             {
+                db = new WMSEntities();
                 var satisUzmani = db.Database.SqlQuery<GenelAyarVeParam>(string.Format("SELECT * FROM [Kaynak].[sta].[GenelAyarVeParams] WHERE Tip=1 AND Tip2=0 AND SiparisSorumlu = '{0}'", talep.Kaydeden)).FirstOrDefault();
                 var gmy = db.Database.SqlQuery<GenelAyarVeParam>(string.Format("SELECT * FROM [Kaynak].[sta].[GenelAyarVeParams] WHERE Tip=1 AND Tip2=1 AND SiparisSorumlu = '{0}'", talep.GMYMaliOnaylayan)).FirstOrDefault();
 
@@ -231,8 +232,17 @@ namespace Wms12m
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                var inner = "";
+                if (ex.InnerException != null)
+                {
+                    inner = ex.InnerException == null ? "" : ex.InnerException.Message;
+                    if (ex.InnerException.InnerException != null) inner += ": " + ex.InnerException.InnerException.Message;
+                }
+
+                db.Logger("", "", "", ex.Message, inner, "Reports/SatınalmaSiparisFormu");
+
                 return;
             }
         }

@@ -254,7 +254,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                         _Result.Status = false;
                     }
 
-                    var satinalmacimail = db.Database.SqlQuery<string>(string.Format("SELECT Email FROM usr.Users (nolock) WHERE Kod IN (SELECT TOP(1) Satinalmaci FROM Kaynak.sta.Talep(nolock) WHERE SipEvrakNo ={0} )", sipEvrakNo)).FirstOrDefault();
+                    var satinalmacimail = db.Database.SqlQuery<string>(string.Format("SELECT Email FROM usr.Users (nolock) WHERE Kod IN (SELECT TOP(1) Satinalmaci FROM Kaynak.sta.Talep(nolock) WHERE SipEvrakNo = '{0}' )", sipEvrakNo)).FirstOrDefault();
 
                     if ((string.IsNullOrEmpty(sirketemail) || sirketemail.Trim() == "")
                         && (string.IsNullOrEmpty(satinalmacimail) || satinalmacimail.Trim() == ""))
@@ -263,7 +263,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                         _Result.Status = false;
                     }
 
-                    var sipTalep = db.Database.SqlQuery<SatTalep>(string.Format("SELECT TOP (1) TalepNo, SipIslemTip FROM Kaynak.sta.Talep (nolock) WHERE SipEvrakNo={0}", sipEvrakNo)).FirstOrDefault();
+                    var sipTalep = db.Database.SqlQuery<SatTalep>(string.Format("SELECT TOP (1) TalepNo, SipIslemTip FROM Kaynak.sta.Talep (nolock) WHERE SipEvrakNo = '{0}'", sipEvrakNo)).FirstOrDefault();
                     if (sipTalep == null)
                     {
                         _Result.Message = "Siparişin Talep ile ilişkisi bulunamadı! (Sipariş Onay Mail Gönderim)";
@@ -277,8 +277,14 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                         _Result.Status = false;
                         return Json(_Result, JsonRequestBehavior.AllowGet);
                     }
-
-                    SatınalmaSiparisFormu.SatinalmaSiparisFormu(sipEvrakNo, hesapKodu, sipTarih, true, vUser.SirketKodu);
+                    try
+                    {
+                        SatınalmaSiparisFormu.SatinalmaSiparisFormu(sipEvrakNo, hesapKodu, sipTarih, true, vUser.SirketKodu);
+                    }
+                    catch (Exception ex)
+                    {
+                        Logger(ex, "SatinalmaSiparisFormu");
+                    }
 
                     List<string> attachList = new List<string>() { string.Format("{0}{1}.pdf", Path.GetTempPath(), sipEvrakNo) };
 
@@ -295,7 +301,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                     var kime = string.Format("{0};{1};{2}", sirketemail, satinalmacimail, mailayar.MailTo);
                     var gorunenIsim = "Sipariş Onay";
                     var konu = "Sipariş Onay";
-                    var icerik = "Sipariş Bilgileri Ektedir.";
+                    var icerik = string.Format("{0} hesapkoduna ait evrak nosu {1} ve talep nosu {2} olan sipariş onaylanmıştır. Sipariş bilgileri ektedir.", hesapKodu, sipEvrakNo, sipTalep.TalepNo);
                     if (sipTalep.SipIslemTip == (short)KKPIslemTipSPI.DışPiyasa)
                     {
                         gorunenIsim = "Purchase Order Approval";
@@ -303,21 +309,19 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                         icerik = "Purchase Order Items Information in Attachments";
                     }
 
-                    using (var m = new MyMail(false)
+                    var m = new MyMail(false)
                     {
                         MailHataMesajı = "Sipariş Onay Maili Gönderiminde hata oluştu! Mail Gönderilemedi!",
                         MailBasariMesajı = "Sipariş Onay Maili başarılı bir şekilde gönderildi!"
-                    })
+                    };
+                    m.Gonder(kime, mailayar.MailCc, gorunenIsim, konu, icerik, attachList, vUser.UserName, fn.GetIPAddress());
+                    if (m.MailGonderimBasarili)
                     {
-                        m.Gonder(kime, mailayar.MailCc, gorunenIsim, konu, icerik, attachList, vUser.UserName, fn.GetIPAddress());
-                        if (m.MailGonderimBasarili)
-                        {
-                            db.Database.ExecuteSqlCommand(string.Format("UPDATE Kaynak.sta.Talep SET MailGonder=-1 WHERE TalepNo='{0}'", sipTalep.TalepNo));
-                        }
-                        else
-                        {
-                            db.Database.ExecuteSqlCommand(string.Format("UPDATE Kaynak.sta.Talep SET MailGonder=0 WHERE TalepNo='{0}'", sipTalep.TalepNo));
-                        }
+                        db.Database.ExecuteSqlCommand(string.Format("UPDATE Kaynak.sta.Talep SET MailGonder=-1 WHERE TalepNo='{0}'", sipTalep.TalepNo));
+                    }
+                    else
+                    {
+                        db.Database.ExecuteSqlCommand(string.Format("UPDATE Kaynak.sta.Talep SET MailGonder=0 WHERE TalepNo='{0}'", sipTalep.TalepNo));
                     }
                 }
                 catch (Exception ex)
@@ -353,10 +357,8 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                 foreach (var item in MyGlobalVariables.TalepSource)
                 {
                     var sql = @"UPDATE Kaynak.sta.Talep
-SET GMOnaylayan='{0}', GMOnayTarih='{1}', Durum=13
-, Degistiren='{0}', DegisTarih='{1}', DegisSirKodu={3}, Aciklama2='{2}'
-WHERE ID={4} AND Durum=11 AND SipTalepNo IS NOT NULL";
-
+                                SET GMOnaylayan='{0}', GMOnayTarih='{1}', Durum=13, Degistiren='{0}', DegisTarih='{1}', DegisSirKodu={3}, Aciklama2='{2}'
+                                WHERE ID={4} AND Durum=11 AND SipTalepNo IS NOT NULL";
                     db.Database.ExecuteSqlCommand(string.Format(sql, vUser.UserName.ToString(), DateTime.Now.ToString("yyyy-dd-MM"), redAciklama, vUser.SirketKodu, item.ID));
                 }
 
@@ -395,7 +397,9 @@ GROUP BY (CASE WHEN ST.Birim = STK.Birim1 THEN 1
       , talepNo, hesapKodu);
             brmContList = db.Database.SqlQuery<int>(query).ToList();
 
-            if (brmContList.Count > 1 || brmContList[0] == 0)
+            if (brmContList.Count == 0)
+                return 1;
+            else if (brmContList.Count > 1 || brmContList[0] == 0)
                 return 0;
             else
                 return 1;

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Net.Mail;
@@ -11,20 +10,17 @@ using Wms12m.Entity.Models;
 
 namespace Wms12m
 {
-    public class MyMail : IDisposable
+    public class MyMail
     {
-        private MailMessage message;
-        private SmtpClient smtp;
+        public bool IsBodyHtml { get; set; }
+        public string MailBasariMesajı { get; set; }
+        public bool MailGonderimBasarili { get; private set; }
+        public string MailHataMesajı { get; set; }
 
         public MyMail(bool isBodyHtml = false)
         {
             IsBodyHtml = isBodyHtml;
         }
-
-        public bool IsBodyHtml { get; set; }
-        public string MailBasariMesajı { get; set; }
-        public bool MailGonderimBasarili { get; private set; }
-        public string MailHataMesajı { get; set; }
 
         /// <summary>
         /// Mail Adresi geçerli mi değilmi bunu regexle kontrol eder. Geçerli ise true döner.
@@ -49,7 +45,7 @@ namespace Wms12m
                 smtpSSL = tbl.SmtpSSL;
             }
 
-            message = new MailMessage();
+            var message = new MailMessage();
             var fromAddress = new MailAddress(smtpEmail, gorunenIsim);
             message.From = fromAddress;
             foreach (string mail in kime.Split(';'))
@@ -89,53 +85,37 @@ namespace Wms12m
             message.BodyEncoding = Encoding.UTF8;
             message.Body = mesaj;
             message.IsBodyHtml = IsBodyHtml;
-            smtp = new SmtpClient()
+            using (var smtp = new SmtpClient()
             {
                 Port = smtpPort,
                 Host = smtpHost,
                 EnableSsl = smtpSSL,
                 Credentials = new System.Net.NetworkCredential(smtpEmail, smtpPass)
-            };
-            smtp.SendCompleted += smtp_SendCompleted;
-            try
-            {
-                smtp.Send(message);
-                MailGonderimBasarili = true;
-                using (WMSEntities db = new WMSEntities())
-                    db.LogActions("WMS", "Business", "MyMail", "Gonder", (int)ComboItems.alMailGönder, 0, kime + ";" + cc, "Konu: " + konu + dosyaList != null ? ", Ek Dosya: " + dosyaList.FirstOrDefault() : "", UserName, IP);
-                return new Result(true);
-            }
-            catch (Exception ex)
-            {
-                //log
-                var inner = "";
-                if (ex.InnerException != null)
+            })
+                try
                 {
-                    inner = ex.InnerException == null ? "" : ex.InnerException.Message;
-                    if (ex.InnerException.InnerException != null) inner += ": " + ex.InnerException.InnerException.Message;
+                    smtp.Send(message);
+                    MailGonderimBasarili = true;
+                    var tmp = string.Format("Konu: {0}{1}", konu, dosyaList != null ? ", Ek Dosya: " + string.Join(", ", dosyaList) : "");
+                    using (WMSEntities db = new WMSEntities())
+                        db.LogActions("WMS", "Business", "MyMail", "Gonder", (int)ComboItems.alMailGönder, 0, kime + ";" + cc, tmp, UserName, IP);
+                    return new Result(true);
                 }
-                using (WMSEntities db = new WMSEntities())
-                    db.Logger(UserName, "", IP, ex.Message, inner, "Business/MyMail/Gonder");
-                //return
-                MailGonderimBasarili = false;
-                return new Result(false, ex.Message);
-            }
-        }
-
-        private void smtp_SendCompleted(object sender, AsyncCompletedEventArgs e)
-        {
-            smtp.Dispose();
-            message.Dispose();
-            smtp = null;
-            message = null;
-        }
-
-        public void Dispose()
-        {
-            if (smtp != null)
-                smtp.Dispose();
-            if (message != null)
-                message.Dispose();
+                catch (Exception ex)
+                {
+                    //log
+                    var inner = "";
+                    if (ex.InnerException != null)
+                    {
+                        inner = ex.InnerException == null ? "" : ex.InnerException.Message;
+                        if (ex.InnerException.InnerException != null) inner += ": " + ex.InnerException.InnerException.Message;
+                    }
+                    using (WMSEntities db = new WMSEntities())
+                        db.Logger(UserName, "", IP, ex.Message, inner, "Business/MyMail/Gonder");
+                    //return
+                    MailGonderimBasarili = false;
+                    return new Result(false, ex.Message);
+                }
         }
     }
 }
