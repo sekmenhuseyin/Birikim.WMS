@@ -120,9 +120,9 @@ namespace Wms12m
                 var satisUzmani = db.Database.SqlQuery<GenelAyarVeParam>(string.Format("SELECT * FROM [Kaynak].[sta].[GenelAyarVeParams] WHERE Tip=1 AND Tip2=0 AND SiparisSorumlu = '{0}'", talep.Kaydeden)).FirstOrDefault();
                 var gmy = db.Database.SqlQuery<GenelAyarVeParam>(string.Format("SELECT * FROM [Kaynak].[sta].[GenelAyarVeParams] WHERE Tip=1 AND Tip2=1 AND SiparisSorumlu = '{0}'", talep.GMYMaliOnaylayan)).FirstOrDefault();
 
+                var rep = new SatSipForm();
                 if (islemTip == (short)KKPIslemTipSPI.İçPiyasa)
                 {
-                    var rep = new SatSipForm();
                     if (satisUzmani != null)
                     {
                         var user = db.Users.Where(m => m.Kod == satisUzmani.SiparisSorumlu).FirstOrDefault();
@@ -167,18 +167,9 @@ namespace Wms12m
                     rep.lblOrderDate.Text = sipTarih == null ? "" : ((DateTime)sipTarih).ToString("dd.MM.yyyy");
 
                     rep.DataSource = dset;
-
-                    if (pdfKaydet)
-                    {
-                        var temp = string.Format("{0}{1}.pdf", Path.GetTempPath(), sipEvrakNo);
-                        if (File.Exists(temp)) File.Delete(temp);
-                        rep.ExportToPdf(temp);
-                    }
                 }
                 else if (islemTip == (short)KKPIslemTipSPI.DışPiyasa)
                 {
-                    var rep = new SatSipForm();
-
                     if (satisUzmani != null)
                     {
                         var user = db.Users.Where(m => m.Kod == satisUzmani.SiparisSorumlu).FirstOrDefault();
@@ -223,13 +214,13 @@ namespace Wms12m
                     rep.lblOrderDate.Text = sipTarih == null ? "" : ((DateTime)sipTarih).ToString("dd.MM.yyyy");
 
                     rep.DataSource = dset;
+                }
 
-                    if (pdfKaydet)
-                    {
-                        var temp = string.Format("{0}{1}.pdf", Path.GetTempPath(), sipEvrakNo);
-                        if (File.Exists(temp)) File.Delete(temp);
-                        rep.ExportToPdf(temp);
-                    }
+                if (pdfKaydet)
+                {
+                    var temp = string.Format("{0}{1}.pdf", Path.GetTempPath(), sipEvrakNo);
+                    if (File.Exists(temp)) File.Delete(temp);
+                    rep.ExportToPdf(temp);
                 }
             }
             catch (Exception ex)
