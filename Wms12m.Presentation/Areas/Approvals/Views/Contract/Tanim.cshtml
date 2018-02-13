@@ -212,7 +212,7 @@
                     $(".satir-sil-buton").removeClass('disabled');
                     $(".sozlesme-kaydet-buton").removeClass('disabled');
                     $.ajax({
-                        url: window.location.origin + "/Approvals/Contract/List?tip=0",
+                        url: window.location.origin + "/Approvals/Contract/TanimList?tip=0",
                         data: {},
                         type: "post",
                         success: function (data) {
@@ -226,7 +226,7 @@
                     $(".satir-sil-buton").addClass('disabled');
                     $(".sozlesme-kaydet-buton").addClass('disabled');
                     $.ajax({
-                        url: window.location.origin + "/Approvals/Contract/List?tip=1",
+                        url: window.location.origin + "/Approvals/Contract/TanimList?tip=1",
                         data: {},
                         type: "post",
                         success: function (data) {
@@ -335,7 +335,7 @@
             }
         });
         $.ajax({
-            url: window.location.origin + "/Approvals/Contract/List?tip=0",
+            url: window.location.origin + "/Approvals/Contract/TanimList?tip=0",
             data: {},
             type: "post",
             success: function (data) {

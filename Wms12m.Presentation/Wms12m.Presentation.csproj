@@ -388,13 +388,7 @@
     <Content Include="Areas\Approvals\Views\Invoice\List.cshtml" />
     <Content Include="Areas\Approvals\Views\Invoice\Detail.cshtml" />
     <Content Include="Areas\Approvals\Views\Invoice\Index.cshtml" />
-    <Content Include="Areas\Approvals\Views\Contract\GM.cshtml" />
     <Content Include="Areas\Approvals\Views\Contract\Details.cshtml" />
-    <Content Include="Areas\Approvals\Views\Contract\GM_List.cshtml" />
-    <Content Include="Areas\Approvals\Views\Contract\SM.cshtml" />
-    <Content Include="Areas\Approvals\Views\Contract\SM_List.cshtml" />
-    <Content Include="Areas\Approvals\Views\Contract\SPGMY.cshtml" />
-    <Content Include="Areas\Approvals\Views\Contract\SPGMY_List.cshtml" />
     <Content Include="Areas\Approvals\Views\Contract\Tanim.cshtml" />
     <Content Include="Areas\Approvals\Views\Contract\Tanim_List.cshtml" />
     <Content Include="Areas\Constants\Views\web.config" />
@@ -509,6 +503,7 @@
     <Content Include="Areas\Reports\Views\Financial\TargetList.cshtml" />
     <Content Include="Areas\Approvals\Views\Check\Index.cshtml" />
     <Content Include="Areas\Approvals\Views\Purchase\GMYOnay_List.cshtml" />
+    <Content Include="Areas\Approvals\Views\Contract\Index.cshtml" />
     <None Include="bundleconfig.json" />
     <Content Include="Content\SizeSablon.xlsx" />
     <Content Include="Content\StockSablon.xlsx" />

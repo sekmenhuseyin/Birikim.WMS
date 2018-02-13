@@ -12,39 +12,43 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 {
     public class ContractController : RootController
     {
-        #region GM
-
         public ActionResult GM()
         {
             if (CheckPerm(Perms.SözleşmeOnaylama, PermTypes.Reading) == false) return Redirect("/");
-            return View();
+            ViewBag.Tip = "GM";
+            return View("Index");
         }
 
-        public PartialViewResult GM_List()
+        public ActionResult SM()
         {
-            return PartialView();
+            if (CheckPerm(Perms.SözleşmeOnaylama, PermTypes.Reading) == false) return Redirect("/");
+            ViewBag.Tip = "SM";
+            return View("Index");
         }
 
-        public string OnayCekGM()
+        public ActionResult SPGMY()
         {
-            List<SozlesmeOnaySelect> RT;
-            try
-            {
-                RT = db.Database.SqlQuery<SozlesmeOnaySelect>(string.Format("[FINSAT6{0}].[wms].[SP_SozlesmeOnay]", vUser.SirketKodu)).ToList();
-            }
-            catch (Exception)
-            {
-                RT = new List<SozlesmeOnaySelect>();
-            }
+            if (CheckPerm(Perms.SözleşmeOnaylama, PermTypes.Reading) == false) return Redirect("/");
+            ViewBag.Tip = "SPGMY";
+            return View("Index");
+        }
 
-            var json = new JavaScriptSerializer().Serialize(RT);
-            return json;
+        public JsonResult List(string Tip)
+        {
+            var list = db.Database.SqlQuery<SozlesmeOnaySelect>(string.Format("[FINSAT6{0}].[wms].[SP_SozlesmeOnay{1}]", vUser.SirketKodu, Tip == "GM" ? "" : Tip)).ToList();
+            return Json(list, JsonRequestBehavior.AllowGet);
+        }
+
+        public PartialViewResult Details(string ListeNo)
+        {
+            var list = db.Database.SqlQuery<BaglantiDetaySelect>(string.Format("[FINSAT6{0}].[wms].[BaglantiDetaySelect] '{1}'", vUser.SirketKodu, ListeNo)).ToList();
+            return PartialView("Details", list);
         }
 
         public JsonResult Onay_GM(string Data)
         {
-            var _Result = new Result(true);
-            if (CheckPerm(Perms.SözleşmeOnaylama, PermTypes.Writing) == false) return null;
+            var _Result = new Result(false, "Yetkiniz yok");
+            if (CheckPerm(Perms.SözleşmeOnaylama, PermTypes.Writing) == false) return Json(_Result, JsonRequestBehavior.AllowGet);
             var parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
             var sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
             try
@@ -174,75 +178,6 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             }
 
             return Json(_Result, JsonRequestBehavior.AllowGet);
-        }
-
-        public JsonResult Red_GM(string Data)
-        {
-            var _Result = new Result(true);
-            if (CheckPerm(Perms.SözleşmeOnaylama, PermTypes.Writing) == false) return null;
-            var parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
-            try
-            {
-                foreach (JObject insertObj in parameters)
-                {
-                    db.Database.ExecuteSqlCommand(string.Format("DELETE FROM [FINSAT6{0}].[FINSAT6{0}].[ISS_Temp] WHERE  ListeNo = '{1}'", vUser.SirketKodu, insertObj["ListeNo"].ToString()));
-                }
-
-                _Result.Status = true;
-                _Result.Message = "İşlem Başarılı ";
-            }
-            catch (Exception)
-            {
-                _Result.Status = false;
-                _Result.Message = "Hata Oluştu. ";
-            }
-
-            return Json(_Result, JsonRequestBehavior.AllowGet);
-        }
-
-        [HttpPost]
-        public PartialViewResult GM_Details(string ListeNo)
-        {
-            var list = db.Database.SqlQuery<BaglantiDetaySelect>(string.Format("[FINSAT6{0}].[wms].[BaglantiDetaySelect] '{1}'", vUser.SirketKodu, ListeNo)).ToList();
-            return PartialView("Details", list);
-        }
-
-        #endregion GM
-
-        #region SM
-
-        public ActionResult SM()
-        {
-            if (CheckPerm(Perms.SözleşmeOnaylama, PermTypes.Reading) == false) return Redirect("/");
-            return View();
-        }
-
-        public PartialViewResult SM_List()
-        {
-            return PartialView();
-        }
-
-        public string OnayCekSM()
-        {
-            List<SozlesmeOnaySelect> RT;
-            try
-            {
-                RT = db.Database.SqlQuery<SozlesmeOnaySelect>(string.Format("[FINSAT6{0}].[wms].[SP_SozlesmeOnaySM]", vUser.SirketKodu)).ToList();
-            }
-            catch (Exception)
-            {
-                RT = new List<SozlesmeOnaySelect>();
-            }
-
-            var json = new JavaScriptSerializer().Serialize(RT);
-            return json;
-        }
-
-        [HttpPost]
-        public PartialViewResult SM_Details(string ListeNo)
-        {
-            var list = db.Database.SqlQuery<BaglantiDetaySelect>(string.Format("[FINSAT6{0}].[wms].[BaglantiDetaySelect] '{1}'", vUser.SirketKodu, ListeNo)).ToList();
-            return PartialView("Details", list);
         }
 
         public JsonResult Onay_SM(string Data)
@@ -378,68 +313,6 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult Red_SM(string Data)
-        {
-            var _Result = new Result(true);
-            if (CheckPerm(Perms.SözleşmeOnaylama, PermTypes.Writing) == false) return null;
-            var parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
-            try
-            {
-                foreach (JObject insertObj in parameters)
-                {
-                    db.Database.ExecuteSqlCommand(string.Format("DELETE FROM [FINSAT6{0}].[FINSAT6{0}].[ISS_Temp] WHERE  ListeNo = '{1}'", vUser.SirketKodu, insertObj["ListeNo"].ToString()));
-                }
-
-                _Result.Status = true;
-                _Result.Message = "İşlem Başarılı ";
-            }
-            catch (Exception)
-            {
-                _Result.Status = false;
-                _Result.Message = "Hata Oluştu. ";
-            }
-
-            return Json(_Result, JsonRequestBehavior.AllowGet);
-        }
-
-        #endregion SM
-
-        #region SPGMY
-
-        public ActionResult SPGMY()
-        {
-            if (CheckPerm(Perms.SözleşmeOnaylama, PermTypes.Reading) == false) return Redirect("/");
-            return View();
-        }
-
-        public PartialViewResult SPGMY_List()
-        {
-            return PartialView();
-        }
-
-        public string OnayCekSPGMY()
-        {
-            List<SozlesmeOnaySelect> RT;
-            try
-            {
-                RT = db.Database.SqlQuery<SozlesmeOnaySelect>(string.Format("[FINSAT6{0}].[wms].[SP_SozlesmeOnaySPGMY]", vUser.SirketKodu)).ToList();
-            }
-            catch (Exception)
-            {
-                RT = new List<SozlesmeOnaySelect>();
-            }
-
-            var json = new JavaScriptSerializer().Serialize(RT);
-            return json;
-        }
-
-        [HttpPost]
-        public PartialViewResult SPGMY_Details(string ListeNo)
-        {
-            var list = db.Database.SqlQuery<BaglantiDetaySelect>(string.Format("[FINSAT6{0}].[wms].[BaglantiDetaySelect] '{1}'", vUser.SirketKodu, ListeNo)).ToList();
-            return PartialView("Details", list);
-        }
-
         public JsonResult Onay_SPGMY(string Data)
         {
             var _Result = new Result(true);
@@ -572,10 +445,10 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult Red_SPGMY(string Data)
+        public JsonResult Red(string Data)
         {
-            var _Result = new Result(true);
-            if (CheckPerm(Perms.SözleşmeOnaylama, PermTypes.Writing) == false) return null;
+            var _Result = new Result(false, "Yetkiniz yok");
+            if (CheckPerm(Perms.SözleşmeOnaylama, PermTypes.Writing) == false) return Json(_Result, JsonRequestBehavior.AllowGet);
             var parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
             try
             {
@@ -595,8 +468,6 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
-
-        #endregion SPGMY
 
         #region Tanim
 
@@ -638,7 +509,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             return json;
         }
 
-        public string List(int tip)
+        public string TanimList(int tip)
         {
             var sozlesmeler = new List<SozlesmeListesi>();
             if (tip == 0)
