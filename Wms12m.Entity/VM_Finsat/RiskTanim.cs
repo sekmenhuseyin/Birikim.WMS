@@ -635,6 +635,8 @@ namespace Wms12m.Entity
 
         public string SF1DovizCinsi { get; set; }
 
+        public int KayitTarih { get; set; }
+
         public string Birim1 { get; set; }
 
         public string Birim2 { get; set; }
