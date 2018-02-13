@@ -63,8 +63,10 @@
                             <th></th>
                             <th></th>
                             <th></th>
+
                         </tr>
                     </tfoot>
+                   
                     <tfoot class="tf-search">
                         <tr>
                             <th></th>
@@ -106,7 +108,6 @@
                 "ordering": true,
                 "pagingType": "full_numbers",
                 "scrollX": true,
-                "scrollY": true,
                 "dom": 'lBfrtip',
                 "buttons": [
                     { "extend": 'pdf', "text": '<span class="fa fa-file-pdf-o f-s-15 red"></span>', "className": 'btn btn-default btn-xs' },
@@ -182,7 +183,8 @@
                         ToplamTahsilat += val.ToplamTahsilat;
                         FaturaBekleyenler += val.FaturaBekleyenler;
                        
-                    });
+                    }
+                    );
                     var api = this.api(), data;
                     $(api.column(2).footer()).html(
                         ondalikBinlik(Math.round(Bakiye * 100) / 100, 2)
@@ -237,13 +239,19 @@
                 else if (title != "" && title != "Detay" && title != "Hareket")
                     $(this).html('<input class="form-control input-circle" type="text" placeholder="Ara" />');
             });
- 
-            $("#sample_1 tfoot input").on('keyup change', function () {
-                table
-                    .column($(this).parent().index() + ':visible')
-                    .search(this.value)
-                    .draw();
-            });
+            $("#sample_1 tfoot input").on('keyup change', function () { table.column($(this).parent().index() + ':visible').search(this.value).draw(); });
+            //tarih
+            $.datepicker.setDefaults($.datepicker.regional["tr"]);
+            $(".tarih").datepicker();
+            $("#buttons").html("");
+            var buttons = new $.fn.dataTable.Buttons(table, {
+                buttons: [
+                    { "extend": 'pdf', "text": '<span class="fa fa-file-pdf-o f-s-15 red"></span>', "className": 'btn-xs;' },
+                    { "extend": 'excel', "text": '<span class="fa fa-file-excel-o f-s-15 green"></span>', "className": 'btn-xs;' }
+                ]
+            }).container().appendTo($('#buttons'));
             $('#sample_1 .tf-search tr').insertAfter($('#sample_1 thead tr'))
+         
         });
+
     </script>}

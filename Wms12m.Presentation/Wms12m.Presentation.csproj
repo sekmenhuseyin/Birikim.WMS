@@ -498,7 +498,7 @@
     <Content Include="Areas\Reports\Views\Financial\Tao.cshtml" />
     <Content Include="Areas\Reports\Views\Financial\TaoList.cshtml" />
     <Content Include="Areas\Approvals\Views\Account\Index.cshtml" />
-    <Content Include="Areas\Reports\Views\Financial\TahsilatKontrolRaporu.cshtml" />
+    <Content Include="Areas\Reports\Views\Financial\TahsilatKontrol.cshtml" />
     <Content Include="Areas\Approvals\Views\Account\MHK.cshtml" />
     <Content Include="Areas\Approvals\Views\Purchase\GMY_Onay.cshtml" />
     <Content Include="Areas\Reports\Views\Stock\GidenBarkod.cshtml" />
