@@ -41,6 +41,7 @@
                                     .Scrollable()
                                     .Filterable()
                                     .Sortable()
+                                    .ToolBar(toolbar => toolbar.Excel().Text("Excel").HtmlAttributes(new { @class = "pull-right" }))
                                     .Pageable(pageable => pageable
                                         .Refresh(true)
                                         .PageSizes(true)
@@ -68,7 +69,7 @@
         {
             var Status = FunctionDelete("/Records/Delete/App", e);
             if (Status)
-                Refresh();
+                FuncSearchBtn();
         }
     }
     function additionalInfo()

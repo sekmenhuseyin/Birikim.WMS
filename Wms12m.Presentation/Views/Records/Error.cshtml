@@ -33,6 +33,7 @@
                                     .Scrollable()
                                     .Filterable()
                                     .Sortable()
+                                    .ToolBar(toolbar => toolbar.Excel().Text("Excel").HtmlAttributes(new { @class = "pull-right" }))
                                     .Pageable(pageable => pageable
                                         .Refresh(true)
                                         .PageSizes(true)
@@ -58,9 +59,9 @@
         ModalYesNoClick('Kaydı silmek istediğinizden eminmisiniz?', 'Silme İşlemi', "Evet", 'btn-success', DeleteTrigerx, 'Hayır', 'btn-warning', null);
         function DeleteTrigerx()
         {
-            var Status = FunctionDelete("/Records/Delete/Error", e);
+            var Status = FunctionDelete("/Records/Delete/Elmah", e);
             if (Status)
-                Refresh();
+                FuncSearchBtn();
         }
     }
     function additionalInfo()
