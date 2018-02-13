@@ -682,11 +682,11 @@
                 type: "post",
                 success: function (data) {
                     if (data.Status == true) {
-                        Modaldialog(data.Message, "Kayıt İşlemi", "Tamam", "Kayıt");
+                        Modaldialog(data.Message, "Kayıt İşlemi", "Tamam", "btn-success");
                         setTimeout(function () { window.location.reload(); }, 500);
                     }
                     else {
-                        Modaldialog(data.Message, "Kayıt İşlemi", "Tamam", "btn-warning");
+                        Modaldialog(data.Message, "Kayıt İşlemi", "Tamam", "btn-danger");
                     }
 
                 }
@@ -702,19 +702,19 @@
             type: "post",
             success: function (data) {
                 if (data > 0) {
-                    Modaldialog("Liste No Kullanılmış.", "Kayıt İşlemi", "Tamam", "Kayıt");
+                    Modaldialog("Liste No Kullanılmış.", "Kayıt İşlemi", "Tamam", "btn-warning");
                 }
                 else {
                     if ($(".select_baglanti_tipi").dxSelectBox("instance").option("value") == null) {
-                        Modaldialog("Bağlantı Tipi Seçmelisiniz.", "Kayıt İşlemi", "Tamam", "Kayıt");
+                        Modaldialog("Bağlantı Tipi Seçmelisiniz.", "Kayıt İşlemi", "Tamam", "btn-warning");
                         return;
                     }
                     if ($(".swtch_vade_valor").dxSwitch("instance").option("value") == true && $(".date_vade_tarihi").dxDateBox("instance").option("value") == null) {
-                        Modaldialog("Vade Tarihi Seçmelisiniz.", "Kayıt İşlemi", "Tamam", "Kayıt");
+                        Modaldialog("Vade Tarihi Seçmelisiniz.", "Kayıt İşlemi", "Tamam", "btn-warning");
                         return;
                     }
                     if ($(".swtch_vade_valor").dxSwitch("instance").option("value") == false && $(".numb_valor_gun").dxTextBox("instance").option("value") <= 0) {
-                        Modaldialog("ValorGun Boş Geçilemez.", "Kayıt İşlemi", "Tamam", "Kayıt");
+                        Modaldialog("ValorGun Boş Geçilemez.", "Kayıt İşlemi", "Tamam", "btn-warning");
                         return;
                     }
 
@@ -745,7 +745,7 @@
             type: "post",
             success: function (data) {
                 if (data.Status == true) {
-                    Modaldialog(data.Message, "Kayıt İşlemi", "Tamam", "Kayıt");
+                    Modaldialog(data.Message, "Kayıt İşlemi", "Tamam", "btn-success");
                     setTimeout(function () { window.location.reload(); }, 500);
                 }
                 else {
@@ -827,7 +827,7 @@
                                
                                     if (data.Status == true) {
                                         $('#x-modal-sozlesme-guncelle').modal("hide");
-                                        Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "Güncelleme");
+                                        Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "btn-success");
                                         setTimeout(function () { window.location.reload(); }, 500);
                                     }
                                     else {
