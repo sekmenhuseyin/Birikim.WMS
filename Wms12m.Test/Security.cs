@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Wms12m.Test
 {
-    public class Class1
+    public class Security
     {
     }
 }
