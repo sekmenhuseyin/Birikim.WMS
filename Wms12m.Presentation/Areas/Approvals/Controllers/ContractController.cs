@@ -956,7 +956,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult Guncelle(string SozlesmeNo, int BasTarih, short MusUygSekli, decimal YeniBaglantiTutari, int YeniBitisTarihi)
+        public JsonResult Guncelle(string SozlesmeNo, int BasTarih, short MusUygSekli, string YeniBaglantiTutari, int YeniBitisTarihi)
         {
             if (CheckPerm(Perms.SözleşmeTanim, PermTypes.Writing) == false) return null;
             var _Result = new Result(true, 1, "İşlem Başarılı.");
@@ -972,7 +972,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                     item.pk_MusUygSekli = MusUygSekli;
                     item.pk_SiraNo = item.SiraNo;
                     item.Kod12 = item.Kod11;
-                    item.Kod11 = YeniBaglantiTutari;
+                    item.Kod11 = YeniBaglantiTutari.ToDecimal();
                     if (YeniBitisTarihi != item.BitTarih)
                     {
                         item.Kod9 = item.BitTarih.ToString2();
