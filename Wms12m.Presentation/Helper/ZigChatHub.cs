@@ -91,7 +91,7 @@ namespace Wms12m.Hubs
             using (var db = new WMSEntities())
             {
                 var kişi = db.Users.Where(m => m.Kod == userName).FirstOrDefault();
-                var guid = Statics.ImageAddressOrDefault(kişi.Guid.ToString());
+                var guid = HtmlHelperExtension.ImageAddressOrDefault(kişi.Guid.ToString());
                 if (usersend != "")
                 {
                     // sadece bir kişiye mesaj gönderiyor

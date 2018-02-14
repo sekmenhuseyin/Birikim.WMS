@@ -23,7 +23,7 @@ namespace Wms12m.Presentation
             // bundle create
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             // herkesi offline yap bir seferlik
-            Statics.PutUsersOffline();
+            HtmlHelperExtension.PutUsersOffline();
             // remove the MVC header
             MvcHandler.DisableMvcResponseHeader = true;
         }
