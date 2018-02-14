@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Web;
-using Wms12m.Entity;
 using Wms12m.Security;
 
 namespace Wms12m
@@ -23,8 +22,8 @@ namespace Wms12m
             {
                 Application = new PresentationIdentity()
                 {
-                    Application = BaseConfigurationSection.Current.Presentation.Application,
-                    Channel = BaseConfigurationSection.Current.Presentation.Channel
+                    Application = "Wms12m.Presentation",
+                    Channel = "WEB-UI"
                 },
                 User = new UserIdentity()
                 {

@@ -2,7 +2,6 @@
 using System.Web;
 using System.Web.Script.Serialization;
 using System.Web.Security;
-using Wms12m.Entity;
 using Wms12m.Entity.Models;
 using Wms12m.Security;
 
@@ -73,8 +72,8 @@ namespace Wms12m
             {
                 Application = new PresentationIdentity()
                 {
-                    Application = isUpdate ? identity.AppIdentity.Application.Application : BaseConfigurationSection.Current.Presentation.Application,
-                    Channel = isUpdate ? identity.AppIdentity.Application.Channel : BaseConfigurationSection.Current.Presentation.Channel
+                    Application = isUpdate ? identity.AppIdentity.Application.Application : "Wms12m.Presentation",
+                    Channel = isUpdate ? identity.AppIdentity.Application.Channel : "WEB-UI"
                 },
                 User = new UserIdentity()
                 {

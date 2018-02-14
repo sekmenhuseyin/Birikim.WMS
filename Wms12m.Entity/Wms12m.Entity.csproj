@@ -68,7 +68,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BaseConfigurationSection.cs" />
     <Compile Include="Enums\Aylar.cs" />
     <Compile Include="Enums\ComboItems.cs" />
     <Compile Include="Enums\Combos.cs" />
