@@ -342,37 +342,37 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         /// </summary>
         public JsonResult SipGMReddet(string redAciklama)
         {
-            if (CheckPerm(Perms.SatinalmaOnaylama, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
-            var _Result = new Result(true, "İşlem Başarılı");
-
-            if (MyGlobalVariables.GridSource == null || MyGlobalVariables.GridSource.Count == 0 || MyGlobalVariables.SipEvrak == null)
-            {
-                _Result.Message = "Siparis Seçmelisiniz!";
-                _Result.Status = false;
+            var _Result = new Result(false, "Yetkiniz yok");
+            if (CheckPerm(Perms.SatinalmaOnaylama, PermTypes.Writing) == false) return Json(_Result, JsonRequestBehavior.AllowGet);
+            //kontrol 1
+            _Result.Message = "Geri Çevirme açıklamasını girmek zorundasınız!";
+            if (redAciklama.IsNullEmpty())
                 return Json(_Result, JsonRequestBehavior.AllowGet);
-            }
-
-            var con = Connection.GetConnectionWithTrans();
-            try
-            {
-                foreach (var item in MyGlobalVariables.TalepSource)
+            //kontrol 2
+            _Result.Message = "Siparis Seçmelisiniz!";
+            if (MyGlobalVariables.GridSource == null || MyGlobalVariables.GridSource.Count == 0 || MyGlobalVariables.SipEvrak == null)
+                return Json(_Result, JsonRequestBehavior.AllowGet);
+            //transaction
+            var sql = @"UPDATE Kaynak.sta.Talep
+                        SET GMOnaylayan='{0}', GMOnayTarih='{1}', Durum=13, Degistiren='{0}', DegisTarih='{1}', DegisSirKodu={3}, Aciklama2='{2}'
+                        WHERE ID={4} AND Durum=11 AND SipTalepNo IS NOT NULL";
+            using (var con = db.Database.BeginTransaction())
+                try
                 {
-                    var sql = @"UPDATE Kaynak.sta.Talep
-                                SET GMOnaylayan='{0}', GMOnayTarih='{1}', Durum=13, Degistiren='{0}', DegisTarih='{1}', DegisSirKodu={3}, Aciklama2='{2}'
-                                WHERE ID={4} AND Durum=11 AND SipTalepNo IS NOT NULL";
-                    db.Database.ExecuteSqlCommand(string.Format(sql, vUser.UserName.ToString(), DateTime.Now.ToString("yyyy-dd-MM"), redAciklama, vUser.SirketKodu, item.ID));
+                    foreach (var item in MyGlobalVariables.TalepSource)
+                    {
+                        db.Database.ExecuteSqlCommand(string.Format(sql, vUser.UserName.ToString(), DateTime.Now.ToString("yyyy-dd-MM"), redAciklama, vUser.SirketKodu, item.ID));
+                    }
+                    con.Commit();
                 }
-
-                con.Trans.Commit();
-            }
-            catch (Exception)
-            {
-                if (con.Trans != null) con.Trans.Rollback();
-                _Result.Message = "Geri Çevirme açıklamasını girmek zorundasınız!";
-                _Result.Status = false;
-            }
-
-            con.Dispose();
+                catch (Exception)
+                {
+                    con.Rollback();
+                    _Result.Message = "Geri Çevirme açıklamasını girmek zorundasınız!";
+                    _Result.Status = false;
+                }
+            //return
+            _Result = new Result(true);
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
 
@@ -609,9 +609,13 @@ GROUP BY (CASE WHEN ST.Birim = STK.Birim1 THEN 1
         public JsonResult GMYOnayla(int OnayTip)
         {
             if (OnayTip == 0)
-                if (CheckPerm(Perms.SatinalmaGMYTedarikciOnay, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
-                else if (OnayTip == 1)
-                    if (CheckPerm(Perms.SatinalmaGMYMaliOnay, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
+            {
+                if (CheckPerm(Perms.SatinalmaGMYTedarikciOnay, PermTypes.Writing) == false)
+                    return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
+            }
+            else if (OnayTip == 1)
+                if (CheckPerm(Perms.SatinalmaGMYMaliOnay, PermTypes.Writing) == false)
+                    return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
 
             var _Result = new Result(true, "İşlem Başarılı");
             if (MyGlobalVariables.GridGMYSource.Where(x => x.OneriDurum).Count() == 0)
@@ -621,40 +625,37 @@ GROUP BY (CASE WHEN ST.Birim = STK.Birim1 THEN 1
                 return Json(_Result, JsonRequestBehavior.AllowGet);
             }
 
-            var con = Connection.GetConnectionWithTrans();
-
-            try
-            {
-                foreach (var item in MyGlobalVariables.GridGMYSource)
+            using (var con = db.Database.BeginTransaction())
+                try
                 {
-                    string sql = "";
-
-                    if (OnayTip == 0)
+                    foreach (var item in MyGlobalVariables.GridGMYSource)
                     {
-                        #region Teklif GMY Tedarikçi Onay
+                        string sql = "";
 
-                        sql = string.Format(@"UPDATE Kaynak.sta.Teklif SET
+                        if (OnayTip == 0)
+                        {
+                            #region Teklif GMY Tedarikçi Onay
+
+                            sql = string.Format(@"UPDATE Kaynak.sta.Teklif SET
 	                        Durum=4, Aciklama2='{0}', Degistiren='{1}', DegisTarih=GETDATE(), DegisSirKodu='{3}',
                             Kademe2Onaylayan='{1}', Kademe2OnayTarih=GETDATE()
 	                        WHERE ID={2} AND Durum=2", item.Aciklama2, vUser.UserName.ToString(), item.ID, vUser.SirketKodu);
 
-                        #endregion Teklif GMY Tedarikçi Onay
+                            #endregion Teklif GMY Tedarikçi Onay
+                        }
+                        else if (OnayTip == 1)
+                        {
+                        }
+                        db.Database.ExecuteSqlCommand(sql);
                     }
-                    else if (OnayTip == 1)
-                    {
-                    }
-                    db.Database.ExecuteSqlCommand(sql);
+                    con.Commit();
                 }
-                con.Trans.Commit();
-            }
-            catch (Exception)
-            {
-                if (con.Trans != null) con.Trans.Rollback();
-                _Result.Message = "İşlem Sırasında Hata Oluştu.";
-                _Result.Status = false;
-            }
-
-            con.Dispose();
+                catch (Exception)
+                {
+                    con.Rollback();
+                    _Result.Message = "İşlem Sırasında Hata Oluştu.";
+                    _Result.Status = false;
+                }
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
 
@@ -677,41 +678,39 @@ GROUP BY (CASE WHEN ST.Birim = STK.Birim1 THEN 1
                 return Json(_Result, JsonRequestBehavior.AllowGet);
             }
 
-            var con = Connection.GetConnectionWithTrans();
-            try
-            {
-                foreach (var item in MyGlobalVariables.TalepSource)
+            using (var con = db.Database.BeginTransaction())
+                try
                 {
-                    string sql = "";
-
-                    if (OnayTip == 0)
+                    foreach (var item in MyGlobalVariables.TalepSource)
                     {
-                        #region Teklif GMY Tedarikçi Onay
+                        string sql = "";
 
-                        sql = string.Format(@"UPDATE Kaynak.sta.Teklif SET
+                        if (OnayTip == 0)
+                        {
+                            #region Teklif GMY Tedarikçi Onay
+
+                            sql = string.Format(@"UPDATE Kaynak.sta.Teklif SET
                                             Durum=3, Aciklama2='{0}', Degistiren='{1}', DegisTarih=GETDATE(), DegisSirKodu='{3}',
                                             Kademe2Onaylayan='{1}', Kademe2OnayTarih=GETDATE()
                                             WHERE ID={2} AND Durum=2", redAciklama, vUser.UserName.ToString(), item.ID, vUser.SirketKodu);
 
-                        #endregion Teklif GMY Tedarikçi Onay
-                    }
-                    else if (OnayTip == 1)
-                    {
+                            #endregion Teklif GMY Tedarikçi Onay
+                        }
+                        else if (OnayTip == 1)
+                        {
+                        }
+
+                        db.Database.ExecuteSqlCommand(sql);
                     }
 
-                    db.Database.ExecuteSqlCommand(sql);
+                    con.Commit();
                 }
-
-                con.Trans.Commit();
-            }
-            catch (Exception)
-            {
-                if (con.Trans != null) con.Trans.Rollback();
-                _Result.Message = "Geri Çevirme açıklamasını girmek zorundasınız!";
-                _Result.Status = false;
-            }
-
-            con.Dispose();
+                catch (Exception)
+                {
+                    con.Rollback();
+                    _Result.Message = "Geri Çevirme açıklamasını girmek zorundasınız!";
+                    _Result.Status = false;
+                }
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
     }
