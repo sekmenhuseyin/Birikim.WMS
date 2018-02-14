@@ -1034,13 +1034,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         public bool BaglantiTutariGuncelle(string BaglantiNumarasi, decimal YeniBaglantiTutari)
         {
             var toplam = db.Database.SqlQuery<decimal>(string.Format("exec [FINSAT6{0}].[wms].[BaglantiTutariGuncelle]  @BaglantiNumarasi='{1}'", vUser.SirketKodu, BaglantiNumarasi)).FirstOrDefault();
-            var yenitutar = YeniBaglantiTutari;
-            bool uygunluk;
-            if (toplam <= yenitutar)
-                uygunluk = true;
-            else
-                uygunluk = false;
-            return uygunluk;
+            return toplam <= YeniBaglantiTutari;
         }
 
         #endregion Tanim
