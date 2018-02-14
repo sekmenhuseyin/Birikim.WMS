@@ -7,7 +7,7 @@
     {
         public Result()
         {
-            Status = true;
+            Status = false;
             Id = 0;
             Message = "";
         }
