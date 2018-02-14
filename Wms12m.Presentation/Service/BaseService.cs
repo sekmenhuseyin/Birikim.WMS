@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Web.Services;
+using Wms12m.Business;
 using Wms12m.Entity;
 using Wms12m.Entity.Models;
 
@@ -9,6 +10,8 @@ namespace Wms12m.Presentation
     {
         public string AuthPass = "http://www.12mconsulting.com.tr/";
         public WMSEntities db = new WMSEntities();
+        public IrsaliyeDetay IrsaliyeDetay = new IrsaliyeDetay();
+        public Yerlestirme Yerlestirme = new Yerlestirme();
 
         /// <summary>
         /// işlem kaydı
@@ -38,7 +41,12 @@ namespace Wms12m.Presentation
         /// </summary>
         protected override void Dispose(bool disposing)
         {
-            if (disposing) db.Dispose();
+            if (disposing)
+            {
+                db.Dispose();
+                IrsaliyeDetay.Dispose();
+                Yerlestirme.Dispose();
+            }
             base.Dispose(disposing);
         }
     }

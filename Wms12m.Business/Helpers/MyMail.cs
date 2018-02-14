@@ -16,10 +16,12 @@ namespace Wms12m
         public string MailBasariMesajı { get; set; }
         public bool MailGonderimBasarili { get; private set; }
         public string MailHataMesajı { get; set; }
+        private WMSEntities db { get; set; }
 
-        public MyMail(bool isBodyHtml = false)
+        public MyMail(WMSEntities _db, bool isBodyHtml = false)
         {
             IsBodyHtml = isBodyHtml;
+            db = _db;
         }
 
         /// <summary>
@@ -32,21 +34,12 @@ namespace Wms12m
 
         public Result Gonder(string kime, string cc, string gorunenIsim, string konu, string mesaj, List<string> dosyaList, string UserName, string IP)
         {
-            string smtpEmail, smtpPass, smtpHost; int smtpPort; bool smtpSSL;
-            using (WMSEntities db = new WMSEntities())
-            {
-                var tbl = db.Settings.FirstOrDefault();
-                if (tbl.SmtpEmail == null || tbl.SmtpPass == null || tbl.SmtpHost == null || tbl.SmtpPort == null)
-                    return new Result(false, "Mail ayarları kaydedilmemiş");
-                smtpEmail = tbl.SmtpEmail;
-                smtpPass = tbl.SmtpPass;
-                smtpHost = tbl.SmtpHost;
-                smtpPort = tbl.SmtpPort.Value;
-                smtpSSL = tbl.SmtpSSL;
-            }
+            var tbl = db.Settings.FirstOrDefault();
+            if (tbl.SmtpEmail == null || tbl.SmtpPass == null || tbl.SmtpHost == null || tbl.SmtpPort == null)
+                return new Result(false, "Mail ayarları kaydedilmemiş");
 
             var message = new MailMessage();
-            var fromAddress = new MailAddress(smtpEmail, gorunenIsim);
+            var fromAddress = new MailAddress(tbl.SmtpEmail, gorunenIsim);
             message.From = fromAddress;
             foreach (string mail in kime.Split(';'))
             {
@@ -87,18 +80,17 @@ namespace Wms12m
             message.IsBodyHtml = IsBodyHtml;
             using (var smtp = new SmtpClient()
             {
-                Port = smtpPort,
-                Host = smtpHost,
-                EnableSsl = smtpSSL,
-                Credentials = new System.Net.NetworkCredential(smtpEmail, smtpPass)
+                Port = tbl.SmtpPort.Value,
+                Host = tbl.SmtpHost,
+                EnableSsl = tbl.SmtpSSL,
+                Credentials = new System.Net.NetworkCredential(tbl.SmtpEmail, tbl.SmtpPass)
             })
                 try
                 {
                     smtp.Send(message);
                     MailGonderimBasarili = true;
                     var tmp = string.Format("Konu: {0}{1}", konu, dosyaList != null ? ", Ek Dosya: " + string.Join(", ", dosyaList) : "");
-                    using (WMSEntities db = new WMSEntities())
-                        db.LogActions("WMS", "Business", "MyMail", "Gonder", (int)ComboItems.alMailGönder, 0, kime + ";" + cc, tmp, UserName, IP);
+                    db.LogActions("WMS", "Business", "MyMail", "Gonder", (int)ComboItems.alMailGönder, 0, kime + ";" + cc, tmp, UserName, IP);
                     return new Result(true);
                 }
                 catch (Exception ex)
@@ -110,8 +102,7 @@ namespace Wms12m
                         inner = ex.InnerException == null ? "" : ex.InnerException.Message;
                         if (ex.InnerException.InnerException != null) inner += ": " + ex.InnerException.InnerException.Message;
                     }
-                    using (WMSEntities db = new WMSEntities())
-                        db.Logger(UserName, "", IP, ex.Message, inner, "Business/MyMail/Gonder");
+                    db.Logger(UserName, "", IP, ex.Message, inner, "Business/MyMail/Gonder");
                     //return
                     MailGonderimBasarili = false;
                     return new Result(false, ex.Message);

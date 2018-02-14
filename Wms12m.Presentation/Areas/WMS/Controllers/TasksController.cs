@@ -104,8 +104,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         public ActionResult GorevliKaydet(frmGorevli tbl)
         {
             if (CheckPerm(Perms.GörevListesi, PermTypes.Writing) == false) return Redirect("/");
-            var tmpTable = new Task();
-            var _Result = tmpTable.UpdateGorevli(tbl);
+            var _Result = Task.UpdateGorevli(tbl);
             return RedirectToAction("Index");
         }
 
@@ -275,7 +274,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
 
             // finsat tanımlama
             var EvrakSeriNo = 7100 + details.SayimSeri.Value - 1;
-            var finsat = new Finsat(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, mGorev.IR.SirketKod);
+            var finsat = new Finsat(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, mGorev.IR.SirketKod, db);
             var sonuc = finsat.SayımVeFarkFişi(stiList, EvrakSeriNo, true, vUser.UserName);
             if (sonuc.Status == true)
             {
@@ -354,7 +353,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             }
             // finsat tanımlama
             var EvrakSeriNo = 7500 + details.SayimSeri.Value - 1;
-            var finsat = new Finsat(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, mGorev.IR.SirketKod);
+            var finsat = new Finsat(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, mGorev.IR.SirketKod, db);
             var sonuc = finsat.SayımVeFarkFişi(stiList, EvrakSeriNo, true, vUser.UserName);
             if (sonuc.Status == true)
             {

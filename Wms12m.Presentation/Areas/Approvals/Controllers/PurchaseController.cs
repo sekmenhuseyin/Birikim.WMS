@@ -310,7 +310,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                         icerik = "Purchase Order Items Information in Attachments";
                     }
 
-                    var m = new MyMail(false)
+                    var m = new MyMail(db)
                     {
                         MailHataMesajı = "Sipariş Onay Maili Gönderiminde hata oluştu! Mail Gönderilemedi!",
                         MailBasariMesajı = "Sipariş Onay Maili başarılı bir şekilde gönderildi!"

@@ -69,7 +69,7 @@ namespace Wms12m.Presentation.Areas.Constants.Controllers
             {
                 var tablo = Corridor.Detail(tmp);
                 ViewBag.DepoID = new SelectList(Store.GetList(), "ID", "DepoAd", tablo.DepoID);
-                return PartialView("_CorridorDetailPartial", new Corridor().Detail(tmp));
+                return PartialView("_CorridorDetailPartial", Corridor.Detail(tmp));
             }
         }
 

@@ -34,39 +34,39 @@ namespace Wms12m.Presentation.Controllers
         [HttpPost]
         public JsonResult Login(User P, string RememberMe, string SirketKodu = "")
         {
-            var _Person = new Persons();
             Result = new Result();
             var fn = new Functions();
             using (var db = new WMSEntities())
             {
-                try
-                {
-                    if (string.IsNullOrEmpty(P.Kod) || string.IsNullOrEmpty(P.Sifre)) { }
-                    else
+                using (var _Person = new Persons())
+                    try
                     {
-                        Result = _Person.Login(P, fn.GetIPAddress());
-                        if (Result.Id > 0)
-                        {
-                            var sirket = SirketKodu == "" ? db.GetSirkets().FirstOrDefault() : db.GetSirkets().Where(m => m.Kod == SirketKodu).FirstOrDefault();
-                            Authentication.CreateAuth((User)Result.Data, RememberMe == "1" ? true : false, sirket);
-                        }
+                        if (string.IsNullOrEmpty(P.Kod) || string.IsNullOrEmpty(P.Sifre)) { }
                         else
-                            db.LogLogins(P.Kod, fn.GetIPAddress(), false, Result.Message);
+                        {
+                            Result = _Person.Login(P, fn.GetIPAddress());
+                            if (Result.Id > 0)
+                            {
+                                var sirket = SirketKodu == "" ? db.GetSirkets().FirstOrDefault() : db.GetSirkets().Where(m => m.Kod == SirketKodu).FirstOrDefault();
+                                Authentication.CreateAuth((User)Result.Data, RememberMe == "1" ? true : false, sirket);
+                            }
+                            else
+                                db.LogLogins(P.Kod, fn.GetIPAddress(), false, Result.Message);
+                        }
                     }
-                }
-                catch (Exception ex)
-                {
-                    var inner = "";
-                    if (ex.InnerException != null)
+                    catch (Exception ex)
                     {
-                        inner = ex.InnerException == null ? "" : ex.InnerException.Message;
-                        if (ex.InnerException.InnerException != null) inner += ": " + ex.InnerException.InnerException.Message;
-                    }
+                        var inner = "";
+                        if (ex.InnerException != null)
+                        {
+                            inner = ex.InnerException == null ? "" : ex.InnerException.Message;
+                            if (ex.InnerException.InnerException != null) inner += ": " + ex.InnerException.InnerException.Message;
+                        }
 
-                    db.Logger(P.Kod, "", fn.GetIPAddress(), ex.Message, inner, "Security/Login");
-                    db.LogLogins(P.Kod, fn.GetIPAddress(), false, ex.Message);
-                    return null;
-                }
+                        db.Logger(P.Kod, "", fn.GetIPAddress(), ex.Message, inner, "Security/Login");
+                        db.LogLogins(P.Kod, fn.GetIPAddress(), false, ex.Message);
+                        return null;
+                    }
             }
 
             return Json(new { data = (Result.Status) }, JsonRequestBehavior.AllowGet);

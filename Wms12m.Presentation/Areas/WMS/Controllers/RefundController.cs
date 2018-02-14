@@ -150,8 +150,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                         KynkSiparisNo = evrak,
                         KynkSiparisID = rowID[i]
                     };
-                    var op2 = new IrsaliyeDetay();
-                    _Result = op2.Operation(sti);
+                    _Result = IrsaliyeDetay.Operation(sti);
                 }
 
                 i++;

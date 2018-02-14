@@ -142,8 +142,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                         KynkSiparisMiktar = item.BirimMiktar,
                         KynkDegisSaat = item.DegisSaat
                     };
-                    using (var op2 = new IrsaliyeDetay())
-                        _Result = op2.Operation(sti);
+                    _Result = IrsaliyeDetay.Operation(sti);
 
                     // miktarı tabloya ekle
                     var tblyer = new GorevYer()
