@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Web.Services;
+using Wms12m.Entity;
 using Wms12m.Entity.Models;
 
-namespace Wms12m
+namespace Wms12m.Presentation
 {
     public class BaseService : WebService, IDisposable
     {

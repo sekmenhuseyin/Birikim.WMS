@@ -1,4 +1,4 @@
-﻿namespace Wms12m
+﻿namespace Wms12m.Entity
 {
     public class DovizKurlari
     {

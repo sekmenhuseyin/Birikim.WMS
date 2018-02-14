@@ -10,46 +10,6 @@ using Wms12m.Entity;
 
 namespace Wms12m
 {
-    /// <summary>
-    /// WhereAdd metodunda kullanılır.
-    /// </summary>
-    public enum Islem
-    {
-        EsitDegil = 0,
-        Esit = 1,
-        Buyuk = 2,
-        BuyukEsit = 3,
-        Kucuk = 4,
-        KucukEsit = 5,
-        Arti = 6,
-        Eksi = 7,
-        Carpi = 8,
-        Bolu = 9,
-        ileBaslayan = 10,
-        ileBiten = 11,
-        icindeGecen = 12
-    }
-
-    public enum Operand
-    {
-        AND = 0,
-        OR = 1,
-        IN = 2,
-        NotIN = 3,
-        ParAc = 4,
-        ParKapa = 5,
-        NONE = 6
-    }
-
-    public enum SetIslem
-    {
-        Arti = 0,
-        Eksi = 1,
-        Carpi = 2,
-        Bolu = 3,
-        NONE = 4
-    }
-
     public static class SqlExperExtension
     {
         internal static string ObjectSetFormat(this object Deger)
@@ -168,12 +128,6 @@ namespace Wms12m
 
             return text;
         }
-    }
-
-    public class Prop
-    {
-        public object DefaultValue { get; set; }
-        public string FieldName { get; set; }
     }
 
     /// <summary>

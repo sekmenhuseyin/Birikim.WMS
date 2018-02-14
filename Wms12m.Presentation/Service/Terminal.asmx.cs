@@ -9,7 +9,7 @@ using Wms12m.Entity;
 using Wms12m.Entity.Models;
 using Wms12m.Entity.Mysql;
 
-namespace Wms12m
+namespace Wms12m.Presentation
 {
     /// <summary>
     /// el Terminalleri için web servisi
