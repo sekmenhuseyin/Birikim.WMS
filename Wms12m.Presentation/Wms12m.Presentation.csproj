@@ -612,7 +612,7 @@
     <Compile Include="Areas\Constants\Controllers\FloorController.cs" />
     <Compile Include="Areas\WMS\Controllers\TasksController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Helper\RootController.cs" />
+    <Compile Include="Helper\BaseController.cs" />
     <Compile Include="Controllers\SecurityController.cs" />
     <Compile Include="Areas\WMS\Controllers\SalesController.cs" />
     <Compile Include="Areas\Constants\Controllers\SizeController.cs" />
@@ -626,7 +626,7 @@
     </Compile>
     <Compile Include="Helper\AuthAttribute.cs" />
     <Compile Include="Helper\Authentication.cs" />
-    <Compile Include="Service\BaseService.cs">
+    <Compile Include="Helper\BaseService.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Helper\Client.cs" />

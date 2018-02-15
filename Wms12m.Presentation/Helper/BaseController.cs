@@ -128,7 +128,6 @@ namespace Wms12m.Presentation
         /// </summary>
         protected override void Dispose(bool disposing)
         {
-            // dispose
             if (disposing)
             {
                 db.Dispose();

