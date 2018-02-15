@@ -958,8 +958,8 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
         public JsonResult Guncelle(string SozlesmeNo, int BasTarih, short MusUygSekli, string YeniBaglantiTutari, int YeniBitisTarihi)
         {
-            if (CheckPerm(Perms.SözleşmeTanim, PermTypes.Writing) == false) return null;
-            var _Result = new Result(true, 1, "İşlem Başarılı.");
+            var _Result = new Result(false, "Yetkiniz Yok");
+            if (CheckPerm(Perms.SözleşmeTanim, PermTypes.Writing) == false) return Json(_Result, JsonRequestBehavior.AllowGet);
             var sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
             try
             {
@@ -972,7 +972,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                     item.pk_MusUygSekli = MusUygSekli;
                     item.pk_SiraNo = item.SiraNo;
                     item.Kod12 = item.Kod11;
-                    item.Kod11 = YeniBaglantiTutari.ToDecimal();
+                    item.Kod11 = YeniBaglantiTutari.Replace('.', ',').ToDecimal();
                     if (YeniBitisTarihi != item.BitTarih)
                     {
                         item.Kod9 = item.BitTarih.ToString2();
@@ -1015,16 +1015,18 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                 if (sonuc.Status == true)
                 {
                     db.Database.ExecuteSqlCommand(string.Format("DELETE FROM [FINSAT6{0}].[FINSAT6{0}].[ISS] where ListeNo='{1}' AND BasTarih = {2} AND MusUygSekli={3}", vUser.SirketKodu, SozlesmeNo, BasTarih, MusUygSekli));
+                    LogActions("Approvals", "Contract", "Güncelle", ComboItems.alDüzenle, 0, "SozlesmeNo: " + SozlesmeNo + ", YeniBaglantiTutari: " + YeniBaglantiTutari + ", YeniBitisTarihi: " + YeniBitisTarihi, "");
+                    _Result.Status = true;
+                    _Result.Id = 1;
                 }
                 else
                 {
-                    _Result.Status = false;
                     _Result.Message = "Hata Oluştu. ";
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                _Result.Status = false;
+                Logger(ex, "Approvals/Contract/Güncelle");
                 _Result.Message = "Hata Oluştu. ";
             }
 
