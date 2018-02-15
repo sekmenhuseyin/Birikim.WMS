@@ -256,81 +256,11 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
         }
 
         #region Tao
-
-        public ActionResult Tao()
-        {
-            if (CheckPerm(Perms.Raporlar, PermTypes.Reading) == false) return Redirect("/");
-            return View("Tao");
-        }
-
-        public PartialViewResult TaoList(string chk_bas, string chk_bit)
-        {
-            var BR = db.Database.SqlQuery<RaporBakiye>(string.Format("[FINSAT6{0}].[wms].[BakiyeRaporu] @BasHesapKodu = '{1}', @BitHesapKodu = '{2}'", vUser.SirketKodu, chk_bas, chk_bit)).ToList();
-            return PartialView("TaoList", BR);
-        }
-
-        public JsonResult GetGrupCode(string term)
-        {
-            var sql = string.Format("Select Distinct GrupKod as id,GrupKod as label FROM FINSAT6{0}.FINSAT6{0}.CHK(NOLOCK) WHERE GrupKod like '{1}%'", vUser.SirketKodu, term);
-            // return
-            try
-            {
-                var list = db.Database.SqlQuery<frmJson>(sql).ToList();
-                return Json(list, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception ex)
-            {
-                Logger(ex, "Reports/Tao/GetGrupCode");
-                return Json(new List<frmJson>(), JsonRequestBehavior.AllowGet);
-            }
-        }
-
-        public JsonResult GetTipCode(string term)
-        {
-            var sql = string.Format("Select Distinct TipKod as id, TipKod as label FROM FINSAT6{0}.FINSAT6{0}.CHK(NOLOCK) WHERE TipKod like '{1}%'", vUser.SirketKodu, term);
-            // return
-            try
-            {
-                var list = db.Database.SqlQuery<frmJson>(sql).ToList();
-                return Json(list, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception ex)
-            {
-                Logger(ex, "Reports/Tao/GetTipCode");
-                return Json(new List<frmJson>(), JsonRequestBehavior.AllowGet);
-            }
-        }
-
-        public string TaoDetay(string CHK)
-        {
-            var json = new JavaScriptSerializer()
-            {
-                MaxJsonLength = int.MaxValue
-            };
-            var CE = db.Database.SqlQuery<RaporCariEkstre>(string.Format("[FINSAT6{0}].[wms].[DB_CariEkstre] @HesapKodu = '{1}'", vUser.SirketKodu, CHK)).ToList();
-            return json.Serialize(CE);
-        }
-
-        public ActionResult TahsilatKontrol()
-        {
-            if (CheckPerm(Perms.Raporlar, PermTypes.Reading) == false) return Redirect("/");
-            return View();
-        }
-
-        public JsonResult TahsilatKontrolList()
-        {
-            var list = db.Database.SqlQuery<RP_TahsilatKontrol>(string.Format("[FINSAT6{0}].[wms].[RP_TahsilatKontrol]", vUser.SirketKodu)).ToList();
-            return Json(list, JsonRequestBehavior.AllowGet);
-        }
-
-        #endregion Tao
-
         public ActionResult Target()
         {
-            var json = new JavaScriptSerializer();
+            if (CheckPerm(Perms.Raporlar, PermTypes.Reading) == false) { return Redirect("/"); }
             List<RaporGrupKod> _raporGrupKod;
             List<RaporTargetUrunGrup> _raporTargetUrunGrup;
-            if (CheckPerm(Perms.Raporlar, PermTypes.Reading) == false) { return Redirect("/"); }
             try
             {
                 _raporGrupKod = db.Database.SqlQuery<RaporGrupKod>(string.Format(RaporGrupKod.Sorgu, vUser.SirketKodu)).ToList();
@@ -342,48 +272,143 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
                 _raporGrupKod = new List<RaporGrupKod>();
                 _raporTargetUrunGrup = new List<RaporTargetUrunGrup>();
             }
-            ViewData["RaporGrupKod"] = json.Serialize(_raporGrupKod);
-            ViewData["RaporTargetUrunGrup"] = json.Serialize(_raporTargetUrunGrup);
-            return View();
+            ViewBag.BOLGE = new SelectList(_raporGrupKod, "GrupKod", "GrupKod");
+            ViewBag.URUNGRUP = new SelectList(_raporTargetUrunGrup, "UrunGrup", "UrunGrup");
+            return View("Target", new HDF());
         }
-        public string TargetTemsilciList(string GrupKod)
+        [HttpPost]
+        public JsonResult TargetTemsilciList(string GrupKod)
         {
             var json = new JavaScriptSerializer();
-            List<RaporTemsilci> _raporTemsilci;
+            List<SelectListItem> listRapTemsilci = new List<SelectListItem>();
             try
             {
-                _raporTemsilci = db.Database.SqlQuery<RaporTemsilci>(string.Format(RaporTemsilci.Sorgu, vUser.SirketKodu, GrupKod)).ToList();
+                foreach (RaporTemsilci item in db.Database.SqlQuery<RaporTemsilci>(string.Format(RaporTemsilci.Sorgu, vUser.SirketKodu, "'" + GrupKod + "'")).ToList())
+                {
+                    listRapTemsilci.Add(new SelectListItem
+                    {
+                        Selected = false,
+                        Text = item.TipKod,
+                        Value = item.GrupKod,
+                    });
+                }
             }
             catch (Exception ex)
             {
                 Logger(ex, "/Reports/Financial/TargetTemsilciList");
-                _raporTemsilci = new List<RaporTemsilci>();
             }
-            return json.Serialize(_raporTemsilci);
+            return Json(listRapTemsilci.Select(x => new { Value = x.Value, Text = x.Text, Selected = x.Selected }), JsonRequestBehavior.AllowGet);
         }
-        public PartialViewResult TargetList(string Yil, string Ay)
+        [HttpPost, ValidateAntiForgeryToken]
+        public JsonResult TargetSave(HDF hdf)
         {
-            List<RaporTargetList> tL;
+            if (CheckPerm(Perms.Raporlar, PermTypes.Writing) == false) { return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet); }
+            if (ModelState.IsValid)
+            {
+                var _Result = new Result(true);
+                string sorgu = "";
+                if (hdf.ID == 0)
+                {
+                    sorgu = String.Format(@"INSERT INTO FINSAT6{0}.FINSAT6{0}.HDF (TIP,BOLGE,TEMSILCI,URUNGRUP,HEDEF,TARIH) VALUES ({1},'{2}','{3}','{4}','{5}',{6})"
+                    , vUser.SirketKodu, 1, hdf.BOLGE, hdf.TEMSILCI, hdf.URUNGRUP, hdf.HEDEF, Convert.ToInt32(DateTime.Today.ToOADate()));
+                }
+                else
+                {
+                    sorgu = String.Format(@"UPDATE FINSAT6{0}.FINSAT6{0}.HDF SET TIP=1
+                    ,BOLGE='{1}',TEMSILCI='{2}',URUNGRUP='{3}',HEDEF={4}
+                    WHERE ID={5}", vUser.SirketKodu, hdf.BOLGE, hdf.TEMSILCI, hdf.URUNGRUP, Convert.ToInt32(hdf.HEDEF), hdf.ID);
+                }
+
+                try
+                {
+                    db.Database.ExecuteSqlCommand(sorgu);
+                    _Result.Status = true;
+                    _Result.Message = "İşlem başarılı";
+                }
+                catch (Exception ex)
+                {
+                    Logger(ex, "/Reports/Financial/TargetSave");
+                    _Result.Status = false;
+                    _Result.Message = "İşlem başarısız";
+                }
+                return Json(_Result, JsonRequestBehavior.AllowGet);
+            }
+            return Json(new Result(false, "Hata oldu"), JsonRequestBehavior.AllowGet);
+        }
+        #endregion Tao
+        public PartialViewResult TargetList()
+        {
+            if (CheckPerm(Perms.Raporlar, PermTypes.Reading) == false) { return null; }
+            List<HDF> hdfList;
             try
             {
-                tL = db.Database.SqlQuery<RaporTargetList>(string.Format(RaporTargetList.Sorgu, vUser.SirketKodu, Yil, Ay)).ToList();
+                hdfList = db.Database.SqlQuery<HDF>(String.Format("SELECT * FROM [FINSAT6{0}].[FINSAT6{0}].HDF WITH (NOLOCK)", vUser.SirketKodu)).ToList();
             }
             catch (Exception ex)
             {
                 Logger(ex, "/Reports/Financial/TargetList");
-                tL = new List<RaporTargetList>();
+                hdfList = new List<HDF>();
             }
-            return PartialView("TargetList", tL);
+            return PartialView(hdfList);
         }
-        public string TargetEkle(string Data)
+        public PartialViewResult TargetEdit(int? id)
         {
-            var parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
-            return null;
+            var json = new JavaScriptSerializer();
+            HDF h;
+            //List<SelectListItem> listRapTemsilci = new List<SelectListItem>();
+            List<RaporGrupKod> _raporGrupKod;
+            List<RaporTargetUrunGrup> _raporTargetUrunGrup;
+            List<RaporTemsilci> _raporTemsilci;
+            if (CheckPerm(Perms.Raporlar, PermTypes.Updating) == false) { return null; }
+            try
+            {
+                string rT = "";
+                _raporGrupKod = db.Database.SqlQuery<RaporGrupKod>(String.Format(RaporGrupKod.Sorgu, vUser.SirketKodu)).ToList();
+                _raporTargetUrunGrup = db.Database.SqlQuery<RaporTargetUrunGrup>(String.Format(RaporTargetUrunGrup.Sorgu, vUser.SirketKodu)).ToList();
+                h = db.Database.SqlQuery<HDF>(String.Format("SELECT K.* FROM [FINSAT6{0}].[FINSAT6{0}].HDF AS K WITH (NOLOCK) WHERE K.ID={1}", vUser.SirketKodu, id)).FirstOrDefault();
+                rT = String.Format(@"(SELECT K.BOLGE FROM [FINSAT6{0}].[FINSAT6{0}].HDF AS K WITH (NOLOCK) WHERE K.ID={1})", vUser.SirketKodu, id);
+                _raporTemsilci = db.Database.SqlQuery<RaporTemsilci>(String.Format(RaporTemsilci.Sorgu, vUser.SirketKodu, rT)).ToList();
+
+                //foreach (RaporTemsilci item in db.Database.SqlQuery<RaporTemsilci>(String.Format(RaporTemsilci.Sorgu, vUser.SirketKodu, rT)).ToList())
+                //{
+                //    listRapTemsilci.Add(new SelectListItem()
+                //    {
+                //        Selected = false,
+                //        Text = item.TipKod,
+                //        Value = item.GrupKod
+                //    });
+                //}
+            }
+            catch (Exception ex)
+            {
+                Logger(ex, "/Reports/Financial/TargetEdit");
+                h = new HDF();
+                _raporGrupKod = new List<RaporGrupKod>();
+                _raporTargetUrunGrup = new List<RaporTargetUrunGrup>();
+                _raporTemsilci = new List<RaporTemsilci>();
+            }
+            ViewBag.BOLGE = new SelectList(_raporGrupKod, "GrupKod", "GrupKod", h.BOLGE);
+            ViewBag.URUNGRUP = new SelectList(_raporTargetUrunGrup, "UrunGrup", "UrunGrup", h.URUNGRUP);
+            //ViewBag.TEMSILCI = new SelectList(listRapTemsilci, "TipKod", "GrupKod");
+            //var t = new SelectList(listRapTemsilci, "TipKod", "GrupKod");
+            ViewBag.Temp = h.BOLGE;
+            return PartialView(h);
         }
-        public string TargetEkle(FormCollection Data)
+        public JsonResult TargetDelete(string Id)
         {
-            var parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
-            return null;
+            if (CheckPerm(Perms.Raporlar, PermTypes.Deleting) == false) { return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet); }
+            string sorgu = "";
+            sorgu = String.Format(@"DELETE FROM [FINSAT6{0}].[FINSAT6{0}].HDF WHERE ID={1}", vUser.SirketKodu, Id);
+            try
+            {
+                db.Database.ExecuteSqlCommand(sorgu);
+                LogActions("Reports", "Financial", "Delete", ComboItems.alSil, Id.ToInt32());
+                return Json(new Result(true, Id.ToInt32()), JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception)
+            {
+                return Json(new Result(false, "Projeye ait form bulunduğu için silme işlemi gerçekleştirilememiştir."), JsonRequestBehavior.AllowGet);
+            }
         }
     }
 }

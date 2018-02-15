@@ -1,9 +1,127 @@
-﻿
+﻿@model HDF
 @{
     ViewBag.Title = "Hedef ekle";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-
-<h2>Target</h2>
-
+@section Styles{<link href="~/Content/assets/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/assets/global/plugins/jquery-file-upload/css/jquery.fileupload.css" rel="stylesheet" />
+}
+<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><a href="javascript:;">Raporlar</a><i class="fa fa-circle"></i></li><li><span>Hedef İşlemleri</span></li></ul></div>
+<h1 class="page-title">Hedef İşlemleri</h1>
+<div class="row">
+    <div class="col-md-12">
+        <div class="row" id="CreateEdit">
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <i class="fa fa-gift"></i>Proje Ekle
+                        </div>
+                    </div>
+                    <div class="portlet-body form">
+                        @using (Ajax.BeginForm("TargetSave", "Financial", new { area = "Reports" }, new AjaxOptions { OnSuccess = "getResult", HttpMethod = "post", OnFailure = "Modaldialog('Lütfen Tekrar Deneyin', 'Hata', 'Tamam', 'btn-danger');" }, new { @class = "form-horizontal" }))
+                        {
+                            @Html.HiddenFor(model => model.ID, new { @class = "ID" })
+                            @Html.AntiForgeryToken()
+                            @Html.ValidationSummary(true)
+                            <div class="form-body">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.BOLGE, "Bölge", htmlAttributes: new { @class = "control-label col-md-3" })
+                                    <div class="col-md-4">
+                                        @Html.DropDownList("BOLGE", null, htmlAttributes: new { @onchange = "TemsilciGetir(this.value);", @class = "form-control input-circle satirekle", required = "required" })
+                                        @Html.ValidationMessageFor(model => model.BOLGE, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.TEMSILCI, "Temsilci", htmlAttributes: new { @class = "control-label col-md-3" })
+                                    <div class="col-md-4">
+                                        <select id="TEMSILCI" class="form-control input-circle" required="required" name="TEMSILCI"></select>
+                                        @Html.ValidationMessageFor(model => model.TEMSILCI, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.URUNGRUP, "Ürün Grup", htmlAttributes: new { @class = "control-label col-md-3" })
+                                    <div class="col-md-4">
+                                        @Html.DropDownList("URUNGRUP", null, htmlAttributes: new { @class = "form-control input-circle satirekle", required = "required" })
+                                        @Html.ValidationMessageFor(model => model.URUNGRUP, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.HEDEF, "Hedef", htmlAttributes: new { @class = "control-label col-md-3" })
+                                    <div class="col-md-4">
+                                        @Html.EditorFor(model => model.HEDEF, new { htmlAttributes = new { @class = "form-control input-circle", required = "required" } })
+                                        @Html.ValidationMessageFor(model => model.HEDEF, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-offset-3 col-md-9">
+                                        <button type="submit" class="btn btn-circle green">@(Model.ID > 0 ? "Düzenle" : "Ekle")</button>
+                                        <button type="button" class="btn btn-circle grey-salsa btn-outline" onclick="TmzGunc('0')">Temizle</button>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="liste"></div>
+    </div>
+</div>
+@section Scripts{
+    <script src="~/Content/assets/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js" type="text/javascript"></script>
+    <script src="~/Content/assets/global/plugins/jquery-file-upload/js/jquery.iframe-transport.js" type="text/javascript"></script>
+    <script src="~/Content/assets/global/plugins/jquery-file-upload/js/vendor/jquery.ui.widget.js" type="text/javascript"></script>
+    <script src="~/Content/assets/global/plugins/jquery-file-upload/js/jquery.fileupload.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        var DeleteFunctionUrl = '/Reports/Financial/TargetDelete';
+        $(document).ready(function () {
+            PartialView("/Reports/Financial/TargetList", "liste");
+        });
+        $(".satirekle").prepend("<option value=''>Seçiniz !!!</option>");
+        $(".satirekle")[0].selectedIndex = 0;
+        $(".satirekle")[1].selectedIndex = 0;
+        function getResult(data) {
+            if (data.Status == false)
+            { Modaldialog(data.Message, "Hata", "Tamam", "btn-danger"); }
+            else {
+                Modaldialog("Kaydedildi", "Başarı", "Tamam", "btn-success");
+                TmzGunc('0');
+                PartialView("/Reports/Financial/TargetList", "liste");
+            }
+        };
+        function TemsilciGetir(GrupKod) {
+            if (GrupKod != "") {
+                $("#TEMSILCI option").remove();
+                $.ajax({
+                    url: window.location.origin + "/Reports/Financial/TargetTemsilciList/?GrupKod=" + GrupKod,
+                    type: 'POST',
+                    dataType: "json",
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (data) {
+                        if (data != "") {
+                            $.each(data, function (i, item) {
+                                $('#TEMSILCI').append($('<option>', { value: item.Value, text: item.Text }));
+                            });
+                            $("#TEMSILCI").prepend("<option value=''>Seçiniz !!!</option>");
+                            $("#TEMSILCI")[0].selectedIndex = 0;
+                        }
+                    }
+                });
+            }
+        }
+        function TmzGunc(Id) {
+            if (Id == 0) {
+                $(".satirekle")[0].selectedIndex = 0;
+                $(".satirekle")[1].selectedIndex = 0;
+                $("#TEMSILCI option").remove();
+                $("#HEDEF").val("");
+                PartialView("/Reports/Financial/TargetList", "liste");
+            }
+            else {
+                $("html, body").animate({ scrollTop: 0 }, "slow");
+                PartialView("/Reports/Financial/TargetEdit", 'CreateEdit', JSON.stringify({ Id: Id }));
+            }
+        }
+    </script>
+}

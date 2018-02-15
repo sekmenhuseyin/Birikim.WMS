@@ -41,7 +41,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         {
             var projeForm = db.ProjeForms.Find(id);
             ViewBag.MusteriID = new SelectList(db.Musteris.OrderBy(m => m.Unvan).ToList(), "ID", "Firma", projeForm.MusteriID);
-            ViewBag.Sorumlu = new SelectList(db.Users.ToList(), "Kod", "AdSoyad");
+            ViewBag.Sorumlu = new SelectList(db.Users.ToList(), "Kod", "AdSoyad", projeForm.Sorumlu);
             ViewBag.RoleName = vUser.RoleName;
             return PartialView(projeForm);
         }
