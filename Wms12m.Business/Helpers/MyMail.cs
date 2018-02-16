@@ -90,7 +90,7 @@ namespace Wms12m
                     smtp.Send(message);
                     MailGonderimBasarili = true;
                     var tmp = string.Format("Konu: {0}{1}", konu, dosyaList != null ? ", Ek Dosya: " + string.Join(", ", dosyaList) : "");
-                    db.LogActions("WMS", "Business", "MyMail", "Gonder", (int)ComboItems.alMailGönder, 0, kime + ";" + cc, tmp, UserName, IP);
+                    db.LogActions("WMS", "Business", "MyMail", "Gonder", (int)ComboItems.alMailGönder, 0, kime, tmp, UserName, IP);
                     return new Result(true);
                 }
                 catch (Exception ex)
