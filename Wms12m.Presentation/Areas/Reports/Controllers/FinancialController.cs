@@ -1,6 +1,4 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
@@ -255,7 +253,18 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
             }
         }
 
-        #region Tao
+        public ActionResult TahsilatKontrol()
+        {
+            if (CheckPerm(Perms.Raporlar, PermTypes.Reading) == false) return Redirect("/");
+            return View();
+        }
+
+        public JsonResult TahsilatKontrolList()
+        {
+            var list = db.Database.SqlQuery<RP_TahsilatKontrol>(string.Format("[FINSAT6{0}].[wms].[RP_TahsilatKontrol]", vUser.SirketKodu)).ToList();
+            return Json(list, JsonRequestBehavior.AllowGet);
+        }
+
         public ActionResult Target()
         {
             if (CheckPerm(Perms.Raporlar, PermTypes.Reading) == false) { return Redirect("/"); }
@@ -276,6 +285,7 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
             ViewBag.URUNGRUP = new SelectList(_raporTargetUrunGrup, "UrunGrup", "UrunGrup");
             return View("Target", new HDF());
         }
+
         [HttpPost]
         public JsonResult TargetTemsilciList(string GrupKod)
         {
@@ -299,6 +309,7 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
             }
             return Json(listRapTemsilci.Select(x => new { Value = x.Value, Text = x.Text, Selected = x.Selected }), JsonRequestBehavior.AllowGet);
         }
+
         [HttpPost, ValidateAntiForgeryToken]
         public JsonResult TargetSave(HDF hdf)
         {
@@ -335,7 +346,7 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
             }
             return Json(new Result(false, "Hata oldu"), JsonRequestBehavior.AllowGet);
         }
-        #endregion Tao
+
         public PartialViewResult TargetList()
         {
             if (CheckPerm(Perms.Raporlar, PermTypes.Reading) == false) { return null; }
@@ -351,6 +362,7 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
             }
             return PartialView(hdfList);
         }
+
         public PartialViewResult TargetEdit(int? id)
         {
             var json = new JavaScriptSerializer();
@@ -394,6 +406,7 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
             ViewBag.Temp = h.BOLGE;
             return PartialView(h);
         }
+
         public JsonResult TargetDelete(string Id)
         {
             if (CheckPerm(Perms.Raporlar, PermTypes.Deleting) == false) { return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet); }
