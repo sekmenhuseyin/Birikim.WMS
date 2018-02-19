@@ -121,14 +121,14 @@
                         var Birimler = new Array();
                         var stsFiyat = numeral(table.cell(rowIndex, 6).data()).format();
                         var stsBirim = table.cell(rowIndex, 7).data() ;
-                        if (table.cell(rowIndex, 11).data().trim().length > 0) {
-                            Birimler.push({ "Birim": table.cell(rowIndex, 11).data(), "Deger": 1 })
-                        }
                         if (table.cell(rowIndex, 12).data().trim().length > 0) {
-                            Birimler.push({ "Birim": table.cell(rowIndex, 12).data(), "Deger": 2 })
+                            Birimler.push({ "Birim": table.cell(rowIndex, 12).data(), "Deger": 1 })
                         }
                         if (table.cell(rowIndex, 13).data().trim().length > 0) {
-                            Birimler.push({ "Birim": table.cell(rowIndex, 13).data(), "Deger": 3 })
+                            Birimler.push({ "Birim": table.cell(rowIndex, 13).data(), "Deger": 2 })
+                        }
+                        if (table.cell(rowIndex, 14).data().trim().length > 0) {
+                            Birimler.push({ "Birim": table.cell(rowIndex, 14).data(), "Deger": 3 })
                         }
                         satisFiyatClear();
                         dvzSatisFiyatClear()
@@ -151,14 +151,14 @@
                         var stsFiyat = numeral(table.cell(rowIndex, 8).data()).format();
                         var stsBirim = table.cell(rowIndex, 9).data();
                         var stsDovizCinsi = table.cell(rowIndex, 10).data();
-                        if (table.cell(rowIndex, 11).data().trim().length > 0) {
-                            Birimler.push({ "Birim": table.cell(rowIndex, 11).data(), "Deger": 1 })
-                        }
                         if (table.cell(rowIndex, 12).data().trim().length > 0) {
-                            Birimler.push({ "Birim": table.cell(rowIndex, 12).data(), "Deger": 2 })
+                            Birimler.push({ "Birim": table.cell(rowIndex, 12).data(), "Deger": 1 })
                         }
                         if (table.cell(rowIndex, 13).data().trim().length > 0) {
-                            Birimler.push({ "Birim": table.cell(rowIndex, 13).data(), "Deger": 3 })
+                            Birimler.push({ "Birim": table.cell(rowIndex, 13).data(), "Deger": 2 })
+                        }
+                        if (table.cell(rowIndex, 14).data().trim().length > 0) {
+                            Birimler.push({ "Birim": table.cell(rowIndex, 14).data(), "Deger": 3 })
                         }
                         satisFiyatClear();
                         dvzSatisFiyatClear()
