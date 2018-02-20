@@ -502,6 +502,9 @@
     <Content Include="Areas\Approvals\Views\Purchase\GMYOnay_List.cshtml" />
     <Content Include="Areas\Approvals\Views\Contract\Index.cshtml" />
     <Content Include="Areas\Reports\Views\Financial\TargetEdit.cshtml" />
+    <Content Include="Areas\Reports\Views\Financial\TargetBolge.cshtml" />
+    <Content Include="Areas\Reports\Views\Financial\TargetBolgeList.cshtml" />
+    <Content Include="Areas\Reports\Views\Financial\TargetBolgeEdit.cshtml" />
     <None Include="bundleconfig.json" />
     <Content Include="Content\SizeSablon.xlsx" />
     <Content Include="Content\StockSablon.xlsx" />
