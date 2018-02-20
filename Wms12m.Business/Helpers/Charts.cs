@@ -7,19 +7,17 @@ namespace Wms12m
 {
     public class Charts
     {
+        private WMSEntities Db { get; }
+        private string SirketKodu { get; }
+
         /// <summary>
         /// constructor
         /// </summary>
-        public Charts(WMSEntities dbContext, string sirketKodu, string veritabani = "FINSAT")
+        public Charts(WMSEntities dbContext, string sirketKodu)
         {
-            Veritabani = veritabani;
             Db = dbContext;
             SirketKodu = sirketKodu;
         }
-
-        private WMSEntities Db { get; set; }
-        private string SirketKodu { get; set; }
-        private string Veritabani { get; set; }
 
         /// <summary>
         /// Home / BaglantiUrunGrubu
@@ -43,7 +41,7 @@ namespace Wms12m
         public BekleyenOnaylar BekleyenOnaylar(bool dashboardKasa)
         {
             var sonuc = Db.Database.SqlQuery<BekleyenOnaylar>(string.Format("[FINSAT6{0}].[wms].[DB_BekleyenOnaylar]", SirketKodu)).FirstOrDefault();
-            if (dashboardKasa == true)
+            if (dashboardKasa && sonuc != null)
             {
                 sonuc.MevcudBanka = Db.Database.SqlQuery<decimal>(string.Format("[FINSAT6{0}].[wms].[MevcudBanka]", SirketKodu)).FirstOrDefault();
                 sonuc.MevcudCek = Db.Database.SqlQuery<decimal>(string.Format("[FINSAT6{0}].[wms].[MevcudCek]", SirketKodu)).FirstOrDefault();
@@ -89,7 +87,7 @@ namespace Wms12m
         /// <summary>
         /// Home / GunlukMDFUretimi
         /// </summary>
-        public List<ChartGunlukMDFUretimi> ChartGunlukMDFUretimi(int tarih)
+        public List<ChartGunlukMDFUretimi> ChartGunlukMdfUretimi(int tarih)
         {
             return Db.Database.SqlQuery<ChartGunlukMDFUretimi>(string.Format("[FINSAT6{0}].[wms].[MDF_UretimRapor_Chart] @BasTarih = {1}, @BitTarih = {2}, @Tip={3}", SirketKodu, tarih, tarih, 1)).ToList();
         }
@@ -177,7 +175,7 @@ namespace Wms12m
         /// <summary>
         /// Home / CHKSelect
         /// </summary>
-        public List<RaporCHKSelect> CHKSelect()
+        public List<RaporCHKSelect> ChkSelect()
         {
             return Db.Database.SqlQuery<RaporCHKSelect>(string.Format("[FINSAT6{0}].[wms].[CHKSelectKartTip]", SirketKodu)).ToList();
         }

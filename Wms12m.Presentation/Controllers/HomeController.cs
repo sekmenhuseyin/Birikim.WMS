@@ -100,7 +100,7 @@ namespace Wms12m.Presentation.Controllers
             }
             if (tbl.yetki.Contains("'ChartGunlukMDFUretimi'") == true)
             {
-                ViewBag.ChartGunlukMDFUretimi = theCharts.ChartGunlukMDFUretimi(tarih);
+                ViewBag.ChartGunlukMDFUretimi = theCharts.ChartGunlukMdfUretimi(tarih);
             }
             if (tbl.yetki.Contains("'ChartBaglantiZamanCizelgesi'") == true)
             {
@@ -406,9 +406,7 @@ namespace Wms12m.Presentation.Controllers
             ViewBag.Doviz = doviz;
             ViewBag.Kriter = kod;
             if (CheckPerm(Perms.ChartBekleyenSiparisUrunGrubu, PermTypes.Reading) == false) return PartialView("Satis/BekleyenSiparisMusteriAnalizi", new List<ChartBekleyenSiparisUrunGrubu>());
-            List<ChartBekleyenSiparisUrunGrubu> liste;
-            liste = db.Database.SqlQuery<ChartBekleyenSiparisUrunGrubu>(string.Format("[FINSAT6{0}].[wms].[DB_BekleyenSiparis_Musteri_Analizi] @Kod = '{1}', @Kriter = '{2}'", vUser.SirketKodu, kod, doviz)).ToList();
-
+            var liste = db.Database.SqlQuery<ChartBekleyenSiparisUrunGrubu>(string.Format("[FINSAT6{0}].[wms].[DB_BekleyenSiparis_Musteri_Analizi] @Kod = '{1}', @Kriter = '{2}'", vUser.SirketKodu, kod, doviz)).ToList();
             return PartialView("Satis/BekleyenSiparisMusteriAnalizi", liste);
         }
 
@@ -516,7 +514,7 @@ namespace Wms12m.Presentation.Controllers
             ViewBag.tarih = tarih;
             ViewBag.tarih2 = tarih.FromOADateInt();
             if (CheckPerm(Perms.ChartGunlukMDFUretimi, PermTypes.Reading) == false) return PartialView("Satis/GunlukMDFUretim", new List<ChartGunlukMDFUretimi>());
-            var liste = new Charts(db, vUser.SirketKodu).ChartGunlukMDFUretimi(tarih);
+            var liste = new Charts(db, vUser.SirketKodu).ChartGunlukMdfUretimi(tarih);
 
             return PartialView("Satis/GunlukMDFUretim", liste);
         }
@@ -526,7 +524,7 @@ namespace Wms12m.Presentation.Controllers
             ViewBag.tarih = tarih;
             ViewBag.tarih2 = tarih.FromOADateInt();
             if (CheckPerm(Perms.ChartGunlukMDFUretimi, PermTypes.Reading) == false) return PartialView("Satis/GunlukMDFUretimPie", new List<ChartGunlukMDFUretimi>());
-            var liste = new Charts(db, vUser.SirketKodu).ChartGunlukMDFUretimi(tarih);
+            var liste = new Charts(db, vUser.SirketKodu).ChartGunlukMdfUretimi(tarih);
 
             return PartialView("Satis/GunlukMDFUretimPie", liste);
         }
@@ -658,7 +656,7 @@ namespace Wms12m.Presentation.Controllers
 
         public string CHKSelect()
         {
-            var liste = new Charts(db, vUser.SirketKodu).CHKSelect();
+            var liste = new Charts(db, vUser.SirketKodu).ChkSelect();
             return new JavaScriptSerializer().Serialize(liste);
         }
 

@@ -13,7 +13,11 @@ namespace Wms12m
                 ms.Write(byteArrayIn, 0, byteArrayIn.Length);
                 returnImage = Image.FromStream(ms, true);  //Exception occurs here
             }
-            catch { }
+            catch
+            {
+                // ignored
+            }
+
             return returnImage;
         }
     }

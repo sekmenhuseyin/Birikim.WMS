@@ -16,12 +16,12 @@ namespace Wms12m
         public string MailBasariMesajı { get; set; }
         public bool MailGonderimBasarili { get; private set; }
         public string MailHataMesajı { get; set; }
-        private WMSEntities db { get; set; }
+        private WMSEntities Db { get; }
 
-        public MyMail(WMSEntities _db, bool isBodyHtml = false)
+        public MyMail(WMSEntities db, bool isBodyHtml = false)
         {
             IsBodyHtml = isBodyHtml;
-            db = _db;
+            Db = db;
         }
 
         /// <summary>
@@ -34,7 +34,9 @@ namespace Wms12m
 
         public Result Gonder(string kime, string cc, string gorunenIsim, string konu, string mesaj, List<string> dosyaList, string UserName, string IP)
         {
-            var tbl = db.Settings.FirstOrDefault();
+            var tbl = Db.Settings.FirstOrDefault();
+            if (tbl == null)
+                return new Result(false, "Mail ayarları kaydedilmemiş");
             if (tbl.SmtpEmail == null || tbl.SmtpPass == null || tbl.SmtpHost == null || tbl.SmtpPort == null)
                 return new Result(false, "Mail ayarları kaydedilmemiş");
 
@@ -90,7 +92,7 @@ namespace Wms12m
                     smtp.Send(message);
                     MailGonderimBasarili = true;
                     var tmp = string.Format("Konu: {0}{1}", konu, dosyaList != null ? ", Ek Dosya: " + string.Join(", ", dosyaList) : "");
-                    db.LogActions("WMS", "Business", "MyMail", "Gonder", (int)ComboItems.alMailGönder, 0, kime, tmp, UserName, IP);
+                    Db.LogActions("WMS", "Business", "MyMail", "Gonder", (int)ComboItems.alMailGönder, 0, kime, tmp, UserName, IP);
                     return new Result(true);
                 }
                 catch (Exception ex)
@@ -99,10 +101,10 @@ namespace Wms12m
                     var inner = "";
                     if (ex.InnerException != null)
                     {
-                        inner = ex.InnerException == null ? "" : ex.InnerException.Message;
+                        inner = ex.InnerException?.Message ?? "";
                         if (ex.InnerException.InnerException != null) inner += ": " + ex.InnerException.InnerException.Message;
                     }
-                    db.Logger(UserName, "", IP, ex.Message, inner, "Business/MyMail/Gonder");
+                    Db.Logger(UserName, "", IP, ex.Message, inner, "Business/MyMail/Gonder");
                     //return
                     MailGonderimBasarili = false;
                     return new Result(false, ex.Message);

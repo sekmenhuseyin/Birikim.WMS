@@ -59,14 +59,14 @@ namespace Wms12m
         /// <summary>
         /// Propertisi olan nesnelerin propertisini default değerler verir.
         /// </summary>
-        /// <param name="Istisnalar">Default değeri set edilmeyecek propertyleri belirtmek gerekiyor.</param>
-        public static void DefaultValueSet(this object Deger, params string[] Istisnalar)
+        /// <param name="istisnalar">Default değeri set edilmeyecek propertyleri belirtmek gerekiyor.</param>
+        public static void DefaultValueSet(this object value, params string[] istisnalar)
         {
-            foreach (var pi in Deger.GetType().GetProperties())
+            foreach (var pi in value.GetType().GetProperties())
             {
                 try
                 {
-                    if (Istisnalar.Contains(pi.Name)) continue;
+                    if (istisnalar.Contains(pi.Name)) continue;
 
                     if (!pi.CanWrite) continue;
 
@@ -76,31 +76,31 @@ namespace Wms12m
                     if (!pi.PropertyType.IsGenericType)
                     {
                         if (pi.PropertyType == typeof(string))
-                            pi.SetValue(Deger, "", null);
+                            pi.SetValue(value, "", null);
                         else if (pi.PropertyType == typeof(decimal))
-                            pi.SetValue(Deger, 0.0m, null);
+                            pi.SetValue(value, 0.0m, null);
                         else if (pi.PropertyType == typeof(int) ||
                                  pi.PropertyType == typeof(short) ||
                                  pi.PropertyType == typeof(float) ||
                                  pi.PropertyType == typeof(double) ||
                                  pi.PropertyType == typeof(byte))
-                            pi.SetValue(Deger, (short)0, null);
+                            pi.SetValue(value, (short)0, null);
                     }
                     else
                     {
                         if (pi.PropertyType.GetGenericArguments()[0] == typeof(string))
-                            pi.SetValue(Deger, "", null);
+                            pi.SetValue(value, "", null);
                         else if (pi.PropertyType.GetGenericArguments()[0] == typeof(decimal))
-                            pi.SetValue(Deger, 0.0m, null);
+                            pi.SetValue(value, 0.0m, null);
                         else if (pi.PropertyType.GetGenericArguments()[0] == typeof(int) ||
                                  pi.PropertyType.GetGenericArguments()[0] == typeof(double))
-                            pi.SetValue(Deger, 0, null);
+                            pi.SetValue(value, 0, null);
                         else if (pi.PropertyType.GetGenericArguments()[0] == typeof(float))
-                            pi.SetValue(Deger, 0.0f, null);
+                            pi.SetValue(value, 0.0f, null);
                         else if (pi.PropertyType.GetGenericArguments()[0] == typeof(short))
-                            pi.SetValue(Deger, (short)0, null);
+                            pi.SetValue(value, (short)0, null);
                         else if (pi.PropertyType.GetGenericArguments()[0] == typeof(byte))
-                            pi.SetValue(Deger, (byte)0, null);
+                            pi.SetValue(value, (byte)0, null);
                     }
                 }
                 catch (Exception)
@@ -112,7 +112,7 @@ namespace Wms12m
         /// <summary>
         /// Checks file exists
         /// </summary>
-        public static bool FileExists(this string FilePathName) => File.Exists(FilePathName);
+        public static bool FileExists(this string filePathName) => File.Exists(filePathName);
 
         /// <summary>
         /// Get the file size of a given filename.
@@ -200,18 +200,18 @@ namespace Wms12m
             }
         }
 
-        public static string FromOADateInt(this int Deger)
+        public static string FromOADateInt(this int value)
         {
-            try { return DateTime.FromOADate(Deger).ToString("dd.MM.yyyy"); }
+            try { return DateTime.FromOADate(value).ToString("dd.MM.yyyy"); }
             catch { return ""; }
         }
 
-        public static string FromOaTime(this int Deger)
+        public static string FromOaTime(this int value)
         {
             try
             {
                 var now = new DateTime(2000, 1, 1);
-                return now.AddSeconds(Deger).TimeOfDay.ToString();
+                return now.AddSeconds(value).TimeOfDay.ToString();
             }
             catch (Exception)
             {
@@ -235,23 +235,23 @@ namespace Wms12m
         /// <summary>
         /// Gelen değer NULL ise boşluk değilse aynı değeri döndürür
         /// </summary>
-        public static object IfNullGetValue(this object Deger)
+        public static object IfNullGetValue(this object value)
         {
-            if (Deger == DBNull.Value || Deger == null)
+            if (value == DBNull.Value || value == null)
             {
                 return "";
             }
             else
-                return Deger;
+                return value;
         }
 
         /// <summary>
         /// Int tipindeki değerleri DateTime tipine dönüştürür.
         /// </summary>
-        public static DateTime IntToDate(this int Deger)
+        public static DateTime IntToDate(this int value)
         {
             var date = new DateTime(1899, 12, 30);
-            date = date.AddDays(Deger);
+            date = date.AddDays(value);
             return date;
         }
 
@@ -279,11 +279,11 @@ namespace Wms12m
         /// <summary>
         /// iki nesnenin birbiryle aynı olup olmadığını kontrol ediyor
         /// </summary>
-        public static bool IsDifferent(this object Nesne, object Nesne2)
+        public static bool IsDifferent(this object nesne, object nesne2)
         {
-            foreach (PropertyInfo pthis in Nesne.GetType().GetProperties())
+            foreach (PropertyInfo pthis in nesne.GetType().GetProperties())
             {
-                if (pthis.GetValue(Nesne, null).ToString2() != Nesne2.GetType().GetProperty(pthis.Name).GetValue(Nesne2, null).ToString2())
+                if (pthis.GetValue(nesne, null).ToString2() != nesne2.GetType().GetProperty(pthis.Name)?.GetValue(nesne2, null).ToString2())
                 {
                     return true;
                 }
@@ -343,8 +343,7 @@ namespace Wms12m
         /// </summary>
         public static bool IsNumeric(this string theValue)
         {
-            long retNum;
-            return long.TryParse(theValue, System.Globalization.NumberStyles.Integer, System.Globalization.NumberFormatInfo.InvariantInfo, out retNum);
+            return long.TryParse(theValue, System.Globalization.NumberStyles.Integer, System.Globalization.NumberFormatInfo.InvariantInfo, out _);
         }
 
         /// <summary>
@@ -371,7 +370,7 @@ namespace Wms12m
         {
             if (value.Length < (length + start)) length = value.Length - start;
             if (length < 0) return value;
-            return value != null ? value.Substring(start, length) : value;
+            return value.Substring(start, length);
         }
 
         /// <summary>
@@ -410,9 +409,9 @@ namespace Wms12m
         /// <para>Gelen değeri Bool türüne dönüştürür.</para>
         /// Hata olursa defaultValue parametresi döner.
         /// </summary>
-        public static bool ToBool(this object Deger, bool defaultValue = false)
+        public static bool ToBool(this object value, bool defaultValue = false)
         {
-            try { return Convert.ToBoolean(Deger); }
+            try { return Convert.ToBoolean(value); }
             catch { return defaultValue; }
         }
 
@@ -420,9 +419,9 @@ namespace Wms12m
         /// <para>Gelen değeri Char türüne dönüştürür.</para>
         /// Hata olursa defaultValue parametresi döner.
         /// </summary>
-        public static char ToChar(this object Deger, char defaultValue = ' ')
+        public static char ToChar(this object value, char defaultValue = ' ')
         {
-            try { return Convert.ToChar(Deger); }
+            try { return Convert.ToChar(value); }
             catch { return defaultValue; }
         }
 
@@ -461,8 +460,8 @@ namespace Wms12m
         {
             var newDataTable = new DataTable();
             var impliedType = typeof(T);
-            PropertyInfo[] _propInfo = impliedType.GetProperties();
-            foreach (PropertyInfo pi in _propInfo)
+            PropertyInfo[] propInfo = impliedType.GetProperties();
+            foreach (PropertyInfo pi in propInfo)
             {
                 if (pi.Name.Substring(0, 1) == "_") continue;
 
@@ -476,7 +475,7 @@ namespace Wms12m
             {
                 var newDataRow = newDataTable.NewRow();
                 newDataRow.BeginEdit();
-                foreach (PropertyInfo pi in _propInfo)
+                foreach (PropertyInfo pi in propInfo)
                 {
                     if (pi.Name.Substring(0, 1) == "_") continue;
 
@@ -488,7 +487,9 @@ namespace Wms12m
                             newDataRow[pi.Name] = DBNull.Value;
                     }
                     catch
-                    { }
+                    {
+                        // ignored
+                    }
                 }
 
                 newDataRow.EndEdit();
@@ -526,19 +527,19 @@ namespace Wms12m
         /// <para> Hata olursa "01.01.1970" değeri döner.</para>
         /// format değerini 1 gönderirseniz saat kısmını o anki saat olarak set eder.
         /// </summary>
-        public static DateTime ToDatetime(this object Deger, int format = 0)
+        public static DateTime ToDatetime(this object value, int format = 0)
         {
             DateTime mDeger;
             try
             {
                 if (format == 1)
                 {
-                    mDeger = DateTime.Parse(Deger.ToString());
+                    mDeger = DateTime.Parse(value.ToString());
                     mDeger = new DateTime(mDeger.Year, mDeger.Month, mDeger.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
                 }
                 else
                 {
-                    mDeger = DateTime.Parse(Deger.ToString());
+                    mDeger = DateTime.Parse(value.ToString());
                 }
             }
             catch
@@ -554,19 +555,19 @@ namespace Wms12m
         /// <para> Hata olursa NULL değeri döner.</para>
         /// format değerini 1 gönderirseniz saat kısmını o anki saat olarak set eder.
         /// </summary>
-        public static DateTime? ToDatetimeNull(this object Deger, int format = 0)
+        public static DateTime? ToDatetimeNull(this object value, int format = 0)
         {
-            DateTime? mDeger = null;
+            DateTime? mDeger;
             try
             {
                 if (format == 1)
                 {
-                    mDeger = DateTime.Parse(Deger.ToString());
+                    mDeger = DateTime.Parse(value.ToString());
                     mDeger = new DateTime(mDeger.Value.Year, mDeger.Value.Month, mDeger.Value.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
                 }
                 else
                 {
-                    mDeger = DateTime.Parse(Deger.ToString());
+                    mDeger = DateTime.Parse(value.ToString());
                 }
             }
             catch
@@ -581,9 +582,9 @@ namespace Wms12m
         /// <para>Gelen değeri Decimal türüne dönüştürür.</para>
         /// Hata olursa defaultValue parametresi döner.
         /// </summary>
-        public static decimal ToDecimal(this object Deger, decimal defaultValue = 0.0M)
+        public static decimal ToDecimal(this object value, decimal defaultValue = 0.0M)
         {
-            try { return Convert.ToDecimal(Deger); }
+            try { return Convert.ToDecimal(value); }
             catch { return defaultValue; }
         }
 
@@ -598,9 +599,9 @@ namespace Wms12m
         /// <para>Gelen değeri Double türüne dönüştürür.</para>
         /// Hata olursa defaultValue parametresi döner.
         /// </summary>
-        public static double ToDouble(this object Deger, double defaultValue = 0.0)
+        public static double ToDouble(this object value, double defaultValue = 0.0)
         {
-            try { return Convert.ToDouble(Deger); }
+            try { return Convert.ToDouble(value); }
             catch { return defaultValue; }
         }
 
@@ -608,9 +609,9 @@ namespace Wms12m
         /// <para>Gelen değeri Float türüne dönüştürür.</para>
         /// Hata olursa defaultValue parametresi döner.
         /// </summary>
-        public static float ToFloat(this object Deger, float defaultValue = 0.0f)
+        public static float ToFloat(this object value, float defaultValue = 0.0f)
         {
-            try { return Convert.ToSingle(Deger); }
+            try { return Convert.ToSingle(value); }
             catch { return defaultValue; }
         }
 
@@ -618,9 +619,9 @@ namespace Wms12m
         /// <para>Gelen değeri Int32 türüne dönüştürür.</para>
         /// Hata olursa defaultValue parametresi döner.
         /// </summary>
-        public static int ToInt32(this object Deger, int defaultValue = 0)
+        public static int ToInt32(this object value, int defaultValue = 0)
         {
-            try { return Convert.ToInt32(Deger); }
+            try { return Convert.ToInt32(value); }
             catch { return defaultValue; }
         }
 
@@ -628,9 +629,9 @@ namespace Wms12m
         /// <para>Gelen değeri Long (Int64) türüne dönüştürür.</para>
         /// Hata olursa defaultValue parametresi döner.
         /// </summary>
-        public static long ToLong(this object Deger, long defaultValue = 0)
+        public static long ToLong(this object value, long defaultValue = 0)
         {
-            try { return Convert.ToInt64(Deger); }
+            try { return Convert.ToInt64(value); }
             catch { return defaultValue; }
         }
 
@@ -638,37 +639,37 @@ namespace Wms12m
         /// <para>Gelen tarihi Int32 türüne dönüştürür.</para>
         /// Hata olursa defaultValue parametresi döner.
         /// </summary>
-        public static int ToOADateInt(this DateTime Deger, int defaultValue = 0)
+        public static int ToOADateInt(this DateTime value, int defaultValue = 0)
         {
-            try { return Convert.ToInt32(Deger.ToOADate()); }
+            try { return Convert.ToInt32(value.ToOADate()); }
             catch { return defaultValue; }
         }
 
         /// <summary>
         /// DateTime tipindeki saat kısmını alıp int olarak saat değeri üretir.
         /// </summary>
-        public static int ToOaTime(this DateTime Deger)
+        public static int ToOaTime(this DateTime value)
         {
-            return Deger.Hour * 60 * 60 + Deger.Minute * 60 + Deger.Second;
+            return value.Hour * 60 * 60 + value.Minute * 60 + value.Second;
         }
 
-        public static ObservableCollection<T> ToObservableCollection<T>(this IEnumerable<T> Coll)
+        public static ObservableCollection<T> ToObservableCollection<T>(this IEnumerable<T> coll)
         {
-            return new ObservableCollection<T>(Coll);
+            return new ObservableCollection<T>(coll);
         }
 
         /// <summary>
         /// custom ondalık format
         /// </summary>
-        public static string ToOnFormat(this decimal Deger)
+        public static string ToOnFormat(this decimal value)
         {
-            string[] dizi = Deger.ToString().Split(',');
-            var sdeger = string.Empty;
+            string[] dizi = value.ToString().Split(',');
+            string sdeger;
 
             if (dizi.Length > 1)
-                sdeger = string.Format(string.Format("{{0:n{0}}}", dizi[1].Length), Deger);
+                sdeger = string.Format(string.Format("{{0:n{0}}}", dizi[1].Length), value);
             else
-                sdeger = string.Format("{0:n0}", Deger);
+                sdeger = string.Format("{0:n0}", value);
 
             return sdeger;
         }
@@ -677,11 +678,11 @@ namespace Wms12m
         /// <para>Gelen değeri string olarak alır ve ifadeyi ters çevirir.</para>
         /// Hata olursa defaultValue döner.
         /// </summary>
-        public static string ToReverse(this string Deger, string defaultValue = "?")
+        public static string ToReverse(this string value, string defaultValue = "?")
         {
             try
             {
-                char[] dizi = Deger.ToCharArray();
+                char[] dizi = value.ToCharArray();
                 Array.Reverse(dizi);
                 return new string(dizi);
             }
@@ -692,9 +693,9 @@ namespace Wms12m
         /// <para>Gelen değeri Short (Int16) türüne dönüştürür.</para>
         /// Hata olursa defaultValue parametresi döner.
         /// </summary>
-        public static short ToShort(this object Deger, short defaultValue = 0)
+        public static short ToShort(this object value, short defaultValue = 0)
         {
-            try { return Convert.ToInt16(Deger); }
+            try { return Convert.ToInt16(value); }
             catch { return defaultValue; }
         }
 
@@ -702,9 +703,9 @@ namespace Wms12m
         /// <para>Gelen değeri String türüne dönüştürür.</para>
         /// Trimle boşluklar atılır. Hata olursa defaultValue döner.
         /// </summary>
-        public static string ToString2(this object Deger, string defaultValue = "")
+        public static string ToString2(this object value, string defaultValue = "")
         {
-            try { return Convert.ToString(Deger).Trim(); }
+            try { return Convert.ToString(value).Trim(); }
             catch { return defaultValue; }
         }
 
