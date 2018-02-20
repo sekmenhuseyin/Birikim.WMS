@@ -14,7 +14,7 @@ namespace Wms12m.Presentation.Controllers
         /// <summary>
         /// giriş sayfası
         /// </summary>
-        private Result Result;
+        private Result _result;
 
         public ActionResult Login()
         {
@@ -32,26 +32,26 @@ namespace Wms12m.Presentation.Controllers
         /// giriş işlemleri
         /// </summary>
         [HttpPost]
-        public JsonResult Login(User P, string RememberMe, string SirketKodu = "")
+        public JsonResult Login(User p, string RememberMe, string SirketKodu = "")
         {
-            Result = new Result();
+            _result = new Result();
             var fn = new Functions();
             using (var db = new WMSEntities())
             {
-                using (var _Person = new Persons())
+                using (var person = new Persons())
                     try
                     {
-                        if (string.IsNullOrEmpty(P.Kod) || string.IsNullOrEmpty(P.Sifre)) { }
+                        if (string.IsNullOrEmpty(p.Kod) || string.IsNullOrEmpty(p.Sifre)) { }
                         else
                         {
-                            Result = _Person.Login(P, fn.GetIPAddress());
-                            if (Result.Id > 0)
+                            _result = person.Login(p, fn.GetIPAddress());
+                            if (_result.Id > 0)
                             {
-                                var sirket = SirketKodu == "" ? db.GetSirkets().FirstOrDefault() : db.GetSirkets().Where(m => m.Kod == SirketKodu).FirstOrDefault();
-                                Authentication.CreateAuth((User)Result.Data, RememberMe == "1" ? true : false, sirket);
+                                var sirket = SirketKodu == "" ? db.GetSirkets().FirstOrDefault() : db.GetSirkets().FirstOrDefault(m => m.Kod == SirketKodu);
+                                Authentication.CreateAuth((User)_result.Data, RememberMe == "1", sirket);
                             }
                             else
-                                db.LogLogins(P.Kod, fn.GetIPAddress(), false, Result.Message);
+                                db.LogLogins(p.Kod, fn.GetIPAddress(), false, _result.Message);
                         }
                     }
                     catch (Exception ex)
@@ -59,17 +59,17 @@ namespace Wms12m.Presentation.Controllers
                         var inner = "";
                         if (ex.InnerException != null)
                         {
-                            inner = ex.InnerException == null ? "" : ex.InnerException.Message;
+                            inner = ex.InnerException?.Message;
                             if (ex.InnerException.InnerException != null) inner += ": " + ex.InnerException.InnerException.Message;
                         }
 
-                        db.Logger(P.Kod, "", fn.GetIPAddress(), ex.Message, inner, "Security/Login");
-                        db.LogLogins(P.Kod, fn.GetIPAddress(), false, ex.Message);
+                        db.Logger(p.Kod, "", fn.GetIPAddress(), ex.Message, inner, "Security/Login");
+                        db.LogLogins(p.Kod, fn.GetIPAddress(), false, ex.Message);
                         return null;
                     }
             }
 
-            return Json(new { data = (Result.Status) }, JsonRequestBehavior.AllowGet);
+            return Json(new { data = (_result.Status) }, JsonRequestBehavior.AllowGet);
         }
 
         /// <summary>

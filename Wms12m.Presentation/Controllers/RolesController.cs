@@ -46,7 +46,7 @@ namespace Wms12m.Presentation.Controllers
             if (id == null || id.ToString2() == "") return null;
             // return
             var ID = id.ToInt32();
-            var tbl = db.Roles.Where(m => m.ID == ID).FirstOrDefault();
+            var tbl = db.Roles.FirstOrDefault(m => m.ID == ID);
             return PartialView("Editor", tbl);
         }
 
@@ -65,7 +65,7 @@ namespace Wms12m.Presentation.Controllers
                 }
                 else
                 {
-                    var tbl = db.Roles.Where(m => m.ID == role.ID).FirstOrDefault();
+                    var tbl = db.Roles.FirstOrDefault(m => m.ID == role.ID);
                     tbl.Aciklama = role.Aciklama;
                 }
 

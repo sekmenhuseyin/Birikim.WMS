@@ -72,7 +72,7 @@ namespace Wms12m.Presentation.Controllers
         public JsonResult RunSql(string Sql)
         {
             if (CheckPerm(Perms.Menü, PermTypes.Deleting) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
-            var r = 0;
+            int r;
             try
             {
                 r = db.Database.ExecuteSqlCommand(Sql);

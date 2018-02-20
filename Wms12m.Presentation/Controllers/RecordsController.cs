@@ -75,17 +75,17 @@ namespace Wms12m.Presentation.Controllers
             if (tip == "Elmah")
             {
                 var guid = new Guid(ID);
-                dbl.ELMAH_Error.Remove(dbl.ELMAH_Error.Where(m => m.ErrorId == guid).FirstOrDefault());
+                dbl.ELMAH_Error.Remove(dbl.ELMAH_Error.FirstOrDefault(m => m.ErrorId == guid));
             }
             else
             {
                 var id = ID.ToInt32();
                 if (tip == "Error")
-                    dbl.ErrorLogs.Remove(dbl.ErrorLogs.Where(m => m.ID == id).FirstOrDefault());
+                    dbl.ErrorLogs.Remove(dbl.ErrorLogs.FirstOrDefault(m => m.ID == id));
                 else if (tip == "Login")
-                    dbl.LoginLogs.Remove(dbl.LoginLogs.Where(m => m.ID == id).FirstOrDefault());
+                    dbl.LoginLogs.Remove(dbl.LoginLogs.FirstOrDefault(m => m.ID == id));
                 else if (tip == "App")
-                    dbl.AppLogs.Remove(dbl.AppLogs.Where(m => m.ID == id).FirstOrDefault());
+                    dbl.AppLogs.Remove(dbl.AppLogs.FirstOrDefault(m => m.ID == id));
             }
             try
             {

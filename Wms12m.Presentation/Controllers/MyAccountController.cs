@@ -1,6 +1,6 @@
-﻿using System.Linq;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using Wms12m.Entity;
+using static System.IO.File;
 
 namespace Wms12m.Presentation.Controllers
 {
@@ -21,7 +21,7 @@ namespace Wms12m.Presentation.Controllers
         {
             if (CheckPerm(Perms.Kullanıcılar, PermTypes.Deleting) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             // if exists delete
-            if (System.IO.File.Exists(Server.MapPath("/Content/Uploads/" + ID + ".jpg")) == true) System.IO.File.Delete(Server.MapPath("/Content/Uploads/" + ID + ".jpg"));
+            if (Exists(Server.MapPath("/Content/Uploads/" + ID + ".jpg"))) Delete(Server.MapPath("/Content/Uploads/" + ID + ".jpg"));
             // return
             return Json(new Result(true, 1), JsonRequestBehavior.AllowGet);
         }

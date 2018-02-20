@@ -1,7 +1,6 @@
 ﻿using Excel;
 using System;
 using System.Collections.Generic;
-using System.Data;
 using System.IO;
 using System.Linq;
 using System.Web;
@@ -86,7 +85,7 @@ namespace Wms12m.Presentation.Controllers
                     }
                     else//daha önce eklenen bir irsaliye ise
                     {
-                        var kontrol1 = db.Gorevs.Where(m => m.IR.EvrakNo == irsNo && m.IR.IslemTur == false && (m.DurumID == 9 || m.DurumID == 11)).FirstOrDefault();
+                        var kontrol1 = db.Gorevs.FirstOrDefault(m => m.IR.EvrakNo == irsNo && m.IR.IslemTur == false && (m.DurumID == 9 || m.DurumID == 11));
                         if (kontrol1 != null)
                             return Json(new Result(false, 0, kontrol1.IR.EvrakNo + " nolu irsaliye daha önce kaydedilmiş."), JsonRequestBehavior.AllowGet);
                     }
@@ -96,7 +95,7 @@ namespace Wms12m.Presentation.Controllers
                     try
                     {
                         // malkodu kontrol
-                        var kontrol2 = db.IRS_Detay.Where(m => m.MalKodu == malStk.MalKodu && m.IR.EvrakNo == irsNo && m.IR.IslemTur == false).FirstOrDefault();
+                        var kontrol2 = db.IRS_Detay.FirstOrDefault(m => m.MalKodu == malStk.MalKodu && m.IR.EvrakNo == irsNo && m.IR.IslemTur == false);
                         if (kontrol2 != null)
                             return Json(new Result(false, 0, kontrol2.IR.EvrakNo + " nolu irsaliyeye daha önce " + malStk.MalKodu + " eklenmiş."), JsonRequestBehavior.AllowGet);
                         // irs detay

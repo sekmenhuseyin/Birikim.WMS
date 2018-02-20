@@ -33,21 +33,23 @@ namespace Wms12m.Presentation.Controllers
             }
             catch (Exception)
             {
+                // ignored
             }
             // Bekleyen Onaylar
-            if (setts.OnayCek == true || setts.OnayFiyat == true || setts.OnayRisk == true || setts.OnaySiparis == true || setts.OnaySozlesme == true || setts.OnayStok == true || setts.OnayTekno == true || setts.OnayTeminat == true)
-                try
-                {
-                    bo = theCharts.BekleyenOnaylar(tbl.yetki.Contains("'DashboardKasa'"));
-                }
-                catch (Exception ex)
-                {
-                    Logger(ex, "Home/Index");
-                }
+            if (setts.OnayCek || setts.OnayFiyat || setts.OnayRisk || setts.OnaySiparis || setts.OnaySozlesme || setts.OnayStok || setts.OnayTekno || setts.OnayTeminat)
+                if (tbl != null)
+                    try
+                    {
+                        bo = theCharts.BekleyenOnaylar(tbl.yetki.Contains("'DashboardKasa'"));
+                    }
+                    catch (Exception ex)
+                    {
+                        Logger(ex, "Home/Index");
+                    }
             ViewBag.BekleyenOnaylar = bo;
             // etkinlikler
             var tblEtki = db.Etkinliks.Where(m => m.Tekrarlayan == false && (m.TatilTipi == 76 || m.TatilTipi == 78) && m.Tarih == DateTime.Today).ToList();
-            var tekrarlayan = db.Etkinliks.Where(m => m.Tekrarlayan == true && (m.TatilTipi == 76 || m.TatilTipi == 78) && m.Tarih.Day == DateTime.Today.Day && m.Tarih.Month == DateTime.Today.Month).ToList();
+            var tekrarlayan = db.Etkinliks.Where(m => m.Tekrarlayan && (m.TatilTipi == 76 || m.TatilTipi == 78) && m.Tarih.Day == DateTime.Today.Day && m.Tarih.Month == DateTime.Today.Month).ToList();
             foreach (var item in tekrarlayan)
             {
                 var fark = DateTime.Today.Year - item.Tarih.Year;
@@ -66,56 +68,59 @@ namespace Wms12m.Presentation.Controllers
             ViewBag.IslemTip = islemtip;
             ViewBag.Kriter = kod;
             ViewBag.Doviz = doviz;
-            if (tbl.yetki.Contains("'ChartGunlukSatis'") == true)
+            if (tbl != null)
             {
-                ViewBag.ChartGunlukSatis = theCharts.ChartGunlukSatisAnalizi(tarih);
-                ViewBag.ChartGunlukZaman = theCharts.ChartGunlukZaman();
-                ViewBag.ChartYear2Day = theCharts.ChartYear2Day();
-                ViewBag.ChartGunlukSatisKriter = theCharts.ChartGunlukSatisAnalizi(kod, islemtip, tarih);
-            }
-            if (tbl.yetki.Contains("'ChartAylikSatisAnaliziBar'") == true)
-            {
-                ViewBag.ChartAylikSatis = dbl.DB_Aylik_SatisAnalizi.Where(m => m.DB == vUser.SirketKodu).ToList();
-                ViewBag.ChartAylikSatisKodTipDoviz = dbl.DB_Aylik_SatisAnalizi_Tip_Kod_Doviz.Where(m => m.DB == vUser.SirketKodu && m.Grup == kod && m.Kriter == doviz && m.IslemTip == islemtip).ToList();
-            }
-            if (tbl.yetki.Contains("'ChartUrunGrubuSatis'") == true)
-            {
-                ViewBag.Kriter = doviz;
-                ViewBag.ChartUrunGrubuSatis = dbl.DB_UrunGrubu_SatisAnalizi.Where(m => m.DB == vUser.SirketKodu && m.Ay == 0).ToList();
-                ViewBag.ChartUrunGrubuSatisKriter = dbl.DB_UrunGrubu_SatisAnalizi_Kriter.Where(m => m.DB == vUser.SirketKodu && m.Ay == tarih && m.GrupKod == doviz).ToList();
-            }
-            if (tbl.yetki.Contains("'ChartLokasyonSatis'") == true)
-            {
-                ViewBag.Kriter = doviz;
-                ViewBag.ChartLokasyonSatis = dbl.DB_LokasyonBazli_SatisAnalizi.Where(m => m.DB == vUser.SirketKodu && m.Ay == tarih).ToList();
-                ViewBag.ChartLokasyonSatisKriter = dbl.DB_LokasyonBazli_SatisAnalizi_Kriter.Where(m => m.DB == vUser.SirketKodu && m.Ay == tarih && m.GrupKod == doviz).ToList();
-            }
-            if (tbl.yetki.Contains("'ChartBakiyeRiskAnalizi'") == true)
-            {
-                ViewBag.ChartBakiyeRisk = dbl.DB_BakiyeRiskAnalizi.Where(m => m.DB == vUser.SirketKodu).ToList();
-            }
-            if (tbl.yetki.Contains("'ChartBaglantiUrunGrubu'") == true)
-            {
-                ViewBag.ChartBaglantiUrunGrubu = dbl.DB_SatisBaglanti_UrunGrubu.Where(m => m.DB == vUser.SirketKodu).ToList();
-            }
-            if (tbl.yetki.Contains("'ChartGunlukMDFUretimi'") == true)
-            {
-                ViewBag.ChartGunlukMDFUretimi = theCharts.ChartGunlukMdfUretimi(tarih);
-            }
-            if (tbl.yetki.Contains("'ChartBaglantiZamanCizelgesi'") == true)
-            {
-                ViewBag.ChartBaglantiZamanCizelgesi = theCharts.ChartBaglantiZaman();
-            }
-            if (tbl.yetki.Contains("'ChartBolgeBazliSatisAnalizi'") == true)
-            {
-                ViewBag.ChartBolgeBazliSatis = theCharts.ChartBolgeBazliSatisAnalizi(ay, kod);
-            }
-            if (tbl.yetki.Contains("'ChartBekleyenSiparisUrunGrubu'") == true)
-            {
-                ViewBag.ChartBekleyenSiparisUrunGrubu = dbl.DB_SatisBaglanti_UrunGrubu.Where(m => m.DB == vUser.SirketKodu).ToList();
-                ViewBag.ChartBekleyenSiparisUrunGrubuMiktar = dbl.DB_SatisBaglanti_UrunGrubu.Where(m => m.DB == vUser.SirketKodu).ToList();
-                ViewBag.ChartBekleyenSiparisUrunGrubuMiktarKriter = dbl.DB_SatisBaglanti_UrunGrubu.Where(m => m.DB == vUser.SirketKodu).ToList();
-                ViewBag.ChartBekleyenSiparisMusteri = dbl.DB_SatisBaglanti_UrunGrubu.Where(m => m.DB == vUser.SirketKodu).ToList();
+                if (tbl.yetki.Contains("'ChartGunlukSatis'"))
+                {
+                    ViewBag.ChartGunlukSatis = theCharts.ChartGunlukSatisAnalizi(tarih);
+                    ViewBag.ChartGunlukZaman = theCharts.ChartGunlukZaman();
+                    ViewBag.ChartYear2Day = theCharts.ChartYear2Day();
+                    ViewBag.ChartGunlukSatisKriter = theCharts.ChartGunlukSatisAnalizi(kod, islemtip, tarih);
+                }
+                if (tbl.yetki.Contains("'ChartAylikSatisAnaliziBar'"))
+                {
+                    ViewBag.ChartAylikSatis = dbl.DB_Aylik_SatisAnalizi.Where(m => m.DB == vUser.SirketKodu).ToList();
+                    ViewBag.ChartAylikSatisKodTipDoviz = dbl.DB_Aylik_SatisAnalizi_Tip_Kod_Doviz.Where(m => m.DB == vUser.SirketKodu && m.Grup == kod && m.Kriter == doviz && m.IslemTip == islemtip).ToList();
+                }
+                if (tbl.yetki.Contains("'ChartUrunGrubuSatis'"))
+                {
+                    ViewBag.Kriter = doviz;
+                    ViewBag.ChartUrunGrubuSatis = dbl.DB_UrunGrubu_SatisAnalizi.Where(m => m.DB == vUser.SirketKodu && m.Ay == 0).ToList();
+                    ViewBag.ChartUrunGrubuSatisKriter = dbl.DB_UrunGrubu_SatisAnalizi_Kriter.Where(m => m.DB == vUser.SirketKodu && m.Ay == tarih && m.GrupKod == doviz).ToList();
+                }
+                if (tbl.yetki.Contains("'ChartLokasyonSatis'"))
+                {
+                    ViewBag.Kriter = doviz;
+                    ViewBag.ChartLokasyonSatis = dbl.DB_LokasyonBazli_SatisAnalizi.Where(m => m.DB == vUser.SirketKodu && m.Ay == tarih).ToList();
+                    ViewBag.ChartLokasyonSatisKriter = dbl.DB_LokasyonBazli_SatisAnalizi_Kriter.Where(m => m.DB == vUser.SirketKodu && m.Ay == tarih && m.GrupKod == doviz).ToList();
+                }
+                if (tbl.yetki.Contains("'ChartBakiyeRiskAnalizi'"))
+                {
+                    ViewBag.ChartBakiyeRisk = dbl.DB_BakiyeRiskAnalizi.Where(m => m.DB == vUser.SirketKodu).ToList();
+                }
+                if (tbl.yetki.Contains("'ChartBaglantiUrunGrubu'"))
+                {
+                    ViewBag.ChartBaglantiUrunGrubu = dbl.DB_SatisBaglanti_UrunGrubu.Where(m => m.DB == vUser.SirketKodu).ToList();
+                }
+                if (tbl.yetki.Contains("'ChartGunlukMDFUretimi'"))
+                {
+                    ViewBag.ChartGunlukMDFUretimi = theCharts.ChartGunlukMdfUretimi(tarih);
+                }
+                if (tbl.yetki.Contains("'ChartBaglantiZamanCizelgesi'"))
+                {
+                    ViewBag.ChartBaglantiZamanCizelgesi = theCharts.ChartBaglantiZaman();
+                }
+                if (tbl.yetki.Contains("'ChartBolgeBazliSatisAnalizi'"))
+                {
+                    ViewBag.ChartBolgeBazliSatis = theCharts.ChartBolgeBazliSatisAnalizi(ay, kod);
+                }
+                if (tbl.yetki.Contains("'ChartBekleyenSiparisUrunGrubu'"))
+                {
+                    ViewBag.ChartBekleyenSiparisUrunGrubu = dbl.DB_SatisBaglanti_UrunGrubu.Where(m => m.DB == vUser.SirketKodu).ToList();
+                    ViewBag.ChartBekleyenSiparisUrunGrubuMiktar = dbl.DB_SatisBaglanti_UrunGrubu.Where(m => m.DB == vUser.SirketKodu).ToList();
+                    ViewBag.ChartBekleyenSiparisUrunGrubuMiktarKriter = dbl.DB_SatisBaglanti_UrunGrubu.Where(m => m.DB == vUser.SirketKodu).ToList();
+                    ViewBag.ChartBekleyenSiparisMusteri = dbl.DB_SatisBaglanti_UrunGrubu.Where(m => m.DB == vUser.SirketKodu).ToList();
+                }
             }
             // return
             return View("Index", tbl);
@@ -127,7 +132,7 @@ namespace Wms12m.Presentation.Controllers
         public ActionResult GoTo(string Id)
         {
             var ID = Id.ToInt32();
-            var satir = db.Messages.Where(m => m.ID == ID).FirstOrDefault();
+            var satir = db.Messages.FirstOrDefault(m => m.ID == ID);
             if (satir.Okundu == false)
             {
                 satir.Okundu = true;
@@ -165,7 +170,7 @@ namespace Wms12m.Presentation.Controllers
         public PartialViewResult Notifications(bool Onay = false)
         {
             // sadece onaylama ise kaydet yeter
-            if (Onay == true)
+            if (Onay)
             {
                 var tablo = db.Messages.Where(m => m.MesajTipi == 85 && m.Kime == vUser.UserName && m.Okundu == false).ToList();
                 foreach (var item in tablo.Where(m => m.Okundu == false))
@@ -427,7 +432,7 @@ namespace Wms12m.Presentation.Controllers
             ViewBag.MiktarTutar = "Miktar";
             if (CheckPerm(Perms.ChartBekleyenSiparisUrunGrubu, PermTypes.Reading) == false) return PartialView("Satis/BekleyenSiparisUrunGrubuMiktar", new List<CachedChartBekleyenUrunMiktarFiyat_Result>());
             List<CachedChartBekleyenUrunMiktarFiyat_Result> liste;
-            if (miktarTutar == true)
+            if (miktarTutar)
             {
                 liste = db.CachedChartBekleyenUrunMiktarFiyat(vUser.SirketKodu, true).ToList();
                 ViewBag.MiktarTutar = "Miktar";
@@ -470,7 +475,7 @@ namespace Wms12m.Presentation.Controllers
             ViewBag.MiktarTutar = "Miktar";
             if (CheckPerm(Perms.ChartBekleyenSiparisUrunGrubu, PermTypes.Reading) == false) return PartialView("Satis/BekleyenSiparisUrunGrubuMiktarPie", new List<CachedChartBekleyenUrunMiktarFiyat_Result>());
             List<CachedChartBekleyenUrunMiktarFiyat_Result> liste;
-            if (miktarTutar == true)
+            if (miktarTutar)
             {
                 liste = db.CachedChartBekleyenUrunMiktarFiyat(vUser.SirketKodu, true).ToList();
                 if (liste.Count == 0)

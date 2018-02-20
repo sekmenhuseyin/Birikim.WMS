@@ -18,9 +18,9 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public PartialViewResult List(string search)
         {
-            ViewBag.Topics = db.FAQs.Where(m => m.Active == true).GroupBy(m => new frmGorevli { Gorevli = m.ComboItem_Name.Name, ID = m.TopicTypeID }).Select(m => m.Key).ToList();
-            var liste = db.FAQs.Where(m => m.Active == true);
-            if (search != "" && search != null)
+            ViewBag.Topics = db.FAQs.Where(m => m.Active).GroupBy(m => new frmGorevli { Gorevli = m.ComboItem_Name.Name, ID = m.TopicTypeID }).Select(m => m.Key).ToList();
+            var liste = db.FAQs.Where(m => m.Active);
+            if (!string.IsNullOrEmpty(search))
                 liste = liste.Where(m => m.Title.Contains(search) || m.Detail.Contains(search));
             return PartialView("List", liste.OrderBy(m => m.TopicTypeID).ToList());
         }
@@ -48,10 +48,13 @@ namespace Wms12m.Presentation.Controllers
                 }
                 else
                 {
-                    var tbl = db.FAQs.Where(m => m.ID == satir.ID).FirstOrDefault();
-                    tbl.TopicTypeID = satir.TopicTypeID;
-                    tbl.Title = satir.Title;
-                    tbl.Detail = satir.Detail;
+                    var tbl = db.FAQs.FirstOrDefault(m => m.ID == satir.ID);
+                    if (tbl != null)
+                    {
+                        tbl.TopicTypeID = satir.TopicTypeID;
+                        tbl.Title = satir.Title;
+                        tbl.Detail = satir.Detail;
+                    }
                 }
 
                 try
@@ -61,6 +64,7 @@ namespace Wms12m.Presentation.Controllers
                 }
                 catch (Exception)
                 {
+                    // ignored
                 }
             }
 
@@ -73,7 +77,7 @@ namespace Wms12m.Presentation.Controllers
         public JsonResult Delete(string Id)
         {
             var tbl = db.FAQs.Find(Id.ToInt32());
-            db.FAQs.Remove(tbl);
+            if (tbl != null) db.FAQs.Remove(tbl);
             try
             {
                 db.SaveChanges();
@@ -96,7 +100,7 @@ namespace Wms12m.Presentation.Controllers
         public PartialViewResult FormEdit(int? id)
         {
             var tbl = db.FAQs.Find(id);
-            ViewBag.TopicTypeID = new SelectList(ComboSub.GetList(Combos.FaqTopics.ToInt32()), "ID", "Name", tbl.TopicTypeID);
+            ViewBag.TopicTypeID = new SelectList(ComboSub.GetList(Combos.FaqTopics.ToInt32()), "ID", "Name", tbl?.TopicTypeID ?? 0);
             return PartialView("FormEdit", tbl);
         }
     }

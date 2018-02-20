@@ -38,9 +38,9 @@ namespace Wms12m.Presentation.Controllers
         {
             if (ModelState.IsValid && rolePerm.RoleName != "" && rolePerm.PermName != "")
             {
-                if (CheckPerm(Perms.GrupYetkileri, PermTypes.Writing) == true)
+                if (CheckPerm(Perms.GrupYetkileri, PermTypes.Writing))
                 {
-                    var tbl = db.RolePerms.Where(m => m.ID == rolePerm.ID).FirstOrDefault();
+                    var tbl = db.RolePerms.FirstOrDefault(m => m.ID == rolePerm.ID);
                     if (tbl != null)
                     {
                         if (rolePerm.Reading != "on" && rolePerm.Writing != "on" && rolePerm.Updating != "on" && rolePerm.Updating != "on")
@@ -51,10 +51,10 @@ namespace Wms12m.Presentation.Controllers
                         }
                         else
                         {
-                            tbl.Reading = rolePerm.Reading == "on" ? true : false;
-                            tbl.Writing = rolePerm.Writing == "on" ? true : false;
-                            tbl.Updating = rolePerm.Updating == "on" ? true : false;
-                            tbl.Deleting = rolePerm.Deleting == "on" ? true : false;
+                            tbl.Reading = rolePerm.Reading == "on";
+                            tbl.Writing = rolePerm.Writing == "on";
+                            tbl.Updating = rolePerm.Updating == "on";
+                            tbl.Deleting = rolePerm.Deleting == "on";
                             tbl.ModifiedDate = DateTime.Now;
                             tbl.ModifiedUser = vUser.UserName;
                             // log
@@ -67,10 +67,10 @@ namespace Wms12m.Presentation.Controllers
                         {
                             PermName = rolePerm.PermName.Dehumanize(),
                             RoleName = rolePerm.RoleName,
-                            Reading = rolePerm.Reading == "on" ? true : false,
-                            Writing = rolePerm.Writing == "on" ? true : false,
-                            Updating = rolePerm.Updating == "on" ? true : false,
-                            Deleting = rolePerm.Deleting == "on" ? true : false,
+                            Reading = rolePerm.Reading == "on",
+                            Writing = rolePerm.Writing == "on",
+                            Updating = rolePerm.Updating == "on",
+                            Deleting = rolePerm.Deleting == "on",
                             RecordDate = DateTime.Now,
                             RecordUser = vUser.UserName,
                             ModifiedDate = DateTime.Now,
@@ -81,7 +81,7 @@ namespace Wms12m.Presentation.Controllers
                         LogActions("", "Perms", "Save", ComboItems.alEkle, tbl.ID, tbl.PermName + ": R:" + tbl.Reading + ", W:" + tbl.Writing + ", U:" + tbl.Updating + ", D:" + tbl.Deleting);
                     }
 
-                    if (tbl.Reading != false || tbl.Writing != false || tbl.Updating != false || tbl.Deleting != false || tbl.ID > 0)
+                    if (tbl.Reading || tbl.Writing || tbl.Updating || tbl.Deleting || tbl.ID > 0)
                         try { db.SaveChanges(); }
                         catch (Exception ex) { Logger(ex, "Perms/Save"); }
                 }

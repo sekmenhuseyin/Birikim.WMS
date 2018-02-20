@@ -93,8 +93,8 @@ namespace Wms12m.Presentation.Controllers
         public JsonResult Save(User tbl)
         {
             if (CheckPerm(Perms.Kullanıcılar, PermTypes.Writing) == false || tbl.ID == 1) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
-            var _Result = Persons.Operation(tbl);
-            return Json(_Result, JsonRequestBehavior.AllowGet);
+            var result = Persons.Operation(tbl);
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
 
         /// <summary>
@@ -104,8 +104,8 @@ namespace Wms12m.Presentation.Controllers
         public JsonResult Delete(int Id)
         {
             if (vUser.Id > 1 || Id == 1) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
-            var _Result = Persons.Delete(Id);
-            return Json(_Result, JsonRequestBehavior.AllowGet);
+            var result = Persons.Delete(Id);
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
 
         /// <summary>
@@ -141,7 +141,7 @@ namespace Wms12m.Presentation.Controllers
         public JsonResult ChangePass(frmUserChangePass tmp)
         {
             if (CheckPerm(Perms.Kullanıcılar, PermTypes.Writing) == false || tmp.ID == 1) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
-            var _Result = new Result();
+            var result = new Result();
             if (tmp.Password == tmp.Password2)
             {
                 var tbl = new User()
@@ -149,10 +149,10 @@ namespace Wms12m.Presentation.Controllers
                     ID = tmp.ID,
                     Sifre = tmp.Password
                 };
-                _Result = Persons.ChangePass(tbl);
+                result = Persons.ChangePass(tbl);
             }
 
-            return Json(_Result, JsonRequestBehavior.AllowGet);
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
 
         /// <summary>
@@ -195,26 +195,26 @@ namespace Wms12m.Presentation.Controllers
         {
             if (ModelState.IsValid && rolePerm.PermName != "")
             {
-                if (CheckPerm(Perms.Kullanıcılar, PermTypes.Writing) == true)
+                if (CheckPerm(Perms.Kullanıcılar, PermTypes.Writing))
                 {
                     rolePerm.PermName = rolePerm.PermName.Dehumanize();
-                    var tbl = db.UserPerms.Where(m => m.PermName == rolePerm.PermName && m.UserName == rolePerm.UserName).FirstOrDefault();
+                    var tbl = db.UserPerms.FirstOrDefault(m => m.PermName == rolePerm.PermName && m.UserName == rolePerm.UserName);
                     if (tbl == null)//ilk defa kayıt olacak
                     {
                         tbl = new UserPerm()
                         {
                             PermName = rolePerm.PermName,
                             UserName = rolePerm.UserName,
-                            Reading = rolePerm.Reading == "on" ? true : false,
-                            Writing = rolePerm.Writing == "on" ? true : false,
-                            Updating = rolePerm.Updating == "on" ? true : false,
-                            Deleting = rolePerm.Deleting == "on" ? true : false,
+                            Reading = rolePerm.Reading == "on",
+                            Writing = rolePerm.Writing == "on",
+                            Updating = rolePerm.Updating == "on",
+                            Deleting = rolePerm.Deleting == "on",
                             RecordDate = DateTime.Now,
                             RecordUser = vUser.UserName,
                             ModifiedDate = DateTime.Now,
                             ModifiedUser = vUser.UserName
                         };
-                        if (tbl.Reading == true || tbl.Writing == true || tbl.Updating == true || tbl.Deleting == true)
+                        if (tbl.Reading || tbl.Writing || tbl.Updating || tbl.Deleting)
                         {
                             db.UserPerms.Add(tbl);
                             LogActions("", "Users", "SavePerm", ComboItems.alEkle, 0, "PermName: " + tbl.PermName + ", UserName: " + tbl.UserName + ", R: " + tbl.Reading + ", W: " + tbl.Writing + ", U: " + tbl.Updating + ", D: " + tbl.Deleting);
@@ -229,10 +229,10 @@ namespace Wms12m.Presentation.Controllers
                         }
                         else
                         {
-                            tbl.Reading = rolePerm.Reading == "on" ? true : false;
-                            tbl.Writing = rolePerm.Writing == "on" ? true : false;
-                            tbl.Updating = rolePerm.Updating == "on" ? true : false;
-                            tbl.Deleting = rolePerm.Deleting == "on" ? true : false;
+                            tbl.Reading = rolePerm.Reading == "on";
+                            tbl.Writing = rolePerm.Writing == "on";
+                            tbl.Updating = rolePerm.Updating == "on";
+                            tbl.Deleting = rolePerm.Deleting == "on";
                             tbl.ModifiedDate = DateTime.Now;
                             tbl.ModifiedUser = vUser.UserName;
                             LogActions("", "Users", "SavePerm", ComboItems.alDüzenle, 0, "PermName: " + tbl.PermName + ", UserName: " + tbl.UserName + ", R: " + tbl.Reading + ", W: " + tbl.Writing + ", U: " + tbl.Updating + ", D: " + tbl.Deleting);
@@ -258,11 +258,11 @@ namespace Wms12m.Presentation.Controllers
         public JsonResult DeletePerm(string Id)
         {
             if (CheckPerm(Perms.Kullanıcılar, PermTypes.Deleting) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
-            string[] ids = Id.ToString().Split('#');
+            string[] ids = Id.Split('#');
             string pname = ids[0], uname = ids[1];
             try
             {
-                var tbl = db.UserPerms.Where(m => m.PermName == pname && m.UserName == uname).FirstOrDefault();
+                var tbl = db.UserPerms.FirstOrDefault(m => m.PermName == pname && m.UserName == uname);
                 if (tbl != null)
                 {
                     db.UserPerms.Remove(tbl);
@@ -277,13 +277,13 @@ namespace Wms12m.Presentation.Controllers
             }
 
             // return
-            var _Result = new Result()
+            var result = new Result()
             {
                 Id = 1,
                 Message = "İşlem Başarılı !!!",
                 Status = true
             };
-            return Json(_Result, JsonRequestBehavior.AllowGet);
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
 
         #endregion Permissions
@@ -451,7 +451,7 @@ namespace Wms12m.Presentation.Controllers
         public PartialViewResult YetkiDuzenle(int ID)
         {
             if (CheckPerm(Perms.Kullanıcılar, PermTypes.Reading) == false || ID == 1) return null;
-            var tbl = db.UserDetails.Where(m => m.UserID == ID).FirstOrDefault();
+            var tbl = db.UserDetails.FirstOrDefault(m => m.UserID == ID);
             var yetki = new SipOnayYetkiler();
             if (tbl != null)
             {
@@ -463,12 +463,12 @@ namespace Wms12m.Presentation.Controllers
             }
             else
             {
-                var grv = db.Users.Where(m => m.ID == ID).FirstOrDefault();
+                var grv = db.Users.FirstOrDefault(m => m.ID == ID);
                 yetki.GostCHKKodAlani = "";
                 yetki.GostKod3OrtBakiye = "";
                 yetki.GostRiskDeger = "";
                 yetki.GostSTKDeger = "";
-                yetki.AdSoyad = grv.AdSoyad;
+                if (grv != null) yetki.AdSoyad = grv.AdSoyad;
             }
 
             ViewBag.ID = ID;
@@ -480,8 +480,8 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public string TipKodSelect()
         {
-            var KOD = db.Database.SqlQuery<RaporGetKod>(string.Format("[FINSAT6{0}].[wms].[DB_GetTipKod]", vUser.SirketKodu)).ToList();
-            var json = new JavaScriptSerializer().Serialize(KOD);
+            var kod = db.Database.SqlQuery<RaporGetKod>(string.Format("[FINSAT6{0}].[wms].[DB_GetTipKod]", vUser.SirketKodu)).ToList();
+            var json = new JavaScriptSerializer().Serialize(kod);
             return json;
         }
 
@@ -491,8 +491,8 @@ namespace Wms12m.Presentation.Controllers
         public JsonResult ParametreUpdate(string CHKAraligi, string Tipler, string Kod3, string Risk, int ID)
         {
             if (CheckPerm(Perms.Kullanıcılar, PermTypes.Writing) == false || ID == 1) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
-            var _Result = new Result(false, "Hata Oluştu. ");
-            var tbl = db.UserDetails.Where(m => m.UserID == ID).FirstOrDefault();
+            var result = new Result(false, "Hata Oluştu. ");
+            var tbl = db.UserDetails.FirstOrDefault(m => m.UserID == ID);
             if (tbl != null)
                 db.Database.ExecuteSqlCommand(string.Format("UPDATE BIRIKIM.usr.UserDetails SET GostKod3OrtBakiye = '{0}', GostRiskDeger = '{1}', GostSTKDeger = '{2}', GostCHKKodAlani = '{3}' WHERE UserID = {4}", Kod3, Risk, Tipler, CHKAraligi, ID));
             else
@@ -509,14 +509,16 @@ namespace Wms12m.Presentation.Controllers
             try
             {
                 db.SaveChanges();
-                _Result.Status = true;
-                _Result.Id = ID;
-                _Result.Message = "İşlem Başarılı ";
+                result.Status = true;
+                result.Id = ID;
+                result.Message = "İşlem Başarılı ";
             }
             catch (Exception)
             {
+                // ignored
             }
-            return Json(_Result, JsonRequestBehavior.AllowGet);
+
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
     }
 }
