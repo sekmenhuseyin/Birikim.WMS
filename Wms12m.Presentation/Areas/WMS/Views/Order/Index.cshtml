@@ -1,14 +1,7 @@
 ﻿@{
     ViewBag.Title = "Sipariş Planlama";
     Layout = "~/Views/Shared/_Layout.cshtml";
-}
-
-
-<link href="~/Content/jquery.dataTables.min.css" rel="stylesheet" />
-
-<script src="~/Content/jquery.dataTables.min.js"></script>
-
-<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><a href="/WMS/Order">Sipariş Planlama</a><i class="fa fa-circle"></i></li></ul></div>
+}<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><a href="/WMS/Order">Sipariş Planlama</a><i class="fa fa-circle"></i></li></ul></div>
 <h1 class="page-title">Sipariş Planlama</h1>
 <div class="row">
     <div class="col-md-12">
@@ -20,17 +13,14 @@
                 <div class="col-sm-2 pull-right m-t-5">
                     <button type="button" class="btn btn-block input-circle btn-danger" onclick="ClearAll(true);">Temizle</button>
                 </div>
-
             </div>
             <div class="portlet-body form">
                 @using (Ajax.BeginForm("Save", "Transfer", new { area = "UYS" }, new AjaxOptions { InsertionMode = InsertionMode.Replace, OnSuccess = "getresult", OnFailure = "Modaldialog('Lütfen Tekrar Deneyin', 'Hata', 'Tamam', 'btn-danger');" }, new { @class = "form-horizontal", @id = "frmTransfer" }))
                 {
                     @Html.AntiForgeryToken()
                     @Html.ValidationSummary(true)
-
                     <div class="form-horizontal">
                         <div class="form-body">
-
                             <div class="form-group">
                                 <div class="col-sm-3 control-label">Müşteri Seçimi</div>
                                 <div class="col-sm-3">
@@ -49,17 +39,12 @@
                                     <input class="form-control input-circle" id="MalAdi" name="MalAdi" placeholder="Mal Adı" required="required" type="text" value="" aria-required="true">
                                 </div>
                             </div>
-                           
-                             
-                              
-                          
                             <div class="form-group">
                                 <div class="col-sm-3 control-label">Depo</div>
                                 <div class="col-sm-3">
                                     @Html.DropDownList("DepoID", null, htmlAttributes: new { @class = "form-control input-circle" })
                                 </div>
                             </div>
-
                             <div class="form-group">
                                 <label class="col-md-3 control-label">Fiyat</label>
                                 <div class="col-sm-2">
@@ -75,7 +60,7 @@
                                                 <input class="form-control input-circle" type="text" name="valor" id="valor" value="0">
                                             </td>
                                             <td>
-                                              <input type="checkbox" name="valortarih" id="valortarih">
+                                                <input type="checkbox" name="valortarih" id="valortarih">
                                             </td>
                                         </tr>
                                     </table>
@@ -112,16 +97,13 @@
                                     <input class="form-control input-circle" type="text" name="aciklama" id="aciklama">
                                 </div>
                             </div>
-
                             <div>
                                 <input class="form-control input-circle" type="hidden" name="kdvoran1" id="kdvoran1">
                             </div>
-
                             <div class="form-group">
                                 <div class="col-sm-2 col-md-offset-3">
                                     <button type="button" class="btn btn-block input-circle green" onclick="NewRow();">Satır Ekle</button>
                                 </div>
-
                             </div>
                         </div>
                     </div>
@@ -166,213 +148,204 @@
                         </table>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
 </div>
 @section Scripts{
-    <script type="text/javascript">
-        var satir = 0;
-        $("#DepoID").prepend("<option value=''>Seçiniz !!!</option>"); $("#DepoID")[0].selectedIndex = 0;
-        $.datepicker.setDefaults($.datepicker.regional["tr"]);
-        $(".dateboxbg").datepicker();
-        $("#kdvoran1").prop("readonly", true);
-
-        $("#MalKodu").autocomplete({
-            source: "/WMS/Order/getMalzemebyCode",
-            minLength: 2,
-            select: function (event, ui) {
-                setTimeout(function () { $("#MalKodu").val(ui.item.id); $("#MalAdi").val(ui.item.value); }, 50);
-            }
-        });
-
-        $("#MalAdi").autocomplete({
-            source: "/WMS/Order/GetMalzemebyName",
-            minLength: 2,
-            select: function (event, ui) {
-                setTimeout(function () { $("#MalAdi").val(ui.item.value); $("#MalKodu").val(ui.item.id); }, 100);
-                GetSeri(ui.item.id);
-            }
-        });
-
-        $("#HesapKodu").autocomplete({
-            source: "/WMS/Order/GetChkKod",
-            minLength: 2,
-            select: function (event, ui) {
-                setTimeout(function () { $("#HesapKodu").val(ui.item.id); }, 50);
-            }
-        });
-
-        //Valor - Vade Tarih CheckBox Kontrol
-
-        $(function () {
-            var valortarih = $('input:checkbox[name=valortarih]');
-            if (valortarih.is(':checked') === false) {
-                $("#valor").prop("readonly", true);
-                $("#vadetarih").prop("readonly", false);
-            }
-        });
-        $('input[type=checkbox][name=valortarih]').change(function () {
-            if (this.checked) {
-                $("#valor").prop("readonly", false);
-                $("#vadetarih").prop("readonly", true);
-            }
-            else if (this.checked === false) {
-                $("#valor").prop("readonly", true);
-                $("#vadetarih").prop("readonly", false);
-            }
-        });
-
-
-        
-
-
-        function NewRow() {
-            if ($("#HesapKodu").val() == "" || $("#MalKodu").val() == "") {
-                Modaldialog("Tüm alanları doldurunuz", 'Hata', 'Tamam', 'btn-danger');
-                return;
-            }
-      
-           $.ajax({
-                type: 'GET',
-                url: "/WMS/Order/GetStock/",
-                data: { MalKodu: $("#MalKodu").val(), DepoKodu: $("#DepoID").val() },
-                dataType: "json",
-                success: function (data) {
-                    if (data == null) {
-                        Modaldialog("Bu ürünün stoğu yok", "Hata", "Tamam", "btn-danger");
-                        return;
-                    }
-                    else if (parseInt(data) < parseInt($("#miktar").val())) {
-                        Modaldialog("Bu ürünün stoğu yetersiz: " + numeral(data).format(), "Hata", "Tamam", "btn-danger");
-                        return;
-                    }
-                  
-
-                    var miktar = $("#miktar").val();
-                    var tutar = miktar * $("#fiyat").val();
-                    var iskoran = 0;
-                    if ($("#iskoran").val() != null || $("#iskoran").val() != "")
-                    { iskoran = $("#iskoran").val(); }
-                    var iskontotutar = tutar * (iskoran / 100);
-                    var aratoplam = tutar - iskontotutar;
-                    var KDVOran = $("#kdvoran1").val();
-                    var kdvtutar = aratoplam * (KDVOran / 100);
-                    var geneltoplam = aratoplam + kdvtutar;
-
-
-                    $('#myTable tbody').after('<tr class="deletable">' +
-                        '<td>' + $("#MalKodu").val() + '</td>' +
-                        '<td>' + $("#MalAdi").val() + '</td>' +
-                        '<td>' + $("#DepoID").val() + '</td>' +
-                        '<td>' + $("#miktar").val() + '</td>' +
-                        '<td>' + $("#fiyat").val() + '</td>' +
-                        '<td>' + tutar + '</td>' +
-                        '<td>' + iskoran + '</td>' +
-                        '<td>' + iskontotutar + '</td>' +
-                        '<td>' + aratoplam + '</td>' +
-                        '<td>' + kdvtutar + '</td>' +
-                        '<td>' + geneltoplam + '</td>' +
-                        '<td>' + $("#valor").val() + '</td>' +
-                        '<td>' + $("#vadetarih").val() + '</td>' +
-                        '<td>' +
-                        '<input name="MalKodu" type="hidden" value="' + $("#DepoID").val() + '">' +
-                        '<input name="MalKodu" type="hidden" value="' + $("#MalKodu").val() + '">' +
-                        '<input name="Miktar" type="hidden" value="' + $("#miktar").val() + '">' +
-                        '<input name="Fiyat" type="hidden" value="' + $("#fiyat").val() + '">' +
-                        '<input name="Fiyat" type="hidden" value="' + $("#valor").val() + '">' +
-                        '<input name="Fiyat" type="hidden" value="' + $("#vadetarih").val() + '">' +
-                                '<button type="button" class="btn btn-danger btn-block" onclick="DeleteRow(this);">Sil</button>' +
-                        '</td>' +
-                        '</tr>');
-                    ClearAll(false);
-                    satir++;
-                    $("#HesapKodu").prop("readonly", true);
-                },
-                error: function (data) { Modaldialog("Bu ürünün stoğu yok", "Hata", "Tamam", "btn-danger"); }
-            });
+<script type="text/javascript">
+    var satir = 0;
+    $("#DepoID").prepend("<option value=''>Seçiniz !!!</option>"); $("#DepoID")[0].selectedIndex = 0;
+    $.datepicker.setDefaults($.datepicker.regional["tr"]);
+    $(".dateboxbg").datepicker();
+    $("#kdvoran1").prop("readonly", true);
+    $("#MalKodu").autocomplete({
+        source: "/WMS/Purchase/getMalzemebyCode",
+        minLength: 2,
+        select: function (event, ui)
+        {
+            setTimeout(function () { $("#MalKodu").val(ui.item.id); $("#MalAdi").val(ui.item.value); }, 50);
         }
-
-
-
-        function DeleteRow(btn) {
-            $(btn).closest('tr').remove();
-            satir--;
+    });
+    $("#MalAdi").autocomplete({
+        source: "/WMS/Purchase/GetMalzemebyName",
+        minLength: 2,
+        select: function (event, ui)
+        {
+            setTimeout(function () { $("#MalKodu").val(ui.item.id); $("#MalAdi").val(ui.item.value); }, 50);
         }
-
-
-        function Transfer() {
-            if ($("#HesapKodu").val() == "" || $("#MalKodu").val() == "" || satir == 0) {
-                Modaldialog("Tüm alanları doldurunuz", 'Hata', 'Tamam', 'btn-danger');
-                return;
-            }
-            $("#frmTransfer").submit();
+    });
+    $("#HesapKodu").autocomplete({
+        source: "/WMS/Purchase/GetChkKod",
+        minLength: 2,
+        select: function (event, ui)
+        {
+            setTimeout(function () { $("#HesapKodu").val(ui.item.id); }, 50);
         }
-
-        function ClearAll(ch) {
-            $("#MalKodu").val("");
-            $("#MalAdi").val("");
-            $("#fiyat").val("");
-            $("#valor").val("");
-            $("#miktar").val("");
-            $("#vadetarih").val("");
-            $("#siparistarih").val("");
-            $("#iskoran").val("");
-            $("#aciklama").val("");
-            $("#valortarih").prop("checked", false);
+    });
+    $(function ()
+    {
+        var valortarih = $('input:checkbox[name=valortarih]');
+        if (valortarih.is(':checked') === false)
+        {
             $("#valor").prop("readonly", true);
             $("#vadetarih").prop("readonly", false);
-            $("#kdvoran1").val("");
-            //burada seçili depoda temizlenecek
-            if (ch == true) {
-                satir = 0;
-                $("#HesapKodu").prop("readonly", false);
-                $("#HesapKodu").val("");
-                $("#HesapKodu").focus();
-                $("#DepoID").val("");
-                //burada tabloda temizlenecek
-            }
-            if (ch == false) {
-                $("#MalKodu").focus();
-            }
-
-
+        }
+    });
+    $('input[type=checkbox][name=valortarih]').change(function ()
+    {
+        if (this.checked)
+        {
+            $("#valor").prop("readonly", false);
+            $("#vadetarih").prop("readonly", true);
+        }
+        else if (this.checked === false)
+        {
+            $("#valor").prop("readonly", true);
+            $("#vadetarih").prop("readonly", false);
+        }
+    });
+    function NewRow()
+    {
+        if ($("#HesapKodu").val() == "" || $("#MalKodu").val() == "")
+        {
+            Modaldialog("Tüm alanları doldurunuz", 'Hata', 'Tamam', 'btn-danger');
+            return;
         }
 
-        function Kaydet() {
-            if (satir == 0) {
-                Modaldialog("Ürün Eklemediniz!", "Hata", "Tamam", "btn-danger");
-                return;
-            }
-            if ($("#siparistarih").val() == null || $("#siparistarih").val() == "") {
-                Modaldialog("Kayıt Sırasında Sipariş Tarihi Boş Bırakılamaz!", "Hata", "Tamam", "btn-danger");
-                return;
-            }
-
-
-        }
-
-      
-
-        function KDVOran() {
-            $.ajax({
-                type: 'GET',
-                url: "/WMS/Order/GetKDVOran/",
-                data: { MalKodu: $("#MalKodu").val() },
-                dataType: "json",
-                success: function (data) {
-                    if (data != null) {
-                        $("#kdvoran1").val(data);
-                    }
-
+        $.ajax({
+            type: 'GET',
+            url: "/WMS/Order/GetStock/",
+            data: { MalKodu: $("#MalKodu").val(), DepoKodu: $("#DepoID").val() },
+            dataType: "json",
+            success: function (data)
+            {
+                if (data == null)
+                {
+                    Modaldialog("Bu ürünün stoğu yok", "Hata", "Tamam", "btn-danger");
+                    return;
                 }
-            });
+                else if (parseInt(data) < parseInt($("#miktar").val()))
+                {
+                    Modaldialog("Bu ürünün stoğu yetersiz: " + numeral(data).format(), "Hata", "Tamam", "btn-danger");
+                    return;
+                }
+
+                var miktar = $("#miktar").val();
+                var tutar = miktar * $("#fiyat").val();
+                var iskoran = 0;
+                if ($("#iskoran").val() != null || $("#iskoran").val() != "")
+                { iskoran = $("#iskoran").val(); }
+                var iskontotutar = tutar * (iskoran / 100);
+                var aratoplam = tutar - iskontotutar;
+                var KDVOran = $("#kdvoran1").val();
+                var kdvtutar = aratoplam * (KDVOran / 100);
+                var geneltoplam = aratoplam + kdvtutar;
+
+                $('#myTable tbody').after('<tr class="deletable">' +
+                    '<td>' + $("#MalKodu").val() + '</td>' +
+                    '<td>' + $("#MalAdi").val() + '</td>' +
+                    '<td>' + $("#DepoID").val() + '</td>' +
+                    '<td>' + $("#miktar").val() + '</td>' +
+                    '<td>' + $("#fiyat").val() + '</td>' +
+                    '<td>' + tutar + '</td>' +
+                    '<td>' + iskoran + '</td>' +
+                    '<td>' + iskontotutar + '</td>' +
+                    '<td>' + aratoplam + '</td>' +
+                    '<td>' + kdvtutar + '</td>' +
+                    '<td>' + geneltoplam + '</td>' +
+                    '<td>' + $("#valor").val() + '</td>' +
+                    '<td>' + $("#vadetarih").val() + '</td>' +
+                    '<td>' +
+                    '<input name="MalKodu" type="hidden" value="' + $("#DepoID").val() + '">' +
+                    '<input name="MalKodu" type="hidden" value="' + $("#MalKodu").val() + '">' +
+                    '<input name="Miktar" type="hidden" value="' + $("#miktar").val() + '">' +
+                    '<input name="Fiyat" type="hidden" value="' + $("#fiyat").val() + '">' +
+                    '<input name="Fiyat" type="hidden" value="' + $("#valor").val() + '">' +
+                    '<input name="Fiyat" type="hidden" value="' + $("#vadetarih").val() + '">' +
+                    '<button type="button" class="btn btn-danger btn-block" onclick="DeleteRow(this);">Sil</button>' +
+                    '</td>' +
+                    '</tr>');
+                ClearAll(false);
+                satir++;
+                $("#HesapKodu").prop("readonly", true);
+            },
+            error: function (data) { Modaldialog("Bu ürünün stoğu yok", "Hata", "Tamam", "btn-danger"); }
+        });
+    }
+    function DeleteRow(btn)
+    {
+        $(btn).closest('tr').remove();
+        satir--;
+    }
+    function Transfer()
+    {
+        if ($("#HesapKodu").val() == "" || $("#MalKodu").val() == "" || satir == 0)
+        {
+            Modaldialog("Tüm alanları doldurunuz", 'Hata', 'Tamam', 'btn-danger');
+            return;
+        }
+        $("#frmTransfer").submit();
+    }
+    function ClearAll(ch)
+    {
+        $("#MalKodu").val("");
+        $("#MalAdi").val("");
+        $("#fiyat").val("");
+        $("#valor").val("");
+        $("#miktar").val("");
+        $("#vadetarih").val("");
+        $("#siparistarih").val("");
+        $("#iskoran").val("");
+        $("#aciklama").val("");
+        $("#valortarih").prop("checked", false);
+        $("#valor").prop("readonly", true);
+        $("#vadetarih").prop("readonly", false);
+        $("#kdvoran1").val("");
+        //burada seçili depoda temizlenecek
+        if (ch === true)
+        {
+            satir = 0;
+            $("#HesapKodu").prop("readonly", false);
+            $("#HesapKodu").val("");
+            $("#HesapKodu").focus();
+            $("#DepoID").val("");
+            //burada tabloda temizlenecek
+        }
+        else
+        {
+            $("#MalKodu").focus();
+        }
+    }
+    function Kaydet()
+    {
+        if (satir == 0)
+        {
+            Modaldialog("Ürün Eklemediniz!", "Hata", "Tamam", "btn-danger");
+            return;
+        }
+        if ($("#siparistarih").val() == null || $("#siparistarih").val() == "")
+        {
+            Modaldialog("Kayıt Sırasında Sipariş Tarihi Boş Bırakılamaz!", "Hata", "Tamam", "btn-danger");
+            return;
         }
 
+    }
+    function KDVOran()
+    {
+        $.ajax({
+            type: 'GET',
+            url: "/WMS/Order/GetKDVOran/",
+            data: { MalKodu: $("#MalKodu").val() },
+            dataType: "json",
+            success: function (data)
+            {
+                if (data != null)
+                {
+                    $("#kdvoran1").val(data);
+                }
 
-
-
-
-    </script>
-}
+            }
+        });
+    }
+</script>}
