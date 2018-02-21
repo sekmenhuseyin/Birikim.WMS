@@ -1,4 +1,4 @@
-﻿@model List<HDF>
+﻿@model List<RaporBolgeHdfList>
 <div class="col-md-12" style="width:100%;">
     <div class="portlet box green">
         <div class="portlet-title">
@@ -27,7 +27,7 @@
                             <td nowrap>@item.HEDEF</td>
                             <td nowrap>@item.TARIH.IntToDate().Date.ToString("dd-MM-yyyy")</td>
                             <td nowrap>
-                                <a class="btn btn-default" href="javascript:;" onclick="TmzGunc('@item.ID')">Düzenle</a>
+                                <a class="btn btn-default" href="javascript:;" onclick="TmzGunc2('@item.ID')">Düzenle</a>
                                 <a class="btn btn-danger" href="javascript:;" onclick="Delete('@item.ID','/Reports/Financial/TargetBolgeList','liste','')">Sil</a>
                             </td>
                         </tr>
@@ -47,3 +47,19 @@
         </div>
     </div>
 </div>
+<script>
+    $(document).ready(function () {
+        table = $('#sample_1').DataTable({
+            "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
+            "pagingType": "full_numbers",
+            "ordering": false
+        });
+        $("#buttons").html("");
+        var buttons = new $.fn.dataTable.Buttons(table, {
+            buttons: [
+                { "extend": 'pdf', "text": '<span class="fa fa-file-pdf-o f-s-15 red"></span>', "className": 'btn-xs;' },
+                { "extend": 'excel', "text": '<span class="fa fa-file-excel-o f-s-15 green"></span>', "className": 'btn-xs;' }
+            ]
+        }).container().appendTo($('#buttons'));
+    });
+</script>

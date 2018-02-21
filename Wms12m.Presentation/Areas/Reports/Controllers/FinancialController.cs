@@ -264,7 +264,7 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
             var list = db.Database.SqlQuery<RP_TahsilatKontrol>(String.Format("[FINSAT6{0}].[wms].[RP_TahsilatKontrol]", vUser.SirketKodu)).ToList();
             return Json(list, JsonRequestBehavior.AllowGet);
         }
-
+        #region Target
         public ActionResult Target()
         {
             if (CheckPerm(Perms.Raporlar, PermTypes.Reading) == false) { return Redirect("/"); }
@@ -281,26 +281,25 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
                 _raporGrupKod = new List<RaporGrupKod>();
                 _raporTargetUrunGrup = new List<RaporTargetUrunGrup>();
             }
-            ViewBag.BOLGE = new SelectList(_raporGrupKod, "GrupKod", "GrupKod");
-            ViewBag.URUNGRUP = new SelectList(_raporTargetUrunGrup, "UrunGrup", "UrunGrup");
-            ViewBag.TEMSILCI = new SelectList(new List<RaporTemsilci>(), "TipKod", "TipKod");
+            ViewBag.BOLGE = new SelectList(_raporGrupKod, "RowID", "GrupKod");
+            ViewBag.URUNGRUP = new SelectList(_raporTargetUrunGrup, "RowID", "UrunGrup");
+            ViewBag.TEMSILCI = new SelectList(new List<RaporTemsilci>(), "RowID", "TipKod");
             return View("Target", new HDF());
         }
-
-        public JsonResult TargetTemsilciList(string GrupKod, string TipKod)
+        public JsonResult TargetTemsilciList(int GrupKod, int TipKod)
         {
             var json = new JavaScriptSerializer();
             List<SelectListItem> listRapTemsilci = new List<SelectListItem>();
             try
             {
-                foreach (RaporTemsilci item in
-                    db.Database.SqlQuery<RaporTemsilci>(String.Format(RaporTemsilci.Sorgu, vUser.SirketKodu, GrupKod)).ToList())
+                var tet = db.Database.SqlQuery<RaporTemsilci>(String.Format(RaporTemsilci.Sorgu, vUser.SirketKodu, GrupKod)).ToList();
+                foreach (RaporTemsilci item in tet)
                 {
                     listRapTemsilci.Add(new SelectListItem
                     {
-                        Selected = (TipKod == item.TipKod ? true : false),
+                        Selected = (TipKod == item.RowID ? true : false),
                         Text = item.TipKod,
-                        Value = item.TipKod,
+                        Value = item.RowID.ToString(),
                     });
                 }
             }
@@ -310,61 +309,114 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
             }
             return Json(listRapTemsilci.Select(x => new { x.Value, x.Text, x.Selected }), JsonRequestBehavior.AllowGet);
         }
-
         [HttpPost, ValidateAntiForgeryToken]
         public JsonResult TargetSave(HDF hdf)
         {
             if (CheckPerm(Perms.Raporlar, PermTypes.Writing) == false) { return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet); }
-            if (ModelState.IsValid)
+
+            //TODO : Uğur hedefin eksi değer girilmesi engellenecek.
+            var _Result = new Result(true);
+            string sorgu = "";
+            int snc = 0;
+            switch (hdf.ID)
             {
-                var _Result = new Result(true);
-                string sorgu = "";
-                switch (hdf.ID)
+                case 0:
+                    sorgu = String.Format(@"
+                    DECLARE @MAXDURUM INT,@MAXHEDEF NUMERIC(25,6) SET @MAXDURUM=(
+                    SELECT COUNT(*) FROM FINSAT6{0}.FINSAT6{0}.HDF AS H WITH (NOLOCK) WHERE H.TIP=0 AND H.BOLGE={2})
+                    IF(@MAXDURUM>0)
+                    BEGIN
+                    SET @MAXHEDEF=(
+                    SELECT HH.HEDEF-ISNULL(D.HEDEF,0) FROM FINSAT6{0}.FINSAT6{0}.HDF AS HH WITH (NOLOCK)
+                    LEFT JOIN 
+                    (SELECT IC1.BOLGE,SUM(IC1.HEDEF) AS HEDEF FROM FINSAT6{0}.FINSAT6{0}.HDF AS IC1 WITH (NOLOCK) 
+                    WHERE IC1.TIP=1 GROUP BY IC1.BOLGE
+                    ) AS D ON HH.BOLGE=D.BOLGE
+                    WHERE HH.TIP=0 AND HH.BOLGE={2})
+                    IF(@MAXHEDEF>={5})
+                    BEGIN
+                    INSERT INTO FINSAT6{0}.FINSAT6{0}.HDF (TIP,BOLGE,TEMSILCI,URUNGRUP,HEDEF,TARIH) VALUES ({1},{2},{3},{4},'{5}',{6})
+                    SELECT 1
+                    END
+                    ELSE BEGIN SELECT 10 END
+                    END
+                    ELSE BEGIN SELECT 5 END
+                    ", vUser.SirketKodu, 1, hdf.BOLGE, hdf.TEMSILCI, hdf.URUNGRUP, hdf.HEDEF, Convert.ToInt32(DateTime.Today.ToOADate()));
+                    break;
+                default:
+                    sorgu = String.Format(@"
+                        DECLARE @MAXDURUM INT,@MAXHEDEF NUMERIC(25,6),@GNCHEDEF NUMERIC(25,6)
+                        SET @MAXDURUM=(
+                        SELECT COUNT(*) FROM FINSAT6{0}.FINSAT6{0}.HDF AS H WITH (NOLOCK) WHERE H.TIP=0 AND H.BOLGE={1})
+                        IF(@MAXDURUM>0)
+                        BEGIN
+                        SET @GNCHEDEF =(SELECT HEDEF FROM FINSAT6{0}.FINSAT6{0}.HDF WITH (NOLOCK) WHERE ID={5} AND TIP=1)
+                        SET @MAXHEDEF=(SELECT HH.HEDEF-ISNULL(D.HEDEF,0) FROM 
+                        FINSAT6{0}.FINSAT6{0}.HDF AS HH WITH (NOLOCK)
+                        LEFT JOIN 
+                        (SELECT IC1.BOLGE,SUM(IC1.HEDEF) AS HEDEF FROM 
+                        FINSAT6{0}.FINSAT6{0}.HDF AS IC1 WITH (NOLOCK) 
+                        WHERE IC1.TIP=1 GROUP BY IC1.BOLGE
+                        ) AS D ON HH.BOLGE=D.BOLGE
+                        WHERE HH.TIP=0 AND HH.BOLGE={1})
+                        IF((@MAXHEDEF+@GNCHEDEF)>={4})
+                        BEGIN
+                        UPDATE FINSAT6{0}.FINSAT6{0}.HDF SET BOLGE={1},TEMSILCI={2},URUNGRUP={3},HEDEF={4} WHERE ID={5} AND TIP=1
+                        SELECT 1
+                        END
+                        ELSE BEGIN SELECT 10 END
+                        END
+                        ELSE BEGIN SELECT 5 END
+                        ", vUser.SirketKodu, hdf.BOLGE, hdf.TEMSILCI, hdf.URUNGRUP, Convert.ToInt32(hdf.HEDEF), hdf.ID);
+                    break;
+            }
+
+            try
+            {
+                snc = db.Database.SqlQuery<int>(sorgu).FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                snc = 0;
+                Logger(ex, "/Reports/Financial/TargetSave");
+                _Result.Status = false;
+                _Result.Message = "İşlem başarısız";
+            }
+            if (snc > 0)
+            {
+                switch (snc)
                 {
-                    case 0:
-                        sorgu = String.Format(@"INSERT INTO FINSAT6{0}.FINSAT6{0}.HDF (TIP,BOLGE,TEMSILCI,URUNGRUP,HEDEF,TARIH) VALUES ({1},'{2}','{3}','{4}','{5}',{6})"
-                          , vUser.SirketKodu, 1, hdf.BOLGE, hdf.TEMSILCI, hdf.URUNGRUP, hdf.HEDEF, Convert.ToInt32(DateTime.Today.ToOADate()));
+                    case 10:
+                        _Result.Status = false;
+                        _Result.Message = "Hedef limiti aşılmıştır.Kontrol ediniz!";
+                        break;
+                    case 5:
+                        _Result.Status = false;
+                        _Result.Message = "Girilen Bölgeye ait miktar bulunmamaktadır.Kontrol ediniz!";
                         break;
                     default:
-                        sorgu = String.Format(@"UPDATE FINSAT6{0}.FINSAT6{0}.HDF SET TIP=1
-                    ,BOLGE='{1}',TEMSILCI='{2}',URUNGRUP='{3}',HEDEF={4}
-                    WHERE ID={5}", vUser.SirketKodu, hdf.BOLGE, hdf.TEMSILCI, hdf.URUNGRUP, Convert.ToInt32(hdf.HEDEF), hdf.ID);
+                        _Result.Status = true;
+                        _Result.Message = "İşlem başarılı";
                         break;
                 }
-
-                try
-                {
-                    db.Database.ExecuteSqlCommand(sorgu);
-                    _Result.Status = true;
-                    _Result.Message = "İşlem başarılı";
-                }
-                catch (Exception ex)
-                {
-                    Logger(ex, "/Reports/Financial/TargetSave");
-                    _Result.Status = false;
-                    _Result.Message = "İşlem başarısız";
-                }
-                return Json(_Result, JsonRequestBehavior.AllowGet);
             }
-            return Json(new Result(false, "Hata oldu"), JsonRequestBehavior.AllowGet);
+            return Json(_Result, JsonRequestBehavior.AllowGet);
         }
-
         public PartialViewResult TargetList()
         {
             if (CheckPerm(Perms.Raporlar, PermTypes.Reading) == false) { return null; }
-            List<HDF> hdfList;
+            List<RaporHdfList> hdfList;
             try
             {
-                hdfList = db.Database.SqlQuery<HDF>(String.Format("SELECT * FROM [FINSAT6{0}].[FINSAT6{0}].HDF WITH (NOLOCK) WHERE TIP=1", vUser.SirketKodu)).ToList();
+                hdfList = db.Database.SqlQuery<RaporHdfList>(String.Format(RaporHdfList.Sorgu, vUser.SirketKodu)).ToList();
             }
             catch (Exception ex)
             {
                 Logger(ex, "/Reports/Financial/TargetList");
-                hdfList = new List<HDF>();
+                hdfList = new List<RaporHdfList>();
             }
             return PartialView(hdfList);
         }
-
         public PartialViewResult TargetEdit(int? id)
         {
             HDF h;
@@ -375,7 +427,7 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
             {
                 _raporGrupKod = db.Database.SqlQuery<RaporGrupKod>(String.Format(RaporGrupKod.Sorgu, vUser.SirketKodu)).ToList();
                 _raporTargetUrunGrup = db.Database.SqlQuery<RaporTargetUrunGrup>(String.Format(RaporTargetUrunGrup.Sorgu, vUser.SirketKodu)).ToList();
-                h = db.Database.SqlQuery<HDF>(String.Format(@"SELECT K.* FROM [FINSAT6{0}].[FINSAT6{0}].HDF AS K WITH (NOLOCK) WHERE K.ID={1}", vUser.SirketKodu, id)).FirstOrDefault();
+                h = db.Database.SqlQuery<HDF>(String.Format(@"SELECT K.* FROM [FINSAT6{0}].[FINSAT6{0}].HDF AS K WITH (NOLOCK) WHERE K.ID={1} AND K.TIP=1", vUser.SirketKodu, id)).FirstOrDefault();
             }
             catch (Exception ex)
             {
@@ -384,17 +436,16 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
                 _raporGrupKod = new List<RaporGrupKod>();
                 _raporTargetUrunGrup = new List<RaporTargetUrunGrup>();
             }
-            ViewBag.BOLGE = new SelectList(_raporGrupKod, "GrupKod", "GrupKod", h.BOLGE);
-            ViewBag.URUNGRUP = new SelectList(_raporTargetUrunGrup, "UrunGrup", "UrunGrup", h.URUNGRUP);
-            ViewBag.Temp = (h.BOLGE ?? String.Empty);
+            ViewBag.BOLGE = new SelectList(_raporGrupKod, "RowID", "GrupKod", h.BOLGE);
+            ViewBag.URUNGRUP = new SelectList(_raporTargetUrunGrup, "RowID", "UrunGrup", h.URUNGRUP);
+            ViewBag.Temp = h.TEMSILCI;
             return PartialView(h);
         }
-
         public JsonResult TargetDelete(string Id)
         {
             if (CheckPerm(Perms.Raporlar, PermTypes.Deleting) == false) { return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet); }
             string sorgu = "";
-            sorgu = String.Format(@"DELETE FROM [FINSAT6{0}].[FINSAT6{0}].HDF WHERE ID={1}", vUser.SirketKodu, Id);
+            sorgu = String.Format(@"DELETE FROM [FINSAT6{0}].[FINSAT6{0}].HDF WHERE ID={1} AND TIP=1", vUser.SirketKodu, Id);
             try
             {
                 db.Database.ExecuteSqlCommand(sorgu);
@@ -407,7 +458,8 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
                 return Json(new Result(false, "Projeye ait form bulunduğu için silme işlemi gerçekleştirilememiştir."), JsonRequestBehavior.AllowGet);
             }
         }
-
+        #endregion
+        #region TargetBolge
         public ActionResult TargetBolge()
         {
             if (CheckPerm(Perms.Raporlar, PermTypes.Reading) == false) { return Redirect("/"); }
@@ -421,22 +473,21 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
                 Logger(ex, "/Reports/Financial/TargetBolge");
                 _raporGrupKod = new List<RaporGrupKod>();
             }
-            ViewBag.BOLGE = new SelectList(_raporGrupKod, "GrupKod", "GrupKod");
+            ViewBag.BOLGE = new SelectList(_raporGrupKod, "RowID", "GrupKod");
             return View("TargetBolge", new HDF());
         }
-
         public PartialViewResult TargetBolgeList()
         {
             if (CheckPerm(Perms.Raporlar, PermTypes.Reading) == false) { return null; }
-            List<HDF> hdfList;
+            List<RaporBolgeHdfList> hdfList;
             try
             {
-                hdfList = db.Database.SqlQuery<HDF>(String.Format(@"SELECT * FROM [FINSAT6{0}].[FINSAT6{0}].HDF WITH (NOLOCK) WHERE TIP=0", vUser.SirketKodu)).ToList();
+                hdfList = db.Database.SqlQuery<RaporBolgeHdfList>(String.Format(RaporBolgeHdfList.Sorgu, vUser.SirketKodu)).ToList();
             }
             catch (Exception ex)
             {
                 Logger(ex, "/Reports/Financial/TargetBolgeList");
-                hdfList = new List<HDF>();
+                hdfList = new List<RaporBolgeHdfList>();
             }
             return PartialView(hdfList);
         }
@@ -444,38 +495,32 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
         public JsonResult TargetBolgeSave(HDF hdf)
         {
             if (CheckPerm(Perms.Raporlar, PermTypes.Writing) == false) { return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet); }
-            if (ModelState.IsValid)
+            var _Result = new Result(true);
+            string sorgu = "";
+            switch (hdf.ID)
             {
-                var _Result = new Result(true);
-                string sorgu = "";
-                switch (hdf.ID)
-                {
-                    case 0:
-                        sorgu = String.Format(@"INSERT INTO FINSAT6{0}.FINSAT6{0}.HDF (TIP,BOLGE,TEMSILCI,URUNGRUP,HEDEF,TARIH) VALUES ({1},'{2}','{3}','{4}','{5}',{6})"
-                    , vUser.SirketKodu, 0, hdf.BOLGE, String.Empty, String.Empty, hdf.HEDEF, Convert.ToInt32(DateTime.Today.ToOADate()));
-                        break;
-                    default:
-                        sorgu = String.Format(@"UPDATE FINSAT6{0}.FINSAT6{0}.HDF SET TIP=0
-                    ,BOLGE='{1}',TEMSILCI='{2}',URUNGRUP='{3}',HEDEF={4}
-                    WHERE ID={5}", vUser.SirketKodu, hdf.BOLGE, String.Empty, String.Empty, Convert.ToInt32(hdf.HEDEF), hdf.ID);
-                        break;
-                }
-
-                try
-                {
-                    db.Database.ExecuteSqlCommand(sorgu);
-                    _Result.Status = true;
-                    _Result.Message = "İşlem başarılı";
-                }
-                catch (Exception ex)
-                {
-                    Logger(ex, "/Reports/Financial/TargetBolgeSave");
-                    _Result.Status = false;
-                    _Result.Message = "İşlem başarısız";
-                }
-                return Json(_Result, JsonRequestBehavior.AllowGet);
+                case 0:
+                    sorgu = String.Format(@"INSERT INTO FINSAT6{0}.FINSAT6{0}.HDF (TIP,BOLGE,HEDEF,TARIH) VALUES (0,{1},'{2}',{3})"
+                    , vUser.SirketKodu, hdf.BOLGE, hdf.HEDEF, Convert.ToInt32(DateTime.Today.ToOADate()));
+                    break;
+                default:
+                    sorgu = String.Format(@"UPDATE FINSAT6{0}.FINSAT6{0}.HDF SET BOLGE={1},HEDEF='{2}' WHERE ID={3} AND TIP=0", vUser.SirketKodu, hdf.BOLGE, Convert.ToInt32(hdf.HEDEF), hdf.ID);
+                    break;
             }
-            return Json(new Result(false, "Hata oldu"), JsonRequestBehavior.AllowGet);
+
+            try
+            {
+                db.Database.ExecuteSqlCommand(sorgu);
+                _Result.Status = true;
+                _Result.Message = "İşlem başarılı";
+            }
+            catch (Exception ex)
+            {
+                Logger(ex, "/Reports/Financial/TargetBolgeSave");
+                _Result.Status = false;
+                _Result.Message = "İşlem başarısız";
+            }
+            return Json(_Result, JsonRequestBehavior.AllowGet);
         }
         public PartialViewResult TargetBolgeEdit(int? id)
         {
@@ -485,16 +530,34 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
             try
             {
                 _raporGrupKod = db.Database.SqlQuery<RaporGrupKod>(String.Format(RaporGrupKod.Sorgu, vUser.SirketKodu)).ToList();
-                h = db.Database.SqlQuery<HDF>(String.Format(@"SELECT K.* FROM [FINSAT6{0}].[FINSAT6{0}].HDF AS K WITH (NOLOCK) WHERE K.ID={1}", vUser.SirketKodu, id)).FirstOrDefault();
+                h = db.Database.SqlQuery<HDF>(String.Format(@"SELECT K.* FROM [FINSAT6{0}].[FINSAT6{0}].HDF AS K WITH (NOLOCK) WHERE K.ID={1} AND K.TIP=0", vUser.SirketKodu, id)).FirstOrDefault();
             }
             catch (Exception ex)
             {
-                Logger(ex, "/Reports/Financial/TargetEdit");
+                Logger(ex, "/Reports/Financial/TargetBolgeEdit");
                 h = new HDF();
                 _raporGrupKod = new List<RaporGrupKod>();
             }
-            ViewBag.BOLGE = new SelectList(_raporGrupKod, "GrupKod", "GrupKod", h.BOLGE);
+            ViewBag.BOLGE = new SelectList(_raporGrupKod, "RowID", "GrupKod", h.BOLGE);
             return PartialView(h);
         }
+        public JsonResult TargetBolgeDelete(string Id)
+        {
+            if (CheckPerm(Perms.Raporlar, PermTypes.Deleting) == false) { return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet); }
+            string sorgu = "";
+            sorgu = String.Format(@"DELETE FROM [FINSAT6{0}].[FINSAT6{0}].HDF WHERE ID={1} AND TIP=0", vUser.SirketKodu, Id);
+            try
+            {
+                db.Database.ExecuteSqlCommand(sorgu);
+                LogActions("Reports", "Financial", "Delete", ComboItems.alSil, Id.ToInt32());
+                return Json(new Result(true, Id.ToInt32()), JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Logger(ex, "/Reports/Financial/TargetBolgeDelete");
+                return Json(new Result(false, "Projeye ait form bulunduğu için silme işlemi gerçekleştirilememiştir."), JsonRequestBehavior.AllowGet);
+            }
+        }
+        #endregion
     }
 }

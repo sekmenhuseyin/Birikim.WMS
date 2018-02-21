@@ -11,6 +11,8 @@ namespace Wms12m.Entity
         public static List<SatTalep> TalepSource { get; set; }
         public static List<SatTalep> GMYOnayList { get; set; }
         public static List<SatTalep> GMYOnayDetayList { get; set; }
+        public static List<SatTalep> SatSipGMYMaliOnayList { get; set; }
+        public static List<SatTalep> SatSipGMYMaliOnayDetayList { get; set; }
         public static List<KKP_SPI> GridSource { get; set; }
         public static List<SatTalep> GridGMYSource { get; set; }
         public static List<KKP_FTD> GridFTD { get; set; }
