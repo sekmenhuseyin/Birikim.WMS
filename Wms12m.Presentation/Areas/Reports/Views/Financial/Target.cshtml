@@ -17,7 +17,7 @@
                 <div class="portlet box green">
                     <div class="portlet-title">
                         <div class="caption">
-                            <i class="fa fa-gift"></i>Proje Ekle
+                            <i class="fa fa-gift"></i>Hedef Ekle
                         </div>
                     </div>
                     <div class="portlet-body form">
@@ -113,10 +113,10 @@
         }
         function TmzGunc(Id) {
             if (Id == 0) {
+                $("#TEMSILCI option").remove();
                 $("#ID").val("0");
                 $(".satirekle")[0].selectedIndex = 0;
                 $(".satirekle")[1].selectedIndex = 0;
-                $("#TEMSILCI option").remove();
                 $("#HEDEF").val("");
                 $("#CreateEdit [type='submit']").text("Ekle");
                 PartialView("/Reports/Financial/TargetList", "liste");

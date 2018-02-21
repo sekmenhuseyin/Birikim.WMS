@@ -10,9 +10,9 @@ namespace Wms12m.Entity
     {
         public int ID { get; set; }
         public short TIP { get; set; }
-        public string BOLGE { get; set; }
-        public string TEMSILCI { get; set; }
-        public string URUNGRUP { get; set; }
+        public int BOLGE { get; set; }
+        public int? TEMSILCI { get; set; }
+        public int? URUNGRUP { get; set; }
         public decimal HEDEF { get; set; }
         public int TARIH { get; set; }
     }
