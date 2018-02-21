@@ -235,18 +235,23 @@ WHERE OT.Sirketkodu='{0}' AND OT.[AktarimDurum]=1 AND OT.Islemtip=1 AND [SevkEvr
             }
         }
 
+
+
         public ActionResult SevkiyatKalanStok()
         {
             if (CheckPerm(Perms.Raporlar, PermTypes.Reading) == false) return Redirect("/");
-            var STI = db.Database.SqlQuery<STIDepoSelect>(string.Format("SELECT Depo FROM FINSAT6{0}.FINSAT6{0}.STI GROUP BY Depo", vUser.SirketKodu)).ToList();
-            ViewBag.STI = STI;
-            return View(STI);
+            return View();
         }
 
-        public PartialViewResult SevkiyatKalanStokList()
+
+        public JsonResult SevkiyatKalanStokList()
         {
-            var RP = db.Database.SqlQuery<SevkiyatKalanRapor>(string.Format("[FINSAT6{0}].[wms].[RP_SevkiyatKalanStok] ", vUser.SirketKodu)).ToList();
-            return PartialView("SevkiyatKalanStokList", RP);
+            var list = db.Database.SqlQuery<SevkiyatKalanRapor>(string.Format("[FINSAT6{0}].[wms].[RP_SevkiyatKalanStok] ", vUser.SirketKodu)).ToList();
+            return Json(list, JsonRequestBehavior.AllowGet);
+
+
+
         }
+
     }
 }

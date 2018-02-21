@@ -495,7 +495,6 @@
     <Content Include="Areas\Reports\Views\Stock\GidenBarkod.cshtml" />
     <Content Include="Areas\Reports\Views\Stock\GidenBarkodList.cshtml" />
     <Content Include="Areas\Reports\Views\Stock\SevkiyatKalanStok.cshtml" />
-    <Content Include="Areas\Reports\Views\Stock\SevkiyatKalanStokList.cshtml" />
     <Content Include="Areas\Reports\Views\Financial\Target.cshtml" />
     <Content Include="Areas\Reports\Views\Financial\TargetList.cshtml" />
     <Content Include="Areas\Approvals\Views\Check\Index.cshtml" />
