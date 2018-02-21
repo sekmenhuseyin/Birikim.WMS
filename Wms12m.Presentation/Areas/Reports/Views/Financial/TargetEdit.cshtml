@@ -6,7 +6,7 @@
     <div class="portlet box green">
         <div class="portlet-title">
             <div class="caption">
-                <i class="fa fa-gift"></i>@(Model.ID == 0 ? "Proje Ekle" : "Proje Düzenle")
+                <i class="fa fa-gift"></i>@(Model.ID == 0 ? "Hedef Ekle" : "Hedef Düzenle")
             </div>
         </div>
         <div class="portlet-body form">
@@ -58,43 +58,31 @@
 </div>
 <script>
     $(document).ready(function () {
-        var grupKoddrd = document.getElementById("BOLGE");
-        var grupKod = grupKoddrd.options[grupKoddrd.selectedIndex].text;
-        var temsi = document.getElementById("TEMSILCI");
-        var temsilci = temsi.options[temsi.selectedIndex].text;
-        var urungru = document.getElementById("URUNGRUP");
-        var urunGrup = urungru.options[urungru.selectedIndex].text;
-        var hedef = document.getElementById("HEDEF").value;
-        TemsilciGetir(grupKod);
+        var GrupKoddrd = document.getElementById("BOLGE");
+        var GrupKod = GrupKoddrd.options[GrupKoddrd.selectedIndex].text;
+        var TipKod= '@ViewBag.Temp';
+        TemsilciGetir2(GrupKod, TipKod);
     });
-    function TemsilciGetir(GrupKod) {
-        if (GrupKod != "") {
+    function TemsilciGetir2(GrupKod, TipKod) {
+        if (GrupKod == "" || TipKod == "" ) {
+            return
+        }
+        else {
             $("#TEMSILCI option").remove();
             $.ajax({
-                url: window.location.origin + "/Reports/Financial/TargetTemsilciList/?GrupKod=" + GrupKod,
-                type: 'POST',
+                url: window.location.origin + "/Reports/Financial/TargetTemsilciList",
+                data: { GrupKod: GrupKod, TipKod: TipKod },
+                type: "post",
                 dataType: "json",
-                contentType: 'application/json; charset=utf-8',
                 success: function (data) {
                     if (data != "") {
                         $.each(data, function (i, item) {
-                            $('#TEMSILCI').append($('<option>', { value: item.Value, text: item.Text }));
+                            $('#TEMSILCI').append($('<option>', { value: item.Value, text: item.Text, selected: item.Selected }));
                         });
-                        //$("#TEMSILCI").prepend("<option value=''>Seçiniz !!!</option>");
                         $("#TEMSILCI")[0].selectedIndex = 0;
                     }
                 }
             });
         }
     }
-    function Duzenle() {
-        $.ajax({
-            url: window.location.origin + "/Reports/Financial/TargetDelete/?GrupKod=" + GrupKod,
-            data: []
-           
-            dataType: "json",
-            contentType: 'application/json; charset=utf-8',
-        });
-    }
-
 </script>

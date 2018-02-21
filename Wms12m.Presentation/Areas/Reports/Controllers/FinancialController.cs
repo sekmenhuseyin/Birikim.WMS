@@ -261,7 +261,7 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
 
         public JsonResult TahsilatKontrolList()
         {
-            var list = db.Database.SqlQuery<RP_TahsilatKontrol>(string.Format("[FINSAT6{0}].[wms].[RP_TahsilatKontrol]", vUser.SirketKodu)).ToList();
+            var list = db.Database.SqlQuery<RP_TahsilatKontrol>(String.Format("[FINSAT6{0}].[wms].[RP_TahsilatKontrol]", vUser.SirketKodu)).ToList();
             return Json(list, JsonRequestBehavior.AllowGet);
         }
 
@@ -272,8 +272,8 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
             List<RaporTargetUrunGrup> _raporTargetUrunGrup;
             try
             {
-                _raporGrupKod = db.Database.SqlQuery<RaporGrupKod>(string.Format(RaporGrupKod.Sorgu, vUser.SirketKodu)).ToList();
-                _raporTargetUrunGrup = db.Database.SqlQuery<RaporTargetUrunGrup>(string.Format(RaporTargetUrunGrup.Sorgu, vUser.SirketKodu)).ToList();
+                _raporGrupKod = db.Database.SqlQuery<RaporGrupKod>(String.Format(RaporGrupKod.Sorgu, vUser.SirketKodu)).ToList();
+                _raporTargetUrunGrup = db.Database.SqlQuery<RaporTargetUrunGrup>(String.Format(RaporTargetUrunGrup.Sorgu, vUser.SirketKodu)).ToList();
             }
             catch (Exception ex)
             {
@@ -283,23 +283,24 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
             }
             ViewBag.BOLGE = new SelectList(_raporGrupKod, "GrupKod", "GrupKod");
             ViewBag.URUNGRUP = new SelectList(_raporTargetUrunGrup, "UrunGrup", "UrunGrup");
+            ViewBag.TEMSILCI = new SelectList(new List<RaporTemsilci>(), "TipKod", "TipKod");
             return View("Target", new HDF());
         }
 
-        [HttpPost]
-        public JsonResult TargetTemsilciList(string GrupKod)
+        public JsonResult TargetTemsilciList(string GrupKod, string TipKod)
         {
             var json = new JavaScriptSerializer();
             List<SelectListItem> listRapTemsilci = new List<SelectListItem>();
             try
             {
-                foreach (RaporTemsilci item in db.Database.SqlQuery<RaporTemsilci>(string.Format(RaporTemsilci.Sorgu, vUser.SirketKodu, "'" + GrupKod + "'")).ToList())
+                foreach (RaporTemsilci item in
+                    db.Database.SqlQuery<RaporTemsilci>(String.Format(RaporTemsilci.Sorgu, vUser.SirketKodu, GrupKod)).ToList())
                 {
                     listRapTemsilci.Add(new SelectListItem
                     {
-                        Selected = false,
+                        Selected = (TipKod == item.TipKod ? true : false),
                         Text = item.TipKod,
-                        Value = item.GrupKod,
+                        Value = item.TipKod,
                     });
                 }
             }
@@ -307,7 +308,7 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
             {
                 Logger(ex, "/Reports/Financial/TargetTemsilciList");
             }
-            return Json(listRapTemsilci.Select(x => new { Value = x.Value, Text = x.Text, Selected = x.Selected }), JsonRequestBehavior.AllowGet);
+            return Json(listRapTemsilci.Select(x => new { x.Value, x.Text, x.Selected }), JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost, ValidateAntiForgeryToken]
@@ -318,16 +319,17 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
             {
                 var _Result = new Result(true);
                 string sorgu = "";
-                if (hdf.ID == 0)
+                switch (hdf.ID)
                 {
-                    sorgu = String.Format(@"INSERT INTO FINSAT6{0}.FINSAT6{0}.HDF (TIP,BOLGE,TEMSILCI,URUNGRUP,HEDEF,TARIH) VALUES ({1},'{2}','{3}','{4}','{5}',{6})"
-                    , vUser.SirketKodu, 1, hdf.BOLGE, hdf.TEMSILCI, hdf.URUNGRUP, hdf.HEDEF, Convert.ToInt32(DateTime.Today.ToOADate()));
-                }
-                else
-                {
-                    sorgu = String.Format(@"UPDATE FINSAT6{0}.FINSAT6{0}.HDF SET TIP=1
+                    case 0:
+                        sorgu = String.Format(@"INSERT INTO FINSAT6{0}.FINSAT6{0}.HDF (TIP,BOLGE,TEMSILCI,URUNGRUP,HEDEF,TARIH) VALUES ({1},'{2}','{3}','{4}','{5}',{6})"
+                          , vUser.SirketKodu, 1, hdf.BOLGE, hdf.TEMSILCI, hdf.URUNGRUP, hdf.HEDEF, Convert.ToInt32(DateTime.Today.ToOADate()));
+                        break;
+                    default:
+                        sorgu = String.Format(@"UPDATE FINSAT6{0}.FINSAT6{0}.HDF SET TIP=1
                     ,BOLGE='{1}',TEMSILCI='{2}',URUNGRUP='{3}',HEDEF={4}
                     WHERE ID={5}", vUser.SirketKodu, hdf.BOLGE, hdf.TEMSILCI, hdf.URUNGRUP, Convert.ToInt32(hdf.HEDEF), hdf.ID);
+                        break;
                 }
 
                 try
@@ -353,7 +355,7 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
             List<HDF> hdfList;
             try
             {
-                hdfList = db.Database.SqlQuery<HDF>(String.Format("SELECT * FROM [FINSAT6{0}].[FINSAT6{0}].HDF WITH (NOLOCK)", vUser.SirketKodu)).ToList();
+                hdfList = db.Database.SqlQuery<HDF>(String.Format("SELECT * FROM [FINSAT6{0}].[FINSAT6{0}].HDF WITH (NOLOCK) WHERE TIP=1", vUser.SirketKodu)).ToList();
             }
             catch (Exception ex)
             {
@@ -365,31 +367,15 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
 
         public PartialViewResult TargetEdit(int? id)
         {
-            var json = new JavaScriptSerializer();
             HDF h;
-            //List<SelectListItem> listRapTemsilci = new List<SelectListItem>();
             List<RaporGrupKod> _raporGrupKod;
             List<RaporTargetUrunGrup> _raporTargetUrunGrup;
-            List<RaporTemsilci> _raporTemsilci;
             if (CheckPerm(Perms.Raporlar, PermTypes.Updating) == false) { return null; }
             try
             {
-                string rT = "";
                 _raporGrupKod = db.Database.SqlQuery<RaporGrupKod>(String.Format(RaporGrupKod.Sorgu, vUser.SirketKodu)).ToList();
                 _raporTargetUrunGrup = db.Database.SqlQuery<RaporTargetUrunGrup>(String.Format(RaporTargetUrunGrup.Sorgu, vUser.SirketKodu)).ToList();
-                h = db.Database.SqlQuery<HDF>(String.Format("SELECT K.* FROM [FINSAT6{0}].[FINSAT6{0}].HDF AS K WITH (NOLOCK) WHERE K.ID={1}", vUser.SirketKodu, id)).FirstOrDefault();
-                rT = String.Format(@"(SELECT K.BOLGE FROM [FINSAT6{0}].[FINSAT6{0}].HDF AS K WITH (NOLOCK) WHERE K.ID={1})", vUser.SirketKodu, id);
-                _raporTemsilci = db.Database.SqlQuery<RaporTemsilci>(String.Format(RaporTemsilci.Sorgu, vUser.SirketKodu, rT)).ToList();
-
-                //foreach (RaporTemsilci item in db.Database.SqlQuery<RaporTemsilci>(String.Format(RaporTemsilci.Sorgu, vUser.SirketKodu, rT)).ToList())
-                //{
-                //    listRapTemsilci.Add(new SelectListItem()
-                //    {
-                //        Selected = false,
-                //        Text = item.TipKod,
-                //        Value = item.GrupKod
-                //    });
-                //}
+                h = db.Database.SqlQuery<HDF>(String.Format(@"SELECT K.* FROM [FINSAT6{0}].[FINSAT6{0}].HDF AS K WITH (NOLOCK) WHERE K.ID={1}", vUser.SirketKodu, id)).FirstOrDefault();
             }
             catch (Exception ex)
             {
@@ -397,13 +383,10 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
                 h = new HDF();
                 _raporGrupKod = new List<RaporGrupKod>();
                 _raporTargetUrunGrup = new List<RaporTargetUrunGrup>();
-                _raporTemsilci = new List<RaporTemsilci>();
             }
             ViewBag.BOLGE = new SelectList(_raporGrupKod, "GrupKod", "GrupKod", h.BOLGE);
             ViewBag.URUNGRUP = new SelectList(_raporTargetUrunGrup, "UrunGrup", "UrunGrup", h.URUNGRUP);
-            //ViewBag.TEMSILCI = new SelectList(listRapTemsilci, "TipKod", "GrupKod");
-            //var t = new SelectList(listRapTemsilci, "TipKod", "GrupKod");
-            ViewBag.Temp = h.BOLGE;
+            ViewBag.Temp = (h.BOLGE ?? String.Empty);
             return PartialView(h);
         }
 
@@ -418,10 +401,100 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
                 LogActions("Reports", "Financial", "Delete", ComboItems.alSil, Id.ToInt32());
                 return Json(new Result(true, Id.ToInt32()), JsonRequestBehavior.AllowGet);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Logger(ex, "/Reports/Financial/TargetDelete");
                 return Json(new Result(false, "Projeye ait form bulunduğu için silme işlemi gerçekleştirilememiştir."), JsonRequestBehavior.AllowGet);
             }
+        }
+
+        public ActionResult TargetBolge()
+        {
+            if (CheckPerm(Perms.Raporlar, PermTypes.Reading) == false) { return Redirect("/"); }
+            List<RaporGrupKod> _raporGrupKod;
+            try
+            {
+                _raporGrupKod = db.Database.SqlQuery<RaporGrupKod>(String.Format(RaporGrupKod.Sorgu, vUser.SirketKodu)).ToList();
+            }
+            catch (Exception ex)
+            {
+                Logger(ex, "/Reports/Financial/TargetBolge");
+                _raporGrupKod = new List<RaporGrupKod>();
+            }
+            ViewBag.BOLGE = new SelectList(_raporGrupKod, "GrupKod", "GrupKod");
+            return View("TargetBolge", new HDF());
+        }
+
+        public PartialViewResult TargetBolgeList()
+        {
+            if (CheckPerm(Perms.Raporlar, PermTypes.Reading) == false) { return null; }
+            List<HDF> hdfList;
+            try
+            {
+                hdfList = db.Database.SqlQuery<HDF>(String.Format(@"SELECT * FROM [FINSAT6{0}].[FINSAT6{0}].HDF WITH (NOLOCK) WHERE TIP=0", vUser.SirketKodu)).ToList();
+            }
+            catch (Exception ex)
+            {
+                Logger(ex, "/Reports/Financial/TargetBolgeList");
+                hdfList = new List<HDF>();
+            }
+            return PartialView(hdfList);
+        }
+        [HttpPost, ValidateAntiForgeryToken]
+        public JsonResult TargetBolgeSave(HDF hdf)
+        {
+            if (CheckPerm(Perms.Raporlar, PermTypes.Writing) == false) { return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet); }
+            if (ModelState.IsValid)
+            {
+                var _Result = new Result(true);
+                string sorgu = "";
+                switch (hdf.ID)
+                {
+                    case 0:
+                        sorgu = String.Format(@"INSERT INTO FINSAT6{0}.FINSAT6{0}.HDF (TIP,BOLGE,TEMSILCI,URUNGRUP,HEDEF,TARIH) VALUES ({1},'{2}','{3}','{4}','{5}',{6})"
+                    , vUser.SirketKodu, 0, hdf.BOLGE, String.Empty, String.Empty, hdf.HEDEF, Convert.ToInt32(DateTime.Today.ToOADate()));
+                        break;
+                    default:
+                        sorgu = String.Format(@"UPDATE FINSAT6{0}.FINSAT6{0}.HDF SET TIP=0
+                    ,BOLGE='{1}',TEMSILCI='{2}',URUNGRUP='{3}',HEDEF={4}
+                    WHERE ID={5}", vUser.SirketKodu, hdf.BOLGE, String.Empty, String.Empty, Convert.ToInt32(hdf.HEDEF), hdf.ID);
+                        break;
+                }
+
+                try
+                {
+                    db.Database.ExecuteSqlCommand(sorgu);
+                    _Result.Status = true;
+                    _Result.Message = "İşlem başarılı";
+                }
+                catch (Exception ex)
+                {
+                    Logger(ex, "/Reports/Financial/TargetBolgeSave");
+                    _Result.Status = false;
+                    _Result.Message = "İşlem başarısız";
+                }
+                return Json(_Result, JsonRequestBehavior.AllowGet);
+            }
+            return Json(new Result(false, "Hata oldu"), JsonRequestBehavior.AllowGet);
+        }
+        public PartialViewResult TargetBolgeEdit(int? id)
+        {
+            HDF h;
+            List<RaporGrupKod> _raporGrupKod;
+            if (CheckPerm(Perms.Raporlar, PermTypes.Updating) == false) { return null; }
+            try
+            {
+                _raporGrupKod = db.Database.SqlQuery<RaporGrupKod>(String.Format(RaporGrupKod.Sorgu, vUser.SirketKodu)).ToList();
+                h = db.Database.SqlQuery<HDF>(String.Format(@"SELECT K.* FROM [FINSAT6{0}].[FINSAT6{0}].HDF AS K WITH (NOLOCK) WHERE K.ID={1}", vUser.SirketKodu, id)).FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                Logger(ex, "/Reports/Financial/TargetEdit");
+                h = new HDF();
+                _raporGrupKod = new List<RaporGrupKod>();
+            }
+            ViewBag.BOLGE = new SelectList(_raporGrupKod, "GrupKod", "GrupKod", h.BOLGE);
+            return PartialView(h);
         }
     }
 }
