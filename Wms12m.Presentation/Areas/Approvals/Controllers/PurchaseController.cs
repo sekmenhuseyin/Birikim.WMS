@@ -439,6 +439,8 @@ GROUP BY (CASE WHEN ST.Birim = STK.Birim1 THEN 1
             return PartialView(SAL);
         }
 
+        #region GMY Tedarikçi Onay & GMY Mali Onay
+
         public ActionResult GMYTedarikci_Onay()
         {
             if (CheckPerm(Perms.SatinalmaGMYTedarikciOnay, PermTypes.Reading) == false) return Redirect("/");
@@ -713,5 +715,103 @@ GROUP BY (CASE WHEN ST.Birim = STK.Birim1 THEN 1
                 }
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
+
+        #endregion
+
+        #region Satınalma Sipariş Talebi GMY Mali Onay
+
+        public ActionResult SatisSiparisGMYMaliOnay()
+        {
+            if (CheckPerm(Perms.SatinalmaGMYMaliOnay, PermTypes.Reading) == false) return Redirect("/");
+
+            ViewBag.baslik = "Satınalma Sipariş Talebi GMY Mali Onay";
+
+            MyGlobalVariables.SatSipGMYMaliOnayList = db.Database.SqlQuery<SatTalep>(string.Format(@"
+            SELECT DISTINCT ST.SipTalepNo, ST.HesapKodu, CHK.Unvan1 
+            FROM KAYNAK.sta.[Talep] as ST (nolock)
+            LEFT JOIN [FINSAT6{0}].[FINSAT6{0}].[CHK] (nolock) on ST.HesapKodu=CHK.HesapKodu
+            WHERE ST.Durum=8 AND ST.SipTalepNo IS NOT NULL AND ST.HesapKodu IS NOT NULL AND ST.TeklifNo IS NOT NULL", vUser.SirketKodu)).ToList();
+
+            return View(MyGlobalVariables.SatSipGMYMaliOnayList);
+        }
+
+        public PartialViewResult SatisSiparisGMYMaliOnay_List(string TalepNo, string HesapKodu)
+        {
+            ViewBag.TalepNo = TalepNo;
+            ViewBag.HesapKodu = HesapKodu;
+            return PartialView("SatisSiparisGMYMaliOnay_List");
+        }
+
+        public string SatisSiparisGMYMaliOnay_ListData(string TalepNo, string HesapKodu)
+        {
+
+            if (MyGlobalVariables.GridGMYSource == null)
+                MyGlobalVariables.GridGMYSource = new List<SatTalep>();
+            else
+                MyGlobalVariables.GridGMYSource.Clear();
+
+
+            MyGlobalVariables.GridGMYSource = db.Database.SqlQuery<SatTalep>(string.Format(@"
+                    SELECT ST.ID
+                        , ST.TalepNo
+                        , ST.MalKodu
+                        , ST.Tarih
+                        , ST.Tip
+                        , ST.Birim
+                        , ST.BirimMiktar
+                        , (CASE WHEN ST.Birim = STK.Birim1 THEN ST.BirimMiktar 
+                                WHEN ST.Birim = STK.Birim2 AND  STK.Operator2=0 THEN ST.BirimMiktar/STK.Katsayi2 
+                                WHEN ST.Birim = STK.Birim2  AND STK.Operator2=1 THEN ST.BirimMiktar*STK.Katsayi2 
+                                WHEN ST.Birim = STK.Birim3  AND STK.Operator3=0 THEN ST.BirimMiktar/STK.Katsayi3 
+                                WHEN ST.Birim = STK.Birim3  AND STK.Operator3=1 THEN ST.BirimMiktar*STK.Katsayi3 
+                                WHEN ST.Birim = STK.Birim4  AND STK.Operator4=0 THEN ST.BirimMiktar/STK.Katsayi4 
+                                WHEN ST.Birim = STK.Birim4  AND STK.Operator4=1 THEN ST.BirimMiktar*STK.Katsayi4  END ) AS Miktar
+                        , (CASE WHEN ST.Birim = STK.Birim1 THEN 0
+                                WHEN ST.Birim = STK.Birim2 THEN STK.Operator2
+                                WHEN ST.Birim = STK.Birim3 THEN STK.Operator3 
+                                WHEN ST.Birim = STK.Birim4 THEN STK.Operator4  END ) AS Operator
+                        , (CASE WHEN ST.Birim = STK.Birim1 THEN 1
+                                WHEN ST.Birim = STK.Birim2 THEN STK.Katsayi2
+                                WHEN ST.Birim = STK.Birim3 THEN STK.Katsayi3 
+                                WHEN ST.Birim = STK.Birim4 THEN STK.Katsayi4  END ) AS Katsayi
+                        , ST.IstenenTarih
+                        , ST.Aciklama
+                        , ST.Aciklama2
+                        , ST.Aciklama3
+                        , ST.Durum
+                        , ST.EkDosya
+                        , ST.Kademe1Onaylayan
+                        , ST.Kademe1OnayTarih
+                        , ST.Kademe2Onaylayan, ST.Kademe2OnayTarih
+                        , ST.Satinalmaci
+                        , ST.TeklifNo
+                        , ST.HesapKodu
+                        , ST.BirimFiyat
+                        , ST.DvzTL
+                        , ST.DvzCinsi
+                        , ISNULL((SELECT CASE WHEN DovizCinsi='JPY' then KUR01/100 else KUR01 end AS DvzKuru FROM SOLAR6.dbo.DVZ (NOLOCK) WHERE DovizCinsi=ST.DvzCinsi AND Tarih=CAST( DATEADD(dd, 0, DATEDIFF(dd, 0, GETDATE()))+2 AS INT)),0) as DvzKuru
+                        , ST.KDVOran
+                        , ST.SipTalepNo
+                        , ST.SipIslemTip
+                        , ST.Kaydeden 
+                        , STK.MalAdi
+                        , ST.TesisKodu
+                        , TK.Vade as TeklifVade
+                        ,TK.TeklifAciklamasi
+                        , ST.FTDDovizTL 
+                        , ST.FTDDovizCinsi 
+                        , ISNULL((SELECT CASE WHEN DovizCinsi='JPY' then KUR01/100 else KUR01 end AS DvzKuru FROM SOLAR6.dbo.DVZ (NOLOCK) WHERE DovizCinsi=ST.FTDDovizCinsi AND Tarih=CAST( DATEADD(dd, 0, DATEDIFF(dd, 0, GETDATE()))+2 AS INT)),0) as FTDDovizKuru
+                        FROM KAYNAK.sta.Talep as ST (nolock)
+                        INNER JOIN KAYNAK.sta.Teklif as TK (nolock) on TK.TeklifNo=ST.TeklifNo AND TK.HesapKodu=ST.HesapKodu AND TK.MalKodu=ST.MalKodu
+                        LEFT JOIN FINSAT6{0}.FINSAT6{0}.STK (nolock) on ST.MalKodu=STK.MalKodu
+                        WHERE ST.Durum=8 AND ST.SipTalepNo={1} AND ST.HesapKodu='{2}'",
+            vUser.SirketKodu, TalepNo, HesapKodu)).ToList();
+
+
+            var json = new JavaScriptSerializer().Serialize(MyGlobalVariables.GridGMYSource);
+            return json;
+        }
+
+        #endregion
     }
 }
