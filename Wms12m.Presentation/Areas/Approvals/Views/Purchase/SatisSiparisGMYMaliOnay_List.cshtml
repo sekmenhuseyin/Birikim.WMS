@@ -26,8 +26,6 @@
                                     <th nowrap>Tutar</th>
                                     <th nowrap>Döviz Tutar</th>
                                     <th nowrap>KDV Oran</th>
-                                    <th nowrap>KDV</th>
-                                    <th nowrap>Dvz Birim Fiyat</th>
                                     <th nowrap>Dvz Cinsi</th>
                                     <th nowrap>Dvz Kuru</th>
                                     <th nowrap>Vade</th>
@@ -54,7 +52,7 @@
         "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
         "ajax": {
             "url": '/Approvals/Purchase/SatisSiparisGMYMaliOnay_ListData',
-            "data": { TalepNo: '@ViewBag.TalepNo', HesapKodu. '@ViewBag.HesapKodu'},
+            "data": { TalepNo: '@ViewBag.TalepNo', HesapKodu: '@ViewBag.HesapKodu'},
             "dataSrc": function (json) {
 
                 return json;
@@ -63,10 +61,6 @@
         "pagingType": "full_numbers",
         "fixedHeader": true,
         "scrollX": true,
-        "columnDefs": [
-            { "visible": false, "targets": [28] },
-            { "type": "num-fmt", "className": "dt-right", "targets": [11, 12, 13, 14, 15, 18, 25, 26] }
-        ],
         "columns": [
             { "data": "MalKodu" },
             { "data": "MalAdi" },
@@ -76,16 +70,14 @@
             { "data": "BirimMiktar", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
             { "data": "BirimFiyat", "render": $.fn.dataTable.render.number('.', ',', 4, '') },
             { "data": "Tutar", "render": $.fn.dataTable.render.number('.', ',', 4, '') },
-            { "data": "DovizTutar", "render": $.fn.dataTable.render.number('.', ',', 4, '') },
+            { "data": "DvzTutar", "render": $.fn.dataTable.render.number('.', ',', 4, '') },
             { "data": "KDVOran" },
-            { "data": "KDV" },
-            { "data": "DvzBirimFiyat", "render": $.fn.dataTable.render.number('.', ',', 4, '') },
-            { "data": "DovizCinsi" },
-            { "data": "DovizKuru" },
-            { "data": "Kod11" },
+            { "data": "DvzCinsi" },
+            { "data": "DvzKuru" },
+            { "data": "Vade" },
             { "data": "Kaydeden" },
-            { "data": "Nesne3" },
-            { "data": "SatinAlmaci" }
+            { "data": "TesisKodu" },
+            { "data": "Satinalmaci" }
         ],
         "ordering": false,
         "fnRowCallback": function (nRow, aData, iDisplayIndex) {
