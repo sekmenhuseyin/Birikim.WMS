@@ -243,9 +243,9 @@ WHERE OT.Sirketkodu='{0}' AND OT.[AktarimDurum]=1 AND OT.Islemtip=1 AND [SevkEvr
             return View(STI);
         }
 
-        public PartialViewResult SevkiyatKalanStokList(int bastarih, int bittarih, string depo)
+        public PartialViewResult SevkiyatKalanStokList()
         {
-            var RP = db.Database.SqlQuery<SevkiyatKalanRapor>(string.Format("[FINSAT6{0}].[wms].[RP_SevkiyatKalanStok] @BasTarih = {1}, @BitTarih={2}, @Depo='{3}'", vUser.SirketKodu, bastarih, bittarih, depo)).ToList();
+            var RP = db.Database.SqlQuery<SevkiyatKalanRapor>(string.Format("[FINSAT6{0}].[wms].[RP_SevkiyatKalanStok] ", vUser.SirketKodu)).ToList();
             return PartialView("SevkiyatKalanStokList", RP);
         }
     }

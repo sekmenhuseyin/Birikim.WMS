@@ -11,19 +11,69 @@
             <table class="table table-striped table-bordered table-condensed" id="sample_1">
                 <thead>
                     <tr>
-                      
+                        <th></th>
+                        <th>EvrakNo</th>
                         <th>Tarih</th>
+                        <th>TahTeslimTarih</th>
+                        <th>Chk</th>
+                        <th>Unvan</th>
+                        <th>SiraNo</th>
+                        <th>TeslimChk</th>
+                        <th>TeslimYeriAdi</th>
                         <th>MalKodu</th>
-                        <th>Depo</th>
+                        <th>MalAdi</th>
                         <th>Miktar</th>
-                        <th>KalanStok</th>
-                       
-                    </tr>
+                        <th>Birim</th>
+                        <th>BirimMiktar</th>
+                        <th>TeslimMiktar</th>
+                        <th>KapatilanMiktar</th>
+                        <th>SevkEvrakMiktar</th>
+                        <th>Birim1</th>
+                        <th>Birim2</th>
+                        <th>Birim3</th>
+                        <th>Operator2</th>
+                        <th>Operator3</th>
+                        <th>KatSayi2</th>
+                        <th>KatSayi3</th>
+                        <th>GrupKod</th>
+                        <th>Kod16</th>
+                        <th>Birim1StokMiktar</th>
+                        <th>BTBKatSayi</th>
+                        <th>KayitTarih</th>
+                        <th>KayitSaat</th>
+                        <th>SevkEdilecekIlIlce</th>                
+                                                                   
+                    </tr>                                          
                 </thead>
                 <tfoot><tr><th colspan="5"></th></tr></tfoot>
                 <tfoot class="tf-search">
                     <tr>
-                   
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
                         <th></th>
                         <th></th>
                         <th></th>
@@ -36,14 +86,40 @@
                     @foreach (var item in Model)
                     {
                         <tr>
-                      
+                            <td class="details-control"></td>
+                            <td nowrap>@item.EvrakNo</td>
                             <td nowrap>@item.Tarih</td>
+                            <td nowrap>@item.TahTeslimTarih</td>
+                            <td nowrap>@item.Chk</td>
+                            <td nowrap>@item.Unvan</td>
+                            <td nowrap>@item.SiraNo</td>
+                            <td nowrap>@item.TeslimChk</td>
+                            <td nowrap>@item.TeslimYeriAdi</td>
                             <td nowrap>@item.MalKodu</td>
-                            <td nowrap>@item.Depo</td>
+                            <td nowrap>@item.MalAdi</td>
                             <td nowrap>@item.Miktar</td>
-                            <td nowrap>@item.KalanStok</td>
+                            <td nowrap>@item.Birim</td>
+                            <td nowrap>@item.BirimMiktar</td>
+                            <td nowrap>@item.TeslimMiktar</td>
+                            <td nowrap>@item.KapatilanMiktar</td>
+                            <td nowrap>@item.SevkEvrakMiktar</td>
+                            <td nowrap>@item.Birim1</td>
+                            <td nowrap>@item.Birim2</td>
+                            <td nowrap>@item.Birim3</td>
+                            <td nowrap>@item.Operator2</td>
+                            <td nowrap>@item.Operator3</td>
+                            <td nowrap>@item.KatSayi2</td>
+                            <td nowrap>@item.KatSayi3</td>
+                            <td nowrap>@item.GrupKod</td>
+                            <td nowrap>@item.Kod16</td>
+                            <td nowrap>@item.Birim1StokMiktar</td>
+                            <td nowrap>@item.BTBKatSayi</td>
+                            <td nowrap>@item.KayitTarih</td>
+                            <td nowrap>@item.KayitSaat</td>
+                            <td nowrap>@item.SevkEdilecekIlIlce</td>
                         </tr>
                     }
+
                 </tbody>
             </table>
         </div>

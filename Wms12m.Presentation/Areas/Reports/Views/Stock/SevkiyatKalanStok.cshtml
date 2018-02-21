@@ -10,31 +10,6 @@
 <div class="row control-content">
     <div class="row col-md-10">
         <div class="col-xs-12 col-sm-12 col-md-2" style="margin-top:10px;">
-            <div class="col-md-offset-2 col-md-2 p-0 m-t-5 color-blue-light bold">Depo: </div>
-        </div>
-        <div class="col-xs-7 col-sm-7 col-md-3" style="margin-top:10px;line-height:36px;height:36px;padding:4px;margin-left:10px;">
-            <div class="depo-select" style="width:90%;height:29px;">
-            </div>
-        </div>
-    </div>
-    <div class="row col-md-10">
-        <div class="col-xs-12 col-sm-12 col-md-2" style="margin-top:10px;">
-            <div class="col-md-offset-2 col-md-2 p-0 m-t-5 color-blue-light bold">Başlangıç Tarihi: </div>
-        </div>
-        <div class="col-xs-7 col-sm-7 col-md-2" style="margin-top:10px;line-height:36px;height:36px;padding:4px;margin-left:10px;">
-            <input class="form-control dateboxbg" type="text" id="txtBaslangic" value="@DateTime.Today.AddMonths(-1).ToString("dd.MM.yyyy")" />
-        </div>
-    </div>
-    <div class="row col-md-10">
-        <div class="col-xs-12 col-sm-12 col-md-2" style="margin-top:10px;">
-            <div class="col-md-offset-2 col-md-2 p-0 m-t-5 color-blue-light bold">Bitiş Tarihi: </div>
-        </div>
-        <div class="col-xs-7 col-sm-7 col-md-2" style="margin-top:10px;line-height:36px;height:36px;padding:4px;margin-left:10px;">
-            <input class="form-control dateboxbg" type="text" id="txtBitis" value="@DateTime.Today.ToString("dd.MM.yyyy")" />
-        </div>
-    </div>
-    <div class="row col-md-10">
-        <div class="col-xs-12 col-sm-12 col-md-2" style="margin-top:10px;">
             <div class="btn btn-lg green btn-listele" style="width:222px;height:33px;">Listele<i class="fa fa-check"></i></div>
         </div>
 
@@ -49,48 +24,15 @@
     $(document).ready(function () {
         @*var model = @Html.Raw(Json.Encode(ViewBag.STI));*@
         var model = @Html.Raw(Json.Encode(Model));
-        var depo = "";
-        var bastarih = @DateTime.Today.AddMonths(-1).ToOADateInt();
-        var bittarih = @DateTime.Today.ToOADateInt();
-        $.datepicker.setDefaults($.datepicker.regional["tr"]);
-        $("#txtBaslangic").datepicker().on("change", function (e) { bastarih = toOADateFromString(e.target.value); });
-        $("#txtBitis").datepicker().on("change", function (e) { bittarih = toOADateFromString(e.target.value); });
 
-
-        $(".depo-select").dxLookup({
-            dataSource: model,
-            searchEnabled: true,
-            pageLoadMode: "nextButton",
-            searchExpr: ["Depo"],
-            valueExpr: 'Depo',
-            displayExpr: 'Depo',
-
-            onValueChanged: function (e) {
-                depo = e.value;
-            },
-
-            itemTemplate: function (itemData, itemIndex, itemElement) {
-                itemElement.css({ "text-align": "left", "border-bottom": "1px solid #2fc1d8" });
-                if (itemIndex > 0) {
-                    itemElement.css({ "margin-top": "-40px" });
-                }
-                var rightBlock = $("<div style=' margin: 2px; width:100%;'>");
-                rightBlock.append("<div><p style='font-size:11px; font-weight:bold; line-height: 0%;'><b>" + itemData.Depo + "</b></p>");
-                itemElement.append(rightBlock);
-            }
-        });
 
 
 
 
         $(".btn-listele").dxButton({
             onClick: function () {
-                if (depo != "") {
-                    PartialView("/Reports/Stock/SevkiyatKalanStokList", 'kalan-stok-grid', JSON.stringify({ depo: depo, bastarih: bastarih, bittarih: bittarih }));
-                }
-                else {
-                    Modaldialog("Depo Kodu Seçmelisiniz.", "Giden Barkod", "Tamam", "btn-success");
-                }
+               
+                    PartialView("/Reports/Stock/SevkiyatKalanStokList", 'kalan-stok-grid', JSON.stringify({ }));
             }
         });
         $(".btn-listele").removeClass("dx-button");
