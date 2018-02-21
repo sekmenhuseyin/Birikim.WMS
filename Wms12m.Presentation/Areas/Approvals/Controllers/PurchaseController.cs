@@ -727,7 +727,7 @@ GROUP BY (CASE WHEN ST.Birim = STK.Birim1 THEN 1
             ViewBag.baslik = "Satınalma Sipariş Talebi GMY Mali Onay";
 
             MyGlobalVariables.SatSipGMYMaliOnayList = db.Database.SqlQuery<SatTalep>(string.Format(@"
-            SELECT DISTINCT ST.SipTalepNo, ST.HesapKodu, CHK.Unvan1 
+            SELECT DISTINCT ST.SipTalepNo, ST.HesapKodu, CHK.Unvan1 As Unvan
             FROM KAYNAK.sta.[Talep] as ST (nolock)
             LEFT JOIN [FINSAT6{0}].[FINSAT6{0}].[CHK] (nolock) on ST.HesapKodu=CHK.HesapKodu
             WHERE ST.Durum=8 AND ST.SipTalepNo IS NOT NULL AND ST.HesapKodu IS NOT NULL AND ST.TeklifNo IS NOT NULL", vUser.SirketKodu)).ToList();

@@ -1,10 +1,15 @@
 ﻿using OnikimCore;
+using OnikimCore.Enums;
+using OnikimCore.Model;
+using OnikimCore.Operations;
+using OnikimCore.Table;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using TumFaturaKayit;
 using Wms12m.Entity;
 using Wms12m.Entity.Models;
+using IslemSonuc = OnikimCore.Model.IslemSonuc;
 
 namespace Wms12m
 {
@@ -306,7 +311,7 @@ namespace Wms12m
                     #region Irsaliye_Kayit
 
                     var IrsIslem = new Irsaliye_Islemleri(SirketKodu);
-                    var Sonuc = new OnikimCore.IslemSonuc(false);
+                    var Sonuc = new IslemSonuc(false);
                     try
                     {
                         Sonuc = IrsIslem.Irsaliye_Kayit(IrsaliyeSeri, efatKullanici, STIBaseListSPI);
@@ -406,7 +411,7 @@ namespace Wms12m
             }
 
             var IrsIslem = new Irsaliye_Islemleri(irsaliye.SirketKod);
-            var Sonuc = new OnikimCore.IslemSonuc(false);
+            var Sonuc = new IslemSonuc(false);
             try
             {
                 Sonuc = IrsIslem.Irsaliye_Kayit(-1, true, STIBaseList);
@@ -518,7 +523,7 @@ namespace Wms12m
             }
 
             var IrsIslem = new Irsaliye_Islemleri(irsaliye.SirketKod);
-            var Sonuc = new OnikimCore.IslemSonuc(false);
+            var Sonuc = new IslemSonuc(false);
             try
             {
                 Sonuc = IrsIslem.Irsaliye_Kayit(-1, efatKullanici, STIBaseList);
