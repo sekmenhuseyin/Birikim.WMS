@@ -1,4 +1,5 @@
 ﻿using OnikimCore;
+using OnikimCore.Model;
 using System;
 using System.Collections.Generic;
 using Wms12m.Entity;
@@ -22,7 +23,7 @@ namespace Wms12m
         /// <summary>
         /// depo transfer fişi
         /// </summary>
-        public Result DepoTransfer(List<frmUysWaitingTransfer> tbl, Entity.EMG emir, bool GirisMi)
+        public Result DepoTransfer(List<frmUysWaitingTransfer> tbl, EMG emir, bool GirisMi)
         {
             // settings
             DevHelper.Ayarlar.SetConStr(ConStr);
@@ -47,7 +48,7 @@ namespace Wms12m
                 });
             }
 
-            var Emir = new OnikimCore.EMG();
+            var Emir = new OnikimCore.Table.EMG();
             if (emir != null)
             {
                 Emir.DefaultValueSet();
