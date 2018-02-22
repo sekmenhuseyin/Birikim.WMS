@@ -164,7 +164,8 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                 return Json(_Result, JsonRequestBehavior.AllowGet);
             }
 
-            using (KKP kkp = new KKP(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu))
+            var muhsebesirketkodu = db.GetSirketMuhasebeKod(vUser.SirketKodu, fn.ToOADate()).FirstOrDefault();
+            using (KKP kkp = new KKP(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu, muhsebesirketkodu))
             {
                 try
                 {
@@ -178,7 +179,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                         SqlParameter[] paramlist = new SqlParameter[4]
                         {
                             new SqlParameter("ID", SqlDbType.Int){ Value = item.ID},
-                            new SqlParameter("Degistiren", SqlDbType.VarChar){ Value = vUser.UserName.ToString()},
+                            new SqlParameter("Degistiren", SqlDbType.VarChar){ Value = vUser.UserName},
                             new SqlParameter("DegisTarih", SqlDbType.SmallDateTime){ Value = DateTime.Now},
                             new SqlParameter("SipEvrakNo", SqlDbType.VarChar){Value = evrakno}
                         };

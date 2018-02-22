@@ -792,5 +792,53 @@ namespace Wms12m.Entity.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<CRM_TeklifAnaliz_Detay_Result>("WMSEntities.CRM_TeklifAnaliz_Detay", teklifIDParameter);
         }
+    
+        public virtual ObjectResult<GetChats_Result> GetChats(Nullable<int> mesajTipi, string kimden, string kime)
+        {
+            var mesajTipiParameter = mesajTipi.HasValue ?
+                new ObjectParameter("MesajTipi", mesajTipi) :
+                new ObjectParameter("MesajTipi", typeof(int));
+    
+            var kimdenParameter = kimden != null ?
+                new ObjectParameter("Kimden", kimden) :
+                new ObjectParameter("Kimden", typeof(string));
+    
+            var kimeParameter = kime != null ?
+                new ObjectParameter("Kime", kime) :
+                new ObjectParameter("Kime", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetChats_Result>("WMSEntities.GetChats", mesajTipiParameter, kimdenParameter, kimeParameter);
+        }
+    
+        public virtual ObjectResult<GetNotificationsForActiveUsers_Result> GetNotificationsForActiveUsers()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetNotificationsForActiveUsers_Result>("WMSEntities.GetNotificationsForActiveUsers");
+        }
+    
+        public virtual ObjectResult<string> GetSirketMuhasebeKod(string sirketKodu, Nullable<int> tarih)
+        {
+            var sirketKoduParameter = sirketKodu != null ?
+                new ObjectParameter("SirketKodu", sirketKodu) :
+                new ObjectParameter("SirketKodu", typeof(string));
+    
+            var tarihParameter = tarih.HasValue ?
+                new ObjectParameter("Tarih", tarih) :
+                new ObjectParameter("Tarih", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("WMSEntities.GetSirketMuhasebeKod", sirketKoduParameter, tarihParameter);
+        }
+    
+        public virtual ObjectResult<Nullable<int>> GetSirketMuhasebeYear(string sirketKodu, Nullable<int> tarih)
+        {
+            var sirketKoduParameter = sirketKodu != null ?
+                new ObjectParameter("SirketKodu", sirketKodu) :
+                new ObjectParameter("SirketKodu", typeof(string));
+    
+            var tarihParameter = tarih.HasValue ?
+                new ObjectParameter("Tarih", tarih) :
+                new ObjectParameter("Tarih", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("WMSEntities.GetSirketMuhasebeYear", sirketKoduParameter, tarihParameter);
+        }
     }
 }
