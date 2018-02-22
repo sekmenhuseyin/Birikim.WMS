@@ -252,6 +252,12 @@ WHERE OT.Sirketkodu='{0}' AND OT.[AktarimDurum]=1 AND OT.Islemtip=1 AND [SevkEvr
 
 
         }
+        public PartialViewResult SevkiyatKalanDetay(string MalKodu)
+        {
+            var list = db.Database.SqlQuery<SevkiyatKalanDetay>(string.Format("[FINSAT6{0}].[wms].[RP_SevkiyatKalanDetay] @MalKodu='{1}' ", vUser.SirketKodu, MalKodu)).ToList();
+            ViewBag.MalKodu = MalKodu;
+            return PartialView("SevkiyatKalanDetay", list);
+        }
 
     }
 }

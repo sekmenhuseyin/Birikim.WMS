@@ -506,6 +506,7 @@
     <Content Include="Areas\Reports\Views\Financial\TargetBolgeEdit.cshtml" />
     <Content Include="Areas\Approvals\Views\Purchase\SatisSiparisGMYMaliOnay.cshtml" />
     <Content Include="Areas\Approvals\Views\Purchase\SatisSiparisGMYMaliOnay_List.cshtml" />
+    <Content Include="Areas\Reports\Views\Stock\SevkiyatKalanDetay.cshtml" />
     <None Include="bundleconfig.json" />
     <Content Include="Content\SizeSablon.xlsx" />
     <Content Include="Content\StockSablon.xlsx" />

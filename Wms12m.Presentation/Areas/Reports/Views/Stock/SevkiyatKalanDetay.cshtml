@@ -1,0 +1,26 @@
+﻿@model IEnumerable<SevkiyatKalanDetay>
+<table class="table">
+    <thead>
+    <th>MalKodu</th>
+    <th>MalAdi</th>
+    <th>Depo</th>
+    <th>DvrMiktar</th>
+    <th>GirMiktar</th>
+    <th>CikMiktar</th>
+    <th>Sevkiyat</th>
+    <th>StokMiktar</th>
+    </thead>
+    <tbody>@foreach (var item in Model)
+    {
+    <tr>
+        <td>@item.MalKodu</td>
+        <td>@item.MalAdi</td>
+        <td>@item.Depo</td>
+        <td>@item.DvrMiktar</td>
+        <td>@item.GirMiktar</td>
+        <td>@item.CikMiktar</td>
+        <td>@item.Sevkiyat</td>
+        <td>@item.StokMiktar</td>
+        
+        </tr>}</tbody>
+</table>
