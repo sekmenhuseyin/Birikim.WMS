@@ -1289,6 +1289,11 @@
         <Function Name="CRM_TeklifAnaliz_Detay" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="TeklifID" Type="int" Mode="In" />
         </Function>
+        <Function Name="GetChats" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="MesajTipi" Type="int" Mode="In" />
+          <Parameter Name="Kimden" Type="varchar" Mode="In" />
+          <Parameter Name="Kime" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="GetHomeSummary" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="UserName" Type="varchar" Mode="In" />
           <Parameter Name="UserID" Type="int" Mode="In" />
@@ -1297,6 +1302,7 @@
         <Function Name="GetMenuRoleFor" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="RoleName" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="GetNotificationsForActiveUsers" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="GetPermissionFor" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="UserID" Type="int" Mode="In" />
           <Parameter Name="RoleName" Type="varchar" Mode="In" />
@@ -1307,6 +1313,14 @@
         <Function Name="GetRolePermsFor" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="RoleName" Type="varchar" Mode="In" />
           <Parameter Name="Group" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="GetSirketMuhasebeKod" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="SirketKodu" Type="varchar" Mode="In" />
+          <Parameter Name="Tarih" Type="int" Mode="In" />
+        </Function>
+        <Function Name="GetSirketMuhasebeYear" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="SirketKodu" Type="varchar" Mode="In" />
+          <Parameter Name="Tarih" Type="int" Mode="In" />
         </Function>
         <Function Name="GetSirkets" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="GetUserPermsFor" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
@@ -2179,7 +2193,7 @@
             <Parameter Name="Bitis" Mode="In" Type="DateTime" />
           </FunctionImport>
           <FunctionImport Name="CRM_GorusmeNotlariDetay" ReturnType="Collection(String)">
-            <Parameter Name="ID" Mode="In" Type="Int32" />
+          <Parameter Name="ID" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="CRM_KurumKarti" ReturnType="Collection(MModel.CRM_KurumKarti_Result)">
             <Parameter Name="Baslangic" Mode="In" Type="DateTime" />
@@ -2190,7 +2204,21 @@
             <Parameter Name="Bitis" Mode="In" Type="DateTime" />
           </FunctionImport>
           <FunctionImport Name="CRM_TeklifAnaliz_Detay" ReturnType="Collection(MModel.CRM_TeklifAnaliz_Detay_Result)">
-            <Parameter Name="TeklifID" Mode="In" Type="Int32" />
+          <Parameter Name="TeklifID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="GetChats" ReturnType="Collection(MModel.GetChats_Result)">
+            <Parameter Name="MesajTipi" Mode="In" Type="Int32" />
+            <Parameter Name="Kimden" Mode="In" Type="String" />
+            <Parameter Name="Kime" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="GetNotificationsForActiveUsers" ReturnType="Collection(MModel.GetNotificationsForActiveUsers_Result)" />
+          <FunctionImport Name="GetSirketMuhasebeKod" ReturnType="Collection(String)">
+            <Parameter Name="SirketKodu" Mode="In" Type="String" />
+            <Parameter Name="Tarih" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="GetSirketMuhasebeYear" ReturnType="Collection(Int32)">
+            <Parameter Name="SirketKodu" Mode="In" Type="String" />
+            <Parameter Name="Tarih" Mode="In" Type="Int32" />
           </FunctionImport>
           </EntityContainer>
         <ComplexType Name="GetSirkets_Result">
@@ -3699,6 +3727,20 @@
           <Property Type="Decimal" Name="KDVORANI" Nullable="true" Precision="15" Scale="2" />
           <Property Type="Decimal" Name="TUTAR" Nullable="true" Precision="14" Scale="5" />
         </ComplexType>
+        <ComplexType Name="GetChats_Result">
+          <Property Type="String" Name="AdSoyad" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Kod" Nullable="false" MaxLength="5" />
+          <Property Type="DateTime" Name="Tarih" Nullable="false" Precision="16" />
+          <Property Type="String" Name="Mesaj" Nullable="false" />
+          <Property Type="Guid" Name="ID" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="GetNotificationsForActiveUsers_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="Kime" Nullable="false" MaxLength="5" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Mesaj" Nullable="false" />
+          <Property Type="String" Name="ConnectionId" Nullable="false" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -4631,6 +4673,30 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetChats" FunctionName="MModel.Store.GetChats">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MModel.GetChats_Result">
+                <ScalarProperty Name="AdSoyad" ColumnName="AdSoyad" />
+                <ScalarProperty Name="Kod" ColumnName="Kod" />
+                <ScalarProperty Name="Tarih" ColumnName="Tarih" />
+                <ScalarProperty Name="Mesaj" ColumnName="Mesaj" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetNotificationsForActiveUsers" FunctionName="MModel.Store.GetNotificationsForActiveUsers">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MModel.GetNotificationsForActiveUsers_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Kime" ColumnName="Kime" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Mesaj" ColumnName="Mesaj" />
+                <ScalarProperty Name="ConnectionId" ColumnName="ConnectionId" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetSirketMuhasebeKod" FunctionName="MModel.Store.GetSirketMuhasebeKod" />
+          <FunctionImportMapping FunctionImportName="GetSirketMuhasebeYear" FunctionName="MModel.Store.GetSirketMuhasebeYear" />
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
