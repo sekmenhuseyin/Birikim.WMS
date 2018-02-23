@@ -24,6 +24,7 @@
                         @using (Ajax.BeginForm("TargetBolgeSave", "Financial", new { area = "Reports" }, new AjaxOptions { OnSuccess = "getResult2", HttpMethod = "post", OnFailure = "Modaldialog('Lütfen Tekrar Deneyin', 'Hata', 'Tamam', 'btn-danger');" }, new { @class = "form-horizontal" }))
                         {
                             @Html.HiddenFor(model => model.ID, new { @class = "ID" })
+                            @Html.HiddenFor(model => model.AYYIL, new { @class = "AYYIL" })
                             @Html.AntiForgeryToken()
                             @Html.ValidationSummary(true)
                             <div class="form-body">
@@ -72,13 +73,14 @@
             if (data.Status == false) { Modaldialog(data.Message, "Hata", "Tamam", "btn-danger"); }
             else {
                 Modaldialog("Kaydedildi", "Başarı", "Tamam", "btn-success");
-                TmzGunc2('0');
                 PartialView("/Reports/Financial/TargetBolgeList", "liste");
             }
+            TmzGunc2('0');
         };
         function TmzGunc2(Id) {
             if (Id == 0) {
                 $("#ID").val("0");
+                $("#AYYIL").val("");
                 $(".satirekle")[0].selectedIndex = 0;
                 $("#HEDEF").val("");
                 $("#CreateEdit [type='submit']").text("Ekle");

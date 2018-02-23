@@ -8,7 +8,7 @@
     <link href="~/Content/assets/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css" rel="stylesheet" type="text/css" />
     <link href="~/Content/assets/global/plugins/jquery-file-upload/css/jquery.fileupload.css" rel="stylesheet" />
 }
-<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><a href="javascript:;">Raporlar</a><i class="fa fa-circle"></i></li><li><span>Hedef İşlemleri</span></li></ul></div>
+<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><a href="javascript:;">Hedef İşlemleri</a><i class="fa fa-circle"></i></li><li><span>Hedef İşlemleri</span></li></ul></div>
 <h1 class="page-title">Hedef İşlemleri</h1>
 <div class="row">
     <div class="col-md-12">
@@ -24,6 +24,7 @@
                         @using (Ajax.BeginForm("TargetSave", "Financial", new { area = "Reports" }, new AjaxOptions { OnSuccess = "getResult", HttpMethod = "post", OnFailure = "Modaldialog('Lütfen Tekrar Deneyin', 'Hata', 'Tamam', 'btn-danger');" }, new { @class = "form-horizontal" }))
                         {
                             @Html.HiddenFor(model => model.ID, new { @class = "ID" })
+                            @Html.HiddenFor(model => model.AYYIL, new { @class = "AYYIL" })
                             @Html.AntiForgeryToken()
                             @Html.ValidationSummary(true)
                             <div class="form-body">
@@ -87,9 +88,9 @@
             if (data.Status == false) { Modaldialog(data.Message, "Hata", "Tamam", "btn-danger"); }
             else {
                 Modaldialog("Kaydedildi", "Başarı", "Tamam", "btn-success");
-                TmzGunc('0');
                 PartialView("/Reports/Financial/TargetList", "liste");
             }
+            TmzGunc('0');
         };
         function TemsilciGetir(GrupKod, TipKod) {
             if (GrupKod != "") {
@@ -115,6 +116,7 @@
             if (Id == 0) {
                 $("#TEMSILCI option").remove();
                 $("#ID").val("0");
+                $("#AYYIL").val("");
                 $(".satirekle")[0].selectedIndex = 0;
                 $(".satirekle")[1].selectedIndex = 0;
                 $("#HEDEF").val("");

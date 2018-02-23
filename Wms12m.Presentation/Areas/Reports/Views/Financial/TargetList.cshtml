@@ -1,4 +1,4 @@
-﻿@model List<RaporHdfList>
+﻿@model List<HDF>
 <div class="col-md-12" style="width:100%;">
     <div class="portlet box green">
         <div class="portlet-title">
@@ -24,7 +24,7 @@
                     @foreach (var item in Model)
                     {
                         <tr>
-                            <td nowrap>@item.ID</td> @*Nowrap:Satırların tek satırda olmasını sağlıyor*@
+                            <td nowrap>@item.ID</td>
                             <td nowrap>@item.BOLGE</td>
                             <td nowrap>@item.TEMSILCI</td>
                             <td nowrap>@item.URUNGRUP</td>

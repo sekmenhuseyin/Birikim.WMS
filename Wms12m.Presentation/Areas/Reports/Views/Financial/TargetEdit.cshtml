@@ -10,6 +10,7 @@
             @using (Ajax.BeginForm("TargetSave", "Financial", new { area = "Reports" }, new AjaxOptions { OnSuccess = "getResult", HttpMethod = "post", OnFailure = "Modaldialog('Lütfen Tekrar Deneyin', 'Hata', 'Tamam', 'btn-danger');" }, new { @class = "form-horizontal" }))
             {
                 @Html.HiddenFor(model => model.ID, new { @class = "ID" })
+                @Html.HiddenFor(model => model.AYYIL, new { @class = "AYYIL" })
                 @Html.AntiForgeryToken()
                 @Html.ValidationSummary(true)
                 <div class="form-body">
@@ -23,7 +24,6 @@
                     <div class="form-group">
                         @Html.LabelFor(model => model.TEMSILCI, "Temsilci", htmlAttributes: new { @class = "control-label col-md-3" })
                         <div class="col-md-4">
-                            @*@Html.DropDownList("TEMSILCI", null, htmlAttributes: new { @class = "form-control input-circle", required = "required" })*@
                             <select id="TEMSILCI" class="form-control input-circle" required="required" name="TEMSILCI"></select>
                             @Html.ValidationMessageFor(model => model.TEMSILCI, "", new { @class = "text-danger" })
                         </div>
@@ -57,7 +57,7 @@
     $(document).ready(function () {
         var GrupKoddrd = document.getElementById("BOLGE");
         var GrupKod = GrupKoddrd.options[GrupKoddrd.selectedIndex].value;
-        TemsilciGetir2(GrupKod,@Convert.ToInt32(ViewBag.Temp));
+        TemsilciGetir2(GrupKod,'@Convert.ToString(ViewBag.Temp)');
     });
     function TemsilciGetir2(GrupKod, TipKod) {
         if (GrupKod == "") {
