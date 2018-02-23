@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Birikim.Models;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -27,7 +28,6 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         {
             var _Result = new Result(true);
             var parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
-            var sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
 
             try
             {
@@ -64,7 +64,6 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         {
             var _Result = new Result(true);
             var parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
-            var sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
 
             try
             {
@@ -221,7 +220,6 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         {
             var _Result = new Result(true);
             var parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
-            var sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
 
             try
             {
@@ -258,7 +256,6 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         {
             var _Result = new Result(true);
             var parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
-            var sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
             try
             {
                 foreach (JObject insertObj in parameters)
@@ -383,7 +380,6 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         {
             var _Result = new Result(true);
             var parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
-            var sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
 
             try
             {
@@ -409,7 +405,6 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         {
             var _Result = new Result(true);
             var parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
-            var sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
 
             try
             {

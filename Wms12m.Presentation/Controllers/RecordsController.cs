@@ -1,4 +1,5 @@
-﻿using Kendo.Mvc.Extensions;
+﻿using Birikim.Models;
+using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
 using System;
 using System.Linq;

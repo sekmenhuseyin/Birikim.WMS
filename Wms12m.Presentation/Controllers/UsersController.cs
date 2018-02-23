@@ -1,4 +1,5 @@
-﻿using Humanizer;
+﻿using Birikim.Models;
+using Humanizer;
 using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
 using System;

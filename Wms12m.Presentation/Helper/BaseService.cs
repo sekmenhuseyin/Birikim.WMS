@@ -6,7 +6,7 @@ using Wms12m.Entity.Models;
 
 namespace Wms12m.Presentation
 {
-    public class BaseService : WebService, IDisposable
+    public class BaseService : WebService
     {
         public string AuthPass = "http://www.12mconsulting.com.tr/";
         public WMSEntities db = new WMSEntities();

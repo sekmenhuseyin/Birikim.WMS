@@ -1,7 +1,7 @@
-﻿using Newtonsoft.Json;
+﻿using Birikim.Models;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
-using System.Configuration;
 using System.Linq;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
@@ -34,7 +34,6 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             var _Result = new Result(true);
             if (CheckPerm(Perms.RiskOnaylama, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             var parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
-            var sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
 
             try
             {
@@ -42,7 +41,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                 {
                     var date = DateTime.Now;
                     var shortDate = date.ToString("yyyy-MM-dd HH:mm:ss");
-                    var sonuc = sqlexper.AcceptChanges();
+                    var sonuc = SqlExper.AcceptChanges();
                     db.Database.ExecuteSqlCommand(string.Format("DELETE FROM [FINSAT6{0}].[FINSAT6{0}].[RiskTanim] where ID = '{1}'", vUser.SirketKodu, insertObj["ID"].ToString()));
                 }
 
@@ -81,7 +80,6 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             var _Result = new Result(true);
             if (CheckPerm(Perms.RiskOnaylama, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             var parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
-            var sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
 
             try
             {
@@ -89,7 +87,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                 {
                     var date = DateTime.Now;
                     var shortDate = date.ToString("yyyy-MM-dd HH:mm:ss");
-                    var sonuc = sqlexper.AcceptChanges();
+                    var sonuc = SqlExper.AcceptChanges();
                     db.Database.ExecuteSqlCommand(string.Format("DELETE FROM [FINSAT6{0}].[FINSAT6{0}].[RiskTanim] where ID = '{1}'", vUser.SirketKodu, insertObj["ID"].ToString()));
                 }
 
@@ -128,7 +126,6 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             var _Result = new Result(true);
             if (CheckPerm(Perms.RiskOnaylama, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             var parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
-            var sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
 
             try
             {
@@ -136,7 +133,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                 {
                     var date = DateTime.Now;
                     var shortDate = date.ToString("yyyy-MM-dd HH:mm:ss");
-                    var sonuc = sqlexper.AcceptChanges();
+                    var sonuc = SqlExper.AcceptChanges();
                     db.Database.ExecuteSqlCommand(string.Format("DELETE FROM [FINSAT6{0}].[FINSAT6{0}].[RiskTanim] where ID = '{1}'", vUser.SirketKodu, insertObj["ID"].ToString()));
                 }
 
@@ -175,15 +172,13 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             var _Result = new Result(true);
             if (CheckPerm(Perms.RiskOnaylama, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             var parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
-            var sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
-
             try
             {
                 foreach (JObject insertObj in parameters)
                 {
                     var date = DateTime.Now;
                     var shortDate = date.ToString("yyyy-MM-dd HH:mm:ss");
-                    var sonuc = sqlexper.AcceptChanges();
+                    var sonuc = SqlExper.AcceptChanges();
                     db.Database.ExecuteSqlCommand(string.Format("DELETE FROM [FINSAT6{0}].[FINSAT6{0}].[RiskTanim] where ID = '{1}'", vUser.SirketKodu, insertObj["ID"].ToString()));
                 }
 
@@ -223,7 +218,6 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         {
             if (CheckPerm(Perms.RiskTanim, PermTypes.Writing) == false) return "NO";
             var parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
-            var sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
             try
             {
                 var sonucMessage = "OK";
@@ -276,8 +270,8 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                         rsk.OnayTip = -1;
                     }
 
-                    sqlexper.Insert(rsk);
-                    var sonuc = sqlexper.AcceptChanges();
+                    SqlExper.Insert(rsk);
+                    var sonuc = SqlExper.AcceptChanges();
                     if (sonuc.Status == false) sonucMessage = "NO";
                 }
 
@@ -294,7 +288,6 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             var _Result = new Result(true);
             if (CheckPerm(Perms.RiskOnaylama, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             var parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
-            var sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
             var CHK = "";
             var ID = 0;
             try

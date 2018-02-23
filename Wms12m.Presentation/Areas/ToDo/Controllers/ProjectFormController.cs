@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Birikim.Models;
+using System;
 using System.Data;
 using System.Linq;
 using System.Web.Mvc;

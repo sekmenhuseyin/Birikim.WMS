@@ -1,10 +1,10 @@
-﻿using System;
+﻿using Birikim.Models;
+using System;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 using Wms12m.Business;
-using Wms12m.Entity;
 using Wms12m.Entity.Models;
 
 namespace Wms12m.Presentation.Controllers

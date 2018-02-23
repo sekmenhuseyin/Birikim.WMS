@@ -1,8 +1,8 @@
-﻿using Newtonsoft.Json;
+﻿using Birikim.Models;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Linq;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
@@ -31,7 +31,6 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             var _Result = new Result(true);
             if (CheckPerm(Perms.TeminatOnay, PermTypes.Writing) == false) return null;
             var parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
-            var sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
 
             try
             {
@@ -40,7 +39,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                 {
                     var date = DateTime.Now;
                     var shortDate = date.ToString("yyyy-MM-dd");
-                    var sonuc = sqlexper.AcceptChanges();
+                    var sonuc = SqlExper.AcceptChanges();
                     db.Database.ExecuteSqlCommand(string.Format("[FINSAT6{0}].[wms].[TeminatOnayUpdate] @ID = {1}, @Kullanici = '{2}'", vUser.SirketKodu, insertObj["ID"].ToString(), vUser.UserName));
                 }
 
@@ -61,8 +60,6 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             var _Result = new Result(true);
             if (CheckPerm(Perms.TeminatOnay, PermTypes.Writing) == false) return null;
             var parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
-            var sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
-
             try
             {
                 Dictionary<string, int> FiyatMaxSiraNo = new Dictionary<string, int>();
@@ -70,7 +67,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                 {
                     var date = DateTime.Now;
                     var shortDate = date.ToString("yyyy-MM-dd");
-                    var sonuc = sqlexper.AcceptChanges();
+                    var sonuc = SqlExper.AcceptChanges();
                     db.Database.ExecuteSqlCommand(string.Format("DELETE FROM [FINSAT6{0}].[FINSAT6{0}].[Teminat] WHERE  ID = {1}", vUser.SirketKodu, insertObj["ID"].ToString()));
                 }
 
@@ -133,7 +130,6 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         {
             if (CheckPerm(Perms.TeminatTanim, PermTypes.Writing) == false) return null;
             var parameters = JsonConvert.DeserializeObject<JObject>(Request["Data"]);
-            var sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
             try
             {
                 var tmnt = new Teminat()
@@ -151,8 +147,8 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                     tmnt.VadeTarih = Convert.ToDateTime(parameters["VadeTarihi"]);
                 }
 
-                sqlexper.Insert(tmnt);
-                var sonuc = sqlexper.AcceptChanges();
+                SqlExper.Insert(tmnt);
+                var sonuc = SqlExper.AcceptChanges();
                 if (sonuc.Status == true) return "OK";
                 else return "NO";
             }

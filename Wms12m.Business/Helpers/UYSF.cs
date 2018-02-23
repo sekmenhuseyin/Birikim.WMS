@@ -1,4 +1,6 @@
-﻿using OnikimCore;
+﻿using Birikim.Helpers;
+using Birikim.Models;
+using OnikimCore;
 using OnikimCore.Model;
 using System;
 using System.Collections.Generic;
@@ -8,26 +10,23 @@ namespace Wms12m
 {
     public class UYSF
     {
+        private SqlExper SqlExper { get; set; }
+        private string SirketKodu { get; set; }
+
         /// <summary>
         /// yeni finsat
         /// </summary>
-        public UYSF(string conStr, string sirketKodu)
+        public UYSF(SqlExper sqlExper, string sirketKodu)
         {
-            ConStr = conStr;
+            SqlExper = sqlExper;
             SirketKodu = sirketKodu;
         }
-
-        private string ConStr { get; set; }
-        private string SirketKodu { get; set; }
 
         /// <summary>
         /// depo transfer fişi
         /// </summary>
         public Result DepoTransfer(List<frmUysWaitingTransfer> tbl, EMG emir, bool GirisMi)
         {
-            // settings
-            DevHelper.Ayarlar.SetConStr(ConStr);
-            DevHelper.Ayarlar.SirketKodu = SirketKodu;
             // add to list
             var DepTranList = new List<DepTran>();
             foreach (var item in tbl)
@@ -92,7 +91,7 @@ namespace Wms12m
             }
 
             // save 2 db
-            var StokIslem = new Stok_Islemleri(SirketKodu);
+            var StokIslem = new Stok_Islemleri(SirketKodu, SqlExper);
             var Sonuc = StokIslem.DepoTransfer_EMG_Kayit(DepTranList, emir == null ? null : Emir, tbl[0].Kaydeden2);
             // return
             var _Result = new Result()

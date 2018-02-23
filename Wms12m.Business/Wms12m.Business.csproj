@@ -31,8 +31,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="DevHelper">
-      <HintPath>\\192.168.2.232\Ortak\_Output\DevHelper\DevHelper.dll</HintPath>
+    <Reference Include="BirikimCore">
+      <HintPath>\\192.168.2.232\Ortak\_Output\BirikimCore\BirikimCore.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
@@ -72,7 +72,6 @@
     <Compile Include="Helpers\Functions.cs" />
     <Compile Include="Helpers\MultipleResultSets.cs" />
     <Compile Include="Helpers\MyMail.cs" />
-    <Compile Include="Helpers\SqlExper.cs" />
     <Compile Include="Helpers\YeniNesil.cs" />
     <Compile Include="Tables\PersonPerms.cs" />
     <Compile Include="Tables\TaskYer.cs" />

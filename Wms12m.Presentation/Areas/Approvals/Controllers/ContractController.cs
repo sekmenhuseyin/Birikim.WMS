@@ -1,8 +1,8 @@
-﻿using Newtonsoft.Json;
+﻿using Birikim.Models;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Linq;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
@@ -50,7 +50,6 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             var _Result = new Result(false, "Yetkiniz yok");
             if (CheckPerm(Perms.SözleşmeOnaylama, PermTypes.Writing) == false) return Json(_Result, JsonRequestBehavior.AllowGet);
             var parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
-            var sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
             try
             {
                 foreach (JObject insertObj in parameters)
@@ -161,11 +160,11 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                                 TutarYuzde7 = lst.TutarYuzde7,
                                 TutarYuzde8 = lst.TutarYuzde8
                             };
-                            sqlexper.Insert(insrt);
+                            SqlExper.Insert(insrt);
                         }
                     }
 
-                    var sonuc = sqlexper.AcceptChanges();
+                    var sonuc = SqlExper.AcceptChanges();
                 }
 
                 _Result.Status = true;
@@ -185,7 +184,6 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             var _Result = new Result(true);
             if (CheckPerm(Perms.SözleşmeOnaylama, PermTypes.Writing) == false) return null;
             var parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
-            var sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
             try
             {
                 foreach (JObject insertObj in parameters)
@@ -294,11 +292,11 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                                 TutarYuzde7 = lst.TutarYuzde7,
                                 TutarYuzde8 = lst.TutarYuzde8
                             };
-                            sqlexper.Insert(insrt);
+                            SqlExper.Insert(insrt);
                         }
                     }
 
-                    var sonuc = sqlexper.AcceptChanges();
+                    var sonuc = SqlExper.AcceptChanges();
                 }
 
                 _Result.Status = true;
@@ -318,7 +316,6 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             var _Result = new Result(true);
             if (CheckPerm(Perms.SözleşmeOnaylama, PermTypes.Writing) == false) return null;
             var parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
-            var sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
             try
             {
                 foreach (JObject insertObj in parameters)
@@ -426,11 +423,11 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                                 TutarYuzde7 = lst.TutarYuzde7,
                                 TutarYuzde8 = lst.TutarYuzde8
                             };
-                            sqlexper.Insert(insrt);
+                            SqlExper.Insert(insrt);
                         }
                     }
 
-                    var sonuc = sqlexper.AcceptChanges();
+                    var sonuc = SqlExper.AcceptChanges();
                 }
 
                 _Result.Status = true;
@@ -584,7 +581,6 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         {
             var _Result = new Result(true);
             if (CheckPerm(Perms.SözleşmeTanim, PermTypes.Writing) == false) return null;
-            var sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
             try
             {
                 var ISSS = db.Database.SqlQuery<ISS_Temp>(string.Format("SELECT * FROM [FINSAT6{0}].[FINSAT6{0}].[ISS_Temp]", vUser.SirketKodu)).ToList();
@@ -699,8 +695,8 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
                         if (VarMi > 0)
                         {
-                            sqlexper.Insert(insrt);
-                            var sonuc = sqlexper.AcceptChanges();
+                            SqlExper.Insert(insrt);
+                            var sonuc = SqlExper.AcceptChanges();
                         }
                     }
                 }
@@ -721,7 +717,6 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         {
             if (CheckPerm(Perms.SözleşmeTanim, PermTypes.Writing) == false) return null;
             var parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
-            var sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
             var filtreKagitVarmi = false;
 
             var SiraNo = 0;
@@ -915,8 +910,8 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                             HesapKodu = isstemp.MusteriKod;
                             ListeNo = isstemp.ListeNo;
                             BaglantiTutari = isstemp.Kod11;
-                            sqlexper.Insert(isstemp);
-                            var sonuc = sqlexper.AcceptChanges();
+                            SqlExper.Insert(isstemp);
+                            var sonuc = SqlExper.AcceptChanges();
                             if (sonuc.Status == false) return "NO";
                         }
 
@@ -960,7 +955,6 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         {
             var _Result = new Result(false, "Yetkiniz Yok");
             if (CheckPerm(Perms.SözleşmeTanim, PermTypes.Writing) == false) return Json(_Result, JsonRequestBehavior.AllowGet);
-            var sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
             try
             {
                 var filtreKagitVarmi = false;
@@ -993,7 +987,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                     item.OnayTarihSatisMuduru = null;
                     item.OnayTarihGenelMudur = null;
                     item.OnayTarihFinansmanMuduru = null;
-                    sqlexper.Update(item, null, null, false, "timestamp");
+                    SqlExper.Update(item, null, null, false, "timestamp");
                 }
 
                 if (filtreKagitVarmi)
@@ -1007,11 +1001,11 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                         item.OnaylayanSatisMuduru = "OZ";  /// SM sadece Özgür Beyin onayına düşsün diye
                         item.OnaylayanFinansmanMuduru = "";
                         item.OnaylayanGenelMudur = "";
-                        sqlexper.Update(item, null, null, false, "timestamp");
+                        SqlExper.Update(item, null, null, false, "timestamp");
                     }
                 }
 
-                var sonuc = sqlexper.AcceptChanges();
+                var sonuc = SqlExper.AcceptChanges();
                 if (sonuc.Status == true)
                 {
                     db.Database.ExecuteSqlCommand(string.Format("DELETE FROM [FINSAT6{0}].[FINSAT6{0}].[ISS] where ListeNo='{1}' AND BasTarih = {2} AND MusUygSekli={3}", vUser.SirketKodu, SozlesmeNo, BasTarih, MusUygSekli));

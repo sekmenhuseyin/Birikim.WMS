@@ -1,4 +1,5 @@
-﻿using KurumsalKaynakPlanlaması12M;
+﻿using Birikim.Models;
+using KurumsalKaynakPlanlaması12M;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;

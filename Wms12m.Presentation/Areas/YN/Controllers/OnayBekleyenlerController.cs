@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Birikim.Models;
+using System;
 using System.Configuration;
 using System.Linq;
 using System.Web.Mvc;
@@ -235,7 +236,7 @@ namespace Wms12m.Presentation.Areas.YN.Controllers
                 if (Onay == true)
                 {
                     var list = db.Database.SqlQuery<SepetUrun>(string.Format("SELECT 1 AS SatirTip, HesapKodu, UrunKodu, Birim, CONVERT(varchar(50), Miktar) as Miktar, CONVERT(varchar(50), Fiyat) as Fiyat, Depo, ParaCinsi, '{2}' AS KullaniciKodu, Kaydeden FROM YNS{0}.YNS{0}.TempFatura WHERE (EvrakNo = '{1}') AND (IslemDurumu = 0)", YnsSirketKodu, ID, vUser.UserName)).ToList();
-                    var yns = new YeniNesil(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, YnsSirketKodu);
+                    var yns = new YeniNesil(SqlExper, YnsSirketKodu);
                     var sepetIslemleri = yns.FaturaKaydet(list);
                     result = new Result(true, 1);
                 }
@@ -294,14 +295,14 @@ namespace Wms12m.Presentation.Areas.YN.Controllers
             try
             {
                 string[] ids = tbl.ID.Split(',');
-                var yns = new YeniNesil(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, YnsSirketKodu);
+                var yns = new YeniNesil(SqlExper, YnsSirketKodu);
                 yns.SatisIadeOnay(new SatisIadeOnay
                 {
                     IadeNo = ids[0],
                     IadeTarih = ids[1],
                     Onay = true,
                     Kaydeden = vUser.UserName,
-                    tbl=tbl
+                    tbl = tbl
                 });
                 result = new Result(true, 1);
                 return Json(result, JsonRequestBehavior.AllowGet);
@@ -322,7 +323,7 @@ namespace Wms12m.Presentation.Areas.YN.Controllers
             try
             {
                 string[] ids = ID.Split(',');
-                var yns = new YeniNesil(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, YnsSirketKodu);
+                var yns = new YeniNesil(SqlExper, YnsSirketKodu);
                 yns.SatisIadeOnay(new SatisIadeOnay
                 {
                     IadeNo = ids[0],
@@ -398,7 +399,7 @@ namespace Wms12m.Presentation.Areas.YN.Controllers
                     LEFT JOIN YNS{0}.YNS{0}.CAR002 ON TahsilatMobil.HesapKodu = CAR002_HesapKodu
                     WHERE TahsilatNo='{1}'", YnsSirketKodu, ID)).FirstOrDefault();
 
-                    var yns = new YeniNesil(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, YnsSirketKodu);
+                    var yns = new YeniNesil(SqlExper, YnsSirketKodu);
                     result = yns.TahsilatKaydet(item, vUser.UserName);
                 }
 

@@ -1,4 +1,7 @@
-﻿using DevHelper;
+﻿using Birikim.Enums;
+using Birikim.Extensions;
+using Birikim.Helpers;
+using Birikim.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,15 +14,15 @@ namespace Wms12m
         private List<STIEvrakBilgi> EvrakNoList;
         private List<STK005> FaturaSatirlari;
         private List<HesapItem> HesapList;
-        private string ConStr { get; set; }
+        private SqlExper SqlExper { get; set; }
         private string SirketKodu { get; set; }
 
         /// <summary>
         /// yeni finsat
         /// </summary>
-        public YeniNesil(string conStr, string sirketKodu)
+        public YeniNesil(SqlExper sqlExper, string sirketKodu)
         {
-            ConStr = conStr;
+            SqlExper = sqlExper;
             SirketKodu = sirketKodu;
         }
 
@@ -31,8 +34,7 @@ namespace Wms12m
             var siraNo = 0;
 
             var evrakBilgi = new STIEvrakBilgi();
-            var Sqlexper = new SqlExper(ConStr, SirketKodu);
-            var veriList = Sqlexper.SelectList<STIEvrakBilgi>(string.Format(@"
+            var veriList = SqlExper.SelectList<STIEvrakBilgi>(string.Format(@"
             SELECT TOP 1 STK005_EvrakSeriNo AS EvrakNo,
                     STK005_SEQNo as SiraNo
             FROM YNS{0}.YNS{0}.STK005 (NOLOCK)
@@ -90,16 +92,16 @@ namespace Wms12m
                 stiItem.STK005_DegistirenKodu = item.KullaniciKodu;
                 stiItem.STK005_DegistirenTarih = DateTime.Today.Date.ToOADate().ToInt32();
                 stiItem.STK005_DegistirenSaat = DateTime.Now.ToString("HHmmss"); ///O anın saatini döner
-                Sqlexper.Insert(stiItem);
+                SqlExper.Insert(stiItem);
 
                 siraNo++;
                 stiItem.STK005_SEQNo = siraNo;
                 stiItem.STK005_Depo = item.GirisDepo;
                 stiItem.STK005_GC = 0;
-                Sqlexper.Insert(stiItem);
+                SqlExper.Insert(stiItem);
             }
 
-            Sqlexper.AcceptChanges();
+            SqlExper.AcceptChanges();
             return new Result();
         }
 
@@ -117,8 +119,7 @@ namespace Wms12m
 
             var faturaSiraNo = EvrakNoList[0].SiraNo;
             var siparisSiraNo = EvrakNoList[1].SiraNo;
-            var saat = DateTime.Now.ToString("HHmmss"); ///O anın saatini döner 154010 gibi
-            var Sqlexper = new SqlExper(ConStr, SirketKodu);
+            var saat = DateTime.Now.ToString("HHmmss"); //O anın saatini döner 154010 gibi
             foreach (SepetUrun item in pSepetUrunleri)
             {
                 if (OndalikAyiracVirgul)
@@ -153,12 +154,12 @@ namespace Wms12m
                 fatura.STK005_IptalDurumu = 1;
                 fatura.STK005_AsilEvrakTarihi = fatura.STK005_IslemTarihi;
                 fatura.STK005_SevkTarihi = fatura.STK005_IslemTarihi;
-                fatura.STK005_VadeTarihi = fatura.STK005_IslemTarihi + 60;  ///Default 60 gün vade
+                fatura.STK005_VadeTarihi = fatura.STK005_IslemTarihi + 60;  //Default 60 gün vade
                 fatura.STK005_DovizCinsi = item.ParaCinsi;
                 fatura.STK005_Depo = item.Depo;
                 fatura.STK005_RafKodu = item.Depo + "-A0";
                 fatura.STK005_MaliyetMuhasebelesmeSekli = 1;
-                fatura.STK005_Not5 = "WMSOnay - " + item.KullaniciKodu;   ///Log amaçlı bilgi
+                fatura.STK005_Not5 = "WMSOnay - " + item.KullaniciKodu;   //Log amaçlı bilgi
 
                 fatura.STK005_GirenKaynak = "Y6018";
                 fatura.STK005_GirenSurum = "7.1.00";
@@ -183,7 +184,7 @@ namespace Wms12m
 
             foreach (var item in FaturaSatirlari)
             {
-                Sqlexper.Insert(item);
+                SqlExper.Insert(item);
                 var stk = new STK004
                 {
                     pk_STK004_MalKodu = item.STK005_MalKodu,
@@ -195,7 +196,7 @@ namespace Wms12m
                 stk.SetAdd(STK004E.STK004_CikisMiktari, STK004E.STK004_CikisMiktari, SetIslem.Arti, item.STK005_Miktari.ToDot());
                 stk.SetAdd(STK004E.STK004_CikisTutari, STK004E.STK004_CikisTutari, SetIslem.Arti, item.STK005_Tutari.ToDot());
                 stk.STK004_SonCikisTarihi = item.STK005_DegistirenTarih;
-                Sqlexper.Update(stk);
+                SqlExper.Update(stk);
             }
 
             foreach (var grupItem in FaturaSatirlari.GroupBy(x => x.STK005_CariHesapKodu))
@@ -236,7 +237,7 @@ namespace Wms12m
                 fMal.CAR005_EArsivFaturaDurumu = null;
                 fMal.CAR005_EArsivFaturaTeslimSekli = null;
 
-                Sqlexper.Insert(fMal);
+                SqlExper.Insert(fMal);
 
                 short satirNo = 3;
                 var fSevkAciklama = new CAR005();
@@ -253,7 +254,7 @@ namespace Wms12m
                     fSevkAciklama.CAR005_SatirNo = satirNo;
                     fSevkAciklama.CAR005_Filler = firstItem.Adres1.Substring(0, 1);
                     fSevkAciklama.CAR005_SatirAciklama = firstItem.Adres1.Substring(1, firstItem.Adres1.Length - 1);
-                    Sqlexper.Insert(fSevkAciklama);
+                    SqlExper.Insert(fSevkAciklama);
                     satirNo++;
                 }
 
@@ -262,7 +263,7 @@ namespace Wms12m
                     fSevkAciklama.CAR005_SatirNo = satirNo;
                     fSevkAciklama.CAR005_Filler = firstItem.Adres2.Substring(0, 1);
                     fSevkAciklama.CAR005_SatirAciklama = firstItem.Adres2.Substring(1, firstItem.Adres2.Length - 1);
-                    Sqlexper.Insert(fSevkAciklama);
+                    SqlExper.Insert(fSevkAciklama);
                     satirNo++;
                 }
 
@@ -271,7 +272,7 @@ namespace Wms12m
                     fSevkAciklama.CAR005_SatirNo = satirNo;
                     fSevkAciklama.CAR005_Filler = firstItem.Adres3.Substring(0, 1);
                     fSevkAciklama.CAR005_SatirAciklama = firstItem.Adres3.Substring(1, firstItem.Adres3.Length - 1);
-                    Sqlexper.Insert(fSevkAciklama);
+                    SqlExper.Insert(fSevkAciklama);
                     satirNo++;
                 }
 
@@ -280,7 +281,7 @@ namespace Wms12m
                     fSevkAciklama.CAR005_SatirNo = satirNo;
                     fSevkAciklama.CAR005_Filler = firstItem.Aciklama1.Substring(0, 1);
                     fSevkAciklama.CAR005_SatirAciklama = firstItem.Aciklama1.Substring(1, firstItem.Aciklama1.Length - 1);
-                    Sqlexper.Insert(fSevkAciklama);
+                    SqlExper.Insert(fSevkAciklama);
                     satirNo++;
                 }
 
@@ -289,7 +290,7 @@ namespace Wms12m
                     fSevkAciklama.CAR005_SatirNo = satirNo;
                     fSevkAciklama.CAR005_Filler = firstItem.Aciklama2.Substring(0, 1);
                     fSevkAciklama.CAR005_SatirAciklama = firstItem.Aciklama2.Substring(1, firstItem.Aciklama2.Length - 1);
-                    Sqlexper.Insert(fSevkAciklama);
+                    SqlExper.Insert(fSevkAciklama);
                     satirNo++;
                 }
 
@@ -298,7 +299,7 @@ namespace Wms12m
                     fSevkAciklama.CAR005_SatirNo = satirNo;
                     fSevkAciklama.CAR005_Filler = firstItem.Aciklama3.Substring(0, 1);
                     fSevkAciklama.CAR005_SatirAciklama = firstItem.Aciklama3.Substring(1, firstItem.Aciklama3.Length - 1);
-                    Sqlexper.Insert(fSevkAciklama);
+                    SqlExper.Insert(fSevkAciklama);
                     satirNo++;
                 }
 
@@ -355,7 +356,7 @@ namespace Wms12m
                 chiMal.CAR003_DegistirenTarih = DateTime.Today.Date.ToOADate().ToInt32();
                 chiMal.CAR003_DegistirenSaat = saat;
 
-                Sqlexper.Insert(chiMal);
+                SqlExper.Insert(chiMal);
 
                 #endregion CHI INSERT
 
@@ -367,13 +368,13 @@ namespace Wms12m
                 };
                 chk.SetAdd(CAR002E.CAR002_CiroBorc, CAR002E.CAR002_CiroBorc, SetIslem.Arti, chiMal.CAR003_Tutar.ToDot());
                 chk.CAR002_SonBorcTarihi = firstItem.STK005_IslemTarihi;
-                Sqlexper.Update(chk);
+                SqlExper.Update(chk);
 
                 #endregion CHK UPDATE
 
             }
 
-            Sqlexper.AcceptChanges();
+            SqlExper.AcceptChanges();
             return new Result();
         }
 
@@ -388,7 +389,6 @@ namespace Wms12m
 
         public void SatisIadeOnay(SatisIadeOnay SIOnay)
         {
-            var Sqlexper = new SqlExper(ConStr, SirketKodu);
             var Sorgu = string.Empty;
             var saat = DateTime.Now.ToString("HHmmss");
             var tarih = DateTime.Today.ToOADateInt();
@@ -414,7 +414,7 @@ namespace Wms12m
 	                  STI1.STK005_EvrakSeriNo='{4}' AND STI1.STK005_IslemTarihi={5} ",
                               SirketKodu, SIOnay.Kaydeden, tarih, saat, SIOnay.IadeNo, SIOnay.IadeTarih);
 
-                SatisIadeKayit evrakBilgi = Sqlexper.SelectList<SatisIadeKayit>(string.Format(@"
+                SatisIadeKayit evrakBilgi = SqlExper.SelectList<SatisIadeKayit>(string.Format(@"
                 SELECT  STI2.STK005_CariHesapKodu, STI1.STK005_IslemTarihi, STI1.STK005_EvrakSeriNo,
                         STI1.STK005_IadeFaturaNo, STI1.STK005_VadeTarihi, STI2.STK005_ParaBirimi,
                         STI1.STK005_AsilEvrakTarihi, STI2.STK005_DovizCinsi, STI2.STK005_DovizKuru,
@@ -473,7 +473,7 @@ namespace Wms12m
                     chiMal.CAR003_DegistirenTarih = DateTime.Today.Date.ToOADate().ToInt32();
                     chiMal.CAR003_DegistirenSaat = saat;
 
-                    Sqlexper.Insert(chiMal);
+                    SqlExper.Insert(chiMal);
 
                     #endregion CHI INSERT
 
@@ -508,8 +508,8 @@ namespace Wms12m
                 SirketKodu, SIOnay.Kaydeden, tarih, saat, SIOnay.IadeNo, SIOnay.IadeTarih);
             }
 
-            Sqlexper.Komut(Sorgu);
-            Sqlexper.AcceptChanges();
+            SqlExper.Komut(Sorgu);
+            SqlExper.AcceptChanges();
         }
 
         /// <summary>
@@ -517,7 +517,6 @@ namespace Wms12m
         /// </summary>
         public Result TahsilatKaydet(frmOnayTahsilatList tahsilatItem, string user)
         {
-            SqlExper Sqlexper = new SqlExper(ConStr, SirketKodu);
 
             int seriNo = 1;
             if (tahsilatItem.IslemTuru == "Tahsilat")
@@ -525,7 +524,7 @@ namespace Wms12m
             else if (tahsilatItem.IslemTuru == "İskonto")
                 seriNo = 3;
 
-            List<string> EvrakBilgi = Sqlexper.SelectList<string>(string.Format(@"
+            List<string> EvrakBilgi = SqlExper.SelectList<string>(string.Format(@"
             SELECT EvrakNo FROM YNS{{0}}.YNS{{0}}.EvrakIni(NOLOCK) WHERE SeriNo={0}
             UNION ALL
             SELECT CAST(MAX(CAR003_SEQNo) as VarChar) EvrakNo FROM YNS{{0}}.YNS{{0}}.CAR003(NOLOCK)", seriNo));
@@ -541,28 +540,28 @@ namespace Wms12m
             {
                 if (tahsilatItem.KapatilanTL > 0)
                 {
-                    Sqlexper.Komut(string.Format("EXEC YNS{0}.dbo.FaturalariKapat 0,'{1}','{2}',{3},{4},{5},'{6}','{7}','{8}',{9},'{10}','{11}',{12}",
+                    SqlExper.Komut(string.Format("EXEC YNS{0}.dbo.FaturalariKapat 0,'{1}','{2}',{3},{4},{5},'{6}','{7}','{8}',{9},'{10}','{11}',{12}",
                                     SirketKodu, tahsilatItem.HesapKodu, EvrakNo, tahsilatItem.KapatilanTL.ToDot(), tahsilatItem.KapatilanTL.ToDot(),
                                     tarih, EvrakNo, tahsilatItem.OdemeTuru, "TL", SeqNo + 1, kayitSaat, user, 0.0));
                 }
 
                 if (tahsilatItem.KapatilanUSD > 0)
                 {
-                    Sqlexper.Komut(string.Format("EXEC YNS{0}.dbo.FaturalariKapat 0,'{1}','{2}',{3},{4},{5},'{6}','{7}','{8}',{9},'{10}','{11}',{12}",
+                    SqlExper.Komut(string.Format("EXEC YNS{0}.dbo.FaturalariKapat 0,'{1}','{2}',{3},{4},{5},'{6}','{7}','{8}',{9},'{10}','{11}',{12}",
                                     SirketKodu, tahsilatItem.HesapKodu + "$", EvrakNo, tahsilatItem.KapatilanUSD.ToDot(), (tahsilatItem.KapatilanUSD * tahsilatItem.USDKur).ToDot(),
                                     tarih, EvrakNo, tahsilatItem.OdemeTuru, "USD", SeqNo + 1, kayitSaat, user, tahsilatItem.USDKur.ToDot()));
                 }
 
                 if (tahsilatItem.KapatilanEUR > 0)
                 {
-                    Sqlexper.Komut(string.Format("EXEC YNS{0}.dbo.FaturalariKapat 0,'{1}','{2}',{3},{4},{5},'{6}','{7}','{8}',{9},'{10}','{11}',{12}",
+                    SqlExper.Komut(string.Format("EXEC YNS{0}.dbo.FaturalariKapat 0,'{1}','{2}',{3},{4},{5},'{6}','{7}','{8}',{9},'{10}','{11}',{12}",
                                     SirketKodu, tahsilatItem.HesapKodu + "EU", EvrakNo, tahsilatItem.KapatilanEUR.ToDot(), (tahsilatItem.KapatilanEUR * tahsilatItem.EURKur).ToDot(),
                                     tarih, EvrakNo, tahsilatItem.OdemeTuru, "EUR", SeqNo + 1, kayitSaat, user, tahsilatItem.EURKur.ToDot()));
                 }
             }
             else if (tahsilatItem.IslemTuru == "İskonto")
             {
-                DovizKurlari DovizKurlari = Sqlexper.SelectFirst<DovizKurlari>(string.Format(DovizKurlari.Sorgu, tarih, tarih - 1, tarih - 2));
+                DovizKurlari DovizKurlari = SqlExper.SelectFirst<DovizKurlari>(string.Format(DovizKurlari.Sorgu, tarih, tarih - 1, tarih - 2));
 
                 if (DovizKurlari.IsNull() || DovizKurlari.USD <= 0 || DovizKurlari.EUR <= 0)
                 {
@@ -589,7 +588,7 @@ namespace Wms12m
                     ekHesapKod = "EU";
                 }
 
-                Sqlexper.Komut(string.Format("EXEC YNS{0}.dbo.FaturalariKapat 1,'{1}','{2}',{3},{4},{5},'{6}','{7}','{8}',{9},'{10}','{11}',{12}",
+                SqlExper.Komut(string.Format("EXEC YNS{0}.dbo.FaturalariKapat 1,'{1}','{2}',{3},{4},{5},'{6}','{7}','{8}',{9},'{10}','{11}',{12}",
                                 SirketKodu, tahsilatItem.HesapKodu + ekHesapKod, EvrakNo, islemTutar.ToDot(), islemTutarTL.ToDot(),
                                 tarih, EvrakNo, tahsilatItem.OdemeTuru, paraCinsi, SeqNo + 1, kayitSaat, user, dovizKuru.ToDot()));
             }
@@ -602,17 +601,16 @@ namespace Wms12m
                 pk_SeriNo = seriNo,
                 EvrakNo = EvrakNo
             };
-            Sqlexper.Update(evrakIni);
+            SqlExper.Update(evrakIni);
 
-            return Sqlexper.AcceptChanges();
+            return SqlExper.AcceptChanges();
         }
 
         private void EvrakNolari_YukleAyarla()
         {
             List<STIEvrakBilgi> evrakBilgiList = new List<STIEvrakBilgi>();
-            var Exper = new SqlExper(ConStr, SirketKodu);
 
-            evrakBilgiList = Exper.SelectList<STIEvrakBilgi>(string.Format(@"
+            evrakBilgiList = SqlExper.SelectList<STIEvrakBilgi>(string.Format(@"
             SELECT 0 as Tip, * FROM (
             SELECT TOP 1 STK005_EvrakSeriNo as EvrakNo, STK005_SEQNo as SiraNo
             FROM YNS{0}.YNS{0}.STK005(NOLOCK)
@@ -687,8 +685,7 @@ namespace Wms12m
         private void HesapListesini_YukleAyarla(string HesapKodu)
         {
             HesapList = new List<HesapItem>();
-            var Sqlexper = new SqlExper(ConStr, SirketKodu);
-            HesapList = Sqlexper.SelectList<HesapItem>(string.Format(HesapItem.Sorgu, HesapKodu));
+            HesapList = SqlExper.SelectList<HesapItem>(string.Format(HesapItem.Sorgu, HesapKodu));
         }
     }
 }

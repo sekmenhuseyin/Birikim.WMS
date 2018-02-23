@@ -1,4 +1,6 @@
-﻿using OnikimCore;
+﻿using Birikim.Helpers;
+using Birikim.Models;
+using OnikimCore;
 using OnikimCore.Enums;
 using OnikimCore.Model;
 using OnikimCore.Operations;
@@ -17,16 +19,18 @@ namespace Wms12m
     {
         private string ConStr { get; set; }
         private string SirketKodu { get; set; }
+        private SqlExper SqlExper { get; set; }
         private WMSEntities db { get; set; }
 
         /// <summary>
         /// yeni finsat
         /// </summary>
-        public Finsat(string conStr, string sirketKodu, WMSEntities _db)
+        public Finsat(string conStr, string sirketKodu, WMSEntities _db, SqlExper sqlExper)
         {
             ConStr = conStr;
             SirketKodu = sirketKodu;
             db = _db;
+            SqlExper = sqlExper;
         }
 
         /// <summary>
@@ -102,9 +106,7 @@ namespace Wms12m
         public Result DepoTransfer(Transfer tblTransfer, bool GirisMi, string kaydeden, int Evrakserino)
         {
             // settings
-            DevHelper.Ayarlar.SetConStr(ConStr);
-            DevHelper.Ayarlar.SirketKodu = SirketKodu;
-            var GI = new Genel_Islemler(SirketKodu);
+            var GI = new Genel_Islemler(SqlExper);
             var evrakNo = GI.EvrakNo_Getir(2399 + Evrakserino);
             // add to list
             List<DepTran> DepTranList = new List<DepTran>();
@@ -128,7 +130,7 @@ namespace Wms12m
             }
 
             // save 2 db
-            var StokIslem = new Stok_Islemleri(tblTransfer.SirketKod);
+            var StokIslem = new Stok_Islemleri(tblTransfer.SirketKod, SqlExper);
             var Sonuc = StokIslem.DepoTransfer_Kayit(2399 + Evrakserino, DepTranList);
             // return
             var _Result = new Result()
@@ -145,9 +147,7 @@ namespace Wms12m
         /// </summary>
         public string EvrakNo(int evrakSeriNo)
         {
-            DevHelper.Ayarlar.SetConStr(ConStr);
-            DevHelper.Ayarlar.SirketKodu = SirketKodu;
-            var gI = new Genel_Islemler(SirketKodu);
+            var gI = new Genel_Islemler(SqlExper);
             return gI.EvrakNo_Getir(evrakSeriNo);
         }
 
@@ -160,8 +160,6 @@ namespace Wms12m
             var tempEvrakNo = "";
             List<STIBase> STIBaseListSPI = new List<STIBase>();
             List<STIMax> STList = new List<STIMax>();
-            DevHelper.Ayarlar.SetConStr(ConStr);
-            DevHelper.Ayarlar.SirketKodu = SirketKodu;
 
             // evrak no getir
             var ftrKayit = new FaturaKayit(ConStr, SirketKodu);
@@ -310,7 +308,7 @@ namespace Wms12m
                 {
                     #region Irsaliye_Kayit
 
-                    var IrsIslem = new Irsaliye_Islemleri(SirketKodu);
+                    var IrsIslem = new Irsaliye_Islemleri(SirketKodu, SqlExper);
                     var Sonuc = new IslemSonuc(false);
                     try
                     {
@@ -353,8 +351,6 @@ namespace Wms12m
         /// </summary>
         public Result MalKabul(IR irsaliye, int kulID)
         {
-            DevHelper.Ayarlar.SetConStr(ConStr);
-            DevHelper.Ayarlar.SirketKodu = irsaliye.SirketKod;
             List<STIBase> STIBaseList = new List<STIBase>();
             var kaydeden = db.Users.Where(m => m.ID == kulID).Select(m => m.Kod).FirstOrDefault();
             var sql = string.Format("SELECT IRS.EvrakNo, IRS_Detay.IrsaliyeID, IRS_Detay.MalKodu, SUM(wms.IRS_Detay.Miktar) AS Miktar, IRS_Detay.Birim, ISNULL(SUM(wms.IRS_Detay.OkutulanMiktar), 0) AS OkutulanMiktar, Depo.DepoKodu, IRS.HesapKodu, IRS.Tarih, " +
@@ -410,7 +406,7 @@ namespace Wms12m
                 STIBaseList.Add(sti);
             }
 
-            var IrsIslem = new Irsaliye_Islemleri(irsaliye.SirketKod);
+            var IrsIslem = new Irsaliye_Islemleri(irsaliye.SirketKod, SqlExper);
             var Sonuc = new IslemSonuc(false);
             try
             {
@@ -434,8 +430,6 @@ namespace Wms12m
         /// </summary>
         public Result SatisIade(IR irsaliye, int kulID, int IrsaliyeSeri, int yil, bool efatKullanici, string depo)
         {
-            DevHelper.Ayarlar.SetConStr(ConStr);
-            DevHelper.Ayarlar.SirketKodu = irsaliye.SirketKod;
             List<STIBase> STIBaseList = new List<STIBase>();
 
             var ftrKayit = new FaturaKayit(ConStr, SirketKodu);
@@ -522,7 +516,7 @@ namespace Wms12m
                 STIBaseList.Add(sti);
             }
 
-            var IrsIslem = new Irsaliye_Islemleri(irsaliye.SirketKod);
+            var IrsIslem = new Irsaliye_Islemleri(irsaliye.SirketKod, SqlExper);
             var Sonuc = new IslemSonuc(false);
             try
             {
@@ -600,11 +594,11 @@ namespace Wms12m
             }
 
             var sonuc = sqlexper.AcceptChanges();
-            if (sonuc.Status == true)
+            if (sonuc.Status)
             {
                 sonuc.Message = evrakno;
                 // evrak no arttır
-                if (EvrakNoArttır == true)
+                if (EvrakNoArttır)
                 {
                     var seri = string.Empty;
                     var noStr = string.Empty;

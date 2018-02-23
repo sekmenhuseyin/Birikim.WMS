@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Birikim.Helpers;
+using System;
+using System.Configuration;
 using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
@@ -32,6 +34,7 @@ namespace Wms12m.Presentation
         public Yerlestirme Yerlestirme = new Yerlestirme();
         public Transfers Transfers = new Transfers();
         public PersonDetails PersonDetails = new PersonDetails();
+        public SqlExper SqlExper;
 
         /// <summary>
         /// hata kaydını tek yerden kontrol etmek için
@@ -119,6 +122,9 @@ namespace Wms12m.Presentation
             ViewBag.vUser = vUser;
             ViewBag.Debug = HttpContext.IsDebuggingEnabled;
             ViewBag.UnreadMessages = db.Messages.Where(m => m.MesajTipi == 85 && m.Kime == vUser.UserName && m.Okundu == false).OrderByDescending(m => m.Tarih).ToList();//sadece genel uyarılar
+            //sql exper
+            if (SqlExper == null)
+                SqlExper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
             // end
             base.OnActionExecuting(filterContext);
         }

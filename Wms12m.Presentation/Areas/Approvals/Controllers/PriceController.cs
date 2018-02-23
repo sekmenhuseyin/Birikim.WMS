@@ -1,8 +1,8 @@
-﻿using Newtonsoft.Json;
+﻿using Birikim.Models;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Linq;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
@@ -62,8 +62,6 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             if (CheckPerm(Perms.FiyatOnaylama, PermTypes.Writing) == false) return null;
 
             var parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
-
-            var sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
 
             var BasTarih = 0;
             var BitTarih = 0;
@@ -213,8 +211,8 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                         fyt.Kod11 = 0;
                         fyt.Kod12 = 0;
                         fyt.FiyatListeTipi = -1;
-                        sqlexper.Insert(fyt);
-                        var sonuc = sqlexper.AcceptChanges();
+                        SqlExper.Insert(fyt);
+                        var sonuc = SqlExper.AcceptChanges();
                         db.Database.ExecuteSqlCommand(string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[Fiyat] SET GMOnay = 1, GMOnaylayan='" + vUser.UserName + "', GMOnayTarih='{2}'  where ID = '{1}'", vUser.SirketKodu, insertObj["ID"].ToString(), DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")));
                     }
                     else if (insertObj["Durum"].ToString() == "Silinecek Kayıt")
@@ -259,8 +257,6 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             if (CheckPerm(Perms.FiyatOnaylama, PermTypes.Writing) == false) return null;
 
             var parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
-
-            var sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
 
             var BasTarih = 0;
             var BitTarih = 0;
@@ -448,8 +444,8 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
                             var date = DateTime.Now;
                             var shortDate = date.ToString("yyyy-MM-dd HH:mm:ss");
-                            sqlexper.Insert(fyt);
-                            var sonuc = sqlexper.AcceptChanges();
+                            SqlExper.Insert(fyt);
+                            var sonuc = SqlExper.AcceptChanges();
                             db.Database.ExecuteSqlCommand(string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[Fiyat] SET GMOnay = 1, GMOnaylayan='" + vUser.UserName + "', GMOnayTarih='{2}'  where ID = '{1}'", vUser.SirketKodu, rts.ID, shortDate));
                         }
                         else if (rts.Durum == 2)//Silinecek Kayıt
@@ -499,8 +495,6 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             if (CheckPerm(Perms.FiyatOnaylama, PermTypes.Writing) == false) return null;
 
             var parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
-
-            var sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
 
             var BasTarih = 0;
             var BitTarih = 0;
@@ -693,8 +687,8 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
                             var date = DateTime.Now;
                             var shortDate = date.ToString("yyyy-MM-dd HH:mm:ss");
-                            sqlexper.Insert(fyt);
-                            var sonuc = sqlexper.AcceptChanges();
+                            SqlExper.Insert(fyt);
+                            var sonuc = SqlExper.AcceptChanges();
                             db.Database.ExecuteSqlCommand(string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[Fiyat] SET GMOnay = 1, GMOnaylayan='" + vUser.UserName + "', GMOnayTarih='{2}'  where ID = '{1}'", vUser.SirketKodu, rts.ID, shortDate));
                         }
                         else if (rts.Durum == 2)//Silinecek Kayıt
@@ -750,8 +744,6 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
             var parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
 
-            var sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
-
             try
             {
                 foreach (JObject insertObj in parameters)
@@ -777,8 +769,6 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             if (CheckPerm(Perms.FiyatOnaylama, PermTypes.Writing) == false) return null;
 
             var parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
-
-            var sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
 
             try
             {
@@ -818,8 +808,6 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
             if (CheckPerm(Perms.FiyatOnaylama, PermTypes.Writing) == false) return null;
 
             var parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
-
-            var sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
 
             try
             {
@@ -910,8 +898,6 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
 
             var parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
 
-            var sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
-
             try
             {
                 Dictionary<string, int> FiyatMaxSiraNo = new Dictionary<string, int>();
@@ -919,7 +905,7 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
                 {
                     var date = DateTime.Now;
                     var shortDate = date.ToString("yyyy-MM-dd HH:mm:ss");
-                    var sonuc = sqlexper.AcceptChanges();
+                    var sonuc = SqlExper.AcceptChanges();
                     db.Database.ExecuteSqlCommand(string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[Fiyat] SET SPGMYOnay = 1, SPGMYOnaylayan='" + vUser.UserName + "', SPGMYOnayTarih='{2}'  where ID = '{1}'", vUser.SirketKodu, insertObj["ID"].ToString(), shortDate));
                 }
                 // return "OK";
@@ -943,8 +929,6 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
 
             var parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
 
-            var sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
-
             try
             {
                 foreach (JObject insertObj in parameters)
@@ -967,7 +951,7 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
                     {
                         var date = DateTime.Now;
                         var shortDate = date.ToString("yyyy-MM-dd HH:mm:ss");
-                        var sonuc = sqlexper.AcceptChanges();
+                        var sonuc = SqlExper.AcceptChanges();
                         db.Database.ExecuteSqlCommand(string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[Fiyat] SET SPGMYOnay = 1, SPGMYOnaylayan='" + vUser.UserName + "', SPGMYOnayTarih='{2}'  where ID = '{1}'", vUser.SirketKodu, rts.ID, shortDate));
                     }
                 }
@@ -990,8 +974,6 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
             if (CheckPerm(Perms.FiyatOnaylama, PermTypes.Writing) == false) return null;
 
             var parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
-
-            var sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
 
             try
             {
@@ -1021,7 +1003,7 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
                         var date = DateTime.Now;
                         var shortDate = date.ToString("yyyy-MM-dd HH:mm:ss");
 
-                        var sonuc = sqlexper.AcceptChanges();
+                        var sonuc = SqlExper.AcceptChanges();
                         db.Database.ExecuteSqlCommand(string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[Fiyat] SET SPGMYOnay = 1, SPGMYOnaylayan='" + vUser.UserName + "', SPGMYOnayTarih='{2}'  where ID = '{1}'", vUser.SirketKodu, rts.ID, shortDate));
                     }
                 }
@@ -1044,8 +1026,6 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
             if (CheckPerm(Perms.FiyatOnaylama, PermTypes.Writing) == false) return null;
 
             var parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
-
-            var sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
 
             try
             {
@@ -1072,8 +1052,6 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
             if (CheckPerm(Perms.FiyatOnaylama, PermTypes.Writing) == false) return null;
 
             var parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
-
-            var sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
 
             try
             {
@@ -1113,7 +1091,6 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
             if (CheckPerm(Perms.FiyatOnaylama, PermTypes.Writing) == false) return null;
 
             var parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
-            var sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
 
             try
             {
@@ -1205,8 +1182,6 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
 
             var parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
 
-            var sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
-
             try
             {
                 Dictionary<string, int> FiyatMaxSiraNo = new Dictionary<string, int>();
@@ -1214,7 +1189,7 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
                 {
                     var date = DateTime.Now;
                     var shortDate = date.ToString("yyyy-MM-dd HH:mm:ss");
-                    var sonuc = sqlexper.AcceptChanges();
+                    var sonuc = SqlExper.AcceptChanges();
                     db.Database.ExecuteSqlCommand(string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[Fiyat] SET Onay = 1, Onaylayan='" + vUser.UserName + "', SMOnayTarih='{2}'  where ID = '{1}'", vUser.SirketKodu, insertObj["ID"].ToString(), shortDate));
                 }
                 // return "OK";
@@ -1238,8 +1213,6 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
 
             var parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
 
-            var sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
-
             try
             {
                 foreach (JObject insertObj in parameters)
@@ -1262,7 +1235,7 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
                     {
                         var date = DateTime.Now;
                         var shortDate = date.ToString("yyyy-MM-dd HH:mm:ss");
-                        var sonuc = sqlexper.AcceptChanges();
+                        var sonuc = SqlExper.AcceptChanges();
                         db.Database.ExecuteSqlCommand(string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[Fiyat] SET Onay = 1, Onaylayan='" + vUser.UserName + "', SMOnayTarih='{2}'  where ID = '{1}'", vUser.SirketKodu, rts.ID, shortDate));
                     }
                 }
@@ -1285,8 +1258,6 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
             if (CheckPerm(Perms.FiyatOnaylama, PermTypes.Writing) == false) return null;
 
             var parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
-
-            var sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
 
             try
             {
@@ -1316,7 +1287,7 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
                         var date = DateTime.Now;
                         var shortDate = date.ToString("yyyy-MM-dd HH:mm:ss");
 
-                        var sonuc = sqlexper.AcceptChanges();
+                        var sonuc = SqlExper.AcceptChanges();
                         db.Database.ExecuteSqlCommand(string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[Fiyat] SET Onay = 1, Onaylayan='" + vUser.UserName + "', SMOnayTarih='{2}'  where ID = '{1}'", vUser.SirketKodu, rts.ID, shortDate));
                     }
                 }
@@ -1339,8 +1310,6 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
             if (CheckPerm(Perms.FiyatOnaylama, PermTypes.Writing) == false) return null;
 
             var parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
-
-            var sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
 
             try
             {
@@ -1367,8 +1336,6 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
             if (CheckPerm(Perms.FiyatOnaylama, PermTypes.Writing) == false) return null;
 
             var parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
-
-            var sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
 
             try
             {
@@ -1408,8 +1375,6 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
             if (CheckPerm(Perms.FiyatOnaylama, PermTypes.Writing) == false) return null;
 
             var parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
-
-            var sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
 
             try
             {
@@ -1496,7 +1461,6 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
             if (CheckPerm(Perms.FiyatTanim, PermTypes.Writing) == false) return null;
 
             var parameters = JsonConvert.DeserializeObject<JObject>(Request["Data"]);
-            var sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
             using (var dbContextTransaction = db.Database.BeginTransaction())
             {
                 try
@@ -1580,8 +1544,8 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
                             fyt.GMOnaylayan = "";
                         }
 
-                        sqlexper.Insert(fyt);
-                        var sonuc = sqlexper.AcceptChanges();
+                        SqlExper.Insert(fyt);
+                        var sonuc = SqlExper.AcceptChanges();
                         if (sonuc.Status == false) return "NO";
                         else return "OK";
                     }
@@ -1662,8 +1626,8 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
                                 fyt.GMOnaylayan = "";
                             }
 
-                            sqlexper.Insert(fyt);
-                            var sonuc = sqlexper.AcceptChanges();
+                            SqlExper.Insert(fyt);
+                            var sonuc = SqlExper.AcceptChanges();
                             if (sonuc.Status == false) return "NO";
                         }
                     }
@@ -1674,7 +1638,7 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
                 }
                 catch (Exception)
                 {
-                    sqlexper.RollBack();
+                    SqlExper.RollBack();
                     return "NO";
                 }
             }

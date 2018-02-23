@@ -1,4 +1,5 @@
-﻿using Kendo.Mvc.Extensions;
+﻿using Birikim.Models;
+using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
 using System;
 using System.Collections.Generic;
@@ -274,7 +275,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
 
             // finsat tanımlama
             var EvrakSeriNo = 7100 + details.SayimSeri.Value - 1;
-            var finsat = new Finsat(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, mGorev.IR.SirketKod, db);
+            var finsat = new Finsat(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, mGorev.IR.SirketKod, db, SqlExper);
             var sonuc = finsat.SayımVeFarkFişi(stiList, EvrakSeriNo, true, vUser.UserName);
             if (sonuc.Status == true)
             {
@@ -353,7 +354,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             }
             // finsat tanımlama
             var EvrakSeriNo = 7500 + details.SayimSeri.Value - 1;
-            var finsat = new Finsat(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, mGorev.IR.SirketKod, db);
+            var finsat = new Finsat(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, mGorev.IR.SirketKod, db, SqlExper);
             var sonuc = finsat.SayımVeFarkFişi(stiList, EvrakSeriNo, true, vUser.UserName);
             if (sonuc.Status == true)
             {

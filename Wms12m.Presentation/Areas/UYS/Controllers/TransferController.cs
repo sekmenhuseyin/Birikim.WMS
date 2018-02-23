@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Birikim.Models;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
@@ -134,7 +135,7 @@ namespace Wms12m.Presentation.Areas.UYS.Controllers
             }
 
             // variables
-            var uysf = new UYSF(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
+            var uysf = new UYSF(SqlExper, vUser.SirketKodu);
             var tarih = fn.ToOADate();
             var saat = fn.ToOATime();
             // get son emir no
@@ -248,7 +249,7 @@ namespace Wms12m.Presentation.Areas.UYS.Controllers
         [HttpPost]
         public JsonResult Approve(string ID)
         {
-            var uysf = new UYSF(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
+            var uysf = new UYSF(SqlExper, vUser.SirketKodu);
             var tarih = fn.ToOADate();
             var saat = fn.ToOATime();
             // get son emir no
