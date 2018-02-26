@@ -3,9 +3,9 @@ using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
 using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Linq;
 using System.Web.Mvc;
+using TumFaturaKayit;
 using Wms12m.Business;
 using Wms12m.Entity;
 using Wms12m.Entity.Models;
@@ -274,9 +274,9 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             }
 
             // finsat tanımlama
-            var EvrakSeriNo = 7100 + details.SayimSeri.Value - 1;
-            var finsat = new Finsat(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, mGorev.IR.SirketKod, db, SqlExper);
-            var sonuc = finsat.SayımVeFarkFişi(stiList, EvrakSeriNo, true, vUser.UserName);
+            var evrakSeriNo = 7100 + details.SayimSeri.Value - 1;
+            var finsat = new Finsat(db, mGorev.IR.SirketKod, SqlExper, new FaturaKayit(SqlExper, mGorev.IR.SirketKod, SqlExper, mGorev.IR.SirketKod));
+            var sonuc = finsat.SayımVeFarkFişi(stiList, evrakSeriNo, true, vUser.UserName);
             if (sonuc.Status == true)
             {
                 mGorev.IR.EvrakNo = sonuc.Message;
@@ -354,7 +354,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             }
             // finsat tanımlama
             var EvrakSeriNo = 7500 + details.SayimSeri.Value - 1;
-            var finsat = new Finsat(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, mGorev.IR.SirketKod, db, SqlExper);
+            var finsat = new Finsat(db, mGorev.IR.SirketKod, SqlExper, new FaturaKayit(SqlExper, mGorev.IR.SirketKod, SqlExper, mGorev.IR.SirketKod));
             var sonuc = finsat.SayımVeFarkFişi(stiList, EvrakSeriNo, true, vUser.UserName);
             if (sonuc.Status == true)
             {

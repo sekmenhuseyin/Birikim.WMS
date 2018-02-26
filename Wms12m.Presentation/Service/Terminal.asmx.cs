@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.Configuration;
 using System.Linq;
 using System.Web.Services;
+using TumFaturaKayit;
 using Wms12m.Business;
 using Wms12m.Entity;
 using Wms12m.Entity.Models;
@@ -411,7 +412,7 @@ namespace Wms12m.Presentation
             var gorevNo = db.SettingsGorevNo(DateTime.Today.ToOADateInt(), mGorev.DepoID).FirstOrDefault();
             var kull = db.Users.Where(m => m.ID == KullID).Select(m => m.Kod).FirstOrDefault();
             SqlExper sqlExper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, mGorev.IR.SirketKod);
-            var finsat = new Finsat(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, mGorev.IR.SirketKod, db, sqlExper);
+            var finsat = new Finsat(db, mGorev.IR.SirketKod, sqlExper, new FaturaKayit(sqlExper, mGorev.IR.SirketKod, sqlExper, mGorev.IR.SirketKod));
             // loop iraliyes
             foreach (var item in mGorev.IRS.Where(m => m.Onay == true && m.LinkEvrakNo == null))
             {
@@ -814,6 +815,8 @@ namespace Wms12m.Presentation
                 // muhasebe yılı bulunur
                 sql = string.Format(@"EXEC BIRIKIM.dbo.GetSirketMuhasebeYear @SirketKodu = '{0}', @Tarih = {1}", item.SirketKod, item.Tarih);
                 var yil = db.Database.SqlQuery<int>(sql).FirstOrDefault();
+                sql = string.Format(@"EXEC BIRIKIM.dbo.GetSirketMuhasebeKod @SirketKodu = '{0}', @Tarih = {1}", item.SirketKod, item.Tarih);
+                var kod = db.Database.SqlQuery<string>(sql).FirstOrDefault();
                 // efatura kullanıcısı mı bul
                 sql = string.Format("SELECT EFatKullanici FROM FINSAT6{0}.FINSAT6{0}.CHK WHERE (HesapKodu = '{1}')", item.SirketKod, item.HesapKodu);
                 var tmp = db.Database.SqlQuery<short>(sql).FirstOrDefault();
@@ -821,7 +824,8 @@ namespace Wms12m.Presentation
                 if (tmp == 1) efatKullanici = true;
                 // listedeki her eleman için döngü yapılır
                 SqlExper sqlExper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, mGorev.IR.SirketKod);
-                var finsat = new Finsat(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, item.SirketKod, db, sqlExper);
+                SqlExper sqlExper2 = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, kod);
+                var finsat = new Finsat(db, mGorev.IR.SirketKod, sqlExper, new FaturaKayit(sqlExper, mGorev.IR.SirketKod, sqlExper2, kod));
                 var sonuc = finsat.FaturaKayıt(item.IrsaliyeID, mGorev.Depo.DepoKodu, efatKullanici, item.Tarih, item.HesapKodu, kull.Kod, kull.UserDetail.SatisIrsaliyeSeri.Value, kull.UserDetail.SatisFaturaSeri.Value, yil);
                 if (sonuc.Status == true)
                 {
@@ -1251,7 +1255,7 @@ namespace Wms12m.Presentation
                 if (kull.UserDetail.TransferOutSeri.Value < 1 || kull.UserDetail.TransferOutSeri.Value > 199)
                     return new Result(false, "Bu kullanıcıya ait seri nolar hatalı ! Lütfen terminal yetkilerinden seriyi değiştirin yada Güneşten seçili seri için bir değer verin.");
                 SqlExper sqlExper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, mGorev.IR.SirketKod);
-                var finsat = new Finsat(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, mGorev.IR.SirketKod, db, sqlExper);
+                var finsat = new Finsat(db, mGorev.IR.SirketKod, sqlExper, new FaturaKayit(sqlExper, mGorev.IR.SirketKod, sqlExper, mGorev.IR.SirketKod));
                 sonuc = finsat.DepoTransfer(transfer, false, kull.Kod, kull.UserDetail.TransferOutSeri.Value);
                 if (sonuc.Status == true)
                 {
@@ -1551,7 +1555,7 @@ namespace Wms12m.Presentation
             else//dış transfer
             {
                 SqlExper sqlExper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, mGorev.IR.SirketKod);
-                var finsat = new Finsat(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, mGorev.IR.SirketKod, db, sqlExper);
+                var finsat = new Finsat(db, mGorev.IR.SirketKod, sqlExper, new FaturaKayit(sqlExper, mGorev.IR.SirketKod, sqlExper, mGorev.IR.SirketKod));
                 sonuc = finsat.DepoTransfer(mGorev.Transfers.FirstOrDefault(), true, kull.Kod, kull.UserDetail.TransferInSeri.Value);
                 if (sonuc.Status == true)
                 {
@@ -1817,6 +1821,9 @@ namespace Wms12m.Presentation
                 // muhasebe yılı bulunur
                 sql = string.Format(@"EXEC BIRIKIM.dbo.GetSirketMuhasebeYear @SirketKodu = '{0}', @Tarih = {1}", item.SirketKod, item.Tarih);
                 var yil = db.Database.SqlQuery<int>(sql).FirstOrDefault();
+                // muhasebe yılı bulunur
+                sql = string.Format(@"EXEC BIRIKIM.dbo.GetSirketMuhasebeKod @SirketKodu = '{0}', @Tarih = {1}", item.SirketKod, item.Tarih);
+                var kod = db.Database.SqlQuery<string>(sql).FirstOrDefault();
                 // efatura kullanıcısı mı bul
                 sql = string.Format("SELECT EFatKullanici FROM FINSAT6{0}.FINSAT6{0}.CHK WHERE (HesapKodu = '{1}')", item.SirketKod, item.HesapKodu);
                 var tmp = db.Database.SqlQuery<short>(sql).FirstOrDefault();
@@ -1824,7 +1831,8 @@ namespace Wms12m.Presentation
                 if (tmp == 1) efatKullanici = true;
                 // listedeki her eleman için döngü yapılır
                 SqlExper sqlExper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, mGorev.IR.SirketKod);
-                var finsat = new Finsat(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, item.SirketKod, db, sqlExper);
+                SqlExper sqlExper2 = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, kod);
+                var finsat = new Finsat(db, mGorev.IR.SirketKod, sqlExper, new FaturaKayit(sqlExper, mGorev.IR.SirketKod, sqlExper2, kod));
                 var sonuc = finsat.AlımdanIadeFaturaKayıt(item.IrsaliyeID, mGorev.Depo.DepoKodu, efatKullanici, item.Tarih, item.HesapKodu, kull.Kod, kull.UserDetail.AlimdanIadeFaturaSeri.Value, yil);
                 if (sonuc.Status == true)
                 {
@@ -2070,7 +2078,7 @@ namespace Wms12m.Presentation
             if (kull.UserDetail.SatisFaturaSeri == null || kull.UserDetail.SatisIrsaliyeSeri == null)
                 return new Result(false, "Bu kullanıcıya ait seri nolar hatalı ! Lütfen terminal yetkilerinden seriyi değiştirin yada Güneşten seçili seri için bir değer verin.");
             SqlExper sqlExper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, mGorev.IR.SirketKod);
-            var finsat = new Finsat(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, mGorev.IR.SirketKod, db, sqlExper);
+            var finsat = new Finsat(db, mGorev.IR.SirketKod, sqlExper, new FaturaKayit(sqlExper, mGorev.IR.SirketKod, sqlExper, mGorev.IR.SirketKod));
             // loop iraliyes
             foreach (var item in mGorev.IRS.Where(m => m.Onay == true))
             {

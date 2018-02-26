@@ -9,43 +9,43 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using TumFaturaKayit;
+using TumFaturaKayit.Enum;
+using TumFaturaKayit.Models;
 using Wms12m.Entity;
 using Wms12m.Entity.Models;
-using IslemSonuc = OnikimCore.Model.IslemSonuc;
 
 namespace Wms12m
 {
     public class Finsat
     {
-        private string ConStr { get; set; }
+        private WMSEntities Db { get; set; }
+        private FaturaKayit FtrKayit { get; set; }
         private string SirketKodu { get; set; }
         private SqlExper SqlExper { get; set; }
-        private WMSEntities db { get; set; }
 
         /// <summary>
         /// yeni finsat
         /// </summary>
-        public Finsat(string conStr, string sirketKodu, WMSEntities _db, SqlExper sqlExper)
+        public Finsat(WMSEntities db, string sirketKodu, SqlExper sqlExper, FaturaKayit faturaKayit)
         {
-            ConStr = conStr;
+            Db = db;
             SirketKodu = sirketKodu;
-            db = _db;
             SqlExper = sqlExper;
+            FtrKayit = faturaKayit;
         }
 
         /// <summary>
         /// Alımdan Iade faturası
         /// </summary>
-        public Result AlımdanIadeFaturaKayıt(int irsID, string DepoKodu, bool efatKullanici, int Tarih, string CHK, string kaydeden, int IrsaliyeSeri, int yil)
+        public Result AlımdanIadeFaturaKayıt(int irsId, string depoKodu, bool efatKullanici, int tarih, string chk, string kaydeden, int irsaliyeSeri, int yil)
         {
             var STIBaseList = new List<ParamSti>();
             var tempEvrakNo = "";
             // evrak no getir
-            var ftrKayit = new FaturaKayit(ConStr, SirketKodu);
             List<EvrakBilgi> evrkno;
             try
             {
-                evrkno = ftrKayit.EvrakNo_Getir(efatKullanici, IrsaliyeSeri, yil, FaturaTipi.AlimdanIadeFaturası.ToInt32());
+                evrkno = FtrKayit.EvrakNo_Getir(efatKullanici, irsaliyeSeri, yil, FaturaTipi.AlimdanIadeFaturası.ToInt32());
             }
             catch (Exception ex)
             {
@@ -54,8 +54,8 @@ namespace Wms12m
 
             var saat = DateTime.Now.ToOaTime();
             // listeyi dön
-            var sql = string.Format("SELECT MalKodu, Miktar, Birim, KynkSiparisNo as EvrakNo, KynkSiparisID AS Row_ID FROM wms.IRS_Detay WITH (NOLOCK) WHERE IrsaliyeID={0}", irsID);
-            var list = db.Database.SqlQuery<STIMax>(sql).ToList();
+            var sql = string.Format("SELECT MalKodu, Miktar, Birim, KynkSiparisNo as EvrakNo, KynkSiparisID AS Row_ID FROM wms.IRS_Detay WITH (NOLOCK) WHERE IrsaliyeID={0}", irsId);
+            var list = Db.Database.SqlQuery<STIMax>(sql).ToList();
             foreach (STIMax item in list)
             {
                 tempEvrakNo = item.EvrakNo;
@@ -69,8 +69,8 @@ namespace Wms12m
                     ", MFK.Tutar AS MFKTutar, MFK.Aciklama AS MFKAciklama , MFK.Aciklama2 AS MFKAciklama2 , MFK.Aciklama3 AS MFKAciklama3 , MFK.Aciklama4 AS MFKAciklama4 , MFK.Aciklama5  AS MFKAciklama5, MFK.Aciklama6 AS MFKAciklama6 " +
                     "FROM FINSAT6{0}.FINSAT6{0}.STI WITH (NOLOCK) LEFT JOIN FINSAT6{0}.FINSAT6{0}.CHK WITH (NOLOCK) ON STI.Chk=CHK.HesapKodu LEFT JOIN FINSAT6{0}.FINSAT6{0}.STK WITH (NOLOCK) ON STK.MalKodu=STI.MalKodu " +
                     "LEFT JOIN FINSAT6{0}.FINSAT6{0}.MFK WITH (NOLOCK) ON MFK.EvrakNo=STI.EvrakNo  AND  MFK.KynkEvrakTip=STI.KynkEvrakTip AND  MFK.HesapKod=STI.Chk " +
-                    "WHERE (STI.EvrakNo = '{1}') AND (STI.Chk = '{2}') AND (STI.Depo = '{3}') AND (STI.Row_ID = '{4}')  AND (STI.KynkEvrakTip = 4)", SirketKodu, item.EvrakNo, CHK, DepoKodu, item.Row_ID);
-                var finsat = db.Database.SqlQuery<ParamSti>(sql).FirstOrDefault();
+                    "WHERE (STI.EvrakNo = '{1}') AND (STI.Chk = '{2}') AND (STI.Depo = '{3}') AND (STI.Row_ID = '{4}')  AND (STI.KynkEvrakTip = 4)", SirketKodu, item.EvrakNo, chk, depoKodu, item.Row_ID);
+                var finsat = Db.Database.SqlQuery<ParamSti>(sql).FirstOrDefault();
                 if (finsat != null)
                 {
                     finsat.Miktar = item.Miktar;
@@ -88,8 +88,7 @@ namespace Wms12m
             {
                 if (STIBaseList.Count > 0)
                 {
-                    var sonuc = ftrKayit.FaturaKaydet(STIBaseList, efatKullanici, IrsaliyeSeri, yil, FaturaTipi.AlimdanIadeFaturası.ToInt32());
-                    return new Result(sonuc.Basarili, sonuc.Mesaj);
+                    return FtrKayit.FaturaKaydet(STIBaseList, efatKullanici, irsaliyeSeri, yil, FaturaTipi.AlimdanIadeFaturası.ToInt32());
                 }
                 else
                     return new Result(false, "Bu sipariş kapanmış. Evrak No= " + tempEvrakNo);
@@ -103,13 +102,13 @@ namespace Wms12m
         /// <summary>
         /// depo transfer fişi
         /// </summary>
-        public Result DepoTransfer(Transfer tblTransfer, bool GirisMi, string kaydeden, int Evrakserino)
+        public Result DepoTransfer(Transfer tblTransfer, bool girisMi, string kaydeden, int evrakserino)
         {
             // settings
             var GI = new Genel_Islemler(SqlExper);
-            var evrakNo = GI.EvrakNo_Getir(2399 + Evrakserino);
+            var evrakNo = GI.EvrakNo_Getir(2399 + evrakserino);
             // add to list
-            List<DepTran> DepTranList = new List<DepTran>();
+            List<DepTran> depTranList = new List<DepTran>();
             foreach (var item in tblTransfer.Transfer_Detay)
             {
                 var dep = new DepTran()
@@ -119,27 +118,21 @@ namespace Wms12m
                     MalKodu = item.MalKodu,
                     Miktar = item.Miktar,
                     Birim = item.Birim,
-                    GirisDepo = GirisMi == true ? tblTransfer.Depo.DepoKodu : tblTransfer.Depo2.DepoKodu,
-                    CikisDepo = GirisMi == true ? tblTransfer.Depo2.DepoKodu : tblTransfer.Depo1.DepoKodu,
+                    GirisDepo = girisMi == true ? tblTransfer.Depo.DepoKodu : tblTransfer.Depo2.DepoKodu,
+                    CikisDepo = girisMi == true ? tblTransfer.Depo2.DepoKodu : tblTransfer.Depo1.DepoKodu,
                     Kaydeden = kaydeden,
                     KayitSurum = "9.01.028",
                     KayitKaynak = 74,
                     SeriNo = ""
                 };
-                DepTranList.Add(dep);
+                depTranList.Add(dep);
             }
 
             // save 2 db
-            var StokIslem = new Stok_Islemleri(tblTransfer.SirketKod, SqlExper);
-            var Sonuc = StokIslem.DepoTransfer_Kayit(2399 + Evrakserino, DepTranList);
-            // return
-            var _Result = new Result()
-            {
-                Status = Sonuc.Basarili,
-                Message = Sonuc.Hata != null ? Sonuc.Hata.Message : "",
-                Data = evrakNo
-            };
-            return _Result;
+            var stokIslem = new Stok_Islemleri(tblTransfer.SirketKod, SqlExper);
+            var sonuc = stokIslem.DepoTransfer_Kayit(2399 + evrakserino, depTranList);
+            sonuc.Data = evrakNo;
+            return sonuc;
         }
 
         /// <summary>
@@ -154,15 +147,14 @@ namespace Wms12m
         /// <summary>
         /// satış irsaliyesi ve faturası
         /// </summary>
-        public Result FaturaKayıt(int irsID, string DepoKodu, bool efatKullanici, int Tarih, string CHK, string kaydeden, int IrsaliyeSeri, int FaturaSeri, int yil)
+        public Result FaturaKayıt(int irsId, string depoKodu, bool efatKullanici, int tarih, string chk, string kaydeden, int irsaliyeSeri, int faturaSeri, int yil)
         {
-            var STIBaseList = new List<ParamSti>();
+            var stiBaseList = new List<ParamSti>();
             var tempEvrakNo = "";
-            List<STIBase> STIBaseListSPI = new List<STIBase>();
-            List<STIMax> STList = new List<STIMax>();
+            List<STIBase> stiBaseListSpi = new List<STIBase>();
+            List<STIMax> stList = new List<STIMax>();
 
             // evrak no getir
-            var ftrKayit = new FaturaKayit(ConStr, SirketKodu);
             List<EvrakBilgi> evrkno = new List<EvrakBilgi>();
             var saat = DateTime.Now.ToOaTime();
             // listeyi dön
@@ -170,16 +162,14 @@ namespace Wms12m
                                         SELECT MalKodu, Miktar, Birim, KynkSiparisNo as EvrakNo, KynkSiparisTarih, KynkSiparisSiraNo,
                                         (SELECT IslemTip FROM FINSAT6{0}.FINSAT6{0}.SPI WITH (NOLOCK) WHERE KynkEvrakTip=62 AND SPI.EvrakNo= wms.IRS_Detay.KynkSiparisNo AND SiraNo=wms.IRS_Detay.KynkSiparisSiraNo
                                         AND Tarih=wms.IRS_Detay.KynkSiparisTarih) AS SipIslemTip
-                                        FROM wms.IRS_Detay WITH (NOLOCK) WHERE IrsaliyeID={1}", SirketKodu, irsID);
-            var list = db.Database.SqlQuery<STIMax>(sql).ToList();
-
-            #region İç Piyasa İse Satış Faturası Listesi Oluşturulur
+                                        FROM wms.IRS_Detay WITH (NOLOCK) WHERE IrsaliyeID={1}", SirketKodu, irsId);
+            var list = Db.Database.SqlQuery<STIMax>(sql).ToList();
 
             if (list.Where(x => x.SipIslemTip == 1).ToList().Count > 0)
             {
                 try
                 {
-                    evrkno = ftrKayit.EvrakNo_Getir(efatKullanici, IrsaliyeSeri, yil, FaturaTipi.SatisFaturası.ToInt32());
+                    evrkno = FtrKayit.EvrakNo_Getir(efatKullanici, irsaliyeSeri, yil, FaturaTipi.SatisFaturası.ToInt32());
                 }
                 catch (Exception ex)
                 {
@@ -196,8 +186,8 @@ namespace Wms12m
                                     ", MFK.Tutar AS MFKTutar, MFK.Aciklama AS MFKAciklama , MFK.Aciklama2 AS MFKAciklama2 , MFK.Aciklama3 AS MFKAciklama3 , MFK.Aciklama4 AS MFKAciklama4 , MFK.Aciklama5  AS MFKAciklama5, MFK.Aciklama6 AS MFKAciklama6 " +
                                     "FROM FINSAT6{0}.FINSAT6{0}.SPI WITH (NOLOCK) LEFT JOIN FINSAT6{0}.FINSAT6{0}.CHK WITH (NOLOCK) ON SPI.Chk=CHK.HesapKodu LEFT JOIN FINSAT6{0}.FINSAT6{0}.STK WITH (NOLOCK) ON STK.MalKodu=SPI.MalKodu " +
                                     "LEFT JOIN FINSAT6{0}.FINSAT6{0}.MFK WITH (NOLOCK) ON MFK.EvrakNo=SPI.EvrakNo  AND  MFK.KynkEvrakTip=SPI.KynkEvrakTip AND  MFK.HesapKod=SPI.Chk " +
-                                    "WHERE (SPI.EvrakNo = '{1}') AND (SPI.Chk = '{2}') AND (SPI.Depo = '{3}') AND (SPI.Tarih = {4}) AND (SPI.SiraNo = {5}) AND (SPI.KynkEvrakTip = 62) AND (SPI.SiparisDurumu = 0) AND (SPI.Kod10 IN ('Terminal', 'Onaylandı'))", SirketKodu, item.EvrakNo, CHK, DepoKodu, item.KynkSiparisTarih, item.KynkSiparisSiraNo);
-                var finsat = db.Database.SqlQuery<ParamSti>(sql).FirstOrDefault();
+                                    "WHERE (SPI.EvrakNo = '{1}') AND (SPI.Chk = '{2}') AND (SPI.Depo = '{3}') AND (SPI.Tarih = {4}) AND (SPI.SiraNo = {5}) AND (SPI.KynkEvrakTip = 62) AND (SPI.SiparisDurumu = 0) AND (SPI.Kod10 IN ('Terminal', 'Onaylandı'))", SirketKodu, item.EvrakNo, chk, depoKodu, item.KynkSiparisTarih, item.KynkSiparisSiraNo);
+                var finsat = Db.Database.SqlQuery<ParamSti>(sql).FirstOrDefault();
                 if (finsat != null)
                 {
                     finsat.Miktar = item.Miktar;
@@ -207,19 +197,15 @@ namespace Wms12m
                     finsat.Kaydeden = kaydeden;
                     finsat.KayitSurum = "9.01.028";
                     finsat.KayitKaynak = 74;
-                    STIBaseList.Add(finsat);
+                    stiBaseList.Add(finsat);
                 }
             }
-
-            #endregion İç Piyasa İse Satış Faturası Listesi Oluşturulur
-
-            #region Dış Piyasa İse Satış İrsaliyesi Listesi Oluşturulur
 
             if (list.Where(x => x.SipIslemTip == 2).ToList().Count > 0)
             {
                 try
                 {
-                    evrkno = ftrKayit.EvrakNo_Getir(efatKullanici, IrsaliyeSeri, yil, FaturaTipi.SatisIrsaliyesi.ToInt32());
+                    evrkno = FtrKayit.EvrakNo_Getir(efatKullanici, irsaliyeSeri, yil, FaturaTipi.SatisIrsaliyesi.ToInt32());
                 }
                 catch (Exception ex)
                 {
@@ -237,11 +223,11 @@ namespace Wms12m
                                         "FROM FINSAT6{0}.FINSAT6{0}.SPI WITH (NOLOCK)" +
                                         "INNER JOIN FINSAT6{0}.FINSAT6{0}.CHK WITH (NOLOCK) ON SPI.Chk = CHK.HesapKodu RIGHT OUTER JOIN wms.Depo WITH(NOLOCK) INNER JOIN wms.IRS WITH(NOLOCK) ON wms.Depo.ID = wms.IRS.DepoID INNER JOIN wms.IRS_Detay WITH(NOLOCK) ON wms.IRS.ID = wms.IRS_Detay.IrsaliyeID ON FINSAT6{0}.FINSAT6{0}.SPI.Chk = wms.IRS.HesapKodu AND FINSAT6{0}.FINSAT6{0}.SPI.Tarih = wms.IRS_Detay.KynkSiparisTarih AND FINSAT6{0}.FINSAT6{0}.SPI.SiraNo = wms.IRS_Detay.KynkSiparisSiraNo AND FINSAT6{0}.FINSAT6{0}.SPI.EvrakNo = wms.IRS_Detay.KynkSiparisNo " +
                                         "WHERE (IRS_Detay.IrsaliyeID = {1}) " +
-                                        "GROUP BY wms.IRS.EvrakNo, wms.IRS_Detay.IrsaliyeID, wms.IRS_Detay.MalKodu, wms.IRS_Detay.Birim, wms.Depo.DepoKodu, wms.IRS.HesapKodu, wms.IRS.Tarih, ISNULL(wms.IRS_Detay.KynkSiparisNo, ''), ISNULL(wms.IRS_Detay.KynkSiparisSiraNo, 0), ISNULL(wms.IRS_Detay.KynkSiparisTarih, 0), ISNULL(wms.IRS_Detay.KynkSiparisMiktar, 0), FINSAT6{0}.FINSAT6{0}.SPI.BirimFiyat, FINSAT6{0}.FINSAT6{0}.SPI.KDVOran, FINSAT6{0}.FINSAT6{0}.SPI.IskontoOran1, FINSAT6{0}.FINSAT6{0}.SPI.IskontoOran2, FINSAT6{0}.FINSAT6{0}.SPI.IskontoOran3, FINSAT6{0}.FINSAT6{0}.SPI.IskontoOran4, FINSAT6{0}.FINSAT6{0}.SPI.IskontoOran5, FINSAT6{0}.FINSAT6{0}.SPI.IslemTip, FINSAT6{0}.FINSAT6{0}.SPI.DovizCinsi,FINSAT6{0}.FINSAT6{0}.CHK.EFatSenaryo,FINSAT6{0}.FINSAT6{0}.CHK.EArsivTeslimSekli,FINSAT6{0}.FINSAT6{0}.CHK.EFatEtiket, FINSAT6{0}.FINSAT6{0}.SPI.ValorGun", SirketKodu, irsID);
-                STList = db.Database.SqlQuery<STIMax>(sqlSPI).ToList();
+                                        "GROUP BY wms.IRS.EvrakNo, wms.IRS_Detay.IrsaliyeID, wms.IRS_Detay.MalKodu, wms.IRS_Detay.Birim, wms.Depo.DepoKodu, wms.IRS.HesapKodu, wms.IRS.Tarih, ISNULL(wms.IRS_Detay.KynkSiparisNo, ''), ISNULL(wms.IRS_Detay.KynkSiparisSiraNo, 0), ISNULL(wms.IRS_Detay.KynkSiparisTarih, 0), ISNULL(wms.IRS_Detay.KynkSiparisMiktar, 0), FINSAT6{0}.FINSAT6{0}.SPI.BirimFiyat, FINSAT6{0}.FINSAT6{0}.SPI.KDVOran, FINSAT6{0}.FINSAT6{0}.SPI.IskontoOran1, FINSAT6{0}.FINSAT6{0}.SPI.IskontoOran2, FINSAT6{0}.FINSAT6{0}.SPI.IskontoOran3, FINSAT6{0}.FINSAT6{0}.SPI.IskontoOran4, FINSAT6{0}.FINSAT6{0}.SPI.IskontoOran5, FINSAT6{0}.FINSAT6{0}.SPI.IslemTip, FINSAT6{0}.FINSAT6{0}.SPI.DovizCinsi,FINSAT6{0}.FINSAT6{0}.CHK.EFatSenaryo,FINSAT6{0}.FINSAT6{0}.CHK.EArsivTeslimSekli,FINSAT6{0}.FINSAT6{0}.CHK.EFatEtiket, FINSAT6{0}.FINSAT6{0}.SPI.ValorGun", SirketKodu, irsId);
+                stList = Db.Database.SqlQuery<STIMax>(sqlSPI).ToList();
             }
 
-            foreach (STIMax stItem in STList)
+            foreach (STIMax stItem in stList)
             {
                 var sti = new STIBase()
                 {
@@ -282,63 +268,37 @@ namespace Wms12m
                     sti.SiparisMiktar = 0;
                 }
 
-                STIBaseListSPI.Add(sti);
+                stiBaseListSpi.Add(sti);
             }
-
-            #endregion Dış Piyasa İse Satış İrsaliyesi Listesi Oluşturulur
 
             // finsat işlemleri
             try
             {
-                var IslemSonuc = false;
-                var IslemMesaj = "";
+                var result = new Result();
 
-                if (STIBaseList.Count > 0)
+                if (stiBaseList.Count > 0)
                 {
-                    #region FaturaKaydet
-
-                    var sonuc = ftrKayit.FaturaKaydet(STIBaseList, efatKullanici, FaturaSeri, yil, FaturaTipi.SatisFaturası.ToInt32());
-                    IslemSonuc = sonuc.Basarili;
-                    IslemMesaj = sonuc.Mesaj;
-
-                    #endregion FaturaKaydet
+                    result = FtrKayit.FaturaKaydet(stiBaseList, efatKullanici, faturaSeri, yil, FaturaTipi.SatisFaturası.ToInt32());
                 }
 
-                if (STIBaseListSPI.Count > 0)
+                if (stiBaseListSpi.Count > 0)
                 {
-                    #region Irsaliye_Kayit
-
-                    var IrsIslem = new Irsaliye_Islemleri(SirketKodu, SqlExper);
-                    var Sonuc = new IslemSonuc(false);
+                    var irsIslem = new Irsaliye_Islemleri(SirketKodu, SqlExper);
+                    var sonuc = new Result();
                     try
                     {
-                        Sonuc = IrsIslem.Irsaliye_Kayit(IrsaliyeSeri, efatKullanici, STIBaseListSPI);
+                        sonuc = irsIslem.Irsaliye_Kayit(irsaliyeSeri, efatKullanici, stiBaseListSpi);
                     }
                     catch (Exception ex)
                     {
-                        Sonuc.Basarili = false;
-                        Sonuc.Hata = ex;
+                        sonuc.Message = ex.Message;
                     }
-
-                    // sonuç döner
-                    if (Sonuc.Hata.IsNull())
-                    {
-                        IslemSonuc = true;
-                        IslemMesaj = Sonuc.Veri.ToString2() + ", ";
-                    }
-                    else
-                    {
-                        IslemSonuc = false;
-                        IslemMesaj = Sonuc.Hata.Message;
-                    }
-
-                    #endregion Irsaliye_Kayit
                 }
 
-                if (STIBaseList.Count < 0 && STIBaseListSPI.Count < 0)
+                if (stiBaseList.Count < 0 && stiBaseListSpi.Count < 0)
                     return new Result(false, "Bu sipariş kapanmış. Evrak No= " + tempEvrakNo);
                 else
-                    return new Result(IslemSonuc, IslemMesaj);
+                    return new Result(true);
             }
             catch (Exception ex)
             {
@@ -349,10 +309,10 @@ namespace Wms12m
         /// <summary>
         /// malkabul işlemleri
         /// </summary>
-        public Result MalKabul(IR irsaliye, int kulID)
+        public Result MalKabul(IR irsaliye, int kulId)
         {
             List<STIBase> STIBaseList = new List<STIBase>();
-            var kaydeden = db.Users.Where(m => m.ID == kulID).Select(m => m.Kod).FirstOrDefault();
+            var kaydeden = Db.Users.Where(m => m.ID == kulId).Select(m => m.Kod).FirstOrDefault();
             var sql = string.Format("SELECT IRS.EvrakNo, IRS_Detay.IrsaliyeID, IRS_Detay.MalKodu, SUM(wms.IRS_Detay.Miktar) AS Miktar, IRS_Detay.Birim, ISNULL(SUM(wms.IRS_Detay.OkutulanMiktar), 0) AS OkutulanMiktar, Depo.DepoKodu, IRS.HesapKodu, IRS.Tarih, " +
                                         "(SELECT MalAdi FROM FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) WHERE (MalKodu = IRS_Detay.MalKodu)) AS MalAdi," +
                                         "ISNULL(IRS_Detay.KynkSiparisNo, '') AS SiparisNo, ISNULL(IRS_Detay.KynkSiparisSiraNo, 0) AS KynkSiparisSiraNo, ISNULL(IRS_Detay.KynkSiparisTarih, 0) AS KynkSiparisTarih, ISNULL(IRS_Detay.KynkSiparisMiktar, 0) AS KynkSiparisMiktar, " +
@@ -360,7 +320,7 @@ namespace Wms12m
                                         "FROM FINSAT6{0}.FINSAT6{0}.SPI WITH (NOLOCK) RIGHT OUTER JOIN wms.Depo WITH(NOLOCK) INNER JOIN wms.IRS WITH(NOLOCK) ON wms.Depo.ID = wms.IRS.DepoID INNER JOIN wms.IRS_Detay WITH(NOLOCK) ON wms.IRS.ID = wms.IRS_Detay.IrsaliyeID ON FINSAT6{0}.FINSAT6{0}.SPI.Chk = wms.IRS.HesapKodu AND FINSAT6{0}.FINSAT6{0}.SPI.Tarih = wms.IRS_Detay.KynkSiparisTarih AND FINSAT6{0}.FINSAT6{0}.SPI.SiraNo = wms.IRS_Detay.KynkSiparisSiraNo AND FINSAT6{0}.FINSAT6{0}.SPI.EvrakNo = wms.IRS_Detay.KynkSiparisNo " +
                                         "WHERE (IRS_Detay.IrsaliyeID = {1}) AND (IRS_Detay.OkutulanMiktar IS NOT NULL) AND (IRS_Detay.OkutulanMiktar > 0)" +
                                         "GROUP BY wms.IRS.EvrakNo, wms.IRS_Detay.IrsaliyeID, wms.IRS_Detay.MalKodu, wms.IRS_Detay.Birim, wms.Depo.DepoKodu, wms.IRS.HesapKodu, wms.IRS.Tarih, ISNULL(wms.IRS_Detay.KynkSiparisNo, ''), ISNULL(wms.IRS_Detay.KynkSiparisSiraNo, 0), ISNULL(wms.IRS_Detay.KynkSiparisTarih, 0), ISNULL(wms.IRS_Detay.KynkSiparisMiktar, 0), FINSAT6{0}.FINSAT6{0}.SPI.BirimFiyat, FINSAT6{0}.FINSAT6{0}.SPI.KDVOran, FINSAT6{0}.FINSAT6{0}.SPI.IskontoOran1, FINSAT6{0}.FINSAT6{0}.SPI.IskontoOran2, FINSAT6{0}.FINSAT6{0}.SPI.IskontoOran3, FINSAT6{0}.FINSAT6{0}.SPI.IskontoOran4, FINSAT6{0}.FINSAT6{0}.SPI.IskontoOran5, FINSAT6{0}.FINSAT6{0}.SPI.ValorGun ORDER BY  ISNULL(wms.IRS_Detay.KynkSiparisSiraNo, 0)", irsaliye.SirketKod, irsaliye.ID);
-            var STList = db.Database.SqlQuery<STIMax>(sql).ToList();
+            var STList = Db.Database.SqlQuery<STIMax>(sql).ToList();
             foreach (STIMax stItem in STList)
             {
                 var sti = new STIBase()
@@ -407,22 +367,14 @@ namespace Wms12m
             }
 
             var IrsIslem = new Irsaliye_Islemleri(irsaliye.SirketKod, SqlExper);
-            var Sonuc = new IslemSonuc(false);
             try
             {
-                Sonuc = IrsIslem.Irsaliye_Kayit(-1, true, STIBaseList);
+                return IrsIslem.Irsaliye_Kayit(-1, true, STIBaseList);
             }
             catch (Exception ex)
             {
-                Sonuc.Basarili = false;
-                Sonuc.Hata = ex;
+                return new Result(false, ex.Message);
             }
-
-            // sonuç döner
-            if (Sonuc.Hata.IsNull())
-                return new Result(true, Sonuc.Veri.ToString2());
-            else
-                return new Result(false, Sonuc.Hata.Message);
         }
 
         /// <summary>
@@ -432,10 +384,9 @@ namespace Wms12m
         {
             List<STIBase> STIBaseList = new List<STIBase>();
 
-            var ftrKayit = new FaturaKayit(ConStr, SirketKodu);
-            var kaydeden = db.Users.Where(m => m.ID == kulID).Select(m => m.Kod).FirstOrDefault();
+            var kaydeden = Db.Users.Where(m => m.ID == kulID).Select(m => m.Kod).FirstOrDefault();
             var sql = string.Format("FINSAT6{0}.wms.SatisIadeKayitList {1}", irsaliye.SirketKod, irsaliye.ID);
-            var STList = db.Database.SqlQuery<STIMax>(sql).ToList();
+            var STList = Db.Database.SqlQuery<STIMax>(sql).ToList();
             foreach (STIMax stItem in STList)
             {
                 var sti = new STIBase()
@@ -517,21 +468,14 @@ namespace Wms12m
             }
 
             var IrsIslem = new Irsaliye_Islemleri(irsaliye.SirketKod, SqlExper);
-            var Sonuc = new IslemSonuc(false);
             try
             {
-                Sonuc = IrsIslem.Irsaliye_Kayit(-1, efatKullanici, STIBaseList);
+                return IrsIslem.Irsaliye_Kayit(-1, efatKullanici, STIBaseList);
             }
             catch (Exception ex)
             {
-                Sonuc.Basarili = false;
-                Sonuc.Hata = ex;
+                return new Result(false, ex.Message);
             }
-            // sonuç döner
-            if (Sonuc.Hata.IsNull())
-                return new Result(true, Sonuc.Veri.ToString2());
-            else
-                return new Result(false, Sonuc.Hata.Message);
         }
 
         /// <summary>
@@ -547,7 +491,6 @@ namespace Wms12m
             var fn = new Functions();
             var tarih = fn.ToOADate();
             var saat = fn.ToOATime();
-            var sqlexper = new SqlExper(ConStr, SirketKodu);
             // sql exper
             foreach (var item in stiList)
             {
@@ -590,10 +533,10 @@ namespace Wms12m
                 item.EArsivTeslimSekli = -1;
                 item.EArsivFaturaTipi = -1;
                 item.EArsivFaturaDurum = -1;
-                sqlexper.Insert(item);
+                SqlExper.Insert(item);
             }
 
-            var sonuc = sqlexper.AcceptChanges();
+            var sonuc = SqlExper.AcceptChanges();
             if (sonuc.Status)
             {
                 sonuc.Message = evrakno;
@@ -615,8 +558,8 @@ namespace Wms12m
 
                     var no = noStr.ToInt32();
                     var evrakNoArti = Helper.EvrakNoOlustur(8, seri, no);
-                    sqlexper.Komut("UPDATE FINSAT6{0}.FINSAT6{0}.INI SET MyValue={{0}} WHERE MySection = 1 AND MyEntry = {{1}}", evrakNoArti, EvrakSeriNo);
-                    sqlexper.AcceptChanges();
+                    SqlExper.Komut("UPDATE FINSAT6{0}.FINSAT6{0}.INI SET MyValue={{0}} WHERE MySection = 1 AND MyEntry = {{1}}", evrakNoArti, EvrakSeriNo);
+                    SqlExper.AcceptChanges();
                 }
             }
 

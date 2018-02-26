@@ -1,7 +1,6 @@
 ﻿using Birikim.Models;
 using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Linq;
 using System.Web.Mvc;
 using Wms12m.Entity;
@@ -169,7 +168,7 @@ namespace Wms12m.Presentation.Areas.UYS.Controllers
                 });
             }
 
-            var emir = new EMG();
+            var emir = new EMG2();
             emir.DefaultValueSet();
             emir.EmirNo = EmirVeEvrak.EmirNo;
             emir.BasTarih = tarih;

@@ -1,5 +1,6 @@
 ﻿using Birikim.Helpers;
 using Birikim.Models;
+using Birikim.Models.UysPln;
 using OnikimCore;
 using OnikimCore.Model;
 using System;
@@ -25,7 +26,7 @@ namespace Wms12m
         /// <summary>
         /// depo transfer fişi
         /// </summary>
-        public Result DepoTransfer(List<frmUysWaitingTransfer> tbl, EMG emir, bool GirisMi)
+        public Result DepoTransfer(List<frmUysWaitingTransfer> tbl, EMG2 emir, bool GirisMi)
         {
             // add to list
             var DepTranList = new List<DepTran>();
@@ -47,7 +48,7 @@ namespace Wms12m
                 });
             }
 
-            var Emir = new OnikimCore.Table.EMG();
+            var Emir = new EMG();
             if (emir != null)
             {
                 Emir.DefaultValueSet();
@@ -92,14 +93,7 @@ namespace Wms12m
 
             // save 2 db
             var StokIslem = new Stok_Islemleri(SirketKodu, SqlExper);
-            var Sonuc = StokIslem.DepoTransfer_EMG_Kayit(DepTranList, emir == null ? null : Emir, tbl[0].Kaydeden2);
-            // return
-            var _Result = new Result()
-            {
-                Status = Sonuc.Basarili,
-                Message = Sonuc.Hata != null ? Sonuc.Hata.Message : ""
-            };
-            return _Result;
+            return StokIslem.DepoTransfer_EMG_Kayit(DepTranList, emir == null ? null : Emir, tbl[0].Kaydeden2);
         }
 
         /// <summary>

@@ -381,7 +381,7 @@
     <Compile Include="Mysql\sure.cs">
       <DependentUpon>ModelKablo.tt</DependentUpon>
     </Compile>
-    <Compile Include="VM_Finsat\EMG.cs" />
+    <Compile Include="VM_Finsat\EMG2.cs" />
     <Compile Include="VM_Finsat\HDF.cs" />
     <Compile Include="VM_Finsat\MyGlobalVariables.cs" />
     <Compile Include="VM_WMS\Charts\BekleyenOnaylar.cs" />

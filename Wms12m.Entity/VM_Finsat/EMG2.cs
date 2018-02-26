@@ -1,6 +1,6 @@
 ﻿namespace Wms12m.Entity
 {
-    public class EMG
+    public class EMG2
     {
         /// <summary> VarChar(16) (Not Null) </summary>
         public string EmirNo { get; set; }

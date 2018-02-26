@@ -214,6 +214,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>\\192.168.2.232\Ortak\_Output\TakvimeBagliKisit\TakvimeBagliKisit.dll</HintPath>
     </Reference>
+    <Reference Include="TumFaturaKayit">
+      <HintPath>\\192.168.2.232\Ortak\_Output\TumFaturaKayit\TumFaturaKayit.dll</HintPath>
+    </Reference>
     <Reference Include="WebGrease, Version=1.6.5135.21930, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
     </Reference>
