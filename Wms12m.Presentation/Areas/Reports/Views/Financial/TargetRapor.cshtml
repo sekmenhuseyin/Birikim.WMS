@@ -1,0 +1,117 @@
+﻿@{
+    ViewBag.Title = "Target Rapor";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section Styles{
+    <link href="~/Content/assets/global/plugins/jquery-file-upload/css/jquery.fileupload.css" rel="stylesheet" />
+    <style>
+        td.details-control {
+            background: url('/Content/assets/global/plugins/datatables/images/details_open.png') no-repeat center center;
+            cursor: pointer;
+        }
+
+        tr.shown td.details-control {
+            background: url('/Content/assets/global/plugins/datatables/images/details_close.png') no-repeat center center;
+        }
+    </style>
+}
+<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><a href="javascript:;">Hedef Rapor</a><i class="fa fa-circle"></i></li><li><span>Hedef Rapor</span></li></ul></div>
+<h1 class="page-title">Hedef Rapor</h1>
+<div class="row">
+    <div class="col-md-12">
+        <div class="row" id="CreateEdit">
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <i class="fa fa-gift"></i>Hedef Rapor List
+                        </div>
+                    </div>
+                    <div class="portlet-body form">
+                        <form class="form-horizontal">
+                            <div class="form-body">
+                                <div class="form-group">
+                                    <label class="control-label col-md-3">Yıl</label>
+                                    <div class="col-md-4">
+                                        <div id="yil-select" class="yil-select" style="float:left;width:90%;"></div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-3">Ay</label>
+                                    <div class="col-md-4">
+                                        <div id="ay-select" class="ay-select" style="float:left;width:90%;"></div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-offset-3 col-md-9">
+                                        <div class="btn btn-circle green btn-listele" style="width:222px;height:33px;">Listele</div>
+                                        <div class="btn btn-circle grey-salsa btn-outline" style="width:222px;height:33px;">Temizle</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="liste"></div>
+    </div>
+</div>
+@section Scripts{
+    <script src="~/Content/assets/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js" type="text/javascript"></script>
+    <script src="~/Content/assets/global/plugins/jquery-file-upload/js/jquery.iframe-transport.js" type="text/javascript"></script>
+    <script src="~/Content/assets/global/plugins/jquery-file-upload/js/vendor/jquery.ui.widget.js" type="text/javascript"></script>
+    <script src="~/Content/assets/global/plugins/jquery-file-upload/js/jquery.fileupload.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var aylar = [
+                { id: 1, ay: "Ocak" },
+                { id: 2, ay: "Şubat" },
+                { id: 3, ay: "Mart" },
+                { id: 4, ay: "Nisan" },
+                { id: 5, ay: "Mayıs" },
+                { id: 6, ay: "Haziran" },
+                { id: 7, ay: "Temmuz" },
+                { id: 8, ay: "Ağustos" },
+                { id: 9, ay: "Eylül" },
+                { id: 10, ay: "Ekim" },
+                { id: 11, ay: "Kasım" },
+                { id: 12, ay: "Aralik" }
+            ];
+            var yillar = new Array();
+            for (var i = 2016; i <= @DateTime.Now.Year; i++) {
+                yillar.push(i);
+            }
+        });
+        $("#ay-select").prepend("<option value=''>Seçiniz !!!</option>");
+        $("#yil-select").prepend("<option value=''>Seçiniz !!!</option>");
+        $("#ay-select").dxSelectBox({
+            dataSource: aylar,
+            valueExpr: 'id',
+            displayExpr: 'ay',
+            searchEnabled: true,
+            onValueChanged: function (e) {
+                ay = e.value;
+            }
+        });
+        $("#yil-select").dxSelectBox({
+            dataSource: yillar,
+            valueExpr: 'yil',
+            displayExpr: 'yil',
+            searchEnabled: true,
+            onValueChanged: function (e) {
+                yil = e.value;
+            }
+        });
+        $(".btn-listele").dxButton({
+            onClick: function () {
+                PartialView("/Reports/Financial/TargetRaporList", 'liste', JSON.stringify({  Ay: ay, Yil: yil }));
+            }
+        });
+        $(".btn-outline").dxButton({
+            onClick: function () {
+                $("#liste").html("");
+            }
+        });
+    </script>
+}

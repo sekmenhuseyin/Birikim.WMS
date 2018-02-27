@@ -562,5 +562,64 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
         #endregion
+        #region TargetRapor
+        public ActionResult TargetRapor()
+        {
+            if (CheckPerm(Perms.Raporlar, PermTypes.Reading) == false) { return Redirect("/"); }
+            return View();
+        }
+        public PartialViewResult TargetRaporList(string Ay, string Yil)
+        {
+            List<CTargetRapor> tl;
+            ViewBag.Ay = Ay;
+            ViewBag.Yil = Yil;
+            try
+            {
+                string sorgu = "";
+                decimal toplamCiro = 0;
+                sorgu = String.Format(CTargetRapor.Sorgu, vUser.SirketKodu, Convert.ToInt32(Yil), Convert.ToInt32(Ay));
+                tl = db.Database.SqlQuery<CTargetRapor>(sorgu).ToList();
+                if ((tl == null ? 0 : tl.Count()) > 0)
+                {
+                    toplamCiro = tl.Sum(x => x.NetCiro);
+                    foreach (CTargetRapor item in tl)
+                    {
+                        item.CiroOran = Math.Round((item.NetCiro * 100 / toplamCiro), 2);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                tl = new List<CTargetRapor>();
+                Logger(ex, "/Reports/Financial/TargetRaporList");
+            }
+            return PartialView("TargetRaporList", tl);
+        }
+        public PartialViewResult TargetRaporBolgeList(string GrupKod, string Ay, string Yil)
+        {
+            List<CTargetRaporTemsilci> ct;
+            try
+            {
+                string sorgu = "";
+                decimal toplamCiro = 0;
+                sorgu = String.Format(CTargetRaporTemsilci.Sorgu, vUser.SirketKodu, Convert.ToInt32(Yil), Convert.ToInt32(Ay), GrupKod);
+                ct = db.Database.SqlQuery<CTargetRaporTemsilci>(sorgu).ToList();
+                if ((ct == null ? 0 : ct.Count()) > 0)
+                {
+                    toplamCiro = ct.Sum(x => x.NetCiro);
+                    foreach (CTargetRaporTemsilci item in ct)
+                    {
+                        item.CiroOran = Math.Round((item.NetCiro * 100 / toplamCiro), 2);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ct = new List<CTargetRaporTemsilci>();
+                Logger(ex, "/Reports/Financial/TargetRaporBolgeList");
+            }
+            return PartialView("TargetRaporBolgeList", ct);
+        }
+        #endregion
     }
 }

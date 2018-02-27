@@ -512,6 +512,9 @@
     <Content Include="Areas\Approvals\Views\Purchase\SatisSiparisGMYMaliOnay.cshtml" />
     <Content Include="Areas\Approvals\Views\Purchase\SatisSiparisGMYMaliOnay_List.cshtml" />
     <Content Include="Areas\Reports\Views\Stock\SevkiyatKalanDetay.cshtml" />
+    <Content Include="Areas\Reports\Views\Financial\TargetRapor.cshtml" />
+    <Content Include="Areas\Reports\Views\Financial\TargetRaporList.cshtml" />
+    <Content Include="Areas\Reports\Views\Financial\TargetRaporBolgeList.cshtml" />
     <None Include="bundleconfig.json" />
     <Content Include="Content\SizeSablon.xlsx" />
     <Content Include="Content\StockSablon.xlsx" />
