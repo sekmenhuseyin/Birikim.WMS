@@ -597,17 +597,17 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
         }
         public PartialViewResult TargetRaporBolgeList(string GrupKod, string Ay, string Yil)
         {
-            List<CTargetRaporTemsilci> ct;
+            List<CTargetRaporTemsilci> ctrt;
             try
             {
                 string sorgu = "";
                 decimal toplamCiro = 0;
                 sorgu = String.Format(CTargetRaporTemsilci.Sorgu, vUser.SirketKodu, Convert.ToInt32(Yil), Convert.ToInt32(Ay), GrupKod);
-                ct = db.Database.SqlQuery<CTargetRaporTemsilci>(sorgu).ToList();
-                if ((ct == null ? 0 : ct.Count()) > 0)
+                ctrt = db.Database.SqlQuery<CTargetRaporTemsilci>(sorgu).ToList();
+                if ((ctrt == null ? 0 : ctrt.Count()) > 0)
                 {
-                    toplamCiro = ct.Sum(x => x.NetCiro);
-                    foreach (CTargetRaporTemsilci item in ct)
+                    toplamCiro = ctrt.Sum(x => x.NetCiro);
+                    foreach (CTargetRaporTemsilci item in ctrt)
                     {
                         item.CiroOran = Math.Round((item.NetCiro * 100 / toplamCiro), 2);
                     }
@@ -615,10 +615,42 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
             }
             catch (Exception ex)
             {
-                ct = new List<CTargetRaporTemsilci>();
+                ctrt = new List<CTargetRaporTemsilci>();
                 Logger(ex, "/Reports/Financial/TargetRaporBolgeList");
             }
-            return PartialView("TargetRaporBolgeList", ct);
+            return PartialView("TargetRaporBolgeList", ctrt);
+        }
+        public PartialViewResult TargetRaporUrunGrupList(string GrupKod, string Ay, string Yil)
+        {
+            List<UrunGrupRapor> ugr;
+            try
+            {
+                string sorgu = "";
+                sorgu = String.Format(UrunGrupRapor.Sorgu, vUser.SirketKodu, Convert.ToInt32(Yil), Convert.ToInt32(Ay), GrupKod);
+                ugr = db.Database.SqlQuery<UrunGrupRapor>(sorgu).ToList();
+            }
+            catch (Exception ex)
+            {
+                ugr = new List<UrunGrupRapor>();
+                Logger(ex, "/Reports/Financial/TargetRaporUrunGrupList");
+            }
+            return PartialView("TargetRaporUrunGrupList", ugr);
+        }
+        public PartialViewResult TargetRaporPRTList(string GrupKod, string Ay, string Yil)
+        {
+            List<PRTRapor> prt;
+            try
+            {
+                string sorgu = "";
+                sorgu = String.Format(PRTRapor.Sorgu, vUser.SirketKodu, Convert.ToInt32(Yil), Convert.ToInt32(Ay), GrupKod);
+                prt = db.Database.SqlQuery<PRTRapor>(sorgu).ToList();
+            }
+            catch (Exception ex)
+            {
+                prt = new List<PRTRapor>();
+                Logger(ex, "/Reports/Financial/TargetRaporPRTList");
+            }
+            return PartialView("TargetRaporPRTList", prt);
         }
         #endregion
     }

@@ -52,7 +52,8 @@
         table = $('#sample_1').DataTable({
             "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
             "pagingType": "full_numbers",
-            "ordering": false
+            "ordering": false,
+            "columnDefs": [{ "type": "num-fmt", "className": "dt-right", "targets": [2] }, { "className": "dt-center", "targets": "_all" }]
         });
         $("#buttons").html("");
         var buttons = new $.fn.dataTable.Buttons(table, {
@@ -61,5 +62,14 @@
                 { "extend": 'excel', "text": '<span class="fa fa-file-excel-o f-s-15 green"></span>', "className": 'btn-xs;' }
             ]
         }).container().appendTo($('#buttons'));
+        $('#sample_1 .tf-search th').each(function () {
+            var title = $('#sample_1 thead th').eq($(this).index()).text();
+            if (title != "" && title.indexOf("Tarih") !== -1)
+                $(this).html('<input class="form-control input-circle tarih" type="text" placeholder="Ara" />');
+            else if (title != "" && title != "Detay" && title != "Hareket")
+                $(this).html('<input class="form-control input-circle" type="text" placeholder="Ara" />');
+        });
+        $("#sample_1 tfoot input").on('keyup change', function () { table.column($(this).parent().index() + ':visible').search(this.value).draw(); });
+        $('#sample_1 .tf-search tr').insertAfter($('#sample_1 thead tr'))
     });
 </script>
