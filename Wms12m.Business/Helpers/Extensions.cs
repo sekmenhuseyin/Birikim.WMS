@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -742,6 +743,14 @@ namespace Wms12m
             if (s.StartsWith("-")) s = s.Substring(1);
             if (s.EndsWith("-")) s = s.Substring(0, s.Length - 1);
             return s;
+        }
+        /// <summary>
+        /// Binlik ayracı
+        /// </summary>
+        public static string ToBinlikAyrac(this decimal value, string defaultvalue = "0,00")
+        {
+            try { return value.ToString("N", CultureInfo.GetCultureInfo("tr-TR")); }
+            catch { return defaultvalue; }
         }
     }
 }

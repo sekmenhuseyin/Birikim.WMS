@@ -28,19 +28,28 @@
                     {
                         <tr>
                             <td nowrap>
-                                <a class="btn btn-default" href="#modalEditPage" data-toggle="modal" onclick="editInModal2('/Reports/Financial/TargetRaporBolgeList', { GrupKod: '@item.Grupkod', Ay: '@ViewBag.Ay', Yil: '@ViewBag.Yil' })"> Temsilciler </a>
-                                <a class="btn btn-default" href="javascript:;" onclick="">MB Hedef</a>
-                                <a class="btn btn-default" href="javascript:;" onclick="">PRT</a>
+                                @if (item.Hedef > 0)
+                                {
+                                    <a class="btn btn-default" href="#modalEditPage" data-toggle="modal" onclick="editInModal2('/Reports/Financial/TargetRaporBolgeList', { GrupKod: '@item.Grupkod', Ay: '@ViewBag.Ay', Yil: '@ViewBag.Yil' })">Temsilciler</a>
+                                    <a class="btn btn-default" href="#modalEditPage" data-toggle="modal" onclick="editInModal2('/Reports/Financial/TargetRaporUrunGrupList', { GrupKod: '@item.Grupkod', Ay: '@ViewBag.Ay', Yil: '@ViewBag.Yil' })">MB Hedef</a>
+                                    <a class="btn btn-default" href="#modalEditPage" data-toggle="modal" onclick="editInModal2('/Reports/Financial/TargetRaporPRTList', { GrupKod: '@item.Grupkod', Ay: '@ViewBag.Ay', Yil: '@ViewBag.Yil' })">PRT</a>
+                                }
+                                else
+                                {
+                                    <a class="btn btn-default" href="javascript:;" onclick="">Temsilciler</a>
+                                    <a class="btn btn-default" href="javascript:;" onclick="">MB Hedef</a>
+                                    <a class="btn btn-default" href="javascript:;" onclick="">PRT</a>
+                                }
                             </td>
                             <td nowrap>@item.Grupkod</td>
-                            <td nowrap>@Math.Round(item.Hedef, 2)</td>
-                            <td nowrap>@Math.Round(item.HedefOran, 2)</td>
-                            <td nowrap>@Math.Round(item.ToplamIade, 2)</td>
-                            <td nowrap>@Math.Round(item.NetCiro, 2)</td>
-                            <td nowrap>@Math.Round(item.CiroOran, 2)</td>
-                            <td nowrap>@Math.Round(item.CariBorc, 2)</td>
-                            <td nowrap>@Math.Round(item.PRT, 2)</td>
-                            <td nowrap>@Math.Round(item.BekleyenSiparis, 2)</td>
+                            <td nowrap>@Math.Round(item.Hedef, 2).ToBinlikAyrac()</td>
+                            <td nowrap>@Math.Round(item.HedefOran, 2).ToBinlikAyrac()</td>
+                            <td nowrap>@Math.Round(item.ToplamIade, 2).ToBinlikAyrac()</td>
+                            <td nowrap>@Math.Round(item.NetCiro, 2).ToBinlikAyrac()</td>
+                            <td nowrap>@Math.Round(item.CiroOran, 2).ToBinlikAyrac()</td>
+                            <td nowrap>@Math.Round(item.CariBorc, 2).ToBinlikAyrac()</td>
+                            <td nowrap>@Math.Round(item.PRT, 2).ToBinlikAyrac()</td>
+                            <td nowrap>@Math.Round(item.BekleyenSiparis, 2).ToBinlikAyrac()</td>
                         </tr>
                     }
                 </tbody>
@@ -63,21 +72,31 @@
         </div>
     </div>
 </div>
-@section Scripts{
-    <script type="text/javascript">
-        $(document).ready(function () {
-            table = $('#sample_1').DataTable({
-                "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
-                "pagingType": "full_numbers",
-                "ordering": false
-            });
-            $("#buttons").html("");
-            var buttons = new $.fn.dataTable.Buttons(table, {
-                buttons: [
-                    { "extend": 'pdf', "text": '<span class="fa fa-file-pdf-o f-s-15 red"></span>', "className": 'btn-xs;' },
-                    { "extend": 'excel', "text": '<span class="fa fa-file-excel-o f-s-15 green"></span>', "className": 'btn-xs;' }
-                ]
-            }).container().appendTo($('#buttons'));
+<script type="text/javascript">
+    $(document).ready(function () {
+        table = $('#sample_1').DataTable({
+            "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
+            "pagingType": "full_numbers",
+            "ordering": false,
+            "columnDefs": [{ "type": "num-fmt", "className": "dt-right", "targets": [1, 2, 3, 4, 5, 6, 7, 8] }, { "className": "dt-center", "targets": "_all" }]
         });
-    </script>
-}
+
+        $("#buttons").html("");
+        var buttons = new $.fn.dataTable.Buttons(table, {
+            buttons: [
+                { "extend": 'pdf', "text": '<span class="fa fa-file-pdf-o f-s-15 red"></span>', "className": 'btn-xs;' },
+                { "extend": 'excel', "text": '<span class="fa fa-file-excel-o f-s-15 green"></span>', "className": 'btn-xs;' }
+            ]
+        }).container().appendTo($('#buttons'));
+        $('#sample_1 .tf-search th').each(function () {
+            var title = $('#sample_1 thead th').eq($(this).index()).text();
+            if (title != "" && title.indexOf("Tarih") !== -1)
+                $(this).html('<input class="form-control input-circle tarih" type="text" placeholder="Ara" />');
+            else if (title != "" && title != "Detay" && title != "Hareket")
+                $(this).html('<input class="form-control input-circle" type="text" placeholder="Ara" />');
+        });
+        $("#sample_1 tfoot input").on('keyup change', function () { table.column($(this).parent().index() + ':visible').search(this.value).draw(); });
+        $('#sample_1 .tf-search tr').insertAfter($('#sample_1 thead tr'))
+    });
+</script>
+
