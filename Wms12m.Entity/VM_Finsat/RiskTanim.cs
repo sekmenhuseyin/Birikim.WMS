@@ -789,6 +789,7 @@ namespace Wms12m.Entity
         public bool Gizle { get; set; }
 
         public string TesisAdi { get; set; }
+        public string KynkTalepNo { get; set; }
 
         public string TipStr
         {

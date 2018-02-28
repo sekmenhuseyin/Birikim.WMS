@@ -56,6 +56,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         {
             if (CheckPerm(Perms.SatinalmaOnaylama, PermTypes.Reading) == false) return null;
             MyGlobalVariables.DovizDurum = false;
+
             if (MyGlobalVariables.GridSource == null)
                 MyGlobalVariables.GridSource = new List<KKP_SPI>();
             else
@@ -63,19 +64,20 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
             MyGlobalVariables.SipEvrak = new KKPEvrakSiparis(KKPSiparisTip.AlimSiparisi);
 
-            MyGlobalVariables.TalepSource = db.Database.SqlQuery<SatTalep>(string.Format("[FINSAT6{0}].[wms].[SatinAlmaGMOnayListData] @HesapKodu='{1}', @SipTalepNo={2} ", vUser.SirketKodu, HesapKodu, SipTalepNo)).ToList();
+            MyGlobalVariables.TalepSource = db.Database.SqlQuery<SatTalep>(string.Format(@"
+            [FINSAT6{0}].[wms].[SatinAlmaGMOnayListData] @HesapKodu='{1}', @SipTalepNo={2} ", vUser.SirketKodu, HesapKodu, SipTalepNo)).ToList();
+
             if (MyGlobalVariables.TalepSource[0].SipIslemTip == null || (MyGlobalVariables.TalepSource[0].SipIslemTip != 1 && MyGlobalVariables.TalepSource[0].SipIslemTip != 2))
                 return "";
 
             MyGlobalVariables.SipEvrak.IslemTip = (KKPIslemTipSPI)MyGlobalVariables.TalepSource[0].SipIslemTip;
             MyGlobalVariables.SipEvrak.dvzTL = (KKPDvzTL)(short)MyGlobalVariables.TalepSource[0].FTDDovizTL;
             short siraNo = 0;
+
             foreach (var item in MyGlobalVariables.TalepSource)
             {
                 if ((short)item.DvzTL == (short)1)
-                {
                     MyGlobalVariables.DovizDurum = true;
-                }
 
                 var spi = new KKP_SPI(KKPSiparisTip.AlimSiparisi)
                 {
@@ -97,6 +99,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                     KDVOran = item.KDVOran,
                     SiraNo = siraNo
                 };
+
                 spi.SatirHesapla();
 
                 spi.Kod1 = item.TalepNo;
@@ -136,9 +139,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                     MyGlobalVariables.GridFTD = MyGlobalVariables.SipEvrak.FTDList;
                 }
                 else
-                {
                     MyGlobalVariables.GridFTD = new List<KKP_FTD>();
-                }
             }
 
             var json = new JavaScriptSerializer().Serialize(MyGlobalVariables.GridSource);
@@ -174,8 +175,9 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                     foreach (var item in MyGlobalVariables.TalepSource)
                     {
                         var sql = string.Format(@"UPDATE Kaynak.sta.Talep
-	                        SET GMOnaylayan=@Degistiren, GMOnayTarih=@DegisTarih, Durum=15, SipEvrakNo=@SipEvrakNo, SirketKodu='{0}', Degistiren=@Degistiren, DegisTarih=@DegisTarih, DegisSirKodu='{0}'
-	                        WHERE ID=@ID AND Durum=11 AND SipTalepNo IS NOT NULL", vUser.SirketKodu);
+	                    SET GMOnaylayan=@Degistiren, GMOnayTarih=@DegisTarih, Durum=15, SipEvrakNo=@SipEvrakNo, SirketKodu='{0}', 
+                        Degistiren=@Degistiren, DegisTarih=@DegisTarih, DegisSirKodu='{0}'
+	                    WHERE ID=@ID AND Durum=11 AND SipTalepNo IS NOT NULL", vUser.SirketKodu);
 
                         SqlParameter[] paramlist = new SqlParameter[4]
                         {
@@ -239,7 +241,9 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                     if (string.IsNullOrEmpty(sipEvrakNo) || string.IsNullOrEmpty(hesapKodu))
                         throw new ArgumentException("parametreler hatalı!");
 
-                    var mailayar = db.Database.SqlQuery<GenelAyarVeParams>(string.Format("SELECT * FROM [Kaynak].[sta].[GenelAyarVeParams]  where Tip = 4 and Tip2 = 0")).FirstOrDefault();
+                    var mailayar = db.Database.SqlQuery<GenelAyarVeParams>(string.Format(@"
+                    SELECT * FROM [Kaynak].[sta].[GenelAyarVeParams]  where Tip = 4 and Tip2 = 0")).FirstOrDefault();
+
                     if (mailayar == null)
                     {
                         _Result.Message = "Sipariş Onay Mail ayarları yapılandırılmamış!";
@@ -256,7 +260,8 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                         _Result.Status = false;
                     }
 
-                    var satinalmacimail = db.Database.SqlQuery<string>(string.Format("SELECT Email FROM usr.Users (nolock) WHERE Kod IN (SELECT TOP(1) Satinalmaci FROM Kaynak.sta.Talep(nolock) WHERE SipEvrakNo = '{0}' )", sipEvrakNo)).FirstOrDefault();
+                    var satinalmacimail = db.Database.SqlQuery<string>(string.Format(@"
+                    SELECT Email FROM usr.Users (nolock) WHERE Kod IN (SELECT TOP(1) Satinalmaci FROM Kaynak.sta.Talep(nolock) WHERE SipEvrakNo = '{0}' )", sipEvrakNo)).FirstOrDefault();
 
                     if ((string.IsNullOrEmpty(sirketemail) || sirketemail.Trim() == "")
                         && (string.IsNullOrEmpty(satinalmacimail) || satinalmacimail.Trim() == ""))
@@ -265,7 +270,9 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                         _Result.Status = false;
                     }
 
-                    var sipTalep = db.Database.SqlQuery<SatTalep>(string.Format("SELECT TOP (1) TalepNo, SipIslemTip FROM Kaynak.sta.Talep (nolock) WHERE SipEvrakNo = '{0}'", sipEvrakNo)).FirstOrDefault();
+                    var sipTalep = db.Database.SqlQuery<SatTalep>(string.Format(@"
+                    SELECT TOP (1) TalepNo, SipIslemTip FROM Kaynak.sta.Talep (nolock) WHERE SipEvrakNo = '{0}'", sipEvrakNo)).FirstOrDefault();
+
                     if (sipTalep == null)
                     {
                         _Result.Message = "Siparişin Talep ile ilişkisi bulunamadı! (Sipariş Onay Mail Gönderim)";
@@ -291,9 +298,11 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
                     List<string> attachList = new List<string>() { string.Format("{0}{1}.pdf", Path.GetTempPath(), sipEvrakNo) };
 
-                    List<SatTalep> listTalep = db.Database.SqlQuery<SatTalep>(string.Format("SELECT TalepNo, MalKodu, EkDosya FROM Kaynak.sta.Talep (nolock) WHERE SipEvrakNo ='{0}' AND HesapKodu = '{1}' AND ISNULL(EkDosya,'')<> '' ", sipEvrakNo, hesapKodu)).ToList();
+                    List<SatTalep> listTalep = db.Database.SqlQuery<SatTalep>(string.Format(@"
+                    SELECT TalepNo, MalKodu, EkDosya FROM Kaynak.sta.Talep (nolock) WHERE SipEvrakNo ='{0}' AND HesapKodu = '{1}' AND ISNULL(EkDosya,'')<> '' ", sipEvrakNo, hesapKodu)).ToList();
 
-                    var dosyaYolu = db.Database.SqlQuery<string>(string.Format("SELECT top 1 DosyaYolu FROM [Kaynak].[sta].[GenelAyarVeParams]  where Tip = 7 and DosyaYolu IS NOT NULL")).FirstOrDefault();
+                    var dosyaYolu = db.Database.SqlQuery<string>(string.Format(@"
+                    SELECT top 1 DosyaYolu FROM [Kaynak].[sta].[GenelAyarVeParams]  where Tip = 7 and DosyaYolu IS NOT NULL")).FirstOrDefault();
 
                     foreach (SatTalep talep in listTalep)
                     {
@@ -346,19 +355,23 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         {
             var _Result = new Result(false, "Yetkiniz yok");
             if (CheckPerm(Perms.SatinalmaOnaylama, PermTypes.Writing) == false) return Json(_Result, JsonRequestBehavior.AllowGet);
+
             //kontrol 1
             _Result.Message = "Geri Çevirme açıklamasını girmek zorundasınız!";
             if (redAciklama.IsNullEmpty())
                 return Json(_Result, JsonRequestBehavior.AllowGet);
+
             //kontrol 2
             _Result.Message = "Siparis Seçmelisiniz!";
             if (MyGlobalVariables.GridSource == null || MyGlobalVariables.GridSource.Count == 0 || MyGlobalVariables.SipEvrak == null)
                 return Json(_Result, JsonRequestBehavior.AllowGet);
+
             //transaction
             var sql = @"UPDATE Kaynak.sta.Talep
-                        SET GMOnaylayan='{0}', GMOnayTarih='{1}', Durum=13, Degistiren='{0}', DegisTarih='{1}', DegisSirKodu={3}, Aciklama2='{2}'
-                        WHERE ID={4} AND Durum=11 AND SipTalepNo IS NOT NULL";
-            using (var con = db.Database.BeginTransaction())
+            SET GMOnaylayan='{0}', GMOnayTarih='{1}', Durum=13, Degistiren='{0}', DegisTarih='{1}', DegisSirKodu={3}, Aciklama2='{2}'
+            WHERE ID={4} AND Durum=11 AND SipTalepNo IS NOT NULL";
+
+                using (var con = db.Database.BeginTransaction())
                 try
                 {
                     foreach (var item in MyGlobalVariables.TalepSource)
@@ -381,23 +394,17 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         public int BirimDegisimKontrol(string talepNo, string hesapKodu)
         {
             List<int> brmContList = null;
-            var query = string.Format(
-   @"SELECT (CASE WHEN ST.Birim = STK.Birim1 THEN 1
-		WHEN ST.Birim = STK.Birim2 THEN 1
-		WHEN ST.Birim = STK.Birim3 THEN 1
-		WHEN ST.Birim = STK.Birim4 THEN 1
-		ELSE 0 END ) AS Miktar
-
-FROM Kaynak.sta.Talep as ST (nolock)
-LEFT JOIN FINSAT6{0}.FINSAT6{0}.STK (nolock) on ST.MalKodu=STK.MalKodu
-WHERE ST.Durum=11 AND ST.SipTalepNo={1} AND ST.HesapKodu='{2}'
-GROUP BY (CASE WHEN ST.Birim = STK.Birim1 THEN 1
-		WHEN ST.Birim = STK.Birim2 THEN 1
-		WHEN ST.Birim = STK.Birim3 THEN 1
-		WHEN ST.Birim = STK.Birim4 THEN 1
-		ELSE 0 END )"
-      , vUser.SirketKodu
-      , talepNo, hesapKodu);
+            var query = string.Format(@"
+            SELECT (CASE WHEN ST.Birim = STK.Birim1 THEN 1
+		        WHEN ST.Birim = STK.Birim2 THEN 1
+		        WHEN ST.Birim = STK.Birim3 THEN 1
+		        WHEN ST.Birim = STK.Birim4 THEN 1
+		        ELSE 0 END ) AS Miktar
+            FROM Kaynak.sta.Talep as ST (nolock)
+            LEFT JOIN FINSAT6{0}.FINSAT6{0}.STK (nolock) on ST.MalKodu=STK.MalKodu
+            WHERE ST.Durum=11 AND ST.SipTalepNo={1} AND ST.HesapKodu='{2}'
+            GROUP BY (CASE WHEN ST.Birim = STK.Birim1 THEN 1 WHEN ST.Birim = STK.Birim2 THEN 1 WHEN ST.Birim = STK.Birim3 THEN 1 
+            WHEN ST.Birim = STK.Birim4 THEN 1 ELSE 0 END )", vUser.SirketKodu, talepNo, hesapKodu);
             brmContList = db.Database.SqlQuery<int>(query).ToList();
 
             if (brmContList.Count == 0)
@@ -447,7 +454,7 @@ GROUP BY (CASE WHEN ST.Birim = STK.Birim1 THEN 1
         {
             if (CheckPerm(Perms.SatinalmaGMYTedarikciOnay, PermTypes.Reading) == false) return Redirect("/");
 
-            ViewBag.OnayTip = 0;
+            ViewBag.OnayTip = GMYOnayTip.GMYTedarikciOnay;
             ViewBag.baslik = "Teklif GMY Tedarikçi Onay";
 
             MyGlobalVariables.GMYOnayList = db.Database.SqlQuery<SatTalep>(string.Format(@"
@@ -466,7 +473,7 @@ GROUP BY (CASE WHEN ST.Birim = STK.Birim1 THEN 1
         {
             if (CheckPerm(Perms.SatinalmaGMYMaliOnay, PermTypes.Reading) == false) return Redirect("/");
 
-            ViewBag.OnayTip = 1;
+            ViewBag.OnayTip = GMYOnayTip.GMYMaliOnay;
             ViewBag.baslik = "Teklif GMY Mali Onay";
 
             MyGlobalVariables.GMYOnayList = db.Database.SqlQuery<SatTalep>(string.Format(@"
@@ -481,11 +488,11 @@ GROUP BY (CASE WHEN ST.Birim = STK.Birim1 THEN 1
             return View("GMY_Onay", MyGlobalVariables.GMYOnayList);
         }
 
-        public PartialViewResult GMYOnayList(string TalepNo, int OnayTip)
+        public PartialViewResult GMYOnayList(string TalepNo, string OnayTip)
         {
-            if (OnayTip == 0)
+            if (OnayTip == GMYOnayTip.GMYTedarikciOnay.ToString())
                 if (CheckPerm(Perms.SatinalmaGMYTedarikciOnay, PermTypes.Reading) == false) return null;
-                else if (OnayTip == 1)
+                else if (OnayTip == GMYOnayTip.GMYMaliOnay.ToString())
                     if (CheckPerm(Perms.SatinalmaGMYMaliOnay, PermTypes.Reading) == false) return null;
 
             ViewBag.TalepNo = TalepNo;
@@ -493,11 +500,11 @@ GROUP BY (CASE WHEN ST.Birim = STK.Birim1 THEN 1
             return PartialView("GMYOnay_List");
         }
 
-        public string GMYOnayListData(string TalepNo, int OnayTip)
+        public string GMYOnayListData(string TalepNo, string OnayTip)
         {
-            if (OnayTip == 0)
+            if (OnayTip == GMYOnayTip.GMYTedarikciOnay.ToString())
                 if (CheckPerm(Perms.SatinalmaGMYTedarikciOnay, PermTypes.Reading) == false) return null;
-                else if (OnayTip == 1)
+                else if (OnayTip == GMYOnayTip.GMYMaliOnay.ToString())
                     if (CheckPerm(Perms.SatinalmaGMYMaliOnay, PermTypes.Reading) == false) return null;
 
             if (MyGlobalVariables.GridGMYSource == null)
@@ -505,63 +512,13 @@ GROUP BY (CASE WHEN ST.Birim = STK.Birim1 THEN 1
             else
                 MyGlobalVariables.GridGMYSource.Clear();
 
-            if (OnayTip == 0)
+            if (OnayTip == GMYOnayTip.GMYTedarikciOnay.ToString())
             {
                 #region Teklif GMY Tedarikçi Onay
 
                 MyGlobalVariables.GridGMYSource = db.Database.SqlQuery<SatTalep>(string.Format(@"
-            SELECT ST.ID, ST.TeklifNo, ST.Tarih, ST.HesapKodu, ST.MalKodu,
-            (SELECT MalAdi FROM FINSAT6{0}.FINSAT6{0}.STK (NOLOCK) WHERE MalKodu = ST.MalKodu) AS MalAdi, ST.Birim,
-            ST.BirimFiyat, ST.TeklifMiktar, ST.Durum,
-            ST.DvzTL, ST.DvzCinsi, ST.TerminSure,
-            ST.MinSipMiktar,
-            CONVERT(DATETIME,ST.TeklifBasTarih) AS TeklifBasTarih,
-			CONVERT(DATETIME,ST.TeklifBitTarih) AS TeklifBitTarih,
-            ST.OneriDurum,
-            ST.Vade, ST.TeslimYeri,
-            ST.Aciklama, ST.Aciklama2, ST.Aciklama3,ST.TeklifAciklamasi, ST.Satinalmaci,
-
-            ST.Kademe2Onaylayan, ST.Kademe2OnayTarih,
-            ST.Kademe1Onaylayan, ST.Kademe1OnayTarih,
-            ST.Durum2, ST.KynkTalepNo, ST.KynkTalepEkDosya,
-
-            ST.Kaydeden, ST.KayitTarih,
-            ST.Degistiren, ST.DegisTarih,
-
-            ISNULL((select TOP(1)Tp.TesisKodu FROM KAYNAK.sta.Talep as Tp (nolock) where Tp.TalepNo = St.KynkTalepNo),'') AS TesisKodu,
-            ISNULL((select TOP(1) (select MMK.HesapAd from MUHASEBE6{0}.MUHASEBE6{0}.MMK (nolock) WHERE MMK.HesapKod=Tp.TesisKodu)
-            FROM KAYNAK.sta.Talep (nolock) Tp where Tp.TalepNo = St.KynkTalepNo),'') AS TesisAdi,
-
-            STK.MalAdi, CHK.Unvan1 as Unvan,
-            ISNULL(AT.AcikTalepMiktar,0) as AcikTalepMiktar,
-            CASE WHEN ST.DvzCinsi='JPY' then DVZ.Kur01/100 else DVZ.Kur01 end as DvzKuru,
-            (select TOP(1)Tp.Kaydeden FROM KAYNAK.sta.Talep as Tp (nolock) where Tp.TalepNo = St.KynkTalepNo) AS TLPKaydeden,
-            ST.TeklifMiktar AS BirimMiktar
-
-            FROM KAYNAK.sta.Teklif as ST (nolock)
-            LEFT JOIN FINSAT6{0}.FINSAT6{0}.STK (nolock) on STK.MalKodu=ST.MalKodu
-            LEFT JOIN FINSAT6{0}.FINSAT6{0}.CHK (nolock) on CHK.HesapKodu=ST.HesapKodu
-            LEFT JOIN
-            (
-	            SELECT MalKodu, SUM(BirimMiktar) as AcikTalepMiktar FROM KAYNAK.sta.Talep (nolock)
-	            WHERE
-	            --Durum NOT IN ({1}) AND
-	            Durum < 15
-	            GROUP BY MalKodu
-            ) as AT on AT.MalKodu=ST.MalKodu
-            LEFT JOIN SOLAR6.dbo.DVZ (nolock) on DVZ.DovizCinsi=ST.DvzCinsi AND DVZ.Tarih=CAST( DATEADD(dd, 0, DATEDIFF(dd, 0, GETDATE()))+2 AS INT)
-            WHERE
-            ST.KynkTalepNo='{1}' AND ST.Durum=2", vUser.SirketKodu, TalepNo)).ToList();
-
-                #endregion Teklif GMY Tedarikçi Onay
-            }
-            else if (OnayTip == 1)
-            {
-                #region Teklif GMY Mali Onay
-
-                MyGlobalVariables.GridGMYSource = db.Database.SqlQuery<SatTalep>(string.Format(@"
-           SELECT ST.ID, ST.TeklifNo, ST.Tarih, ST.HesapKodu,
-                ST.MalKodu, (SELECT MalAdi FROM FINSAT6{0}.FINSAT6{0}.STK (NOLOCK) WHERE MalKodu = ST.MalKodu) AS MalAdi, ST.Birim,
+                SELECT ST.ID, ST.TeklifNo, ST.Tarih, ST.HesapKodu, ST.MalKodu,
+                (SELECT MalAdi FROM FINSAT6{0}.FINSAT6{0}.STK (NOLOCK) WHERE MalKodu = ST.MalKodu) AS MalAdi, ST.Birim,
                 ST.BirimFiyat, ST.TeklifMiktar, ST.Durum,
                 ST.DvzTL, ST.DvzCinsi, ST.TerminSure,
                 ST.MinSipMiktar,
@@ -585,20 +542,70 @@ GROUP BY (CASE WHEN ST.Birim = STK.Birim1 THEN 1
                 STK.MalAdi, CHK.Unvan1 as Unvan,
                 ISNULL(AT.AcikTalepMiktar,0) as AcikTalepMiktar,
                 CASE WHEN ST.DvzCinsi='JPY' then DVZ.Kur01/100 else DVZ.Kur01 end as DvzKuru,
-                (select TOP(1)Tp.Kaydeden FROM sta.Talep as Tp (nolock) where Tp.TalepNo = St.KynkTalepNo) AS TLPKaydeden,
+                (select TOP(1)Tp.Kaydeden FROM KAYNAK.sta.Talep as Tp (nolock) where Tp.TalepNo = St.KynkTalepNo) AS TLPKaydeden,
                 ST.TeklifMiktar AS BirimMiktar
 
-            FROM KAYNAK.sta.Teklif as ST (nolock)
-            LEFT JOIN FINSAT6{0}.FINSAT6{0}.STK (nolock) on STK.MalKodu=ST.MalKodu
-            LEFT JOIN FINSAT6{0}.FINSAT6{0}.CHK (nolock) on CHK.HesapKodu=ST.HesapKodu
-            LEFT JOIN
-            (
-	           SELECT MalKodu, SUM(BirimMiktar) as AcikTalepMiktar FROM sta.Talep (nolock)
-	           WHERE Durum NOT IN (3, 4, 9, 13) AND Durum < 15
-	           GROUP BY MalKodu
-             ) as AT on AT.MalKodu=ST.MalKodu
-             LEFT JOIN SOLAR6.dbo.DVZ (nolock) on DVZ.DovizCinsi=ST.DvzCinsi AND DVZ.Tarih=CAST( DATEADD(dd, 0, DATEDIFF(dd, 0, GETDATE()))+2 AS INT)
-            WHERE ST.KynkTalepNo='{1}' AND ST.Durum=4", vUser.SirketKodu, TalepNo)).ToList();
+                FROM KAYNAK.sta.Teklif as ST (nolock)
+                LEFT JOIN FINSAT6{0}.FINSAT6{0}.STK (nolock) on STK.MalKodu=ST.MalKodu
+                LEFT JOIN FINSAT6{0}.FINSAT6{0}.CHK (nolock) on CHK.HesapKodu=ST.HesapKodu
+                LEFT JOIN
+                (
+	                SELECT MalKodu, SUM(BirimMiktar) as AcikTalepMiktar FROM KAYNAK.sta.Talep (nolock)
+	                WHERE
+	                --Durum NOT IN ({1}) AND
+	                Durum < 15
+	                GROUP BY MalKodu
+                ) as AT on AT.MalKodu=ST.MalKodu
+                LEFT JOIN SOLAR6.dbo.DVZ (nolock) on DVZ.DovizCinsi=ST.DvzCinsi AND DVZ.Tarih=CAST( DATEADD(dd, 0, DATEDIFF(dd, 0, GETDATE()))+2 AS INT)
+                WHERE
+                ST.KynkTalepNo='{1}' AND ST.Durum=2", vUser.SirketKodu, TalepNo)).ToList();
+
+                #endregion Teklif GMY Tedarikçi Onay
+            }
+            else if (OnayTip == GMYOnayTip.GMYMaliOnay.ToString())
+            {
+                #region Teklif GMY Mali Onay
+
+                MyGlobalVariables.GridGMYSource = db.Database.SqlQuery<SatTalep>(string.Format(@"
+                SELECT ST.ID, ST.TeklifNo, ST.Tarih, ST.HesapKodu,
+                    ST.MalKodu, (SELECT MalAdi FROM FINSAT6{0}.FINSAT6{0}.STK (NOLOCK) WHERE MalKodu = ST.MalKodu) AS MalAdi, ST.Birim,
+                    ST.BirimFiyat, ST.TeklifMiktar, ST.Durum,
+                    ST.DvzTL, ST.DvzCinsi, ST.TerminSure,
+                    ST.MinSipMiktar,
+                    CONVERT(DATETIME,ST.TeklifBasTarih) AS TeklifBasTarih,
+			        CONVERT(DATETIME,ST.TeklifBitTarih) AS TeklifBitTarih,
+                    ST.OneriDurum,
+                    ST.Vade, ST.TeslimYeri,
+                    ST.Aciklama, ST.Aciklama2, ST.Aciklama3,ST.TeklifAciklamasi, ST.Satinalmaci,
+
+                    ST.Kademe2Onaylayan, ST.Kademe2OnayTarih,
+                    ST.Kademe1Onaylayan, ST.Kademe1OnayTarih,
+                    ST.Durum2, ST.KynkTalepNo, ST.KynkTalepEkDosya,
+
+                    ST.Kaydeden, ST.KayitTarih,
+                    ST.Degistiren, ST.DegisTarih,
+
+                    ISNULL((select TOP(1)Tp.TesisKodu FROM KAYNAK.sta.Talep as Tp (nolock) where Tp.TalepNo = St.KynkTalepNo),'') AS TesisKodu,
+                    ISNULL((select TOP(1) (select MMK.HesapAd from MUHASEBE6{0}.MUHASEBE6{0}.MMK (nolock) WHERE MMK.HesapKod=Tp.TesisKodu)
+                    FROM KAYNAK.sta.Talep (nolock) Tp where Tp.TalepNo = St.KynkTalepNo),'') AS TesisAdi,
+
+                    STK.MalAdi, CHK.Unvan1 as Unvan,
+                    ISNULL(AT.AcikTalepMiktar,0) as AcikTalepMiktar,
+                    CASE WHEN ST.DvzCinsi='JPY' then DVZ.Kur01/100 else DVZ.Kur01 end as DvzKuru,
+                    (select TOP(1)Tp.Kaydeden FROM KAYNAK.sta.Talep as Tp (nolock) where Tp.TalepNo = St.KynkTalepNo) AS TLPKaydeden,
+                    ST.TeklifMiktar AS BirimMiktar
+
+                FROM KAYNAK.sta.Teklif as ST (nolock)
+                LEFT JOIN FINSAT6{0}.FINSAT6{0}.STK (nolock) on STK.MalKodu=ST.MalKodu
+                LEFT JOIN FINSAT6{0}.FINSAT6{0}.CHK (nolock) on CHK.HesapKodu=ST.HesapKodu
+                LEFT JOIN
+                (
+	               SELECT MalKodu, SUM(BirimMiktar) as AcikTalepMiktar FROM KAYNAK.sta.Talep (nolock)
+	               WHERE Durum NOT IN (3, 4, 9, 13) AND Durum < 15
+	               GROUP BY MalKodu
+                 ) as AT on AT.MalKodu=ST.MalKodu
+                 LEFT JOIN SOLAR6.dbo.DVZ (nolock) on DVZ.DovizCinsi=ST.DvzCinsi AND DVZ.Tarih=CAST( DATEADD(dd, 0, DATEDIFF(dd, 0, GETDATE()))+2 AS INT)
+                WHERE ST.KynkTalepNo='{1}' AND ST.Durum=4", vUser.SirketKodu, TalepNo)).ToList();
 
                 #endregion Teklif GMY Mali Onay
             }
@@ -610,18 +617,19 @@ GROUP BY (CASE WHEN ST.Birim = STK.Birim1 THEN 1
         /// <summary>
         /// gmy onaylama
         /// </summary>
-        public JsonResult GMYOnayla(int OnayTip)
+        public JsonResult GMYOnayla(string OnayTip)
         {
-            if (OnayTip == 0)
+            if (OnayTip == GMYOnayTip.GMYTedarikciOnay.ToString())
             {
                 if (CheckPerm(Perms.SatinalmaGMYTedarikciOnay, PermTypes.Writing) == false)
                     return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             }
-            else if (OnayTip == 1)
+            else if (OnayTip == GMYOnayTip.GMYMaliOnay.ToString())
                 if (CheckPerm(Perms.SatinalmaGMYMaliOnay, PermTypes.Writing) == false)
                     return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
 
             var _Result = new Result(true, "İşlem Başarılı");
+
             if (MyGlobalVariables.GridGMYSource.Where(x => x.OneriDurum).Count() == 0)
             {
                 _Result.Message = "Satınalmacı tarafından öneri yapılmamış. İşlem devam edemez!!";
@@ -630,13 +638,14 @@ GROUP BY (CASE WHEN ST.Birim = STK.Birim1 THEN 1
             }
 
             using (var con = db.Database.BeginTransaction())
+            {
                 try
                 {
                     foreach (var item in MyGlobalVariables.GridGMYSource)
                     {
                         string sql = "";
 
-                        if (OnayTip == 0)
+                        if (OnayTip == GMYOnayTip.GMYTedarikciOnay.ToString())
                         {
                             #region Teklif GMY Tedarikçi Onay
 
@@ -646,11 +655,51 @@ GROUP BY (CASE WHEN ST.Birim = STK.Birim1 THEN 1
 	                        WHERE ID={2} AND Durum=2", item.Aciklama2, vUser.UserName.ToString(), item.ID, vUser.SirketKodu);
 
                             #endregion Teklif GMY Tedarikçi Onay
+
+                            db.Database.ExecuteSqlCommand(sql);
                         }
-                        else if (OnayTip == 1)
+                        else if (OnayTip == GMYOnayTip.GMYMaliOnay.ToString())
                         {
+                            #region GMY Mali Onay
+
+                            sql = string.Format(@"UPDATE Kaynak.sta.Teklif SET
+                            Durum={0}, Aciklama3='{1}', Degistiren='{2}', DegisTarih=GETDATE(), DegisSirKodu='{4}', 
+                            Kademe1Onaylayan='{2}', Kademe1OnayTarih=GETDATE(), Durum2=1
+                            WHERE ID={3} AND Durum=4", item.OneriDurum?6:5, item.Aciklama3, vUser.UserName.ToString(), item.ID, vUser.SirketKodu);
+
+                            db.Database.ExecuteSqlCommand(sql);
+
+                            if (item.OneriDurum)
+                            {
+                                if (!string.IsNullOrWhiteSpace(item.KynkTalepNo))
+                                {
+                                    ///Talep Durum 5: Teklif Bekliyor;  6: Teklif Değerlendirme; 7: Teklif Onaylandı
+                                    sql = string.Format(@"UPDATE Kaynak.sta.Talep SET Durum=7, Degistiren='{0}', DegisTarih=GETDATE(), DegisSirKodu='{3}' 
+                                    WHERE TalepNo='{1}' AND MalKodu='{2}' AND Durum in (5,6)", vUser.UserName.ToString(), item.KynkTalepNo, item.MalKodu, vUser.SirketKodu);
+
+                                    db.Database.ExecuteSqlCommand(sql);
+                                }
+
+                                var maxSiraNo = -1;
+                                var OnayliTedSiraNo = db.Database.SqlQuery<short>(string.Format("SELECT MAX(SiraNo) FROM Kaynak.sta.OnayliTed (nolock) WHERE MalKodu='{0}'"
+                                    , item.MalKodu)).FirstOrDefault();
+
+                                if (OnayliTedSiraNo > 0)
+                                    maxSiraNo = OnayliTedSiraNo;
+
+                                sql = string.Format(@"INSERT INTO Kaynak.sta.OnayliTed
+                                (TeklifNo, HesapKodu, MalKodu, SiraNo, Kaydeden, KayitTarih, KayitSirKodu, Degistiren, DegisTarih, DegisSirKodu)
+                                VALUES 
+                                ('{0}', '{1}', '{2}', {3}, '{4}', GETDATE(), '{5}', '{4}', GETDATE(), '{5}')"
+                                , item.TeklifNo, item.HesapKodu, item.MalKodu
+                                , maxSiraNo ==-1  ? (short)1 : (short)maxSiraNo + 1
+                                , vUser.UserName.ToString(), vUser.SirketKodu);
+
+                                db.Database.ExecuteSqlCommand(sql);
+                            }
+
+                            #endregion
                         }
-                        db.Database.ExecuteSqlCommand(sql);
                     }
                     con.Commit();
                 }
@@ -660,17 +709,19 @@ GROUP BY (CASE WHEN ST.Birim = STK.Birim1 THEN 1
                     _Result.Message = "İşlem Sırasında Hata Oluştu.";
                     _Result.Status = false;
                 }
+            }
+
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
 
         /// <summary>
         /// gmy reddetme
         /// </summary>
-        public JsonResult GMYReddet(string redAciklama, int OnayTip)
+        public JsonResult GMYReddet(string redAciklama, string OnayTip)
         {
-            if (OnayTip == 0)
+            if (OnayTip == GMYOnayTip.GMYTedarikciOnay.ToString())
                 if (CheckPerm(Perms.SatinalmaGMYTedarikciOnay, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
-                else if (OnayTip == 1)
+                else if (OnayTip == GMYOnayTip.GMYMaliOnay.ToString())
                     if (CheckPerm(Perms.SatinalmaGMYMaliOnay, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
 
             var _Result = new Result(true, "İşlem Başarılı");
@@ -683,28 +734,42 @@ GROUP BY (CASE WHEN ST.Birim = STK.Birim1 THEN 1
             }
 
             using (var con = db.Database.BeginTransaction())
+            {
                 try
                 {
-                    foreach (var item in MyGlobalVariables.TalepSource)
+                    foreach (var item in MyGlobalVariables.GridGMYSource)
                     {
                         string sql = "";
 
-                        if (OnayTip == 0)
+                        if (OnayTip == GMYOnayTip.GMYTedarikciOnay.ToString())
                         {
                             #region Teklif GMY Tedarikçi Onay
 
                             sql = string.Format(@"UPDATE Kaynak.sta.Teklif SET
-                                            Durum=3, Aciklama2='{0}', Degistiren='{1}', DegisTarih=GETDATE(), DegisSirKodu='{3}',
-                                            Kademe2Onaylayan='{1}', Kademe2OnayTarih=GETDATE()
-                                            WHERE ID={2} AND Durum=2", redAciklama, vUser.UserName.ToString(), item.ID, vUser.SirketKodu);
+                            Durum=3, Aciklama2='{0}', Kademe2Onaylayan='{1}', Kademe2OnayTarih=GETDATE(),
+                            Degistiren='{1}', DegisTarih=GETDATE(), DegisSirKodu='{3}'                            
+                            WHERE ID={2} AND Durum=2", redAciklama, vUser.UserName.ToString(), item.ID, vUser.SirketKodu);
 
                             #endregion Teklif GMY Tedarikçi Onay
                         }
-                        else if (OnayTip == 1)
+                        else if (OnayTip == GMYOnayTip.GMYMaliOnay.ToString())
                         {
+                            #region Teklif GMY Mali Onay
+
+                            sql = string.Format(@"UPDATE Kaynak.sta.Teklif SET
+                            Durum=5, Aciklama3='{0}', Kademe1Onaylayan='{1}', Kademe1OnayTarih=GETDATE(),
+                            Degistiren='{1}', DegisTarih=GETDATE(), DegisSirKodu='{3}'
+                            WHERE ID={2} AND Durum=4", redAciklama, vUser.UserName.ToString(), item.ID, vUser.SirketKodu);
+
+                            #endregion
                         }
 
                         db.Database.ExecuteSqlCommand(sql);
+
+                        if (OnayTip == GMYOnayTip.GMYMaliOnay.ToString())
+                        {
+                            //Mail Gönderilecek
+                        }
                     }
 
                     con.Commit();
@@ -715,9 +780,16 @@ GROUP BY (CASE WHEN ST.Birim = STK.Birim1 THEN 1
                     _Result.Message = "Geri Çevirme açıklamasını girmek zorundasınız!";
                     _Result.Status = false;
                 }
+            }
+
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
 
+        enum GMYOnayTip
+        {
+            GMYTedarikciOnay,
+            GMYMaliOnay
+        }
         #endregion
 
         #region Satınalma Sipariş Talebi GMY Mali Onay
