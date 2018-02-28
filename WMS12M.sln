@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27130.2026
+VisualStudioVersion = 15.0.27130.2036
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wms12m.Business", "Wms12m.Business\Wms12m.Business.csproj", "{3B9D880E-FEEC-4E24-9B47-B5F5DB860819}"
 EndProject
@@ -12,8 +12,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wms12m.Presentation", "Wms12m.Presentation\Wms12m.Presentation.csproj", "{5BDA8764-6E30-43B3-8BC2-B3168CCF23FF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wms12m.Test", "Wms12m.Test\Wms12m.Test.csproj", "{8726F8A8-C325-4743-9C90-121E6E3C692B}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Birikim.Entitiy", "Birikim.Entitiy\Birikim.Entitiy.csproj", "{4CC07297-CF37-4595-BA58-086F940AB1F1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,10 +39,6 @@ Global
 		{8726F8A8-C325-4743-9C90-121E6E3C692B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8726F8A8-C325-4743-9C90-121E6E3C692B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8726F8A8-C325-4743-9C90-121E6E3C692B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4CC07297-CF37-4595-BA58-086F940AB1F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4CC07297-CF37-4595-BA58-086F940AB1F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4CC07297-CF37-4595-BA58-086F940AB1F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4CC07297-CF37-4595-BA58-086F940AB1F1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
