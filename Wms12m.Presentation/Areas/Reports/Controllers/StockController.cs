@@ -244,10 +244,14 @@ WHERE OT.Sirketkodu='{0}' AND OT.[AktarimDurum]=1 AND OT.Islemtip=1 AND [SevkEvr
         }
 
 
-        public JsonResult SevkiyatKalanStokList()
+        public string SevkiyatKalanStokList()
         {
+            var json = new JavaScriptSerializer()
+            {
+                MaxJsonLength = int.MaxValue
+            };
             var list = db.Database.SqlQuery<SevkiyatKalanRapor>(string.Format("[FINSAT6{0}].[wms].[RP_SevkiyatKalanStok] ", vUser.SirketKodu)).ToList();
-            return Json(list, JsonRequestBehavior.AllowGet);
+            return json.Serialize(list);
 
 
 

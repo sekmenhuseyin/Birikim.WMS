@@ -18,57 +18,19 @@
                     <thead>
                         <tr>
                             <th></th>
-                            <th>EvrakNo</th>
-                            <th>Tarih</th>
-                            <th>TahTeslimTarih</th>
-                            <th>Chk</th>
-                            <th>Unvan</th>
-                            <th>SiraNo</th>
-                            <th>TeslimChk</th>
-                            <th>TeslimYeriAdi</th>
                             <th>MalKodu</th>
                             <th>MalAdi</th>
-                            <th>Miktar</th>
                             <th>Birim</th>
-                            <th>BirimMiktar</th>
-                            <th>TeslimMiktar</th>
-                            <th>KapatilanMiktar</th>
-                            <th>SevkEvrakMiktar</th>
-                            <th>Birim1</th>
-                            <th>Birim2</th>
-                            <th>Birim3</th>
-                            <th>Operator2</th>
-                            <th>Operator3</th>
-                            <th>KatSayi2</th>
-                            <th>KatSayi3</th>
-                            <th>GrupKod</th>
-                            <th>Kod16</th>
-                            <th>Birim1StokMiktar</th>
-                            <th>BTBKatSayi</th>
-                            <th>SevkEdilecekIlIlce</th>
-</tr>
+                            <th>DvrMiktar</th>
+                            <th>GirMiktar</th>
+                            <th>CikMiktar</th>
+                            <th>Sevkiyat</th>
+                            <th>StokMiktar</th>
+                            <th>BekleyenSiparis</th>
+                     </tr>
                     </thead>
                     <tfoot>
                         <tr>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
                             <th></th>
                             <th></th>
                             <th></th>
@@ -95,26 +57,6 @@
                             <th></th>
                             <th></th>
                             <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                           
                           
                         </tr>
                     </tfoot>
@@ -144,38 +86,20 @@
                         return json;
                     }
                 },
-                "columnDefs": [{ "type": "num-fmt", "className": "dt-right", "targets": [11, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 26, 27] }],
+                "columnDefs": [{ "type": "num-fmt", "className": "dt-right", "targets": [3,4,5,6,7,8] }],
                 "columns": [
                     { "data": null, "defaultContent": '', "className": 'details-control', "orderable": false },
-                    { "data": "EvrakNo" },
-                    { "data": "Tarih", "render": function (data) { if (data != null) return fromOADate(data); else return "&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp;"; } },
-                    { "data": "TahTeslimTarih", "render": function (data) { if (data != null) return fromOADate(data); else return "&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp;"; } },
-                    { "data": "Chk" },
-                    { "data": "Unvan" },
-                    { "data": "SiraNo" },
-                    { "data": "TeslimChk" },
-                    { "data": "TeslimYeriAdi" },
-                    { "data": "MalKodu" },
+                    { "data": "MalKodu"},
                     { "data": "MalAdi" },
-                    { "data": "Miktar" },
-                    { "data": "Birim" },
-                    { "data": "BirimMiktar" },
-                    { "data": "TeslimMiktar" },
-                    { "data": "KapatilanMiktar" },
-                    { "data": "SevkEvrakMiktar" },
                     { "data": "Birim1" },
-                    { "data": "Birim2" },
-                    { "data": "Birim3" },
-                    { "data": "Operator2" },
-                    { "data": "Operator3" },
-                    { "data": "KatSayi2" },
-                    { "data": "KatSayi3" },
-                    { "data": "GrupKod" },
-                    { "data": "Kod16" },
-                    { "data": "Birim1StokMiktar" },
-                    { "data": "BTBKatSayi" },
-                    { "data": "SevkEdilecekIlIlce" }
-                      
+                    { "data": "DvrMiktar","render": $.fn.dataTable.render.number('.', ',', 2, '') },
+                    { "data": "GirMiktar","render": $.fn.dataTable.render.number('.', ',', 2, '') },
+                    { "data": "CikMiktar", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
+                    { "data": "Sevkiyat", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
+                    { "data": "StokMiktar", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
+                    { "data": "BekleyenSiparis","render": $.fn.dataTable.render.number('.', ',', 2, '') }
+              
+
                 ]
 
             });
