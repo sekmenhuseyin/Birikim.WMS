@@ -327,7 +327,6 @@ namespace Wms12m
                 {
                     EvrakNo = stItem.EvrakNo,
                     HesapKodu = stItem.HesapKodu,
-                    //Tarih = stItem.Tarih.IntToDate(),
                     Tarih = stItem.Tarih,
                     MalKodu = stItem.MalKodu,
                     Miktar = stItem.OkutulanMiktar,

@@ -1,10 +1,8 @@
-﻿using Birikim.Helpers;
-using Birikim.Models;
+﻿using Birikim.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Linq;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
@@ -59,8 +57,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         {
             var _Result = new Result(true);
             if (CheckPerm(Perms.StokOnaylama, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
-            var parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
-            var sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
+            var parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
             try
             {
                 Dictionary<string, int> FiyatMaxSiraNo = new Dictionary<string, int>();
@@ -68,7 +65,6 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                 {
                     var date = DateTime.Now;
                     var shortDate = date.ToString("yyyy-MM-dd");
-                    var sonuc = sqlexper.AcceptChanges();
                     db.Database.ExecuteSqlCommand(string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[STK] SET AktifPasif = 0, CheckSum =1  where MalKodu = '{1}'", vUser.SirketKodu, insertObj["MalKodu"].ToString()));
                 }
 
@@ -91,9 +87,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         {
             var _Result = new Result(true);
             if (CheckPerm(Perms.StokOnaylama, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
-            var parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
-            var sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
-
+            var parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
             try
             {
                 Dictionary<string, int> FiyatMaxSiraNo = new Dictionary<string, int>();
@@ -101,7 +95,6 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                 {
                     var date = DateTime.Now;
                     var shortDate = date.ToString("yyyy-MM-dd");
-                    var sonuc = sqlexper.AcceptChanges();
                     db.Database.ExecuteSqlCommand(string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[STK] SET AktifPasif = 0, CheckSum =-1  where MalKodu = '{1}'", vUser.SirketKodu, insertObj["MalKodu"].ToString()));
                 }
 

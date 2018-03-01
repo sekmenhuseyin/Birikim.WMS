@@ -1,1 +1,1 @@
-﻿<%@ WebService Language="C#" CodeBehind="Terminal.asmx.cs" Class="Wms12m.Terminal" %>
+﻿<%@ WebService Language="C#" CodeBehind="Terminal.asmx.cs" Class="Wms12m.Presentation.Terminal" %>
