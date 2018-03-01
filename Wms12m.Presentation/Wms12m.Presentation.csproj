@@ -517,6 +517,14 @@
     <Content Include="Areas\Reports\Views\Financial\TargetRaporBolgeList.cshtml" />
     <Content Include="Areas\Reports\Views\Financial\TargetRaporUrunGrupList.cshtml" />
     <Content Include="Areas\Reports\Views\Financial\TargetRaporPRTList.cshtml" />
+    <Content Include="Areas\Reports\Views\Financial\TargetAyBazliRapor.cshtml" />
+    <Content Include="Areas\Reports\Views\Financial\TargetAyBazliRaporList.cshtml" />
+    <Content Include="Areas\Reports\Views\Financial\TargetAyBazliTemsilciRapor.cshtml" />
+    <Content Include="Areas\Reports\Views\Financial\TargetAyBazliTemsilciList.cshtml" />
+    <Content Include="Areas\Reports\Views\Financial\RaporGunlukSiparis.cshtml" />
+    <Content Include="Areas\Reports\Views\Financial\RaporGunlukSiparisList.cshtml" />
+    <Content Include="Areas\Reports\Views\Financial\RaporBekleyenSiparisler.cshtml" />
+    <Content Include="Areas\Reports\Views\Financial\RaporBekleyenSiparislerList.cshtml" />
     <None Include="bundleconfig.json" />
     <Content Include="Content\SizeSablon.xlsx" />
     <Content Include="Content\StockSablon.xlsx" />

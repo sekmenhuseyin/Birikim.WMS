@@ -1,0 +1,74 @@
+﻿@{
+    ViewBag.Title = "Target Ay Bazlı Temsilci Rapor";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><a href="javascript:;">Ay Bazlı Temsilci Rapor</a><i class="fa fa-circle"></i></li><li><span>Ay Bazlı Temsilci Rapor</span></li></ul></div>
+<h1 class="page-title">Ay Bazlı Temsilci Rapor</h1>
+<div class="row">
+    <div class="col-md-12">
+        <div class="row" id="CreateEdit">
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <i class="fa fa-gift"></i>Ay Bazlı Temsilci Rapor
+                        </div>
+                    </div>
+                    <div class="portlet-body form">
+                        <form class="form-horizontal">
+                            <div class="form-body">
+                                <div class="form-group">
+                                    <label class="control-label col-md-3">Yıl</label>
+                                    <div class="col-md-4">
+                                        <div id="yil-select" class="yil-select" style="float:left;width:90%;"></div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-offset-3 col-md-9">
+                                        <div class="btn btn-circle green btn-listele" style="width:222px;height:33px;">Listele</div>
+                                        <div class="btn btn-circle grey-salsa btn-outline" style="width:222px;height:33px;">Temizle</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="liste"></div>
+    </div>
+</div>
+@section Scripts{
+    <script src="~/Content/assets/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js" type="text/javascript"></script>
+    <script src="~/Content/assets/global/plugins/jquery-file-upload/js/jquery.iframe-transport.js" type="text/javascript"></script>
+    <script src="~/Content/assets/global/plugins/jquery-file-upload/js/vendor/jquery.ui.widget.js" type="text/javascript"></script>
+    <script src="~/Content/assets/global/plugins/jquery-file-upload/js/jquery.fileupload.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var yillar = new Array();
+            for (var i = 2016; i <= @DateTime.Now.Year; i++) {
+                yillar.push(i);
+            }
+        });
+        $("#yil-select").prepend("<option value=''>Seçiniz !!!</option>");
+        $("#yil-select").dxSelectBox({
+            dataSource: yillar,
+            valueExpr: 'yil',
+            displayExpr: 'yil',
+            searchEnabled: true,
+            onValueChanged: function (e) {
+                yil = e.value;
+            }
+        });
+        $(".btn-listele").dxButton({
+            onClick: function () {
+                PartialView("/Reports/Financial/TargetAyBazliTemsilciList", 'liste', JSON.stringify({ Yil: yil }));
+            }
+        });
+        $(".btn-outline").dxButton({
+            onClick: function () {
+                $("#liste").html("");
+            }
+        });
+    </script>
+}
