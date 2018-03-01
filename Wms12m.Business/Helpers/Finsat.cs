@@ -284,21 +284,20 @@ namespace Wms12m
                 if (stiBaseListSpi.Count > 0)
                 {
                     var irsIslem = new Irsaliye_Islemleri(SirketKodu, SqlExper);
-                    var sonuc = new Result();
                     try
                     {
-                        sonuc = irsIslem.Irsaliye_Kayit(irsaliyeSeri, efatKullanici, stiBaseListSpi);
+                        result = irsIslem.Irsaliye_Kayit(irsaliyeSeri, efatKullanici, stiBaseListSpi);
                     }
                     catch (Exception ex)
                     {
-                        sonuc.Message = ex.Message;
+                        return new Result(false, ex.Message);
                     }
                 }
 
-                if (stiBaseList.Count < 0 && stiBaseListSpi.Count < 0)
+                if (stiBaseList.Count <= 0 && stiBaseListSpi.Count <= 0)
                     return new Result(false, "Bu sipariş kapanmış. Evrak No= " + tempEvrakNo);
                 else
-                    return new Result(true);
+                    return result;
             }
             catch (Exception ex)
             {
