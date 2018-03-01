@@ -124,7 +124,7 @@ namespace Wms12m.Presentation
             ViewBag.UnreadMessages = db.Messages.Where(m => m.MesajTipi == 85 && m.Kime == vUser.UserName && m.Okundu == false).OrderByDescending(m => m.Tarih).ToList();//sadece genel uyarılar
             //sql exper
             if (SqlExper == null)
-                SqlExper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu);
+                SqlExper = new SqlExper(vUser.SirketKodu, ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString);
             // end
             base.OnActionExecuting(filterContext);
         }
