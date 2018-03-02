@@ -767,5 +767,44 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
             return new JavaScriptSerializer().Serialize(bs);
         }
         #endregion
+        #region UrunSatisAnalizi
+        public ActionResult RaporUrunSatisAnalizi()
+        {
+            if (CheckPerm(Perms.Raporlar, PermTypes.Reading) == false) { return Redirect("/"); }
+            List<RaporGrupKod> _raporGrupKod;
+            try
+            {
+                _raporGrupKod = db.Database.SqlQuery<RaporGrupKod>(String.Format(RaporGrupKod.Sorgu, vUser.SirketKodu)).ToList();
+            }
+            catch (Exception ex)
+            {
+                Logger(ex, "/Reports/Financial/RaporUrunSatisAnalizi");
+                _raporGrupKod = new List<RaporGrupKod>();
+            }
+            return View(_raporGrupKod);
+        }
+        public PartialViewResult UrunSatisTemsilciAnalizList(string GrupKod,string Yil)
+        {
+            List<SatisAnaliziTemsilci> sat;
+            if (String.IsNullOrEmpty(Yil))
+            {
+                return PartialView("UrunSatisTemsilciAnalizList", null);
+            }
+            
+            try
+            {
+                string sorgu = "";
+                sorgu = String.Format(SatisAnaliziTemsilci.Sorgu, vUser.SirketKodu, GrupKod, Convert.ToInt32(Yil));
+                sat = db.Database.SqlQuery<SatisAnaliziTemsilci>(sorgu).ToList();
+            }
+            catch (Exception ex)
+            {
+                sat = new List<SatisAnaliziTemsilci>();
+                Logger(ex, "/Reports/Financial/UrunSatisTemsilciAnalizList");
+            }
+            ViewBag.Yil = Yil;
+            return PartialView("UrunSatisTemsilciAnalizList", sat);
+        }
+        #endregion
     }
 }
