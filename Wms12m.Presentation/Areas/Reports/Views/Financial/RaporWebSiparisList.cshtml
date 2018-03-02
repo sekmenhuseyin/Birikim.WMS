@@ -1,0 +1,96 @@
+﻿<style type="text/css">
+    .KirmiziYap {
+        background-color: red !important;
+    }
+</style>
+<div class="col-md-12" style="width:100%;">
+    <div class="portlet box green">
+        <div class="portlet-title">
+            <div class="caption">
+                <i class="fa fa-gift"></i>Web Sipariş Listesi
+            </div>
+            <div class="col-md-1 pull-right m-t-5 p-0" id="buttons"></div>
+        </div>
+        <div class="portlet-body">
+            <table class="table table-striped table-bordered table-condensed" id="sample_1">
+                <thead>
+                    <tr>
+                        <th>Tarih</th>
+                        <th>Evrak No</th>
+                        <th>Tip Kod</th>
+                        <th>Grup Kod</th>
+                        <th>Hesap Kodu</th>
+                        <th>Unvan</th>
+                        <th>Toplam</th>
+                        <th>Sipariş Durumu</th>
+                    </tr>
+                </thead>
+                <tfoot><tr><th colspan="8"></th></tr></tfoot>
+                <tfoot class="tf-search">
+                    <tr>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    var Yil = JSON.parse('@Html.Raw(ViewBag.Yil)');
+    var Ay = JSON.parse('@Html.Raw(ViewBag.Ay)');
+    $(document).ready(function () {
+        table = $('#sample_1').DataTable({
+            "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
+            "ajax": {
+                "url": '/Reports/Financial/RaporWebSiparisSelect',
+                "data": { Yil: Yil , Ay : Ay },
+                "dataSrc": function (json) {
+                    return json;
+                },
+            },
+            "pagingType": "full_numbers",
+            "buttons": [
+                { "extend": 'pdf', "text": '<span class="fa fa-file-pdf-o f-s-15 red"></span>', "className": 'btn btn-default btn-xs' },
+                { "extend": 'excel', "text": '<span class="fa fa-file-excel-o f-s-15 green"></span>', "className": 'btn btn-default btn-xs' }
+            ],
+            "columnDefs": [{ "type": "num-fmt", "className": "dt-right", "targets": [6] }, { "className": "dt-center", "targets": "_all" }],
+            "columns": [
+                { "data": "Tarih" },
+                { "data": "EvrakNo" },
+                { "data": "TipKod" },
+                { "data": "GrupKod" },
+                { "data": "HesapKodu" },
+                { "data": "Unvan" },
+                { "data": "Toplam", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
+                { "data": "SiparisDurumu" }
+            ],
+            //"createdRow": function (row, data, dataIndex) {
+            //    if (data["Toplam"] > 1500) {
+            //        $(row).children('td').slice(6,7).addClass("KirmiziYap");
+            //    }
+            //},
+            "ordering": false,
+            "fnRowCallback": function (nRow, aData, iDisplayIndex) {
+                $('td', nRow).attr('nowrap', 'nowrap');
+                return nRow;
+            }
+        });
+
+        $('#sample_1 .tf-search th').each(function () {
+            var title = $('#sample_1 thead th').eq($(this).index()).text();
+            if (title != "" && title.indexOf("Tarih") !== -1)
+                $(this).html('<input class="form-control input-circle tarih" type="text" placeholder="Ara" />');
+            else if (title != "" && title != "Detay" && title != "Hareket")
+                $(this).html('<input class="form-control input-circle" type="text" placeholder="Ara" />');
+        });
+        $("#sample_1 tfoot input").on('keyup change', function () { table.column($(this).parent().index() + ':visible').search(this.value).draw(); });
+        $('#sample_1 .tf-search tr').insertAfter($('#sample_1 thead tr'))
+    });
+</script>

@@ -25,7 +25,13 @@
                             <div class="form-group">
                                 <label class="control-label col-md-3">Yıl</label>
                                 <div class="col-md-4">
-                                    <div id="yil-select" class="yil-select" style="float:left;width:90%;"></div>
+                                    <select id="yil-select" required="required" name="yil-select" style="float:left;width:90%"
+                                            class="form-control input-circle">
+                                        @foreach (string item in (List<string>)ViewBag.Yillar)
+                                        {
+                                            <option value="@item">@item</option>
+                                        }
+                                    </select>
                                 </div>
                             </div>
                         </div>
@@ -57,8 +63,8 @@
                                 <td nowrap>
                                     @if (!String.IsNullOrEmpty(item.GrupKod))
                                     {
-                                        <a class="btn btn-default" href="#modalEditPage" data-toggle="modal" onclick="Git('@item.GrupKod','0')">Temsilci Analizi</a>
-                                        <a class="btn btn-default" href="#modalEditPage" data-toggle="modal" onclick="Git('@item.GrupKod','1')">
+                                        <a class="btn btn-default enab" href="#modalEditPage" data-toggle="modal" onclick="Git('@item.GrupKod','0')">Temsilci Analizi</a>
+                                        <a class="btn btn-default enab" href="#modalEditPage" data-toggle="modal" onclick="Git('@item.GrupKod','1')">
                                             Bölge Analizi
                                         </a>
                                     }
@@ -90,14 +96,9 @@
     <script src="~/Content/assets/global/plugins/jquery-file-upload/js/vendor/jquery.ui.widget.js" type="text/javascript"></script>
     <script src="~/Content/assets/global/plugins/jquery-file-upload/js/jquery.fileupload.js" type="text/javascript"></script>
     <script type="text/javascript">
-        $(document).ready(function () {
-            var Yil;
-            var yillar = Array();
-            for (var i = 2016; i <= @DateTime.Now.Year; i++) {
-                yillar.push(i.toString());
-            }
-        });
+        $("#yil-select")[0].selectedIndex = 0;
         function Git(GrupKod, Tip) {
+            var Yil = $('#yil-select :selected').val();
             if (Tip == "0") {
                 editInModal2('/Reports/Financial/UrunSatisTemsilciAnalizList', { GrupKod: GrupKod, Yil: Yil.toString() });
             }
@@ -105,14 +106,5 @@
                 editInModal2('/Reports/Financial/UrunSatisBolgeAnalizList', { GrupKod: GrupKod, Yil: Yil.toString() });
             }
         }
-        $("#yil-select").dxSelectBox({
-            dataSource: yillar,
-            valueExpr: 'yil',
-            displayExpr: 'yil',
-            searchEnabled: true,
-            onValueChanged: function (e) {
-                Yil = e.value;
-            }
-        });
     </script>
 }

@@ -13,9 +13,13 @@ namespace Wms12m.Entity
         public string BOLGE { get; set; }
         public string TEMSILCI { get; set; }
         public string URUNGRUP { get; set; }
-        public string HEDEF { get; set; }
+        public string HEDEF { get; set; } //decimal
         public int TARIH { get; set; }
         public string AYYIL { get; set; }
+        public static string SelectSorgu = @"
+                                            SELECT H1.ID,H1.TIP,H1.BOLGE,H1.TEMSILCI,H1.URUNGRUP,CONVERT(NVARCHAR,H1.HEDEF) AS HEDEF,H1.TARIH,H1.AYYIL 
+                                            FROM FINSAT6{0}.FINSAT6{0}.HDF AS H1 WITH (NOLOCK) WHERE H1.TIP={1}
+                                            ";
         public static string TInsertSorgu = @"
                     DECLARE @MAXDURUM INT,@HDFT1 NUMERIC(25,6),@HDFT0 NUMERIC(25,6)
                     SET @MAXDURUM = (SELECT COUNT(*) FROM FINSAT6{0}.FINSAT6{0}.HDF AS H1 WITH (NOLOCK) WHERE H1.BOLGE='{1}' AND H1.TIP=0 

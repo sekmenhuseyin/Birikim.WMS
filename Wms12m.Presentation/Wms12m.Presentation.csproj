@@ -527,6 +527,8 @@
     <Content Include="Areas\Reports\Views\Financial\RaporBekleyenSiparislerList.cshtml" />
     <Content Include="Areas\Reports\Views\Financial\RaporUrunSatisAnalizi.cshtml" />
     <Content Include="Areas\Reports\Views\Financial\UrunSatisTemsilciAnalizList.cshtml" />
+    <Content Include="Areas\Reports\Views\Financial\RaporWebSiparis.cshtml" />
+    <Content Include="Areas\Reports\Views\Financial\RaporWebSiparisList.cshtml" />
     <None Include="bundleconfig.json" />
     <Content Include="Content\SizeSablon.xlsx" />
     <Content Include="Content\StockSablon.xlsx" />

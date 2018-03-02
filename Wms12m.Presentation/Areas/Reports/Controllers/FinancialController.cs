@@ -365,9 +365,7 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
             List<HDF> hdfList;
             try
             {
-                hdfList = db.Database.SqlQuery<HDF>(String.Format(@"
-                SELECT H1.ID,H1.TIP,H1.BOLGE,H1.TEMSILCI,H1.URUNGRUP,CONVERT(NVARCHAR,H1.HEDEF) AS HEDEF,H1.TARIH,H1.AYYIL 
-                FROM FINSAT6{0}.FINSAT6{0}.HDF AS H1 WITH (NOLOCK) WHERE H1.TIP=1", vUser.SirketKodu)).ToList();
+                hdfList = db.Database.SqlQuery<HDF>(String.Format(HDF.SelectSorgu, vUser.SirketKodu, 1)).ToList();
             }
             catch (Exception ex)
             {
@@ -443,17 +441,14 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
             List<HDF> hdfList;
             try
             {
-                hdfList = db.Database.SqlQuery<HDF>(String.Format(@"
-                SELECT H1.ID,H1.TIP,H1.BOLGE,H1.TEMSILCI,H1.URUNGRUP,CONVERT(NVARCHAR,H1.HEDEF) AS HEDEF,H1.TARIH,H1.AYYIL 
-                FROM [FINSAT6{0}].[FINSAT6{0}].HDF AS H1 WITH (NOLOCK) WHERE H1.TIP=0
-                ", vUser.SirketKodu)).ToList();
+                hdfList = db.Database.SqlQuery<HDF>(String.Format(HDF.SelectSorgu, vUser.SirketKodu, 0)).ToList();
             }
             catch (Exception ex)
             {
                 Logger(ex, "/Reports/Financial/TargetBolgeList");
                 hdfList = new List<HDF>();
             }
-            return PartialView("TargetBolgeList",hdfList);
+            return PartialView("TargetBolgeList", hdfList);
         }
         public JsonResult TargetBolgeSave(HDF hdf)
         {
@@ -566,6 +561,8 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
         public ActionResult TargetRapor()
         {
             if (CheckPerm(Perms.Raporlar, PermTypes.Reading) == false) { return Redirect("/"); }
+            ViewBag.Yillar = YilAyListele(1);
+            ViewBag.Aylar = YilAyListele(2);
             return View();
         }
         public PartialViewResult TargetRaporList(string Ay, string Yil)
@@ -577,7 +574,7 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
             {
                 string sorgu = "";
                 decimal toplamCiro = 0;
-                sorgu = String.Format(CTargetRapor.Sorgu, vUser.SirketKodu, Convert.ToInt32(Yil), Convert.ToInt32(Ay));
+                sorgu = String.Format(CTargetRapor.Sorgu, vUser.SirketKodu, Convert.ToInt32(Yil), Convert.ToInt32(Ay) + 1);
                 tl = db.Database.SqlQuery<CTargetRapor>(sorgu).ToList();
                 if ((tl == null ? 0 : tl.Count()) > 0)
                 {
@@ -653,10 +650,11 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
             return PartialView("TargetRaporPRTList", prt);
         }
         #endregion
-        #region TargetAyBazlıRaporBolge
+        #region TargetAyBazlıRaporBolge-YAPILDI
         public ActionResult TargetAyBazliRapor()
         {
             if (CheckPerm(Perms.Raporlar, PermTypes.Reading) == false) { return Redirect("/"); }
+            ViewBag.Yillar = YilAyListele(1);
             return View();
         }
         public PartialViewResult TargetAyBazliRaporList(string Yil)
@@ -681,10 +679,11 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
             return new JavaScriptSerializer().Serialize(tabbr);
         }
         #endregion
-        #region TargetAyBazlıRaporTemsilci
+        #region TargetAyBazlıRaporTemsilci-YAPILDI
         public ActionResult TargetAyBazliTemsilciRapor()
         {
             if (CheckPerm(Perms.Raporlar, PermTypes.Reading) == false) { return Redirect("/"); }
+            ViewBag.Yillar = YilAyListele(1);
             return View();
         }
         public PartialViewResult TargetAyBazliTemsilciList(string Yil)
@@ -709,10 +708,12 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
             return new JavaScriptSerializer().Serialize(tsbtr);
         }
         #endregion
-        #region GunlukSiparis
+        #region GunlukSiparis-YAPILDI
         public ActionResult RaporGunlukSiparis()
         {
             if (CheckPerm(Perms.Raporlar, PermTypes.Reading) == false) { return Redirect("/"); }
+            ViewBag.Yillar = YilAyListele(1);
+            ViewBag.Aylar = YilAyListele(2);
             return View();
         }
         public PartialViewResult RaporGunlukSiparisList(string Yil, string Ay)
@@ -726,8 +727,9 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
             List<GunlukSiparis> gs;
             try
             {
+                //TODO : TOP 100
                 string sorgu = "";
-                sorgu = String.Format(GunlukSiparis.Sorgu, vUser.SirketKodu, Convert.ToInt32(Yil), Convert.ToInt32(Ay), "TOP 100");
+                sorgu = String.Format(GunlukSiparis.Sorgu, vUser.SirketKodu, Convert.ToInt32(Yil), Convert.ToInt32(Ay) + 1, "TOP 100");
                 gs = db.Database.SqlQuery<GunlukSiparis>(sorgu).ToList();
             }
             catch (Exception ex)
@@ -738,13 +740,15 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
             return new JavaScriptSerializer().Serialize(gs);
         }
         #endregion
-        #region BekleyenSiparisler
+        #region BekleyenSiparisler-YAPILDI
         public ActionResult RaporBekleyenSiparisler()
         {
             if (CheckPerm(Perms.Raporlar, PermTypes.Reading) == false) { return Redirect("/"); }
+            ViewBag.Yillar = YilAyListele(1);
+            ViewBag.Aylar = YilAyListele(2);
             return View();
         }
-        public PartialViewResult RaporBekleyenSiparislerList(string Yil,string Ay)
+        public PartialViewResult RaporBekleyenSiparislerList(string Yil, string Ay)
         {
             ViewBag.Yil = Yil;
             ViewBag.Ay = Ay;
@@ -755,8 +759,9 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
             List<BekleyenSips> bs;
             try
             {
+                //TODO : TOP 100
                 string sorgu = "";
-                sorgu = String.Format(BekleyenSips.Sorgu, vUser.SirketKodu, Convert.ToInt32(Yil), Convert.ToInt32(Ay), "TOP 100");
+                sorgu = String.Format(BekleyenSips.Sorgu, vUser.SirketKodu, Convert.ToInt32(Yil), Convert.ToInt32(Ay) + 1, "TOP 100");
                 bs = db.Database.SqlQuery<BekleyenSips>(sorgu).ToList();
             }
             catch (Exception ex)
@@ -767,7 +772,7 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
             return new JavaScriptSerializer().Serialize(bs);
         }
         #endregion
-        #region UrunSatisAnalizi
+        #region UrunSatisAnalizi-YAPILDI
         public ActionResult RaporUrunSatisAnalizi()
         {
             if (CheckPerm(Perms.Raporlar, PermTypes.Reading) == false) { return Redirect("/"); }
@@ -781,16 +786,12 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
                 Logger(ex, "/Reports/Financial/RaporUrunSatisAnalizi");
                 _raporGrupKod = new List<RaporGrupKod>();
             }
+            ViewBag.Yillar = YilAyListele(1);
             return View(_raporGrupKod);
         }
-        public PartialViewResult UrunSatisTemsilciAnalizList(string GrupKod,string Yil)
+        public PartialViewResult UrunSatisTemsilciAnalizList(string GrupKod, string Yil)
         {
             List<SatisAnaliziTemsilci> sat;
-            if (String.IsNullOrEmpty(Yil))
-            {
-                return PartialView("UrunSatisTemsilciAnalizList", null);
-            }
-            
             try
             {
                 string sorgu = "";
@@ -806,5 +807,55 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
             return PartialView("UrunSatisTemsilciAnalizList", sat);
         }
         #endregion
+        #region WebSiparis-YAPILDI
+        public ActionResult RaporWebSiparis()
+        {
+            if (CheckPerm(Perms.Raporlar, PermTypes.Reading) == false) { return Redirect("/"); }
+            ViewBag.Yillar = YilAyListele(1);
+            ViewBag.Aylar = YilAyListele(2);
+            return View();
+        }
+        public PartialViewResult RaporWebSiparisList(string Ay, string Yil)
+        {
+            ViewBag.Ay = Ay;
+            ViewBag.Yil = Yil;
+            return PartialView("RaporWebSiparisList");
+        }
+        public string RaporWebSiparisSelect(string Yil, string Ay)
+        {
+            List<WebSiparis> ws;
+            try
+            {
+                //TODO : TOP 100
+                string sorgu = "";
+                sorgu = String.Format(WebSiparis.Sorgu, vUser.SirketKodu, Convert.ToInt32(Yil), Convert.ToInt32(Ay) + 1, "TOP 100");
+                ws = db.Database.SqlQuery<WebSiparis>(sorgu).ToList();
+            }
+            catch (Exception ex)
+            {
+                ws = new List<WebSiparis>();
+                Logger(ex, "/Reports/Financial/RaporWebSiparisSelect");
+            }
+            return new JavaScriptSerializer().Serialize(ws);
+        }
+        #endregion
+        private static List<string> YilAyListele(int val)
+        {
+            List<string> ret = new List<string>();
+            switch (val)
+            {
+                case 1:
+                    for (int i = 2016; i <= DateTime.Now.Year; i++)
+                    {
+                        ret.Add(i.ToString());
+                    }
+                    break;
+                default:
+                    ret.Add("Ocak"); ret.Add("Şubat"); ret.Add("Mart"); ret.Add("Nisan"); ret.Add("Mayıs"); ret.Add("Haziran");
+                    ret.Add("Temmuz"); ret.Add("Ağustos"); ret.Add("Eylül"); ret.Add("Ekim"); ret.Add("Kasım"); ret.Add("Aralık");
+                    break;
+            }
+            return ret;
+        }
     }
 }
