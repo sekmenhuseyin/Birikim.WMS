@@ -53,6 +53,7 @@
 <div class="row">
     <div>
         <div class="col-xs-6 col-sm-6" style="padding:0 2px 0 5px">
+            <div class="col-xs-12 col-sm-4" style="padding:0 1px 0 1px"><button type="button" class="btn btn-lg blue yenile-buton" style="width:99%;font-size:9px; margin-bottom:10px;">Yenile<i class="fa fa-eraser" style="margin-left:5px;"></i></button></div>
             <div class="col-xs-12 col-sm-4" style="padding:0 1px 0 1px"><button type="button" class="btn btn-lg purple onayla-buton" style="width:99%;font-size:9px; margin-bottom:10px;">Onayla<i class="fa fa-binoculars" style="margin-left:5px;"></i></button></div>
             <div class="col-xs-12 col-sm-4" style="padding:0 1px 0 1px"><button type="button" class="btn btn-lg yellow reddet-buton" style="width:99%;font-size:9px; margin-bottom:10px;">Reddet<i class="fa fa-save" style="margin-left:5px;"></i></button></div>
         </div>
@@ -75,6 +76,12 @@
     </div>
 </div>
 
+<div class="row">
+    <div id="satinalma_sip_gmy_onay_ftd_data">
+    </div>
+</div>
+
+
 
 
 @section Scripts{
@@ -85,6 +92,7 @@
     $(document).ready(function () {
         var model = @Html.Raw(Json.Encode(Model));
 
+        $(".musteri_unvan").hide();
         $(".txt_geri_cevirme_aciklamasi").dxTextBox({
             maxLength: 250
         });
@@ -94,13 +102,14 @@
             searchEnabled: true,
             pageLoadMode: "nextButton",
             searchExpr: ["SipTalepNo", "HesapKodu", "Unvan"],
-            displayExpr: 'TalepNo',
+            displayExpr: 'SipTalepNo',
             onValueChanged: function (e) {
                 if (e.value == null) {
                     return;
                 }
                 TLP = e.value.TalepNo;
                 PartialView("/Approvals/Purchase/SatisSiparisGMYMaliOnay_List", 'satinalma_sip_gmy_onay_data', JSON.stringify({ TalepNo: e.value.SipTalepNo, HesapKodu: e.value.HesapKodu }));
+                PartialView("/Approvals/Purchase/SatisSiparisGMYMaliOnayFTD_List", 'satinalma_sip_gmy_onay_ftd_data', JSON.stringify({ TalepNo: e.value.SipTalepNo, HesapKodu: e.value.HesapKodu }));
             },
             itemTemplate: function (itemData, itemIndex, itemElement) {
                 itemElement.css({ "text-align": "left", "border-bottom": "1px solid #2fc1d8" });

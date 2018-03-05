@@ -371,7 +371,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             SET GMOnaylayan='{0}', GMOnayTarih='{1}', Durum=13, Degistiren='{0}', DegisTarih='{1}', DegisSirKodu={3}, Aciklama2='{2}'
             WHERE ID={4} AND Durum=11 AND SipTalepNo IS NOT NULL";
 
-                using (var con = db.Database.BeginTransaction())
+            using (var con = db.Database.BeginTransaction())
                 try
                 {
                     foreach (var item in MyGlobalVariables.TalepSource)
@@ -665,7 +665,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                             sql = string.Format(@"UPDATE Kaynak.sta.Teklif SET
                             Durum={0}, Aciklama3='{1}', Degistiren='{2}', DegisTarih=GETDATE(), DegisSirKodu='{4}', 
                             Kademe1Onaylayan='{2}', Kademe1OnayTarih=GETDATE(), Durum2=1
-                            WHERE ID={3} AND Durum=4", item.OneriDurum?6:5, item.Aciklama3, vUser.UserName.ToString(), item.ID, vUser.SirketKodu);
+                            WHERE ID={3} AND Durum=4", item.OneriDurum ? 6 : 5, item.Aciklama3, vUser.UserName.ToString(), item.ID, vUser.SirketKodu);
 
                             db.Database.ExecuteSqlCommand(sql);
 
@@ -692,7 +692,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                                 VALUES 
                                 ('{0}', '{1}', '{2}', {3}, '{4}', GETDATE(), '{5}', '{4}', GETDATE(), '{5}')"
                                 , item.TeklifNo, item.HesapKodu, item.MalKodu
-                                , maxSiraNo ==-1  ? (short)1 : (short)maxSiraNo + 1
+                                , maxSiraNo == -1 ? (short)1 : (short)maxSiraNo + 1
                                 , vUser.UserName.ToString(), vUser.SirketKodu);
 
                                 db.Database.ExecuteSqlCommand(sql);
@@ -802,11 +802,11 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
             MyGlobalVariables.SatSipGMYMaliOnayList = db.Database.SqlQuery<SatTalep>(string.Format(@"
             SELECT DISTINCT ST.SipTalepNo, ST.HesapKodu, CHK.Unvan1 As Unvan
-            FROM KAYNAK.sta.[Talep] as ST (nolock)
-            LEFT JOIN [FINSAT6{0}].[FINSAT6{0}].[CHK] (nolock) on ST.HesapKodu=CHK.HesapKodu
+            FROM KAYNAK.sta.Talep as ST (nolock)
+            LEFT JOIN FINSAT6{0}.FINSAT6{0}.CHK (nolock) on ST.HesapKodu=CHK.HesapKodu
             WHERE ST.Durum=8 AND ST.SipTalepNo IS NOT NULL AND ST.HesapKodu IS NOT NULL AND ST.TeklifNo IS NOT NULL", vUser.SirketKodu)).ToList();
 
-            return View(MyGlobalVariables.SatSipGMYMaliOnayList);
+            return View("SatisSiparisGMYMaliOnay", MyGlobalVariables.SatSipGMYMaliOnayList);
         }
 
         public PartialViewResult SatisSiparisGMYMaliOnay_List(string TalepNo, string HesapKodu)
@@ -824,65 +824,59 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             else
                 MyGlobalVariables.GridGMYSource.Clear();
 
-
             MyGlobalVariables.GridGMYSource = db.Database.SqlQuery<SatTalep>(string.Format(@"
-                    SELECT ST.ID
-                        , ST.TalepNo
-                        , ST.MalKodu
-                        , ST.Tarih
-                        , ST.Tip
-                        , ST.Birim
-                        , ST.BirimMiktar
-                        , (CASE WHEN ST.Birim = STK.Birim1 THEN ST.BirimMiktar 
-                                WHEN ST.Birim = STK.Birim2 AND  STK.Operator2=0 THEN ST.BirimMiktar/STK.Katsayi2 
-                                WHEN ST.Birim = STK.Birim2  AND STK.Operator2=1 THEN ST.BirimMiktar*STK.Katsayi2 
-                                WHEN ST.Birim = STK.Birim3  AND STK.Operator3=0 THEN ST.BirimMiktar/STK.Katsayi3 
-                                WHEN ST.Birim = STK.Birim3  AND STK.Operator3=1 THEN ST.BirimMiktar*STK.Katsayi3 
-                                WHEN ST.Birim = STK.Birim4  AND STK.Operator4=0 THEN ST.BirimMiktar/STK.Katsayi4 
-                                WHEN ST.Birim = STK.Birim4  AND STK.Operator4=1 THEN ST.BirimMiktar*STK.Katsayi4  END ) AS Miktar
-                        , (CASE WHEN ST.Birim = STK.Birim1 THEN 0
-                                WHEN ST.Birim = STK.Birim2 THEN STK.Operator2
-                                WHEN ST.Birim = STK.Birim3 THEN STK.Operator3 
-                                WHEN ST.Birim = STK.Birim4 THEN STK.Operator4  END ) AS Operator
-                        , (CASE WHEN ST.Birim = STK.Birim1 THEN 1
-                                WHEN ST.Birim = STK.Birim2 THEN STK.Katsayi2
-                                WHEN ST.Birim = STK.Birim3 THEN STK.Katsayi3 
-                                WHEN ST.Birim = STK.Birim4 THEN STK.Katsayi4  END ) AS Katsayi
-                        , ST.IstenenTarih
-                        , ST.Aciklama
-                        , ST.Aciklama2
-                        , ST.Aciklama3
-                        , ST.Durum
-                        , ST.EkDosya
-                        , ST.Kademe1Onaylayan
-                        , ST.Kademe1OnayTarih
-                        , ST.Kademe2Onaylayan, ST.Kademe2OnayTarih
-                        , ST.Satinalmaci
-                        , ST.TeklifNo
-                        , ST.HesapKodu
-                        , ST.BirimFiyat
-                        , ST.DvzTL
-                        , ST.DvzCinsi
-                        , ISNULL((SELECT CASE WHEN DovizCinsi='JPY' then KUR01/100 else KUR01 end AS DvzKuru FROM SOLAR6.dbo.DVZ (NOLOCK) WHERE DovizCinsi=ST.DvzCinsi AND Tarih=CAST( DATEADD(dd, 0, DATEDIFF(dd, 0, GETDATE()))+2 AS INT)),0) as DvzKuru
-                        , ST.KDVOran
-                        , ST.SipTalepNo
-                        , ST.SipIslemTip
-                        , ST.Kaydeden 
-                        , STK.MalAdi
-                        , ST.TesisKodu
-                        , TK.Vade as TeklifVade
-                        ,TK.TeklifAciklamasi
-                        , ST.FTDDovizTL 
-                        , ST.FTDDovizCinsi 
-                        , ISNULL((SELECT CASE WHEN DovizCinsi='JPY' then KUR01/100 else KUR01 end AS DvzKuru FROM SOLAR6.dbo.DVZ (NOLOCK) WHERE DovizCinsi=ST.FTDDovizCinsi AND Tarih=CAST( DATEADD(dd, 0, DATEDIFF(dd, 0, GETDATE()))+2 AS INT)),0) as FTDDovizKuru
-                        FROM KAYNAK.sta.Talep as ST (nolock)
-                        INNER JOIN KAYNAK.sta.Teklif as TK (nolock) on TK.TeklifNo=ST.TeklifNo AND TK.HesapKodu=ST.HesapKodu AND TK.MalKodu=ST.MalKodu
-                        LEFT JOIN FINSAT6{0}.FINSAT6{0}.STK (nolock) on ST.MalKodu=STK.MalKodu
-                        WHERE ST.Durum=8 AND ST.SipTalepNo={1} AND ST.HesapKodu='{2}'",
+            SELECT ST.ID, ST.TalepNo , ST.MalKodu, ST.Tarih, ST.Tip, ST.Birim, ST.BirimMiktar,
+                (CASE WHEN ST.Birim = STK.Birim1 THEN ST.BirimMiktar 
+                    WHEN ST.Birim = STK.Birim2 AND  STK.Operator2=0 THEN ST.BirimMiktar/STK.Katsayi2 
+                    WHEN ST.Birim = STK.Birim2  AND STK.Operator2=1 THEN ST.BirimMiktar*STK.Katsayi2 
+                    WHEN ST.Birim = STK.Birim3  AND STK.Operator3=0 THEN ST.BirimMiktar/STK.Katsayi3 
+                    WHEN ST.Birim = STK.Birim3  AND STK.Operator3=1 THEN ST.BirimMiktar*STK.Katsayi3 
+                    WHEN ST.Birim = STK.Birim4  AND STK.Operator4=0 THEN ST.BirimMiktar/STK.Katsayi4 
+                    WHEN ST.Birim = STK.Birim4  AND STK.Operator4=1 THEN ST.BirimMiktar*STK.Katsayi4  
+                END ) AS Miktar, 
+                (CASE WHEN ST.Birim = STK.Birim1 THEN 0
+                    WHEN ST.Birim = STK.Birim2 THEN STK.Operator2
+                     WHEN ST.Birim = STK.Birim3 THEN STK.Operator3 
+                     WHEN ST.Birim = STK.Birim4 THEN STK.Operator4  
+                END ) AS Operator, 
+                (CASE WHEN ST.Birim = STK.Birim1 THEN 1
+                     WHEN ST.Birim = STK.Birim2 THEN STK.Katsayi2
+                     WHEN ST.Birim = STK.Birim3 THEN STK.Katsayi3 
+                     WHEN ST.Birim = STK.Birim4 THEN STK.Katsayi4  
+                END ) AS Katsayi, 
+                ST.IstenenTarih, ST.Aciklama, ST.Aciklama2, ST.Aciklama3, ST.Durum, ST.EkDosya, ST.Kademe1Onaylayan, ST.Kademe1OnayTarih, 
+                ST.Kademe2Onaylayan, ST.Kademe2OnayTarih, ST.Satinalmaci, ST.TeklifNo, ST.HesapKodu, ST.BirimFiyat, ST.DvzTL, ST.DvzCinsi, 
+                ISNULL((SELECT CASE WHEN DovizCinsi='JPY' then KUR01/100 else KUR01 end AS DvzKuru FROM SOLAR6.dbo.DVZ (NOLOCK) 
+                WHERE DovizCinsi=ST.DvzCinsi AND Tarih=CAST( DATEADD(dd, 0, DATEDIFF(dd, 0, GETDATE()))+2 AS INT)),0) as DvzKuru, 
+                ST.KDVOran, ST.SipTalepNo, ST.SipIslemTip, ST.Kaydeden, STK.MalAdi, ST.TesisKodu, TK.Vade as TeklifVade,TK.TeklifAciklamasi, 
+                ST.FTDDovizTL , ST.FTDDovizCinsi , 
+                ISNULL((SELECT CASE WHEN DovizCinsi='JPY' then KUR01/100 else KUR01 end AS DvzKuru FROM SOLAR6.dbo.DVZ (NOLOCK) 
+                WHERE DovizCinsi=ST.FTDDovizCinsi AND Tarih=CAST( DATEADD(dd, 0, DATEDIFF(dd, 0, GETDATE()))+2 AS INT)),0) as FTDDovizKuru
+            FROM KAYNAK.sta.Talep as ST (nolock)
+            INNER JOIN KAYNAK.sta.Teklif as TK (nolock) on TK.TeklifNo=ST.TeklifNo AND TK.HesapKodu=ST.HesapKodu AND TK.MalKodu=ST.MalKodu
+            LEFT JOIN FINSAT6{0}.FINSAT6{0}.STK (nolock) on ST.MalKodu=STK.MalKodu
+            WHERE ST.Durum=8 AND ST.SipTalepNo={1} AND ST.HesapKodu='{2}'",
             vUser.SirketKodu, TalepNo, HesapKodu)).ToList();
 
-
             var json = new JavaScriptSerializer().Serialize(MyGlobalVariables.GridGMYSource);
+            return json;
+        }
+
+        /// <summary>
+        /// onaylanacak fatura biilgileri
+        /// </summary>
+        public PartialViewResult SatisSiparisGMYListFTD(string TalepNo, string HesapKodu)
+        {
+            if (CheckPerm(Perms.SatinalmaOnaylama, PermTypes.Reading) == false) return null;
+
+            ViewBag.HesapKodu = JsonConvert.SerializeObject(HesapKodu);
+            ViewBag.TalepNo = TalepNo;
+            return PartialView("SatisSiparisGMYMaliOnayFTD_List");
+        }
+
+        public string SatisSiparisGMYListFTDData(string HesapKodu, string TalepNo)
+        {
+            var json = new JavaScriptSerializer().Serialize(MyGlobalVariables.GridGMYFTDSource);
             return json;
         }
 
