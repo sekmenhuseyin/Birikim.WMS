@@ -454,7 +454,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         {
             if (CheckPerm(Perms.SatinalmaGMYTedarikciOnay, PermTypes.Reading) == false) return Redirect("/");
 
-            ViewBag.OnayTip = GMYOnayTip.GMYTedarikciOnay;
+            ViewBag.OnayTip = MyGlobalVariables.GMYOnayTip.GMYTedarikciOnay;
             ViewBag.baslik = "Teklif GMY Tedarikçi Onay";
 
             MyGlobalVariables.GMYOnayList = db.Database.SqlQuery<SatTalep>(string.Format(@"
@@ -473,7 +473,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         {
             if (CheckPerm(Perms.SatinalmaGMYMaliOnay, PermTypes.Reading) == false) return Redirect("/");
 
-            ViewBag.OnayTip = GMYOnayTip.GMYMaliOnay;
+            ViewBag.OnayTip = MyGlobalVariables.GMYOnayTip.GMYMaliOnay;
             ViewBag.baslik = "Teklif GMY Mali Onay";
 
             MyGlobalVariables.GMYOnayList = db.Database.SqlQuery<SatTalep>(string.Format(@"
@@ -490,9 +490,9 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
         public PartialViewResult GMYOnayList(string TalepNo, string OnayTip)
         {
-            if (OnayTip == GMYOnayTip.GMYTedarikciOnay.ToString())
+            if (OnayTip == MyGlobalVariables.GMYOnayTip.GMYTedarikciOnay.ToString())
                 if (CheckPerm(Perms.SatinalmaGMYTedarikciOnay, PermTypes.Reading) == false) return null;
-                else if (OnayTip == GMYOnayTip.GMYMaliOnay.ToString())
+                else if (OnayTip == MyGlobalVariables.GMYOnayTip.GMYMaliOnay.ToString())
                     if (CheckPerm(Perms.SatinalmaGMYMaliOnay, PermTypes.Reading) == false) return null;
 
             ViewBag.TalepNo = TalepNo;
@@ -502,21 +502,21 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
         public string GMYOnayListData(string TalepNo, string OnayTip)
         {
-            if (OnayTip == GMYOnayTip.GMYTedarikciOnay.ToString())
+            if (OnayTip == MyGlobalVariables.GMYOnayTip.GMYTedarikciOnay.ToString())
                 if (CheckPerm(Perms.SatinalmaGMYTedarikciOnay, PermTypes.Reading) == false) return null;
-                else if (OnayTip == GMYOnayTip.GMYMaliOnay.ToString())
+                else if (OnayTip == MyGlobalVariables.GMYOnayTip.GMYMaliOnay.ToString())
                     if (CheckPerm(Perms.SatinalmaGMYMaliOnay, PermTypes.Reading) == false) return null;
 
-            if (MyGlobalVariables.GridGMYSource == null)
-                MyGlobalVariables.GridGMYSource = new List<SatTalep>();
+            if (MyGlobalVariables.GMYSource == null)
+                MyGlobalVariables.GMYSource = new List<SatTalep>();
             else
-                MyGlobalVariables.GridGMYSource.Clear();
+                MyGlobalVariables.GMYSource.Clear();
 
-            if (OnayTip == GMYOnayTip.GMYTedarikciOnay.ToString())
+            if (OnayTip == MyGlobalVariables.GMYOnayTip.GMYTedarikciOnay.ToString())
             {
                 #region Teklif GMY Tedarikçi Onay
 
-                MyGlobalVariables.GridGMYSource = db.Database.SqlQuery<SatTalep>(string.Format(@"
+                MyGlobalVariables.GMYSource = db.Database.SqlQuery<SatTalep>(string.Format(@"
                 SELECT ST.ID, ST.TeklifNo, ST.Tarih, ST.HesapKodu, ST.MalKodu,
                 (SELECT MalAdi FROM FINSAT6{0}.FINSAT6{0}.STK (NOLOCK) WHERE MalKodu = ST.MalKodu) AS MalAdi, ST.Birim,
                 ST.BirimFiyat, ST.TeklifMiktar, ST.Durum,
@@ -562,11 +562,11 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
                 #endregion Teklif GMY Tedarikçi Onay
             }
-            else if (OnayTip == GMYOnayTip.GMYMaliOnay.ToString())
+            else if (OnayTip == MyGlobalVariables.GMYOnayTip.GMYMaliOnay.ToString())
             {
                 #region Teklif GMY Mali Onay
 
-                MyGlobalVariables.GridGMYSource = db.Database.SqlQuery<SatTalep>(string.Format(@"
+                MyGlobalVariables.GMYSource = db.Database.SqlQuery<SatTalep>(string.Format(@"
                 SELECT ST.ID, ST.TeklifNo, ST.Tarih, ST.HesapKodu,
                     ST.MalKodu, (SELECT MalAdi FROM FINSAT6{0}.FINSAT6{0}.STK (NOLOCK) WHERE MalKodu = ST.MalKodu) AS MalAdi, ST.Birim,
                     ST.BirimFiyat, ST.TeklifMiktar, ST.Durum,
@@ -610,7 +610,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                 #endregion Teklif GMY Mali Onay
             }
 
-            var json = new JavaScriptSerializer().Serialize(MyGlobalVariables.GridGMYSource);
+            var json = new JavaScriptSerializer().Serialize(MyGlobalVariables.GMYSource);
             return json;
         }
 
@@ -619,18 +619,18 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         /// </summary>
         public JsonResult GMYOnayla(string OnayTip)
         {
-            if (OnayTip == GMYOnayTip.GMYTedarikciOnay.ToString())
+            if (OnayTip == MyGlobalVariables.GMYOnayTip.GMYTedarikciOnay.ToString())
             {
                 if (CheckPerm(Perms.SatinalmaGMYTedarikciOnay, PermTypes.Writing) == false)
                     return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             }
-            else if (OnayTip == GMYOnayTip.GMYMaliOnay.ToString())
+            else if (OnayTip == MyGlobalVariables.GMYOnayTip.GMYMaliOnay.ToString())
                 if (CheckPerm(Perms.SatinalmaGMYMaliOnay, PermTypes.Writing) == false)
                     return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
 
             var _Result = new Result(true, "İşlem Başarılı");
 
-            if (MyGlobalVariables.GridGMYSource.Where(x => x.OneriDurum).Count() == 0)
+            if (MyGlobalVariables.GMYSource.Where(x => x.OneriDurum).Count() == 0)
             {
                 _Result.Message = "Satınalmacı tarafından öneri yapılmamış. İşlem devam edemez!!";
                 _Result.Status = false;
@@ -641,11 +641,11 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             {
                 try
                 {
-                    foreach (var item in MyGlobalVariables.GridGMYSource)
+                    foreach (var item in MyGlobalVariables.GMYSource)
                     {
                         string sql = "";
 
-                        if (OnayTip == GMYOnayTip.GMYTedarikciOnay.ToString())
+                        if (OnayTip == MyGlobalVariables.GMYOnayTip.GMYTedarikciOnay.ToString())
                         {
                             #region Teklif GMY Tedarikçi Onay
 
@@ -658,7 +658,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
                             db.Database.ExecuteSqlCommand(sql);
                         }
-                        else if (OnayTip == GMYOnayTip.GMYMaliOnay.ToString())
+                        else if (OnayTip == MyGlobalVariables.GMYOnayTip.GMYMaliOnay.ToString())
                         {
                             #region GMY Mali Onay
 
@@ -719,14 +719,14 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         /// </summary>
         public JsonResult GMYReddet(string redAciklama, string OnayTip)
         {
-            if (OnayTip == GMYOnayTip.GMYTedarikciOnay.ToString())
+            if (OnayTip == MyGlobalVariables.GMYOnayTip.GMYTedarikciOnay.ToString())
                 if (CheckPerm(Perms.SatinalmaGMYTedarikciOnay, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
-                else if (OnayTip == GMYOnayTip.GMYMaliOnay.ToString())
+                else if (OnayTip == MyGlobalVariables.GMYOnayTip.GMYMaliOnay.ToString())
                     if (CheckPerm(Perms.SatinalmaGMYMaliOnay, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
 
             var _Result = new Result(true, "İşlem Başarılı");
 
-            if (MyGlobalVariables.GridGMYSource.Where(x => x.OneriDurum).Count() == 0)
+            if (MyGlobalVariables.GMYSource.Where(x => x.OneriDurum).Count() == 0)
             {
                 _Result.Message = "Satınalmacı tarafından öneri yapılmamış. İşlem devam edemez!!";
                 _Result.Status = false;
@@ -737,11 +737,11 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             {
                 try
                 {
-                    foreach (var item in MyGlobalVariables.GridGMYSource)
+                    foreach (var item in MyGlobalVariables.GMYSource)
                     {
                         string sql = "";
 
-                        if (OnayTip == GMYOnayTip.GMYTedarikciOnay.ToString())
+                        if (OnayTip == MyGlobalVariables.GMYOnayTip.GMYTedarikciOnay.ToString())
                         {
                             #region Teklif GMY Tedarikçi Onay
 
@@ -752,7 +752,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
                             #endregion Teklif GMY Tedarikçi Onay
                         }
-                        else if (OnayTip == GMYOnayTip.GMYMaliOnay.ToString())
+                        else if (OnayTip == MyGlobalVariables.GMYOnayTip.GMYMaliOnay.ToString())
                         {
                             #region Teklif GMY Mali Onay
 
@@ -766,7 +766,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
                         db.Database.ExecuteSqlCommand(sql);
 
-                        if (OnayTip == GMYOnayTip.GMYMaliOnay.ToString())
+                        if (OnayTip == MyGlobalVariables.GMYOnayTip.GMYMaliOnay.ToString())
                         {
                             //Mail Gönderilecek
                         }
@@ -785,11 +785,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
 
-        enum GMYOnayTip
-        {
-            GMYTedarikciOnay,
-            GMYMaliOnay
-        }
+
         #endregion
 
         #region Satınalma Sipariş Talebi GMY Mali Onay
@@ -819,12 +815,14 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         public string SatisSiparisGMYMaliOnay_ListData(string TalepNo, string HesapKodu)
         {
 
-            if (MyGlobalVariables.GridGMYSource == null)
-                MyGlobalVariables.GridGMYSource = new List<SatTalep>();
+            if (MyGlobalVariables.GMYSource == null)
+                MyGlobalVariables.GMYSource = new List<SatTalep>();
             else
-                MyGlobalVariables.GridGMYSource.Clear();
+                MyGlobalVariables.GMYSource.Clear();
 
-            MyGlobalVariables.GridGMYSource = db.Database.SqlQuery<SatTalep>(string.Format(@"
+            MyGlobalVariables.SipEvrakGMY = new KKPEvrakSiparis(KKPSiparisTip.AlimSiparisi);
+
+            MyGlobalVariables.GMYSource = db.Database.SqlQuery<SatTalep>(string.Format(@"
             SELECT ST.ID, ST.TalepNo , ST.MalKodu, ST.Tarih, ST.Tip, ST.Birim, ST.BirimMiktar,
                 (CASE WHEN ST.Birim = STK.Birim1 THEN ST.BirimMiktar 
                     WHEN ST.Birim = STK.Birim2 AND  STK.Operator2=0 THEN ST.BirimMiktar/STK.Katsayi2 
@@ -858,25 +856,99 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             WHERE ST.Durum=8 AND ST.SipTalepNo={1} AND ST.HesapKodu='{2}'",
             vUser.SirketKodu, TalepNo, HesapKodu)).ToList();
 
-            var json = new JavaScriptSerializer().Serialize(MyGlobalVariables.GridGMYSource);
+            if (MyGlobalVariables.GMYSource[0].SipIslemTip == null || (MyGlobalVariables.GMYSource[0].SipIslemTip != 1 && MyGlobalVariables.GMYSource[0].SipIslemTip != 2))
+                return "";
+
+
+            MyGlobalVariables.SipEvrakGMY.IslemTip = (KKPIslemTipSPI)MyGlobalVariables.GMYSource[0].SipIslemTip;
+            MyGlobalVariables.SipEvrakGMY.dvzTL = (KKPDvzTL)(short)MyGlobalVariables.GMYSource[0].FTDDovizTL;
+            short siraNo = 0;
+
+            foreach (var item in MyGlobalVariables.GMYSource)
+            {
+                if ((short)item.DvzTL == (short)1)
+                    MyGlobalVariables.DovizDurum = true;
+
+                var spi = new KKP_SPI(KKPSiparisTip.AlimSiparisi)
+                {
+                    MalKodu = item.MalKodu,
+                    MalAdi = item.MalAdi,
+                    Birim = item.Birim,
+                    BirimMiktar = item.BirimMiktar,
+                    Miktar = Convert.ToDecimal(item.Miktar),
+                    Fiyat = (decimal)item.BirimFiyat,
+                    BirimFiyat = (decimal)item.BirimFiyat,
+
+                    DvzTL = (short)item.DvzTL,
+                    DovizCinsi = item.DvzCinsi,
+                    DovizKuru = item.DvzKuru ?? 0,
+
+                    Aciklama = item.Aciklama,
+                    TeklifAciklamasi = item.TeklifAciklamasi,
+
+                    KDVOran = item.KDVOran,
+                    SiraNo = siraNo
+                };
+
+                spi.SatirHesapla();
+
+                spi.Kod1 = item.TalepNo;
+                spi.Kod2 = item.Satinalmaci;
+                spi.Kod3 = item.SipTalepNo.ToString();
+                spi.Kod4 = item.TeklifNo.ToString();
+
+                spi.Kaydeden = item.Kaydeden;
+                spi.Nesne3 = item.TesisKodu ?? "";
+                spi.SatinAlmaci = item.Satinalmaci;
+
+                spi.Kod11 = item.TeklifVade ?? 0; //Sırf ekranda göstermek için Kod11' e teklif de ki Vade atıyoruz. Ve kaydediyoruz. SPI.Kod11 daha sonra değiştirilip silinebilir önemli değil. (şimdilik)
+
+                spi.Depo = MyGlobalVariables.Depo;
+
+                spi.Operator = (short)(item.Operator != null ? item.Operator.Value : 0);
+                spi.Katsayi = item.Katsayi != null ? item.Katsayi.Value : 0;
+
+                MyGlobalVariables.SipEvrakGMY.Ekle(spi);
+                //MyGlobalVariables.GridGMYSource.Add(spi);
+                siraNo++;
+            }
+
+            if (MyGlobalVariables.DovizDurum == false)
+            {
+                MyGlobalVariables.SipEvrakGMY.FTDHesapla("TL", Convert.ToDecimal(0));
+                MyGlobalVariables.GridGMYFTD = null;
+                MyGlobalVariables.GridGMYFTD = MyGlobalVariables.SipEvrakGMY.FTDList;
+            }
+            else
+            {
+                var kur = MyGlobalVariables.GMYSource[0].FTDDovizKuru ?? 0;
+                if (kur > 0)
+                {
+                    MyGlobalVariables.SipEvrakGMY.FTDHesapla(MyGlobalVariables.GMYSource[0].FTDDovizCinsi, kur);
+                    MyGlobalVariables.GridGMYFTD = null;
+                    MyGlobalVariables.GridGMYFTD = MyGlobalVariables.SipEvrakGMY.FTDList;
+                }
+                else
+                    MyGlobalVariables.GridGMYFTD = new List<KKP_FTD>();
+            }
+
+            var json = new JavaScriptSerializer().Serialize(MyGlobalVariables.GMYSource);
             return json;
         }
 
-        /// <summary>
-        /// onaylanacak fatura biilgileri
-        /// </summary>
+
         public PartialViewResult SatisSiparisGMYListFTD(string TalepNo, string HesapKodu)
         {
             if (CheckPerm(Perms.SatinalmaOnaylama, PermTypes.Reading) == false) return null;
 
-            ViewBag.HesapKodu = JsonConvert.SerializeObject(HesapKodu);
+            ViewBag.HesapKodu = HesapKodu;
             ViewBag.TalepNo = TalepNo;
             return PartialView("SatisSiparisGMYMaliOnayFTD_List");
         }
 
-        public string SatisSiparisGMYListFTDData(string HesapKodu, string TalepNo)
+        public string SatisSiparisGMYListFTDData(string TalepNo, string HesapKodu)
         {
-            var json = new JavaScriptSerializer().Serialize(MyGlobalVariables.GridGMYFTDSource);
+            var json = new JavaScriptSerializer().Serialize(MyGlobalVariables.GridGMYFTD);
             return json;
         }
 

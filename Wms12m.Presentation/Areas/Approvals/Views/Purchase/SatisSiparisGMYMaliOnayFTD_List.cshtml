@@ -42,7 +42,7 @@
         "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
         "ajax": {
             "url": '/Approvals/Purchase/SatisSiparisGMYListFTDData',
-            "data": { HesapKodu: chf, TalepNo:'@ViewBag.TalepNo'},
+            "data": { TalepNo: '@ViewBag.TalepNo', HesapKodu: chf},
             "dataSrc": function (json) {
                 return json;
             },
