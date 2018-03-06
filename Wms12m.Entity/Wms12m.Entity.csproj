@@ -408,6 +408,7 @@
     <Compile Include="VM_WMS\Others\frmMusteriler.cs" />
     <Compile Include="VM_WMS\Mal\frmUrunler.cs" />
     <Compile Include="VM_WMS\Gorev\GorevOzet.cs" />
+    <Compile Include="VM_WMS\Rapor\AksiyonSatis.cs" />
     <Compile Include="VM_WMS\Rapor\RaporTargetUrunGrup.cs" />
     <Compile Include="VM_WMS\Rapor\SevkiyatKalanDetay.cs" />
     <Compile Include="VM_WMS\STI\STIMax.cs" />

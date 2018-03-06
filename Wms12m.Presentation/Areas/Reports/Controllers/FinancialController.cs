@@ -266,6 +266,24 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
             var list = db.Database.SqlQuery<RP_TahsilatKontrol>(String.Format("[FINSAT6{0}].[wms].[RP_TahsilatKontrol]", vUser.SirketKodu)).ToList();
             return Json(list, JsonRequestBehavior.AllowGet);
         }
+
+        public ActionResult AksiyonSatis()
+        {
+            if (CheckPerm(Perms.Raporlar, PermTypes.Reading) == false) return Redirect("/");
+            return View();
+        }
+        public PartialViewResult AksiyonSatisList(int Kod13)
+        {
+            if (CheckPerm(Perms.Raporlar, PermTypes.Reading) == false) return null;
+            var OYM = db.Database.SqlQuery<AksiyonSatis>(string.Format(@"SELECT STk.MalAdi4 As StkMalAdi4,CHK.GrupKod as CHKGrupKod, CHK.TipKod as CHKTipKod,
+SUM(BirimMiktar) as BirimMiktar, SUM(Tutar-ToplamIskonto) as NetTutar   FROM FINSAT6{0}.FINSAT6{0}.SPI(NOLOCK) SPI
+INNER JOIN FINSAT6{0}.FINSAT6{0}.STK(NOLOCK)STK ON STK.Malkodu = SPI.Malkodu
+INNER JOIN FINSAT6{0}.FINSAT6{0}.CHK(NOLOCK) CHK ON CHK.HesapKodu = SPI.Chk
+WHERE SPI.Kynkevraktip = 62 and stk.Kod13 = {1}
+GROUP BY  STk.MalAdi4, CHK.GrupKod, CHK.TipKod", vUser.SirketKodu, Kod13)).ToList();
+            return PartialView("AksiyonSatisList", OYM);
+        }
+
         #region HedefGrupTanimlariKarti
         public ActionResult HdfGrpTanimKarti()
         {
