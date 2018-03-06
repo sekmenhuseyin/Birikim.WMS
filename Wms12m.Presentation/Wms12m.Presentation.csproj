@@ -500,15 +500,15 @@
     <Content Include="Areas\Reports\Views\Stock\GidenBarkod.cshtml" />
     <Content Include="Areas\Reports\Views\Stock\GidenBarkodList.cshtml" />
     <Content Include="Areas\Reports\Views\Stock\SevkiyatKalanStok.cshtml" />
-    <Content Include="Areas\Reports\Views\Financial\Target.cshtml" />
-    <Content Include="Areas\Reports\Views\Financial\TargetList.cshtml" />
+    <Content Include="Areas\Reports\Views\Financial\TemsilciGrupTanimlariKarti.cshtml" />
+    <Content Include="Areas\Reports\Views\Financial\TemsilciGrupTanimlariKartiList.cshtml" />
     <Content Include="Areas\Approvals\Views\Check\Index.cshtml" />
     <Content Include="Areas\Approvals\Views\Purchase\GMYOnay_List.cshtml" />
     <Content Include="Areas\Approvals\Views\Contract\Index.cshtml" />
-    <Content Include="Areas\Reports\Views\Financial\TargetEdit.cshtml" />
-    <Content Include="Areas\Reports\Views\Financial\TargetBolge.cshtml" />
-    <Content Include="Areas\Reports\Views\Financial\TargetBolgeList.cshtml" />
-    <Content Include="Areas\Reports\Views\Financial\TargetBolgeEdit.cshtml" />
+    <Content Include="Areas\Reports\Views\Financial\TemsilciGrupTanimlariKartiEdit.cshtml" />
+    <Content Include="Areas\Reports\Views\Financial\HdfGrpTanimKarti.cshtml" />
+    <Content Include="Areas\Reports\Views\Financial\HdfGrpTanimKartiList.cshtml" />
+    <Content Include="Areas\Reports\Views\Financial\HdfGrpTanimKartiEdit.cshtml" />
     <Content Include="Areas\Approvals\Views\Purchase\SatisSiparisGMYMaliOnay.cshtml" />
     <Content Include="Areas\Approvals\Views\Purchase\SatisSiparisGMYMaliOnay_List.cshtml" />
     <Content Include="Areas\Reports\Views\Stock\SevkiyatKalanDetay.cshtml" />
@@ -529,7 +529,9 @@
     <Content Include="Areas\Reports\Views\Financial\UrunSatisTemsilciAnalizList.cshtml" />
     <Content Include="Areas\Reports\Views\Financial\RaporWebSiparis.cshtml" />
     <Content Include="Areas\Reports\Views\Financial\RaporWebSiparisList.cshtml" />
-    <Content Include="Areas\Approvals\Views\Purchase\SatisSiparisGMYMaliOnayFTD_List.cshtml" />
+    <Content Include="Areas\Reports\Views\Financial\UrunGrupTanimlariKarti.cshtml" />
+    <Content Include="Areas\Reports\Views\Financial\UrunGrupTanimlariKartiList.cshtml" />
+    <Content Include="Areas\Reports\Views\Financial\UrunGrupTanimlariKartiEdit.cshtml" />
     <None Include="bundleconfig.json" />
     <Content Include="Content\SizeSablon.xlsx" />
     <Content Include="Content\StockSablon.xlsx" />
@@ -893,6 +895,7 @@
   <ItemGroup>
     <EmbeddedResource Include="Reports\SatSipForm.resx">
       <DependentUpon>SatSipForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Reports\SatSipGMOnay.resx">
       <DependentUpon>SatSipGMOnay.cs</DependentUpon>
