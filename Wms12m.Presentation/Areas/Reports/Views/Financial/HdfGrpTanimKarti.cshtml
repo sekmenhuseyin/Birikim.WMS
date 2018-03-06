@@ -1,6 +1,6 @@
 ﻿@model HDF
 @{
-    ViewBag.Title = "Target Bölge";
+    ViewBag.Title = "Hedef Grup Tanımları Kartı";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @section Styles
@@ -8,7 +8,13 @@
     <link href="~/Content/assets/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css" rel="stylesheet" type="text/css" />
     <link href="~/Content/assets/global/plugins/jquery-file-upload/css/jquery.fileupload.css" rel="stylesheet" />
 }
-<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><a href="javascript:;">Raporlar</a><i class="fa fa-circle"></i></li><li><span>Hedef Bölge İşlemleri</span></li></ul></div>
+<div class="page-bar">
+    <ul class="page-breadcrumb">
+        <li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li>
+        <li><a href="javascript:;">Raporlar</a><i class="fa fa-circle"></i></li>
+        <li><span>Hedef Grup Tanımları Kartı</span></li>
+    </ul>
+</div>
 <h1 class="page-title">Hedef Bölge İşlemleri</h1>
 <div class="row">
     <div class="col-md-12">
@@ -17,14 +23,14 @@
                 <div class="portlet box green">
                     <div class="portlet-title">
                         <div class="caption">
-                            <i class="fa fa-gift"></i>Proje Ekle
+                            <i class="fa fa-gift"></i>Hedef Grup Tanımları Kartı
                         </div>
                     </div>
                     <div class="portlet-body form">
-                        @using (Ajax.BeginForm("TargetBolgeSave", "Financial", new { area = "Reports" }, new AjaxOptions { OnSuccess = "getResult2", HttpMethod = "post", OnFailure = "Modaldialog('Lütfen Tekrar Deneyin', 'Hata', 'Tamam', 'btn-danger');" }, new { @class = "form-horizontal" }))
+                        @using (Ajax.BeginForm("HdfGrpTanimKartiSave", "Financial", new { area = "Reports" }, new AjaxOptions { OnSuccess = "getResult2", HttpMethod = "post", OnFailure = "Modaldialog('Lütfen Tekrar Deneyin', 'Hata', 'Tamam', 'btn-danger');" }, new { @class = "form-horizontal" }))
                         {
                             @Html.HiddenFor(model => model.ID, new { @class = "ID" })
-                            @Html.HiddenFor(model => model.AYYIL, new { @class = "AYYIL" })
+                            @*@Html.HiddenFor(model => model.AYYIL, new { @class = "AYYIL" })*@
                             @Html.AntiForgeryToken()
                             @Html.ValidationSummary(true)
                             <div class="form-body">
@@ -40,6 +46,28 @@
                                     <div class="col-md-4">
                                         @Html.EditorFor(model => model.HEDEF, new { htmlAttributes = new { @class = "form-control input-circle", required = "required" } })
                                         @Html.ValidationMessageFor(model => model.HEDEF, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-3">Yıl</label>
+                                    <div class="col-md-4">
+                                        <select id="yilSelect" required="required" name="yilSelect" style="float:left;" class="form-control input-circle">
+                                            @foreach (string item in (List<string>)ViewBag.YILLAR)
+                                            {
+                                                <option value="@item">@item</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-3">Ay</label>
+                                    <div class="col-md-4">
+                                        <select id="aySelect" required="required" name="aySelect" style="float:left;" class="form-control input-circle">
+                                            @foreach (var item in ((List<string>)ViewBag.AYLAR).Select((value, i) => new { i, value }))
+                                            {
+                                                <option value="@item.i">@item.value</option>
+                                            }
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -63,9 +91,9 @@
     <script src="~/Content/assets/global/plugins/jquery-file-upload/js/vendor/jquery.ui.widget.js" type="text/javascript"></script>
     <script src="~/Content/assets/global/plugins/jquery-file-upload/js/jquery.fileupload.js" type="text/javascript"></script>
     <script type="text/javascript">
-        var DeleteFunctionUrl = '/Reports/Financial/TargetBolgeDelete';
+        var DeleteFunctionUrl = '/Reports/Financial/HdfGrpTanimKartiDelete';
         $(document).ready(function () {
-            PartialView("/Reports/Financial/TargetBolgeList", "liste");
+            PartialView("/Reports/Financial/HdfGrpTanimKartiList", "liste");
         });
         $(".satirekle").prepend("<option value=''>Seçiniz !!!</option>");
         $(".satirekle")[0].selectedIndex = 0;
@@ -73,22 +101,23 @@
             if (data.Status == false) { Modaldialog(data.Message, "Hata", "Tamam", "btn-danger"); }
             else {
                 Modaldialog("Kaydedildi", "Başarı", "Tamam", "btn-success");
-                PartialView("/Reports/Financial/TargetBolgeList", "liste");
+                PartialView("/Reports/Financial/HdfGrpTanimKartiList", "liste");
             }
             TmzGunc2('0');
         };
         function TmzGunc2(Id) {
             if (Id == 0) {
-                $("#ID").val("0");
-                $("#AYYIL").val("");
-                $(".satirekle")[0].selectedIndex = 0;
-                $("#HEDEF").val("");
-                $("#CreateEdit [type='submit']").text("Ekle");
-                PartialView("/Reports/Financial/TargetBolgeList", "liste");
+                //$("#ID").val("0");
+                //$("#AYYIL").val("");
+                //$(".satirekle")[0].selectedIndex = 0;
+                //$("#HEDEF").val("");
+                //$("#CreateEdit [type='submit']").text("Ekle");
+                //PartialView("/Reports/Financial/HdfGrpTanimKartiList", "liste");
+                window.location.href = "/Reports/Financial/HdfGrpTanimKarti";
             }
             else {
                 $("html, body").animate({ scrollTop: 0 }, "slow");
-                PartialView("/Reports/Financial/TargetBolgeEdit", 'CreateEdit', JSON.stringify({ Id: Id }));
+                PartialView("/Reports/Financial/HdfGrpTanimKartiEdit", 'CreateEdit', JSON.stringify({ Id: Id }));
             }
         }
     </script>

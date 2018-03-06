@@ -573,11 +573,11 @@ namespace Wms12m.Entity
                                     CONCAT(CHK.Unvan1,SPACE(1),CHK.Unvan2) AS Unvan,
                                     CHK.GrupKod,
                                     CHK.TipKod,
-                                    (SPI.Tutar - SPI.ToplamIskonto) AS NetTutar
+                                    ((SPI.Tutar - SPI.ToplamIskonto)/SPI.BirimMiktar)*(SPI.BirimMiktar-SPI.TeslimMiktar-SPI.KapatilanMiktar) AS NetTutar
                                     FROM FINSAT6{0}.FINSAT6{0}.SPI AS SPI WITH (NOLOCK)
                                     INNER JOIN FINSAT6{0}.FINSAT6{0}.STK AS STK WITH (NOLOCK) ON STK.MALKODU = SPI.MALKODU 
                                     INNER JOIN FINSAT6{0}.FINSAT6{0}.CHK AS CHK WITH (NOLOCK) ON CHK.HesapKodu = SPI.Chk 
-                                    WHERE SPI.KynkEvrakTip=62 AND (SPI.Tarih BETWEEN @TAR1 AND @TAR2)
+                                    WHERE SPI.KynkEvrakTip=62 AND SPI.SiparisDurumu=0  and (SPI.Tarih BETWEEN @TAR1 AND @TAR2)
                                     ";
     }
     public class SatisAnaliziTemsilci

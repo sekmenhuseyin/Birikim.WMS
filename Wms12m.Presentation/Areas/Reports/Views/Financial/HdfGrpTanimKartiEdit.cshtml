@@ -3,11 +3,11 @@
     <div class="portlet box green">
         <div class="portlet-title">
             <div class="caption">
-                <i class="fa fa-gift"></i>@(Model.ID == 0 ? "Hedef Bölge Ekle" : "Hedef Bölge Düzenle")
+                <i class="fa fa-gift"></i>@(Model.ID == 0 ? "Hedef Grup Tanım Kartı Ekle" : "Hedef Grup Tanım Kartı Düzenle")
             </div>
         </div>
         <div class="portlet-body form">
-            @using (Ajax.BeginForm("TargetBolgeSave", "Financial", new { area = "Reports" }, new AjaxOptions { OnSuccess = "getResult2", HttpMethod = "post", OnFailure = "Modaldialog('Lütfen Tekrar Deneyin', 'Hata', 'Tamam', 'btn-danger');" }, new { @class = "form-horizontal" }))
+            @using (Ajax.BeginForm("HdfGrpTanimKartiSave", "Financial", new { area = "Reports" }, new AjaxOptions { OnSuccess = "getResult2", HttpMethod = "post", OnFailure = "Modaldialog('Lütfen Tekrar Deneyin', 'Hata', 'Tamam', 'btn-danger');" }, new { @class = "form-horizontal" }))
             {
                 @Html.HiddenFor(model => model.ID, new { @class = "ID" })
                 @Html.HiddenFor(model => model.AYYIL, new { @class = "AYYIL" })

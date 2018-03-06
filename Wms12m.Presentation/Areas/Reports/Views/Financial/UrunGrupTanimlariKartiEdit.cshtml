@@ -7,7 +7,7 @@
             </div>
         </div>
         <div class="portlet-body form">
-            @using (Ajax.BeginForm("TargetSave", "Financial", new { area = "Reports" }, new AjaxOptions { OnSuccess = "getResult", HttpMethod = "post", OnFailure = "Modaldialog('Lütfen Tekrar Deneyin', 'Hata', 'Tamam', 'btn-danger');" }, new { @class = "form-horizontal" }))
+            @using (Ajax.BeginForm("UrunGrupTanimlariKartiSave", "Financial", new { area = "Reports" }, new AjaxOptions { OnSuccess = "getResult", HttpMethod = "post", OnFailure = "Modaldialog('Lütfen Tekrar Deneyin', 'Hata', 'Tamam', 'btn-danger');" }, new { @class = "form-horizontal" }))
             {
                 @Html.HiddenFor(model => model.ID, new { @class = "ID" })
                 @Html.HiddenFor(model => model.AYYIL, new { @class = "AYYIL" })
@@ -55,8 +55,7 @@
 </div>
 <script>
     $(document).ready(function () {
-        var GrupKoddrd = document.getElementById("BOLGE");
-        var GrupKod = GrupKoddrd.options[GrupKoddrd.selectedIndex].value;
+        var GrupKod = $('#BOLGE :selected').val();
         TemsilciGetir2(GrupKod,'@Convert.ToString(ViewBag.Temp)');
     });
     function TemsilciGetir2(GrupKod, TipKod) {
@@ -66,7 +65,7 @@
         else {
             $("#TEMSILCI option").remove();
             $.ajax({
-                url: window.location.origin + "/Reports/Financial/TargetTemsilciList",
+                url: window.location.origin + "/Reports/Financial/TemsilciGetir",
                 data: { GrupKod: GrupKod, TipKod: TipKod },
                 type: "post",
                 dataType: "json",

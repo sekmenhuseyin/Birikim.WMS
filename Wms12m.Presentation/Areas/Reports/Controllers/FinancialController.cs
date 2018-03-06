@@ -266,161 +266,8 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
             var list = db.Database.SqlQuery<RP_TahsilatKontrol>(String.Format("[FINSAT6{0}].[wms].[RP_TahsilatKontrol]", vUser.SirketKodu)).ToList();
             return Json(list, JsonRequestBehavior.AllowGet);
         }
-        #region Target
-        public ActionResult Target()
-        {
-            if (CheckPerm(Perms.Raporlar, PermTypes.Reading) == false) { return Redirect("/"); }
-            List<RaporGrupKod> _raporGrupKod;
-            List<RaporTargetUrunGrup> _raporTargetUrunGrup;
-            try
-            {
-                _raporGrupKod = db.Database.SqlQuery<RaporGrupKod>(String.Format(RaporGrupKod.Sorgu, vUser.SirketKodu)).ToList();
-                _raporTargetUrunGrup = db.Database.SqlQuery<RaporTargetUrunGrup>(String.Format(RaporTargetUrunGrup.Sorgu, vUser.SirketKodu))
-                .ToList();
-            }
-            catch (Exception ex)
-            {
-                Logger(ex, "/Reports/Financial/Target");
-                _raporGrupKod = new List<RaporGrupKod>();
-                _raporTargetUrunGrup = new List<RaporTargetUrunGrup>();
-            }
-            ViewBag.BOLGE = new SelectList(_raporGrupKod, "GrupKod", "GrupKod");
-            ViewBag.URUNGRUP = new SelectList(_raporTargetUrunGrup, "UrunGrup", "UrunGrup");
-            ViewBag.TEMSILCI = new SelectList(new List<RaporTemsilci>(), "TipKod", "TipKod");
-            return View("Target", new HDF());
-        }
-        public JsonResult TargetTemsilciList(string GrupKod, string TipKod)
-        {
-            var json = new JavaScriptSerializer();
-            List<SelectListItem> listRapTemsilci = new List<SelectListItem>();
-            try
-            {
-                var tet = db.Database.SqlQuery<RaporTemsilci>(String.Format(RaporTemsilci.Sorgu, vUser.SirketKodu, GrupKod)).ToList();
-                foreach (RaporTemsilci item in tet)
-                {
-                    listRapTemsilci.Add(new SelectListItem
-                    {
-                        Selected = (TipKod == item.TipKod ? true : false),
-                        Text = item.TipKod,
-                        Value = item.TipKod,
-                    });
-                }
-            }
-            catch (Exception ex)
-            {
-                Logger(ex, "/Reports/Financial/TargetTemsilciList");
-            }
-            return Json(listRapTemsilci.Select(x => new { x.Value, x.Text, x.Selected }), JsonRequestBehavior.AllowGet);
-        }
-        public JsonResult TargetSave(HDF hdf)
-        {
-            if (CheckPerm(Perms.Raporlar, PermTypes.Writing) == false) { return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet); }
-            var _Result = new Result(true);
-            string sorgu = "";
-            int snc = 0;
-            switch (hdf.ID)
-            {
-                case 0:
-                    sorgu = String.Format(HDF.TInsertSorgu, vUser.SirketKodu, hdf.BOLGE, hdf.TEMSILCI, hdf.URUNGRUP, hdf.HEDEF,
-                    Convert.ToInt32(DateTime.Today.ToOADate()), DateTime.Now.ToString("MMyyyy"));
-                    break;
-                default:
-                    sorgu = String.Format(HDF.TUpdateSorgu, vUser.SirketKodu, hdf.BOLGE, hdf.TEMSILCI, hdf.URUNGRUP, hdf.HEDEF, hdf.ID, hdf.AYYIL);
-                    break;
-            }
-            try
-            {
-                snc = db.Database.SqlQuery<int>(sorgu).FirstOrDefault();
-            }
-            catch (Exception ex)
-            {
-                snc = 0;
-                Logger(ex, "/Reports/Financial/TargetSave");
-                _Result.Status = false;
-                _Result.Message = "İşlem başarısız";
-            }
-            if (snc > 0)
-            {
-                switch (snc)
-                {
-                    case 10:
-                        _Result.Status = false;
-                        _Result.Message = "Hedef limiti aşılmıştır.Kontrol ediniz!";
-                        break;
-                    case 5:
-                        _Result.Status = false;
-                        _Result.Message = "Girilen Bölgeye ait miktar bulunmamaktadır.Kontrol ediniz!";
-                        break;
-                    default:
-                        _Result.Status = true;
-                        _Result.Message = "İşlem başarılı";
-                        break;
-                }
-            }
-            return Json(_Result, JsonRequestBehavior.AllowGet);
-        }
-        public PartialViewResult TargetList()
-        {
-            if (CheckPerm(Perms.Raporlar, PermTypes.Reading) == false) { return null; }
-            List<HDF> hdfList;
-            try
-            {
-                hdfList = db.Database.SqlQuery<HDF>(String.Format(HDF.SelectSorgu, vUser.SirketKodu, 1)).ToList();
-            }
-            catch (Exception ex)
-            {
-                Logger(ex, "/Reports/Financial/TargetList");
-                hdfList = new List<HDF>();
-            }
-            return PartialView(hdfList);
-        }
-        public PartialViewResult TargetEdit(int id)
-        {
-            HDF h;
-            List<RaporGrupKod> _raporGrupKod;
-            List<RaporTargetUrunGrup> _raporTargetUrunGrup;
-            if (CheckPerm(Perms.Raporlar, PermTypes.Updating) == false) { return null; }
-            try
-            {
-                _raporGrupKod = db.Database.SqlQuery<RaporGrupKod>(String.Format(RaporGrupKod.Sorgu, vUser.SirketKodu)).ToList();
-                _raporTargetUrunGrup = db.Database.SqlQuery<RaporTargetUrunGrup>(String.Format(RaporTargetUrunGrup.Sorgu, vUser.SirketKodu))
-                .ToList();
-                h = db.Database.SqlQuery<HDF>(String.Format(@"
-                  SELECT H1.ID,H1.TIP,H1.BOLGE,H1.TEMSILCI,H1.URUNGRUP,CONVERT(NVARCHAR,H1.HEDEF) AS HEDEF,H1.TARIH,H1.AYYIL 
-                  FROM [FINSAT6{0}].[FINSAT6{0}].HDF AS H1 WITH (NOLOCK) WHERE H1.ID={1} AND H1.TIP=1", vUser.SirketKodu, id)).FirstOrDefault();
-            }
-            catch (Exception ex)
-            {
-                Logger(ex, "/Reports/Financial/TargetEdit");
-                h = new HDF();
-                _raporGrupKod = new List<RaporGrupKod>();
-                _raporTargetUrunGrup = new List<RaporTargetUrunGrup>();
-            }
-            ViewBag.BOLGE = new SelectList(_raporGrupKod, "GrupKod", "GrupKod", h.BOLGE);
-            ViewBag.URUNGRUP = new SelectList(_raporTargetUrunGrup, "UrunGrup", "UrunGrup", h.URUNGRUP);
-            ViewBag.Temp = h.TEMSILCI;
-            return PartialView(h);
-        }
-        public JsonResult TargetDelete(string Id)
-        {
-            if (CheckPerm(Perms.Raporlar, PermTypes.Deleting) == false) { return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet); }
-            string sorgu = "";
-            sorgu = String.Format(@"DELETE FROM [FINSAT6{0}].[FINSAT6{0}].HDF WHERE ID={1} AND TIP=1", vUser.SirketKodu, Id);
-            try
-            {
-                db.Database.ExecuteSqlCommand(sorgu);
-                LogActions("Reports", "Financial", "Delete", ComboItems.alSil, Id.ToInt32());
-                return Json(new Result(true, Id.ToInt32()), JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception ex)
-            {
-                Logger(ex, "/Reports/Financial/TargetDelete");
-                return Json(new Result(false, "Projeye ait form bulunduğu için silme işlemi gerçekleştirilememiştir."), JsonRequestBehavior.AllowGet);
-            }
-        }
-        #endregion
-        #region TargetBolge
-        public ActionResult TargetBolge()
+        #region HedefGrupTanimlariKarti
+        public ActionResult HdfGrpTanimKarti()
         {
             if (CheckPerm(Perms.Raporlar, PermTypes.Reading) == false) { return Redirect("/"); }
             List<RaporGrupKod> _raporGrupKod;
@@ -430,39 +277,41 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
             }
             catch (Exception ex)
             {
-                Logger(ex, "/Reports/Financial/TargetBolge");
+                Logger(ex, "/Reports/Financial/HdfGrpTanimKarti");
                 _raporGrupKod = new List<RaporGrupKod>();
             }
+            ViewBag.YILLAR = YilAyListele(1);
+            ViewBag.AYLAR = YilAyListele(2);
             ViewBag.BOLGE = new SelectList(_raporGrupKod, "GrupKod", "GrupKod");
-            return View("TargetBolge", new HDF());
+            return View("HdfGrpTanimKarti", new HDF());
         }
-        public PartialViewResult TargetBolgeList()
+        public PartialViewResult HdfGrpTanimKartiList()
         {
-            List<HDF> hdfList;
+            List<HDF> hdfGrpTanimList;
             try
             {
-                hdfList = db.Database.SqlQuery<HDF>(String.Format(HDF.SelectSorgu, vUser.SirketKodu, 0)).ToList();
+                hdfGrpTanimList = db.Database.SqlQuery<HDF>(String.Format(HDF.SelectSorgu, vUser.SirketKodu, 0)).ToList();
             }
             catch (Exception ex)
             {
-                Logger(ex, "/Reports/Financial/TargetBolgeList");
-                hdfList = new List<HDF>();
+                Logger(ex, "/Reports/Financial/HdfGrpTanimKartiList");
+                hdfGrpTanimList = new List<HDF>();
             }
-            return PartialView("TargetBolgeList", hdfList);
+            return PartialView("HdfGrpTanimKartiList", hdfGrpTanimList);
         }
-        public JsonResult TargetBolgeSave(HDF hdf)
+        public JsonResult HdfGrpTanimKartiSave(string ID, string AYYIL, string BOLGE, string HEDEF, string yilSelect, string aySelect)
         {
             if (CheckPerm(Perms.Raporlar, PermTypes.Writing) == false) { return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet); }
             var _Result = new Result(true);
             int snc = 0;
             string sorgu = "";
-            switch (hdf.ID)
+            switch (Convert.ToInt32(ID))
             {
                 case 0:
-                    sorgu = String.Format(HDF.BInsertSorgu, vUser.SirketKodu, hdf.BOLGE, hdf.HEDEF, Convert.ToInt32(DateTime.Today.ToOADate()), DateTime.Now.ToString("MMyyyy"));
+                    sorgu = String.Format(HDF.HdfGrupTanimInsert, vUser.SirketKodu, BOLGE, HEDEF, Convert.ToInt32(DateTime.Today.ToOADate()), AyYilGetir(yilSelect, aySelect));
                     break;
                 default:
-                    sorgu = String.Format(HDF.BUpdateSorgu, vUser.SirketKodu, hdf.BOLGE, hdf.HEDEF, hdf.ID, hdf.AYYIL);
+                    sorgu = String.Format(HDF.HdfGrupTanimUpdate, vUser.SirketKodu, BOLGE, HEDEF, Convert.ToInt32(ID), AYYIL);
                     break;
             }
             try
@@ -472,7 +321,7 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
             catch (Exception ex)
             {
                 snc = 0;
-                Logger(ex, "/Reports/Financial/TargetBolgeSave");
+                Logger(ex, "/Reports/Financial/HdfGrpTanimKartiSave");
                 _Result.Status = false;
                 _Result.Message = "İşlem başarısız";
             }
@@ -500,7 +349,7 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
             }
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
-        public PartialViewResult TargetBolgeEdit(int id)
+        public PartialViewResult HdfGrpTanimKartiEdit(int id)
         {
             HDF h;
             List<RaporGrupKod> _raporGrupKod;
@@ -510,24 +359,25 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
                 _raporGrupKod = db.Database.SqlQuery<RaporGrupKod>(String.Format(RaporGrupKod.Sorgu, vUser.SirketKodu)).ToList();
                 h = db.Database.SqlQuery<HDF>(String.Format(@"
                 SELECT H1.ID,H1.TIP,H1.BOLGE,H1.TEMSILCI,H1.URUNGRUP,CONVERT(NVARCHAR,H1.HEDEF) AS HEDEF,H1.TARIH,H1.AYYIL 
-                FROM [FINSAT6{0}].[FINSAT6{0}].HDF AS H1 WITH (NOLOCK) WHERE H1.ID={1} AND H1.TIP=0", vUser.SirketKodu, id)).FirstOrDefault();
+                FROM [FINSAT6{0}].[FINSAT6{0}].HDF AS H1 WITH (NOLOCK) WHERE H1.ID={1} AND H1.TIP=0
+                ", vUser.SirketKodu, id)).FirstOrDefault();
             }
             catch (Exception ex)
             {
-                Logger(ex, "/Reports/Financial/TargetBolgeEdit");
+                Logger(ex, "/Reports/Financial/HdfGrpTanimKartiEdit");
                 h = new HDF();
                 _raporGrupKod = new List<RaporGrupKod>();
             }
             ViewBag.BOLGE = new SelectList(_raporGrupKod, "GrupKod", "GrupKod", h.BOLGE);
             return PartialView(h);
         }
-        public JsonResult TargetBolgeDelete(string Id)
+        public JsonResult HdfGrpTanimKartiDelete(string Id)
         {
             if (CheckPerm(Perms.Raporlar, PermTypes.Deleting) == false) { return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet); }
             var _Result = new Result(true);
             string sorgu = "";
             int snc = 0;
-            sorgu = String.Format(HDF.BDeleteSorgu, vUser.SirketKodu, Id);
+            sorgu = String.Format(HDF.HdfGrupTanimDelete, vUser.SirketKodu, Id);
             try
             {
                 snc = db.Database.SqlQuery<int>(sorgu).FirstOrDefault();
@@ -535,7 +385,7 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
             catch (Exception ex)
             {
                 snc = 0;
-                Logger(ex, "/Reports/Financial/TargetBolgeDelete");
+                Logger(ex, "/Reports/Financial/HdfGrpTanimKartiDelete");
                 _Result.Status = false;
                 _Result.Message = ex.Message;
             }
@@ -555,6 +405,239 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
                 }
             }
             return Json(_Result, JsonRequestBehavior.AllowGet);
+        }
+        #endregion
+        #region TemsilciGrubuTanimlariKarti
+        public ActionResult TemsilciGrupTanimlariKarti()
+        {
+            if (CheckPerm(Perms.Raporlar, PermTypes.Reading) == false) { return Redirect("/"); }
+            List<RaporGrupKod> _raporGrupKod;
+            try
+            {
+                _raporGrupKod = db.Database.SqlQuery<RaporGrupKod>(String.Format(RaporGrupKod.Sorgu, vUser.SirketKodu)).ToList();
+            }
+            catch (Exception ex)
+            {
+                Logger(ex, "/Reports/Financial/TemsilciGrupTanimlariKarti");
+                _raporGrupKod = new List<RaporGrupKod>();
+            }
+            ViewBag.BOLGE = new SelectList(_raporGrupKod, "GrupKod", "GrupKod");
+            ViewBag.TEMSILCI = new SelectList(new List<RaporTemsilci>(), "TipKod", "TipKod");
+            ViewBag.YILLAR = YilAyListele(1);
+            ViewBag.AYLAR = YilAyListele(2);
+            return View("TemsilciGrupTanimlariKarti", new HDF());
+        }
+        public PartialViewResult TemsilciGrupTanimlariKartiList()
+        {
+            if (CheckPerm(Perms.Raporlar, PermTypes.Reading) == false) { return null; }
+            List<HDF> hdfList;
+            try
+            {
+                hdfList = db.Database.SqlQuery<HDF>(String.Format(HDF.SelectSorgu, vUser.SirketKodu, 1)).ToList();
+            }
+            catch (Exception ex)
+            {
+                Logger(ex, "/Reports/Financial/TemsilciGrupTanimlariKartiList");
+                hdfList = new List<HDF>();
+            }
+            return PartialView(hdfList);
+        }
+        public JsonResult TemsilciGrupTanimlariKartiSave(string ID, string AYYIL, string BOLGE, string TEMSILCI, string yilSelect, string aySelect, string HEDEF)
+        {
+            if (CheckPerm(Perms.Raporlar, PermTypes.Writing) == false) { return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet); }
+            var _Result = new Result(true);
+            string sorgu = "";
+            int snc = 0;
+            switch (Convert.ToInt32(ID))
+            {
+                case 0:
+                    sorgu = String.Format(HDF.TemsilciGrupTanimInsert, vUser.SirketKodu, BOLGE, TEMSILCI, HEDEF, Convert.ToInt32(DateTime.Today.ToOADate()), AyYilGetir(yilSelect, aySelect));
+                    break;
+                default:
+                    sorgu = String.Format(HDF.TemsilciGrupTanimUpdate, vUser.SirketKodu, BOLGE, TEMSILCI, HEDEF, Convert.ToInt32(ID), AYYIL);
+                    break;
+            }
+            try
+            {
+                snc = db.Database.SqlQuery<int>(sorgu).FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                snc = 0;
+                Logger(ex, "/Reports/Financial/TemsilciGrupTanimlariKartiSave");
+                _Result.Status = false;
+                _Result.Message = "İşlem başarısız";
+            }
+            if (snc > 0)
+            {
+                switch (snc)
+                {
+                    case 10:
+                        _Result.Status = false;
+                        _Result.Message = "Hedef limiti aşılmıştır.Kontrol ediniz!";
+                        break;
+                    case 5:
+                        _Result.Status = false;
+                        _Result.Message = "Girilen Bölgeye ait miktar bulunmamaktadır.Kontrol ediniz!";
+                        break;
+                    default:
+                        _Result.Status = true;
+                        _Result.Message = "İşlem başarılı";
+                        break;
+                }
+            }
+            return Json(_Result, JsonRequestBehavior.AllowGet);
+        }
+        public PartialViewResult TemsilciGrupTanimlariKartiEdit(int id)
+        {
+            HDF h;
+            List<RaporGrupKod> _raporGrupKod;
+            if (CheckPerm(Perms.Raporlar, PermTypes.Updating) == false) { return null; }
+            try
+            {
+                _raporGrupKod = db.Database.SqlQuery<RaporGrupKod>(String.Format(RaporGrupKod.Sorgu, vUser.SirketKodu)).ToList();
+                h = db.Database.SqlQuery<HDF>(String.Format(@"
+                  SELECT H1.ID,H1.TIP,H1.BOLGE,H1.TEMSILCI,H1.URUNGRUP,CONVERT(NVARCHAR,H1.HEDEF) AS HEDEF,H1.TARIH,H1.AYYIL 
+                  FROM [FINSAT6{0}].[FINSAT6{0}].HDF AS H1 WITH (NOLOCK) WHERE H1.ID={1} AND H1.TIP=1", vUser.SirketKodu, id)).FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                Logger(ex, "/Reports/Financial/TemsilciGrupTanimlariKartiEdit");
+                h = new HDF();
+                _raporGrupKod = new List<RaporGrupKod>();
+            }
+            ViewBag.BOLGE = new SelectList(_raporGrupKod, "GrupKod", "GrupKod", h.BOLGE);
+            ViewBag.Temp = h.TEMSILCI;
+            return PartialView(h);
+        }
+        public JsonResult TemsilciGrupTanimlariKartiDelete(string Id)
+        {
+            if (CheckPerm(Perms.Raporlar, PermTypes.Deleting) == false) { return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet); }
+            string sorgu = "";
+            sorgu = String.Format(HDF.TemsilciGrupTanimDelete, vUser.SirketKodu, Id);
+            try
+            {
+                db.Database.ExecuteSqlCommand(sorgu);
+                LogActions("Reports", "Financial", "TemsilciGrupTanimlariKartiDelete", ComboItems.alSil, Id.ToInt32());
+                return Json(new Result(true, Id.ToInt32()), JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Logger(ex, "/Reports/Financial/TemsilciGrupTanimlariKartiDelete");
+                return Json(new Result(false, "Projeye ait form bulunduğu için silme işlemi gerçekleştirilememiştir."), JsonRequestBehavior.AllowGet);
+            }
+        }
+        #endregion
+        #region UrunGrubuTanimlarKarti
+        public ActionResult UrunGrupTanimlariKarti()
+        {
+            if (CheckPerm(Perms.Raporlar, PermTypes.Reading) == false) { return Redirect("/"); }
+            List<RaporGrupKod> _raporGrupKod;
+            List<RaporTargetUrunGrup> _raporTargetUrunGrup;
+            try
+            {
+                _raporGrupKod = db.Database.SqlQuery<RaporGrupKod>(String.Format(RaporGrupKod.Sorgu, vUser.SirketKodu)).ToList();
+                _raporTargetUrunGrup = db.Database.SqlQuery<RaporTargetUrunGrup>(String.Format(RaporTargetUrunGrup.Sorgu, vUser.SirketKodu))
+                .ToList();
+            }
+            catch (Exception ex)
+            {
+                Logger(ex, "/Reports/Financial/UrunGrupTanimlariKarti");
+                _raporGrupKod = new List<RaporGrupKod>();
+                _raporTargetUrunGrup = new List<RaporTargetUrunGrup>();
+            }
+            ViewBag.BOLGE = new SelectList(_raporGrupKod, "GrupKod", "GrupKod");
+            ViewBag.URUNGRUP = new SelectList(_raporTargetUrunGrup, "UrunGrup", "UrunGrup");
+            ViewBag.TEMSILCI = new SelectList(new List<RaporTemsilci>(), "TipKod", "TipKod");
+            ViewBag.YILLAR = YilAyListele(1);
+            ViewBag.AYLAR = YilAyListele(2);
+            return View("UrunGrupTanimlariKarti", new HDF());
+        }
+        public PartialViewResult UrunGrupTanimlariKartiList()
+        {
+            if (CheckPerm(Perms.Raporlar, PermTypes.Reading) == false) { return null; }
+            List<HDF> hdfList;
+            try
+            {
+                hdfList = db.Database.SqlQuery<HDF>(String.Format(HDF.SelectSorgu, vUser.SirketKodu, 2)).ToList();
+            }
+            catch (Exception ex)
+            {
+                Logger(ex, "/Reports/Financial/UrunGrupTanimlariKartiList");
+                hdfList = new List<HDF>();
+            }
+            return PartialView(hdfList);
+        }
+        public JsonResult UrunGrupTanimlariKartiSave(string ID, string AYYIL, string BOLGE, string TEMSILCI, string URUNGRUP, string yilSelect, string aySelect, string HEDEF)
+        {
+            if (CheckPerm(Perms.Raporlar, PermTypes.Writing) == false) { return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet); }
+            var _Result = new Result(true);
+            string sorgu = "";
+            switch (Convert.ToInt32(ID))
+            {
+                case 0:
+                    sorgu = String.Format(HDF.UrunGrupTanimInsert, vUser.SirketKodu, BOLGE, TEMSILCI, URUNGRUP, HEDEF, Convert.ToInt32(DateTime.Today.ToOADate()), AyYilGetir(yilSelect, aySelect));
+                    break;
+                default:
+                    sorgu = String.Format(HDF.UrunGrupTanimUpdate, vUser.SirketKodu, HEDEF, Convert.ToInt32(ID));
+                    break;
+            }
+            try
+            {
+                db.Database.ExecuteSqlCommand(sorgu);
+                _Result.Status = true;
+                _Result.Message = "İşlem başarılı";
+            }
+            catch (Exception ex)
+            {
+                Logger(ex, "/Reports/Financial/UrunGrupTanimlariKartiSave");
+                _Result.Status = false;
+                _Result.Message = "İşlem başarısız";
+            }
+            return Json(_Result, JsonRequestBehavior.AllowGet);
+        }
+        public PartialViewResult UrunGrupTanimlariKartiEdit(int id)
+        {
+            HDF h;
+            List<RaporGrupKod> _raporGrupKod;
+            List<RaporTargetUrunGrup> _raporTargetUrunGrup;
+            if (CheckPerm(Perms.Raporlar, PermTypes.Updating) == false) { return null; }
+            try
+            {
+                _raporGrupKod = db.Database.SqlQuery<RaporGrupKod>(String.Format(RaporGrupKod.Sorgu, vUser.SirketKodu)).ToList();
+                _raporTargetUrunGrup = db.Database.SqlQuery<RaporTargetUrunGrup>(String.Format(RaporTargetUrunGrup.Sorgu, vUser.SirketKodu)).ToList();
+                h = db.Database.SqlQuery<HDF>(String.Format(@"
+                  SELECT H1.ID,H1.TIP,H1.BOLGE,H1.TEMSILCI,H1.URUNGRUP,CONVERT(NVARCHAR,H1.HEDEF) AS HEDEF,H1.TARIH,H1.AYYIL 
+                  FROM [FINSAT6{0}].[FINSAT6{0}].HDF AS H1 WITH (NOLOCK) WHERE H1.ID={1} AND H1.TIP = 2", vUser.SirketKodu, id)).FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                Logger(ex, "/Reports/Financial/UrunGrupTanimlariKartiEdit");
+                h = new HDF();
+                _raporGrupKod = new List<RaporGrupKod>();
+                _raporTargetUrunGrup = new List<RaporTargetUrunGrup>();
+            }
+            ViewBag.BOLGE = new SelectList(_raporGrupKod, "GrupKod", "GrupKod", h.BOLGE);
+            ViewBag.URUNGRUP = new SelectList(_raporTargetUrunGrup, "UrunGrup", "UrunGrup", h.URUNGRUP);
+            ViewBag.Temp = h.TEMSILCI;
+            return PartialView(h);
+        }
+        public JsonResult UrunGrupTanimlariKartiDelete(string Id)
+        {
+            if (CheckPerm(Perms.Raporlar, PermTypes.Deleting) == false) { return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet); }
+            string sorgu = "";
+            sorgu = String.Format(HDF.UrunGrupTanimDelete, vUser.SirketKodu, Id);
+            try
+            {
+                db.Database.ExecuteSqlCommand(sorgu);
+                LogActions("Reports", "Financial", "UrunGrupTanimlariKartiDelete", ComboItems.alSil, Id.ToInt32());
+                return Json(new Result(true, Id.ToInt32()), JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Logger(ex, "/Reports/Financial/UrunGrupTanimlariKartiDelete");
+                return Json(new Result(false, "Projeye ait form bulunduğu için silme işlemi gerçekleştirilememiştir."), JsonRequestBehavior.AllowGet);
+            }
         }
         #endregion
         #region TargetRapor
@@ -839,7 +922,29 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
             return new JavaScriptSerializer().Serialize(ws);
         }
         #endregion
-        private static List<string> YilAyListele(int val)
+        public JsonResult TemsilciGetir(string GrupKod, string TipKod)
+        {
+            List<SelectListItem> grpTanimKartList = new List<SelectListItem>();
+            try
+            {
+                var tet = db.Database.SqlQuery<RaporTemsilci>(String.Format(RaporTemsilci.Sorgu, vUser.SirketKodu, GrupKod)).ToList();
+                foreach (RaporTemsilci item in tet)
+                {
+                    grpTanimKartList.Add(new SelectListItem
+                    {
+                        Selected = (TipKod == item.TipKod ? true : false),
+                        Text = item.TipKod,
+                        Value = item.TipKod,
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger(ex, "/Reports/Financial/TemsilciGetir");
+            }
+            return Json(grpTanimKartList.Select(x => new { x.Value, x.Text, x.Selected }), JsonRequestBehavior.AllowGet);
+        }
+        private List<string> YilAyListele(int val)
         {
             List<string> ret = new List<string>();
             switch (val)
@@ -856,6 +961,12 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
                     break;
             }
             return ret;
+        }
+        private string AyYilGetir(string yil, string ay)
+        {
+            string MMyyyy = "";
+            MMyyyy = ((Convert.ToInt32(ay) + 1).ToString().Length == 1 ? "0" + (Convert.ToInt32(ay) + 1).ToString() : (Convert.ToInt32(ay) + 1).ToString()) + yil;
+            return MMyyyy;
         }
     }
 }
