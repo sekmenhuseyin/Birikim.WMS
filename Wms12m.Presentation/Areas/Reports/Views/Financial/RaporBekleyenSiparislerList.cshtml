@@ -39,10 +39,10 @@
         </div>
     </div>
 </div>
-<script src="~/Content/assets/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js" type="text/javascript"></script>
+@*<script src="~/Content/assets/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js" type="text/javascript"></script>
 <script src="~/Content/assets/global/plugins/jquery-file-upload/js/jquery.iframe-transport.js" type="text/javascript"></script>
 <script src="~/Content/assets/global/plugins/jquery-file-upload/js/vendor/jquery.ui.widget.js" type="text/javascript"></script>
-<script src="~/Content/assets/global/plugins/jquery-file-upload/js/jquery.fileupload.js" type="text/javascript"></script>
+<script src="~/Content/assets/global/plugins/jquery-file-upload/js/jquery.fileupload.js" type="text/javascript"></script>*@
 <script type="text/javascript">
     $(document).ready(function () {
         table = $('#sample_1').DataTable({
@@ -103,26 +103,26 @@
         });
         $("#sample_1 tfoot input").on('keyup change', function () { table.column($(this).parent().index() + ':visible').search(this.value).draw(); });
         $('#sample_1 .tf-search tr').insertAfter($('#sample_1 thead tr'));
-        $.contextMenu({
-            selector: '#sample_1 tbody tr',
-            callback: function (key, options) {
-                var rowIndex = parseInt(options.$trigger[0].rowIndex) - 1;
-                var satir = table.row(rowIndex).data();
-                var MLK = satir.HesapKodu;
-                switch (key) {
-                    case 'bekMalzemeler':
-                        $('#modalEditPage').modal('toggle');
-                        //editInModal('/Approvals/Purchase/SatGMContext/teklif')
-                        editInModal2('/Reports/Financial/BekleyenMalzemeList', { HesapKodu: MLK });
-                        break;
-                    default:
-                        break;
-                }
-            },
-            items: {
-                "bekMalzemeler": { name: "Bekleyen Malzemeler", icon: "file" },
+    });
+    $.contextMenu({
+        selector: '#sample_1 tbody tr',
+        callback: function (key, options) {
+            var rowIndex = parseInt(options.$trigger[0].rowIndex) - 1;
+            var satir = table.row(rowIndex).data();
+            var MLK = satir.HesapKodu;
+            switch (key) {
+                case 'bekMalzemeler':
+                    $('#modalEditPage').modal('toggle');
+                    //editInModal('/Approvals/Purchase/SatGMContext/teklif')
+                    editInModal2('/Reports/Financial/BekleyenMalzemeList', { HesapKodu: MLK });
+                    break;
+                default:
+                    break;
             }
-        });
+        },
+        items: {
+            "bekMalzemeler": { name: "Bekleyen Malzemeler", icon: "file" },
+        }
     });
 
 

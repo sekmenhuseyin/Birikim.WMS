@@ -1,8 +1,8 @@
-﻿<style type="text/css">
-    .KirmiziYap {
-        background-color: red !important;
-    }
-</style>
+﻿@*<style type="text/css">
+        .KirmiziYap {
+            background-color: red !important;
+        }
+    </style>*@
 <div class="col-md-12" style="width:100%;">
     <div class="portlet box green">
         <div class="portlet-title">
@@ -25,7 +25,18 @@
                         <th>Sipariş Durumu</th>
                     </tr>
                 </thead>
-                <tfoot><tr><th colspan="8"></th></tr></tfoot>
+                <tfoot>
+                    <tr>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </tfoot>
                 <tfoot class="tf-search">
                     <tr>
                         <th></th>
@@ -45,21 +56,22 @@
 <script type="text/javascript">
     var Yil = JSON.parse('@Html.Raw(ViewBag.Yil)');
     var Ay = JSON.parse('@Html.Raw(ViewBag.Ay)');
+    var Sip = JSON.parse('@Html.Raw(ViewBag.Sip)');
     $(document).ready(function () {
         table = $('#sample_1').DataTable({
             "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
             "ajax": {
                 "url": '/Reports/Financial/RaporWebSiparisSelect',
-                "data": { Yil: Yil , Ay : Ay },
+                "data": { Yil: Yil , Ay : Ay, Sip: Sip },
                 "dataSrc": function (json) {
                     return json;
                 },
             },
             "pagingType": "full_numbers",
-            "buttons": [
-                { "extend": 'pdf', "text": '<span class="fa fa-file-pdf-o f-s-15 red"></span>', "className": 'btn btn-default btn-xs' },
-                { "extend": 'excel', "text": '<span class="fa fa-file-excel-o f-s-15 green"></span>', "className": 'btn btn-default btn-xs' }
-            ],
+            //"buttons": [
+            //    { "extend": 'pdf', "text": '<span class="fa fa-file-pdf-o f-s-15 red"></span>', "className": 'btn btn-default btn-xs' },
+            //    { "extend": 'excel', "text": '<span class="fa fa-file-excel-o f-s-15 green"></span>', "className": 'btn btn-default btn-xs' }
+            //],
             "columnDefs": [{ "type": "num-fmt", "className": "dt-right", "targets": [6] }, { "className": "dt-center", "targets": "_all" }],
             "columns": [
                 { "data": "Tarih" },
@@ -80,9 +92,23 @@
             "fnRowCallback": function (nRow, aData, iDisplayIndex) {
                 $('td', nRow).attr('nowrap', 'nowrap');
                 return nRow;
-            }
+            },
+            "footerCallback": function (row, data, start, end, display) {
+                var Toplam = 0;
+                table.rows({ search: 'applied' }).data().each(function (val, index) {
+                    Toplam += val.Toplam;
+                });
+                var api = this.api(), data;
+                $(api.column(6).footer()).html(numeral(Toplam).format());
+            },
         });
-
+        $("#buttons").html("");
+        var buttons = new $.fn.dataTable.Buttons(table, {
+            buttons: [
+                { "extend": 'pdf', "text": '<span class="fa fa-file-pdf-o f-s-15 red"></span>', "className": 'btn-xs;' },
+                { "extend": 'excel', "text": '<span class="fa fa-file-excel-o f-s-15 green"></span>', "className": 'btn-xs;' }
+            ]
+        }).container().appendTo($('#buttons'));
         $('#sample_1 .tf-search th').each(function () {
             var title = $('#sample_1 thead th').eq($(this).index()).text();
             if (title != "" && title.indexOf("Tarih") !== -1)

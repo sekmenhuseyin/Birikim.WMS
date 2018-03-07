@@ -297,8 +297,8 @@ GROUP BY  STk.MalAdi4, CHK.GrupKod, CHK.TipKod", vUser.SirketKodu, Kod13)).ToLis
                 Logger(ex, "/Reports/Financial/HdfGrpTanimKarti");
                 _raporGrupKod = new List<RaporGrupKod>();
             }
-            ViewBag.YILLAR = YilAyListele(1);
-            ViewBag.AYLAR = YilAyListele(2);
+            ViewBag.YILLAR = HdfGrupProperties(1);
+            ViewBag.AYLAR = HdfGrupProperties(2);
             ViewBag.BOLGE = new SelectList(_raporGrupKod, "GrupKod", "GrupKod");
             return View("HdfGrpTanimKarti", new HDF());
         }
@@ -325,7 +325,7 @@ GROUP BY  STk.MalAdi4, CHK.GrupKod, CHK.TipKod", vUser.SirketKodu, Kod13)).ToLis
             switch (Convert.ToInt32(ID))
             {
                 case 0:
-                    sorgu = String.Format(HDF.HdfGrupTanimInsert, vUser.SirketKodu, BOLGE, HEDEF, Convert.ToInt32(DateTime.Today.ToOADate()), AyYilGetir(yilSelect, aySelect));
+                    sorgu = String.Format(HDF.HdfGrupTanimInsert, vUser.SirketKodu, BOLGE, HEDEF, Convert.ToInt32(DateTime.Today.ToOADate()), YilAyConvert(yilSelect, aySelect));
                     break;
                 default:
                     sorgu = String.Format(HDF.HdfGrupTanimUpdate, vUser.SirketKodu, BOLGE, HEDEF, Convert.ToInt32(ID), AYYIL);
@@ -440,8 +440,8 @@ GROUP BY  STk.MalAdi4, CHK.GrupKod, CHK.TipKod", vUser.SirketKodu, Kod13)).ToLis
             }
             ViewBag.BOLGE = new SelectList(_raporGrupKod, "GrupKod", "GrupKod");
             ViewBag.TEMSILCI = new SelectList(new List<RaporTemsilci>(), "TipKod", "TipKod");
-            ViewBag.YILLAR = YilAyListele(1);
-            ViewBag.AYLAR = YilAyListele(2);
+            ViewBag.YILLAR = HdfGrupProperties(1);
+            ViewBag.AYLAR = HdfGrupProperties(2);
             return View("TemsilciGrupTanimlariKarti", new HDF());
         }
         public PartialViewResult TemsilciGrupTanimlariKartiList()
@@ -468,7 +468,7 @@ GROUP BY  STk.MalAdi4, CHK.GrupKod, CHK.TipKod", vUser.SirketKodu, Kod13)).ToLis
             switch (Convert.ToInt32(ID))
             {
                 case 0:
-                    sorgu = String.Format(HDF.TemsilciGrupTanimInsert, vUser.SirketKodu, BOLGE, TEMSILCI, HEDEF, Convert.ToInt32(DateTime.Today.ToOADate()), AyYilGetir(yilSelect, aySelect));
+                    sorgu = String.Format(HDF.TemsilciGrupTanimInsert, vUser.SirketKodu, BOLGE, TEMSILCI, HEDEF, Convert.ToInt32(DateTime.Today.ToOADate()), YilAyConvert(yilSelect, aySelect));
                     break;
                 default:
                     sorgu = String.Format(HDF.TemsilciGrupTanimUpdate, vUser.SirketKodu, BOLGE, TEMSILCI, HEDEF, Convert.ToInt32(ID), AYYIL);
@@ -566,8 +566,8 @@ GROUP BY  STk.MalAdi4, CHK.GrupKod, CHK.TipKod", vUser.SirketKodu, Kod13)).ToLis
             ViewBag.BOLGE = new SelectList(_raporGrupKod, "GrupKod", "GrupKod");
             ViewBag.URUNGRUP = new SelectList(_raporTargetUrunGrup, "UrunGrup", "UrunGrup");
             ViewBag.TEMSILCI = new SelectList(new List<RaporTemsilci>(), "TipKod", "TipKod");
-            ViewBag.YILLAR = YilAyListele(1);
-            ViewBag.AYLAR = YilAyListele(2);
+            ViewBag.YILLAR = HdfGrupProperties(1);
+            ViewBag.AYLAR = HdfGrupProperties(2);
             return View("UrunGrupTanimlariKarti", new HDF());
         }
         public PartialViewResult UrunGrupTanimlariKartiList()
@@ -593,7 +593,7 @@ GROUP BY  STk.MalAdi4, CHK.GrupKod, CHK.TipKod", vUser.SirketKodu, Kod13)).ToLis
             switch (Convert.ToInt32(ID))
             {
                 case 0:
-                    sorgu = String.Format(HDF.UrunGrupTanimInsert, vUser.SirketKodu, BOLGE, TEMSILCI, URUNGRUP, HEDEF, Convert.ToInt32(DateTime.Today.ToOADate()), AyYilGetir(yilSelect, aySelect));
+                    sorgu = String.Format(HDF.UrunGrupTanimInsert, vUser.SirketKodu, BOLGE, TEMSILCI, URUNGRUP, HEDEF, Convert.ToInt32(DateTime.Today.ToOADate()), YilAyConvert(yilSelect, aySelect));
                     break;
                 default:
                     sorgu = String.Format(HDF.UrunGrupTanimUpdate, vUser.SirketKodu, HEDEF, Convert.ToInt32(ID));
@@ -661,8 +661,8 @@ GROUP BY  STk.MalAdi4, CHK.GrupKod, CHK.TipKod", vUser.SirketKodu, Kod13)).ToLis
         public ActionResult TargetRapor()
         {
             if (CheckPerm(Perms.Raporlar, PermTypes.Reading) == false) { return Redirect("/"); }
-            ViewBag.Yillar = YilAyListele(1);
-            ViewBag.Aylar = YilAyListele(2);
+            ViewBag.Yillar = HdfGrupProperties(1);
+            ViewBag.Aylar = HdfGrupProperties(2);
             return View();
         }
         public PartialViewResult TargetRaporList(string Ay, string Yil)
@@ -775,7 +775,7 @@ GROUP BY  STk.MalAdi4, CHK.GrupKod, CHK.TipKod", vUser.SirketKodu, Kod13)).ToLis
         public ActionResult TargetAyBazliRapor()
         {
             if (CheckPerm(Perms.Raporlar, PermTypes.Reading) == false) { return Redirect("/"); }
-            ViewBag.Yillar = YilAyListele(1);
+            ViewBag.Yillar = HdfGrupProperties(1);
             return View();
         }
         public PartialViewResult TargetAyBazliRaporList(string Yil)
@@ -804,7 +804,7 @@ GROUP BY  STk.MalAdi4, CHK.GrupKod, CHK.TipKod", vUser.SirketKodu, Kod13)).ToLis
         public ActionResult TargetAyBazliTemsilciRapor()
         {
             if (CheckPerm(Perms.Raporlar, PermTypes.Reading) == false) { return Redirect("/"); }
-            ViewBag.Yillar = YilAyListele(1);
+            ViewBag.Yillar = HdfGrupProperties(1);
             return View();
         }
         public PartialViewResult TargetAyBazliTemsilciList(string Yil)
@@ -833,8 +833,8 @@ GROUP BY  STk.MalAdi4, CHK.GrupKod, CHK.TipKod", vUser.SirketKodu, Kod13)).ToLis
         public ActionResult RaporGunlukSiparis()
         {
             if (CheckPerm(Perms.Raporlar, PermTypes.Reading) == false) { return Redirect("/"); }
-            ViewBag.Yillar = YilAyListele(1);
-            ViewBag.Aylar = YilAyListele(2);
+            ViewBag.Yillar = HdfGrupProperties(1);
+            ViewBag.Aylar = HdfGrupProperties(2);
             return View();
         }
         public PartialViewResult RaporGunlukSiparisList(string Yil, string Ay)
@@ -924,7 +924,7 @@ GROUP BY  STk.MalAdi4, CHK.GrupKod, CHK.TipKod", vUser.SirketKodu, Kod13)).ToLis
                 Logger(ex, "/Reports/Financial/RaporUrunSatisAnalizi");
                 _raporGrupKod = new List<RaporGrupKod>();
             }
-            ViewBag.Yillar = YilAyListele(1);
+            ViewBag.Yillar = HdfGrupProperties(1);
             return View(_raporGrupKod);
         }
         public PartialViewResult UrunSatisTemsilciAnalizList(string GrupKod, string Yil)
@@ -954,24 +954,32 @@ GROUP BY  STk.MalAdi4, CHK.GrupKod, CHK.TipKod", vUser.SirketKodu, Kod13)).ToLis
         public ActionResult RaporWebSiparis()
         {
             if (CheckPerm(Perms.Raporlar, PermTypes.Reading) == false) { return Redirect("/"); }
-            ViewBag.Yillar = YilAyListele(1);
-            ViewBag.Aylar = YilAyListele(2);
+            ViewBag.Yillar = HdfGrupProperties(1);
+            ViewBag.Aylar = HdfGrupProperties(2);
+            ViewBag.SipTipi = HdfGrupProperties(3);
             return View();
         }
-        public PartialViewResult RaporWebSiparisList(string Ay, string Yil)
+        public PartialViewResult RaporWebSiparisList(string Ay, string Yil, string SipTipi)
         {
             ViewBag.Ay = Ay;
             ViewBag.Yil = Yil;
+            ViewBag.Sip = SipTipi;
             return PartialView("RaporWebSiparisList");
         }
-        public string RaporWebSiparisSelect(string Yil, string Ay)
+        public string RaporWebSiparisSelect(string Yil, string Ay, string Sip)
         {
             List<WebSiparis> ws;
             try
             {
                 //TODO : TOP 100
-                string sorgu = "";
-                sorgu = String.Format(WebSiparis.Sorgu, vUser.SirketKodu, Convert.ToInt32(Yil), Convert.ToInt32(Ay) + 1, "TOP 100");
+                string sorgu = "", siparisTipi = "";
+                switch (Sip)
+                {
+                    case "0": siparisTipi = ""; break;
+                    case "1": siparisTipi = @"AND (SPI.EvrakNo LIKE 'W%' OR SPI.EVRAKNO LIKE 'KW%')"; break;
+                    default: siparisTipi = @"AND (SPI.EvrakNo LIKE 'TW%')"; break;
+                }
+                sorgu = String.Format(WebSiparis.Sorgu, vUser.SirketKodu, Convert.ToInt32(Yil), Convert.ToInt32(Ay) + 1, siparisTipi, "TOP 100");
                 ws = db.Database.SqlQuery<WebSiparis>(sorgu).ToList();
             }
             catch (Exception ex)
@@ -980,6 +988,26 @@ GROUP BY  STk.MalAdi4, CHK.GrupKod, CHK.TipKod", vUser.SirketKodu, Kod13)).ToLis
                 Logger(ex, "/Reports/Financial/RaporWebSiparisSelect");
             }
             return new JavaScriptSerializer().Serialize(ws);
+        }
+        #endregion
+        #region TumMusteriCiro
+        public ActionResult TumMusteriCiro()
+        {
+            return View("TumMusteriCiro");
+        }
+        public string TumMusteriCiroSelect()
+        {
+            List<MusteriCiro> mc;
+            try
+            {
+                mc = db.Database.SqlQuery<MusteriCiro>(String.Format(MusteriCiro.Sorgu, vUser.SirketKodu)).ToList();
+            }
+            catch (Exception ex)
+            {
+                mc = new List<MusteriCiro>();
+                Logger(ex, "/Reports/Financial/TumMusteriCiroSelect");
+            }
+            return new JavaScriptSerializer().Serialize(mc);
         }
         #endregion
         public JsonResult TemsilciGetir(string GrupKod, string TipKod)
@@ -1004,7 +1032,7 @@ GROUP BY  STk.MalAdi4, CHK.GrupKod, CHK.TipKod", vUser.SirketKodu, Kod13)).ToLis
             }
             return Json(grpTanimKartList.Select(x => new { x.Value, x.Text, x.Selected }), JsonRequestBehavior.AllowGet);
         }
-        private List<string> YilAyListele(int val)
+        private List<string> HdfGrupProperties(int val)
         {
             List<string> ret = new List<string>();
             switch (val)
@@ -1015,14 +1043,17 @@ GROUP BY  STk.MalAdi4, CHK.GrupKod, CHK.TipKod", vUser.SirketKodu, Kod13)).ToLis
                         ret.Add(i.ToString());
                     }
                     break;
-                default:
+                case 2:
                     ret.Add("Ocak"); ret.Add("Şubat"); ret.Add("Mart"); ret.Add("Nisan"); ret.Add("Mayıs"); ret.Add("Haziran");
                     ret.Add("Temmuz"); ret.Add("Ağustos"); ret.Add("Eylül"); ret.Add("Ekim"); ret.Add("Kasım"); ret.Add("Aralık");
+                    break;
+                default:
+                    ret.Add("Tümü"); ret.Add("Tablet"); ret.Add("B2B");
                     break;
             }
             return ret;
         }
-        private string AyYilGetir(string yil, string ay)
+        private string YilAyConvert(string yil, string ay)
         {
             string MMyyyy = "";
             MMyyyy = ((Convert.ToInt32(ay) + 1).ToString().Length == 1 ? "0" + (Convert.ToInt32(ay) + 1).ToString() : (Convert.ToInt32(ay) + 1).ToString()) + yil;

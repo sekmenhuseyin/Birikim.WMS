@@ -1,0 +1,123 @@
+﻿@{
+    ViewBag.Title = "Tüm Müşteri Ciro Listesi";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><a href="javascript:;">Web Sipariş</a><i class="fa fa-circle"></i></li><li><span>Müşteri Ciro Listesi</span></li></ul></div>
+<h1 class="page-title">Müşteri Ciro Listesi</h1>
+<div class="row">
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-12" style="width:100%;">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <i class="fa fa-gift"></i>Müşteri Ciro Listesi
+                        </div>
+                        <div class="col-md-1 pull-right m-t-5 p-0" id="buttons"></div>
+                    </div>
+                    <div class="portlet-body">
+                        <table class="table table-striped table-bordered table-condensed" id="sample_1">
+                            <thead>
+                                <tr>
+                                    <th>Hesap Kodu</th>
+                                    <th>Ünvan</th>
+                                    <th>Tip Kodu</th>
+                                    <th>Grup Kodu</th>
+                                    <th>Kredi Limiti</th>
+                                    <th>Net İade</th>
+                                    <th>Net Ciro</th>
+                                </tr>
+                            </thead>
+                            <tfoot>
+                                <tr>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                            </tfoot>
+                            <tfoot class="tf-search">
+                                <tr>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script type="text/javascript">
+    $(document).ready(function () {
+           table = $('#sample_1').DataTable({
+                "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
+                "ajax": {
+                    "url": '/Reports/Financial/TumMusteriCiroSelect',
+                    "dataSrc": function (json) {
+                        return json;
+                    },
+                },
+                "pagingType": "full_numbers",
+                "columnDefs": [{ "type": "num-fmt", "className": "dt-right", "targets": [4,5,6] }, { "className": "dt-center", "targets": "_all" }],
+                "columns": [
+                    { "data": "HesapKodu" },
+                    { "data": "Unvan" },
+                    { "data": "TipKod" },
+                    { "data": "GrupKod" },
+                    { "data": "KrediLimiti", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
+                    { "data": "NetCiro", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
+                    { "data": "NetIade", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
+                ],
+                //"createdRow": function (row, data, dataIndex) {
+                //    if (data["Toplam"] > 1500) {
+                //        $(row).children('td').slice(6,7).addClass("KirmiziYap");
+                //    }
+                //},
+                "ordering": false,
+                "fnRowCallback": function (nRow, aData, iDisplayIndex) {
+                    $('td', nRow).attr('nowrap', 'nowrap');
+                    return nRow;
+                },
+                "footerCallback": function (row, data, start, end, display) {
+                    var KrediLimiti = 0, NetCiro = 0, NetIade = 0;
+                    table.rows({ search: 'applied' }).data().each(function (val, index) {
+                        KrediLimiti += val.KrediLimiti;
+                        NetCiro += val.NetCiro;
+                        NetIade += val.NetIade;
+                    });
+                    var api = this.api(), data;
+                    $(api.column(4).footer()).html(numeral(KrediLimiti).format());
+                    $(api.column(5).footer()).html(numeral(NetCiro).format());
+                    $(api.column(6).footer()).html(numeral(NetIade).format());
+                },
+            });
+            $("#buttons").html("");
+            var buttons = new $.fn.dataTable.Buttons(table, {
+                buttons: [
+                    { "extend": 'pdf', "text": '<span class="fa fa-file-pdf-o f-s-15 red"></span>', "className": 'btn-xs;' },
+                    { "extend": 'excel', "text": '<span class="fa fa-file-excel-o f-s-15 green"></span>', "className": 'btn-xs;' }
+                ]
+            }).container().appendTo($('#buttons'));
+            $('#sample_1 .tf-search th').each(function () {
+                var title = $('#sample_1 thead th').eq($(this).index()).text();
+                if (title != "" && title.indexOf("Tarih") !== -1)
+                    $(this).html('<input class="form-control input-circle tarih" type="text" placeholder="Ara" />');
+                else if (title != "" && title != "Detay" && title != "Hareket")
+                    $(this).html('<input class="form-control input-circle" type="text" placeholder="Ara" />');
+            });
+            $("#sample_1 tfoot input").on('keyup change', function () { table.column($(this).parent().index() + ':visible').search(this.value).draw(); });
+            $('#sample_1 .tf-search tr').insertAfter($('#sample_1 thead tr'))
+        });
+    </script>
+}
