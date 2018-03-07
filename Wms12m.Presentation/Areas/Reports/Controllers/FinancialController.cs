@@ -497,6 +497,10 @@ GROUP BY  STk.MalAdi4, CHK.GrupKod, CHK.TipKod", vUser.SirketKodu, Kod13)).ToLis
                         _Result.Status = false;
                         _Result.Message = "Girilen Bölgeye ait miktar bulunmamaktadır.Kontrol ediniz!";
                         break;
+                    case 15:
+                        _Result.Status = false;
+                        _Result.Message = "Girilen tarih aralığı ile ilgili kayıt girilmiştir.Kontrol ediniz";
+                        break;
                     default:
                         _Result.Status = true;
                         _Result.Message = "İşlem başarılı";
@@ -667,14 +671,19 @@ GROUP BY  STk.MalAdi4, CHK.GrupKod, CHK.TipKod", vUser.SirketKodu, Kod13)).ToLis
         }
         public PartialViewResult TargetRaporList(string Ay, string Yil)
         {
-            List<CTargetRapor> tl;
             ViewBag.Ay = Ay;
             ViewBag.Yil = Yil;
+            return PartialView("TargetRaporList");
+        }
+        public string TargetRaporSelect(string Ay, string Yil)
+        {
+            List<CTargetRapor> tl;
             try
             {
-                string sorgu = "";
+                string sorgu = "", r = "";
                 decimal toplamCiro = 0;
-                sorgu = String.Format(CTargetRapor.Sorgu, vUser.SirketKodu, Convert.ToInt32(Yil), Convert.ToInt32(Ay) + 1);
+                r = YilAyConvert(Yil, Ay);
+                sorgu = String.Format(CTargetRapor.Sorgu, vUser.SirketKodu, Convert.ToInt32(Yil), (Convert.ToInt32(Ay) + 1), r);
                 tl = db.Database.SqlQuery<CTargetRapor>(sorgu).ToList();
                 if ((tl == null ? 0 : tl.Count()) > 0)
                 {
@@ -688,9 +697,9 @@ GROUP BY  STk.MalAdi4, CHK.GrupKod, CHK.TipKod", vUser.SirketKodu, Kod13)).ToLis
             catch (Exception ex)
             {
                 tl = new List<CTargetRapor>();
-                Logger(ex, "/Reports/Financial/TargetRaporList");
+                Logger(ex, "/Reports/Financial/TargetRaporSelect");
             }
-            return PartialView("TargetRaporList", tl);
+            return new JavaScriptSerializer().Serialize(tl);
         }
         public PartialViewResult TargetRaporBolgeList(string GrupKod, string Ay, string Yil)
         {
@@ -704,9 +713,10 @@ GROUP BY  STk.MalAdi4, CHK.GrupKod, CHK.TipKod", vUser.SirketKodu, Kod13)).ToLis
             List<CTargetRaporTemsilci> ctrt;
             try
             {
-                string sorgu = "";
+                string sorgu = "", r = "";
                 decimal toplamCiro = 0;
-                sorgu = String.Format(CTargetRaporTemsilci.Sorgu, vUser.SirketKodu, Convert.ToInt32(Yil), Convert.ToInt32(Ay) + 1, GrupKod);
+                r = YilAyConvert(Yil, Ay);
+                sorgu = String.Format(CTargetRaporTemsilci.Sorgu, vUser.SirketKodu, Convert.ToInt32(Yil), (Convert.ToInt32(Ay) + 1), GrupKod, r);
                 ctrt = db.Database.SqlQuery<CTargetRaporTemsilci>(sorgu).ToList();
                 if ((ctrt == null ? 0 : ctrt.Count()) > 0)
                 {
@@ -990,9 +1000,10 @@ GROUP BY  STk.MalAdi4, CHK.GrupKod, CHK.TipKod", vUser.SirketKodu, Kod13)).ToLis
             return new JavaScriptSerializer().Serialize(ws);
         }
         #endregion
-        #region TumMusteriCiro
+        #region TumMusteriCiro -YAPILDI
         public ActionResult TumMusteriCiro()
         {
+            if (CheckPerm(Perms.Raporlar, PermTypes.Reading) == false) { return Redirect("/"); }
             return View("TumMusteriCiro");
         }
         public string TumMusteriCiroSelect()

@@ -1,4 +1,17 @@
-﻿@model List<CTargetRapor>
+﻿@*@model List<CTargetRapor>*@
+<style type="text/css">
+    .renkU0 {
+        background-color: #FF0000;
+    }
+
+    .renkU1 {
+        background-color: #BDB76B;
+    }
+
+    .renkU2 {
+        background-color: #228B22;
+    }
+</style>
 <div class="col-md-12" style="width:100%;">
     <div class="portlet box green">
         <div class="portlet-title">
@@ -11,7 +24,6 @@
             <table class="table table-striped table-bordered table-condensed" id="sample_1">
                 <thead>
                     <tr>
-                        <th></th>
                         <th>Bölge</th>
                         <th>Hedef</th>
                         <th>Hedef Oran</th>
@@ -23,51 +35,21 @@
                         <th>Bekleyen Sipariş</th>
                     </tr>
                 </thead>
-                <tbody>
-                    @foreach (var item in Model)
-                    {
-                        <tr>
-                            <td nowrap>
-                                @if (item.Hedef > 0)
-                                {
-                                    <a class="btn btn-default" href="#modalEditPage" data-toggle="modal" onclick="editInModal2('/Reports/Financial/TargetRaporBolgeList', { GrupKod: '@item.Grupkod', Ay: '@ViewBag.Ay', Yil: '@ViewBag.Yil' })">Temsilciler</a>
-                                    <a class="btn btn-default" href="#modalEditPage" data-toggle="modal" onclick="editInModal2('/Reports/Financial/TargetRaporUrunGrupList', { GrupKod: '@item.Grupkod', Ay: '@ViewBag.Ay', Yil: '@ViewBag.Yil' })">MB Hedef</a>
-                                    <a class="btn btn-default" href="#modalEditPage" data-toggle="modal" onclick="editInModal2('/Reports/Financial/TargetRaporPRTList', { GrupKod: '@item.Grupkod', Ay: '@ViewBag.Ay', Yil: '@ViewBag.Yil' })">PRT</a>
-                                }
-                                else
-                                {
-                                    <a class="btn btn-default" href="javascript:;" onclick="">Temsilciler</a>
-                                    <a class="btn btn-default" href="javascript:;" onclick="">MB Hedef</a>
-                                    <a class="btn btn-default" href="javascript:;" onclick="">PRT</a>
-                                }
-                            </td>
-                            <td nowrap>@item.Grupkod</td>
-                            <td nowrap>@Math.Round(item.Hedef, 2).ToBinlikAyrac()</td>
-                            @if (item.HedefOran >= 100)
-                            {
-                                <td nowrap style="background-color:#66cc33">@Math.Round(item.HedefOran, 2).ToBinlikAyrac()</td>
-                            }
-                            else if (item.HedefOran >= 80 && item.HedefOran < 100)
-                            {
-                                <td nowrap style="background-color:#666633">@Math.Round(item.HedefOran, 2).ToBinlikAyrac()</td>
-                            }
-                            else
-                            {
-                                <td nowrap style="background-color:#990033">@Math.Round(item.HedefOran, 2).ToBinlikAyrac()</td>
-                            }
-                            <td nowrap>@Math.Round(item.ToplamIade, 2).ToBinlikAyrac()</td>
-                            <td nowrap>@Math.Round(item.NetCiro, 2).ToBinlikAyrac()</td>
-                            <td nowrap>@Math.Round(item.CiroOran, 2).ToBinlikAyrac()</td>
-                            <td nowrap>@Math.Round(item.CariBorc, 2).ToBinlikAyrac()</td>
-                            <td nowrap>@Math.Round(item.PRT, 2).ToBinlikAyrac()</td>
-                            <td nowrap>@Math.Round(item.BekleyenSiparis, 2).ToBinlikAyrac()</td>
-                        </tr>
-                    }
-                </tbody>
-                <tfoot><tr><th colspan="10"></th></tr></tfoot>
-                <tfoot class="tf-search">
+                <tfoot>
                     <tr>
                         <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </tfoot>
+                <tfoot class="tf-search">
+                    <tr>
                         <th></th>
                         <th></th>
                         <th></th>
@@ -84,52 +66,68 @@
     </div>
 </div>
 <script type="text/javascript">
+     var Yil = JSON.parse('@Html.Raw(ViewBag.Yil)');
+     var Ay = JSON.parse('@Html.Raw(ViewBag.Ay)');
     $(document).ready(function () {
         table = $('#sample_1').DataTable({
             "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
+            "ajax": {
+                "url": '/Reports/Financial/TargetRaporSelect',
+                "data": { Yil: Yil, Ay: Ay},
+                "dataSrc": function (json) {
+                    return json;
+                },
+            },
             "pagingType": "full_numbers",
-            "ordering": false,
             "columnDefs": [{ "type": "num-fmt", "className": "dt-right", "targets": [1, 2, 3, 4, 5, 6, 7, 8] }, { "className": "dt-center", "targets": "_all" }],
-            //"footerCallback": function (row, data, start, end, display) {
-            //    var hedef = 0,
-            //        toplamIade = 0,
-            //        netCiro = 0,
-            //        ciroOran = 0,
-            //        cariBorc = 0,
-            //        prt = 0,
-            //        bekleyenSiparis = 0;
-            //    table.rows({ search: 'applied' }).data().each(function (val, index) {
-            //        hedef += val.Hedef;
-            //        toplamIade += val.ToplamIade;
-            //        netCiro += val.NetCiro;
-            //        ciroOran += val.CiroOran;
-            //        cariBorc += val.CariBorc;
-            //        prt += val.PRT;
-            //        bekleyenSiparis += val.BekleyenSiparis;
-            //    });
-            //    var api = this.api(), data;
-            //    $(api.column(2).footer()).html(
-            //        //ondalikBinlik(Math.round(Bakiye * 100) / 100, 2)
-            //        hedef
-            //    );
-            //    $(api.column(4).footer()).html(
-            //        netCiro
-            //    );
-            //    $(api.column(5).footer()).html(
-            //        ciroOran
-            //    );
-            //    $(api.column(6).footer()).html(
-            //        cariBorc
-            //    );
-            //    $(api.column(7).footer()).html(
-            //        prt
-            //    );
-            //    $(api.column(8).footer()).html(
-            //        bekleyenSiparis
-            //    );
-            //}
+            "columns": [
+                { "data": "GrupKod" },
+                { "data": "Hedef", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
+                { "data": "HedefOran", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
+                { "data": "ToplamIade", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
+                { "data": "NetCiro", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
+                { "data": "CiroOran", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
+                { "data": "CariBorc", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
+                { "data": "PRT", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
+                { "data": "BekleyenSiparis", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
+            ],
+            "createdRow": function (row, data, dataIndex) {
+                if (data["Toplam"] >= 100) {
+                    $(row).children('td').slice(2, 3).addClass("renkU2");
+                }
+                else if (data["Toplam"] < 100 && data["Toplam"] > 80) {
+                    $(row).children('td').slice(2, 3).addClass("renkU1");
+                }
+                else {
+                    $(row).children('td').slice(2, 3).addClass("renkU0");
+                }
+            },
+            "ordering": false,
+            "fnRowCallback": function (nRow, aData, iDisplayIndex) {
+                $('td', nRow).attr('nowrap', 'nowrap');
+                return nRow;
+            },
+            "footerCallback": function (row, data, start, end, display) {
+                var Hedef = 0,ToplamIade = 0, NetCiro = 0, CiroOran = 0, CariBorc = 0, PRT = 0, BekleyenSiparis = 0;
+                table.rows({ search: 'applied' }).data().each(function (val, index) {
+                    Hedef += val.Hedef;
+                    ToplamIade += val.ToplamIade;
+                    NetCiro += val.NetCiro;
+                    CiroOran += val.CiroOran;
+                    CariBorc += val.CariBorc;
+                    PRT += val.PRT;
+                    BekleyenSiparis += val.BekleyenSiparis;
+                });
+                var api = this.api(), data;
+                $(api.column(1).footer()).html(numeral(Hedef).format());
+                $(api.column(3).footer()).html(numeral(ToplamIade).format());
+                $(api.column(4).footer()).html(numeral(NetCiro).format());
+                $(api.column(5).footer()).html(numeral(CiroOran).format());
+                $(api.column(6).footer()).html(numeral(CariBorc).format());
+                $(api.column(7).footer()).html(numeral(PRT).format());
+                $(api.column(8).footer()).html(numeral(BekleyenSiparis).format());
+            },
         });
-
         $("#buttons").html("");
         var buttons = new $.fn.dataTable.Buttons(table, {
             buttons: [
@@ -146,5 +144,32 @@
         });
         $("#sample_1 tfoot input").on('keyup change', function () { table.column($(this).parent().index() + ':visible').search(this.value).draw(); });
         $('#sample_1 .tf-search tr').insertAfter($('#sample_1 thead tr'))
+     });
+    $.contextMenu({
+        selector: '#sample_1 tbody tr',
+        callback: function (key, options) {
+            var rowIndex = parseInt(options.$trigger[0].rowIndex) - 1;
+            var satir = table.row(rowIndex - 1).data();
+            var MLK = satir.GrupKod;
+            switch (key) {
+                case 'bkTemsilciler':
+                    $('#modalEditPage').modal('toggle');
+                    editInModal2('/Reports/Financial/TargetRaporBolgeList', { GrupKod: MLK, Ay: '@ViewBag.Ay', Yil: '@ViewBag.Yil' })
+                    break;
+                case 'bkMBHedef':
+                    $('#modalEditPage').modal('toggle');
+                    editInModal2('/Reports/Financial/TargetRaporUrunGrupList', { GrupKod: MLK, Ay: '@ViewBag.Ay', Yil: '@ViewBag.Yil' })
+                    break;
+                default:
+                    $('#modalEditPage').modal('toggle');
+                    editInModal2('/Reports/Financial/TargetRaporPRTList', { GrupKod: MLK, Ay: '@ViewBag.Ay', Yil: '@ViewBag.Yil' })
+                    break;
+            }
+        },
+        items: {
+            "bkTemsilciler": { name: "Temsilciler", icon: "file" },
+            "bkMBHedef": { name: "MB Hedef", icon: "file" },
+            "bkPRT": { name: "PRT", icon: "file" },
+        }
     });
 </script>

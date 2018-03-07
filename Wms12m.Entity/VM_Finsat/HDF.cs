@@ -54,7 +54,7 @@ namespace Wms12m.Entity
                     BEGIN
                     SET @HDF01 = (SELECT ISNULL(SUM(H1.HEDEF),0) FROM FINSAT6{0}.FINSAT6{0}.HDF AS H1 WITH (NOLOCK)
                     WHERE H1.TIP=1 AND H1.BOLGE='{1}' AND H1.AYYIL='{4}')
-                    IF({2} > @HDF01)
+                    IF({2} >= @HDF01)
                     BEGIN
                     UPDATE FINSAT6{0}.FINSAT6{0}.HDF SET BOLGE='{1}',HEDEF='{2}' WHERE ID = {3} AND TIP = 0
                     SELECT 1
@@ -98,13 +98,17 @@ namespace Wms12m.Entity
             END
             ";
         public static string TemsilciGrupTanimInsert = @"
-                    DECLARE @MAXDURUM INT,@HDFT1 NUMERIC(25,6),@HDFT0 NUMERIC(25,6)
+                    DECLARE @MAXDURUM INT,@TK INT,@HDFT1 NUMERIC(25,6),@HDFT0 NUMERIC(25,6)
                     SET @MAXDURUM = (SELECT COUNT(*) FROM FINSAT6{0}.FINSAT6{0}.HDF AS H1 WITH (NOLOCK) WHERE H1.BOLGE='{1}' AND H1.TIP=0 AND H1.AYYIL='{5}')
+                    SET @TK = (SELECT COUNT(*) FROM FINSAT6{0}.FINSAT6{0}.HDF AS H3 WITH (NOLOCK) WHERE
+                    H3.BOLGE='{1}' AND H3.TIP = 1 AND H3.AYYIL = '{5}' AND H3.TEMSILCI='{2}')
+                    IF(@TK = 0)
+                    BEGIN                    
                     IF(@MAXDURUM > 0)
                     BEGIN
                     SET @HDFT1 = (SELECT ISNULL(SUM(H2.HEDEF),0) FROM FINSAT6{0}.FINSAT6{0}.HDF AS H2 WITH (NOLOCK) WHERE H2.BOLGE='{1}' AND H2.TIP=1 AND H2.AYYIL='{5}')
                     SET @HDFT0 = (SELECT H0.HEDEF FROM FINSAT6{0}.FINSAT6{0}.HDF AS H0 WITH (NOLOCK) WHERE H0.BOLGE='{1}' AND H0.TIP=0 AND H0.AYYIL='{5}')
-                    IF(@HDFT1 + {3} < @HDFT0)
+                    IF(@HDFT1 + {3} <= @HDFT0)
                     BEGIN
                     INSERT INTO FINSAT6{0}.FINSAT6{0}.HDF (TIP,BOLGE,TEMSILCI,HEDEF,TARIH,AYYIL) 
                     VALUES (1,'{1}','{2}','{3}',{4},'{5}')
@@ -118,6 +122,11 @@ namespace Wms12m.Entity
                     ELSE
                     BEGIN
                     SELECT 5
+                    END
+                    END
+                    ELSE
+                    BEGIN
+                    SELECT 15
                     END
                     ";
         public static string TemsilciGrupTanimUpdate = @"

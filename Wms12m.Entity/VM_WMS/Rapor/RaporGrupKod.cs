@@ -150,13 +150,14 @@ namespace Wms12m.Entity
                                 GROUP BY B.TipKod
 
                                 ) AS T4 ON H1.TEMSILCI=T4.TipKod
-                                WHERE H1.TIP=1 AND H1.BOLGE='{3}' AND (H1.TARIH BETWEEN @TAR1 AND @TAR2)
+                                WHERE H1.TIP=1 AND H1.BOLGE='{3}' AND H1.AYYIL='{4}'
                                 ";
+        // --(H1.TARIH BETWEEN @TAR1 AND @TAR2)
     }
     public class CTargetRapor
     {
         /// <summary> VarChar(20) (Allow Null) </summary>
-        public string Grupkod { get; set; }
+        public string GrupKod { get; set; }
         /// <summary> Decimal(25,6) (Not Null) </summary>
         public decimal Hedef { get; set; }
         /// <summary> Decimal(38,6) (Allow Null) </summary>
@@ -179,7 +180,7 @@ namespace Wms12m.Entity
                                 SET @TAR2=ISNULL(FINSAT6{0}.dbo.AyIlkSonGun({1},{2},0),0)
 
                                 SELECT 
-                                B.Grupkod,
+                                B.GrupKod,
                                 ISNULL(TT4.HEDEF,0) AS Hedef,
                                 (CASE WHEN ISNULL(TT4.HEDEF,0) = '0' THEN 0 ELSE (ISNULL(TT1.NetCiro,0) * 100 / ISNULL(TT4.HEDEF,0)) END) AS HedefOran,
                                 ISNULL(TT1.ToplamIade,0) AS ToplamIade,
@@ -267,7 +268,7 @@ namespace Wms12m.Entity
                                 ) AS TT3 ON B.GrupKod=TT3.GrupKod
                                 LEFT JOIN (
                                 SELECT H1.BOLGE AS GrupKod,H1.HEDEF FROM FINSAT6{0}.FINSAT6{0}.HDF AS H1 WITH (NOLOCK)
-                                WHERE H1.TIP=0 AND (H1.TARIH BETWEEN @TAR1 AND @TAR2)
+                                WHERE H1.TIP=0 AND H1.AYYIL = '{3}'
                                 ) AS TT4 ON B.GrupKod=TT4.GrupKod
                                 WHERE (B.KartTip IN (0,4) 
                                 AND (B.HesapKodu BETWEEN '1' AND '8')
