@@ -1,5 +1,4 @@
-﻿@model List<PRTRapor>
-@{
+﻿@{
     ViewBag.Title = "Target PRTGrup List";
 }
 <div class="modal-content">
@@ -26,18 +25,6 @@
                                         <th>Bakiye</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    @foreach (var item in Model)
-                                    {
-                                    <tr>
-                                        <td nowrap>@item.HesapKodu</td>
-                                        <td nowrap>@item.Unvan</td>
-                                        <td nowrap>@item.GrupKod</td>
-                                        <td nowrap>@item.TipKod</td>
-                                        <td nowrap>@Math.Round(item.Bakiye, 2).ToBinlikAyrac()</td>
-                                    </tr>
-                                    }
-                                </tbody>
                                 <tfoot><tr><th colspan="5"></th></tr></tfoot>
                                 <tfoot class="tf-search">
                                     <tr>
@@ -62,7 +49,48 @@
             "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
             "pagingType": "full_numbers",
             "ordering": false,
-            "columnDefs": [{ "type": "num-fmt", "className": "dt-right", "targets": [4] }, { "className": "dt-center", "targets": "_all" }]
+            "ajax": {
+                "url": '/Reports/Financial/TargetRaporPRTSelect',
+                "data": { GrupKod: '@ViewBag.GRUPKOD', Ay: '@ViewBag.AY', Yil:'@ViewBag.YIL'},
+                "dataSrc": function (json) {
+                     return json;
+                },
+            },
+            "columnDefs": [{ "type": "num-fmt", "className": "dt-right", "targets": [4] }, { "className": "dt-center", "targets": "_all" }],
+            "columns": [
+                { "data": "HesapKodu" },
+                { "data": "Unvan" },
+                { "data": "GrupKod" },
+                { "data": "TipKod" },
+                { "data": "Bakiye", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
+            ],
+            "ordering": false,
+            "fnRowCallback": function (nRow, aData, iDisplayIndex) {
+                $('td', nRow).attr('nowrap', 'nowrap');
+                return nRow;
+            },
+            //"footerCallback": function (row, data, start, end, display) {
+            //    var Hedef = 0, ToplamIade = 0, NetSatisTutari = 0, NetCiro = 0, CiroOran = 0, CariBorc = 0, PRT = 0, BekleyenSiparis = 0;
+            //    table1a.rows({ search: 'applied' }).data().each(function (val, index) {
+            //        Hedef += val.Hedef;
+            //        ToplamIade += val.ToplamIade;
+            //        NetSatisTutari += val.NetSatisTutari;
+            //        NetCiro += val.NetCiro;
+            //        CiroOran += val.CiroOran;
+            //        CariBorc += val.CariBorc;
+            //        PRT += val.PRT;
+            //        BekleyenSiparis += val.BekleyenSiparis;
+            //    });
+            //    var api = this.api(), data;
+            //    $(api.column(2).footer()).html(numeral(Hedef).format());
+            //    $(api.column(4).footer()).html(numeral(ToplamIade).format());
+            //    $(api.column(5).footer()).html(numeral(NetSatisTutari).format());
+            //    $(api.column(6).footer()).html(numeral(NetCiro).format());
+            //    $(api.column(7).footer()).html(numeral(CiroOran).format());
+            //    $(api.column(8).footer()).html(numeral(CariBorc).format());
+            //    $(api.column(9).footer()).html(numeral(PRT).format());
+            //    $(api.column(10).footer()).html(numeral(BekleyenSiparis).format());
+            //},
         });
 
         $("#buttons1c").html("");

@@ -60,7 +60,7 @@
                         @foreach (RaporGrupKod item in Model)
                         {
                             <tr>
-                                <td nowrap>
+                                <td nowrap style="width:50%">
                                     @if (!String.IsNullOrEmpty(item.GrupKod))
                                     {
                                         <a class="btn btn-default enab" href="#modalEditPage" data-toggle="modal" onclick="Git('@item.GrupKod','0')">Temsilci Analizi</a>
@@ -74,7 +74,7 @@
                                         <a class="btn btn-default" href="javascript:;" onclick="">Bölge Analizi</a>
                                     }
                                 </td>
-                                <td nowrap>@item.GrupKod</td>
+                                <td nowrap style="width:50%;padding-left:10px;">@item.GrupKod</td>
                             </tr>
                         }
                     </tbody>

@@ -89,7 +89,45 @@
             "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
             "pagingType": "full_numbers",
             "ordering": false,
-            "columnDefs": [{ "type": "num-fmt", "className": "dt-right", "targets": [1, 2, 3, 4, 5, 6, 7, 8] }, { "className": "dt-center", "targets": "_all" }]
+            "columnDefs": [{ "type": "num-fmt", "className": "dt-right", "targets": [1, 2, 3, 4, 5, 6, 7, 8] }, { "className": "dt-center", "targets": "_all" }],
+            //"footerCallback": function (row, data, start, end, display) {
+            //    var hedef = 0,
+            //        toplamIade = 0,
+            //        netCiro = 0,
+            //        ciroOran = 0,
+            //        cariBorc = 0,
+            //        prt = 0,
+            //        bekleyenSiparis = 0;
+            //    table.rows({ search: 'applied' }).data().each(function (val, index) {
+            //        hedef += val.Hedef;
+            //        toplamIade += val.ToplamIade;
+            //        netCiro += val.NetCiro;
+            //        ciroOran += val.CiroOran;
+            //        cariBorc += val.CariBorc;
+            //        prt += val.PRT;
+            //        bekleyenSiparis += val.BekleyenSiparis;
+            //    });
+            //    var api = this.api(), data;
+            //    $(api.column(2).footer()).html(
+            //        //ondalikBinlik(Math.round(Bakiye * 100) / 100, 2)
+            //        hedef
+            //    );
+            //    $(api.column(4).footer()).html(
+            //        netCiro
+            //    );
+            //    $(api.column(5).footer()).html(
+            //        ciroOran
+            //    );
+            //    $(api.column(6).footer()).html(
+            //        cariBorc
+            //    );
+            //    $(api.column(7).footer()).html(
+            //        prt
+            //    );
+            //    $(api.column(8).footer()).html(
+            //        bekleyenSiparis
+            //    );
+            //}
         });
 
         $("#buttons").html("");

@@ -534,6 +534,7 @@
     <Content Include="Areas\Reports\Views\Financial\UrunGrupTanimlariKartiEdit.cshtml" />
     <Content Include="Areas\Reports\Views\Financial\AksiyonSatis.cshtml" />
     <Content Include="Areas\Reports\Views\Financial\AksiyonSatisList.cshtml" />
+    <Content Include="Areas\Reports\Views\Financial\BekleyenMalzemeList.cshtml" />
     <None Include="bundleconfig.json" />
     <Content Include="Content\SizeSablon.xlsx" />
     <Content Include="Content\StockSablon.xlsx" />

@@ -25,7 +25,23 @@
                         <th>Aralık</th>
                     </tr>
                 </thead>
-                <tfoot><tr><th colspan="13"></th></tr></tfoot>
+                <tfoot>
+                    <tr>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </tfoot>
                 <tfoot class="tf-search">
                     <tr>
                         <th></th>
@@ -84,7 +100,38 @@
             "fnRowCallback": function (nRow, aData, iDisplayIndex) {
                 $('td', nRow).attr('nowrap', 'nowrap');
                 return nRow;
-            }
+            },
+            "footerCallback": function (row, data, start, end, display) {
+                var Ocak = 0, Subat = 0, Mart = 0, Nisan = 0, Mayis = 0, Haziran = 0,
+                    Temmuz = 0, Agustos = 0, Eylul = 0, Ekim = 0, Kasim = 0, Aralik = 0;
+                table.rows({ search: 'applied' }).data().each(function (val, index) {
+                    Ocak += val.Ocak;
+                    Subat += val.Subat;
+                    Mart += val.Mart;
+                    Nisan += val.Nisan;
+                    Mayis += val.Mayis;
+                    Haziran += val.Haziran;
+                    Temmuz += val.Temmuz;
+                    Agustos += val.Agustos;
+                    Eylul += val.Eylul;
+                    Ekim += val.Ekim;
+                    Kasim += val.Kasim;
+                    Aralik += val.Aralik;
+                });
+                var api = this.api(), data;
+                $(api.column(1).footer()).html(numeral(Ocak).format());
+                $(api.column(2).footer()).html(numeral(Subat).format());
+                $(api.column(3).footer()).html(numeral(Mart).format());
+                $(api.column(4).footer()).html(numeral(Nisan).format());
+                $(api.column(5).footer()).html(numeral(Mayis).format());
+                $(api.column(6).footer()).html(numeral(Haziran).format());
+                $(api.column(7).footer()).html(numeral(Temmuz).format());
+                $(api.column(8).footer()).html(numeral(Agustos).format());
+                $(api.column(9).footer()).html(numeral(Eylul).format());
+                $(api.column(10).footer()).html(numeral(Ekim).format());
+                $(api.column(11).footer()).html(numeral(Kasim).format());
+                $(api.column(12).footer()).html(numeral(Aralik).format());
+            },
         });
 
         $("#buttons").html("");

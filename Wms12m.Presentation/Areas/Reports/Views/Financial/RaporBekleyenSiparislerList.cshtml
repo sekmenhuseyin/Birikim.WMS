@@ -17,7 +17,15 @@
                         <th>Net Tutar</th>
                     </tr>
                 </thead>
-                <tfoot><tr><th colspan="5"></th></tr></tfoot>
+                <tfoot>
+                    <tr>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </tfoot>
                 <tfoot class="tf-search">
                     <tr>
                         <th></th>
@@ -31,15 +39,16 @@
         </div>
     </div>
 </div>
+<script src="~/Content/assets/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js" type="text/javascript"></script>
+<script src="~/Content/assets/global/plugins/jquery-file-upload/js/jquery.iframe-transport.js" type="text/javascript"></script>
+<script src="~/Content/assets/global/plugins/jquery-file-upload/js/vendor/jquery.ui.widget.js" type="text/javascript"></script>
+<script src="~/Content/assets/global/plugins/jquery-file-upload/js/jquery.fileupload.js" type="text/javascript"></script>
 <script type="text/javascript">
-    var Yil = JSON.parse('@Html.Raw(ViewBag.Yil)');
-    var Ay = JSON.parse('@Html.Raw(ViewBag.Ay)');
     $(document).ready(function () {
         table = $('#sample_1').DataTable({
             "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
             "ajax": {
                 "url": '/Reports/Financial/RaporBekleyenSiparislerSelect',
-                "data": { Yil: Yil , Ay : Ay },
                 "dataSrc": function (json) {
                     return json;
                 },
@@ -51,16 +60,30 @@
             ],
             "columnDefs": [{ "type": "num-fmt", "className": "dt-right", "targets": [4] }, { "className": "dt-center", "targets": "_all" }],
             "columns": [
+                //{
+                //    "data": null,
+                //    "render": function (o) {
+                //        return '<a class="btn btn-default" href="#modelEditPage" data-toogle="modal" onclick="Git('+"'"+o.HesapKodu+"'"+')">Bekleyen Malzemeler</a>'
+                //    },
+                //},
                 { "data": "HesapKodu" },
                 { "data": "Unvan" },
                 { "data": "GrupKod" },
                 { "data": "TipKod" },
-                { "data": "NetTutar","render": $.fn.dataTable.render.number('.',',', 2,'') },
+                { "data": "NetTutar", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
             ],
             "ordering": false,
             "fnRowCallback": function (nRow, aData, iDisplayIndex) {
                 $('td', nRow).attr('nowrap', 'nowrap');
                 return nRow;
+            },
+            "footerCallback": function (row, data, start, end, display) {
+                var NetTutar = 0;
+                table.rows({ search: 'applied' }).data().each(function (val, index) {
+                    NetTutar += val.NetTutar;
+                });
+                var api = this.api(), data;
+                $(api.column(4).footer()).html(numeral(NetTutar).format());
             }
         });
 
@@ -79,6 +102,49 @@
                 $(this).html('<input class="form-control input-circle" type="text" placeholder="Ara" />');
         });
         $("#sample_1 tfoot input").on('keyup change', function () { table.column($(this).parent().index() + ':visible').search(this.value).draw(); });
-        $('#sample_1 .tf-search tr').insertAfter($('#sample_1 thead tr'))
+        $('#sample_1 .tf-search tr').insertAfter($('#sample_1 thead tr'));
+        $.contextMenu({
+            selector: '#sample_1 tbody tr',
+            callback: function (key, options) {
+                var rowIndex = parseInt(options.$trigger[0].rowIndex) - 1;
+                var satir = table.row(rowIndex).data();
+                var MLK = satir.HesapKodu;
+                switch (key) {
+                    case 'bekMalzemeler':
+                        $('#modalEditPage').modal('toggle');
+                        //editInModal('/Approvals/Purchase/SatGMContext/teklif')
+                        editInModal2('/Reports/Financial/BekleyenMalzemeList', { HesapKodu: MLK });
+                        break;
+                    default:
+                        break;
+                }
+            },
+            items: {
+                "bekMalzemeler": { name: "Bekleyen Malzemeler", icon: "file" },
+            }
+        });
     });
+
+
+    //String.prototype.formatUnicorn = String.prototype.formatUnicorn ||
+    //    function () {
+    //        "use strict";
+    //        var str = this.toString();
+    //        if (arguments.length) {
+    //            var t = typeof arguments[0];
+    //            var key;
+    //            var args = ("string" === t || "number" === t) ?
+    //                Array.prototype.slice.call(arguments)
+    //                : arguments[0];
+
+    //            for (key in args) {
+    //                str = str.replace(new RegExp("\\{" + key + "\\}", "gi"), args[key]);
+    //            }
+    //        }
+
+    //        return str;
+    //    };
+    //function Git(HesapKodu) {
+    //    editInModal2('/Reports/Financial/BekleyenMalzemeList', { HesapKodu: HesapKodu });
+    //}
 </script>

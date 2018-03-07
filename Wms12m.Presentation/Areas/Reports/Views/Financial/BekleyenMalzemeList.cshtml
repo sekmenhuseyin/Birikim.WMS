@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = "Target Bölge List";
+    ViewBag.Title = "Bekleyen Malzeme Listesi";
 }
 <div class="modal-content">
     <div class="close-modal" data-dismiss="modal"><div class="lr"><div class="rl"></div></div></div>
@@ -18,17 +18,19 @@
                             <table class="table table-striped table-bordered table-condensed" id="sample_1a">
                                 <thead>
                                     <tr>
-                                        <th>Temsilci</th>
-                                        <th>Bölge</th>
-                                        <th>Hedef</th>
-                                        <th>Hedef Oran</th>
-                                        <th>Toplam Iade</th>
-                                        <th>Net Satış Tutarı</th>
-                                        <th>Net Ciro</th>
-                                        <th>Cira Oran</th>
-                                        <th>Cari Borç</th>
-                                        <th>PRT</th>
-                                        <th>Bekleyen Sipariş</th>
+                                        <th>Tarih</th>
+                                        <th>MalKodu</th>
+                                        <th>MalAdi</th>
+                                        <th>Evrak No</th>
+                                        <th>Valorgun</th>
+                                        <th>Sipariş</th>
+                                        <th>Depo</th>
+                                        <th>Teslim Edilen</th>
+                                        <th>Kapatılan</th>
+                                        <th>Açık Sipariş Miktarı</th>
+                                        <th>Bekleyen Net Tutar</th>
+                                        <th>Mevcut Stok</th>
+                                        <th>Alım Sipariş</th>
                                     </tr>
                                 </thead>
                                 <tfoot>
@@ -44,10 +46,14 @@
                                         <th></th>
                                         <th></th>
                                         <th></th>
+                                        <th></th>
+                                        <th></th>
                                     </tr>
                                 </tfoot>
                                 <tfoot class="tf-search">
                                     <tr>
+                                        <th></th>
+                                        <th></th>
                                         <th></th>
                                         <th></th>
                                         <th></th>
@@ -76,25 +82,27 @@
             "pagingType": "full_numbers",
             "ordering": false,
             "ajax": {
-                "url": '/Reports/Financial/TargetRaporBolgeSelect',
-                "data": { GrupKod: '@ViewBag.GRUPKOD', Ay: '@ViewBag.AY', Yil:'@ViewBag.YIL'},
+                "url": '/Reports/Financial/BekleyenMalzemeSelect',
+                "data": { HesapKodu: '@ViewBag.HesapKodu' },
                 "dataSrc": function (json) {
-                     return json;
+                    return json;
                 },
             },
-            "columnDefs": [{ "type": "num-fmt", "className": "dt-right", "targets": [2, 3, 4, 5, 6, 7, 8, 9, 10] }, { "className": "dt-center", "targets": "_all" }],
+            "columnDefs": [{ "type": "num-fmt", "className": "dt-right", "targets": [5, 7, 8, 9, 10, 11, 12] }, { "className": "dt-center", "targets": "_all" }],
             "columns": [
-                { "data": "Temsilci" },
-                { "data": "GrupKod" },
-                { "data": "Hedef", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
-                { "data": "HedefOran", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
-                { "data": "ToplamIade", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
-                { "data": "NetSatisTutari", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
-                { "data": "NetCiro", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
-                { "data": "CiroOran", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
-                { "data": "CariBorc", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
-                { "data": "PRT", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
-                { "data": "BekleyenSiparis", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
+                { "data": "Tarih" },
+                { "data": "MalKodu"},
+                { "data": "MalAdi" },
+                { "data": "EvrakNo"},
+                { "data": "ValorGun" },
+                { "data": "Siparis", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
+                { "data": "Depo" },
+                { "data": "TeslimEdilen", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
+                { "data": "Kapatilan", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
+                { "data": "AcikSiparisMiktari", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
+                { "data": "BekleyenNetTutar", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
+                { "data": "MevcutStok", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
+                { "data": "AlimSiparis", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
             ],
             "ordering": false,
             "fnRowCallback": function (nRow, aData, iDisplayIndex) {
@@ -102,27 +110,26 @@
                 return nRow;
             },
             "footerCallback": function (row, data, start, end, display) {
-                var Hedef = 0, ToplamIade = 0, NetSatisTutari = 0, NetCiro = 0, CiroOran = 0, CariBorc = 0, PRT = 0, BekleyenSiparis = 0;
+                var Siparis = 0, TeslimEdilen = 0, Kapatilan = 0, AcikSiparisMiktari = 0,
+                    BekleyenNetTutar = 0, MevcutStok = 0, AlimSiparis = 0;
                 table1a.rows({ search: 'applied' }).data().each(function (val, index) {
-                    Hedef += val.Hedef;
-                    ToplamIade += val.ToplamIade;
-                    NetSatisTutari += val.NetSatisTutari;
-                    NetCiro += val.NetCiro;
-                    CiroOran += val.CiroOran;
-                    CariBorc += val.CariBorc;
-                    PRT += val.PRT;
-                    BekleyenSiparis += val.BekleyenSiparis;
+                    Siparis += val.Siparis;
+                    TeslimEdilen += val.TeslimEdilen;
+                    Kapatilan += val.Kapatilan;
+                    AcikSiparisMiktari += val.AcikSiparisMiktari;
+                    BekleyenNetTutar += val.BekleyenNetTutar;
+                    MevcutStok += val.MevcutStok;
+                    AlimSiparis += val.AlimSiparis;
                 });
                 var api = this.api(), data;
-                $(api.column(2).footer()).html(numeral(Hedef).format());
-                $(api.column(4).footer()).html(numeral(ToplamIade).format());
-                $(api.column(5).footer()).html(numeral(NetSatisTutari).format());
-                $(api.column(6).footer()).html(numeral(NetCiro).format());
-                $(api.column(7).footer()).html(numeral(CiroOran).format());
-                $(api.column(8).footer()).html(numeral(CariBorc).format());
-                $(api.column(9).footer()).html(numeral(PRT).format());
-                $(api.column(10).footer()).html(numeral(BekleyenSiparis).format());
-            },
+                $(api.column(5).footer()).html(numeral(Siparis).format());
+                $(api.column(7).footer()).html(numeral(TeslimEdilen).format());
+                $(api.column(8).footer()).html(numeral(Kapatilan).format());
+                $(api.column(9).footer()).html(numeral(AcikSiparisMiktari).format());
+                $(api.column(10).footer()).html(numeral(BekleyenNetTutar).format());
+                $(api.column(11).footer()).html(numeral(MevcutStok).format());
+                $(api.column(12).footer()).html(numeral(AlimSiparis).format());
+            }
         });
 
         $("#buttons1a").html("");
@@ -143,3 +150,4 @@
         $('#sample_1a .tf-search tr').insertAfter($('#sample_1a thead tr'))
     });
 </script>
+
