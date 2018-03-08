@@ -288,32 +288,39 @@ namespace Wms12m.Entity
     }
     public class UrunGrupRapor
     {
-        /// <summary> VarChar(50) (Not Null) </summary>
         public string UrunGrup { get; set; }
-        /// <summary> Decimal(38,6) (Allow Null) </summary>
+        public decimal Hedef { get; set; }
         public decimal NetCiro { get; set; }
-        /// <summary> Decimal(38,6) (Allow Null) </summary>
-        public decimal ToplamIade { get; set; }
+        public decimal Oran { get; set; }
 
         public static string Sorgu = @"
                                         DECLARE @TAR1 INT,@TAR2 INT
-                                        SET @TAR1=ISNULL(FINSAT6{0}.dbo.AyIlkSonGun({1},{2},1),0)
-                                        SET @TAR2=ISNULL(FINSAT6{0}.dbo.AyIlkSonGun({1},{2},0),0)
-                                        SELECT STK.MalAdi4 AS UrunGrup,
-                                        SUM(CASE WHEN STI.KynkEvrakTip IN (1,163) THEN (STI.Tutar-STI.ToplamIskonto) 
-                                            ELSE (STI.Tutar-STI.ToplamIskonto)*-1 END) AS NetCiro,
-                                        SUM(CASE WHEN STI.KynkEvrakTip IN (2) THEN (STI.Tutar-STI.ToplamIskonto) 
-                                            ELSE 0 END) AS ToplamIade 
-                                        FROM FINSAT6{0}.FINSAT6{0}.STI AS STI WITH (NOLOCK) 
-                                        INNER JOIN FINSAT6{0}.FINSAT6{0}.STK AS STK  WITH (NOLOCK) ON STK.Malkodu=STI.Malkodu
+                                        SET @TAR1=FINSAT6{0}.DBO.AyIlkSonGun({3},{4},1)
+                                        SET @TAR2=FINSAT6{0}.DBO.AyIlkSonGun({3},{4},0)
+                                        IF(OBJECT_ID('tempdb..#UrunGrupRapor') IS NOT NULL) BEGIN DROP TABLE #UrunGrupRapor END
+                                        CREATE TABLE #UrunGrupRapor (Kod9 NVARCHAR(20),Hedef NUMERIC(25,6),NetCiro NUMERIC(25,6))
+                                        INSERT INTO #UrunGrupRapor
+                                        SELECT H1.URUNGRUP
+                                        ,H1.HEDEF
+                                        ,D.NetCiro
+                                        FROM FINSAT6{0}.FINSAT6{0}.HDF AS H1 WITH (NOLOCK)
+                                        LEFT JOIN (
+                                        SELECT STK.MalAdi4, SUM(CASE WHEN STI.KynkEvrakTip IN (1,163) THEN (STI.Tutar-STI.ToplamIskonto) 
+                                                                ELSE (STI.Tutar-STI.ToplamIskonto)*-1 END) AS NetCiro 
+                                        FROM FINSAT6{0}.FINSAT6{0}.STI AS STI WITH (NOLOCK)
                                         LEFT JOIN FINSAT6{0}.FINSAT6{0}.CHK AS CHK WITH (NOLOCK) ON CHK.Hesapkodu=STI.CHK 
-                                        WHERE CHK.KartTip IN (0,4) 
-                                        AND (CHK.HesapKodu BETWEEN '1' AND '8') 
-                                        AND STI.KynkEvrakTip IN (1,2,163) 
-                                        AND (STI.Tarih BETWEEN @TAR1 AND @TAR2)
-                                        AND CHK.GrupKod='{3}'
+                                        INNER JOIN FINSAT6{0}.FINSAT6{0}.STK AS STK WITH (NOLOCK) ON STK.MALKODU=STI.MALKODU
+                                        WHERE (CHK.KartTip IN (0,4)) AND (CHK.HesapKodu BETWEEN '1' AND '8') AND (STI.KynkEvrakTip IN (1,2,163)) 
+                                        AND (STI.Tarih BETWEEN @TAR1 and @TAR2) AND CHK.GrupKod='{1}'
                                         GROUP BY STK.MalAdi4
-                                        ";
+                                        ) AS D ON H1.URUNGRUP=D.MalAdi4
+                                        WHERE H1.BOLGE='{1}'  
+                                        AND H1.AYYIL='{2}' 
+                                        AND H1.TIP = 2 
+
+                                        SELECT C.Kod9 AS UrunGrup,C.Hedef,C.NetCiro,((C.NetCiro*100)/C.Hedef) AS Oran FROM #UrunGrupRapor AS C WITH (NOLOCK)
+                                        IF(OBJECT_ID('tempdb..#UrunGrupRapor') IS NOT NULL) BEGIN DROP TABLE #UrunGrupRapor END
+                                     ";
     }
     public class PRTRapor
     {
@@ -391,7 +398,7 @@ namespace Wms12m.Entity
                                     INSERT INTO #TargetAyBazliBolgeRapor
                                     SELECT H1.BOLGE,H1.HEDEF,MONTH(DATEADD(DD,H1.TARIH,'1899-12-30')) AS Ay
                                     FROM FINSAT6{0}.FINSAT6{0}.HDF AS H1 WITH (NOLOCK)
-                                    WHERE H1.TIP=0 AND YEAR(DATEADD(DD,H1.TARIH,'1899-12-30'))={1}
+                                    WHERE H1.TIP=0 AND RIGHT(H1.AYYIL,4)='{1}'
                                     SELECT C.Bolge,
                                     ISNULL(MAX(CASE WHEN C.Ay=1 THEN C.Hedef ELSE 0 END),0) AS Ocak,
                                     ISNULL(MAX(CASE WHEN C.Ay=2 THEN C.Hedef ELSE 0 END),0) AS Subat,
@@ -446,7 +453,7 @@ namespace Wms12m.Entity
                                         ,H1.BOLGE
                                         ,H1.HEDEF
                                         ,ISNULL(D1.NetCiro,0) AS NetCiro
-                                        ,MONTH(DATEADD(DD,H1.TARIH,'1899-12-30')) AS Ay
+                                        ,CONVERT(INT,LEFT(H1.AYYIL,2)) AS Ay
                                         FROM FINSAT6{0}.FINSAT6{0}.HDF AS H1 WITH (NOLOCK)
                                         LEFT JOIN (
                                         SELECT CHK.TipKod,
@@ -460,8 +467,8 @@ namespace Wms12m.Entity
                                                                         AND STI.KynkEvrakTip IN (1,2,163) 
 								                                        AND YEAR(DATEADD(DD,STI.Tarih,'1899-12-30'))={1}
                                                                         GROUP BY CHK.TipKod,MONTH(DATEADD(DD,STI.Tarih,'1899-12-30'))
-                                        ) AS D1 ON H1.TEMSILCI = D1.TipKod AND MONTH(DATEADD(DD,H1.TARIH,'1899-12-30')) = D1.Ay
-                                        WHERE H1.TIP = 1 AND YEAR(DATEADD(DD,H1.TARIH,'1899-12-30'))={1}
+                                        ) AS D1 ON H1.TEMSILCI = D1.TipKod AND CONVERT(INT,LEFT(H1.AYYIL,2)) = D1.Ay
+                                        WHERE H1.TIP = 1 AND RIGHT(H1.AYYIL,4)='{1}'
 
                                         SELECT CC.Temsilci,CC.Bolge,
                                         ISNULL(MAX(CASE WHEN CC.Ay=1 THEN CC.Hedef ELSE 0 END),0) AS OcakHedef,
@@ -641,10 +648,50 @@ namespace Wms12m.Entity
         public decimal Kasim { get; set; }
         public decimal Aralik { get; set; }
         public decimal NetCiro { get; set; }
-        public static string Sorgu = @"
-                                    IF(OBJECT_ID('tempdb..#UrunSatisAnalizi') IS NOT NULL) BEGIN DROP TABLE #UrunSatisAnalizi END
-                                    CREATE TABLE #UrunSatisAnalizi(Kod9 NVARCHAR(50),Ay INT,NetCiro NUMERIC(25,6))
-                                    INSERT INTO #UrunSatisAnalizi
+        public static string TemsilciSorgu = @"
+                                            IF(OBJECT_ID('tempdb..#UrunTemsilciSatisAnalizi') IS NOT NULL) BEGIN DROP TABLE #UrunTemsilciSatisAnalizi END
+                                            CREATE TABLE #UrunTemsilciSatisAnalizi(Kod9 NVARCHAR(50),Ay INT,NetCiro NUMERIC(25,6))
+                                            INSERT INTO #UrunTemsilciSatisAnalizi
+                                            SELECT CHK.TipKod,MONTH(DATEADD(DD,STI.Tarih,'1899-12-30')) AS Ay,
+                                                                            SUM(CASE WHEN STI.KynkEvrakTip IN (1,163) THEN (STI.Tutar-STI.ToplamIskonto) 
+                                                                                ELSE (STI.Tutar-STI.ToplamIskonto)*-1 END) AS NetCiro
+                                                                            FROM FINSAT6{0}.FINSAT6{0}.STI AS STI WITH (NOLOCK) 
+								                                            INNER JOIN FINSAT6{0}.FINSAT6{0}.STK AS STK WITH (NOLOCK) ON STI.MalKodu = STK.MalKodu 
+                                                                            LEFT JOIN FINSAT6{0}.FINSAT6{0}.CHK AS CHK WITH (NOLOCK) ON CHK.Hesapkodu = STI.CHK
+                                                                            WHERE CHK.KartTip IN (0,4) 
+                                                                            AND (CHK.HesapKodu BETWEEN '1' AND '8') 
+                                                                            AND STI.KynkEvrakTip IN (1,2,163) 
+								                                            AND CHK.GrupKod='{1}'
+								                                            AND YEAR(DATEADD(DD,STI.Tarih,'1899-12-30'))={2}
+								                                            AND ISNULL(STK.MalAdi4,'')<>''
+                                                                            GROUP BY CHK.TipKod,MONTH(DATEADD(DD,STI.Tarih,'1899-12-30'))
+							
+                                            SELECT US.Kod9,
+                                            ISNULL(MAX(CASE WHEN US.Ay = 1 THEN US.NetCiro ELSE 0 END),0) AS Ocak,
+                                            ISNULL(MAX(CASE WHEN US.Ay = 2 THEN US.NetCiro ELSE 0 END),0) AS Subat, 
+                                            ISNULL(MAX(CASE WHEN US.Ay = 3 THEN US.NetCiro ELSE 0 END),0) AS Mart,
+                                            ISNULL(MAX(CASE WHEN US.Ay = 4 THEN US.NetCiro ELSE 0 END),0) AS Nisan,
+                                            ISNULL(MAX(CASE WHEN US.Ay = 5 THEN US.NetCiro ELSE 0 END),0) AS Mayis,
+                                            ISNULL(MAX(CASE WHEN US.Ay = 6 THEN US.NetCiro ELSE 0 END),0) AS Haziran,
+                                            ISNULL(MAX(CASE WHEN US.Ay = 7 THEN US.NetCiro ELSE 0 END),0) AS Temmuz,
+                                            ISNULL(MAX(CASE WHEN US.Ay = 8 THEN US.NetCiro ELSE 0 END),0) AS Agustos,
+                                            ISNULL(MAX(CASE WHEN US.Ay = 9 THEN US.NetCiro ELSE 0 END),0) AS Eylul,
+                                            ISNULL(MAX(CASE WHEN US.Ay = 10 THEN US.NetCiro ELSE 0 END),0) AS Ekim,
+                                            ISNULL(MAX(CASE WHEN US.Ay = 11 THEN US.NetCiro ELSE 0 END),0) AS Kasim,
+                                            ISNULL(MAX(CASE WHEN US.Ay = 12 THEN US.NetCiro ELSE 0 END),0) AS Aralik,
+                                            US2.SumNetCiro AS NetCiro
+                                            FROM #UrunTemsilciSatisAnalizi AS US WITH (NOLOCK)
+                                            INNER JOIN (
+                                            SELECT IC1.Kod9,SUM(IC1.NetCiro) AS SumNetCiro FROM #UrunTemsilciSatisAnalizi AS IC1 WITH (NOLOCK)
+                                            GROUP BY IC1.Kod9
+                                            ) AS US2 ON US.Kod9=US2.Kod9 
+                                            GROUP BY US.Kod9,US2.SumNetCiro
+                                            IF(OBJECT_ID('tempdb..#UrunTemsilciSatisAnalizi') IS NOT NULL) BEGIN DROP TABLE #UrunTemsilciSatisAnalizi END
+                                            ";
+        public static string BolgeSorgu = @"
+                                    IF(OBJECT_ID('tempdb..#UrunBolgeSatisAnalizi') IS NOT NULL) BEGIN DROP TABLE #UrunBolgeSatisAnalizi END
+                                    CREATE TABLE #UrunBolgeSatisAnalizi(Kod9 NVARCHAR(50),Ay INT,NetCiro NUMERIC(25,6))
+                                    INSERT INTO #UrunBolgeSatisAnalizi
                                     SELECT STK.MalAdi4,MONTH(DATEADD(DD,STI.Tarih,'1899-12-30')) AS Ay,
                                                                     SUM(CASE WHEN STI.KynkEvrakTip IN (1,163) THEN (STI.Tutar-STI.ToplamIskonto) 
                                                                         ELSE (STI.Tutar-STI.ToplamIskonto)*-1 END) AS NetCiro
@@ -673,13 +720,13 @@ namespace Wms12m.Entity
                                     ISNULL(MAX(CASE WHEN US.Ay = 11 THEN US.NetCiro ELSE 0 END),0) AS Kasim,
                                     ISNULL(MAX(CASE WHEN US.Ay = 12 THEN US.NetCiro ELSE 0 END),0) AS Aralik,
                                     US2.SumNetCiro AS NetCiro
-                                    FROM #UrunSatisAnalizi AS US WITH (NOLOCK)
+                                    FROM #UrunBolgeSatisAnalizi AS US WITH (NOLOCK)
                                     INNER JOIN (
-                                    SELECT IC1.Kod9,SUM(IC1.NetCiro) AS SumNetCiro FROM #UrunSatisAnalizi AS IC1 WITH (NOLOCK)
+                                    SELECT IC1.Kod9,SUM(IC1.NetCiro) AS SumNetCiro FROM #UrunBolgeSatisAnalizi AS IC1 WITH (NOLOCK)
                                     GROUP BY IC1.Kod9
                                     ) AS US2 ON US.Kod9=US2.Kod9 
                                     GROUP BY US.Kod9,US2.SumNetCiro
-                                    IF(OBJECT_ID('tempdb..#UrunSatisAnalizi') IS NOT NULL) BEGIN DROP TABLE #UrunSatisAnalizi END
+                                    IF(OBJECT_ID('tempdb..#UrunBolgeSatisAnalizi') IS NOT NULL) BEGIN DROP TABLE #UrunBolgeSatisAnalizi END
                                     ";
     }
     public class WebSiparis
