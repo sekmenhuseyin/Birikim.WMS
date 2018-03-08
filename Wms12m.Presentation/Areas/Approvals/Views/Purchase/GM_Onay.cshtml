@@ -15,7 +15,7 @@
 </style>
 }
 <div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><span>Onaylama</span><i class="fa fa-circle"></i></li><li><span>Satın Alma</span></li></ul></div>
-<h1 class="page-title">Satın Alma</h1>
+<h1 class="page-title">@ViewBag.baslik</h1>
 <div class="row">
     <div>
         <div class="col-xs-6 col-sm-6" style="padding:0 2px 0 5px">
@@ -122,7 +122,7 @@
                 }
                 else {
                     $.ajax({
-                        url: window.location.origin + "/Approvals/Purchase/SipGMOnayla",
+                        url: window.location.origin + "/Approvals/Purchase/SipGMOnayla?OnayTip="+'@ViewBag.OnayTip'
                         data: {},
                         type: "post",
                         success: function (data) {
@@ -150,7 +150,7 @@
         }
 
         $.ajax({
-            url: window.location.origin + "/Approvals/Purchase/SipGMReddet?redAciklama=" + aciklama,
+            url: window.location.origin + "/Approvals/Purchase/SipGMReddet?redAciklama=" + aciklama+"&OnayTip="+'@ViewBag.OnayTip', 
             data: {},
             type: "post",
             success: function (data) {

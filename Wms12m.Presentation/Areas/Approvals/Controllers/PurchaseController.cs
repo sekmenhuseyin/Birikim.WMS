@@ -43,12 +43,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             ViewBag.baslik = "Satınalma Sipariş Talebi GMY Mali Onay";
             MyGlobalVariables.DovizDurum = false;
 
-            MyGlobalVariables.SipTalepList = db.Database.SqlQuery<SatTalep>(string.Format(@"
-            SELECT DISTINCT ST.SipTalepNo, ST.HesapKodu, CHK.Unvan1  AS Unvan
-            FROM KAYNAK.sta.Talep(nolock) ST
-            LEFT JOIN FINSAT6{0}.FINSAT6{0}.CHK (nolock) on ST.HesapKodu=CHK.HesapKodu
-            WHERE ST.Durum=8 AND ST.SipTalepNo IS NOT NULL AND ST.HesapKodu IS NOT NULL 
-            AND ST.TeklifNo IS NOT NULL", vUser.SirketKodu)).ToList();
+            MyGlobalVariables.SipTalepList = db.Database.SqlQuery<SatTalep>(string.Format(@"[FINSAT6{0}].[wms].[SatinAlmaTalepGMYMaliOnayList]", vUser.SirketKodu)).ToList();
 
             return View("GM_Onay", MyGlobalVariables.SipTalepList);
         }
@@ -99,43 +94,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             else if (OnayTip == MyGlobalVariables.OnayTip.SatSipGMYMaliOnay.ToString())
             {
                 MyGlobalVariables.TalepSource = db.Database.SqlQuery<SatTalep>(string.Format(@"
-                SELECT ST.ID, ST.TalepNo, ST.MalKodu, ST.Tarih, ST.Tip, ST.Birim, ST.BirimMiktar
-                        , (CASE WHEN ST.Birim = STK.Birim1 THEN ST.BirimMiktar 
-                                WHEN ST.Birim = STK.Birim2 AND  STK.Operator2=0 THEN ST.BirimMiktar/STK.Katsayi2 
-                                WHEN ST.Birim = STK.Birim2  AND STK.Operator2=1 THEN ST.BirimMiktar*STK.Katsayi2 
-                                WHEN ST.Birim = STK.Birim3  AND STK.Operator3=0 THEN ST.BirimMiktar/STK.Katsayi3 
-                                WHEN ST.Birim = STK.Birim3  AND STK.Operator3=1 THEN ST.BirimMiktar*STK.Katsayi3 
-                                WHEN ST.Birim = STK.Birim4  AND STK.Operator4=0 THEN ST.BirimMiktar/STK.Katsayi4 
-                                WHEN ST.Birim = STK.Birim4  AND STK.Operator4=1 THEN ST.BirimMiktar*STK.Katsayi4  END ) AS Miktar
-                        , (CASE WHEN ST.Birim = STK.Birim1 THEN 0
-                                WHEN ST.Birim = STK.Birim2 THEN STK.Operator2
-                                WHEN ST.Birim = STK.Birim3 THEN STK.Operator3 
-                                WHEN ST.Birim = STK.Birim4 THEN STK.Operator4  END ) AS Operator
-                        , (CASE WHEN ST.Birim = STK.Birim1 THEN 1
-                                WHEN ST.Birim = STK.Birim2 THEN STK.Katsayi2
-                                WHEN ST.Birim = STK.Birim3 THEN STK.Katsayi3 
-                                WHEN ST.Birim = STK.Birim4 THEN STK.Katsayi4  END ) AS Katsayi
-                        , ST.IstenenTarih, ST.Aciklama
-                        , ST.Aciklama2, ST.Aciklama3, ST.Durum, ST.EkDosya
-                        , ST.Kademe1Onaylayan, ST.Kademe1OnayTarih
-                        , ST.Kademe2Onaylayan, ST.Kademe2OnayTarih
-                        , ST.Satinalmaci, ST.TeklifNo, ST.HesapKodu, ST.BirimFiyat, ST.DvzTL, ST.DvzCinsi
-                        , ISNULL((SELECT CASE WHEN DovizCinsi='JPY' then KUR01/100 else KUR01 end AS DvzKuru FROM SOLAR6.dbo.DVZ (NOLOCK) WHERE DovizCinsi=ST.DvzCinsi AND Tarih=CAST( DATEADD(dd, 0, DATEDIFF(dd, 0, GETDATE()))+2 AS INT)),0) as DvzKuru
-                        , ST.KDVOran
-                        , ST.SipTalepNo, ST.SipIslemTip
-                        , ST.Kaydeden 
-                        , STK.MalAdi
-                        , ST.TesisKodu
-                        , TK.Vade as TeklifVade
-                        ,TK.TeklifAciklamasi
-                        , ST.FTDDovizTL 
-                        , ST.FTDDovizCinsi 
-                        , ISNULL((SELECT CASE WHEN DovizCinsi='JPY' then KUR01/100 else KUR01 end AS DvzKuru FROM SOLAR6.dbo.DVZ (NOLOCK) 
-                            WHERE DovizCinsi=ST.FTDDovizCinsi AND Tarih=CAST( DATEADD(dd, 0, DATEDIFF(dd, 0, GETDATE()))+2 AS INT)),0) as FTDDovizKuru
-                        FROM KAYNAK.sta.Talep as ST (nolock)
-                        INNER JOIN KAYNAK.sta.Teklif as TK (nolock) on TK.TeklifNo=ST.TeklifNo AND TK.HesapKodu=ST.HesapKodu AND TK.MalKodu=ST.MalKodu
-                        LEFT JOIN FINSAT6{0}.FINSAT6{0}.STK (nolock) on ST.MalKodu=STK.MalKodu
-                        WHERE ST.Durum=8 AND ST.SipTalepNo={2} AND ST.HesapKodu='{1}' ", vUser.SirketKodu, HesapKodu, SipTalepNo)).ToList();
+                [FINSAT6{0}].[wms].[SatinAlmaTalepGMYMaliOnayListData] @HesapKodu='{1}', @SipTalepNo={2} ", vUser.SirketKodu, HesapKodu, SipTalepNo)).ToList();
             }
 
             if (MyGlobalVariables.TalepSource[0].SipIslemTip == null || (MyGlobalVariables.TalepSource[0].SipIslemTip != 1 && MyGlobalVariables.TalepSource[0].SipIslemTip != 2))
@@ -226,8 +185,10 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         /// <summary>
         /// gm için sipariş oanylama
         /// </summary>
-        public JsonResult SipGMOnayla()
+        public JsonResult SipGMOnayla(string OnayTip)
         {
+            #region Kontrol
+
             if (CheckPerm(Perms.SatinalmaOnaylama, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             var _Result = new Result(true, "İşlem Başarılı");
             if (MyGlobalVariables.TalepSource == null)
@@ -237,192 +198,356 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                 return Json(_Result, JsonRequestBehavior.AllowGet);
             }
 
+            decimal limit =0;
+            if (OnayTip == MyGlobalVariables.OnayTip.SatSipGMYMaliOnay.ToString())
+            {
+                if (MyGlobalVariables.GridFTD.IsNotNull())
+                {
+                    var ftdtoplam = MyGlobalVariables.GridFTD.Where(x => x.SatirTip == (short)12).FirstOrDefault();
+                    if (ftdtoplam.IsNull())
+                    {
+                        _Result.Message = "Toplam Hesaplanmalıdır.";
+                        _Result.Status = false;
+                        return Json(_Result, JsonRequestBehavior.AllowGet);
+                    }
+                }
+
+                limit = db.Database.SqlQuery<decimal>(string.Format(@"
+                SELECT SiparisGMYOnayLimit FROM Kaynak.sta.GenelAyarVeParams(NOLOCK) WHERE Tip = 2")).FirstOrDefault();
+
+                if (limit.IsNull() || limit == 0)
+                {
+                    _Result.Message = "Satınalma Sipariş GM Onay Limit miktarı belirlenmemiş. Lütfen IT Yöneticinizle iletişime geçiniz!!";
+                    _Result.Status = false;
+                    return Json(_Result, JsonRequestBehavior.AllowGet);
+                }
+            }
+
+            #endregion
+
             var muhsebesirketkodu = db.GetSirketMuhasebeKod(vUser.SirketKodu, fn.ToOADate()).FirstOrDefault();
             using (KKP kkp = new KKP(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu, muhsebesirketkodu))
             {
-                try
+                if (OnayTip == MyGlobalVariables.OnayTip.GMOnay.ToString())
                 {
-                    var evrakno = kkp.YeniEvrakNo(KKPKynkEvrakTip.AlımSiparişi, 1);
-                    foreach (var item in MyGlobalVariables.TalepSource)
+                    #region GMOnay                
+                    try
                     {
+                        var evrakno = kkp.YeniEvrakNo(KKPKynkEvrakTip.AlımSiparişi, 1);
+                        foreach (var item in MyGlobalVariables.TalepSource)
+                        {
+
                         var sql = string.Format(@"UPDATE Kaynak.sta.Talep
 	                    SET GMOnaylayan=@Degistiren, GMOnayTarih=@DegisTarih, Durum=15, SipEvrakNo=@SipEvrakNo, SirketKodu='{0}', 
                         Degistiren=@Degistiren, DegisTarih=@DegisTarih, DegisSirKodu='{0}'
 	                    WHERE ID=@ID AND Durum=11 AND SipTalepNo IS NOT NULL", vUser.SirketKodu);
 
-                        SqlParameter[] paramlist = new SqlParameter[4]
-                        {
+                            SqlParameter[] paramlist = new SqlParameter[4]
+                            {
                             new SqlParameter("ID", SqlDbType.Int){ Value = item.ID},
                             new SqlParameter("Degistiren", SqlDbType.VarChar){ Value = vUser.UserName},
                             new SqlParameter("DegisTarih", SqlDbType.SmallDateTime){ Value = DateTime.Now},
                             new SqlParameter("SipEvrakNo", SqlDbType.VarChar){Value = evrakno}
-                        };
+                            };
 
-                        kkp.ExecuteCommandOnUpdate(sql, true, paramlist);
-                    }
-
-                    foreach (var item in MyGlobalVariables.SipEvrak.Satirlar)
-                    {
-                        item.Aciklama = item.Aciklama.Length > 64 ? item.Aciklama.Substring(0, 64) : item.Aciklama;
-                    }
-
-                    kkp.SiparisEvrakList.Add(MyGlobalVariables.SipEvrak);
-                    MyGlobalVariables.SipEvrak.MFK.Aciklama = "";
-                    MyGlobalVariables.SipEvrak.MFK.Aciklama2 = "";
-                    MyGlobalVariables.SipEvrak.MFK.Aciklama3 = "";
-                    MyGlobalVariables.SipEvrak.MFK.Aciklama4 = "";
-                    MyGlobalVariables.SipEvrak.MFK.Aciklama5 = "";
-                    MyGlobalVariables.SipEvrak.MFK.Aciklama6 = "";
-                    MyGlobalVariables.SipEvrak.EvrakNo = evrakno;
-                    MyGlobalVariables.SipEvrak.HesapKodu = MyGlobalVariables.TalepSource[0].HesapKodu;
-                    MyGlobalVariables.SipEvrak.TeslimYeriKodu = MyGlobalVariables.TalepSource[0].HesapKodu;
-                    MyGlobalVariables.SipEvrak.Tarih = DateTime.Today;
-                    MyGlobalVariables.SipEvrak.INIGuncellensin = true;
-                    MyGlobalVariables.SipEvrak.TahTeslimTarihi = new DateTime(1900, 1, 1).AddDays(-2);
-
-                    if (MyGlobalVariables.DovizDurum == false)
-                    {
-                        MyGlobalVariables.SipEvrak.FTDHesapla("", Convert.ToDecimal(0));
-                    }
-                    else
-                    {
-                        var kur = MyGlobalVariables.TalepSource[0].FTDDovizKuru.Value;
-                        if (kur > 0)
-                        {
-                            MyGlobalVariables.SipEvrak.FTDHesapla(MyGlobalVariables.TalepSource[0].FTDDovizCinsi, kur);
+                            kkp.ExecuteCommandOnUpdate(sql, true, paramlist);
                         }
-                    }
 
-                    kkp.UpdateChanges();
-                }
-                catch (Exception ex)
-                {
-                    Logger(ex, "Approvals/Purchase/SipGMOnayla/1");
-                    _Result.Message = "İşlem Sırasında Hata Oluştu.";
-                    _Result.Status = false;
-                    return Json(_Result, JsonRequestBehavior.AllowGet);
-                }
+                        foreach (var item in MyGlobalVariables.SipEvrak.Satirlar)
+                        {
+                            item.Aciklama = item.Aciklama.Length > 64 ? item.Aciklama.Substring(0, 64) : item.Aciklama;
+                        }
 
-                var sipTarih = Convert.ToInt32(MyGlobalVariables.SipEvrak.Tarih.ToOADate());
-                var sipEvrakNo = MyGlobalVariables.SipEvrak.EvrakNo;
-                var hesapKodu = MyGlobalVariables.SipEvrak.HesapKodu;
-                var teklifNo = Convert.ToInt32(MyGlobalVariables.SipEvrak.Satirlar[0].Kod4);
-                try
-                {
-                    if (string.IsNullOrEmpty(sipEvrakNo) || string.IsNullOrEmpty(hesapKodu))
-                        throw new ArgumentException("parametreler hatalı!");
+                        kkp.SiparisEvrakList.Add(MyGlobalVariables.SipEvrak);
+                        MyGlobalVariables.SipEvrak.MFK.Aciklama = "";
+                        MyGlobalVariables.SipEvrak.MFK.Aciklama2 = "";
+                        MyGlobalVariables.SipEvrak.MFK.Aciklama3 = "";
+                        MyGlobalVariables.SipEvrak.MFK.Aciklama4 = "";
+                        MyGlobalVariables.SipEvrak.MFK.Aciklama5 = "";
+                        MyGlobalVariables.SipEvrak.MFK.Aciklama6 = "";
+                        MyGlobalVariables.SipEvrak.EvrakNo = evrakno;
+                        MyGlobalVariables.SipEvrak.HesapKodu = MyGlobalVariables.TalepSource[0].HesapKodu;
+                        MyGlobalVariables.SipEvrak.TeslimYeriKodu = MyGlobalVariables.TalepSource[0].HesapKodu;
+                        MyGlobalVariables.SipEvrak.Tarih = DateTime.Today;
+                        MyGlobalVariables.SipEvrak.INIGuncellensin = true;
+                        MyGlobalVariables.SipEvrak.TahTeslimTarihi = new DateTime(1900, 1, 1).AddDays(-2);
 
-                    var mailayar = db.Database.SqlQuery<GenelAyarVeParams>(string.Format(@"
-                    SELECT * FROM [Kaynak].[sta].[GenelAyarVeParams]  where Tip = 4 and Tip2 = 0")).FirstOrDefault();
+                        if (MyGlobalVariables.DovizDurum == false)
+                        {
+                            MyGlobalVariables.SipEvrak.FTDHesapla("", Convert.ToDecimal(0));
+                        }
+                        else
+                        {
+                            var kur = MyGlobalVariables.TalepSource[0].FTDDovizKuru.Value;
+                            if (kur > 0)
+                            {
+                                MyGlobalVariables.SipEvrak.FTDHesapla(MyGlobalVariables.TalepSource[0].FTDDovizCinsi, kur);
+                            }
+                        }
 
-                    if (mailayar == null)
-                    {
-                        _Result.Message = "Sipariş Onay Mail ayarları yapılandırılmamış!";
-                        _Result.Status = false;
-                        return Json(_Result, JsonRequestBehavior.AllowGet);
-                    }
-
-                    var sorgu = string.Format("SELECT Kaynak.sta.TedarikciMail('{0}')", hesapKodu);
-
-                    var sirketemail = db.Database.SqlQuery<string>(sorgu).FirstOrDefault();
-                    if (string.IsNullOrEmpty(sirketemail) || sirketemail.Trim() == "")
-                    {
-                        _Result.Message = string.Format("Tedarikçiye ait mail bulunamadı! (Hesap Kodu: {0})", hesapKodu);
-                        _Result.Status = false;
-                    }
-
-                    var satinalmacimail = db.Database.SqlQuery<string>(string.Format(@"
-                    SELECT Email FROM usr.Users (nolock) WHERE Kod IN (SELECT TOP(1) Satinalmaci FROM Kaynak.sta.Talep(nolock) WHERE SipEvrakNo = '{0}' )", sipEvrakNo)).FirstOrDefault();
-
-                    if ((string.IsNullOrEmpty(sirketemail) || sirketemail.Trim() == "")
-                        && (string.IsNullOrEmpty(satinalmacimail) || satinalmacimail.Trim() == ""))
-                    {
-                        _Result.Message = "Ne Şirket Maili ne de Satınalmacı maili yapılandırılmamış. Mail gönderilemedi";
-                        _Result.Status = false;
-                    }
-
-                    var sipTalep = db.Database.SqlQuery<SatTalep>(string.Format(@"
-                    SELECT TOP (1) TalepNo, SipIslemTip FROM Kaynak.sta.Talep (nolock) WHERE SipEvrakNo = '{0}'", sipEvrakNo)).FirstOrDefault();
-
-                    if (sipTalep == null)
-                    {
-                        _Result.Message = "Siparişin Talep ile ilişkisi bulunamadı! (Sipariş Onay Mail Gönderim)";
-                        _Result.Status = false;
-                        return Json(_Result, JsonRequestBehavior.AllowGet);
-                    }
-
-                    if (sipTalep.SipIslemTip == null)
-                    {
-                        _Result.Message = "Sipariş iç/Dış Piyasa olduğu belirlenemedi!";
-                        _Result.Status = false;
-                        return Json(_Result, JsonRequestBehavior.AllowGet);
-                    }
-                    try
-                    {
-                        SatınalmaSiparisFormu sspf = new SatınalmaSiparisFormu(); ;
-                        sspf.SatinalmaSiparisFormu(sipEvrakNo, hesapKodu, sipTarih, true, vUser.SirketKodu);
+                        kkp.UpdateChanges();
                     }
                     catch (Exception ex)
                     {
-                        Logger(ex, "SatinalmaSiparisFormu");
+                        Logger(ex, "Approvals/Purchase/SipGMOnayla/1");
+                        _Result.Message = "İşlem Sırasında Hata Oluştu.";
+                        _Result.Status = false;
+                        return Json(_Result, JsonRequestBehavior.AllowGet);
                     }
 
-                    List<string> attachList = new List<string>() { string.Format("{0}{1}.pdf", Path.GetTempPath(), sipEvrakNo) };
+                    var sipTarih = Convert.ToInt32(MyGlobalVariables.SipEvrak.Tarih.ToOADate());
+                    var sipEvrakNo = MyGlobalVariables.SipEvrak.EvrakNo;
+                    var hesapKodu = MyGlobalVariables.SipEvrak.HesapKodu;
+                    var teklifNo = Convert.ToInt32(MyGlobalVariables.SipEvrak.Satirlar[0].Kod4);
+                    try
+                    {
+                        if (string.IsNullOrEmpty(sipEvrakNo) || string.IsNullOrEmpty(hesapKodu))
+                            throw new ArgumentException("parametreler hatalı!");
 
-                    List<SatTalep> listTalep = db.Database.SqlQuery<SatTalep>(string.Format(@"
+                        var mailayar = db.Database.SqlQuery<GenelAyarVeParams>(string.Format(@"
+                    SELECT * FROM [Kaynak].[sta].[GenelAyarVeParams]  where Tip = 4 and Tip2 = 0")).FirstOrDefault();
+
+                        if (mailayar == null)
+                        {
+                            _Result.Message = "Sipariş Onay Mail ayarları yapılandırılmamış!";
+                            _Result.Status = false;
+                            return Json(_Result, JsonRequestBehavior.AllowGet);
+                        }
+
+                        var sorgu = string.Format("SELECT Kaynak.sta.TedarikciMail('{0}')", hesapKodu);
+
+                        var sirketemail = db.Database.SqlQuery<string>(sorgu).FirstOrDefault();
+                        if (string.IsNullOrEmpty(sirketemail) || sirketemail.Trim() == "")
+                        {
+                            _Result.Message = string.Format("Tedarikçiye ait mail bulunamadı! (Hesap Kodu: {0})", hesapKodu);
+                            _Result.Status = false;
+                        }
+
+                        var satinalmacimail = db.Database.SqlQuery<string>(string.Format(@"
+                    SELECT Email FROM usr.Users (nolock) WHERE Kod IN (SELECT TOP(1) Satinalmaci FROM Kaynak.sta.Talep(nolock) WHERE SipEvrakNo = '{0}' )", sipEvrakNo)).FirstOrDefault();
+
+                        if ((string.IsNullOrEmpty(sirketemail) || sirketemail.Trim() == "")
+                            && (string.IsNullOrEmpty(satinalmacimail) || satinalmacimail.Trim() == ""))
+                        {
+                            _Result.Message = "Ne Şirket Maili ne de Satınalmacı maili yapılandırılmamış. Mail gönderilemedi";
+                            _Result.Status = false;
+                        }
+
+                        var sipTalep = db.Database.SqlQuery<SatTalep>(string.Format(@"
+                    SELECT TOP (1) TalepNo, SipIslemTip FROM Kaynak.sta.Talep (nolock) WHERE SipEvrakNo = '{0}'", sipEvrakNo)).FirstOrDefault();
+
+                        if (sipTalep == null)
+                        {
+                            _Result.Message = "Siparişin Talep ile ilişkisi bulunamadı! (Sipariş Onay Mail Gönderim)";
+                            _Result.Status = false;
+                            return Json(_Result, JsonRequestBehavior.AllowGet);
+                        }
+
+                        if (sipTalep.SipIslemTip == null)
+                        {
+                            _Result.Message = "Sipariş iç/Dış Piyasa olduğu belirlenemedi!";
+                            _Result.Status = false;
+                            return Json(_Result, JsonRequestBehavior.AllowGet);
+                        }
+                        try
+                        {
+                            SatınalmaSiparisFormu sspf = new SatınalmaSiparisFormu(); ;
+                            sspf.SatinalmaSiparisFormu(sipEvrakNo, hesapKodu, sipTarih, true, vUser.SirketKodu);
+                        }
+                        catch (Exception ex)
+                        {
+                            Logger(ex, "SatinalmaSiparisFormu");
+                        }
+
+                        List<string> attachList = new List<string>() { string.Format("{0}{1}.pdf", Path.GetTempPath(), sipEvrakNo) };
+
+                        List<SatTalep> listTalep = db.Database.SqlQuery<SatTalep>(string.Format(@"
                     SELECT TalepNo, MalKodu, EkDosya FROM Kaynak.sta.Talep (nolock) WHERE SipEvrakNo ='{0}' AND HesapKodu = '{1}' AND ISNULL(EkDosya,'')<> '' ", sipEvrakNo, hesapKodu)).ToList();
 
-                    var dosyaYolu = db.Database.SqlQuery<string>(string.Format(@"
+                        var dosyaYolu = db.Database.SqlQuery<string>(string.Format(@"
                     SELECT top 1 DosyaYolu FROM [Kaynak].[sta].[GenelAyarVeParams]  where Tip = 7 and DosyaYolu IS NOT NULL")).FirstOrDefault();
 
-                    foreach (SatTalep talep in listTalep)
-                    {
-                        var yol = string.Format("{0}SatTalep\\{1}\\{2}", dosyaYolu, talep.TalepNo, talep.EkDosya);
-                        if (yol.FileExists()) attachList.Add(yol);
-                    }
+                        foreach (SatTalep talep in listTalep)
+                        {
+                            var yol = string.Format("{0}SatTalep\\{1}\\{2}", dosyaYolu, talep.TalepNo, talep.EkDosya);
+                            if (yol.FileExists()) attachList.Add(yol);
+                        }
 
-                    var kime = string.Format("{0};{1};{2}", sirketemail, satinalmacimail, mailayar.MailTo);
-                    var gorunenIsim = "Sipariş Onay";
-                    var konu = "Sipariş Onay";
-                    var icerik = string.Format("{0} hesapkoduna ait evrak nosu {1} ve talep nosu {2} olan sipariş onaylanmıştır. Sipariş bilgileri ektedir.", hesapKodu, sipEvrakNo, sipTalep.TalepNo);
-                    if (sipTalep.SipIslemTip == (short)KKPIslemTipSPI.DışPiyasa)
-                    {
-                        gorunenIsim = "Purchase Order Approval";
-                        konu = "Purchase Order Approval";
-                        icerik = "Purchase Order Items Information in Attachments";
-                    }
+                        var kime = string.Format("{0};{1};{2}", sirketemail, satinalmacimail, mailayar.MailTo);
+                        var gorunenIsim = "Sipariş Onay";
+                        var konu = "Sipariş Onay";
+                        var icerik = string.Format("{0} hesapkoduna ait evrak nosu {1} ve talep nosu {2} olan sipariş onaylanmıştır. Sipariş bilgileri ektedir.", hesapKodu, sipEvrakNo, sipTalep.TalepNo);
+                        if (sipTalep.SipIslemTip == (short)KKPIslemTipSPI.DışPiyasa)
+                        {
+                            gorunenIsim = "Purchase Order Approval";
+                            konu = "Purchase Order Approval";
+                            icerik = "Purchase Order Items Information in Attachments";
+                        }
 
-                    var m = new MyMail(db)
+                        var m = new MyMail(db)
+                        {
+                            MailHataMesajı = "Sipariş Onay Maili Gönderiminde hata oluştu! Mail Gönderilemedi!",
+                            MailBasariMesajı = "Sipariş Onay Maili başarılı bir şekilde gönderildi!"
+                        };
+                        m.Gonder(kime, mailayar.MailCc, gorunenIsim, konu, icerik, attachList, vUser.UserName, fn.GetIPAddress());
+                        if (m.MailGonderimBasarili)
+                        {
+                            db.Database.ExecuteSqlCommand(string.Format("UPDATE Kaynak.sta.Talep SET MailGonder=-1 WHERE TalepNo='{0}'", sipTalep.TalepNo));
+                        }
+                        else
+                        {
+                            db.Database.ExecuteSqlCommand(string.Format("UPDATE Kaynak.sta.Talep SET MailGonder=0 WHERE TalepNo='{0}'", sipTalep.TalepNo));
+                        }
+                    }
+                    catch (Exception ex)
                     {
-                        MailHataMesajı = "Sipariş Onay Maili Gönderiminde hata oluştu! Mail Gönderilemedi!",
-                        MailBasariMesajı = "Sipariş Onay Maili başarılı bir şekilde gönderildi!"
-                    };
-                    m.Gonder(kime, mailayar.MailCc, gorunenIsim, konu, icerik, attachList, vUser.UserName, fn.GetIPAddress());
-                    if (m.MailGonderimBasarili)
+                        Logger(ex, "Approvals/Purchase/SipGMOnayla/2");
+                        _Result.Message = string.Format("Sipariş Onay Maili Gönderiminde hata oluştu! Mail Gönderilemedi!)");
+                        _Result.Status = false;
+                        return Json(_Result, JsonRequestBehavior.AllowGet);
+                    }
+                    #endregion
+                }
+                else if (OnayTip == MyGlobalVariables.OnayTip.SatSipGMYMaliOnay.ToString())
+                {
+                    #region SatSipGMYMaliOnay
+
+                    var ftdtoplam = MyGlobalVariables.GridFTD.Where(x => x.SatirTip == (short)12).FirstOrDefault();
+
+                    if (ftdtoplam.Iskonto > limit)
                     {
-                        db.Database.ExecuteSqlCommand(string.Format("UPDATE Kaynak.sta.Talep SET MailGonder=-1 WHERE TalepNo='{0}'", sipTalep.TalepNo));
+                        #region İşlem1
+
+                        try
+                        {
+                            foreach (var item in MyGlobalVariables.TalepSource)
+                            {
+                                ///Durum 5: Teklif Bekliyor; 6: Teklif Değerlendirme; 7: Teklif Onaylandı; 8: Sipaiş Süreci, 11: Sipariş Ön Onay
+                                var sql = string.Format(@"UPDATE sta.Talep 
+                                SET GMYMaliOnaylayan=@Degistiren, GMYMaliOnayTarih=@DegisTarih, Durum=11, 
+                                Degistiren=@Degistiren, DegisTarih=@DegisTarih, DegisSirKodu={0}
+                                WHERE ID=@ID AND Durum=8
+                                --Durum in (5,6,7)
+                                AND SipTalepNo IS NOT NULL", vUser.SirketKodu);
+
+                                SqlParameter[] paramlist = new SqlParameter[3]
+                                {
+                                    new SqlParameter("ID", SqlDbType.Int){ Value = item.ID},
+                                    new SqlParameter("Degistiren", SqlDbType.VarChar){ Value = vUser.UserName},
+                                    new SqlParameter("DegisTarih", SqlDbType.SmallDateTime){ Value = DateTime.Now}
+                                };
+
+                                kkp.ExecuteCommandOnUpdate(sql, true, paramlist);
+                            }
+
+                            kkp.UpdateChanges();
+
+                            //GMBilgilendirmeMail
+                        }
+                        catch (Exception ex)
+                        {
+                            Logger(ex, "Approvals/Purchase/SatSipGMYMaliOnay/1");
+                            _Result.Message = "İşlem Sırasında Hata Oluştu.";
+                            _Result.Status = false;
+                            return Json(_Result, JsonRequestBehavior.AllowGet);
+                        }
+
+                        #endregion
                     }
                     else
                     {
-                        db.Database.ExecuteSqlCommand(string.Format("UPDATE Kaynak.sta.Talep SET MailGonder=0 WHERE TalepNo='{0}'", sipTalep.TalepNo));
+                        #region İşlem2
+
+                        try
+                        {
+                            var evrakno = kkp.YeniEvrakNo(KKPKynkEvrakTip.AlımSiparişi, 1);
+                            foreach (var item in MyGlobalVariables.TalepSource)
+                            {
+
+                            var sql = string.Format(@"UPDATE sta.Talep 
+                            SET GMYMaliOnaylayan=@Degistiren, GMYMaliOnayTarih=@DegisTarih, Durum=15, SipEvrakNo=@SipEvrakNo, SirketKodu='{0}', 
+                            Degistiren=@Degistiren, DegisTarih=@DegisTarih, DegisSirKodu='{0}'
+                            WHERE ID=@ID AND Durum = 8 AND SipTalepNo IS NOT NULL", vUser.SirketKodu);
+
+                            SqlParameter[] paramlist = new SqlParameter[4]
+                            {
+                                new SqlParameter("ID", SqlDbType.Int){ Value = item.ID},
+                                new SqlParameter("Degistiren", SqlDbType.VarChar){ Value = vUser.UserName},
+                                new SqlParameter("DegisTarih", SqlDbType.SmallDateTime){ Value = DateTime.Now},
+                                new SqlParameter("SipEvrakNo", SqlDbType.VarChar){Value = evrakno}
+                            };
+
+                                kkp.ExecuteCommandOnUpdate(sql, true, paramlist);
+                            }
+
+                            foreach (var item in MyGlobalVariables.SipEvrak.Satirlar)
+                            {
+                                item.Aciklama = item.Aciklama.Length > 64 ? item.Aciklama.Substring(0, 64) : item.Aciklama;
+                            }
+
+                            kkp.SiparisEvrakList.Add(MyGlobalVariables.SipEvrak);
+                            MyGlobalVariables.SipEvrak.MFK.Aciklama = "";
+                            MyGlobalVariables.SipEvrak.MFK.Aciklama2 = "";
+                            MyGlobalVariables.SipEvrak.MFK.Aciklama3 = "";
+                            MyGlobalVariables.SipEvrak.MFK.Aciklama4 = "";
+                            MyGlobalVariables.SipEvrak.MFK.Aciklama5 = "";
+                            MyGlobalVariables.SipEvrak.MFK.Aciklama6 = "";
+                            MyGlobalVariables.SipEvrak.EvrakNo = evrakno;
+                            MyGlobalVariables.SipEvrak.HesapKodu = MyGlobalVariables.TalepSource[0].HesapKodu;
+                            MyGlobalVariables.SipEvrak.TeslimYeriKodu = MyGlobalVariables.TalepSource[0].HesapKodu;
+                            MyGlobalVariables.SipEvrak.Tarih = DateTime.Today;
+                            MyGlobalVariables.SipEvrak.INIGuncellensin = true;
+                            MyGlobalVariables.SipEvrak.TahTeslimTarihi = new DateTime(1900, 1, 1).AddDays(-2);
+
+                            if (MyGlobalVariables.DovizDurum == false)
+                            {
+                                MyGlobalVariables.SipEvrak.FTDHesapla("", Convert.ToDecimal(0));
+                            }
+                            else
+                            {
+                                var kur = MyGlobalVariables.TalepSource[0].FTDDovizKuru.Value;
+                                if (kur > 0)
+                                {
+                                    MyGlobalVariables.SipEvrak.FTDHesapla(MyGlobalVariables.TalepSource[0].FTDDovizCinsi, kur);
+                                }
+                                else
+                                {
+                                    _Result.Message = "Döviz Kuru 0'dan büyük bir değer olmalıdır!!";
+                                    _Result.Status = false;
+                                    return Json(_Result, JsonRequestBehavior.AllowGet);
+                                }
+                            }
+
+                            kkp.UpdateChanges();
+
+                            var sipTarih = Convert.ToInt32(MyGlobalVariables.SipEvrak.Tarih.ToOADate());
+                            string.IsNullOrWhiteSpace
+                            var talep = MyGlobalVariables.TalepSource[0].TalepNo;
+                            //SiparisOnayMailGonderim
+
+                        }
+                        catch (Exception ex)
+                        {
+                            Logger(ex, "Approvals/Purchase/SatSipGMYMaliOnay/2");
+                            _Result.Message = "İşlem Sırasında Hata Oluştu.";
+                            _Result.Status = false;
+                            return Json(_Result, JsonRequestBehavior.AllowGet);
+                        }
                     }
-                }
-                catch (Exception ex)
-                {
-                    Logger(ex, "Approvals/Purchase/SipGMOnayla/2");
-                    _Result.Message = string.Format("Sipariş Onay Maili Gönderiminde hata oluştu! Mail Gönderilemedi!)");
-                    _Result.Status = false;
-                    return Json(_Result, JsonRequestBehavior.AllowGet);
+
+                    #endregion
                 }
 
-                return Json(_Result, JsonRequestBehavior.AllowGet);
+                    #endregion
             }
+
+            return Json(_Result, JsonRequestBehavior.AllowGet);
         }
 
         /// <summary>
         /// gm için sipariş reddetme
         /// </summary>
-        public JsonResult SipGMReddet(string redAciklama)
+        public JsonResult SipGMReddet(string redAciklama, string OnayTip)
         {
             var _Result = new Result(false, "Yetkiniz yok");
             if (CheckPerm(Perms.SatinalmaOnaylama, PermTypes.Writing) == false) return Json(_Result, JsonRequestBehavior.AllowGet);
@@ -438,17 +563,34 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                 return Json(_Result, JsonRequestBehavior.AllowGet);
 
             //transaction
-            var sql = @"UPDATE Kaynak.sta.Talep
-            SET GMOnaylayan='{0}', GMOnayTarih='{1}', Durum=13, Degistiren='{0}', DegisTarih='{1}', DegisSirKodu={3}, Aciklama2='{2}'
-            WHERE ID={4} AND Durum=11 AND SipTalepNo IS NOT NULL";
+
+            string sql = "";
+
+            if (OnayTip == MyGlobalVariables.OnayTip.GMOnay.ToString())
+            {
+                sql = @"UPDATE Kaynak.sta.Talep
+                SET GMOnaylayan='{0}', GMOnayTarih='{1}', Durum=13, 
+                Degistiren='{0}', DegisTarih='{1}', DegisSirKodu={3}, Aciklama2='{2}'
+                WHERE ID={4} AND Durum=11 AND SipTalepNo IS NOT NULL";
+            }
+            else if (OnayTip == MyGlobalVariables.OnayTip.SatSipGMYMaliOnay.ToString())
+            {
+                ///Durum 5: Teklif Bekliyor; 8: Sipariş Süreci, 9: SiparisOnOnayIptal, 11: Sipariş Ön Onay, 15: Onaylı Sipariş
+                sql = @"UPDATE Kaynak.sta.Talep 
+                SET GMYMaliOnaylayan='{0}', GMYMaliOnayTarih='{1}', Durum=9, 
+                Degistiren='{0}', DegisTarih='{1}', DegisSirKodu={3}, Aciklama2='{2}'
+                WHERE ID={4} AND Durum=8 AND SipTalepNo IS NOT NULL";
+            }
 
             using (var con = db.Database.BeginTransaction())
+            {
                 try
                 {
                     foreach (var item in MyGlobalVariables.TalepSource)
                     {
                         db.Database.ExecuteSqlCommand(string.Format(sql, vUser.UserName.ToString(), DateTime.Now.ToString("yyyy-dd-MM"), redAciklama, vUser.SirketKodu, item.ID));
                     }
+
                     con.Commit();
                 }
                 catch (Exception)
@@ -457,8 +599,15 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                     _Result.Message = "Geri Çevirme açıklamasını girmek zorundasınız!";
                     _Result.Status = false;
                 }
+            }
             //return
             _Result = new Result(true);
+
+            if (OnayTip == MyGlobalVariables.OnayTip.SatSipGMYMaliOnay.ToString())
+            {
+                //SiparisdenGeriCevirmeMail
+            }
+
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
 
