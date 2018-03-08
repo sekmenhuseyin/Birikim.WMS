@@ -11,7 +11,6 @@ using System.Linq;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
 using Wms12m.Entity;
-
 namespace Wms12m.Presentation.Areas.Approvals.Controllers
 {
     public class PurchaseController : RootController
@@ -22,37 +21,65 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         public ActionResult GM_Onay()
         {
             if (CheckPerm(Perms.SatinalmaOnaylama, PermTypes.Reading) == false) return Redirect("/");
+
+            ViewBag.OnayTip = MyGlobalVariables.OnayTip.GMOnay;
+            ViewBag.baslik = "Satınalma Onay";
             MyGlobalVariables.Depo = "93 DP";
             MyGlobalVariables.DovizDurum = false;
             MyGlobalVariables.SipTalepList = db.Database.SqlQuery<SatTalep>(string.Format("[FINSAT6{0}].[wms].[SatinAlmaGMOnayList]", vUser.SirketKodu)).ToList();
+
+            return View("GM_Onay", MyGlobalVariables.SipTalepList);
+        }
+
+        /// <summary>
+        /// Satınalma Sipariş Talebi GMY Mali Onaylama Sayfası
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult SatisSiparisGMYMali_Onay()
+        {
+            if (CheckPerm(Perms.SatinalmaOnaylama, PermTypes.Reading) == false) return Redirect("/");
+            
+            ViewBag.OnayTip = MyGlobalVariables.OnayTip.SatSipGMYMaliOnay;
+            ViewBag.baslik = "Satınalma Sipariş Talebi GMY Mali Onay";
+            MyGlobalVariables.DovizDurum = false;
+
+            MyGlobalVariables.SipTalepList = db.Database.SqlQuery<SatTalep>(string.Format(@"
+            SELECT DISTINCT ST.SipTalepNo, ST.HesapKodu, CHK.Unvan1  AS Unvan
+            FROM KAYNAK.sta.Talep(nolock) ST
+            LEFT JOIN FINSAT6{0}.FINSAT6{0}.CHK (nolock) on ST.HesapKodu=CHK.HesapKodu
+            WHERE ST.Durum=8 AND ST.SipTalepNo IS NOT NULL AND ST.HesapKodu IS NOT NULL 
+            AND ST.TeklifNo IS NOT NULL", vUser.SirketKodu)).ToList();
+
             return View("GM_Onay", MyGlobalVariables.SipTalepList);
         }
 
         /// <summary>
         /// onaylanacak malzeme listesi
         /// </summary>
-        public PartialViewResult SipGMOnayList(string HesapKodu, int SipTalepNo)
+        public PartialViewResult SipGMOnayList(string HesapKodu, int SipTalepNo, string OnayTip)
         {
             if (CheckPerm(Perms.SatinalmaOnaylama, PermTypes.Reading) == false) return null;
 
             ViewBag.HesapKodu = JsonConvert.SerializeObject(HesapKodu);
             ViewBag.SipTalepNo = SipTalepNo;
+            ViewBag.OnayTip = OnayTip;
             return PartialView("GMOnay_List");
         }
 
         /// <summary>
         /// onaylanacak fatura biilgileri
         /// </summary>
-        public PartialViewResult SipGMOnayListFTD(string HesapKodu, int SipTalepNo)
+        public PartialViewResult SipGMOnayListFTD(string HesapKodu, int SipTalepNo, string OnayTip)
         {
             if (CheckPerm(Perms.SatinalmaOnaylama, PermTypes.Reading) == false) return null;
 
             ViewBag.HesapKodu = JsonConvert.SerializeObject(HesapKodu);
             ViewBag.SipTalepNo = SipTalepNo;
+            ViewBag.OnayTip = OnayTip;
             return PartialView("GMOnayFTD_List");
         }
 
-        public string SipGMOnayListData(string HesapKodu, int SipTalepNo)
+        public string SipGMOnayListData(string HesapKodu, int SipTalepNo, string OnayTip)
         {
             if (CheckPerm(Perms.SatinalmaOnaylama, PermTypes.Reading) == false) return null;
             MyGlobalVariables.DovizDurum = false;
@@ -64,8 +91,52 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
             MyGlobalVariables.SipEvrak = new KKPEvrakSiparis(KKPSiparisTip.AlimSiparisi);
 
-            MyGlobalVariables.TalepSource = db.Database.SqlQuery<SatTalep>(string.Format(@"
-            [FINSAT6{0}].[wms].[SatinAlmaGMOnayListData] @HesapKodu='{1}', @SipTalepNo={2} ", vUser.SirketKodu, HesapKodu, SipTalepNo)).ToList();
+            if (OnayTip == MyGlobalVariables.OnayTip.GMOnay.ToString())
+            {
+                MyGlobalVariables.TalepSource = db.Database.SqlQuery<SatTalep>(string.Format(@"
+                [FINSAT6{0}].[wms].[SatinAlmaGMOnayListData] @HesapKodu='{1}', @SipTalepNo={2} ", vUser.SirketKodu, HesapKodu, SipTalepNo)).ToList();
+            }
+            else if (OnayTip == MyGlobalVariables.OnayTip.SatSipGMYMaliOnay.ToString())
+            {
+                MyGlobalVariables.TalepSource = db.Database.SqlQuery<SatTalep>(string.Format(@"
+                SELECT ST.ID, ST.TalepNo, ST.MalKodu, ST.Tarih, ST.Tip, ST.Birim, ST.BirimMiktar
+                        , (CASE WHEN ST.Birim = STK.Birim1 THEN ST.BirimMiktar 
+                                WHEN ST.Birim = STK.Birim2 AND  STK.Operator2=0 THEN ST.BirimMiktar/STK.Katsayi2 
+                                WHEN ST.Birim = STK.Birim2  AND STK.Operator2=1 THEN ST.BirimMiktar*STK.Katsayi2 
+                                WHEN ST.Birim = STK.Birim3  AND STK.Operator3=0 THEN ST.BirimMiktar/STK.Katsayi3 
+                                WHEN ST.Birim = STK.Birim3  AND STK.Operator3=1 THEN ST.BirimMiktar*STK.Katsayi3 
+                                WHEN ST.Birim = STK.Birim4  AND STK.Operator4=0 THEN ST.BirimMiktar/STK.Katsayi4 
+                                WHEN ST.Birim = STK.Birim4  AND STK.Operator4=1 THEN ST.BirimMiktar*STK.Katsayi4  END ) AS Miktar
+                        , (CASE WHEN ST.Birim = STK.Birim1 THEN 0
+                                WHEN ST.Birim = STK.Birim2 THEN STK.Operator2
+                                WHEN ST.Birim = STK.Birim3 THEN STK.Operator3 
+                                WHEN ST.Birim = STK.Birim4 THEN STK.Operator4  END ) AS Operator
+                        , (CASE WHEN ST.Birim = STK.Birim1 THEN 1
+                                WHEN ST.Birim = STK.Birim2 THEN STK.Katsayi2
+                                WHEN ST.Birim = STK.Birim3 THEN STK.Katsayi3 
+                                WHEN ST.Birim = STK.Birim4 THEN STK.Katsayi4  END ) AS Katsayi
+                        , ST.IstenenTarih, ST.Aciklama
+                        , ST.Aciklama2, ST.Aciklama3, ST.Durum, ST.EkDosya
+                        , ST.Kademe1Onaylayan, ST.Kademe1OnayTarih
+                        , ST.Kademe2Onaylayan, ST.Kademe2OnayTarih
+                        , ST.Satinalmaci, ST.TeklifNo, ST.HesapKodu, ST.BirimFiyat, ST.DvzTL, ST.DvzCinsi
+                        , ISNULL((SELECT CASE WHEN DovizCinsi='JPY' then KUR01/100 else KUR01 end AS DvzKuru FROM SOLAR6.dbo.DVZ (NOLOCK) WHERE DovizCinsi=ST.DvzCinsi AND Tarih=CAST( DATEADD(dd, 0, DATEDIFF(dd, 0, GETDATE()))+2 AS INT)),0) as DvzKuru
+                        , ST.KDVOran
+                        , ST.SipTalepNo, ST.SipIslemTip
+                        , ST.Kaydeden 
+                        , STK.MalAdi
+                        , ST.TesisKodu
+                        , TK.Vade as TeklifVade
+                        ,TK.TeklifAciklamasi
+                        , ST.FTDDovizTL 
+                        , ST.FTDDovizCinsi 
+                        , ISNULL((SELECT CASE WHEN DovizCinsi='JPY' then KUR01/100 else KUR01 end AS DvzKuru FROM SOLAR6.dbo.DVZ (NOLOCK) 
+                            WHERE DovizCinsi=ST.FTDDovizCinsi AND Tarih=CAST( DATEADD(dd, 0, DATEDIFF(dd, 0, GETDATE()))+2 AS INT)),0) as FTDDovizKuru
+                        FROM KAYNAK.sta.Talep as ST (nolock)
+                        INNER JOIN KAYNAK.sta.Teklif as TK (nolock) on TK.TeklifNo=ST.TeklifNo AND TK.HesapKodu=ST.HesapKodu AND TK.MalKodu=ST.MalKodu
+                        LEFT JOIN FINSAT6{0}.FINSAT6{0}.STK (nolock) on ST.MalKodu=STK.MalKodu
+                        WHERE ST.Durum=8 AND ST.SipTalepNo={2} AND ST.HesapKodu='{1}' ", vUser.SirketKodu, HesapKodu, SipTalepNo)).ToList();
+            }
 
             if (MyGlobalVariables.TalepSource[0].SipIslemTip == null || (MyGlobalVariables.TalepSource[0].SipIslemTip != 1 && MyGlobalVariables.TalepSource[0].SipIslemTip != 2))
                 return "";
@@ -454,7 +525,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         {
             if (CheckPerm(Perms.SatinalmaGMYTedarikciOnay, PermTypes.Reading) == false) return Redirect("/");
 
-            ViewBag.OnayTip = MyGlobalVariables.GMYOnayTip.GMYTedarikciOnay;
+            ViewBag.OnayTip = MyGlobalVariables.OnayTip.GMYTedarikciOnay;
             ViewBag.baslik = "Teklif GMY Tedarikçi Onay";
 
             MyGlobalVariables.GMYOnayList = db.Database.SqlQuery<SatTalep>(string.Format(@"
@@ -473,7 +544,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         {
             if (CheckPerm(Perms.SatinalmaGMYMaliOnay, PermTypes.Reading) == false) return Redirect("/");
 
-            ViewBag.OnayTip = MyGlobalVariables.GMYOnayTip.GMYMaliOnay;
+            ViewBag.OnayTip = MyGlobalVariables.OnayTip.GMYMaliOnay;
             ViewBag.baslik = "Teklif GMY Mali Onay";
 
             MyGlobalVariables.GMYOnayList = db.Database.SqlQuery<SatTalep>(string.Format(@"
@@ -490,9 +561,9 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
         public PartialViewResult GMYOnayList(string TalepNo, string OnayTip)
         {
-            if (OnayTip == MyGlobalVariables.GMYOnayTip.GMYTedarikciOnay.ToString())
+            if (OnayTip == MyGlobalVariables.OnayTip.GMYTedarikciOnay.ToString())
                 if (CheckPerm(Perms.SatinalmaGMYTedarikciOnay, PermTypes.Reading) == false) return null;
-                else if (OnayTip == MyGlobalVariables.GMYOnayTip.GMYMaliOnay.ToString())
+                else if (OnayTip == MyGlobalVariables.OnayTip.GMYMaliOnay.ToString())
                     if (CheckPerm(Perms.SatinalmaGMYMaliOnay, PermTypes.Reading) == false) return null;
 
             ViewBag.TalepNo = TalepNo;
@@ -502,9 +573,9 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
         public string GMYOnayListData(string TalepNo, string OnayTip)
         {
-            if (OnayTip == MyGlobalVariables.GMYOnayTip.GMYTedarikciOnay.ToString())
+            if (OnayTip == MyGlobalVariables.OnayTip.GMYTedarikciOnay.ToString())
                 if (CheckPerm(Perms.SatinalmaGMYTedarikciOnay, PermTypes.Reading) == false) return null;
-                else if (OnayTip == MyGlobalVariables.GMYOnayTip.GMYMaliOnay.ToString())
+                else if (OnayTip == MyGlobalVariables.OnayTip.GMYMaliOnay.ToString())
                     if (CheckPerm(Perms.SatinalmaGMYMaliOnay, PermTypes.Reading) == false) return null;
 
             if (MyGlobalVariables.GMYSource == null)
@@ -512,7 +583,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             else
                 MyGlobalVariables.GMYSource.Clear();
 
-            if (OnayTip == MyGlobalVariables.GMYOnayTip.GMYTedarikciOnay.ToString())
+            if (OnayTip == MyGlobalVariables.OnayTip.GMYTedarikciOnay.ToString())
             {
                 #region Teklif GMY Tedarikçi Onay
 
@@ -562,7 +633,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
                 #endregion Teklif GMY Tedarikçi Onay
             }
-            else if (OnayTip == MyGlobalVariables.GMYOnayTip.GMYMaliOnay.ToString())
+            else if (OnayTip == MyGlobalVariables.OnayTip.GMYMaliOnay.ToString())
             {
                 #region Teklif GMY Mali Onay
 
@@ -619,12 +690,12 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         /// </summary>
         public JsonResult GMYOnayla(string OnayTip)
         {
-            if (OnayTip == MyGlobalVariables.GMYOnayTip.GMYTedarikciOnay.ToString())
+            if (OnayTip == MyGlobalVariables.OnayTip.GMYTedarikciOnay.ToString())
             {
                 if (CheckPerm(Perms.SatinalmaGMYTedarikciOnay, PermTypes.Writing) == false)
                     return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             }
-            else if (OnayTip == MyGlobalVariables.GMYOnayTip.GMYMaliOnay.ToString())
+            else if (OnayTip == MyGlobalVariables.OnayTip.GMYMaliOnay.ToString())
                 if (CheckPerm(Perms.SatinalmaGMYMaliOnay, PermTypes.Writing) == false)
                     return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
 
@@ -645,7 +716,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                     {
                         string sql = "";
 
-                        if (OnayTip == MyGlobalVariables.GMYOnayTip.GMYTedarikciOnay.ToString())
+                        if (OnayTip == MyGlobalVariables.OnayTip.GMYTedarikciOnay.ToString())
                         {
                             #region Teklif GMY Tedarikçi Onay
 
@@ -658,7 +729,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
                             db.Database.ExecuteSqlCommand(sql);
                         }
-                        else if (OnayTip == MyGlobalVariables.GMYOnayTip.GMYMaliOnay.ToString())
+                        else if (OnayTip == MyGlobalVariables.OnayTip.GMYMaliOnay.ToString())
                         {
                             #region GMY Mali Onay
 
@@ -719,9 +790,9 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         /// </summary>
         public JsonResult GMYReddet(string redAciklama, string OnayTip)
         {
-            if (OnayTip == MyGlobalVariables.GMYOnayTip.GMYTedarikciOnay.ToString())
+            if (OnayTip == MyGlobalVariables.OnayTip.GMYTedarikciOnay.ToString())
                 if (CheckPerm(Perms.SatinalmaGMYTedarikciOnay, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
-                else if (OnayTip == MyGlobalVariables.GMYOnayTip.GMYMaliOnay.ToString())
+                else if (OnayTip == MyGlobalVariables.OnayTip.GMYMaliOnay.ToString())
                     if (CheckPerm(Perms.SatinalmaGMYMaliOnay, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
 
             var _Result = new Result(true, "İşlem Başarılı");
@@ -741,7 +812,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                     {
                         string sql = "";
 
-                        if (OnayTip == MyGlobalVariables.GMYOnayTip.GMYTedarikciOnay.ToString())
+                        if (OnayTip == MyGlobalVariables.OnayTip.GMYTedarikciOnay.ToString())
                         {
                             #region Teklif GMY Tedarikçi Onay
 
@@ -752,7 +823,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
                             #endregion Teklif GMY Tedarikçi Onay
                         }
-                        else if (OnayTip == MyGlobalVariables.GMYOnayTip.GMYMaliOnay.ToString())
+                        else if (OnayTip == MyGlobalVariables.OnayTip.GMYMaliOnay.ToString())
                         {
                             #region Teklif GMY Mali Onay
 
@@ -766,7 +837,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
                         db.Database.ExecuteSqlCommand(sql);
 
-                        if (OnayTip == MyGlobalVariables.GMYOnayTip.GMYMaliOnay.ToString())
+                        if (OnayTip == MyGlobalVariables.OnayTip.GMYMaliOnay.ToString())
                         {
                             //Mail Gönderilecek
                         }
@@ -790,167 +861,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
         #region Satınalma Sipariş Talebi GMY Mali Onay
 
-        public ActionResult SatisSiparisGMYMaliOnay()
-        {
-            if (CheckPerm(Perms.SatinalmaGMYMaliOnay, PermTypes.Reading) == false) return Redirect("/");
 
-            ViewBag.baslik = "Satınalma Sipariş Talebi GMY Mali Onay";
-
-            MyGlobalVariables.SatSipGMYMaliOnayList = db.Database.SqlQuery<SatTalep>(string.Format(@"
-            SELECT DISTINCT ST.SipTalepNo, ST.HesapKodu, CHK.Unvan1 As Unvan
-            FROM KAYNAK.sta.Talep as ST (nolock)
-            LEFT JOIN FINSAT6{0}.FINSAT6{0}.CHK (nolock) on ST.HesapKodu=CHK.HesapKodu
-            WHERE ST.Durum=8 AND ST.SipTalepNo IS NOT NULL AND ST.HesapKodu IS NOT NULL AND ST.TeklifNo IS NOT NULL", vUser.SirketKodu)).ToList();
-
-            return View("SatisSiparisGMYMaliOnay", MyGlobalVariables.SatSipGMYMaliOnayList);
-        }
-
-        public PartialViewResult SatisSiparisGMYMaliOnay_List(string TalepNo, string HesapKodu)
-        {
-            ViewBag.TalepNo = TalepNo;
-            ViewBag.HesapKodu = HesapKodu;
-            return PartialView("SatisSiparisGMYMaliOnay_List");
-        }
-
-        public string SatisSiparisGMYMaliOnay_ListData(string TalepNo, string HesapKodu)
-        {
-
-            if (MyGlobalVariables.GMYSource == null)
-                MyGlobalVariables.GMYSource = new List<SatTalep>();
-            else
-                MyGlobalVariables.GMYSource.Clear();
-
-            MyGlobalVariables.SipEvrakGMY = new KKPEvrakSiparis(KKPSiparisTip.AlimSiparisi);
-
-            MyGlobalVariables.GMYSource = db.Database.SqlQuery<SatTalep>(string.Format(@"
-            SELECT ST.ID, ST.TalepNo , ST.MalKodu, ST.Tarih, ST.Tip, ST.Birim, ST.BirimMiktar,
-                (CASE WHEN ST.Birim = STK.Birim1 THEN ST.BirimMiktar 
-                    WHEN ST.Birim = STK.Birim2 AND  STK.Operator2=0 THEN ST.BirimMiktar/STK.Katsayi2 
-                    WHEN ST.Birim = STK.Birim2  AND STK.Operator2=1 THEN ST.BirimMiktar*STK.Katsayi2 
-                    WHEN ST.Birim = STK.Birim3  AND STK.Operator3=0 THEN ST.BirimMiktar/STK.Katsayi3 
-                    WHEN ST.Birim = STK.Birim3  AND STK.Operator3=1 THEN ST.BirimMiktar*STK.Katsayi3 
-                    WHEN ST.Birim = STK.Birim4  AND STK.Operator4=0 THEN ST.BirimMiktar/STK.Katsayi4 
-                    WHEN ST.Birim = STK.Birim4  AND STK.Operator4=1 THEN ST.BirimMiktar*STK.Katsayi4  
-                END ) AS Miktar, 
-                (CASE WHEN ST.Birim = STK.Birim1 THEN 0
-                    WHEN ST.Birim = STK.Birim2 THEN STK.Operator2
-                     WHEN ST.Birim = STK.Birim3 THEN STK.Operator3 
-                     WHEN ST.Birim = STK.Birim4 THEN STK.Operator4  
-                END ) AS Operator, 
-                (CASE WHEN ST.Birim = STK.Birim1 THEN 1
-                     WHEN ST.Birim = STK.Birim2 THEN STK.Katsayi2
-                     WHEN ST.Birim = STK.Birim3 THEN STK.Katsayi3 
-                     WHEN ST.Birim = STK.Birim4 THEN STK.Katsayi4  
-                END ) AS Katsayi, 
-                ST.IstenenTarih, ST.Aciklama, ST.Aciklama2, ST.Aciklama3, ST.Durum, ST.EkDosya, ST.Kademe1Onaylayan, ST.Kademe1OnayTarih, 
-                ST.Kademe2Onaylayan, ST.Kademe2OnayTarih, ST.Satinalmaci, ST.TeklifNo, ST.HesapKodu, ST.BirimFiyat, ST.DvzTL, ST.DvzCinsi, 
-                ISNULL((SELECT CASE WHEN DovizCinsi='JPY' then KUR01/100 else KUR01 end AS DvzKuru FROM SOLAR6.dbo.DVZ (NOLOCK) 
-                WHERE DovizCinsi=ST.DvzCinsi AND Tarih=CAST( DATEADD(dd, 0, DATEDIFF(dd, 0, GETDATE()))+2 AS INT)),0) as DvzKuru, 
-                ST.KDVOran, ST.SipTalepNo, ST.SipIslemTip, ST.Kaydeden, STK.MalAdi, ST.TesisKodu, TK.Vade as TeklifVade,TK.TeklifAciklamasi, 
-                ST.FTDDovizTL , ST.FTDDovizCinsi , 
-                ISNULL((SELECT CASE WHEN DovizCinsi='JPY' then KUR01/100 else KUR01 end AS DvzKuru FROM SOLAR6.dbo.DVZ (NOLOCK) 
-                WHERE DovizCinsi=ST.FTDDovizCinsi AND Tarih=CAST( DATEADD(dd, 0, DATEDIFF(dd, 0, GETDATE()))+2 AS INT)),0) as FTDDovizKuru
-            FROM KAYNAK.sta.Talep as ST (nolock)
-            INNER JOIN KAYNAK.sta.Teklif as TK (nolock) on TK.TeklifNo=ST.TeklifNo AND TK.HesapKodu=ST.HesapKodu AND TK.MalKodu=ST.MalKodu
-            LEFT JOIN FINSAT6{0}.FINSAT6{0}.STK (nolock) on ST.MalKodu=STK.MalKodu
-            WHERE ST.Durum=8 AND ST.SipTalepNo={1} AND ST.HesapKodu='{2}'",
-            vUser.SirketKodu, TalepNo, HesapKodu)).ToList();
-
-            if (MyGlobalVariables.GMYSource[0].SipIslemTip == null || (MyGlobalVariables.GMYSource[0].SipIslemTip != 1 && MyGlobalVariables.GMYSource[0].SipIslemTip != 2))
-                return "";
-
-
-            MyGlobalVariables.SipEvrakGMY.IslemTip = (KKPIslemTipSPI)MyGlobalVariables.GMYSource[0].SipIslemTip;
-            MyGlobalVariables.SipEvrakGMY.dvzTL = (KKPDvzTL)(short)MyGlobalVariables.GMYSource[0].FTDDovizTL;
-            short siraNo = 0;
-
-            foreach (var item in MyGlobalVariables.GMYSource)
-            {
-                if ((short)item.DvzTL == (short)1)
-                    MyGlobalVariables.DovizDurum = true;
-
-                var spi = new KKP_SPI(KKPSiparisTip.AlimSiparisi)
-                {
-                    MalKodu = item.MalKodu,
-                    MalAdi = item.MalAdi,
-                    Birim = item.Birim,
-                    BirimMiktar = item.BirimMiktar,
-                    Miktar = Convert.ToDecimal(item.Miktar),
-                    Fiyat = (decimal)item.BirimFiyat,
-                    BirimFiyat = (decimal)item.BirimFiyat,
-
-                    DvzTL = (short)item.DvzTL,
-                    DovizCinsi = item.DvzCinsi,
-                    DovizKuru = item.DvzKuru ?? 0,
-
-                    Aciklama = item.Aciklama,
-                    TeklifAciklamasi = item.TeklifAciklamasi,
-
-                    KDVOran = item.KDVOran,
-                    SiraNo = siraNo
-                };
-
-                spi.SatirHesapla();
-
-                spi.Kod1 = item.TalepNo;
-                spi.Kod2 = item.Satinalmaci;
-                spi.Kod3 = item.SipTalepNo.ToString();
-                spi.Kod4 = item.TeklifNo.ToString();
-
-                spi.Kaydeden = item.Kaydeden;
-                spi.Nesne3 = item.TesisKodu ?? "";
-                spi.SatinAlmaci = item.Satinalmaci;
-
-                spi.Kod11 = item.TeklifVade ?? 0; //Sırf ekranda göstermek için Kod11' e teklif de ki Vade atıyoruz. Ve kaydediyoruz. SPI.Kod11 daha sonra değiştirilip silinebilir önemli değil. (şimdilik)
-
-                spi.Depo = MyGlobalVariables.Depo;
-
-                spi.Operator = (short)(item.Operator != null ? item.Operator.Value : 0);
-                spi.Katsayi = item.Katsayi != null ? item.Katsayi.Value : 0;
-
-                MyGlobalVariables.SipEvrakGMY.Ekle(spi);
-                //MyGlobalVariables.GridGMYSource.Add(spi);
-                siraNo++;
-            }
-
-            if (MyGlobalVariables.DovizDurum == false)
-            {
-                MyGlobalVariables.SipEvrakGMY.FTDHesapla("TL", Convert.ToDecimal(0));
-                MyGlobalVariables.GridGMYFTD = null;
-                MyGlobalVariables.GridGMYFTD = MyGlobalVariables.SipEvrakGMY.FTDList;
-            }
-            else
-            {
-                var kur = MyGlobalVariables.GMYSource[0].FTDDovizKuru ?? 0;
-                if (kur > 0)
-                {
-                    MyGlobalVariables.SipEvrakGMY.FTDHesapla(MyGlobalVariables.GMYSource[0].FTDDovizCinsi, kur);
-                    MyGlobalVariables.GridGMYFTD = null;
-                    MyGlobalVariables.GridGMYFTD = MyGlobalVariables.SipEvrakGMY.FTDList;
-                }
-                else
-                    MyGlobalVariables.GridGMYFTD = new List<KKP_FTD>();
-            }
-
-            var json = new JavaScriptSerializer().Serialize(MyGlobalVariables.GMYSource);
-            return json;
-        }
-
-
-        public PartialViewResult SatisSiparisGMYListFTD(string TalepNo, string HesapKodu)
-        {
-            if (CheckPerm(Perms.SatinalmaOnaylama, PermTypes.Reading) == false) return null;
-
-            ViewBag.HesapKodu = HesapKodu;
-            ViewBag.TalepNo = TalepNo;
-            return PartialView("SatisSiparisGMYMaliOnayFTD_List");
-        }
-
-        public string SatisSiparisGMYListFTDData(string TalepNo, string HesapKodu)
-        {
-            var json = new JavaScriptSerializer().Serialize(MyGlobalVariables.GridGMYFTD);
-            return json;
-        }
 
         #endregion
     }

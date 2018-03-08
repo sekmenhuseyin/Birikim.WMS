@@ -1,6 +1,6 @@
 ﻿@model List<SatTalep>
 @{
-    ViewBag.Title = "Satınalma";
+    ViewBag.Title = ViewBag.baslik;
     Layout = "~/Views/Shared/_Layout.cshtml";
 }@section Styles{<link href="~/Content/assets/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css" rel="stylesheet" type="text/css" />
 <link href="~/Content/assets/global/plugins/jQuery-contextMenu/dist/jquery.contextMenu.min.css" rel="stylesheet" />
@@ -51,10 +51,10 @@
 @section Scripts{<script src="~/Content/assets/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js" type="text/javascript"></script>
 <script src="~/Content/assets/global/plugins/jQuery-contextMenu/dist/jquery.contextMenu.min.js"></script>
 <script type="text/javascript">
-    var CHK = "", TLP = "", MLK = "",MLA="";
+    var CHK = "", TLP = "", MLK = "", MLA = "";
     $(document).ready(function () {
         var model = @Html.Raw(Json.Encode(Model));
-      
+
         $(".musteri_unvan").hide();
         $(".txt_geri_cevirme_aciklamasi").dxTextBox({
             maxLength: 250
@@ -74,8 +74,8 @@
                 TLP = e.value.SipTalepNo;
                 $(".musteri_unvan").text(e.value.Unvan);
                 $(".musteri_unvan").show();
-                PartialView("/Approvals/Purchase/SipGMOnayList", 'satinalma_gm_onay_data', JSON.stringify({ HesapKodu: e.value.HesapKodu, SipTalepNo: e.value.SipTalepNo }));
-                PartialView("/Approvals/Purchase/SipGMOnayListFTD", 'satinalma_gm_onay_ftd_data', JSON.stringify({ HesapKodu: e.value.HesapKodu, SipTalepNo: e.value.SipTalepNo }));
+                PartialView("/Approvals/Purchase/SipGMOnayList", 'satinalma_gm_onay_data', JSON.stringify({ HesapKodu: e.value.HesapKodu, SipTalepNo: e.value.SipTalepNo ,OnayTip: '@ViewBag.OnayTip' }));
+                PartialView("/Approvals/Purchase/SipGMOnayListFTD", 'satinalma_gm_onay_ftd_data', JSON.stringify({ HesapKodu: e.value.HesapKodu, SipTalepNo: e.value.SipTalepNo, OnayTip: '@ViewBag.OnayTip' }));
                 setTimeout(function () {
                      $.ajax({
                     url: window.location.origin + "/Approvals/Purchase/BirimDegisimKontrol",
@@ -88,8 +88,8 @@
                     }
                 });
                 }, 1000);
-               
-               
+
+
             },
             itemTemplate: function (itemData, itemIndex, itemElement) {
                 itemElement.css({ "text-align": "left", "border-bottom": "1px solid #2fc1d8" });
@@ -139,7 +139,7 @@
                 }
             }
         });
-        
+
     });
 
     $('.reddet-buton').click(function () {
@@ -148,7 +148,7 @@
             Modaldialog("Geri Çevirme açıklamasını girmek zorundasınız!!", "Hata", "Tamam", "btn-danger");
             return;
         }
-      
+
         $.ajax({
             url: window.location.origin + "/Approvals/Purchase/SipGMReddet?redAciklama=" + aciklama,
             data: {},
@@ -168,7 +168,7 @@
     });
 
     $('.yenile-buton').click(function () {
-        window.location.reload(); 
+        window.location.reload();
     });
 
 

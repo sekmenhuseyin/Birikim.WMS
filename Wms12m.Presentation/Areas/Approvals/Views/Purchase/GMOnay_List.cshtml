@@ -81,9 +81,9 @@
         "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
         "ajax": {
             "url": '/Approvals/Purchase/SipGMOnayListData',
-            "data": {HesapKodu:ch, SipTalepNo:'@ViewBag.SipTalepNo'},
+            "data": { HesapKodu: ch, SipTalepNo: '@ViewBag.SipTalepNo', OnayTip: '@ViewBag.OnayTip'},
             "dataSrc": function (json) {
-                
+
                 return json;
             },
         },

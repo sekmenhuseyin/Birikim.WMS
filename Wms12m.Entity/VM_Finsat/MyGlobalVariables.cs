@@ -18,15 +18,16 @@ namespace Wms12m.Entity
         public static KKPEvrakSiparis SipEvrakGMY { get; set; }
         public static List<SatTalep> GMYOnayList { get; set; }
         public static List<SatTalep> GMYOnayDetayList { get; set; }
-        public static List<SatTalep> SatSipGMYMaliOnayList { get; set; }
-        public static List<SatTalep> SatSipGMYMaliOnayDetayList { get; set; }
-        public static List<KKP_FTD> GridGMYFTD { get; set; }
+
         public static List<SatTalep> GMYSource { get; set; }
 
-        public enum GMYOnayTip
+        public enum OnayTip
         {
+            GMOnay,
+            SatSipGMYMaliOnay,
             GMYTedarikciOnay,
-            GMYMaliOnay
+            GMYMaliOnay           
+
         }
     }
 }

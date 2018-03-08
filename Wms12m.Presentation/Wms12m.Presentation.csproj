@@ -509,8 +509,6 @@
     <Content Include="Areas\Reports\Views\Financial\HdfGrpTanimKarti.cshtml" />
     <Content Include="Areas\Reports\Views\Financial\HdfGrpTanimKartiList.cshtml" />
     <Content Include="Areas\Reports\Views\Financial\HdfGrpTanimKartiEdit.cshtml" />
-    <Content Include="Areas\Approvals\Views\Purchase\SatisSiparisGMYMaliOnay.cshtml" />
-    <Content Include="Areas\Approvals\Views\Purchase\SatisSiparisGMYMaliOnay_List.cshtml" />
     <Content Include="Areas\Reports\Views\Stock\SevkiyatKalanDetay.cshtml" />
     <Content Include="Areas\Reports\Views\Financial\TargetRapor.cshtml" />
     <Content Include="Areas\Reports\Views\Financial\TargetRaporList.cshtml" />
