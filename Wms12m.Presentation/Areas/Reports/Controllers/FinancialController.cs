@@ -746,8 +746,9 @@ GROUP BY  STk.MalAdi4, CHK.GrupKod, CHK.TipKod", vUser.SirketKodu, Kod13)).ToLis
             List<UrunGrupRapor> ugr;
             try
             {
-                string sorgu = "";
-                sorgu = String.Format(UrunGrupRapor.Sorgu, vUser.SirketKodu, Convert.ToInt32(Yil), Convert.ToInt32(Ay) + 1, GrupKod);
+                string sorgu = "", r = "";
+                r = YilAyConvert(Yil, Ay);
+                sorgu = String.Format(UrunGrupRapor.Sorgu, vUser.SirketKodu, GrupKod, r, Convert.ToInt32(Yil), (Convert.ToInt32(Ay) + 1));
                 ugr = db.Database.SqlQuery<UrunGrupRapor>(sorgu).ToList();
             }
             catch (Exception ex)
@@ -799,7 +800,7 @@ GROUP BY  STk.MalAdi4, CHK.GrupKod, CHK.TipKod", vUser.SirketKodu, Kod13)).ToLis
             try
             {
                 string sorgu = "";
-                sorgu = String.Format(AyBazliBolgeRapor.Sorgu, vUser.SirketKodu, Convert.ToInt32(Yil));
+                sorgu = String.Format(AyBazliBolgeRapor.Sorgu, vUser.SirketKodu, Yil);
                 tabbr = db.Database.SqlQuery<AyBazliBolgeRapor>(sorgu).ToList();
             }
             catch (Exception ex)
@@ -828,7 +829,7 @@ GROUP BY  STk.MalAdi4, CHK.GrupKod, CHK.TipKod", vUser.SirketKodu, Kod13)).ToLis
             try
             {
                 string sorgu = "";
-                sorgu = String.Format(AyBazliTemsilciRapor.Sorgu, vUser.SirketKodu, Convert.ToInt32(Yil));
+                sorgu = String.Format(AyBazliTemsilciRapor.Sorgu, vUser.SirketKodu, Yil);
                 tsbtr = db.Database.SqlQuery<AyBazliTemsilciRapor>(sorgu).ToList();
             }
             catch (Exception ex)
@@ -949,13 +950,36 @@ GROUP BY  STk.MalAdi4, CHK.GrupKod, CHK.TipKod", vUser.SirketKodu, Kod13)).ToLis
             try
             {
                 string sorgu = "";
-                sorgu = String.Format(SatisAnaliziTemsilci.Sorgu, vUser.SirketKodu, GrupKod, Convert.ToInt32(Yil));
+                sorgu = String.Format(SatisAnaliziTemsilci.TemsilciSorgu, vUser.SirketKodu, GrupKod, Convert.ToInt32(Yil));
                 sat = db.Database.SqlQuery<SatisAnaliziTemsilci>(sorgu).ToList();
             }
             catch (Exception ex)
             {
                 sat = new List<SatisAnaliziTemsilci>();
                 Logger(ex, "/Reports/Financial/UrunSatisTemsilciAnalizSelect");
+            }
+            return new JavaScriptSerializer().Serialize(sat);
+        }
+        public PartialViewResult UrunSatisBolgeAnalizList(string GrupKod, string Yil)
+        {
+            ViewBag.GrupKod = GrupKod;
+            ViewBag.Yil = Yil;
+            return PartialView("UrunSatisBolgeAnalizList");
+        }
+        public string UrunSatisBolgeAnalizSelect(string GrupKod, string Yil)
+        {
+            List<SatisAnaliziTemsilci> sat;
+            try
+            {
+                //TODO : Sorgu kontrol edilecek
+                string sorgu = "";
+                sorgu = String.Format(SatisAnaliziTemsilci.BolgeSorgu, vUser.SirketKodu, GrupKod, Convert.ToInt32(Yil));
+                sat = db.Database.SqlQuery<SatisAnaliziTemsilci>(sorgu).ToList();
+            }
+            catch (Exception ex)
+            {
+                sat = new List<SatisAnaliziTemsilci>();
+                Logger(ex, "/Reports/Financial/UrunSatisBolgeAnalizSelect");
             }
             return new JavaScriptSerializer().Serialize(sat);
         }

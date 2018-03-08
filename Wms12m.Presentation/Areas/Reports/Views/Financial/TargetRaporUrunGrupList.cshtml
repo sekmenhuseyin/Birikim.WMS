@@ -18,9 +18,10 @@
                             <table class="table table-striped table-bordered table-condensed" id="sample_1b">
                                 <thead>
                                     <tr>
-                                        <th>Temsilci</th>
-                                        <th>Bölge</th>
+                                        <th>Urun Grup</th>
                                         <th>Hedef</th>
+                                        <th>Ciro</th>
+                                        <th>Oran</th>
                                     </tr>
                                 </thead>
                                 <tfoot>
@@ -28,10 +29,12 @@
                                         <th></th>
                                         <th></th>
                                         <th></th>
+                                        <th></th>
                                     </tr>
                                 </tfoot>
                                 <tfoot class="tf-search">
                                     <tr>
+                                        <th></th>
                                         <th></th>
                                         <th></th>
                                         <th></th>
@@ -58,11 +61,12 @@
                 },
             },
             "ordering": false,
-            "columnDefs": [{ "type": "num-fmt", "className": "dt-right", "targets": [1, 2] }, { "className": "dt-center", "targets": "_all" }],
+            "columnDefs": [{ "type": "num-fmt", "className": "dt-right", "targets": [1, 2,3] }, { "className": "dt-center", "targets": "_all" }],
             "columns": [
                 { "data": "UrunGrup" },
+                { "data": "Hedef", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
                 { "data": "NetCiro", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
-                { "data": "ToplamIade", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
+                { "data": "Oran", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
             ],
             "ordering": false,
             "fnRowCallback": function (nRow, aData, iDisplayIndex) {
@@ -70,14 +74,14 @@
                 return nRow;
             },
             "footerCallback": function (row, data, start, end, display) {
-                var NetCiro = 0, ToplamIade = 0;
+                var Hedef = 0, NetCiro = 0;
                 table1b.rows({ search: 'applied' }).data().each(function (val, index) {
+                    Hedef += val.Hedef;
                     NetCiro += val.NetCiro;
-                    ToplamIade += val.ToplamIade;
                 });
                 var api = this.api(), data;
-                $(api.column(1).footer()).html(numeral(NetCiro).format());
-                $(api.column(2).footer()).html(numeral(ToplamIade).format());
+                $(api.column(1).footer()).html(numeral(Hedef).format());
+                $(api.column(2).footer()).html(numeral(NetCiro).format());
             }
         });
 

@@ -10,12 +10,12 @@
                     <div class="portlet box green">
                         <div class="portlet-title">
                             <div class="caption">
-                                <i class="fa fa-gift"></i>Ürün Satış Temsilci Analizi - @ViewBag.Yil
+                                <i class="fa fa-gift"></i>Ürün Satış Bölge Analizi - @ViewBag.Yil
                             </div>
-                            <div class="col-md-1 pull-right m-t-5 p-0" id="buttons1a"></div>
+                            <div class="col-md-1 pull-right m-t-5 p-0" id="buttons1b"></div>
                         </div>
                         <div class="portlet-body">
-                            <table class="table table-striped table-bordered table-condensed" id="sample_1a">
+                            <table class="table table-striped table-bordered table-condensed" id="sample_1b">
                                 <thead>
                                     <tr>
                                         <th>Kod9</th>
@@ -80,15 +80,14 @@
 </div>
 <script type="text/javascript">
      $(document).ready(function () {
-           table1a = $('#sample_1a').DataTable({
+           table1b = $('#sample_1b').DataTable({
             "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
             "ajax": {
-
-                   "url": '/Reports/Financial/UrunSatisTemsilciAnalizSelect',
-                   "data": { GrupKod: '@ViewBag.GrupKod', Yil: '@ViewBag.Yil' },
-                   "dataSrc": function (json) {
+                "url": '/Reports/Financial/UrunSatisBolgeAnalizSelect',
+                "data": { GrupKod: '@ViewBag.GrupKod', Yil: '@ViewBag.Yil' },
+                "dataSrc": function (json) {
                        return json;
-                   },
+                },
                },
             "pagingType": "full_numbers",
             "ordering": false,
@@ -118,7 +117,7 @@
             "footerCallback": function (row, data, start, end, display) {
                 var Ocak = 0, Subat = 0, Mart = 0, Nisan = 0, Mayis = 0, Haziran = 0,
                     Temmuz = 0, Agustos = 0, Eylul = 0, Ekim = 0, Kasim = 0, Aralik = 0, NetCiro = 0;
-                table1a.rows({ search: 'applied' }).data().each(function (val, index) {
+                table1b.rows({ search: 'applied' }).data().each(function (val, index) {
                     Ocak += val.Ocak;
                     Subat += val.Subat;
                     Mart += val.Mart;
@@ -150,21 +149,21 @@
             }
         });
 
-        $("#buttons1a").html("");
-        var buttons = new $.fn.dataTable.Buttons(table1a, {
+        $("#buttons1b").html("");
+        var buttons = new $.fn.dataTable.Buttons(table1b, {
             buttons: [
                 { "extend": 'pdf', "text": '<span class="fa fa-file-pdf-o f-s-15 red"></span>', "className": 'btn-xs;' },
                 { "extend": 'excel', "text": '<span class="fa fa-file-excel-o f-s-15 green"></span>', "className": 'btn-xs;' }
             ]
-        }).container().appendTo($('#buttons1a'));
-        $('#sample_1a .tf-search th').each(function () {
-            var title = $('#sample_1a thead th').eq($(this).index()).text();
+        }).container().appendTo($('#buttons1b'));
+        $('#sample_1b .tf-search th').each(function () {
+            var title = $('#sample_1b thead th').eq($(this).index()).text();
             if (title != "" && title.indexOf("Tarih") !== -1)
                 $(this).html('<input class="form-control input-circle tarih" type="text" placeholder="Ara" />');
             else if (title != "" && title != "Detay" && title != "Hareket")
                 $(this).html('<input class="form-control input-circle" type="text" placeholder="Ara" />');
         });
-        $("#sample_1a tfoot input").on('keyup change', function () { table1a.column($(this).parent().index() + ':visible').search(this.value).draw(); });
-        $('#sample_1a .tf-search tr').insertAfter($('#sample_1a thead tr'))
+        $("#sample_1b tfoot input").on('keyup change', function () { table1b.column($(this).parent().index() + ':visible').search(this.value).draw(); });
+        $('#sample_1b .tf-search tr').insertAfter($('#sample_1b thead tr'))
     });
 </script>
