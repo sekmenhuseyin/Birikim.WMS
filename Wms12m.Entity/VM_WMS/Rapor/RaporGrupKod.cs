@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Wms12m.Entity
+﻿namespace Wms12m.Entity
 {
     public class RaporGrupKod
     {
@@ -304,14 +302,14 @@ namespace Wms12m.Entity
                                         ,H1.HEDEF
                                         ,D.NetCiro
                                         FROM FINSAT6{0}.FINSAT6{0}.HDF AS H1 WITH (NOLOCK)
-                                        LEFT JOIN (
+                                        RIGHT JOIN (
                                         SELECT STK.MalAdi4, SUM(CASE WHEN STI.KynkEvrakTip IN (1,163) THEN (STI.Tutar-STI.ToplamIskonto) 
                                                                 ELSE (STI.Tutar-STI.ToplamIskonto)*-1 END) AS NetCiro 
                                         FROM FINSAT6{0}.FINSAT6{0}.STI AS STI WITH (NOLOCK)
                                         LEFT JOIN FINSAT6{0}.FINSAT6{0}.CHK AS CHK WITH (NOLOCK) ON CHK.Hesapkodu=STI.CHK 
-                                        INNER JOIN FINSAT6{0}.FINSAT6{0}.STK AS STK WITH (NOLOCK) ON STK.MALKODU=STI.MALKODU
+                                        LEFT JOIN FINSAT6{0}.FINSAT6{0}.STK AS STK WITH (NOLOCK) ON STK.MALKODU=STI.MALKODU
                                         WHERE (CHK.KartTip IN (0,4)) AND (CHK.HesapKodu BETWEEN '1' AND '8') AND (STI.KynkEvrakTip IN (1,2,163)) 
-                                        AND (STI.Tarih BETWEEN @TAR1 and @TAR2) AND CHK.GrupKod='{1}'
+                                        AND (STI.Tarih BETWEEN @TAR1 and @TAR2) AND CHK.GrupKod='{1}' AND STK.MalAdi4<>' '
                                         GROUP BY STK.MalAdi4
                                         ) AS D ON H1.URUNGRUP=D.MalAdi4
                                         WHERE H1.BOLGE='{1}'  
@@ -534,9 +532,6 @@ namespace Wms12m.Entity
         public string MalAdi4 { get; set; }
 
         public static string Sorgu = @"
-                                   DECLARE @TAR1 INT,@TAR2 INT
-                                   SET @TAR1 = FINSAT6{0}.dbo.AyIlkSonGun({1},{2},1)
-                                   SET @TAR2 = FINSAT6{0}.dbo.AyIlkSonGun({1},{2},0)
                                    SELECT {3}
                                    SPI.MalKodu,
                                    STK.MalAdi,
@@ -556,7 +551,7 @@ namespace Wms12m.Entity
                                    FROM FINSAT6{0}.FINSAT6{0}.SPI AS SPI WITH (NOLOCK)
                                    INNER JOIN FINSAT6{0}.FINSAT6{0}.STK AS STK WITH (NOLOCK) ON STK.MALKODU = SPI.MALKODU 
                                    INNER JOIN FINSAT6{0}.FINSAT6{0}.CHK AS CHK WITH (NOLOCK) ON CHK.HesapKodu = SPI.CHK
-                                   WHERE SPI.KynkEvrakTip=62 AND (SPI.Tarih BETWEEN @TAR1 AND @TAR2)
+                                   WHERE SPI.KynkEvrakTip=62 AND (SPI.Tarih BETWEEN {1} AND {2})
                                    ";
     }
     public class BekleyenSips

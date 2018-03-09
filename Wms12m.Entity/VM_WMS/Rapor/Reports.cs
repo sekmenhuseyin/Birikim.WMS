@@ -283,6 +283,7 @@ namespace Wms12m.Entity
         public string EFatEtiket { get; set; }
         public string Ad { get; set; }
         public string SoyAd { get; set; }
+        public string VergiDairesiAdi { get; set; }
     }
     public class MuhasebeOnaySelect
     {

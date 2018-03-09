@@ -848,20 +848,20 @@ GROUP BY  STk.MalAdi4, CHK.GrupKod, CHK.TipKod", vUser.SirketKodu, Kod13)).ToLis
             ViewBag.Aylar = HdfGrupProperties(2);
             return View();
         }
-        public PartialViewResult RaporGunlukSiparisList(string Yil, string Ay)
+        public PartialViewResult RaporGunlukSiparisList(int BasTarih, int BitTarih)
         {
-            ViewBag.Yil = JsonConvert.SerializeObject(Yil);
-            ViewBag.Ay = JsonConvert.SerializeObject(Ay);
+            ViewBag.BasTarih = JsonConvert.SerializeObject(BasTarih);
+            ViewBag.BitTarih = JsonConvert.SerializeObject(BitTarih);
             return PartialView("RaporGunlukSiparisList");
         }
-        public string RaporGunlukSiparisSelect(string Yil, string Ay)
+        public string RaporGunlukSiparisSelect(int BasTarih, int BitTarih)
         {
             List<GunlukSiparis> gs;
             try
             {
                 //TODO : TOP 100
                 string sorgu = "";
-                sorgu = String.Format(GunlukSiparis.Sorgu, vUser.SirketKodu, Convert.ToInt32(Yil), Convert.ToInt32(Ay) + 1, "TOP 100");
+                sorgu = String.Format(GunlukSiparis.Sorgu, vUser.SirketKodu, BasTarih, BitTarih, "");
                 gs = db.Database.SqlQuery<GunlukSiparis>(sorgu).ToList();
             }
             catch (Exception ex)

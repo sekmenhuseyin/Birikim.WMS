@@ -70,14 +70,15 @@
     </div>
 </div>
 <script type="text/javascript">
-    var Yil = JSON.parse('@Html.Raw(ViewBag.Yil)');
-    var Ay = JSON.parse('@Html.Raw(ViewBag.Ay)');
+    var BasTarih = JSON.parse('@Html.Raw(ViewBag.BasTarih)');
+    var BitTarih = JSON.parse('@Html.Raw(ViewBag.BitTarih)');
+
     $(document).ready(function () {
         table = $('#sample_1').DataTable({
             "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
             "ajax": {
                 "url": '/Reports/Financial/RaporGunlukSiparisSelect',
-                "data": { Yil: Yil , Ay : Ay },
+                "data": { BasTarih: BasTarih, BitTarih: BitTarih },
                 "dataSrc": function (json) {
                     return json;
                 },

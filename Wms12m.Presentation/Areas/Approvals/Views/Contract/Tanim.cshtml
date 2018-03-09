@@ -752,6 +752,8 @@
         var bas_tarih = $(".date_bitis_tarihi").dxDateBox("instance").option("value");
         var bag_tutari = $(".numb_baglanti_tutari").dxTextBox("instance").option("value");
         var bag_tutar_doviz = $(".select_baglanti_tutari_doviz").dxSelectBox("instance").option("value");
+       
+  
         $('#x-modal-sozlesme-guncelle').modal("show");
         $(".date_onc_bitis_tarihi").dxDateBox({
             dataType: 'date',
@@ -771,8 +773,10 @@
         $(".date_yeni_bitis_tarihi").dxDateBox({
             dataType: 'date',
             formatString: 'dd/MM/yyyy',
+            value: YeniBitisTarihi,
             onValueChanged: function (e) {
                 YeniBitisTarihi = Math.ceil((e.value - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000));
+                e.value = YeniBitisTarihi;
             }
         });
         NumbBox(".numb_yeni_baglanti_tutari", false,2);
@@ -797,12 +801,16 @@
                     Modaldialog("Müşteri Uygunluk Şekli Boş Geçilemez.", "Sözleşme Güncelle", "Tamam", "btn-warning");
                     return;
                 }
+                if (YeniBitisTarihi == "") {
+
+                    YeniBitisTarihi = bas_tarih;
+                }
                 $.ajax({
                     url: window.location.origin + "/Approvals/Contract/BaglantiTutariGuncelle",
                     data: { BaglantiNumarasi: listeNo, YeniBaglantiTutari: yeni_bag_tut },
                     type: "get",
                     success: function (data) {
-                        if (data == "True") {                   
+                        if (data == "True") {     
                             $.ajax({
                                 url: window.location.origin + "/Approvals/Contract/Guncelle",
                                 data: { SozlesmeNo: listeNo, BasTarih: bas_tarih, MusUygSekli: MusteriUygunlukKodu, YeniBaglantiTutari: yeni_bag_tut, YeniBitisTarihi: YeniBitisTarihi },

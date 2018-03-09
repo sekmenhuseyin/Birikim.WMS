@@ -17,34 +17,17 @@
                     <div class="portlet-body form">
                         <form class="form-horizontal">
                             <div class="form-body">
-                                <div class="form-group">
-                                    <label class="control-label col-md-3">Yıl</label>
-                                    <div class="col-md-4">
-                                        <select id="yil-select" required="required" name="yil-select" style="float:left;width:90%" class="form-control input-circle satirekle">
-                                            @foreach (string item in (List<string>)ViewBag.Yillar)
-                                            {
-                                                <option value="@item">@item</option>
-                                            }
-                                        </select>
-                                    </div>
+                                <div class="row m-t-20">
+                                    <div class="col-md-offset-2 col-md-2 p-0 m-t-5 color-blue-light bold">Başlangıç: </div>
+                                    <div class="col-md-2 p-0 m-t-5 color-blue-light bold">Bitiş: </div>
                                 </div>
-                                <div class="form-group">
-                                    <label class="control-label col-md-3">Ay</label>
-                                    <div class="col-md-4">
-                                        <select id="ay-select" required="required" name="ay-select" style="float:left;width:90%" class="form-control input-circle satirekle">
-                                            @foreach (var item in ((List<string>)ViewBag.Aylar).Select((value, i) => new { i, value }))
-                                            {
-                                                <option value="@item.i">@item.value</option>
-                                            }
-                                        </select>
-                                    </div>
+                                <div class="row m-t-20">
+                                    <div class="col-md-2 text-right p-0 m-t-5 color-blue-light bold">Tarih: </div>
+                                    <div class="col-md-2 p-l-5 p-r-0"><input class="form-control dateboxbg" type="text" id="txtBaslangic" value="@DateTime.Today.AddMonths(-1).ToString("dd.MM.yyyy")" /></div>
+                                    <div class="col-md-2 p-l-5 p-r-0"><input class="form-control dateboxbg" type="text" id="txtBitis" value="@DateTime.Today.ToString("dd.MM.yyyy")" /></div>
+                                    <div class="col-md-2"><button id="btnListele" name="btnListele" type="button" class="btn btn-circle green" style="width:222px;height:33px;">Listele<i class="fa fa-check"></i></button></div>
                                 </div>
-                                <div class="form-group">
-                                    <div class="col-md-offset-3 col-md-9">
-                                        <button id="btnListele" name="btnListele" type="button" class="btn btn-circle green" style="width:222px;height:33px;">Listele</button>
-                                        <button id="btnTemizle" name="btnTemizle" type="button" class="btn btn-circle grey-salsa" style="width:222px;height:33px;">Temizle</button>
-                                    </div>
-                                </div>
+                               
 
                             </div>
                         </form>
@@ -61,15 +44,13 @@
     <script src="~/Content/assets/global/plugins/jquery-file-upload/js/vendor/jquery.ui.widget.js" type="text/javascript"></script>
     <script src="~/Content/assets/global/plugins/jquery-file-upload/js/jquery.fileupload.js" type="text/javascript"></script>
     <script type="text/javascript">
+           var BasTarih = @DateTime.Today.AddMonths(-1).ToOADateInt();
+            var BitTarih = @DateTime.Today.ToOADateInt();
+            $("#txtBaslangic").datepicker().on("change", function (e) { BasTarih = toOADateFromString(e.target.value); });
+            $("#txtBitis").datepicker().on("change", function (e) { BitTarih = toOADateFromString(e.target.value); });
         $('#btnListele').on('click', function myfunction() {
-            var ay = $('#ay-select :selected').val();
-            var yil = $('#yil-select :selected').val();
-            PartialView("/Reports/Financial/RaporGunlukSiparisList", 'liste', JSON.stringify({ Ay: ay, Yil: yil }));
+            PartialView("/Reports/Financial/RaporGunlukSiparisList", 'liste', JSON.stringify({ BasTarih: BasTarih, BitTarih: BitTarih }));
         });
-        $('#btnTemizle').on('click', function myfunction() {
-            $(".satirekle")[0].selectedIndex = 0;
-            $(".satirekle")[1].selectedIndex = 0;
-            $("#liste").html("");
-        });
+
     </script>
 }
