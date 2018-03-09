@@ -521,7 +521,6 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                             kkp.UpdateChanges();
 
                             var sipTarih = Convert.ToInt32(MyGlobalVariables.SipEvrak.Tarih.ToOADate());
-                            string.IsNullOrWhiteSpace
                             var talep = MyGlobalVariables.TalepSource[0].TalepNo;
                             //SiparisOnayMailGonderim
 
