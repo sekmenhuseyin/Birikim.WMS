@@ -423,7 +423,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                             foreach (var item in MyGlobalVariables.TalepSource)
                             {
                                 ///Durum 5: Teklif Bekliyor; 6: Teklif Değerlendirme; 7: Teklif Onaylandı; 8: Sipaiş Süreci, 11: Sipariş Ön Onay
-                                var sql = string.Format(@"UPDATE sta.Talep 
+                                var sql = string.Format(@"UPDATE Kaynak.sta.Talep 
                                 SET GMYMaliOnaylayan=@Degistiren, GMYMaliOnayTarih=@DegisTarih, Durum=11, 
                                 Degistiren=@Degistiren, DegisTarih=@DegisTarih, DegisSirKodu={0}
                                 WHERE ID=@ID AND Durum=8
@@ -464,7 +464,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                             foreach (var item in MyGlobalVariables.TalepSource)
                             {
 
-                            var sql = string.Format(@"UPDATE sta.Talep 
+                            var sql = string.Format(@"UPDATE Kaynak.sta.Talep 
                             SET GMYMaliOnaylayan=@Degistiren, GMYMaliOnayTarih=@DegisTarih, Durum=15, SipEvrakNo=@SipEvrakNo, SirketKodu='{0}', 
                             Degistiren=@Degistiren, DegisTarih=@DegisTarih, DegisSirKodu='{0}'
                             WHERE ID=@ID AND Durum = 8 AND SipTalepNo IS NOT NULL", vUser.SirketKodu);
