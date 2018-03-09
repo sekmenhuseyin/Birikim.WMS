@@ -58,6 +58,7 @@
         $(".musteri_unvan").hide();
         $(".txt_geri_cevirme_aciklamasi").dxTextBox({
             maxLength: 250
+
         });
 
         $(".select_onay").dxLookup({
@@ -74,7 +75,7 @@
                 TLP = e.value.SipTalepNo;
                 $(".musteri_unvan").text(e.value.Unvan);
                 $(".musteri_unvan").show();
-                PartialView("/Approvals/Purchase/SipGMOnayList", 'satinalma_gm_onay_data', JSON.stringify({ HesapKodu: e.value.HesapKodu, SipTalepNo: e.value.SipTalepNo ,OnayTip: '@ViewBag.OnayTip' }));
+                PartialView("/Approvals/Purchase/SipGMOnayList", 'satinalma_gm_onay_data', JSON.stringify({ HesapKodu: e.value.HesapKodu, SipTalepNo: e.value.SipTalepNo, OnayTip: '@ViewBag.OnayTip' }));
                 PartialView("/Approvals/Purchase/SipGMOnayListFTD", 'satinalma_gm_onay_ftd_data', JSON.stringify({ HesapKodu: e.value.HesapKodu, SipTalepNo: e.value.SipTalepNo, OnayTip: '@ViewBag.OnayTip' }));
                 setTimeout(function () {
                      $.ajax({
@@ -122,7 +123,7 @@
                 }
                 else {
                     $.ajax({
-                        url: window.location.origin + "/Approvals/Purchase/SipGMOnayla?OnayTip="+'@ViewBag.OnayTip'
+                        url: window.location.origin + "/Approvals/Purchase/SipGMOnayla?OnayTip="+'@ViewBag.OnayTip',
                         data: {},
                         type: "post",
                         success: function (data) {
@@ -150,7 +151,7 @@
         }
 
         $.ajax({
-            url: window.location.origin + "/Approvals/Purchase/SipGMReddet?redAciklama=" + aciklama+"&OnayTip="+'@ViewBag.OnayTip', 
+            url: window.location.origin + "/Approvals/Purchase/SipGMReddet?redAciklama=" + aciklama+"&OnayTip="+'@ViewBag.OnayTip',
             data: {},
             type: "post",
             success: function (data) {
