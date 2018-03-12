@@ -967,13 +967,11 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                     item.pk_SiraNo = item.SiraNo;
                     item.Kod12 = item.Kod11;
                     item.Kod11 = YeniBaglantiTutari.Replace('.', ',').ToDecimal();
-                    //if (YeniBitisTarihi != item.BitTarih)
-                    //{
-                    //    item.Kod9 = item.BitTarih.ToString2();
-                    //    item.BitTarih = YeniBitisTarihi;
-                    //}
-                    item.Kod9 = item.BitTarih.ToString2();
-                    item.BitTarih = YeniBitisTarihi;
+                    if (YeniBitisTarihi != item.BitTarih)
+                    {
+                        item.Kod9 = item.BitTarih.ToString2();
+                        item.BitTarih = YeniBitisTarihi;
+                    }
 
                     if ((item.MalKodGrup == 0 && item.MalKod.StartsWith("2800")) || (item.MalKodGrup == 1 && item.MalKod == "FKAĞIT") || (item.MalKodGrup == 0 && (item.MalKod == "M001001000017051" || item.MalKod == "M001001000022051")))
                     {

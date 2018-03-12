@@ -146,11 +146,13 @@
 </div>
 @section Scripts{<script src="~/Content/assets/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js" type="text/javascript"></script>
 <script type="text/javascript">
-    var YeniBaglantiTutari = ""; var YeniBitisTarihi = ""; var MusteriUygunlukKodu = ""; var TempMalAdi = ""; var TempUrunGrup = -1; var listeNo = "";
-    var TempUrunGrupText = ""; var TempMalKod = ""; var satirsayisi = 0; var TempKalite = ""; var element = new Array(); var srNo = "@ViewBag.SRNO"
+    var YeniBaglantiTutari = ""; var MusteriUygunlukKodu = ""; var TempMalAdi = ""; var TempUrunGrup = -1; var listeNo = "";
+    var TempUrunGrupText = ""; var TempMalKod = ""; var satirsayisi = 0; var TempKalite = ""; var element = new Array(); var srNo = "@ViewBag.SRNO";
+
 
     $(document).ready(function () {
         var container = $('.bootstrap-iso form').length > 0 ? $('.bootstrap-iso form').parent() : "body";
+      
         $(".form-rounded").css("border-radius", "1rem");
         $(".sozlesme-guncelle-buton").addClass('disabled');
         DevExpress.ui.dxOverlay.baseZIndex(20000);
@@ -374,6 +376,7 @@
             displayExpr: 'ListeNo',
 
             onValueChanged: function (e) {
+         
                 if (e.value == null) {
                     $(".txt_sozlesme_sira_no").dxTextBox("instance").option("value", "");
                     return;
@@ -393,6 +396,7 @@
                     type: "post",
                     success: function (data) {
                         var result = JSON.parse(data);
+                      
                         if ($(".swtch_sozlesme_durumu").dxSwitch("instance").option("value") == true) {
                             MusteriUygunlukKodu = result[0].MusUygSekli;
                         }
@@ -752,6 +756,8 @@
         var bas_tarih = $(".date_bitis_tarihi").dxDateBox("instance").option("value");
         var bag_tutari = $(".numb_baglanti_tutari").dxTextBox("instance").option("value");
         var bag_tutar_doviz = $(".select_baglanti_tutari_doviz").dxSelectBox("instance").option("value");
+        var YeniBitisTarihi = $(".date_bitis_tarihi").dxDateBox("instance").option("value");
+        
        
   
         $('#x-modal-sozlesme-guncelle').modal("show");
@@ -775,8 +781,7 @@
             formatString: 'dd/MM/yyyy',
             value: YeniBitisTarihi,
             onValueChanged: function (e) {
-                YeniBitisTarihi = Math.ceil((e.value - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000));
-                e.value = YeniBitisTarihi;
+               YeniBitisTarihi = e.value;
             }
         });
         NumbBox(".numb_yeni_baglanti_tutari", false,2);
@@ -787,6 +792,7 @@
         var yeni_bag_tut = $(".numb_yeni_baglanti_tutari").dxTextBox("instance").option("value").toString().replace(/\./g, "").replace(",", ".");
         var yeni_bag_tut_number = Number(yeni_bag_tut);
         var bas_tarih = Math.ceil(($(".date_baslangic_tarihi").dxDateBox("instance").option("value") - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000));
+        var YeniBitisTarihi = Math.ceil(($(".date_yeni_bitis_tarihi").dxDateBox("instance").option("value") - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000));
         if (yeni_bag_tut_number > 0) {
            
                 if (listeNo == null) {
@@ -801,10 +807,7 @@
                     Modaldialog("Müşteri Uygunluk Şekli Boş Geçilemez.", "Sözleşme Güncelle", "Tamam", "btn-warning");
                     return;
                 }
-                if (YeniBitisTarihi == "") {
-
-                    YeniBitisTarihi = bas_tarih;
-                }
+     
                 $.ajax({
                     url: window.location.origin + "/Approvals/Contract/BaglantiTutariGuncelle",
                     data: { BaglantiNumarasi: listeNo, YeniBaglantiTutari: yeni_bag_tut },
@@ -847,7 +850,6 @@
         $(".numb_yeni_baglanti_tutari").dxTextBox("instance").option("value", 0);
         $(".date_yeni_bitis_tarihi").dxDateBox("instance").option("value", null);
         YeniBaglantiTutari = "";
-        YeniBitisTarihi = "";
         $('#x-modal-sozlesme-guncelle').modal("hide");
     });
 
