@@ -88,7 +88,7 @@ namespace Wms12m
             {
                 if (STIBaseList.Count > 0)
                 {
-                    return FtrKayit.FaturaKaydet(STIBaseList, efatKullanici, irsaliyeSeri, yil, FaturaTipi.AlimdanIadeFaturası.ToInt32());
+                    return FtrKayit.FaturaKaydet(STIBaseList, efatKullanici, irsaliyeSeri, yil, FaturaTipi.AlimdanIadeFaturası.ToInt32(), "391", SirketKodu == "33" ? "391 000" : "391 01 001", "391 001");
                 }
                 else
                     return new Result(false, "Bu sipariş kapanmış. Evrak No= " + tempEvrakNo);
@@ -278,7 +278,7 @@ namespace Wms12m
 
                 if (stiBaseList.Count > 0)
                 {
-                    result = FtrKayit.FaturaKaydet(stiBaseList, efatKullanici, faturaSeri, yil, FaturaTipi.SatisFaturası.ToInt32());
+                    result = FtrKayit.FaturaKaydet(stiBaseList, efatKullanici, faturaSeri, yil, FaturaTipi.SatisFaturası.ToInt32(), "391", SirketKodu == "33" ? "391 000" : "391 01 001", "391 001");
                 }
 
                 if (stiBaseListSpi.Count > 0)
