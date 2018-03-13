@@ -196,7 +196,7 @@ namespace Wms12m
                     finsat.Tarih = finsat.KaynakSiparisTarih;
                     finsat.Kaydeden = kaydeden;
                     finsat.KayitSurum = "9.01.028";
-                    finsat.KayitKaynak = 74;
+                    finsat.KayitKaynak = 70;
                     stiBaseList.Add(finsat);
                 }
             }
@@ -241,7 +241,7 @@ namespace Wms12m
                     EvrakTipi = STIEvrakTipi.SatisIrsaliyesi,
                     Kaydeden = kaydeden,
                     KayitSurum = "9.01.028",
-                    KayitKaynak = 74,
+                    KayitKaynak = 70,
                     IslemTip = stItem.SipIslemTip,
                     DovizCinsi = stItem.DovizCinsi,
                     EFatSenaryo = stItem.EFatSenaryo,
