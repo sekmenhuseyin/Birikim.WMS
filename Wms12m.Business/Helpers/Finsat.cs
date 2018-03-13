@@ -194,6 +194,7 @@ namespace Wms12m
                     finsat.EvrakNo = evrkno[0].EvrakNo;
                     finsat.KaynakIrsEvrakNo = evrkno[1].EvrakNo;
                     finsat.Tarih = finsat.KaynakSiparisTarih;
+                    finsat.MhsKod = SirketKodu == "33" ? "391 000" : "391 01 001";
                     finsat.Kaydeden = kaydeden;
                     finsat.KayitSurum = "9.01.028";
                     finsat.KayitKaynak = 70;
