@@ -678,6 +678,7 @@ GROUP BY  STk.MalAdi4, CHK.GrupKod, CHK.TipKod", vUser.SirketKodu, Kod13)).ToLis
         public string TargetRaporSelect(string Ay, string Yil)
         {
             List<CTargetRapor> tl;
+            var json = new JavaScriptSerializer() { MaxJsonLength = int.MaxValue };
             try
             {
                 string sorgu = "", r = "";
@@ -699,7 +700,7 @@ GROUP BY  STk.MalAdi4, CHK.GrupKod, CHK.TipKod", vUser.SirketKodu, Kod13)).ToLis
                 tl = new List<CTargetRapor>();
                 Logger(ex, "/Reports/Financial/TargetRaporSelect");
             }
-            return new JavaScriptSerializer().Serialize(tl);
+            return json.Serialize(tl);
         }
         public PartialViewResult TargetRaporBolgeList(string GrupKod, string Ay, string Yil)
         {
@@ -711,6 +712,7 @@ GROUP BY  STk.MalAdi4, CHK.GrupKod, CHK.TipKod", vUser.SirketKodu, Kod13)).ToLis
         public string TargetRaporBolgeSelect(string GrupKod, string Ay, string Yil)
         {
             List<CTargetRaporTemsilci> ctrt;
+            var json = new JavaScriptSerializer() { MaxJsonLength = int.MaxValue };
             try
             {
                 string sorgu = "", r = "";
@@ -732,7 +734,7 @@ GROUP BY  STk.MalAdi4, CHK.GrupKod, CHK.TipKod", vUser.SirketKodu, Kod13)).ToLis
                 ctrt = new List<CTargetRaporTemsilci>();
                 Logger(ex, "/Reports/Financial/TargetRaporBolgeSelect");
             }
-            return new JavaScriptSerializer().Serialize(ctrt);
+            return json.Serialize(ctrt);
         }
         public PartialViewResult TargetRaporUrunGrupList(string GrupKod, string Ay, string Yil)
         {
@@ -744,6 +746,7 @@ GROUP BY  STk.MalAdi4, CHK.GrupKod, CHK.TipKod", vUser.SirketKodu, Kod13)).ToLis
         public string TargetRaporUrunGrupSelect(string GrupKod, string Ay, string Yil)
         {
             List<UrunGrupRapor> ugr;
+            var json = new JavaScriptSerializer() { MaxJsonLength = int.MaxValue };
             try
             {
                 string sorgu = "", r = "";
@@ -756,7 +759,7 @@ GROUP BY  STk.MalAdi4, CHK.GrupKod, CHK.TipKod", vUser.SirketKodu, Kod13)).ToLis
                 ugr = new List<UrunGrupRapor>();
                 Logger(ex, "/Reports/Financial/TargetRaporUrunGrupSelect");
             }
-            return new JavaScriptSerializer().Serialize(ugr);
+            return json.Serialize(ugr);
         }
         public PartialViewResult TargetRaporPRTList(string GrupKod, string Ay, string Yil)
         {
@@ -768,6 +771,7 @@ GROUP BY  STk.MalAdi4, CHK.GrupKod, CHK.TipKod", vUser.SirketKodu, Kod13)).ToLis
         public string TargetRaporPRTSelect(string GrupKod, string Ay, string Yil)
         {
             List<PRTRapor> prt;
+            var json = new JavaScriptSerializer() { MaxJsonLength = int.MaxValue };
             try
             {
                 string sorgu = "";
@@ -779,7 +783,7 @@ GROUP BY  STk.MalAdi4, CHK.GrupKod, CHK.TipKod", vUser.SirketKodu, Kod13)).ToLis
                 prt = new List<PRTRapor>();
                 Logger(ex, "/Reports/Financial/TargetRaporPRTSelect");
             }
-            return new JavaScriptSerializer().Serialize(prt);
+            return json.Serialize(prt);
         }
         #endregion
         #region TargetAyBazlıRaporBolge-YAPILDI
@@ -797,6 +801,7 @@ GROUP BY  STk.MalAdi4, CHK.GrupKod, CHK.TipKod", vUser.SirketKodu, Kod13)).ToLis
         public string TargetAyBazliRaporSelect(string Yil)
         {
             List<AyBazliBolgeRapor> tabbr;
+            var json = new JavaScriptSerializer() { MaxJsonLength = int.MaxValue };
             try
             {
                 string sorgu = "";
@@ -808,7 +813,7 @@ GROUP BY  STk.MalAdi4, CHK.GrupKod, CHK.TipKod", vUser.SirketKodu, Kod13)).ToLis
                 tabbr = new List<AyBazliBolgeRapor>();
                 Logger(ex, "/Reports/Financial/TargetAyBazliRaporSelect");
             }
-            return new JavaScriptSerializer().Serialize(tabbr);
+            return json.Serialize(tabbr);
         }
         #endregion
         #region TargetAyBazlıRaporTemsilci-YAPILDI
@@ -826,6 +831,7 @@ GROUP BY  STk.MalAdi4, CHK.GrupKod, CHK.TipKod", vUser.SirketKodu, Kod13)).ToLis
         public string TargetAyBazliTemsilciSelect(string Yil)
         {
             List<AyBazliTemsilciRapor> tsbtr;
+            var json = new JavaScriptSerializer() { MaxJsonLength = int.MaxValue };
             try
             {
                 string sorgu = "";
@@ -837,7 +843,7 @@ GROUP BY  STk.MalAdi4, CHK.GrupKod, CHK.TipKod", vUser.SirketKodu, Kod13)).ToLis
                 tsbtr = new List<AyBazliTemsilciRapor>();
                 Logger(ex, "/Reports/Financial/TargetAyBazliTemsilciSelect");
             }
-            return new JavaScriptSerializer().Serialize(tsbtr);
+            return json.Serialize(tsbtr);
         }
         #endregion
         #region GunlukSiparis-YAPILDI
@@ -857,9 +863,9 @@ GROUP BY  STk.MalAdi4, CHK.GrupKod, CHK.TipKod", vUser.SirketKodu, Kod13)).ToLis
         public string RaporGunlukSiparisSelect(int BasTarih, int BitTarih)
         {
             List<GunlukSiparis> gs;
+            var json = new JavaScriptSerializer() { MaxJsonLength = int.MaxValue };
             try
             {
-                //TODO : TOP 100
                 string sorgu = "";
                 sorgu = String.Format(GunlukSiparis.Sorgu, vUser.SirketKodu, BasTarih, BitTarih, "");
                 gs = db.Database.SqlQuery<GunlukSiparis>(sorgu).ToList();
@@ -869,7 +875,7 @@ GROUP BY  STk.MalAdi4, CHK.GrupKod, CHK.TipKod", vUser.SirketKodu, Kod13)).ToLis
                 gs = new List<GunlukSiparis>();
                 Logger(ex, "/Reports/Financial/RaporGunlukSiparisSelect");
             }
-            return new JavaScriptSerializer().Serialize(gs);
+            return json.Serialize(gs);
         }
         #endregion
         #region BekleyenSiparisler-YAPILDI
@@ -885,11 +891,11 @@ GROUP BY  STk.MalAdi4, CHK.GrupKod, CHK.TipKod", vUser.SirketKodu, Kod13)).ToLis
         public string RaporBekleyenSiparislerSelect()
         {
             List<BekleyenSips> bs;
+            var json = new JavaScriptSerializer() { MaxJsonLength = int.MaxValue };
             try
             {
-                //TODO : TOP 100
                 string sorgu = "";
-                sorgu = String.Format(BekleyenSips.Sorgu, vUser.SirketKodu, "TOP 100");
+                sorgu = String.Format(BekleyenSips.Sorgu, vUser.SirketKodu, "");
                 bs = db.Database.SqlQuery<BekleyenSips>(sorgu).ToList();
             }
             catch (Exception ex)
@@ -897,7 +903,7 @@ GROUP BY  STk.MalAdi4, CHK.GrupKod, CHK.TipKod", vUser.SirketKodu, Kod13)).ToLis
                 bs = new List<BekleyenSips>();
                 Logger(ex, "/Reports/Financial/RaporBekleyenSiparislerSelect");
             }
-            return new JavaScriptSerializer().Serialize(bs);
+            return json.Serialize(bs);
         }
         public PartialViewResult BekleyenMalzemeList(string HesapKodu)
         {
@@ -907,6 +913,7 @@ GROUP BY  STk.MalAdi4, CHK.GrupKod, CHK.TipKod", vUser.SirketKodu, Kod13)).ToLis
         public string BekleyenMalzemeSelect(string HesapKodu)
         {
             List<BekleyenMalz> bm;
+            var json = new JavaScriptSerializer() { MaxJsonLength = int.MaxValue };
             try
             {
                 string sorgu = "";
@@ -918,12 +925,25 @@ GROUP BY  STk.MalAdi4, CHK.GrupKod, CHK.TipKod", vUser.SirketKodu, Kod13)).ToLis
                 bm = new List<BekleyenMalz>();
                 Logger(ex, "/Reports/Financial/BekleyenMalzemeSelect");
             }
-            return new JavaScriptSerializer().Serialize(bm);
+            return json.Serialize(bm);
         }
         #endregion
         #region UrunSatisAnalizi-YAPILDI
         public ActionResult RaporUrunSatisAnalizi()
         {
+            //if (CheckPerm(Perms.Raporlar, PermTypes.Reading) == false) { return Redirect("/"); }
+            //List<RaporGrupKod> _raporGrupKod;
+            //try
+            //{
+            //    _raporGrupKod = db.Database.SqlQuery<RaporGrupKod>(String.Format(RaporGrupKod.Sorgu, vUser.SirketKodu)).ToList();
+            //}
+            //catch (Exception ex)
+            //{
+            //    Logger(ex, "/Reports/Financial/RaporUrunSatisAnalizi");
+            //    _raporGrupKod = new List<RaporGrupKod>();
+            //}
+            //ViewBag.Yillar = HdfGrupProperties(1);
+            //return View(_raporGrupKod);
             if (CheckPerm(Perms.Raporlar, PermTypes.Reading) == false) { return Redirect("/"); }
             List<RaporGrupKod> _raporGrupKod;
             try
@@ -935,8 +955,10 @@ GROUP BY  STk.MalAdi4, CHK.GrupKod, CHK.TipKod", vUser.SirketKodu, Kod13)).ToLis
                 Logger(ex, "/Reports/Financial/RaporUrunSatisAnalizi");
                 _raporGrupKod = new List<RaporGrupKod>();
             }
+            ViewBag.BOLGE = _raporGrupKod;
             ViewBag.Yillar = HdfGrupProperties(1);
-            return View(_raporGrupKod);
+            return View();
+            //TODO: Devam
         }
         public PartialViewResult UrunSatisTemsilciAnalizList(string GrupKod, string Yil)
         {
@@ -947,6 +969,7 @@ GROUP BY  STk.MalAdi4, CHK.GrupKod, CHK.TipKod", vUser.SirketKodu, Kod13)).ToLis
         public string UrunSatisTemsilciAnalizSelect(string GrupKod, string Yil)
         {
             List<SatisAnaliziTemsilci> sat;
+            var json = new JavaScriptSerializer() { MaxJsonLength = int.MaxValue };
             try
             {
                 string sorgu = "";
@@ -958,7 +981,7 @@ GROUP BY  STk.MalAdi4, CHK.GrupKod, CHK.TipKod", vUser.SirketKodu, Kod13)).ToLis
                 sat = new List<SatisAnaliziTemsilci>();
                 Logger(ex, "/Reports/Financial/UrunSatisTemsilciAnalizSelect");
             }
-            return new JavaScriptSerializer().Serialize(sat);
+            return json.Serialize(sat);
         }
         public PartialViewResult UrunSatisBolgeAnalizList(string GrupKod, string Yil)
         {
@@ -969,6 +992,7 @@ GROUP BY  STk.MalAdi4, CHK.GrupKod, CHK.TipKod", vUser.SirketKodu, Kod13)).ToLis
         public string UrunSatisBolgeAnalizSelect(string GrupKod, string Yil)
         {
             List<SatisAnaliziTemsilci> sat;
+            var json = new JavaScriptSerializer() { MaxJsonLength = int.MaxValue };
             try
             {
                 //TODO : Sorgu kontrol edilecek
@@ -981,7 +1005,7 @@ GROUP BY  STk.MalAdi4, CHK.GrupKod, CHK.TipKod", vUser.SirketKodu, Kod13)).ToLis
                 sat = new List<SatisAnaliziTemsilci>();
                 Logger(ex, "/Reports/Financial/UrunSatisBolgeAnalizSelect");
             }
-            return new JavaScriptSerializer().Serialize(sat);
+            return json.Serialize(sat);
         }
         #endregion
         #region WebSiparis-YAPILDI
@@ -1003,9 +1027,9 @@ GROUP BY  STk.MalAdi4, CHK.GrupKod, CHK.TipKod", vUser.SirketKodu, Kod13)).ToLis
         public string RaporWebSiparisSelect(string Yil, string Ay, string Sip)
         {
             List<WebSiparis> ws;
+            var json = new JavaScriptSerializer() { MaxJsonLength = int.MaxValue };
             try
             {
-                //TODO : TOP 100
                 string sorgu = "", siparisTipi = "";
                 switch (Sip)
                 {
@@ -1013,7 +1037,7 @@ GROUP BY  STk.MalAdi4, CHK.GrupKod, CHK.TipKod", vUser.SirketKodu, Kod13)).ToLis
                     case "1": siparisTipi = @"AND (SPI.EvrakNo LIKE 'W%' OR SPI.EVRAKNO LIKE 'KW%')"; break;
                     default: siparisTipi = @"AND (SPI.EvrakNo LIKE 'TW%')"; break;
                 }
-                sorgu = String.Format(WebSiparis.Sorgu, vUser.SirketKodu, Convert.ToInt32(Yil), Convert.ToInt32(Ay) + 1, siparisTipi, "TOP 100");
+                sorgu = String.Format(WebSiparis.Sorgu, vUser.SirketKodu, Convert.ToInt32(Yil), Convert.ToInt32(Ay) + 1, siparisTipi, "");
                 ws = db.Database.SqlQuery<WebSiparis>(sorgu).ToList();
             }
             catch (Exception ex)
@@ -1021,7 +1045,7 @@ GROUP BY  STk.MalAdi4, CHK.GrupKod, CHK.TipKod", vUser.SirketKodu, Kod13)).ToLis
                 ws = new List<WebSiparis>();
                 Logger(ex, "/Reports/Financial/RaporWebSiparisSelect");
             }
-            return new JavaScriptSerializer().Serialize(ws);
+            return json.Serialize(ws);
         }
         #endregion
         #region TumMusteriCiro -YAPILDI
@@ -1033,6 +1057,7 @@ GROUP BY  STk.MalAdi4, CHK.GrupKod, CHK.TipKod", vUser.SirketKodu, Kod13)).ToLis
         public string TumMusteriCiroSelect()
         {
             List<MusteriCiro> mc;
+            var json = new JavaScriptSerializer() { MaxJsonLength = int.MaxValue };
             try
             {
                 mc = db.Database.SqlQuery<MusteriCiro>(String.Format(MusteriCiro.Sorgu, vUser.SirketKodu)).ToList();
@@ -1042,7 +1067,7 @@ GROUP BY  STk.MalAdi4, CHK.GrupKod, CHK.TipKod", vUser.SirketKodu, Kod13)).ToLis
                 mc = new List<MusteriCiro>();
                 Logger(ex, "/Reports/Financial/TumMusteriCiroSelect");
             }
-            return new JavaScriptSerializer().Serialize(mc);
+            return json.Serialize(mc);
         }
         #endregion
         public JsonResult TemsilciGetir(string GrupKod, string TipKod)

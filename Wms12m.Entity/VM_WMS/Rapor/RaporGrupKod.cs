@@ -572,11 +572,12 @@
                                     CONCAT(CHK.Unvan1,SPACE(1),CHK.Unvan2) AS Unvan,
                                     CHK.GrupKod,
                                     CHK.TipKod,
-                                    ((SPI.Tutar - SPI.ToplamIskonto)/SPI.BirimMiktar)*(SPI.BirimMiktar-SPI.TeslimMiktar-SPI.KapatilanMiktar) AS NetTutar
+                                    SUM(((SPI.Tutar - SPI.ToplamIskonto)/SPI.BirimMiktar)*(SPI.BirimMiktar-SPI.TeslimMiktar-SPI.KapatilanMiktar)) AS NetTutar
                                     FROM FINSAT6{0}.FINSAT6{0}.SPI AS SPI WITH (NOLOCK)
                                     INNER JOIN FINSAT6{0}.FINSAT6{0}.STK AS STK WITH (NOLOCK) ON STK.MALKODU = SPI.MALKODU 
                                     INNER JOIN FINSAT6{0}.FINSAT6{0}.CHK AS CHK WITH (NOLOCK) ON CHK.HesapKodu = SPI.Chk 
                                     WHERE SPI.KynkEvrakTip=62 AND SPI.SiparisDurumu=0
+                                    GROUP BY SPI.chk,CHK.Unvan1,CHK.Unvan2,CHK.GrupKod,CHK.TipKod
                                     ";
     }
     public class BekleyenMalz
@@ -754,13 +755,14 @@
                                     CHK.GrupKod,
                                     SPI.Chk AS HesapKodu,
                                     CONCAT(CHK.Unvan1,SPACE(1),CHK.Unvan2) AS Unvan,
-                                    (SPI.Tutar - SPI.ToplamIskonto) AS Toplam,
+                                    SUM(SPI.Tutar - SPI.ToplamIskonto) AS Toplam,
                                     (CASE WHEN SPI.SiparisDurumu = 1 THEN 'Kapalı' ELSE 'Açık' END) AS SiparisDurumu
                                     FROM FINSAT6{0}.FINSAT6{0}.SPI AS SPI WITH (NOLOCK)
                                     INNER JOIN FINSAT6{0}.FINSAT6{0}.STK AS STK WITH (NOLOCK) ON STK.MALKODU=SPI.MALKODU 
                                     INNER JOIN FINSAT6{0}.FINSAT6{0}.CHK AS CHK WITH (NOLOCK) ON CHK.HesapKodu=SPI.Chk 
                                     WHERE SPI.KynkEvrakTip = 62 AND (SPI.Tarih BETWEEN @TAR1 AND @TAR2) 
                                     {3}
+                                    GROUP BY SPI.Tarih,SPI.EvrakNo,CHK.TipKod,CHK.GrupKod,SPI.Chk,CHK.Unvan1,CHK.Unvan2,SPI.SiparisDurumu
                                     ";
     }
     public class MusteriCiro
@@ -792,6 +794,7 @@
                                     FROM FINSAT6{0}.FINSAT6{0}.SPI AS SPI WITH (NOLOCK)
                                     INNER JOIN FINSAT6{0}.FINSAT6{0}.CHK AS CHK WITH (NOLOCK) ON CHK.HesapKodu=SPI.Chk
                                     INNER JOIN FINSAT6{0}.FINSAT6{0}.STI AS STI WITH (NOLOCK) ON CHK.HesapKodu=STI.Chk
+                                    WHERE CHK.Kod3='MÜŞ'
                                     GROUP BY SPI.Chk,CHK.Unvan1,CHK.Unvan2,CHK.TipKod,CHK.GrupKod,CHK.KrediLimiti
                                     ";
     }

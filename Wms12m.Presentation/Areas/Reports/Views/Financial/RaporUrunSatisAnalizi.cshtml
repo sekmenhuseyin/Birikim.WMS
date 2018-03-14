@@ -1,4 +1,4 @@
-﻿@model List<RaporGrupKod>
+﻿@*@model List<RaporGrupKod>*@
 @{
     ViewBag.Title = "RaporUrunSatisAnalizi";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -34,6 +34,30 @@
                                     </select>
                                 </div>
                             </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3">Bölge</label>
+                                <div class="col-md-4">
+                                    <select id="bolge-select" onchange="TemsilciGetir(this.value,'0');" required="required" name="bolge-select" style="float:left;width:90%"
+                                            class="form-control input-circle">
+                                        @foreach (var item in (List<RaporGrupKod>)ViewBag.BOLGE)
+                                        {
+                                            <option value="@item.GrupKod">@item.GrupKod</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3">Temsilci</label>
+                                <div class="col-md-4">
+                                    <select id="temsilci-select" required="required" name="temsilci-select" style="float:left;width:90%"
+                                            class="form-control input-circle">
+                                        @*@foreach (string item in (List<string>)ViewBag.TEMSILCI)
+                                            {
+                                                <option value="@item">@item</option>
+                                            }*@
+                                    </select>
+                                </div>
+                            </div>
                         </div>
                     </form>
                 </div>
@@ -57,26 +81,26 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (RaporGrupKod item in Model)
-                        {
-                            <tr>
-                                <td nowrap style="width:50%">
-                                    @if (!String.IsNullOrEmpty(item.GrupKod))
-                                    {
-                                        <a class="btn btn-default enab" href="#modalEditPage" data-toggle="modal" onclick="Git('@item.GrupKod','0')">Temsilci Analizi</a>
-                                        <a class="btn btn-default enab" href="#modalEditPage" data-toggle="modal" onclick="Git('@item.GrupKod','1')">
-                                            Bölge Analizi
-                                        </a>
-                                    }
-                                    else
-                                    {
-                                        <a class="btn btn-default" href="javascript:;" onclick="">Temsilci Analizi</a>
-                                        <a class="btn btn-default" href="javascript:;" onclick="">Bölge Analizi</a>
-                                    }
-                                </td>
-                                <td nowrap style="width:50%;padding-left:10px;">@item.GrupKod</td>
-                            </tr>
-                        }
+                        @*@foreach (RaporGrupKod item in Model)
+                            {
+                                <tr>
+                                    <td nowrap style="width:50%">
+                                        @if (!String.IsNullOrEmpty(item.GrupKod))
+                                        {
+                                            <a class="btn btn-default enab" href="#modalEditPage" data-toggle="modal" onclick="Git('@item.GrupKod','0')">Temsilci Analizi</a>
+                                            <a class="btn btn-default enab" href="#modalEditPage" data-toggle="modal" onclick="Git('@item.GrupKod','1')">
+                                                Bölge Analizi
+                                            </a>
+                                        }
+                                        else
+                                        {
+                                            <a class="btn btn-default" href="javascript:;" onclick="">Temsilci Analizi</a>
+                                            <a class="btn btn-default" href="javascript:;" onclick="">Bölge Analizi</a>
+                                        }
+                                    </td>
+                                    <td nowrap style="width:50%;padding-left:10px;">@item.GrupKod</td>
+                                </tr>
+                            }*@
                     </tbody>
                     <tfoot><tr><th colspan="2"></th></tr></tfoot>
                     <tfoot class="tf-search">
@@ -104,6 +128,26 @@
             }
             else {
                 editInModal2('/Reports/Financial/UrunSatisBolgeAnalizList', { GrupKod: GrupKod, Yil: Yil.toString() });
+            }
+        }
+        function TemsilciGetir(GrupKod, TipKod) {
+            if (GrupKod != "") {
+                $("#temsilci-select option").remove();
+                $.ajax({
+                    url: window.location.origin + "/Reports/Financial/TemsilciGetir",
+                    data: { GrupKod: GrupKod, TipKod: TipKod },
+                    type: "post",
+                    dataType: "json",
+                    success: function (data) {
+                        if (data != "") {
+                            $.each(data, function (i, item) {
+                                $('#temsilci-select').append($('<option>', { value: item.Value, text: item.Text }));
+                            });
+                            $("#temsilci-select").prepend("<option value='0'>Tümü</option>");
+                            $("#temsilci-select")[0].selectedIndex = 0;
+                        }
+                    }
+                });
             }
         }
     </script>
