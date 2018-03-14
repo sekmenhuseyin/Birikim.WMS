@@ -194,28 +194,29 @@ namespace Wms12m.Presentation.Controllers
             if (result.Tables.Count == 0) return Json(_Result, JsonRequestBehavior.AllowGet);
             if (result.Tables[0].Rows == null) return Json(_Result, JsonRequestBehavior.AllowGet);
             // her satırı tek tek kaydet
-            int basarili = 0, hatali = 0, tarih = fn.ToOADate(); string hatalilar = "", birim;
+            int basarili = 0, hatali = 0, tarih = fn.ToOADate(); string hatalilar = "";
             for (int i = 0; i < result.Tables[0].Rows.Count; i++)
             {
                 var dr = result.Tables[0].Rows[i];
                 // kontrol
                 try
                 {
-                    if (dr["Mal Kodu"].ToString() != "" && dr["En"].ToString2() != "" && dr["Boy"].ToString2() != "" && dr["Derinlik"].ToString2() != "" && dr["Ağırlık"].ToString2() != "")
+                    string malkodu = dr["Mal Kodu"].ToString();
+                    string birim = dr["Birim"].ToString();
+                    if (malkodu != "" && dr["En"].ToString2() != "" && dr["Boy"].ToString2() != "" && dr["Derinlik"].ToString2() != "" && dr["Ağırlık"].ToString2() != "")
                     {
-                        birim = dr["Birim"].ToString();
                         if (birim == "")
-                            birim = db.Database.SqlQuery<string>(string.Format("SELECT Birim1 FROM FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) WHERE MalKodu='{1}'", vUser.SirketKodu, dr["Mal Kodu"].ToString())).FirstOrDefault();
-                        if (birim != "")
+                            birim = db.Database.SqlQuery<string>(string.Format("SELECT Birim1 FROM FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) WHERE MalKodu='{1}'", vUser.SirketKodu, malkodu)).FirstOrDefault();
+                        if (birim != "" && birim != null)
                         {
-                            var test = db.Olcus.Where(m => m.MalKodu == dr["Mal Kodu"].ToString() && m.Birim == birim).FirstOrDefault();
+                            var test = db.Olcus.Where(m => m.MalKodu.Equals(malkodu) && m.Birim.Equals(birim)).FirstOrDefault();
+                            //eğer bu mazleme yoksa ekle
                             if (test == null)
                             {
-                                // add new
                                 var sti = new Olcu()
                                 {
-                                    MalKodu = dr["Mal Kodu"].ToString(),
-                                    Birim = dr["Birim"].ToString(),
+                                    MalKodu = malkodu,
+                                    Birim = birim,
                                     En = dr["En"].ToDecimal(),
                                     Boy = dr["Boy"].ToDecimal(),
                                     Derinlik = dr["Derinlik"].ToDecimal(),
@@ -225,10 +226,26 @@ namespace Wms12m.Presentation.Controllers
                                     Degistiren = vUser.UserName,
                                     DegisTarih = tarih
                                 };
-                                // ekle
+                                //eğer değerler 0dan büyükse kaydet
                                 if (sti.En != 0 || sti.Boy != 0 || sti.Derinlik != 0 || sti.Agirlik != 0)
                                 {
                                     db.Olcus.Add(sti);
+                                    db.SaveChanges();
+                                    basarili++;
+                                }
+                            }
+                            //malzeme varsa güncelle
+                            else
+                            {
+                                test.En = dr["En"].ToDecimal();
+                                test.Boy = dr["Boy"].ToDecimal();
+                                test.Derinlik = dr["Derinlik"].ToDecimal();
+                                test.Agirlik = dr["Ağırlık"].ToDecimal();
+                                test.Degistiren = vUser.UserName;
+                                test.DegisTarih = tarih;
+                                //eğer değerler 0dan büyükse kaydet
+                                if (test.En != 0 || test.Boy != 0 || test.Derinlik != 0 || test.Agirlik != 0)
+                                {
                                     db.SaveChanges();
                                     basarili++;
                                 }
