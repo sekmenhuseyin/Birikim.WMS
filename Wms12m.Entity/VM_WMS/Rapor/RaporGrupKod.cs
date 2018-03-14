@@ -394,7 +394,7 @@
                                     IF (OBJECT_ID('tempdb..#TargetAyBazliBolgeRapor') IS NOT NULL) BEGIN DROP TABLE #TargetAyBazliBolgeRapor END
                                     CREATE TABLE #TargetAyBazliBolgeRapor(Bolge NVARCHAR(20),Hedef NUMERIC(25,2),Ay INT)
                                     INSERT INTO #TargetAyBazliBolgeRapor
-                                    SELECT H1.BOLGE,H1.HEDEF,MONTH(DATEADD(DD,H1.TARIH,'1899-12-30')) AS Ay
+                                    SELECT H1.BOLGE,H1.HEDEF,CONVERT(INT,LEFT(H1.AYYIL,2)) AS Ay
                                     FROM FINSAT6{0}.FINSAT6{0}.HDF AS H1 WITH (NOLOCK)
                                     WHERE H1.TIP=0 AND RIGHT(H1.AYYIL,4)='{1}'
                                     SELECT C.Bolge,
