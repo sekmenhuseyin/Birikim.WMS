@@ -385,7 +385,7 @@ namespace Wms12m.Presentation.Controllers
         }
 
         /// <summary>
-        /// boyut kartı için toplu giriş yapar
+        /// depo kartı sayfasında rafa kadar komple depo bilgisi girşi
         /// </summary>
         public JsonResult Kat(HttpPostedFileBase file)
         {
