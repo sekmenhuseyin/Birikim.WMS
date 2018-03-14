@@ -226,79 +226,65 @@ namespace Wms12m
                                         "WHERE (IRS_Detay.IrsaliyeID = {1}) " +
                                         "GROUP BY wms.IRS.EvrakNo, wms.IRS_Detay.IrsaliyeID, wms.IRS_Detay.MalKodu, wms.IRS_Detay.Birim, wms.Depo.DepoKodu, wms.IRS.HesapKodu, wms.IRS.Tarih, ISNULL(wms.IRS_Detay.KynkSiparisNo, ''), ISNULL(wms.IRS_Detay.KynkSiparisSiraNo, 0), ISNULL(wms.IRS_Detay.KynkSiparisTarih, 0), ISNULL(wms.IRS_Detay.KynkSiparisMiktar, 0), FINSAT6{0}.FINSAT6{0}.SPI.BirimFiyat, FINSAT6{0}.FINSAT6{0}.SPI.KDVOran, FINSAT6{0}.FINSAT6{0}.SPI.IskontoOran1, FINSAT6{0}.FINSAT6{0}.SPI.IskontoOran2, FINSAT6{0}.FINSAT6{0}.SPI.IskontoOran3, FINSAT6{0}.FINSAT6{0}.SPI.IskontoOran4, FINSAT6{0}.FINSAT6{0}.SPI.IskontoOran5, FINSAT6{0}.FINSAT6{0}.SPI.IslemTip, FINSAT6{0}.FINSAT6{0}.SPI.DovizCinsi,FINSAT6{0}.FINSAT6{0}.CHK.EFatSenaryo,FINSAT6{0}.FINSAT6{0}.CHK.EArsivTeslimSekli,FINSAT6{0}.FINSAT6{0}.CHK.EFatEtiket, FINSAT6{0}.FINSAT6{0}.SPI.ValorGun", SirketKodu, irsId);
                 stList = Db.Database.SqlQuery<STIMax>(sqlSPI).ToList();
-            }
-
-            foreach (STIMax stItem in stList)
-            {
-                var sti = new STIBase()
+                foreach (STIMax stItem in stList)
                 {
-                    EvrakNo = evrkno[0].EvrakNo,
-                    HesapKodu = stItem.HesapKodu,
-                    Tarih = stItem.KynkSiparisTarih == 0 ? DateTime.Today.ToOADate().ToInt32() : stItem.KynkSiparisTarih,
-                    MalKodu = stItem.MalKodu,
-                    Miktar = stItem.OkutulanMiktar,
-                    Birim = stItem.Birim,
-                    Depo = stItem.DepoKodu,
-                    EvrakTipi = STIEvrakTipi.SatisIrsaliyesi,
-                    Kaydeden = kaydeden,
-                    KayitSurum = "9.01.028",
-                    KayitKaynak = 70,
-                    IslemTip = stItem.SipIslemTip,
-                    DovizCinsi = stItem.DovizCinsi,
-                    EFatSenaryo = stItem.EFatSenaryo,
-                    EArsivTeslimSekli = stItem.EArsivTeslimSekli,
-                    EFatEtiketGB = stItem.EFatEtiketGB,
-                    EFatEtiketPK = stItem.EFatEtiketPK,
-                    ValorGun = stItem.ValorGun
-                };
-                if (stItem.SiparisNo != "" && stItem.KynkSiparisMiktar > 0)
-                {
-                    sti.KayitTipi = STIKayitTipi.Siparisten_Irsaliye;
-                    sti.KaynakSiparisNo = stItem.SiparisNo;
-                    sti.KaynakSiparisTarih = stItem.KynkSiparisTarih;
-                    sti.SiparisSiraNo = stItem.KynkSiparisSiraNo;
-                    sti.SiparisMiktar = stItem.KynkSiparisMiktar;
-                    sti.Fiyat = stItem.Fiyat;
+                    var sti = new STIBase()
+                    {
+                        EvrakNo = evrkno[0].EvrakNo,
+                        HesapKodu = stItem.HesapKodu,
+                        Tarih = stItem.KynkSiparisTarih == 0 ? DateTime.Today.ToOADate().ToInt32() : stItem.KynkSiparisTarih,
+                        MalKodu = stItem.MalKodu,
+                        Miktar = stItem.OkutulanMiktar,
+                        Birim = stItem.Birim,
+                        Depo = stItem.DepoKodu,
+                        EvrakTipi = STIEvrakTipi.SatisIrsaliyesi,
+                        Kaydeden = kaydeden,
+                        KayitSurum = "9.01.028",
+                        KayitKaynak = 70,
+                        IslemTip = stItem.SipIslemTip,
+                        DovizCinsi = stItem.DovizCinsi,
+                        EFatSenaryo = stItem.EFatSenaryo,
+                        EArsivTeslimSekli = stItem.EArsivTeslimSekli,
+                        EFatEtiketGB = stItem.EFatEtiketGB,
+                        EFatEtiketPK = stItem.EFatEtiketPK,
+                        ValorGun = stItem.ValorGun
+                    };
+                    if (stItem.SiparisNo != "" && stItem.KynkSiparisMiktar > 0)
+                    {
+                        sti.KayitTipi = STIKayitTipi.Siparisten_Irsaliye;
+                        sti.KaynakSiparisNo = stItem.SiparisNo;
+                        sti.KaynakSiparisTarih = stItem.KynkSiparisTarih;
+                        sti.SiparisSiraNo = stItem.KynkSiparisSiraNo;
+                        sti.SiparisMiktar = stItem.KynkSiparisMiktar;
+                        sti.Fiyat = stItem.Fiyat;
+                    }
+                    else
+                    {
+                        sti.KayitTipi = STIKayitTipi.Irsaliye;
+                        sti.KaynakSiparisNo = "";
+                        sti.KaynakSiparisTarih = 0;
+                        sti.SiparisSiraNo = 0;
+                        sti.SiparisMiktar = 0;
+                    }
+                    stiBaseListSpi.Add(sti);
                 }
-                else
-                {
-                    sti.KayitTipi = STIKayitTipi.Irsaliye;
-                    sti.KaynakSiparisNo = "";
-                    sti.KaynakSiparisTarih = 0;
-                    sti.SiparisSiraNo = 0;
-                    sti.SiparisMiktar = 0;
-                }
-
-                stiBaseListSpi.Add(sti);
             }
 
             // finsat işlemleri
             try
             {
                 var result = new Result();
-
                 if (stiBaseList.Count > 0)
-                {
                     result = FtrKayit.FaturaKaydet(stiBaseList, efatKullanici, faturaSeri, yil, FaturaTipi.SatisFaturası.ToInt32(), "391", SirketKodu == "33" ? "391 000" : "391 01 001", "391 001");
-                }
-
                 if (stiBaseListSpi.Count > 0)
-                {
-                    var irsIslem = new Irsaliye_Islemleri(SirketKodu, SqlExper);
-                    try
-                    {
-                        result = irsIslem.Irsaliye_Kayit(irsaliyeSeri, efatKullanici, stiBaseListSpi);
-                    }
-                    catch (Exception ex)
-                    {
-                        return new Result(false, ex.Message);
-                    }
-                }
-
+                    result = new Irsaliye_Islemleri(SirketKodu, SqlExper).Irsaliye_Kayit(irsaliyeSeri, efatKullanici, stiBaseListSpi);
                 if (stiBaseList.Count <= 0 && stiBaseListSpi.Count <= 0)
                     return new Result(false, "Bu sipariş kapanmış. Evrak No= " + tempEvrakNo);
                 else
+                {
+                    result.Message = evrkno[0].EvrakNo + "," + list[0].EvrakNo;
                     return result;
+                }
             }
             catch (Exception ex)
             {
