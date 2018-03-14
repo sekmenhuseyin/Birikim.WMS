@@ -72,11 +72,8 @@
     <Compile Include="Enums\Aylar.cs" />
     <Compile Include="Enums\ComboItems.cs" />
     <Compile Include="Enums\Combos.cs" />
-    <Compile Include="Enums\GetListStatus.cs" />
-    <Compile Include="Enums\Islem.cs" />
     <Compile Include="Enums\Perms.cs" />
     <Compile Include="Enums\PermTypes.cs" />
-    <Compile Include="Enums\Prop.cs" />
     <Compile Include="Models\AppLog.cs">
       <DependentUpon>ModelLog.tt</DependentUpon>
     </Compile>
