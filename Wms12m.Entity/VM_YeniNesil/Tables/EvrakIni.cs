@@ -1,7 +1,8 @@
-﻿using System;
+﻿using Birikim.Enums;
+using Birikim.Helpers;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using Birikim.Helpers;
 
 namespace Wms12m.Entity
 {
