@@ -931,19 +931,6 @@ GROUP BY  STk.MalAdi4, CHK.GrupKod, CHK.TipKod", vUser.SirketKodu, Kod13)).ToLis
         #region UrunSatisAnalizi-YAPILDI
         public ActionResult RaporUrunSatisAnalizi()
         {
-            //if (CheckPerm(Perms.Raporlar, PermTypes.Reading) == false) { return Redirect("/"); }
-            //List<RaporGrupKod> _raporGrupKod;
-            //try
-            //{
-            //    _raporGrupKod = db.Database.SqlQuery<RaporGrupKod>(String.Format(RaporGrupKod.Sorgu, vUser.SirketKodu)).ToList();
-            //}
-            //catch (Exception ex)
-            //{
-            //    Logger(ex, "/Reports/Financial/RaporUrunSatisAnalizi");
-            //    _raporGrupKod = new List<RaporGrupKod>();
-            //}
-            //ViewBag.Yillar = HdfGrupProperties(1);
-            //return View(_raporGrupKod);
             if (CheckPerm(Perms.Raporlar, PermTypes.Reading) == false) { return Redirect("/"); }
             List<RaporGrupKod> _raporGrupKod;
             try
@@ -958,52 +945,28 @@ GROUP BY  STk.MalAdi4, CHK.GrupKod, CHK.TipKod", vUser.SirketKodu, Kod13)).ToLis
             ViewBag.BOLGE = _raporGrupKod;
             ViewBag.Yillar = HdfGrupProperties(1);
             return View();
-            //TODO: Devam
         }
-        public PartialViewResult UrunSatisTemsilciAnalizList(string GrupKod, string Yil)
+        public PartialViewResult RaporUrunSatisAnaliziList(string Yil, string GrupKod, string TipKod)
         {
-            ViewBag.GrupKod = GrupKod;
             ViewBag.Yil = Yil;
-            return PartialView("UrunSatisTemsilciAnalizList");
+            ViewBag.GrupKod = GrupKod;
+            ViewBag.TipKod = TipKod;
+            return PartialView("RaporUrunSatisAnaliziList");
         }
-        public string UrunSatisTemsilciAnalizSelect(string GrupKod, string Yil)
+        public string RaporUrunSatisAnaliziSelect(string Yil, string GrupKod, string TipKod)
         {
             List<SatisAnaliziTemsilci> sat;
             var json = new JavaScriptSerializer() { MaxJsonLength = int.MaxValue };
             try
             {
                 string sorgu = "";
-                sorgu = String.Format(SatisAnaliziTemsilci.TemsilciSorgu, vUser.SirketKodu, GrupKod, Convert.ToInt32(Yil));
+                sorgu = String.Format(SatisAnaliziTemsilci.BolgeSorgu, vUser.SirketKodu, GrupKod, Convert.ToInt32(Yil), TipKod);
                 sat = db.Database.SqlQuery<SatisAnaliziTemsilci>(sorgu).ToList();
             }
             catch (Exception ex)
             {
                 sat = new List<SatisAnaliziTemsilci>();
-                Logger(ex, "/Reports/Financial/UrunSatisTemsilciAnalizSelect");
-            }
-            return json.Serialize(sat);
-        }
-        public PartialViewResult UrunSatisBolgeAnalizList(string GrupKod, string Yil)
-        {
-            ViewBag.GrupKod = GrupKod;
-            ViewBag.Yil = Yil;
-            return PartialView("UrunSatisBolgeAnalizList");
-        }
-        public string UrunSatisBolgeAnalizSelect(string GrupKod, string Yil)
-        {
-            List<SatisAnaliziTemsilci> sat;
-            var json = new JavaScriptSerializer() { MaxJsonLength = int.MaxValue };
-            try
-            {
-                //TODO : Sorgu kontrol edilecek
-                string sorgu = "";
-                sorgu = String.Format(SatisAnaliziTemsilci.BolgeSorgu, vUser.SirketKodu, GrupKod, Convert.ToInt32(Yil));
-                sat = db.Database.SqlQuery<SatisAnaliziTemsilci>(sorgu).ToList();
-            }
-            catch (Exception ex)
-            {
-                sat = new List<SatisAnaliziTemsilci>();
-                Logger(ex, "/Reports/Financial/UrunSatisBolgeAnalizSelect");
+                Logger(ex, "/Reports/Financial/RaporUrunSatisAnaliziSelect");
             }
             return json.Serialize(sat);
         }
