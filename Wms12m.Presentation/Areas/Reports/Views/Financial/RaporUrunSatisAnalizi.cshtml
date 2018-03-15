@@ -1,135 +1,79 @@
-﻿@*@model List<RaporGrupKod>*@
-@{
-    ViewBag.Title = "RaporUrunSatisAnalizi";
+﻿@{
+    ViewBag.Title = "Rapor Ürün Satış Analizi";
     Layout = "~/Views/Shared/_Layout.cshtml";
-}
-@section Styles
-{
-    <link href="~/Content/assets/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css" rel="stylesheet" type="text/css" />
-    <link href="~/Content/assets/global/plugins/jquery-file-upload/css/jquery.fileupload.css" rel="stylesheet" />
 }
 <div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><a href="javascript:;">Ürün Satış Analizi</a><i class="fa fa-circle"></i></li><li><span>Ürün Satış Analizi</span></li></ul></div>
 <h1 class="page-title">Ürün Satış Analizi</h1>
 <div class="row">
-    <div class="row" id="CreateEdit">
-        <div class="col-md-12">
-            <div class="portlet box green">
-                <div class="portlet-title">
-                    <div class="caption">
-                        <i class="fa fa-gift"></i>
+    <div class="col-md-12">
+        <div class="row" id="CreateEdit">
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <i class="fa fa-gift"></i>Ürün Satış Analizi Listesi
+                        </div>
                     </div>
-                </div>
-                <div class="portlet-body form">
-                    <form class="form-horizontal">
-                        <div class="form-body">
-                            <div class="form-group">
-                                <label class="control-label col-md-3">Yıl</label>
-                                <div class="col-md-4">
-                                    <select id="yil-select" required="required" name="yil-select" style="float:left;width:90%"
-                                            class="form-control input-circle">
-                                        @foreach (string item in (List<string>)ViewBag.Yillar)
-                                        {
-                                            <option value="@item">@item</option>
-                                        }
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label col-md-3">Bölge</label>
-                                <div class="col-md-4">
-                                    <select id="bolge-select" onchange="TemsilciGetir(this.value,'0');" required="required" name="bolge-select" style="float:left;width:90%"
-                                            class="form-control input-circle">
-                                        @foreach (var item in (List<RaporGrupKod>)ViewBag.BOLGE)
-                                        {
-                                            <option value="@item.GrupKod">@item.GrupKod</option>
-                                        }
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label col-md-3">Temsilci</label>
-                                <div class="col-md-4">
-                                    <select id="temsilci-select" required="required" name="temsilci-select" style="float:left;width:90%"
-                                            class="form-control input-circle">
-                                        @*@foreach (string item in (List<string>)ViewBag.TEMSILCI)
+                    <div class="portlet-body form">
+                        <form class="form-horizontal">
+                            <div class="form-body">
+                                <div class="form-group">
+                                    <label class="control-label col-md-3">Yıl</label>
+                                    <div class="col-md-4">
+                                        <select id="yil-select" required="required" name="yil-select" style="float:left;width:90%"
+                                                class="form-control input-circle satirekle">
+                                            @foreach (string item in (List<string>)ViewBag.Yillar)
                                             {
                                                 <option value="@item">@item</option>
-                                            }*@
-                                    </select>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-3">Bölge</label>
+                                    <div class="col-md-4">
+                                        <select id="bolge-select" onchange="TemsilciGetir(this.value,'0');" required="required" name="bolge-select" style="float:left;width:90%"
+                                                class="form-control input-circle satirekle">
+                                            @foreach (var item in (List<RaporGrupKod>)ViewBag.BOLGE)
+                                            {
+                                                <option value="@item.GrupKod">@item.GrupKod</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-3">Temsilci</label>
+                                    <div class="col-md-4">
+                                        <select id="temsilci-select" required="required" name="temsilci-select" style="float:left;width:90%" class="form-control input-circle satirekle"></select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-offset-3 col-md-9">
+                                        <button id="btnListele" name="btnListele" type="button" class="btn btn-circle green" style="width:222px;height:33px;">Listele</button>
+                                        <button id="btnTemizle" name="btnTemizle" type="button" class="btn btn-circle grey-salsa" style="width:222px;height:33px;">Temizle</button>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </form>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="col-md-12" style="width:100%;">
-        <div class="portlet box green">
-            <div class="portlet-title">
-                <div class="caption">
-                    <i class="fa fa-gift"></i>Ürün Satış Analizi
-                </div>
-                <div class="col-md-1 pull-right m-t-5 p-0" id="buttons"></div>
-            </div>
-            <div class="portlet-body">
-                <table class="table table-striped table-bordered table-condensed" id="sample_1">
-                    <thead>
-                        <tr>
-                            <th></th>
-                            <th>Gruplar</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @*@foreach (RaporGrupKod item in Model)
-                            {
-                                <tr>
-                                    <td nowrap style="width:50%">
-                                        @if (!String.IsNullOrEmpty(item.GrupKod))
-                                        {
-                                            <a class="btn btn-default enab" href="#modalEditPage" data-toggle="modal" onclick="Git('@item.GrupKod','0')">Temsilci Analizi</a>
-                                            <a class="btn btn-default enab" href="#modalEditPage" data-toggle="modal" onclick="Git('@item.GrupKod','1')">
-                                                Bölge Analizi
-                                            </a>
-                                        }
-                                        else
-                                        {
-                                            <a class="btn btn-default" href="javascript:;" onclick="">Temsilci Analizi</a>
-                                            <a class="btn btn-default" href="javascript:;" onclick="">Bölge Analizi</a>
-                                        }
-                                    </td>
-                                    <td nowrap style="width:50%;padding-left:10px;">@item.GrupKod</td>
-                                </tr>
-                            }*@
-                    </tbody>
-                    <tfoot><tr><th colspan="2"></th></tr></tfoot>
-                    <tfoot class="tf-search">
-                        <tr>
-                            <th></th>
-                            <th></th>
-                        </tr>
-                    </tfoot>
-                </table>
-            </div>
+        <div class="row">
+            <div id="liste"></div>
         </div>
     </div>
 </div>
-@section Scripts{
+@section Scripts
+{
     <script src="~/Content/assets/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js" type="text/javascript"></script>
     <script src="~/Content/assets/global/plugins/jquery-file-upload/js/jquery.iframe-transport.js" type="text/javascript"></script>
     <script src="~/Content/assets/global/plugins/jquery-file-upload/js/vendor/jquery.ui.widget.js" type="text/javascript"></script>
     <script src="~/Content/assets/global/plugins/jquery-file-upload/js/jquery.fileupload.js" type="text/javascript"></script>
     <script type="text/javascript">
         $("#yil-select")[0].selectedIndex = 0;
-        function Git(GrupKod, Tip) {
-            var Yil = $('#yil-select :selected').val();
-            if (Tip == "0") {
-                editInModal2('/Reports/Financial/UrunSatisTemsilciAnalizList', { GrupKod: GrupKod, Yil: Yil.toString() });
-            }
-            else {
-                editInModal2('/Reports/Financial/UrunSatisBolgeAnalizList', { GrupKod: GrupKod, Yil: Yil.toString() });
-            }
-        }
+        $("#bolge-select").prepend("<option value=''>Seçiniz</option>");
+        $("#bolge-select")[0].selectedIndex = 0;
         function TemsilciGetir(GrupKod, TipKod) {
             if (GrupKod != "") {
                 $("#temsilci-select option").remove();
@@ -150,5 +94,18 @@
                 });
             }
         }
+        $('#btnListele').on('click', function myfunction() {
+            var yil = $('#yil-select :selected').val();
+            var grupKod = $('#bolge-select :selected').val();
+            var tipKod = $('#temsilci-select :selected').val();
+            PartialView("/Reports/Financial/RaporUrunSatisAnaliziList", 'liste', JSON.stringify({ Yil: yil, GrupKod: grupKod, TipKod: tipKod }));
+        });
+        $('#btnTemizle').on('click', function myfunction() {
+            $("#temsilci-select option").remove();
+            $(".satirekle")[0].selectedIndex = 0;
+            $(".satirekle")[1].selectedIndex = 0;
+            $(".satirekle")[2].selectedIndex = 0;
+            $("#liste").html("");
+        });
     </script>
 }
