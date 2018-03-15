@@ -951,4 +951,7 @@
       </FlavorProperties>
     </VisualStudio>
   </ProjectExtensions>
+  <PropertyGroup>
+    <PreBuildEvent>c:\Pre-Build.bat $(ProjectDir)</PreBuildEvent>
+  </PropertyGroup>
 </Project>
