@@ -88,7 +88,19 @@ namespace Wms12m
             {
                 if (STIBaseList.Count > 0)
                 {
-                    return FtrKayit.FaturaKaydet(STIBaseList, efatKullanici, irsaliyeSeri, yil, FaturaTipi.AlimdanIadeFaturası.ToInt32(), "391", SirketKodu == "33" ? "391 000" : "391 01 001", "391 001");
+                    var parametre = new FaturaKayitParametre()
+                    {
+                        paramStiList = STIBaseList,
+                        EFatKullanici = efatKullanici,
+                        kullaniciSeri = irsaliyeSeri,
+                        muhasebeYili = yil,
+                        faturaTipi = FaturaTipi.AlimdanIadeFaturası.ToInt32(),
+                        KebirKod = "391",
+                        MhsKarsiKod = SirketKodu == "33" ? "391 000" : "391 01 001",
+                        IadeMhsKarsiKod = "391 001",
+                        StiMhsKod = STIBaseList[0].SatislarHesabi
+                    };
+                    return FtrKayit.FaturaKaydet(parametre);
                 }
                 else
                     return new Result(false, "Bu sipariş kapanmış. Evrak No= " + tempEvrakNo);
@@ -153,11 +165,9 @@ namespace Wms12m
             var tempEvrakNo = "";
             List<STIBase> stiBaseListSpi = new List<STIBase>();
             List<STIMax> stList = new List<STIMax>();
-
-            // evrak no getir
             List<EvrakBilgi> evrkno = new List<EvrakBilgi>();
             var saat = DateTime.Now.ToOaTime();
-            // listeyi dön
+            //iç piyasa için evrak no oluşturur
             var sql = string.Format(@"
                                         SELECT MalKodu, Miktar, Birim, KynkSiparisNo as EvrakNo, KynkSiparisTarih, KynkSiparisSiraNo,
                                         (SELECT IslemTip FROM FINSAT6{0}.FINSAT6{0}.SPI WITH (NOLOCK) WHERE KynkEvrakTip=62 AND SPI.EvrakNo= wms.IRS_Detay.KynkSiparisNo AND SiraNo=wms.IRS_Detay.KynkSiparisSiraNo
@@ -176,17 +186,19 @@ namespace Wms12m
                     return new Result(false, ex.Message);
                 }
             }
-
-            foreach (STIMax item in list.Where(x => x.SipIslemTip == 1).ToList()) //İç Piyasa İse Satış Faturası Kaydedilir
+            //İç Piyasa için Satış Faturası bilgileri oluşturulur
+            foreach (STIMax item in list.Where(x => x.SipIslemTip == 1).ToList())
             {
                 tempEvrakNo = item.EvrakNo;
-                sql = string.Format("SELECT SPI.Chk, SPI.IslemTip, SPI.Miktar, SPI.MalKodu, SPI.Fiyat, SPI.Birim, SPI.Depo, SPI.ToplamIskonto, SPI.KDV, SPI.KDVOran, SPI.IskontoOran1, SPI.IskontoOran2, SPI.IskontoOran3, SPI.IskontoOran4, SPI.IskontoOran5, " +
-                                    "SPI.EvrakNo as KaynakSiparisNo,SPI.VadeTarih, SPI.Tarih as KaynakSiparisTarih, SPI.SiraNo as SiparisSiraNo, SPI.Miktar as SiparisMiktar, SPI.TeslimMiktar, SPI.KapatilanMiktar, SPI.FytListeNo, SPI.ValorGun, SPI.Kod1, SPI.Kod2, SPI.Kod3, SPI.Kod4, SPI.Kod5, SPI.Kod6, SPI.Kod7, SPI.Kod8, SPI.Kod9, SPI.Kod10, SPI.Kod11, SPI.Kod12, SPI.Kod13, SPI.Kod14, SPI.KayitKaynak, SPI.KayitSurum, SPI.DegisKaynak, SPI.DegisSurum," +
-                                    "CHK.EFatKullanici, STK.SatislarHesabi, CHK.EArsivTeslimSekli, CHK.MhsKod, CHK.EFatSenaryo, " +
-                                    "MFK.Tutar AS MFKTutar, MFK.Aciklama AS MFKAciklama , MFK.Aciklama2 AS MFKAciklama2 , MFK.Aciklama3 AS MFKAciklama3 , MFK.Aciklama4 AS MFKAciklama4 , MFK.Aciklama5  AS MFKAciklama5, MFK.Aciklama6 AS MFKAciklama6 " +
-                                    "FROM FINSAT6{0}.FINSAT6{0}.SPI WITH (NOLOCK) LEFT JOIN FINSAT6{0}.FINSAT6{0}.CHK WITH (NOLOCK) ON SPI.Chk=CHK.HesapKodu LEFT JOIN FINSAT6{0}.FINSAT6{0}.STK WITH (NOLOCK) ON STK.MalKodu=SPI.MalKodu " +
-                                    "LEFT JOIN FINSAT6{0}.FINSAT6{0}.MFK WITH (NOLOCK) ON MFK.EvrakNo=SPI.EvrakNo  AND  MFK.KynkEvrakTip=SPI.KynkEvrakTip AND  MFK.HesapKod=SPI.Chk " +
-                                    "WHERE (SPI.EvrakNo = '{1}') AND (SPI.Chk = '{2}') AND (SPI.Depo = '{3}') AND (SPI.Tarih = {4}) AND (SPI.SiraNo = {5}) AND (SPI.KynkEvrakTip = 62) AND (SPI.SiparisDurumu = 0) AND (SPI.Kod10 IN ('Terminal', 'Onaylandı'))", SirketKodu, item.EvrakNo, chk, depoKodu, item.KynkSiparisTarih, item.KynkSiparisSiraNo);
+                sql = string.Format(@"SELECT SPI.Chk, SPI.IslemTip, SPI.Miktar, SPI.MalKodu, SPI.Fiyat, SPI.Birim, SPI.Depo, SPI.ToplamIskonto, SPI.KDV, SPI.KDVOran, SPI.IskontoOran1, SPI.IskontoOran2, SPI.IskontoOran3, SPI.IskontoOran4, SPI.IskontoOran5,
+                                            SPI.EvrakNo as KaynakSiparisNo,SPI.VadeTarih, SPI.Tarih as KaynakSiparisTarih, SPI.SiraNo as SiparisSiraNo, SPI.Miktar as SiparisMiktar, SPI.TeslimMiktar, SPI.KapatilanMiktar, SPI.FytListeNo, SPI.ValorGun, SPI.Kod1, SPI.Kod2, SPI.Kod3, SPI.Kod4, SPI.Kod5, SPI.Kod6, SPI.Kod7, SPI.Kod8, SPI.Kod9, SPI.Kod10, SPI.Kod11, SPI.Kod12, SPI.Kod13, SPI.Kod14, SPI.KayitKaynak, SPI.KayitSurum, SPI.DegisKaynak, SPI.DegisSurum,
+                                            CHK.EFatKullanici, STK.SatislarHesabi, CHK.EArsivTeslimSekli, CHK.MhsKod, CHK.EFatSenaryo,
+                                            MFK.Tutar AS MFKTutar, MFK.Aciklama AS MFKAciklama , MFK.Aciklama2 AS MFKAciklama2 , MFK.Aciklama3 AS MFKAciklama3 , MFK.Aciklama4 AS MFKAciklama4 , MFK.Aciklama5  AS MFKAciklama5, MFK.Aciklama6 AS MFKAciklama6
+                                    FROM    FINSAT6{0}.FINSAT6{0}.SPI WITH (NOLOCK) LEFT JOIN 
+                                            FINSAT6{0}.FINSAT6{0}.CHK WITH (NOLOCK) ON SPI.Chk=CHK.HesapKodu LEFT JOIN 
+                                            FINSAT6{0}.FINSAT6{0}.STK WITH (NOLOCK) ON STK.MalKodu=SPI.MalKodu LEFT JOIN 
+                                            FINSAT6{0}.FINSAT6{0}.MFK WITH (NOLOCK) ON MFK.EvrakNo=SPI.EvrakNo  AND  MFK.KynkEvrakTip=SPI.KynkEvrakTip AND  MFK.HesapKod=SPI.Chk
+                                    WHERE (SPI.EvrakNo = '{1}') AND (SPI.Chk = '{2}') AND (SPI.Depo = '{3}') AND (SPI.Tarih = {4}) AND (SPI.SiraNo = {5}) AND (SPI.KynkEvrakTip = 62) AND (SPI.SiparisDurumu = 0) AND (SPI.Kod10 IN ('Terminal', 'Onaylandı'))", SirketKodu, item.EvrakNo, chk, depoKodu, item.KynkSiparisTarih, item.KynkSiparisSiraNo);
                 var finsat = Db.Database.SqlQuery<ParamSti>(sql).FirstOrDefault();
                 if (finsat != null)
                 {
@@ -201,7 +213,7 @@ namespace Wms12m
                     stiBaseList.Add(finsat);
                 }
             }
-
+            //dış piyasa için ayrı evrak no oluşturur
             if (list.Where(x => x.SipIslemTip == 2).ToList().Count > 0)
             {
                 try
@@ -213,8 +225,8 @@ namespace Wms12m
                     return new Result(false, ex.Message);
                 }
             }
-
-            foreach (STIMax item in list.Where(x => x.SipIslemTip == 2).ToList()) //Dış Piyasa İse Satış İrsaliyesi Kaydedilir
+            //Dış Piyasa için Satış İrsaliye bilgileri oluşturur
+            foreach (STIMax item in list.Where(x => x.SipIslemTip == 2).ToList())
             {
                 tempEvrakNo = item.EvrakNo;
                 var sqlSPI = string.Format("SELECT IRS.EvrakNo, IRS_Detay.IrsaliyeID, IRS_Detay.MalKodu, SUM(wms.IRS_Detay.Miktar) AS Miktar, IRS_Detay.Birim, SUM(wms.IRS_Detay.Miktar) AS OkutulanMiktar, Depo.DepoKodu, IRS.HesapKodu, IRS.Tarih, " +
@@ -270,12 +282,26 @@ namespace Wms12m
                 }
             }
 
-            // finsat işlemleri
+            // finsat işlemlerini çalıştırır ve veritabanına kaydeder
             try
             {
                 var result = new Result();
                 if (stiBaseList.Count > 0)
-                    result = FtrKayit.FaturaKaydet(stiBaseList, efatKullanici, faturaSeri, yil, FaturaTipi.SatisFaturası.ToInt32(), "391", SirketKodu == "33" ? "391 000" : "391 01 001", "391 001");
+                {
+                    var parametre = new FaturaKayitParametre()
+                    {
+                        paramStiList = stiBaseList,
+                        EFatKullanici = efatKullanici,
+                        kullaniciSeri = faturaSeri,
+                        muhasebeYili = yil,
+                        faturaTipi = FaturaTipi.SatisFaturası.ToInt32(),
+                        KebirKod = "391",
+                        MhsKarsiKod = SirketKodu == "33" ? "391 000" : "391 01 001",
+                        IadeMhsKarsiKod = "391 001",
+                        StiMhsKod = stiBaseListSpi.Count > 0 ? "601 001" : stiBaseList[0].SatislarHesabi
+                    };
+                    result = FtrKayit.FaturaKaydet(parametre);
+                }
                 if (stiBaseListSpi.Count > 0)
                     result = new Irsaliye_Islemleri(SirketKodu, SqlExper).Irsaliye_Kayit(irsaliyeSeri, efatKullanici, stiBaseListSpi);
                 if (stiBaseList.Count <= 0 && stiBaseListSpi.Count <= 0)
