@@ -19,6 +19,7 @@
                     </tr>
                 </thead>
                 <tfoot><tr>
+              
                     <th></th>
                     <th></th>
                     <th></th>
@@ -32,6 +33,7 @@
                     <th></th>
                     </tr></tfoot>
                 <tfoot class="tf-search"><tr>
+               
                     <th></th>
                     <th></th>
                     <th></th>
@@ -73,7 +75,7 @@
                 { "extend": 'pdf', "text": '<span class="fa fa-file-pdf-o f-s-15 red"></span>', "className": 'btn btn-default btn-xs' },
                 { "extend": 'excel', "text": '<span class="fa fa-file-excel-o f-s-15 green"></span>', "className": 'btn btn-default btn-xs' }
             ],
-            "columnDefs": [{ "type": "num-fmt", "className": "dt-right", "targets": [6,7, 8,9,10] }],
+            "columnDefs": [{ "type": "num-fmt", "className": "dt-right", "targets": [6,7,8,9,10] }],
             "columns": [
                 { "data": null, "defaultContent": '', "className": 'select-checkbox', "orderable": false },
                 { "data": "Kod10" },
@@ -85,7 +87,8 @@
                 { "data": "Oran2", "render": $.fn.dataTable.render.number('.', ',', 2, '')  },
                 { "data": "Oran3", "render": $.fn.dataTable.render.number('.', ',', 2, '')  },
                 { "data": "Oran4", "render": $.fn.dataTable.render.number('.', ',', 2, '')  },
-                { "data": "Oran5", "render": $.fn.dataTable.render.number('.', ',', 2, '')  }
+                { "data": "Oran5", "render": $.fn.dataTable.render.number('.', ',', 2, '') }
+          
             ],
             "ordering": false,
             "fnRowCallback": function (nRow, aData, iDisplayIndex) {
@@ -106,7 +109,8 @@
         $(".numb_iskonto2").dxTextBox("instance").option("value",0);
         $(".numb_iskonto3").dxTextBox("instance").option("value",0);
         $(".numb_iskonto4").dxTextBox("instance").option("value",0);
-        $(".numb_iskonto5").dxTextBox("instance").option("value",0);
+        $(".numb_iskonto5").dxTextBox("instance").option("value", 0);
+
         table = $('#sample_1').DataTable({
             "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
         });

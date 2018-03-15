@@ -61,6 +61,7 @@
         <div class="input_content"><div class="input_label">İskonto 3</div><div class="input numb_iskonto3 sag"></div></div>
         <div class="input_content"><div class="input_label">İskonto 4</div><div class="input numb_iskonto4 sag"></div></div>
         <div class="input_content"><div class="input_label">İskonto 5</div><div class="input numb_iskonto5 sag"></div></div>
+
         <div class="input_content"><div class="input_label">Vade/Valor</div><div class="input swtch_vade_valor"></div></div>
         <div class="input_content vade_content"><div class="input_label">Vade Tarihi</div><div class="input date_vade_tarihi"></div></div>
         <div class="input_content valor_content"><div class="input_label">Valor Gün</div><div class="input numb_valor_gun"></div></div>
@@ -148,6 +149,7 @@
 <script type="text/javascript">
     var YeniBaglantiTutari = ""; var MusteriUygunlukKodu = ""; var TempMalAdi = ""; var TempUrunGrup = -1; var listeNo = "";
     var TempUrunGrupText = ""; var TempMalKod = ""; var satirsayisi = 0; var TempKalite = ""; var element = new Array(); var srNo = "@ViewBag.SRNO";
+    var UGTip = "";
 
 
     $(document).ready(function () {
@@ -263,7 +265,8 @@
         NumbBox(".numb_iskonto2", false,2);
         NumbBox(".numb_iskonto3", false,2);
         NumbBox(".numb_iskonto4", false,2);
-        NumbBox(".numb_iskonto5", false,2);
+        NumbBox(".numb_iskonto5", false, 2);
+
         NumbBox(".numb_valor_gun", false,0);
         NumbBox(".numb_kredi_limiti", true,2);
         NumbBox(".numb_bakiye", true,2);
@@ -297,6 +300,19 @@
 
                 if (e.value == null)
                     return;
+
+
+                if (e.value == null)
+                    return;
+         
+
+                if (e.value.ID == 1) {
+
+                    UGTip = "GrupKod";
+                }
+              
+
+
                 TempUrunGrup = e.value.ID;
                 TempUrunGrupText = e.value.Tip;
                 if (e.value.ID == 7 || e.value.ID == 1) {
@@ -597,6 +613,7 @@
         var EKOran3 = $(".numb_iskonto3").dxTextBox("instance").option("value") == null ? 0 : $(".numb_iskonto3").dxTextBox("instance").option("value");
         var EKOran4 = $(".numb_iskonto4").dxTextBox("instance").option("value") == null ? 0 : $(".numb_iskonto4").dxTextBox("instance").option("value");
         var EKOran5 = $(".numb_iskonto5").dxTextBox("instance").option("value") == null ? 0 : $(".numb_iskonto5").dxTextBox("instance").option("value");
+
         var sss = "<tr><td></td><td nowrap>" + EKFiyatListesi + "</td><td nowrap>" + EKMalKodGrup + "</td><td nowrap>" + EKMalKod + "</td><td nowrap>" + EKMalAdi + "</td><td nowrap>" + EKKalite + "</td><td  align='right' nowrap>" + EKOran1 + "</td><td align='right' nowrap>" + EKOran2 + "</td><td align='right' nowrap>" + EKOran3 + "</td><td align='right' nowrap>" + EKOran4 + "</td><td align='right' nowrap>" + EKOran5 + "</td></tr>"
         element.push(sss);
         var jsonElement = JSON.stringify(element);
@@ -659,6 +676,12 @@
             Modaldialog("Başlangıç Tarihi Boş Olamaz.", "Kayıt İşlemi", "Tamam", "btn-warning");
             return;
         }
+        if (UGTip == "GrupKod" && $(".select_urun_kalite").dxSelectBox("instance").option("value") == null ) 
+    {
+            Modaldialog("Kalite Bilgisi Girmelisiniz.", "Kayıt İşlemi", "Tamam", "btn-warning");
+            return;
+        }
+
 
         var ListeNo = $(".txt_sozlesme_sira_no").dxTextBox("instance").option("value");
         var AktifPasif = null;
@@ -917,6 +940,7 @@
         $(".numb_iskonto3").dxTextBox("instance").option("value", 0);
         $(".numb_iskonto4").dxTextBox("instance").option("value", 0);
         $(".numb_iskonto5").dxTextBox("instance").option("value", 0);
+
         $(".select_urun_kodu").dxLookup("instance").option("value", null);
         $(".select_urun_kalite").dxSelectBox("instance").option("value", null);
         $(".select_urun_grubu").dxSelectBox("instance").option("value", null);
