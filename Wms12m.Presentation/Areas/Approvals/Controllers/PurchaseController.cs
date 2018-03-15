@@ -26,6 +26,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             ViewBag.baslik = "Satınalma Onay";
             MyGlobalVariables.Depo = "93 DP";
             MyGlobalVariables.DovizDurum = false;
+
             MyGlobalVariables.SipTalepList = db.Database.SqlQuery<SatTalep>(string.Format("[FINSAT6{0}].[wms].[SatinAlmaGMOnayList]", vUser.SirketKodu)).ToList();
 
             return View("GM_Onay", MyGlobalVariables.SipTalepList);
@@ -41,6 +42,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             
             ViewBag.OnayTip = MyGlobalVariables.OnayTip.SatSipGMYMaliOnay;
             ViewBag.baslik = "Satınalma Sipariş Talebi GMY Mali Onay";
+            MyGlobalVariables.Depo = "93 DP";
             MyGlobalVariables.DovizDurum = false;
 
             MyGlobalVariables.SipTalepList = db.Database.SqlQuery<SatTalep>(string.Format(@"[FINSAT6{0}].[wms].[SatinAlmaTalepGMYMaliOnayList]", vUser.SirketKodu)).ToList();
