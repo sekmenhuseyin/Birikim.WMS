@@ -33,7 +33,7 @@
                                         columns.Bound(c => c.Details);
                                         columns.Bound(c => c.Request);
                                         columns.Bound(c => c.Username).Width(60);
-                                        columns.Bound(c => c.Tarih).Format("{0:dd.MM.yyyy}").Width(120);
+                                        columns.Bound(c => c.Tarih).Format("{0:dd.MM.yyyy hh:mm:ss}").Width(120);
                                         columns.Bound(c => c.ID).Title("").Width(80).Filterable(false).Sortable(false).ClientTemplate("<a class='btn btn-danger' href='javascript:;' onclick='fnDelete(#=ID#)'> Sil </a>");
                                     })
                                     .HtmlAttributes(new { style = "height: 550px;" })

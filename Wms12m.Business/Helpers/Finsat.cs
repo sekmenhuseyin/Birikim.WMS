@@ -325,13 +325,15 @@ namespace Wms12m
         {
             List<STIBase> STIBaseList = new List<STIBase>();
             var kaydeden = Db.Users.Where(m => m.ID == kulId).Select(m => m.Kod).FirstOrDefault();
-            var sql = string.Format("SELECT IRS.EvrakNo, IRS_Detay.IrsaliyeID, IRS_Detay.MalKodu, SUM(wms.IRS_Detay.Miktar) AS Miktar, IRS_Detay.Birim, ISNULL(SUM(wms.IRS_Detay.OkutulanMiktar), 0) AS OkutulanMiktar, Depo.DepoKodu, IRS.HesapKodu, IRS.Tarih, " +
-                                        "(SELECT MalAdi FROM FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) WHERE (MalKodu = IRS_Detay.MalKodu)) AS MalAdi," +
-                                        "ISNULL(IRS_Detay.KynkSiparisNo, '') AS SiparisNo, ISNULL(IRS_Detay.KynkSiparisSiraNo, 0) AS KynkSiparisSiraNo, ISNULL(IRS_Detay.KynkSiparisTarih, 0) AS KynkSiparisTarih, ISNULL(IRS_Detay.KynkSiparisMiktar, 0) AS KynkSiparisMiktar, " +
-                                        "ISNULL(FINSAT6{0}.FINSAT6{0}.SPI.BirimFiyat,0) AS Fiyat, ISNULL(FINSAT6{0}.FINSAT6{0}.SPI.KDVOran,0) AS KDVOran, ISNULL(FINSAT6{0}.FINSAT6{0}.SPI.IskontoOran1,0) AS IskontoOran1, ISNULL(FINSAT6{0}.FINSAT6{0}.SPI.IskontoOran2,0) As IskontoOran2, ISNULL(FINSAT6{0}.FINSAT6{0}.SPI.IskontoOran3,0) As IskontoOran3 , ISNULL(FINSAT6{0}.FINSAT6{0}.SPI.IskontoOran4,0) As IskontoOran4, ISNULL(FINSAT6{0}.FINSAT6{0}.SPI.IskontoOran5,0) As IskontoOran5, ISNULL(FINSAT6{0}.FINSAT6{0}.SPI.ValorGun,0) As ValorGun  " +
-                                        "FROM FINSAT6{0}.FINSAT6{0}.SPI WITH (NOLOCK) RIGHT OUTER JOIN wms.Depo WITH(NOLOCK) INNER JOIN wms.IRS WITH(NOLOCK) ON wms.Depo.ID = wms.IRS.DepoID INNER JOIN wms.IRS_Detay WITH(NOLOCK) ON wms.IRS.ID = wms.IRS_Detay.IrsaliyeID ON FINSAT6{0}.FINSAT6{0}.SPI.Chk = wms.IRS.HesapKodu AND FINSAT6{0}.FINSAT6{0}.SPI.Tarih = wms.IRS_Detay.KynkSiparisTarih AND FINSAT6{0}.FINSAT6{0}.SPI.SiraNo = wms.IRS_Detay.KynkSiparisSiraNo AND FINSAT6{0}.FINSAT6{0}.SPI.EvrakNo = wms.IRS_Detay.KynkSiparisNo " +
-                                        "WHERE (IRS_Detay.IrsaliyeID = {1}) AND (IRS_Detay.OkutulanMiktar IS NOT NULL) AND (IRS_Detay.OkutulanMiktar > 0)" +
-                                        "GROUP BY wms.IRS.EvrakNo, wms.IRS_Detay.IrsaliyeID, wms.IRS_Detay.MalKodu, wms.IRS_Detay.Birim, wms.Depo.DepoKodu, wms.IRS.HesapKodu, wms.IRS.Tarih, ISNULL(wms.IRS_Detay.KynkSiparisNo, ''), ISNULL(wms.IRS_Detay.KynkSiparisSiraNo, 0), ISNULL(wms.IRS_Detay.KynkSiparisTarih, 0), ISNULL(wms.IRS_Detay.KynkSiparisMiktar, 0), FINSAT6{0}.FINSAT6{0}.SPI.BirimFiyat, FINSAT6{0}.FINSAT6{0}.SPI.KDVOran, FINSAT6{0}.FINSAT6{0}.SPI.IskontoOran1, FINSAT6{0}.FINSAT6{0}.SPI.IskontoOran2, FINSAT6{0}.FINSAT6{0}.SPI.IskontoOran3, FINSAT6{0}.FINSAT6{0}.SPI.IskontoOran4, FINSAT6{0}.FINSAT6{0}.SPI.IskontoOran5, FINSAT6{0}.FINSAT6{0}.SPI.ValorGun ORDER BY  ISNULL(wms.IRS_Detay.KynkSiparisSiraNo, 0)", irsaliye.SirketKod, irsaliye.ID);
+            var sql = string.Format(@"SELECT IRS.EvrakNo, IRS_Detay.IrsaliyeID, IRS_Detay.MalKodu, SUM(wms.IRS_Detay.Miktar) AS Miktar, IRS_Detay.Birim, ISNULL(SUM(wms.IRS_Detay.OkutulanMiktar), 0) AS OkutulanMiktar, Depo.DepoKodu, IRS.HesapKodu, IRS.Tarih, 
+                                        (SELECT MalAdi FROM FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) WHERE (MalKodu = IRS_Detay.MalKodu)) AS MalAdi,
+                                        ISNULL(IRS_Detay.KynkSiparisNo, '') AS SiparisNo, ISNULL(IRS_Detay.KynkSiparisSiraNo, 0) AS KynkSiparisSiraNo, ISNULL(IRS_Detay.KynkSiparisTarih, 0) AS KynkSiparisTarih, ISNULL(IRS_Detay.KynkSiparisMiktar, 0) AS KynkSiparisMiktar, 
+                                        ISNULL(FINSAT6{0}.FINSAT6{0}.SPI.BirimFiyat,0) AS Fiyat, ISNULL(FINSAT6{0}.FINSAT6{0}.SPI.KDVOran,0) AS KDVOran, ISNULL(FINSAT6{0}.FINSAT6{0}.SPI.IskontoOran1,0) AS IskontoOran1, ISNULL(FINSAT6{0}.FINSAT6{0}.SPI.IskontoOran2,0) As IskontoOran2, ISNULL(FINSAT6{0}.FINSAT6{0}.SPI.IskontoOran3,0) As IskontoOran3 , ISNULL(FINSAT6{0}.FINSAT6{0}.SPI.IskontoOran4,0) As IskontoOran4, ISNULL(FINSAT6{0}.FINSAT6{0}.SPI.IskontoOran5,0) As IskontoOran5, ISNULL(FINSAT6{0}.FINSAT6{0}.SPI.ValorGun,0) As ValorGun  
+                                    FROM    FINSAT6{0}.FINSAT6{0}.SPI WITH (NOLOCK) RIGHT OUTER JOIN 
+                                            wms.Depo WITH(NOLOCK) INNER JOIN wms.IRS WITH(NOLOCK) ON wms.Depo.ID = wms.IRS.DepoID INNER JOIN 
+                                            wms.IRS_Detay WITH(NOLOCK) ON wms.IRS.ID = wms.IRS_Detay.IrsaliyeID ON FINSAT6{0}.FINSAT6{0}.SPI.Chk = wms.IRS.HesapKodu AND FINSAT6{0}.FINSAT6{0}.SPI.Tarih = wms.IRS_Detay.KynkSiparisTarih AND FINSAT6{0}.FINSAT6{0}.SPI.SiraNo = wms.IRS_Detay.KynkSiparisSiraNo AND FINSAT6{0}.FINSAT6{0}.SPI.EvrakNo = wms.IRS_Detay.KynkSiparisNo 
+                                    WHERE (IRS_Detay.IrsaliyeID = {1}) AND (IRS_Detay.OkutulanMiktar IS NOT NULL) AND (IRS_Detay.OkutulanMiktar > 0)
+                                    GROUP BY wms.IRS.EvrakNo, wms.IRS_Detay.IrsaliyeID, wms.IRS_Detay.MalKodu, wms.IRS_Detay.Birim, wms.Depo.DepoKodu, wms.IRS.HesapKodu, wms.IRS.Tarih, ISNULL(wms.IRS_Detay.KynkSiparisNo, ''), ISNULL(wms.IRS_Detay.KynkSiparisSiraNo, 0), ISNULL(wms.IRS_Detay.KynkSiparisTarih, 0), ISNULL(wms.IRS_Detay.KynkSiparisMiktar, 0), FINSAT6{0}.FINSAT6{0}.SPI.BirimFiyat, FINSAT6{0}.FINSAT6{0}.SPI.KDVOran, FINSAT6{0}.FINSAT6{0}.SPI.IskontoOran1, FINSAT6{0}.FINSAT6{0}.SPI.IskontoOran2, FINSAT6{0}.FINSAT6{0}.SPI.IskontoOran3, FINSAT6{0}.FINSAT6{0}.SPI.IskontoOran4, FINSAT6{0}.FINSAT6{0}.SPI.IskontoOran5, FINSAT6{0}.FINSAT6{0}.SPI.ValorGun ORDER BY  ISNULL(wms.IRS_Detay.KynkSiparisSiraNo, 0)", irsaliye.SirketKod, irsaliye.ID);
             var STList = Db.Database.SqlQuery<STIMax>(sql).ToList();
             foreach (STIMax stItem in STList)
             {
@@ -347,7 +349,7 @@ namespace Wms12m
                     EvrakTipi = STIEvrakTipi.AlimIrsaliyesi,
                     Kaydeden = kaydeden,
                     KayitSurum = "9.01.028",
-                    KayitKaynak = 74,
+                    KayitKaynak = 70,
                     ValorGun = stItem.ValorGun
                 };
                 if (stItem.SiparisNo != "" && stItem.KynkSiparisMiktar > 0)
@@ -380,10 +382,16 @@ namespace Wms12m
             var IrsIslem = new Irsaliye_Islemleri(irsaliye.SirketKod, SqlExper);
             try
             {
-                return IrsIslem.Irsaliye_Kayit(-1, true, STIBaseList);
+                var sonuc = IrsIslem.Irsaliye_Kayit(-1, true, STIBaseList);
+                if (sonuc.Status == true)
+                    Db.LogActions("WMS", "Business", "Finsat", "MalKabul", ComboItems.alEkle.ToInt32(), irsaliye.ID, "EvrakNo: " + STList[0].EvrakNo + ", HesapKodu: " + STList[0].HesapKodu + ", Depo: " + STList[0].DepoKodu, "", kulId.ToString(), "");
+                else
+                    Db.Logger(kulId.ToString(), "", "", sonuc.Message, "", "Business/Finsat/MalKabul");
+                return sonuc;
             }
             catch (Exception ex)
             {
+                Logger(ex, "Business/Finsat/MalKabul", kulId);
                 return new Result(false, ex.Message);
             }
         }
@@ -575,6 +583,21 @@ namespace Wms12m
             }
 
             return sonuc;
+        }
+
+        /// <summary>
+        /// hata kaydını tek yerden kontrol etmek için
+        /// </summary>
+        public void Logger(Exception ex, string page, int kullId)
+        {
+            var inner = "";
+            if (ex.InnerException != null)
+            {
+                inner = ex.InnerException == null ? "" : ex.InnerException.Message;
+                if (ex.InnerException.InnerException != null) inner += ": " + ex.InnerException.InnerException.Message;
+            }
+
+            Db.Logger(kullId.ToString(), "", "", ex.Message, inner, page);
         }
     }
 }
