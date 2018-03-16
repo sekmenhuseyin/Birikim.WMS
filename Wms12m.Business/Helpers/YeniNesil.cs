@@ -482,7 +482,7 @@ namespace Wms12m
                     //CHI Tutar Update
                     Sorgu += string.Format(@"
                     UPDATE YNS{0}.YNS{0}.CAR003 SET CAR003_Tutar=(SELECT SUM(STK005_Tutari) FROM YNS{0}.YNS{0}.STK005(NOLOCK) 
-                    WHERESTK005_EvrakTipi=99 AND STK005_IslemTipi=2 AND STK005_GC=0 AND STK005_EvrakSeriNo='{1}')
+                    WHERE STK005_EvrakTipi=99 AND STK005_IslemTipi=2 AND STK005_GC=0 AND STK005_EvrakSeriNo='{1}')
                     WHERE CAR003_EvrakTipi=22 and CAR003_IslemTipi=8 and CAR003_EvrakSeriNo='{1}'",
                     SirketKodu, evrakBilgi.STK005_EvrakSeriNo);
 
