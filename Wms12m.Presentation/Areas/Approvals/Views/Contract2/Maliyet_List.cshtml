@@ -1,0 +1,39 @@
+﻿@model IEnumerable<BaglantiDetaySelect>
+@using (Ajax.BeginForm("SaveMaliyet", "Contract2", new { area = "Approvals" }, new AjaxOptions { HttpMethod = "post", OnSuccess = "getresult", OnFailure = "Modaldialog('Lütfen Tekrar Deneyin', 'Hata', 'Tamam', 'btn-danger');" }, htmlAttributes: new { @class = "form" }))
+{
+    @Html.AntiForgeryToken()
+    <table class="table table-striped table-bordered" id="sample_1">
+        <thead><tr><th>Maliyet</th><th>Fiyat Listesi</th><th>Ürün Grubu</th><th>Ürün Kodu</th><th>Ürün Açıklama</th><th>Kalite</th><th>Ödeme Şekli</th><th>En</th><th>Boy</th><th>Kalınlık</th><th>Limit Miktar</th><th>Miktar Birim</th><th>Iskonto1</th><th>Iskonto2</th><th>Iskonto3</th><th>Iskonto4</th></tr></thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td nowrap><input type="text" class="form-control" name="Maliyet" value="@String.Format("{0:n}", item.Maliyet)" /><input type="text" name="ID" value="@item.Row_ID" class="hide hidden" /></td>
+                    <td nowrap>@item.Kod10</td>
+                    <td nowrap>@item.MalKodGrup</td>
+                    <td nowrap>@item.MalKod2</td>
+                    <td nowrap>@item.MalKod</td>
+                    <td nowrap>@item.Kalite</td>
+                    <td nowrap>@item.OdemeSekli</td>
+                    <td nowrap>@item.En</td>
+                    <td nowrap>@item.Boy</td>
+                    <td nowrap>@item.Kalinlik</td>
+                    <td nowrap align="right">@String.Format("{0:n3}", item.LimitMiktar)</td>
+                    <td nowrap>@item.LimitMiktarBirim</td>
+                    <td nowrap align="right">@String.Format("{0:n}", item.Oran1)</td>
+                    <td nowrap align="right">@String.Format("{0:n}", item.Oran2)</td>
+                    <td nowrap align="right">@String.Format("{0:n}", item.Oran3)</td>
+                    <td nowrap align="right">@String.Format("{0:n}", item.Oran4)</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <input type="submit" class="hide hidden" value="submit" name="submit" id="saveMaliyets" />
+}
+<script type="text/javascript">
+    $(".btnSaver").show();
+    var table = $('#sample_1').DataTable({
+        "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
+        "ordering": false
+    });
+</script>

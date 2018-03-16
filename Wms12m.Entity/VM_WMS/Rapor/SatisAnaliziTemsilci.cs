@@ -16,7 +16,7 @@
         public decimal Kasim { get; set; }
         public decimal Aralik { get; set; }
         public decimal NetCiro { get; set; }
-        public static string BolgeSorgu = @"
+        public static string Sorgu = @"
                                     IF(OBJECT_ID('tempdb..#UrunBolgeSatisAnalizi') IS NOT NULL) BEGIN DROP TABLE #UrunBolgeSatisAnalizi END
                                     CREATE TABLE #UrunBolgeSatisAnalizi(Kod9 NVARCHAR(50),Ay INT,NetCiro NUMERIC(25,6))
                                     INSERT INTO #UrunBolgeSatisAnalizi
@@ -29,7 +29,7 @@
                                                                     WHERE CHK.KartTip IN (0,4) 
                                                                     AND (CHK.HesapKodu BETWEEN '1' AND '8') 
                                                                     AND STI.KynkEvrakTip IN (1,2,163) 
-								                                    AND CHK.GrupKod='{1}'
+								                                    AND (CHK.GrupKod='{1}' OR '{1}'='0') 
                                                                     AND YEAR(DATEADD(DD,STI.Tarih,'1899-12-30'))={2}
                                                                     AND (CHK.TipKod = '{3}' OR '{3}'='0')
 								                                    AND ISNULL(STK.MalAdi4,'')<>''
@@ -54,7 +54,7 @@
                                     SELECT IC1.Kod9,SUM(IC1.NetCiro) AS SumNetCiro FROM #UrunBolgeSatisAnalizi AS IC1 WITH (NOLOCK)
                                     GROUP BY IC1.Kod9
                                     ) AS US2 ON US.Kod9=US2.Kod9 
-                                    GROUP BY US.Kod9,US2.SumNetCiro
+                                    GROUP BY US.Kod9,US2.SumNetCiro ORDER BY US.Kod9
                                     IF(OBJECT_ID('tempdb..#UrunBolgeSatisAnalizi') IS NOT NULL) BEGIN DROP TABLE #UrunBolgeSatisAnalizi END
                                     ";
     }

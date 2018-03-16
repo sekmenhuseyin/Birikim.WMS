@@ -260,6 +260,8 @@ namespace Wms12m.Entity
         byte? cAR003_YOKCDuzenlemeTip;
         string cAR003_YOKCBankaOnayKod;
         string cAR003_YOKCUniqueID;
+        byte? cAR003_YOKCDigerOdeme;
+        int? cAR003_ZRaporFisSayi;
         int _pk_CAR003_Row_ID;
         #endregion /// Fields
 
@@ -1607,6 +1609,29 @@ namespace Wms12m.Entity
                 OnPropertyChanged("pk_CAR003_Row_ID");
             }
         }
+
+        /// <summary> TINYINT (1) Allow Null </summary>
+        public byte? CAR003_YOKCDigerOdeme
+        {
+            get { return cAR003_YOKCDigerOdeme; }
+            set
+            {
+                cAR003_YOKCDigerOdeme = value;
+                OnPropertyChanged("CAR003_YOKCDigerOdeme");
+            }
+        }
+
+        // <summary> INT (4) Allow Null </summary>
+        public int? CAR003_ZRaporFisSayi
+        {
+            get { return cAR003_ZRaporFisSayi; }
+            set
+            {
+                cAR003_ZRaporFisSayi = value;
+                OnPropertyChanged("CAR003_ZRaporFisSayi");
+            }
+        }
+
         #endregion /// Properties             
         #region Tablo Bilgileri & Metodlar
 
