@@ -460,6 +460,10 @@ namespace Wms12m.Entity
             }
         }
 
+
+
+
+
         /// <summary> NUMERIC (13) * </summary>
         public decimal MikAralik1
         {

@@ -950,7 +950,8 @@ GROUP BY  STk.MalAdi4, CHK.GrupKod, CHK.TipKod", vUser.SirketKodu, Kod13)).ToLis
         {
             ViewBag.Yil = Yil;
             ViewBag.GrupKod = GrupKod;
-            ViewBag.TipKod = TipKod;
+            ViewBag.TipKod = (TipKod == null ? "0" : TipKod);
+            ViewBag.Eltit = (GrupKod == "0" ? "Tümü" : String.Concat(GrupKod, " - ", (TipKod == null || TipKod == "0" ? "Tümü" : TipKod)));
             return PartialView("RaporUrunSatisAnaliziList");
         }
         public string RaporUrunSatisAnaliziSelect(string Yil, string GrupKod, string TipKod)
@@ -960,7 +961,7 @@ GROUP BY  STk.MalAdi4, CHK.GrupKod, CHK.TipKod", vUser.SirketKodu, Kod13)).ToLis
             try
             {
                 string sorgu = "";
-                sorgu = String.Format(SatisAnaliziTemsilci.BolgeSorgu, vUser.SirketKodu, GrupKod, Convert.ToInt32(Yil), TipKod);
+                sorgu = String.Format(SatisAnaliziTemsilci.Sorgu, vUser.SirketKodu, GrupKod, Convert.ToInt32(Yil), TipKod);
                 sat = db.Database.SqlQuery<SatisAnaliziTemsilci>(sorgu).ToList();
             }
             catch (Exception ex)
