@@ -93,6 +93,7 @@ namespace Wms12m.Presentation.Areas.YN.Controllers
             }
         }
         #endregion
+
         #region Teklif
         /// <summary>
         /// teklif onay lsayfası
@@ -148,6 +149,7 @@ namespace Wms12m.Presentation.Areas.YN.Controllers
             }
         }
         #endregion
+
         #region Transfer
         /// <summary>
         /// transfer onayı bekleyenler sayfası
@@ -199,6 +201,7 @@ namespace Wms12m.Presentation.Areas.YN.Controllers
             }
         }
         #endregion
+
         #region Fatura
         /// <summary>
         /// Fatura onayı bekleyenler sayfası
@@ -269,6 +272,7 @@ namespace Wms12m.Presentation.Areas.YN.Controllers
             return PartialView("Fatura_Details", list);
         }
         #endregion
+
         #region Satış İade
         /// <summary>
         /// Fatura onayı bekleyenler sayfası
@@ -352,6 +356,7 @@ namespace Wms12m.Presentation.Areas.YN.Controllers
             return PartialView("SatisIade_Details", list);
         }
         #endregion
+
         #region Tahsilat
         /// <summary>
         /// tahsilat onayı bekleyenler sayfası
