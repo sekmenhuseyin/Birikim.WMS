@@ -583,6 +583,8 @@
     $('.satir-ekle-buton').click(function () {
         if ($(this).hasClass("disabled"))
             return;
+      
+
         //Kontrol
         if ($(".txt_sozlesme_sira_no").dxTextBox("instance").option("readOnly")) {
             Modaldialog("Sözleşme Değiştirilemez.", "Satır Ekle", "Tamam", "btn-warning");
@@ -600,6 +602,10 @@
 
         if ($(".select_urun_kodu").dxLookup("instance").option("value") == null) {
             Modaldialog("Ürün Kodu Seçmelisiniz.", "Satır Ekle", "Tamam", "btn-warning");
+            return;
+        }
+        if (UGTip == "GrupKod" && $(".select_urun_kalite").dxSelectBox("instance").option("value") == null) {
+            Modaldialog("Kalite Bilgisi Girmelisiniz.", "Kayıt İşlemi", "Tamam", "btn-warning");
             return;
         }
 
@@ -621,9 +627,11 @@
             PartialView("/Approvals/Contract/Tanim_List", 'sozlesme_tanim_data', JSON.stringify({ listeNo: "#12MConsulting#", satir: jsonElement }));
         }
         satirsayisi++;
+
         $(".select_urun_kodu").dxLookup("instance").option("value", null);
         $(".select_urun_kalite").dxSelectBox("instance").option("value", null);
         $(".select_urun_grubu").dxSelectBox("instance").option("value", null);
+        UGTip = "";
         $(".urun_kalite_content").css("display", "none");
 
     });
@@ -676,11 +684,7 @@
             Modaldialog("Başlangıç Tarihi Boş Olamaz.", "Kayıt İşlemi", "Tamam", "btn-warning");
             return;
         }
-        if (UGTip == "GrupKod" && $(".select_urun_kalite").dxSelectBox("instance").option("value") == null ) 
-    {
-            Modaldialog("Kalite Bilgisi Girmelisiniz.", "Kayıt İşlemi", "Tamam", "btn-warning");
-            return;
-        }
+      
 
 
         var ListeNo = $(".txt_sozlesme_sira_no").dxTextBox("instance").option("value");
@@ -911,6 +915,7 @@
     }
 
     function inputClear() {
+        UGTip = "";
         $(".txt_sozlesme_notu").dxTextBox("instance").option("value", "");
         $(".date_baslangic_tarihi").dxDateBox("instance").option("value", null);
         $(".date_bitis_tarihi").dxDateBox("instance").option("value", null);
