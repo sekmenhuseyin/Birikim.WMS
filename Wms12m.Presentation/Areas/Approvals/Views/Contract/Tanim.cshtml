@@ -583,6 +583,8 @@
     $('.satir-ekle-buton').click(function () {
         if ($(this).hasClass("disabled"))
             return;
+      
+
         //Kontrol
         if ($(".txt_sozlesme_sira_no").dxTextBox("instance").option("readOnly")) {
             Modaldialog("Sözleşme Değiştirilemez.", "Satır Ekle", "Tamam", "btn-warning");
@@ -625,9 +627,11 @@
             PartialView("/Approvals/Contract/Tanim_List", 'sozlesme_tanim_data', JSON.stringify({ listeNo: "#12MConsulting#", satir: jsonElement }));
         }
         satirsayisi++;
+
         $(".select_urun_kodu").dxLookup("instance").option("value", null);
         $(".select_urun_kalite").dxSelectBox("instance").option("value", null);
         $(".select_urun_grubu").dxSelectBox("instance").option("value", null);
+        UGTip = "";
         $(".urun_kalite_content").css("display", "none");
 
     });
