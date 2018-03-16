@@ -45,7 +45,7 @@ function editInModal2(URL, data)
         }
     });
 }
-//url:method adresi ,div:render edeceği div,Id:detay için id göndere bilir
+//url:method adresi, div:render edeceği div, Id:detay için id gönderebilir
 function PartialView(Url, Div, Id)
 {
     $.ajax({
