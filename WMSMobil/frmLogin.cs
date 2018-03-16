@@ -15,7 +15,6 @@ namespace WMSMobil
     public partial class frmLogin : Form
     {
         Terminal Servis = new Terminal();
-        //private Barcode2 Barkod;
         /// <summary>
         /// load
         /// </summary>
@@ -41,17 +40,6 @@ namespace WMSMobil
             ver += "." + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.Minor.ToString();
             ver += "." + ("000" + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.Build.ToString()).Right(3);
             label4.Text = "WMS Mobil v." + ver;
-            //barkod
-            //Barkod = new Barcode2();
-            //Barkod.DeviceType = Symbol.Barcode2.DEVICETYPES.FIRSTAVAILABLE;
-            //try
-            //{
-            //    Barkod.EnableScanner = true;
-            //}
-            //catch (Exception)
-            //{
-            //}
-            //Barkod.OnScan += new Barcode2.OnScanEventHandler(Barkod_OnScan);
             Cursor.Current = Cursors.Default;
         }
         /// <summary>
@@ -159,14 +147,6 @@ namespace WMSMobil
         /// </summary>
         private void GirisForm_Closing(object sender, CancelEventArgs e)
         {
-            //try
-            //{
-            //    Barkod.EnableScanner = false;
-            //    Barkod.Dispose();
-            //}
-            //catch (Exception)
-            //{
-            //}
             Servis.Dispose();
             Application.Exit();
         }
