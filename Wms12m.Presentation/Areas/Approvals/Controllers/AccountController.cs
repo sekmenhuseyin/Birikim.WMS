@@ -18,7 +18,7 @@ when EFatSenaryo =3 then 'İhracat' end) as EFatSenaryo1,*, ISNULL(d.Adi, '') as
 LEFT JOIN (
 select VergiDairesi, UVK.Adi from FINSAT6{0}.FINSAT6{0}.CHK WITH (NOLOCK)
 INNER  JOIN solar6.dbo.UVK WITH (NOLOCK) ON UVK.Kodu=CHK.VergiDairesi 
-) AS D ON VergiAdi.VergiDairesi = D.VergiDairesi where VergiAdi.Checksum NOT IN (1,-1)", vUser.SirketKodu)).ToList();
+) AS D ON VergiAdi.VergiDairesi = D.VergiDairesi --where VergiAdi.Checksum NOT IN (1,-1)", vUser.SirketKodu)).ToList();
 
             return View("Index", liste);
         }
@@ -35,11 +35,11 @@ INNER  JOIN solar6.dbo.UVK WITH (NOLOCK) ON UVK.Kodu=CHK.VergiDairesi
             {
                 if (OnaylandiMi)
                 {
-                    sql += string.Format(@"UPDATE FINSAT6{0}.FINSAT6{0}.CHK_Temp SET [CheckSum]=1, AktifPasif=0 WHERE HesapKodu ='{1}'", vUser.SirketKodu, insertObj, vUser.UserName);
+                    sql += string.Format(@"UPDATE FINSAT6{0}.FINSAT6{0}.CHK SET [CheckSum]=1, AktifPasif=0 WHERE HesapKodu ='{1}'", vUser.SirketKodu, insertObj, vUser.UserName);
                 }
                 else
                 {
-                    sql += string.Format(@"UPDATE FINSAT6{0}.FINSAT6{0}.CHK_Temp SET [CheckSum]=-1, AktifPasif=0 WHERE HesapKodu ='{1}'", vUser.SirketKodu, insertObj, vUser.UserName);
+                    sql += string.Format(@"UPDATE FINSAT6{0}.FINSAT6{0}.CHK SET [CheckSum]=-1, AktifPasif=0 WHERE HesapKodu ='{1}'", vUser.SirketKodu, insertObj, vUser.UserName);
                 }
             }
 
