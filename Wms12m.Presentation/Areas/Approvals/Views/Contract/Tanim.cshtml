@@ -602,6 +602,10 @@
             Modaldialog("Ürün Kodu Seçmelisiniz.", "Satır Ekle", "Tamam", "btn-warning");
             return;
         }
+        if (UGTip == "GrupKod" && $(".select_urun_kalite").dxSelectBox("instance").option("value") == null) {
+            Modaldialog("Kalite Bilgisi Girmelisiniz.", "Kayıt İşlemi", "Tamam", "btn-warning");
+            return;
+        }
 
         var EKFiyatListesi = listeNo;
         var EKMalKod = TempMalKod;
@@ -676,11 +680,7 @@
             Modaldialog("Başlangıç Tarihi Boş Olamaz.", "Kayıt İşlemi", "Tamam", "btn-warning");
             return;
         }
-        if (UGTip == "GrupKod" && $(".select_urun_kalite").dxSelectBox("instance").option("value") == null ) 
-    {
-            Modaldialog("Kalite Bilgisi Girmelisiniz.", "Kayıt İşlemi", "Tamam", "btn-warning");
-            return;
-        }
+      
 
 
         var ListeNo = $(".txt_sozlesme_sira_no").dxTextBox("instance").option("value");
@@ -911,6 +911,7 @@
     }
 
     function inputClear() {
+        UGTip = "";
         $(".txt_sozlesme_notu").dxTextBox("instance").option("value", "");
         $(".date_baslangic_tarihi").dxDateBox("instance").option("value", null);
         $(".date_bitis_tarihi").dxDateBox("instance").option("value", null);
