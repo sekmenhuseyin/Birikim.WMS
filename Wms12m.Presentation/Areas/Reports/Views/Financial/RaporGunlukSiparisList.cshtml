@@ -1,71 +1,58 @@
-﻿<div class="col-md-12" style="width:100%;">
-    <div class="portlet box green">
-        <div class="portlet-title">
-            <div class="caption">
-                <i class="fa fa-gift"></i>Rapor Listesi
+﻿@section Styles{
+    <style>
+        td.details-control {
+            background: url('/Content/assets/global/plugins/datatables/images/details_open.png') no-repeat center center;
+            cursor: pointer;
+        }
+
+        tr.shown td.details-control {
+            background: url('/Content/assets/global/plugins/datatables/images/details_close.png') no-repeat center center;
+        }
+    </style>
+}
+<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><span>Raporlar</span><i class="fa fa-circle"></i></li><li><span>Günlük Sipariş Raporu</span></li></ul></div>
+<h1 class="page-title">Günlük Sipariş Raporu</h1>
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet box green">
+            <div class="portlet-title"><div class="caption"><i class="fa fa-gift"></i>Günlük Sipariş Raporu</div></div>
+            <div class="portlet-body form p-30 p-t-15">
+                <table class="table table-striped table-bordered table-condensed" id="sample_1">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Evrak No</th>
+                            <th>Tarih</th>
+                            <th>CHK</th>
+                            <th>Ünvan</th>
+                            <th>Tip Kod</th>
+                            <th>Grup Kod</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </tfoot>
+                    <tfoot class="tf-search">
+                        <tr>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </tfoot>
+                </table>
             </div>
-            <div class="col-md-1 pull-right m-t-5 p-0" id="buttons"></div>
-        </div>
-        <div class="portlet-body">
-            <table class="table table-striped table-bordered table-condensed" id="sample_1">
-                <thead>
-                    <tr>
-                        <th>Mal Kodu</th>
-                        <th>Mal Adi</th>
-                        <th>Birim Miktar</th>
-                        <th>İskontro Oran</th>
-                        <th>Şatıs Fiyat</th>
-                        <th>Birim Fiyat</th>
-                        <th>Net Tutar</th>
-                        <th>Valorgun</th>
-                        <th>Alış Fiyat</th>
-                        <th>TipKod</th>
-                        <th>GrupKod</th>
-                        <th>Evrak No</th>
-                        <th>Hesap Kodu</th>
-                        <th>Ünvan</th>
-                        <th>Kod9</th>
-                    </tr>
-                </thead>
-                <tfoot>
-                    <tr>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                    </tr>
-                </tfoot>
-                <tfoot class="tf-search">
-                    <tr>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                    </tr>
-                </tfoot>
-            </table>
         </div>
     </div>
 </div>
@@ -76,6 +63,16 @@
     $(document).ready(function () {
         table = $('#sample_1').DataTable({
             "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
+            "order": [[1, "asc"]],
+            "ordering": true,
+            "pagingType": "full_numbers",
+            "scrollX": true,
+            "scrollY": true,
+            "dom": 'lBfrtip',
+            "buttons": [
+                { "extend": 'pdf', "text": '<span class="fa fa-file-pdf-o f-s-15 red"></span>', "className": 'btn btn-default btn-xs' },
+                { "extend": 'excel', "text": '<span class="fa fa-file-excel-o f-s-15 green"></span>', "className": 'btn btn-default btn-xs' }
+            ],
             "ajax": {
                 "url": '/Reports/Financial/RaporGunlukSiparisSelect',
                 "data": { BasTarih: BasTarih, BitTarih: BitTarih },
@@ -83,63 +80,47 @@
                     return json;
                 },
             },
-            "pagingType": "full_numbers",
-            "buttons": [
-                { "extend": 'pdf', "text": '<span class="fa fa-file-pdf-o f-s-15 red"></span>', "className": 'btn btn-default btn-xs' },
-                { "extend": 'excel', "text": '<span class="fa fa-file-excel-o f-s-15 green"></span>', "className": 'btn btn-default btn-xs' }
-            ],
-            "columnDefs": [{ "type": "num-fmt", "className": "dt-right", "targets": [2,3,4,5,6,8] }, { "className": "dt-center", "targets": "_all" }],
-            "columns": [
-                { "data": "MalKodu" },
-                { "data": "MalAdi" },
-                { "data": "BirimMiktar","render": $.fn.dataTable.render.number('.',',', 2,'') },
-                { "data": "IskontoOran1", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
-                { "data": "SatisFiyat3", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
-                { "data": "BirimFiyat", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
-                { "data": "NetTutar", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
-                { "data": "Valorgun" },
-                { "data": "AlisFiyat1", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
-                { "data": "TipKod" },
-                { "data": "GrupKod" },
-                { "data": "EvrakNo" },
-                { "data": "HesapKodu" },
-                { "data": "Unvan" },
-                { "data": "MalAdi4" },
-            ],
-            "ordering": false,
-            "fnRowCallback": function (nRow, aData, iDisplayIndex) {
-                $('td', nRow).attr('nowrap', 'nowrap');
-                return nRow;
-            },
-            "footerCallback": function (row, data, start, end, display) {
-                var BirimMiktar = 0, IskontoOran1 = 0, SatisFiyat3 = 0,
-                    BirimFiyat = 0,NetTutar = 0, AlisFiyat1 = 0;
 
-                table.rows({ search: 'applied' }).data().each(function (val, index) {
-                    BirimMiktar += val.BirimMiktar;
-                    IskontoOran1 += val.IskontoOran1;
-                    SatisFiyat3 += val.SatisFiyat3;
-                    BirimFiyat += val.BirimFiyat;
-                    NetTutar += val.NetTutar;
-                    AlisFiyat1 += val.AlisFiyat1;
-                });
-                var api = this.api(), data;
-                $(api.column(2).footer()).html(numeral(BirimMiktar).format());
-                $(api.column(3).footer()).html(numeral(IskontoOran1).format());
-                $(api.column(4).footer()).html(numeral(SatisFiyat3).format());
-                $(api.column(5).footer()).html(numeral(BirimFiyat).format());
-                $(api.column(6).footer()).html(numeral(NetTutar).format());
-                $(api.column(8).footer()).html(numeral(AlisFiyat1).format());
-             },
+            "columnDefs": [{ "className": "dt-center", "targets": "_all" }],
+            "columns": [
+                { "data": null, "defaultContent": '', "className": 'details-control', "orderable": false },
+                { "data": "EVRAKNO" },
+                { "data": "Tarih" },
+                { "data": "CHK" },
+                { "data": "Unvan" },
+                { "data": "TipKod" },
+                { "data": "GrupKod" }
+            ]
         });
 
-        $("#buttons").html("");
-        var buttons = new $.fn.dataTable.Buttons(table, {
-            buttons: [
-                { "extend": 'pdf', "text": '<span class="fa fa-file-pdf-o f-s-15 red"></span>', "className": 'btn-xs;' },
-                { "extend": 'excel', "text": '<span class="fa fa-file-excel-o f-s-15 green"></span>', "className": 'btn-xs;' }
-            ]
-        }).container().appendTo($('#buttons'));
+
+        $('#sample_1 tbody').on('click', 'td.details-control', function () {
+            var tr = $(this).closest('tr');
+            table
+                .rows('.aa')
+                .nodes()
+                .to$()      // Convert to a jQuery object
+                .removeClass('aa');
+            tr.addClass("aa");
+            var x = table.rows('.aa').data();
+            var row = table.row(tr);
+            if (row.child.isShown()) { row.child.hide(); tr.removeClass('shown'); }
+            else { row.child(newrow(x[0].EVRAKNO)).show(); format(x[0].EVRAKNO); tr.addClass('shown'); }
+        });
+        function newrow(id) { return "<table style='background:transparent;' id='new" + id + "'></table>"; }
+        function format(d) {
+            $.ajax({
+                type: 'POST',
+                url: '/Reports/Financial/RaporGunlukSiparisDetay',
+                data: { "EVRAKNO": d },
+                dataType: "html",
+                success: function (data) {
+                    $('#new' + d).html(data);
+                }
+            });
+        }
+
+
         $('#sample_1 .tf-search th').each(function () {
             var title = $('#sample_1 thead th').eq($(this).index()).text();
             if (title != "" && title.indexOf("Tarih") !== -1)
@@ -148,6 +129,23 @@
                 $(this).html('<input class="form-control input-circle" type="text" placeholder="Ara" />');
         });
         $("#sample_1 tfoot input").on('keyup change', function () { table.column($(this).parent().index() + ':visible').search(this.value).draw(); });
+
         $('#sample_1 .tf-search tr').insertAfter($('#sample_1 thead tr'))
+
+
+        $('#sample_1 tbody').on('click', 'tr', function () {
+            table
+                .rows('.selected')
+                .nodes()
+                .to$()      // Convert to a jQuery object
+                .removeClass('selected');
+            $("tr").find('td').not(".degisim").css('background-color', 'transparent');
+            $(".degisim").css('background-color', '#f9df63');
+            $(this).find('td').css('background-color', '#B0BED9');
+            $(this).toggleClass('selected');
+        });
+
+
+
     });
 </script>

@@ -867,7 +867,7 @@ GROUP BY  STk.MalAdi4, CHK.GrupKod, CHK.TipKod", vUser.SirketKodu, Kod13)).ToLis
             try
             {
                 string sorgu = "";
-                sorgu = String.Format(GunlukSiparis.Sorgu, vUser.SirketKodu, BasTarih, BitTarih, "");
+                sorgu = String.Format(GunlukSiparis.Sorgu, vUser.SirketKodu, BasTarih, BitTarih);
                 gs = db.Database.SqlQuery<GunlukSiparis>(sorgu).ToList();
             }
             catch (Exception ex)
@@ -877,6 +877,19 @@ GROUP BY  STk.MalAdi4, CHK.GrupKod, CHK.TipKod", vUser.SirketKodu, Kod13)).ToLis
             }
             return json.Serialize(gs);
         }
+
+
+        public PartialViewResult RaporGunlukSiparisDetay(string EVRAKNO)
+        {
+            List<GunlukSiparisDetay> gs;
+
+            string sorgu = "";
+            sorgu = String.Format(GunlukSiparisDetay.Sorgu, vUser.SirketKodu, EVRAKNO);
+            gs = db.Database.SqlQuery<GunlukSiparisDetay>(sorgu).ToList();
+            return PartialView("RaporGunlukSiparisDetay", gs);
+        }
+
+
         #endregion
         #region BekleyenSiparisler-YAPILDI
         public ActionResult RaporBekleyenSiparisler()

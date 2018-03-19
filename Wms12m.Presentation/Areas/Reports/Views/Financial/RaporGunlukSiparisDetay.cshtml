@@ -1,0 +1,37 @@
+﻿
+@model IEnumerable<GunlukSiparisDetay>
+<table class="table">
+    <thead>
+    <th>Mal Kodu</th>
+    <th>Mal Adi</th>
+    <th>Birim Miktar</th>
+    <th>Iskonto Oran 1</th>
+    <th>Satis Fiyat 3</th>
+    <th>Birim Fiyat</th>
+    <th>Net Tutar</th>
+    <th>Valor Gun</th>
+    <th>Alis Fiyat 1</th>
+    <th>Hesap Kodu</th>
+    <th>Mal Adi 4</th>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.MalKodu</td>
+                <td>@item.MalAdi</td>
+                <td>@item.BirimMiktar</td>
+                <td>@item.IskontoOran1</td>
+                <td>@item.SatisFiyat3</td>
+                <td>@item.BirimFiyat</td>
+                <td>@item.NetTutar</td>
+                <td>@item.NetTutar</td>
+                <td>@item.Valorgun</td>
+                <td>@item.AlisFiyat1</td>
+                <td>@item.HesapKodu</td>
+                <td>@item.MalAdi4</td>
+            </tr>}
+    </tbody>
+</table>
+
+

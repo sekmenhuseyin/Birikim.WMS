@@ -534,6 +534,7 @@
     <Content Include="Areas\Reports\Views\Financial\BekleyenMalzemeList.cshtml" />
     <Content Include="Areas\Reports\Views\Financial\TumMusteriCiro.cshtml" />
     <Content Include="Areas\Reports\Views\Financial\RaporUrunSatisAnaliziList.cshtml" />
+    <Content Include="Areas\Reports\Views\Financial\RaporGunlukSiparisDetay.cshtml" />
     <None Include="bundleconfig.json" />
     <Content Include="Content\SizeSablon.xlsx" />
     <Content Include="Content\StockSablon.xlsx" />
