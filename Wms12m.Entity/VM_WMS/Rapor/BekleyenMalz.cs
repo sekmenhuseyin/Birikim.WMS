@@ -20,8 +20,6 @@
         public decimal TeslimEdilen { get; set; }
         /// <summary> Decimal(25,6) (Not Null) </summary>
         public decimal Kapatilan { get; set; }
-        /// <summary> Decimal(27,6) (Allow Null) </summary>
-        public decimal AcikSiparisMiktari { get; set; }
         /// <summary> Decimal(38,6) (Allow Null) </summary>
         public decimal BekleyenNetTutar { get; set; }
         /// <summary> Decimal(27,6) (Allow Null) </summary>
@@ -39,7 +37,10 @@
                                     SPI.Depo,
                                     SPI.TeslimMiktar AS TeslimEdilen,
                                     SPI.KapatilanMiktar AS Kapatilan,
-                                    (SPI.BirimMiktar-SPI.TeslimMiktar-SPI.KapatilanMiktar) AS AcikSiparisMiktari,
+                                    SPI.IskontoOran1,
+								    SPI.BirimFiyat,
+									SPI.ToplamIskonto,
+                                   -- (SPI.BirimMiktar-SPI.TeslimMiktar-SPI.KapatilanMiktar) AS AcikSiparisMiktari,
                                     ((SPI.Tutar-SPI.ToplamIskonto)/SPI.BirimMiktar)*(SPI.Birimmiktar-SPI.TeslimMiktar-SPI.KapatilanMiktar) AS BekleyenNetTutar,
                                     (STK.DvrMiktar+STK.GirMiktar-STK.CikMiktar) AS MevcutStok,
                                     STK.AlimSiparis AS AlimSiparis

@@ -72,7 +72,7 @@
                 { "data": "TipKod" },
                 { "data": "NetTutar", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
             ],
-            "ordering": false,
+            "ordering": true,
             "fnRowCallback": function (nRow, aData, iDisplayIndex) {
                 $('td', nRow).attr('nowrap', 'nowrap');
                 return nRow;

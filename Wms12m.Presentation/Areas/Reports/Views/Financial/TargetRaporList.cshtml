@@ -28,8 +28,8 @@
                         <th>Bölge</th>
                         <th>Hedef</th>
                         <th>Hedef Oran</th>
-                        <th>Toplam Iade</th>
                         <th>Toplam NetCiro</th>
+                        <th>Toplam Iade</th>
                         <th>Cira Oran</th>
                         <th>Cari Borç</th>
                         <th>PRT</th>
@@ -104,12 +104,12 @@
                     }
                     return data;
                 } },
-                { "data": "ToplamIade", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
                 { "data": "NetCiro", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
+                { "data": "ToplamIade", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
                 { "data": "CiroOran", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
                 { "data": "CariBorc", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
                 { "data": "PRT", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
-                { "data": "BekleyenSiparis", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
+                { "data": "BekleyenSiparis", "render": $.fn.dataTable.render.number('.', ',', 2, '') }
             ],
             "createdRow": function (row, data, dataIndex) {
                 if (data["HedefOran"] >= 100) {
@@ -124,7 +124,7 @@
                     $(row).children('td').slice(2, 3).addClass("renkU0");
                 }
             },
-            "ordering": false,
+            "ordering": true,
             "fnRowCallback": function (nRow, aData, iDisplayIndex) {
                 $('td', nRow).attr('nowrap', 'nowrap');
                 return nRow;
@@ -142,8 +142,8 @@
                 });
                 var api = this.api(), data;
                 $(api.column(1).footer()).html(numeral(Hedef).format());
-                $(api.column(3).footer()).html(numeral(ToplamIade).format());
-                $(api.column(4).footer()).html(numeral(NetCiro).format());
+                $(api.column(3).footer()).html(numeral(NetCiro).format());
+                $(api.column(4).footer()).html(numeral(ToplamIade).format());
                 $(api.column(5).footer()).html(numeral(CiroOran).format());
                 $(api.column(6).footer()).html(numeral(CariBorc).format());
                 $(api.column(7).footer()).html(numeral(PRT).format());
@@ -170,8 +170,8 @@
     $.contextMenu({
         selector: '#sample_1 tbody tr',
         callback: function (key, options) {
-            var rowIndex = parseInt(options.$trigger[0].rowIndex) - 1;
-            var satir = table.row(rowIndex - 1).data();
+            var rowIndex = parseInt(options.$trigger[0].rowIndex)-1;
+            var satir = table.row(rowIndex).data();
             var MLK = satir.GrupKod;
             switch (key) {
                 case 'bkTemsilciler':
