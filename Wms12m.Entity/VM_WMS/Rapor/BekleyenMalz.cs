@@ -20,10 +20,16 @@
         public decimal TeslimEdilen { get; set; }
         /// <summary> Decimal(25,6) (Not Null) </summary>
         public decimal Kapatilan { get; set; }
+        /// <summary> Real (Not Null) </summary>
+        public float IskontoOran1 { get; set; }
+        /// <summary> Decimal(25,6) (Not Null) </summary>
+        public decimal BirimFiyat { get; set; }
+        /// <summary> Decimal(25,6) (Not Null) </summary>
+        public decimal ToplamIskonto { get; set; }
         /// <summary> Decimal(38,6) (Allow Null) </summary>
-        public decimal BekleyenNetTutar { get; set; }
+        public decimal? BekleyenNetTutar { get; set; }
         /// <summary> Decimal(27,6) (Allow Null) </summary>
-        public decimal MevcutStok { get; set; }
+        public decimal? MevcutStok { get; set; }
         /// <summary> Decimal(25,6) (Not Null) </summary>
         public decimal AlimSiparis { get; set; }
         public static string Sorgu = @"
