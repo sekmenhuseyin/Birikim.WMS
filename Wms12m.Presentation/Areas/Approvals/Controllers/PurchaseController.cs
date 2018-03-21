@@ -1204,8 +1204,102 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
         #endregion
 
-        #region Satınalma Sipariş Talebi GMY Mali Onay
+        #region Satınalma Talebi GMY Onay
+        //Tunc
+        public ActionResult SatinAlmaTalebiGMYOnay(bool? onay)
+        {
+            if (CheckPerm(Perms.SatinalmaOnaylama, PermTypes.Reading) == false) return Redirect("/");
 
+
+            var sorgu = string.Format("SELECT DISTINCT ST.TalepNo,ST.ID, ST.MalKodu, ST.Tarih, ST.Birim, ST.BirimMiktar, ST.IstenenTarih, ST.Aciklama, ST.Aciklama2, ST.Aciklama3, ST.Durum, ST.EkDosya, ST.Kademe2Onaylayan, ST.Kademe2OnayTarih, ST.Kaydeden AS TalepEden, STK.MalAdi, ST.TesisKodu FROM KAYNAK.sta.Talep as ST (nolock) LEFT JOIN FINSAT6{0}.FINSAT6{0}.STK(nolock) on ST.MalKodu = STK.MalKodu WHERE Tip = 0 AND ST.Durum in ({1}) AND ST.Kademe2Onaylayan  IN(SELECT DISTINCT Talep2KademeOnaylayan FROM Kaynak.sta.GenelAyarVeParams WHERE Tip = 0 AND Talep1KademeOnaylayan = '{2}')", vUser.SirketKodu, "1", vUser.UserName);
+
+            ViewBag.baslik = "Satınalma Sipariş Talebi GMY Mali Onay";
+            MyGlobalVariables.Depo = "93 DP";
+            MyGlobalVariables.DovizDurum = false;
+
+            if (onay == null)
+            {
+                MyGlobalVariables.SipTalepList = new List<SatTalep>();
+            }
+            else
+            {
+                if (!(bool)onay)
+                {
+                    MyGlobalVariables.SipTalepList = db.Database.SqlQuery<SatTalep>(sorgu).ToList();
+                }
+                else
+                {
+                    sorgu = string.Format("SELECT DISTINCT ST.TalepNo,ST.ID, ST.MalKodu, ST.Tarih, ST.Birim, ST.BirimMiktar, ST.IstenenTarih, ST.Aciklama, ST.Aciklama2, ST.Aciklama3, ST.Durum, ST.EkDosya, ST.Kademe2Onaylayan, ST.Kademe2OnayTarih, ST.Kaydeden AS TalepEden, STK.MalAdi, ST.TesisKodu FROM KAYNAK.sta.Talep as ST (nolock) LEFT JOIN FINSAT6{0}.FINSAT6{0}.STK(nolock) on ST.MalKodu = STK.MalKodu WHERE Tip = 0 AND ST.Durum in ({1}) AND ST.Kademe2Onaylayan  IN(SELECT DISTINCT Talep2KademeOnaylayan FROM Kaynak.sta.GenelAyarVeParams WHERE Tip = 0 AND Talep1KademeOnaylayan = '{2}')", vUser.SirketKodu, "1,2", vUser.UserName);
+                    MyGlobalVariables.SipTalepList = db.Database.SqlQuery<SatTalep>(sorgu).ToList();
+                }
+            }
+
+            return View("SatinAlmaTalebiGMYOnay", MyGlobalVariables.SipTalepList);
+        }
+
+
+        public JsonResult SatinAlmaTalebiGMYOnayUrunDetay(string id)
+        {
+
+            var sql = string.Format(
+            @"SELECT DST.MalKodu, STK.Birim1, DST.Depo, DEP.DepoAdi, DST.DvrMiktar, DST.GirMiktar, DST.CikMiktar,
+            (DST.DvrMiktar+DST.GirMiktar-DST.CikMiktar) AS StokMiktar
+            FROM FINSAT6{0}.FINSAT6{0}.DST (nolock)
+            LEFT JOIN FINSAT6{0}.FINSAT6{0}.DEP (nolock) on DEP.Depo=DST.Depo
+            LEFT JOIN FINSAT6{0}.FINSAT6{0}.STK (nolock) on STK.MalKodu=DST.MalKodu
+            WHERE DST.MalKodu='{1}'", vUser.SirketKodu, id);
+
+            List<SatMalListesi> sonuc = db.Database.SqlQuery<SatMalListesi>(sql).ToList();
+
+            return Json(sonuc, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public HttpStatusCodeResult SatinAlmaTalebiGMYOnayYap(int[] id, bool durum, string aciklama = null)
+        {
+            //string[] id = deger.Split(',');
+
+            int onay = durum ? 2 : 4;
+
+
+            var data = db.Database.SqlQuery<SatTalep>(string.Format(@"[FINSAT6{0}].[wms].[SatinAlmaTalepGMYOnayList]", vUser.SirketKodu)).ToList();
+
+            foreach (var item in data.Where(p => id.Contains(p.ID)))
+            {
+                var sorgu = string.Format(@"UPDATE Kaynak.sta.Talep SET Durum={3},Kademe2OnayTarih=GETDATE(),Kademe2Onaylayan='{0}',Degistiren='{0}',DegisTarih=GETDATE(),DegisSirKodu={1} WHERE ID={2} AND Durum=1", vUser.UserName, vUser.SirketKodu, item.ID, onay);
+
+
+                if (!durum)
+                {
+                    sorgu = string.Format(@"UPDATE Kaynak.sta.Talep SET Durum={3},Kademe2OnayTarih=GETDATE(),Kademe2Onaylayan='{0}',Degistiren='{0}',DegisTarih=GETDATE(),DegisSirKodu='{1}',Aciklama3='{4}' WHERE ID={2} AND Durum IN (1,2)", vUser.UserName, vUser.SirketKodu, item.ID, onay, aciklama);
+
+
+                    db.Database.ExecuteSqlCommand(sorgu);
+
+                    var mailSorgu = string.Format("SELECT Email FROM Kaynak.usr.Users WHERE UserName= ( SELECT TOP (1) Kaydeden FROM Kaynak.sta.Talep WHERE ID='{0}')", item.ID);
+                    var kaydedenmail = db.Database.SqlQuery<string>(mailSorgu).FirstOrDefault().ToString();
+
+                    var mailayar = db.Database.SqlQuery<GenelAyarVeParams>(string.Format(@"
+                    SELECT * FROM [Kaynak].[sta].[GenelAyarVeParams]  where Tip = 4 and Tip2 = 0")).FirstOrDefault();
+
+
+                    var kime = string.Format("{0};{1};{2}", vUser.Email, kaydedenmail, mailayar.MailTo);
+                    var gorunenIsim = "Sipariş Onay";
+                    var konu = "Sipariş Onay";
+                    var icerik = string.Format("Talep nosu {0} olan {1} nedeni ile iptal edilmişir.", item.TalepNo, aciklama);
+
+                    var m = new MyMail(db);
+                    m.Gonder(kime, mailayar.MailCc, gorunenIsim, konu, icerik, null, vUser.UserName, fn.GetIPAddress());
+
+                    if (m.MailGonderimBasarili)
+                    {
+                        db.Database.ExecuteSqlCommand(string.Format("UPDATE Kaynak.sta.Talep SET MailGonder=-1 WHERE ID='{0}'", item.ID));
+                    }
+                }
+            }
+
+            return new HttpStatusCodeResult(200);
+        }
 
 
         #endregion
