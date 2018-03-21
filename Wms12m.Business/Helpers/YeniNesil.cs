@@ -397,7 +397,9 @@ namespace Wms12m
             {
                 for (int i = 0; i < SIOnay.tbl.Row_ID.Length; i++)
                 {
-                    Sorgu = Sorgu + string.Format("update YNS{0}.YNS{0}.STK005 set STK005_BirimFiyati={1} where STK005_Row_ID={2}", SirketKodu, SIOnay.tbl.Fiyat[i].ToDot(), SIOnay.tbl.Row_ID[i]);
+                    Sorgu = Sorgu + string.Format("update YNS{0}.YNS{0}.STK005 set STK005_BirimFiyati={1} where STK005_Row_ID={2}", SirketKodu
+                        , SIOnay.tbl.Fiyat[i].Replace(',', ';').Replace('.', ' ').Replace(';', '.').Replace(" ", string.Empty)
+                        , SIOnay.tbl.Row_ID[i]);
                 }
 
                 Sorgu = Sorgu + string.Format(@"
@@ -448,7 +450,7 @@ namespace Wms12m
                     [CAR003_EArsivFaturaTeslimSekli], [CAR003_EArsivFaturaDurumu], [CAR003_EArsivAdres], [CAR003_EArsivSemt], [CAR003_EArsivIL], [CAR003_Unvani2], 
                     [CAR003_YOKCSeriNo], [CAR003_YOKCZRaporuNo], [CAR003_YOKCBelgeTipi], [CAR003_YOKCBilgiFisiTipi], [CAR003_YOKCFisNo], [CAR003_YOKCFisTarihi], 
                     [CAR003_OdemeTurKodu], [CAR003_VergiDairesiKodu], [CAR003_FiiliIhracatTarihi], [CAR003_YOKCFisSaat], [CAR003_YOKCDuzenlemeTip], [CAR003_YOKCBankaOnayKod], 
-                    [CAR003_YOKCUniqueID], [CAR003_YOKCDigerOdeme], [CAR003_ZRaporFisSayi])
+                    [CAR003_YOKCUniqueID])
                     VALUES
                     ('{1}', {2}, 8, '{3}', 'Faturası', 1, 0, {4},
                     '', '', '', 4, 0, 0, {5},
@@ -468,7 +470,7 @@ namespace Wms12m
                     null, null, '', '', '', '',
                     '', null, null, null, null, 0,
                     '', 0, 0, null, null, '',
-                    '', null, null)"
+                    '')"
                     , SirketKodu, evrakBilgi.STK005_CariHesapKodu, evrakBilgi.STK005_IslemTarihi, evrakBilgi.STK005_EvrakSeriNo, evrakBilgi.STK005_VadeTarihi
                     , evrakBilgi.STK005_ParaBirimi
                     , evrakBilgi.STK005_SEQNo, DateTime.Today.Date.ToOADate().ToInt32(), saat, SIOnay.Kaydeden

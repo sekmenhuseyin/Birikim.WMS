@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net.Mail;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Web.UI;
 using Wms12m.Entity;
 using Wms12m.Entity.Models;
 
@@ -110,6 +111,190 @@ namespace Wms12m
                     MailGonderimBasarili = false;
                     return new Result(false, ex.Message);
                 }
+        }
+
+        public static string TeklifGeriCevirmeMailIcerik(List<SatTalep> list, string geriCevirmeAciklamasi)
+        {
+            var sw = new StringWriter();
+            var wr = new HtmlTextWriter(sw);
+
+            wr.AddAttribute(HtmlTextWriterAttribute.Border, "1");
+            wr.AddAttribute(HtmlTextWriterAttribute.Bordercolor, "gray");
+            wr.AddAttribute(HtmlTextWriterAttribute.Cellspacing, "1");
+            wr.AddAttribute(HtmlTextWriterAttribute.Cellpadding, "4");
+            wr.RenderBeginTag(HtmlTextWriterTag.Table);
+            wr.AddAttribute(HtmlTextWriterAttribute.Border, "1");
+
+            #region Üst Bilgi
+
+            wr.RenderBeginTag(HtmlTextWriterTag.Tr); //başlık tr aç
+
+            wr.RenderBeginTag(HtmlTextWriterTag.Td);
+            wr.Write("Teklif No");
+            wr.RenderEndTag();
+
+            wr.RenderBeginTag(HtmlTextWriterTag.Td);
+            wr.Write("Hesap Kodu");
+            wr.RenderEndTag();
+
+            wr.RenderBeginTag(HtmlTextWriterTag.Td);
+            wr.Write("Ünvan");
+            wr.RenderEndTag();
+
+            wr.RenderBeginTag(HtmlTextWriterTag.Td);
+            wr.Write("Mal Kodu");
+            wr.RenderEndTag();
+
+            wr.RenderBeginTag(HtmlTextWriterTag.Td);
+            wr.Write("Mal Adı");
+            wr.RenderEndTag();
+
+            wr.RenderBeginTag(HtmlTextWriterTag.Td);
+            wr.Write("Birim");
+            wr.RenderEndTag();
+
+            wr.RenderBeginTag(HtmlTextWriterTag.Td);
+            wr.Write("Birim Fiyat");
+            wr.RenderEndTag();
+
+            wr.RenderBeginTag(HtmlTextWriterTag.Td);
+            wr.Write("Döviz Cinsi");
+            wr.RenderEndTag();
+
+            wr.RenderBeginTag(HtmlTextWriterTag.Td);
+            wr.Write("Geri Çevirme Açıklaması");
+            wr.RenderEndTag();
+
+            wr.RenderBeginTag(HtmlTextWriterTag.Td);
+            wr.Write("Önerilen");
+            wr.RenderEndTag();
+
+            wr.RenderEndTag(); //BAŞLIK TR KAPA
+
+            #endregion
+
+            #region Detay
+
+            foreach (var item in list)
+            {
+                wr.RenderBeginTag(HtmlTextWriterTag.Tr); //satır tr aç
+
+                wr.RenderBeginTag(HtmlTextWriterTag.Td);
+                wr.Write(item.TeklifNo);
+                wr.RenderEndTag();
+
+                wr.RenderBeginTag(HtmlTextWriterTag.Td);
+                wr.Write(item.HesapKodu);
+                wr.RenderEndTag();
+
+                wr.RenderBeginTag(HtmlTextWriterTag.Td);
+                wr.Write(item.Unvan);
+                wr.RenderEndTag();
+
+                wr.RenderBeginTag(HtmlTextWriterTag.Td);
+                wr.Write(item.MalKodu);
+                wr.RenderEndTag();
+
+                wr.RenderBeginTag(HtmlTextWriterTag.Td);
+                wr.Write(item.MalAdi);
+                wr.RenderEndTag();
+
+                wr.RenderBeginTag(HtmlTextWriterTag.Td);
+                wr.Write(item.Birim);
+                wr.RenderEndTag();
+
+                wr.RenderBeginTag(HtmlTextWriterTag.Td);
+                wr.Write(item.BirimFiyat.ToDecimal().ToString("N4"));
+                wr.RenderEndTag();
+
+                wr.RenderBeginTag(HtmlTextWriterTag.Td);
+                wr.Write(item.DvzCinsi);
+                wr.RenderEndTag();
+
+                wr.RenderBeginTag(HtmlTextWriterTag.Td);
+                wr.Write(geriCevirmeAciklamasi);
+                wr.RenderEndTag();
+
+                wr.RenderBeginTag(HtmlTextWriterTag.Td);
+                wr.Write(item.OneriDurum ? "X" : "");
+                wr.RenderEndTag();
+
+                wr.RenderEndTag(); //satır TR KAPA
+            }
+
+            #endregion
+
+            wr.RenderEndTag();  //table tag kapa
+
+            return sw.ToString();
+        }
+
+        public static string TalepGeriCevirmeIcerik(List<SatTalep> list)
+        {
+            var sw = new StringWriter();
+            var wr = new HtmlTextWriter(sw);
+
+            wr.AddAttribute(HtmlTextWriterAttribute.Border, "1");
+            wr.AddAttribute(HtmlTextWriterAttribute.Bordercolor, "gray");
+            wr.AddAttribute(HtmlTextWriterAttribute.Cellspacing, "1");
+            wr.AddAttribute(HtmlTextWriterAttribute.Cellpadding, "4");
+            wr.RenderBeginTag(HtmlTextWriterTag.Table);
+            wr.AddAttribute(HtmlTextWriterAttribute.Border, "1");
+
+            wr.RenderBeginTag(HtmlTextWriterTag.Tr); //başlık tr aç
+
+            wr.RenderBeginTag(HtmlTextWriterTag.Td);
+            wr.Write("Talep No");
+            wr.RenderEndTag();
+
+            wr.RenderBeginTag(HtmlTextWriterTag.Td);
+            wr.Write("Mal Kodu");
+            wr.RenderEndTag();
+
+            wr.RenderBeginTag(HtmlTextWriterTag.Td);
+            wr.Write("Mal Adı");
+            wr.RenderEndTag();
+
+            wr.RenderBeginTag(HtmlTextWriterTag.Td);
+            wr.Write("Birim");
+            wr.RenderEndTag();
+
+            wr.RenderBeginTag(HtmlTextWriterTag.Td);
+            wr.Write("İstenen Miktar");
+            wr.RenderEndTag();
+
+            wr.RenderEndTag();//başlık tr kapa
+            foreach (SatTalep talep in list)
+            {
+                wr.RenderBeginTag(HtmlTextWriterTag.Tr); //tr tag aç
+
+                wr.RenderBeginTag(HtmlTextWriterTag.Td);
+                wr.Write(talep.TalepNo);
+                wr.RenderEndTag();
+
+                wr.RenderBeginTag(HtmlTextWriterTag.Td);
+                wr.Write(talep.MalKodu);
+                wr.RenderEndTag();
+
+                wr.RenderBeginTag(HtmlTextWriterTag.Td);
+                wr.Write(talep.MalAdi);
+                wr.RenderEndTag();
+
+                wr.RenderBeginTag(HtmlTextWriterTag.Td);
+                wr.Write(talep.Birim);
+                wr.RenderEndTag();
+
+                wr.RenderBeginTag(HtmlTextWriterTag.Td);
+                wr.Write(talep.BirimMiktar.ToString("N2"));
+                wr.RenderEndTag();
+
+
+                wr.RenderEndTag(); //tr tag kapa
+            }
+
+            wr.RenderEndTag();  //table tag kapa
+
+            return sw.ToString();
         }
     }
 }
