@@ -275,12 +275,14 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
         public PartialViewResult AksiyonSatisList(int Kod13)
         {
             if (CheckPerm(Perms.Raporlar, PermTypes.Reading) == false) return null;
-            var OYM = db.Database.SqlQuery<AksiyonSatis>(string.Format(@"SELECT STk.MalAdi4 As StkMalAdi4,CHK.GrupKod as CHKGrupKod, CHK.TipKod as CHKTipKod,
+            var OYM = db.Database.SqlQuery<AksiyonSatis>(string.Format(@"SELECT max(Stk.Maladi)as StkMaladi ,max(stk.maladi4) as [stkmaladi4] ,CHK.GrupKod as CHKGrupKod, CHK.TipKod as CHKTipKod,
 SUM(BirimMiktar) as BirimMiktar, SUM(Tutar-ToplamIskonto) as NetTutar   FROM FINSAT6{0}.FINSAT6{0}.SPI(NOLOCK) SPI
 INNER JOIN FINSAT6{0}.FINSAT6{0}.STK(NOLOCK)STK ON STK.Malkodu = SPI.Malkodu
 INNER JOIN FINSAT6{0}.FINSAT6{0}.CHK(NOLOCK) CHK ON CHK.HesapKodu = SPI.Chk
-WHERE SPI.Kynkevraktip = 62 and stk.Kod13 = {1}
-GROUP BY  STk.MalAdi4, CHK.GrupKod, CHK.TipKod", vUser.SirketKodu, Kod13)).ToList();
+WHERE SPI.Kynkevraktip = 62 
+and stk.Kod13 = {1}
+GROUP BY  STK.Malkodu, CHK.GrupKod, CHK.TipKod
+", vUser.SirketKodu, Kod13)).ToList();
             return PartialView("AksiyonSatisList", OYM);
         }
         #region HedefGrupTanimlariKarti
@@ -677,6 +679,7 @@ GROUP BY  STk.MalAdi4, CHK.GrupKod, CHK.TipKod", vUser.SirketKodu, Kod13)).ToLis
         }
         public string TargetRaporSelect(string Ay, string Yil)
         {
+
             List<CTargetRapor> tl;
             var json = new JavaScriptSerializer() { MaxJsonLength = int.MaxValue };
             try
@@ -702,6 +705,9 @@ GROUP BY  STk.MalAdi4, CHK.GrupKod, CHK.TipKod", vUser.SirketKodu, Kod13)).ToLis
             }
             return json.Serialize(tl);
         }
+
+
+
         public PartialViewResult TargetRaporBolgeList(string GrupKod, string Ay, string Yil)
         {
             ViewBag.GRUPKOD = GrupKod;

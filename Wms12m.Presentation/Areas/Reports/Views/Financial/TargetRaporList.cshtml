@@ -36,7 +36,7 @@
                         <th>Bekleyen Sipariş</th>
                     </tr>
                 </thead>
-                <tfoot>
+                <tbody>
                     <tr>
                         <th></th>
                         <th></th>
@@ -47,6 +47,19 @@
                         <th></th>
                         <th></th>
                         <th></th>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th colspan="1"></th>
+                        <th class="text-right"></th>
+                        <th class="text-right"></th>
+                        <th class="text-right"></th>
+                        <th class="text-right"></th>
+                        <th class="text-right"></th>
+                        <th class="text-right"></th>
+                        <th class="text-right"></th>
+                        <th class="text-right"></th>
                     </tr>
                 </tfoot>
                 <tfoot class="tf-search">
@@ -62,6 +75,7 @@
                         <th></th>
                     </tr>
                 </tfoot>
+               
             </table>
         </div>
     </div>
@@ -73,6 +87,7 @@
         table = $('#sample_1').DataTable({
             "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
             "ajax": {
+               
                 "url": '/Reports/Financial/TargetRaporSelect',
                 "data": { Yil: Yil, Ay: Ay},
                 "dataSrc": function (json) {
@@ -124,7 +139,7 @@
                     $(row).children('td').slice(2, 3).addClass("renkU0");
                 }
             },
-            "ordering": true,
+            "ordering": false,
             "fnRowCallback": function (nRow, aData, iDisplayIndex) {
                 $('td', nRow).attr('nowrap', 'nowrap');
                 return nRow;
@@ -170,7 +185,7 @@
     $.contextMenu({
         selector: '#sample_1 tbody tr',
         callback: function (key, options) {
-            var rowIndex = parseInt(options.$trigger[0].rowIndex)-1;
+            var rowIndex = parseInt(options.$trigger[0].rowIndex)-2;
             var satir = table.row(rowIndex).data();
             var MLK = satir.GrupKod;
             switch (key) {

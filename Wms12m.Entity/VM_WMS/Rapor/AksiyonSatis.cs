@@ -2,8 +2,10 @@
 {
     public class AksiyonSatis
     {
-        /// <summary> VarChar(50) (Not Null) </summary>
-        public string StkMalAdi4 { get; set; }
+        /// <summary> VarChar(50) (Allow Null) </summary>
+        public string StkMaladi { get; set; }
+        /// <summary> VarChar(50) (Allow Null) </summary>
+        public string stkmaladi4 { get; set; }
         /// <summary> VarChar(20) (Not Null) </summary>
         public string CHKGrupKod { get; set; }
         /// <summary> VarChar(20) (Not Null) </summary>

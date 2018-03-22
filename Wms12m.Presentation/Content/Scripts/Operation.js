@@ -35,6 +35,7 @@ function editInModal2(URL, data)
 {
     $("#modalEditPage").html("");
     $.ajax({
+        contentType: 'application/json; charset=utf-8',
         type: "POST",
         data: data,
         url: URL,
