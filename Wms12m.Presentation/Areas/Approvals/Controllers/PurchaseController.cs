@@ -194,6 +194,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
             if (CheckPerm(Perms.SatinalmaOnaylama, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             var _Result = new Result(true, "İşlem Başarılı");
+
             if (MyGlobalVariables.TalepSource == null)
             {
                 _Result.Message = "Sipariş Seçin";
@@ -629,18 +630,24 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         /// </summary>
         public JsonResult SipGMReddet(string redAciklama, string OnayTip)
         {
-            var _Result = new Result(false, "Yetkiniz yok");
-            if (CheckPerm(Perms.SatinalmaOnaylama, PermTypes.Writing) == false) return Json(_Result, JsonRequestBehavior.AllowGet);
+            if (CheckPerm(Perms.SatinalmaOnaylama, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
+            var _Result = new Result(true, "İşlem Başarılı");
 
-            //kontrol 1
-            _Result.Message = "Geri Çevirme açıklamasını girmek zorundasınız!";
+            //kontrol 1            
             if (redAciklama.IsNullEmpty())
+            {
+                _Result.Message = "Geri Çevirme açıklamasını girmek zorundasınız!";
+                _Result.Status = false;
                 return Json(_Result, JsonRequestBehavior.AllowGet);
+            }
 
             //kontrol 2
-            _Result.Message = "Siparis Seçmelisiniz!";
             if (MyGlobalVariables.GridSource == null || MyGlobalVariables.GridSource.Count == 0 || MyGlobalVariables.SipEvrak == null)
+            {
+                _Result.Message = "Siparis Seçmelisiniz!";
+                _Result.Status = false;
                 return Json(_Result, JsonRequestBehavior.AllowGet);
+            }
 
             //transaction
 
@@ -710,6 +717,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                     {
                         _Result.Message = "Satınalmacının mail ayarları girilmemiş";
                         _Result.Status = false;
+                        return Json(_Result, JsonRequestBehavior.AllowGet);
                     }
 
                     var TLPKaydedenMail = db.Database.SqlQuery<GenelAyarVeParams>(string.Format(@"
@@ -752,7 +760,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
                 #endregion
             }
-            _Result = new Result(true);
+            //_Result = new Result(true);
 
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
