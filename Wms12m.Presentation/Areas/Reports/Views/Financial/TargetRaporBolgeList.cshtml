@@ -1,6 +1,20 @@
 ﻿@{
     ViewBag.Title = "Target Bölge List";
 }
+<style type="text/css">
+    .renkU0 {
+        background-color: #FF5252;
+    }
+
+    .renkU1 {
+        background-color: #BDB76B;
+    }
+
+    .renkU2 {
+        background-color: #00FF95;
+    }
+</style>
+
 <div class="modal-content">
     <div class="close-modal" data-dismiss="modal"><div class="lr"><div class="rl"></div></div></div>
   
@@ -89,7 +103,25 @@
                 { "data": "Temsilci" },
                 { "data": "GrupKod" },
                 { "data": "Hedef", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
-                { "data": "HedefOran", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
+                {
+                    "data": "HedefOran", "render": function (data, type, row) {
+                        if (type === 'display') {
+                            var numberRenderer = $.fn.dataTable.render.number(',', '.', 2, '').display;
+                            if ((data) >= 100) {
+                                return ' <i class="fa fa-smile-o" style="float:left"/>  ' + numberRenderer(data);
+                            }
+
+                            else if ((data) < 100 && (data) > 80) {
+                                return ' <i class="fa fa-meh-o" style="float:left"/>  ' + numberRenderer(data);
+                            }
+                            else {
+                                return ' <i class="fa fa-frown-o" style="float:left"/>  ' + numberRenderer(data);
+                            }
+
+                        }
+                        return data;
+                    }
+                },
                 { "data": "ToplamIade", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
                 { "data": "NetSatisTutari", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
                 { "data": "NetCiro", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
@@ -98,6 +130,19 @@
                 { "data": "PRT", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
                 { "data": "BekleyenSiparis", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
             ],
+            "createdRow": function (row, data, dataIndex) {
+                if (data["HedefOran"] >= 100) {
+                    $(row).children('td').slice(2, 3).addClass("renkU2");
+
+
+                }
+                else if (data["HedefOran"] < 100 && data["HedefOran"] > 80) {
+                    $(row).children('td').slice(2, 3).addClass("renkU1");
+                }
+                else {
+                    $(row).children('td').slice(2, 3).addClass("renkU0");
+                }
+            },
             "ordering": false,
             "fnRowCallback": function (nRow, aData, iDisplayIndex) {
                 $('td', nRow).attr('nowrap', 'nowrap');

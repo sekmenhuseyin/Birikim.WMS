@@ -18,7 +18,7 @@
         public decimal NetIade { get; set; }
         public static string Sorgu = @"
                                     SELECT 
-                                    SPI.Chk AS HesapKodu,
+                                    STI.Chk AS HesapKodu,
                                     CONCAT(CHK.Unvan1,SPACE(1),CHK.Unvan2) AS Unvan,
                                     CHK.TipKod,
                                     CHK.GrupKod,
@@ -26,11 +26,11 @@
                                     SUM(CASE WHEN STI.KynkEvrakTip IN (1,163) THEN (STI.Tutar-STI.ToplamIskonto)
                                     ELSE (STI.Tutar-STI.ToplamIskonto)*-1 END) AS NetCiro,
                                     SUM(CASE WHEN STI.KynkEvrakTip=2 THEN (STI.Tutar-STI.ToplamIskonto) ELSE 0 END) AS NetIade  
-                                    FROM FINSAT6{0}.FINSAT6{0}.SPI AS SPI WITH (NOLOCK)
-                                    INNER JOIN FINSAT6{0}.FINSAT6{0}.CHK AS CHK WITH (NOLOCK) ON CHK.HesapKodu=SPI.Chk
-                                    INNER JOIN FINSAT6{0}.FINSAT6{0}.STI AS STI WITH (NOLOCK) ON CHK.HesapKodu=STI.Chk
-                                    WHERE CHK.Kod3='MÜŞ'
-                                    GROUP BY SPI.Chk,CHK.Unvan1,CHK.Unvan2,CHK.TipKod,CHK.GrupKod,CHK.KrediLimiti
+                                    FROM FINSAT6{0}.FINSAT6{0}.STI AS STI WITH (NOLOCK)
+                                    INNER JOIN FINSAT6{0}.FINSAT6{0}.CHK AS CHK WITH (NOLOCK) ON CHK.HesapKodu=STI.Chk
+                                    WHERE (CHK.Kod3='MÜŞ') AND (STI.KynkEvrakTip IN (1,2,163))
+                                    GROUP BY STI.Chk,CHK.Unvan1,CHK.Unvan2,CHK.TipKod,CHK.GrupKod,CHK.KrediLimiti
                                     ";
     }
 }
+
