@@ -25,6 +25,7 @@
             <table class="table table-striped table-bordered table-condensed" id="sample_1">
                 <thead>
                     <tr>
+                        <th></th>
                         <th>Bölge</th>
                         <th>Hedef</th>
                         <th>Hedef Oran</th>
@@ -47,10 +48,12 @@
                         <th></th>
                         <th></th>
                         <th></th>
+                        <th></th>
                     </tr>
                 </tbody>
                 <tfoot>
                     <tr>
+                        <th></th>
                         <th colspan="1"></th>
                         <th class="text-right"></th>
                         <th class="text-right"></th>
@@ -64,6 +67,7 @@
                 </tfoot>
                 <tfoot class="tf-search">
                     <tr>
+                      
                         <th></th>
                         <th></th>
                         <th></th>
@@ -87,7 +91,7 @@
         table = $('#sample_1').DataTable({
             "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
             "ajax": {
-               
+
                 "url": '/Reports/Financial/TargetRaporSelect',
                 "data": { Yil: Yil, Ay: Ay},
                 "dataSrc": function (json) {
@@ -95,8 +99,13 @@
                 },
             },
             "pagingType": "full_numbers",
-            "columnDefs": [{ "type": "num-fmt", "className": "dt-right", "targets": [1, 2, 3, 4, 5, 6, 7, 8] }, { "className": "dt-center", "targets": "_all" }],
+            "columnDefs": [{
+                "targets": [0],
+                "visible": false,
+                "searchable": false
+            },{ "type": "num-fmt", "className": "dt-right", "targets": [2, 3, 4, 5, 6, 7, 8, 9] }, { "className": "dt-center", "targets": "_all" }],
             "columns": [
+                { "data": "SiraNo" },
                 { "data": "GrupKod" },
                 { "data": "Hedef", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
                 { "data": "HedefOran", "render": function (data, type, row) {
@@ -106,7 +115,7 @@
                         {
                             return ' <i class="fa fa-smile-o" style="float:left"/>  ' + numberRenderer(data);
                         }
-                     
+
                         else if ((data) < 100 && (data) > 80)
                         {
                             return ' <i class="fa fa-meh-o" style="float:left"/>  ' + numberRenderer(data);
@@ -115,7 +124,7 @@
                         {
                             return ' <i class="fa fa-frown-o" style="float:left"/>  ' + numberRenderer(data);
                         }
-                   
+
                     }
                     return data;
                 } },
@@ -128,15 +137,15 @@
             ],
             "createdRow": function (row, data, dataIndex) {
                 if (data["HedefOran"] >= 100) {
-                    $(row).children('td').slice(2, 3).addClass("renkU2");
-                    
+                    $(row).children('td').slice(3, 4).addClass("renkU2");
+
 
                 }
                 else if (data["HedefOran"] < 100 && data["HedefOran"] > 80) {
-                    $(row).children('td').slice(2, 3).addClass("renkU1");
+                    $(row).children('td').slice(3, 4).addClass("renkU1");
                 }
                 else {
-                    $(row).children('td').slice(2, 3).addClass("renkU0");
+                    $(row).children('td').slice(3, 4).addClass("renkU0");
                 }
             },
             "ordering": false,
@@ -156,13 +165,13 @@
                     BekleyenSiparis += val.BekleyenSiparis;
                 });
                 var api = this.api(), data;
-                $(api.column(1).footer()).html(numeral(Hedef).format());
-                $(api.column(3).footer()).html(numeral(NetCiro).format());
-                $(api.column(4).footer()).html(numeral(ToplamIade).format());
-                $(api.column(5).footer()).html(numeral(CiroOran).format());
-                $(api.column(6).footer()).html(numeral(CariBorc).format());
-                $(api.column(7).footer()).html(numeral(PRT).format());
-                $(api.column(8).footer()).html(numeral(BekleyenSiparis).format());
+                $(api.column(2).footer()).html(numeral(Hedef).format());
+                $(api.column(4).footer()).html(numeral(NetCiro).format());
+                $(api.column(5).footer()).html(numeral(ToplamIade).format());
+                $(api.column(6).footer()).html(numeral(CiroOran).format());
+                $(api.column(7).footer()).html(numeral(CariBorc).format());
+                $(api.column(8).footer()).html(numeral(PRT).format());
+                $(api.column(9).footer()).html(numeral(BekleyenSiparis).format());
             },
         });
         $("#buttons").html("");
@@ -185,21 +194,23 @@
     $.contextMenu({
         selector: '#sample_1 tbody tr',
         callback: function (key, options) {
+  
             var rowIndex = parseInt(options.$trigger[0].rowIndex)-2;
-            var satir = table.row(rowIndex).data();
-            var MLK = satir.GrupKod;
+            var satir = table.row(rowIndex).data().SiraNo;
+          //  var MLK = JSON.parse(satir.SiraNo);
+          
             switch (key) {
                 case 'bkTemsilciler':
                     $('#modalEditPage').modal('toggle');
-                    editInModal2('/Reports/Financial/TargetRaporBolgeList', { GrupKod: MLK, Ay: '@ViewBag.Ay', Yil: '@ViewBag.Yil' })
+                    editInModal2('/Reports/Financial/TargetRaporBolgeList', { GrupKod: satir, Ay: '@ViewBag.Ay', Yil: '@ViewBag.Yil' })
                     break;
                 case 'bkMBHedef':
                     $('#modalEditPage').modal('toggle');
-                    editInModal2('/Reports/Financial/TargetRaporUrunGrupList', { GrupKod: MLK, Ay: '@ViewBag.Ay', Yil: '@ViewBag.Yil' })
+                    editInModal2('/Reports/Financial/TargetRaporUrunGrupList', { GrupKod: satir, Ay:'@ViewBag.Ay', Yil: '@ViewBag.Yil' })
                     break;
                 default:
                     $('#modalEditPage').modal('toggle');
-                    editInModal2('/Reports/Financial/TargetRaporPRTList', { GrupKod: MLK, Ay: '@ViewBag.Ay', Yil: '@ViewBag.Yil' })
+                    editInModal2('/Reports/Financial/TargetRaporPRTList', { GrupKod: satir, Ay: '@ViewBag.Ay', Yil: '@ViewBag.Yil' })
                     break;
             }
         },

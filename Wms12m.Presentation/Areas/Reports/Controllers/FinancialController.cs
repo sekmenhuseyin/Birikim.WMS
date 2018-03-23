@@ -715,16 +715,20 @@ GROUP BY  STK.Malkodu, CHK.GrupKod, CHK.TipKod
             ViewBag.YIL = Yil;
             return PartialView("TargetRaporBolgeList");
         }
+
+
         public string TargetRaporBolgeSelect(string GrupKod, string Ay, string Yil)
         {
             List<CTargetRaporTemsilci> ctrt;
             var json = new JavaScriptSerializer() { MaxJsonLength = int.MaxValue };
             try
             {
-                string sorgu = "", r = "";
+                string sorgu = "", r = "", sorgu2 = "";
                 decimal toplamCiro = 0;
                 r = YilAyConvert(Yil, Ay);
-                sorgu = String.Format(CTargetRaporTemsilci.Sorgu, vUser.SirketKodu, Convert.ToInt32(Yil), (Convert.ToInt32(Ay) + 1), GrupKod, r);
+                sorgu2 = String.Format(TargetGrupKodSelect.Sorgu, vUser.SirketKodu, Convert.ToInt32(Yil), (Convert.ToInt32(Ay) + 1), GrupKod.ToString(), r);
+                var Berk = db.Database.SqlQuery<TargetGrupKodSelect>(string.Format(CTargetRapor.Sorgu, vUser.SirketKodu, Convert.ToInt32(Yil), (Convert.ToInt32(Ay) + 1), GrupKod.ToString(), r)).FirstOrDefault();
+                sorgu = String.Format(CTargetRaporTemsilci.Sorgu, vUser.SirketKodu, Convert.ToInt32(Yil), (Convert.ToInt32(Ay) + 1), Berk.GrupKod.ToString(), r);
                 ctrt = db.Database.SqlQuery<CTargetRaporTemsilci>(sorgu).ToList();
                 if ((ctrt == null ? 0 : ctrt.Count()) > 0)
                 {
@@ -757,7 +761,8 @@ GROUP BY  STK.Malkodu, CHK.GrupKod, CHK.TipKod
             {
                 string sorgu = "", r = "";
                 r = YilAyConvert(Yil, Ay);
-                sorgu = String.Format(UrunGrupRapor.Sorgu, vUser.SirketKodu, GrupKod, r, Convert.ToInt32(Yil), (Convert.ToInt32(Ay) + 1));
+                var Berk = db.Database.SqlQuery<TargetGrupKodSelect>(string.Format(CTargetRapor.Sorgu, vUser.SirketKodu, Convert.ToInt32(Yil), (Convert.ToInt32(Ay) + 1), GrupKod.ToString(), r)).FirstOrDefault();
+                sorgu = String.Format(UrunGrupRapor.Sorgu, vUser.SirketKodu, Berk.GrupKod.ToString(), r, Convert.ToInt32(Yil), (Convert.ToInt32(Ay) + 1));
                 ugr = db.Database.SqlQuery<UrunGrupRapor>(sorgu).ToList();
             }
             catch (Exception ex)
@@ -781,7 +786,9 @@ GROUP BY  STK.Malkodu, CHK.GrupKod, CHK.TipKod
             try
             {
                 string sorgu = "";
-                sorgu = String.Format(PRTRapor.Sorgu, vUser.SirketKodu, Convert.ToInt32(Yil), Convert.ToInt32(Ay) + 1, GrupKod);
+                string r = YilAyConvert(Yil, Ay);
+                var Berk = db.Database.SqlQuery<TargetGrupKodSelect>(string.Format(CTargetRapor.Sorgu, vUser.SirketKodu, Convert.ToInt32(Yil), (Convert.ToInt32(Ay) + 1), GrupKod.ToString(), r)).FirstOrDefault();
+                sorgu = String.Format(PRTRapor.Sorgu, vUser.SirketKodu, Convert.ToInt32(Yil), Convert.ToInt32(Ay) + 1, Berk.GrupKod.ToString());
                 prt = db.Database.SqlQuery<PRTRapor>(sorgu).ToList();
             }
             catch (Exception ex)

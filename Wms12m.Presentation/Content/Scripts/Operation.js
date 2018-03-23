@@ -35,7 +35,6 @@ function editInModal2(URL, data)
 {
     $("#modalEditPage").html("");
     $.ajax({
-        contentType: 'application/json; charset=utf-8',
         type: "POST",
         data: data,
         url: URL,
@@ -46,6 +45,7 @@ function editInModal2(URL, data)
         }
     });
 }
+
 //url:method adresi, div:render edeceği div, Id:detay için id gönderebilir
 function PartialView(Url, Div, Id)
 {
