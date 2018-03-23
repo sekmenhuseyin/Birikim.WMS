@@ -137,15 +137,15 @@
             ],
             "createdRow": function (row, data, dataIndex) {
                 if (data["HedefOran"] >= 100) {
-                    $(row).children('td').slice(3, 4).addClass("renkU2");
+                    $(row).children('td').slice(2, 3).addClass("renkU2");
 
 
                 }
                 else if (data["HedefOran"] < 100 && data["HedefOran"] > 80) {
-                    $(row).children('td').slice(3, 4).addClass("renkU1");
+                    $(row).children('td').slice(2, 3).addClass("renkU1");
                 }
                 else {
-                    $(row).children('td').slice(3, 4).addClass("renkU0");
+                    $(row).children('td').slice(2, 3).addClass("renkU0");
                 }
             },
             "ordering": false,
