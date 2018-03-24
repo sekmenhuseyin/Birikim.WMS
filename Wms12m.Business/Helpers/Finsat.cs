@@ -97,8 +97,9 @@ namespace Wms12m
                         faturaTipi = FaturaTipi.AlimdanIadeFaturası.ToInt32(),
                         KebirKod = "391",
                         MhsKarsiKod = SirketKodu == "33" ? "391 000" : "391 01 001",
-                        IadeMhsKarsiKod = "391 001",
-                        StiMhsKod = STIBaseList[0].SatislarHesabi
+                        IadeMhsKarsiKod = SirketKodu == "33" ? "391 000" : "391 01 002",
+                        StiMhsKod = STIBaseList[0].SatislarHesabi,
+                        CHIMhsKod = STIBaseList[0].CHKMhsKod.IsNotNull() ? STIBaseList[0].ToString() : ""
                     };
                     return FtrKayit.FaturaKaydet(parametre);
                 }
@@ -206,7 +207,7 @@ namespace Wms12m
                     finsat.EvrakNo = evrkno[0].EvrakNo;
                     finsat.KaynakIrsEvrakNo = evrkno[1].EvrakNo;
                     finsat.Tarih = finsat.KaynakSiparisTarih;
-                    finsat.MhsKod = SirketKodu == "33" ? "391 000" : "391 01 001";
+                    finsat.MhsKod =SirketKodu == "33" ? "391 000" : "391 01 001";
                     finsat.Kaydeden = kaydeden;
                     finsat.KayitSurum = "9.01.028";
                     finsat.KayitKaynak = 70;
@@ -297,19 +298,23 @@ namespace Wms12m
                         faturaTipi = FaturaTipi.SatisFaturası.ToInt32(),
                         KebirKod = "391",
                         MhsKarsiKod = SirketKodu == "33" ? "391 000" : "391 01 001",
-                        IadeMhsKarsiKod = "391 001",
-                        StiMhsKod = stiBaseListSpi.Count > 0 ? "601 001" : stiBaseList[0].SatislarHesabi
+                        IadeMhsKarsiKod = SirketKodu == "33" ? "391 000" : "391 01 002",
+                        StiMhsKod = stiBaseListSpi.Count > 0 ? "601 001" : stiBaseList[0].SatislarHesabi,
+                        CHIMhsKod = stiBaseList[0].CHKMhsKod.IsNotNull() ? stiBaseList[0].CHKMhsKod.ToString() : ""
                     };
                     result = FtrKayit.FaturaKaydet(parametre);
+                    if (result.Status == false)
+                        return result;
                 }
                 if (stiBaseListSpi.Count > 0)
                     result = new Irsaliye_Islemleri(SirketKodu, SqlExper).Irsaliye_Kayit(irsaliyeSeri, efatKullanici, stiBaseListSpi);
+                if (result.Status == false)
+                    return result;
                 if (stiBaseList.Count <= 0 && stiBaseListSpi.Count <= 0)
                     return new Result(false, "Bu sipariş kapanmış. Evrak No= " + tempEvrakNo);
                 else
                 {
-                    result.Message = evrkno[0].EvrakNo + "," + list[0].EvrakNo;
-                    return result;
+                    return new Result(true, evrkno[0].EvrakNo + "," + list[0].EvrakNo);
                 }
             }
             catch (Exception ex)

@@ -20,12 +20,12 @@
       </s:element>
       <s:complexType name="Login">
         <s:sequence>
-          <s:element minOccurs="1" maxOccurs="1" name="ID" type="s:int" />
-          <s:element minOccurs="0" maxOccurs="1" name="Guid" type="s:string" />
-          <s:element minOccurs="0" maxOccurs="1" name="Kod" type="s:string" />
           <s:element minOccurs="0" maxOccurs="1" name="AdSoyad" type="s:string" />
-          <s:element minOccurs="0" maxOccurs="1" name="DepoKodu" type="s:string" />
           <s:element minOccurs="1" maxOccurs="1" name="DepoID" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="DepoKodu" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Guid" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="ID" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Kod" type="s:string" />
         </s:sequence>
       </s:complexType>
       <s:element name="LoginKontrol2">
@@ -67,8 +67,8 @@
       </s:complexType>
       <s:complexType name="GorevOzet">
         <s:sequence>
-          <s:element minOccurs="1" maxOccurs="1" name="ID" type="s:int" />
           <s:element minOccurs="0" maxOccurs="1" name="Ad" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="ID" type="s:int" />
           <s:element minOccurs="1" maxOccurs="1" name="Sayi" type="s:int" />
         </s:sequence>
       </s:complexType>
@@ -95,14 +95,14 @@
       </s:complexType>
       <s:complexType name="Tip_IRS">
         <s:sequence>
-          <s:element minOccurs="1" maxOccurs="1" name="ID" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="DepoID" type="s:string" />
           <s:element minOccurs="0" maxOccurs="1" name="EvrakNo" type="s:string" />
           <s:element minOccurs="0" maxOccurs="1" name="HesapKodu" type="s:string" />
-          <s:element minOccurs="0" maxOccurs="1" name="TeslimCHK" type="s:string" />
-          <s:element minOccurs="0" maxOccurs="1" name="DepoID" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="ID" type="s:int" />
           <s:element minOccurs="0" maxOccurs="1" name="Kaydeden" type="s:string" />
-          <s:element minOccurs="0" maxOccurs="1" name="Tarih" type="s:string" />
           <s:element minOccurs="0" maxOccurs="1" name="SirketKod" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Tarih" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="TeslimCHK" type="s:string" />
           <s:element minOccurs="0" maxOccurs="1" name="Unvan" type="s:string" />
         </s:sequence>
       </s:complexType>
@@ -149,24 +149,24 @@
       </s:complexType>
       <s:complexType name="Tip_STI2">
         <s:sequence>
-          <s:element minOccurs="1" maxOccurs="1" name="ID" type="s:int" />
-          <s:element minOccurs="1" maxOccurs="1" name="irsID" type="s:int" />
-          <s:element minOccurs="0" maxOccurs="1" name="MalKodu" type="s:string" />
-          <s:element minOccurs="0" maxOccurs="1" name="MalAdi" type="s:string" />
-          <s:element minOccurs="1" maxOccurs="1" name="Miktar" type="s:decimal" />
-          <s:element minOccurs="0" maxOccurs="1" name="Birim" type="s:string" />
-          <s:element minOccurs="0" maxOccurs="1" name="MakaraNo" type="s:string" />
-          <s:element minOccurs="0" maxOccurs="1" name="Barkod" type="s:string" />
-          <s:element minOccurs="1" maxOccurs="1" name="SiraNo" type="s:int" />
-          <s:element minOccurs="0" maxOccurs="1" name="Kaydeden" type="s:string" />
           <s:element minOccurs="1" maxOccurs="1" name="AktarimDurumu" type="s:boolean" />
+          <s:element minOccurs="0" maxOccurs="1" name="Barkod" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Birim" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="ID" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="IrsaliyeNo" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="irsID" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Kaydeden" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="KynkSiparisNo" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="KynkSiparisSiraNo" nillable="true" type="s:short" />
+          <s:element minOccurs="0" maxOccurs="1" name="MakaraNo" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="MalAdi" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="MalKodu" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="Miktar" type="s:decimal" />
           <s:element minOccurs="1" maxOccurs="1" name="OkutulanMiktar" type="s:decimal" />
+          <s:element minOccurs="0" maxOccurs="1" name="Raf" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="SiraNo" type="s:int" />
           <s:element minOccurs="1" maxOccurs="1" name="YerlestirmeMiktari" type="s:decimal" />
           <s:element minOccurs="1" maxOccurs="1" name="YerMiktar" nillable="true" type="s:decimal" />
-          <s:element minOccurs="0" maxOccurs="1" name="Raf" type="s:string" />
-          <s:element minOccurs="0" maxOccurs="1" name="KynkSiparisNo" type="s:string" />
-          <s:element minOccurs="0" maxOccurs="1" name="IrsaliyeNo" type="s:string" />
-          <s:element minOccurs="1" maxOccurs="1" name="KynkSiparisSiraNo" nillable="true" type="s:short" />
         </s:sequence>
       </s:complexType>
       <s:element name="GetGorevList">
@@ -196,17 +196,17 @@
       </s:complexType>
       <s:complexType name="Tip_GOREV">
         <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Aciklama" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Atayan" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Bilgi" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="DepoID" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Durum" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="EvrakNo" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Gorevli" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="GorevNo" type="s:string" />
           <s:element minOccurs="1" maxOccurs="1" name="ID" type="s:int" />
           <s:element minOccurs="1" maxOccurs="1" name="IrsaliyeID" type="s:int" />
-          <s:element minOccurs="0" maxOccurs="1" name="EvrakNo" type="s:string" />
-          <s:element minOccurs="0" maxOccurs="1" name="Bilgi" type="s:string" />
-          <s:element minOccurs="0" maxOccurs="1" name="Atayan" type="s:string" />
-          <s:element minOccurs="0" maxOccurs="1" name="DepoID" type="s:string" />
           <s:element minOccurs="0" maxOccurs="1" name="OlusturmaTarihi" type="s:string" />
-          <s:element minOccurs="0" maxOccurs="1" name="Gorevli" type="s:string" />
-          <s:element minOccurs="0" maxOccurs="1" name="Aciklama" type="s:string" />
-          <s:element minOccurs="0" maxOccurs="1" name="GorevNo" type="s:string" />
-          <s:element minOccurs="0" maxOccurs="1" name="Durum" type="s:string" />
         </s:sequence>
       </s:complexType>
       <s:element name="GetUsers">
@@ -305,21 +305,21 @@
       </s:complexType>
       <s:complexType name="Tip_STI">
         <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="AktarimDurumu" type="s:boolean" />
+          <s:element minOccurs="0" maxOccurs="1" name="Barkod" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Birim" type="s:string" />
           <s:element minOccurs="1" maxOccurs="1" name="ID" type="s:int" />
           <s:element minOccurs="1" maxOccurs="1" name="irsID" type="s:int" />
-          <s:element minOccurs="0" maxOccurs="1" name="MalKodu" type="s:string" />
-          <s:element minOccurs="0" maxOccurs="1" name="MalAdi" type="s:string" />
-          <s:element minOccurs="1" maxOccurs="1" name="Miktar" type="s:decimal" />
-          <s:element minOccurs="0" maxOccurs="1" name="Birim" type="s:string" />
-          <s:element minOccurs="0" maxOccurs="1" name="MakaraNo" type="s:string" />
-          <s:element minOccurs="0" maxOccurs="1" name="Barkod" type="s:string" />
-          <s:element minOccurs="1" maxOccurs="1" name="SiraNo" type="s:int" />
           <s:element minOccurs="0" maxOccurs="1" name="Kaydeden" type="s:string" />
-          <s:element minOccurs="1" maxOccurs="1" name="AktarimDurumu" type="s:boolean" />
+          <s:element minOccurs="0" maxOccurs="1" name="MakaraNo" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="MalAdi" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="MalKodu" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="Miktar" type="s:decimal" />
           <s:element minOccurs="1" maxOccurs="1" name="OkutulanMiktar" type="s:decimal" />
+          <s:element minOccurs="0" maxOccurs="1" name="Raf" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="SiraNo" type="s:int" />
           <s:element minOccurs="1" maxOccurs="1" name="YerlestirmeMiktari" type="s:decimal" />
           <s:element minOccurs="1" maxOccurs="1" name="YerMiktar" nillable="true" type="s:decimal" />
-          <s:element minOccurs="0" maxOccurs="1" name="Raf" type="s:string" />
         </s:sequence>
       </s:complexType>
       <s:element name="GetMalzemeFromBarcode">
@@ -343,11 +343,11 @@
       </s:element>
       <s:complexType name="Tip_Malzeme">
         <s:sequence>
-          <s:element minOccurs="0" maxOccurs="1" name="MalKodu" type="s:string" />
-          <s:element minOccurs="0" maxOccurs="1" name="MalAdi" type="s:string" />
-          <s:element minOccurs="0" maxOccurs="1" name="Birim" type="s:string" />
           <s:element minOccurs="0" maxOccurs="1" name="Barkod" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Birim" type="s:string" />
           <s:element minOccurs="0" maxOccurs="1" name="Kod1" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="MalAdi" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="MalKodu" type="s:string" />
         </s:sequence>
       </s:complexType>
       <s:element name="IfExistsRaf">
@@ -415,10 +415,10 @@
       </s:element>
       <s:complexType name="Result">
         <s:sequence>
-          <s:element minOccurs="1" maxOccurs="1" name="Id" type="s:int" />
-          <s:element minOccurs="1" maxOccurs="1" name="Status" type="s:boolean" />
-          <s:element minOccurs="0" maxOccurs="1" name="Message" type="s:string" />
           <s:element minOccurs="0" maxOccurs="1" name="Data" />
+          <s:element minOccurs="1" maxOccurs="1" name="Id" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Message" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="Status" type="s:boolean" />
         </s:sequence>
       </s:complexType>
       <s:element name="MalKabul_GorevKontrol">
@@ -473,16 +473,16 @@
       </s:complexType>
       <s:complexType name="frmYerlesme">
         <s:sequence>
-          <s:element minOccurs="1" maxOccurs="1" name="GorevID" type="s:int" />
-          <s:element minOccurs="1" maxOccurs="1" name="IrsID" type="s:int" />
-          <s:element minOccurs="1" maxOccurs="1" name="IrsDetayID" type="s:int" />
-          <s:element minOccurs="1" maxOccurs="1" name="DepoID" type="s:int" />
-          <s:element minOccurs="0" maxOccurs="1" name="MalKodu" type="s:string" />
           <s:element minOccurs="0" maxOccurs="1" name="Birim" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="DepoID" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="GorevID" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="IrsDetayID" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="IrsID" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="MakaraNo" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="MalKodu" type="s:string" />
           <s:element minOccurs="1" maxOccurs="1" name="Miktar" type="s:decimal" />
           <s:element minOccurs="1" maxOccurs="1" name="OkutulanMiktar" type="s:decimal" />
           <s:element minOccurs="0" maxOccurs="1" name="RafNo" type="s:string" />
-          <s:element minOccurs="0" maxOccurs="1" name="MakaraNo" type="s:string" />
         </s:sequence>
       </s:complexType>
       <s:element name="Rafa_KaldirResponse">
@@ -592,12 +592,12 @@
       </s:element>
       <s:complexType name="frmGorevPaket">
         <s:sequence>
-          <s:element minOccurs="0" maxOccurs="1" name="SevkiyatNo" type="s:string" />
-          <s:element minOccurs="0" maxOccurs="1" name="PaketNo" type="s:string" />
           <s:element minOccurs="1" maxOccurs="1" name="Adet" type="s:decimal" />
-          <s:element minOccurs="1" maxOccurs="1" name="PaketTipiID" type="s:int" />
           <s:element minOccurs="1" maxOccurs="1" name="Agirlik" type="s:decimal" />
           <s:element minOccurs="1" maxOccurs="1" name="HepsiVar" type="s:boolean" />
+          <s:element minOccurs="0" maxOccurs="1" name="PaketNo" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="PaketTipiID" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="SevkiyatNo" type="s:string" />
         </s:sequence>
       </s:complexType>
       <s:element name="GetPackageBarcodeDetailsResponse">
