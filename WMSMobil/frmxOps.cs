@@ -186,7 +186,8 @@ namespace WMSMobil
             //end
             txtRafBarkod.Focus();
             //listele
-            STIGetir();
+            
+            //STIGetir();Candan
         }
         /// <summary>
         /// barkod okursa
@@ -463,12 +464,12 @@ namespace WMSMobil
                 return;
             }
 
-            if (raf != "" && txtRafBarkod.Visible == true && mal != "" && makaraNo == "" && txtMakaraBarkod.Visible == true)
-            {
-                Mesaj.Hata(null, "Makara Numarasını okutun");
-                txtRafBarkod.Focus();
-                return;
-            }
+            //if (raf != "" && txtRafBarkod.Visible == true && mal != "" && makaraNo == "" && txtMakaraBarkod.Visible == true)
+            //{
+            //    Mesaj.Hata(null, "Makara Numarasını okutun");
+            //    txtRafBarkod.Focus();
+            //    return;
+            //}
 
             if (txtRafBarkod.Visible == true)
             {
@@ -533,6 +534,13 @@ namespace WMSMobil
             if (Ayarlar.MenuTip == MenuType.KontrollüSayım)
             {
                 malInfo = Servis.GetMalzemeFromBarcode("", mal, GorevID, Ayarlar.Kullanici.ID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid);
+
+                if (raf != "" && txtRafBarkod.Visible == true && mal != "" && makaraNo == "" && txtMakaraBarkod.Visible == true && malInfo.Kod1 == "KKABLO")
+                {
+                    Mesaj.Hata(null, "Makara Numarasını okutun");
+                    txtRafBarkod.Focus();
+                    return;
+                }
             }
             foreach (var itemPanel in PanelVeriList)
             {
@@ -998,7 +1006,7 @@ namespace WMSMobil
             Ayarlar.STIKalemler = new List<Tip_STI>(Servis.GetMalzemes(GorevID, Ayarlar.Kullanici.ID, glbTip, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid));
             Cursor.Current = Cursors.Default;
             if (Ayarlar.STIKalemler.Count == 0) this.Close();
-            STIGetir();
+            //STIGetir();Candan
             txtBarkod.Text = "";
             txtRafBarkod.Text = "";
         }

@@ -1609,7 +1609,7 @@ namespace Wms12m.Presentation
                 GorevYer tbl2;
                 if (item.IrsDetayID == 0)
                 {
-                    var kontrol = db.GorevYers.Where(m => m.GorevID == GorevID && m.MalKodu == item.MalKodu && m.Yer.HucreAd == item.RafNo).FirstOrDefault();
+                    var kontrol = db.GorevYers.Where(m => m.GorevID == GorevID && m.MalKodu == item.MalKodu && m.Yer.HucreAd == item.RafNo && m.Yer.MakaraNo==item.MakaraNo).FirstOrDefault();
                     if (kontrol != null) item.IrsDetayID = kontrol.ID;
                 }
 
@@ -1626,7 +1626,7 @@ namespace Wms12m.Presentation
                             db.SaveChanges();
                         }
 
-                        tbl2 = new GorevYer() { GorevID = GorevID, MalKodu = item.MalKodu, Birim = item.Birim, Miktar = item.Miktar, YerlestirmeMiktari = item.Miktar, GC = false, YerID = yert.ID };
+                        tbl2 = new GorevYer() { GorevID = GorevID, MalKodu = item.MalKodu, Birim = item.Birim, Miktar = item.Miktar, YerlestirmeMiktari = item.Miktar, MakaraNo=item.MakaraNo, GC = false, YerID = yert.ID };
                         db.GorevYers.Add(tbl2);
                     }
                 }
