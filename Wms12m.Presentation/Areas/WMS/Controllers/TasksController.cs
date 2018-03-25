@@ -347,10 +347,87 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                     stiList.Add(sti);
                     sirano++;
                 }
+                else
+                {
+
+                    // son olarak bizim stoka kaydet
+                    sql = string.Format(@"EXEC BIRIKIM.wms.GetSayimFarki {0}, {1}", GorevID, mGorev.IR.ValorGun);
+                    var list2 = db.Database.SqlQuery<frmSiparisToplama>(sql).ToList();
+                    // loop list
+                    foreach (var satir in list2.Where(x=> x.MalKodu==item.MalKodu))
+                    {
+                        // yerleştirme kaydı yapılır
+                        var tmp2 = Yerlestirme.Detail(satir.KatID, satir.MalKodu, satir.Birim);
+                        if (tmp2 == null)
+                        {
+                            tmp2 = new Yer()
+                            {
+                                KatID = satir.KatID,
+                                MalKodu = satir.MalKodu,
+                                Birim = satir.Birim,
+                                Miktar = satir.Miktar
+                            };
+                            Yerlestirme.Insert(tmp2, vUser.Id, "Sayım Farkı Fişi", mGorev.IrsaliyeID.Value);
+                        }
+                        else
+                        {
+                            if (satir.Miktar > satir.Stok)//giriş
+                            {
+                                tmp2.Miktar = satir.Miktar;
+                                Yerlestirme.Update(tmp2, vUser.Id, "Sayım Farkı Fişi", satir.Miktar - satir.Stok, false, mGorev.IrsaliyeID.Value);
+                            }
+                            else if (satir.Miktar < satir.Stok)//çıkış
+                            {
+                                tmp2.Miktar = satir.Miktar;
+                                Yerlestirme.Update(tmp2, vUser.Id, "Sayım Farkı Fişi", satir.Stok - satir.Miktar, true, mGorev.IrsaliyeID.Value);
+                            }
+                        }
+                    }
+                }
             }
             if (sirano == 0)
             {
-                return Json(new Result(false, "Fark fişine gerek yok!"), JsonRequestBehavior.AllowGet);
+                // son olarak bizim stoka kaydet
+                sql = string.Format(@"EXEC BIRIKIM.wms.GetSayimFarki {0}, {1}", GorevID, mGorev.IR.ValorGun);
+                var list2 = db.Database.SqlQuery<frmSiparisToplama>(sql).ToList();
+                // loop list
+                short siranok = 0;
+                foreach (var item in list2)
+                {
+                    siranok += 1;
+
+                    // yerleştirme kaydı yapılır
+                    var tmp2 = Yerlestirme.Detail(item.KatID, item.MalKodu, item.Birim);
+                    if (tmp2 == null)
+                    {
+                        tmp2 = new Yer()
+                        {
+                            KatID = item.KatID,
+                            MalKodu = item.MalKodu,
+                            Birim = item.Birim,
+                            Miktar = item.Miktar
+                        };
+                        Yerlestirme.Insert(tmp2, vUser.Id, "Sayım Farkı Fişi", mGorev.IrsaliyeID.Value);
+                    }
+                    else
+                    {
+                        if (item.Miktar > item.Stok)//giriş
+                        {
+                            tmp2.Miktar = item.Miktar;
+                            Yerlestirme.Update(tmp2, vUser.Id, "Sayım Farkı Fişi", item.Miktar - item.Stok, false, mGorev.IrsaliyeID.Value);
+                        }
+                        else if (item.Miktar < item.Stok)//çıkış
+                        {
+                            tmp2.Miktar = item.Miktar;
+                            Yerlestirme.Update(tmp2, vUser.Id, "Sayım Farkı Fişi", item.Stok - item.Miktar, true, mGorev.IrsaliyeID.Value);
+                        }
+                    }
+                }
+
+                if (siranok > 0)
+                    return Json(new Result(true, "Güneş Fark fişine gerek yok, WMS fark fişi hareketi atıldı."), JsonRequestBehavior.AllowGet);
+                else
+                    return Json(new Result(false, "Fark fişine gerek yok."), JsonRequestBehavior.AllowGet);
             }
             // finsat tanımlama
             var EvrakSeriNo = 7500 + details.SayimSeri.Value - 1;
