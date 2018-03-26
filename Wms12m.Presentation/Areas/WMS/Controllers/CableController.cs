@@ -215,19 +215,19 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         /// depo ve şirket seçince açık siparişler gelecek
         /// </summary>
         [HttpPost]
-        public PartialViewResult GetSiparis(string DepoID)
+        public PartialViewResult List(string DepoID)
         {
             if (DepoID == "0") return null;
             var sql = string.Format("EXEC FINSAT6{0}.wms.getSiparisList @DepoKodu = '{1}', @isKable = 1, @BasTarih = 0, @BitTarih = 0", vUser.SirketKodu, DepoID);
             try
             {
                 var list = db.Database.SqlQuery<frmSiparisler>(sql).ToList();
-                return PartialView("../Sales/_Siparis", list);
+                return PartialView("../Sales/List", list);
             }
             catch (Exception ex)
             {
                 Logger(ex, "Cable/GetSiparis");
-                return PartialView("../Sales/_Siparis", new List<frmSiparisler>());
+                return PartialView("../Sales/List", new List<frmSiparisler>());
             }
         }
 

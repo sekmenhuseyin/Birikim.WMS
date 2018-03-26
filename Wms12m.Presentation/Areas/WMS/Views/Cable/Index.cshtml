@@ -1,9 +1,16 @@
 ﻿@{
     ViewBag.Title = "Kablo Sipariş Planlama";
     Layout = "~/Views/Shared/_Layout.cshtml";
-}@section Styles{<style>
-        td.details-control {background: url('/Content/assets/global/plugins/datatables/images/details_open.png') no-repeat center center;cursor: pointer;}
-        tr.shown td.details-control {background: url('/Content/assets/global/plugins/datatables/images/details_close.png') no-repeat center center;}
+}@section Styles{
+    <style>
+        td.details-control {
+            background: url('/Content/assets/global/plugins/datatables/images/details_open.png') no-repeat center center;
+            cursor: pointer;
+        }
+
+        tr.shown td.details-control {
+            background: url('/Content/assets/global/plugins/datatables/images/details_close.png') no-repeat center center;
+        }
     </style>
 }<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><span>Kablo Sipariş Planlama</span></li></ul></div>
 <h1 class="page-title">Kablo Sipariş Planlama</h1>
@@ -56,26 +63,27 @@
         </div>
     </div>
 </div>
-@section Scripts{<script>
-    var selected = "";
-    $("#DepoID").prepend("<option value=''>Seçiniz !!!</option>"); $("#DepoID")[0].selectedIndex = 0;
-    function FuncSearchBtn() {
-        $("#liste").html("");
-        if ($('#DepoID').val() == 0) return;
-        $.ajax({
-            type: 'POST',
-            url: "/WMS/Sales/List",
-            data: { DepoID: $('#DepoID').val(), Starts: "@DateTime.Today.AddYears(-7).ToString("dd.MM.yyyy")", Ends: "@DateTime.Today.AddYears(7).ToString("dd.MM.yyyy")" },
-            dataType: "html",
-            success: function (data) {
-                if (data == "") { Modaldialog("Lütfen Tekrar Deneyin", "Hata", "Tamam", "btn-danger"); $('#DepoID').val(""); }
-                $("#liste").html(data);
-            },
-            error: function (data) {
-                Modaldialog("Lütfen Tekrar Deneyin", "Hata", "Tamam", "btn-danger");
-                $('#DepoID').val(0);
-            }
-        });
-    }
-</script>
+@section Scripts{
+    <script>
+        var selected = "";
+        $("#DepoID").prepend("<option value=''>Seçiniz !!!</option>"); $("#DepoID")[0].selectedIndex = 0;
+        function FuncSearchBtn() {
+            $("#liste").html("");
+            if ($('#DepoID').val() == 0) return;
+            $.ajax({
+                type: 'POST',
+                url: "/WMS/Cable/List",
+                data: { DepoID: $('#DepoID').val() },
+                dataType: "html",
+                success: function (data) {
+                    if (data == "") { Modaldialog("Lütfen Tekrar Deneyin", "Hata", "Tamam", "btn-danger"); $('#DepoID').val(""); }
+                    $("#liste").html(data);
+                },
+                error: function (data) {
+                    Modaldialog("Lütfen Tekrar Deneyin", "Hata", "Tamam", "btn-danger");
+                    $('#DepoID').val(0);
+                }
+            });
+        }
+    </script>
 }
