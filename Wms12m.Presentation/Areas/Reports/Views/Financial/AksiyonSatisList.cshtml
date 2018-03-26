@@ -25,6 +25,7 @@
                         <th>Tip Kodu</th>
                         <th>Mal Kodu</th>
                         <th>Mal Adı</th>
+                        <th>Mal Adı 4</th>
                         <th>Grup Kodu</th>
                         <th>Birim Miktar</th>
                         <th>Net Tutar</th>
@@ -32,13 +33,14 @@
                 </thead>
                 <tfoot>
                     <tr>
-                        <th colspan="4"></th>
+                        <th colspan="5"></th>
                         <th class="text-right"></th>
                         <th class="text-right"></th>
                     </tr>
                 </tfoot>
                 <tfoot class="tf-search">
                     <tr>
+                        <th></th>
                         <th></th>
                         <th></th>
                         <th></th>
@@ -52,6 +54,7 @@
                     {
                         <tr>
                             <td nowrap>@item.CHKTipKod</td>
+                            <td nowrap>@item.StkMalKodu</td>
                             <td nowrap>@item.StkMaladi</td>
                             <td nowrap>@item.stkmaladi4</td>
                             <td nowrap>@item.CHKGrupKod</td>
@@ -74,16 +77,16 @@
             "footerCallback": function (row, data, start, end, display) {
                 var NetTutar = 0, BirimMiktar = 0;
                 table123.rows({ search: 'applied' }).data().each(function (val, index) {
-                    BirimMiktar += jDecimal(val[4]);
-                    NetTutar += jDecimal(val[5]);
+                    BirimMiktar += jDecimal(val[5]);
+                    NetTutar += jDecimal(val[6]);
                 });
                 var api = this.api(), data;
 
                 // Update footer
-                $(api.column(4).footer()).html(
+                $(api.column(5).footer()).html(
                     ondalikBinlik(Math.round(BirimMiktar * 100) / 100, 2)
                 );
-                $(api.column(5).footer()).html(
+                $(api.column(6).footer()).html(
 
                     ondalikBinlik(Math.round(NetTutar * 100) / 100, 2)
                 );

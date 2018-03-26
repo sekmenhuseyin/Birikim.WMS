@@ -2,6 +2,7 @@
 {
     public class AksiyonSatis
     {
+        public string StkMalKodu { get; set; }
         /// <summary> VarChar(50) (Allow Null) </summary>
         public string StkMaladi { get; set; }
         /// <summary> VarChar(50) (Allow Null) </summary>

@@ -275,7 +275,7 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
         public PartialViewResult AksiyonSatisList(int Kod13)
         {
             if (CheckPerm(Perms.Raporlar, PermTypes.Reading) == false) return null;
-            var OYM = db.Database.SqlQuery<AksiyonSatis>(string.Format(@"SELECT max(Stk.Maladi)as StkMaladi ,max(stk.maladi4) as [stkmaladi4] ,CHK.GrupKod as CHKGrupKod, CHK.TipKod as CHKTipKod,
+            var OYM = db.Database.SqlQuery<AksiyonSatis>(string.Format(@"SELECT max(Stk.MalKodu)as StkMalKodu,max(Stk.Maladi)as StkMaladi ,max(stk.maladi4) as [stkmaladi4] ,CHK.GrupKod as CHKGrupKod, CHK.TipKod as CHKTipKod,
 SUM(BirimMiktar) as BirimMiktar, SUM(Tutar-ToplamIskonto) as NetTutar   FROM FINSAT6{0}.FINSAT6{0}.SPI(NOLOCK) SPI
 INNER JOIN FINSAT6{0}.FINSAT6{0}.STK(NOLOCK)STK ON STK.Malkodu = SPI.Malkodu
 INNER JOIN FINSAT6{0}.FINSAT6{0}.CHK(NOLOCK) CHK ON CHK.HesapKodu = SPI.Chk
