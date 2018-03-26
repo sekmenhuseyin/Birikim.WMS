@@ -1049,25 +1049,25 @@ namespace WMSMobil
         /// </summary>
         private void txtBarkod_TextChanged(object sender, EventArgs e)
         {
-            var malbilgileri = Servis.GetMalzemeFromBarcode("", txtBarkod.Text, GorevID, Ayarlar.Kullanici.ID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid);
-            if (malbilgileri != null)
-            {
-                if (malbilgileri.Kod1 == "KKABLO")
-                {
-                    txtMakaraBarkod.Visible = true;
-                    label14.Visible = true;
-                }
-                else
-                {
-                    txtMakaraBarkod.Visible = false;
-                    label14.Visible = false;
-                }
-            }
-            else
-            {
-                txtMakaraBarkod.Visible = false;
-                label14.Visible = false;
-            }
+            //var malbilgileri = Servis.GetMalzemeFromBarcode("", txtBarkod.Text, GorevID, Ayarlar.Kullanici.ID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid);
+            //if (malbilgileri != null)
+            //{
+            //    if (malbilgileri.Kod1 == "KKABLO")
+            //    {
+            //        txtMakaraBarkod.Visible = true;
+            //        label14.Visible = true;
+            //    }
+            //    else
+            //    {
+            //        txtMakaraBarkod.Visible = false;
+            //        label14.Visible = false;
+            //    }
+            //}
+            //else
+            //{
+            //    txtMakaraBarkod.Visible = false;
+            //    label14.Visible = false;
+            //}
         }
     }
 }
