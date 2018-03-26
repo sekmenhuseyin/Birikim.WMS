@@ -24,6 +24,7 @@ SPI.CHK,(CHK.Unvan1+' '+CHK.Unvan2) as Unvan,CHK.TipKod,CHK.GrupKod
           INNER JOIN FINSAT6{0}.FINSAT6{0}.CHK AS CHK WITH (NOLOCK) ON CHK.HesapKodu = SPI.CHK
           WHERE SPI.KynkEvrakTip=62
 		  AND SPI.Tarih BETWEEN {1} AND {2}
+          Group By SPI.EvrakNo,SPI.Tarih, SPI.Chk, (CHK.Unvan1+' '+CHK.Unvan2), CHK.TipKod,CHK.GrupKod
 
                                    ";
     }
