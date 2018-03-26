@@ -4,6 +4,7 @@
     {
         public string Temsilci { get; set; }
         public string Bolge { get; set; }
+        public int HedefOran { get; set; }
         public decimal OcakHedef { get; set; }
         public decimal OcakNetCiro { get; set; }
         public decimal SubatHedef { get; set; }
@@ -29,7 +30,7 @@
         public decimal AralikHedef { get; set; }
         public decimal AralikNetCiro { get; set; }
         public static string Sorgu = @"
-                                        IF (OBJECT_ID('tempdb..#TargetAyBazliTemsilciRapor') IS NOT NULL) BEGIN DROP TABLE #TargetAyBazliTemsilciRapor END
+                                         IF (OBJECT_ID('tempdb..#TargetAyBazliTemsilciRapor') IS NOT NULL) BEGIN DROP TABLE #TargetAyBazliTemsilciRapor END
                                         CREATE TABLE #TargetAyBazliTemsilciRapor(Temsilci NVARCHAR(20),Bolge NVARCHAR(20),Hedef NUMERIC(25,2),NetCiro NUMERIC(25,2),Ay INT)
                                         INSERT INTO #TargetAyBazliTemsilciRapor
                                         SELECT H1.TEMSILCI
@@ -53,7 +54,8 @@
                                         ) AS D1 ON H1.TEMSILCI = D1.TipKod AND CONVERT(INT,LEFT(H1.AYYIL,2)) = D1.Ay
                                         WHERE H1.TIP = 1 AND RIGHT(H1.AYYIL,4)='{1}'
 
-                                        SELECT CC.Temsilci,CC.Bolge,
+										--SELECT * FROM #TargetAyBazliTemsilciRapor
+                                        SELECT CC.Temsilci,CC.Bolge,(CASE WHEN D.SumHedef=0 THEN 0 ELSE D.SumNetCiro / D.SumHedef END) AS HedefOran,
                                         ISNULL(MAX(CASE WHEN CC.Ay=1 THEN CC.Hedef ELSE 0 END),0) AS OcakHedef,
                                         ISNULL(MAX(CASE WHEN CC.Ay=1 THEN CC.NetCiro ELSE 0 END),0) AS OcakNetCiro,
                                         ISNULL(MAX(CASE WHEN CC.Ay=2 THEN CC.Hedef ELSE 0 END),0) AS SubatHedef,
@@ -79,7 +81,11 @@
                                         ISNULL(MAX(CASE WHEN CC.Ay=12 THEN CC.Hedef ELSE 0 END),0) AS AralikHedef,
                                         ISNULL(MAX(CASE WHEN CC.Ay=12 THEN CC.NetCiro ELSE 0 END),0) AS AralikNetCiro
                                         FROM #TargetAyBazliTemsilciRapor AS CC WITH (NOLOCK)
-                                        GROUP BY CC.Temsilci,CC.Bolge
+										INNER JOIN (
+										SELECT IC1.Temsilci,IC1.Bolge,SUM(IC1.Hedef) AS SumHedef,SUM(IC1.NetCiro) AS SumNetCiro FROM #TargetAyBazliTemsilciRapor AS IC1 WITH (NOLOCK)
+										GROUP BY IC1.Temsilci,IC1.Bolge
+										) AS D ON CC.Temsilci=D.Temsilci AND CC.Bolge=D.Bolge
+                                        GROUP BY CC.Temsilci,CC.Bolge,D.SumHedef,D.SumNetCiro
                                         IF (OBJECT_ID('tempdb..#TargetAyBazliTemsilciRapor') IS NOT NULL) BEGIN DROP TABLE #TargetAyBazliTemsilciRapor END
                                         ";
     }
