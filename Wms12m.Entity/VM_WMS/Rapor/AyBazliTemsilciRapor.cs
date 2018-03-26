@@ -4,7 +4,7 @@
     {
         public string Temsilci { get; set; }
         public string Bolge { get; set; }
-        public int HedefOran { get; set; }
+        public decimal HedefOran { get; set; }
         public decimal OcakHedef { get; set; }
         public decimal OcakNetCiro { get; set; }
         public decimal SubatHedef { get; set; }
