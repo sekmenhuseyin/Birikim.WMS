@@ -207,8 +207,8 @@ namespace Wms12m
                     finsat.EvrakNo = evrkno[0].EvrakNo;
                     finsat.KaynakIrsEvrakNo = evrkno[1].EvrakNo;
                     finsat.Tarih = finsat.KaynakSiparisTarih;
-                    finsat.MhsKod =SirketKodu == "33" ? "391 000" : "391 01 001";
                     finsat.CHKMhsKod = finsat.MhsKod;
+                    finsat.MhsKod = SirketKodu == "33" ? "391 000" : "391 01 001";
                     finsat.Kaydeden = kaydeden;
                     finsat.KayitSurum = "9.01.028";
                     finsat.KayitKaynak = 70;
@@ -218,7 +218,7 @@ namespace Wms12m
             //dış piyasa için ayrı evrak no oluşturur
             if (list.Where(x => x.SipIslemTip == 2).ToList().Count > 0)
             {
-                try     
+                try
                 {
                     evrkno = FtrKayit.EvrakNo_Getir(efatKullanici, irsaliyeSeri, yil, FaturaTipi.SatisIrsaliyesi.ToInt32());
                 }
