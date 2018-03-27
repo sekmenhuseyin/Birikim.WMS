@@ -67,9 +67,26 @@
     <script src="~/Content/assets/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js" type="text/javascript"></script>
     <script src="~/Content/assets/global/plugins/jQuery-contextMenu/dist/jquery.contextMenu.min.js"></script>
     <script type="text/javascript">
+     
+        var ay = $('#ay-select :selected').val();
+        var yil = $('#yil-select :selected').val();
+
+        $('#yil-select').change(function () {
+        
+             ay = $('#ay-select :selected').val();
+             yil = $('#yil-select :selected').val();
+        });
+        $('#ay-select').change(function () {
+       
+            ay = $('#ay-select :selected').val();
+            yil = $('#yil-select :selected').val();
+        });
+
+
         $('#btnListele').on('click', function myfunction() {
-            var ay = $('#ay-select :selected').val();
-            var yil = $('#yil-select :selected').val();
+        
+            ay = $('#ay-select :selected').val();
+            yil = $('#yil-select :selected').val();
             PartialView("/Reports/Financial/TargetRaporList", 'liste', JSON.stringify({ Ay: ay, Yil: yil }));
         });
         $('#btnTemizle').on('click', function myfunction() {

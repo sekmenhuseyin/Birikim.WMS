@@ -194,23 +194,23 @@
     $.contextMenu({
         selector: '#sample_1 tbody tr',
         callback: function (key, options) {
-  
+
             var rowIndex = parseInt(options.$trigger[0].rowIndex)-2;
             var satir = table.row(rowIndex).data().SiraNo;
           //  var MLK = JSON.parse(satir.SiraNo);
-          
+
             switch (key) {
                 case 'bkTemsilciler':
                     $('#modalEditPage').modal('toggle');
-                    editInModal2('/Reports/Financial/TargetRaporBolgeList', { GrupKod: satir, Ay: '@ViewBag.Ay', Yil: '@ViewBag.Yil' })
+                    editInModal2('/Reports/Financial/TargetRaporBolgeList', { GrupKod: satir, Ay: Ay, Yil: Yil })
                     break;
                 case 'bkMBHedef':
                     $('#modalEditPage').modal('toggle');
-                    editInModal2('/Reports/Financial/TargetRaporUrunGrupList', { GrupKod: satir, Ay:'@ViewBag.Ay', Yil: '@ViewBag.Yil' })
+                    editInModal2('/Reports/Financial/TargetRaporUrunGrupList', { GrupKod: satir, Ay:Ay, Yil: Yil })
                     break;
                 default:
                     $('#modalEditPage').modal('toggle');
-                    editInModal2('/Reports/Financial/TargetRaporPRTList', { GrupKod: satir, Ay: '@ViewBag.Ay', Yil: '@ViewBag.Yil' })
+                    editInModal2('/Reports/Financial/TargetRaporPRTList', { GrupKod: satir, Ay: Ay, Yil: Yil })
                     break;
             }
         },
