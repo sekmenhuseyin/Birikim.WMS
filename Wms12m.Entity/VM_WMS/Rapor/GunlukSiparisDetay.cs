@@ -56,7 +56,7 @@
           INNER JOIN FINSAT6{0}.FINSAT6{0}.STK AS STK WITH (NOLOCK) ON STK.MALKODU = SPI.MALKODU 
           INNER JOIN FINSAT6{0}.FINSAT6{0}.CHK AS CHK WITH (NOLOCK) ON CHK.HesapKodu = SPI.CHK
           WHERE SPI.KynkEvrakTip=62 
-          AND SPI.EvrakNo = '{1}'
+          AND SPI.EvrakNo = LTRIM('{1}')
           ";
 
 
