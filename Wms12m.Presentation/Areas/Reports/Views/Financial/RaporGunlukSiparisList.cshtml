@@ -107,7 +107,7 @@
             if (row.child.isShown()) { row.child.hide(); tr.removeClass('shown'); }
             else { row.child(newrow(x[0].EVRAKNO)).show(); format(x[0].EVRAKNO); tr.addClass('shown'); }
         });
-        function newrow(id) { return "<table style='background:transparent;' id='new" + id + "'></table>"; }
+        function newrow(id) { return "<table style='background:transparent;' id='new" + id.replaceAll(" ","") + "'></table>"; }
         function format(d) {
             $.ajax({
                 type: 'POST',
@@ -115,7 +115,7 @@
                 data: { "EVRAKNO": d },
                 dataType: "html",
                 success: function (data) {
-                    $('#new' + d).html(data);
+                    $('#new' + d.replaceAll(" ", "")).html(data);
                 }
             });
         }
