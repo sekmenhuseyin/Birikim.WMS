@@ -9,7 +9,7 @@
         public decimal Oran { get; set; }
 
         public static string Sorgu = @"
-SELECT A.UrunGrup, SUM(A.Hedef) AS Hedef, A.TipKod, A.NetCiro, ((A.NetCiro*100)/SUM(A.Hedef)) AS Oran FROM(
+SELECT A.UrunGrup, SUM(A.Hedef) AS Hedef, A.TipKod, A.NetCiro, CASE WHEN SUM(A.Hedef)=0 THEN 0 ELSE ((A.NetCiro*100)/SUM(A.Hedef)) END AS Oran FROM(
 	SELECT H1.URUNGRUP AS UrunGrup
 	,H1.HEDEF AS Hedef
 	,D.TipKod
