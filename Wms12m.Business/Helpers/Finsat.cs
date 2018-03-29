@@ -99,7 +99,7 @@ namespace Wms12m
                         MhsKarsiKod = SirketKodu == "33" ? "391 000" : "391 01 001",
                         IadeMhsKarsiKod = SirketKodu == "33" ? "391 000" : "391 01 002",
                         StiMhsKod = STIBaseList[0].SatislarHesabi,
-                        CHIMhsKod = STIBaseList[0].CHKMhsKod.IsNotNull() ? STIBaseList[0].ToString() : ""
+                        CHIMhsKod = STIBaseList[0].CHKMhsKod.IsNotNull() ? STIBaseList[0].CHKMhsKod.ToString() : ""
                     };
                     return FtrKayit.FaturaKaydet(parametre);
                 }
