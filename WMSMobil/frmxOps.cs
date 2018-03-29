@@ -471,6 +471,13 @@ namespace WMSMobil
                 return;
             }
 
+            //if (raf != "" && txtRafBarkod.Visible == true && mal != "" && makaraNo == "" && txtMakaraBarkod.Visible == true)
+            //{
+            //    Mesaj.Hata(null, "Makara Numarasını okutun");
+            //    txtRafBarkod.Focus();
+            //    return;
+            //}
+
             if (txtRafBarkod.Visible == true)
             {
                 var kontrol = Servis.IfExistsRaf(Ayarlar.Kullanici.DepoID, raf, Ayarlar.Kullanici.ID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid);
@@ -1035,6 +1042,26 @@ namespace WMSMobil
         private void btnBack_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        /// <summary>
+        /// barkod yazınca
+        /// </summary>
+        private void txtBarkod_TextChanged(object sender, EventArgs e)
+        {
+            //txtMakaraBarkod.Visible = false;
+            //label14.Visible = false;
+            //if (Ayarlar.MenuTip != MenuType.KontrollüSayım)
+            //    return;
+            //var malbilgileri = Servis.GetMalzemeFromBarcode("", txtBarkod.Text, GorevID, Ayarlar.Kullanici.ID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid);
+            //if (malbilgileri != null)
+            //{
+            //    if (malbilgileri.Kod1 == "KKABLO")
+            //    {
+            //        txtMakaraBarkod.Visible = true;
+            //        label14.Visible = true;
+            //    }
+            //}
         }
     }
 }
