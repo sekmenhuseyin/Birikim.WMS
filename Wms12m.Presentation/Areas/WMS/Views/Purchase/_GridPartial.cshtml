@@ -97,7 +97,7 @@ else
         {
             $.ajax({
                 url: "/WMS/Purchase/UpdateList",
-                data: JSON.stringify({ ID: id, M: $("#txtMiktar" + id).val().replace(",", "."), mNo: $("#txtMakara" + id).val() }),
+                data: JSON.stringify({ ID: id, M: $("#txtMiktar" + id).val().replace(".", "").replace(",", "."), mNo: $("#txtMakara" + id).val() }),
                 type: 'POST',
                 dataType: "json",
                 contentType: 'application/json; charset=utf-8',

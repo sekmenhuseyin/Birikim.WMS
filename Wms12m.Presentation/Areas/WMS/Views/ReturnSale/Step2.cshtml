@@ -158,7 +158,7 @@
         var miktar = 0, stok = 0, rezerv = 0;
         var yeni = prompt(mal + " için yeni miktarı giriniz", parseFloat($(td).text().replace(",", ".")).formatMoney(2));
         if (yeni == null || yeni == undefined) return;
-        yeni = yeni.replace(",", ".");
+        yeni = yeni.replace(".", "").replace(",", ".");
         yeni = parseFloat(yeni);
         list[id] = yeni;
         var par = $(td).parent("tr");
