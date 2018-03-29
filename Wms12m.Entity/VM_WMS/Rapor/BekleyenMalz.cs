@@ -37,7 +37,7 @@
 
         public static string Sorgu = @"
                                     SELECT 
-                                    CONVERT(NVARCHAR(10),DATEADD(DD,SPI.Tarih,'1899-12-30'),104) AS Tarih,
+                                    REPLACE(CONVERT(NVARCHAR(10),DATEADD(DD,SPI.Tarih,'1899-12-30'),104),'.','-') AS Tarih,
                                     SPI.MalKodu,
                                     STK.MalAdi,
                                     SPI.EvrakNo,

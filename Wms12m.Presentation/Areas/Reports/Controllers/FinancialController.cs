@@ -958,6 +958,15 @@ GROUP BY  STK.Malkodu, CHK.GrupKod, CHK.TipKod
             }
             return json.Serialize(bm);
         }
+        public PartialViewResult BekleyenMalzemeDetay(string HesapKodu)
+        {
+            List<BekleyenMalz> list;
+            string sorgu = "";
+            sorgu = String.Format(BekleyenMalz.Sorgu, vUser.SirketKodu, HesapKodu);
+            list = db.Database.SqlQuery<BekleyenMalz>(sorgu).ToList();
+            ViewBag.HesapKodu = HesapKodu;
+            return PartialView("BekleyenMalzemeDetay", list);
+        }
         #endregion
         #region UrunSatisAnalizi-YAPILDI
         public ActionResult RaporUrunSatisAnalizi()
