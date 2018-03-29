@@ -22,6 +22,7 @@
                         <tr>
                             <th></th>
                             <th>Evrak No</th>
+                            <th>Tutar</th>
                             <th>Tarih</th>
                             <th>CHK</th>
                             <th>Ünvan</th>
@@ -38,10 +39,12 @@
                             <th></th>
                             <th></th>
                             <th></th>
+                            <th></th>
                         </tr>
                     </tfoot>
                     <tfoot class="tf-search">
                         <tr>
+                            <th></th>
                             <th></th>
                             <th></th>
                             <th></th>
@@ -86,12 +89,26 @@
             "columns": [
                 { "data": null, "defaultContent": '', "className": 'details-control', "orderable": false },
                 { "data": "EVRAKNO" },
+                { "data": "Tutar" , "render": $.fn.dataTable.render.number('.', ',', 2, '') },
                 { "data": "Tarih" },
                 { "data": "CHK" },
                 { "data": "Unvan" },
                 { "data": "TipKod" },
                 { "data": "GrupKod" }
-            ]
+            ],
+            "fnRowCallback": function (nRow, aData, iDisplayIndex) {
+                $('td', nRow).attr('nowrap', 'nowrap');
+                return nRow;
+            },
+            "footerCallback": function (row, data, start, end, display) {
+                var Tutar = 0;
+                table.rows({ search: 'applied' }).data().each(function (val, index) {
+                    Tutar += val.Tutar;
+                   
+                });
+                var api = this.api(), data;
+                $(api.column(2).footer()).html(numeral(Tutar).format());
+            },
         });
 
 
