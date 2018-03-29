@@ -104,11 +104,12 @@
         $("#sample_1 tfoot input").on('keyup change', function () { table.column($(this).parent().index() + ':visible').search(this.value).draw(); });
         $('#sample_1 .tf-search tr').insertAfter($('#sample_1 thead tr'));
     });
+ 
     $.contextMenu({
         selector: '#sample_1 tbody tr',
         trigger: 'left',
         callback: function (key, options) {
-            var rowIndex = parseInt(options.$trigger[0].rowIndex) - 1;
+            var rowIndex = parseInt(options.$trigger[0].rowIndex) -5;
             var satir = table.row(rowIndex).data();
             var MLK = satir.HesapKodu;
             switch (key) {

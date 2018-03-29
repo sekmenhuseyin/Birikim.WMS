@@ -22,7 +22,7 @@
                                     CHK.GrupKod,
                                     CHK.TipKod,
                                     SUM(((SPI.Tutar - SPI.ToplamIskonto)/SPI.BirimMiktar)*(SPI.BirimMiktar-SPI.TeslimMiktar-SPI.KapatilanMiktar)) AS NetTutar,
-								    CONVERT(NVARCHAR(10),DATEADD(DD,SPI.Tarih,'1899-12-30'),104) as Tarih,
+		                            REPLACE(CONVERT(NVARCHAR(10),DATEADD(DD,SPI.Tarih,'1899-12-30'),104),'.','-') AS Tarih,
 									SPI.EvrakNo as SipNo
                                     FROM FINSAT6{0}.FINSAT6{0}.SPI AS SPI WITH (NOLOCK)
                                     INNER JOIN FINSAT6{0}.FINSAT6{0}.STK AS STK WITH (NOLOCK) ON STK.MALKODU = SPI.MALKODU 
