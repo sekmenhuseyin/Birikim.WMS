@@ -74,6 +74,7 @@
        var table123= $('#sample_1').DataTable({
             "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
             "pagingType": "full_numbers",
+            "pageLength": 50,
             "footerCallback": function (row, data, start, end, display) {
                 var NetTutar = 0, BirimMiktar = 0;
                 table123.rows({ search: 'applied' }).data().each(function (val, index) {

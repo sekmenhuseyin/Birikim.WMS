@@ -26,13 +26,15 @@
                                         <th>Sipariş</th>
                                         <th>Depo</th>
                                         <th>Teslim Edilen</th>
-                                        <th>Kapatılan</th>
+                                        <th>Kalan Miktar</th>
                                         <th>Bekleyen Net Tutar</th>
                                         <th>Mevcut Stok</th>
                                         <th>Alım Sipariş</th>
                                         <th>Oran Iskontosu 1</th>
                                         <th>Birim Fiyat</th>
                                         <th>Toplam Iskonto</th>
+                                        <th>Satis Fiyat 3</th>
+
 
                                     </tr>
 
@@ -54,10 +56,12 @@
                                         <th></th>
                                         <th></th>
                                         <th></th>
+                                        <th></th>
                                     </tr>
                                 </tfoot>
                                 <tfoot class="tf-search">
                                     <tr>
+                                        <th></th>
                                         <th></th>
                                         <th></th>
                                         <th></th>
@@ -96,7 +100,7 @@
                     return json;
                 },
             },
-            "columnDefs": [{ "type": "num-fmt", "className": "dt-right", "targets": [5, 7, 8, 9, 10, 11, 12,13,14] }, { "className": "dt-center", "targets": "_all" }],
+            "columnDefs": [{ "type": "num-fmt", "className": "dt-right", "targets": [5, 7, 8, 9, 10, 11, 12,13,14,15] }, { "className": "dt-center", "targets": "_all" }],
             "columns": [
                 { "data": "Tarih" },
                 { "data": "MalKodu"},
@@ -106,13 +110,14 @@
                 { "data": "Siparis", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
                 { "data": "Depo" },
                 { "data": "TeslimEdilen", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
-                { "data": "Kapatilan", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
+                { "data": "KalanMiktar", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
                 { "data": "BekleyenNetTutar", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
                 { "data": "MevcutStok", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
                 { "data": "AlimSiparis", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
                 { "data": "IskontoOran1", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
                 { "data": "BirimFiyat", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
-                { "data": "ToplamIskonto", "render": $.fn.dataTable.render.number('.', ',', 2, '') }
+                { "data": "ToplamIskonto", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
+                { "data": "SatisFiyat3", "render": $.fn.dataTable.render.number('.', ',', 2, '') }
             ],
             "ordering": false,
             "fnRowCallback": function (nRow, aData, iDisplayIndex) {
@@ -121,7 +126,7 @@
             },
             "footerCallback": function (row, data, start, end, display) {
                 var Siparis = 0, TeslimEdilen = 0, Kapatilan = 0,
-                    BekleyenNetTutar = 0, MevcutStok = 0, AlimSiparis = 0, IskontoOran1 = 0, BirimFiyat = 0, ToplamIskonto=0 ;
+                    BekleyenNetTutar = 0, MevcutStok = 0, AlimSiparis = 0, IskontoOran1 = 0, BirimFiyat = 0, ToplamIskonto=0, SatisFiyat3=0;
                 table1a.rows({ search: 'applied' }).data().each(function (val, index) {
                     Siparis += val.Siparis;
                     TeslimEdilen += val.TeslimEdilen;
@@ -132,6 +137,7 @@
                     IskontoOran1 += val.IskontoOran1;
                     BirimFiyat += val.BirimFiyat;
                     ToplamIskonto += val.ToplamIskonto;
+                    SatisFiyat3 += val.SatisFiyat3;
 
                 });
                 var api = this.api(), data;
@@ -144,6 +150,7 @@
                 $(api.column(12).footer()).html(numeral(IskontoOran1).format());
                 $(api.column(13).footer()).html(numeral(BirimFiyat).format());
                 $(api.column(14).footer()).html(numeral(ToplamIskonto).format());
+                $(api.column(15).footer()).html(numeral(SatisFiyat3).format());
               
             }
         });

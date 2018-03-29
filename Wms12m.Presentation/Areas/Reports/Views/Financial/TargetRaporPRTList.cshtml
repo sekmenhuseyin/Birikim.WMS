@@ -49,6 +49,7 @@
             "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
             "pagingType": "full_numbers",
             "ordering": false,
+            "pageLength": 50,
             "ajax": {
                 "url": '/Reports/Financial/TargetRaporPRTSelect',
                 "data": { GrupKod: '@ViewBag.GRUPKOD', Ay: '@ViewBag.AY', Yil:'@ViewBag.YIL'},
@@ -64,7 +65,6 @@
                 { "data": "TipKod" },
                 { "data": "Bakiye", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
             ],
-            "ordering": false,
             "fnRowCallback": function (nRow, aData, iDisplayIndex) {
                 $('td', nRow).attr('nowrap', 'nowrap');
                 return nRow;

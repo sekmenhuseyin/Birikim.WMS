@@ -18,8 +18,6 @@
         public string Depo { get; set; }
         /// <summary> Decimal(25,6) (Not Null) </summary>
         public decimal TeslimEdilen { get; set; }
-        /// <summary> Decimal(25,6) (Not Null) </summary>
-        public decimal Kapatilan { get; set; }
         /// <summary> Real (Not Null) </summary>
         public float IskontoOran1 { get; set; }
         /// <summary> Decimal(25,6) (Not Null) </summary>
@@ -32,6 +30,11 @@
         public decimal? MevcutStok { get; set; }
         /// <summary> Decimal(25,6) (Not Null) </summary>
         public decimal AlimSiparis { get; set; }
+        /// <summary> Decimal(25,6) (Not Null) </summary>
+        public decimal SatisFiyat3 { get; set; }
+        /// <summary> Decimal(27,6) (Allow Null) </summary>
+        public decimal? KalanMiktar { get; set; }
+
         public static string Sorgu = @"
                                     SELECT 
                                     CONVERT(NVARCHAR(10),DATEADD(DD,SPI.Tarih,'1899-12-30'),104) AS Tarih,
@@ -42,17 +45,18 @@
                                     SPI.BirimMiktar AS Siparis,
                                     SPI.Depo,
                                     SPI.TeslimMiktar AS TeslimEdilen,
-                                    SPI.KapatilanMiktar AS Kapatilan,
                                     SPI.IskontoOran1,
 								    SPI.BirimFiyat,
 									SPI.ToplamIskonto,
-                                   -- (SPI.BirimMiktar-SPI.TeslimMiktar-SPI.KapatilanMiktar) AS AcikSiparisMiktari,
-                                    ((SPI.Tutar-SPI.ToplamIskonto)/SPI.BirimMiktar)*(SPI.Birimmiktar-SPI.TeslimMiktar-SPI.KapatilanMiktar) AS BekleyenNetTutar,
+                                    ((SPI.Tutar-SPI.ToplamIskonto)/SPI.BirimMiktar)*(SPI.BirimMiktar-SPI.TeslimMiktar-SPI.KapatilanMiktar) AS BekleyenNetTutar,
                                     (STK.DvrMiktar+STK.GirMiktar-STK.CikMiktar) AS MevcutStok,
-                                    STK.AlimSiparis AS AlimSiparis
+                                    STK.AlimSiparis AS AlimSiparis,
+									STK.SatisFiyat3,
+									(SPI.BirimMiktar - (SPI.KapatilanMiktar + SPI.TeslimMiktar)) AS KalanMiktar
                                     FROM FINSAT6{0}.FINSAT6{0}.SPI AS SPI WITH (NOLOCK) 
                                     INNER JOIN FINSAT6{0}.FINSAT6{0}.STK AS STK WITH (NOLOCK) ON STK.MalKodu=SPI.MalKodu 
-                                    WHERE SPI.Kynkevraktip=62 AND SPI.SiparisDurumu=0 AND SPI.Chk='{1}'
+                                    WHERE SPI.Kynkevraktip=62 AND SPI.SiparisDurumu=0 
+									AND SPI.Chk='{1}'
                                     ";
     }
 }

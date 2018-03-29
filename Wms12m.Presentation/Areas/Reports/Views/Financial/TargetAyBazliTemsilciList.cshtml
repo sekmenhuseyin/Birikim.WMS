@@ -153,6 +153,7 @@
                 { "data": "AralikNetCiro", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
             ],
             "ordering": true,
+            "pageLength": 50,
             "fnRowCallback": function (nRow, aData, iDisplayIndex) {
                 $('td', nRow).attr('nowrap', 'nowrap');
                 return nRow;

@@ -275,11 +275,12 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
         public PartialViewResult AksiyonSatisList(int Kod13)
         {
             if (CheckPerm(Perms.Raporlar, PermTypes.Reading) == false) return null;
-            var OYM = db.Database.SqlQuery<AksiyonSatis>(string.Format(@"SELECT max(Stk.MalKodu)as StkMalKodu,max(Stk.Maladi)as StkMaladi ,max(stk.maladi4) as [stkmaladi4] ,CHK.GrupKod as CHKGrupKod, CHK.TipKod as CHKTipKod,
-SUM(BirimMiktar) as BirimMiktar, SUM(Tutar-ToplamIskonto) as NetTutar   FROM FINSAT6{0}.FINSAT6{0}.SPI(NOLOCK) SPI
+            var OYM = db.Database.SqlQuery<AksiyonSatis>(String.Format(@"SELECT max(Stk.MalKodu)as StkMalKodu,max(Stk.Maladi)as StkMaladi ,max(stk.maladi4) as [stkmaladi4] ,CHK.GrupKod as CHKGrupKod, CHK.TipKod as CHKTipKod,
+SUM(BirimMiktar) as BirimMiktar, SUM(Tutar-ToplamIskonto) AS NetTutar   FROM FINSAT6{0}.FINSAT6{0}.SPI(NOLOCK) SPI
 INNER JOIN FINSAT6{0}.FINSAT6{0}.STK(NOLOCK)STK ON STK.Malkodu = SPI.Malkodu
 INNER JOIN FINSAT6{0}.FINSAT6{0}.CHK(NOLOCK) CHK ON CHK.HesapKodu = SPI.Chk
 WHERE SPI.Kynkevraktip = 62 
+AND SPI.Tarih=DATEDIFF(DD,'1899-12-30',GETDATE())
 and stk.Kod13 = {1}
 GROUP BY  STK.Malkodu, CHK.GrupKod, CHK.TipKod
 ", vUser.SirketKodu, Kod13)).ToList();
@@ -925,7 +926,7 @@ GROUP BY  STK.Malkodu, CHK.GrupKod, CHK.TipKod
             try
             {
                 string sorgu = "";
-                sorgu = String.Format(BekleyenSips.Sorgu, vUser.SirketKodu, "");
+                sorgu = String.Format(BekleyenSips.Sorgu, vUser.SirketKodu);
                 bs = db.Database.SqlQuery<BekleyenSips>(sorgu).ToList();
             }
             catch (Exception ex)

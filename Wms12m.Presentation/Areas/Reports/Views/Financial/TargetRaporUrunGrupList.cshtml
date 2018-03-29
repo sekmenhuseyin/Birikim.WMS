@@ -73,6 +73,7 @@
                 },
             },
             "ordering": false,
+            "pageLength": 50,
             "columnDefs": [{ "type": "num-fmt", "className": "dt-right", "targets": [2, 3,4] }, { "className": "dt-center", "targets": "_all" }],
             "columns": [
                 { "data": "TipKod" },
@@ -81,7 +82,7 @@
                 { "data": "NetCiro", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
                 { "data": "Oran", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
             ],
-            "ordering": false,
+       
             "fnRowCallback": function (nRow, aData, iDisplayIndex) {
                 $('td', nRow).attr('nowrap', 'nowrap');
                 return nRow;

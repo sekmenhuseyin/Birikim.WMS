@@ -90,6 +90,7 @@
             "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
             "pagingType": "full_numbers",
             "ordering": true,
+            "pageLength": 50,
 
             "ajax": {
                 "url": '/Reports/Financial/TargetRaporBolgeSelect',
@@ -143,7 +144,7 @@
                     $(row).children('td').slice(3, 4).addClass("renkU0");
                 }
             },
-            "ordering": false,
+
             "fnRowCallback": function (nRow, aData, iDisplayIndex) {
                 $('td', nRow).attr('nowrap', 'nowrap');
                 return nRow;
