@@ -347,43 +347,6 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                     stiList.Add(sti);
                     sirano++;
                 }
-                else
-                {
-
-                    // son olarak bizim stoka kaydet
-                    sql = string.Format(@"EXEC BIRIKIM.wms.GetSayimFarki {0}, {1}", GorevID, mGorev.IR.ValorGun);
-                    var list2 = db.Database.SqlQuery<frmSiparisToplama>(sql).ToList();
-                    // loop list
-                    foreach (var satir in list2.Where(x=> x.MalKodu==item.MalKodu))
-                    {
-                        // yerleştirme kaydı yapılır
-                        var tmp2 = Yerlestirme.Detail(satir.KatID, satir.MalKodu, satir.Birim);
-                        if (tmp2 == null)
-                        {
-                            tmp2 = new Yer()
-                            {
-                                KatID = satir.KatID,
-                                MalKodu = satir.MalKodu,
-                                Birim = satir.Birim,
-                                Miktar = satir.Miktar
-                            };
-                            Yerlestirme.Insert(tmp2, vUser.Id, "Sayım Farkı Fişi", mGorev.IrsaliyeID.Value);
-                        }
-                        else
-                        {
-                            if (satir.Miktar > satir.Stok)//giriş
-                            {
-                                tmp2.Miktar = satir.Miktar;
-                                Yerlestirme.Update(tmp2, vUser.Id, "Sayım Farkı Fişi", satir.Miktar - satir.Stok, false, mGorev.IrsaliyeID.Value);
-                            }
-                            else if (satir.Miktar < satir.Stok)//çıkış
-                            {
-                                tmp2.Miktar = satir.Miktar;
-                                Yerlestirme.Update(tmp2, vUser.Id, "Sayım Farkı Fişi", satir.Stok - satir.Miktar, true, mGorev.IrsaliyeID.Value);
-                            }
-                        }
-                    }
-                }
             }
             if (sirano == 0)
             {

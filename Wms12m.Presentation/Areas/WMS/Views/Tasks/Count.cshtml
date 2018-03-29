@@ -55,6 +55,7 @@
         else
             Modaldialog(e.Message, 'Hata', 'Tamam', 'btn-danger');
     };
+
     function frmSubmit() {
         var dialog = bootbox.dialog({
             title: 'Liste Onayı',
@@ -64,8 +65,7 @@
                     label: "Evet",
                     className: 'btn-info',
                     callback: function () {
-                        $('#txtCountCreateTip').val("true");
-                        $('#frmCreate').submit();
+                        onayEksikListe();
                     }
                 },
                 no: {
@@ -80,6 +80,32 @@
                     label: "İptal",
                     className: 'btn-danger',
                     callback: function () {
+                    }
+                }
+            }
+        });
+    }
+
+    function onayEksikListe()
+    {
+        var dialog = bootbox.dialog({
+            title: 'Liste Onayı',
+            message: "<p>Eğer 'Evet' derseniz okutmaadığınız tüm ürünler stoktan silinecek. Devam etsin mi?</p>",
+            buttons: {
+                yes: {
+                    label: "Evet",
+                    className: 'btn-info',
+                    callback: function ()
+                    {
+                        $('#txtCountCreateTip').val("true");
+                        $('#frmCreate').submit();
+                    }
+                },
+                cancel: {
+                    label: "İptal",
+                    className: 'btn-danger',
+                    callback: function ()
+                    {
                     }
                 }
             }
