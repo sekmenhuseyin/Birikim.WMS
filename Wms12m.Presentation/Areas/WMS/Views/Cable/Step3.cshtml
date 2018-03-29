@@ -181,7 +181,7 @@
     function ChangeMiktar(td, mal, miktar, id) {
         var yeni = prompt(mal + " için yeni miktarı giriniz", miktar);
         if (yeni == null || yeni == undefined) return;
-        yeni = yeni.replace(",", ".");
+        yeni = yeni.replace(".", "").replace(",", ".");
         yeni = parseFloat(yeni);
         list[id] = yeni;
         $(td).html(yeni.formatMoney(2));
