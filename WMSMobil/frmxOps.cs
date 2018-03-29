@@ -228,19 +228,24 @@ namespace WMSMobil
             {
             }
         }
-        
-        /// <summary>
-        /// irsaliye detaylarını gösterir
-        /// </summary>
-        void STIGetir()
+
+        void ClearPanelList()
         {
-            Cursor.Current = Cursors.WaitCursor;
             foreach (PanelEx rmvItem in PanelVeriList)
             {
                 panelOrta.Controls.Remove(rmvItem);
             }
             PanelVeriList.Clear();
             Sayac = 0;
+        }
+
+        /// <summary>
+        /// irsaliye detaylarını gösterir
+        /// </summary>
+        void STIGetir()
+        {
+            Cursor.Current = Cursors.WaitCursor;
+            ClearPanelList();
 
             foreach (Tip_STI stiItem in Ayarlar.STIKalemler)
             {
@@ -1017,6 +1022,10 @@ namespace WMSMobil
                 Cursor.Current = Cursors.Default;
                 if (Ayarlar.STIKalemler.Count == 0) this.Close();
                 STIGetir();
+            }
+            else
+            {
+                ClearPanelList();
             }
               
 
