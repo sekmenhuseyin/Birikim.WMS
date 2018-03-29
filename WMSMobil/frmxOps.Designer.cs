@@ -109,7 +109,6 @@
             this.txtBarkod.Name = "txtBarkod";
             this.txtBarkod.Size = new System.Drawing.Size(106, 21);
             this.txtBarkod.TabIndex = 1;
-            this.txtBarkod.TextChanged += new System.EventHandler(this.txtBarkod_TextChanged);
             this.txtBarkod.GotFocus += new System.EventHandler(this.txt_GotFocus);
             // 
             // btnEkle
