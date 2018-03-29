@@ -106,6 +106,7 @@
     });
     $.contextMenu({
         selector: '#sample_1 tbody tr',
+        trigger: 'left',
         callback: function (key, options) {
             var rowIndex = parseInt(options.$trigger[0].rowIndex) - 1;
             var satir = table.row(rowIndex).data();

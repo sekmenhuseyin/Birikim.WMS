@@ -70,6 +70,7 @@
     });
     $.contextMenu({
         selector: '#sample_1 tbody td',
+        trigger: 'left',
         callback: function (key, options) {
             var cellIndex = parseInt(options.$trigger[0].cellIndex),
                 row = table.row(options.$trigger[0].parentNode),
