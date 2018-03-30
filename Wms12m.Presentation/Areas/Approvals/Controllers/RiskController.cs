@@ -11,6 +11,9 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 {
     public class RiskController : RootController
     {
+        /// <summary>
+        /// SM Onay
+        /// </summary>
         public ActionResult SM()
         {
             if (CheckPerm(Perms.RiskOnaylama, PermTypes.Reading) == false) return Redirect("/");
@@ -57,6 +60,9 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
 
+        /// <summary>
+        /// GM Onay
+        /// </summary>
         public ActionResult GM()
         {
             if (CheckPerm(Perms.RiskOnaylama, PermTypes.Reading) == false) return Redirect("/");
@@ -103,6 +109,9 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
 
+        /// <summary>
+        /// SPGMY Onay
+        /// </summary>
         public ActionResult SPGMY()
         {
             if (CheckPerm(Perms.RiskOnaylama, PermTypes.Reading) == false) return Redirect("/");
@@ -149,6 +158,9 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
 
+        /// <summary>
+        /// MIGMY Onay
+        /// </summary>
         public ActionResult MIGMY()
         {
             if (CheckPerm(Perms.RiskOnaylama, PermTypes.Reading) == false) return Redirect("/");
@@ -194,6 +206,9 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
 
+        /// <summary>
+        /// Tanim
+        /// </summary>
         public ActionResult Tanim()
         {
             if (CheckPerm(Perms.RiskTanim, PermTypes.Reading) == false) return Redirect("/");
