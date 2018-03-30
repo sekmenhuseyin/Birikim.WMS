@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Wms12m.Entity
+﻿namespace Wms12m.Entity
 {
     public class HDF
     {
@@ -102,6 +96,9 @@ namespace Wms12m.Entity
                     SET @MAXDURUM = (SELECT COUNT(*) FROM FINSAT6{0}.FINSAT6{0}.HDF AS H1 WITH (NOLOCK) WHERE H1.BOLGE='{1}' AND H1.TIP=0 AND H1.AYYIL='{5}')
                     SET @TK = (SELECT COUNT(*) FROM FINSAT6{0}.FINSAT6{0}.HDF AS H3 WITH (NOLOCK) WHERE
                     H3.BOLGE='{1}' AND H3.TIP = 1 AND H3.AYYIL = '{5}' AND H3.TEMSILCI='{2}')
+                    
+                    INSERT INTO FINSAT6{0}.FINSAT6{0}.HDF (TIP,BOLGE,TEMSILCI,HEDEF,TARIH,AYYIL) 
+                    VALUES (1,'{1}','{2}','{3}',{4},'{5}')
                     IF(@TK = 0)
                     BEGIN                    
                     IF(@MAXDURUM > 0)
@@ -110,8 +107,6 @@ namespace Wms12m.Entity
                     SET @HDFT0 = (SELECT H0.HEDEF FROM FINSAT6{0}.FINSAT6{0}.HDF AS H0 WITH (NOLOCK) WHERE H0.BOLGE='{1}' AND H0.TIP=0 AND H0.AYYIL='{5}')
                     IF(@HDFT1 + {3} <= @HDFT0)
                     BEGIN
-                    INSERT INTO FINSAT6{0}.FINSAT6{0}.HDF (TIP,BOLGE,TEMSILCI,HEDEF,TARIH,AYYIL) 
-                    VALUES (1,'{1}','{2}','{3}',{4},'{5}')
                     SELECT 1
                     END
                     ELSE
@@ -128,6 +123,7 @@ namespace Wms12m.Entity
                     BEGIN
                     SELECT 15
                     END
+
                     ";
         public static string TemsilciGrupTanimUpdate = @"
                     DECLARE @MAXDURUM INT,@HDFT1 NUMERIC(25,6),@HDFT0 NUMERIC(25,6),@VAL NUMERIC(25,6)
@@ -139,9 +135,11 @@ namespace Wms12m.Entity
                     SET @HDFT0= (SELECT H0.HEDEF FROM FINSAT6{0}.FINSAT6{0}.HDF AS H0 WITH (NOLOCK)
                     WHERE H0.BOLGE='{1}' AND H0.TIP=0 AND H0.AYYIL='{5}')
                     SET @VAL = (SELECT H2.HEDEF FROM FINSAT6{0}.FINSAT6{0}.HDF AS H2 WITH (NOLOCK) WHERE H2.ID={4} AND H2.TIP = 1)
+
+                    UPDATE FINSAT6{0}.FINSAT6{0}.HDF SET BOLGE='{1}',TEMSILCI='{2}',HEDEF='{3}' WHERE ID={4} AND TIP = 1
+
                     IF( {3} <= (@HDFT0-@HDFT1)+@VAL )
                     BEGIN
-                    UPDATE FINSAT6{0}.FINSAT6{0}.HDF SET BOLGE='{1}',TEMSILCI='{2}',HEDEF='{3}' WHERE ID={4} AND TIP = 1
                     SELECT 1
                     END
                     ELSE

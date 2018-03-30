@@ -494,15 +494,15 @@ GROUP BY  STK.Malkodu, CHK.GrupKod, CHK.TipKod
                 {
                     case 10:
                         _Result.Status = false;
-                        _Result.Message = "Hedef limiti aşılmıştır.Kontrol ediniz!";
+                        _Result.Message = "Hedef limiti aşılmıştır.";
                         break;
                     case 5:
                         _Result.Status = false;
-                        _Result.Message = "Girilen Bölgeye ait miktar bulunmamaktadır.Kontrol ediniz!";
+                        _Result.Message = "Girilen Bölgeye ait miktar bulunmamaktadır.";
                         break;
                     case 15:
                         _Result.Status = false;
-                        _Result.Message = "Girilen tarih aralığı ile ilgili kayıt girilmiştir.Kontrol ediniz";
+                        _Result.Message = "Girilen tarih aralığı ile ilgili kayıt girilmiştir.";
                         break;
                     default:
                         _Result.Status = true;
