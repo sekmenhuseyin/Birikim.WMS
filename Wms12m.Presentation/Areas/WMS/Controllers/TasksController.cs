@@ -184,6 +184,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             var list = db.Database.SqlQuery<frmSiparisMalzemeDetay>(sql).ToList();
             // return
             ViewBag.Tip = Tip;
+            ViewBag.ID = ID;
             return PartialView("CountFark", list);
         }
 
