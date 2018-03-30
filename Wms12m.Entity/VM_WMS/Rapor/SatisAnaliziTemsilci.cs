@@ -3,6 +3,7 @@
     public class SatisAnaliziTemsilci
     {
         public string Kod9 { get; set; }
+        public string TipKod { get; set; }
         public decimal Ocak { get; set; }
         public decimal Subat { get; set; }
         public decimal Mart { get; set; }
@@ -20,7 +21,7 @@
                                     IF(OBJECT_ID('tempdb..#UrunBolgeSatisAnalizi') IS NOT NULL) BEGIN DROP TABLE #UrunBolgeSatisAnalizi END
                                     CREATE TABLE #UrunBolgeSatisAnalizi(Kod9 NVARCHAR(50),Ay INT,NetCiro NUMERIC(25,6))
                                     INSERT INTO #UrunBolgeSatisAnalizi
-                                    SELECT STK.MalAdi4,MONTH(DATEADD(DD,STI.Tarih,'1899-12-30')) AS Ay,
+                                    SELECT STK.MalAdi4,CHK.TipKod,MONTH(DATEADD(DD,STI.Tarih,'1899-12-30')) AS Ay,
                                                                     SUM(CASE WHEN STI.KynkEvrakTip IN (1,163) THEN (STI.Tutar-STI.ToplamIskonto) 
                                                                         ELSE (STI.Tutar-STI.ToplamIskonto)*-1 END) AS NetCiro
                                                                     FROM FINSAT6{0}.FINSAT6{0}.STI AS STI WITH (NOLOCK) 
@@ -33,7 +34,7 @@
                                                                     AND YEAR(DATEADD(DD,STI.Tarih,'1899-12-30'))={2}
                                                                     AND (CHK.TipKod = '{3}' OR '{3}'='0')
 								                                    AND ISNULL(STK.MalAdi4,'')<>''
-                                                                    GROUP BY STK.MalAdi4,MONTH(DATEADD(DD,STI.Tarih,'1899-12-30'))
+                                                                    GROUP BY STK.MalAdi4,CHK.TipKod,MONTH(DATEADD(DD,STI.Tarih,'1899-12-30'))
 							
                                     SELECT US.Kod9,
                                     ISNULL(MAX(CASE WHEN US.Ay = 1 THEN US.NetCiro ELSE 0 END),0) AS Ocak,
