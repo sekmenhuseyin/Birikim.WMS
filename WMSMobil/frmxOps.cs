@@ -546,7 +546,12 @@ namespace WMSMobil
             if (Ayarlar.MenuTip == MenuType.KontrollüSayım)
             {
                 malInfo = Servis.GetMalzemeFromBarcode("", mal, GorevID, Ayarlar.Kullanici.ID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid);
-
+                if (malInfo == null)
+                {
+                    Mesaj.Uyari("Sistemde böyle bir barkod bulunamadı");
+                    txtBarkod.Focus();
+                    return;
+                }
                 if (raf != "" && txtRafBarkod.Visible == true && mal != "" && makaraNo == "" && txtMakaraBarkod.Visible == true && malInfo.Kod1 == "KKABLO")
                 {
                     Mesaj.Hata(null, "Makara Numarasını okutun");
