@@ -162,7 +162,7 @@
             this.lblSayim.BackColor = System.Drawing.Color.Green;
             this.lblSayim.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold);
             this.lblSayim.ForeColor = System.Drawing.Color.White;
-            this.lblSayim.Location = new System.Drawing.Point(44, 272);
+            this.lblSayim.Location = new System.Drawing.Point(44, 271);
             this.lblSayim.Name = "lblSayim";
             this.lblSayim.Size = new System.Drawing.Size(32, 16);
             this.lblSayim.Tag = "";

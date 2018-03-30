@@ -12,6 +12,7 @@
         public int KatID { get; set; }
         public string Koridor { get; set; }
         public string MalKodu { get; set; }
+        public string MakaraNo { get; set; }
         public decimal Miktar { get; set; }
         public string Raf { get; set; }
         public decimal Stok { get; set; }

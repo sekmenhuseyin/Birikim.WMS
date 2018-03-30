@@ -135,6 +135,21 @@ namespace Wms12m.Business
                 return new Yer();
             }
         }
+        public Yer Detail(int KatID, string MalKodu, string MakaraNo = null)
+        {
+            var satir = db.Yers.Where(m => m.KatID == KatID && m.MalKodu == MalKodu);
+            // makara no varsa onu da filtreye ekle
+            if (MakaraNo != null && MakaraNo != "") satir = satir.Where(m => m.MakaraNo == MakaraNo);
+            // return
+            try
+            {
+                return satir.FirstOrDefault();
+            }
+            catch (Exception)
+            {
+                return new Yer();
+            }
+        }
 
         /// <summary>
         /// depo listesi

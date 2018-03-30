@@ -433,7 +433,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                 foreach (var item in list2)
                 {
                     // yerleştirme kaydı yapılır
-                    var tmp2 = Yerlestirme.Detail(item.KatID, item.MalKodu, item.Birim);
+                    var tmp2 = Yerlestirme.Detail(item.KatID, item.MalKodu, item.MakaraNo);
                     if (tmp2 == null)
                     {
                         tmp2 = new Yer()
@@ -441,7 +441,8 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                             KatID = item.KatID,
                             MalKodu = item.MalKodu,
                             Birim = item.Birim,
-                            Miktar = item.Miktar
+                            Miktar = item.Miktar,
+                            MakaraNo = item.MakaraNo
                         };
                         Yerlestirme.Insert(tmp2, vUser.Id, "Sayım Farkı Fişi", mGorev.IrsaliyeID.Value);
                     }
@@ -623,7 +624,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             var yl = db.Yer_Log.Where(a => a.IrsaliyeID == mGorev.IR.ID).ToList();
             foreach (var item in yl)
             {
-                var tmp2 = Yerlestirme.Detail(item.KatID, item.MalKodu, item.Birim);
+                var tmp2 = Yerlestirme.Detail(item.KatID, item.MalKodu, item.MakaraNo);
                 if (item.GC == true)
                 {
                     tmp2.Miktar += item.Miktar;
