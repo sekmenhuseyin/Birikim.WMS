@@ -23,6 +23,7 @@
                         <th>Ekim</th>
                         <th>Kasım</th>
                         <th>Aralık</th>
+                        <th>Toplam Hedef</th>
                     </tr>
                 </thead>
                 <tfoot>
@@ -40,10 +41,12 @@
                         <th></th>
                         <th></th>
                         <th></th>
+                        <th></th>
                     </tr>
                 </tfoot>
                 <tfoot class="tf-search">
                     <tr>
+                        <th></th>
                         <th></th>
                         <th></th>
                         <th></th>
@@ -80,7 +83,7 @@
                 { "extend": 'pdf', "text": '<span class="fa fa-file-pdf-o f-s-15 red"></span>', "className": 'btn btn-default btn-xs' },
                 { "extend": 'excel', "text": '<span class="fa fa-file-excel-o f-s-15 green"></span>', "className": 'btn btn-default btn-xs' }
             ],
-            "columnDefs": [{ "type": "num-fmt", "className": "dt-right", "targets": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] }, { "className": "dt-center", "targets": "_all" }],
+            "columnDefs": [{ "type": "num-fmt", "className": "dt-right", "targets": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13] }, { "className": "dt-center", "targets": "_all" }],
             "columns": [
                 { "data": "Bolge" },
                 { "data": "Ocak", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
@@ -95,6 +98,7 @@
                 { "data": "Ekim", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
                 { "data": "Kasim", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
                 { "data": "Aralik", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
+                { "data": "ToplamHedef", "render": $.fn.dataTable.render.number('.', ',', 2, '') }
             ],
             "ordering": true,
             "pageLength": 50,
@@ -104,7 +108,7 @@
             },
             "footerCallback": function (row, data, start, end, display) {
                 var Ocak = 0, Subat = 0, Mart = 0, Nisan = 0, Mayis = 0, Haziran = 0,
-                    Temmuz = 0, Agustos = 0, Eylul = 0, Ekim = 0, Kasim = 0, Aralik = 0;
+                    Temmuz = 0, Agustos = 0, Eylul = 0, Ekim = 0, Kasim = 0, Aralik = 0, ToplamHedef=0;
                 table.rows({ search: 'applied' }).data().each(function (val, index) {
                     Ocak += val.Ocak;
                     Subat += val.Subat;
@@ -118,6 +122,7 @@
                     Ekim += val.Ekim;
                     Kasim += val.Kasim;
                     Aralik += val.Aralik;
+                    ToplamHedef += val.ToplamHedef;
                 });
                 var api = this.api(), data;
                 $(api.column(1).footer()).html(numeral(Ocak).format());
@@ -132,6 +137,7 @@
                 $(api.column(10).footer()).html(numeral(Ekim).format());
                 $(api.column(11).footer()).html(numeral(Kasim).format());
                 $(api.column(12).footer()).html(numeral(Aralik).format());
+                $(api.column(13).footer()).html(numeral(ToplamHedef).format());
             },
         });
 

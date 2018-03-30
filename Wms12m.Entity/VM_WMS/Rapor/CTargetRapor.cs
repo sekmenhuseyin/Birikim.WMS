@@ -45,15 +45,15 @@
                                 WHERE (IC1.KarsiHesapKodu IS NOT NULL) 
                                 AND IC1.KarsiHesapKodu <> '' 
                                 AND IC1.IslemTip NOT IN (16,21,27,32,36,37,41,42) 
-                                AND (IC1.Tarih BETWEEN @TAR1 AND @TAR2) 
+                                AND (IC1.Tarih BETWEEN 0 AND @TAR2) 
                                 UNION ALL 
                                 SELECT IC2.HesapKodu,
                                 (CASE WHEN IC2.IslemTip=5 THEN -IC2.Tutar WHEN IC2.IslemTip=9 THEN -IC2.Tutar ELSE IC2.Tutar END) AS Tutar,
                                 IC2.BA 
                                 FROM FINSAT6{0}.FINSAT6{0}.CHI AS IC2 WITH (NOLOCK) 
                                 WHERE IC2.IslemTip NOT IN (16,21,27,32,36,37,41,42) 
-                                AND (IC2.Tarih BETWEEN @TAR1 AND @TAR2 )) AS A 
-                                LEFT JOIN FINSAT6{0}.FINSAT6{0}.CHK AS B WITH (NOLOCK) ON B.HesapKodu = A.HesapKodu
+                                AND (IC2.Tarih BETWEEN 0 AND @TAR2 )) AS A 
+                                LEFT JOIN FINSAT6{0}.FINSAT6{0}.CHK AS B WITH (NOLOCK) ON B.HesapKodu = A.HesapKodu AND B.GrupKod <>'FİK'
                                 LEFT JOIN (
                                 SELECT CHK.Grupkod,
                                 SUM(CASE WHEN STI.Kynkevraktip IN (1,163) THEN (STI.Tutar-STI.ToplamIskonto) 
@@ -69,13 +69,16 @@
                                 ) AS TT1 ON B.GrupKod=TT1.GrupKod
                                 LEFT JOIN (
                                 SELECT CHK.GrupKod,
-                                SUM(((SPI.Tutar-SPI.ToplamIskonto)/SPI.BirimMiktar)*
-                                (Birimmiktar-TeslimMiktar-KapatilanMiktar)) AS BekleyenSiparis
+                                case	CHK.Grupkod when 'İHRACAT' THEN 
+                                SUM((((SPI.Tutar-SPI.ToplamIskonto)/SPI.BirimMiktar)*(Birimmiktar-TeslimMiktar-KapatilanMiktar)) *
+                                ISNULL(dvz.kur00,1))
+                                ELSE SUM(((SPI.Tutar-SPI.ToplamIskonto)/SPI.BirimMiktar)*(Birimmiktar-TeslimMiktar-KapatilanMiktar)) END AS BekleyenSiparis
                                 FROM FINSAT6{0}.FINSAT6{0}.SPI AS SPI WITH (NOLOCK) 
                                 INNER JOIN FINSAT6{0}.FINSAT6{0}.CHK AS CHK WITH (NOLOCK) ON CHK.HesapKodu=SPI.CHK 
-                                WHERE SPI.SiparisDurumu=0 
-                                AND SPI.Kod10 != ('Reddedildi') 
-                                AND (SPI.Tarih BETWEEN @TAR1 AND @TAR2) 
+                                LEFT JOIN SOLAR6.DBO.DVZ (NOLOCK) DVZ ON DVZ.DovizCinsi=SPI.DovizCinsi and SPI.Tarih=DVZ.Tarih
+                                WHERE SPI.SiparisDurumu=0 AND SPI.Kynkevraktip=62
+                                --AND SPI.Kod10 != ('Reddedildi') 
+                                --AND (SPI.Tarih BETWEEN 0 AND @TAR2) 
                                 GROUP BY CHK.Grupkod
                                 ) AS TT2 ON B.GrupKod=TT2.GrupKod
                                 LEFT JOIN (
@@ -90,14 +93,14 @@
                                 WHERE (IC1.KarsiHesapKodu IS NOT NULL) 
                                 AND IC1.KarsiHesapKodu <> '' 
                                 AND IC1.IslemTip NOT IN (16,21,27,32,36,37,41,42) 
-                                AND (IC1.Tarih BETWEEN @TAR1 AND @TAR2) 
+                                AND (IC1.Tarih BETWEEN 0 AND @TAR2) 
                                 UNION ALL 
                                 SELECT IC2.HesapKodu,
                                 (CASE WHEN IC2.IslemTip=5 THEN -IC2.Tutar WHEN IC2.IslemTip=9 THEN -IC2.Tutar ELSE IC2.Tutar END) AS Tutar,
                                 IC2.BA 
                                 FROM FINSAT6{0}.FINSAT6{0}.CHI AS IC2 WITH (NOLOCK) 
                                 WHERE IC2.IslemTip NOT IN (16,21,27,32,36,37,41,42) 
-                                AND (IC2.Tarih BETWEEN @TAR1 AND @TAR2 )) AS A 
+                                AND (IC2.Tarih BETWEEN 0 AND @TAR2 )) AS A 
                                 LEFT JOIN FINSAT6{0}.FINSAT6{0}.CHK AS B WITH (NOLOCK) ON B.HesapKodu = A.HesapKodu 
                                 WHERE A.HesapKodu LIKE '%PR'
                                 AND (B.KartTip IN (0,4) 
@@ -129,7 +132,8 @@
                                 AND (B.Kod1 BETWEEN '' AND 'ZZZZZ') 
                                 AND (B.Kod2 BETWEEN '' AND 'ZZZZZ') 
                                 AND (B.Kod3 BETWEEN '' AND 'ZZZZZ') 
-                                AND (B.Kod4 BETWEEN '' AND 'ZZZZZ'))
+                                AND (B.Kod4 BETWEEN '' AND 'ZZZZZ')
+                                AND (B.GrupKod <>'FİK'))
 								GROUP BY B.Grupkod,TT1.NetCiro,TT1.ToplamIade,TT2.BekleyenSiparis,TT3.Bakiye,TT4.HEDEF
                                 ORDER BY B.GrupKod
                                 ";

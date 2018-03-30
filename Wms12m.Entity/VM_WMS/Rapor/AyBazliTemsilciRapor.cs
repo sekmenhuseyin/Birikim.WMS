@@ -55,7 +55,7 @@
                                         WHERE H1.TIP = 1 AND RIGHT(H1.AYYIL,4)='{1}'
 
 										--SELECT * FROM #TargetAyBazliTemsilciRapor
-                                        SELECT CC.Temsilci,CC.Bolge,(CASE WHEN D.SumHedef=0 THEN 0 ELSE D.SumNetCiro / D.SumHedef END) AS HedefOran,
+                                        SELECT CC.Temsilci,CC.Bolge,(CASE WHEN D.SumHedef=0 THEN 0 ELSE (D.SumNetCiro / D.SumHedef)*100 END) AS HedefOran,
                                         ISNULL(MAX(CASE WHEN CC.Ay=1 THEN CC.Hedef ELSE 0 END),0) AS OcakHedef,
                                         ISNULL(MAX(CASE WHEN CC.Ay=1 THEN CC.NetCiro ELSE 0 END),0) AS OcakNetCiro,
                                         ISNULL(MAX(CASE WHEN CC.Ay=2 THEN CC.Hedef ELSE 0 END),0) AS SubatHedef,

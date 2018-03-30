@@ -28,7 +28,7 @@
                                     SUM(CASE WHEN STI.KynkEvrakTip=2 THEN (STI.Tutar-STI.ToplamIskonto) ELSE 0 END) AS NetIade  
                                     FROM FINSAT6{0}.FINSAT6{0}.STI AS STI WITH (NOLOCK)
                                     INNER JOIN FINSAT6{0}.FINSAT6{0}.CHK AS CHK WITH (NOLOCK) ON CHK.HesapKodu=STI.Chk
-                                    WHERE (CHK.Kod3='MÜŞ') AND (STI.KynkEvrakTip IN (1,2,163))
+                                    WHERE (CHK.Kod3='MÜŞ') AND (STI.KynkEvrakTip IN (1,2,163)) and tarih >=43101
                                     GROUP BY STI.Chk,CHK.Unvan1,CHK.Unvan2,CHK.TipKod,CHK.GrupKod,CHK.KrediLimiti
                                     ";
     }

@@ -36,9 +36,9 @@
                                             <th>Bölge</th>
                                             <th>Hedef</th>
                                             <th>Hedef Oran</th>
+                                            <th>Net Ciro</th>
                                             <th>Toplam Iade</th>
                                             <th>Net Satış Tutarı</th>
-                                            <th>Net Ciro</th>
                                             <th>Ciro Oran</th>
                                             <th>Cari Borç</th>
                                             <th>PRT</th>
@@ -123,9 +123,9 @@
                         return data;
                     }
                 },
+                { "data": "NetCiro", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
                 { "data": "ToplamIade", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
                 { "data": "NetSatisTutari", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
-                { "data": "NetCiro", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
                 { "data": "CiroOran", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
                 { "data": "CariBorc", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
                 { "data": "PRT", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
@@ -163,9 +163,9 @@
                 });
                 var api = this.api(), data;
                 $(api.column(2).footer()).html(numeral(Hedef).format());
-                $(api.column(4).footer()).html(numeral(ToplamIade).format());
-                $(api.column(5).footer()).html(numeral(NetSatisTutari).format());
-                $(api.column(6).footer()).html(numeral(NetCiro).format());
+                $(api.column(4).footer()).html(numeral(NetCiro).format());
+                $(api.column(5).footer()).html(numeral(ToplamIade).format());
+                $(api.column(6).footer()).html(numeral(NetSatisTutari).format());
                 $(api.column(7).footer()).html(numeral(CiroOran).format());
                 $(api.column(8).footer()).html(numeral(CariBorc).format());
                 $(api.column(9).footer()).html(numeral(PRT).format());
