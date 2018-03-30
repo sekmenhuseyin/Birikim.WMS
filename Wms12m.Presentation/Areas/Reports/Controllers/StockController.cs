@@ -95,12 +95,7 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
             return View();
         }
 
-        public PartialViewResult GunlukSatisList(int bastarih, int bittarih)
-        {
-            return PartialView("GunlukSatisList");
-        }
-
-        public string List(int bastarih, int bittarih)
+        public string GunlukSatisList(int bastarih, int bittarih)
         {
             var json = new JavaScriptSerializer()
             {
@@ -108,16 +103,6 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
             };
             var GS = db.Database.SqlQuery<RaporGunlukSatis>(string.Format("[FINSAT6{0}].[wms].[GunlukSatisRaporu] @BasTarih = {1}, @BitTarih = {2}", vUser.SirketKodu, bastarih, bittarih)).ToList();
             return json.Serialize(GS);
-        }
-
-        public string GerceklesenSevkiyatList(int bastarih, int bittarih)
-        {
-            var json = new JavaScriptSerializer()
-            {
-                MaxJsonLength = int.MaxValue
-            };
-            var SU = db.Database.SqlQuery<GerceklesenSevkiyatPlani>(string.Format("[FINSAT6{0}].[wms].[GerceklesenSevkiyatRaporu] @BasTarih={1}, @BitTarih={2}", vUser.SirketKodu, bastarih, bittarih)).ToList();
-            return json.Serialize(SU);
         }
 
         /// <summary>
@@ -165,6 +150,16 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
             return PartialView("GerceklesenSevkiyatPlaniList");
         }
 
+        public string GerceklesenSevkiyatList(int bastarih, int bittarih)
+        {
+            var json = new JavaScriptSerializer()
+            {
+                MaxJsonLength = int.MaxValue
+            };
+            var SU = db.Database.SqlQuery<GerceklesenSevkiyatPlani>(string.Format("[FINSAT6{0}].[wms].[GerceklesenSevkiyatRaporu] @BasTarih={1}, @BitTarih={2}", vUser.SirketKodu, bastarih, bittarih)).ToList();
+            return json.Serialize(SU);
+        }
+
         /// <summary>
         /// sipariş onay
         /// </summary>
@@ -191,6 +186,9 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
             return json.Serialize(new List<TumSiparisOnayLog>());
         }
 
+        /// <summary>
+        /// Giden Barkod
+        /// </summary>
         public ActionResult GidenBarkod()
         {
             if (CheckPerm(Perms.Raporlar, PermTypes.Reading) == false) return Redirect("/");
@@ -235,14 +233,14 @@ WHERE OT.Sirketkodu='{0}' AND OT.[AktarimDurum]=1 AND OT.Islemtip=1 AND [SevkEvr
             }
         }
 
-
-
+        /// <summary>
+        /// sevkiyattan kalan stok
+        /// </summary>
         public ActionResult SevkiyatKalanStok()
         {
             if (CheckPerm(Perms.Raporlar, PermTypes.Reading) == false) return Redirect("/");
             return View();
         }
-
 
         public string SevkiyatKalanStokList()
         {
@@ -256,12 +254,12 @@ WHERE OT.Sirketkodu='{0}' AND OT.[AktarimDurum]=1 AND OT.Islemtip=1 AND [SevkEvr
 
 
         }
+
         public PartialViewResult SevkiyatKalanDetay(string MalKodu)
         {
             var list = db.Database.SqlQuery<SevkiyatKalanDetay>(string.Format("[FINSAT6{0}].[wms].[RP_SevkiyatKalanDetay] @MalKodu='{1}' ", vUser.SirketKodu, MalKodu)).ToList();
             ViewBag.MalKodu = MalKodu;
             return PartialView("SevkiyatKalanDetay", list);
         }
-
     }
 }

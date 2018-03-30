@@ -1707,20 +1707,29 @@ namespace Wms12m.Presentation
             if (tbl != null)
             {
                 tbl.BitisTarihi = DateTime.Today.ToOADateInt();
-                try
-                {
-                    db.SaveChanges();
-                    LogActions(KullID.ToString(), "Terminal", "Service", "Terminal", "KontrolluSay_GoreviTamamla", ComboItems.alDüzenle, GorevID, "KontrolluSay => -");
-                    return new Result(true);
-                }
-                catch (Exception ex)
-                {
-                    Logger(KullID.ToString(), "Terminal", ex, "Service/Terminal/KontrolluSay_GoreviTamamla");
-                    return new Result(false, "Hata oldu");
-                }
             }
-
-            return new Result(false, "Kayıt hatası");
+            else
+            {
+                tbl = new GorevUser()
+                {
+                    UserName = tblx.Kod,
+                    GorevID = GorevID,
+                    BaslamaTarihi = DateTime.Today.ToOADateInt(),
+                    BitisTarihi = DateTime.Today.ToOADateInt()
+                };
+                db.GorevUsers.Add(tbl);
+            }
+            try
+            {
+                db.SaveChanges();
+                LogActions(KullID.ToString(), "Terminal", "Service", "Terminal", "KontrolluSay_GoreviTamamla", ComboItems.alDüzenle, GorevID, "KontrolluSay => -");
+                return new Result(true);
+            }
+            catch (Exception ex)
+            {
+                Logger(KullID.ToString(), "Terminal", ex, "Service/Terminal/KontrolluSay_GoreviTamamla");
+                return new Result(false, "Hata oldu");
+            }
         }
 
         /// <summary>
