@@ -135,6 +135,21 @@ namespace Wms12m.Business
                 return new Yer();
             }
         }
+        public Yer Detail(int KatID, string MalKodu, string MakaraNo = null)
+        {
+            var satir = db.Yers.Where(m => m.KatID == KatID && m.MalKodu == MalKodu);
+            // makara no varsa onu da filtreye ekle
+            if (MakaraNo != null && MakaraNo != "") satir = satir.Where(m => m.MakaraNo == MakaraNo);
+            // return
+            try
+            {
+                return satir.FirstOrDefault();
+            }
+            catch (Exception)
+            {
+                return new Yer();
+            }
+        }
 
         /// <summary>
         /// depo listesi
@@ -225,7 +240,11 @@ namespace Wms12m.Business
         /// </summary>
         public Result Insert(Yer tbl, int kullID, string islemTipi, int? irsID = null, int? irsDetayID = null)
         {
-            _Result = new Result();
+            _Result = new Result(false, "Hatalı kayıt");
+            if (tbl.MalKodu == "")
+            {
+                return _Result;
+            }
             // stok
             if (tbl.MakaraNo == "") tbl.MakaraNo = null;
             db.Yers.Add(tbl);
@@ -333,7 +352,11 @@ namespace Wms12m.Business
         /// </summary>
         public Result Update(Yer tbl, int KullID, string IslemTipi, decimal miktar, bool gc, int? IrsID = null, int? IrsDetayID = null)
         {
-            _Result = new Result();
+            _Result = new Result(false, "Hatalı kayıt");
+            if (tbl.MalKodu == "")
+            {
+                return _Result;
+            }
             // log
             var yerLog = new Yer_Log()
             {

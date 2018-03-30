@@ -26,7 +26,7 @@
                                         columns.Bound(c => c.Machine).Width(100);
                                         columns.Bound(c => c.IpAddress).Width(100);
                                         columns.Bound(c => c.UserName).Width(60);
-                                        columns.Bound(c => c.DateTime).Format("{0:dd.MM.yyyy}").Width(120);
+                                        columns.Bound(c => c.DateTime).Format("{0:dd.MM.yyyy hh:mm:ss}").Width(120);
                                         columns.Bound(c => c.ID).Title("").Width(80).Filterable(false).Sortable(false).ClientTemplate("<a class='btn btn-danger' href='javascript:;' onclick='fnDelete(#=ID#)'> Sil </a>");
                                     })
                                     .HtmlAttributes(new { style = "height: 550px;" })

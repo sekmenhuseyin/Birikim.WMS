@@ -4,12 +4,13 @@
 /* TEAM */
 Hüseyin Sekmenoğlu
 Derviş Akdeniz
-Ruhi Göktaş
 Fatih Bingöl
 Candan Altıntaş
-Berk Tokgöz
-Ömer Yusuf Başavul
+Ruhi Göktaş
 Uğur Demirel
+Berk Tokgöz
+Tunç Ulusoy
+Ömer Yusuf Başavul
 Gizem Altıntaş
 Emre Ünal
 Güler Dostdoğru

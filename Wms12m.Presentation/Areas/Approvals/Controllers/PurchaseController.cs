@@ -12,6 +12,7 @@ using System.Web.Mvc;
 using System.Web.Script.Serialization;
 using System.Web.UI;
 using Wms12m.Entity;
+
 namespace Wms12m.Presentation.Areas.Approvals.Controllers
 {
     public class PurchaseController : RootController
@@ -190,8 +191,6 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         /// </summary>
         public JsonResult SipGMOnayla(string OnayTip)
         {
-            #region Kontrol
-
             if (CheckPerm(Perms.SatinalmaOnaylama, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             var _Result = new Result(true, "İşlem Başarılı");
 
@@ -227,8 +226,6 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                 }
             }
 
-            #endregion
-
             var muhsebesirketkodu = db.GetSirketMuhasebeKod(vUser.SirketKodu, fn.ToOADate()).FirstOrDefault();
             using (KKP kkp = new KKP(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu, muhsebesirketkodu))
             {
@@ -240,15 +237,13 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
                 if (OnayTip == MyGlobalVariables.OnayTip.GMOnay.ToString())
                 {
-                    #region GMOnay                
                     try
                     {
                         var evrakno = kkp.YeniEvrakNo(KKPKynkEvrakTip.AlımSiparişi, 1);
                         foreach (var item in MyGlobalVariables.TalepSource)
                         {
-
                             var sql = string.Format(@"UPDATE Kaynak.sta.Talep
-	                    SET GMOnaylayan=@Degistiren, GMOnayTarih=@DegisTarih, Durum=15, SipEvrakNo=@SipEvrakNo, SirketKodu='{0}', 
+	                    SET GMOnaylayan=@Degistiren, GMOnayTarih=@DegisTarih, Durum=15, SipEvrakNo=@SipEvrakNo, SirketKodu='{0}',
                         Degistiren=@Degistiren, DegisTarih=@DegisTarih, DegisSirKodu='{0}'
 	                    WHERE ID=@ID AND Durum=11 AND SipTalepNo IS NOT NULL", vUser.SirketKodu);
 
@@ -305,36 +300,26 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                         return Json(_Result, JsonRequestBehavior.AllowGet);
                     }
 
-                    #region SiparisOnayMailBilgileri
-
                     sipTarih = Convert.ToInt32(MyGlobalVariables.SipEvrak.Tarih.ToOADate());
                     sipEvrakNo = MyGlobalVariables.SipEvrak.EvrakNo;
                     hesapKodu = MyGlobalVariables.SipEvrak.HesapKodu;
                     teklifNo = Convert.ToInt32(MyGlobalVariables.SipEvrak.Satirlar[0].Kod4);
 
-                    #endregion
-
-                    #endregion
-
                     SiparisOnayMailGonderim = true;
                 }
                 else if (OnayTip == MyGlobalVariables.OnayTip.SatSipGMYMaliOnay.ToString())
                 {
-                    #region SatSipGMYMaliOnay
-
                     var ftdtoplam = MyGlobalVariables.GridFTD.Where(x => x.SatirTip == (short)12).FirstOrDefault();
 
                     if (ftdtoplam.Iskonto > limit)
                     {
-                        #region İşlem1
-
                         try
                         {
                             foreach (var item in MyGlobalVariables.TalepSource)
                             {
                                 ///Durum 5: Teklif Bekliyor; 6: Teklif Değerlendirme; 7: Teklif Onaylandı; 8: Sipaiş Süreci, 11: Sipariş Ön Onay
-                                var sql = string.Format(@"UPDATE Kaynak.sta.Talep 
-                                SET GMYMaliOnaylayan=@Degistiren, GMYMaliOnayTarih=@DegisTarih, Durum=11, 
+                                var sql = string.Format(@"UPDATE Kaynak.sta.Talep
+                                SET GMYMaliOnaylayan=@Degistiren, GMYMaliOnayTarih=@DegisTarih, Durum=11,
                                 Degistiren=@Degistiren, DegisTarih=@DegisTarih, DegisSirKodu={0}
                                 WHERE ID=@ID AND Durum=8
                                 --Durum in (5,6,7)
@@ -362,10 +347,6 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                             return Json(_Result, JsonRequestBehavior.AllowGet);
                         }
 
-                        #endregion
-
-                        #region GMBilgilendirmeMail
-
                         var mailayar = db.Database.SqlQuery<GenelAyarVeParams>(string.Format(@"
                         SELECT * FROM [Kaynak].[sta].[GenelAyarVeParams]  where Tip = 4 and Tip2 = 6")).FirstOrDefault();
 
@@ -390,7 +371,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                         SELECT top(1)
                         REPLACE(
                         (
-                            SELECT RTRIM(email) [data()] FROM Kaynak.usr.Users(NOLOCK) 
+                            SELECT RTRIM(email) [data()] FROM Kaynak.usr.Users(NOLOCK)
                             WHERE UserName in (SELECT SiparisSorumlu FROM Kaynak.sta.Talep(nolock) WHERE SipEvrakNo = '{0}'))
                             FOR XML PATH('')
                         ),' ',';') as Email"
@@ -413,20 +394,16 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                         m.MailBasariMesajı = "Satınalma Sipariş Talebi Bilgilendirme maili başarılı bir şekilde GM'ye gönderildi!!";
 
                         m.Gonder(kime, mailayar.MailCc, gorunenIsim, konu, icerik, null, vUser.UserName, fn.GetIPAddress());
-
-                        #endregion
                     }
                     else
                     {
-                        #region İşlem2
-
                         try
                         {
                             var evrakno = kkp.YeniEvrakNo(KKPKynkEvrakTip.AlımSiparişi, 1);
                             foreach (var item in MyGlobalVariables.TalepSource)
                             {
-                                var sql = string.Format(@"UPDATE Kaynak.sta.Talep 
-                                SET GMYMaliOnaylayan=@Degistiren, GMYMaliOnayTarih=@DegisTarih, Durum=15, SipEvrakNo=@SipEvrakNo, SirketKodu='{0}', 
+                                var sql = string.Format(@"UPDATE Kaynak.sta.Talep
+                                SET GMYMaliOnaylayan=@Degistiren, GMYMaliOnayTarih=@DegisTarih, Durum=15, SipEvrakNo=@SipEvrakNo, SirketKodu='{0}',
                                 Degistiren=@Degistiren, DegisTarih=@DegisTarih, DegisSirKodu='{0}'
                                 WHERE ID=@ID AND Durum = 8 AND SipTalepNo IS NOT NULL", vUser.SirketKodu);
 
@@ -482,14 +459,10 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
                             kkp.UpdateChanges();
 
-                            #region SiparisOnayMailBilgileri
-
                             sipTarih = Convert.ToInt32(MyGlobalVariables.SipEvrak.Tarih.ToOADate());
                             sipEvrakNo = MyGlobalVariables.TalepSource[0].TalepNo;
                             hesapKodu = MyGlobalVariables.SipEvrak.HesapKodu;
                             teklifNo = Convert.ToInt32(MyGlobalVariables.SipEvrak.Satirlar[0].Kod4);
-
-                            #endregion
                         }
                         catch (Exception ex)
                         {
@@ -498,18 +471,13 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                             _Result.Status = false;
                             return Json(_Result, JsonRequestBehavior.AllowGet);
                         }
-                        #endregion
 
                         SiparisOnayMailGonderim = true;
                     }
-
-                    #endregion
                 }
 
                 if (SiparisOnayMailGonderim)
                 {
-                    #region SiparisOnayMailGonderim
-
                     try
                     {
                         if (string.IsNullOrEmpty(sipEvrakNo) || string.IsNullOrEmpty(hesapKodu))
@@ -617,8 +585,6 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                         _Result.Status = false;
                         return Json(_Result, JsonRequestBehavior.AllowGet);
                     }
-
-                    #endregion
                 }
             }
 
@@ -633,7 +599,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             if (CheckPerm(Perms.SatinalmaOnaylama, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             var _Result = new Result(true, "İşlem Başarılı");
 
-            //kontrol 1            
+            //kontrol 1
             if (redAciklama.IsNullEmpty())
             {
                 _Result.Message = "Geri Çevirme açıklamasını girmek zorundasınız!";
@@ -656,15 +622,15 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             if (OnayTip == MyGlobalVariables.OnayTip.GMOnay.ToString())
             {
                 sql = @"UPDATE Kaynak.sta.Talep
-                SET GMOnaylayan='{0}', GMOnayTarih=GETDATE(), Durum=13, 
+                SET GMOnaylayan='{0}', GMOnayTarih=GETDATE(), Durum=13,
                 Degistiren='{0}', DegisTarih=GETDATE(), DegisSirKodu={2}, Aciklama2='{1}'
                 WHERE ID={3} AND Durum=11 AND SipTalepNo IS NOT NULL";
             }
             else if (OnayTip == MyGlobalVariables.OnayTip.SatSipGMYMaliOnay.ToString())
             {
                 ///Durum 5: Teklif Bekliyor; 8: Sipariş Süreci, 9: SiparisOnOnayIptal, 11: Sipariş Ön Onay, 15: Onaylı Sipariş
-                sql = @"UPDATE Kaynak.sta.Talep 
-                SET GMYMaliOnaylayan='{0}', GMYMaliOnayTarih=GETDATE(), Durum=9, 
+                sql = @"UPDATE Kaynak.sta.Talep
+                SET GMYMaliOnaylayan='{0}', GMYMaliOnayTarih=GETDATE(), Durum=9,
                 Degistiren='{0}', DegisTarih=GETDATE(), DegisSirKodu={2}, Aciklama2='{1}'
                 WHERE ID={3} AND Durum=8 AND SipTalepNo IS NOT NULL";
             }
@@ -695,8 +661,6 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
             if (OnayTip == MyGlobalVariables.OnayTip.SatSipGMYMaliOnay.ToString())
             {
-                #region SiparisdenGeriCevirmeMail
-
                 try
                 {
                     var mailayar = db.Database.SqlQuery<GenelAyarVeParams>(string.Format(@"
@@ -757,8 +721,6 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                     _Result.Status = false;
                     return Json(_Result, JsonRequestBehavior.AllowGet);
                 }
-
-                #endregion
             }
             //_Result = new Result(true);
 
@@ -777,7 +739,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             FROM Kaynak.sta.Talep as ST (nolock)
             LEFT JOIN FINSAT6{0}.FINSAT6{0}.STK (nolock) on ST.MalKodu=STK.MalKodu
             WHERE ST.Durum=11 AND ST.SipTalepNo={1} AND ST.HesapKodu='{2}'
-            GROUP BY (CASE WHEN ST.Birim = STK.Birim1 THEN 1 WHEN ST.Birim = STK.Birim2 THEN 1 WHEN ST.Birim = STK.Birim3 THEN 1 
+            GROUP BY (CASE WHEN ST.Birim = STK.Birim1 THEN 1 WHEN ST.Birim = STK.Birim2 THEN 1 WHEN ST.Birim = STK.Birim3 THEN 1
             WHEN ST.Birim = STK.Birim4 THEN 1 ELSE 0 END )", vUser.SirketKodu, talepNo, hesapKodu);
             brmContList = db.Database.SqlQuery<int>(query).ToList();
 
@@ -821,8 +783,6 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
             return PartialView(SAL);
         }
-
-        #region GMY Tedarikçi Onay & GMY Mali Onay
 
         public ActionResult GMYTedarikci_Onay()
         {
@@ -888,8 +848,6 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
             if (OnayTip == MyGlobalVariables.OnayTip.GMYTedarikciOnay.ToString())
             {
-                #region Teklif GMY Tedarikçi Onay
-
                 MyGlobalVariables.GMYSource = db.Database.SqlQuery<SatTalep>(string.Format(@"
                 SELECT ST.ID, ST.TeklifNo, ST.Tarih, ST.HesapKodu, ST.MalKodu,
                 (SELECT MalAdi FROM FINSAT6{0}.FINSAT6{0}.STK (NOLOCK) WHERE MalKodu = ST.MalKodu) AS MalAdi, ST.Birim,
@@ -933,13 +891,9 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                 LEFT JOIN SOLAR6.dbo.DVZ (nolock) on DVZ.DovizCinsi=ST.DvzCinsi AND DVZ.Tarih=CAST( DATEADD(dd, 0, DATEDIFF(dd, 0, GETDATE()))+2 AS INT)
                 WHERE
                 ST.KynkTalepNo='{1}' AND ST.Durum=2", vUser.SirketKodu, TalepNo)).ToList();
-
-                #endregion Teklif GMY Tedarikçi Onay
             }
             else if (OnayTip == MyGlobalVariables.OnayTip.GMYMaliOnay.ToString())
             {
-                #region Teklif GMY Mali Onay
-
                 MyGlobalVariables.GMYSource = db.Database.SqlQuery<SatTalep>(string.Format(@"
                 SELECT ST.ID, ST.TeklifNo, ST.Tarih, ST.HesapKodu,
                     ST.MalKodu, (SELECT MalAdi FROM FINSAT6{0}.FINSAT6{0}.STK (NOLOCK) WHERE MalKodu = ST.MalKodu) AS MalAdi, ST.Birim,
@@ -980,8 +934,6 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                  ) as AT on AT.MalKodu=ST.MalKodu
                  LEFT JOIN SOLAR6.dbo.DVZ (nolock) on DVZ.DovizCinsi=ST.DvzCinsi AND DVZ.Tarih=CAST( DATEADD(dd, 0, DATEDIFF(dd, 0, GETDATE()))+2 AS INT)
                 WHERE ST.KynkTalepNo='{1}' AND ST.Durum=4", vUser.SirketKodu, TalepNo)).ToList();
-
-                #endregion Teklif GMY Mali Onay
             }
 
             var json = new JavaScriptSerializer().Serialize(MyGlobalVariables.GMYSource);
@@ -1021,23 +973,17 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
                         if (OnayTip == MyGlobalVariables.OnayTip.GMYTedarikciOnay.ToString())
                         {
-                            #region Teklif GMY Tedarikçi Onay
-
                             sql = string.Format(@"UPDATE Kaynak.sta.Teklif SET
 	                        Durum=4, Aciklama2='{0}', Degistiren='{1}', DegisTarih=GETDATE(), DegisSirKodu='{3}',
                             Kademe2Onaylayan='{1}', Kademe2OnayTarih=GETDATE()
 	                        WHERE ID={2} AND Durum=2", item.Aciklama2, vUser.UserName.ToString(), item.ID, vUser.SirketKodu);
 
-                            #endregion Teklif GMY Tedarikçi Onay
-
                             db.Database.ExecuteSqlCommand(sql);
                         }
                         else if (OnayTip == MyGlobalVariables.OnayTip.GMYMaliOnay.ToString())
                         {
-                            #region GMY Mali Onay
-
                             sql = string.Format(@"UPDATE Kaynak.sta.Teklif SET
-                            Durum={0}, Aciklama3='{1}', Degistiren='{2}', DegisTarih=GETDATE(), DegisSirKodu='{4}', 
+                            Durum={0}, Aciklama3='{1}', Degistiren='{2}', DegisTarih=GETDATE(), DegisSirKodu='{4}',
                             Kademe1Onaylayan='{2}', Kademe1OnayTarih=GETDATE(), Durum2=1
                             WHERE ID={3} AND Durum=4", item.OneriDurum ? 6 : 5, item.Aciklama3, vUser.UserName.ToString(), item.ID, vUser.SirketKodu);
 
@@ -1048,7 +994,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                                 if (!string.IsNullOrWhiteSpace(item.KynkTalepNo))
                                 {
                                     ///Talep Durum 5: Teklif Bekliyor;  6: Teklif Değerlendirme; 7: Teklif Onaylandı
-                                    sql = string.Format(@"UPDATE Kaynak.sta.Talep SET Durum=7, Degistiren='{0}', DegisTarih=GETDATE(), DegisSirKodu='{3}' 
+                                    sql = string.Format(@"UPDATE Kaynak.sta.Talep SET Durum=7, Degistiren='{0}', DegisTarih=GETDATE(), DegisSirKodu='{3}'
                                     WHERE TalepNo='{1}' AND MalKodu='{2}' AND Durum in (5,6)", vUser.UserName.ToString(), item.KynkTalepNo, item.MalKodu, vUser.SirketKodu);
 
                                     db.Database.ExecuteSqlCommand(sql);
@@ -1064,7 +1010,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
                                 sql = string.Format(@"INSERT INTO Kaynak.sta.OnayliTed
                                 (TeklifNo, HesapKodu, MalKodu, SiraNo, Kaydeden, KayitTarih, KayitSirKodu, Degistiren, DegisTarih, DegisSirKodu)
-                                VALUES 
+                                VALUES
                                 ('{0}', '{1}', '{2}', {3}, '{4}', GETDATE(), '{5}', '{4}', GETDATE(), '{5}')"
                                 , item.TeklifNo, item.HesapKodu, item.MalKodu
                                 , maxSiraNo == -1 ? (short)1 : (short)maxSiraNo + 1
@@ -1072,8 +1018,6 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
                                 db.Database.ExecuteSqlCommand(sql);
                             }
-
-                            #endregion
                         }
                     }
                     con.Commit();
@@ -1122,30 +1066,20 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
                         if (OnayTip == MyGlobalVariables.OnayTip.GMYTedarikciOnay.ToString())
                         {
-                            #region Teklif GMY Tedarikçi Onay
-
                             sql = string.Format(@"UPDATE Kaynak.sta.Teklif SET
                             Durum=3, Aciklama2='{0}', Kademe2Onaylayan='{1}', Kademe2OnayTarih=GETDATE(),
-                            Degistiren='{1}', DegisTarih=GETDATE(), DegisSirKodu='{3}'                            
+                            Degistiren='{1}', DegisTarih=GETDATE(), DegisSirKodu='{3}'
                             WHERE ID={2} AND Durum=2", redAciklama, vUser.UserName.ToString(), item.ID, vUser.SirketKodu);
-
-                            #endregion Teklif GMY Tedarikçi Onay
                         }
                         else if (OnayTip == MyGlobalVariables.OnayTip.GMYMaliOnay.ToString())
                         {
-                            #region Teklif GMY Mali Onay
-
                             sql = string.Format(@"UPDATE Kaynak.sta.Teklif SET
                             Durum=5, Aciklama3='{0}', Kademe1Onaylayan='{1}', Kademe1OnayTarih=GETDATE(),
                             Degistiren='{1}', DegisTarih=GETDATE(), DegisSirKodu='{3}'
                             WHERE ID={2} AND Durum=4", redAciklama, vUser.UserName.ToString(), item.ID, vUser.SirketKodu);
-
-                            #endregion
                         }
 
                         db.Database.ExecuteSqlCommand(sql);
-
-                        #region TeklifGeriCevirmeMail
 
                         try
                         {
@@ -1193,8 +1127,6 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                             _Result.Status = false;
                             return Json(_Result, JsonRequestBehavior.AllowGet);
                         }
-
-                        #endregion
                     }
 
                     con.Commit();
@@ -1210,14 +1142,9 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
 
-        #endregion
-
-        #region Satınalma Talebi GMY Onay
-        //Tunc
         public ActionResult SatinAlmaTalebiGMYOnay(bool? onay)
         {
             if (CheckPerm(Perms.SatinalmaOnaylama, PermTypes.Reading) == false) return Redirect("/");
-
 
             var sorgu = string.Format("SELECT DISTINCT ST.TalepNo,ST.ID, ST.MalKodu, ST.Tarih, ST.Birim, ST.BirimMiktar, ST.IstenenTarih, ST.Aciklama, ST.Aciklama2, ST.Aciklama3, ST.Durum, ST.EkDosya, ST.Kademe2Onaylayan, ST.Kademe2OnayTarih, ST.Kaydeden AS TalepEden, STK.MalAdi, ST.TesisKodu FROM KAYNAK.sta.Talep as ST (nolock) LEFT JOIN FINSAT6{0}.FINSAT6{0}.STK(nolock) on ST.MalKodu = STK.MalKodu WHERE Tip = 0 AND ST.Durum in ({1}) AND ST.Kademe2Onaylayan  IN(SELECT DISTINCT Talep2KademeOnaylayan FROM Kaynak.sta.GenelAyarVeParams WHERE Tip = 0 AND Talep1KademeOnaylayan = '{2}')", vUser.SirketKodu, "1", vUser.UserName);
 
@@ -1245,10 +1172,8 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             return View("SatinAlmaTalebiGMYOnay", MyGlobalVariables.SipTalepList);
         }
 
-
         public JsonResult SatinAlmaTalebiGMYOnayUrunDetay(string id)
         {
-
             var sql = string.Format(
             @"SELECT DST.MalKodu, STK.Birim1, DST.Depo, DEP.DepoAdi, DST.DvrMiktar, DST.GirMiktar, DST.CikMiktar,
             (DST.DvrMiktar+DST.GirMiktar-DST.CikMiktar) AS StokMiktar
@@ -1269,18 +1194,15 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
             int onay = durum ? 2 : 4;
 
-
             var data = db.Database.SqlQuery<SatTalep>(string.Format(@"[FINSAT6{0}].[wms].[SatinAlmaTalepGMYOnayList]", vUser.SirketKodu)).ToList();
 
             foreach (var item in data.Where(p => id.Contains(p.ID)))
             {
                 var sorgu = string.Format(@"UPDATE Kaynak.sta.Talep SET Durum={3},Kademe2OnayTarih=GETDATE(),Kademe2Onaylayan='{0}',Degistiren='{0}',DegisTarih=GETDATE(),DegisSirKodu={1} WHERE ID={2} AND Durum=1", vUser.UserName, vUser.SirketKodu, item.ID, onay);
 
-
                 if (!durum)
                 {
                     sorgu = string.Format(@"UPDATE Kaynak.sta.Talep SET Durum={3},Kademe2OnayTarih=GETDATE(),Kademe2Onaylayan='{0}',Degistiren='{0}',DegisTarih=GETDATE(),DegisSirKodu='{1}',Aciklama3='{4}' WHERE ID={2} AND Durum IN (1,2)", vUser.UserName, vUser.SirketKodu, item.ID, onay, aciklama);
-
 
                     db.Database.ExecuteSqlCommand(sorgu);
 
@@ -1289,7 +1211,6 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
                     var mailayar = db.Database.SqlQuery<GenelAyarVeParams>(string.Format(@"
                     SELECT * FROM [Kaynak].[sta].[GenelAyarVeParams]  where Tip = 4 and Tip2 = 0")).FirstOrDefault();
-
 
                     var kime = string.Format("{0};{1};{2}", vUser.Email, kaydedenmail, mailayar.MailTo);
                     var gorunenIsim = "Sipariş Onay";
@@ -1308,8 +1229,5 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
             return new HttpStatusCodeResult(200);
         }
-
-
-        #endregion
     }
 }

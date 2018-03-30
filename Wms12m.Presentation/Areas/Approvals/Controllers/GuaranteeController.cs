@@ -12,12 +12,18 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 {
     public class GuaranteeController : RootController
     {
+        /// <summary>
+        /// Teminat onay
+        /// </summary>
         public ActionResult Index()
         {
             if (CheckPerm(Perms.TeminatOnay, PermTypes.Reading) == false) return Redirect("/");
             return View();
         }
 
+        /// <summary>
+        /// liste
+        /// </summary>
         public string List()
         {
             if (CheckPerm(Perms.TeminatOnay, PermTypes.Reading) == false) return null;
@@ -26,6 +32,9 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             return json;
         }
 
+        /// <summary>
+        /// onayla
+        /// </summary>
         public JsonResult Onay(string Data)
         {
             var _Result = new Result(true);
@@ -55,6 +64,9 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
 
+        /// <summary>
+        /// reddet
+        /// </summary>
         public JsonResult Red(string Data)
         {
             var _Result = new Result(true);
@@ -83,6 +95,9 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
 
+        /// <summary>
+        /// tanım
+        /// </summary>
         public ActionResult Tanim()
         {
             if (CheckPerm(Perms.TeminatTanim, PermTypes.Reading) == false) return Redirect("/");
