@@ -308,9 +308,11 @@ namespace Wms12m
                         return new Result(false, "Hata: " + result.Message);
                 }
                 if (stiBaseListSpi.Count > 0)
+                {
                     result = new Irsaliye_Islemleri(SirketKodu, SqlExper).Irsaliye_Kayit(irsaliyeSeri, efatKullanici, stiBaseListSpi);
-                if (result.Status == false)
-                    return new Result(false, "Hata: " + result.Message);
+                    if (result.Status == false)
+                        return new Result(false, "Hata: " + result.Message);
+                }
                 if (stiBaseList.Count <= 0 && stiBaseListSpi.Count <= 0)
                     return new Result(false, "Bu sipariş kapanmış. Evrak No= " + tempEvrakNo);
                 else
