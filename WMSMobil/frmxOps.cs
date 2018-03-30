@@ -356,16 +356,14 @@ namespace WMSMobil
                     tRaf.Text = stiItem.Raf != null ? stiItem.Raf : "";
                     panelSatir.Raf = stiItem.Raf != null ? stiItem.Raf : "";
 
-                    string yermiktar = stiItem.YerMiktar.ToDecimal().ToString("N2");
-                    if (yermiktar == "0,00") yermiktar = stiItem.YerlestirmeMiktari.ToDecimal().ToString("N2");
                     tYerlestirmeMiktari.Font = font;
                     tYerlestirmeMiktari.Width = lblYerlestirmeMiktar.Width;
                     tYerlestirmeMiktari.Location = new Point(lblYerlestirmeMiktar.Left, 0);
                     tYerlestirmeMiktari.ReadOnly = true;
                     tYerlestirmeMiktari.GotFocus += new EventHandler(TextBoxlar_GotFocus);
                     tYerlestirmeMiktari.BackColor = Color.FromArgb(206, 223, 239);
-                    tYerlestirmeMiktari.Text = yermiktar;
-                    panelSatir.YerlestirmeMiktari = stiItem.YerlestirmeMiktari.ToDecimal();
+                    tYerlestirmeMiktari.Text = stiItem.YerlestirmeMiktari.ToString("N2");
+                    panelSatir.YerlestirmeMiktari = stiItem.YerlestirmeMiktari;
                 }
                 //renkler
                 tMalKodu.BackColor = Color.FromArgb(206, 223, 239);
