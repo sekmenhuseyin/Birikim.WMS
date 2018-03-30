@@ -49,10 +49,11 @@
 </div>
 <script>
     $(document).ready(function () {
-        //var GrupKoddrd = document.getElementById("BOLGE");
-        //var GrupKod = GrupKoddrd.options[GrupKoddrd.selectedIndex].value;
+
         var GrupKod = $('#BOLGE :selected').val();
-        TemsilciGetir2(GrupKod,'@Convert.ToString(ViewBag.Temp)');
+        TemsilciGetir2(GrupKod, '@Html.Raw(ViewBag.Temp)');
+    
+
     });
     function TemsilciGetir2(GrupKod, TipKod) {
         if (GrupKod == "") {
