@@ -546,7 +546,7 @@ namespace WMSMobil
             if (Ayarlar.MenuTip == MenuType.KontrollüSayım)
             {
                 malInfo = Servis.GetMalzemeFromBarcode("", mal, GorevID, Ayarlar.Kullanici.ID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid);
-                if (malInfo == null)
+                if (malInfo.MalKodu == null)
                 {
                     Mesaj.Uyari("Sistemde böyle bir barkod bulunamadı");
                     txtBarkod.Focus();

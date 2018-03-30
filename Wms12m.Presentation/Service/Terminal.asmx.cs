@@ -191,7 +191,7 @@ namespace Wms12m.Presentation
             var yetkikontrol = db.GetPermissionFor(KullID, tbl.RoleName, gtipi, "WMS", "Reading").FirstOrDefault().Value;
             if (yetkikontrol == true)
             {
-                var sql = string.Format("EXEC BIRIKIM.wms.TerminalGorevList @DurumID = {0}, @DepoID = {1}, @GorevTipiID = {2}, @Username = '{3}'", durum, DepoID, gorevtipi, gorevli);
+                var sql = string.Format("EXEC BIRIKIM.wms.TerminalGorevList @DurumID = {0}, @DepoID = {1}, @GorevTipiID = {2}, @Gorevli = '{3}', @Username = '{4}'", durum, DepoID, gorevtipi, gorevli, tbl.Kod);
                 return db.Database.SqlQuery<Tip_GOREV>(sql).ToList();
             }
             return new List<Tip_GOREV>();
