@@ -23,7 +23,7 @@
                                     {
                                         columns.Bound(c => c.Message);
                                         columns.Bound(c => c.User).Width(60);
-                                        columns.Bound(c => c.TimeUtc).Format("{0:dd.MM.yyyy}").Width(120);
+                                        columns.Bound(c => c.TimeUtc).Format("{0:dd.MM.yyyy hh:mm:ss}").Width(120);
                                         columns.Bound(c => c.ErrorId).Title("").Width(80).Filterable(false).Sortable(false).ClientTemplate("<a class='btn btn-danger' href='javascript:;' onclick='fnDelete(#=ErrorId#)'> Sil </a>");
                                     })
                                     .HtmlAttributes(new { style = "height: 550px;" })
