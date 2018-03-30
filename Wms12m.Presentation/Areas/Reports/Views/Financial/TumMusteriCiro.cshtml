@@ -79,12 +79,8 @@
                     { "data": "NetCiro", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
                     { "data": "NetIade", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
                 ],
-                //"createdRow": function (row, data, dataIndex) {
-                //    if (data["Toplam"] > 1500) {
-                //        $(row).children('td').slice(6,7).addClass("KirmiziYap");
-                //    }
-                //},
                 "ordering": true,
+                "pageLength": 50,
                 "fnRowCallback": function (nRow, aData, iDisplayIndex) {
                     $('td', nRow).attr('nowrap', 'nowrap');
                     return nRow;

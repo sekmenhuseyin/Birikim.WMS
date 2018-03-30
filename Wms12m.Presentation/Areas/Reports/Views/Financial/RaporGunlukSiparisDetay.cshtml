@@ -2,17 +2,19 @@
 @model IEnumerable<GunlukSiparisDetay>
 <table class="table">
     <thead>
-    <th>Mal Kodu</th>
-    <th>Mal Adi</th>
-    <th>Birim Miktar</th>
-    <th>Iskonto Oran 1</th>
-    <th>Satis Fiyat 3</th>
-    <th>Birim Fiyat</th>
-    <th>Net Tutar</th>
-    <th>Valor Gun</th>
-    <th>Alis Fiyat 1</th>
-    <th>Hesap Kodu</th>
-    <th>Mal Adi 4</th>
+        <tr>
+            <th>Mal Kodu</th>
+            <th>Mal Adi</th>
+            <th>Birim Miktar</th>
+            <th>Iskonto Oran 1</th>
+            <th>Satis Fiyat 3</th>
+            <th>Birim Fiyat</th>
+            <th>Net Tutar</th>
+            <th>Valor Gun</th>
+            <th>Alis Fiyat 1</th>
+            <th>Hesap Kodu</th>
+            <th>Mal Adi 4</th>
+        </tr>
     </thead>
     <tbody>
         @foreach (var item in Model)
@@ -20,13 +22,14 @@
             <tr>
                 <td>@item.MalKodu</td>
                 <td>@item.MalAdi</td>
-                <td>@item.BirimMiktar</td>
-                <td>@item.IskontoOran1</td>
-                <td>@item.SatisFiyat3</td>
-                <td>@item.BirimFiyat</td>
-                <td>@item.NetTutar</td>
-                <td>@item.Valorgun</td>
-                <td>@item.AlisFiyat1</td>
+                <td nowrap align="right">@String.Format("{0:0.00}", item.BirimMiktar).ToDecimal().ToOnFormat()</td>
+                <td nowrap align="right">@String.Format("{0:0.00}", item.IskontoOran1).ToDecimal().ToOnFormat()</td>
+                <td nowrap align="right">@String.Format("{0:0.00}", item.SatisFiyat3).ToDecimal().ToOnFormat()</td>
+                <td nowrap align="right">@String.Format("{0:0.00}", item.BirimFiyat).ToDecimal().ToOnFormat()</td>
+                <td nowrap align="right">@String.Format("{0:0.00}", item.NetTutar).ToDecimal().ToOnFormat()</td>
+                <td nowrap align="right">@String.Format("{0:0.00}", item.Valorgun).ToDecimal().ToOnFormat()</td>
+                <td nowrap align="right">@String.Format("{0:0.00}", item.AlisFiyat1).ToDecimal().ToOnFormat()</td>
+         
                 <td>@item.HesapKodu</td>
                 <td>@item.MalAdi4</td>
             </tr>}
