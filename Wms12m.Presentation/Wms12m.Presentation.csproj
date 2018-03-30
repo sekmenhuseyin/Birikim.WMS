@@ -774,7 +774,6 @@
     <Content Include="Areas\Reports\Views\Financial\CariEkstreList.cshtml" />
     <Content Include="Areas\Reports\Views\Financial\CekList.cshtml" />
     <Content Include="Areas\Reports\Views\Financial\CekPortfoyList.cshtml" />
-    <Content Include="Areas\Reports\Views\Stock\GunlukSatisList.cshtml" />
     <Content Include="Areas\Reports\Views\Financial\OdemeYapmayanMusterilerList.cshtml" />
     <Content Include="Areas\Reports\Views\Stock\SatilmayanUrunlerList.cshtml" />
     <Content Include="Areas\Reports\Views\Stock\StokList.cshtml" />
