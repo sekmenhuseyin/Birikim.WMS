@@ -30,14 +30,14 @@
                                           WHERE (IC1.KarsiHesapKodu IS NOT NULL) 
                                           AND IC1.KarsiHesapKodu <> '' 
                                           AND IC1.IslemTip NOT IN (16,21,27,32,36,37,41,42) 
-                                          AND (IC1.Tarih BETWEEN @TAR1 AND @TAR2) 
+                                          AND (IC1.Tarih BETWEEN 0 AND @TAR2) 
                                           UNION ALL 
                                           SELECT IC2.HesapKodu,
                                           (CASE WHEN IC2.IslemTip=5 THEN -IC2.Tutar WHEN IC2.IslemTip=9 THEN -IC2.Tutar ELSE IC2.Tutar END) AS Tutar,
                                           IC2.BA 
                                           FROM FINSAT6{0}.FINSAT6{0}.CHI AS IC2 WITH (NOLOCK) 
                                           WHERE IC2.IslemTip NOT IN (16,21,27,32,36,37,41,42) 
-                                          AND (IC2.Tarih BETWEEN @TAR1 AND @TAR2)) AS A 
+                                          AND (IC2.Tarih BETWEEN 0 AND @TAR2)) AS A 
                                    LEFT JOIN FINSAT6{0}.FINSAT6{0}.CHK AS B WITH (NOLOCK) ON B.HesapKodu = A.HesapKodu 
                                    WHERE B.KartTip IN (0,4) 
                                    AND (B.HesapKodu BETWEEN '1' AND '8') 

@@ -114,7 +114,8 @@
                                 AND (B.Kod1 BETWEEN '' AND 'ZZZZZ') 
                                 AND (B.Kod2 BETWEEN '' AND 'ZZZZZ') 
                                 AND (B.Kod3 BETWEEN '' AND 'ZZZZZ') 
-                                AND (B.Kod4 BETWEEN '' AND 'ZZZZZ'))
+                                AND (B.Kod4 BETWEEN '' AND 'ZZZZZ')
+	                            AND (B.GrupKod <>'FİK'))
                                 GROUP BY B.Grupkod,TT1.NetCiro,TT1.ToplamIade,TT2.BekleyenSiparis,TT3.Bakiye,TT4.HEDEF
                                 ) AS D WHERE D.SiraNo = '{4}'
                                   ORDER BY D.GrupKod";
