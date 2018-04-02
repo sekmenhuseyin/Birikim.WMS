@@ -131,6 +131,11 @@
                     Modaldialog("Eksik alanlar var, Lütfen Mal Kodu, Raf, Bölüm, Kat Bilgilerini Eksiksiz giriniz", 'Hata', 'Tamam', 'btn-danger');
                     return;
                 }
+
+                if (tableData[i].MakaraNo == "") {
+                    Modaldialog("İlgili kablo stoğu aktarılamaz. Mysql tarafında makara numarasını doldurmalısınız.", 'Hata', 'Tamam', 'btn-danger');
+                    return;
+                }
                 tableData[i].DepoID = $("#DepoID").val();
                 secili_table.push(tableData[i]);
             }
@@ -298,19 +303,7 @@
         }
 
 
-        //function submitMal(data, id) {
-        //    alert(data.value);
-        //}
-        ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-        //$('#btnKaydet').click(function () {
-        //    var data = table
-        //        .rows(0)
-        //        .data();
-
-        //    alert('The table has ' + data[0].name() + ' records');
-        //    alert();
-        //})
 
 
         function getData() {
