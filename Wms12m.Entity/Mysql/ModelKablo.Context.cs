@@ -39,5 +39,6 @@ namespace Wms12m.Entity.Mysql
         public virtual DbSet<stok> stoks { get; set; }
         public virtual DbSet<sure> sures { get; set; }
         public virtual DbSet<kblstok> kblstoks { get; set; }
+        public virtual DbSet<kblstok2> kblstok2 { get; set; }
     }
 }
