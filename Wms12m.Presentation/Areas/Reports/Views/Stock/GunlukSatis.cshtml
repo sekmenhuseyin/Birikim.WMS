@@ -32,9 +32,6 @@
     var basTarih = @DateTime.Today.ToOADateInt();
     var bitTarih = basTarih;
     $(document).ready(function () {
-        $.datepicker.setDefaults($.datepicker.regional["tr"]);
-        $("#txtBaslangic").datepicker().on("change", function (e) { basTarih = toOADateFromString(e.target.value); });
-        $("#txtBitis").datepicker().on("change", function (e) { bitTarih = toOADateFromString(e.target.value); });
 
         var table = $('#sample_1').DataTable({
             "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
@@ -121,9 +118,7 @@
                 $(this).html('<input class="form-control input-circle" type="text" placeholder="Ara" />');
         });
         $("#sample_1 tfoot input").on('keyup change', function () { table.column($(this).parent().index() + ':visible').search(this.value).draw(); });
-        //tarih
-        $.datepicker.setDefaults($.datepicker.regional["tr"]);
-        $(".tarih").datepicker();
+        //buttons
         var buttons = new $.fn.dataTable.Buttons(table, {
             buttons: [
                 { "extend": 'pdf', "text": '<span class="fa fa-file-pdf-o f-s-15 red"></span>', "className": 'btn-xs;' },
@@ -131,7 +126,12 @@
             ]
         }).container().appendTo($('#buttons'));
         $('#sample_1 .tf-search tr').insertAfter($('#sample_1 thead tr'))
-
+        //tarih
+        $.datepicker.setDefaults($.datepicker.regional["tr"]);
+        $(".tarih").datepicker();
+        $("#txtBaslangic").datepicker().on("change", function (e) { basTarih = toOADateFromString(e.target.value); });
+        $("#txtBitis").datepicker().on("change", function (e) { bitTarih = toOADateFromString(e.target.value); });
+        //listele
         $("#btnListele").click(function () { table.ajax.reload(); });
     });
 </script>}

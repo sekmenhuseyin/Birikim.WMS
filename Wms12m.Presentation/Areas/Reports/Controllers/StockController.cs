@@ -142,22 +142,17 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
         public ActionResult GerceklesenSevkiyatPlani()
         {
             if (CheckPerm(Perms.Raporlar, PermTypes.Reading) == false) return Redirect("/");
-            return View();
+            return View("GerceklesenSevkiyatPlani");
         }
 
-        public PartialViewResult GerceklesenSevkiyatPlaniList(int bastarih, int bittarih)
-        {
-            return PartialView("GerceklesenSevkiyatPlaniList");
-        }
-
-        public string GerceklesenSevkiyatList(int bastarih, int bittarih)
+        public string GerceklesenSevkiyatPlaniList(int bastarih, int bittarih)
         {
             var json = new JavaScriptSerializer()
             {
                 MaxJsonLength = int.MaxValue
             };
-            var SU = db.Database.SqlQuery<GerceklesenSevkiyatPlani>(string.Format("[FINSAT6{0}].[wms].[GerceklesenSevkiyatRaporu] @BasTarih={1}, @BitTarih={2}", vUser.SirketKodu, bastarih, bittarih)).ToList();
-            return json.Serialize(SU);
+            var list = db.Database.SqlQuery<GerceklesenSevkiyatPlani>(string.Format("[FINSAT6{0}].[wms].[GerceklesenSevkiyatRaporu] @BasTarih={1}, @BitTarih={2}", vUser.SirketKodu, bastarih, bittarih)).ToList();
+            return json.Serialize(list);
         }
 
         /// <summary>
