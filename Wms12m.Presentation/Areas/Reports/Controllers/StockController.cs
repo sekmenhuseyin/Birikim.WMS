@@ -187,45 +187,37 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
         public ActionResult GidenBarkod()
         {
             if (CheckPerm(Perms.Raporlar, PermTypes.Reading) == false) return Redirect("/");
-            var CHK = db.Database.SqlQuery<GidenBarkodSelect>(string.Format(@"SELECT DISTINCT
-                 [SevkEvrakNo]
+            var CHK = db.Database.SqlQuery<GidenBarkodSelect>(string.Format(@"SELECT DISTINCT [SevkEvrakNo]
                  FROM[solar6].[dbo].[Onikim_Terminal](NOLOCK) T
                  where T.Sirketkodu = '{0}' AND T.[AktarimDurum] = 1 AND T.Islemtip = 1 ", vUser.SirketKodu)).ToList();
 
-            var siparis = db.Database.SqlQuery<GidenBarkodSelect>(string.Format(@"SELECT DISTINCT
-                 [SiparisNo]
+            var siparis = db.Database.SqlQuery<GidenBarkodSelect>(string.Format(@"SELECT DISTINCT [SiparisNo]
                  FROM[solar6].[dbo].[Onikim_Terminal](NOLOCK) T
                  where T.Sirketkodu = '{0}' AND T.[AktarimDurum] = 1 AND T.Islemtip = 1 ", vUser.SirketKodu)).ToList();
 
             ViewBag.siparis = siparis;
-            return View(CHK);
+            return View("GidenBarkod", CHK);
         }
 
         public PartialViewResult GidenBarkodList(string sip, string sevk)
         {
             if (CheckPerm(Perms.Raporlar, PermTypes.Reading) == false) return null;
+            //create sql
+            var sql = string.Format(@"
+                SELECT      OT.ID, OT.SirketKodu, OT.SevkEvrakNo, STI.EvrakNo as IrsaliyeNo, OT.SiparisNo, OT.Chk, CHK.Unvan1 + CHK.Unvan2 AS Unvan, OT.SipSiraNo, OT.MalKodu,STK.MalAdi, OT.BarkodNo, OT.BarkodMiktar, STI.Birim, STI.Depo, OT.IslemTip, OT.AktarimDurum, OT.Kaydeden, OT.KayitTarih, OT.KayitTarih2
+                FROM            SOLAR6.dbo.Onikim_Terminal OT (NOLOCK) INNER JOIN 
+                                    FINSAT617.FINSAT617.STI STI (NOLOCK) on OT.Malkodu=STI.Malkodu and OT.SiparisNo=STI.KaynakSiparisNo and OT.SipSiraNo=STI.KaynakSiraNo INNER JOIN 
+                                    FINSAT617.FINSAT617.STK STK (NOLOCK) ON OT.Malkodu=STK.Malkodu INNER JOIN 
+                                    FINSAT617.FINSAT617.CHK CHK (NOLOCK) ON OT.CHK=CHK.HesapKodu
+                WHERE       OT.Sirketkodu='{0}' AND OT.[AktarimDurum]=1 AND OT.Islemtip=1 AND ", vUser.SirketKodu);
             if (sip != null)
-            {
-                var CE = db.Database.SqlQuery<GidenBarkodListe>(string.Format(@"
-SELECT  OT.ID, OT.SirketKodu, OT.SevkEvrakNo, STI.EvrakNo as IrsaliyeNo, OT.SiparisNo, OT.Chk, CHK.Unvan1 + CHK.Unvan2 AS Unvan, OT.SipSiraNo, OT.MalKodu,STK.MalAdi, OT.BarkodNo, OT.BarkodMiktar, STI.Birim, STI.Depo, OT.IslemTip, OT.AktarimDurum, OT.Kaydeden, OT.KayitTarih, OT.KayitTarih2
-FROM            SOLAR6.dbo.Onikim_Terminal OT (NOLOCK)
-INNER JOIN FINSAT617.FINSAT617.STI STI (NOLOCK) on OT.Malkodu=STI.Malkodu and OT.SiparisNo=STI.KaynakSiparisNo and OT.SipSiraNo=STI.KaynakSiraNo
-INNER JOIN FINSAT617.FINSAT617.STK STK (NOLOCK) ON OT.Malkodu=STK.Malkodu
-INNER JOIN FINSAT617.FINSAT617.CHK CHK (NOLOCK) ON OT.CHK=CHK.HesapKodu
-WHERE OT.Sirketkodu='{0}' AND OT.[AktarimDurum]=1 AND OT.Islemtip=1 AND [SiparisNo] = '{1}'", vUser.SirketKodu, sip)).ToList();
-                return PartialView("GidenBarkodList", CE);
-            }
+                sql += string.Format("[SiparisNo] = '{0}'", sip);
             else
-            {
-                var CE = db.Database.SqlQuery<GidenBarkodListe>(string.Format(@"
-SELECT  OT.ID, OT.SirketKodu, OT.SevkEvrakNo, STI.EvrakNo as IrsaliyeNo, OT.SiparisNo, OT.Chk, CHK.Unvan1 + CHK.Unvan2 AS Unvan, OT.SipSiraNo, OT.MalKodu,STK.MalAdi, OT.BarkodNo, OT.BarkodMiktar, STI.Birim, STI.Depo, OT.IslemTip, OT.AktarimDurum, OT.Kaydeden, OT.KayitTarih, OT.KayitTarih2
-FROM            SOLAR6.dbo.Onikim_Terminal OT (NOLOCK)
-INNER JOIN FINSAT617.FINSAT617.STI STI (NOLOCK) on OT.Malkodu=STI.Malkodu and OT.SiparisNo=STI.KaynakSiparisNo and OT.SipSiraNo=STI.KaynakSiraNo
-INNER JOIN FINSAT617.FINSAT617.STK STK (NOLOCK) ON OT.Malkodu=STK.Malkodu
-INNER JOIN FINSAT617.FINSAT617.CHK CHK (NOLOCK) ON OT.CHK=CHK.HesapKodu
-WHERE OT.Sirketkodu='{0}' AND OT.[AktarimDurum]=1 AND OT.Islemtip=1 AND [SevkEvrakNo] = '{1}'", vUser.SirketKodu, sevk)).ToList();
-                return PartialView("GidenBarkodList", CE);
-            }
+                sql += string.Format("[SevkEvrakNo] = '{0}'", sevk);
+            //get data
+            var liste = db.Database.SqlQuery<GidenBarkodListe>(sql);
+            //return
+            return PartialView("GidenBarkodList", liste);
         }
 
         /// <summary>
