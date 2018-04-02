@@ -28,7 +28,6 @@ namespace Wms12m.Entity.Mysql
         public virtual DbSet<cin> cins { get; set; }
         public virtual DbSet<depo> depoes { get; set; }
         public virtual DbSet<fiyat> fiyats { get; set; }
-        public virtual DbSet<hareket> harekets { get; set; }
         public virtual DbSet<index> indices { get; set; }
         public virtual DbSet<kesit> kesits { get; set; }
         public virtual DbSet<kesit_kop> kesit_kop { get; set; }
@@ -38,6 +37,8 @@ namespace Wms12m.Entity.Mysql
         public virtual DbSet<rezerve_onay> rezerve_onay { get; set; }
         public virtual DbSet<stok> stoks { get; set; }
         public virtual DbSet<sure> sures { get; set; }
+        public virtual DbSet<kblstok2> kblstok2 { get; set; }
+        public virtual DbSet<hareket> harekets { get; set; }
         public virtual DbSet<kblstok> kblstoks { get; set; }
     }
 }

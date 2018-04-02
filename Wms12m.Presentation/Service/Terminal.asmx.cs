@@ -561,36 +561,33 @@ namespace Wms12m.Presentation
             {
                 // hücre adından kat id bulunur
                 var kat = db.GetHucreKatID(item.DepoID, item.RafNo).FirstOrDefault();
-                if (kat != null)
+                if (kat == null)
+                {
+                    _result = new Result(false, item.RafNo + " adlı yer bulunamadı");
+                    continue;
+                }
+                else
                 {
                     // irs detay tablosu güncellenir
                     var tmp = IrsaliyeDetay.Detail(item.IrsDetayID);
-
-                    ///Genel bazda miktar yerleştirme kontrolü için yapıldı Ömer Bey karar verdikten sonra yorumdan kaldırılabilir.
-                    /// Yorumdan kaldırılırsa Görevi Tamamlarken de benzer bi kontrol yapılmalı.
-                    ///List<IRS_Detay> grv = db.IRS_Detay.Where(a => a.IrsaliyeID == item.IrsID && a.MalKodu == item.MalKodu).ToList();
-                    ///decimal YerlestirmeMiktar = 0;
-                    ///decimal Miktar = 0;
-                    ///if (grv.IsNotNull())
-                    ///{
-                    ///    YerlestirmeMiktar = grv.Sum(x => x.YerlestirmeMiktari).ToDecimal();
-                    ///    Miktar = grv.Sum(x => x.Miktar).ToDecimal();
-                    ///}
-                    ///if (Miktar > (YerlestirmeMiktar + item.Miktar))
-                    if (tmp.Miktar >= ((tmp.YerlestirmeMiktari ?? 0) + item.Miktar))
+                    if (tmp.Miktar < ((tmp.YerlestirmeMiktari ?? 0) + item.Miktar))
+                    {
+                        _result = new Result(false, item.MalKodu + " için fazla mal yazılmış");
+                        continue;
+                    }
+                    else
                     {
                         if (tmp.YerlestirmeMiktari == null) tmp.YerlestirmeMiktari = item.Miktar;
                         else tmp.YerlestirmeMiktari += item.Miktar;
                         // irs detay kayıt
                         IrsaliyeDetay.Operation(tmp);
                         // rezervden düşürülür
-                        var tmp2 = Yerlestirme.Detail(Rkat.Value, item.MalKodu, item.Birim);
+                        var tmp2 = Yerlestirme.Detail(Rkat.Value, item.MalKodu, item.MakaraNo);
                         tmp2.Miktar -= item.Miktar;
                         Yerlestirme.Update(tmp2, KullID, "Rafa Kaldır", item.Miktar, true, item.IrsID, item.IrsDetayID);
-                        var makarano = tmp2.MakaraNo;
                         // yerleştirme kaydı yapılır
-                        tmp2 = Yerlestirme.Detail(kat.Value, item.MalKodu, item.Birim);
-                        if (tmp2 == null)
+                        tmp2 = Yerlestirme.Detail(kat.Value, item.MalKodu, item.MakaraNo);
+                        if (tmp2 == null || tmp2.MakaraNo != item.MakaraNo)
                         {
                             tmp2 = new Yer()
                             {
@@ -599,19 +596,7 @@ namespace Wms12m.Presentation
                                 Birim = item.Birim,
                                 Miktar = item.Miktar
                             };
-                            if (makarano != "" || makarano != null) tmp2.MakaraNo = makarano;
-                            Yerlestirme.Insert(tmp2, KullID, "Rafa Kaldır", item.IrsID, item.IrsDetayID);
-                        }
-                        else if (tmp2.MakaraNo != makarano)
-                        {
-                            tmp2 = new Yer()
-                            {
-                                KatID = kat.Value,
-                                MalKodu = item.MalKodu,
-                                Birim = item.Birim,
-                                Miktar = item.Miktar
-                            };
-                            if (makarano != "" || makarano != null) tmp2.MakaraNo = makarano;
+                            if (item.MakaraNo != "" || item.MakaraNo != null) tmp2.MakaraNo = item.MakaraNo;
                             Yerlestirme.Insert(tmp2, KullID, "Rafa Kaldır", item.IrsID, item.IrsDetayID);
                         }
                         else
@@ -620,11 +605,7 @@ namespace Wms12m.Presentation
                             Yerlestirme.Update(tmp2, KullID, "Rafa Kaldır", item.Miktar, false, item.IrsID, item.IrsDetayID);
                         }
                     }
-                    else
-                        _result = new Result(false, item.MalKodu + " için fazla mal yazılmış");
                 }
-                else
-                    _result = new Result(false, item.RafNo + " adlı yer bulunamadı");
             }
 
             return _result;

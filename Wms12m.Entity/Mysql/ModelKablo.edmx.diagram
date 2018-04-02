@@ -4,21 +4,22 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="3d430d524517490586a694fd557daef6" Name="Diagram1" >
+      <Diagram DiagramId="3d430d524517490586a694fd557daef6" Name="Diagram1" ZoomLevel="95" >
         <EntityTypeShape EntityType="KabloModel.cin" Width="1.5" PointX="0.75" PointY="0.75" />
         <EntityTypeShape EntityType="KabloModel.depo" Width="1.5" PointX="2.75" PointY="0.75" />
-        <EntityTypeShape EntityType="KabloModel.fiyat" Width="1.5" PointX="0.75" PointY="3.75" />
-        <EntityTypeShape EntityType="KabloModel.hareket" Width="1.5" PointX="2.75" PointY="3.75" />
+        <EntityTypeShape EntityType="KabloModel.fiyat" Width="1.5" PointX="0.75" PointY="2.375" />
         <EntityTypeShape EntityType="KabloModel.index" Width="1.5" PointX="4.75" PointY="0.75" />
-        <EntityTypeShape EntityType="KabloModel.kesit" Width="1.5" PointX="4.75" PointY="3.75" />
-        <EntityTypeShape EntityType="KabloModel.kesit_kop" Width="1.5" PointX="6.75" PointY="0.75" />
-        <EntityTypeShape EntityType="KabloModel.makara" Width="1.5" PointX="0.75" PointY="6.75" />
-        <EntityTypeShape EntityType="KabloModel.marka" Width="1.5" PointX="2.75" PointY="6.75" />
-        <EntityTypeShape EntityType="KabloModel.renk" Width="1.5" PointX="6.75" PointY="3.75" />
-        <EntityTypeShape EntityType="KabloModel.rezerve_onay" Width="1.5" PointX="4.75" PointY="6.75" />
-        <EntityTypeShape EntityType="KabloModel.stok" Width="1.5" PointX="6.75" PointY="6.75" />
-        <EntityTypeShape EntityType="KabloModel.sure" Width="1.5" PointX="8.75" PointY="0.75" />
-        <EntityTypeShape EntityType="KabloModel.kblstok" Width="1.5" PointX="0.75" PointY="9.75" />
+        <EntityTypeShape EntityType="KabloModel.kesit" Width="1.5" PointX="0.75" PointY="6.625" />
+        <EntityTypeShape EntityType="KabloModel.kesit_kop" Width="1.5" PointX="0.75" PointY="8.375" />
+        <EntityTypeShape EntityType="KabloModel.makara" Width="1.5" PointX="0.75" PointY="4.875" />
+        <EntityTypeShape EntityType="KabloModel.marka" Width="1.5" PointX="2.75" PointY="4.875" />
+        <EntityTypeShape EntityType="KabloModel.renk" Width="1.5" PointX="2.75" PointY="6.625" />
+        <EntityTypeShape EntityType="KabloModel.rezerve_onay" Width="1.5" PointX="4.75" PointY="2.75" />
+        <EntityTypeShape EntityType="KabloModel.stok" Width="1.5" PointX="4.75" PointY="5.75" />
+        <EntityTypeShape EntityType="KabloModel.sure" Width="1.5" PointX="2.75" PointY="8.375" />
+        <EntityTypeShape EntityType="KabloModel.kblstok2" Width="1.5" PointX="8.875" PointY="0.75" />
+        <EntityTypeShape EntityType="KabloModel.hareket" Width="1.5" PointX="2.75" PointY="2.375" />
+        <EntityTypeShape EntityType="KabloModel.kblstok" Width="1.5" PointX="6.625" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

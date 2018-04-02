@@ -32,7 +32,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="BirikimCore">
-      <HintPath>\\192.168.2.232\Ortak\_Output\BirikimCore\BirikimCore.dll</HintPath>
+      <HintPath>\\testserver\Ortak\_Output\BirikimCore\BirikimCore.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
@@ -53,7 +53,7 @@
       <HintPath>..\Wms12m.Presentation\Lib\MySql.Data.Entity.EF6.dll</HintPath>
     </Reference>
     <Reference Include="OnikimKKP">
-      <HintPath>\\192.168.2.232\Ortak\_Output\OnikimKKP\OnikimKKP.dll</HintPath>
+      <HintPath>\\testserver\Ortak\_Output\OnikimKKP\OnikimKKP.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -336,6 +336,9 @@
       <DependentUpon>ModelKablo.tt</DependentUpon>
     </Compile>
     <Compile Include="Mysql\kblstok.cs">
+      <DependentUpon>ModelKablo.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Mysql\kblstok2.cs">
       <DependentUpon>ModelKablo.tt</DependentUpon>
     </Compile>
     <Compile Include="Mysql\kesit.cs">
