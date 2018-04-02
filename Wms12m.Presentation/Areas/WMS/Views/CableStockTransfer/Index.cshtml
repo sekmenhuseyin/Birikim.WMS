@@ -161,22 +161,12 @@
             //data.id = "Mal_" + id
             var val = data.innerHTML.trim();
             if (data.id == "") {
-                $(data).html('<input type="text" id="input' + name + '" class="form-control" onkeyup="Tamamla(this,' + id + ')" onkeydown="MalSubmit(this,event,' + id + ')"  />');
+                $(data).html('<input type="text" id="input' + name + '" class="form-control" onkeyup="Tamamla(this,' + id + ')"   />');
                 data.id = name
                 $('#input' + name).focus();
             }
 
 
-        }
-
-        function MalSubmit(data, e, id) {
-            if (e.keyCode == 13) {
-
-                var d = document.getElementById('Mal_' + id)
-                table.cell(d).data(data.value).draw();
-                d.id = "";
-
-            }
         }
 
 
@@ -315,8 +305,9 @@
                         $(item).val(ui.item.id);
                         $(item).val(ui.item.value);
 
-                        //table.cell(this).data(ui.item.id).draw();
-                        //$('malkod_' + id).val(ui.item.id);
+                        var d = document.getElementById('Mal_' + id)
+                        table.cell(d).data(item.value).draw();
+                        d.id = "";
                     })
                 }
             })
