@@ -33,7 +33,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <IntermediateOutputPath>C:\Users\user\AppData\Local\Temp\vs3977.tmp\Debug\</IntermediateOutputPath>
+    <IntermediateOutputPath>C:\Users\TCF88~1.ULU\AppData\Local\Temp\vs2389.tmp\Debug\</IntermediateOutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -42,7 +42,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <IntermediateOutputPath>C:\Users\user\AppData\Local\Temp\vs3977.tmp\Release\</IntermediateOutputPath>
+    <IntermediateOutputPath>C:\Users\TCF88~1.ULU\AppData\Local\Temp\vs2389.tmp\Release\</IntermediateOutputPath>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Antlr3.Runtime, Version=3.5.0.2, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
@@ -536,6 +536,8 @@
     <Content Include="Areas\Reports\Views\Financial\RaporUrunSatisAnaliziList.cshtml" />
     <Content Include="Areas\Reports\Views\Financial\RaporGunlukSiparisDetay.cshtml" />
     <Content Include="Areas\Reports\Views\Financial\BekleyenMalzemeDetay.cshtml" />
+    <Content Include="Areas\WMS\Views\CableStockTransfer\GetListOfMySQL.cshtml" />
+    <Content Include="Areas\WMS\Views\CableStockTransfer\Index.cshtml" />
     <None Include="bundleconfig.json" />
     <Content Include="Content\SizeSablon.xlsx" />
     <Content Include="Content\StockSablon.xlsx" />
@@ -595,6 +597,8 @@
     <Compile Include="Areas\Reports\Controllers\FinancialController.cs" />
     <Compile Include="Areas\Reports\Controllers\StockController.cs" />
     <Compile Include="Areas\Reports\ReportsAreaRegistration.cs" />
+    <Compile Include="Areas\WMS\Controllers\CableStockTransferController.cs" />
+    <Compile Include="Areas\WMS\Models\ViewModels\MySQLDataViewModel.cs" />
     <Compile Include="Controllers\SettingsController.cs" />
     <Compile Include="Areas\ToDo\Controllers\GorevTakvimiController.cs" />
     <Compile Include="Areas\ToDo\ToDoAreaRegistration.cs" />

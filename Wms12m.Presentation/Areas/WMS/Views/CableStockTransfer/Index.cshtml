@@ -1,0 +1,390 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+}@section Styles{<link href="~/Content/assets/global/plugins/jquery-file-upload/css/jquery.fileupload.css" rel="stylesheet" />
+}
+<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Görevler</a><i class="fa fa-circle"></i></li><li><span>MySQL Kablo Stok Aktarımı</span></li></ul></div>
+<h1 class="page-title">MySQL Kablo Stok Aktarımı</h1>
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet box green">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-info"></i>Kablo Stok Bilgileri
+                </div>
+            </div>
+            <div class="portlet-body form">
+                <div class="form-horizontal">
+                    <div class="portlet-body form">
+                        <div class="form-horizontal">
+                            <div class="form-body">
+                                <div class="form-group">
+                                    <div class="col-sm-3 control-label">Depo</div>
+                                    <div class="col-sm-4">
+                                        @Html.DropDownList("DepoID", (SelectList)ViewBag.DepoId, htmlAttributes: new { @class = "form-control StoreListi input-circle" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-sm-4 col-sm-offset-3">
+                                        <button id="btnGetData" onclick="btnGetData()" class="btn btn-default btn-block btn-circle" type="button">Listele <i class="icon-refresh"></i></button>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div id="Grid">
+
+
+        </div>
+
+    </div>
+</div>
+@section Scripts
+{
+    @*<script src="~/Content/assets/global/scripts/dataTables.editor.min.js"></script>*@
+    <script>
+
+        var table;
+
+        function btnGetData() {
+            $('#Grid').show();
+            var depo = $('#DepoID').text()
+
+            $.ajax({
+                url: '/WMS/CableStockTransfer/GetListOfMySQL?DepoID=' + depo,
+                contentType: 'application/html; charset=utf-8',
+                type: 'GET',
+                dataType: "HTML",
+            })
+                .success(function (result) {
+                    $('#Grid').html(result);
+                    table = $('#MySqlTable').DataTable({
+                        "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
+                        "columnDefs": [
+                            {
+                                "orderable": false,
+                                "className": 'select-checkbox',
+                                "targets": 0
+                            },
+                            {
+                                "name": "MySQLID",
+                                "targets": 1,
+                                "visible": false,
+                                "searchable": false,
+                                "data": "MySQLID"
+                            },
+                            {
+                                "name": "SID",
+                                "targets": 2,
+                                "visible": false,
+                                "searchable": false,
+                                "data": "SID",
+                            },
+                            { "name": "Marka", "targets": 3, "data": "Marka" },
+                            { "name": "Cins", "targets": 4, "data": "Cins" },
+                            { "name": "Kesit", "targets": 5, "data": "Kesit" },
+                            { "name": "Makara", "targets": 6, "data": "Makara" },
+                            { "name": "MakaraNo", "targets": 7, "data": "MakaraNo" },
+                            { "name": "MalKodu", "targets": 8, "data": "MalKodu" },
+                            { "name": "Raf", "targets": 9, "data": "Raf" },
+                            { "name": "Bolum", "targets": 10, "data": "Bolum" },
+                            { "name": "Kat", "targets": 11, "data": "Kat" },
+                            { "name": "Miktar", "targets": 12, "data": "Miktar" },
+                            {
+                                "name": "DepoID",
+                                "targets": 13,
+                                "visible": false,
+                                "searchable": false,
+                                "data": "DepoID"
+                            }
+                        ],
+
+                        select: {
+                            style: 'multi',
+                            selector: 'td:first-child'
+                        }
+                    });
+                })
+
+            table
+                
+        }
+
+
+
+
+        //$('#btnGetData').click(function () {
+            
+        //});
+
+
+        function btnKaydet() {
+
+            var tableData = table.rows({ selected: true }).data();
+
+            var path = '/WMS/CableStockTransfer/MysqlKaydet';
+            var secili_table = new Array();
+            for (var i = 0; i < tableData.length; i++) {
+                secili_table.push(tableData[i]);
+            }
+
+
+            $.ajax({
+                url: path,
+                data: JSON.stringify(secili_table),
+                type: 'POST',
+                dataType: "json",
+                contentType: 'application/json; charset=utf-8',
+                success: function (result) {
+                    Modaldialog("İşlem Başarılı", "Güncelleme İşlemi", "Tamam", "btn-success");
+                    btnGetData();
+                },
+                error: function (result) {
+                    Modaldialog("Hata oldu", 'Hata', 'Tamam', 'btn-danger');
+                }
+            });
+        }
+
+
+
+        function malClick(data, id) {
+
+            var name = 'Mal_' + id;
+            //data.id = "Mal_" + id
+            var val = data.innerHTML.trim();
+            if (data.id == "") {
+                $(data).html('<input type="text" id="input' + name + '" class="form-control" onkeyup="Tamamla(this,' + id + ')" onkeydown="MalSubmit(this,event,' + id + ')"  />');
+                data.id = name
+                $('#input' + name).focus();
+            }
+
+
+        }
+
+        function MalSubmit(data, e, id) {
+            if (e.keyCode == 13) {
+
+                var d = document.getElementById('Mal_' + id)
+                table.cell(d).data(data.value).draw();
+                d.id = "";
+
+            }
+        }
+
+
+        function rafClick(data, id) {
+            var name = 'Raf_' + id;
+            var val = data.innerHTML.trim();
+            if (data.id == "") {
+                var path = '/WMS/CableStockTransfer/GetRaf/';
+                var text = '<select id="rf_' + id + '" class="form-control" onchange="getRaf(this,event,' + id + ')"><option>--Seçiniz--</option>';
+
+                $.ajax({
+                    url: path,
+                    data: {},
+                    type: 'GET',
+                    dataType: "json",
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (result) {
+                        $.each(result, function (i, item) {
+                            text += '<option  id="' + item.ID + '" >' + item.RafAd + '</option>'
+                        })
+                        text += '</select>'
+                        data.innerHTML = text;
+
+                    }
+                });
+                data.id = name
+            }
+        }
+
+        function getRaf(data, e, id) {
+            var d = document.getElementById('Raf_' + id)
+            d.setAttribute("data-itemid", data.value);
+            //d.innerHTML = data.value;
+            table.cell(d).data(data.value).draw();
+            d.id = "";
+
+        }
+
+
+
+
+
+        function bolumClick(data, id) {
+            var name = 'Bolum_' + id;
+            var val = data.innerHTML.trim();
+            var raf = $(data).closest('td').prev('td').data("itemid");
+            if (raf == "")
+                return;
+            //alert(raf);
+            if (data.id == "") {
+                var path = '/WMS/CableStockTransfer/GetBolum/' + raf;
+                var text = '<select id="bl_' + id + '" class="form-control" onchange="getBolum(this,event,' + id + ')"><option>--Seçiniz--</option>';
+
+                $.ajax({
+                    url: path,
+                    data: {},
+                    type: 'GET',
+                    dataType: "json",
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (result) {
+                        $.each(result, function (i, item) {
+                            text += '<option id="' + item.ID + '">' + item.BolumAd + '</option>'
+                        })
+                        text += '</select>'
+                        data.innerHTML = text;
+                    }
+
+                });
+                data.id = name
+
+            }
+
+        }
+
+        function getBolum(data, e, id) {
+            var d = document.getElementById('Bolum_' + id)
+            d.setAttribute("data-itemid", data.value);
+            //d.innerHTML = data.value;
+            table.cell(d).data(data.value).draw();
+            d.id = "";
+
+        }
+
+        function katClick(data, id) {
+            var name = 'Kat_' + id;
+            var val = data.innerHTML.trim();
+            var bolum = $(data).closest('td').prev('td').data("itemid");//burada bug var
+            if (bolum == "")
+                return;
+            //alert(raf);
+            if (data.id == "") {
+                var path = '/WMS/CableStockTransfer/GetKat/' + bolum;
+                var text = '<select id="kt_' + id + '" class="form-control" onchange="getKat(this,event,' + id + ')"><option>--Seçiniz--</option>';
+
+                $.ajax({
+                    url: path,
+                    data: {},
+                    type: 'GET',
+                    dataType: "json",
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (result) {
+                        $.each(result, function (i, item) {
+                            text += '<option id="' + item.ID + '">' + item.KatAd + '</option>'
+                        })
+                        text += '</select>'
+                        data.innerHTML = text;
+                    }
+
+                });
+                data.id = name
+
+            }
+
+        }
+
+        function getKat(data, e, id) {
+            var d = document.getElementById('Kat_' + id)
+            d.setAttribute("data-itemid", data.value);
+            //d.innerHTML = data.value;
+            table.cell(d).data(data.value).draw();
+            d.id = "";
+
+        }
+
+        //function submitMal(data, id) {
+        //    alert(data.value);
+        //}
+
+        function Tamamla(item, id) {
+
+            $(item).autocomplete({
+                source: "/WMS/CableStockTransfer/GetMalzemebyCode",
+                minLength: 2,
+                select: function (event, ui) {
+                    setTimeout(function () {
+                        $(item).val(ui.item.id);
+                        $(item).val(ui.item.value);
+
+                        //table.cell(this).data(ui.item.id).draw();
+                        //$('malkod_' + id).val(ui.item.id);
+                    })
+                }
+            })
+        }
+        ///////////////////////////////////////////////////////////////////////////////////////////////////
+
+        //$('#btnKaydet').click(function () {
+        //    var data = table
+        //        .rows(0)
+        //        .data();
+
+        //    alert('The table has ' + data[0].name() + ' records');
+        //    alert();
+        //})
+
+
+        function getData() {
+            //var tableData = table
+            //        .rows()
+            //    .data();
+
+            ////var jtext = JSON.stringify(data);
+
+            ////alert(jtext);
+
+
+            //var data = new Array();
+
+            //for (var i = 0; i < tableData.length; i++) {
+
+            //    var item = tableData[i];
+            //    data.push(item)
+            //}
+
+            //document.write(data);
+
+            //myTable = document.getElementById("MySqlTable").rows
+
+            //$.each(myTable, function (i, item) {
+            //    document.write(item);
+            //})
+            //var tbl = $('table#MySqlTable tr').map(function () {
+            //    return $(this).find('td').map(function () {
+            //        return $(this).html();
+            //    }).get();
+            //}).get();
+
+            //document.write(tbl)
+
+
+            //var json = '{';
+            //var otArr = [];
+            //var tbl2 = $('#MySqlTable tbody tr').each(function (i) {
+            //    x = $(this).children();
+            //    var itArr = [];
+            //    x.each(function () {
+            //        itArr.push('"' + $(this).text() + '"');
+            //    });
+            //    otArr.push('"' + i + '": [' + itArr.join(',') + ']');
+            //})
+            //json += otArr.join(",") + '}'
+
+            //return document.write(json);
+
+        }
+
+
+
+    </script>
+
+}

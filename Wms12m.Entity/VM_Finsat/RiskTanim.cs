@@ -1299,4 +1299,5 @@ namespace Wms12m.Entity
         public decimal CikMiktar { get; set; }
         public decimal StokMiktar { get; set; }
     }
+  
 }

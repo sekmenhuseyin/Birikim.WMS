@@ -379,6 +379,7 @@
     </Compile>
     <Compile Include="VM_Finsat\EMG2.cs" />
     <Compile Include="VM_Finsat\HDF.cs" />
+    <Compile Include="VM_Finsat\KabloTanim.cs" />
     <Compile Include="VM_Finsat\MyGlobalVariables.cs" />
     <Compile Include="VM_WMS\Charts\BekleyenOnaylar.cs" />
     <Compile Include="VM_WMS\Charts\ChartAylikSatisAnalizi.cs" />
