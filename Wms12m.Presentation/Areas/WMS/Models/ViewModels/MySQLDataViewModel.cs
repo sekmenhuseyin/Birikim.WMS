@@ -25,6 +25,7 @@ namespace Wms12m.Presentation.Areas.WMS.Models.ViewModels
         public string Kat { get; set; }
         public decimal Miktar { get; set; }
         public string DepoID { get; set; }
+        public int KatID { get; set; }
 
 
         /// <summary>
@@ -47,7 +48,7 @@ namespace Wms12m.Presentation.Areas.WMS.Models.ViewModels
 
 
                   //MakaraNo Olmayanlar ve MakaraNo eşleşip miktarı eşit olmayanları stoklar list'ine atar
-                List<string> yer = rt.db.Yers.Select(x => x.MakaraNo).ToList();
+                List<string> yer = rt.db.Yer_Log.Select(x => x.MakaraNo).ToList();
                 List<kblstok> stoklar = new List<kblstok>();
 
                 

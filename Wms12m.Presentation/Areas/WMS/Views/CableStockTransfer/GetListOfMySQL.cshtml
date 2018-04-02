@@ -49,6 +49,9 @@
                     <th nowrap>
                         DepoID
                     </th>
+                    <th nowrap style="display:none">
+                        KatID
+                    </th>
                 </tr>
 
             </thead>
@@ -56,44 +59,42 @@
 
                 @foreach (var item in Model)
                 {
-                    <tr>
-                        <td></td>
-                        <td nowrap>
-                            @item.MySQLID
-                        </td>
-                        <td nowrap>
-                            @item.SID
-                        </td>
-                        <td nowrap>
-                            @item.Marka
-                        </td>
-                        <td nowrap>
-                            @item.Cins
-                        </td>
-                        <td nowrap>
-                            @item.Kesit
-                        </td>
-                        <td nowrap>
-                            @item.Makara
-                        </td>
-                        <td nowrap>
-                            @item.MakaraNo
-                        </td>
-                        <td  onclick="malClick(this,@item.MySQLID)" nowrap>
-                        </td>
-                        <td data-itemid="" onclick="rafClick(this,@item.MySQLID)" nowrap>                 
-                        </td>
-                        <td data-itemid=""  onclick="bolumClick(this,@item.MySQLID)" nowrap>                        
-                        </td>
-                        <td data-itemid="" onclick="katClick(this,@item.MySQLID)" nowrap>
-                        </td>
-                        <td nowrap>                          
-                            @item.Miktar
-                        </td>
-                        <td nowrap>
-                            @item.DepoID
-                        </td>
-                    </tr>
+                <tr>
+                    <td></td>
+                    <td nowrap>
+                        @item.MySQLID
+                    </td>
+                    <td nowrap>
+                        @item.SID
+                    </td>
+                    <td nowrap>
+                        @item.Marka
+                    </td>
+                    <td nowrap>
+                        @item.Cins
+                    </td>
+                    <td nowrap>
+                        @item.Kesit
+                    </td>
+                    <td nowrap>
+                        @item.Makara
+                    </td>
+                    <td nowrap>
+                        @item.MakaraNo
+                    </td>
+                    <td onclick="malClick(this,@item.MySQLID)" nowrap></td>
+                    <td data-itemid="" onclick="rafClick(this,@item.MySQLID)" nowrap></td>
+                    <td data-itemid="" onclick="bolumClick(this,@item.MySQLID)" nowrap></td>
+                    <td data-itemid="" onclick="katClick(this,@item.MySQLID)" nowrap></td>
+
+                    <td nowrap>
+                        @item.Miktar
+                    </td>
+                    <td nowrap>
+                        @item.DepoID
+                    </td>
+                    <td nowrap style="display:none"></td>
+                </tr>
                     }
                 </tbody>
 

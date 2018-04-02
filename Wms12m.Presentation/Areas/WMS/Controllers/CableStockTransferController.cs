@@ -20,23 +20,21 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             
             ViewBag.baslik = "MySQL Kablo Stok Aktarımı";
 
-            ViewBag.DepoID = new SelectList(Store.GetListCable(vUser.DepoId), "DepoKodu", "DepoAd");
-            //ViewBag.BolumID= new SelectList(Section.GetList(), "ID", "BolumAd");
-            //ViewBag.RafID = new SelectList(Shelf.GetList(), "ID", "RafAd");
+            ViewBag.DepoID = new SelectList(Store.GetListCable(vUser.DepoId), "ID", "DepoAd");
           
             return View();
         }
 
-        public PartialViewResult GetListOfMySQL(string DepoID)
+        public PartialViewResult GetListOfMySQL(int DepoID)
         {
-            DepoID = DepoID.Trim();
+
+            var depoAd = Store.Detail(DepoID).DepoAd;
             var data = MySQLDataViewModel
                 .GetKabloMySQLViewModelList(this)
-                .Where(x => x.DepoID.ToUpper() == DepoID.ToUpper());
+                .Where(x => x.DepoID.ToUpper() == depoAd.ToUpper());
 
 
             return PartialView(data);
-            //return Json(data, JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult MysqlKaydet(List<MySQLDataViewModel> data)
@@ -46,38 +44,33 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             {
                 return Json(new Result(false, "Hata oldu"), JsonRequestBehavior.AllowGet);
             }
-            
-            int katId = 0;
             string birim = "";
-
-            int depoID = db.Depoes.Single(x => x.DepoAd == data[0].DepoID).ID;
-            
-            var gorevno = db.SettingsGorevNo(DateTime.Today.ToOADateInt(), depoID).FirstOrDefault();
+            int DepoID = data[0].DepoID.ToInt32();
+            var gorevno = db.SettingsGorevNo(DateTime.Today.ToOADateInt(), DepoID).FirstOrDefault();
             var today = fn.ToOADate();
             var time = fn.ToOATime();
-            var cevap = db.InsertIrsaliye(vUser.SirketKodu, depoID, gorevno, gorevno, today, "Kablo Sayım", false, ComboItems.KabloSayım.ToInt32(), vUser.UserName, today, time, "", "", 0, "", "").FirstOrDefault();
+            var cevap = db.InsertIrsaliye(vUser.SirketKodu, DepoID, gorevno, gorevno, today, "Kablo Sayım", false, ComboItems.KabloSayım.ToInt32(), vUser.UserName, today, time, "", "", 0, "", "").FirstOrDefault();
             LogActions("WMS", "Purchase", "New", ComboItems.alEkle, cevap.GorevID.Value, "Kablo Sayım");
 
 
-                foreach (var item in data)
+            foreach (var item in data)
             {
-                katId = db.Kats.First(x => x.KatAd == item.Kat).ID;
-                depoID = db.Depoes.Single(x => x.DepoAd == item.DepoID).ID;
-                string query = string.Format("select birim1 As Birim from FINSAT6{0}.FINSAT6{0}.STK WHERE MalKodu={0}", vUser.SirketKodu,item.MalKodu);
+                string query = string.Format("select birim1 As Birim from FINSAT6{0}.FINSAT6{0}.STK WHERE MalKodu='{1}'", vUser.SirketKodu,item.MalKodu);
                 birim = db.Database.SqlQuery<STKBirimMalKod>(query).FirstOrDefault().Birim;
 
                 // yerleştirme kaydı yapılır
-                var tmp2 = Yerlestirme.Detail(katId, item.MalKodu, birim);
+                var tmp2 = Yerlestirme.Detail(item.KatID, item.MalKodu, birim);
                 if (tmp2 == null)
                 {
                     tmp2 = new Yer()
                     {
-                        KatID = katId,
+                        KatID = item.KatID,
                         MalKodu = item.MalKodu,
                         Birim = birim,
-                        Miktar = item.Miktar
+                        Miktar = item.Miktar,
+                        MakaraNo=item.MakaraNo
                     };
-                    Yerlestirme.Insert(tmp2, vUser.Id, "Kablo Sayım", cevap.IrsaliyeID.Value);
+                    var s=Yerlestirme.Insert(tmp2, vUser.Id, "Kablo Sayım", cevap.IrsaliyeID.Value);
                 }
                 else
                 {
@@ -97,52 +90,6 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
 
 
             return Json(new Result(true, "Ok"), JsonRequestBehavior.AllowGet);
-        }
-
-        public JsonResult GetRaf()
-        {
-            
-            List<Raf> list = Shelf.GetList(vUser.DepoId.GetValueOrDefault());
-  
-            var jsonData = from p in list
-                           select new { p.ID, p.RafAd };
-
-            return Json(jsonData,JsonRequestBehavior.AllowGet);
-        }
-
-        public JsonResult GetBolum(string id)
-        {
-
-            if (vUser.DepoId.IsNull())
-                return null;
-            int rafid = db.Rafs.First(x => x.RafAd == id).ID;
-            List<Bolum> list = Section.GetList(rafid);
-
-            var jsonData = from p in list
-                           select new { p.ID, p.BolumAd };
-                
-
-
-            return Json(jsonData, JsonRequestBehavior.AllowGet);
-        }
-
-
-        public JsonResult GetKat(string id)
-        {
-
-            if (vUser.DepoId.IsNull())
-                return null;
-
-            int bolumid = db.Bolums.First(x => x.BolumAd == id).ID;
-
-            List<Kat> list = Floor.GetList(bolumid);
-
-            var jsonData = from p in list
-                           select new { p.ID, p.KatAd };
-
-
-
-            return Json(jsonData, JsonRequestBehavior.AllowGet);
         }
 
         /// <summary>
