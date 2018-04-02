@@ -3,7 +3,7 @@
     public class SatisAnaliziTemsilci
     {
         public string Kod9 { get; set; }
-        public string TipKod { get; set; }
+        public string MalAdi4 { get; set; }
         public decimal Ocak { get; set; }
         public decimal Subat { get; set; }
         public decimal Mart { get; set; }
@@ -30,7 +30,7 @@
 				         INNER JOIN FINSAT6{0}.FINSAT6{0}.STK AS STK WITH (NOLOCK) ON STI.MalKodu = STK.MalKodu 
                          LEFT JOIN FINSAT6{0}.FINSAT6{0}.CHK AS CHK WITH (NOLOCK) ON CHK.Hesapkodu = STI.CHK
                          WHERE CHK.KartTip IN (0,4) 
-                         AND (CHK.HesapKodu BETWEEN '1' AND '8') 
+                             AND (CHK.HesapKodu BETWEEN '1' AND '8') 
                          AND STI.KynkEvrakTip IN (1,2,163) 
 				         AND (CHK.GrupKod='{1}' OR '{1}'='0') 
                          AND YEAR(DATEADD(DD,STI.Tarih,'1899-12-30'))={2}
@@ -51,14 +51,15 @@
                          ISNULL(MAX(CASE WHEN US.Ay = 10 THEN US.NetCiro ELSE 0 END),0) AS Ekim,
                          ISNULL(MAX(CASE WHEN US.Ay = 11 THEN US.NetCiro ELSE 0 END),0) AS Kasim,
                          ISNULL(MAX(CASE WHEN US.Ay = 12 THEN US.NetCiro ELSE 0 END),0) AS Aralik,
-                         US2.SumNetCiro AS NetCiro
+                         SUM(US2.SumNetCiro) AS NetCiro
                          FROM #UrunBolgeSatisAnalizi AS US WITH (NOLOCK)
                          INNER JOIN (
                          SELECT IC1.MalAdi4, IC1.Kod9,SUM(IC1.NetCiro) AS SumNetCiro FROM #UrunBolgeSatisAnalizi AS IC1 WITH (NOLOCK)
                          GROUP BY IC1.Kod9, MalAdi4
                          ) AS US2 ON US.Kod9=US2.Kod9 
-                         GROUP BY US.MalAdi4,US.Kod9,US2.SumNetCiro ORDER BY US.Kod9
+                         GROUP BY US.MalAdi4,US.Kod9 ORDER BY US.Kod9
                          IF(OBJECT_ID('tempdb..#UrunBolgeSatisAnalizi') IS NOT NULL) BEGIN DROP TABLE #UrunBolgeSatisAnalizi END
+
 
                                     ";
     }

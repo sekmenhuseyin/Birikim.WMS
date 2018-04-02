@@ -10,8 +10,8 @@
             <table class="table table-striped table-bordered table-condensed table-responsive" id="sample_1a">
                 <thead>
                     <tr>
-                        <th>Kod9</th>
-                        <th>Tip Kodu</th>
+                        <th>Mal Adı</th>
+                        <th>Temsilci</th>
                         <th>Ocak</th>
                         <th>Şubat</th>
                         <th>Mart</th>
@@ -85,8 +85,8 @@
             "pageLength": 50,
             "columnDefs": [{ "type": "num-fmt", "className": "dt-right", "targets": [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14] }, { "className": "dt-center", "targets": "_all" }],
             "columns": [
+                { "data": "MalAdi4" },
                 { "data": "Kod9" },
-                { "data": "TipKod" },
                 { "data": "Ocak", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
                 { "data": "Subat", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
                 { "data": "Mart", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
