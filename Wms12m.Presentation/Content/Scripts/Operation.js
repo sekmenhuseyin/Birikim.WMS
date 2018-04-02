@@ -28,6 +28,11 @@ function editInModal(URL)
         success: function (data)
         {
             $("#modalEditPage").html(data);
+        },
+        error: function (data)
+        {
+            Modaldialog("Hata oldu", 'Hata', 'Tamam', 'btn-danger');
+            $("#div_loading").hide();
         }
     });
 }
@@ -42,6 +47,11 @@ function editInModal2(URL, data)
         success: function (data)
         {
             $("#modalEditPage").html(data);
+        },
+        error: function (data)
+        {
+            Modaldialog("Hata oldu", 'Hata', 'Tamam', 'btn-danger');
+            $("#div_loading").hide();
         }
     });
 }
@@ -61,10 +71,16 @@ function PartialView(Url, Div, Id)
             if (data === "")
             {
                 Modaldialog("Hata oluştu", "Hata", "Tamam", "btn-danger");
+                $("#div_loading").hide();
             } else
             {
                 $('#' + Div).html(data);
             }
+        },
+        error: function (data)
+        {
+            Modaldialog("Hata oldu", 'Hata', 'Tamam', 'btn-danger');
+            $("#div_loading").hide();
         }
     });
 }
@@ -82,10 +98,16 @@ function PartialViewClass(Url, Div, Id)
             if (data === "")
             {
                 Modaldialog("Hata oluştu", "Hata", "Tamam", "btn-danger");
+                $("#div_loading").hide();
             } else
             {
                 $('.' + Div).html(data);
             }
+        },
+        error: function (data)
+        {
+            Modaldialog("Hata oldu", 'Hata', 'Tamam', 'btn-danger');
+            $("#div_loading").hide();
         }
     });
 }
@@ -108,6 +130,11 @@ function FunctionDelete(URL, deleteId)
                 if (data.Message === "") data.Message = "Hata oluştu";
                 Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
             }
+        },
+        error: function (data)
+        {
+            Modaldialog("Hata oldu", 'Hata', 'Tamam', 'btn-danger');
+            $("#div_loading").hide();
         }
     }).done(function (data)
     {
@@ -199,6 +226,10 @@ function RefreshNotifications()
         success: function (data)
         {
             $('.notificationCount').html("0");
+        },
+        error: function (data)
+        {
+            $("#div_loading").hide();
         }
     });
 }
