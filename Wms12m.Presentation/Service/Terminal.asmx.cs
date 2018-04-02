@@ -570,7 +570,7 @@ namespace Wms12m.Presentation
                 {
                     // irs detay tablosu güncellenir
                     var tmp = IrsaliyeDetay.Detail(item.IrsDetayID);
-                    if (tmp.Miktar >= ((tmp.YerlestirmeMiktari ?? 0) + item.Miktar))
+                    if (tmp.Miktar < ((tmp.YerlestirmeMiktari ?? 0) + item.Miktar))
                     {
                         _result = new Result(false, item.MalKodu + " için fazla mal yazılmış");
                         continue;
