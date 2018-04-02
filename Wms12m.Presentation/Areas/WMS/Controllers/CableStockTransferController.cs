@@ -46,89 +46,20 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             {
                 return Json(new Result(false, "Hata oldu"), JsonRequestBehavior.AllowGet);
             }
-
-
-            var v = data;
             
-
-            Yer yer=null;
-            Yer_Log yerLog=null;
-            string hucreAd = "";
             int katId = 0;
-            int? depoID = 0;
             string birim = "";
-            //foreach (var item in data)
-            //{
-            //    hucreAd = item.Raf + "-" + item.Bolum + "-" + item.Kat;
-            //    yer = db.Yers.SingleOrDefault(x => x.HucreAd == hucreAd);
 
-            //    if (yer == null)
-            //    {
-            //        katId = db.Kats.First(x => x.KatAd == item.Kat).ID;
-            //        depoID = db.Depoes.Single(x => x.DepoAd == item.DepoID).ID;
-            //        string query = string.Format("select birim1 As Birim from FINSAT6{0}.FINSAT6{0}.STK", vUser.SirketKodu);
-            //        birim = db.Database.SqlQuery<STKBirimMalKod>(query).FirstOrDefault().Birim;
+            int depoID = db.Depoes.Single(x => x.DepoAd == data[0].DepoID).ID;
+            
+            var gorevno = db.SettingsGorevNo(DateTime.Today.ToOADateInt(), depoID).FirstOrDefault();
+            var today = fn.ToOADate();
+            var time = fn.ToOATime();
+            var cevap = db.InsertIrsaliye(vUser.SirketKodu, depoID, gorevno, gorevno, today, "Kablo Sayım", false, ComboItems.KabloSayım.ToInt32(), vUser.UserName, today, time, "", "", 0, "", "").FirstOrDefault();
+            LogActions("WMS", "Purchase", "New", ComboItems.alEkle, cevap.GorevID.Value, "Kablo Sayım");
 
 
-            //        yer = new Yer
-            //        {
-            //            KatID = katId,
-            //            DepoID = depoID,
-            //            MalKodu = item.MalKodu,
-            //            MakaraNo = "Boş-" + db.SettingsMakaraNo(depoID).FirstOrDefault(),
-            //         Miktar = item.Miktar,
-            //            MakaraDurum = item.Makara == "AÇIK" ? true : false,
-            //            HucreAd = hucreAd,
-            //            Birim = birim
-            //        };
-            //        yerLog = new Yer_Log
-            //        {
-            //            KatID = katId,
-            //            DepoID = depoID,
-            //            MalKodu = item.MalKodu,
-            //            MakaraNo = item.MakaraNo,
-            //            Miktar = item.Miktar,
-            //            HucreAd = hucreAd,
-            //            KayitTarihi=DateTime.Now.Date.ToOADate().ToInt32(),
-            //            KayitSaati=DateTime.Now.ToOaTime(),
-            //            IslemTipi="Kablo Stok Ekle MySQL Aktarılan",
-            //            Kaydeden=vUser.UserName,
-            //            Birim=birim
-            //        };
-
-            //        db.Yers.Add(yer);
-            //        db.Yer_Log.Add(yerLog);
-            //    }
-            //    else
-            //    {
-
-            //        yer.KatID = katId;
-            //        yer.Miktar += item.Miktar;
-            //        yer.MakaraDurum = item.Makara == "AÇIK" ? true : false;
-
-            //        yerLog = new Yer_Log
-            //        {
-            //            KatID = katId,
-            //            DepoID = depoID,
-            //            MalKodu = item.MalKodu,
-            //            MakaraNo = item.MakaraNo,
-            //            Miktar = item.Miktar,
-            //            HucreAd = hucreAd,
-            //            KayitTarihi = DateTime.Now.Date.ToOADate().ToInt32(),
-            //            KayitSaati = DateTime.Now.ToOaTime(),
-            //            IslemTipi = "Kablo Stok Güncelle MySQL Aktarılan",
-            //            Kaydeden = vUser.UserName,
-            //            Birim=birim
-            //        };
-
-            //        db.Yer_Log.Add(yerLog);
-
-            //    }
-
-            //}
-            //db.SaveChanges();
-
-            foreach (var item in data)
+                foreach (var item in data)
             {
                 katId = db.Kats.First(x => x.KatAd == item.Kat).ID;
                 depoID = db.Depoes.Single(x => x.DepoAd == item.DepoID).ID;
@@ -146,19 +77,19 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                         Birim = birim,
                         Miktar = item.Miktar
                     };
-                    Yerlestirme.Insert(tmp2, vUser.Id, "Sayım Farkı Fişi", mGorev.IrsaliyeID.Value);
+                    Yerlestirme.Insert(tmp2, vUser.Id, "Kablo Sayım", cevap.IrsaliyeID.Value);
                 }
                 else
                 {
-                    if (item.Miktar > item.Stok)//giriş
+                    if (item.Miktar > tmp2.Miktar)//giriş
                     {
                         tmp2.Miktar = item.Miktar;
-                        Yerlestirme.Update(tmp2, vUser.Id, "Sayım Farkı Fişi", item.Miktar - item.Stok, false, mGorev.IrsaliyeID.Value);
+                        Yerlestirme.Update(tmp2, vUser.Id, "Kablo Sayım", item.Miktar - item.Miktar, false, cevap.IrsaliyeID.Value);
                     }
-                    else if (item.Miktar < item.Stok)//çıkış
+                    else if (item.Miktar < tmp2.Miktar)//çıkış
                     {
                         tmp2.Miktar = item.Miktar;
-                        Yerlestirme.Update(tmp2, vUser.Id, "Sayım Farkı Fişi", item.Stok - item.Miktar, true, mGorev.IrsaliyeID.Value);
+                        Yerlestirme.Update(tmp2, vUser.Id, "Kablo Sayım", item.Miktar - item.Miktar, true, cevap.IrsaliyeID.Value);
                     }
                 }
             }
@@ -243,5 +174,75 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
 
         //    return Json(data, JsonRequestBehavior.AllowGet);
         //}
+        //foreach (var item in data)
+        //{
+        //    hucreAd = item.Raf + "-" + item.Bolum + "-" + item.Kat;
+        //    yer = db.Yers.SingleOrDefault(x => x.HucreAd == hucreAd);
+
+        //    if (yer == null)
+        //    {
+        //        katId = db.Kats.First(x => x.KatAd == item.Kat).ID;
+        //        depoID = db.Depoes.Single(x => x.DepoAd == item.DepoID).ID;
+        //        string query = string.Format("select birim1 As Birim from FINSAT6{0}.FINSAT6{0}.STK", vUser.SirketKodu);
+        //        birim = db.Database.SqlQuery<STKBirimMalKod>(query).FirstOrDefault().Birim;
+
+
+        //        yer = new Yer
+        //        {
+        //            KatID = katId,
+        //            DepoID = depoID,
+        //            MalKodu = item.MalKodu,
+        //            MakaraNo = "Boş-" + db.SettingsMakaraNo(depoID).FirstOrDefault(),
+        //         Miktar = item.Miktar,
+        //            MakaraDurum = item.Makara == "AÇIK" ? true : false,
+        //            HucreAd = hucreAd,
+        //            Birim = birim
+        //        };
+        //        yerLog = new Yer_Log
+        //        {
+        //            KatID = katId,
+        //            DepoID = depoID,
+        //            MalKodu = item.MalKodu,
+        //            MakaraNo = item.MakaraNo,
+        //            Miktar = item.Miktar,
+        //            HucreAd = hucreAd,
+        //            KayitTarihi=DateTime.Now.Date.ToOADate().ToInt32(),
+        //            KayitSaati=DateTime.Now.ToOaTime(),
+        //            IslemTipi="Kablo Stok Ekle MySQL Aktarılan",
+        //            Kaydeden=vUser.UserName,
+        //            Birim=birim
+        //        };
+
+        //        db.Yers.Add(yer);
+        //        db.Yer_Log.Add(yerLog);
+        //    }
+        //    else
+        //    {
+
+        //        yer.KatID = katId;
+        //        yer.Miktar += item.Miktar;
+        //        yer.MakaraDurum = item.Makara == "AÇIK" ? true : false;
+
+        //        yerLog = new Yer_Log
+        //        {
+        //            KatID = katId,
+        //            DepoID = depoID,
+        //            MalKodu = item.MalKodu,
+        //            MakaraNo = item.MakaraNo,
+        //            Miktar = item.Miktar,
+        //            HucreAd = hucreAd,
+        //            KayitTarihi = DateTime.Now.Date.ToOADate().ToInt32(),
+        //            KayitSaati = DateTime.Now.ToOaTime(),
+        //            IslemTipi = "Kablo Stok Güncelle MySQL Aktarılan",
+        //            Kaydeden = vUser.UserName,
+        //            Birim=birim
+        //        };
+
+        //        db.Yer_Log.Add(yerLog);
+
+        //    }
+
+        //}
+        //db.SaveChanges();
     }
 }
