@@ -568,7 +568,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                             MailHataMesajı = "Sipariş Onay Maili Gönderiminde hata oluştu! Mail Gönderilemedi!",
                             MailBasariMesajı = "Sipariş Onay Maili başarılı bir şekilde gönderildi!"
                         };
-                        m.Gonder(kime, mailayar.MailCc, gorunenIsim, konu, icerik, attachList, vUser.UserName, fn.GetIPAddress());
+                        m.Gonder(kime.Replace(";;",";"), mailayar.MailCc, gorunenIsim, konu, icerik, attachList, vUser.UserName, fn.GetIPAddress());
                         if (m.MailGonderimBasarili)
                         {
                             db.Database.ExecuteSqlCommand(string.Format("UPDATE Kaynak.sta.Talep SET MailGonder=-1 WHERE TalepNo='{0}'", sipTalep.TalepNo));
@@ -712,7 +712,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                     wr.RenderEndTag();
 
                     icerik += sw.ToString();
-                    m.Gonder(kime, mailayar.MailCc, gorunenIsim, konu, icerik, null, vUser.UserName, fn.GetIPAddress());
+                    m.Gonder(kime.Replace(";;", ";"), mailayar.MailCc, gorunenIsim, konu, icerik, null, vUser.UserName, fn.GetIPAddress());
                 }
                 catch (Exception ex)
                 {
@@ -1118,7 +1118,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                             };
 
                             var icerik = MyMail.TeklifGeriCevirmeMailIcerik(MyGlobalVariables.GMYSource, redAciklama);
-                            m.Gonder(kime, mailayar.MailCc, gorunenIsim, konu, icerik, null, vUser.UserName.ToString(), fn.GetIPAddress());
+                            m.Gonder(kime.Replace(";;", ";"), mailayar.MailCc, gorunenIsim, konu, icerik, null, vUser.UserName.ToString(), fn.GetIPAddress());
                         }
                         catch (Exception ex)
                         {
@@ -1218,7 +1218,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                     var icerik = string.Format("Talep nosu {0} olan {1} nedeni ile iptal edilmişir.", item.TalepNo, aciklama);
 
                     var m = new MyMail(db);
-                    m.Gonder(kime, mailayar.MailCc, gorunenIsim, konu, icerik, null, vUser.UserName, fn.GetIPAddress());
+                    m.Gonder(kime.Replace(";;", ";"), mailayar.MailCc, gorunenIsim, konu, icerik, null, vUser.UserName, fn.GetIPAddress());
 
                     if (m.MailGonderimBasarili)
                     {
