@@ -39,6 +39,7 @@
           <Property Name="miktar" Type="decimal" Precision="10" Scale="0" Nullable="false" />
           <Property Name="musteri" Type="varchar" MaxLength="40" Nullable="false" />
           <Property Name="tarih" Type="datetime" Precision="0" Nullable="false" />
+          <Property Name="kaydigiren" Type="varchar" MaxLength="45" />
         </EntityType>
         <EntityType Name="index">
           <Key>
@@ -153,6 +154,7 @@ warning 6002: The table/view 'def.kablo.kblstok' does not have a primary key def
           <Property Name="satici" Type="varchar" MaxLength="40" />
           <Property Name="sure" Type="time" Precision="0" />
           <Property Name="tarih" Type="datetime" Precision="0" />
+          <Property Name="makarano" Type="varchar" MaxLength="45" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'def.kablo.kblstok2' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -214,7 +216,8 @@ warning 6002: The table/view 'def.kablo.kblstok2' does not have a primary key de
 `kblstok`.`rezerve`, 
 `kblstok`.`satici`, 
 `kblstok`.`sure`, 
-`kblstok`.`tarih`
+`kblstok`.`tarih`, 
+`kblstok`.`makarano`
 FROM `kblstok` AS `kblstok`</DefiningQuery>
           </EntitySet>
           <EntitySet Name="kblstok2" EntityType="Self.kblstok2" store:Type="Views" store:Schema="kablo">
@@ -247,7 +250,6 @@ FROM `kblstok2` AS `kblstok2`</DefiningQuery>
           <EntitySet Name="cins" EntityType="KabloModel.cin" />
           <EntitySet Name="depoes" EntityType="KabloModel.depo" />
           <EntitySet Name="fiyats" EntityType="KabloModel.fiyat" />
-          <EntitySet Name="harekets" EntityType="KabloModel.hareket" />
           <EntitySet Name="indices" EntityType="KabloModel.index" />
           <EntitySet Name="kesits" EntityType="KabloModel.kesit" />
           <EntitySet Name="kesit_kop" EntityType="KabloModel.kesit_kop" />
@@ -257,8 +259,9 @@ FROM `kblstok2` AS `kblstok2`</DefiningQuery>
           <EntitySet Name="rezerve_onay" EntityType="KabloModel.rezerve_onay" />
           <EntitySet Name="stoks" EntityType="KabloModel.stok" />
           <EntitySet Name="sures" EntityType="KabloModel.sure" />
-          <EntitySet Name="kblstoks" EntityType="KabloModel.kblstok" />
           <EntitySet Name="kblstok2" EntityType="KabloModel.kblstok2" />
+          <EntitySet Name="harekets" EntityType="KabloModel.hareket" />
+          <EntitySet Name="kblstoks" EntityType="KabloModel.kblstok" />
         </EntityContainer>
         <EntityType Name="cin">
           <Key>
@@ -284,17 +287,6 @@ FROM `kblstok2` AS `kblstok2`</DefiningQuery>
           <Property Name="oznur" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="vatan" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="hes" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-        </EntityType>
-        <EntityType Name="hareket">
-          <Key>
-            <PropertyRef Name="mid" />
-          </Key>
-          <Property Name="mid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="id" Type="Int32" Nullable="false" />
-          <Property Name="miktar" Type="Decimal" Nullable="false" />
-          <Property Name="musteri" Type="String" Nullable="false" MaxLength="40" FixedLength="false" Unicode="false" />
-          <Property Name="tarih" Type="DateTime" Nullable="false" />
-          <Property Name="kaydigiren" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="index">
           <Key>
@@ -384,31 +376,6 @@ FROM `kblstok2` AS `kblstok2`</DefiningQuery>
           <Property Name="sure1" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="deger" Type="Time" Nullable="false" />
         </EntityType>
-        <EntityType Name="kblstok">
-          <Key>
-            <PropertyRef Name="id" />
-            <PropertyRef Name="marka" />
-            <PropertyRef Name="cins" />
-            <PropertyRef Name="kesit" />
-            <PropertyRef Name="depo" />
-            <PropertyRef Name="renk" />
-            <PropertyRef Name="makara" />
-            <PropertyRef Name="rezerve" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" />
-          <Property Name="marka" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="cins" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="kesit" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="miktar" Type="Decimal" />
-          <Property Name="depo" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="renk" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="makara" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="rezerve" Type="String" Nullable="false" MaxLength="13" FixedLength="false" Unicode="false" />
-          <Property Name="satici" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
-          <Property Name="sure" Type="Time" />
-          <Property Name="tarih" Type="DateTime" />
-          <Property Name="makarano" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-        </EntityType>
         <EntityType Name="kblstok2">
           <Key>
             <PropertyRef Name="id" />
@@ -436,6 +403,42 @@ FROM `kblstok2` AS `kblstok2`</DefiningQuery>
           <Property Name="satici" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
           <Property Name="musteri" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
           <Property Name="rmiktar" Type="Decimal" />
+          <Property Name="sure" Type="Time" />
+          <Property Name="tarih" Type="DateTime" />
+          <Property Name="makarano" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="hareket">
+          <Key>
+            <PropertyRef Name="mid" />
+          </Key>
+          <Property Name="mid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="miktar" Type="Decimal" Nullable="false" />
+          <Property Name="musteri" Type="String" Nullable="false" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Name="tarih" Type="DateTime" Nullable="false" />
+          <Property Name="kaydigiren" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="kblstok">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="marka" />
+            <PropertyRef Name="cins" />
+            <PropertyRef Name="kesit" />
+            <PropertyRef Name="depo" />
+            <PropertyRef Name="renk" />
+            <PropertyRef Name="makara" />
+            <PropertyRef Name="rezerve" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="marka" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="cins" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="kesit" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="miktar" Type="Decimal" />
+          <Property Name="depo" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="renk" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="makara" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="rezerve" Type="String" Nullable="false" MaxLength="13" FixedLength="false" Unicode="false" />
+          <Property Name="satici" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
           <Property Name="sure" Type="Time" />
           <Property Name="tarih" Type="DateTime" />
           <Property Name="makarano" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
@@ -471,17 +474,6 @@ FROM `kblstok2` AS `kblstok2`</DefiningQuery>
                 <ScalarProperty Name="nexans" ColumnName="nexans" />
                 <ScalarProperty Name="tumka" ColumnName="tumka" />
                 <ScalarProperty Name="sid" ColumnName="sid" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="harekets">
-            <EntityTypeMapping TypeName="KabloModel.hareket">
-              <MappingFragment StoreEntitySet="hareket">
-                <ScalarProperty Name="tarih" ColumnName="tarih" />
-                <ScalarProperty Name="musteri" ColumnName="musteri" />
-                <ScalarProperty Name="miktar" ColumnName="miktar" />
-                <ScalarProperty Name="id" ColumnName="id" />
-                <ScalarProperty Name="mid" ColumnName="mid" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -582,24 +574,6 @@ FROM `kblstok2` AS `kblstok2`</DefiningQuery>
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="kblstoks">
-            <EntityTypeMapping TypeName="KabloModel.kblstok">
-              <MappingFragment StoreEntitySet="kblstok">
-                <ScalarProperty Name="tarih" ColumnName="tarih" />
-                <ScalarProperty Name="sure" ColumnName="sure" />
-                <ScalarProperty Name="satici" ColumnName="satici" />
-                <ScalarProperty Name="rezerve" ColumnName="rezerve" />
-                <ScalarProperty Name="makara" ColumnName="makara" />
-                <ScalarProperty Name="renk" ColumnName="renk" />
-                <ScalarProperty Name="depo" ColumnName="depo" />
-                <ScalarProperty Name="miktar" ColumnName="miktar" />
-                <ScalarProperty Name="kesit" ColumnName="kesit" />
-                <ScalarProperty Name="cins" ColumnName="cins" />
-                <ScalarProperty Name="marka" ColumnName="marka" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="kblstok2">
             <EntityTypeMapping TypeName="KabloModel.kblstok2">
               <MappingFragment StoreEntitySet="kblstok2">
@@ -619,6 +593,37 @@ FROM `kblstok2` AS `kblstok2`</DefiningQuery>
                 <ScalarProperty Name="cins" ColumnName="cins" />
                 <ScalarProperty Name="marka" ColumnName="marka" />
                 <ScalarProperty Name="sid" ColumnName="sid" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="harekets">
+            <EntityTypeMapping TypeName="KabloModel.hareket">
+              <MappingFragment StoreEntitySet="hareket">
+                <ScalarProperty Name="kaydigiren" ColumnName="kaydigiren" />
+                <ScalarProperty Name="tarih" ColumnName="tarih" />
+                <ScalarProperty Name="musteri" ColumnName="musteri" />
+                <ScalarProperty Name="miktar" ColumnName="miktar" />
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="mid" ColumnName="mid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="kblstoks">
+            <EntityTypeMapping TypeName="KabloModel.kblstok">
+              <MappingFragment StoreEntitySet="kblstok">
+                <ScalarProperty Name="makarano" ColumnName="makarano" />
+                <ScalarProperty Name="tarih" ColumnName="tarih" />
+                <ScalarProperty Name="sure" ColumnName="sure" />
+                <ScalarProperty Name="satici" ColumnName="satici" />
+                <ScalarProperty Name="rezerve" ColumnName="rezerve" />
+                <ScalarProperty Name="makara" ColumnName="makara" />
+                <ScalarProperty Name="renk" ColumnName="renk" />
+                <ScalarProperty Name="depo" ColumnName="depo" />
+                <ScalarProperty Name="miktar" ColumnName="miktar" />
+                <ScalarProperty Name="kesit" ColumnName="kesit" />
+                <ScalarProperty Name="cins" ColumnName="cins" />
+                <ScalarProperty Name="marka" ColumnName="marka" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
