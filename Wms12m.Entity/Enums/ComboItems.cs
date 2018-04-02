@@ -105,7 +105,8 @@
         FaqYönetim = 98,
         DestekMutabakat = 99,
         DestekAndroid = 100,
-        DestekBakım = 101
-
+        DestekBakım = 101,
+        Eğitim=102,
+        KabloSayım=103
     }
 }
