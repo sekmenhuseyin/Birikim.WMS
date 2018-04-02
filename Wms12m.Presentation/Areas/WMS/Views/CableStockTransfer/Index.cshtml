@@ -188,13 +188,16 @@
 
         function getRaf(data, e, id) {
             var d = document.getElementById('Raf_' + id)
-            d.setAttribute("data-itemid", data.value);
             table.cell(d).data($('#rf_' + id + ' option:selected').text()).draw();
+            $("#Raf_" + id).data('secilir', '1');
+            $("#Raf_" + id).data('itemid', data.value);
             d.id = "";
-
         }
 
         function bolumClick(data, id) {
+
+            var raf = $(data).closest('td').prev('td').data("secilir");
+            if (raf != "1") return;
             var name = 'Bolum_' + id;
             var val = data.innerHTML.trim();
             var raf = $(data).closest('td').prev('td').data("itemid");
@@ -227,11 +230,15 @@
             var d = document.getElementById('Bolum_' + id)
             d.setAttribute("data-itemid", data.value);
             table.cell(d).data($('#bl_' + id + ' option:selected').text()).draw();
+            $("#Bolum_" + id).data('secilir', '1');
+            $("#Bolum_" + id).data('itemid', data.value);
             d.id = "";
 
         }
 
         function katClick(data, id) {
+            var raf = $(data).closest('td').prev('td').data("secilir");
+            if (raf != "1") return;
             var name = 'Kat_' + id;
             var val = data.innerHTML.trim();
             var bolum = $(data).closest('td').prev('td').data("itemid");//burada bug var
