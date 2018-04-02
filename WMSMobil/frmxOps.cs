@@ -90,6 +90,8 @@ namespace WMSMobil
                 txtEvrakno.Visible = false;
                 panelOrta.Top -= 44;
                 panelOrta.Height += 44;
+                label14.Visible = true;
+                txtMakaraBarkod.Visible = true;
             }
             else if (gorevtip == 6)
             {
@@ -474,12 +476,12 @@ namespace WMSMobil
                 return;
             }
 
-            //if (raf != "" && txtRafBarkod.Visible == true && mal != "" && makaraNo == "" && txtMakaraBarkod.Visible == true)
-            //{
-            //    Mesaj.Hata(null, "Makara Numarasını okutun");
-            //    txtRafBarkod.Focus();
-            //    return;
-            //}
+            if (raf != "" && txtRafBarkod.Visible == true && mal != "" && makaraNo == "" && txtMakaraBarkod.Visible == true)
+            {
+                Mesaj.Hata(null, "Makara Numarasını okutun");
+                txtRafBarkod.Focus();
+                return;
+            }
 
             if (txtRafBarkod.Visible == true)
             {
@@ -1061,19 +1063,19 @@ namespace WMSMobil
         /// </summary>
         private void txtBarkod_TextChanged(object sender, EventArgs e)
         {
-            //txtMakaraBarkod.Visible = false;
-            //label14.Visible = false;
-            //if (Ayarlar.MenuTip != MenuType.KontrollüSayım)
-            //    return;
-            //var malbilgileri = Servis.GetMalzemeFromBarcode("", txtBarkod.Text, GorevID, Ayarlar.Kullanici.ID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid);
-            //if (malbilgileri != null)
-            //{
-            //    if (malbilgileri.Kod1 == "KKABLO")
-            //    {
-            //        txtMakaraBarkod.Visible = true;
-            //        label14.Visible = true;
-            //    }
-            //}
+            txtMakaraBarkod.Visible = false;
+            label14.Visible = false;
+            if (Ayarlar.MenuTip != MenuType.KontrollüSayım)
+                return;
+            var malbilgileri = Servis.GetMalzemeFromBarcode("", txtBarkod.Text, GorevID, Ayarlar.Kullanici.ID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid);
+            if (malbilgileri != null)
+            {
+                if (malbilgileri.Kod1 == "KKABLO")
+                {
+                    txtMakaraBarkod.Visible = true;
+                    label14.Visible = true;
+                }
+            }
         }
     }
 }
