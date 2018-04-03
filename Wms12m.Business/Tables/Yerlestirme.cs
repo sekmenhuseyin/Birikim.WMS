@@ -299,7 +299,7 @@ namespace Wms12m.Business
                 tmp.MakaraNo = null;
             tmp.MakaraDurum = false;
             // log
-            var logs = new Yer_Log()
+            var yerLog = new Yer_Log()
             {
                 HucreAd = tbl.HucreAd,
                 MalKodu = tbl.MalKodu,
@@ -314,7 +314,7 @@ namespace Wms12m.Business
                 IRSDetayID = IrsDetayID
             };
             if (tbl.MakaraNo != "" && tbl.MakaraNo != null) yerLog.MakaraNo = tbl.MakaraNo;
-            db.Yer_Log.Add(logs);
+            db.Yer_Log.Add(yerLog);
             try
             {
                 db.SaveChanges();
