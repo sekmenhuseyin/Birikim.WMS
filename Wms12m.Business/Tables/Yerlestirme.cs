@@ -125,7 +125,7 @@ namespace Wms12m.Business
             var satir = db.Yers.Where(m => m.KatID == KatID && m.MalKodu == MalKodu);
             // makara no varsa onu da filtreye ekle
             if (MakaraNo != null && MakaraNo != "") satir = satir.Where(m => m.MakaraNo == MakaraNo);
-            if (MakaraNo != null && MakaraNo != "") satir = satir.Where(m => m.Birim == Birim);
+            if (Birim != null && Birim != "") satir = satir.Where(m => m.Birim == Birim);
             // return
             try
             {
@@ -233,6 +233,15 @@ namespace Wms12m.Business
             }
             // stok
             if (tbl.MakaraNo == "") tbl.MakaraNo = null;
+            if (tbl.MakaraNo != null)
+            {
+                var depoid = db.Kats.Where(m => m.ID == tbl.KatID).Select(m => m.Bolum.Raf.Koridor.DepoID).FirstOrDefault();
+                var makarakontrol = db.Yers.Where(m => m.ID != tbl.ID && m.DepoID == depoid && m.MakaraNo == tbl.MakaraNo).FirstOrDefault();
+                if (makarakontrol != null)
+                {
+                    return new Result(false, "Bu makara no daha önce kullanılmış.");
+                }
+            }
             db.Yers.Add(tbl);
             // log
             var yerLog = new Yer_Log()
@@ -344,6 +353,15 @@ namespace Wms12m.Business
             {
                 return _Result;
             }
+            // stok
+            tbl = Detail(tbl.ID);
+            tbl.Miktar = tbl.Miktar;
+            if (gc == true) tbl.MakaraDurum = false;
+            if (tbl.Miktar == 0)
+            {
+                tbl.MakaraNo = null;
+                tbl.MakaraDurum = false;
+            }
             // log
             var yerLog = new Yer_Log()
             {
@@ -361,16 +379,6 @@ namespace Wms12m.Business
             };
             if (tbl.MakaraNo != "" && tbl.MakaraNo != null) yerLog.MakaraNo = tbl.MakaraNo;
             db.Yer_Log.Add(yerLog);
-            if (gc == true) tbl.MakaraDurum = false;
-            // stok
-            var log = Detail(tbl.ID);
-            log.Miktar = tbl.Miktar;
-            if (log.Miktar == 0)
-            {
-                log.MakaraNo = null;
-                log.MakaraDurum = false;
-            }
-
             // save
             try
             {

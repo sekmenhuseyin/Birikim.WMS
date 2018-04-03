@@ -459,13 +459,14 @@ namespace WMSMobil
                 txtBarkod.Text = mal;
                 if (txtRafBarkod.Visible == true && txtRafBarkod.Text == "") txtRafBarkod.Focus();
             }
-            string makaraNo = txtMakaraBarkod.Text;
+            //malzeme barkodu kontrolü
             if (mal == "")
             {
                 Mesaj.Hata(null, "Malzemeyi okutun");
                 txtBarkod.Focus();
                 return;
             }
+            //raf barkodü kontrol
             string raf = txtRafBarkod.Text.ToUpper();
             if (raf == "" && txtRafBarkod.Visible == true)
             {
@@ -473,14 +474,7 @@ namespace WMSMobil
                 txtRafBarkod.Focus();
                 return;
             }
-
-            if (raf != "" && txtRafBarkod.Visible == true && mal != "" && makaraNo == "" && txtMakaraBarkod.Visible == true)
-            {
-                Mesaj.Hata(null, "Makara Numarasını okutun");
-                txtRafBarkod.Focus();
-                return;
-            }
-
+            //af gerçek mi kontrolü
             if (txtRafBarkod.Visible == true)
             {
                 var kontrol = Servis.IfExistsRaf(Ayarlar.Kullanici.DepoID, raf, Ayarlar.Kullanici.ID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid);
@@ -491,13 +485,24 @@ namespace WMSMobil
                     return;
                 }
             }
-          
-            bool mal_var = false;
-            bool raf_var = false;
-            var malInfo = new Tip_Malzeme();
-            string tmpMalKod = malInfo.MalKodu;
-            Tip_STI temp_sti = new Tip_STI();
+            //mal gerçek mi kontrolü
+            var malInfo = Servis.GetMalzemeFromBarcode("", mal, GorevID, Ayarlar.Kullanici.ID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid);
+            if (malInfo.MalKodu == null)
+            {
+                Mesaj.Uyari("Sistemde böyle bir barkod bulunamadı");
+                txtBarkod.Focus();
+                return;
+            }
+            //makara no barkodu kontrolü
+            string makaraNo = txtMakaraBarkod.Text;
+            if (mal != "" && makaraNo == "" && txtMakaraBarkod.Visible == true && malInfo.Kod1 == "KKABLO")
+            {
+                Mesaj.Hata(null, "Makara Numarasını okutun");
+                txtMakaraBarkod.Focus();
+                return;
+            }
             //tüm sayırları eski rengine döndür
+            string tmpMalKod = malInfo.MalKodu;
             foreach (var itemPanel in PanelVeriList)
             {
                 if (Ayarlar.MenuTip == MenuType.RafaYerlestirme || Ayarlar.MenuTip == MenuType.SiparisToplama || Ayarlar.MenuTip == MenuType.TransferÇıkış || Ayarlar.MenuTip == MenuType.TransferGiriş || Ayarlar.MenuTip == MenuType.Alımdanİade)
@@ -530,6 +535,7 @@ namespace WMSMobil
                 foreach (Control item in itemPanel.Controls)
                     item.BackColor = Color.FromArgb(206, 223, 239);
             }
+            //cokluMalSayisi > 1, 
             if (((Ayarlar.MenuTip == MenuType.MalKabul || Ayarlar.MenuTip == MenuType.Satıştanİade) && cokluMalSayisi > 1) || ((Ayarlar.MenuTip == MenuType.RafaYerlestirme) && ((cokluTempRafSayisi + farkliTempRafSayisi) == PanelVeriList.Count() || cokluRafSayisi > 1)))
             {
                 if (cokluTempRafSayisi+farkliTempRafSayisi == PanelVeriList.Count())
@@ -541,90 +547,109 @@ namespace WMSMobil
                 var sonuc = frm.ShowDialog();
                 sonucID = Ayarlar.Tarih;
             }
-            if (Ayarlar.MenuTip == MenuType.KontrollüSayım)
-            {
-                malInfo = Servis.GetMalzemeFromBarcode("", mal, GorevID, Ayarlar.Kullanici.ID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid);
-                if (malInfo.MalKodu == null)
-                {
-                    Mesaj.Uyari("Sistemde böyle bir barkod bulunamadı");
-                    txtBarkod.Focus();
-                    return;
-                }
-                if (raf != "" && txtRafBarkod.Visible == true && mal != "" && makaraNo == "" && txtMakaraBarkod.Visible == true && malInfo.Kod1 == "KKABLO")
-                {
-                    Mesaj.Hata(null, "Makara Numarasını okutun");
-                    txtRafBarkod.Focus();
-                    return;
-                }
-            }
+            //for each item in panel list
+            Tip_STI temp_sti = new Tip_STI();
+            bool mal_var = false;
+            bool raf_var = false;
             foreach (var itemPanel in PanelVeriList)
             {
-                //mal kabul ise malın bulunduğu satırdaki miktarı bir artırıyor, bir de satırı turuncuya boyuyor
+                //MalKabul, Paketle, Sevkiyat, KontrollüSayım, Satıştanİade
                 if (Ayarlar.MenuTip == MenuType.MalKabul || Ayarlar.MenuTip == MenuType.Paketle || Ayarlar.MenuTip == MenuType.Sevkiyat || Ayarlar.MenuTip == MenuType.KontrollüSayım || Ayarlar.MenuTip == MenuType.Satıştanİade)
                 {
+                    //kontroll sayımda
                     if (Ayarlar.MenuTip == MenuType.KontrollüSayım)
                     {
+                        //eğer kkablo ise
                         if (itemPanel.Controls[1].Text.Contains(malInfo.MalKodu) && malInfo.Kod1 == "KKABLO")
                         {
+                            //raf ve makara no kontrolü
                             if (itemPanel.Raf == raf && itemPanel.MakaraNo == makaraNo)
                             {
                                 mal_var = true;
                                 raf_var = true;
+                                //mikarı bir arttır
                                 itemPanel.Controls[7].Text = (itemPanel.Controls[7].Text.ToDecimal() + 1).ToString();
+                                //seçili satırı turuncu yap
                                 foreach (Control item in itemPanel.Controls)
                                     item.BackColor = Color.DarkOrange;
                             }
                         }
+                        //normal mal ise
                         else if (itemPanel.Controls[1].Text.Contains(malInfo.MalKodu))
                         {
                             mal_var = true;
+                            //raf kontrolü
                             if (itemPanel.Raf == raf)
                             {
                                 raf_var = true;
+                                //mikarı bir arttır
                                 itemPanel.Controls[7].Text = (itemPanel.Controls[7].Text.ToDecimal() + 1).ToString();
+                                //seçili satırı turuncu yap
                                 foreach (Control item in itemPanel.Controls)
                                     item.BackColor = Color.DarkOrange;
                             }
                         }
                     }
+                    //diğer ekranlar
                     else if (itemPanel.Controls[0].Text.Contains(";" + mal + ";") && mal != "")
                     {
+                        //malkabul ve satışan iade
                         mal_var = true;
                         if (Ayarlar.MenuTip == MenuType.MalKabul || Ayarlar.MenuTip == MenuType.Satıştanİade)
                         {
                             if (cokluMalSayisi == 1 || (cokluMalSayisi > 1 && sonucID == itemPanel.Controls[1].Tag.ToInt32()))
                             {
+                                //+ tuşu ise m mikarı yaz
                                 if (sender == btnUygula)
                                 {
                                     if (itemPanel.Miktar != 0)
                                         itemPanel.Controls[6].Text = itemPanel.Controls[3].Text;
                                 }
+                                //yoksa mikarı bir arttır
                                 else
                                     itemPanel.Controls[6].Text = (itemPanel.Controls[6].Text.ToDecimal() + 1).ToString();
+                                //seçili satırı turuncu yap
                                 foreach (Control item in itemPanel.Controls)
                                     item.BackColor = Color.DarkOrange;
                             }
                         }
+                        //geri kalanlar
                         else
                         {
+                            //+ tuşu ise m mikarı yaz
                             if (sender == btnUygula)
                             {
                                 if (itemPanel.Miktar != 0)
                                     itemPanel.Controls[6].Text = itemPanel.Controls[3].Text;
                             }
+                            //yoksa mikarı bir arttır
                             else
                                 itemPanel.Controls[6].Text = (itemPanel.Controls[6].Text.ToDecimal() + 1).ToString();
+                            //seçili satırı turuncu yap
                             foreach (Control item in itemPanel.Controls)
                                 item.BackColor = Color.DarkOrange;
                         }
                     }
                 }
+                //RafaYerlestirme, SiparisToplama, TransferÇıkış, TransferGiriş, Alımdanİade
                 else if (Ayarlar.MenuTip == MenuType.RafaYerlestirme || Ayarlar.MenuTip == MenuType.SiparisToplama || Ayarlar.MenuTip == MenuType.TransferÇıkış || Ayarlar.MenuTip == MenuType.TransferGiriş || Ayarlar.MenuTip == MenuType.Alımdanİade)
                 {
+                        mal_var = true;
+                    //mal barkodu kontrolü
                     if (itemPanel.Controls[0].Text.Contains(";" + mal + ";") && mal != "")
                     {
-                        mal_var = true;
+                        if (malInfo.Kod1 == "KKABLO")
+                        {
+                            if (itemPanel.MakaraNo == makaraNo)
+                            {
 
+                            }
+                        }
+                        else
+                        {
+
+                        }
+                        //ya tekli seçimde veya çoklu seçimin sonucunda
                         if (sonucID == 0 || itemPanel.Controls[1].Tag.ToInt32() == sonucID) 
                         {
                             temp_sti.YerlestirmeMiktari = itemPanel.Controls[6].Text.ToDecimal();
