@@ -21,12 +21,18 @@ namespace Wms12m.Presentation.Areas.Constants.Controllers
             var mysql = db.Settings.Select(m => m.KabloSiparisMySql).FirstOrDefault();
             if (mysql)
             {
-                using (KabloEntities dbx = new KabloEntities())
+                try
                 {
-                    ViewBag.KabloDepoID = new SelectList(dbx.depoes.OrderBy(m => m.depo1).ToList(), "id", "depo1");
+                    using (KabloEntities dbx = new KabloEntities())
+                    {
+                        ViewBag.KabloDepoID = new SelectList(dbx.depoes.OrderBy(m => m.depo1).ToList(), "id", "depo1");
+                    }
+                }
+                catch (Exception)
+                {
+                    mysql = false;
                 }
             }
-
             ViewBag.mysql = mysql;
             ViewBag.Yetki = CheckPerm(Perms.DepoKartı, PermTypes.Writing);
             return View("Index", new Depo());

@@ -1250,7 +1250,6 @@ namespace Wms12m.Presentation
                         }
                 }
                 // burada görevyer/irsdetay tablosundaki ürünleri rzrv hücresine atacak
-
                 db.TerminalFinishGorev(GorevID, mGorev.IrsaliyeID, "", tarih, DateTime.Now.ToOaTime(), kull.Kod, "", ComboItems.TransferÇıkış.ToInt32(), 0).FirstOrDefault();
                 LogActions(KullID.ToString(), "Terminal", "Service", "Terminal", "TransferGiris_GoreviTamamla", ComboItems.alDüzenle, GorevID, "TransferÇıkış => -");
                 // update gorev table

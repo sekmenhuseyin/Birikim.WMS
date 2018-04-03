@@ -90,8 +90,6 @@ namespace WMSMobil
                 txtEvrakno.Visible = false;
                 panelOrta.Top -= 44;
                 panelOrta.Height += 44;
-                label14.Visible = true;
-                txtMakaraBarkod.Visible = true;
             }
             else if (gorevtip == 6)
             {
