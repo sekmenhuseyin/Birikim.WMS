@@ -49,10 +49,10 @@ namespace Wms12m.Presentation.Areas.WMS.Models.ViewModels
 
                   //MakaraNo Olmayanlar ve MakaraNo eşleşip miktarı eşit olmayanları stoklar list'ine atar
                 List<string> yer = rt.db.Yer_Log.Select(x => x.MakaraNo).ToList();
-                List<kblstok> stoklar = new List<kblstok>();
+                List<kblstok2> stoklar = new List<kblstok2>();
 
                 
-                foreach (var item in db.kblstoks)//mysql stoklar üzerinde dön
+                foreach (var item in db.kblstok2)//mysql stoklar üzerinde dön
                     if (!yer.Contains(item.makarano))//maraka no yoksa listeye ekle
                         stoklar.Add(item);
                     else//MakaraNo eşleşip miktarı eşit olmayanları  
