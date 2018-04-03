@@ -313,6 +313,7 @@ namespace Wms12m.Business
                 IrsaliyeID = IrsID,
                 IRSDetayID = IrsDetayID
             };
+            if (tbl.MakaraNo != "" && tbl.MakaraNo != null) yerLog.MakaraNo = tbl.MakaraNo;
             db.Yer_Log.Add(logs);
             try
             {
@@ -358,6 +359,7 @@ namespace Wms12m.Business
                 IrsaliyeID = IrsID,
                 IRSDetayID = IrsDetayID
             };
+            if (tbl.MakaraNo != "" && tbl.MakaraNo != null) yerLog.MakaraNo = tbl.MakaraNo;
             db.Yer_Log.Add(yerLog);
             if (gc == true) tbl.MakaraDurum = false;
             // stok

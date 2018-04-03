@@ -139,6 +139,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         public JsonResult ManualCorrection(Yer tbl, bool GC)
         {
             if (CheckPerm(Perms.Stok, PermTypes.Writing) == false || tbl.Miktar < 0) return Json(false, JsonRequestBehavior.AllowGet);
+            Result sonuc;
             //giriş işlemleri
             if (GC == false)
             {
@@ -163,12 +164,16 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                             Miktar = tbl.Miktar,
                             MakaraDurum = true
                         };
-                        Yerlestirme.Insert(tmp2, vUser.Id, "Stok Elle Ekle");
+                        sonuc = Yerlestirme.Insert(tmp2, vUser.Id, "Stok Elle Ekle");
+                        if (sonuc.Status == false)
+                            return Json(new Result(false, sonuc.Message), JsonRequestBehavior.AllowGet);
                     }
                     else
                     {
                         tmp2.Miktar += tbl.Miktar;
-                        Yerlestirme.Update(tmp2, vUser.Id, "Stok Elle Ekle", tbl.Miktar, false);
+                        sonuc = Yerlestirme.Update(tmp2, vUser.Id, "Stok Elle Ekle", tbl.Miktar, false);
+                        if (sonuc.Status == false)
+                            return Json(new Result(false, sonuc.Message), JsonRequestBehavior.AllowGet);
                     }
                 }
                 else
@@ -185,7 +190,9 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                             Miktar = tbl.Miktar,
                             MakaraDurum = true
                         };
-                        Yerlestirme.Insert(tmp2, vUser.Id, "Stok Elle Ekle");
+                        sonuc = Yerlestirme.Insert(tmp2, vUser.Id, "Stok Elle Ekle");
+                        if (sonuc.Status == false)
+                            return Json(new Result(false, sonuc.Message), JsonRequestBehavior.AllowGet);
                     }
                     else
                     {
@@ -266,7 +273,9 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                     if (tmp2.Miktar < tbl.Miktar)
                         return Json(new Result(false, "Seçili yerde çıkış yapılmak istenilen sayıda ürün yok"), JsonRequestBehavior.AllowGet);
                     tmp2.Miktar -= tbl.Miktar;
-                    Yerlestirme.Update(tmp2, vUser.Id, "Stok Elle Çıkartma", tbl.Miktar, true);
+                    sonuc = Yerlestirme.Update(tmp2, vUser.Id, "Stok Elle Çıkartma", tbl.Miktar, true);
+                    if (sonuc.Status == false)
+                        return Json(new Result(false, sonuc.Message), JsonRequestBehavior.AllowGet);
                 }
                 else
                 {
@@ -276,7 +285,9 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                     if (tmp2.Miktar < tbl.Miktar)
                         return Json(new Result(false, "Seçili yerde çıkış yapılmak istenilen sayıda ürün yok"), JsonRequestBehavior.AllowGet);
                     tmp2.Miktar -= tbl.Miktar;
-                    Yerlestirme.Update(tmp2, vUser.Id, "Stok Elle Çıkartma", tbl.Miktar, true);
+                    sonuc = Yerlestirme.Update(tmp2, vUser.Id, "Stok Elle Çıkartma", tbl.Miktar, true);
+                    if (sonuc.Status == false)
+                        return Json(new Result(false, sonuc.Message), JsonRequestBehavior.AllowGet);
                 }
             }
 
