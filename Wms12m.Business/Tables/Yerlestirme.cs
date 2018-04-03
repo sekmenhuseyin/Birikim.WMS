@@ -353,15 +353,6 @@ namespace Wms12m.Business
             {
                 return _Result;
             }
-            // stok
-            tbl = Detail(tbl.ID);
-            tbl.Miktar = tbl.Miktar;
-            if (gc == true) tbl.MakaraDurum = false;
-            if (tbl.Miktar == 0)
-            {
-                tbl.MakaraNo = null;
-                tbl.MakaraDurum = false;
-            }
             // log
             var yerLog = new Yer_Log()
             {
@@ -379,6 +370,13 @@ namespace Wms12m.Business
             };
             if (tbl.MakaraNo != "" && tbl.MakaraNo != null) yerLog.MakaraNo = tbl.MakaraNo;
             db.Yer_Log.Add(yerLog);
+            // stok
+            if (gc == true) tbl.MakaraDurum = false;
+            if (tbl.Miktar == 0)
+            {
+                tbl.MakaraNo = null;
+                tbl.MakaraDurum = false;
+            }
             // save
             try
             {

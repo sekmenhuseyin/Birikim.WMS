@@ -199,113 +199,98 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                         return Json(new Result(false, "Bu makara no kullanılmaktadır"), JsonRequestBehavior.AllowGet);
                     }
                 }
-                // add to mysql
-                if (db.Settings.FirstOrDefault().KabloSiparisMySql == true)
-                {
-                    var sql = string.Format("SELECT FINSAT6{0}.FINSAT6{0}.STK.MalAdi4 as Marka, FINSAT6{0}.FINSAT6{0}.STK.Nesne2 as Cins, FINSAT6{0}.FINSAT6{0}.STK.Kod15 as Kesit " +
-                                        "FROM FINSAT6{0}.FINSAT6{0}.STK " +
-                                        "WHERE (FINSAT6{0}.FINSAT6{0}.STK.Kod1 = 'KKABLO') AND (FINSAT6{0}.FINSAT6{0}.STK.MalKodu = '{1}')", vUser.SirketKodu, tbl.MalKodu);
-                    var stks = db.Database.SqlQuery<frmCableStk>(sql).FirstOrDefault();
-                    if (stks != null)
-                    {
-                        using (KabloEntities dbx = new KabloEntities())
-                        {
-                            string depo;
-                            var kbldepoID = db.Depoes.Where(m => m.ID == tbl.DepoID).Select(m => m.KabloDepoID).FirstOrDefault();
-                            if (kbldepoID == null) depo = dbx.depoes.Select(m => m.depo1).FirstOrDefault();
-                            else depo = dbx.depoes.Where(m => m.id == kbldepoID).Select(m => m.depo1).FirstOrDefault();
-                            try
-                            {
-                                if (GC == false)
-                                {
-                                    // sid bul
-                                    var sid = dbx.indices.Where(m => m.cins == stks.Cins && m.kesit == stks.Kesit).FirstOrDefault();
-                                    if (sid == null)
-                                    {
-                                        sid = new index() { cins = stks.Cins, kesit = stks.Kesit, agirlik = 0 };
-                                        dbx.indices.Add(sid);
-                                        dbx.SaveChanges();
-                                    }
-                                    // stoğa kaydet
-                                    var tbls = new stok()
-                                    {
-                                        marka = stks.Marka,
-                                        cins = stks.Cins,
-                                        kesit = stks.Kesit,
-                                        sid = sid.id,
-                                        depo = depo,
-                                        renk = "",
-                                        makara = "KAPALI",
-                                        rezerve = "0",
-                                        sure = new TimeSpan(),
-                                        tarih = DateTime.Now,
-                                        tip = "",
-                                        rmiktar = 0,
-                                        miktar = tbl.Miktar,
-                                        makarano = tbl.MakaraNo
-                                    };
-                                    dbx.stoks.Add(tbls);
-                                }
-                                else
-                                {
-                                    // makarayı bul
-                                    var kablo = dbx.stoks.Where(m => m.depo == depo && m.marka == stks.Marka && m.cins == stks.Cins && m.kesit == stks.Kesit && m.makarano == tbl.MakaraNo).FirstOrDefault();
-                                    if (kablo != null)
-                                    {
-                                        // kabloya açık yap
-                                        if (kablo.miktar != tbl.Miktar)
-                                            kablo.makara = "AÇIK";
-                                        // yeni hareket ekle
-                                        var tblh = new hareket()
-                                        {
-                                            id = kablo.id,
-                                            miktar = tbl.Miktar,
-                                            musteri = "Stok Elle Düzeltme",
-                                            tarih = DateTime.Now,
-                                            kaydigiren = vUser.FullName
-                                        };
-                                        dbx.harekets.Add(tblh);
-                                    }
-                                }
-                                dbx.SaveChanges();
-                            }
-                            catch (Exception ex)
-                            {
-                                Logger(ex, "Stock/ManualCorrection");
-                            }
-                        }
-                    }
-                }
             }
             //çıkış işlemleri
             else
             {
-                if (tbl.MakaraNo == "" || tbl.MakaraNo == null)
-                {
-                    var tmp2 = Yerlestirme.Detail(tbl.KatID, tbl.MalKodu, tbl.Birim);
-                    if (tmp2 == null)
-                        return Json(new Result(false, "Seçili yerde bu ürün bulunamadı."), JsonRequestBehavior.AllowGet);
-                    if (tmp2.Miktar < tbl.Miktar)
-                        return Json(new Result(false, "Seçili yerde çıkış yapılmak istenilen sayıda ürün yok"), JsonRequestBehavior.AllowGet);
-                    tmp2.Miktar -= tbl.Miktar;
-                    sonuc = Yerlestirme.Update(tmp2, vUser.Id, "Stok Elle Çıkartma", tbl.Miktar, true);
-                    if (sonuc.Status == false)
-                        return Json(new Result(false, sonuc.Message), JsonRequestBehavior.AllowGet);
-                }
-                else
-                {
-                    var tmp2 = db.Yers.Where(m => m.KatID == tbl.KatID && m.MalKodu == tbl.MalKodu && m.Birim == tbl.Birim && m.MakaraNo == tbl.MakaraNo).FirstOrDefault();
-                    if (tmp2 == null)
-                        return Json(new Result(false, "Seçili yerde bu ürün bulunamadı."), JsonRequestBehavior.AllowGet);
-                    if (tmp2.Miktar < tbl.Miktar)
-                        return Json(new Result(false, "Seçili yerde çıkış yapılmak istenilen sayıda ürün yok"), JsonRequestBehavior.AllowGet);
-                    tmp2.Miktar -= tbl.Miktar;
-                    sonuc = Yerlestirme.Update(tmp2, vUser.Id, "Stok Elle Çıkartma", tbl.Miktar, true);
-                    if (sonuc.Status == false)
-                        return Json(new Result(false, sonuc.Message), JsonRequestBehavior.AllowGet);
-                }
+                var tmp2 = Yerlestirme.Detail(tbl.KatID, tbl.MalKodu, tbl.Birim, tbl.MakaraNo);
+                if (tmp2 == null)
+                    return Json(new Result(false, "Seçili yerde bu ürün bulunamadı."), JsonRequestBehavior.AllowGet);
+                if (tmp2.Miktar < tbl.Miktar)
+                    return Json(new Result(false, "Seçili yerde çıkış yapılmak istenilen sayıda ürün yok"), JsonRequestBehavior.AllowGet);
+                tmp2.Miktar -= tbl.Miktar;
+                sonuc = Yerlestirme.Update(tmp2, vUser.Id, "Stok Elle Düzeltme", tbl.Miktar, true);
+                if (sonuc.Status == false)
+                    return Json(new Result(false, sonuc.Message), JsonRequestBehavior.AllowGet);
             }
 
+            // add to mysql
+            if (db.Settings.FirstOrDefault().KabloSiparisMySql == true)
+            {
+                var sql = string.Format("SELECT FINSAT6{0}.FINSAT6{0}.STK.MalAdi4 as Marka, FINSAT6{0}.FINSAT6{0}.STK.Nesne2 as Cins, FINSAT6{0}.FINSAT6{0}.STK.Kod15 as Kesit " +
+                                    "FROM FINSAT6{0}.FINSAT6{0}.STK " +
+                                    "WHERE (FINSAT6{0}.FINSAT6{0}.STK.Kod1 = 'KKABLO') AND (FINSAT6{0}.FINSAT6{0}.STK.MalKodu = '{1}')", vUser.SirketKodu, tbl.MalKodu);
+                var stks = db.Database.SqlQuery<frmCableStk>(sql).FirstOrDefault();
+                if (stks != null)
+                {
+                    using (KabloEntities dbx = new KabloEntities())
+                    {
+                        string depo;
+                        var kbldepoID = db.Depoes.Where(m => m.ID == tbl.DepoID).Select(m => m.KabloDepoID).FirstOrDefault();
+                        if (kbldepoID == null) depo = dbx.depoes.Select(m => m.depo1).FirstOrDefault();
+                        else depo = dbx.depoes.Where(m => m.id == kbldepoID).Select(m => m.depo1).FirstOrDefault();
+                        try
+                        {
+                            if (GC == false)
+                            {
+                                // sid bul
+                                var sid = dbx.indices.Where(m => m.cins == stks.Cins && m.kesit == stks.Kesit).FirstOrDefault();
+                                if (sid == null)
+                                {
+                                    sid = new index() { cins = stks.Cins, kesit = stks.Kesit, agirlik = 0 };
+                                    dbx.indices.Add(sid);
+                                    dbx.SaveChanges();
+                                }
+                                // stoğa kaydet
+                                var tbls = new stok()
+                                {
+                                    marka = stks.Marka,
+                                    cins = stks.Cins,
+                                    kesit = stks.Kesit,
+                                    sid = sid.id,
+                                    depo = depo,
+                                    renk = "",
+                                    makara = "KAPALI",
+                                    rezerve = "0",
+                                    sure = new TimeSpan(),
+                                    tarih = DateTime.Now,
+                                    tip = "",
+                                    rmiktar = 0,
+                                    miktar = tbl.Miktar,
+                                    makarano = tbl.MakaraNo
+                                };
+                                dbx.stoks.Add(tbls);
+                            }
+                            else
+                            {
+                                // makarayı bul
+                                var kablo = dbx.stoks.Where(m => m.depo == depo && m.marka == stks.Marka && m.cins == stks.Cins && m.kesit == stks.Kesit && m.makarano == tbl.MakaraNo).FirstOrDefault();
+                                if (kablo != null)
+                                {
+                                    // kabloya açık yap
+                                    if (kablo.miktar != tbl.Miktar)
+                                        kablo.makara = "AÇIK";
+                                    // yeni hareket ekle
+                                    var tblh = new hareket()
+                                    {
+                                        id = kablo.id,
+                                        miktar = tbl.Miktar,
+                                        musteri = "Stok Elle Düzeltme",
+                                        tarih = DateTime.Now,
+                                        kaydigiren = vUser.FullName
+                                    };
+                                    dbx.harekets.Add(tblh);
+                                }
+                            }
+                            dbx.SaveChanges();
+                        }
+                        catch (Exception ex)
+                        {
+                            Logger(ex, "Stock/ManualCorrection");
+                        }
+                    }
+                }
+            }
             // return
             return Json(new Result(true), JsonRequestBehavior.AllowGet);
         }
