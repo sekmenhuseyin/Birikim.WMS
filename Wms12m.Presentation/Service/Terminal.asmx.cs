@@ -478,14 +478,20 @@ namespace Wms12m.Presentation
                                     foreach (var itemx in stks)
                                     {
                                         // sid bul
-                                        var sid = dbx.indices.Where(m => m.cins == itemx.Cins && m.kesit == itemx.Kesit).Select(m => m.id).FirstOrDefault();
+                                        var sid = dbx.indices.Where(m => m.cins == itemx.Cins && m.kesit == itemx.Kesit).FirstOrDefault();
+                                        if (sid == null)
+                                        {
+                                            sid = new index() { cins = itemx.Cins, kesit = itemx.Kesit, agirlik = 0 };
+                                            dbx.indices.Add(sid);
+                                            dbx.SaveChanges();
+                                        }
                                         // stoğa kaydet
                                         var tbls = new stok()
                                         {
                                             marka = itemx.Marka,
                                             cins = itemx.Cins,
                                             kesit = itemx.Kesit,
-                                            sid = sid,
+                                            sid = sid.id,
                                             depo = depo,
                                             renk = "",
                                             makara = "KAPALI",
@@ -940,7 +946,7 @@ namespace Wms12m.Presentation
                                 if (stk != null)
                                 {
                                     // makarayı bul
-                                    var kablo = dbx.stoks.Where(m => m.depo == depo && m.marka == stk.Marka && m.cins == stk.Cins && m.kesit == stk.Kesit && m.id == item2.KynkSiparisID).FirstOrDefault();
+                                    var kablo = dbx.stoks.Where(m => m.depo == depo && m.marka == stk.Marka && m.cins == stk.Cins && m.kesit == stk.Kesit && m.makarano == item2.MakaraNo).FirstOrDefault();
                                     if (kablo != null)
                                     {
                                         // kabloya açık yap
@@ -1972,7 +1978,7 @@ namespace Wms12m.Presentation
                                 if (stk != null)
                                 {
                                     // makarayı bul
-                                    var kablo = dbx.stoks.Where(m => m.depo == depo && m.marka == stk.Marka && m.cins == stk.Cins && m.kesit == stk.Kesit && m.id == item2.KynkSiparisID).FirstOrDefault();
+                                    var kablo = dbx.stoks.Where(m => m.depo == depo && m.marka == stk.Marka && m.cins == stk.Cins && m.kesit == stk.Kesit && m.makarano == item2.MakaraNo).FirstOrDefault();
                                     // kabloya açık yap
                                     if (kablo.miktar != item2.Miktar)
                                         kablo.makara = "AÇIK";
