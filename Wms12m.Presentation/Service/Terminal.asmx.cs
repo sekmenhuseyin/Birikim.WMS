@@ -553,62 +553,78 @@ namespace Wms12m.Presentation
                 db.GorevUsers.Add(tbl);
                 db.SaveChanges();
             }
-
-            // loop
-            var _result = new Result(true);
-            var Rkat = db.GetHucreKatID(mGorev.IR.DepoID, "R-ZR-V").FirstOrDefault();
-            foreach (var item in YerlestirmeList)
+            //use transaction for large db commits
+            using (var transaction = db.Database.BeginTransaction())
             {
-                // hücre adından kat id bulunur
-                var kat = db.GetHucreKatID(item.DepoID, item.RafNo).FirstOrDefault();
-                if (kat == null)
+                // loop
+                try
                 {
-                    _result = new Result(false, item.RafNo + " adlı yer bulunamadı");
-                    continue;
-                }
-                else
-                {
-                    // irs detay tablosu güncellenir
-                    var tmp = IrsaliyeDetay.Detail(item.IrsDetayID);
-                    if (tmp.Miktar < ((tmp.YerlestirmeMiktari ?? 0) + item.Miktar))
+                    var _result = new Result(true);
+                    var Rkat = db.GetHucreKatID(mGorev.IR.DepoID, "R-ZR-V").FirstOrDefault();
+                    foreach (var item in YerlestirmeList)
                     {
-                        _result = new Result(false, item.MalKodu + " için fazla mal yazılmış");
-                        continue;
-                    }
-                    else
-                    {
-                        if (tmp.YerlestirmeMiktari == null) tmp.YerlestirmeMiktari = item.Miktar;
-                        else tmp.YerlestirmeMiktari += item.Miktar;
-                        // irs detay kayıt
-                        IrsaliyeDetay.Operation(tmp);
-                        // rezervden düşürülür
-                        var tmp2 = Yerlestirme.Detail(Rkat.Value, item.MalKodu, item.MakaraNo);
-                        tmp2.Miktar -= item.Miktar;
-                        Yerlestirme.Update(tmp2, KullID, "Rafa Kaldır", item.Miktar, true, item.IrsID, item.IrsDetayID);
-                        // yerleştirme kaydı yapılır
-                        tmp2 = Yerlestirme.Detail(kat.Value, item.MalKodu, item.MakaraNo);
-                        if (tmp2 == null || tmp2.MakaraNo != item.MakaraNo)
+                        // hücre adından kat id bulunur
+                        var kat = db.GetHucreKatID(item.DepoID, item.RafNo).FirstOrDefault();
+                        if (kat == null)
                         {
-                            tmp2 = new Yer()
-                            {
-                                KatID = kat.Value,
-                                MalKodu = item.MalKodu,
-                                Birim = item.Birim,
-                                Miktar = item.Miktar
-                            };
-                            if (item.MakaraNo != "" || item.MakaraNo != null) tmp2.MakaraNo = item.MakaraNo;
-                            Yerlestirme.Insert(tmp2, KullID, "Rafa Kaldır", item.IrsID, item.IrsDetayID);
+                            return new Result(false, item.RafNo + " adlı yer bulunamadı");
                         }
                         else
                         {
-                            tmp2.Miktar += item.Miktar;
-                            Yerlestirme.Update(tmp2, KullID, "Rafa Kaldır", item.Miktar, false, item.IrsID, item.IrsDetayID);
+                            // irs detay tablosu güncellenir
+                            var tmp = IrsaliyeDetay.Detail(item.IrsDetayID);
+                            if (tmp.Miktar < ((tmp.YerlestirmeMiktari ?? 0) + item.Miktar))
+                            {
+                                return new Result(false, item.MalKodu + " için fazla mal yazılmış");
+                            }
+                            else
+                            {
+                                if (tmp.YerlestirmeMiktari == null) tmp.YerlestirmeMiktari = item.Miktar;
+                                else tmp.YerlestirmeMiktari += item.Miktar;
+                                // irs detay kayıt
+                                IrsaliyeDetay.Operation(tmp);
+                                // rezervden düşürülür
+                                var tmp2 = Yerlestirme.Detail(Rkat.Value, item.MalKodu, item.MakaraNo);
+                                tmp2.Miktar -= item.Miktar;
+                                var sonuc = Yerlestirme.Update(tmp2, KullID, "Rafa Kaldır", item.Miktar, true, item.IrsID, item.IrsDetayID);
+                                if (sonuc.Status == false)
+                                    throw new Exception("Hata" + sonuc.Message);
+                                // yerleştirme kaydı yapılır
+                                tmp2 = Yerlestirme.Detail(kat.Value, item.MalKodu, item.MakaraNo);
+                                if (tmp2 == null || tmp2.MakaraNo.ToString2() != item.MakaraNo.ToString2())
+                                {
+                                    tmp2 = new Yer()
+                                    {
+                                        KatID = kat.Value,
+                                        MalKodu = item.MalKodu,
+                                        Birim = item.Birim,
+                                        Miktar = item.Miktar
+                                    };
+                                    if (item.MakaraNo != "" || item.MakaraNo != null) tmp2.MakaraNo = item.MakaraNo;
+                                    sonuc = Yerlestirme.Insert(tmp2, KullID, "Rafa Kaldır", item.IrsID, item.IrsDetayID);
+                                    if (sonuc.Status == false)
+                                        throw new Exception("Hata" + sonuc.Message);
+                                }
+                                else
+                                {
+                                    tmp2.Miktar += item.Miktar;
+                                    sonuc = Yerlestirme.Update(tmp2, KullID, "Rafa Kaldır", item.Miktar, false, item.IrsID, item.IrsDetayID);
+                                    if (sonuc.Status == false)
+                                        throw new Exception("Hata" + sonuc.Message);
+                                }
+                            }
                         }
                     }
+                    transaction.Commit();
+                    return _result;
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+                    return new Result(false, "Hata: " + ex.Message);
                 }
             }
 
-            return _result;
         }
 
         /// <summary>
