@@ -65,7 +65,6 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         /// </summary>
         public PartialViewResult Edit(int Id)
         {
-            // TODO:
             var gorevCalisma = db.GorevlerCalismas.Find(Id);
             ViewBag.GorevID = new SelectList(db.Gorevlers.Where(m => m.ID == gorevCalisma.GorevID).ToList(), "ID", "Gorev", gorevCalisma.GorevID);
             return PartialView(gorevCalisma);

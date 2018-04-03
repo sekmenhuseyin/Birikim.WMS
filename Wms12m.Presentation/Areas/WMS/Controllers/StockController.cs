@@ -164,14 +164,14 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                             Miktar = tbl.Miktar,
                             MakaraDurum = true
                         };
-                        sonuc = Yerlestirme.Insert(tmp2, vUser.Id, "Stok Elle Ekle");
+                        sonuc = Yerlestirme.Insert(tmp2, vUser.Id, "Stok Elle Düzeltme");
                         if (sonuc.Status == false)
                             return Json(new Result(false, sonuc.Message), JsonRequestBehavior.AllowGet);
                     }
                     else
                     {
                         tmp2.Miktar += tbl.Miktar;
-                        sonuc = Yerlestirme.Update(tmp2, vUser.Id, "Stok Elle Ekle", tbl.Miktar, false);
+                        sonuc = Yerlestirme.Update(tmp2, vUser.Id, "Stok Elle Düzeltme", tbl.Miktar, false);
                         if (sonuc.Status == false)
                             return Json(new Result(false, sonuc.Message), JsonRequestBehavior.AllowGet);
                     }
@@ -190,7 +190,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                             Miktar = tbl.Miktar,
                             MakaraDurum = true
                         };
-                        sonuc = Yerlestirme.Insert(tmp2, vUser.Id, "Stok Elle Ekle");
+                        sonuc = Yerlestirme.Insert(tmp2, vUser.Id, "Stok Elle Düzeltme");
                         if (sonuc.Status == false)
                             return Json(new Result(false, sonuc.Message), JsonRequestBehavior.AllowGet);
                     }
@@ -211,7 +211,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                         using (KabloEntities dbx = new KabloEntities())
                         {
                             string depo;
-                            var kbldepoID = db.Depoes.Where(m => m.ID == vUser.DepoId).Select(m => m.KabloDepoID).FirstOrDefault();
+                            var kbldepoID = db.Depoes.Where(m => m.ID == tbl.DepoID).Select(m => m.KabloDepoID).FirstOrDefault();
                             if (kbldepoID == null) depo = dbx.depoes.Select(m => m.depo1).FirstOrDefault();
                             else depo = dbx.depoes.Where(m => m.id == kbldepoID).Select(m => m.depo1).FirstOrDefault();
                             try
@@ -226,7 +226,6 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                                         dbx.indices.Add(sid);
                                         dbx.SaveChanges();
                                     }
-
                                     // stoğa kaydet
                                     var tbls = new stok()
                                     {
@@ -249,14 +248,30 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                                 }
                                 else
                                 {
+                                    // makarayı bul
+                                    var kablo = dbx.stoks.Where(m => m.depo == depo && m.marka == stks.Marka && m.cins == stks.Cins && m.kesit == stks.Kesit && m.makarano == tbl.MakaraNo).FirstOrDefault();
+                                    if (kablo != null)
+                                    {
+                                        // kabloya açık yap
+                                        if (kablo.miktar != tbl.Miktar)
+                                            kablo.makara = "AÇIK";
+                                        // yeni hareket ekle
+                                        var tblh = new hareket()
+                                        {
+                                            id = kablo.id,
+                                            miktar = tbl.Miktar,
+                                            musteri = "Stok Elle Düzeltme",
+                                            tarih = DateTime.Now,
+                                            kaydigiren = vUser.FullName
+                                        };
+                                        dbx.harekets.Add(tblh);
+                                    }
                                 }
-
                                 dbx.SaveChanges();
                             }
                             catch (Exception ex)
                             {
                                 Logger(ex, "Stock/ManualCorrection");
-                                // return Json(new Result(false, "Kablo kaydı hariç her şey tamamlandı!"), JsonRequestBehavior.AllowGet);
                             }
                         }
                     }

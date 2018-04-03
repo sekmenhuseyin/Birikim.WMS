@@ -824,7 +824,7 @@ namespace Wms12m.Presentation
                     db.UpdateIrsaliye(item.IrsaliyeID, fatNo, irsNo);
                     // yeni görev
                     var gorevNo = db.SettingsGorevNo(tarih, mGorev.DepoID).FirstOrDefault();
-                    var alıcı = "";//TODO: item.HesapKodu.GetUnvan(item.SirketKod);
+                    var alıcı = mGorev.IR.HesapKodu;
                     var x = db.InsertIrsaliye(item.SirketKod, mGorev.DepoID, gorevNo, fatNo, item.Tarih, "Fat: " + fatNo + " Alıcı: " + alıcı, true, ComboItems.Paketle.ToInt32(), kull.Kod, tarih, saat, item.HesapKodu, item.TeslimChk, item.ValorGun, "", "").FirstOrDefault();
                     LogActions(KullID.ToString(), "Terminal", "Service", "Terminal", "SiparisTopla_GoreviTamamla", ComboItems.alEkle, x.GorevID.Value, "Fat: " + fatNo + " Alıcı: " + alıcı);
                 }
@@ -941,20 +941,23 @@ namespace Wms12m.Presentation
                                 {
                                     // makarayı bul
                                     var kablo = dbx.stoks.Where(m => m.depo == depo && m.marka == stk.Marka && m.cins == stk.Cins && m.kesit == stk.Kesit && m.id == item2.KynkSiparisID).FirstOrDefault();
-                                    // kabloya açık yap
-                                    if (kablo.miktar != item2.Miktar)
-                                        kablo.makara = "AÇIK";
-                                    // yeni hareket ekle
-                                    var tblh = new hareket()
+                                    if (kablo != null)
                                     {
-                                        id = kablo.id,
-                                        miktar = item2.Miktar,
-                                        musteri = "",//TODO: item.HesapKodu.GetUnvan(item.SirketKod).Left(40),
-                                        tarih = DateTime.Now,
-                                        kaydigiren = tblx.AdSoyad
-                                    };
-                                    dbx.harekets.Add(tblh);
-                                    varmi = true;
+                                        // kabloya açık yap
+                                        if (kablo.miktar != item2.Miktar)
+                                            kablo.makara = "AÇIK";
+                                        // yeni hareket ekle
+                                        var tblh = new hareket()
+                                        {
+                                            id = kablo.id,
+                                            miktar = item2.Miktar,
+                                            musteri = mGorev.IR.HesapKodu,
+                                            tarih = DateTime.Now,
+                                            kaydigiren = tblx.AdSoyad
+                                        };
+                                        dbx.harekets.Add(tblh);
+                                        varmi = true;
+                                    }
                                 }
                             }
                         }
@@ -965,7 +968,6 @@ namespace Wms12m.Presentation
                 catch (Exception ex)
                 {
                     Logger(kull.AdSoyad, "Terminal", ex, "Service/Terminal/SiparisTopla_GoreviTamamla");
-                    // return new Result(false, "Kablo kaydı hariç her şey tamamlandı!");
                 }
 
             return new Result(true);
@@ -1854,7 +1856,7 @@ namespace Wms12m.Presentation
                     db.UpdateIrsaliye(item.IrsaliyeID, fatNo, irsNo);
                     // yeni görev
                     var gorevNo = db.SettingsGorevNo(tarih, mGorev.DepoID).FirstOrDefault();
-                    var alıcı = "";//TODO: item.HesapKodu.GetUnvan(item.SirketKod);
+                    var alıcı = mGorev.IR.HesapKodu;
                     var x = db.InsertIrsaliye(item.SirketKod, mGorev.DepoID, gorevNo, fatNo, item.Tarih, "Fat: " + fatNo + " Alıcı: " + alıcı, true, ComboItems.Paketle.ToInt32(), kull.Kod, tarih, saat, item.HesapKodu, item.TeslimChk, item.ValorGun, "", "").FirstOrDefault();
                     LogActions(KullID.ToString(), "Terminal", "Service", "Terminal", "SiparisTopla_GoreviTamamla", ComboItems.alEkle, x.GorevID.Value, "Fat: " + fatNo + " Alıcı: " + alıcı);
                 }
@@ -1979,7 +1981,7 @@ namespace Wms12m.Presentation
                                     {
                                         id = kablo.id,
                                         miktar = item2.Miktar,
-                                        musteri = "",//TODO: item.HesapKodu.GetUnvan(item.SirketKod).Left(40),
+                                        musteri = mGorev.IR.HesapKodu,
                                         tarih = DateTime.Now,
                                         kaydigiren = tblx.AdSoyad
                                     };
@@ -1995,7 +1997,6 @@ namespace Wms12m.Presentation
                 catch (Exception ex)
                 {
                     Logger(kull.AdSoyad, "Terminal", ex, "Service/Terminal/SiparisTopla_GoreviTamamla");
-                    // return new Result(false, "Kablo kaydı hariç her şey tamamlandı!");
                 }
 
             return new Result(true);
