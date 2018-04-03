@@ -1063,8 +1063,6 @@ namespace WMSMobil
         {
             txtMakaraBarkod.Visible = false;
             label14.Visible = false;
-            if (Ayarlar.MenuTip != MenuType.KontrollüSayım)
-                return;
             var malbilgileri = Servis.GetMalzemeFromBarcode("", txtBarkod.Text, GorevID, Ayarlar.Kullanici.ID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid);
             if (malbilgileri != null)
             {

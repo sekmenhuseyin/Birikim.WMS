@@ -584,13 +584,13 @@ namespace Wms12m.Presentation
                                 // irs detay kayıt
                                 IrsaliyeDetay.Operation(tmp);
                                 // rezervden düşürülür
-                                var tmp2 = Yerlestirme.Detail(Rkat.Value, item.MalKodu, item.MakaraNo);
+                                var tmp2 = Yerlestirme.Detail(Rkat.Value, item.MalKodu, "", item.MakaraNo);
                                 tmp2.Miktar -= item.Miktar;
                                 var sonuc = Yerlestirme.Update(tmp2, KullID, "Rafa Kaldır", item.Miktar, true, item.IrsID, item.IrsDetayID);
                                 if (sonuc.Status == false)
                                     throw new Exception("Hata" + sonuc.Message);
                                 // yerleştirme kaydı yapılır
-                                tmp2 = Yerlestirme.Detail(kat.Value, item.MalKodu, item.MakaraNo);
+                                tmp2 = Yerlestirme.Detail(kat.Value, item.MalKodu, "", item.MakaraNo);
                                 if (tmp2 == null || tmp2.MakaraNo.ToString2() != item.MakaraNo.ToString2())
                                 {
                                     tmp2 = new Yer()

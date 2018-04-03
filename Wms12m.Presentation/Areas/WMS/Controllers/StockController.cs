@@ -139,7 +139,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         public JsonResult ManualCorrection(Yer tbl, bool GC)
         {
             if (CheckPerm(Perms.Stok, PermTypes.Writing) == false || tbl.Miktar < 0) return Json(false, JsonRequestBehavior.AllowGet);
-            // yerleştirme kaydı yapılır
+            //giriş işlemleri
             if (GC == false)
             {
                 if (tbl.MakaraNo == "" || tbl.MakaraNo == null)
@@ -255,6 +255,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                     }
                 }
             }
+            //çıkış işlemleri
             else
             {
                 if (tbl.MakaraNo == "" || tbl.MakaraNo == null)
