@@ -12,13 +12,18 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
 {
     public class CableStockTransferController : RootController
     {
-        // GET: WMS/CableStockTransfer
+        /// <summary>
+        /// kablo sayım sayfası
+        /// </summary>
         public ActionResult Index()
         {
             ViewBag.DepoID = new SelectList(Store.GetListCable(vUser.DepoId), "ID", "DepoAd");
             return View();
         }
 
+        /// <summary>
+        /// mysql kablo lstesini getirir
+        /// </summary>
         public PartialViewResult GetListOfMySQL(int DepoID)
         {
             var depoAd = Store.Detail(DepoID).DepoAd.ToUpper();
@@ -53,6 +58,9 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             return PartialView(data);
         }
 
+        /// <summary>
+        /// seçili satırları stoğa kaydder
+        /// </summary>
         public JsonResult MysqlKaydet(List<MySQLDataViewModel> data)
         {
 
@@ -114,7 +122,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         /// </summary>
         public JsonResult GetMalzemebyCode(string term)
         {
-            var sql = string.Format("FINSAT6{0}.[wms].[getMalzemeByCode] @MalKodu = N'{1}', @MalAdi = N''", vUser.SirketKodu, term);
+            var sql = string.Format("FINSAT6{0}.[wms].[getMalzemeByCode] @MalKodu = N'{1}', @MalAdi = N''", vUser.SirketKodu, term.Trim());
             // return
             try
             {

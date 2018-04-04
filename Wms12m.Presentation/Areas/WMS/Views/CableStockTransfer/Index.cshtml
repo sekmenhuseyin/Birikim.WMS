@@ -22,7 +22,6 @@
                                         @Html.DropDownList("DepoID", (SelectList)ViewBag.DepoId, htmlAttributes: new { @class = "form-control StoreListi input-circle" })
                                     </div>
                                 </div>
-
                                 <div class="form-group">
                                     <div class="col-sm-4 col-sm-offset-3">
                                         <button id="btnGetData" onclick="btnGetData()" class="btn btn-default btn-block btn-circle" type="button">Listele <i class="icon-refresh"></i></button>
@@ -48,75 +47,76 @@
             type: 'GET',
             dataType: "HTML",
         })
-            .success(function (result) {
-                $('#Grid').html(result);
-                table = $('#MySqlTable').DataTable({
-                    "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
-                    "order": [[1, "asc"]],
-                    "columnDefs": [
-                        {
-                            "orderable": false,
-                            "className": 'select-checkbox',
-                            "targets": 0
-                        },
-                        {
-                            "name": "MySQLID",
-                            "targets": 1,
-                            "visible": false,
-                            "searchable": false,
-                            "data": "MySQLID"
-                        },
-                        {
-                            "name": "SID",
-                            "targets": 2,
-                            "visible": false,
-                            "searchable": false,
-                            "data": "SID",
-                        },
-                        { "name": "Marka", "targets": 3, "data": "Marka" },
-                        { "name": "Cins", "targets": 4, "data": "Cins" },
-                        { "name": "Kesit", "targets": 5, "data": "Kesit" },
-                        { "name": "Makara", "targets": 6, "data": "Makara" },
-                        { "name": "MakaraNo", "targets": 7, "data": "MakaraNo" },
-                        { "name": "MalKodu", "targets": 8, "data": "MalKodu" },
-                        { "name": "Raf", "targets": 9, "data": "Raf" },
-                        { "name": "Bolum", "targets": 10, "data": "Bolum" },
-                        { "name": "Kat", "targets": 11, "data": "Kat" },
-                        { "name": "Miktar", "targets": 12, "data": "Miktar" },
-                        {
-                            "name": "DepoID",
-                            "targets": 13,
-                            "visible": false,
-                            "searchable": false,
-                            "data": "DepoID"
-                        },
-                        { "name": "KatID", "targets": 14, "searchable": false, "data": "KatID" }
-                    ],
-
-                    select: {
-                        style: 'multi',
-                        selector: 'td:first-child'
-                    }
-                });
-            })
-
-        table
-                
+        .success(function (result) {
+            $('#Grid').html(result);
+            table = $('#MySqlTable').DataTable({
+                "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
+                "order": [[1, "asc"]],
+                "columnDefs": [
+                    {
+                        "orderable": false,
+                        "className": 'select-checkbox',
+                        "targets": 0
+                    },
+                    {
+                        "name": "MySQLID",
+                        "targets": 1,
+                        "visible": false,
+                        "searchable": false,
+                        "data": "MySQLID"
+                    },
+                    {
+                        "name": "SID",
+                        "targets": 2,
+                        "visible": false,
+                        "searchable": false,
+                        "data": "SID",
+                    },
+                    { "name": "Marka", "targets": 3, "data": "Marka" },
+                    { "name": "Cins", "targets": 4, "data": "Cins" },
+                    { "name": "Kesit", "targets": 5, "data": "Kesit" },
+                    { "name": "Makara", "targets": 6, "data": "Makara" },
+                    { "name": "MakaraNo", "targets": 7, "data": "MakaraNo" },
+                    { "name": "MalKodu", "targets": 8, "data": "MalKodu" },
+                    { "name": "Raf", "targets": 9, "data": "Raf" },
+                    { "name": "Bolum", "targets": 10, "data": "Bolum" },
+                    { "name": "Kat", "targets": 11, "data": "Kat" },
+                    { "name": "Miktar", "targets": 12, "data": "Miktar" },
+                    {
+                        "name": "DepoID",
+                        "targets": 13,
+                        "visible": false,
+                        "searchable": false,
+                        "data": "DepoID"
+                    },
+                    { "name": "KatID", "targets": 14, "searchable": false, "data": "KatID" }
+                ],
+                select: {
+                    style: 'multi',
+                    selector: 'td:first-child'
+                }
+            });
+            $('#MySqlTable .tf-search th').each(function ()
+            {
+                var title = $('#MySqlTable thead th').eq($(this).index()).text();
+                if (title != "" && title.indexOf("Tarih") !== -1)
+                    $(this).html('<input class="form-control input-circle tarih" type="text" placeholder="Ara" />');
+                else if (title != "" && title != "Detay" && title != "Hareket")
+                    $(this).html('<input class="form-control input-circle" type="text" placeholder="Ara" />');
+            });
+            $("#MySqlTable tfoot input").on('keyup change', function () { table.column($(this).parent().index() + ':visible').search(this.value).draw(); });
+       })
     }
         
     function btnKaydet() {
-
         var tableData = table.rows({ selected: true }).data();
         var secili_table = new Array();
-
         var path = '/WMS/CableStockTransfer/MysqlKaydet';
         for (var i = 0; i < tableData.length; i++) {
-
             if (tableData[i].Raf == "" || tableData[i].Bolum == "" || tableData[i].MalKodu == "" || tableData[i].Kat == "") {
                 Modaldialog("Eksik alanlar var, Lütfen Mal Kodu, Raf, Bölüm, Kat Bilgilerini Eksiksiz giriniz", 'Hata', 'Tamam', 'btn-danger');
                 return;
             }
-
             if (tableData[i].MakaraNo == "") {
                 Modaldialog("İlgili kablo stoğu aktarılamaz. Mysql tarafında makara numarasını doldurmalısınız.", 'Hata', 'Tamam', 'btn-danger');
                 return;
@@ -124,8 +124,6 @@
             tableData[i].DepoID = $("#DepoID").val();
             secili_table.push(tableData[i]);
         }
-
-
         $.ajax({
             url: path,
             data: JSON.stringify(secili_table),
@@ -146,9 +144,19 @@
         var name = 'Mal_' + id;
         var val = data.innerHTML.trim();
         if (data.id == "") {
-            $(data).html('<input type="text" id="input' + name + '" class="form-control" onkeyup="Tamamla(this,' + id + ')" value= "' + table.cell(data).data()+'" />');
+            $(data).html('<input type="text" id="input' + name + '" class="form-control" value= "' + table.cell(data).data()+'" />');
             data.id = name
             $('#input' + name).focus();
+            $('#input' + name).autocomplete({
+                source: "/WMS/CableStockTransfer/GetMalzemebyCode",
+                minLength: 2,
+                select: function (event, ui)
+                {
+                    var d = document.getElementById(name)
+                    table.cell(d).data(item.value).draw();
+                    d.id = "";
+                }
+            })
         }
     }
 
@@ -185,7 +193,6 @@
     }
 
     function bolumClick(data, id) {
-
         var raf = $(data).closest('td').prev('td').data("secilir");
         if (raf != "1") return;
         var name = 'Bolum_' + id;
@@ -196,7 +203,6 @@
         if (data.id == "") {
             var path = '/Constants/Section/SectionList/' + raf;
             var text = '<select id="bl_' + id + '" class="form-control" onchange="getBolum(this,event,' + id + ')"><option>--Seçiniz--</option>';
-
             $.ajax({
                 url: path,
                 type: 'POST',
@@ -210,7 +216,6 @@
                     data.innerHTML = text;
                     $("#bl_" + id)[0].selectedIndex = 0;
                 }
-
             });
             data.id = name
         }
@@ -223,7 +228,6 @@
         $("#Bolum_" + id).data('secilir', '1');
         $("#Bolum_" + id).data('itemid', data.value);
         d.id = "";
-
     }
 
     function katClick(data, id) {
@@ -255,7 +259,6 @@
 
             });
             data.id = name
-
         }
     }
 
@@ -264,26 +267,7 @@
         d.setAttribute("data-itemid", data.value);
         table.cell(d).data($('#kt_' + id + ' option:selected').text()).draw();
         d.id = "";
-
         var d = document.getElementById('KatID_' + id)
         table.cell(d).data(data.value).draw();
-    }
-
-    function Tamamla(item, id) {
-
-        $(item).autocomplete({
-            source: "/WMS/CableStockTransfer/GetMalzemebyCode",
-            minLength: 2,
-            select: function (event, ui) {
-                setTimeout(function () {
-                    $(item).val(ui.item.id);
-                    $(item).val(ui.item.value);
-
-                    var d = document.getElementById('Mal_' + id)
-                    table.cell(d).data(item.value).draw();
-                    d.id = "";
-                })
-            }
-        })
     }
 </script>}
