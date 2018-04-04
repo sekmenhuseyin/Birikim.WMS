@@ -536,7 +536,7 @@
     <Content Include="Areas\Reports\Views\Financial\RaporUrunSatisAnaliziList.cshtml" />
     <Content Include="Areas\Reports\Views\Financial\RaporGunlukSiparisDetay.cshtml" />
     <Content Include="Areas\Reports\Views\Financial\BekleyenMalzemeDetay.cshtml" />
-    <Content Include="Areas\WMS\Views\CableStockTransfer\GetListOfMySQL.cshtml" />
+    <Content Include="Areas\WMS\Views\CableStockTransfer\List.cshtml" />
     <Content Include="Areas\WMS\Views\CableStockTransfer\Index.cshtml" />
     <None Include="bundleconfig.json" />
     <Content Include="Content\SizeSablon.xlsx" />

@@ -38,11 +38,12 @@
         <div id="Grid"></div>
     </div>
 </div>@section Scripts{<script>
+    $("#DepoID").prepend("<option value=''>Seçiniz !!!</option>"); $("#DepoID")[0].selectedIndex = 0;
     var table;
     function btnGetData() {
         $('#Grid').show();
         $.ajax({
-            url: '/WMS/CableStockTransfer/GetListOfMySQL?DepoID=' + $('#DepoID').val(),
+            url: '/WMS/CableStockTransfer/List?DepoID=' + $('#DepoID').val(),
             contentType: 'application/html; charset=utf-8',
             type: 'GET',
             dataType: "HTML",
@@ -81,7 +82,7 @@
                     { "name": "Raf", "targets": 9, "data": "Raf" },
                     { "name": "Bolum", "targets": 10, "data": "Bolum" },
                     { "name": "Kat", "targets": 11, "data": "Kat" },
-                    { "name": "Miktar", "targets": 12, "data": "Miktar" },
+                    { "name": "Miktar", "targets": 12, "data": "Miktar"  },
                     {
                         "name": "DepoID",
                         "targets": 13,
@@ -94,6 +95,16 @@
                 select: {
                     style: 'multi',
                     selector: 'td:first-child'
+                },
+                "footerCallback": function (row, data, start, end, display)
+                {
+                    var miktar = 0;
+                    table.rows({ search: 'applied' }).data().each(function (val, index)
+                    {
+                        miktar += parseInt(val.Miktar);
+                    });
+                    var api = this.api(), data;
+                    $(api.column(12).footer()).html(numeral(miktar).format());
                 }
             });
             $('#MySqlTable .tf-search th').each(function ()

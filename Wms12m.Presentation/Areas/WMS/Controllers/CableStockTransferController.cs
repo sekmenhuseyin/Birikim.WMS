@@ -24,7 +24,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         /// <summary>
         /// mysql kablo lstesini getirir
         /// </summary>
-        public PartialViewResult GetListOfMySQL(int DepoID)
+        public PartialViewResult List(int DepoID)
         {
             var depoAd = Store.Detail(DepoID).DepoAd.ToUpper();
             List<MySQLDataViewModel> data = new List<MySQLDataViewModel>();
@@ -55,7 +55,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                             Miktar = item.miktar.Value
                         });
             }
-            return PartialView(data);
+            return PartialView("List", data);
         }
 
         /// <summary>

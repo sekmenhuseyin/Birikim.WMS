@@ -26,7 +26,7 @@
                         <td data-itemid="" onclick="rafClick(this,@item.MySQLID)" nowrap></td>
                         <td data-itemid="" onclick="bolumClick(this,@item.MySQLID)" nowrap></td>
                         <td data-itemid="" onclick="katClick(this,@item.MySQLID)" nowrap></td>
-                        <td nowrap>@item.Miktar</td>
+                        <td nowrap class="text-right">@String.Format("{0:n}", item.Miktar)</td>
                         <td nowrap>@item.DepoID</td>
                         <td nowrap style="display:none"></td>
                     </tr>
