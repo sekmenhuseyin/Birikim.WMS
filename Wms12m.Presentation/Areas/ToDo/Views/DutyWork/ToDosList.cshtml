@@ -10,7 +10,7 @@
     <tfoot><tr><th style="max-width:20px;"></th><th></th><th></th><th></th>@if (ViewBag.Tip == true || ViewBag.vUser.RoleName == " " || ViewBag.vUser.RoleName == "Admin"){<th></th><th></th><th></th>}<th></th>@if(checkinGoster == true){<th></th>}<th></th></tr></tfoot>
     <tfoot class="tf-search"><tr><th style="max-width:20px;"></th><th></th><th></th><th></th>@if (ViewBag.Tip == true || ViewBag.vUser.RoleName == " " || ViewBag.vUser.RoleName == "Admin"){<th></th><th></th><th></th>}<th></th>@if(checkinGoster == true){<th></th>}<th></th></tr></tfoot>
     <tbody>
-        @foreach (var item in Model)
+        @foreach (var item in Model.OrderBy(x=>x.Gorevler.TahminiBitis))
         {
             varmış = false;
             if (checkinGoster == true){
