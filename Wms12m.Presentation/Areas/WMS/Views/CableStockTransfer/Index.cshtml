@@ -101,7 +101,7 @@
                     var miktar = 0;
                     table.rows({ search: 'applied' }).data().each(function (val, index)
                     {
-                        miktar += parseInt(val.Miktar);
+                        miktar += parseInt(val.Miktar.replace(".", "").replace(",", "."));
                     });
                     var api = this.api(), data;
                     $(api.column(12).footer()).html(numeral(miktar).format());
@@ -164,7 +164,7 @@
                 select: function (event, ui)
                 {
                     var d = document.getElementById(name)
-                    table.cell(d).data(item.value).draw();
+                    table.cell(d).data(ui.item.value).draw();
                     d.id = "";
                 }
             })
