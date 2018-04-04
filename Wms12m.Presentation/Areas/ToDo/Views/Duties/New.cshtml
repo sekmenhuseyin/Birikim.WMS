@@ -79,7 +79,7 @@
                         <div class="form-group todo-content">
                             <div class="control-label col-md-2"><span class="work-index">1</span><span>-</span></div>
                             <div class="col-md-8">
-                                <input class="form-control input-circle work-1" type="text" name="work" required = "required">
+                                <input class="form-control input-circle work-1" type="text" name="work" required="required">
                             </div>
                             <div class="insert-work-icon col-md-1">
                                 <i class="fa fa-plus-circle last-work m-l-5 pull-right" onclick="NewElement()"></i>
@@ -103,8 +103,12 @@
                         <div class="form-group">
                             @Html.LabelFor(model => model.TahminiBitis, "Tahmini Bitiş", htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-8">
-                                @Html.TextBoxFor(model => model.TahminiBitis, new { @class = "form-control input-circle date-picker", required = "required" })
+
+                                @Html.TextBoxFor(model => model.TahminiBitis, new { @class = "form-control input-circle", required = "required" })
+
                                 @Html.ValidationMessageFor(model => model.TahminiBitis, "", new { @class = "text-danger" })
+
+
                             </div>
                         </div>
                         <div class="form-group">
@@ -121,7 +125,12 @@
 </div>
 <script type="text/javascript">
     $(document).ready(function () {
-        $('.date-picker').datepicker();
+        //$('.date-picker').datepicker();
+        $(function () {
+            $('#TahminiBitis').datetimepicker({
+                locale: 'tr'
+            });
+        });
         $(".satirekle").prepend("<option value=''>Seçiniz !!!</option>");
         $(".satirekle")[0].selectedIndex = 0; $(".satirekle")[1].selectedIndex = 0; $(".satirekle")[2].selectedIndex = 0; $(".satirekle")[3].selectedIndex = 0; $(".satirekle")[4].selectedIndex = 0;
     });
@@ -134,11 +143,11 @@
         var newElement = $("<div>").addClass("form-group todo-content");
         newElement.append("<div class='control-label col-md-2'><span class='work-index'>" + index + "</span > <span>-</span></div>" +
             "<div class='col-md-8'>" +
-                "<input class='form-control input-circle' type='text' name='work' required = 'required'>" +
+            "<input class='form-control input-circle' type='text' name='work' required = 'required'>" +
             "</div>" +
             "<div class='insert-work-icon col-md-1'>" +
-                "<i class='fa fa-plus-circle last-work m-l-5 pull-right' onclick='NewElement()'></i>" +
-                "<i class='fa fa-minus-circle delete-icn m-l-5' onclick='DeleteElement(this)''></i>" +
+            "<i class='fa fa-plus-circle last-work m-l-5 pull-right' onclick='NewElement()'></i>" +
+            "<i class='fa fa-minus-circle delete-icn m-l-5' onclick='DeleteElement(this)''></i>" +
             "</div>");
         newElement.addClass("index" + index);
         newElement.insertAfter(".todo-content:last");

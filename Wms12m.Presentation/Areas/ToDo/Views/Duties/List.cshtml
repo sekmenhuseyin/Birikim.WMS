@@ -16,7 +16,7 @@
                 <td>@item.ComboItem_Name1.Name</td>
                 <td>@if (item.ComboItem_Name2 != null) { @item.ComboItem_Name2.Name} </td>
                 <td>@if (item.ComboItem_Name != null) { @item.ComboItem_Name.Name} </td>
-                <td>@item.KayitTarih.ToString("dd.MM.yyyy")</td>
+                <td>@item.KayitTarih.ToString("g")</td>
                 <td nowrap>
                     <a class="btn btn-default" href="#modalEditPage" data-toggle="modal" onclick="editInModal('/ToDo/ProjectForm/Files/@item.ProjeForm.PID')"> Dosyalar </a>
                     @if (ViewBag.Yetki2 == true || item.Kaydeden == ViewBag.vUser.UserName) {

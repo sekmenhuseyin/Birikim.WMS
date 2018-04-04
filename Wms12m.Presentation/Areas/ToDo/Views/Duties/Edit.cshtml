@@ -100,7 +100,7 @@
                         <div class="form-group">
                             @Html.LabelFor(model => model.TahminiBitis, "Tamini Bitiş", htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-8">
-                                @Html.TextBoxFor(model => model.TahminiBitis, new { @Value = Model.TahminiBitis == null ? "" : Model.TahminiBitis.Value.ToString("dd.MM.yyyy"), @class = "form-control input-circle date-picker", required = "required" })
+                                @Html.TextBoxFor(model => model.TahminiBitis, new { @Value = Model.TahminiBitis == null ? "" : Model.TahminiBitis.Value.ToString("g"), @class = "form-control input-circle", required = "required" })
                                 @Html.ValidationMessageFor(model => model.TahminiBitis, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -119,13 +119,20 @@
     </div>
 </div>
 <script type="text/javascript">
+    $(function () {
+        $('#TahminiBitis').datetimepicker({
+            locale: 'tr',
+            format: 'dd.mm.yyyy hh:ii'
+            
+        });
+    });
     var silinenler = ""; var sayac = 1;
     $(document).ready(function () {
         $(".satirekle").prepend("<option value=''>Seçiniz !!!</option>");
         @if (Model.Sorumlu2.ToString2().Length == 0) { <text>$(".satirekle")[0].selectedIndex = 0;</text> }
         @if (Model.Sorumlu3.ToString2().Length == 0) { <text>$(".satirekle")[1].selectedIndex = 0;</text> }
         @if (Model.KontrolSorumlusu.ToString2().Length == 0) { <text>$(".satirekle")[2].selectedIndex = 0;</text> }
-        $('.date-picker').datepicker();
+       
     });
     var model = @Html.Raw(Json.Encode(Model.GorevlerToDoLists.Select(m=> new frmGorevTodos { ID=m.ID, Aciklama=m.Aciklama }).ToList()));
     $.each(model, function (index, value) {
