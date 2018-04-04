@@ -19,6 +19,116 @@ namespace WMSMobil
         string FocusPanelName = "";
         List<PanelEx> PanelVeriList = new List<PanelEx>();
 
+        private void RearrangeColumnPlaces()
+        {
+            //places
+            if (GorevTip == 1 || GorevTip == 6 || GorevTip == 7 || GorevTip == 73)
+            {
+                lblIslemMiktar.Left = 450.Carpim();
+            }
+            else
+            {
+                lblIslemMiktar.Left = 556.Carpim();
+                lblOkutulanMiktar.Left = lblMalkodu.Left;
+                lblMalkodu.Left += lblOkutulanMiktar.Width + 1;
+                lblMalzeme.Left += lblOkutulanMiktar.Width + 1;
+                lblMiktar.Left += lblOkutulanMiktar.Width + 1;
+                lblBirim.Left += lblOkutulanMiktar.Width + 1;
+                lblMakarano.Left += lblOkutulanMiktar.Width + 1;
+            }
+            //visibilities
+            if (GorevTip == 1)
+            {
+                this.Text = "Mal Kabulü - WMS Mobil";
+                lblOkutulanMiktar.Text = "Okutulan Miktar";
+                txtRafBarkod.Visible = false;
+                label7.Visible = false;
+                lblYerlestirmeMiktar.Visible = false;
+            }
+            else if (GorevTip == 73)
+            {
+                this.Text = "Satıştan İade - WMS Mobil";
+                lblOkutulanMiktar.Text = "Okutulan Miktar";
+                txtRafBarkod.Visible = false;
+                label7.Visible = false;
+                lblYerlestirmeMiktar.Visible = false;
+            }
+            else if (GorevTip == 2)
+            {
+                this.Text = "Rafa Yerleştirme - WMS Mobil";
+                lblOkutulanMiktar.Text = "Raf";
+            }
+            else if (GorevTip == 3)
+            {
+                this.Text = "Sipariş Toplama - WMS Mobil";
+                lblOkutulanMiktar.Text = "Raf";
+                label1.Visible = false;
+                label2.Visible = false;
+                label3.Visible = false;
+                txtUnvan.Visible = false;
+                txtHesapKodu.Visible = false;
+                txtEvrakno.Visible = false;
+                panelOrta.Top -= 44;
+                panelOrta.Height += 44;
+            }
+            else if (GorevTip == 6)
+            {
+                this.Text = "Paketle - WMS Mobil";
+                lblOkutulanMiktar.Text = "Okutulan Miktar";
+                txtRafBarkod.Visible = false;
+                label7.Visible = false;
+                lblYerlestirmeMiktar.Visible = false;
+            }
+            else if (GorevTip == 7)
+            {
+                this.Text = "Sevkiyat - WMS Mobil";
+                lblOkutulanMiktar.Text = "Okutulan Miktar";
+                txtRafBarkod.Visible = false;
+                label7.Visible = false;
+                lblYerlestirmeMiktar.Visible = false;
+            }
+            else if (GorevTip == 8)
+            {
+                this.Text = "Kontrollü Sayım - WMS Mobil";
+                lblOkutulanMiktar.Text = "Raf";
+                lblYerlestirmeMiktar.Text = "Okutulan Miktar";
+                label1.Visible = false;
+                label2.Visible = false;
+                label3.Visible = false;
+                txtUnvan.Visible = false;
+                txtHesapKodu.Visible = false;
+                txtEvrakno.Visible = false;
+                panelOrta.Top -= 44;
+                panelOrta.Height += 44;
+            }
+            else if (GorevTip == 72)
+            {
+                this.Text = "Alımdan İade - WMS Mobil";
+                lblOkutulanMiktar.Text = "Raf";
+                label1.Visible = false;
+                label2.Visible = false;
+                label3.Visible = false;
+                txtUnvan.Visible = false;
+                txtHesapKodu.Visible = false;
+                txtEvrakno.Visible = false;
+                panelOrta.Top -= 44;
+                panelOrta.Height += 44;
+            }
+            else// if (GorevTip == 19 || GorevTip == 20)
+            {
+                this.Text = "Transfer - WMS Mobil";
+                lblOkutulanMiktar.Text = "Raf";
+                label1.Visible = false;
+                label2.Visible = false;
+                label3.Visible = false;
+                txtUnvan.Visible = false;
+                txtHesapKodu.Visible = false;
+                txtEvrakno.Visible = false;
+                panelOrta.Top -= 44;
+                panelOrta.Height += 44;
+            }
+        }
+
         /// <summary>
         /// form load
         /// </summary>
@@ -39,112 +149,7 @@ namespace WMSMobil
             {
             }
             Barkod.OnScan += new Barcode2.OnScanEventHandler(Barkod_OnScan);
-            //places
-            if (gorevtip == 1 || gorevtip == 6 || gorevtip == 7 || gorevtip == 73)
-            {
-                lblIslemMiktar.Left = 450.Carpim();
-            }
-            else
-            {
-                lblIslemMiktar.Left = 556.Carpim();
-                lblOkutulanMiktar.Left = lblMalkodu.Left;
-                lblMalkodu.Left += lblOkutulanMiktar.Width + 1;
-                lblMalzeme.Left += lblOkutulanMiktar.Width + 1;
-                lblMiktar.Left += lblOkutulanMiktar.Width + 1;
-                lblBirim.Left += lblOkutulanMiktar.Width + 1;
-                lblMakarano.Left += lblOkutulanMiktar.Width + 1;
-            }
-            //visibilities
-            if (gorevtip == 1)
-            {
-                this.Text = "Mal Kabulü - WMS Mobil";
-                lblOkutulanMiktar.Text = "Okutulan Miktar";
-                txtRafBarkod.Visible = false;
-                label7.Visible = false;
-                lblYerlestirmeMiktar.Visible = false;
-            }
-            else if (gorevtip == 73)
-            {
-                this.Text = "Satıştan İade - WMS Mobil";
-                lblOkutulanMiktar.Text = "Okutulan Miktar";
-                txtRafBarkod.Visible = false;
-                label7.Visible = false;
-                lblYerlestirmeMiktar.Visible = false;
-            }
-            else if (gorevtip == 2)
-            {
-                this.Text = "Rafa Yerleştirme - WMS Mobil";
-                lblOkutulanMiktar.Text = "Raf";
-            }
-            else if (gorevtip == 3)
-            {
-                this.Text = "Sipariş Toplama - WMS Mobil";
-                lblOkutulanMiktar.Text = "Raf";
-                label1.Visible = false;
-                label2.Visible = false;
-                label3.Visible = false;
-                txtUnvan.Visible = false;
-                txtHesapKodu.Visible = false;
-                txtEvrakno.Visible = false;
-                panelOrta.Top -= 44;
-                panelOrta.Height += 44;
-            }
-            else if (gorevtip == 6)
-            {
-                this.Text = "Paketle - WMS Mobil";
-                lblOkutulanMiktar.Text = "Okutulan Miktar";
-                txtRafBarkod.Visible = false;
-                label7.Visible = false;
-                lblYerlestirmeMiktar.Visible = false;
-            }
-            else if (gorevtip == 7)
-            {
-                this.Text = "Sevkiyat - WMS Mobil";
-                lblOkutulanMiktar.Text = "Okutulan Miktar";
-                txtRafBarkod.Visible = false;
-                label7.Visible = false;
-                lblYerlestirmeMiktar.Visible = false;
-            }
-            else if (gorevtip == 8)
-            {
-                this.Text = "Kontrollü Sayım - WMS Mobil";
-                lblOkutulanMiktar.Text = "Raf";
-                lblYerlestirmeMiktar.Text = "Okutulan Miktar";
-                label1.Visible = false;
-                label2.Visible = false;
-                label3.Visible = false;
-                txtUnvan.Visible = false;
-                txtHesapKodu.Visible = false;
-                txtEvrakno.Visible = false;
-                panelOrta.Top -= 44;
-                panelOrta.Height += 44;
-            }
-            else if (gorevtip == 72)
-            {
-                this.Text = "Alımdan İade - WMS Mobil";
-                lblOkutulanMiktar.Text = "Raf";
-                label1.Visible = false;
-                label2.Visible = false;
-                label3.Visible = false;
-                txtUnvan.Visible = false;
-                txtHesapKodu.Visible = false;
-                txtEvrakno.Visible = false;
-                panelOrta.Top -= 44;
-                panelOrta.Height += 44;
-            }
-            else// if (gorevtip == 19 || gorevtip == 20)
-            {
-                this.Text = "Transfer - WMS Mobil";
-                lblOkutulanMiktar.Text = "Raf";
-                label1.Visible = false;
-                label2.Visible = false;
-                label3.Visible = false;
-                txtUnvan.Visible = false;
-                txtHesapKodu.Visible = false;
-                txtEvrakno.Visible = false;
-                panelOrta.Top -= 44;
-                panelOrta.Height += 44;
-            }
+            RearrangeColumnPlaces();
             try
             {
                 //görev bilgilerini getir
@@ -193,7 +198,7 @@ namespace WMSMobil
         /// barkod okursa
         /// </summary>
         public delegate void MethodInvoker();
-        void Barkod_OnScan(Symbol.Barcode2.ScanDataCollection scanDataCollection)
+        private void Barkod_OnScan(Symbol.Barcode2.ScanDataCollection scanDataCollection)
         {
             try
             {
@@ -227,20 +232,10 @@ namespace WMSMobil
             }
         }
 
-        void ClearPanelList()
-        {
-            foreach (PanelEx rmvItem in PanelVeriList)
-            {
-                panelOrta.Controls.Remove(rmvItem);
-            }
-            PanelVeriList.Clear();
-            Sayac = 0;
-        }
-
         /// <summary>
         /// irsaliye detaylarını gösterir
         /// </summary>
-        void STIGetir()
+        private void STIGetir()
         {
             Cursor.Current = Cursors.WaitCursor;
             ClearPanelList();
@@ -416,93 +411,28 @@ namespace WMSMobil
             }
             Cursor.Current = Cursors.Default;
         }
-        
-        /// <summary>
-        /// txt focua
-        /// </summary>
-        void TextBoxlar_GotFocus(object sender, EventArgs e)
-        {
-            Control panel = (sender as TextBox).Parent;
-            FocusPanelName = panel.Name;
-            //hepsini normal yap
-            foreach (var itemPanel in PanelVeriList)
-                foreach (Control item in itemPanel.Controls)
-                    item.BackColor = Color.FromArgb(206, 223, 239);
-            //seçileni turuncu yap
-            foreach (Control itemSecili in panel.Controls)
-                itemSecili.BackColor = Color.DarkOrange;
-        }
-        
-        /// <summary>
-        /// textbox focusta selectall yap
-        /// </summary>
-        private void txt_GotFocus(object sender, EventArgs e)
-        {
-            ((TextBox)sender).SelectAll();
-        }
-        
+
         /// <summary>
         /// bir tane okur, malın bulunduğu satırda miktarı bir arttırır
         /// </summary>
         private void btnUygula_Click(object sender, EventArgs e)
         {
+            string mal = txtBarkod.Text;
+            string raf = txtRafBarkod.Text.ToUpper();
+            string makaraNo = txtMakaraBarkod.Text;
+            //barkod kontrol
+            var malInfo = Program.Servis.GetMalzemeFromBarcode("", mal, GorevID, Ayarlar.Kullanici.ID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid);
+            //genel kontroller
+            if (!btnUygulaControl(malInfo)) return;
+            string tmpMalKod = malInfo.MalKodu;
             //MalKabulde okutulan mala ait listede bulunan kayıt sayısı
-            int cokluMalSayisi = 0, cokluRafSayisi = 0, cokluTempRafSayisi = 0, farkliTempRafSayisi = 0, sonucID = 0;
+            int cokluMalSayisi = 0, cokluRafSayisi = 0, cokluTempRafSayisi = 0, farkliTempRafSayisi = 0, seciliSatirID = 0;
             bool tempRafDurum = false;
             string rowID = ";";
-            string mal = txtBarkod.Text;
-            if (mal.Length > 20)
-            {
-                mal = mal.Substring(3, 13);
-                txtBarkod.Text = mal;
-                if (txtRafBarkod.Visible == true && txtRafBarkod.Text == "") txtRafBarkod.Focus();
-            }
-            //malzeme barkodu kontrolü
-            if (mal == "")
-            {
-                Mesaj.Hata(null, "Malzemeyi okutun");
-                txtBarkod.Focus();
-                return;
-            }
-            //raf barkodü kontrol
-            string raf = txtRafBarkod.Text.ToUpper();
-            if (raf == "" && txtRafBarkod.Visible == true)
-            {
-                Mesaj.Hata(null, "Rafı okutun");
-                txtRafBarkod.Focus();
-                return;
-            }
-            //af gerçek mi kontrolü
-            if (txtRafBarkod.Visible == true)
-            {
-                var kontrol = Program.Servis.IfExistsRaf(Ayarlar.Kullanici.DepoID, raf, Ayarlar.Kullanici.ID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid);
-                if (kontrol == false)
-                {
-                    Mesaj.Uyari("Böyle bir raf sistemde kayıtlı değil!");
-                    txtRafBarkod.Focus();
-                    return;
-                }
-            }
-            //mal gerçek mi kontrolü
-            var malInfo = Program.Servis.GetMalzemeFromBarcode("", mal, GorevID, Ayarlar.Kullanici.ID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid);
-            if (malInfo.MalKodu == null)
-            {
-                Mesaj.Uyari("Sistemde böyle bir barkod bulunamadı");
-                txtBarkod.Focus();
-                return;
-            }
-            //makara no barkodu kontrolü
-            string makaraNo = txtMakaraBarkod.Text;
-            if (mal != "" && makaraNo == "" && txtMakaraBarkod.Visible == true && malInfo.Kod1 == "KKABLO")
-            {
-                Mesaj.Hata(null, "Makara Numarasını okutun");
-                txtMakaraBarkod.Focus();
-                return;
-            }
-            //tüm sayırları eski rengine döndür
-            string tmpMalKod = malInfo.MalKodu;
+            //aynı mal veya raftan birden fazla var mı diye kontrol eder
             foreach (var itemPanel in PanelVeriList)
             {
+                //çoklu raf kontrolü
                 if (Ayarlar.MenuTip == MenuType.RafaYerlestirme || Ayarlar.MenuTip == MenuType.SiparisToplama || Ayarlar.MenuTip == MenuType.TransferÇıkış || Ayarlar.MenuTip == MenuType.TransferGiriş || Ayarlar.MenuTip == MenuType.Alımdanİade)
                 {
                     if (itemPanel.Controls[0].Text.Contains(";" + mal + ";") && mal != "" && (itemPanel.Controls[5].Text.ToUpper() == raf || itemPanel.Controls[5].Text=="") && raf != "")
@@ -510,7 +440,6 @@ namespace WMSMobil
                         cokluRafSayisi++;
                         tmpMalKod = itemPanel.Controls[1].Text;
                     }
-                    //Rafa Kaldır
                     else if (itemPanel.Controls[0].Text.Contains(";" + mal + ";") && mal != "" && (itemPanel.Controls[5].Text.ToUpper() != raf && itemPanel.Controls[5].Text != "") && raf != "")
                     {
                         if (itemPanel.Controls[5].Text != "")
@@ -525,11 +454,13 @@ namespace WMSMobil
                         farkliTempRafSayisi++;
                     }
                 }
+                //çoklu mal kontrolü
                 else if (itemPanel.Controls[0].Text.Contains(";" + mal + ";") && mal != "")
                 {
                     cokluMalSayisi++;
                     tmpMalKod = itemPanel.Controls[1].Text;
                 }
+                //tüm satırları normal renge getirir
                 foreach (Control item in itemPanel.Controls)
                     item.BackColor = Color.FromArgb(206, 223, 239);
             }
@@ -543,7 +474,7 @@ namespace WMSMobil
                 Ayarlar.Tarih = 0;
                 frmxOpsSelect frm = new frmxOpsSelect(GorevID, tmpMalKod, rowID, tempRafDurum);
                 var sonuc = frm.ShowDialog();
-                sonucID = Ayarlar.Tarih;
+                seciliSatirID = Ayarlar.Tarih;//seçili satırdaki ID
             }
             //for each item in panel list
             Tip_STI temp_sti = new Tip_STI();
@@ -595,7 +526,7 @@ namespace WMSMobil
                         mal_var = true;
                         if (Ayarlar.MenuTip == MenuType.MalKabul || Ayarlar.MenuTip == MenuType.Satıştanİade)
                         {
-                            if (cokluMalSayisi == 1 || (cokluMalSayisi > 1 && sonucID == itemPanel.Controls[1].Tag.ToInt32()))
+                            if (cokluMalSayisi == 1 || (cokluMalSayisi > 1 && seciliSatirID == itemPanel.Controls[1].Tag.ToInt32()))
                             {
                                 //+ tuşu ise m mikarı yaz
                                 if (sender == btnUygula)
@@ -632,12 +563,12 @@ namespace WMSMobil
                 //RafaYerlestirme, SiparisToplama, TransferÇıkış, TransferGiriş, Alımdanİade
                 else if (Ayarlar.MenuTip == MenuType.RafaYerlestirme || Ayarlar.MenuTip == MenuType.SiparisToplama || Ayarlar.MenuTip == MenuType.TransferÇıkış || Ayarlar.MenuTip == MenuType.TransferGiriş || Ayarlar.MenuTip == MenuType.Alımdanİade)
                 {
-                        mal_var = true;
                     //mal barkodu kontrolü
                     if (itemPanel.Controls[0].Text.Contains(";" + mal + ";") && mal != "")
                     {
+                        mal_var = true;
                         //ya tekli seçimde veya çoklu seçimin sonucunda
-                        if (sonucID == 0 || itemPanel.Controls[1].Tag.ToInt32() == sonucID) 
+                        if (seciliSatirID == 0 || itemPanel.Controls[1].Tag.ToInt32() == seciliSatirID) 
                         {
                             temp_sti.YerlestirmeMiktari = itemPanel.Controls[6].Text.ToDecimal();
                             temp_sti.Barkod = itemPanel.Controls[0].Text;
@@ -653,7 +584,7 @@ namespace WMSMobil
                         {
                             if (Ayarlar.MenuTip == MenuType.RafaYerlestirme)
                             {
-                                if (cokluRafSayisi == 1 || (cokluRafSayisi > 1 && sonucID == itemPanel.Controls[1].Tag.ToInt32()))
+                                if (cokluRafSayisi == 1 || (cokluRafSayisi > 1 && seciliSatirID == itemPanel.Controls[1].Tag.ToInt32()))
                                 {
                                     raf_var = true;
                                     itemPanel.Controls[5].Text = raf;
@@ -1049,22 +980,79 @@ namespace WMSMobil
         }
         
         /// <summary>
-        /// form kapanırken dispose yap
+        /// uygua butonundaki kontroller buraya alındı
         /// </summary>
-        private void MalzemeIslemleri_Closing(object sender, CancelEventArgs e)
+        private bool btnUygulaControl(Tip_Malzeme malInfo)
         {
-            try { Barkod.EnableScanner = false; }
-            catch (Exception) { }
-            try { Barkod.Dispose(); }
-            catch (Exception) { }
+            string mal = txtBarkod.Text;
+            string raf = txtRafBarkod.Text.ToUpper();
+            string makaraNo = txtMakaraBarkod.Text;
+            //malzeme barkodu kontrolü
+            if (mal == "")
+            {
+                Mesaj.Hata(null, "Malzemeyi okutun");
+                txtBarkod.Focus();
+                return false;
+            }
+            if (mal.Length > 20)
+            {
+                mal = mal.Substring(3, 13);
+                txtBarkod.Text = mal;
+            }
+            //raf barkodü kontrol
+            if (raf == "" && txtRafBarkod.Visible == true)
+            {
+                Mesaj.Hata(null, "Rafı okutun");
+                txtRafBarkod.Focus();
+                return false;
+            }
+            //raf gerçek mi kontrolü
+            if (txtRafBarkod.Visible == true)
+            {
+                var kontrol = Program.Servis.IfExistsRaf(Ayarlar.Kullanici.DepoID, raf, Ayarlar.Kullanici.ID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid);
+                if (kontrol == false)
+                {
+                    Mesaj.Uyari("Böyle bir raf sistemde kayıtlı değil!");
+                    txtRafBarkod.Focus();
+                    return false;
+                }
+            }
+            //mal gerçek mi kontrolü
+            if (malInfo.MalKodu == null)
+            {
+                Mesaj.Uyari("Sistemde böyle bir barkod bulunamadı");
+                txtBarkod.Focus();
+                return false;
+            }
+            //makara no barkodu kontrolü
+            if (mal != "" && makaraNo == "" && txtMakaraBarkod.Visible == true && malInfo.Kod1 == "KKABLO")
+            {
+                Mesaj.Hata(null, "Makara Numarasını okutun");
+                txtMakaraBarkod.Focus();
+                return false;
+            }
+            return true;
         }
-        
+
         /// <summary>
         /// geri
         /// </summary>
         private void btnBack_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        /// <summary>
+        /// panel listesini temizler
+        /// </summary>
+        void ClearPanelList()
+        {
+            foreach (PanelEx rmvItem in PanelVeriList)
+            {
+                panelOrta.Controls.Remove(rmvItem);
+            }
+            PanelVeriList.Clear();
+            Sayac = 0;
         }
 
         /// <summary>
@@ -1083,6 +1071,41 @@ namespace WMSMobil
                     label14.Visible = true;
                 }
             }
+        }
+        
+        /// <summary>
+        /// listedeki textboxlaralara focusda seçili satırı turuncu yap diğerlerini normal renk
+        /// </summary>
+        void TextBoxlar_GotFocus(object sender, EventArgs e)
+        {
+            Control panel = (sender as TextBox).Parent;
+            FocusPanelName = panel.Name;
+            //hepsini normal yap
+            foreach (var itemPanel in PanelVeriList)
+                foreach (Control item in itemPanel.Controls)
+                    item.BackColor = Color.FromArgb(206, 223, 239);
+            //seçileni turuncu yap
+            foreach (Control itemSecili in panel.Controls)
+                itemSecili.BackColor = Color.DarkOrange;
+        }
+        
+        /// <summary>
+        /// txtbarkod txtraf ve txtmakaraya focusta selectall yap
+        /// </summary>
+        private void txt_GotFocus(object sender, EventArgs e)
+        {
+            ((TextBox)sender).SelectAll();
+        }
+        
+        /// <summary>
+        /// form kapanırken dispose yap
+        /// </summary>
+        private void MalzemeIslemleri_Closing(object sender, CancelEventArgs e)
+        {
+            try { Barkod.EnableScanner = false; }
+            catch (Exception) { }
+            try { Barkod.Dispose(); }
+            catch (Exception) { }
         }
     }
 }

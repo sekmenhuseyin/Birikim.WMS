@@ -58,9 +58,9 @@
             this.listView1.Columns.Add(this.columnHeader7);
             this.listView1.Columns.Add(this.columnHeader8);
             this.listView1.FullRowSelect = true;
-            this.listView1.Location = new System.Drawing.Point(0, 38);
+            this.listView1.Location = new System.Drawing.Point(0, 28);
             this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(240, 227);
+            this.listView1.Size = new System.Drawing.Size(240, 237);
             this.listView1.TabIndex = 0;
             this.listView1.SelectedIndexChanged += new System.EventHandler(this.listView1_SelectedIndexChanged);
             // 
@@ -124,7 +124,7 @@
             // 
             this.label1.BackColor = System.Drawing.Color.CadetBlue;
             this.label1.ForeColor = System.Drawing.Color.White;
-            this.label1.Location = new System.Drawing.Point(0, 10);
+            this.label1.Location = new System.Drawing.Point(0, 5);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(240, 20);
             this.label1.Text = "Güncellemek istediğiniz malkodunu seçiniz";
@@ -135,7 +135,7 @@
             this.label2.ForeColor = System.Drawing.Color.White;
             this.label2.Location = new System.Drawing.Point(0, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(240, 38);
+            this.label2.Size = new System.Drawing.Size(240, 30);
             // 
             // frmxOpsSelect
             // 

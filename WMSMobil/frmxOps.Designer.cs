@@ -183,6 +183,7 @@
             this.txtMakaraBarkod.Size = new System.Drawing.Size(147, 21);
             this.txtMakaraBarkod.TabIndex = 3;
             this.txtMakaraBarkod.Visible = false;
+            this.txtMakaraBarkod.GotFocus += new System.EventHandler(this.txt_GotFocus);
             // 
             // txtUnvan
             // 
