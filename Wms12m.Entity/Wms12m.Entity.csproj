@@ -408,6 +408,7 @@
     <Compile Include="VM_WMS\Others\frmMusteriler.cs" />
     <Compile Include="VM_WMS\Mal\frmUrunler.cs" />
     <Compile Include="VM_WMS\Gorev\GorevOzet.cs" />
+    <Compile Include="VM_WMS\Others\MySQLDataViewModel.cs" />
     <Compile Include="VM_WMS\Rapor\AksiyonSatis.cs" />
     <Compile Include="VM_WMS\Rapor\AyBazliBolgeRapor.cs" />
     <Compile Include="VM_WMS\Rapor\AyBazliTemsilciRapor.cs" />

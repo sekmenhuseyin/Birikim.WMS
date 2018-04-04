@@ -598,7 +598,6 @@
     <Compile Include="Areas\Reports\Controllers\StockController.cs" />
     <Compile Include="Areas\Reports\ReportsAreaRegistration.cs" />
     <Compile Include="Areas\WMS\Controllers\CableStockTransferController.cs" />
-    <Compile Include="Areas\WMS\Models\ViewModels\MySQLDataViewModel.cs" />
     <Compile Include="Controllers\SettingsController.cs" />
     <Compile Include="Areas\ToDo\Controllers\GorevTakvimiController.cs" />
     <Compile Include="Areas\ToDo\ToDoAreaRegistration.cs" />

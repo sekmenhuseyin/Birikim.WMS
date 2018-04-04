@@ -1,11 +1,7 @@
 ﻿@{
     ViewBag.Title = "MySQL Kablo Stok Aktarımı";
     Layout = "~/Views/Shared/_Layout.cshtml";
-}
-
-}@section Styles{<link href="~/Content/assets/global/plugins/jquery-file-upload/css/jquery.fileupload.css" rel="stylesheet" />
-}
-<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Görevler</a><i class="fa fa-circle"></i></li><li><span>MySQL Kablo Stok Aktarımı</span></li></ul></div>
+}<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Görevler</a><i class="fa fa-circle"></i></li><li><span>MySQL Kablo Stok Aktarımı</span></li></ul></div>
 <h1 class="page-title">MySQL Kablo Stok Aktarımı</h1>
 <div class="row">
     <div class="col-md-12">
@@ -40,324 +36,254 @@
                 </div>
             </div>
         </div>
-        <div id="Grid">
-
-
-        </div>
-
+        <div id="Grid"></div>
     </div>
-</div>
-@section Scripts
-{
-    @*<script src="~/Content/assets/global/scripts/dataTables.editor.min.js"></script>*@
-    <script>
+</div>@section Scripts{<script>
+    var table;
+    function btnGetData() {
+        $('#Grid').show();
+        $.ajax({
+            url: '/WMS/CableStockTransfer/GetListOfMySQL?DepoID=' + $('#DepoID').val(),
+            contentType: 'application/html; charset=utf-8',
+            type: 'GET',
+            dataType: "HTML",
+        })
+            .success(function (result) {
+                $('#Grid').html(result);
+                table = $('#MySqlTable').DataTable({
+                    "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
+                    "order": [[1, "asc"]],
+                    "columnDefs": [
+                        {
+                            "orderable": false,
+                            "className": 'select-checkbox',
+                            "targets": 0
+                        },
+                        {
+                            "name": "MySQLID",
+                            "targets": 1,
+                            "visible": false,
+                            "searchable": false,
+                            "data": "MySQLID"
+                        },
+                        {
+                            "name": "SID",
+                            "targets": 2,
+                            "visible": false,
+                            "searchable": false,
+                            "data": "SID",
+                        },
+                        { "name": "Marka", "targets": 3, "data": "Marka" },
+                        { "name": "Cins", "targets": 4, "data": "Cins" },
+                        { "name": "Kesit", "targets": 5, "data": "Kesit" },
+                        { "name": "Makara", "targets": 6, "data": "Makara" },
+                        { "name": "MakaraNo", "targets": 7, "data": "MakaraNo" },
+                        { "name": "MalKodu", "targets": 8, "data": "MalKodu" },
+                        { "name": "Raf", "targets": 9, "data": "Raf" },
+                        { "name": "Bolum", "targets": 10, "data": "Bolum" },
+                        { "name": "Kat", "targets": 11, "data": "Kat" },
+                        { "name": "Miktar", "targets": 12, "data": "Miktar" },
+                        {
+                            "name": "DepoID",
+                            "targets": 13,
+                            "visible": false,
+                            "searchable": false,
+                            "data": "DepoID"
+                        },
+                        { "name": "KatID", "targets": 14, "searchable": false, "data": "KatID" }
+                    ],
 
-        var table;
-
-        function btnGetData() {
-            $('#Grid').show();
-
-            $.ajax({
-                url: '/WMS/CableStockTransfer/GetListOfMySQL?DepoID=' + $('#DepoID').val(),
-                contentType: 'application/html; charset=utf-8',
-                type: 'GET',
-                dataType: "HTML",
+                    select: {
+                        style: 'multi',
+                        selector: 'td:first-child'
+                    }
+                });
             })
-                .success(function (result) {
-                    $('#Grid').html(result);
-                    table = $('#MySqlTable').DataTable({
-                        "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
-                        "order": [[1, "asc"]],
-                        "columnDefs": [
-                            {
-                                "orderable": false,
-                                "className": 'select-checkbox',
-                                "targets": 0
-                            },
-                            {
-                                "name": "MySQLID",
-                                "targets": 1,
-                                "visible": false,
-                                "searchable": false,
-                                "data": "MySQLID"
-                            },
-                            {
-                                "name": "SID",
-                                "targets": 2,
-                                "visible": false,
-                                "searchable": false,
-                                "data": "SID",
-                            },
-                            { "name": "Marka", "targets": 3, "data": "Marka" },
-                            { "name": "Cins", "targets": 4, "data": "Cins" },
-                            { "name": "Kesit", "targets": 5, "data": "Kesit" },
-                            { "name": "Makara", "targets": 6, "data": "Makara" },
-                            { "name": "MakaraNo", "targets": 7, "data": "MakaraNo" },
-                            { "name": "MalKodu", "targets": 8, "data": "MalKodu" },
-                            { "name": "Raf", "targets": 9, "data": "Raf" },
-                            { "name": "Bolum", "targets": 10, "data": "Bolum" },
-                            { "name": "Kat", "targets": 11, "data": "Kat" },
-                            { "name": "Miktar", "targets": 12, "data": "Miktar" },
-                            {
-                                "name": "DepoID",
-                                "targets": 13,
-                                "visible": false,
-                                "searchable": false,
-                                "data": "DepoID"
-                            },
-                            { "name": "KatID", "targets": 14, "searchable": false, "data": "KatID" }
-                        ],
 
-                        select: {
-                            style: 'multi',
-                            selector: 'td:first-child'
-                        }
-                    });
-                })
-
-            table
+        table
                 
-        }
+    }
         
-        function btnKaydet() {
+    function btnKaydet() {
 
-            var tableData = table.rows({ selected: true }).data();
-            var secili_table = new Array();
+        var tableData = table.rows({ selected: true }).data();
+        var secili_table = new Array();
 
-            var path = '/WMS/CableStockTransfer/MysqlKaydet';
-            for (var i = 0; i < tableData.length; i++) {
+        var path = '/WMS/CableStockTransfer/MysqlKaydet';
+        for (var i = 0; i < tableData.length; i++) {
 
-                if (tableData[i].Raf == "" || tableData[i].Bolum == "" || tableData[i].MalKodu == "" || tableData[i].Kat == "") {
-                    Modaldialog("Eksik alanlar var, Lütfen Mal Kodu, Raf, Bölüm, Kat Bilgilerini Eksiksiz giriniz", 'Hata', 'Tamam', 'btn-danger');
-                    return;
-                }
-
-                if (tableData[i].MakaraNo == "") {
-                    Modaldialog("İlgili kablo stoğu aktarılamaz. Mysql tarafında makara numarasını doldurmalısınız.", 'Hata', 'Tamam', 'btn-danger');
-                    return;
-                }
-                tableData[i].DepoID = $("#DepoID").val();
-                secili_table.push(tableData[i]);
+            if (tableData[i].Raf == "" || tableData[i].Bolum == "" || tableData[i].MalKodu == "" || tableData[i].Kat == "") {
+                Modaldialog("Eksik alanlar var, Lütfen Mal Kodu, Raf, Bölüm, Kat Bilgilerini Eksiksiz giriniz", 'Hata', 'Tamam', 'btn-danger');
+                return;
             }
 
+            if (tableData[i].MakaraNo == "") {
+                Modaldialog("İlgili kablo stoğu aktarılamaz. Mysql tarafında makara numarasını doldurmalısınız.", 'Hata', 'Tamam', 'btn-danger');
+                return;
+            }
+            tableData[i].DepoID = $("#DepoID").val();
+            secili_table.push(tableData[i]);
+        }
+
+
+        $.ajax({
+            url: path,
+            data: JSON.stringify(secili_table),
+            type: 'POST',
+            dataType: "json",
+            contentType: 'application/json; charset=utf-8',
+            success: function (result) {
+                Modaldialog("İşlem Başarılı", "Güncelleme İşlemi", "Tamam", "btn-success");
+                btnGetData();
+            },
+            error: function (result) {
+                Modaldialog("Hata oldu", 'Hata', 'Tamam', 'btn-danger');
+            }
+        });
+    }
+
+    function malClick(data, id) {
+        var name = 'Mal_' + id;
+        var val = data.innerHTML.trim();
+        if (data.id == "") {
+            $(data).html('<input type="text" id="input' + name + '" class="form-control" onkeyup="Tamamla(this,' + id + ')" value= "' + table.cell(data).data()+'" />');
+            data.id = name
+            $('#input' + name).focus();
+        }
+    }
+
+    function rafClick(data, id) {
+        var name = 'Raf_' + id;
+        var val = data.innerHTML.trim();
+        if (data.id == "") {
+            var text = '<select id="rf_' + id + '" class="form-control" onchange="getRaf(this,event,' + id + ')"><option>--Seçiniz--</option>';
 
             $.ajax({
-                url: path,
-                data: JSON.stringify(secili_table),
+                url: "/Constants/Shelf/ShelfList2/" + $("#DepoID").val(),
                 type: 'POST',
                 dataType: "json",
                 contentType: 'application/json; charset=utf-8',
                 success: function (result) {
-                    Modaldialog("İşlem Başarılı", "Güncelleme İşlemi", "Tamam", "btn-success");
-                    btnGetData();
-                },
-                error: function (result) {
-                    Modaldialog("Hata oldu", 'Hata', 'Tamam', 'btn-danger');
+                    $.each(result, function (i, item) {
+                        text += '<option  value="' + item.Value + '" >' + item.Text + '</option>'
+                    })
+                    text += '</select>'
+                    data.innerHTML = text;
+                    $("#rf_" + id)[0].selectedIndex = 0;
                 }
             });
+            data.id = name
         }
+    }
 
-        function malClick(data, id) {
-            var name = 'Mal_' + id;
-            var val = data.innerHTML.trim();
-            if (data.id == "") {
-                $(data).html('<input type="text" id="input' + name + '" class="form-control" onkeyup="Tamamla(this,' + id + ')" value= "' + table.cell(data).data()+'" />');
-                data.id = name
-                $('#input' + name).focus();
-            }
-        }
+    function getRaf(data, e, id) {
+        var d = document.getElementById('Raf_' + id)
+        table.cell(d).data($('#rf_' + id + ' option:selected').text()).draw();
+        $("#Raf_" + id).data('secilir', '1');
+        $("#Raf_" + id).data('itemid', data.value);
+        d.id = "";
+    }
 
-        function rafClick(data, id) {
-            var name = 'Raf_' + id;
-            var val = data.innerHTML.trim();
-            if (data.id == "") {
-                var text = '<select id="rf_' + id + '" class="form-control" onchange="getRaf(this,event,' + id + ')"><option>--Seçiniz--</option>';
+    function bolumClick(data, id) {
 
-                $.ajax({
-                    url: "/Constants/Shelf/ShelfList2/" + $("#DepoID").val(),
-                    type: 'POST',
-                    dataType: "json",
-                    contentType: 'application/json; charset=utf-8',
-                    success: function (result) {
-                        $.each(result, function (i, item) {
-                            text += '<option  value="' + item.Value + '" >' + item.Text + '</option>'
-                        })
-                        text += '</select>'
-                        data.innerHTML = text;
-                        $("#rf_" + id)[0].selectedIndex = 0;
-                    }
-                });
-                data.id = name
-            }
-        }
+        var raf = $(data).closest('td').prev('td').data("secilir");
+        if (raf != "1") return;
+        var name = 'Bolum_' + id;
+        var val = data.innerHTML.trim();
+        var raf = $(data).closest('td').prev('td').data("itemid");
+        if (raf == "")
+            return;
+        if (data.id == "") {
+            var path = '/Constants/Section/SectionList/' + raf;
+            var text = '<select id="bl_' + id + '" class="form-control" onchange="getBolum(this,event,' + id + ')"><option>--Seçiniz--</option>';
 
-        function getRaf(data, e, id) {
-            var d = document.getElementById('Raf_' + id)
-            table.cell(d).data($('#rf_' + id + ' option:selected').text()).draw();
-            $("#Raf_" + id).data('secilir', '1');
-            $("#Raf_" + id).data('itemid', data.value);
-            d.id = "";
-        }
-
-        function bolumClick(data, id) {
-
-            var raf = $(data).closest('td').prev('td').data("secilir");
-            if (raf != "1") return;
-            var name = 'Bolum_' + id;
-            var val = data.innerHTML.trim();
-            var raf = $(data).closest('td').prev('td').data("itemid");
-            if (raf == "")
-                return;
-            if (data.id == "") {
-                var path = '/Constants/Section/SectionList/' + raf;
-                var text = '<select id="bl_' + id + '" class="form-control" onchange="getBolum(this,event,' + id + ')"><option>--Seçiniz--</option>';
-
-                $.ajax({
-                    url: path,
-                    type: 'POST',
-                    dataType: "json",
-                    contentType: 'application/json; charset=utf-8',
-                    success: function (result) {
-                        $.each(result, function (i, item) {
-                            text += '<option  value="' + item.Value + '" >' + item.Text + '</option>'
-                        })
-                        text += '</select>'
-                        data.innerHTML = text;
-                        $("#bl_" + id)[0].selectedIndex = 0;
-                    }
-
-                });
-                data.id = name
-            }
-        }
-
-        function getBolum(data, e, id) {
-            var d = document.getElementById('Bolum_' + id)
-            d.setAttribute("data-itemid", data.value);
-            table.cell(d).data($('#bl_' + id + ' option:selected').text()).draw();
-            $("#Bolum_" + id).data('secilir', '1');
-            $("#Bolum_" + id).data('itemid', data.value);
-            d.id = "";
-
-        }
-
-        function katClick(data, id) {
-            var raf = $(data).closest('td').prev('td').data("secilir");
-            if (raf != "1") return;
-            var name = 'Kat_' + id;
-            var val = data.innerHTML.trim();
-            var bolum = $(data).closest('td').prev('td').data("itemid");//burada bug var
-            if (bolum == "")
-                return;
-            var katid = $(data).closest('td').next('td').next('td').attr('id', 'KatID_' + id);
-            if (data.id == "") {
-                var path = '/Constants/Floor/FloorList/' + bolum;
-                var text = '<select id="kt_' + id + '" class="form-control" onchange="getKat(this,event,' + id + ')"><option>--Seçiniz--</option>';
-
-                $.ajax({
-                    url: path,
-                    type: 'POST',
-                    dataType: "json",
-                    contentType: 'application/json; charset=utf-8',
-                    success: function (result) {
-                        $.each(result, function (i, item) {
-                            text += '<option  value="' + item.Value + '" >' + item.Text + '</option>'
-                        })
-                        text += '</select>'
-                        data.innerHTML = text;
-                        $("#kt_" + id)[0].selectedIndex = 0;
-                    }
-
-                });
-                data.id = name
-
-            }
-        }
-
-        function getKat(data, e, id) {
-            var d = document.getElementById('Kat_' + id)
-            d.setAttribute("data-itemid", data.value);
-            table.cell(d).data($('#kt_' + id + ' option:selected').text()).draw();
-            d.id = "";
-
-            var d = document.getElementById('KatID_' + id)
-            table.cell(d).data(data.value).draw();
-        }
-
-        function Tamamla(item, id) {
-
-            $(item).autocomplete({
-                source: "/WMS/CableStockTransfer/GetMalzemebyCode",
-                minLength: 2,
-                select: function (event, ui) {
-                    setTimeout(function () {
-                        $(item).val(ui.item.id);
-                        $(item).val(ui.item.value);
-
-                        var d = document.getElementById('Mal_' + id)
-                        table.cell(d).data(item.value).draw();
-                        d.id = "";
+            $.ajax({
+                url: path,
+                type: 'POST',
+                dataType: "json",
+                contentType: 'application/json; charset=utf-8',
+                success: function (result) {
+                    $.each(result, function (i, item) {
+                        text += '<option  value="' + item.Value + '" >' + item.Text + '</option>'
                     })
+                    text += '</select>'
+                    data.innerHTML = text;
+                    $("#bl_" + id)[0].selectedIndex = 0;
                 }
-            })
+
+            });
+            data.id = name
         }
+    }
 
+    function getBolum(data, e, id) {
+        var d = document.getElementById('Bolum_' + id)
+        d.setAttribute("data-itemid", data.value);
+        table.cell(d).data($('#bl_' + id + ' option:selected').text()).draw();
+        $("#Bolum_" + id).data('secilir', '1');
+        $("#Bolum_" + id).data('itemid', data.value);
+        d.id = "";
 
+    }
 
+    function katClick(data, id) {
+        var raf = $(data).closest('td').prev('td').data("secilir");
+        if (raf != "1") return;
+        var name = 'Kat_' + id;
+        var val = data.innerHTML.trim();
+        var bolum = $(data).closest('td').prev('td').data("itemid");//burada bug var
+        if (bolum == "")
+            return;
+        var katid = $(data).closest('td').next('td').next('td').attr('id', 'KatID_' + id);
+        if (data.id == "") {
+            var path = '/Constants/Floor/FloorList/' + bolum;
+            var text = '<select id="kt_' + id + '" class="form-control" onchange="getKat(this,event,' + id + ')"><option>--Seçiniz--</option>';
 
+            $.ajax({
+                url: path,
+                type: 'POST',
+                dataType: "json",
+                contentType: 'application/json; charset=utf-8',
+                success: function (result) {
+                    $.each(result, function (i, item) {
+                        text += '<option  value="' + item.Value + '" >' + item.Text + '</option>'
+                    })
+                    text += '</select>'
+                    data.innerHTML = text;
+                    $("#kt_" + id)[0].selectedIndex = 0;
+                }
 
-        function getData() {
-            //var tableData = table
-            //        .rows()
-            //    .data();
-
-            ////var jtext = JSON.stringify(data);
-
-            ////alert(jtext);
-
-
-            //var data = new Array();
-
-            //for (var i = 0; i < tableData.length; i++) {
-
-            //    var item = tableData[i];
-            //    data.push(item)
-            //}
-
-            //document.write(data);
-
-            //myTable = document.getElementById("MySqlTable").rows
-
-            //$.each(myTable, function (i, item) {
-            //    document.write(item);
-            //})
-            //var tbl = $('table#MySqlTable tr').map(function () {
-            //    return $(this).find('td').map(function () {
-            //        return $(this).html();
-            //    }).get();
-            //}).get();
-
-            //document.write(tbl)
-
-
-            //var json = '{';
-            //var otArr = [];
-            //var tbl2 = $('#MySqlTable tbody tr').each(function (i) {
-            //    x = $(this).children();
-            //    var itArr = [];
-            //    x.each(function () {
-            //        itArr.push('"' + $(this).text() + '"');
-            //    });
-            //    otArr.push('"' + i + '": [' + itArr.join(',') + ']');
-            //})
-            //json += otArr.join(",") + '}'
-
-            //return document.write(json);
+            });
+            data.id = name
 
         }
+    }
 
+    function getKat(data, e, id) {
+        var d = document.getElementById('Kat_' + id)
+        d.setAttribute("data-itemid", data.value);
+        table.cell(d).data($('#kt_' + id + ' option:selected').text()).draw();
+        d.id = "";
 
+        var d = document.getElementById('KatID_' + id)
+        table.cell(d).data(data.value).draw();
+    }
 
-    </script>
+    function Tamamla(item, id) {
 
-}
+        $(item).autocomplete({
+            source: "/WMS/CableStockTransfer/GetMalzemebyCode",
+            minLength: 2,
+            select: function (event, ui) {
+                setTimeout(function () {
+                    $(item).val(ui.item.id);
+                    $(item).val(ui.item.value);
+
+                    var d = document.getElementById('Mal_' + id)
+                    table.cell(d).data(item.value).draw();
+                    d.id = "";
+                })
+            }
+        })
+    }
+</script>}

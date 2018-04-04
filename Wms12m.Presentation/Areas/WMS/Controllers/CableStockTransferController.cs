@@ -1,13 +1,12 @@
-﻿using System.Web.Mvc;
-using Wms12m.Presentation.Areas.WMS.Models.ViewModels;
-using System.Linq;
-using System.Collections.Generic;
-using Wms12m.Business;
-using Wms12m.Entity.Models;
-using System.Net;
-using Wms12m.Entity;
+﻿using Birikim.Models;
 using System;
-using Birikim.Models;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web.Mvc;
+using Wms12m.Business;
+using Wms12m.Entity;
+using Wms12m.Entity.Models;
+using Wms12m.Entity.Mysql;
 
 namespace Wms12m.Presentation.Areas.WMS.Controllers
 {
@@ -16,31 +15,48 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         // GET: WMS/CableStockTransfer
         public ActionResult Index()
         {
-           
-            
-            ViewBag.baslik = "MySQL Kablo Stok Aktarımı";
-
             ViewBag.DepoID = new SelectList(Store.GetListCable(vUser.DepoId), "ID", "DepoAd");
-          
             return View();
         }
 
         public PartialViewResult GetListOfMySQL(int DepoID)
         {
-
-            var depoAd = Store.Detail(DepoID).DepoAd;
-            var data = MySQLDataViewModel
-                .GetKabloMySQLViewModelList(this)
-                .Where(x => x.DepoID.ToUpper() == depoAd.ToUpper());
-
-
+            var depoAd = Store.Detail(DepoID).DepoAd.ToUpper();
+            List<MySQLDataViewModel> data = new List<MySQLDataViewModel>();
+            using (var dbx = new KabloEntities())
+            {
+                //MakaraNo Olmayanlar ve MakaraNo eşleşip miktarı eşit olmayanları stoklar list'ine atar
+                List<string> listYer = db.Yers.Where(m => m.DepoID == DepoID).Select(x => x.MakaraNo).ToList();
+                List<kblstok2> stoklar = new List<kblstok2>();
+                foreach (var item in dbx.kblstok2.Where(m => m.depo == depoAd))//mysql stoklar üzerinde dön
+                    if (!listYer.Contains(item.makarano))//maraka no yoksa listeye ekle
+                        stoklar.Add(item);
+                    else//MakaraNo eşleşip miktarı eşit olmayanları
+                        foreach (var itemYer in db.Yers.Where(x => x.DepoID == DepoID & x.MakaraNo.Contains(item.makarano)))
+                            if (itemYer.Miktar != item.miktar)
+                                stoklar.Add(item);
+                //add to final list
+                foreach (var item in stoklar)
+                    data.Add(
+                        new MySQLDataViewModel()
+                        {
+                            MySQLID = item.id,
+                            Marka = item.marka,
+                            Cins = item.cins,
+                            Kesit = item.kesit,
+                            Makara = item.makara,
+                            MakaraNo = item.makarano,
+                            DepoID = item.depo,
+                            Miktar = item.miktar.Value
+                        });
+            }
             return PartialView(data);
         }
 
         public JsonResult MysqlKaydet(List<MySQLDataViewModel> data)
         {
 
-            if (data.Count(x=>string.IsNullOrEmpty(x.MakaraNo))!=0)//EKLE
+            if (data.Count(x => string.IsNullOrEmpty(x.MakaraNo)) != 0)//EKLE
             {
                 return Json(new Result(false, "Hata oldu"), JsonRequestBehavior.AllowGet);
             }
@@ -52,25 +68,29 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             var cevap = db.InsertIrsaliye(vUser.SirketKodu, DepoID, gorevno, gorevno, today, "Kablo Sayım", false, ComboItems.KabloSayım.ToInt32(), vUser.UserName, today, time, "", "", 0, "", "").FirstOrDefault();
             LogActions("WMS", "Purchase", "New", ComboItems.alEkle, cevap.GorevID.Value, "Kablo Sayım");
 
-
             foreach (var item in data)
             {
-                string query = string.Format("select birim1 As Birim from FINSAT6{0}.FINSAT6{0}.STK WHERE MalKodu='{1}'", vUser.SirketKodu,item.MalKodu);
+
+                string query = string.Format("select birim1 As Birim from FINSAT6{0}.FINSAT6{0}.STK WHERE MalKodu='{1}'", vUser.SirketKodu, item.MalKodu);
                 birim = db.Database.SqlQuery<STKBirimMalKod>(query).FirstOrDefault().Birim;
 
                 // yerleştirme kaydı yapılır
-                var tmp2 = Yerlestirme.Detail(item.KatID, item.MalKodu, birim);
+                var tmp2 = Yerlestirme.Detail(item.KatID, item.MalKodu, "", item.MakaraNo);
                 if (tmp2 == null)
                 {
-                    tmp2 = new Yer()
+                    var makarakontrol = db.Yers.Where(m => m.DepoID == DepoID && m.MakaraNo == item.MakaraNo).FirstOrDefault();
+                    if (makarakontrol == null)
                     {
-                        KatID = item.KatID,
-                        MalKodu = item.MalKodu,
-                        Birim = birim,
-                        Miktar = item.Miktar,
-                        MakaraNo=item.MakaraNo
-                    };
-                    var s=Yerlestirme.Insert(tmp2, vUser.Id, "Kablo Sayım", cevap.IrsaliyeID.Value);
+                        tmp2 = new Yer()
+                        {
+                            KatID = item.KatID,
+                            MalKodu = item.MalKodu,
+                            Birim = birim,
+                            Miktar = item.Miktar,
+                            MakaraNo = item.MakaraNo
+                        };
+                        Yerlestirme.Insert(tmp2, vUser.Id, "Kablo Sayım", cevap.IrsaliyeID.Value);
+                    }
                 }
                 else
                 {
@@ -86,9 +106,6 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                     }
                 }
             }
-
-
-
             return Json(new Result(true, "Ok"), JsonRequestBehavior.AllowGet);
         }
 
@@ -110,86 +127,5 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                 return Json(new List<frmJson>(), JsonRequestBehavior.AllowGet);
             }
         }
-
-        //public JsonResult GetListOfMySQL(string DepoID)
-        //{
-
-        //    DepoID = DepoID.Trim();
-        //    var data = MySQLDataViewModel
-        //        .GetKabloMySQLViewModelList()
-        //        .Where(x => x.DepoID.ToUpper() == DepoID.ToUpper());
-
-        //    return Json(data, JsonRequestBehavior.AllowGet);
-        //}
-        //foreach (var item in data)
-        //{
-        //    hucreAd = item.Raf + "-" + item.Bolum + "-" + item.Kat;
-        //    yer = db.Yers.SingleOrDefault(x => x.HucreAd == hucreAd);
-
-        //    if (yer == null)
-        //    {
-        //        katId = db.Kats.First(x => x.KatAd == item.Kat).ID;
-        //        depoID = db.Depoes.Single(x => x.DepoAd == item.DepoID).ID;
-        //        string query = string.Format("select birim1 As Birim from FINSAT6{0}.FINSAT6{0}.STK", vUser.SirketKodu);
-        //        birim = db.Database.SqlQuery<STKBirimMalKod>(query).FirstOrDefault().Birim;
-
-
-        //        yer = new Yer
-        //        {
-        //            KatID = katId,
-        //            DepoID = depoID,
-        //            MalKodu = item.MalKodu,
-        //            MakaraNo = "Boş-" + db.SettingsMakaraNo(depoID).FirstOrDefault(),
-        //         Miktar = item.Miktar,
-        //            MakaraDurum = item.Makara == "AÇIK" ? true : false,
-        //            HucreAd = hucreAd,
-        //            Birim = birim
-        //        };
-        //        yerLog = new Yer_Log
-        //        {
-        //            KatID = katId,
-        //            DepoID = depoID,
-        //            MalKodu = item.MalKodu,
-        //            MakaraNo = item.MakaraNo,
-        //            Miktar = item.Miktar,
-        //            HucreAd = hucreAd,
-        //            KayitTarihi=DateTime.Now.Date.ToOADate().ToInt32(),
-        //            KayitSaati=DateTime.Now.ToOaTime(),
-        //            IslemTipi="Kablo Stok Ekle MySQL Aktarılan",
-        //            Kaydeden=vUser.UserName,
-        //            Birim=birim
-        //        };
-
-        //        db.Yers.Add(yer);
-        //        db.Yer_Log.Add(yerLog);
-        //    }
-        //    else
-        //    {
-
-        //        yer.KatID = katId;
-        //        yer.Miktar += item.Miktar;
-        //        yer.MakaraDurum = item.Makara == "AÇIK" ? true : false;
-
-        //        yerLog = new Yer_Log
-        //        {
-        //            KatID = katId,
-        //            DepoID = depoID,
-        //            MalKodu = item.MalKodu,
-        //            MakaraNo = item.MakaraNo,
-        //            Miktar = item.Miktar,
-        //            HucreAd = hucreAd,
-        //            KayitTarihi = DateTime.Now.Date.ToOADate().ToInt32(),
-        //            KayitSaati = DateTime.Now.ToOaTime(),
-        //            IslemTipi = "Kablo Stok Güncelle MySQL Aktarılan",
-        //            Kaydeden = vUser.UserName,
-        //            Birim=birim
-        //        };
-
-        //        db.Yer_Log.Add(yerLog);
-
-        //    }
-
-        //}
-        //db.SaveChanges();
     }
 }
