@@ -13,7 +13,6 @@ namespace WMSMobil
 {
     public partial class frmxPackage : Form
     {
-        Terminal Servis = new Terminal();
         private Barcode2 Barkod;
         List<PanelEx> PanelVeriList = new List<PanelEx>();
         int Sayac = 0;
@@ -23,7 +22,6 @@ namespace WMSMobil
         public frmxPackage()
         {
             InitializeComponent();
-            Servis.Url = Ayarlar.ServisURL;
             //barkod
             Barkod = new Barcode2();
             Barkod.DeviceType = Symbol.Barcode2.DEVICETYPES.FIRSTAVAILABLE;
@@ -70,14 +68,14 @@ namespace WMSMobil
             try
             {
                 //görev bilgilerini getir
-                Ayarlar.SeciliGorev = Servis.GetIrsaliyeFromBarcode(txtBarkod.Text, Ayarlar.Kullanici.ID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid);
+                Ayarlar.SeciliGorev = Program.Servis.GetIrsaliyeFromBarcode(txtBarkod.Text, Ayarlar.Kullanici.ID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid);
                 txtUnvan.Text = Ayarlar.SeciliGorev.Unvan;
                 txtHesapKodu.Text = Ayarlar.SeciliGorev.HesapKodu;
                 txtEvrakno.Text = Ayarlar.SeciliGorev.EvrakNo;
                 txtTarih.Text = Ayarlar.SeciliGorev.Tarih;
                 txtAgirlik.Text = Ayarlar.SeciliGorev.TeslimCHK;
                 //ürün bilgilerini getir
-                Ayarlar.STIKalemler = new List<Tip_STI>(Servis.GetMalzemes(Ayarlar.SeciliGorev.ID, Ayarlar.Kullanici.ID, false, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid));
+                Ayarlar.STIKalemler = new List<Tip_STI>(Program.Servis.GetMalzemes(Ayarlar.SeciliGorev.ID, Ayarlar.Kullanici.ID, false, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid));
             }
             catch (Exception ex)
             {
@@ -208,7 +206,6 @@ namespace WMSMobil
             catch (Exception)
             {
             }
-            Servis.Dispose();
         }
     }
 }

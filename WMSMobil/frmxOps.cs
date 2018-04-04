@@ -13,7 +13,6 @@ namespace WMSMobil
 {
     public partial class frmxOps : Form
     {
-        Terminal Servis = new Terminal();
         private Barcode2 Barkod;
         bool glbTip;
         int GorevID, IrsaliyeID, GorevTip, Sayac = 0;
@@ -27,7 +26,6 @@ namespace WMSMobil
         {
             InitializeComponent();
             Cursor.Current = Cursors.WaitCursor;
-            Servis.Url = Ayarlar.ServisURL;
             glbTip = tip;
             GorevTip = gorevtip;
             //barkod
@@ -150,7 +148,7 @@ namespace WMSMobil
             try
             {
                 //görev bilgilerini getir
-                Ayarlar.SeciliGorev = Servis.GetIrsaliye(grvId, Ayarlar.Kullanici.ID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid);
+                Ayarlar.SeciliGorev = Program.Servis.GetIrsaliye(grvId, Ayarlar.Kullanici.ID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid);
                 txtUnvan.Text = Ayarlar.SeciliGorev.Unvan;
                 txtHesapKodu.Text = Ayarlar.SeciliGorev.HesapKodu;
                 txtEvrakno.Text = Ayarlar.SeciliGorev.EvrakNo;
@@ -158,7 +156,7 @@ namespace WMSMobil
                 GorevID = grvId;
                 IrsaliyeID = irsID;
                 //ürün bilgilerini getir
-                Ayarlar.STIKalemler = new List<Tip_STI>(Servis.GetMalzemes(grvId, Ayarlar.Kullanici.ID, tip, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid));
+                Ayarlar.STIKalemler = new List<Tip_STI>(Program.Servis.GetMalzemes(grvId, Ayarlar.Kullanici.ID, tip, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid));
                 if (Ayarlar.STIKalemler.Count == 0 && gorevtip != 8)
                 {
                     Cursor.Current = Cursors.Default;
@@ -166,7 +164,7 @@ namespace WMSMobil
                     {
                         glbTip = false;
                         Cursor.Current = Cursors.WaitCursor;
-                        Ayarlar.STIKalemler = new List<Tip_STI>(Servis.GetMalzemes(grvId, Ayarlar.Kullanici.ID, false, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid));
+                        Ayarlar.STIKalemler = new List<Tip_STI>(Program.Servis.GetMalzemes(grvId, Ayarlar.Kullanici.ID, false, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid));
                     }
                     else
                         this.Close();
@@ -477,7 +475,7 @@ namespace WMSMobil
             //af gerçek mi kontrolü
             if (txtRafBarkod.Visible == true)
             {
-                var kontrol = Servis.IfExistsRaf(Ayarlar.Kullanici.DepoID, raf, Ayarlar.Kullanici.ID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid);
+                var kontrol = Program.Servis.IfExistsRaf(Ayarlar.Kullanici.DepoID, raf, Ayarlar.Kullanici.ID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid);
                 if (kontrol == false)
                 {
                     Mesaj.Uyari("Böyle bir raf sistemde kayıtlı değil!");
@@ -486,7 +484,7 @@ namespace WMSMobil
                 }
             }
             //mal gerçek mi kontrolü
-            var malInfo = Servis.GetMalzemeFromBarcode("", mal, GorevID, Ayarlar.Kullanici.ID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid);
+            var malInfo = Program.Servis.GetMalzemeFromBarcode("", mal, GorevID, Ayarlar.Kullanici.ID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid);
             if (malInfo.MalKodu == null)
             {
                 Mesaj.Uyari("Sistemde böyle bir barkod bulunamadı");
@@ -638,17 +636,6 @@ namespace WMSMobil
                     //mal barkodu kontrolü
                     if (itemPanel.Controls[0].Text.Contains(";" + mal + ";") && mal != "")
                     {
-                        if (malInfo.Kod1 == "KKABLO")
-                        {
-                            if (itemPanel.MakaraNo == makaraNo)
-                            {
-
-                            }
-                        }
-                        else
-                        {
-
-                        }
                         //ya tekli seçimde veya çoklu seçimin sonucunda
                         if (sonucID == 0 || itemPanel.Controls[1].Tag.ToInt32() == sonucID) 
                         {
@@ -1021,21 +1008,21 @@ namespace WMSMobil
             }
             //servise gönder
             if (Ayarlar.MenuTip == MenuType.MalKabul)
-                Sonuc = Servis.Mal_Kabul(StiList.ToArray(), GorevID, Ayarlar.Kullanici.ID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid);
+                Sonuc = Program.Servis.Mal_Kabul(StiList.ToArray(), GorevID, Ayarlar.Kullanici.ID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid);
             else if (Ayarlar.MenuTip == MenuType.RafaYerlestirme)
-                Sonuc = Servis.Rafa_Kaldir(YerList.ToArray(), Ayarlar.Kullanici.ID, GorevID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid);
+                Sonuc = Program.Servis.Rafa_Kaldir(YerList.ToArray(), Ayarlar.Kullanici.ID, GorevID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid);
             else if (Ayarlar.MenuTip == MenuType.SiparisToplama || Ayarlar.MenuTip == MenuType.TransferÇıkış)
-                Sonuc = Servis.Siparis_Topla(YerList.ToArray(), Ayarlar.Kullanici.ID, GorevID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid);
+                Sonuc = Program.Servis.Siparis_Topla(YerList.ToArray(), Ayarlar.Kullanici.ID, GorevID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid);
             else if (Ayarlar.MenuTip == MenuType.TransferGiriş)
-                Sonuc = Servis.Transfer_Giris(YerList.ToArray(), Ayarlar.Kullanici.ID, GorevID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid);
+                Sonuc = Program.Servis.Transfer_Giris(YerList.ToArray(), Ayarlar.Kullanici.ID, GorevID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid);
             else if (Ayarlar.MenuTip == MenuType.Paketle || Ayarlar.MenuTip == MenuType.Sevkiyat)
-                Sonuc = Servis.Paketle(StiList.ToArray(), GorevID, Ayarlar.Kullanici.ID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid);
+                Sonuc = Program.Servis.Paketle(StiList.ToArray(), GorevID, Ayarlar.Kullanici.ID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid);
             else if (Ayarlar.MenuTip == MenuType.KontrollüSayım)
-                Sonuc = Servis.Kontrollu_Say(YerList.ToArray(), GorevID, Ayarlar.Kullanici.ID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid);
+                Sonuc = Program.Servis.Kontrollu_Say(YerList.ToArray(), GorevID, Ayarlar.Kullanici.ID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid);
             else if (Ayarlar.MenuTip == MenuType.Alımdanİade)
-                Sonuc = Servis.AlimdanIade(YerList.ToArray(), Ayarlar.Kullanici.ID, GorevID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid);
+                Sonuc = Program.Servis.AlimdanIade(YerList.ToArray(), Ayarlar.Kullanici.ID, GorevID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid);
             else if (Ayarlar.MenuTip == MenuType.Satıştanİade)
-                Sonuc = Servis.SatistanIade(StiList.ToArray(), GorevID, Ayarlar.Kullanici.ID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid);
+                Sonuc = Program.Servis.SatistanIade(StiList.ToArray(), GorevID, Ayarlar.Kullanici.ID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid);
             Cursor.Current = Cursors.Default;
             //sonuç işlemleri
             if (Sonuc.Status == false)
@@ -1046,7 +1033,7 @@ namespace WMSMobil
             if (Ayarlar.MenuTip != MenuType.KontrollüSayım)
             {
                 Cursor.Current = Cursors.WaitCursor;
-                Ayarlar.STIKalemler = new List<Tip_STI>(Servis.GetMalzemes(GorevID, Ayarlar.Kullanici.ID, glbTip, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid));
+                Ayarlar.STIKalemler = new List<Tip_STI>(Program.Servis.GetMalzemes(GorevID, Ayarlar.Kullanici.ID, glbTip, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid));
                 Cursor.Current = Cursors.Default;
                 if (Ayarlar.STIKalemler.Count == 0) this.Close();
                 STIGetir();
@@ -1070,7 +1057,6 @@ namespace WMSMobil
             catch (Exception) { }
             try { Barkod.Dispose(); }
             catch (Exception) { }
-            Servis.Dispose();
         }
         
         /// <summary>
@@ -1088,7 +1074,7 @@ namespace WMSMobil
         {
             txtMakaraBarkod.Visible = false;
             label14.Visible = false;
-            var malbilgileri = Servis.GetMalzemeFromBarcode("", txtBarkod.Text, GorevID, Ayarlar.Kullanici.ID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid);
+            var malbilgileri = Program.Servis.GetMalzemeFromBarcode("", txtBarkod.Text, GorevID, Ayarlar.Kullanici.ID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid);
             if (malbilgileri != null)
             {
                 if (malbilgileri.Kod1 == "KKABLO")

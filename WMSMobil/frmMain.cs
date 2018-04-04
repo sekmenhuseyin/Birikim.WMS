@@ -15,6 +15,7 @@ namespace WMSMobil
     {
         Terminal Servis = new Terminal();
         bool Baglandi = true;
+
         /// <summary>
         /// form load
         /// </summary>
@@ -33,6 +34,7 @@ namespace WMSMobil
                 }
             }
         }
+
         /// <summary>
         /// her form aktif olduğunda görevleri güncelle
         /// düğmelerin yerlerini değiştir
@@ -67,6 +69,7 @@ namespace WMSMobil
             }
             Cursor.Current = Cursors.Default;
         }
+
         /// <summary>
         /// yenile
         /// </summary>
@@ -75,6 +78,7 @@ namespace WMSMobil
             Baglandi = true;
             AnaForm_Activated(sender, e);
         }
+
         /// <summary>
         /// btn click
         /// </summary>
@@ -85,6 +89,7 @@ namespace WMSMobil
             frmTasks frm = new frmTasks();
             frm.ShowDialog();
         }
+
         /// <summary>
         /// barkod okuma sayfası
         /// </summary>
@@ -93,6 +98,7 @@ namespace WMSMobil
             frmxPackage frm = new frmxPackage();
             frm.ShowDialog();
         }
+
         /// <summary>
         /// kapat
         /// </summary>
@@ -100,6 +106,7 @@ namespace WMSMobil
         {
             this.Close();
         }
+
         /// <summary>
         /// dispose and exit
         /// </summary>

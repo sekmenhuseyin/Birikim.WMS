@@ -149,7 +149,6 @@
             this.Controls.Add(this.label2);
             this.Name = "frmxOpsSelect";
             this.Text = "Malzeme Seçimi - WMS Mobil";
-            this.Closing += new System.ComponentModel.CancelEventHandler(this.frmxOpsSelect_Closing);
             this.ResumeLayout(false);
 
         }

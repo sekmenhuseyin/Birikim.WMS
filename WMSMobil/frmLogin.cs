@@ -14,34 +14,21 @@ namespace WMSMobil
 {
     public partial class frmLogin : Form
     {
-        Terminal Servis = new Terminal();
         /// <summary>
         /// load
         /// </summary>
         public frmLogin()
         {
             InitializeComponent();
-            Cursor.Current = Cursors.WaitCursor;
             /*bizim proje 240*320 olarak planlandı ama bazı terminaller daha yüksek çözünürlüklü onlar için direk Carpim metodu ile düzeltiyoruz.*/
             Ayarlar.KatSayi = (decimal)Screen.PrimaryScreen.Bounds.Height / (decimal)320;
-            if (Ayarlar.KatSayi > 2) Ayarlar.KatSayi = 1;//burası bilgisayarda çalışırken boyutu değiştirmesin diye
-            //create if file doesnt exists
-            if (!File.Exists(@"\WMSMobil-ip.txt"))
-                using (var Dosya = new FileStream(@"\WMSMobil-ip.txt", FileMode.OpenOrCreate, FileAccess.Write))
-                    using (var Oku = new StreamWriter(Dosya))
-                        Oku.WriteLine("http://192.168.2.228/service/terminal.asmx");
-            //get servis url
-            using (var Dosya = new FileStream(@"\WMSMobil-ip.txt", FileMode.Open))
-                using (var Oku = new StreamReader(Dosya))
-                    Ayarlar.ServisURL = Oku.ReadLine();
-            //set servis
-            Servis.Url = Ayarlar.ServisURL;
-            var ver = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.Major.ToString();
-            ver += "." + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.Minor.ToString();
-            ver += "." + ("000" + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.Build.ToString()).Right(3);
-            label4.Text = "WMS Mobil v." + ver;
-            Cursor.Current = Cursors.Default;
+            //burası bilgisayarda çalışırken boyutu değiştirmesin diye
+            if (Ayarlar.KatSayi > 2) Ayarlar.KatSayi = 1;
+            //version no
+            var version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
+            label4.Text = string.Format("WMS Mobil v{0}.{1}.{2}", version.Major, version.Minor, version.Build);
         }
+
         /// <summary>
         /// barkod okursa
         /// </summary>
@@ -50,11 +37,11 @@ namespace WMSMobil
         {
             try
             {
-                this.Invoke((MethodInvoker)delegate()
+                this.Invoke((MethodInvoker)delegate ()
                 {
                     if (scanDataCollection.GetFirst.Text != "")
-                    {                        
-                        Login login = Servis.LoginKontrol2(scanDataCollection.GetFirst.Text, Ayarlar.AuthCode);
+                    {
+                        Login login = Program.Servis.LoginKontrol2(scanDataCollection.GetFirst.Text, Ayarlar.AuthCode);
                         if (login.ID != 0)
                         {
                             Ayarlar.Kullanici = login;
@@ -73,6 +60,7 @@ namespace WMSMobil
             {
             }
         }
+
         /// <summary>
         /// login
         /// </summary>
@@ -87,7 +75,7 @@ namespace WMSMobil
             try
             {
                 Cursor.Current = Cursors.WaitCursor;
-                Login login = Servis.LoginKontrol(txtKullaniciAdi.Text.Trim().Left(5), txtParola.Text.Trim(), Ayarlar.AuthCode);
+                Login login = Program.Servis.LoginKontrol(txtKullaniciAdi.Text.Trim().Left(5), txtParola.Text.Trim(), Ayarlar.AuthCode);
                 Cursor.Current = Cursors.Default;
                 if (login.ID != 0)
                 {
@@ -110,6 +98,7 @@ namespace WMSMobil
                 Mesaj.Uyari("Bağlantı hatası. Lütfen daha sonra tekrar deneyin");
             }
         }
+
         /// <summary>
         /// connection info
         /// </summary>
@@ -117,16 +106,18 @@ namespace WMSMobil
         {
             Mesaj.Basari(Ayarlar.ServisURL);
         }
+
         /// <summary>
         /// entera basarsa
         /// </summary>
         private void txt_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (e.KeyChar==13)
+            if (e.KeyChar == 13)
             {
                 btnGiris_Click(sender, null);
             }
         }
+
         /// <summary>
         /// textbox focusta selectall yap
         /// </summary>
@@ -134,6 +125,7 @@ namespace WMSMobil
         {
             ((TextBox)sender).SelectAll();
         }
+
         /// <summary>
         /// kapat
         /// </summary>
@@ -142,12 +134,12 @@ namespace WMSMobil
             Application.Exit();
             this.Close();
         }
+
         /// <summary>
         /// dispose
         /// </summary>
         private void GirisForm_Closing(object sender, CancelEventArgs e)
         {
-            Servis.Dispose();
             Application.Exit();
         }
     }

@@ -208,7 +208,6 @@
             this.KeyPreview = true;
             this.Name = "frmTasks";
             this.Text = "Görevler - WMS Mobil";
-            this.Closing += new System.ComponentModel.CancelEventHandler(this.frmTasks_Closing);
             this.panelUst.ResumeLayout(false);
             this.panelOrta.ResumeLayout(false);
             this.panelAlt.ResumeLayout(false);

@@ -81,9 +81,9 @@
             this.lblMalKabul.BackColor = System.Drawing.Color.Teal;
             this.lblMalKabul.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold);
             this.lblMalKabul.ForeColor = System.Drawing.Color.White;
-            this.lblMalKabul.Location = new System.Drawing.Point(44, 65);
+            this.lblMalKabul.Location = new System.Drawing.Point(39, 65);
             this.lblMalKabul.Name = "lblMalKabul";
-            this.lblMalKabul.Size = new System.Drawing.Size(32, 14);
+            this.lblMalKabul.Size = new System.Drawing.Size(37, 14);
             this.lblMalKabul.Tag = "";
             this.lblMalKabul.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
@@ -140,9 +140,9 @@
             this.lblRafKaldirma.BackColor = System.Drawing.Color.DarkOrange;
             this.lblRafKaldirma.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold);
             this.lblRafKaldirma.ForeColor = System.Drawing.Color.White;
-            this.lblRafKaldirma.Location = new System.Drawing.Point(164, 65);
+            this.lblRafKaldirma.Location = new System.Drawing.Point(162, 65);
             this.lblRafKaldirma.Name = "lblRafKaldirma";
-            this.lblRafKaldirma.Size = new System.Drawing.Size(32, 14);
+            this.lblRafKaldirma.Size = new System.Drawing.Size(37, 14);
             this.lblRafKaldirma.Tag = "";
             this.lblRafKaldirma.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
@@ -151,9 +151,9 @@
             this.lblSiparisToplama.BackColor = System.Drawing.Color.Goldenrod;
             this.lblSiparisToplama.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold);
             this.lblSiparisToplama.ForeColor = System.Drawing.Color.White;
-            this.lblSiparisToplama.Location = new System.Drawing.Point(44, 117);
+            this.lblSiparisToplama.Location = new System.Drawing.Point(39, 117);
             this.lblSiparisToplama.Name = "lblSiparisToplama";
-            this.lblSiparisToplama.Size = new System.Drawing.Size(32, 14);
+            this.lblSiparisToplama.Size = new System.Drawing.Size(37, 14);
             this.lblSiparisToplama.Tag = "";
             this.lblSiparisToplama.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
@@ -162,9 +162,9 @@
             this.lblSayim.BackColor = System.Drawing.Color.Green;
             this.lblSayim.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold);
             this.lblSayim.ForeColor = System.Drawing.Color.White;
-            this.lblSayim.Location = new System.Drawing.Point(44, 271);
+            this.lblSayim.Location = new System.Drawing.Point(39, 271);
             this.lblSayim.Name = "lblSayim";
-            this.lblSayim.Size = new System.Drawing.Size(32, 16);
+            this.lblSayim.Size = new System.Drawing.Size(37, 16);
             this.lblSayim.Tag = "";
             this.lblSayim.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
@@ -173,9 +173,9 @@
             this.lblPaketleme.BackColor = System.Drawing.Color.DarkSlateBlue;
             this.lblPaketleme.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold);
             this.lblPaketleme.ForeColor = System.Drawing.Color.White;
-            this.lblPaketleme.Location = new System.Drawing.Point(164, 117);
+            this.lblPaketleme.Location = new System.Drawing.Point(162, 117);
             this.lblPaketleme.Name = "lblPaketleme";
-            this.lblPaketleme.Size = new System.Drawing.Size(32, 14);
+            this.lblPaketleme.Size = new System.Drawing.Size(37, 14);
             this.lblPaketleme.Tag = "";
             this.lblPaketleme.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
@@ -184,9 +184,9 @@
             this.lblTransferIn.BackColor = System.Drawing.Color.SteelBlue;
             this.lblTransferIn.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold);
             this.lblTransferIn.ForeColor = System.Drawing.Color.White;
-            this.lblTransferIn.Location = new System.Drawing.Point(45, 169);
+            this.lblTransferIn.Location = new System.Drawing.Point(40, 169);
             this.lblTransferIn.Name = "lblTransferIn";
-            this.lblTransferIn.Size = new System.Drawing.Size(32, 14);
+            this.lblTransferIn.Size = new System.Drawing.Size(37, 14);
             this.lblTransferIn.Tag = "";
             this.lblTransferIn.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
@@ -195,9 +195,9 @@
             this.lblTransferOut.BackColor = System.Drawing.Color.Olive;
             this.lblTransferOut.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold);
             this.lblTransferOut.ForeColor = System.Drawing.Color.White;
-            this.lblTransferOut.Location = new System.Drawing.Point(165, 169);
+            this.lblTransferOut.Location = new System.Drawing.Point(163, 169);
             this.lblTransferOut.Name = "lblTransferOut";
-            this.lblTransferOut.Size = new System.Drawing.Size(32, 14);
+            this.lblTransferOut.Size = new System.Drawing.Size(37, 14);
             this.lblTransferOut.Tag = "";
             this.lblTransferOut.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
@@ -280,9 +280,9 @@
             this.lblAlim.BackColor = System.Drawing.Color.DarkCyan;
             this.lblAlim.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold);
             this.lblAlim.ForeColor = System.Drawing.Color.White;
-            this.lblAlim.Location = new System.Drawing.Point(45, 221);
+            this.lblAlim.Location = new System.Drawing.Point(40, 221);
             this.lblAlim.Name = "lblAlim";
-            this.lblAlim.Size = new System.Drawing.Size(32, 14);
+            this.lblAlim.Size = new System.Drawing.Size(37, 14);
             this.lblAlim.Tag = "";
             this.lblAlim.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
@@ -291,9 +291,9 @@
             this.lblSatis.BackColor = System.Drawing.Color.CornflowerBlue;
             this.lblSatis.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold);
             this.lblSatis.ForeColor = System.Drawing.Color.White;
-            this.lblSatis.Location = new System.Drawing.Point(164, 221);
+            this.lblSatis.Location = new System.Drawing.Point(162, 221);
             this.lblSatis.Name = "lblSatis";
-            this.lblSatis.Size = new System.Drawing.Size(32, 14);
+            this.lblSatis.Size = new System.Drawing.Size(37, 14);
             this.lblSatis.Tag = "";
             this.lblSatis.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 

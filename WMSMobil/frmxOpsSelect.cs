@@ -11,19 +11,16 @@ using WMSMobil.TerminalService;
 namespace WMSMobil
 {
     public partial class frmxOpsSelect : Form
-    {
-        Terminal Servis = new Terminal();
-       
+    {       
         public frmxOpsSelect(int gorevID, string malKodu, string rowID, bool tmpRafDurum)
         {
             InitializeComponent();
             listView1.View = View.Details;
             listView1.FullRowSelect = true;
             listView1.BackColor = Color.FromArgb(206, 223, 239);
-            Servis.Url = Ayarlar.ServisURL;
             try
             {
-                List<Tip_STI2> liste = new List<Tip_STI2>(Servis.GetMalKoduMalzemes(malKodu, gorevID, Ayarlar.Kullanici.ID, false, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid).ToList());
+                List<Tip_STI2> liste = new List<Tip_STI2>(Program.Servis.GetMalKoduMalzemes(malKodu, gorevID, Ayarlar.Kullanici.ID, false, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid).ToList());
                 foreach (Tip_STI2 item in liste)
                 {
                     if ((!rowID.Contains(";" + item.ID.ToString() + ";")) || tmpRafDurum==true)
@@ -61,11 +58,6 @@ namespace WMSMobil
         private void btnSec_Click(object sender, EventArgs e)
         {
             Close();
-        }
-
-        private void frmxOpsSelect_Closing(object sender, CancelEventArgs e)
-        {
-            Servis.Dispose();
         }
 
     }

@@ -12,7 +12,6 @@ namespace WMSMobil
 {
     public partial class frmxPackDetail : Form
     {
-        Terminal Servis = new Terminal();
         int GorevID;
         /// <summary>
         /// form load
@@ -20,7 +19,6 @@ namespace WMSMobil
         public frmxPackDetail(int gorevID)
         {
             InitializeComponent();
-            Servis.Url = Ayarlar.ServisURL;
             GorevID = gorevID;
             //change size
             if (Screen.PrimaryScreen.Bounds.Height == Screen.PrimaryScreen.Bounds.Width)
@@ -30,12 +28,12 @@ namespace WMSMobil
                 btnKaydet.Height -= eksik;
             }
             //paket tipi
-            Ayarlar.GorevDurumlari = Servis.GetPaketTip(Ayarlar.Kullanici.ID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid).ToList();
+            Ayarlar.GorevDurumlari = Program.Servis.GetPaketTip(Ayarlar.Kullanici.ID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid).ToList();
             txtTip.ValueMember = "ID";
             txtTip.DisplayMember = "Name";
             txtTip.DataSource = Ayarlar.GorevDurumlari;
             //paket ayrıntıları
-            var tbl = Servis.GetPackageBarcodeDetails(GorevID, Ayarlar.Kullanici.ID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid);
+            var tbl = Program.Servis.GetPackageBarcodeDetails(GorevID, Ayarlar.Kullanici.ID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid);
             txtSevkNo.Text = tbl.SevkiyatNo;
             txtPaketNo.Text = tbl.PaketNo;
             txtMiktar.Text = String.Format("{0:n}", tbl.Adet);
@@ -78,7 +76,7 @@ namespace WMSMobil
                 return;
             }
             var pkt = new frmGorevPaket() { SevkiyatNo = txtSevkNo.Text, PaketNo = txtPaketNo.Text, Adet = miktar, Agirlik = agirlik, PaketTipiID = tip };
-            var Sonuc = Servis.UpdatePackageBarcode(pkt, GorevID, Ayarlar.Kullanici.ID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid);
+            var Sonuc = Program.Servis.UpdatePackageBarcode(pkt, GorevID, Ayarlar.Kullanici.ID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid);
             //sonuç işlemleri
             if (Sonuc.Status == false)
                 Mesaj.Uyari(Sonuc.Message);

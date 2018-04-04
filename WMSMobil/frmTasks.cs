@@ -13,7 +13,6 @@ namespace WMSMobil
     public partial class frmTasks : Form
     {
         List<PanelGrv> PanelVeriList = new List<PanelGrv>();
-        Terminal Servis = new Terminal();
         Control focusPanel = new Control();
         int Sayac = 0, GorevID = 0, IrsaliyeID = 0;
         bool isReady = false;
@@ -24,7 +23,6 @@ namespace WMSMobil
         {            
             InitializeComponent();
             Cursor.Current = Cursors.WaitCursor;
-            Servis.Url = Ayarlar.ServisURL;
             switch (Ayarlar.MenuTip)
             {
                 case MenuType.None:
@@ -65,13 +63,13 @@ namespace WMSMobil
             try
             {
                 //görevliler
-                Ayarlar.Gorevliler = new List<GetGorevlis_Result>(Servis.GetUsers(Ayarlar.Kullanici.DepoID, Ayarlar.Kullanici.ID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid));
+                Ayarlar.Gorevliler = new List<GetGorevlis_Result>(Program.Servis.GetUsers(Ayarlar.Kullanici.DepoID, Ayarlar.Kullanici.ID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid));
                 Ayarlar.Gorevliler.Add(new GetGorevlis_Result { ID = 0, Kod = " Tümü" });
                 cmbGorevli.ValueMember = "ID";
                 cmbGorevli.DisplayMember = "Kod";
                 cmbGorevli.DataSource = Ayarlar.Gorevliler.OrderBy(o => o.Kod).ToList();
                 //durumlar
-                Ayarlar.GorevDurumlari = Servis.GetDurums(Ayarlar.Kullanici.ID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid).ToList();
+                Ayarlar.GorevDurumlari = Program.Servis.GetDurums(Ayarlar.Kullanici.ID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid).ToList();
                 cmbDurum.ValueMember = "ID";
                 cmbDurum.DisplayMember = "Name";
                 cmbDurum.DataSource = Ayarlar.GorevDurumlari;
@@ -120,7 +118,7 @@ namespace WMSMobil
                 return;
             isReady = false;
             Cursor.Current = Cursors.WaitCursor;
-            Ayarlar.Gorevler = new List<Tip_GOREV>(Servis.GetGorevList(cmbGorevli.Text.Replace(" Tümü", ""), cmbDurum.SelectedValue.ToInt32(), Ayarlar.MenuTip.ToInt32(), Ayarlar.Kullanici.DepoID, Ayarlar.Kullanici.ID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid));
+            Ayarlar.Gorevler = new List<Tip_GOREV>(Program.Servis.GetGorevList(cmbGorevli.Text.Replace(" Tümü", ""), cmbDurum.SelectedValue.ToInt32(), Ayarlar.MenuTip.ToInt32(), Ayarlar.Kullanici.DepoID, Ayarlar.Kullanici.ID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid));
             Sayac = 0;
             //listeyi temizle
             foreach (PanelGrv rmvItem in PanelVeriList){panelOrta.Controls.Remove(rmvItem);}
@@ -220,48 +218,48 @@ namespace WMSMobil
             {
                 if (Ayarlar.MenuTip == MenuType.MalKabul)
                 {
-                    sonuc = Servis.MalKabul_GorevKontrol(GorevID, Ayarlar.Kullanici.ID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid);
+                    sonuc = Program.Servis.MalKabul_GorevKontrol(GorevID, Ayarlar.Kullanici.ID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid);
                     if (sonuc.Status == false && sonuc.Id == -1)
                     {
                         Cursor.Current = Cursors.Default;
                         if (Mesaj.Soru("Okunan mal miktarları tutarsız. Yine de devam etmek istiyor musunuz?") == DialogResult.Yes)
                             sonuc.Status = true;
                     }
-                    if (sonuc.Status == true) sonuc = Servis.MalKabul_GoreviTamamla(GorevID, Ayarlar.Kullanici.ID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid);
+                    if (sonuc.Status == true) sonuc = Program.Servis.MalKabul_GoreviTamamla(GorevID, Ayarlar.Kullanici.ID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid);
                 }
                 else if (Ayarlar.MenuTip == MenuType.RafaYerlestirme)
-                    sonuc = Servis.RafaKaldir_GoreviTamamla(GorevID, Ayarlar.Kullanici.ID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid);
+                    sonuc = Program.Servis.RafaKaldir_GoreviTamamla(GorevID, Ayarlar.Kullanici.ID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid);
                 else if (Ayarlar.MenuTip == MenuType.SiparisToplama)
-                    sonuc = Servis.SiparisTopla_GoreviTamamla(GorevID, Ayarlar.Kullanici.ID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid);
+                    sonuc = Program.Servis.SiparisTopla_GoreviTamamla(GorevID, Ayarlar.Kullanici.ID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid);
                 else if (Ayarlar.MenuTip == MenuType.Paketle)
-                    sonuc = Servis.Paketle_GoreviTamamla(GorevID, IrsaliyeID, Ayarlar.Kullanici.ID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid);
+                    sonuc = Program.Servis.Paketle_GoreviTamamla(GorevID, IrsaliyeID, Ayarlar.Kullanici.ID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid);
                 else if (Ayarlar.MenuTip == MenuType.Sevkiyat)
-                    sonuc = Servis.Sevkiyat_GoreviTamamla(GorevID, IrsaliyeID, Ayarlar.Kullanici.ID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid);
+                    sonuc = Program.Servis.Sevkiyat_GoreviTamamla(GorevID, IrsaliyeID, Ayarlar.Kullanici.ID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid);
                 else if (Ayarlar.MenuTip == MenuType.TransferÇıkış)
-                    sonuc = Servis.TransferCikis_GoreviTamamla(GorevID, Ayarlar.Kullanici.ID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid);
+                    sonuc = Program.Servis.TransferCikis_GoreviTamamla(GorevID, Ayarlar.Kullanici.ID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid);
                 else if (Ayarlar.MenuTip == MenuType.TransferGiriş)
-                    sonuc = Servis.TransferGiris_GoreviTamamla(GorevID, Ayarlar.Kullanici.ID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid);
+                    sonuc = Program.Servis.TransferGiris_GoreviTamamla(GorevID, Ayarlar.Kullanici.ID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid);
                 else if (Ayarlar.MenuTip == MenuType.KontrollüSayım)
                 {
                     Cursor.Current = Cursors.Default;
                     if (Mesaj.Soru("Bu görevi tamamladınız mı?") == DialogResult.Yes)
                     {
                         Cursor.Current = Cursors.WaitCursor;
-                        sonuc = Servis.KontrolluSay_GoreviTamamla(GorevID, Ayarlar.Kullanici.ID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid);
+                        sonuc = Program.Servis.KontrolluSay_GoreviTamamla(GorevID, Ayarlar.Kullanici.ID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid);
                     }
                 }
                 else if (Ayarlar.MenuTip == MenuType.Alımdanİade)
-                    sonuc = Servis.AlimdanIade_GoreviTamamla(GorevID, Ayarlar.Kullanici.ID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid);
+                    sonuc = Program.Servis.AlimdanIade_GoreviTamamla(GorevID, Ayarlar.Kullanici.ID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid);
                 else if (Ayarlar.MenuTip == MenuType.Satıştanİade)
                 {
-                    sonuc = Servis.SatistanIade_GorevKontrol(GorevID, Ayarlar.Kullanici.ID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid);
+                    sonuc = Program.Servis.SatistanIade_GorevKontrol(GorevID, Ayarlar.Kullanici.ID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid);
                     if (sonuc.Status == false && sonuc.Id == -1)
                     {
                         Cursor.Current = Cursors.Default;
                         if (Mesaj.Soru("Okunan mal miktarları tutarsız. Yine de devam etmek istiyor musunuz?") == DialogResult.Yes)
                             sonuc.Status = true;
                     }
-                    if (sonuc.Status == true) sonuc = Servis.SatistanIade_GoreviTamamla(GorevID, Ayarlar.Kullanici.ID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid);
+                    if (sonuc.Status == true) sonuc = Program.Servis.SatistanIade_GoreviTamamla(GorevID, Ayarlar.Kullanici.ID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid);
                 }
             }
             catch (Exception ex)
@@ -286,13 +284,6 @@ namespace WMSMobil
             else
                 if (sonuc.Message != "") 
                     Mesaj.Uyari(sonuc.Message);
-        }
-        /// <summary>
-        /// dispose
-        /// </summary>
-        private void frmTasks_Closing(object sender, CancelEventArgs e)
-        {
-            Servis.Dispose();
         }
         /// <summary>
         /// geri
