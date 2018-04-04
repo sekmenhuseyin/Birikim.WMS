@@ -233,15 +233,15 @@ namespace Wms12m.Business
             }
             // stok
             if (tbl.MakaraNo == "") tbl.MakaraNo = null;
-            if (tbl.MakaraNo != null)
-            {
-                var depoid = db.Kats.Where(m => m.ID == tbl.KatID).Select(m => m.Bolum.Raf.Koridor.DepoID).FirstOrDefault();
-                var makarakontrol = db.Yers.Where(m => m.ID != tbl.ID && m.DepoID == depoid && m.MakaraNo == tbl.MakaraNo).FirstOrDefault();
-                if (makarakontrol != null)
-                {
-                    return new Result(false, "Bu makara no daha önce kullanılmış.");
-                }
-            }
+            //if (tbl.MakaraNo != null)
+            //{
+            //    var depoid = db.Kats.Where(m => m.ID == tbl.KatID).Select(m => m.Bolum.Raf.Koridor.DepoID).FirstOrDefault();
+            //    var makarakontrol = db.Yers.Where(m => m.ID != tbl.ID && m.DepoID == depoid && m.MakaraNo == tbl.MakaraNo).FirstOrDefault();
+            //    if (makarakontrol != null)
+            //    {
+            //        return new Result(false, "Bu makara no daha önce kullanılmış.");
+            //    }
+            //}
             db.Yers.Add(tbl);
             // log
             var yerLog = new Yer_Log()
