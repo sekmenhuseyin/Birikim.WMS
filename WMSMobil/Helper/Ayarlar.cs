@@ -72,11 +72,11 @@ namespace WMSMobil
             set { Ayarlar.kullanici = value; }
         }
 
-        static int tarih;
-        public static int Tarih
+        static int seciliSatırID;
+        public static int SeciliSatırID
         {
-            get { return Ayarlar.tarih; }
-            set { Ayarlar.tarih = value; }
+            get { return Ayarlar.seciliSatırID; }
+            set { Ayarlar.seciliSatırID = value; }
         }
 
         static List<Tip_STI> gSTIKalemler;

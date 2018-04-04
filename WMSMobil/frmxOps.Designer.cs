@@ -91,7 +91,7 @@
             this.btnUygula.Location = new System.Drawing.Point(181, 2);
             this.btnUygula.Name = "btnUygula";
             this.btnUygula.Size = new System.Drawing.Size(57, 21);
-            this.btnUygula.TabIndex = 9;
+            this.btnUygula.TabIndex = 3;
             this.btnUygula.Text = "+";
             this.btnUygula.Click += new System.EventHandler(this.btnUygula_Click);
             // 
@@ -119,7 +119,7 @@
             this.btnEkle.Location = new System.Drawing.Point(181, 24);
             this.btnEkle.Name = "btnEkle";
             this.btnEkle.Size = new System.Drawing.Size(57, 21);
-            this.btnEkle.TabIndex = 2;
+            this.btnEkle.TabIndex = 4;
             this.btnEkle.Text = "Ekle";
             this.btnEkle.Click += new System.EventHandler(this.btnUygula_Click);
             // 
@@ -166,7 +166,7 @@
             this.txtEvrakno.Name = "txtEvrakno";
             this.txtEvrakno.ReadOnly = true;
             this.txtEvrakno.Size = new System.Drawing.Size(58, 21);
-            this.txtEvrakno.TabIndex = 5;
+            this.txtEvrakno.TabIndex = 7;
             // 
             // txtHesapKodu
             // 
@@ -174,14 +174,14 @@
             this.txtHesapKodu.Name = "txtHesapKodu";
             this.txtHesapKodu.ReadOnly = true;
             this.txtHesapKodu.Size = new System.Drawing.Size(54, 21);
-            this.txtHesapKodu.TabIndex = 4;
+            this.txtHesapKodu.TabIndex = 6;
             // 
             // txtMakaraBarkod
             // 
             this.txtMakaraBarkod.Location = new System.Drawing.Point(92, 46);
             this.txtMakaraBarkod.Name = "txtMakaraBarkod";
             this.txtMakaraBarkod.Size = new System.Drawing.Size(147, 21);
-            this.txtMakaraBarkod.TabIndex = 3;
+            this.txtMakaraBarkod.TabIndex = 2;
             this.txtMakaraBarkod.Visible = false;
             this.txtMakaraBarkod.GotFocus += new System.EventHandler(this.txt_GotFocus);
             // 
@@ -191,7 +191,7 @@
             this.txtUnvan.Name = "txtUnvan";
             this.txtUnvan.ReadOnly = true;
             this.txtUnvan.Size = new System.Drawing.Size(165, 21);
-            this.txtUnvan.TabIndex = 3;
+            this.txtUnvan.TabIndex = 5;
             // 
             // label3
             // 

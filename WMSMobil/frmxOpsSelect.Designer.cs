@@ -29,6 +29,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmxOpsSelect));
             this.mainMenu1 = new System.Windows.Forms.MainMenu();
             this.listView1 = new System.Windows.Forms.ListView();
             this.columnHeader2 = new System.Windows.Forms.ColumnHeader();
@@ -147,6 +148,7 @@
             this.Controls.Add(this.btnSec);
             this.Controls.Add(this.listView1);
             this.Controls.Add(this.label2);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmxOpsSelect";
             this.Text = "Malzeme Seçimi - WMS Mobil";
             this.ResumeLayout(false);
