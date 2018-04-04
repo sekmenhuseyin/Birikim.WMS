@@ -116,7 +116,13 @@
             { "data": "TeklifBitTarih", "render": function (data) { if (data != null) return moment(data).format("DD.MM.YYYY"); else return "&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp;"; }, "sClass": "nowrap" },
             { "data": "DurumStr" },
             { "data": "TeklifNo" },
-            { "data": "Vade" },
+            {
+                "data": "Vade",
+                "render": function (data, type, row, meta) {
+                    if (data == 0) return "Peşin";
+                    else return data;
+                }
+            },
             { "data": "TeslimYeri" },
             { "data": "DvzKuru", "render": $.fn.dataTable.render.number('.', ',', 4, '') },
             { "data": "DvzTutar", "render": $.fn.dataTable.render.number('.', ',', 4, '') },
