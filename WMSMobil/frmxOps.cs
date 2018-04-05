@@ -19,116 +19,6 @@ namespace WMSMobil
         string FocusPanelName = "";
         List<PanelEx> PanelVeriList = new List<PanelEx>();
 
-        private void RearrangeColumnPlaces()
-        {
-            //places
-            if (GorevTip == 1 || GorevTip == 6 || GorevTip == 7 || GorevTip == 73)
-            {
-                lblIslemMiktar.Left = 450.Carpim();
-            }
-            else
-            {
-                lblIslemMiktar.Left = 556.Carpim();
-                lblOkutulanMiktar.Left = lblMalkodu.Left;
-                lblMalkodu.Left += lblOkutulanMiktar.Width + 1;
-                lblMalzeme.Left += lblOkutulanMiktar.Width + 1;
-                lblMiktar.Left += lblOkutulanMiktar.Width + 1;
-                lblBirim.Left += lblOkutulanMiktar.Width + 1;
-                lblMakarano.Left += lblOkutulanMiktar.Width + 1;
-            }
-            //visibilities
-            if (GorevTip == 1)
-            {
-                this.Text = "Mal Kabulü - WMS Mobil";
-                lblOkutulanMiktar.Text = "Okutulan Miktar";
-                txtRafBarkod.Visible = false;
-                label7.Visible = false;
-                lblYerlestirmeMiktar.Visible = false;
-            }
-            else if (GorevTip == 73)
-            {
-                this.Text = "Satıştan İade - WMS Mobil";
-                lblOkutulanMiktar.Text = "Okutulan Miktar";
-                txtRafBarkod.Visible = false;
-                label7.Visible = false;
-                lblYerlestirmeMiktar.Visible = false;
-            }
-            else if (GorevTip == 2)
-            {
-                this.Text = "Rafa Yerleştirme - WMS Mobil";
-                lblOkutulanMiktar.Text = "Raf";
-            }
-            else if (GorevTip == 3)
-            {
-                this.Text = "Sipariş Toplama - WMS Mobil";
-                lblOkutulanMiktar.Text = "Raf";
-                label1.Visible = false;
-                label2.Visible = false;
-                label3.Visible = false;
-                txtUnvan.Visible = false;
-                txtHesapKodu.Visible = false;
-                txtEvrakno.Visible = false;
-                panelOrta.Top -= 44;
-                panelOrta.Height += 44;
-            }
-            else if (GorevTip == 6)
-            {
-                this.Text = "Paketle - WMS Mobil";
-                lblOkutulanMiktar.Text = "Okutulan Miktar";
-                txtRafBarkod.Visible = false;
-                label7.Visible = false;
-                lblYerlestirmeMiktar.Visible = false;
-            }
-            else if (GorevTip == 7)
-            {
-                this.Text = "Sevkiyat - WMS Mobil";
-                lblOkutulanMiktar.Text = "Okutulan Miktar";
-                txtRafBarkod.Visible = false;
-                label7.Visible = false;
-                lblYerlestirmeMiktar.Visible = false;
-            }
-            else if (GorevTip == 8)
-            {
-                this.Text = "Kontrollü Sayım - WMS Mobil";
-                lblOkutulanMiktar.Text = "Raf";
-                lblYerlestirmeMiktar.Text = "Okutulan Miktar";
-                label1.Visible = false;
-                label2.Visible = false;
-                label3.Visible = false;
-                txtUnvan.Visible = false;
-                txtHesapKodu.Visible = false;
-                txtEvrakno.Visible = false;
-                panelOrta.Top -= 44;
-                panelOrta.Height += 44;
-            }
-            else if (GorevTip == 72)
-            {
-                this.Text = "Alımdan İade - WMS Mobil";
-                lblOkutulanMiktar.Text = "Raf";
-                label1.Visible = false;
-                label2.Visible = false;
-                label3.Visible = false;
-                txtUnvan.Visible = false;
-                txtHesapKodu.Visible = false;
-                txtEvrakno.Visible = false;
-                panelOrta.Top -= 44;
-                panelOrta.Height += 44;
-            }
-            else// if (GorevTip == 19 || GorevTip == 20)
-            {
-                this.Text = "Transfer - WMS Mobil";
-                lblOkutulanMiktar.Text = "Raf";
-                label1.Visible = false;
-                label2.Visible = false;
-                label3.Visible = false;
-                txtUnvan.Visible = false;
-                txtHesapKodu.Visible = false;
-                txtEvrakno.Visible = false;
-                panelOrta.Top -= 44;
-                panelOrta.Height += 44;
-            }
-        }
-
         /// <summary>
         /// form load
         /// </summary>
@@ -192,42 +82,10 @@ namespace WMSMobil
             //listele
             if (Ayarlar.MenuTip != MenuType.KontrollüSayım)
                 STIGetir();
-        }
-
-        /// <summary>
-        /// barkod okursa
-        /// </summary>
-        public delegate void MethodInvoker();
-        private void Barkod_OnScan(Symbol.Barcode2.ScanDataCollection scanDataCollection)
-        {
-            try
+            else
             {
-                this.Invoke((MethodInvoker)delegate ()
-                {
-                    string okunan = scanDataCollection.GetFirst.Text;
-                    if (okunan.Length > 20)
-                    {
-                        okunan = okunan.Substring(3, 13);
-                        txtBarkod.Text = okunan;
-                        if (txtRafBarkod.Visible == true && txtRafBarkod.Text == "") txtRafBarkod.Focus();
-                        else btnUygula_Click(Barkod, null);//uygula
-                    }
-                    else if (okunan.Length == 9)
-                    {
-                        txtRafBarkod.Text = okunan;
-                        txtBarkod.Focus();
-                        txtBarkod.Text = "";
-                    }
-                    else
-                    {
-                        txtBarkod.Text = okunan;
-                        if (txtRafBarkod.Visible == true && txtRafBarkod.Text == "") txtRafBarkod.Focus();
-                        else btnUygula_Click(Barkod, null);//uygula
-                    }
-                });
-            }
-            catch (Exception)
-            {
+                islemColumnIndex = 7;
+                makaranoColumnIndex = 8;
             }
         }
 
@@ -977,11 +835,153 @@ namespace WMSMobil
         }
 
         /// <summary>
-        /// geri
+        /// barkod okursa
         /// </summary>
-        private void btnBack_Click(object sender, EventArgs e)
+        public delegate void MethodInvoker();
+        private void Barkod_OnScan(Symbol.Barcode2.ScanDataCollection scanDataCollection)
         {
-            this.Close();
+            try
+            {
+                this.Invoke((MethodInvoker)delegate ()
+                {
+                    string okunan = scanDataCollection.GetFirst.Text;
+                    if (okunan.Length > 20)
+                    {
+                        okunan = okunan.Substring(3, 13);
+                        txtBarkod.Text = okunan;
+                        if (txtRafBarkod.Visible == true && txtRafBarkod.Text == "") txtRafBarkod.Focus();
+                        else btnUygula_Click(Barkod, null);//uygula
+                    }
+                    else if (okunan.Length == 9)
+                    {
+                        txtRafBarkod.Text = okunan;
+                        txtBarkod.Focus();
+                        txtBarkod.Text = "";
+                    }
+                    else
+                    {
+                        txtBarkod.Text = okunan;
+                        if (txtRafBarkod.Visible == true && txtRafBarkod.Text == "") txtRafBarkod.Focus();
+                        else btnUygula_Click(Barkod, null);//uygula
+                    }
+                });
+            }
+            catch (Exception)
+            {
+            }
+        }
+
+        /// <summary>
+        /// coloumn arrangement on load
+        /// </summary>
+        private void RearrangeColumnPlaces()
+        {
+            //places
+            if (GorevTip == 1 || GorevTip == 6 || GorevTip == 7 || GorevTip == 73)
+            {
+                lblIslemMiktar.Left = 450.Carpim();
+            }
+            else
+            {
+                lblIslemMiktar.Left = 556.Carpim();
+                lblOkutulanMiktar.Left = lblMalkodu.Left;
+                lblMalkodu.Left += lblOkutulanMiktar.Width + 1;
+                lblMalzeme.Left += lblOkutulanMiktar.Width + 1;
+                lblMiktar.Left += lblOkutulanMiktar.Width + 1;
+                lblBirim.Left += lblOkutulanMiktar.Width + 1;
+                lblMakarano.Left += lblOkutulanMiktar.Width + 1;
+            }
+            //visibilities
+            if (GorevTip == 1)
+            {
+                this.Text = "Mal Kabulü - WMS Mobil";
+                lblOkutulanMiktar.Text = "Okutulan Miktar";
+                txtRafBarkod.Visible = false;
+                label7.Visible = false;
+                lblYerlestirmeMiktar.Visible = false;
+            }
+            else if (GorevTip == 73)
+            {
+                this.Text = "Satıştan İade - WMS Mobil";
+                lblOkutulanMiktar.Text = "Okutulan Miktar";
+                txtRafBarkod.Visible = false;
+                label7.Visible = false;
+                lblYerlestirmeMiktar.Visible = false;
+            }
+            else if (GorevTip == 2)
+            {
+                this.Text = "Rafa Yerleştirme - WMS Mobil";
+                lblOkutulanMiktar.Text = "Raf";
+            }
+            else if (GorevTip == 3)
+            {
+                this.Text = "Sipariş Toplama - WMS Mobil";
+                lblOkutulanMiktar.Text = "Raf";
+                label1.Visible = false;
+                label2.Visible = false;
+                label3.Visible = false;
+                txtUnvan.Visible = false;
+                txtHesapKodu.Visible = false;
+                txtEvrakno.Visible = false;
+                panelOrta.Top -= 44;
+                panelOrta.Height += 44;
+            }
+            else if (GorevTip == 6)
+            {
+                this.Text = "Paketle - WMS Mobil";
+                lblOkutulanMiktar.Text = "Okutulan Miktar";
+                txtRafBarkod.Visible = false;
+                label7.Visible = false;
+                lblYerlestirmeMiktar.Visible = false;
+            }
+            else if (GorevTip == 7)
+            {
+                this.Text = "Sevkiyat - WMS Mobil";
+                lblOkutulanMiktar.Text = "Okutulan Miktar";
+                txtRafBarkod.Visible = false;
+                label7.Visible = false;
+                lblYerlestirmeMiktar.Visible = false;
+            }
+            else if (GorevTip == 8)
+            {
+                this.Text = "Kontrollü Sayım - WMS Mobil";
+                lblOkutulanMiktar.Text = "Raf";
+                lblYerlestirmeMiktar.Text = "Okutulan Miktar";
+                label1.Visible = false;
+                label2.Visible = false;
+                label3.Visible = false;
+                txtUnvan.Visible = false;
+                txtHesapKodu.Visible = false;
+                txtEvrakno.Visible = false;
+                panelOrta.Top -= 44;
+                panelOrta.Height += 44;
+            }
+            else if (GorevTip == 72)
+            {
+                this.Text = "Alımdan İade - WMS Mobil";
+                lblOkutulanMiktar.Text = "Raf";
+                label1.Visible = false;
+                label2.Visible = false;
+                label3.Visible = false;
+                txtUnvan.Visible = false;
+                txtHesapKodu.Visible = false;
+                txtEvrakno.Visible = false;
+                panelOrta.Top -= 44;
+                panelOrta.Height += 44;
+            }
+            else// if (GorevTip == 19 || GorevTip == 20)
+            {
+                this.Text = "Transfer - WMS Mobil";
+                lblOkutulanMiktar.Text = "Raf";
+                label1.Visible = false;
+                label2.Visible = false;
+                label3.Visible = false;
+                txtUnvan.Visible = false;
+                txtHesapKodu.Visible = false;
+                txtEvrakno.Visible = false;
+                panelOrta.Top -= 44;
+                panelOrta.Height += 44;
+            }
         }
 
         /// <summary>
@@ -1036,6 +1036,14 @@ namespace WMSMobil
         private void txt_GotFocus(object sender, EventArgs e)
         {
             ((TextBox)sender).SelectAll();
+        }
+
+        /// <summary>
+        /// geri
+        /// </summary>
+        private void btnBack_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
 
         /// <summary>
