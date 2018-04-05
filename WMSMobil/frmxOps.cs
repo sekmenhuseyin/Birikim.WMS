@@ -818,9 +818,13 @@ namespace WMSMobil
                 }
             }
             //mal gerçek mi kontrolü
-            if (malInfo.MalKodu == null)
+            if (malInfo == null || malInfo.MalKodu == null)
             {
-                Mesaj.Uyari("Sistemde böyle bir barkod bulunamadı");
+                //birden fazla barkod varsa hata verecek
+                if(malInfo.Barkod!=null)
+                    Mesaj.Uyari(malInfo.Barkod);
+                else
+                    Mesaj.Uyari("Sistemde böyle bir barkod bulunamadı");
                 txtBarkod.Focus();
                 return false;
             }

@@ -290,10 +290,16 @@ namespace Wms12m.Presentation
                 var mGorev = db.Gorevs.Where(m => m.ID == GorevID).FirstOrDefault();
                 var sql = string.Format("EXEC FINSAT6{0}.wms.getStkOzet @Malkodu = '{1}', @Barkod = '{2}'", mGorev.IR.SirketKod, malkodu, barkod);
                 //return
-                var satir = db.Database.SqlQuery<Tip_Malzeme>(sql).FirstOrDefault();
-                if (satir == null)
+                var satir = db.Database.SqlQuery<Tip_Malzeme>(sql).ToList();
+                //eğer satır yoksa boş döndür
+                if (satir.Count == 0)
                     return new Tip_Malzeme();
-                else return satir;
+                //eğer çok satır varsa haber ver
+                else if (satir.Count > 1)
+                    return new Tip_Malzeme() { Barkod = "Sistemde bu barkoddan " + satir.Count + " adet bulundu" };
+                //tek satırsa onu döndür
+                else
+                    return satir.FirstOrDefault();
             }
             catch (Exception ex)
             {
