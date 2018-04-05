@@ -848,26 +848,35 @@ namespace WMSMobil
             {
                 this.Invoke((MethodInvoker)delegate ()
                 {
+                    //read data
                     string okunan = scanDataCollection.GetFirst.Text;
-                    if (okunan.Length > 20)
+                    //makara barkod
+                    if (txtMakaraBarkod.Focus())
                     {
-                        okunan = okunan.Substring(3, 13);
-                        txtBarkod.Text = okunan;
-                        if (txtRafBarkod.Visible == true && txtRafBarkod.Text == "") txtRafBarkod.Focus();
-                        else btnUygula_Click(Barkod, null);//uygula
+                        txtMakaraBarkod.Text = okunan;
                     }
-                    else if (okunan.Length == 9)
+                    //raf okutmuşsa
+                    else if (okunan.Length == 9 || okunan == "R-ZR-V")
                     {
                         txtRafBarkod.Text = okunan;
-                        txtBarkod.Focus();
                         txtBarkod.Text = "";
                     }
+                    //mal barkodu okutmuşsa
                     else
                     {
+                        if (okunan.Length > 20)
+                            okunan = okunan.Substring(3, 13);
                         txtBarkod.Text = okunan;
-                        if (txtRafBarkod.Visible == true && txtRafBarkod.Text == "") txtRafBarkod.Focus();
-                        else btnUygula_Click(Barkod, null);//uygula
                     }
+                    //focus to next textbox or click uygula
+                    if (txtBarkod.Text == "")
+                        txtBarkod.Focus();                        
+                    else if (txtRafBarkod.Visible == true && txtRafBarkod.Text == "")
+                        txtRafBarkod.Focus();
+                    else if (txtMakaraBarkod.Visible == true && txtMakaraBarkod.Text == "")
+                        txtMakaraBarkod.Focus();
+                    else
+                        btnUygula_Click(Barkod, null);
                 });
             }
             catch (Exception)
@@ -876,7 +885,7 @@ namespace WMSMobil
         }
 
         /// <summary>
-        /// coloumn arrangement on load
+        /// column arrangement on load
         /// </summary>
         private void RearrangeColumnPlaces()
         {
@@ -1015,6 +1024,7 @@ namespace WMSMobil
                 {
                     txtMakaraBarkod.Visible = true;
                     label14.Visible = true;
+                    txtMakaraBarkod.Focus();
                 }
             }
         }
