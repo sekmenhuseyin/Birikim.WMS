@@ -157,21 +157,22 @@ namespace Wms12m.Presentation
             if (tbl == null) return new List<Tip_STI2>();
             var mGorev = db.Gorevs.Where(m => m.ID == GorevID).FirstOrDefault();
             if (mGorev.IsNull()) return new List<Tip_STI2>();
-            //TODO: düzelt
             var sql = "";
-            sql = (mGorev.GorevTipiID == ComboItems.Paketle.ToInt32() || mGorev.GorevTipiID == ComboItems.BarkodHazırla.ToInt32() || mGorev.GorevTipiID == ComboItems.Sevket.ToInt32()) ? "(wms.Yer_Log.GC = 1) " : "(wms.Yer_Log.GC = 0 OR wms.Yer_Log.GC IS NULL) ";
-            sql = string.Format("SELECT wms.IRS_Detay.ID, wms.IRS.ID as irsID,wms.IRS.EvrakNo as IrsaliyeNo,wms.IRS_Detay.KynkSiparisNo,wms.IRS_Detay.KynkSiparisSiraNo, wms.IRS_Detay.MalKodu, wms.IRS_Detay.Miktar, wms.IRS_Detay.Birim, wms.IRS_Detay.MakaraNo, ISNULL(wms.IRS_Detay.OkutulanMiktar, 0) AS OkutulanMiktar, wms.Yer_Log.HucreAd AS Raf, SUM(wms.Yer_Log.Miktar) as Raf, SUM(wms.Yer_Log.Miktar) AS YerMiktar, " +
-                                "ISNULL((SELECT MalAdi FROM FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) WHERE (MalKodu = wms.IRS_Detay.MalKodu)),'') AS MalAdi, " +
-                                "ISNULL((SELECT case when Barkod1='' then Barkod2 else Barkod1 end Barkod FROM FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) WHERE (MalKodu = wms.IRS_Detay.MalKodu)),'') AS Barkod " +
-                                "FROM wms.IRS_Detay WITH (nolock) INNER JOIN wms.IRS WITH (nolock) ON wms.IRS_Detay.IrsaliyeID = wms.IRS.ID INNER JOIN wms.GorevIRS WITH (nolock) ON wms.IRS.ID = wms.GorevIRS.IrsaliyeID LEFT OUTER JOIN wms.Yer_Log WITH (nolock) ON wms.IRS_Detay.IrsaliyeID = wms.Yer_Log.IrsaliyeID AND wms.IRS_Detay.MalKodu = wms.Yer_Log.MalKodu AND wms.IRS_Detay.ID = wms.Yer_Log.IRSDetayID " +
-                                "WHERE (wms.GorevIRS.GorevID = {1} AND wms.IRS_Detay.MalKodu='{3}') AND " + sql +
-                                "GROUP BY wms.IRS_Detay.ID, wms.IRS.ID,wms.IRS.EvrakNo , wms.IRS_Detay.MalKodu, wms.IRS_Detay.Miktar, wms.IRS_Detay.KynkSiparisNo,wms.IRS_Detay.KynkSiparisSiraNo,wms.IRS_Detay.Birim, wms.IRS_Detay.MakaraNo, ISNULL(wms.IRS_Detay.OkutulanMiktar, 0), ISNULL(wms.IRS_Detay.YerlestirmeMiktari, 0), wms.Yer_Log.HucreAd ", mGorev.IR.SirketKod, mGorev.ID, mGorev.DepoID, MalKodu);
-            if (devamMi == true)
-                if (mGorev.GorevTipiID == ComboItems.MalKabul.ToInt32() || mGorev.GorevTipiID == ComboItems.Paketle.ToInt32() || mGorev.GorevTipiID == ComboItems.Sevket.ToInt32())
-                    sql += "HAVING (wms.IRS_Detay.Miktar <> ISNULL(OkutulanMiktar,0))";
-                else
-                    sql += "HAVING (wms.IRS_Detay.Miktar <> ISNULL(YerlestirmeMiktari,0))";
-            return db.Database.SqlQuery<Tip_STI2>(sql).ToList();
+            if (mGorev.GorevTipiID == ComboItems.SiparişTopla.ToInt32() || mGorev.GorevTipiID == ComboItems.TransferÇıkış.ToInt32() || mGorev.GorevTipiID == ComboItems.KontrolSayım.ToInt32())
+                sql = string.Format("EXEC FINSAT6{0}.wms.TerminalGetMalzemeSiparis {1}, {2}", mGorev.IR.SirketKod, GorevID, devamMi == true && mGorev.GorevTipiID != ComboItems.KontrolSayım.ToInt32() ? 1 : 0);
+            else if (mGorev.GorevTipiID == ComboItems.TransferGiriş.ToInt32() && mGorev.Transfers.Count == 0)
+                sql = string.Format("EXEC FINSAT6{0}.wms.TerminalGetMalzemeTransfer {1}, {2}", mGorev.IR.SirketKod, GorevID, devamMi == true ? 1 : 0);
+            else
+                sql = string.Format("EXEC FINSAT6{0}.wms.TerminalGetMalzemeGenel {1}, {2}, {3}, {4}", mGorev.IR.SirketKod, GorevID, devamMi == true ? 1 : 0, mGorev.GorevTipiID == ComboItems.MalKabul.ToInt32() || mGorev.GorevTipiID == ComboItems.Paketle.ToInt32() || mGorev.GorevTipiID == ComboItems.Sevket.ToInt32() ? 1 : 0, mGorev.GorevTipiID == ComboItems.Paketle.ToInt32() || mGorev.GorevTipiID == ComboItems.BarkodHazırla.ToInt32() || mGorev.GorevTipiID == ComboItems.Sevket.ToInt32() ? 1 : 0);
+            try
+            {
+                return db.Database.SqlQuery<Tip_STI2>(sql).Where(m => m.MalKodu == MalKodu).ToList();
+            }
+            catch (Exception ex)
+            {
+                Logger(KullID.ToString(), "Terminal", ex, "Service/Terminal/GetMalzemes");
+                return new List<Tip_STI2>();
+            }
         }
 
         /// <summary>
