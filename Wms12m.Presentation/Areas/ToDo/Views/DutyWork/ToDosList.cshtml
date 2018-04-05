@@ -6,9 +6,47 @@
     var checkinsList = new List<ForToDosList>();
 }
 <table class="table table-bordered table-striped table-condensed" id="sample_1">
-    <thead><tr><th style="max-width:20px;"></th><th>Müşteri</th><th>Görevler</th><th>Todo List</th>@if (ViewBag.Tip == true || ViewBag.vUser.RoleName == " " || ViewBag.vUser.RoleName == "Admin"){<th>Sorumlu</th><th>Çalışan</th><th>Bekleten</th>}<th>Tarih</th>@if (checkinGoster == true){<th>Check In<br />Tarihi</th>}<th></th></tr></thead>
-    <tfoot><tr><th style="max-width:20px;"></th><th></th><th></th><th></th>@if (ViewBag.Tip == true || ViewBag.vUser.RoleName == " " || ViewBag.vUser.RoleName == "Admin"){<th></th><th></th><th></th>}<th></th>@if(checkinGoster == true){<th></th>}<th></th></tr></tfoot>
-    <tfoot class="tf-search"><tr><th style="max-width:20px;"></th><th></th><th></th><th></th>@if (ViewBag.Tip == true || ViewBag.vUser.RoleName == " " || ViewBag.vUser.RoleName == "Admin"){<th></th><th></th><th></th>}<th></th>@if(checkinGoster == true){<th></th>}<th></th></tr></tfoot>
+    <thead>
+    <tr>
+        <th style="max-width:20px;"></th>
+        <th>Müşteri</th>
+        <th>Görevler</th>
+        <th>Todo List</th>
+        @if (ViewBag.Tip == true || ViewBag.vUser.RoleName == " " || ViewBag.vUser.RoleName == "Admin")
+        {<th>Sorumlu</th><th>Çalışan</th><th>Bekleten</th>}
+        <th>Tarih</th>
+        @if (checkinGoster == true)
+        {<th>Check In<br />Tarihi</th>}
+        <th></th>
+        </tr>
+    </thead>
+    <tfoot>
+    <tr>
+        <th style="max-width:20px;"></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        @if (ViewBag.Tip == true || ViewBag.vUser.RoleName == " " || ViewBag.vUser.RoleName == "Admin")
+        {<th></th><th></th><th></th>}
+        <th></th>
+        @if(checkinGoster == true)
+        {<th></th>}
+        <th></th>
+        </tr>
+    </tfoot>
+    <tfoot class="tf-search"><tr>
+        <th style="max-width:20px;"></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        @if (ViewBag.Tip == true || ViewBag.vUser.RoleName == " " || ViewBag.vUser.RoleName == "Admin")
+        {<th></th><th></th><th></th>}
+        <th></th>
+        @if(checkinGoster == true)
+        {<th></th>}
+        <th></th>
+         </tr>
+    </tfoot>
     <tbody>
         @foreach (var item in Model.OrderBy(x=>x.Gorevler.TahminiBitis))
         {
@@ -40,10 +78,10 @@
                 <td>@if (item.Onay == true) { @item.Onaylayan }@if (item.KontrolOnay == true) { @(", ") @item.KontrolEden }</td>
                 <td>@if (item.Onay == false) { @item.Gorevler.Sorumlu } else if (item.KontrolOnay == false) { @item.Gorevler.KontrolSorumlusu } else {@("Admin")}</td>
                 }
-                <td>@item.DegisTarih.ToString("dd.MM.yyyy")</td>
+                <td>@item.TahminiBitis.ToString()</td>
                @if(checkinGoster == true){
                     if (checkin == new DateTime()) { <td class="font-red"><br /><i class="fa fa-exclamation-triangle fa-2x" aria-hidden="true"></i></td> }
-                    else if (checkin.Date < item.DegisTarih.Date) { <td>@checkin</td> }
+                    else if (checkin.Date < item.TahminiBitis.Date) { <td>@checkin</td> }
                     else { <td>@checkin</td> }                    
                 }
                 <td>

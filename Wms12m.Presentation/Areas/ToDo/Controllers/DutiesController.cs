@@ -188,9 +188,10 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         /// <summary>
         /// kaydetme
         /// </summary>
-        [HttpPost, ValidateAntiForgeryToken]
-        public JsonResult Save(Gorevler gorevler, string[] work, string silinenler, string[] todo)
+        [HttpPost, ValidateAntiForgeryToken]//GorevTodo todo
+        public JsonResult Save(Gorevler gorevler, string[] work, string[] TahminiBitis, string silinenler, string[] todo)
         {
+
             if (CheckPerm(Perms.TodoGörevler, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             if (!ModelState.IsValid)
                 return Json(new Result(false, "Form hatalı. Sayfayı yenileyin"), JsonRequestBehavior.AllowGet);
@@ -202,31 +203,60 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                 if (work[0] == null || work[0] == "")
                     return Json(new Result(false, "Lütfen bir madde yazınız!"), JsonRequestBehavior.AllowGet);
                 // set
+                int sayac = -1;
+                DateTime gorevtahminibitis;
+                for (int i = 0; i < work.Length; i++)
+                {
+                    sayac++;
+                }
+                gorevtahminibitis = DateTime.Parse(TahminiBitis[sayac]);
+                gorevler.TahminiBitis = gorevtahminibitis;
                 gorevler.Aciklama = gorevler.Aciklama ?? "";
                 gorevler.Degistiren = vUser.UserName;
                 gorevler.DegisTarih = DateTime.Now;
                 gorevler.Kaydeden = vUser.UserName;
                 gorevler.KayitTarih = gorevler.DegisTarih;
                 gorevler.OncelikID = 0;
+
                 if (CheckPerm(Perms.TodoGörevler, PermTypes.Deleting) == false && gorevler.GorevTipiID == ComboItems.gytGeliştirme.ToInt32())
                     gorevler.DurumID = ComboItems.gydOnayVer.ToInt32();
                 else
                     gorevler.DurumID = ComboItems.gydAtandı.ToInt32();
                 db.Gorevlers.Add(gorevler);
                 // todo lists
-                foreach (var item in work)
+                //foreach (var item in work)
+                //{
+                //    var grvTDL = new GorevlerToDoList
+                //    {
+                //        Aciklama = item,
+                //        DegisTarih = DateTime.Now,
+                //        Degistiren = vUser.UserName,
+                //        KayitTarih = DateTime.Now,
+                //        Kaydeden = vUser.UserName,
+                //        Gorevler = gorevler
+
+                //    };
+                //    if (grvTDL.Aciklama.Trim() != "") db.GorevlerToDoLists.Add(grvTDL);
+                //}
+
+
+                for (int i = 0; i < work.Length; i++)
                 {
+                    sayac++;
                     var grvTDL = new GorevlerToDoList
                     {
-                        Aciklama = item,
+                        Aciklama = work[i],
                         DegisTarih = DateTime.Now,
                         Degistiren = vUser.UserName,
                         KayitTarih = DateTime.Now,
                         Kaydeden = vUser.UserName,
-                        Gorevler = gorevler
+                        Gorevler = gorevler,
+                        TahminiBitis = DateTime.Parse(TahminiBitis[i])
                     };
+
                     if (grvTDL.Aciklama.Trim() != "") db.GorevlerToDoLists.Add(grvTDL);
                 }
+
 
                 // messages
                 if (gorevler.DurumID == ComboItems.gydAtandı.ToInt32())
