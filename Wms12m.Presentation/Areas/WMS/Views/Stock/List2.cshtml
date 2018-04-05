@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<frmStokList>
 <table class="table table-striped table-bordered" id="sample_1">
-    <thead><tr><th></th><th>Depo</th><th class="text-right">Miktar</th><th class="text-right">Rezerv Miktar</th></tr></thead>
+    <thead><tr><th></th><th>Depo</th><th class="text-right">Miktar</th><th class="text-right">Rezerv Miktar</th><th>Birim</th></tr></thead>
     <tbody>
         @foreach (var item in Model)
         {
@@ -8,8 +8,8 @@
                 <td style="width:20px!important;" class="details-control"></td>
                 <td>@item.DepoAd</td>
                 <td align="right">@String.Format("{0:n}", item.Miktar)</td>
-                <td>@item.Birim</td>
                 <td align="right">@String.Format("{0:n}", item.WmsRezerv)</td>
+                <td>@item.Birim</td>
             </tr>
         }
     </tbody>

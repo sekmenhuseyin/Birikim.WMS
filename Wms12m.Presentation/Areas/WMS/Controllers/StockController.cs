@@ -203,7 +203,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             //çıkış işlemleri
             else
             {
-                var tmp2 = Yerlestirme.Detail(tbl.KatID, tbl.MalKodu, tbl.Birim, tbl.MakaraNo);
+                var tmp2 = Yerlestirme.Detail(tbl.KatID, tbl.MalKodu, "", tbl.MakaraNo);
                 if (tmp2 == null)
                     return Json(new Result(false, "Seçili yerde bu ürün bulunamadı."), JsonRequestBehavior.AllowGet);
                 if (tmp2.Miktar < tbl.Miktar)

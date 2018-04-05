@@ -442,7 +442,7 @@ namespace Wms12m.Presentation
                     foreach (var item2 in list)
                     {
                         // yerleştirme kaydı yapılır
-                        var tmp2 = Yerlestirme.Detail(KatID.Value, item2.MalKodu, item2.Birim, item2.MakaraNo);
+                        var tmp2 = Yerlestirme.Detail(KatID.Value, item2.MalKodu, "", item2.MakaraNo);
                         if (tmp2 == null)//yeni kayıt ekle
                         {
                             tmp2 = new Yer()
