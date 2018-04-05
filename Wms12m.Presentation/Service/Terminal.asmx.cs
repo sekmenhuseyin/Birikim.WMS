@@ -946,7 +946,7 @@ namespace Wms12m.Presentation
                                 if (stk != null)
                                 {
                                     // makarayı bul
-                                    var kablo = dbx.stoks.Where(m => m.depo == depo && m.marka == stk.Marka && m.cins == stk.Cins && m.kesit == stk.Kesit && m.makarano == item2.MakaraNo).FirstOrDefault();
+                                    var kablo = dbx.stoks.Where(m => m.depo == depo && m.makarano == item2.MakaraNo).FirstOrDefault();
                                     if (kablo != null)
                                     {
                                         // kabloya açık yap
@@ -1616,31 +1616,41 @@ namespace Wms12m.Presentation
             // loop the list
             foreach (var item in StiList)
             {
-                // görev yer tablosu
+                // görev yer tablosunda var mı dye kontrol ediyoruz
                 GorevYer tbl2;
                 if (item.IrsDetayID == 0)
                 {
-                    var kontrol = db.GorevYers.Where(m => m.GorevID == GorevID && m.MalKodu == item.MalKodu && m.Yer.HucreAd == item.RafNo).FirstOrDefault();
+                    var kontroltemp = db.GorevYers.Where(m => m.GorevID == GorevID && m.MalKodu == item.MalKodu && m.Yer.HucreAd == item.RafNo);
+                    if (item.MakaraNo != "" && item.MakaraNo != null)
+                        kontroltemp = kontroltemp.Where(m => m.MakaraNo == item.MakaraNo);
+                    var kontrol = kontroltemp.FirstOrDefault();
                     if (kontrol != null) item.IrsDetayID = kontrol.ID;
                 }
-
+                //eğer görev yer tablosunda kayıt yoksa yeni ekle
                 if (item.IrsDetayID == 0)
                 {
+                    //önce yer tablosu için kayda bak, oksa ekle
                     var katID = db.GetHucreKatID(mGorev.DepoID, item.RafNo).FirstOrDefault();
                     if (katID != null)
                     {
-                        var yert = db.Yers.Where(m => m.KatID == katID && m.MalKodu == item.MalKodu).FirstOrDefault();
+                        var yertemp = db.Yers.Where(m => m.KatID == katID && m.MalKodu == item.MalKodu);
+                        if (item.MakaraNo != "" && item.MakaraNo != null)
+                            yertemp = yertemp.Where(m => m.MakaraNo == item.MakaraNo);
+                        var yert = yertemp.FirstOrDefault();
                         if (yert == null)
                         {
                             yert = new Yer() { KatID = katID.Value, MalKodu = item.MalKodu, Birim = item.Birim, Miktar = 0 };
+                            if (item.MakaraNo != "" && item.MakaraNo != null)
+                                yert.MakaraNo = item.MakaraNo;
                             db.Yers.Add(yert);
                             db.SaveChanges();
                         }
-
-                        tbl2 = new GorevYer() { GorevID = GorevID, MalKodu = item.MalKodu, Birim = item.Birim, Miktar = item.Miktar, YerlestirmeMiktari = item.Miktar, GC = false, YerID = yert.ID };
+                        //sonra görevyer tablosuna ekle
+                        tbl2 = new GorevYer() { GorevID = GorevID, MalKodu = item.MalKodu, Birim = item.Birim, Miktar = item.Miktar, YerlestirmeMiktari = item.Miktar, GC = false, YerID = yert.ID, MakaraNo = item.MakaraNo };
                         db.GorevYers.Add(tbl2);
                     }
                 }
+                //görevyer tablosunda kayı varsa onu güncelle
                 else
                 {
                     tbl2 = db.GorevYers.Where(m => m.ID == item.IrsDetayID).FirstOrDefault();
@@ -1652,7 +1662,7 @@ namespace Wms12m.Presentation
                     {
                         tbl2.Miktar += item.Miktar;
                     }
-
+                    //toplam miktar 0dan küçükse 0 yap
                     if ((tbl2.YerlestirmeMiktari + item.Miktar) < 0)
                     {
                         tbl2.YerlestirmeMiktari = 0;
