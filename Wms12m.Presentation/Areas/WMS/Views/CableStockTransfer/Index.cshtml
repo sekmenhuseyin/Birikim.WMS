@@ -133,6 +133,7 @@
                 return;
             }
             tableData[i].DepoID = $("#DepoID").val();
+            tableData[i].Miktar = tableData[i].Miktar.replace(".", "").replace(",", ".");
             secili_table.push(tableData[i]);
         }
         $.ajax({

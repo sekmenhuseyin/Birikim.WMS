@@ -102,16 +102,8 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                 }
                 else
                 {
-                    if (item.Miktar > tmp2.Miktar)//giriş
-                    {
-                        tmp2.Miktar = item.Miktar;
-                        Yerlestirme.Update(tmp2, vUser.Id, "Kablo Sayım", item.Miktar - tmp2.Miktar, false, cevap.IrsaliyeID.Value);
-                    }
-                    else if (item.Miktar < tmp2.Miktar)//çıkış
-                    {
-                        tmp2.Miktar = item.Miktar;
-                        Yerlestirme.Update(tmp2, vUser.Id, "Kablo Sayım", tmp2.Miktar - item.Miktar, true, cevap.IrsaliyeID.Value);
-                    }
+                    tmp2.Miktar = item.Miktar;
+                    Yerlestirme.Update(tmp2, vUser.Id, "Kablo Sayım", Math.Abs(item.Miktar - tmp2.Miktar), false, cevap.IrsaliyeID.Value);
                 }
             }
             return Json(new Result(true, "Ok"), JsonRequestBehavior.AllowGet);
