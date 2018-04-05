@@ -387,7 +387,10 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                         }
                     }
                 }
-
+                //fark fişi tuşu kaybolsun diye boş kayıt atıyoruz
+                mGorev.IR.LinkEvrakNo = "";
+                db.SaveChanges();
+                //return result
                 if (siranok > 0)
                     return Json(new Result(true, "Güneş Fark fişine gerek yok, WMS fark fişi hareketi atıldı."), JsonRequestBehavior.AllowGet);
                 else

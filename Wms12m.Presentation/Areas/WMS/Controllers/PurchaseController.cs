@@ -345,7 +345,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
 
         public JsonResult GetMalzemebyName(string term)
         {
-            var sql = string.Format("FINSAT6{0}.[wms].[getMalzemeByCodeOrName] @MalKodu = N'{1}', @MalAdi = N''", vUser.SirketKodu, term);
+            var sql = string.Format("FINSAT6{0}.[wms].[getMalzemeByCodeOrName] @MalKodu = N'', @MalAdi = N'{1}'", vUser.SirketKodu, term);
             // return
             try
             {

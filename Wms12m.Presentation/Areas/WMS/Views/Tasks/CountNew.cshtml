@@ -30,7 +30,7 @@
     </div>
 </div>
 <script>
-    $("#DepoID").prepend("<option value=''>Seçiniz !!!</option>"); $("#DepoID")[0].selectedIndex = 0;
+    $("#DepoID").prepend("<option value=''>Seçiniz !!!</option>"); $("#DepoID")[0].selectedIndex = 0; $("#DepoID").focus();
     $("#submitter").click(function () {
         if ($("#DepoID").val() != "")
             $("#frmNew").submit();
