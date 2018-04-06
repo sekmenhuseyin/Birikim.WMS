@@ -856,10 +856,11 @@ namespace WMSMobil
                         txtMakaraBarkod.Text = okunan;
                     }
                     //raf okutmuşsa
-                    else if (okunan.Length == 9 || okunan == "R-ZR-V")
+                    else if (okunan.Length == 9 || okunan == "R-ZR-V")//okunan.Length == 9 => 01-a01-10
                     {
                         txtRafBarkod.Text = okunan;
                         txtBarkod.Text = "";
+                        txtMakaraBarkod.Text = "";
                     }
                     //mal barkodu okutmuşsa
                     else
@@ -869,10 +870,10 @@ namespace WMSMobil
                         txtBarkod.Text = okunan;
                     }
                     //focus to next textbox or click uygula
-                    if (txtBarkod.Text == "")
-                        txtBarkod.Focus();                        
-                    else if (txtRafBarkod.Visible == true && txtRafBarkod.Text == "")
+                    if (txtRafBarkod.Visible == true && txtRafBarkod.Text == "")
                         txtRafBarkod.Focus();
+                    else if (txtBarkod.Text == "")
+                        txtBarkod.Focus();                        
                     else if (txtMakaraBarkod.Visible == true && txtMakaraBarkod.Text == "")
                         txtMakaraBarkod.Focus();
                     else
