@@ -23,6 +23,7 @@ namespace Wms12m.Entity
         public string AnaBirim { get; set; }
         public double? AnaBirimMiktar { get; set; }
         public decimal AdetCikisMiktar { get; set; }
+        public decimal TKCikisMiktar { get; set; }
         public decimal M2CikisMiktar { get; set; }
         public decimal KGCikisMiktar { get; set; }
         public decimal? M3CikisMiktar { get; set; }
