@@ -851,12 +851,12 @@ namespace WMSMobil
                     //read data
                     string okunan = scanDataCollection.GetFirst.Text;
                     //makara barkod
-                    if (txtMakaraBarkod.Focus())
+                    if (txtMakaraBarkod.Visible == true && txtMakaraBarkod.Focus())
                     {
                         txtMakaraBarkod.Text = okunan;
                     }
                     //raf okutmuşsa
-                    else if (okunan.Length == 9 || okunan == "R-ZR-V")//okunan.Length == 9 => 01-a01-10
+                    else if (txtRafBarkod.Visible == true && (okunan.Length == 9 || okunan == "R-ZR-V"))//okunan.Length == 9 => 01-a01-10
                     {
                         txtRafBarkod.Text = okunan;
                         txtBarkod.Text = "";
