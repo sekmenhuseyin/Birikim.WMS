@@ -11,7 +11,6 @@
                 <thead>
                     <tr>
                         <th>Mal Adı</th>
-                        <th>Temsilci</th>
                         <th>Ocak</th>
                         <th>Şubat</th>
                         <th>Mart</th>
@@ -43,12 +42,10 @@
                         <th></th>
                         <th></th>
                         <th></th>
-                        <th></th>
                     </tr>
                 </tfoot>
                 <tfoot class="tf-search">
                     <tr>
-                        <th></th>
                         <th></th>
                         <th></th>
                         <th></th>
@@ -83,10 +80,10 @@
             "pagingType": "full_numbers",
             "ordering": true,
             "pageLength": 50,
-            "columnDefs": [{ "type": "num-fmt", "className": "dt-right", "targets": [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14] }, { "className": "dt-center", "targets": "_all" }],
+            "columnDefs": [{ "type": "num-fmt", "className": "dt-right", "targets": [1, 2, 3, 4, 5,6, 7, 8, 9, 10, 11, 12, 13] }, { "className": "dt-center", "targets": "_all" }],
             "columns": [
                 { "data": "MalAdi4" },
-                { "data": "Kod9" },
+                //{ "data": "Kod9" },
                 { "data": "Ocak", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
                 { "data": "Subat", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
                 { "data": "Mart", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
@@ -125,19 +122,19 @@
                     NetCiro += val.NetCiro;
                 });
                 var api = this.api(), data;
-                $(api.column(2).footer()).html(numeral(Ocak).format());
-                $(api.column(3).footer()).html(numeral(Subat).format());
-                $(api.column(4).footer()).html(numeral(Mart).format());
-                $(api.column(5).footer()).html(numeral(Nisan).format());
-                $(api.column(6).footer()).html(numeral(Mayis).format());
-                $(api.column(7).footer()).html(numeral(Haziran).format());
-                $(api.column(8).footer()).html(numeral(Temmuz).format());
-                $(api.column(9).footer()).html(numeral(Agustos).format());
-                $(api.column(10).footer()).html(numeral(Eylul).format());
-                $(api.column(11).footer()).html(numeral(Ekim).format());
-                $(api.column(12).footer()).html(numeral(Kasim).format());
-                $(api.column(13).footer()).html(numeral(Aralik).format());
-                $(api.column(14).footer()).html(numeral(NetCiro).format());
+                $(api.column(1).footer()).html(numeral(Ocak).format());
+                $(api.column(2).footer()).html(numeral(Subat).format());
+                $(api.column(3).footer()).html(numeral(Mart).format());
+                $(api.column(4).footer()).html(numeral(Nisan).format());
+                $(api.column(5).footer()).html(numeral(Mayis).format());
+                $(api.column(6).footer()).html(numeral(Haziran).format());
+                $(api.column(7).footer()).html(numeral(Temmuz).format());
+                $(api.column(8).footer()).html(numeral(Agustos).format());
+                $(api.column(9).footer()).html(numeral(Eylul).format());
+                $(api.column(10).footer()).html(numeral(Ekim).format());
+                $(api.column(11).footer()).html(numeral(Kasim).format());
+                $(api.column(12).footer()).html(numeral(Aralik).format());
+                $(api.column(13).footer()).html(numeral(NetCiro).format());
             }
         });
 
