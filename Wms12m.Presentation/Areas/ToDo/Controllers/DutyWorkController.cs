@@ -1,5 +1,4 @@
-﻿using Birikim.Models;
-using System;
+﻿using System;
 using System.Linq;
 using System.Web.Mvc;
 using Wms12m.Entity;
@@ -286,7 +285,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             ViewBag.Yetki = CheckPerm(Perms.TodoGörevler, PermTypes.Writing);
             ViewBag.Tip = Tip;
             ViewBag.RoleName = vUser.RoleName;
-            return PartialView("ToDosList", list.OrderBy(m => m.Gorevler.OncelikID).ThenBy(m => m.ID).ToList());
+            return PartialView("ToDosList", list.OrderBy(m => m.Gorevler.TahminiBitis).ThenBy(m => m.ID).ToList());
         }
 
         /// <summary>

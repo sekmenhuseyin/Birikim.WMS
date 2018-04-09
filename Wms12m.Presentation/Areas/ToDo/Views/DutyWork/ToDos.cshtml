@@ -1,7 +1,8 @@
 ﻿@{
     ViewBag.Title = "Onay Listesi";
     Layout = "~/Views/Shared/_Layout.cshtml";
-}@section Styles{<style>
+}@section Styles{<link href="~/Content/assets/global/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.css" rel="stylesheet" />
+    <style>
         td.details-control {background: url('/Content/assets/global/plugins/datatables/images/details_open.png') no-repeat center center;cursor: pointer;max-width:20px;}
         tr.shown td.details-control {background: url('/Content/assets/global/plugins/datatables/images/details_close.png') no-repeat center center;}
         .last-work {line-height: 32px !important;color: #86d8ea;font-size: 24px;margin-left:5px;}
@@ -55,7 +56,8 @@
         </div>
     </div>
 </div>
-}@section Scripts{<script type="text/javascript">
+}@section Scripts{<script src="~/Content/assets/global/plugins/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.tr.js"></script>
+<script type="text/javascript">
     FuncSearchBtn();
     function FuncSearchBtn() {
         $('#liste').html("");
