@@ -538,8 +538,6 @@
     <Content Include="Areas\Reports\Views\Financial\BekleyenMalzemeDetay.cshtml" />
     <Content Include="Areas\WMS\Views\CableStockTransfer\List.cshtml" />
     <Content Include="Areas\WMS\Views\CableStockTransfer\Index.cshtml" />
-    <Content Include="Areas\Reports\Views\_ViewStart.cshtml" />
-    <Content Include="Areas\Reports\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\Reports\Views\Financial\GunlukCiroRaporu.cshtml" />
     <Content Include="Areas\Reports\Views\Financial\GunlukCiroRaporuList.cshtml" />
     <None Include="bundleconfig.json" />
