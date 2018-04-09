@@ -80,13 +80,14 @@
             },
             "footerCallback": function (row, data, start, end, display)
             {
-                var BirimMiktar = 0, AnaBirim = 0, AnaBirimMiktar = 0, AdetCikisMiktar = 0, MTCikisMiktar = 0, M2CikisMiktar = 0, M3CikisMiktar = 0, KGCikisMiktar = 0, NetBirimFiyat = 0, NetTutar = 0, KDV = 0, GenelToplam = 0;
+                var BirimMiktar = 0, AnaBirim = 0, AnaBirimMiktar = 0, AdetCikisMiktar = 0, TKCikisMiktar = 0, MTCikisMiktar = 0, M2CikisMiktar = 0, M3CikisMiktar = 0, KGCikisMiktar = 0, NetBirimFiyat = 0, NetTutar = 0, KDV = 0, GenelToplam = 0;
                 table.rows({ search: 'applied' }).data().each(function (val, index)
                 {
                     BirimMiktar += val.BirimMiktar;
                     AnaBirim += val.AnaBirim;
                     AnaBirimMiktar += val.AnaBirimMiktar;
                     AdetCikisMiktar += val.AdetCikisMiktar;
+                    TKCikisMiktar += val.TKCikisMiktar;
                     MTCikisMiktar += val.MTCikisMiktar;
                     M2CikisMiktar += val.M2CikisMiktar;
                     M3CikisMiktar += val.M3CikisMiktar;
@@ -100,14 +101,15 @@
                 $(api.column(12).footer()).html(numeral(BirimMiktar).format());
                 $(api.column(14).footer()).html(numeral(AnaBirimMiktar).format());
                 $(api.column(15).footer()).html(numeral(AdetCikisMiktar).format());
-                $(api.column(16).footer()).html(numeral(MTCikisMiktar).format());
-                $(api.column(17).footer()).html(numeral(M2CikisMiktar).format());
-                $(api.column(18).footer()).html(numeral(M3CikisMiktar).format());
-                $(api.column(19).footer()).html(numeral(KGCikisMiktar).format());
-                $(api.column(20).footer()).html(numeral(NetBirimFiyat).format());
-                $(api.column(21).footer()).html(numeral(NetTutar).format());
-                $(api.column(22).footer()).html(numeral(KDV).format());
-                $(api.column(23).footer()).html(numeral(GenelToplam).format());
+                $(api.column(16).footer()).html(numeral(TKCikisMiktar).format());
+                $(api.column(17).footer()).html(numeral(MTCikisMiktar).format());
+                $(api.column(18).footer()).html(numeral(M2CikisMiktar).format());
+                $(api.column(19).footer()).html(numeral(M3CikisMiktar).format());
+                $(api.column(20).footer()).html(numeral(KGCikisMiktar).format());
+                $(api.column(21).footer()).html(numeral(NetBirimFiyat).format());
+                $(api.column(22).footer()).html(numeral(NetTutar).format());
+                $(api.column(23).footer()).html(numeral(KDV).format());
+                $(api.column(24).footer()).html(numeral(GenelToplam).format());
             }
         });
         $('#sample_1 .tf-search th').each(function ()
