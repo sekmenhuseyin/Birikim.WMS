@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
@@ -266,7 +267,7 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
             var list = db.Database.SqlQuery<RP_TahsilatKontrol>(String.Format("[FINSAT6{0}].[wms].[RP_TahsilatKontrol]", vUser.SirketKodu)).ToList();
             return Json(list, JsonRequestBehavior.AllowGet);
         }
-
+        #region AksiyonSatis
         public ActionResult AksiyonSatis()
         {
             if (CheckPerm(Perms.Raporlar, PermTypes.Reading) == false) return Redirect("/");
@@ -274,18 +275,22 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
         }
         public PartialViewResult AksiyonSatisList(int Kod13)
         {
-            if (CheckPerm(Perms.Raporlar, PermTypes.Reading) == false) return null;
-            var OYM = db.Database.SqlQuery<AksiyonSatis>(String.Format(@"SELECT max(Stk.MalKodu)as StkMalKodu,max(Stk.Maladi)as StkMaladi ,max(stk.maladi4) as [stkmaladi4] ,CHK.GrupKod as CHKGrupKod, CHK.TipKod as CHKTipKod,
-SUM(BirimMiktar) as BirimMiktar, SUM(Tutar-ToplamIskonto) AS NetTutar   FROM FINSAT6{0}.FINSAT6{0}.SPI(NOLOCK) SPI
-INNER JOIN FINSAT6{0}.FINSAT6{0}.STK(NOLOCK)STK ON STK.Malkodu = SPI.Malkodu
-INNER JOIN FINSAT6{0}.FINSAT6{0}.CHK(NOLOCK) CHK ON CHK.HesapKodu = SPI.Chk
-WHERE SPI.Kynkevraktip = 62 
-AND SPI.Tarih=DATEDIFF(DD,'1899-12-30',GETDATE())
-and stk.Kod13 = {1}
-GROUP BY  STK.Malkodu, CHK.GrupKod, CHK.TipKod
-", vUser.SirketKodu, Kod13)).ToList();
+            if (CheckPerm(Perms.Raporlar, PermTypes.Reading) == false) { return null; }
+            List<AksiyonSatisSelect> OYM;
+            try
+            {
+                string sorgu = "";
+                sorgu = String.Format(AksiyonSatisSelect.Sorgu, vUser.SirketKodu, Kod13);
+                OYM = db.Database.SqlQuery<AksiyonSatisSelect>(sorgu).ToList();
+            }
+            catch (Exception ex)
+            {
+                OYM = new List<AksiyonSatisSelect>();
+                Logger(ex, "/Reports/Financial/AksiyonSatisList");
+            }
             return PartialView("AksiyonSatisList", OYM);
         }
+        #endregion
         #region HedefGrupTanimlariKarti
         public ActionResult HdfGrpTanimKarti()
         {
@@ -680,11 +685,8 @@ GROUP BY  STK.Malkodu, CHK.GrupKod, CHK.TipKod
         }
         public string TargetRaporSelect(string Ay, string Yil)
         {
-
-
             ViewBag.Ay = Ay;
             ViewBag.Yil = Yil;
-
             List<CTargetRapor> tl;
             var json = new JavaScriptSerializer() { MaxJsonLength = int.MaxValue };
             try
@@ -710,9 +712,6 @@ GROUP BY  STK.Malkodu, CHK.GrupKod, CHK.TipKod
             }
             return json.Serialize(tl);
         }
-
-
-
         public PartialViewResult TargetRaporBolgeList(string GrupKod, string Ay, string Yil)
         {
             ViewBag.GRUPKOD = GrupKod;
@@ -720,8 +719,6 @@ GROUP BY  STK.Malkodu, CHK.GrupKod, CHK.TipKod
             ViewBag.YIL = Yil;
             return PartialView("TargetRaporBolgeList");
         }
-
-
         public string TargetRaporBolgeSelect(string GrupKod, string Ay, string Yil)
         {
             List<CTargetRaporTemsilci> ctrt;
@@ -766,7 +763,7 @@ GROUP BY  STK.Malkodu, CHK.GrupKod, CHK.TipKod
             {
                 string sorgu = "", r = "";
                 r = YilAyConvert(Yil, Ay);
-                var Berk = db.Database.SqlQuery<TargetGrupKodSelect>(string.Format(TargetGrupKodSelect.Sorgu, vUser.SirketKodu, Convert.ToInt32(Yil), (Convert.ToInt32(Ay) + 1), r, GrupKod.ToString())).FirstOrDefault();
+                var Berk = db.Database.SqlQuery<TargetGrupKodSelect>(String.Format(TargetGrupKodSelect.Sorgu, vUser.SirketKodu, Convert.ToInt32(Yil), (Convert.ToInt32(Ay) + 1), r, GrupKod.ToString())).FirstOrDefault();
                 sorgu = String.Format(UrunGrupRapor.Sorgu, vUser.SirketKodu, Berk.GrupKod.ToString(), r, Convert.ToInt32(Yil), (Convert.ToInt32(Ay) + 1));
                 ugr = db.Database.SqlQuery<UrunGrupRapor>(sorgu).ToList();
             }
@@ -895,8 +892,6 @@ GROUP BY  STK.Malkodu, CHK.GrupKod, CHK.TipKod
             }
             return json.Serialize(gs);
         }
-
-
         public PartialViewResult RaporGunlukSiparisDetay(string EVRAKNO)
         {
             List<GunlukSiparisDetay> gs;
@@ -906,8 +901,6 @@ GROUP BY  STK.Malkodu, CHK.GrupKod, CHK.TipKod
             gs = db.Database.SqlQuery<GunlukSiparisDetay>(sorgu).ToList();
             return PartialView("RaporGunlukSiparisDetay", gs);
         }
-
-
         #endregion
         #region BekleyenSiparisler-YAPILDI
         public ActionResult RaporBekleyenSiparisler()
@@ -966,6 +959,22 @@ GROUP BY  STK.Malkodu, CHK.GrupKod, CHK.TipKod
             list = db.Database.SqlQuery<BekleyenMalz>(sorgu).ToList();
             ViewBag.HesapKodu = HesapKodu;
             return PartialView("BekleyenMalzemeDetay", list);
+        }
+        public PartialViewResult MalzemeDepoList(string MalKodu)
+        {
+            List<BekleyenMalzDepo> list;
+            try
+            {
+                string sorgu = "";
+                sorgu = String.Format(BekleyenMalzDepo.Sorgu, vUser.SirketKodu);
+                list = db.Database.SqlQuery<BekleyenMalzDepo>(sorgu, new SqlParameter("MalKodu", MalKodu), new SqlParameter("SirketKodu", vUser.SirketKodu)).ToList();
+            }
+            catch (Exception ex)
+            {
+                list = new List<BekleyenMalzDepo>();
+                Logger(ex, "/Reports/Financial/MalzemeDepoList");
+            }
+            return PartialView("MalzemeDepoList", list);
         }
         #endregion
         #region UrunSatisAnalizi-YAPILDI
@@ -1072,6 +1081,38 @@ GROUP BY  STK.Malkodu, CHK.GrupKod, CHK.TipKod
                 Logger(ex, "/Reports/Financial/TumMusteriCiroSelect");
             }
             return json.Serialize(mc);
+        }
+        #endregion
+        #region GünlükCiroRaporu
+        public ActionResult GunlukCiroRaporu()
+        {
+            if (CheckPerm(Perms.Raporlar, PermTypes.Reading) == false) { return Redirect("/"); }
+            ViewBag.Yillar = HdfGrupProperties(1);
+            ViewBag.Aylar = HdfGrupProperties(2);
+            return View();
+        }
+        public PartialViewResult GunlukCiroRaporuList(int BasTarih, int BitTarih)
+        {
+            ViewBag.BasTarih = JsonConvert.SerializeObject(BasTarih);
+            ViewBag.BitTarih = JsonConvert.SerializeObject(BitTarih);
+            return PartialView("GunlukCiroRaporuList");
+        }
+        public string GunlukCiroRaporuSelect(int BasTarih, int BitTarih)
+        {
+            List<GunlukCiro> gs;
+            JavaScriptSerializer json = new JavaScriptSerializer() { MaxJsonLength = int.MaxValue };
+            try
+            {
+                string sorgu = "";
+                sorgu = String.Format(GunlukCiro.Sorgu, vUser.SirketKodu, BasTarih, BitTarih);
+                gs = db.Database.SqlQuery<GunlukCiro>(sorgu).ToList();
+            }
+            catch (Exception ex)
+            {
+                gs = new List<GunlukCiro>();
+                Logger(ex, "/Reports/Financial/GunlukCiroRaporuSelect");
+            }
+            return json.Serialize(gs);
         }
         #endregion
         public JsonResult TemsilciGetir(string GrupKod, string TipKod)
