@@ -1,0 +1,53 @@
+﻿@{
+    ViewBag.Title = "Rapor Günlük Ciro";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><a href="javascript:;">Günlük Ciro</a><i class="fa fa-circle"></i></li><li><span>Günlük Ciro</span></li></ul></div>
+<h1 class="page-title">Günlük Ciro</h1>
+<div class="row">
+    <div class="col-md-12">
+        <div class="row" id="CreateEdit">
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <i class="fa fa-gift"></i>Rapor Günlük Ciro
+                        </div>
+                    </div>
+                    <div class="portlet-body form">
+                        <form class="form-horizontal">
+                            <div class="form-body">
+                                <div class="row m-t-20">
+                                    <div class="col-md-offset-2 col-md-2 p-0 m-t-5 color-blue-light bold">Başlangıç: </div>
+                                    <div class="col-md-2 p-0 m-t-5 color-blue-light bold">Bitiş: </div>
+                                </div>
+                                <div class="row m-t-20">
+                                    <div class="col-md-2 text-right p-0 m-t-5 color-blue-light bold">Tarih: </div>
+                                    <div class="col-md-2 p-l-5 p-r-0"><input class="form-control dateboxbg" type="text" id="txtBaslangic" value="@DateTime.Today.AddMonths(-1).ToString("dd.MM.yyyy")" /></div>
+                                    <div class="col-md-2 p-l-5 p-r-0"><input class="form-control dateboxbg" type="text" id="txtBitis" value="@DateTime.Today.ToString("dd.MM.yyyy")" /></div>
+                                    <div class="col-md-2"><button id="btnListele" name="btnListele" type="button" class="btn btn-circle green" style="width:222px;height:33px;">Listele<i class="fa fa-check"></i></button></div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="liste"></div>
+    </div>
+</div>
+@section Scripts{
+    <script src="~/Content/assets/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js" type="text/javascript"></script>
+    <script src="~/Content/assets/global/plugins/jquery-file-upload/js/jquery.iframe-transport.js" type="text/javascript"></script>
+    <script src="~/Content/assets/global/plugins/jquery-file-upload/js/vendor/jquery.ui.widget.js" type="text/javascript"></script>
+    <script src="~/Content/assets/global/plugins/jquery-file-upload/js/jquery.fileupload.js" type="text/javascript"></script>
+    <script type="text/javascript">
+           var BasTarih = @DateTime.Today.AddMonths(-1).ToOADateInt();
+            var BitTarih = @DateTime.Today.ToOADateInt();
+            $("#txtBaslangic").datepicker().on("change", function (e) { BasTarih = toOADateFromString(e.target.value); });
+            $("#txtBitis").datepicker().on("change", function (e) { BitTarih = toOADateFromString(e.target.value); });
+        $('#btnListele').on('click', function myfunction() {
+            PartialView("/Reports/Financial/GunlukCiroRaporuList", 'liste', JSON.stringify({ BasTarih: BasTarih, BitTarih: BitTarih }));
+        });
+    </script>
+}
