@@ -76,7 +76,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                 return RedirectToAction("Index");
             if (CheckPerm(Perms.GenelSipariş, PermTypes.Reading) == false) return Redirect("/");
             // sql oluştur
-            var sql = string.Format("EXEC FINSAT6{0}.wms.getSiparisListStep3 @DepoKodu = '{1}', @EvrakNos = '{2}', @MalKodus = '{3}'", vUser.SirketKodu, tbl.DepoID, string.Join(",", tbl.EvrakNos), string.Join(",", tbl.MalKodus));
+            var sql = string.Format("EXEC FINSAT6{0}.wms.getSiparisListStep3 @DepoKodu = '{1}', @EvrakNos = '{2}', @MalKodus = '{3}'", vUser.SirketKodu, tbl.DepoID, string.Join(",", tbl.EvrakNos), string.Join("é", tbl.MalKodus));
             // listeyi getir
             var list = db.Database.SqlQuery<frmSiparisMalzemeDetay>(sql).ToList();
             ViewBag.DepoID = tbl.DepoID;
@@ -94,7 +94,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                 return RedirectToAction("Index");
             if (CheckPerm(Perms.GenelSipariş, PermTypes.Writing) == false) return Redirect("/");
             // sql oluştur
-            var sql = string.Format("EXEC FINSAT6{0}.wms.getSiparisListStep4 @DepoKodu = '{1}', @EvrakNos = '{2}', @MalKodus = '{3}', @IDs = '{4}'", vUser.SirketKodu, tbl.DepoID, string.Join(",", tbl.EvrakNos), string.Join(",", tbl.MalKodus), string.Join(",", tbl.IDs));
+            var sql = string.Format("EXEC FINSAT6{0}.wms.getSiparisListStep4 @DepoKodu = '{1}', @EvrakNos = '{2}', @MalKodus = '{3}', @IDs = '{4}'", vUser.SirketKodu, tbl.DepoID, string.Join(",", tbl.EvrakNos), string.Join("é", tbl.MalKodus), string.Join(",", tbl.IDs));
             var list = db.Database.SqlQuery<frmSiparisMalzemeOnay>(sql).ToList();
             // listeyi getir
             if (list == null)
