@@ -31,15 +31,23 @@ namespace Wms12m.Presentation.Areas.YN.Controllers
                 secimParam = "Normal";
 
             var list = db.Database.SqlQuery<frmOnaySiparisList>(string.Format(@"
-            SELECT  STK002_EvrakSeriNo AS EvrakSeriNo, CAR002_BankaHesapKodu AS HesapKodu, CAR002_Unvan1 AS Unvan, COUNT(STK002_MalKodu) 
-		            AS Cesit, SUM(STK002_Miktari) AS Miktar, STK002_GirenKodu AS Kaydeden, 
-                    CONVERT(VARCHAR(15), CAST(STK002_GirenTarih - 2 AS datetime), 104) AS Tarih,
-                    ISNULL(YNS{0}.dbo.NotlariGetir(STK002_EvrakSeriNo, MIN(STK002_IslemTarihi), 5),'') as Notlar 
-            FROM   YNS{0}.YNS{0}.STK002(NOLOCK) INNER JOIN
-		           YNS{0}.YNS{0}.CAR002(NOLOCK) ON STK002_CariHesapKodu = CAR002_HesapKodu
-            WHERE   STK002_GC = 1 AND STK002_SipDurumu = 0  AND STK002_Kod10 = '{1}'
-            GROUP BY CAR002_BankaHesapKodu, CAR002_Unvan1, STK002_EvrakSeriNo, STK002_GirenKodu, CONVERT(VARCHAR(15), CAST(STK002_GirenTarih - 2 AS datetime), 104)
-            ORDER BY STK002_EvrakSeriNo", vUser.SirketKodu, secimParam)).ToList();
+
+			SELECT  STK002_EvrakSeriNo AS EvrakSeriNo, CAR002_BankaHesapKodu AS HesapKodu, CAR002_Unvan1 AS Unvan, COUNT(STK002_MalKodu) 
+					AS Cesit, SUM(STK002_Miktari) AS Miktar, STK002_GirenKodu AS Kaydeden, 
+					 CONVERT(VARCHAR(15), CAST(STK002_GirenTarih - 2 AS datetime), 104) AS Tarih,
+					ISNULL(YNS{0}.dbo.NotlariGetir(STK002_EvrakSeriNo, MIN(STK002_IslemTarihi), 5),'') as Notlar,
+					(case when MAX(CONVERT(VARCHAR(15), CAST(STK002_Kod12 - 2 AS datetime), 104)) = '30.12.1899' then '' else MAX(CONVERT(VARCHAR(15), CAST(STK002_Kod12 - 2 AS datetime), 104)) END ) AS OnayRedTarih,
+						MAX(STK005_Kod3) as OnaylayanReddeden
+			FROM   YNS{0}.YNS{0}.STK002(NOLOCK)
+			INNER JOIN
+				   YNS{0}.YNS{0}.CAR002(NOLOCK) ON STK002_CariHesapKodu = CAR002_HesapKodu
+			LEFT JOIN 
+				   YNS{0}.YNS{0}.STK005(NOLOCK) ON STK002_EvrakSeriNo =  STK005_EvrakSeriNo
+			WHERE   STK002_GC = 1 AND STK002_SipDurumu = 0  AND STK002_Kod10 = '{1}'
+			GROUP BY CAR002_BankaHesapKodu, CAR002_Unvan1, STK002_EvrakSeriNo, STK002_GirenKodu, CONVERT(VARCHAR(15), CAST(STK002_GirenTarih - 2 AS datetime), 104)
+			ORDER BY STK002_EvrakSeriNo
+
+			", vUser.SirketKodu, secimParam)).ToList();
             var json = new JavaScriptSerializer().Serialize(list);
             return json;
         }
@@ -60,16 +68,16 @@ namespace Wms12m.Presentation.Areas.YN.Controllers
                 secimParam = "Normal";
 
             var list = db.Database.SqlQuery<frmOnaySiparisList>(string.Format(@"
-            SELECT  STK002_MalKodu AS MalKodu, STK004.STK004_Aciklama AS MalAdi, STK002_CariHesapKodu AS HesapKodu, CAR002_Unvan1 AS Unvan, 
-		            STK002_EvrakSeriNo AS EvrakSeriNo, STK002_Depo AS Depo, STK002_Miktari AS Miktar, STK002_BirimFiyati AS BirimFiyat, 
-		            STK002_Tutari AS Tutar, STK002_DovizCinsi AS DovizCinsi, STK002_GirenKodu AS Kaydeden, CONVERT(VARCHAR(15), 
-                    CAST(STK002_GirenTarih - 2 AS datetime), 104) AS Tarih,	
-		            CASE WHEN ISNULL(STK002_Kod8,'')='' THEN 0.0 ELSE CONVERT(DECIMAL, STK002_Kod8) END AS EsikFiyat
+			SELECT  STK002_MalKodu AS MalKodu, STK004.STK004_Aciklama AS MalAdi, STK002_CariHesapKodu AS HesapKodu, CAR002_Unvan1 AS Unvan, 
+					STK002_EvrakSeriNo AS EvrakSeriNo, STK002_Depo AS Depo, STK002_Miktari AS Miktar, STK002_BirimFiyati AS BirimFiyat, 
+					STK002_Tutari AS Tutar, STK002_DovizCinsi AS DovizCinsi, STK002_GirenKodu AS Kaydeden, CONVERT(VARCHAR(15), 
+					CAST(STK002_GirenTarih - 2 AS datetime), 104) AS Tarih,	
+					CASE WHEN ISNULL(STK002_Kod8,'')='' THEN 0.0 ELSE CONVERT(DECIMAL, STK002_Kod8) END AS EsikFiyat
 																
-            FROM   YNS{0}.YNS{0}.STK002(NOLOCK) 
-            INNER JOIN  YNS{0}.YNS{0}.CAR002(NOLOCK) ON STK002_CariHesapKodu = CAR002_HesapKodu 
-            INNER JOIN	YNS{0}.YNS{0}.STK004(NOLOCK) ON  STK002_MalKodu = STK004_MalKodu
-            WHERE  (STK002_GC = 1) AND (STK002_SipDurumu = 0)  AND (STK002_Kod10 = '{1}') AND  STK002_EvrakSeriNo = '{2}'",
+			FROM   YNS{0}.YNS{0}.STK002(NOLOCK) 
+			INNER JOIN  YNS{0}.YNS{0}.CAR002(NOLOCK) ON STK002_CariHesapKodu = CAR002_HesapKodu 
+			INNER JOIN	YNS{0}.YNS{0}.STK004(NOLOCK) ON  STK002_MalKodu = STK004_MalKodu
+			WHERE  (STK002_GC = 1) AND (STK002_SipDurumu = 0)  AND (STK002_Kod10 = '{1}') AND  STK002_EvrakSeriNo = '{2}'",
             vUser.SirketKodu, secimParam, ID)).ToList();
             return PartialView("Siparis_Details", list);
         }
@@ -81,8 +89,23 @@ namespace Wms12m.Presentation.Areas.YN.Controllers
         {
             try
             {
-                db.Database.ExecuteSqlCommand(string.Format("UPDATE YNS{0}.YNS{0}.[STK002] SET STK002_Kod10 = '{1}' WHERE STK002_EvrakSeriNo='{2}'", vUser.SirketKodu, Onay == true ? "Onaylandı" : "Reddedildi", ID));
+
+                db.Database.ExecuteSqlCommand(string.Format("UPDATE YNS{0}.YNS{0}.[STK002] SET STK002_Kod12=datediff(d,0,getdate()+2), STK002_Kod10 = '{1}' WHERE STK002_EvrakSeriNo='{2}'", vUser.SirketKodu, Onay == true ? "Onaylandı" : "Reddedildi", ID));
+                var evrakvarmi = db.Database.SqlQuery<string>(string.Format("SELECT STK005_EvrakSeriNo from YNS{0}.YNS{0}.[STK005] WHERE STK005_EvrakSeriNo = '{1}' ", vUser.SirketKodu, ID)).FirstOrDefault();
+                if (evrakvarmi == null || evrakvarmi == "")
+                {
+                    db.Database.ExecuteSqlCommand(string.Format(@"
+				 INSERT INTO YNS{0}.YNS{0}.[STK005] (STK005_Kod3, STK005_EvrakSeriNo)
+				 VALUES ('{1}','{2}')
+				", vUser.SirketKodu, vUser.UserName, ID));
+                }
+                else
+                {
+                    db.Database.ExecuteSqlCommand(string.Format("UPDATE YNS{0}.YNS{0}.[STK005] SET STK005_Kod3='{1}' WHERE STK005_EvrakSeriNo='{2}'", vUser.SirketKodu, vUser.UserName, ID));
+                }
+
                 return Json(new Result(true, 1), JsonRequestBehavior.AllowGet);
+
             }
             catch (Exception ex)
             {
@@ -125,8 +148,8 @@ namespace Wms12m.Presentation.Areas.YN.Controllers
 																				Fiyat,Tutar,DovizCinsi, EsikFiyat,
 																				CONVERT(VARCHAR(15), CAST(KayitTarih - 2 AS datetime), 104) AS KayitTarihi
 																				  FROM YNS{0}.YNS{0}.[Teklif] INNER JOIN 
-                                                                                        YNS{0}.YNS{0}.CAR002 ON HesapKodu = YNS{0}.YNS{0}.CAR002.CAR002_HesapKodu INNER JOIN
-    																				    YNS{0}.YNS{0}.STK004 ON MalKodu = YNS{0}.YNS{0}.STK004.STK004_MalKodu WHERE TeklifNo='{1}' AND OnayDurumu={2}", vUser.SirketKodu, ID, Secim)).ToList();
+																						YNS{0}.YNS{0}.CAR002 ON HesapKodu = YNS{0}.YNS{0}.CAR002.CAR002_HesapKodu INNER JOIN
+																						YNS{0}.YNS{0}.STK004 ON MalKodu = YNS{0}.YNS{0}.STK004.STK004_MalKodu WHERE TeklifNo='{1}' AND OnayDurumu={2}", vUser.SirketKodu, ID, Secim)).ToList();
             return PartialView("Teklif_Details", list);
         }
         /// <summary>
@@ -213,14 +236,14 @@ namespace Wms12m.Presentation.Areas.YN.Controllers
         {
             /// Secim => 0 Onay Bekleyenler  1 Onaylanmış  2 Reddedilmiş  3 Normal (Direkt)Onaylı
             var list = db.Database.SqlQuery<frmOnayFatura>(string.Format(@"
-            SELECT  TempFatura.EvrakNo, TempFatura.HesapKodu, TempFatura.Depo, COUNT(TempFatura.ID) AS Cesit, 
-		            SUM(TempFatura.Miktar) AS Miktar, TempFatura.Kaydeden, CONVERT(VARCHAR(15), 
-		            CAST(TempFatura.KayitTarih - 2 AS datetime), 104) as KayitTarih, MIN(CAR002.CAR002_Unvan1) AS Unvan,
-                    MIN(Adres1+' '+Adres2+' '+Adres3+' '+Aciklama1+' '+Aciklama2+' '+Aciklama3) as Notlar
-            FROM  YNS{0}.YNS{0}.TempFatura(NOLOCK) 
-            INNER JOIN YNS{0}.YNS{0}.CAR002(NOLOCK) ON TempFatura.HesapKodu = CAR002.CAR002_HesapKodu
-            WHERE TempFatura.IslemDurumu = {1}
-            GROUP BY TempFatura.EvrakNo, TempFatura.HesapKodu, TempFatura.Depo, TempFatura.Kaydeden, TempFatura.KayitTarih", vUser.SirketKodu, Secim)).ToList();
+			SELECT  TempFatura.EvrakNo, TempFatura.HesapKodu, TempFatura.Depo, COUNT(TempFatura.ID) AS Cesit, 
+					SUM(TempFatura.Miktar) AS Miktar, TempFatura.Kaydeden, CONVERT(VARCHAR(15), 
+					CAST(TempFatura.KayitTarih - 2 AS datetime), 104) as KayitTarih, MIN(CAR002.CAR002_Unvan1) AS Unvan,
+					MIN(Adres1+' '+Adres2+' '+Adres3+' '+Aciklama1+' '+Aciklama2+' '+Aciklama3) as Notlar
+			FROM  YNS{0}.YNS{0}.TempFatura(NOLOCK) 
+			INNER JOIN YNS{0}.YNS{0}.CAR002(NOLOCK) ON TempFatura.HesapKodu = CAR002.CAR002_HesapKodu
+			WHERE TempFatura.IslemDurumu = {1}
+			GROUP BY TempFatura.EvrakNo, TempFatura.HesapKodu, TempFatura.Depo, TempFatura.Kaydeden, TempFatura.KayitTarih", vUser.SirketKodu, Secim)).ToList();
 
             var json = new JavaScriptSerializer().Serialize(list);
             return json;
@@ -242,7 +265,27 @@ namespace Wms12m.Presentation.Areas.YN.Controllers
                     result = new Result(true, 1);
                 }
 
-                if (result.Status == true) db.Database.ExecuteSqlCommand(string.Format("UPDATE YNS{0}.YNS{0}.[TempFatura] SET IslemDurumu={1} WHERE EvrakNo='{2}'", vUser.SirketKodu, Onay == true ? 1 : 2, ID));
+                if (result.Status == true)
+                {
+
+                    db.Database.ExecuteSqlCommand(string.Format("UPDATE YNS{0}.YNS{0}.[TempFatura] SET IslemDurumu={1} WHERE EvrakNo='{2}'", vUser.SirketKodu, Onay == true ? 1 : 2, ID));
+
+
+
+                    var evrakvarmi = db.Database.SqlQuery<string>(string.Format("SELECT STK005_EvrakSeriNo from YNS{0}.YNS{0}.[STK005] WHERE STK005_EvrakSeriNo = '{1}' ", vUser.SirketKodu, ID)).FirstOrDefault();
+                    if (evrakvarmi == null || evrakvarmi == "")
+                    {
+                        db.Database.ExecuteSqlCommand(string.Format(@"
+				INSERT INTO YNS{0}.YNS{0}.[STK005] (STK005_Kod3, STK005_EvrakSeriNo)
+				 VALUES ('{1}','{2}')
+				", vUser.SirketKodu, vUser.UserName, ID));
+                    }
+                    else
+                    {
+                        db.Database.ExecuteSqlCommand(string.Format("UPDATE YNS{0}.YNS{0}.[STK005] SET STK005_Kod12=datediff(d,0,getdate()+2), STK005_Kod3='{1}' WHERE STK005_EvrakSeriNo='{2}'", vUser.SirketKodu, vUser.UserName, ID));
+                    }
+
+                }
                 return Json(result, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
@@ -371,10 +414,10 @@ namespace Wms12m.Presentation.Areas.YN.Controllers
 						CASE IslemTuru WHEN 0 THEN 'Tahsilat' WHEN 1 THEN 'İskonto' END as IslemTuru,
 						CASE OdemeTuru WHEN 0 THEN 'Nakit' WHEN 1 THEN 'Kredi Kartı' END as OdemeTuru,
 						Tutar, DovizCinsi, KapatilanTL, KapatilanUSD, KapatilanEUR, Kaydeden, Aciklama,
-                        (CASE WHEN KapatilanUSD>0 THEN ISNULL(DvzEfektisSatis1, 0) ELSE 0 END) AS USDKur,
+						(CASE WHEN KapatilanUSD>0 THEN ISNULL(DvzEfektisSatis1, 0) ELSE 0 END) AS USDKur,
 						(CASE WHEN KapatilanEUR>0 THEN ISNULL(DvzEfektisSatis2, 0) ELSE 0 END) AS EURKur
 				FROM YNS{0}.YNS{0}.TahsilatMobil(NOLOCK) 
-                LEFT JOIN YNS{0}.YNS{0}.CAR002 ON TahsilatMobil.HesapKodu = CAR002_HesapKodu
+				LEFT JOIN YNS{0}.YNS{0}.CAR002 ON TahsilatMobil.HesapKodu = CAR002_HesapKodu
 				WHERE IslemDurumu=0", vUser.SirketKodu)).ToList();
 
             var json = new JavaScriptSerializer().Serialize(list);
@@ -392,15 +435,15 @@ namespace Wms12m.Presentation.Areas.YN.Controllers
                 if (Onay == true)
                 {
                     var item = db.Database.SqlQuery<frmOnayTahsilatList>(string.Format(@"
-                    SELECT TahsilatNo, HesapKodu, CAR002_Unvan1 AS Unvan,
-                        CONVERT(VARCHAR(15), CAST(TahsilatTarihi - 2 AS datetime), 104) as Tarih,
-                        CASE IslemTuru WHEN 0 THEN 'Tahsilat' WHEN 1 THEN 'İskonto' END as IslemTuru,
-                        CASE OdemeTuru WHEN 0 THEN 'Nakit' WHEN 1 THEN 'Kredi Kartı' END as OdemeTuru,
-                        Tutar, DovizCinsi, KapatilanTL, KapatilanUSD, KapatilanEUR, Kaydeden, Aciklama,
-                        ISNULL(DvzEfektisSatis1,0) AS USDKur , ISNULL(DvzEfektisSatis2,0) AS EURKur
-                    FROM YNS{0}.YNS{0}.TahsilatMobil(NOLOCK)
-                    LEFT JOIN YNS{0}.YNS{0}.CAR002 ON TahsilatMobil.HesapKodu = CAR002_HesapKodu
-                    WHERE TahsilatNo='{1}'", vUser.SirketKodu, ID)).FirstOrDefault();
+					SELECT TahsilatNo, HesapKodu, CAR002_Unvan1 AS Unvan,
+						CONVERT(VARCHAR(15), CAST(TahsilatTarihi - 2 AS datetime), 104) as Tarih,
+						CASE IslemTuru WHEN 0 THEN 'Tahsilat' WHEN 1 THEN 'İskonto' END as IslemTuru,
+						CASE OdemeTuru WHEN 0 THEN 'Nakit' WHEN 1 THEN 'Kredi Kartı' END as OdemeTuru,
+						Tutar, DovizCinsi, KapatilanTL, KapatilanUSD, KapatilanEUR, Kaydeden, Aciklama,
+						ISNULL(DvzEfektisSatis1,0) AS USDKur , ISNULL(DvzEfektisSatis2,0) AS EURKur
+					FROM YNS{0}.YNS{0}.TahsilatMobil(NOLOCK)
+					LEFT JOIN YNS{0}.YNS{0}.CAR002 ON TahsilatMobil.HesapKodu = CAR002_HesapKodu
+					WHERE TahsilatNo='{1}'", vUser.SirketKodu, ID)).FirstOrDefault();
 
                     var yns = new YeniNesil(SqlExper, vUser.SirketKodu);
                     result = yns.TahsilatKaydet(item, vUser.UserName);

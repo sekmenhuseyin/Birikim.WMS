@@ -18,7 +18,6 @@
         public decimal Aralik { get; set; }
         public decimal NetCiro { get; set; }
         public static string Sorgu = @"
-
                          IF(OBJECT_ID('tempdb..#UrunBolgeSatisAnalizi') IS NOT NULL)
                          BEGIN DROP TABLE #UrunBolgeSatisAnalizi END
                          CREATE TABLE #UrunBolgeSatisAnalizi(MalAdi4 VARCHAR(100),Kod9 NVARCHAR(50),Ay INT,NetCiro NUMERIC(25,6))
@@ -30,7 +29,7 @@
 				         INNER JOIN FINSAT6{0}.FINSAT6{0}.STK AS STK WITH (NOLOCK) ON STI.MalKodu = STK.MalKodu 
                          LEFT JOIN FINSAT6{0}.FINSAT6{0}.CHK AS CHK WITH (NOLOCK) ON CHK.Hesapkodu = STI.CHK
                          WHERE CHK.KartTip IN (0,4) 
-                             AND (CHK.HesapKodu BETWEEN '1' AND '8') 
+                         AND (CHK.HesapKodu BETWEEN '1' AND '8') 
                          AND STI.KynkEvrakTip IN (1,2,163) 
 				         AND (CHK.GrupKod='{1}' OR '{1}'='0') 
                          AND YEAR(DATEADD(DD,STI.Tarih,'1899-12-30'))={2}
@@ -38,7 +37,7 @@
 				         AND ISNULL(STK.MalAdi4,'')<>''
                          GROUP BY STK.MalAdi4,CHK.TipKod,MONTH(DATEADD(DD,STI.Tarih,'1899-12-30'))
 						 
-                         SELECT US.MalAdi4, US.Kod9,
+                         SELECT US.MalAdi4,
                          ISNULL(MAX(CASE WHEN US.Ay = 1 THEN US.NetCiro ELSE 0 END),0) AS Ocak,
                          ISNULL(MAX(CASE WHEN US.Ay = 2 THEN US.NetCiro ELSE 0 END),0) AS Subat, 
                          ISNULL(MAX(CASE WHEN US.Ay = 3 THEN US.NetCiro ELSE 0 END),0) AS Mart,
@@ -54,13 +53,10 @@
                          SUM(US2.SumNetCiro) AS NetCiro
                          FROM #UrunBolgeSatisAnalizi AS US WITH (NOLOCK)
                          INNER JOIN (
-                         SELECT IC1.MalAdi4, IC1.Kod9,SUM(IC1.NetCiro) AS SumNetCiro FROM #UrunBolgeSatisAnalizi AS IC1 WITH (NOLOCK)
-                         GROUP BY IC1.Kod9, MalAdi4
-                         ) AS US2 ON US.Kod9=US2.Kod9 
+                         SELECT IC1.MalAdi4,SUM(IC1.NetCiro) AS SumNetCiro FROM #UrunBolgeSatisAnalizi AS IC1 WITH (NOLOCK)
+                         GROUP BY IC1.MalAdi4
+                         ) AS US2 ON US2.MalAdi4=US.MalAdi4 
                          GROUP BY US.MalAdi4,US.Kod9 ORDER BY US.Kod9
-                         IF(OBJECT_ID('tempdb..#UrunBolgeSatisAnalizi') IS NOT NULL) BEGIN DROP TABLE #UrunBolgeSatisAnalizi END
-
-
-                                    ";
+                         IF(OBJECT_ID('tempdb..#UrunBolgeSatisAnalizi') IS NOT NULL) BEGIN DROP TABLE #UrunBolgeSatisAnalizi END";
     }
 }
