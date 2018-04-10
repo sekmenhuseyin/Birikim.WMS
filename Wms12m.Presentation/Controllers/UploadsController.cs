@@ -126,8 +126,13 @@ namespace Wms12m.Presentation.Controllers
                         // Makara No
                         if (malStk.Kod1 == "KKABLO")
                         {
-                            if (dr["Makara No"].ToString() != "") sti.MakaraNo = dr["Makara No"].ToString();
-                            else sti.MakaraNo = "Boş-" + db.SettingsMakaraNo(dID).FirstOrDefault();
+                            if (dr["Makara No"].ToString() != "")
+                                sti.MakaraNo = dr["Makara No"].ToString();
+                            else
+                            {
+                                //sti.MakaraNo = "Boş-" + db.SettingsMakaraNo(dID).FirstOrDefault();
+                                return Json(new Result(false, "Makara no girilmelidir."), JsonRequestBehavior.AllowGet);
+                            }
                         }
 
                         // ekle

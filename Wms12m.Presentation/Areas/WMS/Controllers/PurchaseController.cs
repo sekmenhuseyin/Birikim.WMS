@@ -98,7 +98,8 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                     var kkablo = db.Database.SqlQuery<string>(string.Format("SELECT Kod1 FROM FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) WHERE (MalKodu = '{1}')", vUser.SirketKodu, tbl.MalKodu)).FirstOrDefault();
                     if (kkablo == "KKABLO")
                     {
-                        mNo = "Boş-" + db.SettingsMakaraNo(tbl.IR.DepoID).FirstOrDefault();
+                        //mNo = "Boş-" + db.SettingsMakaraNo(tbl.IR.DepoID).FirstOrDefault();
+                        return Json(new Result(false, "Makara no girilmelidir."), JsonRequestBehavior.AllowGet);
                     }
                 }
 
@@ -155,7 +156,10 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                         return Json(new Result(false, tbl.EvrakNos[i] + " ve " + tbl.MalKodus[i] + " için satır bulunamadı"), JsonRequestBehavior.AllowGet);
                     var mNo = "";
                     if (satir.Kod1 == "KKABLO")
-                        mNo = "Boş-" + db.SettingsMakaraNo(irs.DepoID).FirstOrDefault();
+                    {
+                        //mNo = "Boş-" + db.SettingsMakaraNo(irs.DepoID).FirstOrDefault();
+                        return Json(new Result(false, "Makara no girilmelidir."), JsonRequestBehavior.AllowGet);
+                    }
                     tbl.Miktars[i] = tbl.Miktars[i].Replace(".", "");
                     decimal miktar = tbl.Miktars[i].ToDecimal();
                     miktar = miktar > 0 ? miktar : satir.Miktar;
@@ -302,8 +306,9 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                     var kkablo = db.Database.SqlQuery<string>(string.Format("SELECT Kod1 FROM FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) WHERE (MalKodu = '{1}')", vUser.SirketKodu, tbl.MalKodu)).FirstOrDefault();
                     if (kkablo == "KKABLO")
                     {
-                        tbl.MakaraNo = "Boş-" + db.SettingsMakaraNo(irs.DepoID).FirstOrDefault();
-                        return Json(IrsaliyeDetay.Insert(tbl, irs.DepoID), JsonRequestBehavior.AllowGet);
+                        //tbl.MakaraNo = "Boş-" + db.SettingsMakaraNo(irs.DepoID).FirstOrDefault();
+                        //return Json(IrsaliyeDetay.Insert(tbl, irs.DepoID), JsonRequestBehavior.AllowGet);
+                        return Json(new Result(false, "Makara no girilmelidir."), JsonRequestBehavior.AllowGet);
                     }
                 }
 

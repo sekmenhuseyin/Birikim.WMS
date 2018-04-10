@@ -124,8 +124,10 @@ namespace Wms12m.Business
         {
             var satir = db.Yers.Where(m => m.KatID == KatID && m.MalKodu == MalKodu);
             // makara no varsa onu da filtreye ekle
-            if (MakaraNo != null && MakaraNo != "") satir = satir.Where(m => m.MakaraNo == MakaraNo);
-            if (Birim != null && Birim != "") satir = satir.Where(m => m.Birim == Birim);
+            if (MakaraNo != null && MakaraNo != "")
+                satir = satir.Where(m => m.MakaraNo == MakaraNo);
+            if (Birim != null && Birim != "")
+                satir = satir.Where(m => m.Birim == Birim);
             // return
             try
             {
