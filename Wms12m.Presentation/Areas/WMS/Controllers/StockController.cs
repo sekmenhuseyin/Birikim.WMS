@@ -264,7 +264,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                             else
                             {
                                 // makarayı bul
-                                var kablo = dbx.stoks.Where(m => m.depo == depo && m.marka == stks.Marka && m.cins == stks.Cins && m.kesit == stks.Kesit && m.makarano == tbl.MakaraNo).FirstOrDefault();
+                                var kablo = dbx.stoks.Where(m => m.depo == depo && m.makarano == tbl.MakaraNo).FirstOrDefault();
                                 if (kablo != null)
                                 {
                                     // kabloya açık yap

@@ -1995,7 +1995,7 @@ namespace Wms12m.Presentation
                                 if (stk != null)
                                 {
                                     // makarayı bul
-                                    var kablo = dbx.stoks.Where(m => m.depo == depo && m.marka == stk.Marka && m.cins == stk.Cins && m.kesit == stk.Kesit && m.makarano == item2.MakaraNo).FirstOrDefault();
+                                    var kablo = dbx.stoks.Where(m => m.depo == depo && m.makarano == item2.MakaraNo).FirstOrDefault();
                                     // kabloya açık yap
                                     if (kablo.miktar != item2.Miktar)
                                         kablo.makara = "AÇIK";
