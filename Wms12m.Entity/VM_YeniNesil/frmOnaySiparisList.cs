@@ -5,6 +5,7 @@
     /// </summary>
     public class frmOnaySiparisList
     {
+        public int ID { get; set; }
         /// <summary> NVarChar(16) (Allow Null) </summary>
         public string EvrakSeriNo { get; set; }
         /// <summary> NVarChar(16) (Allow Null) </summary>
@@ -39,12 +40,6 @@
         public string OnayRedTarih { get; set; }
         /// <summary> NVarChar(20) (Allow Null) </summary>
         public string OnaylayanReddeden { get; set; }
-
-
-
-
-
-
 
 
 
