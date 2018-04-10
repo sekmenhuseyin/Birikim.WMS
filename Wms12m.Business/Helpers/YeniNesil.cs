@@ -411,7 +411,7 @@ namespace Wms12m
                 INNER JOIN YNS{0}.YNS{0}.STK005(NOLOCK) STI2 ON STI1.STK005_Kod9=STI2.STK005_EvrakSeriNo AND
                 CAST(STI1.STK005_Kod11 as INT)=STI2.STK005_Row_ID AND  STI2.STK005_EvrakTipi=11 AND STI1.STK005_MalKodu=STI2.STK005_MalKodu
 
-                WHERE STI1.STK005_EvrakTipi=99 AND STI1.STK005_IslemTipi=2 AND STI1.STK005_GC=0 AND STI1.STK005_Kod11>0 AND STI1.STK005_Kod9<>'' AND
+                WHERE STI1.STK005_EvrakTipi=22 AND STI1.STK005_IslemTipi=2 AND STI1.STK005_GC=0 AND STI1.STK005_Kod11>0 AND STI1.STK005_Kod9<>'' AND
                       STI1.STK005_Kod10='Onay Bekliyor' AND SUBSTRING(STI1.STK005_Not5,1,8)='AndMobil' AND
 	                  STI1.STK005_EvrakSeriNo='{4}' AND STI1.STK005_IslemTarihi={5} ",
                               SirketKodu, SIOnay.Kaydeden, tarih, saat, SIOnay.IadeNo, SIOnay.IadeTarih);
@@ -484,14 +484,14 @@ namespace Wms12m
                     //CHI Tutar Update
                     Sorgu += string.Format(@"
                     UPDATE YNS{0}.YNS{0}.CAR003 SET CAR003_Tutar=(SELECT SUM(STK005_Tutari) FROM YNS{0}.YNS{0}.STK005(NOLOCK) 
-                    WHERE STK005_EvrakTipi=99 AND STK005_IslemTipi=2 AND STK005_GC=0 AND STK005_EvrakSeriNo='{1}')
+                    WHERE STK005_EvrakTipi=22 AND STK005_IslemTipi=2 AND STK005_GC=0 AND STK005_EvrakSeriNo='{1}')
                     WHERE CAR003_EvrakTipi=22 and CAR003_IslemTipi=8 and CAR003_EvrakSeriNo='{1}'",
                     SirketKodu, evrakBilgi.STK005_EvrakSeriNo);
 
                     //CHK IadeAlacak Update
                     Sorgu += string.Format(@"
                     UPDATE YNS{0}.YNS{0}.CAR002 SET CAR002_IadeAlacak+=(SELECT SUM(STK005_Tutari) FROM YNS{0}.YNS{0}.STK005(NOLOCK) WHERE
-                    STK005_EvrakTipi=99 AND STK005_IslemTipi=2 AND STK005_GC=0 AND STK005_EvrakSeriNo='{1}')
+                    STK005_EvrakTipi=22 AND STK005_IslemTipi=2 AND STK005_GC=0 AND STK005_EvrakSeriNo='{1}')
                     WHERE CAR002_HesapKodu='{2}'",
                    SirketKodu, evrakBilgi.STK005_EvrakSeriNo, evrakBilgi.STK005_CariHesapKodu);
 
@@ -502,7 +502,7 @@ namespace Wms12m
             {
                 Sorgu = string.Format(@"
                 UPDATE YNS{0}.YNS{0}.STK005 SET STK005_Kod10='Reddedildi', STK005_DegistirenKodu='{1}', STK005_DegistirenTarih={2}, STK005_DegistirenSaat='{3}'
-                WHERE STK005_EvrakTipi=99 AND STK005_IslemTipi=2 AND STK005_GC=0 AND STK005_Kod11>0 AND STK005_Kod9<>'' AND
+                WHERE STK005_EvrakTipi=22 AND STK005_IslemTipi=2 AND STK005_GC=0 AND STK005_Kod11>0 AND STK005_Kod9<>'' AND
                 STK005_Kod10='Onay Bekliyor' AND SUBSTRING(STK005_Not5,1,8)='AndMobil' AND
                 STK005_EvrakSeriNo='{4}' AND STK005_IslemTarihi={5} ",
                 SirketKodu, SIOnay.Kaydeden, tarih, saat, SIOnay.IadeNo, SIOnay.IadeTarih);
