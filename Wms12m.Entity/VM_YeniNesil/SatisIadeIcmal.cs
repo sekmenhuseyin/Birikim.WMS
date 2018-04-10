@@ -13,7 +13,7 @@
 	            STK005_EvrakSeriNo+','+CAST(STK005_IslemTarihi as varchar)+','+STK005_Kod9+','+CAST(MAX(CAST(STK005_Kod11 as INT)) as varchar) as EvrakID
         FROM  YNS{0}.YNS{0}.STK005(NOLOCK)
         LEFT JOIN YNS{0}.YNS{0}.CAR002(NOLOCK) ON STK005_Kod8=CAR002_HesapKodu
-        WHERE STK005_EvrakTipi=22 AND STK005_IslemTipi=2 AND STK005_GC=0 AND STK005_Kod11>0 AND STK005_Kod9<>'' AND
+        WHERE STK005_EvrakTipi in(99, 22) AND STK005_IslemTipi=2 AND STK005_GC=0 AND STK005_Kod11>0 AND STK005_Kod9<>'' AND
                 STK005_Kod10='Onay Bekliyor' AND SUBSTRING(STK005_Not5,1,8)='AndMobil'
         GROUP BY STK005_EvrakSeriNo, STK005_IslemTarihi, STK005_Kod8, STK005_Depo, STK005_Kod9, STK005_GirenKodu";
 
