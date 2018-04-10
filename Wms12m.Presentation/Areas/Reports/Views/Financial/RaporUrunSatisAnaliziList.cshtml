@@ -72,7 +72,7 @@
             "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
             "ajax": {
                 "url": '/Reports/Financial/RaporUrunSatisAnaliziSelect',
-                "data": { Yil: '@ViewBag.Yil', GrupKod: '@ViewBag.GrupKod', TipKod: '@Html.Raw(ViewBag.TipKod)'  },
+                "data": { Yil: '@ViewBag.Yil', GrupKod: '@Html.Raw(ViewBag.GrupKod)', TipKod: '@Html.Raw(ViewBag.TipKod)'  },
                    "dataSrc": function (json) {
                        return json;
                    },
