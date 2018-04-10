@@ -5,21 +5,25 @@
     /// </summary>
     public class frmOnaySiparisList
     {
-        public decimal? BirimFiyat { get; set; }
-        public int Cesit { get; set; }
-        public string Depo { get; set; }
-        public string DovizCinsi { get; set; }
-        public decimal? EsikFiyat { get; set; }
+        /// <summary> NVarChar(16) (Allow Null) </summary>
         public string EvrakSeriNo { get; set; }
+        /// <summary> NVarChar(16) (Allow Null) </summary>
         public string HesapKodu { get; set; }
-        public int ID { get; set; }
-        public string Kaydeden { get; set; }
-        public string MalAdi { get; set; }
-        public string MalKodu { get; set; }
-        public decimal? Miktar { get; set; }
-        public string Notlar { get; set; }
-        public string Tarih { get; set; }
-        public decimal? Tutar { get; set; }
+        /// <summary> NVarChar(40) (Allow Null) </summary>
         public string Unvan { get; set; }
+        /// <summary> Int (Allow Null) </summary>
+        public int? Cesit { get; set; }
+        /// <summary> Decimal(38,4) (Allow Null) </summary>
+        public decimal? Miktar { get; set; }
+        /// <summary> NVarChar(10) (Allow Null) </summary>
+        public string Kaydeden { get; set; }
+        /// <summary> VarChar(15) (Allow Null) </summary>
+        public string Tarih { get; set; }
+        /// <summary> VarChar(800) (Not Null) </summary>
+        public string Notlar { get; set; }
+        /// <summary> VarChar(15) (Allow Null) </summary>
+        public string OnayRedTarih { get; set; }
+        /// <summary> NVarChar(20) (Allow Null) </summary>
+        public string OnaylayanReddeden { get; set; }
     }
 }

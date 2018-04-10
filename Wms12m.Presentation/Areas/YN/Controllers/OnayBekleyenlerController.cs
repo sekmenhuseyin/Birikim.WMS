@@ -31,15 +31,23 @@ namespace Wms12m.Presentation.Areas.YN.Controllers
                 secimParam = "Normal";
 
             var list = db.Database.SqlQuery<frmOnaySiparisList>(string.Format(@"
+
             SELECT  STK002_EvrakSeriNo AS EvrakSeriNo, CAR002_BankaHesapKodu AS HesapKodu, CAR002_Unvan1 AS Unvan, COUNT(STK002_MalKodu) 
 		            AS Cesit, SUM(STK002_Miktari) AS Miktar, STK002_GirenKodu AS Kaydeden, 
-                    CONVERT(VARCHAR(15), CAST(STK002_GirenTarih - 2 AS datetime), 104) AS Tarih,
-                    ISNULL(YNS{0}.dbo.NotlariGetir(STK002_EvrakSeriNo, MIN(STK002_IslemTarihi), 5),'') as Notlar 
-            FROM   YNS{0}.YNS{0}.STK002(NOLOCK) INNER JOIN
+					 CONVERT(VARCHAR(15), CAST(STK002_GirenTarih - 2 AS datetime), 104) AS Tarih,
+                    ISNULL(YNS{0}.dbo.NotlariGetir(STK002_EvrakSeriNo, MIN(STK002_IslemTarihi), 5),'') as Notlar,
+					    CONVERT(VARCHAR(15), CAST(STK002_Kod12 - 2 AS datetime), 104) AS OnayRedTarih,
+						STK005_Kod3 as OnaylayanReddeden
+            FROM   YNS{0}.YNS{0}.STK002(NOLOCK)
+			INNER JOIN
 		           YNS{0}.YNS{0}.CAR002(NOLOCK) ON STK002_CariHesapKodu = CAR002_HesapKodu
+            INNER JOIN 
+			       YNS{0}.YNS{0}.STK005(NOLOCK) ON STK002_CariHesapKodu =  STK005_CariHesapKodu
             WHERE   STK002_GC = 1 AND STK002_SipDurumu = 0  AND STK002_Kod10 = '{1}'
-            GROUP BY CAR002_BankaHesapKodu, CAR002_Unvan1, STK002_EvrakSeriNo, STK002_GirenKodu, CONVERT(VARCHAR(15), CAST(STK002_GirenTarih - 2 AS datetime), 104)
-            ORDER BY STK002_EvrakSeriNo", vUser.SirketKodu, secimParam)).ToList();
+            GROUP BY CAR002_BankaHesapKodu, CAR002_Unvan1, STK002_EvrakSeriNo, STK002_GirenKodu, CONVERT(VARCHAR(15), CAST(STK002_GirenTarih - 2 AS datetime), 104), CONVERT(VARCHAR(15), CAST(STK002_Kod12 - 2 AS datetime), 104), STK005_Kod3
+            ORDER BY STK002_EvrakSeriNo
+
+", vUser.SirketKodu, secimParam)).ToList();
             var json = new JavaScriptSerializer().Serialize(list);
             return json;
         }
@@ -81,8 +89,10 @@ namespace Wms12m.Presentation.Areas.YN.Controllers
         {
             try
             {
-                db.Database.ExecuteSqlCommand(string.Format("UPDATE YNS{0}.YNS{0}.[STK002] SET STK002_Kod10 = '{1}' WHERE STK002_EvrakSeriNo='{2}'", vUser.SirketKodu, Onay == true ? "Onaylandı" : "Reddedildi", ID));
+                db.Database.ExecuteSqlCommand(string.Format("UPDATE YNS{0}.YNS{0}.[STK002] SET STK002_Kod12=datediff(d,0,getdate()+2), STK002_Kod10 = '{1}' WHERE STK002_EvrakSeriNo='{2}'", vUser.SirketKodu, Onay == true ? "Onaylandı" : "Reddedildi", ID));
+                db.Database.ExecuteSqlCommand(string.Format("UPDATE YNS{0}.YNS{0}.[STK005] SET STK005_Kod3='{1}' WHERE STK005_EvrakSeriNo='{2}'", vUser.SirketKodu, vUser.UserName, ID));
                 return Json(new Result(true, 1), JsonRequestBehavior.AllowGet);
+
             }
             catch (Exception ex)
             {
@@ -242,7 +252,11 @@ namespace Wms12m.Presentation.Areas.YN.Controllers
                     result = new Result(true, 1);
                 }
 
-                if (result.Status == true) db.Database.ExecuteSqlCommand(string.Format("UPDATE YNS{0}.YNS{0}.[TempFatura] SET IslemDurumu={1} WHERE EvrakNo='{2}'", vUser.SirketKodu, Onay == true ? 1 : 2, ID));
+                if (result.Status == true)
+                {
+                    db.Database.ExecuteSqlCommand(string.Format("UPDATE YNS{0}.YNS{0}.[TempFatura] SET IslemDurumu={1} WHERE EvrakNo='{2}'", vUser.SirketKodu, Onay == true ? 1 : 2, ID));
+                    db.Database.ExecuteSqlCommand(string.Format("UPDATE YNS{0}.YNS{0}.[STK005] SET STK005_Kod12=datediff(d,0,getdate()+2), STK005_Kod3='{1}' WHERE STK005_EvrakSeriNo='{2}'", vUser.SirketKodu, vUser.UserName, ID));
+                }
                 return Json(result, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
