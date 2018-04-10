@@ -36,15 +36,15 @@ namespace Wms12m.Presentation.Areas.YN.Controllers
 					AS Cesit, SUM(STK002_Miktari) AS Miktar, STK002_GirenKodu AS Kaydeden, 
 					 CONVERT(VARCHAR(15), CAST(STK002_GirenTarih - 2 AS datetime), 104) AS Tarih,
 					ISNULL(YNS{0}.dbo.NotlariGetir(STK002_EvrakSeriNo, MIN(STK002_IslemTarihi), 5),'') as Notlar,
-						CONVERT(VARCHAR(15), CAST(STK002_Kod12 - 2 AS datetime), 104) AS OnayRedTarih,
-						STK005_Kod3 as OnaylayanReddeden
+						MAX(CONVERT(VARCHAR(15), CAST(STK002_Kod12 - 2 AS datetime), 104)) AS OnayRedTarih,
+						MAX(STK005_Kod3) as OnaylayanReddeden
 			FROM   YNS{0}.YNS{0}.STK002(NOLOCK)
 			INNER JOIN
 				   YNS{0}.YNS{0}.CAR002(NOLOCK) ON STK002_CariHesapKodu = CAR002_HesapKodu
 			INNER JOIN 
 				   YNS{0}.YNS{0}.STK005(NOLOCK) ON STK002_EvrakSeriNo =  STK005_EvrakSeriNo
 			WHERE   STK002_GC = 1 AND STK002_SipDurumu = 0  AND STK002_Kod10 = '{1}'
-			GROUP BY CAR002_BankaHesapKodu, CAR002_Unvan1, STK002_EvrakSeriNo, STK002_GirenKodu, CONVERT(VARCHAR(15), CAST(STK002_GirenTarih - 2 AS datetime), 104), CONVERT(VARCHAR(15), CAST(STK002_Kod12 - 2 AS datetime), 104), STK005_Kod3
+			GROUP BY CAR002_BankaHesapKodu, CAR002_Unvan1, STK002_EvrakSeriNo, STK002_GirenKodu, CONVERT(VARCHAR(15), CAST(STK002_GirenTarih - 2 AS datetime), 104)
 			ORDER BY STK002_EvrakSeriNo
 
 			", vUser.SirketKodu, secimParam)).ToList();
