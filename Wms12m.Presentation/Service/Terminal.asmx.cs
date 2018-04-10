@@ -295,8 +295,8 @@ namespace Wms12m.Presentation
                 //eğer satır yoksa boş döndür
                 if (satir.Count == 0)
                     return new Tip_Malzeme();
-                //eğer çok satır varsa haber ver
-                else if (satir.Count > 1)
+                //eğer kontrollü sayımsa ve çok satır varsa haber ver
+                else if (satir.Count > 1 && mGorev.GorevTipiID == ComboItems.KabloSayım.ToInt32())
                     return new Tip_Malzeme() { Barkod = "Sistemde bu barkoddan " + satir.Count + " adet bulundu" };
                 //tek satırsa onu döndür
                 else
