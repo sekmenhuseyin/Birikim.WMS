@@ -220,35 +220,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             var list = db.Database.SqlQuery<frmSiparisMalzemeDetay>(sql).ToList();
             foreach (var item in list)
             {
-                var sti = new STI();
-                sti.DefaultValueSet();
-                if (item.Miktar > item.GunesStok)//olması gerekenden fazlaysa giriş yapılacak
-                    sti.IslemTur = 0;
-                else//eğer olması gerekenden az varsa çıkış yapılacak
-                    sti.IslemTur = 1;
-                sti.Tarih = tarih;
-                sti.KynkEvrakTip = 95;//"Sayım Sonuç Fişi" from finsat.COMBOITEM_NAME
-                sti.SiraNo = sirano;
-                sti.IslemTip = 18;//"Sayım Sonuç Fişi" from finsat.COMBOITEM_NAME
-                sti.MalKodu = item.MalKodu;
-                sti.Miktar = item.Miktar;
-                sti.Miktar2 = item.GunesStok;
-                sti.Birim = item.Birim;
-                sti.BirimMiktar = item.Miktar;
-                sti.Depo = mGorev.Depo.DepoKodu;
-                sti.VadeTarih = tarih;
-                sti.EvrakTarih = tarih;
-                sti.AnaEvrakTip = 95;//"Sayım Sonuç Fişi" from finsat.COMBOITEM_NAME
-                stiList.Add(sti);
-                sirano++;
-            }
-
-            // eğer eksik listesi de atılacaksa sayım fişine biraz daha ekle
-            if (Tip == true)
-            {
-                sql = string.Format(@"EXEC FINSAT6{0}.wms.getSayimFisiListesi2 @ID = {1}, @DepoKodu = '{2}'", vUser.SirketKodu, GorevID, mGorev.Depo.DepoKodu);
-                list = db.Database.SqlQuery<frmSiparisMalzemeDetay>(sql).ToList();
-                foreach (var item in list)
+                if (item.Miktar != item.GunesStok)
                 {
                     var sti = new STI();
                     sti.DefaultValueSet();
@@ -271,6 +243,40 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                     sti.AnaEvrakTip = 95;//"Sayım Sonuç Fişi" from finsat.COMBOITEM_NAME
                     stiList.Add(sti);
                     sirano++;
+                }
+            }
+
+            // eğer eksik listesi de atılacaksa sayım fişine biraz daha ekle
+            if (Tip == true)
+            {
+                sql = string.Format(@"EXEC FINSAT6{0}.wms.getSayimFisiListesi2 @ID = {1}, @DepoKodu = '{2}'", vUser.SirketKodu, GorevID, mGorev.Depo.DepoKodu);
+                list = db.Database.SqlQuery<frmSiparisMalzemeDetay>(sql).ToList();
+                foreach (var item in list)
+                {
+                    if (item.Miktar != item.GunesStok)
+                    {
+                        var sti = new STI();
+                        sti.DefaultValueSet();
+                        if (item.Miktar > item.GunesStok)//olması gerekenden fazlaysa giriş yapılacak
+                            sti.IslemTur = 0;
+                        else//eğer olması gerekenden az varsa çıkış yapılacak
+                            sti.IslemTur = 1;
+                        sti.Tarih = tarih;
+                        sti.KynkEvrakTip = 95;//"Sayım Sonuç Fişi" from finsat.COMBOITEM_NAME
+                        sti.SiraNo = sirano;
+                        sti.IslemTip = 18;//"Sayım Sonuç Fişi" from finsat.COMBOITEM_NAME
+                        sti.MalKodu = item.MalKodu;
+                        sti.Miktar = item.Miktar;
+                        sti.Miktar2 = item.GunesStok;
+                        sti.Birim = item.Birim;
+                        sti.BirimMiktar = item.Miktar;
+                        sti.Depo = mGorev.Depo.DepoKodu;
+                        sti.VadeTarih = tarih;
+                        sti.EvrakTarih = tarih;
+                        sti.AnaEvrakTip = 95;//"Sayım Sonuç Fişi" from finsat.COMBOITEM_NAME
+                        stiList.Add(sti);
+                        sirano++;
+                    }
                 }
             }
 

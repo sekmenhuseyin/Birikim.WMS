@@ -511,7 +511,7 @@ namespace Wms12m
         /// <summary>
         /// sayım fişi oluştur
         /// </summary>
-        public Result SayımVeFarkFişi(List<Entity.STI> stiList, int EvrakSeriNo, bool EvrakNoArttır, string username)
+        public Result SayımVeFarkFişi(List<STI> stiList, int EvrakSeriNo, bool EvrakNoArttır, string username)
         {
             // evrak no
             var evrakno = EvrakNo(EvrakSeriNo);
