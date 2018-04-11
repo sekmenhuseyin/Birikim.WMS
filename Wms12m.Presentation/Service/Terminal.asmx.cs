@@ -711,7 +711,7 @@ namespace Wms12m.Presentation
                     var kat = db.GetHucreKatID(item.DepoID, item.RafNo).FirstOrDefault();
                     if (kat != null)
                     {
-                        var tmptable = db.Yers.Where(m => m.KatID == kat.Value && m.MalKodu == item.MalKodu && m.Birim == item.Birim).FirstOrDefault();
+                        var tmptable = db.Yers.Where(m => m.KatID == kat.Value && m.MalKodu == item.MalKodu && m.Birim == item.Birim && m.Miktar > 0).FirstOrDefault();
 
                         if (tmptable.IsNull())
                         {
