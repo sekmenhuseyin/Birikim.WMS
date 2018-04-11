@@ -8,7 +8,7 @@ else
     using (Ajax.BeginForm("InsertMalzeme", "Purchase", new { area = "WMS" }, new AjaxOptions { InsertionMode = InsertionMode.Replace, UpdateTargetId = "StoreGrid", OnSuccess = "getresult", OnFailure = "Modaldialog('Lütfen Tekrar Deneyin', 'Hata', 'Tamam', 'btn-danger');" }, new { @class = "form-horizontal" }))
     {
         <table class="table table-striped table-bordered table-hover" id="sample_7">
-            <thead><tr><th></th><th>Malzeme Kodu</th><th>Malzeme Adı</th><th>Miktar</th><th>Birim</th><th>Makara No</th><th>İşlem</th></tr></thead>
+            <thead><tr><th></th><th>Malzeme Kodu</th><th>Malzeme Adı</th><th>Miktar</th><th>Birim</th>@*<th>Makara No</th>*@<th>İşlem</th></tr></thead>
             <tbody id="StoreFrom">
                 @{if (ViewBag.Onay == false) { Html.RenderAction("NewMalzemeForm", new { id = ViewBag.IrsaliyeId }); } }
                 @foreach (var item in Model)
@@ -19,7 +19,7 @@ else
                         <td>@item.MalKodu</td>
                         <td align="right" id="miktar@{@item.ID}">@String.Format("{0:n}", item.Miktar)</td>
                         <td>@item.Birim</td>
-                        <td id="makara@{@item.ID}">@item.MakaraNo</td>
+                        @*<td id="makara@{@item.ID}">@item.MakaraNo</td>*@
                         <td>
                             @if (ViewBag.Onay == false)
                             {
