@@ -476,6 +476,33 @@ namespace Wms12m.Presentation.Controllers
             return PartialView("YetkiDuzenle", yetki);
         }
 
+        public PartialViewResult BolgeKoduDuzenle(int ID)
+        {
+            if (CheckPerm(Perms.Kullanıcılar, PermTypes.Reading) == false || ID == 1) return null;
+            var tbl = db.UserDetails.FirstOrDefault(m => m.UserID == ID);
+            var yetki = new SipOnayYetkiler();
+            if (tbl != null)
+            {
+                yetki.GostCHKKodAlani = tbl.GostCHKKodAlani;
+                yetki.GostKod3OrtBakiye = tbl.GostKod3OrtBakiye;
+                yetki.GostRiskDeger = tbl.GostRiskDeger;
+                yetki.GostSTKDeger = tbl.GostSTKDeger;
+                yetki.AdSoyad = tbl.User.AdSoyad;
+            }
+            else
+            {
+                var grv = db.Users.FirstOrDefault(m => m.ID == ID);
+                yetki.GostCHKKodAlani = "";
+                yetki.GostKod3OrtBakiye = "";
+                yetki.GostRiskDeger = "";
+                yetki.GostSTKDeger = "";
+                if (grv != null) yetki.AdSoyad = grv.AdSoyad;
+            }
+
+            ViewBag.ID = ID;
+            return PartialView("BolgeKoduDuzenle", yetki);
+        }
+
         /// <summary>
         /// select box doldurur
         /// </summary>
