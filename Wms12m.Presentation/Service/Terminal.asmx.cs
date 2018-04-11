@@ -345,7 +345,7 @@ namespace Wms12m.Presentation
             var mGorev = db.Gorevs.Where(m => m.ID == GorevID && m.DurumID == durumID).FirstOrDefault();
             if (mGorev.IsNull())
                 return new Result(false, "Görevi kontrol ediniz!");
-            // add to gorev user table
+            // add to gorev user table           
             var tbl = db.GorevUsers.Where(m => m.GorevID == GorevID && m.UserName == tblx.Kod).FirstOrDefault();
             if (tbl == null)
             {
@@ -362,6 +362,17 @@ namespace Wms12m.Presentation
             foreach (var item in StiList)
             {
                 var tmp = IrsaliyeDetay.Detail(item.ID);
+
+                if (tmp.MakaraNo == "" || tmp.MakaraNo == null)
+                {
+                    var kkablo = db.Database.SqlQuery<string>(string.Format(@"
+                SELECT Kod1 FROM FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) WHERE (MalKodu = '{1}')", mGorev.IR.SirketKod, tmp.MalKodu)).FirstOrDefault();
+                    if (kkablo == "KKABLO")
+                    {
+                        return new Result(false, tmp.MalKodu + " için Makara no girilmelidir.");
+                    }
+                }
+
                 if (tmp.OkutulanMiktar == null) tmp.OkutulanMiktar = 0;
                 tmp.OkutulanMiktar += item.OkutulanMiktar;
                 try
