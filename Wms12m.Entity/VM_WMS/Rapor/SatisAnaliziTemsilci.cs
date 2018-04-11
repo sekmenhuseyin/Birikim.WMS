@@ -37,7 +37,7 @@
 				         AND ISNULL(STK.MalAdi4,'')<>''
                          GROUP BY STK.MalAdi4,CHK.TipKod,MONTH(DATEADD(DD,STI.Tarih,'1899-12-30'))
 
-						 SELECT B.MalAdi4 , 
+						 SELECT B.MalAdi4, 
 						 SUM(b.Ocak) as Ocak,
 						  SUM(b.Subat) as Subat,
 						   SUM(b.Mart) as Mart,
