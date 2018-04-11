@@ -205,7 +205,10 @@ namespace Wms12m
                 {
                     finsat.Miktar = item.Miktar;
                     finsat.EvrakNo = evrkno[0].EvrakNo;
+
                     finsat.KaynakIrsEvrakNo = evrkno[1].EvrakNo;
+                    finsat.KaynakIrsTarih = evrkno[1].EvrakNo != "" ? DateTime.Today.ToOADate().ToInt32() : 0;
+
                     finsat.Tarih = finsat.KaynakSiparisTarih;
                     finsat.CHKMhsKod = finsat.MhsKod;
                     finsat.MhsKod = SirketKodu == "33" ? "391 000" : "391 01 001";
