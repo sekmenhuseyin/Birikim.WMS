@@ -203,6 +203,7 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
         {
             if (CheckPerm(Perms.Raporlar, PermTypes.Reading) == false) return null;
             //create sql
+            List<GidenBarkodListe> liste;
             var sql = string.Format(@"
                 SELECT      OT.ID, OT.SirketKodu, OT.SevkEvrakNo, STI.EvrakNo as IrsaliyeNo, OT.SiparisNo, OT.Chk, CHK.Unvan1 + CHK.Unvan2 AS Unvan, OT.SipSiraNo, OT.MalKodu,STK.MalAdi, OT.BarkodNo, OT.BarkodMiktar, STI.Birim, STI.Depo, OT.IslemTip, OT.AktarimDurum, OT.Kaydeden, OT.KayitTarih, OT.KayitTarih2
                 FROM            SOLAR6.dbo.Onikim_Terminal OT (NOLOCK) INNER JOIN 
@@ -215,7 +216,8 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
             else
                 sql += string.Format("[SevkEvrakNo] = '{0}'", sevk);
             //get data
-            var liste = db.Database.SqlQuery<GidenBarkodListe>(sql);
+            liste = db.Database.SqlQuery<GidenBarkodListe>(sql).ToList();
+
             //return
             return PartialView("GidenBarkodList", liste);
         }

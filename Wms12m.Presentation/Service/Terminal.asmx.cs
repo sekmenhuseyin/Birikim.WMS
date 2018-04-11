@@ -458,8 +458,9 @@ namespace Wms12m.Presentation
                             var cevap = Yerlestirme.Insert(tmp2, KullID, "Mal Kabul");
                             if (cevap.Status == false)//tek ihtimal: makara no var ve çok önceki kayıtlarla çakıştı
                             {
-                                tmp2.MakaraNo = "Boş-" + db.SettingsMakaraNo(item.DepoID).FirstOrDefault();
-                                Yerlestirme.Insert(tmp2, KullID, "Mal Kabul");
+                                //tmp2.MakaraNo = "Boş-" + db.SettingsMakaraNo(item.DepoID).FirstOrDefault();
+                                //Yerlestirme.Insert(tmp2, KullID, "Mal Kabul");
+                                return new Result(false, "Makara no girilmelidir.");
                             }
                         }
                         else//güncelle
@@ -1995,7 +1996,7 @@ namespace Wms12m.Presentation
                                 if (stk != null)
                                 {
                                     // makarayı bul
-                                    var kablo = dbx.stoks.Where(m => m.depo == depo && m.marka == stk.Marka && m.cins == stk.Cins && m.kesit == stk.Kesit && m.makarano == item2.MakaraNo).FirstOrDefault();
+                                    var kablo = dbx.stoks.Where(m => m.depo == depo && m.makarano == item2.MakaraNo).FirstOrDefault();
                                     // kabloya açık yap
                                     if (kablo.miktar != item2.Miktar)
                                         kablo.makara = "AÇIK";

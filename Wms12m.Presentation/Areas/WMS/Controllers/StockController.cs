@@ -140,17 +140,22 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         {
             if (CheckPerm(Perms.Stok, PermTypes.Writing) == false || tbl.Miktar < 0) return Json(false, JsonRequestBehavior.AllowGet);
             Result sonuc;
-            //giriş işlemleri
+
+            if (tbl.MakaraNo == "" || tbl.MakaraNo == null)
+            {
+                var kkablo = db.Database.SqlQuery<string>(string.Format(@"
+                SELECT Kod1 FROM FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) WHERE (MalKodu = '{1}')", vUser.SirketKodu, tbl.MalKodu)).FirstOrDefault();
+                if (kkablo == "KKABLO")
+                {
+                    //tbl.MakaraNo = "Boş-" + db.SettingsMakaraNo(tbl.DepoID).FirstOrDefault();
+                    return Json(new Result(false, "Makara no girilmelidir."), JsonRequestBehavior.AllowGet);
+                }
+            }
+
             if (GC == false)
             {
-                if (tbl.MakaraNo == "" || tbl.MakaraNo == null)
-                {
-                    var kkablo = db.Database.SqlQuery<string>(string.Format("SELECT Kod1 FROM FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) WHERE (MalKodu = '{1}')", vUser.SirketKodu, tbl.MalKodu)).FirstOrDefault();
-                    if (kkablo == "KKABLO")
-                    {
-                        tbl.MakaraNo = "Boş-" + db.SettingsMakaraNo(tbl.DepoID).FirstOrDefault();
-                    }
-                }
+                #region Giriş İşlemleri
+
                 if (tbl.MakaraNo == "" || tbl.MakaraNo == null)
                 {
                     var tmp2 = Yerlestirme.Detail(tbl.KatID, tbl.MalKodu, tbl.Birim);
@@ -199,10 +204,12 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                         return Json(new Result(false, "Bu makara no kullanılmaktadır"), JsonRequestBehavior.AllowGet);
                     }
                 }
+                #endregion
             }
-            //çıkış işlemleri
             else
             {
+                #region Çıkış İşlemleri
+
                 var tmp2 = Yerlestirme.Detail(tbl.KatID, tbl.MalKodu, "", tbl.MakaraNo);
                 if (tmp2 == null)
                     return Json(new Result(false, "Seçili yerde bu ürün bulunamadı."), JsonRequestBehavior.AllowGet);
@@ -212,14 +219,20 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                 sonuc = Yerlestirme.Update(tmp2, vUser.Id, "Stok Elle Düzeltme", tbl.Miktar, true);
                 if (sonuc.Status == false)
                     return Json(new Result(false, sonuc.Message), JsonRequestBehavior.AllowGet);
+
+                #endregion
             }
 
             // add to mysql
             if (db.Settings.FirstOrDefault().KabloSiparisMySql == true)
             {
-                var sql = string.Format("SELECT FINSAT6{0}.FINSAT6{0}.STK.MalAdi4 as Marka, FINSAT6{0}.FINSAT6{0}.STK.Nesne2 as Cins, FINSAT6{0}.FINSAT6{0}.STK.Kod15 as Kesit " +
-                                    "FROM FINSAT6{0}.FINSAT6{0}.STK " +
-                                    "WHERE (FINSAT6{0}.FINSAT6{0}.STK.Kod1 = 'KKABLO') AND (FINSAT6{0}.FINSAT6{0}.STK.MalKodu = '{1}')", vUser.SirketKodu, tbl.MalKodu);
+                #region Mysql İşlemleri
+
+                var sql = string.Format(@"
+                SELECT FINSAT6{0}.FINSAT6{0}.STK.MalAdi4 as Marka, FINSAT6{0}.FINSAT6{0}.STK.Nesne2 as Cins, FINSAT6{0}.FINSAT6{0}.STK.Kod15 as Kesit
+                FROM FINSAT6{0}.FINSAT6{0}.STK
+                WHERE (FINSAT6{0}.FINSAT6{0}.STK.Kod1 = 'KKABLO') AND (FINSAT6{0}.FINSAT6{0}.STK.MalKodu = '{1}')", vUser.SirketKodu, tbl.MalKodu);
+
                 var stks = db.Database.SqlQuery<frmCableStk>(sql).FirstOrDefault();
                 if (stks != null)
                 {
@@ -264,7 +277,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                             else
                             {
                                 // makarayı bul
-                                var kablo = dbx.stoks.Where(m => m.depo == depo && m.marka == stks.Marka && m.cins == stks.Cins && m.kesit == stks.Kesit && m.makarano == tbl.MakaraNo).FirstOrDefault();
+                                var kablo = dbx.stoks.Where(m => m.depo == depo && m.makarano == tbl.MakaraNo).FirstOrDefault();
                                 if (kablo != null)
                                 {
                                     // kabloya açık yap
@@ -290,7 +303,9 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                         }
                     }
                 }
+                #endregion
             }
+
             // return
             return Json(new Result(true), JsonRequestBehavior.AllowGet);
         }
