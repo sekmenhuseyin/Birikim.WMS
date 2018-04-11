@@ -40,5 +40,6 @@ namespace Wms12m.Entity.Models
         public bool SiparisOnayParametre { get; set; }
         public string GitServerAddress { get; set; }
         public bool Aktif { get; set; }
+        public bool BolgeKoduParametre { get; set; }
     }
 }

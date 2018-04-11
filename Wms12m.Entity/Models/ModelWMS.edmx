@@ -98,6 +98,7 @@
           <Property Name="KabloSiparisMySql" Type="bit" Nullable="false" />
           <Property Name="SevkiyatVarmi" Type="bit" Nullable="false" />
           <Property Name="SiparisOnayParametre" Type="bit" Nullable="false" />
+          <Property Name="BolgeKoduParametre" Type="bit" Nullable="false" />
           <Property Name="GitServerAddress" Type="varchar" MaxLength="250" />
           <Property Name="Aktif" Type="bit" Nullable="false" />
         </EntityType>
@@ -186,6 +187,7 @@
           <Property Name="DegisTarih" Type="smalldatetime" Nullable="false" />
           <Property Name="Onaylayan" Type="varchar" MaxLength="5" />
           <Property Name="KontrolEden" Type="varchar" MaxLength="5" />
+          <Property Name="TahminiBitis" Type="smalldatetime" />
         </EntityType>
         <EntityType Name="Musteri">
           <Key>
@@ -809,18 +811,6 @@
               <PropertyRef Name="ID" />
             </Principal>
             <Dependent Role="GorevlerCalisma">
-              <PropertyRef Name="GorevID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_GorevlerToDoList_Gorevler">
-          <End Role="Gorevler" Type="Self.Gorevler" Multiplicity="1" />
-          <End Role="GorevlerToDoList" Type="Self.GorevlerToDoList" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Gorevler">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="GorevlerToDoList">
               <PropertyRef Name="GorevID" />
             </Dependent>
           </ReferentialConstraint>
@@ -1588,10 +1578,6 @@
           <AssociationSet Name="FK_GorevlerCalisma_Gorevler" Association="Self.FK_GorevlerCalisma_Gorevler">
             <End Role="Gorevler" EntitySet="Gorevler" />
             <End Role="GorevlerCalisma" EntitySet="GorevlerCalisma" />
-          </AssociationSet>
-          <AssociationSet Name="FK_GorevlerToDoList_Gorevler" Association="Self.FK_GorevlerToDoList_Gorevler">
-            <End Role="Gorevler" EntitySet="Gorevler" />
-            <End Role="GorevlerToDoList" EntitySet="GorevlerToDoList" />
           </AssociationSet>
           <AssociationSet Name="FK_GorevListesi_IRS" Association="Self.FK_GorevListesi_IRS">
             <End Role="IRS" EntitySet="IRS" />
@@ -3129,6 +3115,7 @@
           <Property Name="Onaylayan" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
           <Property Name="KontrolEden" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Gorevler" Relationship="MModel.FK_GorevlerToDoList_Gorevler" FromRole="GorevlerToDoList" ToRole="Gorevler" />
+          <Property Name="TahminiBitis" Type="DateTime" Precision="0" />
         </EntityType>
         <EntityType Name="Musteri">
           <Key>
@@ -3596,6 +3583,7 @@
           <Property Name="SiparisOnayParametre" Type="Boolean" Nullable="false" />
           <Property Name="GitServerAddress" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
           <Property Name="Aktif" Type="Boolean" Nullable="false" />
+          <Property Name="BolgeKoduParametre" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="ProjeFormDosya">
           <Key>
@@ -4243,6 +4231,7 @@
           <EntitySetMapping Name="GorevlerToDoLists">
             <EntityTypeMapping TypeName="MModel.GorevlerToDoList">
               <MappingFragment StoreEntitySet="GorevlerToDoList">
+                <ScalarProperty Name="TahminiBitis" ColumnName="TahminiBitis" />
                 <ScalarProperty Name="KontrolEden" ColumnName="KontrolEden" />
                 <ScalarProperty Name="Onaylayan" ColumnName="Onaylayan" />
                 <ScalarProperty Name="DegisTarih" ColumnName="DegisTarih" />
@@ -4488,6 +4477,7 @@
           <EntitySetMapping Name="Settings">
             <EntityTypeMapping TypeName="MModel.Setting">
               <MappingFragment StoreEntitySet="Settings">
+                <ScalarProperty Name="BolgeKoduParametre" ColumnName="BolgeKoduParametre" />
                 <ScalarProperty Name="Aktif" ColumnName="Aktif" />
                 <ScalarProperty Name="GitServerAddress" ColumnName="GitServerAddress" />
                 <ScalarProperty Name="SiparisOnayParametre" ColumnName="SiparisOnayParametre" />

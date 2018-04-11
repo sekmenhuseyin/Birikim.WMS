@@ -23,6 +23,7 @@
                             @{if(ViewBag.vUser.Id == 1){<li><a href="javascript:" onclick="GetPass(@item.ID)"><i class="fa fa-question-circle" aria-hidden="true"></i> Şifreyi Göster</a></li>}}
                             <li><a href="#modalEditPage" data-toggle="modal" onclick="editInModal('/Users/Pass/@item.ID')"><i class="fa fa-refresh" aria-hidden="true"></i> Şifre Değiştir </a></li>
                             @{if(ViewBag.settings.SiparisOnayParametre == true){<li><a href="#modalEditPage" data-toggle="modal" onclick="editInModal('/Users/YetkiDuzenle/@item.ID')"><i class="fa fa-terminal" aria-hidden="true"></i> Sipariş Onay Parametreleri </a></li>}}
+                            @{if(ViewBag.settings.BolgeKoduParametre == true){<li><a href="#modalEditPage" data-toggle="modal" onclick="editInModal('/Users/YetkiDuzenle/@item.ID')"><i class="fa fa-terminal" aria-hidden="true"></i> Sipariş Onay Parametreleri </a></li>}}
                             <li><a href="#modalEditPage" data-toggle="modal" onclick="editInModal('/Users/Edit/@item.ID')"><i class="icon-pencil"></i> Düzenle </a></li>
                             @{if(ViewBag.vUser.Id == 1){<li><a href="javascript:" onclick="Delete('@item.ID','/Users/List','liste','')"><i class="fa fa-trash" aria-hidden="true"></i> Sil</a></li>}}
                         </ul>

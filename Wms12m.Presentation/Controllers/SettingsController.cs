@@ -50,6 +50,7 @@ namespace Wms12m.Presentation.Controllers
                 set.SevkiyatVarmi = tbl.SevkiyatVarmi;
                 set.GitServerAddress = tbl.GitServerAddress;
                 set.SiparisOnayParametre = tbl.SiparisOnayParametre;
+                set.BolgeKoduParametre = tbl.BolgeKoduParametre;
                 set.CrmOzet = tbl.CrmOzet;
                 set.Aktif = tbl.Aktif;
                 db.SaveChanges();

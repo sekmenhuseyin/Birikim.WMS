@@ -9,6 +9,9 @@
 
 namespace Wms12m.Entity.Models
 {
+    using System;
+    using System.Collections.Generic;
+    
     public partial class GorevlerToDoList
     {
         public int ID { get; set; }
@@ -23,8 +26,8 @@ namespace Wms12m.Entity.Models
         public System.DateTime DegisTarih { get; set; }
         public string Onaylayan { get; set; }
         public string KontrolEden { get; set; }
-        public System.DateTime TahminiBitis { get; set; }
-
+        public Nullable<System.DateTime> TahminiBitis { get; set; }
+    
         public virtual Gorevler Gorevler { get; set; }
     }
 }
