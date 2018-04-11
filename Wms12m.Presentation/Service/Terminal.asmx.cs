@@ -813,6 +813,7 @@ namespace Wms12m.Presentation
                         "GROUP BY wms.IRS.SirketKod, wms.GorevIRS.IrsaliyeID, wms.IRS.Tarih, wms.IRS.HesapKodu, wms.IRS.TeslimCHK, wms.IRS.ValorGun, wms.IRS.EvrakNo, wms.IRS.TeslimCHK", mGorev.ID);
             var list = db.Database.SqlQuery<STIMax>(sql).ToList();
             int tarih = DateTime.Today.ToOADateInt(), saat = DateTime.Now.ToOaTime();
+            var hatali = 0;
             foreach (var item in list)
             {
                 // muhasebe yılı bulunur
@@ -843,8 +844,14 @@ namespace Wms12m.Presentation
                     LogActions(KullID.ToString(), "Terminal", "Service", "Terminal", "SiparisTopla_GoreviTamamla", ComboItems.alEkle, x.GorevID.Value, "Fat: " + fatNo + " Alıcı: " + alıcı);
                 }
                 else
-                    return new Result(false, sonuc.Message);
+                {
+                    hatali++;
+                    if (sonuc.Message.StartsWith("Bu sipariş kapanmış") == false)
+                        return new Result(false, sonuc.Message);
+                }
             }
+            if (hatali > 0 && hatali != list.Count)
+                return new Result(false, "Sipariş kapanmış");
             // yerleştirmeden düşülür
             // gorev yer miktar update
             db.Database.ExecuteSqlCommand("UPDATE wms.GorevYer SET Miktar = YerlestirmeMiktari WHERE GorevID = " + GorevID);
