@@ -207,7 +207,7 @@ namespace Wms12m
                     finsat.EvrakNo = evrkno[0].EvrakNo;
 
                     finsat.KaynakIrsEvrakNo = evrkno[1].EvrakNo;
-                    finsat.KaynakIrsTarih = evrkno[1].EvrakNo != "" ? DateTime.Today.ToOADate().ToInt32() : 0;
+                    finsat.KaynakIrsTarih = evrkno[1].EvrakNo.Trim() != "" ? DateTime.Today.ToOADate().ToInt32() : 0;
 
                     finsat.Tarih = finsat.KaynakSiparisTarih;
                     finsat.CHKMhsKod = finsat.MhsKod;
