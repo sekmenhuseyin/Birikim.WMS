@@ -29,14 +29,28 @@
 				         INNER JOIN FINSAT6{0}.FINSAT6{0}.STK AS STK WITH (NOLOCK) ON STI.MalKodu = STK.MalKodu 
                          LEFT JOIN FINSAT6{0}.FINSAT6{0}.CHK AS CHK WITH (NOLOCK) ON CHK.Hesapkodu = STI.CHK
                          WHERE CHK.KartTip IN (0,4) 
-                         AND (CHK.HesapKodu BETWEEN '1' AND '8') 
+                          AND (CHK.HesapKodu BETWEEN '1' AND '8') 
                          AND STI.KynkEvrakTip IN (1,2,163) 
 				         AND (CHK.GrupKod='{1}' OR '{1}'='0') 
                          AND YEAR(DATEADD(DD,STI.Tarih,'1899-12-30'))={2}
                          AND (CHK.TipKod = '{3}' OR '{3}'='0')
 				         AND ISNULL(STK.MalAdi4,'')<>''
                          GROUP BY STK.MalAdi4,CHK.TipKod,MONTH(DATEADD(DD,STI.Tarih,'1899-12-30'))
+
+						 SELECT B.MalAdi4, 
+						 SUM(b.Ocak) as Ocak,
+						  SUM(b.Subat) as Subat,
+						   SUM(b.Mart) as Mart,
+						    SUM(b.Nisan) as Nisan,
+							 SUM(b.Mayis) as Mayis,
+							  SUM(b.Temmuz) as Temmuz,
+							   SUM(b.Agustos) as Agustos,
+							    SUM(b.Eylul) as Eylul,
+								 SUM(b.Ekim) as Ekim,
+								  SUM(b.Kasim) as Kasim,
+								   SUM(b.Aralik) as Aralik
 						 
+						  FROM(
                          SELECT US.MalAdi4,
                          ISNULL(MAX(CASE WHEN US.Ay = 1 THEN US.NetCiro ELSE 0 END),0) AS Ocak,
                          ISNULL(MAX(CASE WHEN US.Ay = 2 THEN US.NetCiro ELSE 0 END),0) AS Subat, 
@@ -56,7 +70,11 @@
                          SELECT IC1.MalAdi4,SUM(IC1.NetCiro) AS SumNetCiro FROM #UrunBolgeSatisAnalizi AS IC1 WITH (NOLOCK)
                          GROUP BY IC1.MalAdi4
                          ) AS US2 ON US2.MalAdi4=US.MalAdi4 
-                         GROUP BY US.MalAdi4,US.Kod9 ORDER BY US.Kod9
-                         IF(OBJECT_ID('tempdb..#UrunBolgeSatisAnalizi') IS NOT NULL) BEGIN DROP TABLE #UrunBolgeSatisAnalizi END";
+                         GROUP BY US.MalAdi4,US.Kod9 
+						 ) as B
+						 Group BY B.MalAdi4
+						 
+						 --ORDER BY B.Kod9
+                         IF(OBJECT_ID('tempdb..#UrunBolgeSatisAnalizi') IS NOT NULL) BEGIN DROP TABLE #UrunBolgeSatisAnalizi END   ";
     }
 }
