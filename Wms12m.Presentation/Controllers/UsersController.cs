@@ -483,19 +483,12 @@ namespace Wms12m.Presentation.Controllers
             var yetki = new SipOnayYetkiler();
             if (tbl != null)
             {
-                yetki.GostCHKKodAlani = tbl.GostCHKKodAlani;
-                yetki.GostKod3OrtBakiye = tbl.GostKod3OrtBakiye;
-                yetki.GostRiskDeger = tbl.GostRiskDeger;
-                yetki.GostSTKDeger = tbl.GostSTKDeger;
+
                 yetki.AdSoyad = tbl.User.AdSoyad;
             }
             else
             {
                 var grv = db.Users.FirstOrDefault(m => m.ID == ID);
-                yetki.GostCHKKodAlani = "";
-                yetki.GostKod3OrtBakiye = "";
-                yetki.GostRiskDeger = "";
-                yetki.GostSTKDeger = "";
                 if (grv != null) yetki.AdSoyad = grv.AdSoyad;
             }
 
@@ -512,6 +505,14 @@ namespace Wms12m.Presentation.Controllers
             var json = new JavaScriptSerializer().Serialize(kod);
             return json;
         }
+
+        public string BolgeKodList()
+        {
+            var BolgeKod = db.Database.SqlQuery<BolgeKodSelect>(string.Format(BolgeKodSelect.Sorgu, vUser.SirketKodu)).ToList();
+            var json = new JavaScriptSerializer().Serialize(BolgeKod);
+            return json;
+        }
+
 
         /// <summary>
         /// sipriş yetki update
@@ -545,6 +546,31 @@ namespace Wms12m.Presentation.Controllers
             {
                 // ignored
             }
+
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult BolgeKodUpdate(string Tipler, int ID, string Kod)
+        {
+            if (CheckPerm(Perms.Kullanıcılar, PermTypes.Writing) == false || ID == 1) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
+            var result = new Result(false, "Hata Oluştu. ");
+            if (Tipler != null)
+            {
+                try
+                {
+                    db.Database.ExecuteSqlCommand(string.Format("UPDATE BIRIKIM.usr.Users SET Tema = '{0}' WHERE AdSoyad = '{1}'", Tipler, Kod));
+                    db.SaveChanges();
+                    result.Status = true;
+                    result.Id = ID;
+                    result.Message = "İşlem Başarılı ";
+                }
+                catch (Exception)
+                {
+                    // ignored
+
+                }
+            }
+            else result.Message = "Bölge Kodu Seçiniz. ";
+
 
             return Json(result, JsonRequestBehavior.AllowGet);
         }

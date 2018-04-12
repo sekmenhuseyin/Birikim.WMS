@@ -11,33 +11,9 @@
             </div>
             <div class="portlet-body form">
                 <div class="form-body">
+                   
                     <div class="row">
-                        <div class="col-md-3 m-l-10" style="line-height:36px;color: #5bc8d2;font-weight:bold;">Hesap Kodu Aralığı</div>
-                        <div class="col-md-4 m-l-20 p-r-10 bas-chk"></div>
-                        <div class="col-md-4 p-l-10 bit-chk"></div>
-                    </div>
-                    <div class="row m-t-10">
-                        <div class="col-md-3 m-l-10" style="line-height:36px;color: #5bc8d2;font-weight:bold;">Risk Bakiyesi Aralığı 1</div>
-                        <div class="col-md-4 m-l-20 p-r-20 bas-kod3"></div>
-                        <div class="col-md-4 p-l-10 bit-kod3"></div>
-                    </div>
-                    <div class="row m-t-10">
-                        <div class="col-md-3 m-l-10" style="line-height:36px;color: #5bc8d2;font-weight:bold;">Risk% Aralığı 1</div>
-                        <div class="col-md-4 m-l-20 p-r-10 bas-risk"></div>
-                        <div class="col-md-4 p-l-10 bit-risk"></div>
-                    </div>
-                    <div class="row m-t-10">
-                        <div class="col-md-3 m-l-10" style="line-height:36px;color: #5bc8d2;font-weight:bold;">Risk Bakiyesi Aralığı 2</div>
-                        <div class="col-md-4 m-l-20 p-r-20 bas-kod32"></div>
-                        <div class="col-md-4 p-l-10 bit-kod32"></div>
-                    </div>
-                    <div class="row m-t-10">
-                        <div class="col-md-3 m-l-10" style="line-height:36px;color: #5bc8d2;font-weight:bold;">Risk% Aralığı 2</div>
-                        <div class="col-md-4 m-l-20 p-r-10 bas-risk2"></div>
-                        <div class="col-md-4 p-l-10 bit-risk2"></div>
-                    </div>
-                    <div class="row m-t-10">
-                        <div class="col-md-3 m-l-10" style="line-height:36px;color: #5bc8d2;font-weight:bold;">Tip Kodları</div>
+                        <div class="col-md-3 m-l-10" style="line-height:36px;color: #5bc8d2;font-weight:bold;">Bölge Kodları</div>
                         <div class="col-md-8 m-l-20 p-r-10 bas-tipkod"></div>
                     </div>
                     <div class="row m-t-10">
@@ -55,270 +31,38 @@
     $(".baslik").text(model.AdSoyad);
     $(".yetki-btn").css("display", "none");
     var tiplist = new Array();
-    if (model.GostSTKDeger != null && model.GostSTKDeger != "") {
-        tiplist = model.GostSTKDeger.split(";");
-        tiplist.pop();
-    }
-    var chklist, kod3list, risklist, secilitipkod, secilisirket, secilichk = "", secilikod3 = "", secilirisk = "", secilikod32 = "", secilirisk2 = "";
-    if (model.GostCHKKodAlani == null || model.GostCHKKodAlani == "") { chklist = ["", "ZZZZZZZZZZZZZZ"];}
-    else { chklist = model.GostCHKKodAlani.split(";"); }
-    if (model.GostKod3OrtBakiye == null || model.GostKod3OrtBakiye == "") { kod3list = [0, 999999999999, 0, 0];}
-    else {
-        kod3list = model.GostKod3OrtBakiye.split(";");
+    var Kod = @Html.Raw(Json.Encode(Model.AdSoyad));
+    var  secilitipkod;
 
-        if (kod3list[0] == "" || kod3list[0] == null) kod3list[0] = 0;
-        if (kod3list[1] == 0 || kod3list[1] == null) kod3list[1] = 999999999999;
-        if (kod3list.length > 2) {
-            if (kod3list[2] == "" || kod3list[2] == null) kod3list[2] = 0;
-            if (kod3list[3] == 0 || kod3list[3] == null) kod3list[3] = 0;
-        }
-        else {
-            kod3list.push(0);
-            kod3list.push(0);
-        }
-    }
-    if (model.GostRiskDeger == null || model.GostRiskDeger == "") { risklist = [0, 999999999999, 0, 0];}
-    else {
-        risklist = model.GostRiskDeger.split(";");
-        if (risklist[0] == "" || risklist[0] == null) risklist[0] = 0;
-        if (risklist[1] == 0 || risklist[1] == null) risklist[1] = 999999999999;
 
-        if (risklist.length > 2) {
-            if (risklist[2] == "" || risklist[2] == null) risklist[2] = 0;
-            if (risklist[3] == 0 || risklist[3] == null) risklist[3] = 0;
-        }
-        else {
-            risklist.push(0);
-            risklist.push(0);
-        }
-    }
+
     secilitipkod = model.GostSTKDeger;
-    secilichk = model.GostCHKKodAlani;
-    secilikod3 = kod3list[0] + ";" + kod3list[1];
-    secilirisk = risklist[0] + ";" + risklist[1];
-    secilikod32 = ";" + kod3list[2] + ";" + kod3list[3];
-    secilirisk2 = ";" + risklist[2] + ";" + risklist[3];
+
     DevExpress.ui.dxOverlay.baseZIndex(20000);
-    $(".bas-chk").dxTextBox({
-        value: chklist[0],
-        onValueChanged: function (e) {
-            secilichk = "";
-            if (e.value == null || "") {
-                secilichk += "" + ";"
-            }
-            else {
-                secilichk += e.value + ";"
-            }
 
-            if ($(".bit-chk").dxTextBox("instance").option("value") != null && $(".bit-chk").dxTextBox("instance").option("value") != "") {
-                secilichk += $(".bit-chk").dxTextBox("instance").option("value");
-            }
-            else {
-                secilichk += "ZZZZZZZZZZZZZZ";
-            }
-        }
-    });
-    $(".bit-chk").dxTextBox({
-        value: chklist[1],
-        onValueChanged: function (e) {
-            secilichk = "";
-            if ($(".bas-chk").dxTextBox("instance").option("value") == null || $(".bas-chk").dxTextBox("instance").option("value") == "") {
-                secilichk += "" + ";"
-            }
-            else {
-                secilichk += $(".bas-chk").dxTextBox("instance").option("value") + ";"
-            }
 
-            if (e.value != null && e.value != "") {
-                secilichk += e.value;
-            }
-            else {
-                secilichk += "ZZZZZZZZZZZZZZ";
-            }
-        }
-    });
     tipKod = new Array();
-    $(".bas-kod3").dxNumberBox({
-        value: kod3list[0],
-        min: 0,
-        onValueChanged: function (e) {
-            secilikod3 = "";
-            if (e.value == 0 || e.value == null) {
-                secilikod3 +=  0 +";"
-            }
-            else {
-                secilikod3 += e.value + ";"
-            }
 
-            if ($(".bit-kod3").dxNumberBox("instance").option("value") != 0 && $(".bit-kod3").dxNumberBox("instance").option("value") != null)
-            {
-                secilikod3 += $(".bit-kod3").dxNumberBox("instance").option("value");
-            }
-            else {
-                secilikod3 += "999999999999";
-            }
-        }
-
-    });
-    $(".bit-kod3").dxNumberBox({
-        value: kod3list[1],
-        min: 0,
-        onValueChanged: function (e) {
-            secilikod3 = "";
-            if ($(".bas-kod3").dxNumberBox("instance").option("value") == 0 || $(".bas-kod3").dxNumberBox("instance").option("value") == null) {
-                secilikod3 += 0 + ";"
-            }
-            else {
-                secilikod3 += $(".bas-kod3").dxNumberBox("instance").option("value") + ";"
-            }
-
-            if (e.value != 0 && e.value != null) {
-                secilikod3 += e.value;
-            }
-            else {
-                secilikod3 += "999999999999";
-            }
-        }
-    });
-    $(".bas-kod32").dxNumberBox({
-        value: kod3list[2],
-        min: 0,
-        onValueChanged: function (e) {
-            secilikod32 = "";
-            if (e.value == 0 || e.value == null) {
-                secilikod32 += ";" + 0 + ";"
-            }
-            else {
-                secilikod32 += ";" + e.value + ";"
-            }
-
-            if ($(".bit-kod32").dxNumberBox("instance").option("value") != 0 && $(".bit-kod32").dxNumberBox("instance").option("value") != null) {
-                secilikod32 += $(".bit-kod32").dxNumberBox("instance").option("value");
-            }
-            else {
-                secilikod32 += "0";
-            }
-        }
-
-    });
-    $(".bit-kod32").dxNumberBox({
-        value: kod3list[3],
-        min: 0,
-        onValueChanged: function (e) {
-            secilikod32 = "";
-            if ($(".bas-kod32").dxNumberBox("instance").option("value") == 0 || $(".bas-kod32").dxNumberBox("instance").option("value") == null) {
-                secilikod32 += ";" + 0 + ";"
-            }
-            else {
-                secilikod32 += ";" + $(".bas-kod32").dxNumberBox("instance").option("value") + ";"
-            }
-
-            if (e.value != 0 && e.value != null) {
-                secilikod32 += e.value;
-            }
-            else {
-                secilikod32 += "0";
-            }
-        }
-    });
-    $(".bas-risk").dxNumberBox({
-        value: risklist[0],
-        min: 0,
-        onValueChanged: function (e) {
-            secilirisk = "";
-            if (e.value == 0 || e.value ==null) {
-                secilirisk += 0 + ";"
-            }
-            else {
-                secilirisk += e.value + ";"
-            }
-            if ($(".bit-risk").dxNumberBox("instance").option("value") != 0 && $(".bit-risk").dxNumberBox("instance").option("value") != null) {
-                secilirisk += $(".bit-risk").dxNumberBox("instance").option("value");
-            }
-            else {
-                secilirisk += "999999999999";
-            }
-        }
-    });
-    $(".bit-risk").dxNumberBox({
-        value: risklist[1],
-        min: 0,
-        onValueChanged: function (e) {
-            secilirisk = "";
-            if ($(".bas-risk").dxNumberBox("instance").option("value") == 0 || $(".bas-risk").dxNumberBox("instance").option("value") == null) {
-                secilirisk += 0 + ";"
-            }
-            else {
-                secilirisk += $(".bas-risk").dxNumberBox("instance").option("value") + ";"
-            }
-
-            if (e.value != 0 && e.value != null) {
-                secilirisk += e.value;
-            }
-            else {
-                secilirisk += "999999999999";
-            }
-        }
-    });
-    $(".bas-risk2").dxNumberBox({
-        value: risklist[2],
-        min: 0,
-        onValueChanged: function (e) {
-            secilirisk2 = "";
-            if (e.value == 0 || e.value == null) {
-                secilirisk2 += ";" + 0 + ";"
-            }
-            else {
-                secilirisk2 += ";" + e.value + ";"
-            }
-
-            if ($(".bit-risk2").dxNumberBox("instance").option("value") != 0 && $(".bit-risk2").dxNumberBox("instance").option("value") != null) {
-                secilirisk2 += $(".bit-risk2").dxNumberBox("instance").option("value");
-            }
-            else {
-                secilirisk2 += "0";
-            }
-        }
-    });
-    $(".bit-risk2").dxNumberBox({
-        value: risklist[3],
-        min: 0,
-        onValueChanged: function (e) {
-            secilirisk2 = "";
-            if ($(".bas-risk2").dxNumberBox("instance").option("value") == 0 || $(".bas-risk2").dxNumberBox("instance").option("value") == null) {
-                secilirisk2 += ";" + 0 + ";"
-            }
-            else {
-                secilirisk2 += ";" + $(".bas-risk2").dxNumberBox("instance").option("value") + ";"
-            }
-
-            if (e.value != 0 && e.value != null) {
-                secilirisk2 += e.value;
-            }
-            else {
-                secilirisk2 += "0";
-            }
-        }
-    });
     $.ajax({
-        url: window.location.origin + "/Users/TipKodSelect",
+        url: window.location.origin + "/Users/BolgeKodList",
         data: {},
         type: "post",
         success: function (data)
         {
             var result = JSON.parse(data);
             jQuery.each(result, function (i, val) {
-                if (val.Tip == 2) {
+
                     var inputAttr = {};
-                    inputAttr["Kod"] = val.Kod;
+                    inputAttr["BolgeKod"] = val.BolgeKod;
+                    inputAttr["Aciklama"] = val.Aciklama;
                     tipKod.push(inputAttr);
-                }
+
             });
             $(".bas-tipkod").dxTagBox({
                 dataSource: tipKod,
                 placeholder: 'Seçiniz...',
-                displayExpr: 'Kod',
-                valueExpr: 'Kod',
+                displayExpr: 'Aciklama',
+                valueExpr: 'BolgeKod',
                 value: tiplist,
                 showSelectionControls: true,
                 applyValueMode: "useButtons",
@@ -336,11 +80,10 @@
         }
     });
     $('.save-buton').click(function () {
-        secilikod3 += secilikod32;
-        secilirisk += secilirisk2;
+
         $.ajax({
-            url: window.location.origin + "/Users/ParametreUpdate",
-            data: { CHKAraligi: secilichk, Tipler: secilitipkod, Kod3: secilikod3, Risk: secilirisk, ID :ID},
+            url: window.location.origin + "/Users/BolgeKodUpdate",
+            data: { Tipler: secilitipkod, ID: ID, Kod: Kod },
             type: "post",
             success: function (data) {
                 if (data.Status == true) {

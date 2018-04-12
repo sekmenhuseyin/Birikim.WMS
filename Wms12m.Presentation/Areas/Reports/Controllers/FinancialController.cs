@@ -28,7 +28,10 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
         public ActionResult CariEkstre()
         {
             if (CheckPerm(Perms.Raporlar, PermTypes.Reading) == false) return Redirect("/");
-            var CHK = db.Database.SqlQuery<RaporCHKSelect>(string.Format("[FINSAT6{0}].[wms].[CHKSelectKartTip]", vUser.SirketKodu)).ToList();
+            string sql = string.Format("[FINSAT6{0}].[wms].[CHKSelectKartTip]", vUser.SirketKodu);
+            if (ViewBag.settings.BolgeKoduParametre == true)
+                sql += string.Format(" @UserName='{0}'", vUser.UserName);
+            var CHK = db.Database.SqlQuery<RaporCHKSelect>(sql).ToList();
             return View(CHK);
         }
 
@@ -49,7 +52,10 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
 
         public PartialViewResult VadesiGelmemisCekList(int bastarih, int bittarih)
         {
-            var VGC = db.Database.SqlQuery<RaporVadesiGelmemisCekler>(string.Format("[FINSAT6{0}].[wms].[VadesiGelmemisCekler] @BasTarih = {1}, @BitTarih = {2}", vUser.SirketKodu, bastarih, bittarih)).ToList();
+            string sql = string.Format("[FINSAT6{0}].[wms].[VadesiGelmemisCekler] @BasTarih = {1}, @BitTarih = {2}", vUser.SirketKodu, bastarih, bittarih);
+            if (ViewBag.settings.BolgeKoduParametre == true)
+                sql += string.Format(" @UserName='{0}'", vUser.UserName);
+            var VGC = db.Database.SqlQuery<RaporVadesiGelmemisCekler>(sql).ToList();
             return PartialView("VadesiGelmemisCekList", VGC);
         }
 
@@ -65,7 +71,11 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
 
         public PartialViewResult CekList(int pozisyon, int ay, int yil)
         {
-            var CLR = db.Database.SqlQuery<RaporCekListesi>(string.Format("[FINSAT6{0}].[wms].[CekListesiRaporu] @Ay = {1}, @IslemTip = {2}, @Yil = {3}", vUser.SirketKodu, ay, pozisyon, yil)).ToList();
+
+            string sql = string.Format("[FINSAT6{0}].[wms].[CekListesiRaporu] @Ay = {1}, @IslemTip = {2}, @Yil = {3}", vUser.SirketKodu, ay, pozisyon, yil);
+            if (ViewBag.settings.BolgeKoduParametre == true)
+                sql += string.Format(" @UserName='{0}'", vUser.UserName);
+            var CLR = db.Database.SqlQuery<RaporCekListesi>(sql).ToList();
             return PartialView("CekList", CLR);
         }
 

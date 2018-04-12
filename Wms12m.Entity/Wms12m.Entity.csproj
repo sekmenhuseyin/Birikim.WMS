@@ -415,6 +415,7 @@
     <Compile Include="VM_WMS\Rapor\BekleyenMalz.cs" />
     <Compile Include="VM_WMS\Rapor\BekleyenMalzDepo.cs" />
     <Compile Include="VM_WMS\Rapor\BekleyenSips.cs" />
+    <Compile Include="VM_WMS\Rapor\BolgeKodSelect.cs" />
     <Compile Include="VM_WMS\Rapor\CTargetRapor.cs" />
     <Compile Include="VM_WMS\Rapor\CTargetRaporTemsilci.cs" />
     <Compile Include="VM_WMS\Rapor\GunlukCiro.cs" />
