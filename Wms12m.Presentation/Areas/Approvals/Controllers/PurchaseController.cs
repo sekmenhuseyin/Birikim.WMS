@@ -43,11 +43,11 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             if (CheckPerm(Perms.SatinalmaOnaylama, PermTypes.Reading) == false) return Redirect("/");
 
             ViewBag.OnayTip = MyGlobalVariables.OnayTip.SatSipGMYMaliOnay;
-            ViewBag.baslik = "Satınalma Sipariş Talebi GMY " + vUser.UserName == "TUNCE" ? "Üretim" : "Mali" + " Onay";
+            ViewBag.baslik = "Satınalma Sipariş Talebi GMY " + (vUser.UserName.ToUpper() == "TUNCE" ? "Üretim" : "Mali") + " Onay";
             MyGlobalVariables.Depo = "93 DP";
             MyGlobalVariables.DovizDurum = false;
 
-            MyGlobalVariables.SipTalepList = db.Database.SqlQuery<SatTalep>(string.Format(@"[FINSAT6{0}].[wms].[SatinAlmaTalepGMYMaliOnayList] '{1}'", vUser.SirketKodu, vUser.UserName)).ToList();
+            MyGlobalVariables.SipTalepList = db.Database.SqlQuery<SatTalep>(string.Format(@"[FINSAT6{0}].[wms].[SatinAlmaTalepGMYMaliOnayList] '{1}'", vUser.SirketKodu, vUser.UserName.ToUpper())).ToList();
 
             return View("GM_Onay", MyGlobalVariables.SipTalepList);
         }
@@ -215,8 +215,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                     }
                 }
 
-                limit = db.Database.SqlQuery<decimal>(string.Format(@"
-                SELECT SiparisGMYOnayLimit FROM Kaynak.sta.GenelAyarVeParams(NOLOCK) WHERE Tip = 2")).FirstOrDefault();
+                limit = db.Database.SqlQuery<decimal>(@"SELECT SiparisGMYOnayLimit FROM Kaynak.sta.GenelAyarVeParams(NOLOCK) WHERE Tip = 2").FirstOrDefault();
 
                 if (limit.IsNull() || limit == 0)
                 {
@@ -229,11 +228,10 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             var muhsebesirketkodu = db.GetSirketMuhasebeKod(vUser.SirketKodu, fn.ToOADate()).FirstOrDefault();
             using (KKP kkp = new KKP(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, vUser.SirketKodu, muhsebesirketkodu))
             {
-                bool SiparisOnayMailGonderim = false;
+                bool siparisOnayMailGonderim = false;
                 int sipTarih = 0;
                 string sipEvrakNo = MyGlobalVariables.SipEvrak.EvrakNo;
                 string hesapKodu = MyGlobalVariables.SipEvrak.HesapKodu;
-                int teklifNo = Convert.ToInt32(MyGlobalVariables.SipEvrak.Satirlar[0].Kod4);
 
                 if (OnayTip == MyGlobalVariables.OnayTip.GMOnay.ToString())
                 {
@@ -243,16 +241,15 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                         foreach (var item in MyGlobalVariables.TalepSource)
                         {
                             var sql = string.Format(@"UPDATE Kaynak.sta.Talep
-	                    SET GMOnaylayan=@Degistiren, GMOnayTarih=@DegisTarih, Durum=15, SipEvrakNo=@SipEvrakNo, SirketKodu='{0}',
-                        Degistiren=@Degistiren, DegisTarih=@DegisTarih, DegisSirKodu='{0}'
-	                    WHERE ID=@ID AND Durum=11 AND SipTalepNo IS NOT NULL", vUser.SirketKodu);
+	                                                SET GMOnaylayan=@Degistiren, GMOnayTarih=@DegisTarih, Durum=15, SipEvrakNo=@SipEvrakNo, SirketKodu='{0}', Degistiren=@Degistiren, DegisTarih=@DegisTarih, DegisSirKodu='{0}'
+	                                                WHERE ID=@ID AND Durum=11 AND SipTalepNo IS NOT NULL", vUser.SirketKodu);
 
                             SqlParameter[] paramlist = new SqlParameter[4]
                             {
-                            new SqlParameter("ID", SqlDbType.Int){ Value = item.ID},
-                            new SqlParameter("Degistiren", SqlDbType.VarChar){ Value = vUser.UserName},
-                            new SqlParameter("DegisTarih", SqlDbType.SmallDateTime){ Value = DateTime.Now},
-                            new SqlParameter("SipEvrakNo", SqlDbType.VarChar){Value = evrakno}
+                                new SqlParameter("ID", SqlDbType.Int){ Value = item.ID},
+                                new SqlParameter("Degistiren", SqlDbType.VarChar){ Value = vUser.UserName},
+                                new SqlParameter("DegisTarih", SqlDbType.SmallDateTime){ Value = DateTime.Now},
+                                new SqlParameter("SipEvrakNo", SqlDbType.VarChar){Value = evrakno}
                             };
 
                             kkp.ExecuteCommandOnUpdate(sql, true, paramlist);
@@ -303,27 +300,23 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                     sipTarih = Convert.ToInt32(MyGlobalVariables.SipEvrak.Tarih.ToOADate());
                     sipEvrakNo = MyGlobalVariables.SipEvrak.EvrakNo;
                     hesapKodu = MyGlobalVariables.SipEvrak.HesapKodu;
-                    teklifNo = Convert.ToInt32(MyGlobalVariables.SipEvrak.Satirlar[0].Kod4);
 
-                    SiparisOnayMailGonderim = true;
+                    siparisOnayMailGonderim = true;
                 }
                 else if (OnayTip == MyGlobalVariables.OnayTip.SatSipGMYMaliOnay.ToString())
                 {
                     var ftdtoplam = MyGlobalVariables.GridFTD.Where(x => x.SatirTip == (short)12).FirstOrDefault();
 
-                    if (ftdtoplam.Iskonto > limit)
+                    if (ftdtoplam.Iskonto > limit && vUser.UserName.ToUpper() != "TUNCE")
                     {
                         try
                         {
                             foreach (var item in MyGlobalVariables.TalepSource)
                             {
-                                ///Durum 5: Teklif Bekliyor; 6: Teklif Değerlendirme; 7: Teklif Onaylandı; 8: Sipaiş Süreci, 11: Sipariş Ön Onay
+                                //Durum 5: Teklif Bekliyor; 6: Teklif Değerlendirme; 7: Teklif Onaylandı; 8: Sipaiş Süreci, 11: Sipariş Ön Onay
                                 var sql = string.Format(@"UPDATE Kaynak.sta.Talep
-                                SET GMYMaliOnaylayan=@Degistiren, GMYMaliOnayTarih=@DegisTarih, Durum=11,
-                                Degistiren=@Degistiren, DegisTarih=@DegisTarih, DegisSirKodu={0}
-                                WHERE ID=@ID AND Durum=8
-                                --Durum in (5,6,7)
-                                AND SipTalepNo IS NOT NULL", vUser.SirketKodu);
+                                                        SET GMYMaliOnaylayan=@Degistiren, GMYMaliOnayTarih=@DegisTarih, Durum=11, Degistiren=@Degistiren, DegisTarih=@DegisTarih, DegisSirKodu={0}
+                                                        WHERE ID=@ID AND Durum=8 AND SipTalepNo IS NOT NULL", vUser.SirketKodu);
 
                                 SqlParameter[] paramlist = new SqlParameter[3]
                                 {
@@ -336,8 +329,6 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                             }
 
                             kkp.UpdateChanges();
-
-                            //GMBilgilendirmeMail
                         }
                         catch (Exception ex)
                         {
@@ -462,7 +453,6 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                             sipTarih = Convert.ToInt32(MyGlobalVariables.SipEvrak.Tarih.ToOADate());
                             sipEvrakNo = MyGlobalVariables.TalepSource[0].TalepNo;
                             hesapKodu = MyGlobalVariables.SipEvrak.HesapKodu;
-                            teklifNo = Convert.ToInt32(MyGlobalVariables.SipEvrak.Satirlar[0].Kod4);
                         }
                         catch (Exception ex)
                         {
@@ -472,11 +462,11 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                             return Json(_Result, JsonRequestBehavior.AllowGet);
                         }
 
-                        SiparisOnayMailGonderim = true;
+                        siparisOnayMailGonderim = true;
                     }
                 }
 
-                if (SiparisOnayMailGonderim)
+                if (siparisOnayMailGonderim)
                 {
                     try
                     {
@@ -1188,8 +1178,6 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         [HttpPost]
         public HttpStatusCodeResult SatinAlmaTalebiGMYOnayYap(int[] id, bool durum, string aciklama = null)
         {
-            //string[] id = deger.Split(',');
-
             int onay = durum ? 2 : 4;
 
             var data = db.Database.SqlQuery<SatTalep>(string.Format(@"[FINSAT6{0}].[wms].[SatinAlmaTalepGMYOnayList]", vUser.SirketKodu)).ToList();
