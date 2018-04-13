@@ -38,17 +38,20 @@
                          GROUP BY STK.MalAdi4,CHK.TipKod,MONTH(DATEADD(DD,STI.Tarih,'1899-12-30'))
 
 						 SELECT B.MalAdi4, 
-						 SUM(b.Ocak) as Ocak,
-						  SUM(b.Subat) as Subat,
-						   SUM(b.Mart) as Mart,
-						    SUM(b.Nisan) as Nisan,
-							 SUM(b.Mayis) as Mayis,
-							  SUM(b.Temmuz) as Temmuz,
-							   SUM(b.Agustos) as Agustos,
-							    SUM(b.Eylul) as Eylul,
-								 SUM(b.Ekim) as Ekim,
-								  SUM(b.Kasim) as Kasim,
-								   SUM(b.Aralik) as Aralik
+
+					SUM(b.Ocak) as Ocak,
+				      SUM(b.Subat) as Subat,
+					    SUM(b.Mart) as Mart,
+						  SUM(b.Nisan) as Nisan,
+						    SUM(b.Mayis) as Mayis,
+							  SUM(b.Haziran) as Haziran,
+							   SUM(b.Temmuz) as Temmuz,
+					    	SUM(b.Agustos) as Agustos,
+						  SUM(b.Eylul) as Eylul,
+						SUM(b.Ekim) as Ekim,
+					  SUM(b.Kasim) as Kasim,
+				    SUM(b.Aralik) as Aralik,	   
+				  SUM(b.NetCiro) as NetCiro
 						 
 						  FROM(
                          SELECT US.MalAdi4,
