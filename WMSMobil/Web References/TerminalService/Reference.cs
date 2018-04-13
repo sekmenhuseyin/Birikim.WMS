@@ -1370,6 +1370,10 @@ namespace WMSMobil.TerminalService {
         
         private decimal okutulanMiktarField;
         
+        private string makaraNoField;
+        
+        private System.Nullable<bool> yeniSatirField;
+        
         /// <remarks/>
         public int ID {
             get {
@@ -1387,6 +1391,27 @@ namespace WMSMobil.TerminalService {
             }
             set {
                 this.okutulanMiktarField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string MakaraNo {
+            get {
+                return this.makaraNoField;
+            }
+            set {
+                this.makaraNoField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public System.Nullable<bool> YeniSatir {
+            get {
+                return this.yeniSatirField;
+            }
+            set {
+                this.yeniSatirField = value;
             }
         }
     }

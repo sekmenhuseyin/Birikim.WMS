@@ -20,5 +20,6 @@
         public decimal Stok { get; set; }
         public int Tarih { get; set; }
         public string Unvan { get; set; }
+        public string Renk { get; set; }
     }
 }

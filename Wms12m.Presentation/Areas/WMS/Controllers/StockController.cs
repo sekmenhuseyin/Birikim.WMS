@@ -227,10 +227,24 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             {
                 #region Mysql İşlemleri
 
-                var sql = string.Format(@"
-                SELECT FINSAT6{0}.FINSAT6{0}.STK.MalAdi4 as Marka, FINSAT6{0}.FINSAT6{0}.STK.Nesne2 as Cins, FINSAT6{0}.FINSAT6{0}.STK.Kod15 as Kesit
+                string sql = "";
+
+                if (vUser.SirketKodu == "33")
+                {
+                    sql = string.Format(@"
+                SELECT FINSAT6{0}.FINSAT6{0}.STK.MalAdi4 as Marka, FINSAT6{0}.FINSAT6{0}.STK.Nesne2 as Cins, FINSAT6{0}.FINSAT6{0}.STK.Kod15 as Kesit,
+                '' AS Renk
                 FROM FINSAT6{0}.FINSAT6{0}.STK
                 WHERE (FINSAT6{0}.FINSAT6{0}.STK.Kod1 = 'KKABLO') AND (FINSAT6{0}.FINSAT6{0}.STK.MalKodu = '{1}')", vUser.SirketKodu, tbl.MalKodu);
+                }
+                else
+                {
+                    sql = string.Format(@"
+                SELECT FINSAT6{0}.FINSAT6{0}.STK.MalAdi4 as Marka, FINSAT6{0}.FINSAT6{0}.STK.Nesne2 as Cins, FINSAT6{0}.FINSAT6{0}.STK.Kod16 as Kesit,
+                FINSAT6{0}.FINSAT6{0}.STK.Kod15 as Renk
+                FROM FINSAT6{0}.FINSAT6{0}.STK
+                WHERE (FINSAT6{0}.FINSAT6{0}.STK.Kod1 = 'KKABLO') AND (FINSAT6{0}.FINSAT6{0}.STK.MalKodu = '{1}')", vUser.SirketKodu, tbl.MalKodu);
+                }
 
                 var stks = db.Database.SqlQuery<frmCableStk>(sql).FirstOrDefault();
                 if (stks != null)
@@ -261,7 +275,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                                     kesit = stks.Kesit,
                                     sid = sid.id,
                                     depo = depo,
-                                    renk = "",
+                                    renk = stks.Renk,
                                     makara = "KAPALI",
                                     rezerve = "0",
                                     sure = new TimeSpan(),
