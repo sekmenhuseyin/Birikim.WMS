@@ -1443,9 +1443,6 @@
           <Parameter Name="tarih" Type="int" Mode="In" />
           <Parameter Name="DepoID" Type="int" Mode="In" />
         </Function>
-        <Function Name="SettingsMakaraNo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="wms">
-          <Parameter Name="DepoID" Type="int" Mode="In" />
-        </Function>
         <Function Name="SettingsPaketNo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="wms">
           <Parameter Name="DepoID" Type="int" Mode="In" />
           <Parameter Name="GorevID" Type="int" Mode="In" />
@@ -1991,9 +1988,6 @@
             <End Role="Depo" EntitySet="Depoes" />
             <End Role="GorevPaketNo" EntitySet="GorevPaketNoes" />
           </AssociationSet>
-          <FunctionImport Name="SettingsMakaraNo" ReturnType="Collection(Int32)">
-          <Parameter Name="DepoID" Mode="In" Type="Int32" />
-          </FunctionImport>
           <EntitySet Name="WebMenus" EntityType="MModel.WebMenu" />
           <AssociationSet Name="FK_WebMenu_MenuYeri" Association="MModel.FK_WebMenu_MenuYeri">
             <End Role="ComboItem_Name" EntitySet="ComboItem_Name" />
@@ -4187,7 +4181,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="SettingsMakaraNo" FunctionName="MModel.Store.SettingsMakaraNo" />
           <EntitySetMapping Name="WebMenus">
             <EntityTypeMapping TypeName="MModel.WebMenu">
               <MappingFragment StoreEntitySet="WebMenu">

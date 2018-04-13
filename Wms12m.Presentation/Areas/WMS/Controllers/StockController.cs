@@ -147,7 +147,6 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                 SELECT Kod1 FROM FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) WHERE (MalKodu = '{1}')", vUser.SirketKodu, tbl.MalKodu)).FirstOrDefault();
                 if (kkablo == "KKABLO")
                 {
-                    //tbl.MakaraNo = "Boş-" + db.SettingsMakaraNo(tbl.DepoID).FirstOrDefault();
                     return Json(new Result(false, "Makara no girilmelidir."), JsonRequestBehavior.AllowGet);
                 }
             }

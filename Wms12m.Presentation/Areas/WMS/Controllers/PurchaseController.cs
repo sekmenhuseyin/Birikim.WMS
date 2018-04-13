@@ -89,28 +89,6 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         public JsonResult UpdateList(int ID, decimal M, string mNo)
         {
             if (CheckPerm(Perms.MalKabul, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
-
-            //if (tbl.MakaraNo != mNo)
-            //{
-            //    if (mNo == "" || mNo == null)
-            //    {
-            //        var kkablo = db.Database.SqlQuery<string>(string.Format("SELECT Kod1 FROM FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) WHERE (MalKodu = '{1}')", vUser.SirketKodu, tbl.MalKodu)).FirstOrDefault();
-            //        if (kkablo == "KKABLO")
-            //        {
-            //            //mNo = "Boş-" + db.SettingsMakaraNo(tbl.IR.DepoID).FirstOrDefault();
-            //            return Json(new Result(false, "Makara no girilmelidir."), JsonRequestBehavior.AllowGet);
-            //        }
-            //    }
-
-            //    if (mNo != null && mNo != "")
-            //    {
-            //        // depo stoktaki makara noları ve
-            //        // bu depodaki durdurulanlar hariç tüm mal kabuldeki makara noları kontrol eder
-            //        var makara = db.Database.SqlQuery<string>(string.Format("BIRIKIM.wms.MakaraNoKontrol @DepoID = {0} , @MakaraNo='{1}'", tbl.IR.DepoID, mNo)).FirstOrDefault();
-            //        if (makara != "" && makara != null)
-            //            return Json(new Result(false, "Bu makara no kullanılıyor"), JsonRequestBehavior.AllowGet);
-            //    }
-            //}
             try
             {
                 var tbl = db.IRS_Detay.Where(m => m.ID == ID).FirstOrDefault();
@@ -155,12 +133,6 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                     var satir = db.Database.SqlQuery<frmIrsaliyeMalzeme>(sql).FirstOrDefault();
                     if (satir == null)
                         return Json(new Result(false, tbl.EvrakNos[i] + " ve " + tbl.MalKodus[i] + " için satır bulunamadı"), JsonRequestBehavior.AllowGet);
-                    //var mNo = "";
-                    //if (satir.Kod1 == "KKABLO")
-                    //{
-                    //    //mNo = "Boş-" + db.SettingsMakaraNo(irs.DepoID).FirstOrDefault();
-                    //    return Json(new Result(false, "Makara no girilmelidir."), JsonRequestBehavior.AllowGet);
-                    //}
                     tbl.Miktars[i] = tbl.Miktars[i].Replace(".", "");
                     decimal miktar = tbl.Miktars[i].ToDecimal();
                     miktar = miktar > 0 ? miktar : satir.Miktar;
@@ -176,7 +148,6 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                         KynkDegisSaat = satir.DegisSaat,
                         MalKodu = satir.MalKodu,
                         Miktar = miktar
-                        //,MakaraNo = mNo
                     });
                 }
                 try
@@ -301,32 +272,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             // sadece irsaliye daha onaylanmamışsa yani işlemleri bitmemişse ekle
             var irs = Irsaliye.Detail(tbl.IrsaliyeId);
             if (irs.Onay == false)
-            {
-                //if (tbl.MakaraNo == "" || tbl.MakaraNo == null)
-                //{
-                //    var kkablo = db.Database.SqlQuery<string>(string.Format("SELECT Kod1 FROM FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) WHERE (MalKodu = '{1}')", vUser.SirketKodu, tbl.MalKodu)).FirstOrDefault();
-                //    if (kkablo == "KKABLO")
-                //    {
-                //        //tbl.MakaraNo = "Boş-" + db.SettingsMakaraNo(irs.DepoID).FirstOrDefault();
-                //        //return Json(IrsaliyeDetay.Insert(tbl, irs.DepoID), JsonRequestBehavior.AllowGet);
-                //        return Json(new Result(false, "Makara no girilmelidir."), JsonRequestBehavior.AllowGet);
-                //    }
-                //}
-
-                //if (tbl.MakaraNo != null)
-                //{
-                //    // depo stoktaki makara noları ve
-                //    // bu depodaki durdurulanlar hariç tüm mal kabuldeki makara noları kontrol eder
-                //    var makara = db.Database.SqlQuery<string>(string.Format("BIRIKIM.wms.MakaraNoKontrol @DepoID = {0} , @MakaraNo='{1}'", irs.DepoID, tbl.MakaraNo)).FirstOrDefault();
-                //    if (makara == "" || makara == null)
-                //        return Json(IrsaliyeDetay.Insert(tbl, irs.DepoID), JsonRequestBehavior.AllowGet);
-                //    else
-                //        return Json(new Result(false, "Bu makara no kullanılıyor"), JsonRequestBehavior.AllowGet);
-                //}
-                //else
                 return Json(IrsaliyeDetay.Insert(tbl, irs.DepoID), JsonRequestBehavior.AllowGet);
-            }
-
             return Json(new Result(false, "Bu irsaliyeye ürün eklenemez"), JsonRequestBehavior.AllowGet);
         }
 

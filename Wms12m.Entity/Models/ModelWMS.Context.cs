@@ -501,15 +501,6 @@ namespace Wms12m.Entity.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("WMSEntities.RolMenuEkle", roleNameParameter, menuIDsParameter);
         }
     
-        public virtual ObjectResult<Nullable<int>> SettingsMakaraNo(Nullable<int> depoID)
-        {
-            var depoIDParameter = depoID.HasValue ?
-                new ObjectParameter("DepoID", depoID) :
-                new ObjectParameter("DepoID", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("WMSEntities.SettingsMakaraNo", depoIDParameter);
-        }
-    
         public virtual int DeleteTransfer(Nullable<int> gorevID)
         {
             var gorevIDParameter = gorevID.HasValue ?

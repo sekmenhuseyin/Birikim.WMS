@@ -130,7 +130,6 @@ namespace Wms12m.Presentation.Controllers
                                 sti.MakaraNo = dr["Makara No"].ToString();
                             else
                             {
-                                //sti.MakaraNo = "Boş-" + db.SettingsMakaraNo(dID).FirstOrDefault();
                                 return Json(new Result(false, "Makara no girilmelidir."), JsonRequestBehavior.AllowGet);
                             }
                         }
