@@ -17,9 +17,13 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
         /// </summary>
         public ActionResult CariCiro()
         {
+
             if (CheckPerm(Perms.Raporlar, PermTypes.Reading) == false) return Redirect("/");
-            var cHK = db.Database.SqlQuery<CariCiroRaporuResult>(string.Format("[FINSAT6{0}].[wms].[CariCiroRaporu]", vUser.SirketKodu)).ToList();
-            return View(cHK);
+            string sql = string.Format("[FINSAT6{0}].[wms].[CariCiroRaporu]", vUser.SirketKodu);
+            if (ViewBag.settings.BolgeKoduParametre == true)
+                sql += string.Format(" @UserName='{0}'", vUser.UserName);
+            var CHK = db.Database.SqlQuery<CariCiroRaporuResult>(sql).ToList();
+            return View(CHK);
         }
 
         /// <summary>
@@ -105,8 +109,12 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
 
         public PartialViewResult CekPortfoyList(int bastarih, int bittarih, int basvadetarih, int bitvadetarih)
         {
-            var GS = db.Database.SqlQuery<RaporCekPortfoyListesi>(string.Format("[FINSAT6{0}].[wms].[CekPortfoyListesi] @BasTarih = {1}, @BitTarih = {2},@BasVadeTarih = {3}, @BitVadeTarih = {4}", vUser.SirketKodu, bastarih, bittarih, basvadetarih, bitvadetarih)).ToList();
+            string sql = string.Format("[FINSAT6{0}].[wms].[CekPortfoyListesi] @BasTarih = {1}, @BitTarih = {2},@BasVadeTarih = {3}, @BitVadeTarih = {4}", vUser.SirketKodu, bastarih, bittarih, basvadetarih, bitvadetarih);
+            if (ViewBag.settings.BolgeKoduParametre == true)
+                sql += string.Format(" @UserName='{0}'", vUser.UserName);
+            var GS = db.Database.SqlQuery<RaporCekPortfoyListesi>(sql).ToList();
             return PartialView("CekPortfoyList", GS);
+
         }
 
         /// <summary>
@@ -121,8 +129,14 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
 
         public PartialViewResult OdemeYapmayanMusterilerList(int gunsayisi)
         {
-            var OYM = db.Database.SqlQuery<RaporOdemeYapmayanMusteriler>(string.Format("[FINSAT6{0}].[wms].[OdemeYapmayanMusteriler] @Number = {1}", vUser.SirketKodu, gunsayisi)).ToList();
+
+            string sql = string.Format("[FINSAT6{0}].[wms].[OdemeYapmayanMusteriler] @Number = {1}", vUser.SirketKodu, gunsayisi);
+            if (ViewBag.settings.BolgeKoduParametre == true)
+                sql += string.Format(" @UserName='{0}'", vUser.UserName);
+            var OYM = db.Database.SqlQuery<RaporOdemeYapmayanMusteriler>(sql).ToList();
             return PartialView("OdemeYapmayanMusterilerList", OYM);
+
+
         }
 
         /// <summary>
@@ -131,7 +145,10 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
         public ActionResult Bakiye()
         {
             if (CheckPerm(Perms.Raporlar, PermTypes.Reading) == false) return Redirect("/");
-            var CHK = db.Database.SqlQuery<RaporCHKSelect>(string.Format("[FINSAT6{0}].[wms].[CHKSelectKartTip]", vUser.SirketKodu)).ToList();
+            string sql = string.Format("[FINSAT6{0}].[wms].[CHKSelectKartTip]", vUser.SirketKodu);
+            if (ViewBag.settings.BolgeKoduParametre == true)
+                sql += string.Format(" @UserName='{0}'", vUser.UserName);
+            var CHK = db.Database.SqlQuery<RaporCHKSelect>(sql).ToList();
             return View(CHK);
         }
 
@@ -162,8 +179,14 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
 
         public PartialViewResult SatisBaglantiList(int tip)
         {
-            var SBR = db.Database.SqlQuery<SatisBaglatiRapru>(string.Format("[FINSAT6{0}].[wms].[SatisBaglantiRaporu] @Tip={1}", vUser.SirketKodu, tip)).ToList();
+
+            string sql = string.Format("[FINSAT6{0}].[wms].[SatisBaglantiRaporu] @Tip={1}", vUser.SirketKodu, tip);
+            if (ViewBag.settings.BolgeKoduParametre == true)
+                sql += string.Format(" @UserName='{0}'", vUser.UserName);
+            var SBR = db.Database.SqlQuery<SatisBaglatiRapru>(sql).ToList();
             return PartialView("SatisBaglantiList", SBR);
+
+
         }
 
         public string SatBagSozlesmeDetayListesiSelect(string listeNo)
@@ -256,6 +279,10 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
             // return
             try
             {
+
+                if (ViewBag.settings.BolgeKoduParametre == true)
+                    sql += string.Format(" @UserName='{0}'", vUser.UserName);
+
                 var list = db.Database.SqlQuery<frmJson>(sql).ToList();
                 return Json(list, JsonRequestBehavior.AllowGet);
             }
@@ -264,6 +291,7 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
                 Logger(ex, "Reports/Financial/GetChKCode");
                 return Json(new List<frmJson>(), JsonRequestBehavior.AllowGet);
             }
+
         }
 
         public ActionResult TahsilatKontrol()
