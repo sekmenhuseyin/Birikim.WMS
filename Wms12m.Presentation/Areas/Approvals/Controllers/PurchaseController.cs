@@ -43,11 +43,11 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             if (CheckPerm(Perms.SatinalmaOnaylama, PermTypes.Reading) == false) return Redirect("/");
 
             ViewBag.OnayTip = MyGlobalVariables.OnayTip.SatSipGMYMaliOnay;
-            ViewBag.baslik = "Satınalma Sipariş Talebi GMY Mali Onay";
+            ViewBag.baslik = "Satınalma Sipariş Talebi GMY " + vUser.UserName == "TUNCE" ? "Üretim" : "Mali" + " Onay";
             MyGlobalVariables.Depo = "93 DP";
             MyGlobalVariables.DovizDurum = false;
 
-            MyGlobalVariables.SipTalepList = db.Database.SqlQuery<SatTalep>(string.Format(@"[FINSAT6{0}].[wms].[SatinAlmaTalepGMYMaliOnayList]", vUser.SirketKodu)).ToList();
+            MyGlobalVariables.SipTalepList = db.Database.SqlQuery<SatTalep>(string.Format(@"[FINSAT6{0}].[wms].[SatinAlmaTalepGMYMaliOnayList] '{1}'", vUser.SirketKodu, vUser.UserName)).ToList();
 
             return View("GM_Onay", MyGlobalVariables.SipTalepList);
         }
@@ -568,7 +568,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                             MailHataMesajı = "Sipariş Onay Maili Gönderiminde hata oluştu! Mail Gönderilemedi!",
                             MailBasariMesajı = "Sipariş Onay Maili başarılı bir şekilde gönderildi!"
                         };
-                        m.Gonder(kime.Replace(";;",";"), mailayar.MailCc, gorunenIsim, konu, icerik, attachList, vUser.UserName, fn.GetIPAddress());
+                        m.Gonder(kime.Replace(";;", ";"), mailayar.MailCc, gorunenIsim, konu, icerik, attachList, vUser.UserName, fn.GetIPAddress());
                         if (m.MailGonderimBasarili)
                         {
                             db.Database.ExecuteSqlCommand(string.Format("UPDATE Kaynak.sta.Talep SET MailGonder=-1 WHERE TalepNo='{0}'", sipTalep.TalepNo));
@@ -792,10 +792,9 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             ViewBag.baslik = "Teklif GMY Tedarikçi Onay";
 
             MyGlobalVariables.GMYOnayList = db.Database.SqlQuery<SatTalep>(string.Format(@"
-            SELECT DISTINCT ST.KynkTalepNo AS TalepNo,
-            (select TOP(1) Tp.Kaydeden FROM KAYNAK.sta.Talep as Tp (nolock) where Tp.TalepNo = St.KynkTalepNo) AS TalepEden
-            FROM KAYNAk.sta.Teklif as ST (nolock)
-            LEFT JOIN FINSAT6{0}.FINSAT6{0}.STK (nolock) on STK.MalKodu=ST.MalKodu
+            SELECT DISTINCT ST.KynkTalepNo AS TalepNo, (select TOP(1) Tp.Kaydeden FROM KAYNAK.sta.Talep as Tp (nolock) where Tp.TalepNo = St.KynkTalepNo) AS TalepEden
+            FROM    KAYNAk.sta.Teklif as ST (nolock) LEFT JOIN 
+                        FINSAT6{0}.FINSAT6{0}.STK (nolock) on STK.MalKodu=ST.MalKodu
             WHERE ST.Durum=2 AND  ST.KynkTalepNo<>''
             GROUP BY ST.KynkTalepNo
             ORDER BY ST.KynkTalepNo", vUser.SirketKodu)).ToList();
@@ -811,10 +810,9 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             ViewBag.baslik = "Teklif GMY Mali Onay";
 
             MyGlobalVariables.GMYOnayList = db.Database.SqlQuery<SatTalep>(string.Format(@"
-            SELECT DISTINCT ST.KynkTalepNo AS TalepNo,
-            (select TOP(1)Tp.Kaydeden FROM KAYNAK.sta.Talep(nolock) Tp where Tp.TalepNo = ST.KynkTalepNo) AS TalepEden
-            FROM KAYNAK.sta.Teklif as ST (nolock)
-            LEFT JOIN FINSAT6{0}.FINSAT6{0}.STK (nolock) on STK.MalKodu=ST.MalKodu
+            SELECT DISTINCT ST.KynkTalepNo AS TalepNo, (select TOP(1)Tp.Kaydeden FROM KAYNAK.sta.Talep(nolock) Tp where Tp.TalepNo = ST.KynkTalepNo) AS TalepEden
+            FROM    KAYNAK.sta.Teklif as ST (nolock) LEFT JOIN 
+                        FINSAT6{0}.FINSAT6{0}.STK (nolock) on STK.MalKodu=ST.MalKodu
             WHERE ST.Durum=4
             GROUP BY ST.KynkTalepNo
             ORDER BY ST.KynkTalepNo", vUser.SirketKodu)).ToList();

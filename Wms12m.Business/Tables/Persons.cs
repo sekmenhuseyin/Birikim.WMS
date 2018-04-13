@@ -13,9 +13,9 @@ namespace Wms12m.Business
         /// <summary>
         /// şifre değiştirme işlemleri
         /// </summary>
-        public Result ChangePass(User P)
+        public Result ChangePass(User p)
         {
-            if (P.Sifre.ToString2() == "")
+            if (p.Sifre.ToString2() == "")
             {
                 _Result.Id = 0;
                 _Result.Message = "Eksik Bilgi Girdiniz";
@@ -29,18 +29,18 @@ namespace Wms12m.Business
                 Message = "İşlem Hata !!!",
                 Id = 0
             };
-            P.Sifre = CryptographyExtension.Sifrele(P.Sifre);
+            p.Sifre = CryptographyExtension.Sifrele(p.Sifre);
             try
             {
-                var tmp = Detail(P.ID);
-                tmp.Sifre = P.Sifre ?? "";
+                var tmp = Detail(p.ID);
+                tmp.Sifre = p.Sifre ?? "";
                 tmp.Degistiren = vUser.UserName;
                 tmp.DegisTarih = DateTime.Today.ToOADateInt();
                 tmp.DegisSaat = DateTime.Now.ToOaTime();
                 db.SaveChanges();
-                LogActions("Business", "Persons", "ChangePass", ComboItems.alDüzenle, P.ID);
+                LogActions("Business", "Persons", "ChangePass", ComboItems.alDüzenle, p.ID);
                 // result
-                _Result.Id = P.ID;
+                _Result.Id = p.ID;
                 _Result.Message = "İşlem Başarılı !!!";
                 _Result.Status = true;
             }
@@ -56,26 +56,26 @@ namespace Wms12m.Business
         /// <summary>
         /// sil
         /// </summary>
-        public override Result Delete(int Id)
+        public override Result Delete(int id)
         {
             _Result = new Result();
-            var tbl = db.Users.Where(m => m.ID == Id).FirstOrDefault();
+            var tbl = db.Users.FirstOrDefault(m => m.ID == id);
             if (tbl == null)
             {
                 _Result.Message = "Kayıt Yok";
                 return _Result;
             }
 
-            var det = db.UserDetails.Where(m => m.UserID == tbl.ID).FirstOrDefault();
+            var det = db.UserDetails.FirstOrDefault(m => m.UserID == tbl.ID);
             if (det != null) db.UserDetails.Remove(det);
             var dev = db.UserDevices.Where(m => m.UserID == tbl.ID).ToList();
-            if (dev != null) db.UserDevices.RemoveRange(dev);
+            db.UserDevices.RemoveRange(dev);
             db.Users.Remove(tbl);
             try
             {
                 db.SaveChanges();
                 LogActions("Business", "Persons", "Delete", ComboItems.alSil, tbl.ID);
-                _Result.Id = Id;
+                _Result.Id = id;
                 _Result.Message = "İşlem Başarılı !!!";
                 _Result.Status = true;
             }
@@ -91,11 +91,11 @@ namespace Wms12m.Business
         /// <summary>
         /// bir kişinin ayrıntıları
         /// </summary>
-        public override User Detail(int Id)
+        public override User Detail(int id)
         {
             try
             {
-                return db.Users.Where(m => m.ID == Id).FirstOrDefault();
+                return db.Users.FirstOrDefault(m => m.ID == id);
             }
             catch (Exception ex)
             {
@@ -109,22 +109,22 @@ namespace Wms12m.Business
         /// </summary>
         public override List<User> GetList()
         {
-            return db.Users.Where(m => m.ID > 1 & m.Aktif == true).OrderBy(m => m.AdSoyad).ToList();
+            return db.Users.Where(m => m.ID > 1 & m.Aktif).OrderBy(m => m.AdSoyad).ToList();
         }
 
         /// <summary>
         /// yetkiye sahip kişiler
         /// </summary>
-        public override List<User> GetList(int UserID) => db.Users.Where(m => m.ID == UserID).ToList();
+        public override List<User> GetList(int userId) => db.Users.Where(m => m.ID == userId).ToList();
 
-        public List<User> GetList(string RoleName)
+        public List<User> GetList(string roleName)
         {
-            return db.Users.Where(m => m.Sirket == "" && m.RoleName == RoleName & m.Aktif == true).OrderByDescending(m => m.Aktif).ThenBy(m => m.AdSoyad).ToList();
+            return db.Users.Where(m => m.Sirket == "" && m.RoleName == roleName & m.Aktif).OrderByDescending(m => m.Aktif).ThenBy(m => m.AdSoyad).ToList();
         }
 
-        public List<User> GetList(string[] RoleName)
+        public List<User> GetList(string[] roleName)
         {
-            return db.Users.Where(m => m.Sirket == "" && RoleName.Contains(m.RoleName) & m.Aktif == true).OrderByDescending(m => m.Aktif).ThenBy(m => m.AdSoyad).ToList();
+            return db.Users.Where(m => m.Sirket == "" && roleName.Contains(m.RoleName) & m.Aktif).OrderByDescending(m => m.Aktif).ThenBy(m => m.AdSoyad).ToList();
         }
 
         public List<User> GetListAll()
@@ -139,22 +139,21 @@ namespace Wms12m.Business
 
         public List<User> GetListWithoutTerminal()
         {
-            return db.Users.Where(m => m.Sirket == "" && m.UserDetail == null && m.ID > 1 & m.Aktif == true).OrderByDescending(m => m.Aktif).ThenBy(m => m.AdSoyad).ToList();
+            return db.Users.Where(m => m.Sirket == "" && m.UserDetail == null && m.ID > 1 & m.Aktif).OrderByDescending(m => m.Aktif).ThenBy(m => m.AdSoyad).ToList();
         }
 
         /// <summary>
         /// şifre göster
         /// </summary>
-        public string GetPass(int ID)
+        public string GetPass(int id)
         {
-            var P = Detail(ID);
-            return CryptographyExtension.Cozumle(P.Sifre);
+            return CryptographyExtension.Cozumle(Detail(id).Sifre);
         }
 
         /// <summary>
         /// giriş işlemleri
         /// </summary>
-        public Result Login(User P, string device)
+        public Result Login(User p, string device)
         {
             _Result = new Result()
             {
@@ -164,15 +163,15 @@ namespace Wms12m.Business
             };
             try
             {
-                P.Kod = P.Kod.Left(5);
-                var tbl = db.Users.Where(a => a.Kod.Equals(P.Kod) && a.Sirket == "" && a.Tip == 0 && a.Aktif == true).FirstOrDefault();
+                p.Kod = p.Kod.Left(5);
+                var tbl = db.Users.FirstOrDefault(a => a.Kod.Equals(p.Kod) && a.Sirket == "" && a.Tip == 0 && a.Aktif);
                 if (tbl != null)//if user exists
                 {
                     var pass = CryptographyExtension.Cozumle(tbl.Sifre);
-                    if (P.Sifre == pass)//if password matches
+                    if (p.Sifre == pass)//if password matches
                     {
                         // update db
-                        db.LogLogins(P.Kod, device, true, "");
+                        db.LogLogins(p.Kod, device, true, "");
                         db.UpdateUserDevice(tbl.ID, device);
                         // return result
                         _Result.Status = true;
@@ -213,7 +212,7 @@ namespace Wms12m.Business
                 return _Result;
             }
 
-            var kontrol = db.Users.Where(m => m.Kod == tbl.Kod && m.ID != tbl.ID).FirstOrDefault();
+            var kontrol = db.Users.FirstOrDefault(m => m.Kod == tbl.Kod && m.ID != tbl.ID);
             if (kontrol != null)
             {
                 _Result.Id = 0;
@@ -266,7 +265,7 @@ namespace Wms12m.Business
             try
             {
                 db.SaveChanges();
-                LogActions("Business", "Persons", "Operation", eklemi == true ? ComboItems.alEkle : ComboItems.alDüzenle, tbl.ID, tbl.AdSoyad + ", " + tbl.Email + ", " + tbl.RoleName + ", " + tbl.Kod);
+                LogActions("Business", "Persons", "Operation", eklemi ? ComboItems.alEkle : ComboItems.alDüzenle, tbl.ID, tbl.AdSoyad + ", " + tbl.Email + ", " + tbl.RoleName + ", " + tbl.Kod);
                 // result
                 _Result.Id = tbl.ID;
                 _Result.Message = "İşlem Başarılı !!!";

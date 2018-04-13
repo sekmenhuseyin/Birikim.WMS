@@ -540,6 +540,8 @@
     <Content Include="Areas\WMS\Views\CableStockTransfer\Index.cshtml" />
     <Content Include="Areas\Reports\Views\Financial\GunlukCiroRaporu.cshtml" />
     <Content Include="Areas\Reports\Views\Financial\GunlukCiroRaporuList.cshtml" />
+    <Content Include="Areas\Approvals\Views\Purchase\SatinAlmaTalebiGMYOnay.cshtml" />
+    <Content Include="Areas\Approvals\Views\Purchase\SatisSiparisGMYMaliOnayFTD_List.cshtml" />
     <None Include="bundleconfig.json" />
     <Content Include="Content\SizeSablon.xlsx" />
     <Content Include="Content\StockSablon.xlsx" />
