@@ -73,7 +73,6 @@
                                 @Html.ValidationMessageFor(model => model.Gorev, "", new { @class = "text-danger" })
                             </div>
                         </div>
-
                         <div class="form-group pointer">
                             @Html.LabelFor(model => model.Aciklama, "Açıklama", htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-8">
@@ -88,20 +87,11 @@
                                 @Html.ValidationMessageFor(model => model.GorevTipiID, "", new { @class = "text-danger" })
                             </div>
                         </div>
-
                         <div class="form-group">
                             @Html.LabelFor(model => model.DepartmanID, "Departman", htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-8">
                                 @Html.DropDownList("DepartmanID", null, htmlAttributes: new { @class = "form-control input-circle", required = "required" })
                                 @Html.ValidationMessageFor(model => model.DepartmanID, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.TahminiBitis, "Tamini Bitiş", htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-8">
-                                @Html.TextBoxFor(model => model.TahminiBitis, new { @Value = Model.TahminiBitis == null ? "" : Model.TahminiBitis.Value.ToString("g"), @class = "form-control input-circle", required = "required" })
-                                @Html.ValidationMessageFor(model => model.TahminiBitis, "", new { @class = "text-danger" })
                             </div>
                         </div>
                         <div class="form-group hidden">
@@ -119,44 +109,49 @@
     </div>
 </div>
 <script type="text/javascript">
-    $(function () {
-        $('#TahminiBitis').datetimepicker({
-            locale: 'tr',
-            format: 'dd.mm.yyyy hh:ii'
-            
-        });
-    });
     var silinenler = ""; var sayac = 1;
     $(document).ready(function () {
         $(".satirekle").prepend("<option value=''>Seçiniz !!!</option>");
+        $('#TahminiBitis').datetimepicker({
+            locale: 'tr',
+            language: 'tr',
+            format: 'dd.mm.yyyy hh:ii',
+            minView: 1,
+            maxView: 3,
+            todayBtn: true,
+            todayHighlight: true
+        });
         @if (Model.Sorumlu2.ToString2().Length == 0) { <text>$(".satirekle")[0].selectedIndex = 0;</text> }
         @if (Model.Sorumlu3.ToString2().Length == 0) { <text>$(".satirekle")[1].selectedIndex = 0;</text> }
         @if (Model.KontrolSorumlusu.ToString2().Length == 0) { <text>$(".satirekle")[2].selectedIndex = 0;</text> }
-       
+        var model = @Html.Raw(Json.Encode(Model.GorevlerToDoLists.Select(m=> new frmGorevTodos { ID=m.ID, Aciklama=m.Aciklama, TahminiBitis=m.TahminiBitis.ToDatetime() }).ToList()));
+        $.each(model, function (index, value) {
+            console.log(value);
+            var i = sayac++;
+            $(".last-work").removeClass("fa fa-plus-circle");
+            $(".insert-work-icon i").removeClass("last-work");
+            var newElement = $("<div>").addClass("form-group todo-content");
+            newElement.append("<div class='control-label col-md-2'><span class='work-index'>" + i + "</span > <span>-</span></div>" +
+                            "<div class='col-md-5'>" +
+                                "<input class='hidden' type='text' name='todo' required = 'required' value='" + value.ID + "'>" +
+                                "<input class='form-control input-circle' type='text' name='work' required = 'required' value='" + value.Aciklama + "'>" +
+                            "</div>" +
+                            "<div class='col-md-3'>" +
+                                "<input class='form-control input-circle customDate' type='text' name='TahminiBitis' required = 'required' value='" + formatDateJson(value.TahminiBitis) + "'>" +
+                            "</div>" +
+                            "<div class='insert-work-icon col-md-1'>" +
+                                "<i class='fa fa-minus-circle delete-icn m-l-5' onclick='DeleteElement(this, " + value.ID + ")'></i>" +
+                                "<i class='fa fa-plus-circle last-work m-l-5 pull-right' onclick='NewElement()'></i>" +
+                            "</div>");
+            newElement.addClass("index" + i);
+            if (i === 1) { newElement.insertAfter(".pointer"); } else { newElement.insertAfter(".todo-content:last"); }
+        });
+        if (sayac === 2) {
+            $(".delete-icn").css("display", "none");
+            $(".insert-work-icon i:last").addClass("last-work");
+            $(".last-work").addClass("fa fa-plus-circle");
+        }
     });
-    var model = @Html.Raw(Json.Encode(Model.GorevlerToDoLists.Select(m=> new frmGorevTodos { ID=m.ID, Aciklama=m.Aciklama }).ToList()));
-    $.each(model, function (index, value) {
-        var index = sayac++;
-        $(".last-work").removeClass("fa fa-plus-circle");
-        $(".insert-work-icon i").removeClass("last-work");
-        var newElement = $("<div>").addClass("form-group todo-content");
-        newElement.append("<div class='control-label col-md-2'><span class='work-index'>" + index + "</span > <span>-</span></div>" +
-            "<div class='col-md-8'>" +
-                "<input class='hidden' type='text' name='todo' required = 'required' value='" + value.ID + "'>" +
-                "<input class='form-control input-circle' type='text' name='work' required = 'required' value='" + value.Aciklama + "'>" +
-            "</div>" +
-            "<div class='insert-work-icon col-md-1'>" +
-                "<i class='fa fa-minus-circle delete-icn m-l-5' onclick='DeleteElement(this, " + value.ID + ")'></i>" +
-                "<i class='fa fa-plus-circle last-work m-l-5 pull-right' onclick='NewElement()'></i>" +
-            "</div>");
-        newElement.addClass("index" + index);
-        if (index == 1) { newElement.insertAfter(".pointer"); } else { newElement.insertAfter(".todo-content:last"); }
-    });
-    if (sayac == 2) {
-        $(".delete-icn").css("display", "none");
-        $(".insert-work-icon i:last").addClass("last-work");
-        $(".last-work").addClass("fa fa-plus-circle");
-    }
     function NewElement() {
         var index = sayac++;
         $(".last-work").removeClass("fa fa-plus-circle");
@@ -177,7 +172,7 @@
     };
     function DeleteElement(secili, id) {
         sayac--;
-        if (id != 0) { silinenler += id + ","; }
+        if (id !== 0) { silinenler += id + ","; }
         $("#silinenler").val(silinenler);
         $(secili).closest(".form-group").remove();
         $(".todo-content .work-index").each(function (index) { $(this).text(index + 1) });
@@ -185,7 +180,7 @@
             $(".todo-content i:last").addClass("last-work");
             $(".last-work").addClass("fa fa-plus-circle");
         }
-        if (sayac == 2) {
+        if (sayac === 2) {
             $(".delete-icn").css("display", "none");
             $(".insert-work-icon i:last").addClass("last-work");
             $(".last-work").addClass("fa fa-plus-circle");

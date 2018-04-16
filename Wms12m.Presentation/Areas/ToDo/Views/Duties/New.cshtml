@@ -86,7 +86,6 @@
                                     <div class='col-md-4'>
                                         <input class='form-control input-circle customDate' type='text' name='TahminiBitis' required='required'>
                                     </div>
-
                                 </div>
                             </div>
                             <div class="insert-work-icon col-md-1">
@@ -108,17 +107,6 @@
                                 @Html.ValidationMessageFor(model => model.DepartmanID, "", new { @class = "text-danger" })
                             </div>
                         </div>
-                        @*<div class="form-group">
-                            @Html.LabelFor(model => model.TahminiBitis, "Tahmini Bitiş", htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-8">
-
-                                @Html.TextBoxFor(model => model.TahminiBitis, new { @class = "form-control input-circle", required = "required" })
-
-                                @Html.ValidationMessageFor(model => model.TahminiBitis, "", new { @class = "text-danger" })
-
-
-                            </div>
-                        </div>*@
                         <div class="form-group">
                             <div class="col-md-offset-2 col-md-8">
                                 <button type="button" class="btn btn-danger pull-left" data-dismiss="modal"><i class="fa fa-times"></i> Kapat</button>
@@ -133,8 +121,6 @@
 </div>
 <script type="text/javascript">
     $(document).ready(function () {
-        //$('.date-picker').datepicker();
-        
         $(".satirekle").prepend("<option value=''>Seçiniz !!!</option>");
         $(".satirekle")[0].selectedIndex = 0; $(".satirekle")[1].selectedIndex = 0; $(".satirekle")[2].selectedIndex = 0; $(".satirekle")[3].selectedIndex = 0; $(".satirekle")[4].selectedIndex = 0;
     });
@@ -146,20 +132,16 @@
         $(".delete-icn").css("display", "initial");
         var newElement = $("<div>").addClass("form-group todo-content");
         newElement.append("<div class='control-label col-md-2'><span class='work-index'>" + index + "</span > <span>-</span></div>" +
-            "<div class='col-md-8'>" +
-            "<div class='row'>"+
-            "<div class='col-md-8'>" +
-            "<input class='form-control input-circle' type='text' name='work' required = 'required'>" +
-            "</div>" +
-            "<div class='col-md-4'>" +
-            "<input class='form-control input-circle customDate' type='text' name='TahminiBitis' required = 'required'>" +
-            "</div>" +
-            "</div>"+
-            "</div>" +
-            "<div class='insert-work-icon col-md-1'>" +
-            "<i class='fa fa-plus-circle last-work m-l-5 pull-right' onclick='NewElement()'></i>" +
-            "<i class='fa fa-minus-circle delete-icn m-l-5' onclick='DeleteElement(this)''></i>" +
-            "</div>");
+                        "<div class='col-md-5'>" +
+                            "<input class='form-control input-circle' type='text' name='work' required = 'required'>" +
+                        "</div>" +
+                        "<div class='col-md-3'>" +
+                            "<input class='form-control input-circle customDate' type='text' name='TahminiBitis' required = 'required'>" +
+                        "</div>" +
+                        "<div class='insert-work-icon col-md-1'>" +
+                            "<i class='fa fa-plus-circle last-work m-l-5 pull-right' onclick='NewElement()'></i>" +
+                            "<i class='fa fa-minus-circle delete-icn m-l-5' onclick='DeleteElement(this)''></i>" +
+                        "</div>");
         addDatePicker();
         newElement.addClass("index" + index);
         newElement.insertAfter(".todo-content:last");
@@ -178,24 +160,28 @@
             $(".last-work").addClass("fa fa-plus-circle");
         }
     };
-
- 
-
     function addDatePicker() {
         $(function () {
             $('[class *="customDate"]').datetimepicker({
                 locale: 'tr',
-                format: 'dd.mm.yyyy hh:ii'
-
+                language: 'tr',
+                format: 'dd.mm.yyyy hh:ii',
+                minView: 1,
+                maxView: 3,
+                todayBtn: true,
+                todayHighlight: true
             });
         });
     }
-
     $(function () {
         $('[class *="customDate"]').datetimepicker({
             locale: 'tr',
-            format: 'dd.mm.yyyy hh:ii'
-
+            language: 'tr',
+            format: 'dd.mm.yyyy hh:ii',
+            minView: 1,
+            maxView: 3,
+            todayBtn: true,
+            todayHighlight: true
         });
     });
 </script>

@@ -1,155 +1,69 @@
 ﻿@model IEnumerable<GorevlerToDoList>
-@{
-    DateTime checkin = new DateTime(); string GitServerAddress = ViewBag.settings.GitServerAddress;
+@{ 
+    DateTime checkin = new DateTime(); string gitServerAddress = ViewBag.settings.GitServerAddress;
     bool checkinGoster = ((ViewBag.vUser.RoleName == " " || ViewBag.vUser.RoleName == "Admin") && ViewBag.Tip == false) ? true : false;
-    bool varmış = false;
     var checkinsList = new List<ForToDosList>();
 }
 <table class="table table-bordered table-striped table-condensed" id="sample_1">
-    <thead>
-        <tr>
-            <th style="max-width:20px;"></th>
-            <th>Müşteri</th>
-            <th>Görev</th>
-            <th>Madde</th>
-            <th>Bitiş Tarihi</th>
-            @if (ViewBag.Tip == true || ViewBag.vUser.RoleName == " " || ViewBag.vUser.RoleName == "Admin")
-            {
-                <th>Sorumlu</th>
-                <th>Çalışan</th>
-                <th>Bekleten</th>}
-            @if (checkinGoster == true)
-            {
-                <th>Check In<br />Tarihi</th>}
-            <th></th>
-        </tr>
-    </thead>
-    <tfoot>
-        <tr>
-            <th style="max-width:20px;"></th>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th></th>
-            @if
-            (ViewBag.Tip == true || ViewBag.vUser.RoleName == " " || ViewBag.vUser.RoleName == "Admin")
-            {
-                <th></th>
-                <th></th>
-                <th></th>
-            }
-            @if (checkinGoster == true)
-            {
-                <th></th>
-            }
-            <th></th>
-        </tr>
-    </tfoot>
-    <tfoot class="tf-search">
-        <tr>
-            <th style="max-width:20px;"></th>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th></th>@if (ViewBag.Tip == true || ViewBag.vUser.RoleName == " " || ViewBag.vUser.RoleName == "Admin")
-            {
-                <th></th>
-                <th></th>
-                <th></th>}@if (checkinGoster == true)
+    <thead><tr><th style="max-width:20px;"></th><th>Müşteri</th><th>Görev</th><th>Madde</th><th>Bitiş Tarihi</th>@if (ViewBag.Tip == true || ViewBag.vUser.RoleName == " " || ViewBag.vUser.RoleName == "Admin"){<th>Sorumlu</th><th>Çalışan</th><th>Bekleten</th>}@if (checkinGoster == true){<th>Check In<br />Tarihi</th>}<th></th></tr></thead>
+    <tfoot><tr><th style="max-width:20px;"></th><th></th><th></th><th></th><th></th>@if (ViewBag.Tip == true || ViewBag.vUser.RoleName == " " || ViewBag.vUser.RoleName == "Admin"){<th></th><th></th><th></th>}@if(checkinGoster == true){<th></th>}<th></th></tr></tfoot>
+    <tfoot class="tf-search"><tr><th style="max-width:20px;"></th><th></th><th></th><th></th><th></th>@if (ViewBag.Tip == true || ViewBag.vUser.RoleName == " " || ViewBag.vUser.RoleName == "Admin"){<th></th><th></th><th></th>}@if(checkinGoster == true){<th></th>}<th></th></tr></tfoot>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            var varmış = false;
+            if (checkinGoster){
+                foreach (var itemx in checkinsList)
                 {
-                    <th></th>}
-                <th></th>
-            </tr>
-        </tfoot>
-        <tbody>
-            @foreach (var item in Model)
-            {
-                varmış = false;
-                if (checkinGoster == true)
-                {
-                    foreach (var itemx in checkinsList)
+                    if (itemx.GitGuid == item.Gorevler.ProjeForm.ProjeForm2.GitGuid && itemx.Kaydeden == item.Onaylayan)
                     {
-                        if (itemx.GitGuid == item.Gorevler.ProjeForm.ProjeForm2.GitGuid && itemx.Kaydeden == item.Onaylayan)
+                        varmış = true;
+                        checkin = itemx.checkin;
+                        break;
+                    }
+                }
+                if (varmış == false)
+                {
+                    checkin = item.Gorevler.ProjeForm.ProjeForm2.GitGuid.GetCommitDate(gitServerAddress, item.Onaylayan);
+                    checkinsList.Add(new ForToDosList() { GitGuid = item.Gorevler.ProjeForm.ProjeForm2.GitGuid, Kaydeden = item.Onaylayan, checkin = checkin });
+                }
+            }<tr data-ID="@item.GorevID" @if (item.Gorevler.TahminiBitis<DateTime.Now || (checkinGoster && (checkin == new DateTime() || checkin.Date < item.DegisTarih.Date))) {@(" class=font-red")}>
+                <td class="details-control" style="max-width:20px;"></td>
+                <td>@item.Gorevler.ProjeForm.Musteri.Unvan</td>
+                <td>@if (ViewBag.Yetki == true) { <a href="#modalEditPage" data-toggle="modal" onclick="editInModal('/ToDo/Duties/Edit/@item.GorevID')"> @item.Gorevler.Gorev </a> } else { @item.Gorevler.Gorev }</td>
+                <td>@item.Aciklama</td>
+                <td>@item.TahminiBitis.ToString()</td>
+                @if (ViewBag.Tip == true || ViewBag.vUser.RoleName == " " || ViewBag.vUser.RoleName == "Admin"){
+                <td nowrap>@item.Gorevler.Sorumlu @if (item.Gorevler.Sorumlu2 != null) { @(", " + item.Gorevler.Sorumlu2) } @if (item.Gorevler.Sorumlu3 != null) { @(", " + item.Gorevler.Sorumlu3) } @if (item.Gorevler.KontrolSorumlusu != null) { @(", " + item.Gorevler.KontrolSorumlusu) }</td>
+                <td>@if (item.Onay) { @item.Onaylayan }@if (item.KontrolOnay) { @(", ") @item.KontrolEden }</td>
+                <td>@if (item.Onay == false) { @item.Gorevler.Sorumlu } else if (item.KontrolOnay == false) { @item.Gorevler.KontrolSorumlusu } else {@("Admin")}</td>
+                }
+               @if(checkinGoster){
+                    if (checkin == new DateTime()) { <td class="font-red"><br /><i class="fa fa-exclamation-triangle fa-2x" aria-hidden="true"></i></td> }
+                    else if (checkin.Date < item.TahminiBitis) { <td>@checkin</td> }
+                    else { <td>@checkin</td> }                    
+                }
+                <td>
+                   @if (ViewBag.RoleName != "Admin" && ViewBag.RoleName != " ") {<a class="btn btn-info input-circle" href="#modalEditPage" data-toggle="modal" onclick="editInModal('/ToDo/DutyWork/New/@item.ID');"><span class="glyphicon glyphicon-floppy-save"></span> &nbsp; Çalışma</a>}
+                   @if (ViewBag.Tip == false)//eğer bana aitse normal göster
+                    {
+                        <a class="btn btn-primary input-circle" href="javascript:;" id="btnOn@{@item.ID}" onclick="Onay(@item.ID, true, 'btnOn@{@item.ID}');"> Onayla </a>
+                        if(ViewBag.Yetki == true && item.Onay) {<a class="btn btn-danger input-circle" href="javascript:;" id="btnRe@{@item.ID}" onclick="Onay(@item.ID, false, 'btnRe@{@item.ID}');"> Reddet </a>}
+                    }
+                    else if (ViewBag.Tip == true)//eğer hepsini seç ise farklı farklı göster
+                    {
+                        if (ViewBag.RoleName == "Admin" && ViewBag.RoleName == " ") { }
+                        else if (item.Onay==false && ViewBag.RoleName == "Developer")
                         {
-                            varmış = true;
-                            checkin = itemx.checkin;
-                            break;
+                            <a class="btn btn-primary input-circle" href="javascript:;" id="btnOn@{@item.ID}" onclick="Onay(@item.ID, true, 'btnOn@{@item.ID}');"> Onayla </a>
                         }
                     }
-                    if (varmış == false)
-                    {
-                        checkin = item.Gorevler.ProjeForm.ProjeForm2.GitGuid.GetCommitDate(GitServerAddress, item.Onaylayan);
-                        checkinsList.Add(new ForToDosList() { GitGuid = item.Gorevler.ProjeForm.ProjeForm2.GitGuid, Kaydeden = item.Onaylayan, checkin = checkin });
-                    }
-                }
-                <tr data-ID="@item.GorevID" @if (item.Gorevler.TahminiBitis < DateTime.Now || (checkinGoster == true && (checkin == new DateTime() || checkin.Date < item.DegisTarih.Date))) { @(" class=font-red")   }>
-                    <td class="details-control" style="max-width:20px;"></td>
-                    <td>@item.Gorevler.ProjeForm.Musteri.Unvan</td>
-                    <td>
-                        @if (ViewBag.Yetki == true)
-                        { <a href="#modalEditPage" data-toggle="modal" onclick="editInModal('/ToDo/Duties/Edit/@item.GorevID')"> @item.Gorevler.Gorev </a> }
-                        else
-                        { @item.Gorevler.Gorev }
-                    </td>
-                    <td>@item.Aciklama</td>
-                    <td>@item.Gorevler.TahminiBitis.ToString()</td>
-                    @if (ViewBag.Tip == true || ViewBag.vUser.RoleName == " " || ViewBag.vUser.RoleName == "Admin")
-                {
-                        <td nowrap>
-                            @item.Gorevler.Sorumlu @if (item.Gorevler.Sorumlu2 != null)
-                            { @(", " + item.Gorevler.Sorumlu2) } @if (item.Gorevler.Sorumlu3 != null)
-                            { @(", " + item.Gorevler.Sorumlu3) } @if (item.Gorevler.KontrolSorumlusu != null)
-                            { @(", " + item.Gorevler.KontrolSorumlusu) }
-                        </td>
-                        <td>
-                            @if (item.Onay == true)
-                            { @item.Onaylayan }@if (item.KontrolOnay == true)
-                            { @(", ") @item.KontrolEden }
-                        </td>
-                        <td>
-                            @if (item.Onay == false)
-                            { @item.Gorevler.Sorumlu }
-                            else if (item.KontrolOnay == false)
-                            { @item.Gorevler.KontrolSorumlusu }
-                            else
-                            {@("Admin")}
-                        </td>
-                    }
-                    @if (checkinGoster == true)
-                {
-                    if (checkin == new DateTime())
-                    {
-                            <td class="font-red"><br /><i class="fa fa-exclamation-triangle fa-2x" aria-hidden="true"></i></td> }
-                    else if (checkin.Date < item.TahminiBitis.Date)
-                    {
-                            <td>@checkin</td> }
-                    else
-                    {
-                            <td>@checkin</td> }
-                }
-                    <td>
-                        @if (ViewBag.RoleName != "Admin" && ViewBag.RoleName != " ")
-                {<a class="btn btn-info input-circle" href="#modalEditPage" data-toggle="modal" onclick="editInModal('/ToDo/DutyWork/New/@item.ID');"><span class="glyphicon glyphicon-floppy-save"></span> &nbsp; Çalışma</a>}
-                        @if (ViewBag.Tip == false)//eğer bana aitse normal göster
-                {
-                            <a class="btn btn-primary input-circle" href="javascript:;" id="btnOn@{@item.ID}" onclick="Onay(@item.ID, true, 'btnOn@{@item.ID}');"> Onayla </a>
-    if (ViewBag.Yetki == true && item.Onay == true)
-    {<a class="btn btn-danger input-circle" href="javascript:;" id="btnRe@{@item.ID}" onclick="Onay(@item.ID, false, 'btnRe@{@item.ID}');"> Reddet </a>}
-    }
-    else if (ViewBag.Tip == true)//eğer hepsini seç ise farklı farklı göster
-    {
-        if (ViewBag.RoleName == "Admin" && ViewBag.RoleName == " ") { }
-        else if (item.Onay == false && ViewBag.RoleName == "Developer")
-        {
-            <a class="btn btn-primary input-circle" href="javascript:;" id="btnOn@{@item.ID}" onclick="Onay(@item.ID, true, 'btnOn@{@item.ID}');"> Onayla </a>
+                </td>
+            </tr>
         }
-    }
-                    </td>
-                </tr>
-    }
-        </tbody>
-    </table>
-    <script language="text/javascript">
+    </tbody>
+</table>
+<script language="text/javascript">
     $(document).ready(function () {
         var table = $('#sample_1').DataTable({
             "pagingType": "full_numbers",
@@ -225,4 +139,4 @@
             }
         });
     }
-    </script>
+</script>
