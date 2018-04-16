@@ -123,11 +123,11 @@
             $(".insert-work-icon i").removeClass("last-work");
             var newElement = $("<div>").addClass("form-group todo-content");
             newElement.append("<div class='control-label col-md-2'><span class='work-index'>" + i + "</span > <span>-</span></div>" +
-                            "<div class='col-md-5'>" +
+                            "<div class='col-md-6'>" +
                                 "<input class='hidden' type='text' name='todo' required = 'required' value='" + value.ID + "'>" +
                                 "<input class='form-control input-circle' type='text' name='work' required = 'required' value='" + value.Aciklama + "'"+ (value.Onay === true ? " readonly='readonly'" : "" ) +">" +
                             "</div>" +
-                            "<div class='col-md-3'>" +
+                            "<div class='col-md-2'>" +
                                 "<input class='form-control input-circle"+ (value.Onay === true ? "" : " customDate" ) +"' type='text' name='tahminiBitis' required = 'required' value='" + value.TahminiBitis + "'"+ (value.Onay === true ? " readonly='readonly'" : "" ) +">" +
                             "</div>" +
                             "<div class='insert-work-icon col-md-1'>" +
@@ -164,11 +164,11 @@
         $(".delete-icn").css("display", "initial");
         var newElement = $("<div>").addClass("form-group todo-content");
         newElement.append("<div class='control-label col-md-2'><span class='work-index'>" + index + "</span > <span>-</span></div>" +
-            "<div class='col-md-8'>" +
+            "<div class='col-md-6'>" +
                 "<input class='hidden' type='text' name='todo' required = 'required' value='0'>" +
                 "<input class='form-control input-circle' type='text' name='work' required = 'required' value=''>" +
             "</div>" +
-            "<div class='col-md-3'>" +
+            "<div class='col-md-2'>" +
                 "<input class='form-control input-circle customDate' type='text' name='tahminiBitis' required = 'required'>" +
             "</div>" +
             "<div class='insert-work-icon col-md-1'>" +

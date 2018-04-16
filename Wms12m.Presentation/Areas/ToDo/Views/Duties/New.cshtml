@@ -78,15 +78,11 @@
                         </div>
                         <div class="form-group todo-content">
                             <div class="control-label col-md-2"><span class="work-index">1</span><span>-</span></div>
-                            <div class="col-md-8">
-                                <div class='row'>
-                                    <div class='col-md-8'>
-                                        <input class="form-control input-circle work-1" type="text" name="work" required="required">
-                                    </div>
-                                    <div class='col-md-4'>
-                                        <input class='form-control input-circle customDate' type='text' name='tahminiBitis' required='required'>
-                                    </div>
-                                </div>
+                            <div class="col-md-6">
+                                <input class="form-control input-circle work-1" type="text" name="work" required="required">
+                            </div>
+                            <div class='col-md-2'>
+                                <input class='form-control input-circle customDate' type='text' name='tahminiBitis' required='required'>
                             </div>
                             <div class="insert-work-icon col-md-1">
                                 <i class="fa fa-plus-circle last-work m-l-5 pull-right" onclick="NewElement()"></i>
@@ -123,6 +119,7 @@
     $(document).ready(function () {
         $(".satirekle").prepend("<option value=''>Seçiniz !!!</option>");
         $(".satirekle")[0].selectedIndex = 0; $(".satirekle")[1].selectedIndex = 0; $(".satirekle")[2].selectedIndex = 0; $(".satirekle")[3].selectedIndex = 0; $(".satirekle")[4].selectedIndex = 0;
+        addDatePicker();
     });
     sayac = 1;
     function NewElement() {
@@ -132,10 +129,10 @@
         $(".delete-icn").css("display", "initial");
         var newElement = $("<div>").addClass("form-group todo-content");
         newElement.append("<div class='control-label col-md-2'><span class='work-index'>" + index + "</span > <span>-</span></div>" +
-                        "<div class='col-md-5'>" +
+                        "<div class='col-md-6'>" +
                             "<input class='form-control input-circle' type='text' name='work' required = 'required'>" +
                         "</div>" +
-                        "<div class='col-md-3'>" +
+                        "<div class='col-md-2'>" +
                             "<input class='form-control input-circle customDate' type='text' name='tahminiBitis' required = 'required'>" +
                         "</div>" +
                         "<div class='insert-work-icon col-md-1'>" +
@@ -161,16 +158,14 @@
         }
     };
     function addDatePicker() {
-        $(function () {
-            $('.customDate').datetimepicker({
-                locale: 'tr',
-                language: 'tr',
-                format: 'dd.mm.yyyy hh:ii',
-                minView: 1,
-                maxView: 3,
-                todayBtn: true,
-                todayHighlight: true
-            });
+        $('.customDate').datetimepicker({
+            locale: 'tr',
+            language: 'tr',
+            format: 'dd.mm.yyyy hh:ii',
+            minView: 1,
+            maxView: 3,
+            todayBtn: true,
+            todayHighlight: true
         });
     }
 </script>
