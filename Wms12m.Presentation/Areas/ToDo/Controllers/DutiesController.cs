@@ -411,7 +411,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                                 sontarih = DateTime.Parse(tahminiBitis[i]);
                         }
                     }
-                    gorevler.TahminiBitis = sontarih;
+                    tbl.TahminiBitis = sontarih;
                 }
             }
 

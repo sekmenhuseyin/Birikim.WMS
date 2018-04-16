@@ -297,25 +297,14 @@
             dataSource: urunGrup,
             displayExpr: 'Tip',
             onValueChanged: function (e) {
-
+                UGTip = "";
                 if (e.value == null)
                     return;
-
-
-                if (e.value == null)
-                    return;
-         
-
-                if (e.value.ID == 1) {
-
-                    UGTip = "GrupKod";
-                }
-              
-
+                if (e.value.ID === 1) UGTip = "GrupKod";
 
                 TempUrunGrup = e.value.ID;
                 TempUrunGrupText = e.value.Tip;
-                if (e.value.ID == 7 || e.value.ID == 1) {
+                if (e.value.ID === 1 || e.value.ID === 7) {
                     $(".urun_kalite_content").css("display", "block");
                 }
                 else {
@@ -487,7 +476,7 @@
                     return;
                 }
                 TempMalKod = e.value.Kod;
-                if (TempUrunGrup == 0) {
+                if (TempUrunGrup === 0) {
                     TempMalAdi = e.value.Aciklama
                 }
             },
@@ -604,7 +593,7 @@
             Modaldialog("Ürün Kodu Seçmelisiniz.", "Satır Ekle", "Tamam", "btn-warning");
             return;
         }
-        if (UGTip == "GrupKod" && $(".select_urun_kalite").dxSelectBox("instance").option("value") == null) {
+        if (UGTip === "GrupKod" && $(".select_urun_kalite").dxSelectBox("instance").option("value") == null) {
             Modaldialog("Kalite Bilgisi Girmelisiniz.", "Kayıt İşlemi", "Tamam", "btn-warning");
             return;
         }

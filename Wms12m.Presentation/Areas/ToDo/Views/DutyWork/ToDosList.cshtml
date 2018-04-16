@@ -27,7 +27,7 @@
                     checkin = item.Gorevler.ProjeForm.ProjeForm2.GitGuid.GetCommitDate(gitServerAddress, item.Onaylayan);
                     checkinsList.Add(new ForToDosList() { GitGuid = item.Gorevler.ProjeForm.ProjeForm2.GitGuid, Kaydeden = item.Onaylayan, checkin = checkin });
                 }
-            }<tr data-ID="@item.GorevID" @if (item.Gorevler.TahminiBitis<DateTime.Now || (checkinGoster && (checkin == new DateTime() || checkin.Date < item.DegisTarih.Date))) {@(" class=font-red")}>
+            }<tr data-ID="@item.GorevID" @if (item.TahminiBitis<DateTime.Now || (checkinGoster && (checkin == new DateTime() || checkin.Date < item.DegisTarih.Date))) {@(" class=font-red")}>
                 <td class="details-control" style="max-width:20px;"></td>
                 <td>@item.Gorevler.ProjeForm.Musteri.Unvan</td>
                 <td>@if (ViewBag.Yetki == true) { <a href="#modalEditPage" data-toggle="modal" onclick="editInModal('/ToDo/Duties/Edit/@item.GorevID')"> @item.Gorevler.Gorev </a> } else { @item.Gorevler.Gorev }</td>
