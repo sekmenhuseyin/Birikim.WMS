@@ -297,6 +297,9 @@
     <Content Include="Content\images\tumpa-logo-90.png" />
     <Content Include="Content\images\tumpa-logo.png" />
     <Content Include="Content\Scripts\consts.js" />
+    <Content Include="Content\Scripts\Functions.min.js">
+      <DependentUpon>Functions.js</DependentUpon>
+    </Content>
     <Content Include="Content\Scripts\Hub.min.js">
       <DependentUpon>Hub.js</DependentUpon>
     </Content>
@@ -371,9 +374,6 @@
     </Content>
     <Content Include="Content\Scripts\Hub.js" />
     <Content Include="Content\Scripts\Functions.js" />
-    <Content Include="Content\Scripts\Functions.min.js">
-      <DependentUpon>Functions.js</DependentUpon>
-    </Content>
     <Content Include="Content\Scripts\MessageBox.js" />
     <Content Include="Content\Scripts\MessageBox.min.js">
       <DependentUpon>MessageBox.js</DependentUpon>

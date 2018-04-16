@@ -297,6 +297,10 @@ function formatDateFromJsonN(date)
 {
     return formatDateN(new Date(parseInt(date.substr(6))));
 }
+function formatDateJson(date)
+{
+    return new Date(parseInt(date.substr(6)));
+}
 //oadate to tarih
 function fromOADate(oadate)
 {

@@ -12,12 +12,6 @@
     ]
   },
   {
-    "outputFileName": "Content/Scripts/Functions.min.js",
-    "inputFiles": [
-      "Content/Scripts/Functions.js"
-    ]
-  },
-  {
     "outputFileName": "Content/Scripts/MessageBox.min.js",
     "inputFiles": [
       "Content/Scripts/MessageBox.js"
@@ -60,15 +54,15 @@
     ]
   },
   {
-    "outputFileName": "Content/Scripts/SignalR.min.js",
-    "inputFiles": [
-      "Content/Scripts/SignalR.js"
-    ]
-  },
-  {
     "outputFileName": "Content/Scripts/Hub.min.js",
     "inputFiles": [
       "Content/Scripts/Hub.js"
+    ]
+  },
+  {
+    "outputFileName": "Content/Scripts/Functions.min.js",
+    "inputFiles": [
+      "Content/Scripts/Functions.js"
     ]
   }
 ]
