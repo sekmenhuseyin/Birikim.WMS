@@ -323,8 +323,6 @@ namespace Wms12m.Business
             else
                 tmp.Miktar -= tbl.Miktar;
             // makara
-            if (tmp.Miktar == 0)
-                tmp.MakaraNo = null;
             tmp.MakaraDurum = false;
             // log
             var yerLog = new Yer_Log()
@@ -390,12 +388,7 @@ namespace Wms12m.Business
             if (tbl.MakaraNo != "" && tbl.MakaraNo != null) yerLog.MakaraNo = tbl.MakaraNo;
             db.Yer_Log.Add(yerLog);
             // stok
-            if (gc == true) tbl.MakaraDurum = false;
-            if (tbl.Miktar == 0)
-            {
-                tbl.MakaraNo = null;
-                tbl.MakaraDurum = false;
-            }
+            if (gc) tbl.MakaraDurum = false;
             // save
             try
             {
