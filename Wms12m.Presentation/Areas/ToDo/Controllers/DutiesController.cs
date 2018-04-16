@@ -188,7 +188,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         /// kaydetme
         /// </summary>
         [HttpPost, ValidateAntiForgeryToken]//GorevTodo todo
-        public JsonResult Save(Gorevler gorevler, string[] work, string[] TahminiBitis, string silinenler, string[] todo)
+        public JsonResult Save(Gorevler gorevler, string[] work, string[] tahminiBitis, string silinenler, string[] todo)
         {
 
             if (CheckPerm(Perms.TodoGörevler, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
@@ -202,7 +202,6 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                 if (work[0] == null || work[0] == "")
                     return Json(new Result(false, "Lütfen bir madde yazınız!"), JsonRequestBehavior.AllowGet);
                 // set
-                gorevler.TahminiBitis = DateTime.Parse(TahminiBitis[work.Length - 1]);
                 gorevler.Aciklama = gorevler.Aciklama ?? "";
                 gorevler.Degistiren = vUser.UserName;
                 gorevler.DegisTarih = DateTime.Now;
@@ -216,8 +215,10 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                     gorevler.DurumID = ComboItems.gydAtandı.ToInt32();
                 db.Gorevlers.Add(gorevler);
                 // lists
+                var sontarih = DateTime.Parse(tahminiBitis[0]);
                 for (int i = 0; i < work.Length; i++)
                 {
+                    //yeni maddeyi ekle
                     var grvTdl = new GorevlerToDoList
                     {
                         Aciklama = work[i],
@@ -226,11 +227,19 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                         KayitTarih = DateTime.Now,
                         Kaydeden = vUser.UserName,
                         Gorevler = gorevler,
-                        TahminiBitis = DateTime.Parse(TahminiBitis[i])
+                        TahminiBitis = DateTime.Parse(tahminiBitis[i])
                     };
 
-                    if (grvTdl.Aciklama.Trim() != "") db.GorevlerToDoLists.Add(grvTdl);
+                    if (grvTdl.Aciklama.Trim() != "")
+                    {
+                        db.GorevlerToDoLists.Add(grvTdl);
+                        //görevin tahmini bitiş tarihini hesala
+                        if (DateTime.Parse(tahminiBitis[i]) > sontarih)
+                            sontarih = DateTime.Parse(tahminiBitis[i]);
+                    }
                 }
+
+                gorevler.TahminiBitis = sontarih;
 
 
                 // messages
@@ -296,7 +305,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             {
                 // sil
                 string[] sl = new string[0];
-                if (silinenler != null)
+                if (silinenler != null && silinenler != "")
                 {
                     sl = silinenler.Split(',');
                 }
@@ -308,6 +317,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                     db.GorevlerToDoLists.Remove(silGrv);
                 }
 
+                var sontarih = new DateTime();
                 // görevi bul ve değiştir
                 var tbl = db.Gorevlers.FirstOrDefault(m => m.ID == gorevler.ID);
                 tbl.Sorumlu = gorevler.Sorumlu;
@@ -318,10 +328,10 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                 tbl.Aciklama = gorevler.Aciklama ?? "";
                 tbl.GorevTipiID = gorevler.GorevTipiID;
                 tbl.DepartmanID = gorevler.DepartmanID;
-                tbl.TahminiBitis = gorevler.TahminiBitis;
                 tbl.Degistiren = vUser.UserName;
                 tbl.DegisTarih = DateTime.Now;
                 if (work != null)
+                {
                     for (int i = 0; i < work.Length; i++)
                     {
                         // yeni madde ekle
@@ -337,9 +347,14 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                                     KayitTarih = DateTime.Now,
                                     Degistiren = vUser.UserName,
                                     DegisTarih = DateTime.Now,
+                                    TahminiBitis = DateTime.Parse(tahminiBitis[i]),
                                     Gorevler = tbl
                                 };
                                 db.GorevlerToDoLists.Add(grvTdl);
+                                //görevin tahmini bitiş tarihini hesala
+                                if (DateTime.Parse(tahminiBitis[i]) > sontarih)
+                                    sontarih = DateTime.Parse(tahminiBitis[i]);
+                                //messages
                                 var mesaj = new Message()
                                 {
                                     MesajTipi = ComboItems.DuyuruMesajı.ToInt32(),
@@ -389,9 +404,15 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                                 grv.Aciklama = work[i].ToString2();
                                 grv.DegisTarih = DateTime.Now;
                                 grv.Degistiren = vUser.UserName;
+                                grv.TahminiBitis = DateTime.Parse(tahminiBitis[i]);
                             }
+                            //görevin tahmini bitiş tarihini hesala
+                            if (DateTime.Parse(tahminiBitis[i]) > sontarih)
+                                sontarih = DateTime.Parse(tahminiBitis[i]);
                         }
                     }
+                    gorevler.TahminiBitis = sontarih;
+                }
             }
 
             try

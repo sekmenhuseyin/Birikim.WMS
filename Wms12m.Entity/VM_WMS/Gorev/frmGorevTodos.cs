@@ -12,9 +12,9 @@ namespace Wms12m.Entity
         public int ID { get; set; }
         public string Kaydeden { get; set; }
         public DateTime KayitTarih { get; set; }
-        public DateTime TahminiBitis { get; set; }
+        public string TahminiBitis { get; set; }
         public bool Kontrol { get; set; }
         public bool KontrolOnay { get; set; }
-        public bool OnayDurum { get; set; }
+        public bool Onay { get; set; }
     }
 }

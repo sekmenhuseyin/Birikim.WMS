@@ -84,7 +84,7 @@
                                         <input class="form-control input-circle work-1" type="text" name="work" required="required">
                                     </div>
                                     <div class='col-md-4'>
-                                        <input class='form-control input-circle customDate' type='text' name='TahminiBitis' required='required'>
+                                        <input class='form-control input-circle customDate' type='text' name='tahminiBitis' required='required'>
                                     </div>
                                 </div>
                             </div>
@@ -136,7 +136,7 @@
                             "<input class='form-control input-circle' type='text' name='work' required = 'required'>" +
                         "</div>" +
                         "<div class='col-md-3'>" +
-                            "<input class='form-control input-circle customDate' type='text' name='TahminiBitis' required = 'required'>" +
+                            "<input class='form-control input-circle customDate' type='text' name='tahminiBitis' required = 'required'>" +
                         "</div>" +
                         "<div class='insert-work-icon col-md-1'>" +
                             "<i class='fa fa-plus-circle last-work m-l-5 pull-right' onclick='NewElement()'></i>" +
@@ -154,7 +154,7 @@
             $(".todo-content i:last").addClass("last-work");
             $(".last-work").addClass("fa fa-plus-circle");
         }
-        if (sayac == 1) {
+        if (sayac === 1) {
             $(".delete-icn").css("display", "none");
             $(".insert-work-icon i:last").addClass("last-work");
             $(".last-work").addClass("fa fa-plus-circle");
@@ -162,7 +162,7 @@
     };
     function addDatePicker() {
         $(function () {
-            $('[class *="customDate"]').datetimepicker({
+            $('.customDate').datetimepicker({
                 locale: 'tr',
                 language: 'tr',
                 format: 'dd.mm.yyyy hh:ii',
@@ -173,15 +173,4 @@
             });
         });
     }
-    $(function () {
-        $('[class *="customDate"]').datetimepicker({
-            locale: 'tr',
-            language: 'tr',
-            format: 'dd.mm.yyyy hh:ii',
-            minView: 1,
-            maxView: 3,
-            todayBtn: true,
-            todayHighlight: true
-        });
-    });
 </script>
