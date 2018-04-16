@@ -145,16 +145,15 @@
         addDatePicker();
     });
     function addDatePicker() {
-        $(function () {
-            $('.customDate').datetimepicker({
-                locale: 'tr',
-                language: 'tr',
-                format: 'dd.mm.yyyy hh:ii',
-                minView: 1,
-                maxView: 3,
-                todayBtn: true,
-                todayHighlight: true
-            });
+        $('.customDate').datetimepicker({
+            locale: 'tr',
+            language: 'tr',
+            format: 'dd.mm.yyyy hh:ii',
+            minView: 1,
+            maxView: 3,
+            todayBtn: true,
+            todayHighlight: true,
+            autoclose: true
         });
     }
     function NewElement() {
