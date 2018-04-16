@@ -44,7 +44,10 @@
 @section Scripts{<script type="text/javascript">
     $("#DepoID").prepend("<option value=''>Seçiniz !!!</option>"); $("#DepoID")[0].selectedIndex = 0;
     function FuncSearchBtn() {
-        if ($("#MalKodu").val() == "" || $("#DepoID").val() == "") return;
+        if ($("#MalKodu").val() === "" || $("#DepoID").val() === "") {
+            $("#Grid").html("");
+            return;
+        }
         $('#Grid').html("");
         PartialView('/WMS/Stock/HistoryList', 'Grid', JSON.stringify({ MalKodu: $("#MalKodu").val(), DepoID: $("#DepoID").val() }));
     }

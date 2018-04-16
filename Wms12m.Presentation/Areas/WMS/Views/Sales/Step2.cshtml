@@ -93,14 +93,14 @@
         $('#sample_2 .tf-search th').each(function ()
         {
             var title = $('#sample_2 thead th').eq($(this).index()).text();
-            if (title != "" && title.indexOf("Tarih") !== -1)
+            if (title !== "" && title.indexOf("Tarih") !== -1)
                 $(this).html('<input class="form-control input-circle tarih" type="text" placeholder="Ara" />');
-            else if (title != "" && title != "Detay" && title != "Hareket")
+            else if (title !== "" && title != "Detay" && title != "Hareket")
                 $(this).html('<input class="form-control input-circle" type="text" placeholder="Ara" />');
         });
         $("#sample_2 tfoot input").on('keyup change', function () { table.column($(this).parent().index() + ':visible').search(this.value).draw(); });
         $("#selector").click(function () {
-            if (selectall == true) {
+            if (selectall === true) {
                 $("#selector").text("Seçimi İptal Et"); selectall = false;
                 table.rows({ filter: 'applied' }).every(function (rowIdx, tableLoop, rowLoop) {
                     this.select();
@@ -115,7 +115,7 @@
             var cells = [, ,]; var result = false;
             table.rows(".selected").every(function (rowIdx, tableLoop, rowLoop) {
                 var rezerv = 0;
-                if (this.data()[5] != "") {
+                if (this.data()[5] !== "") {
                     rezerv = parseFloat($(this.data()[5]).text().replace(".", "").replace(",", "."));
                 }
                 var miktar = parseFloat(this.data()[2].replace(".", "").replace(",", "."));
@@ -130,22 +130,22 @@
                         }
                     }
                 }
-                if (result == false) cells.push([this.data()[0], miktar, stok]);
+                if (result === false) cells.push([this.data()[0], miktar, stok]);
             });
             result = false;
-            if (cells.length == 2) {
+            if (cells.length === 2) {
                 Modaldialog("Lütfen sipariş seçin", "Hata", "Tamam", "btn-danger");
                 result = true;
                 return;
             }
             cells.forEach(function (item) {
-                if (item[2]==0) {
+                if (item[2]===0) {
                     Modaldialog(item[0] + " için stok bulunmamaktadır.", "Hata", "Tamam", "btn-danger");
                     result = true;
                     return;
                 }
             });
-            if (result == false)
+            if (result === false)
             {
                 $("#localData").html("");
                 table.rows(".selected").every(function (rowIdx, tableLoop, rowLoop)
