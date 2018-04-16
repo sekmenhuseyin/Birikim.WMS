@@ -345,6 +345,24 @@ namespace Wms12m.Presentation
             var mGorev = db.Gorevs.Where(m => m.ID == GorevID && m.DurumID == durumID).FirstOrDefault();
             if (mGorev.IsNull())
                 return new Result(false, "Görevi kontrol ediniz!");
+
+            #region Makara No Kontrol
+
+            foreach (var item in StiList.Where(m => m.OkutulanMiktar > 0))
+            {
+                var tmp = IrsaliyeDetay.Detail(item.ID);
+                var kkablo = db.Database.SqlQuery<string>(string.Format(@"
+                    SELECT Kod1 FROM FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) WHERE (MalKodu = '{1}')", mGorev.IR.SirketKod
+                    , tmp.MalKodu)).FirstOrDefault();
+
+                if (kkablo == "KKABLO" && (item.MakaraNo == "" || item.MakaraNo == null))
+                {
+                    return new Result(false, tmp.MalKodu + " için Makara no girilmelidir.");
+                }
+            }
+
+            #endregion
+
             // add to gorev user table           
             var tbl = db.GorevUsers.Where(m => m.GorevID == GorevID && m.UserName == tblx.Kod).FirstOrDefault();
             if (tbl == null)
@@ -359,22 +377,39 @@ namespace Wms12m.Presentation
                 db.SaveChanges();
             }
 
+            //foreach (var item in StiList.Where(m=>m.OkutulanMiktar>0))
             foreach (var item in StiList)
             {
                 var tmp = IrsaliyeDetay.Detail(item.ID);
+                if (item.MakaraNo == "") item.MakaraNo = null;
 
-                if (tmp.MakaraNo == "" || tmp.MakaraNo == null)
+                bool Yeni = item.YeniSatir.IsNotNull() ? item.YeniSatir.ToBool() : false;
+                if (Yeni)
                 {
-                    var kkablo = db.Database.SqlQuery<string>(string.Format(@"
-                SELECT Kod1 FROM FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) WHERE (MalKodu = '{1}')", mGorev.IR.SirketKod, tmp.MalKodu)).FirstOrDefault();
-                    if (kkablo == "KKABLO")
+                    tmp = new IRS_Detay()
                     {
-                        return new Result(false, tmp.MalKodu + " için Makara no girilmelidir.");
-                    }
+                        Birim = tmp.Birim,
+                        IrsaliyeID = tmp.IrsaliyeID,
+                        OkutulanMiktar = item.OkutulanMiktar,
+                        Miktar = 0,
+                        KynkDegisSaat = tmp.KynkDegisSaat,
+                        KynkSiparisID = tmp.KynkSiparisID,
+                        KynkSiparisMiktar = tmp.KynkSiparisMiktar,
+                        KynkSiparisNo = tmp.KynkSiparisNo,
+                        KynkSiparisSiraNo = tmp.KynkSiparisSiraNo,
+                        KynkSiparisTarih = tmp.KynkSiparisTarih,
+                        MakaraNo = item.MakaraNo,
+                        MalKodu = tmp.MalKodu,
+                        YerlestirmeMiktari = tmp.YerlestirmeMiktari
+                    };
+                }
+                else
+                {
+                    if (tmp.OkutulanMiktar == null) tmp.OkutulanMiktar = item.OkutulanMiktar;
+                    else tmp.OkutulanMiktar += item.OkutulanMiktar;
+                    tmp.MakaraNo = item.MakaraNo;
                 }
 
-                if (tmp.OkutulanMiktar == null) tmp.OkutulanMiktar = 0;
-                tmp.OkutulanMiktar += item.OkutulanMiktar;
                 try
                 {
                     IrsaliyeDetay.Operation(tmp);
@@ -403,11 +438,20 @@ namespace Wms12m.Presentation
             var mGorev = db.Gorevs.Where(m => m.ID == GorevID && m.DurumID == durumID).FirstOrDefault();
             if (mGorev.IsNull())
                 return new Result(false, "Görevi kontrol ediniz!");
+
+            //Makara No Kontrol
+            var sqlm = string.Format("EXEC BIRIKIM.wms.TerminalMalKabul_MakaraKontrol {0}", mGorev.ID);
+            var kul = db.Database.SqlQuery<string>(sqlm).FirstOrDefault();
+            if (kul.IsNotNull())
+                if (kul.Replace(",", "") != "")
+                    return new Result(false, kul.Replace(",", "") + " Makara No Sistemde Mevcut Tekrar Atılamaz.!");
+
             // return
             var sql = string.Format("EXEC BIRIKIM.wms.TerminalMalKabul_GorevKontrol {0}", mGorev.ID);
             var tbl = db.Database.SqlQuery<decimal>(sql).FirstOrDefault();
             if (tbl != 0)
                 return new Result(false, -1, "İşlem bitmemiş !");
+
             return new Result(true);
         }
 
@@ -468,7 +512,11 @@ namespace Wms12m.Presentation
                             // kaydet
                             var cevap = Yerlestirme.Insert(tmp2, KullID, "Mal Kabul");
                             if (cevap.Status == false)//tek ihtimal: makara no var ve çok önceki kayıtlarla çakıştı
+                            {
+                                //tmp2.MakaraNo = "Boş-" + db.SettingsMakaraNo(item.DepoID).FirstOrDefault();
+                                //Yerlestirme.Insert(tmp2, KullID, "Mal Kabul");
                                 return new Result(false, "Makara no girilmelidir.");
+                            }
                         }
                         else//güncelle
                         {
@@ -479,9 +527,25 @@ namespace Wms12m.Presentation
                     // add to mysql
                     if (db.Settings.FirstOrDefault().KabloSiparisMySql == true)
                     {
-                        sql = string.Format("SELECT FINSAT6{0}.FINSAT6{0}.STK.MalAdi4 as Marka, FINSAT6{0}.FINSAT6{0}.STK.Nesne2 as Cins, FINSAT6{0}.FINSAT6{0}.STK.Kod15 as Kesit, wms.IRS_Detay.Miktar, wms.IRS_Detay.MakaraNo " +
-                                                "FROM wms.IRS_Detay INNER JOIN FINSAT6{0}.FINSAT6{0}.STK ON wms.IRS_Detay.MalKodu = FINSAT6{0}.FINSAT6{0}.STK.MalKodu " +
-                                                "WHERE (FINSAT6{0}.FINSAT6{0}.STK.Kod1 = 'KKABLO') AND (wms.IRS_Detay.IrsaliyeID = {1}) AND (wms.IRS_Detay.Birim = FINSAT6{0}.FINSAT6{0}.STK.Birim1 OR wms.IRS_Detay.Birim = FINSAT6{0}.FINSAT6{0}.STK.Birim2)", mGorev.IR.SirketKod, mGorev.IrsaliyeID);
+                        if (mGorev.IR.SirketKod == "33")
+                        {
+                            sql = string.Format(@"
+                            SELECT FINSAT6{0}.FINSAT6{0}.STK.MalAdi4 as Marka, FINSAT6{0}.FINSAT6{0}.STK.Nesne2 as Cins, FINSAT6{0}.FINSAT6{0}.STK.Kod15 as Kesit,
+                            wms.IRS_Detay.Miktar, wms.IRS_Detay.MakaraNo, '' AS Renk
+                            FROM wms.IRS_Detay INNER JOIN FINSAT6{0}.FINSAT6{0}.STK ON wms.IRS_Detay.MalKodu = FINSAT6{0}.FINSAT6{0}.STK.MalKodu 
+                            WHERE (FINSAT6{0}.FINSAT6{0}.STK.Kod1 = 'KKABLO') AND (wms.IRS_Detay.IrsaliyeID = {1}) AND 
+                            (wms.IRS_Detay.Birim = FINSAT6{0}.FINSAT6{0}.STK.Birim1 OR wms.IRS_Detay.Birim = FINSAT6{0}.FINSAT6{0}.STK.Birim2)", mGorev.IR.SirketKod, mGorev.IrsaliyeID);
+                        }
+                        else
+                        {
+                            sql = string.Format(@"
+                            SELECT FINSAT6{0}.FINSAT6{0}.STK.MalAdi4 as Marka, FINSAT6{0}.FINSAT6{0}.STK.Nesne2 as Cins, FINSAT6{0}.FINSAT6{0}.STK.Kod16 as Kesit,
+                            wms.IRS_Detay.Miktar, wms.IRS_Detay.MakaraNo , FINSAT6{0}.FINSAT6{0}.STK.Kod15 as Renk
+                            FROM wms.IRS_Detay INNER JOIN FINSAT6{0}.FINSAT6{0}.STK ON wms.IRS_Detay.MalKodu = FINSAT6{0}.FINSAT6{0}.STK.MalKodu 
+                            WHERE (FINSAT6{0}.FINSAT6{0}.STK.Kod1 = 'KKABLO') AND (wms.IRS_Detay.IrsaliyeID = {1}) AND 
+                            (wms.IRS_Detay.Birim = FINSAT6{0}.FINSAT6{0}.STK.Birim1 OR wms.IRS_Detay.Birim = FINSAT6{0}.FINSAT6{0}.STK.Birim2)", mGorev.IR.SirketKod, mGorev.IrsaliyeID);
+                        }
+
                         var stks = db.Database.SqlQuery<frmCableStk>(sql).ToList();
                         if (stks.Count > 0)
                         {
@@ -508,7 +572,7 @@ namespace Wms12m.Presentation
                                             kesit = itemx.Kesit,
                                             sid = sid.id,
                                             depo = depo,
-                                            renk = "",
+                                            renk = itemx.Renk,
                                             makara = "KAPALI",
                                             rezerve = "0",
                                             sure = new TimeSpan(),
@@ -961,9 +1025,25 @@ namespace Wms12m.Presentation
                             foreach (var item2 in item.IRS_Detay)
                             {
                                 // istenen stk bilgilerini bul
-                                sql = string.Format("SELECT FINSAT6{0}.FINSAT6{0}.STK.MalAdi4 as Marka, FINSAT6{0}.FINSAT6{0}.STK.Nesne2 as Cins, FINSAT6{0}.FINSAT6{0}.STK.Kod15 as Kesit " +
-                                                      "FROM FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) " +
-                                                      "WHERE (FINSAT6{0}.FINSAT6{0}.STK.MalKodu = '{1}') AND (FINSAT6{0}.FINSAT6{0}.STK.Kod1 = 'KKABLO')", item.SirketKod, item2.MalKodu);
+                                if (item.SirketKod == "33")
+                                {
+                                    sql = string.Format(@"
+                                    SELECT FINSAT6{0}.FINSAT6{0}.STK.MalAdi4 as Marka, FINSAT6{0}.FINSAT6{0}.STK.Nesne2 as Cins, 
+                                    FINSAT6{0}.FINSAT6{0}.STK.Kod15 as Kesit, '' AS Renk
+                                    FROM FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) 
+                                    WHERE (FINSAT6{0}.FINSAT6{0}.STK.MalKodu = '{1}') AND (FINSAT6{0}.FINSAT6{0}.STK.Kod1 = 'KKABLO')"
+                                    , item.SirketKod, item2.MalKodu);
+                                }
+                                else
+                                {
+                                    sql = string.Format(@"
+                                    SELECT FINSAT6{0}.FINSAT6{0}.STK.MalAdi4 as Marka, FINSAT6{0}.FINSAT6{0}.STK.Nesne2 as Cins, 
+                                    FINSAT6{0}.FINSAT6{0}.STK.Kod16 as Kesit, FINSAT6{0}.FINSAT6{0}.STK.Kod15 as Renk
+                                    FROM FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) 
+                                    WHERE (FINSAT6{0}.FINSAT6{0}.STK.MalKodu = '{1}') AND (FINSAT6{0}.FINSAT6{0}.STK.Kod1 = 'KKABLO')"
+                                    , item.SirketKod, item2.MalKodu);
+                                }
+
                                 var stk = db.Database.SqlQuery<frmCableStk>(sql).FirstOrDefault();
                                 if (stk != null)
                                 {
@@ -2003,9 +2083,25 @@ namespace Wms12m.Presentation
                             foreach (var item2 in item.IRS_Detay)
                             {
                                 // istenen stk bilgilerini bul
-                                sql = string.Format("SELECT FINSAT6{0}.FINSAT6{0}.STK.MalAdi4 as Marka, FINSAT6{0}.FINSAT6{0}.STK.Nesne2 as Cins, FINSAT6{0}.FINSAT6{0}.STK.Kod15 as Kesit " +
-                                                      "FROM FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) " +
-                                                      "WHERE (FINSAT6{0}.FINSAT6{0}.STK.MalKodu = '{1}') AND (FINSAT6{0}.FINSAT6{0}.STK.Kod1 = 'KKABLO')", item.SirketKod, item2.MalKodu);
+                                if (item.SirketKod == "33")
+                                {
+                                    sql = string.Format(@"
+                                    SELECT FINSAT6{0}.FINSAT6{0}.STK.MalAdi4 as Marka, FINSAT6{0}.FINSAT6{0}.STK.Nesne2 as Cins, 
+                                    FINSAT6{0}.FINSAT6{0}.STK.Kod15 as Kesit, '' AS Renk
+                                    FROM FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) 
+                                    WHERE (FINSAT6{0}.FINSAT6{0}.STK.MalKodu = '{1}') AND (FINSAT6{0}.FINSAT6{0}.STK.Kod1 = 'KKABLO')"
+                                    , item.SirketKod, item2.MalKodu);
+                                }
+                                else
+                                {
+                                    sql = string.Format(@"
+                                    SELECT FINSAT6{0}.FINSAT6{0}.STK.MalAdi4 as Marka, FINSAT6{0}.FINSAT6{0}.STK.Nesne2 as Cins, 
+                                    FINSAT6{0}.FINSAT6{0}.STK.Kod16 as Kesit, FINSAT6{0}.FINSAT6{0}.STK.Kod15 as Renk
+                                    FROM FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) 
+                                    WHERE (FINSAT6{0}.FINSAT6{0}.STK.MalKodu = '{1}') AND (FINSAT6{0}.FINSAT6{0}.STK.Kod1 = 'KKABLO')"
+                                    , item.SirketKod, item2.MalKodu);
+                                }
+
                                 var stk = db.Database.SqlQuery<frmCableStk>(sql).FirstOrDefault();
                                 if (stk != null)
                                 {
@@ -2197,9 +2293,27 @@ namespace Wms12m.Presentation
                     // add to mysql
                     if (db.Settings.FirstOrDefault().KabloSiparisMySql == true)
                     {
-                        sql = string.Format("SELECT FINSAT6{0}.FINSAT6{0}.STK.MalAdi4 as Marka, FINSAT6{0}.FINSAT6{0}.STK.Nesne2 as Cins, FINSAT6{0}.FINSAT6{0}.STK.Kod15 as Kesit, wms.IRS_Detay.Miktar, wms.IRS_Detay.MakaraNo " +
-                                            "FROM wms.IRS_Detay INNER JOIN FINSAT6{0}.FINSAT6{0}.STK ON wms.IRS_Detay.MalKodu = FINSAT6{0}.FINSAT6{0}.STK.MalKodu " +
-                                            "WHERE (FINSAT6{0}.FINSAT6{0}.STK.Kod1 = 'KKABLO') AND (wms.IRS_Detay.IrsaliyeID = {1}) AND (wms.IRS_Detay.Birim = FINSAT6{0}.FINSAT6{0}.STK.Birim1 OR wms.IRS_Detay.Birim = FINSAT6{0}.FINSAT6{0}.STK.Birim2)", mGorev.IR.SirketKod, mGorev.IrsaliyeID);
+                        if (mGorev.IR.SirketKod == "33")
+                        {
+                            sql = string.Format(@"
+                            SELECT FINSAT6{0}.FINSAT6{0}.STK.MalAdi4 as Marka, FINSAT6{0}.FINSAT6{0}.STK.Nesne2 as Cins, 
+                            FINSAT6{0}.FINSAT6{0}.STK.Kod15 as Kesit, wms.IRS_Detay.Miktar, wms.IRS_Detay.MakaraNo, '' AS Renk
+                            FROM wms.IRS_Detay INNER JOIN FINSAT6{0}.FINSAT6{0}.STK ON wms.IRS_Detay.MalKodu = FINSAT6{0}.FINSAT6{0}.STK.MalKodu 
+                            WHERE (FINSAT6{0}.FINSAT6{0}.STK.Kod1 = 'KKABLO') AND (wms.IRS_Detay.IrsaliyeID = {1}) 
+                            AND (wms.IRS_Detay.Birim = FINSAT6{0}.FINSAT6{0}.STK.Birim1 OR wms.IRS_Detay.Birim = FINSAT6{0}.FINSAT6{0}.STK.Birim2)"
+                            , mGorev.IR.SirketKod, mGorev.IrsaliyeID);
+                        }
+                        else
+                        {
+                            sql = string.Format(@"
+                            SELECT FINSAT6{0}.FINSAT6{0}.STK.MalAdi4 as Marka, FINSAT6{0}.FINSAT6{0}.STK.Nesne2 as Cins, 
+                            FINSAT6{0}.FINSAT6{0}.STK.Kod16 as Kesit, wms.IRS_Detay.Miktar, wms.IRS_Detay.MakaraNo,  FINSAT6{0}.FINSAT6{0}.STK.Kod15 AS Renk
+                            FROM wms.IRS_Detay INNER JOIN FINSAT6{0}.FINSAT6{0}.STK ON wms.IRS_Detay.MalKodu = FINSAT6{0}.FINSAT6{0}.STK.MalKodu 
+                            WHERE (FINSAT6{0}.FINSAT6{0}.STK.Kod1 = 'KKABLO') AND (wms.IRS_Detay.IrsaliyeID = {1}) 
+                            AND (wms.IRS_Detay.Birim = FINSAT6{0}.FINSAT6{0}.STK.Birim1 OR wms.IRS_Detay.Birim = FINSAT6{0}.FINSAT6{0}.STK.Birim2)"
+                            , mGorev.IR.SirketKod, mGorev.IrsaliyeID);
+                        }
+
                         var stks = db.Database.SqlQuery<frmCableStk>(sql).ToList();
                         if (stks.Count > 0)
                         {
@@ -2220,7 +2334,7 @@ namespace Wms12m.Presentation
                                             kesit = itemx.Kesit,
                                             sid = sid,
                                             depo = depo,
-                                            renk = "",
+                                            renk = itemx.Renk,
                                             makara = "KAPALI",
                                             rezerve = "0",
                                             sure = new TimeSpan(),

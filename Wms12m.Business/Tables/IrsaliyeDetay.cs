@@ -131,13 +131,13 @@ namespace Wms12m.Business
         public override Result Operation(IRS_Detay tbl)
         {
             _Result = new Result(); var eklemi = false;
-            if (tbl.Miktar <= 0)
-            {
-                _Result.Id = 0;
-                _Result.Message = "Eksik Bilgi Girdiniz";
-                _Result.Status = false;
-                return _Result;
-            }
+            //if (tbl.Miktar <= 0)
+            //{
+            //    _Result.Id = 0;
+            //    _Result.Message = "Eksik Bilgi Girdiniz";
+            //    _Result.Status = false;
+            //    return _Result;
+            //}
 
             // set details
             if (tbl.ID == 0)
@@ -152,7 +152,8 @@ namespace Wms12m.Business
                 tmp.MalKodu = tbl.MalKodu;
                 tmp.Birim = tbl.Birim;
                 tmp.Miktar = tbl.Miktar;
-                if (tbl.MakaraNo != "") tmp.MakaraNo = tbl.MakaraNo;
+                //if (tbl.MakaraNo != "") tmp.MakaraNo = tbl.MakaraNo;
+                tmp.MakaraNo = tbl.MakaraNo;
                 if (tbl.YerlestirmeMiktari != null) tmp.YerlestirmeMiktari = tbl.YerlestirmeMiktari;
             }
 

@@ -180,8 +180,12 @@ namespace Wms12m.Business
         public List<frmCableStok> GetListCable(int DepoID, int RafID = 0, int BolumID = 0, int KatID = 0)
         {
             //sql
-            var sql = string.Format(@"SELECT        wms.Yer.ID, wms.Yer.HucreAd, wms.Yer.MalKodu, STK.MalAdi, wms.Yer.Miktar, wms.Yer.Birim, wms.Yer.MakaraNo, STK.MalAdi4 AS Marka,
-                                                             STK.Nesne2 AS Cins, STK.Kod15 AS Kesit
+            string sql = "";
+
+            if (vUser.SirketKodu == "33")
+            {
+                sql = string.Format(@"SELECT        wms.Yer.ID, wms.Yer.HucreAd, wms.Yer.MalKodu, STK.MalAdi, wms.Yer.Miktar, wms.Yer.Birim, wms.Yer.MakaraNo, STK.MalAdi4 AS Marka,
+                                                             STK.Nesne2 AS Cins, STK.Kod15 AS Kesit, '' AS Renk
                                     FROM            wms.Yer WITH (NOLOCK) INNER JOIN
                                                              wms.Kat WITH (NOLOCK) ON wms.Yer.KatID = wms.Kat.ID INNER JOIN
                                                              wms.Bolum WITH (NOLOCK) ON wms.Kat.BolumID = wms.Bolum.ID INNER JOIN
@@ -189,6 +193,19 @@ namespace Wms12m.Business
                                                              wms.Koridor WITH (NOLOCK) ON wms.Raf.KoridorID = wms.Koridor.ID INNER JOIN
                                                              FINSAT6{0}.FINSAT6{0}.STK WITH (NOLOCK) ON wms.Yer.MalKodu = FINSAT6{0}.FINSAT6{0}.STK.MalKodu
                                     WHERE        (STK.Kod1 = 'KKABLO') AND (wms.Yer.Miktar > 0)", vUser.SirketKodu);
+            }
+            else
+            {
+                sql = string.Format(@"SELECT        wms.Yer.ID, wms.Yer.HucreAd, wms.Yer.MalKodu, STK.MalAdi, wms.Yer.Miktar, wms.Yer.Birim, wms.Yer.MakaraNo, STK.MalAdi4 AS Marka,
+                                                             STK.Nesne2 AS Cins, STK.Kod16 AS Kesit, STK.Kod15 AS Renk
+                                    FROM            wms.Yer WITH (NOLOCK) INNER JOIN
+                                                             wms.Kat WITH (NOLOCK) ON wms.Yer.KatID = wms.Kat.ID INNER JOIN
+                                                             wms.Bolum WITH (NOLOCK) ON wms.Kat.BolumID = wms.Bolum.ID INNER JOIN
+                                                             wms.Raf WITH (NOLOCK) ON wms.Bolum.RafID = wms.Raf.ID INNER JOIN
+                                                             wms.Koridor WITH (NOLOCK) ON wms.Raf.KoridorID = wms.Koridor.ID INNER JOIN
+                                                             FINSAT6{0}.FINSAT6{0}.STK WITH (NOLOCK) ON wms.Yer.MalKodu = FINSAT6{0}.FINSAT6{0}.STK.MalKodu
+                                    WHERE        (STK.Kod1 = 'KKABLO') AND (wms.Yer.Miktar > 0)", vUser.SirketKodu);
+            }
             //filters
             if (KatID > 0)
                 sql += " AND wms.Kat.ID = " + KatID;
