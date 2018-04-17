@@ -1,4 +1,4 @@
-﻿@*@section Styles{
+﻿@section Styles{
     <style>
         td.details-control {
             background: url('/Content/assets/global/plugins/datatables/images/details_open.png') no-repeat center center;
@@ -9,7 +9,7 @@
             background: url('/Content/assets/global/plugins/datatables/images/details_close.png') no-repeat center center;
         }
     </style>
-}*@
+}
 <div class="row">
     <div class="col-md-12">
         <div class="portlet box green">
@@ -18,7 +18,7 @@
                 <table class="table table-striped table-bordered table-condensed" id="sample_1">
                     <thead>
                         <tr>
-                            @*<th></th>*@
+                            <th></th>
                             <th>Evrak No</th>
                             <th>Tutar</th>
                             <th>Tarih</th>
@@ -30,7 +30,7 @@
                     </thead>
                     <tfoot>
                         <tr>
-                            @*<th></th>*@
+                            <th></th>
                             <th></th>
                             <th></th>
                             <th></th>
@@ -42,7 +42,7 @@
                     </tfoot>
                     <tfoot class="tf-search">
                         <tr>
-                            @*<th></th>*@
+                            <th></th>
                             <th></th>
                             <th></th>
                             <th></th>
@@ -63,7 +63,7 @@
     $(document).ready(function () {
         table = $('#sample_1').DataTable({
             "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
-            //"order": [[1, "asc"]],
+            "order": [[1, "asc"]],
             "ordering": true,
             "pagingType": "full_numbers",
             "scrollX": true,
@@ -83,7 +83,7 @@
             },
             "columnDefs": [{ "className": "dt-center", "targets": "_all" }],
             "columns": [
-                //{ "data": null, "defaultContent": '', "className": 'details-control', "orderable": false },
+                { "data": null, "defaultContent": '', "className": 'details-control', "orderable": false },
                 { "data": "EVRAKNO" },
                 { "data": "Tutar" , "render": $.fn.dataTable.render.number('.', ',', 2, '') },
                 { "data": "Tarih" },
@@ -102,34 +102,34 @@
                     Tutar += val.Tutar;
                 });
                 var api = this.api(), data;
-                $(api.column(1).footer()).html(numeral(Tutar).format());
+                $(api.column(2).footer()).html(numeral(Tutar).format());
             },
         });
-        //$('#sample_1 tbody').on('click', 'td.details-control', function () {
-        //    var tr = $(this).closest('tr');
-        //    table
-        //        .rows('.aa')
-        //        .nodes()
-        //        .to$()      // Convert to a jQuery object
-        //        .removeClass('aa');
-        //    tr.addClass("aa");
-        //    var x = table.rows('.aa').data();
-        //    var row = table.row(tr);
-        //    if (row.child.isShown()) { row.child.hide(); tr.removeClass('shown'); }
-        //    else { row.child(newrow(x[0].EVRAKNO)).show(); format(x[0].EVRAKNO); tr.addClass('shown'); }
-        //});
-        //function newrow(id) { return "<table style='background:transparent;' id='new" + id.replaceAll(" ","") + "'></table>"; }
-        //function format(d) {
-        //    $.ajax({
-        //        type: 'POST',
-        //        url: '/Reports/Financial/RaporGunlukSiparisDetay',
-        //        data: { "EVRAKNO": d },
-        //        dataType: "html",
-        //        success: function (data) {
-        //            $('#new' + d.replaceAll(" ", "")).html(data);
-        //        }
-        //    });
-        //}
+        $('#sample_1 tbody').on('click', 'td.details-control', function () {
+            var tr = $(this).closest('tr');
+            table
+                .rows('.aa')
+                .nodes()
+                .to$()      // Convert to a jQuery object
+                .removeClass('aa');
+            tr.addClass("aa");
+            var x = table.rows('.aa').data();
+            var row = table.row(tr);
+            if (row.child.isShown()) { row.child.hide(); tr.removeClass('shown'); }
+            else { row.child(newrow(x[0].EVRAKNO)).show(); format(x[0].EVRAKNO); tr.addClass('shown'); }
+        });
+        function newrow(id) { return "<table style='background:transparent;' id='new" + id.replaceAll(" ","") + "'></table>"; }
+        function format(d) {
+            $.ajax({
+                type: 'POST',
+                url: '/Reports/Financial/RaporGunlukSiparisDetay',
+                data: { "EVRAKNO": d,"TIP": 1 },
+                dataType: "html",
+                success: function (data) {
+                    $('#new' + d.replaceAll(" ", "")).html(data);
+                }
+            });
+        }
         $('#sample_1 .tf-search th').each(function () {
             var title = $('#sample_1 thead th').eq($(this).index()).text();
             if (title != "" && title.indexOf("Tarih") !== -1)

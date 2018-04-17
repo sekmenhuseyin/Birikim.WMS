@@ -930,15 +930,6 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
             }
             return json.Serialize(gs);
         }
-        public PartialViewResult RaporGunlukSiparisDetay(string EVRAKNO)
-        {
-            List<GunlukSiparisDetay> gs;
-
-            string sorgu = "";
-            sorgu = String.Format(GunlukSiparisDetay.Sorgu, vUser.SirketKodu, EVRAKNO);
-            gs = db.Database.SqlQuery<GunlukSiparisDetay>(sorgu).ToList();
-            return PartialView("RaporGunlukSiparisDetay", gs);
-        }
         #endregion
         #region BekleyenSiparisler-YAPILDI
         public ActionResult RaporBekleyenSiparisler()
@@ -1153,6 +1144,25 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
             return json.Serialize(gs);
         }
         #endregion
+        public PartialViewResult RaporGunlukSiparisDetay(string EVRAKNO, string TIP)
+        {
+            //GunlukCiroRaporu ve RaporGunlukSiparis kullanılmakta
+            List<GunlukSiparisDetay> gs;
+            string sorgu = "", tblAdi = "", tWhere = "";
+            switch (TIP)
+            {
+                case "0": tblAdi = "SPI"; tWhere = "62"; break;
+                default: tblAdi = "STI"; tWhere = "1,2,163"; break;
+            }
+            sorgu = String.Format(GunlukSiparisDetay.Sorgu, vUser.SirketKodu, tblAdi, tWhere, EVRAKNO);
+            try { gs = db.Database.SqlQuery<GunlukSiparisDetay>(sorgu).ToList(); }
+            catch (Exception ex)
+            {
+                gs = new List<GunlukSiparisDetay>();
+                Logger(ex, "/Reports/Financial/RaporGunlukSiparisDetay");
+            }
+            return PartialView("RaporGunlukSiparisDetay", gs);
+        }
         public JsonResult TemsilciGetir(string GrupKod, string TipKod)
         {
             List<SelectListItem> grpTanimKartList = new List<SelectListItem>();

@@ -104,7 +104,7 @@
                 var Tutar = 0;
                 table.rows({ search: 'applied' }).data().each(function (val, index) {
                     Tutar += val.Tutar;
-                   
+
                 });
                 var api = this.api(), data;
                 $(api.column(2).footer()).html(numeral(Tutar).format());
@@ -130,7 +130,7 @@
             $.ajax({
                 type: 'POST',
                 url: '/Reports/Financial/RaporGunlukSiparisDetay',
-                data: { "EVRAKNO": d },
+                data: { "EVRAKNO": d ,"TIP" : 0},
                 dataType: "html",
                 success: function (data) {
                     $('#new' + d.replaceAll(" ", "")).html(data);

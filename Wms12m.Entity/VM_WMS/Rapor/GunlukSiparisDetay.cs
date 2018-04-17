@@ -2,63 +2,43 @@
 {
     public class GunlukSiparisDetay
     {
-
-        /// <summary> VarChar(30) (Not Null) </summary>
         public string MalKodu { get; set; }
-        /// <summary> VarChar(50) (Not Null) </summary>
         public string MalAdi { get; set; }
-        /// <summary> Decimal(25,6) (Not Null) </summary>
         public decimal BirimMiktar { get; set; }
-        /// <summary> Decimal(10,2) (Allow Null) </summary>
         public decimal? IskontoOran1 { get; set; }
-        /// <summary> Decimal(25,6) (Not Null) </summary>
         public decimal SatisFiyat3 { get; set; }
-        /// <summary> Decimal(25,6) (Not Null) </summary>
         public decimal BirimFiyat { get; set; }
-        /// <summary> Decimal(26,6) (Allow Null) </summary>
         public decimal? NetTutar { get; set; }
-        /// <summary> SmallInt (Not Null) </summary>
         public short Valorgun { get; set; }
-        /// <summary> Decimal(25,6) (Not Null) </summary>
         public decimal AlisFiyat1 { get; set; }
-        /// <summary> VarChar(20) (Not Null) </summary>
         public string TipKod { get; set; }
-        /// <summary> VarChar(20) (Not Null) </summary>
         public string GrupKod { get; set; }
-        /// <summary> VarChar(16) (Not Null) </summary>
         public string EvrakNo { get; set; }
-        /// <summary> VarChar(20) (Not Null) </summary>
         public string HesapKodu { get; set; }
-        /// <summary> VarChar(81) (Not Null) </summary>
         public string Unvan { get; set; }
-        /// <summary> VarChar(50) (Not Null) </summary>
         public string MalAdi4 { get; set; }
-
-
         public static string Sorgu = @"
-        SELECT
-          SPI.MalKodu,
+          SELECT
+          SS.MalKodu,
           STK.MalAdi,
-          SPI.BirimMiktar,
-          CONVERT(DECIMAL(10,2),SPI.IskontoOran1) AS IskontoOran1,
+          SS.BirimMiktar,
+          CONVERT(DECIMAL(10,2),SS.IskontoOran1) AS IskontoOran1,
           STK.SatisFiyat3,
-          SPI.BirimFiyat,
-          (SPI.Tutar - SPI.ToplamIskonto) AS NetTutar,
-          SPI.Valorgun,
+          SS.BirimFiyat,
+          (SS.Tutar - SS.ToplamIskonto) AS NetTutar,
+          SS.Valorgun,
           STK.AlisFiyat1,
           CHK.TipKod,
           CHK.GrupKod,
-          SPI.EvrakNo,
-          SPI.Chk AS HesapKodu,
+          SS.EvrakNo,
+          SS.Chk AS HesapKodu,
           CONCAT(CHK.Unvan1,SPACE(1),CHK.Unvan2) AS Unvan,
           STK.MalAdi4
-          FROM FINSAT6{0}.FINSAT6{0}.SPI AS SPI WITH (NOLOCK)
-          INNER JOIN FINSAT6{0}.FINSAT6{0}.STK AS STK WITH (NOLOCK) ON STK.MALKODU = SPI.MALKODU 
-          INNER JOIN FINSAT6{0}.FINSAT6{0}.CHK AS CHK WITH (NOLOCK) ON CHK.HesapKodu = SPI.CHK
-          WHERE SPI.KynkEvrakTip=62 
-          AND LTRIM(SPI.EvrakNo) = LTRIM('{1}')
+          FROM FINSAT6{0}.FINSAT6{0}.{1} AS SS WITH (NOLOCK)
+          INNER JOIN FINSAT6{0}.FINSAT6{0}.STK AS STK WITH (NOLOCK) ON STK.MALKODU = SS.MALKODU 
+          INNER JOIN FINSAT6{0}.FINSAT6{0}.CHK AS CHK WITH (NOLOCK) ON CHK.HesapKodu = SS.CHK
+          WHERE SS.KynkEvrakTip IN ({2}) 
+          AND LTRIM(SS.EvrakNo) = LTRIM('{3}')
           ";
-
-
     }
 }
