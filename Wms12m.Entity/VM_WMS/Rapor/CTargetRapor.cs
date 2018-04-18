@@ -3,29 +3,20 @@
     public class CTargetRapor
     {
         public string SiraNo { get; set; }
-        /// <summary> VarChar(20) (Allow Null) </summary>
         public string GrupKod { get; set; }
-        /// <summary> Decimal(25,6) (Not Null) </summary>
         public decimal Hedef { get; set; }
-        /// <summary> Decimal(38,6) (Allow Null) </summary>
         public decimal HedefOran { get; set; }
-        /// <summary> Decimal(38,6) (Not Null) </summary>
         public decimal ToplamIade { get; set; }
-        /// <summary> Decimal(38,6) (Not Null) </summary>
         public decimal NetCiro { get; set; }
-        /// <summary> Decimal(38,6) (Not Null) </summary>
         public decimal CiroOran { get; set; }
-        /// <summary> Decimal(38,6) (Not Null) </summary>
         public decimal CariBorc { get; set; }
-        /// <summary> Decimal(38,6) (Not Null) </summary>
         public decimal PRT { get; set; }
-        /// <summary> Decimal(38,6) (Not Null) </summary>
         public decimal BekleyenSiparis { get; set; }
         public static string Sorgu = @"
                                 DECLARE @TAR1 INT,@TAR2 INT
-                                SET @TAR1=ISNULL(FINSAT6{0}.dbo.AyIlkSonGun({1},{2},1),0)
-                                SET @TAR2=ISNULL(FINSAT6{0}.dbo.AyIlkSonGun({1},{2},0),0)
-
+                                SET @TAR1=FINSAT6{0}.dbo.AyIlkSonGun({1},{2},1)
+                                SET @TAR2=FINSAT6{0}.dbo.AyIlkSonGun({1},{2},0)
+								/*SELECT @TAR1,@TAR2*/
                                 SELECT 
 	                            CONVERT(NVARCHAR,ROW_NUMBER() OVER(ORDER BY B.GrupKod)) AS SiraNo,
                                 B.GrupKod,
@@ -37,7 +28,10 @@
                                 ISNULL(SUM(CASE WHEN A.BA = 0 THEN A.Tutar ELSE -A.Tutar END),0) AS CariBorc,
                                 ISNULL(TT3.Bakiye,0) AS PRT,
                                 ISNULL(TT2.BekleyenSiparis,0) AS BekleyenSiparis
-                                FROM ( 
+                                FROM 
+								FINSAT6{0}.FINSAT6{0}.CHK AS B WITH (NOLOCK) 
+								LEFT JOIN 
+								( 
                                 SELECT IC1.KarsiHesapKodu AS HesapKodu,
                                 (CASE WHEN IC1.IslemTip = 5 THEN -IC1.Tutar WHEN IC1.IslemTip = 9 THEN -IC1.Tutar ELSE IC1.Tutar END) AS Tutar,
                                 (CASE WHEN IC1.BA = 0 THEN 1 ELSE 0 END) AS BA 
@@ -52,9 +46,8 @@
                                 IC2.BA 
                                 FROM FINSAT6{0}.FINSAT6{0}.CHI AS IC2 WITH (NOLOCK) 
                                 WHERE IC2.IslemTip NOT IN (16,21,27,32,36,37,41,42) 
-                                AND (IC2.Tarih BETWEEN 0 AND @TAR2 )) AS A 
-                                LEFT JOIN FINSAT6{0}.FINSAT6{0}.CHK AS B WITH (NOLOCK) ON B.HesapKodu = A.HesapKodu AND B.GrupKod <>'FİK'
-                                LEFT JOIN (
+                                AND (IC2.Tarih BETWEEN 0 AND @TAR2 )) AS A ON B.HesapKodu = A.HesapKodu AND B.GrupKod <>'FİK'
+								LEFT JOIN (
                                 SELECT CHK.Grupkod,
                                 SUM(CASE WHEN STI.Kynkevraktip IN (1,163) THEN (STI.Tutar-STI.ToplamIskonto) 
                                     ELSE (STI.Tutar-STI.ToplamIskonto)*-1 END) AS NetCiro,
@@ -77,8 +70,6 @@
                                 INNER JOIN FINSAT6{0}.FINSAT6{0}.CHK AS CHK WITH (NOLOCK) ON CHK.HesapKodu=SPI.CHK 
                                 LEFT JOIN SOLAR6.DBO.DVZ (NOLOCK) DVZ ON DVZ.DovizCinsi=SPI.DovizCinsi and SPI.Tarih=DVZ.Tarih
                                 WHERE SPI.SiparisDurumu=0 AND SPI.Kynkevraktip=62
-                                --AND SPI.Kod10 != ('Reddedildi') 
-                                --AND (SPI.Tarih BETWEEN 0 AND @TAR2) 
                                 GROUP BY CHK.Grupkod
                                 ) AS TT2 ON B.GrupKod=TT2.GrupKod
                                 LEFT JOIN (
@@ -133,7 +124,7 @@
                                 AND (B.Kod2 BETWEEN '' AND 'ZZZZZ') 
                                 AND (B.Kod3 BETWEEN '' AND 'ZZZZZ') 
                                 AND (B.Kod4 BETWEEN '' AND 'ZZZZZ')
-                                AND (B.GrupKod <>'FİK'))
+                                AND (B.GrupKod NOT IN ('FİK',''))								)
 								GROUP BY B.Grupkod,TT1.NetCiro,TT1.ToplamIade,TT2.BekleyenSiparis,TT3.Bakiye,TT4.HEDEF
                                 ORDER BY B.GrupKod
                                 ";
