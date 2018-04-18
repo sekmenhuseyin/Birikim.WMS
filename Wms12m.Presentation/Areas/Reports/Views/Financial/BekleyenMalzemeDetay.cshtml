@@ -1,4 +1,4 @@
-﻿@{ 
+﻿@{
     Random rnd = new Random();
     string ran = rnd.Next().ToString();
 }
@@ -81,7 +81,7 @@
 </div>
 <script type="text/javascript">
 $(document).ready(function () {
-    table1a = $('#sample_1a@{@ran.ToString()}').DataTable({
+    table1aa = $('#sample_1a@{@ran.ToString()}').DataTable({
         "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
         "pagingType": "full_numbers",
         "ordering": false,
@@ -117,7 +117,7 @@ $(document).ready(function () {
         "footerCallback": function (row, data, start, end, display) {
             var Siparis = 0, TeslimEdilen = 0, Kapatilan = 0,
                 BekleyenNetTutar = 0, MevcutStok = 0, AlimSiparis = 0, IskontoOran1 = 0, BirimFiyat = 0, ToplamIskonto = 0, SatisFiyat3 = 0;
-            table1a.rows({ search: 'applied' }).data().each(function (val, index) {
+            table1aa.rows({ search: 'applied' }).data().each(function (val, index) {
                 Siparis += val.Siparis;
                 TeslimEdilen += val.TeslimEdilen;
                 Kapatilan += val.Kapatilan;
@@ -144,7 +144,7 @@ $(document).ready(function () {
         });
 
         $("#buttons1a@{@ran.ToString()}").html("");
-        var buttons = new $.fn.dataTable.Buttons(table1a, {
+        var buttons = new $.fn.dataTable.Buttons(table1aa, {
             buttons: [
                 { "extend": 'pdf', "text": '<span class="fa fa-file-pdf-o f-s-15 red"></span>', "className": 'btn-xs;' },
                 { "extend": 'excel', "text": '<span class="fa fa-file-excel-o f-s-15 green"></span>', "className": 'btn-xs;' }
@@ -157,8 +157,29 @@ $(document).ready(function () {
             else if (title != "" && title != "Detay" && title != "Hareket")
                 $(this).html('<input class="form-control input-circle" type="text" placeholder="Ara" />');
         });
-        $("#sample_1a@{@ran.ToString()} tfoot input").on('keyup change', function () { table1a.column($(this).parent().index() + ':visible').search(this.value).draw(); });
+        $("#sample_1a@{@ran.ToString()} tfoot input").on('keyup change', function () { table1aa.column($(this).parent().index() + ':visible').search(this.value).draw(); });
         $('#sample_1a@{@ran.ToString()} .tf-search tr').insertAfter($('#sample_1a@{@ran.ToString()} thead tr'))
+    });
+    $.contextMenu({
+        selector: '#sample_1a@{@ran.ToString()} tbody tr',
+        trigger: 'left',
+        callback: function (key, options) {
+            var rowIndex = parseInt(options.$trigger[0].rowIndex) - 2;
+            var c = table1aa.row(rowIndex).data();
+            var satir = table1aa.row(rowIndex).data().MalKodu;
+            var mStok = table1aa.row(rowIndex).data().MevcutStok;
+            console.log(c);
+            console.log(satir);
+            console.log(mStok);
+            if (key == "bkDepo" && mStok > 0)
+            {
+                    $('#modalEditPage').modal('toggle');
+                    editInModal2('/Reports/Financial/MalzemeDepoList', { MalKodu: satir })
+            }
+        },
+        items: {
+            "bkDepo": { name: "Depolar", icon: "file" },
+        }
     });
 </script>
 

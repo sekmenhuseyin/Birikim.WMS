@@ -129,7 +129,6 @@
                 }
             });
         }
-
         $("#buttons").html("");
         var buttons = new $.fn.dataTable.Buttons(table, {
             buttons: [
@@ -147,8 +146,4 @@
         $("#sample_1 tfoot input").on('keyup change', function () { table.column($(this).parent().index() + ':visible').search(this.value).draw(); });
         $('#sample_1 .tf-search tr').insertAfter($('#sample_1 thead tr'));
     });
-
-   
-
-
 </script>

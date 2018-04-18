@@ -991,19 +991,25 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
         }
         public PartialViewResult MalzemeDepoList(string MalKodu)
         {
+            ViewBag.MlKodu = MalKodu;
+            return PartialView("MalzemeDepoList");
+        }
+        public string MalzemeDepoSelect(string MalKodu)
+        {
+            var json = new JavaScriptSerializer() { MaxJsonLength = int.MaxValue };
             List<BekleyenMalzDepo> list;
             try
             {
                 string sorgu = "";
-                sorgu = String.Format(BekleyenMalzDepo.Sorgu, vUser.SirketKodu);
-                list = db.Database.SqlQuery<BekleyenMalzDepo>(sorgu, new SqlParameter("MalKodu", MalKodu), new SqlParameter("SirketKodu", vUser.SirketKodu)).ToList();
+                sorgu = String.Format(BekleyenMalzDepo.Sorgu, vUser.SirketKodu,MalKodu);
+                list = db.Database.SqlQuery<BekleyenMalzDepo>(sorgu).ToList();
             }
             catch (Exception ex)
             {
                 list = new List<BekleyenMalzDepo>();
-                Logger(ex, "/Reports/Financial/MalzemeDepoList");
+                Logger(ex, "/Reports/Financial/MalzemeDepoSelect");
             }
-            return PartialView("MalzemeDepoList", list);
+            return json.Serialize(list);
         }
         #endregion
         #region UrunSatisAnalizi-YAPILDI
@@ -1209,7 +1215,7 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
         private string YilAyConvert(string yil, string ay)
         {
             string MMyyyy = "";
-            MMyyyy = ((Convert.ToInt32(ay) + 1).ToString().Length == 1 ? "0" + (Convert.ToInt32(ay) + 1).ToString() : (Convert.ToInt32(ay) + 1).ToString()) + yil;
+            MMyyyy = ((ay.ToInt32() + 1).ToString2().Length == 1 ? "0" + (ay.ToInt32() + 1).ToString2() : (ay.ToInt32() + 1).ToString2()) + yil;
             return MMyyyy;
         }
     }
