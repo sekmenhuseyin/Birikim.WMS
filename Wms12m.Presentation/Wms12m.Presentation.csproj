@@ -543,6 +543,8 @@
     <Content Include="Areas\Approvals\Views\Purchase\SatinAlmaTalebiGMYOnay.cshtml" />
     <Content Include="Areas\Approvals\Views\Purchase\SatisSiparisGMYMaliOnayFTD_List.cshtml" />
     <Content Include="Areas\Reports\Views\Financial\MalzemeDepoList.cshtml" />
+    <Content Include="Areas\YN\Views\OnayBekleyenler\IskontoListAktarim.cshtml" />
+    <Content Include="Areas\YN\Views\OnayBekleyenler\IskontoListAktarimList.cshtml" />
     <None Include="bundleconfig.json" />
     <Content Include="Content\SizeSablon.xlsx" />
     <Content Include="Content\StockSablon.xlsx" />

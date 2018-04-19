@@ -542,6 +542,7 @@
     <Compile Include="VM_YeniNesil\frmOnayTeklifListDetay.cs" />
     <Compile Include="VM_YeniNesil\frmOnayTransferList.cs" />
     <Compile Include="VM_YeniNesil\HesapItem.cs" />
+    <Compile Include="VM_YeniNesil\IskontoList.cs" />
     <Compile Include="VM_YeniNesil\SatisIadeDetay.cs" />
     <Compile Include="VM_YeniNesil\SatisIadeIcmal.cs" />
     <Compile Include="VM_YeniNesil\SatisIadeKayit.cs" />

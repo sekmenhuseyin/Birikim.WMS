@@ -1,6 +1,11 @@
 ﻿using Birikim.Models;
+using Excel;
 using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
+using System.Web;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
 using Wms12m.Entity;
@@ -446,6 +451,139 @@ SELECT  STK002_EvrakSeriNo AS EvrakSeriNo, CAR002_BankaHesapKodu AS HesapKodu, C
                 Logger(ex, "YN/OnayBekleyenler/Tahsilat_Onay");
                 return Json(new Result(false, "Hata Oluştu"), JsonRequestBehavior.AllowGet);
             }
+        }
+        #endregion
+
+        #region IskontroListAktarim
+        public ActionResult IskontoListAktarim()
+        {
+            return View("IskontoListAktarim");
+        }
+        public string IskontoListAktarimSelect()
+        {
+            JavaScriptSerializer json = new JavaScriptSerializer() { MaxJsonLength = int.MaxValue };
+            List<IskontoList> ist;
+            string sorgu = "";
+            sorgu = String.Format(IskontoList.SelectSorgu, vUser.SirketKodu);
+            try
+            {
+                ist = db.Database.SqlQuery<IskontoList>(sorgu).ToList();
+                foreach (IskontoList item in ist)
+                {
+                    item.BasTarihDate = item.BasTarih.IntToDate();
+                    item.BitTarihDate = item.BitTarih.IntToDate();
+                    item.BasTarihStr = item.BasTarihDate.ToString("dd-MM-yyyy");
+                    item.BitTarihStr = item.BasTarihDate.ToString("dd-MM-yyyy");
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger(ex, "YN/OnayBekleyenler/IskontoListAktarim");
+                ist = new List<IskontoList>();
+            }
+            return json.Serialize(ist);
+        }
+        public JsonResult Kat(HttpPostedFileBase file)
+        {
+            if (CheckPerm(Perms.KatKartı, PermTypes.Writing) == false) { return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet); }
+            Result _Result = new Result(false, "Hatalı dosya!");
+            if (file.IsNull() || file.ContentLength == 0) { return Json(_Result, JsonRequestBehavior.AllowGet); }
+            // gelen dosyayı oku
+            var stream = file.InputStream;
+            IExcelDataReader reader;
+            // dosya tipini bul
+            if (file.FileName.EndsWith(".xlsx")) { reader = ExcelReaderFactory.CreateOpenXmlReader(stream); }
+            else { return Json(_Result, JsonRequestBehavior.AllowGet); }
+            // ilk satır başlık
+            reader.IsFirstRowAsColumnNames = true;
+            // exceldeki bilgileri datasete aktar
+            DataSet result = reader.AsDataSet();
+            // kontrol
+            if (result.Tables.Count == 0) { return Json(_Result, JsonRequestBehavior.AllowGet); }
+            if (result.Tables[0].Rows == null) { return Json(_Result, JsonRequestBehavior.AllowGet); }
+            // her satırı tek tek kaydet
+            string listeNo = "", basTar = "", listeAdi = "", bitTar = "", malKodu = "", iskOran1 = "", iskOran2 = "", iskOran3 = "", hatalilar = "";
+            int basarili = 0, hatali = 0;
+            for (int i = 0; i < result.Tables[0].Rows.Count; i++)
+            {
+                DataRow dr = result.Tables[0].Rows[i];
+                // kontrol
+                try
+                {
+                    listeNo = dr["List No"].ToString2();
+                    basTar = dr["Baslangic Tarih"].ToString2();
+                    listeAdi = dr["Liste Adi"].ToString2();
+                    bitTar = dr["Bitis Tarih"].ToString2();
+                    malKodu = dr["Mal Kodu"].ToString2();
+                    iskOran1 = dr["Iskonto Oran 1"].ToString2();
+                    iskOran2 = dr["Iskonto Oran 2"].ToString2();
+                    iskOran3 = dr["Iskonto Oran 3"].ToString2();
+                    if (listeNo.IsNotNullEmpty()
+                        && listeAdi.IsNotNullEmpty()
+                        && malKodu.IsNotNullEmpty()
+                        && basTar.IsNotNullEmpty()
+                        && bitTar.IsNotNullEmpty()
+                        && basTar.IsDate()
+                        && bitTar.IsDate())
+                    {
+                        iskOran1 = (iskOran1.IsNullEmpty() ? "0" : iskOran1);
+                        iskOran2 = (iskOran2.IsNullEmpty() ? "0" : iskOran2);
+                        iskOran3 = (iskOran3.IsNullEmpty() ? "0" : iskOran3);
+                        string delSorgu = "", insertSorgu = "";
+                        delSorgu = String.Format(IskontoList.DeleteSorgu, vUser.SirketKodu);
+                        insertSorgu = String.Format(IskontoList.InsertSorgu, vUser.SirketKodu);
+                        if (i == 0) { db.Database.ExecuteSqlCommand(delSorgu); }
+                        db.Database.ExecuteSqlCommand(insertSorgu
+                            , new SqlParameter("LISTENO", listeNo)
+                            , new SqlParameter("BASTARIH", basTar.ToDatetime().Date.ToOADateInt())
+                            , new SqlParameter("SIRANO", i.ToShort())
+                            , new SqlParameter("LISTEADI", listeAdi)
+                            , new SqlParameter("BITTARIH", bitTar.ToDatetime().Date.ToOADateInt())
+
+                            , new SqlParameter("HESAPKODU", "")
+                            , new SqlParameter("MALKODGRUP", 0)
+                            , new SqlParameter("MALKOD", malKodu)
+                            , new SqlParameter("ISKORAN1", iskOran1.ToDecimal())
+                            , new SqlParameter("ISKORAN2", iskOran2.ToDecimal())
+
+                            , new SqlParameter("ISKORAN3", iskOran3.ToDecimal())
+                            , new SqlParameter("ACIKLAMA", "")
+                            , new SqlParameter("AKTIFMI", true)
+                            , new SqlParameter("KAYDEDEN", vUser.UserName)
+                            , new SqlParameter("KAYITTARIH", DateTime.Today.ToOADateInt())
+
+                            , new SqlParameter("KAYITSAAT", DateTime.Now.ToOaTime())
+                            , new SqlParameter("DEGISTIREN", vUser.UserName)
+                            , new SqlParameter("DEGISTARIH", DateTime.Today.ToOADateInt())
+                            , new SqlParameter("DEGISSAAT", DateTime.Now.ToOaTime()));
+                        basarili++;
+                    }
+                    else
+                    {
+                        hatali++;
+                        if (hatalilar.IsNotNullEmpty()) { hatalilar = String.Concat(hatalilar, ", "); }
+                        hatalilar = String.Concat(hatalilar, (i + 1));
+                    }
+                }
+                catch (Exception ex)
+                {
+                    hatali++;
+                    if (hatalilar.IsNotNullEmpty()) { hatalilar = String.Concat(hatalilar, ", "); }
+                    hatalilar = String.Concat(hatalilar, (i + 1));
+                    Logger(ex, "OnayBekleyenler/Kat");
+                }
+            }
+            reader.Close();
+            if (basarili > 0)
+            {
+                _Result.Message = basarili + " adet satır eklendi";
+                LogActions("", "OnayBekleyenler", "Kat", ComboItems.alYükle, 0, "Satır Sayısı: " + basarili);
+            }
+            else { _Result.Message = ""; }
+            if (basarili > 0 && hatali > 0) { _Result.Message = String.Concat(_Result.Message, ", "); }
+            if (hatali > 0) { _Result.Message = String.Concat(_Result.Message, String.Format(@"{0} satır hata verdi. Hatalı satırlar: \n{1}", hatali, hatalilar)); }
+            else { _Result.Status = true; }
+            return Json(_Result, JsonRequestBehavior.AllowGet);
         }
         #endregion
     }

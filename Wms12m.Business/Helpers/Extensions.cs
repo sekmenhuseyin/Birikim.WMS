@@ -344,7 +344,7 @@ namespace Wms12m
         /// </summary>
         public static bool IsNumeric(this string theValue)
         {
-            return long.TryParse(theValue, System.Globalization.NumberStyles.Integer, System.Globalization.NumberFormatInfo.InvariantInfo, out _);
+            return long.TryParse(theValue, NumberStyles.Integer, NumberFormatInfo.InvariantInfo, out _);
         }
 
         /// <summary>
@@ -651,7 +651,7 @@ namespace Wms12m
         /// </summary>
         public static int ToOaTime(this DateTime value)
         {
-            return value.Hour * 60 * 60 + value.Minute * 60 + value.Second;
+            return ((value.Hour * 60 * 60) + (value.Minute * 60) + value.Second);
         }
 
         public static ObservableCollection<T> ToObservableCollection<T>(this IEnumerable<T> coll)
