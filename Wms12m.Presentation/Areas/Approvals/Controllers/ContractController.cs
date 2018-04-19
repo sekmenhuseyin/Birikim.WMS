@@ -951,7 +951,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult Guncelle(string SozlesmeNo, int BasTarih, short MusUygSekli, string YeniBaglantiTutari, int YeniBitisTarihi)
+        public JsonResult Guncelle(string SozlesmeNo, int BasTarih, short MusUygSekli, string YeniBaglantiTutari, int YeniBitisTarihi, string hesapkodu, string listeno)
         {
             var _Result = new Result(false, "Yetkiniz Yok");
             if (CheckPerm(Perms.SözleşmeTanim, PermTypes.Writing) == false) return Json(_Result, JsonRequestBehavior.AllowGet);
@@ -1003,6 +1003,11 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                         item.OnaylayanGenelMudur = "";
                         SqlExper.Update(item, null, null, false, "timestamp");
                     }
+                }
+                else
+                {
+                    var s = string.Format("[FINSAT6{0}].[wms].[SetSozlesmeOnayTip] @HesapKodu='{1}' , @ListeNo='{2}' , @BaglantiTutari={3}", vUser.SirketKodu, hesapkodu, listeno, YeniBaglantiTutari.ToString().Replace(",", "."));
+                    var xx = db.Database.ExecuteSqlCommand(s);
                 }
 
                 var sonuc = SqlExper.AcceptChanges();
