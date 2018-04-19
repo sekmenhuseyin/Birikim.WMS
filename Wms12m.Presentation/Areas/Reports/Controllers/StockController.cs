@@ -22,18 +22,18 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
 
         public PartialViewResult StokList(int Tarih, string BasGrupKod, string BitGrupKod, string BasTipKod, string BitTipKod, string BasOzelKod, string BitOzelKod, string BasKod1, string BitKod1, string BasKod2, string BitKod2, string BasKod3, string BitKod3)
         {
-            List<RaporStokKodCase> SR;
+            List<RaporStokKodCase> liste;
             try
             {
-                SR = db.Database.SqlQuery<RaporStokKodCase>(string.Format("[FINSAT6{0}].[wms].[StokRaporuKodCase] @Tarih = {1}, @BasGrupKod = '{2}',@BitGrupKod = '{3}', @BasTipKod = '{4}',@BitTipKod= '{5}', @BasOzelKod = '{6}', @BitOzelKod = '{7}',@BasKod1 = '{8}', @BitKod1 = '{9}',@BasKod2= '{10}', @BitKod2 = '{11}',@BasKod3= '{12}', @BitKod3 = '{13}'", vUser.SirketKodu, Tarih, BasGrupKod, BitGrupKod, BasTipKod, BitTipKod, BasOzelKod, BitOzelKod, BasKod1, BitKod1, BasKod2, BitKod2, BasKod3, BitKod3)).ToList();
+                liste = db.Database.SqlQuery<RaporStokKodCase>(string.Format("[FINSAT6{0}].[wms].[StokRaporuKodCase] @Tarih = {1}, @BasGrupKod = '{2}',@BitGrupKod = '{3}', @BasTipKod = '{4}',@BitTipKod= '{5}', @BasOzelKod = '{6}', @BitOzelKod = '{7}',@BasKod1 = '{8}', @BitKod1 = '{9}',@BasKod2= '{10}', @BitKod2 = '{11}',@BasKod3= '{12}', @BitKod3 = '{13}'", vUser.SirketKodu, Tarih, BasGrupKod, BitGrupKod, BasTipKod, BitTipKod, BasOzelKod, BitOzelKod, BasKod1, BitKod1, BasKod2, BitKod2, BasKod3, BitKod3)).ToList();
             }
             catch (Exception ex)
             {
                 Logger(ex, "/Reports/Stock/StokList");
-                SR = new List<RaporStokKodCase>();
+                liste = new List<RaporStokKodCase>();
             }
 
-            return PartialView("StokList", SR);
+            return PartialView("StokList", liste);
         }
 
         /// <summary>
@@ -47,18 +47,18 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
 
         public PartialViewResult BekleyenSiparisList(int bastarih, int bittarih, int basteslimtarih, int bitteslimtarih)
         {
-            List<RaporBekleyenSiparis> BSR;
+            List<RaporBekleyenSiparis> liste;
             try
             {
-                BSR = db.Database.SqlQuery<RaporBekleyenSiparis>(string.Format("[FINSAT6{0}].[wms].[BekleyenSiparisRaporu] @BasTarih = {1}, @BitTarih = {2},@BasTeslimTarih = {3}, @BitTeslimTarih = {4}", vUser.SirketKodu, bastarih, bittarih, basteslimtarih, bitteslimtarih)).ToList();
+                liste = db.Database.SqlQuery<RaporBekleyenSiparis>(string.Format("[FINSAT6{0}].[wms].[BekleyenSiparisRaporu] @BasTarih = {1}, @BitTarih = {2},@BasTeslimTarih = {3}, @BitTeslimTarih = {4}", vUser.SirketKodu, bastarih, bittarih, basteslimtarih, bitteslimtarih)).ToList();
             }
             catch (Exception ex)
             {
                 Logger(ex, "/Reports/Stock/BekleyenSiparisList");
-                BSR = new List<RaporBekleyenSiparis>();
+                liste = new List<RaporBekleyenSiparis>();
             }
 
-            return PartialView("BekleyenSiparisList", BSR);
+            return PartialView("BekleyenSiparisList", liste);
         }
 
         /// <summary>
@@ -72,18 +72,18 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
 
         public PartialViewResult SatilmayanUrunlerList(int gunsayisi)
         {
-            List<RaporSatilmayanUrunler> SU;
+            List<RaporSatilmayanUrunler> liste;
             try
             {
-                SU = db.Database.SqlQuery<RaporSatilmayanUrunler>(string.Format("[FINSAT6{0}].[wms].[SatilmayanUrunler] @Number = {1}", vUser.SirketKodu, gunsayisi)).ToList();
+                liste = db.Database.SqlQuery<RaporSatilmayanUrunler>(string.Format("[FINSAT6{0}].[wms].[SatilmayanUrunler] @Number = {1}", vUser.SirketKodu, gunsayisi)).ToList();
             }
             catch (Exception ex)
             {
                 Logger(ex, "/Reports/Stock/SatilmayanUrunlerList");
-                SU = new List<RaporSatilmayanUrunler>();
+                liste = new List<RaporSatilmayanUrunler>();
             }
 
-            return PartialView("SatilmayanUrunlerList", SU);
+            return PartialView("SatilmayanUrunlerList", liste);
         }
 
         /// <summary>
@@ -116,18 +116,18 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
 
         public PartialViewResult KampanyaliSatisList(int bastarih, int bittarih)
         {
-            List<KampanyaliSatisRaporu> SU;
+            List<KampanyaliSatisRaporu> liste;
             try
             {
-                SU = db.Database.SqlQuery<KampanyaliSatisRaporu>(string.Format("[FINSAT6{0}].[wms].[KampanyaliSatisRaporu] @BasTarih={1}, @BitTarih={2}", vUser.SirketKodu, bastarih, bittarih)).ToList();
+                liste = db.Database.SqlQuery<KampanyaliSatisRaporu>(string.Format("[FINSAT6{0}].[wms].[KampanyaliSatisRaporu] @BasTarih={1}, @BitTarih={2}", vUser.SirketKodu, bastarih, bittarih)).ToList();
             }
             catch (Exception ex)
             {
                 Logger(ex, "/Reports/Stock/KampanyaliSatisList");
-                SU = new List<KampanyaliSatisRaporu>();
+                liste = new List<KampanyaliSatisRaporu>();
             }
 
-            return PartialView("KampanyaliSatisList", SU);
+            return PartialView("KampanyaliSatisList", liste);
         }
 
         public PartialViewResult KampanyaChkDetay(string CHK, int bastarih, int bittarih)
