@@ -59,7 +59,7 @@
         var bitTarih = @DateTime.Today.ToOADateInt();
         var basVadeTarih = basTarih;
         var bitVadeTarih = bitTarih;
-        var chk_bas = "", chk_bit = "ZZZZZZZZZZ";
+        var chk_bas = "", chk_bit = "";
         $.datepicker.setDefaults($.datepicker.regional["tr"]);
         $("#txtBaslangic").datepicker().on("change", function (e) { basTarih = toOADateFromString(e.target.value); });
         $("#txtBitis").datepicker().on("change", function (e) { bitTarih = toOADateFromString(e.target.value); });
@@ -67,6 +67,12 @@
         $("#txtTeslimBitis").datepicker().on("change", function (e) { bitVadeTarih = toOADateFromString(e.target.value); });
         $("#btnListele").click(function () {
             var bakiye = $(".bakiye").dxNumberBox("instance").option("value");
+
+            if (chk_bas == "" || chk_bit == "" ) {
+                Modaldialog("Hesap Kodu Aralığı Seçmelisiniz.", "Uyarı", "Tamam", "btn-warning");
+                return;
+            }
+
             PartialView("/Reports/Financial/BakiyeList", 'bakiye-grid', JSON.stringify({ bastarih: basTarih, bittarih: bitTarih, basvadetarih: basVadeTarih, bitvadetarih: bitVadeTarih, chk_bas: chk_bas, chk_bit: chk_bit, bakiye: bakiye }));
         });
         $(".bakiye").dxNumberBox({ value: 0, min: 0, placeholder: 'Gün sayısı girin' });    
