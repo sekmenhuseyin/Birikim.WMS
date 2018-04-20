@@ -507,9 +507,7 @@ SELECT  STK002_EvrakSeriNo AS EvrakSeriNo, CAR002_BankaHesapKodu AS HesapKodu, C
                     iskOran1 = dr["Iskonto Oran 1"].ToString2();
                     iskOran2 = dr["Iskonto Oran 2"].ToString2();
                     iskOran3 = dr["Iskonto Oran 3"].ToString2();
-                    if (listeNo.IsNotNullEmpty()
-                        && listeAdi.IsNotNullEmpty()
-                        && malKodu.IsNotNullEmpty()
+                    if (listeNo.IsNotNullEmpty() && listeAdi.IsNotNullEmpty() && malKodu.IsNotNullEmpty())
                     {
                         isk1 = (iskOran1.IsNullEmpty() ? 0 : iskOran1.ToFloat());
                         isk2 = (iskOran2.IsNullEmpty() ? 0 : iskOran2.ToFloat());
