@@ -1,7 +1,6 @@
 ﻿@{
     ViewBag.Title = "Sql Çalıştır";
     Layout = "~/Views/Shared/_Layout.cshtml";
-}
 }<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><span>Sql Çalıştır</span></li></ul></div>
 <h1 class="page-title">Sql Çalıştır</h1>
 <div class="row">
@@ -13,7 +12,7 @@
                 </div>
             </div>
             <div class="portlet-body form">
-                @using (Ajax.BeginForm("RunSql", "Settings", new { area = "System" }, new AjaxOptions { InsertionMode = InsertionMode.Replace, UpdateTargetId = "StoreGrid", OnSuccess = "getResult",  OnFailure = "Modaldialog('Lütfen Tekrar Deneyin', 'Hata', 'Tamam', 'btn-danger');" }, new { @class = "form-horizontal" }))
+                @using (Ajax.BeginForm("RunSql", "Settings", new { area = "" }, new AjaxOptions { HttpMethod = "POST", InsertionMode = InsertionMode.Replace, UpdateTargetId = "StoreGrid", OnSuccess = "getResult",  OnFailure = "Modaldialog('Lütfen Tekrar Deneyin', 'Hata', 'Tamam', 'btn-danger');" }, new { @class = "form-horizontal" }))
                 {
                     @Html.AntiForgeryToken()
                     <div class="form-body">
@@ -37,7 +36,7 @@
 </div>
 @section Scripts{<script type="text/javascript">
     function getResult(data) {
-        if (data.Status == true)
+        if (data.Status === true)
             Modaldialog("İşlem Sonucu: " + data.Message, "Başarı", "Tamam", "btn-success");
         else {
             Modaldialog(data.Message == null ? "Sayfayı yenileyin" : data.Message, "Hata", "Tamam", "btn-danger");
