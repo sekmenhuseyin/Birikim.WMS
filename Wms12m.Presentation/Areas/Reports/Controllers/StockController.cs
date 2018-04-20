@@ -94,7 +94,10 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
             {
                 MaxJsonLength = int.MaxValue
             };
-            var GS = db.Database.SqlQuery<RaporGunlukSatis>(string.Format("[FINSAT6{0}].[wms].[GunlukSatisRaporu] @BasTarih = {1}, @BitTarih = {2}", vUser.SirketKodu, bastarih, bittarih)).ToList();
+            string sql = string.Format("[FINSAT6{0}].[wms].[GunlukSatisRaporu] @BasTarih = {1}, @BitTarih = {2}", vUser.SirketKodu, bastarih, bittarih);
+            if (ViewBag.settings.BolgeKoduParametre == true)
+                sql += string.Format(",@UserName='{0}'", vUser.UserName);
+            var GS = db.Database.SqlQuery<RaporGunlukSatis>(sql).ToList();
             return json.Serialize(GS);
         }
 
@@ -109,17 +112,11 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
 
         public PartialViewResult KampanyaliSatisList(int bastarih, int bittarih)
         {
-            List<KampanyaliSatisRaporu> liste;
-            try
-            {
-                liste = db.Database.SqlQuery<KampanyaliSatisRaporu>(string.Format("[FINSAT6{0}].[wms].[KampanyaliSatisRaporu] @BasTarih={1}, @BitTarih={2}", vUser.SirketKodu, bastarih, bittarih)).ToList();
-            }
-            catch (Exception ex)
-            {
-                Logger(ex, "/Reports/Stock/KampanyaliSatisList");
-                liste = new List<KampanyaliSatisRaporu>();
-            }
 
+            string sql = string.Format("[FINSAT6{0}].[wms].[KampanyaliSatisRaporu] @BasTarih={1}, @BitTarih={2}", vUser.SirketKodu, bastarih, bittarih);
+            if (ViewBag.settings.BolgeKoduParametre == true)
+                sql += string.Format(",@UserName='{0}'", vUser.UserName);
+            var liste = db.Database.SqlQuery<KampanyaliSatisRaporu>(sql).ToList();
             return PartialView("KampanyaliSatisList", liste);
         }
 

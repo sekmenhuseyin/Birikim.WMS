@@ -57,7 +57,7 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
         {
             string sql = string.Format("[FINSAT6{0}].[wms].[VadesiGelmemisCekler] @BasTarih = {1}, @BitTarih = {2}", vUser.SirketKodu, bastarih, bittarih);
             if (ViewBag.settings.BolgeKoduParametre == true)
-                sql += string.Format(" @UserName='{0}'", vUser.UserName);
+                sql += string.Format(",@UserName='{0}'", vUser.UserName);
             var VGC = db.Database.SqlQuery<RaporVadesiGelmemisCekler>(sql).ToList();
             return PartialView("VadesiGelmemisCekList", VGC);
         }
@@ -278,23 +278,11 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
 
         public JsonResult GetChKCode(string term)
         {
-            var sql = string.Format("FINSAT6{0}.[wms].[CHKSearch] @HesapKodu = N'{1}', @Unvan = N'', @top = 200", vUser.SirketKodu, term);
-            // return
-            try
-            {
-
-                if (ViewBag.settings.BolgeKoduParametre == true)
-                    sql += string.Format(",@UserName='{0}'", vUser.UserName);
-
-                var list = db.Database.SqlQuery<frmJson>(sql).ToList();
-                return Json(list, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception ex)
-            {
-                Logger(ex, "Reports/Financial/GetChKCode");
-                return Json(new List<frmJson>(), JsonRequestBehavior.AllowGet);
-            }
-
+            string sql = string.Format("FINSAT6{0}.[wms].[CHKSearch] @HesapKodu = N'{1}', @Unvan = N'', @top = 200", vUser.SirketKodu, term);
+            if (ViewBag.settings.BolgeKoduParametre == true)
+                sql += string.Format(",@UserName='{0}'", vUser.UserName);
+            var list = db.Database.SqlQuery<frmJson>(sql).ToList();
+            return Json(list, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult TahsilatKontrol()
@@ -305,8 +293,12 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
 
         public JsonResult TahsilatKontrolList()
         {
-            var list = db.Database.SqlQuery<RP_TahsilatKontrol>(String.Format("[FINSAT6{0}].[wms].[RP_TahsilatKontrol]", vUser.SirketKodu)).ToList();
+            string sql = String.Format("[FINSAT6{0}].[wms].[RP_TahsilatKontrol]", vUser.SirketKodu);
+            if (ViewBag.settings.BolgeKoduParametre == true)
+                sql += string.Format("@UserName='{0}'", vUser.UserName);
+            var list = db.Database.SqlQuery<RP_TahsilatKontrol>(sql).ToList();
             return Json(list, JsonRequestBehavior.AllowGet);
+
         }
         #region AksiyonSatis
         public ActionResult AksiyonSatis()
