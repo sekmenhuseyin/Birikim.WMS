@@ -509,9 +509,9 @@ SELECT  STK002_EvrakSeriNo AS EvrakSeriNo, CAR002_BankaHesapKodu AS HesapKodu, C
                     iskOran3 = dr["Iskonto Oran 3"].ToString2();
                     if (listeNo.IsNotNullEmpty() && listeAdi.IsNotNullEmpty() && malKodu.IsNotNullEmpty())
                     {
-                        isk1 = (iskOran1.IsNullEmpty() ? 0 : iskOran1.ToFloat());
-                        isk2 = (iskOran2.IsNullEmpty() ? 0 : iskOran2.ToFloat());
-                        isk3 = (iskOran3.IsNullEmpty() ? 0 : iskOran3.ToFloat());
+                        isk1 = (iskOran1.IsNullEmpty() ? 0 : iskOran1.ToDecimal().ToFloat());
+                        isk2 = (iskOran2.IsNullEmpty() ? 0 : iskOran2.ToDecimal().ToFloat());
+                        isk3 = (iskOran3.IsNullEmpty() ? 0 : iskOran3.ToDecimal().ToFloat());
                         string delSorgu = "", insertSorgu = "";
                         delSorgu = String.Format(IskontoList.DeleteSorgu, vUser.SirketKodu);
                         insertSorgu = String.Format(IskontoList.InsertSorgu, vUser.SirketKodu);

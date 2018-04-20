@@ -55,7 +55,7 @@
                                 FROM FINSAT6{0}.FINSAT6{0}.STI AS STI WITH (NOLOCK) 
                                 LEFT JOIN FINSAT6{0}.FINSAT6{0}.CHK AS CHK WITH (NOLOCK) ON CHK.Hesapkodu=STI.CHK 
                                 WHERE CHK.Karttip IN (0,4) 
-                                AND (CHK.Hesapkodu BETWEEN '1' AND '8') 
+                                AND ((CHK.Hesapkodu BETWEEN '1' AND '8') OR (CHK.HesapKodu BETWEEN 'A' AND 'Z'))
                                 AND STI.Kynkevraktip IN (1,2,163) 
                                 AND (STI.Tarih BETWEEN @TAR1 AND @TAR2)
                                 GROUP BY CHK.GrupKod
