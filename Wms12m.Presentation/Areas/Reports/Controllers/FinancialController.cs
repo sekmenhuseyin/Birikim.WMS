@@ -93,7 +93,10 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
 
         public PartialViewResult RiskBakiyeList(int bastarih, int bittarih, int basvadetarih, int bitvadetarih, string chk_bas, string chk_bit)
         {
-            var TRB = db.Database.SqlQuery<RaporToplamRiskBakiyesi>(string.Format("[FINSAT6{0}].[wms].[ToplamRiskBakiyesi] @BasTarih = {1}, @BitTarih = {2},@VadeBaslangic = {3}, @VadeBitis = {4},@BasHesapKodu= '{5}', @BitHesapKodu = '{6}'", vUser.SirketKodu, bastarih, bittarih, basvadetarih, bitvadetarih, chk_bas, chk_bit)).ToList();
+            string sql = string.Format("[FINSAT6{0}].[wms].[ToplamRiskBakiyesi] @BasTarih = {1}, @BitTarih = {2},@VadeBaslangic = {3}, @VadeBitis = {4},@BasHesapKodu= '{5}', @BitHesapKodu = '{6}'", vUser.SirketKodu, bastarih, bittarih, basvadetarih, bitvadetarih, chk_bas, chk_bit);
+            if (ViewBag.settings.BolgeKoduParametre == true)
+                sql += string.Format(",@UserName='{0}'", vUser.UserName);
+            var TRB = db.Database.SqlQuery<RaporToplamRiskBakiyesi>(sql).ToList();
             return PartialView("RiskBakiyeList", TRB);
         }
 
@@ -226,7 +229,10 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
             {
                 MaxJsonLength = int.MaxValue
             };
-            var TRAR = db.Database.SqlQuery<ToplamRiskAnaliziRaporu>(string.Format("[FINSAT6{0}].[wms].[ToplamRiskAnaliziRaporu] @BasHesapKodu='{1}', @BitHesapKodu='{2}'", vUser.SirketKodu, baschk, bitchk)).ToList();
+            string sql = string.Format("[FINSAT6{0}].[wms].[ToplamRiskAnaliziRaporu] @BasHesapKodu='{1}', @BitHesapKodu='{2}'", vUser.SirketKodu, baschk, bitchk);
+            if (ViewBag.settings.BolgeKoduParametre == true)
+                sql += string.Format(",@UserName='{0}'", vUser.UserName);
+            var TRAR = db.Database.SqlQuery<ToplamRiskAnaliziRaporu>(sql).ToList();
             return json.Serialize(TRAR);
         }
 

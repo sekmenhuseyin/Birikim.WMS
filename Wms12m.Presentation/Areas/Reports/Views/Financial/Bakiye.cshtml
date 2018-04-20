@@ -59,7 +59,7 @@
         var bitTarih = @DateTime.Today.ToOADateInt();
         var basVadeTarih = basTarih;
         var bitVadeTarih = bitTarih;
-        var chk_bas = "", chk_bit = "";
+        var chk_bas = "", chk_bit = "ZZZZZZZZZZZZZZ";
         $.datepicker.setDefaults($.datepicker.regional["tr"]);
         $("#txtBaslangic").datepicker().on("change", function (e) { basTarih = toOADateFromString(e.target.value); });
         $("#txtBitis").datepicker().on("change", function (e) { bitTarih = toOADateFromString(e.target.value); });
