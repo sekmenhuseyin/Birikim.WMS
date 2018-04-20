@@ -465,17 +465,7 @@ SELECT  STK002_EvrakSeriNo AS EvrakSeriNo, CAR002_BankaHesapKodu AS HesapKodu, C
             List<IskontoList> ist;
             string sorgu = "";
             sorgu = String.Format(IskontoList.SelectSorgu, vUser.SirketKodu);
-            try
-            {
-                ist = db.Database.SqlQuery<IskontoList>(sorgu).ToList();
-                foreach (IskontoList item in ist)
-                {
-                    item.BasTarihDate = item.BasTarih.IntToDate();
-                    item.BitTarihDate = item.BitTarih.IntToDate();
-                    item.BasTarihStr = item.BasTarihDate.ToString("dd-MM-yyyy");
-                    item.BitTarihStr = item.BasTarihDate.ToString("dd-MM-yyyy");
-                }
-            }
+            try { ist = db.Database.SqlQuery<IskontoList>(sorgu).ToList(); }
             catch (Exception ex)
             {
                 Logger(ex, "YN/OnayBekleyenler/IskontoListAktarim");
@@ -502,7 +492,7 @@ SELECT  STK002_EvrakSeriNo AS EvrakSeriNo, CAR002_BankaHesapKodu AS HesapKodu, C
             if (result.Tables.Count == 0) { return Json(_Result, JsonRequestBehavior.AllowGet); }
             if (result.Tables[0].Rows == null) { return Json(_Result, JsonRequestBehavior.AllowGet); }
             // her satırı tek tek kaydet
-            string listeNo = "", basTar = "", listeAdi = "", bitTar = "", malKodu = "", iskOran1 = "", iskOran2 = "", iskOran3 = "", hatalilar = "";
+            string listeNo = "", listeAdi = "", malKodu = "", iskOran1 = "", iskOran2 = "", iskOran3 = "", hatalilar = "";
             float isk1 = 0, isk2 = 0, isk3 = 0;
             int basarili = 0, hatali = 0;
             for (int i = 0; i < result.Tables[0].Rows.Count; i++)
@@ -512,9 +502,7 @@ SELECT  STK002_EvrakSeriNo AS EvrakSeriNo, CAR002_BankaHesapKodu AS HesapKodu, C
                 try
                 {
                     listeNo = dr["List No"].ToString2();
-                    basTar = dr["Baslangic Tarih"].ToString2();
                     listeAdi = dr["Liste Adi"].ToString2();
-                    bitTar = dr["Bitis Tarih"].ToString2();
                     malKodu = dr["Mal Kodu"].ToString2();
                     iskOran1 = dr["Iskonto Oran 1"].ToString2();
                     iskOran2 = dr["Iskonto Oran 2"].ToString2();
@@ -522,10 +510,6 @@ SELECT  STK002_EvrakSeriNo AS EvrakSeriNo, CAR002_BankaHesapKodu AS HesapKodu, C
                     if (listeNo.IsNotNullEmpty()
                         && listeAdi.IsNotNullEmpty()
                         && malKodu.IsNotNullEmpty()
-                        && basTar.IsNotNullEmpty()
-                        && bitTar.IsNotNullEmpty()
-                        && basTar.IsDate()
-                        && bitTar.IsDate())
                     {
                         isk1 = (iskOran1.IsNullEmpty() ? 0 : iskOran1.ToFloat());
                         isk2 = (iskOran2.IsNullEmpty() ? 0 : iskOran2.ToFloat());
@@ -536,10 +520,10 @@ SELECT  STK002_EvrakSeriNo AS EvrakSeriNo, CAR002_BankaHesapKodu AS HesapKodu, C
                         if (i == 0) { db.Database.ExecuteSqlCommand(delSorgu); }
                         db.Database.ExecuteSqlCommand(insertSorgu
                             , new SqlParameter("LISTENO", listeNo)
-                            , new SqlParameter("BASTARIH", basTar.ToDatetime().Date.ToOADateInt())
+                            , new SqlParameter("BASTARIH", (new DateTime(2017, 1, 1)).Date.ToOADateInt())
                             , new SqlParameter("SIRANO", i.ToShort())
                             , new SqlParameter("LISTEADI", listeAdi)
-                            , new SqlParameter("BITTARIH", bitTar.ToDatetime().Date.ToOADateInt())
+                            , new SqlParameter("BITTARIH", (new DateTime(2017, 12, 31)).Date.ToOADateInt())
 
                             , new SqlParameter("HESAPKODU", "")
                             , new SqlParameter("MALKODGRUP", "0")
@@ -558,12 +542,6 @@ SELECT  STK002_EvrakSeriNo AS EvrakSeriNo, CAR002_BankaHesapKodu AS HesapKodu, C
                             , new SqlParameter("DEGISTARIH", DateTime.Today.ToOADateInt())
                             , new SqlParameter("DEGISSAAT", DateTime.Now.ToOaTime()));
                         basarili++;
-                    }
-                    else
-                    {
-                        hatali++;
-                        if (hatalilar.IsNotNullEmpty()) { hatalilar = String.Concat(hatalilar, ", "); }
-                        hatalilar = String.Concat(hatalilar, (i + 1));
                     }
                 }
                 catch (Exception ex)

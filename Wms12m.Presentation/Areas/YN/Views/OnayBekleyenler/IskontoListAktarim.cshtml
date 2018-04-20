@@ -36,8 +36,6 @@
                     <tr>
                         <th>List No</th>
                         <th>Liste Adi</th>
-                        <th>Baslangic Tarih</th>
-                        <th>Bitis Tarih</th>
                         <th>Mal Kodu</th>
                         <th>Iskonto Oran 1</th>
                         <th>Iskonto Oran 2</th>
@@ -52,14 +50,10 @@
                         <th></th>
                         <th></th>
                         <th></th>
-                        <th></th>
-                        <th></th>
                     </tr>
                 </tfoot>
                 <tfoot class="tf-search">
                     <tr>
-                        <th></th>
-                        <th></th>
                         <th></th>
                         <th></th>
                         <th></th>
@@ -89,12 +83,10 @@
                 },
             },
             "pagingType": "full_numbers",
-            "columnDefs": [{ "type": "num-fmt", "className": "dt-right", "targets": [5, 6, 7] }, { "className": "dt-center", "targets": "_all" }],
+            "columnDefs": [{ "type": "num-fmt", "className": "dt-right", "targets": [3, 4, 5] }, { "className": "dt-center", "targets": "_all" }],
             "columns": [
                 { "data": "ListeNo" },
                 { "data": "ListeAdi" },
-                { "data": "BasTarihStr" },
-                { "data": "BitTarihStr" },
                 { "data": "MalKod", },
                 { "data": "IskOran1", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
                 { "data": "IskOran2", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
