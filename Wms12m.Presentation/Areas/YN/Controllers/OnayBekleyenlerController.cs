@@ -503,6 +503,7 @@ SELECT  STK002_EvrakSeriNo AS EvrakSeriNo, CAR002_BankaHesapKodu AS HesapKodu, C
             if (result.Tables[0].Rows == null) { return Json(_Result, JsonRequestBehavior.AllowGet); }
             // her satırı tek tek kaydet
             string listeNo = "", basTar = "", listeAdi = "", bitTar = "", malKodu = "", iskOran1 = "", iskOran2 = "", iskOran3 = "", hatalilar = "";
+            float isk1 = 0, isk2 = 0, isk3 = 0;
             int basarili = 0, hatali = 0;
             for (int i = 0; i < result.Tables[0].Rows.Count; i++)
             {
@@ -526,9 +527,9 @@ SELECT  STK002_EvrakSeriNo AS EvrakSeriNo, CAR002_BankaHesapKodu AS HesapKodu, C
                         && basTar.IsDate()
                         && bitTar.IsDate())
                     {
-                        iskOran1 = (iskOran1.IsNullEmpty() ? "0" : iskOran1);
-                        iskOran2 = (iskOran2.IsNullEmpty() ? "0" : iskOran2);
-                        iskOran3 = (iskOran3.IsNullEmpty() ? "0" : iskOran3);
+                        isk1 = (iskOran1.IsNullEmpty() ? 0 : iskOran1.ToFloat());
+                        isk2 = (iskOran2.IsNullEmpty() ? 0 : iskOran2.ToFloat());
+                        isk3 = (iskOran3.IsNullEmpty() ? 0 : iskOran3.ToFloat());
                         string delSorgu = "", insertSorgu = "";
                         delSorgu = String.Format(IskontoList.DeleteSorgu, vUser.SirketKodu);
                         insertSorgu = String.Format(IskontoList.InsertSorgu, vUser.SirketKodu);
@@ -541,12 +542,12 @@ SELECT  STK002_EvrakSeriNo AS EvrakSeriNo, CAR002_BankaHesapKodu AS HesapKodu, C
                             , new SqlParameter("BITTARIH", bitTar.ToDatetime().Date.ToOADateInt())
 
                             , new SqlParameter("HESAPKODU", "")
-                            , new SqlParameter("MALKODGRUP", 0)
+                            , new SqlParameter("MALKODGRUP", "0")
                             , new SqlParameter("MALKOD", malKodu)
-                            , new SqlParameter("ISKORAN1", iskOran1.ToDecimal())
-                            , new SqlParameter("ISKORAN2", iskOran2.ToDecimal())
+                            , new SqlParameter("ISKORAN1", (isk1 < 0 ? 0 : isk1))
+                            , new SqlParameter("ISKORAN2", (isk2 < 0 ? 0 : isk2))
 
-                            , new SqlParameter("ISKORAN3", iskOran3.ToDecimal())
+                            , new SqlParameter("ISKORAN3", (isk3 < 0 ? 0 : isk3))
                             , new SqlParameter("ACIKLAMA", "")
                             , new SqlParameter("AKTIFMI", true)
                             , new SqlParameter("KAYDEDEN", vUser.UserName)
@@ -576,12 +577,12 @@ SELECT  STK002_EvrakSeriNo AS EvrakSeriNo, CAR002_BankaHesapKodu AS HesapKodu, C
             reader.Close();
             if (basarili > 0)
             {
-                _Result.Message = basarili + " adet satır eklendi";
-                LogActions("", "OnayBekleyenler", "Kat", ComboItems.alYükle, 0, "Satır Sayısı: " + basarili);
+                _Result.Message = basarili.ToString2() + " adet satır eklendi";
+                LogActions("YN", "OnayBekleyenler", "Kat", ComboItems.alYükle, 0, "Satır Sayısı: " + basarili.ToString2());
             }
             else { _Result.Message = ""; }
             if (basarili > 0 && hatali > 0) { _Result.Message = String.Concat(_Result.Message, ", "); }
-            if (hatali > 0) { _Result.Message = String.Concat(_Result.Message, String.Format(@"{0} satır hata verdi. Hatalı satırlar: \n{1}", hatali, hatalilar)); }
+            if (hatali > 0) { _Result.Message = String.Concat(_Result.Message, String.Format(@"{0} satır hata verdi. Hatalı satırlar: \n{1}", hatali.ToString2(), hatalilar)); }
             else { _Result.Status = true; }
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }

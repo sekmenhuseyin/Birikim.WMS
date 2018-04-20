@@ -24,9 +24,9 @@ namespace Wms12m.Entity
         private int _basTarih;
         private int _bitTarih;
         private string _malKod;
-        private decimal _iskOran1;
-        private decimal _iskOran2;
-        private decimal _iskOran3;
+        private Single _iskOran1;
+        private Single _iskOran2;
+        private Single _iskOran3;
         private DateTime _basTarihDate;
         private DateTime _bitTarihDate;
         private string _basTarihStr;
@@ -37,9 +37,9 @@ namespace Wms12m.Entity
         public int BasTarih { get { return _basTarih; } set { _basTarih = value; OnPropertyChanged("BasTarih"); } }
         public int BitTarih { get { return _bitTarih; } set { _bitTarih = value; OnPropertyChanged("BitTarih"); } }
         public string MalKod { get { return _malKod; } set { _malKod = value; OnPropertyChanged("MalKod"); } }
-        public decimal IskOran1 { get { return _iskOran1; } set { _iskOran1 = value; OnPropertyChanged("IskOran1"); } }
-        public decimal IskOran2 { get { return _iskOran2; } set { _iskOran2 = value; OnPropertyChanged("IskOran2"); } }
-        public decimal IskOran3 { get { return _iskOran3; } set { _iskOran3 = value; OnPropertyChanged("IskOran3"); } }
+        public Single IskOran1 { get { return _iskOran1; } set { _iskOran1 = value; OnPropertyChanged("IskOran1"); } }
+        public Single IskOran2 { get { return _iskOran2; } set { _iskOran2 = value; OnPropertyChanged("IskOran2"); } }
+        public Single IskOran3 { get { return _iskOran3; } set { _iskOran3 = value; OnPropertyChanged("IskOran3"); } }
         public DateTime BasTarihDate { get { return _basTarihDate; } set { _basTarihDate = value; OnPropertyChanged("BasTarihDate"); } }
         public DateTime BitTarihDate { get { return _bitTarihDate; } set { _bitTarihDate = value; OnPropertyChanged("BitTarihDate"); } }
         public string BasTarihStr { get { return _basTarihStr; } set { _basTarihStr = value; OnPropertyChanged("BasTarihStr"); } }
@@ -50,9 +50,9 @@ namespace Wms12m.Entity
                                       ,K.BasTarih
                                       ,K.BitTarih
                                       ,K.MalKod
-                                      ,CONVERT(DECIMAL(24,6),K.IskOran1) AS IskOran1
-                                      ,CONVERT(DECIMAL(24,6),K.IskOran2) AS IskOran2
-                                      ,CONVERT(DECIMAL(24,6),K.IskOran3) AS IskOran3
+                                      ,K.IskOran1
+                                      ,K.IskOran2
+                                      ,K.IskOran3
                                       FROM YNS{0}.YNS{0}.TempIskontoListesi AS K WITH (NOLOCK)";
         public static string DeleteSorgu = @"DELETE FROM YNS{0}.YNS{0}.TempIskontoListesi";
         public static string InsertSorgu = @"USE YNS{0}

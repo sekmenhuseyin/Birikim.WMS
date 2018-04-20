@@ -79,7 +79,7 @@
     <script src="~/Content/assets/global/plugins/jquery-file-upload/js/vendor/jquery.ui.widget.js" type="text/javascript"></script>
     <script src="~/Content/assets/global/plugins/jquery-file-upload/js/jquery.fileupload.js" type="text/javascript"></script>
     <script type="text/javascript">
-        //$(document).ready(function () {});
+        //$(document).ready(function () { });
         table = $('#sample_1').DataTable({
             "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
             "ajax": {
@@ -133,10 +133,11 @@
                 dataType: 'json',
                 add: function (e, data) { data.submit(); },
                 done: function (e, data) {
-                    if (data.result.Status == false)
-                        Modaldialog(data.result.Message, "Hata", "Tamam", "btn-danger");
-                    else
+                    if (data.result.Status == false) { Modaldialog(data.result.Message, "Hata", "Tamam", "btn-danger"); }
+                    else {
                         Modaldialog("Liste başarıyla yüklendi", "Başarı", "Tamam", "btn-success");
+                        window.location.href = "/YN/OnayBekleyenler/IskontoListAktarim";
+                    }
                 }
             });
         });
