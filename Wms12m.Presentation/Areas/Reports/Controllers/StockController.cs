@@ -47,17 +47,10 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
 
         public PartialViewResult BekleyenSiparisList(int bastarih, int bittarih, int basteslimtarih, int bitteslimtarih)
         {
-            List<RaporBekleyenSiparis> liste;
-            try
-            {
-                liste = db.Database.SqlQuery<RaporBekleyenSiparis>(string.Format("[FINSAT6{0}].[wms].[BekleyenSiparisRaporu] @BasTarih = {1}, @BitTarih = {2},@BasTeslimTarih = {3}, @BitTeslimTarih = {4}", vUser.SirketKodu, bastarih, bittarih, basteslimtarih, bitteslimtarih)).ToList();
-            }
-            catch (Exception ex)
-            {
-                Logger(ex, "/Reports/Stock/BekleyenSiparisList");
-                liste = new List<RaporBekleyenSiparis>();
-            }
-
+            string sql = string.Format("[FINSAT6{0}].[wms].[BekleyenSiparisRaporu] @BasTarih = {1}, @BitTarih = {2},@BasTeslimTarih = {3}, @BitTeslimTarih = {4}", vUser.SirketKodu, bastarih, bittarih, basteslimtarih, bitteslimtarih);
+            if (ViewBag.settings.BolgeKoduParametre == true)
+                sql += string.Format(",@UserName='{0}'", vUser.UserName);
+            var liste = db.Database.SqlQuery<RaporBekleyenSiparis>(sql).ToList();
             return PartialView("BekleyenSiparisList", liste);
         }
 
@@ -151,8 +144,13 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
             {
                 MaxJsonLength = int.MaxValue
             };
-            var list = db.Database.SqlQuery<GerceklesenSevkiyatPlani>(string.Format("[FINSAT6{0}].[wms].[GerceklesenSevkiyatRaporu] @BasTarih={1}, @BitTarih={2}", vUser.SirketKodu, bastarih, bittarih)).ToList();
+
+            string sql = string.Format("[FINSAT6{0}].[wms].[GerceklesenSevkiyatRaporu] @BasTarih={1}, @BitTarih={2}", vUser.SirketKodu, bastarih, bittarih);
+            if (ViewBag.settings.BolgeKoduParametre == true)
+                sql += string.Format(",@UserName='{0}'", vUser.UserName);
+            var list = db.Database.SqlQuery<GerceklesenSevkiyatPlani>(sql).ToList();
             return json.Serialize(list);
+
         }
 
         /// <summary>

@@ -68,11 +68,6 @@
         $("#btnListele").click(function () {
             var bakiye = $(".bakiye").dxNumberBox("instance").option("value");
 
-            if (chk_bas == "" || chk_bit == "" ) {
-                Modaldialog("Hesap Kodu Aralığı Seçmelisiniz.", "Uyarı", "Tamam", "btn-warning");
-                return;
-            }
-
             PartialView("/Reports/Financial/BakiyeList", 'bakiye-grid', JSON.stringify({ bastarih: basTarih, bittarih: bitTarih, basvadetarih: basVadeTarih, bitvadetarih: bitVadeTarih, chk_bas: chk_bas, chk_bit: chk_bit, bakiye: bakiye }));
         });
         $(".bakiye").dxNumberBox({ value: 0, min: 0, placeholder: 'Gün sayısı girin' });    

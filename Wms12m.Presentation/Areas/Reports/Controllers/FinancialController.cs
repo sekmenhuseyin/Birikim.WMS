@@ -2,7 +2,6 @@
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
 using System.Linq;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
@@ -78,7 +77,7 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
 
             string sql = string.Format("[FINSAT6{0}].[wms].[CekListesiRaporu] @Ay = {1}, @IslemTip = {2}, @Yil = {3}", vUser.SirketKodu, ay, pozisyon, yil);
             if (ViewBag.settings.BolgeKoduParametre == true)
-                sql += string.Format(" @UserName='{0}'", vUser.UserName);
+                sql += string.Format(",@UserName='{0}'", vUser.UserName);
             var CLR = db.Database.SqlQuery<RaporCekListesi>(sql).ToList();
             return PartialView("CekList", CLR);
         }
@@ -111,7 +110,7 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
         {
             string sql = string.Format("[FINSAT6{0}].[wms].[CekPortfoyListesi] @BasTarih = {1}, @BitTarih = {2},@BasVadeTarih = {3}, @BitVadeTarih = {4}", vUser.SirketKodu, bastarih, bittarih, basvadetarih, bitvadetarih);
             if (ViewBag.settings.BolgeKoduParametre == true)
-                sql += string.Format(" @UserName='{0}'", vUser.UserName);
+                sql += string.Format(",@UserName='{0}'", vUser.UserName);
             var GS = db.Database.SqlQuery<RaporCekPortfoyListesi>(sql).ToList();
             return PartialView("CekPortfoyList", GS);
 
@@ -132,7 +131,7 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
 
             string sql = string.Format("[FINSAT6{0}].[wms].[OdemeYapmayanMusteriler] @Number = {1}", vUser.SirketKodu, gunsayisi);
             if (ViewBag.settings.BolgeKoduParametre == true)
-                sql += string.Format(" @UserName='{0}'", vUser.UserName);
+                sql += string.Format(",@UserName='{0}'", vUser.UserName);
             var OYM = db.Database.SqlQuery<RaporOdemeYapmayanMusteriler>(sql).ToList();
             return PartialView("OdemeYapmayanMusterilerList", OYM);
 
@@ -154,8 +153,12 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
 
         public PartialViewResult BakiyeList(int bastarih, int bittarih, int basvadetarih, int bitvadetarih, string chk_bas, string chk_bit, decimal bakiye)
         {
-            var BR = db.Database.SqlQuery<RaporBakiye>(string.Format("[FINSAT6{0}].[wms].[BakiyeRaporu] @BasTarih = {1}, @BitTarih = {2},@VadeBaslangic = {3}, @VadeBitis = {4},@BasHesapKodu = '{5}', @BitHesapKodu = '{6}', @Bakiye = {7}", vUser.SirketKodu, bastarih, bittarih, basvadetarih, bitvadetarih, chk_bas, chk_bit, bakiye)).ToList();
+            string sql = string.Format("[FINSAT6{0}].[wms].[BakiyeRaporu] @BasTarih = {1}, @BitTarih = {2},@VadeBaslangic = {3}, @VadeBitis = {4},@BasHesapKodu = '{5}', @BitHesapKodu = '{6}', @Bakiye = {7}", vUser.SirketKodu, bastarih, bittarih, basvadetarih, bitvadetarih, chk_bas, chk_bit, bakiye);
+            if (ViewBag.settings.BolgeKoduParametre == true)
+                sql += string.Format(",@UserName='{0}'", vUser.UserName);
+            var BR = db.Database.SqlQuery<RaporBakiye>(sql).ToList();
             return PartialView("BakiyeList", BR);
+
         }
 
         public string BakiyeDetay(string CHK)
@@ -182,7 +185,7 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
 
             string sql = string.Format("[FINSAT6{0}].[wms].[SatisBaglantiRaporu] @Tip={1}", vUser.SirketKodu, tip);
             if (ViewBag.settings.BolgeKoduParametre == true)
-                sql += string.Format(" @UserName='{0}'", vUser.UserName);
+                sql += string.Format(",@UserName='{0}'", vUser.UserName);
             var SBR = db.Database.SqlQuery<SatisBaglatiRapru>(sql).ToList();
             return PartialView("SatisBaglantiList", SBR);
 
@@ -281,7 +284,7 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
             {
 
                 if (ViewBag.settings.BolgeKoduParametre == true)
-                    sql += string.Format(" @UserName='{0}'", vUser.UserName);
+                    sql += string.Format(",@UserName='{0}'", vUser.UserName);
 
                 var list = db.Database.SqlQuery<frmJson>(sql).ToList();
                 return Json(list, JsonRequestBehavior.AllowGet);
@@ -1001,7 +1004,7 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
             try
             {
                 string sorgu = "";
-                sorgu = String.Format(BekleyenMalzDepo.Sorgu, vUser.SirketKodu,MalKodu);
+                sorgu = String.Format(BekleyenMalzDepo.Sorgu, vUser.SirketKodu, MalKodu);
                 list = db.Database.SqlQuery<BekleyenMalzDepo>(sorgu).ToList();
             }
             catch (Exception ex)
