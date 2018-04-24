@@ -3,8 +3,10 @@ using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Web.Mvc;
+using System.Web.Script.Serialization;
 using TumFaturaKayit;
 using Wms12m.Business;
 using Wms12m.Entity;
@@ -172,22 +174,65 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         /// </summary>
         public PartialViewResult CountFark(int ID, string Tip)
         {
-            if (CheckPerm(Perms.GörevListesi, PermTypes.Reading) == false) return null;
-            // create sql
-            var sql = "";
-            // eksik liste için farklı sql
-            if (Tip == "2")
-                sql = string.Format("EXEC FINSAT6{0}.wms.getSayimEksikList @ID = {1}", vUser.SirketKodu, ID);
-            else
-                sql = string.Format("EXEC FINSAT6{0}.wms.getSayimList @ID = {1}, @FarkMi = {2}", vUser.SirketKodu, ID, Tip == "1" ? 1 : 0);
-            // run
-            var list = db.Database.SqlQuery<frmSiparisMalzemeDetay>(sql).ToList();
-            // return
+            //Tip: 0 ->Tüm Liste,Tip: 1 -> Fark Liste,Tip:2 -> Eksik Liste
+            if (CheckPerm(Perms.GörevListesi, PermTypes.Reading) == false) { return null; }
             ViewBag.Tip = Tip;
             ViewBag.ID = ID;
-            return PartialView("CountFark", list);
+            ViewBag.Tips = (Tip == "1" ? "Fark" : "");
+            return PartialView("CountFark");
+        }
+        public string CountFarkSelect(int ID, string Tip)
+        {
+            JavaScriptSerializer json = new JavaScriptSerializer() { MaxJsonLength = Int32.MaxValue };
+            List<frmSiparisMalzemeDetay> list;
+            try
+            {
+                string sql = "";
+                if (Tip == "2") { sql = String.Format(frmSiparisMalzemeDetay.SorguEksikListe, vUser.SirketKodu, ID); }
+                else { sql = String.Format(frmSiparisMalzemeDetay.SorguTumFarkListe, vUser.SirketKodu, ID, (Tip == "1" ? 1 : 0)); }
+                list = db.Database.SqlQuery<frmSiparisMalzemeDetay>(sql).ToList();
+                foreach (frmSiparisMalzemeDetay item in list) { item.SayimFarki = item.Miktar - item.WmsStok; }
+            }
+            catch (Exception ex)
+            {
+                list = new List<frmSiparisMalzemeDetay>();
+                Logger(ex, "/WMS/Tasks/CountFarkSelect");
+            }
+            return json.Serialize(list);
         }
 
+        public PartialViewResult CountFarkDetay(string MalKodu, int ID)
+        {
+            List<GorevYer> gy;
+            try { gy = db.GorevYers.Where(x => x.MalKodu.Equals(MalKodu) && x.GorevID == ID).ToList(); }
+            catch (Exception ex)
+            {
+                gy = new List<GorevYer>();
+                Logger(ex, "/WMS/Tasks/CountFarkDetay");
+            }
+            return PartialView(gy);
+        }
+        public JsonResult CountFarkSave(string Id, string YeniMiktar)
+        {
+            GorevYer gy;
+            try
+            {
+                int id = 0, yeniMiktar = 0;
+                id = Id.ToInt32();
+                yeniMiktar = YeniMiktar.ToInt32();
+                gy = db.GorevYers.Where(x => x.ID == id).FirstOrDefault();
+                if ((gy.IsNull() ? 0 : gy.ID) > 0)
+                {
+                    //TO BE CONTUNIE
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+            return null;
+        }
         /// <summary>
         /// sayım fişi kaydeder
         /// </summary>
