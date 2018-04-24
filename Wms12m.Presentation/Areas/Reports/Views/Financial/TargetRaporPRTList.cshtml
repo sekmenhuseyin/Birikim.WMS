@@ -52,7 +52,7 @@
             "pageLength": 50,
             "ajax": {
                 "url": '/Reports/Financial/TargetRaporPRTSelect',
-                "data": { GrupKod: '@ViewBag.GRUPKOD', Ay: '@ViewBag.AY', Yil:'@ViewBag.YIL'},
+                "data": { GrupKod: '@Html.Raw(ViewBag.GRUPKOD)', Ay: '@ViewBag.AY', Yil:'@ViewBag.YIL'},
                 "dataSrc": function (json) {
                      return json;
                 },
@@ -69,7 +69,7 @@
                 $('td', nRow).attr('nowrap', 'nowrap');
                 return nRow;
             },
-           
+
         });
 
         $("#buttons1c").html("");

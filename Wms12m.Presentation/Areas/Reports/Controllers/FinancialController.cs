@@ -767,9 +767,10 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
                 string sorgu = "", r = "", sorgu2 = "";
                 decimal toplamCiro = 0;
                 r = YilAyConvert(Yil, Ay);
-                sorgu2 = String.Format(TargetGrupKodSelect.Sorgu, vUser.SirketKodu, Convert.ToInt32(Yil), (Convert.ToInt32(Ay) + 1), r, GrupKod.ToString());
-                var Berk = db.Database.SqlQuery<TargetGrupKodSelect>(string.Format(TargetGrupKodSelect.Sorgu, vUser.SirketKodu, Convert.ToInt32(Yil), (Convert.ToInt32(Ay) + 1), r, GrupKod.ToString())).FirstOrDefault();
-                sorgu = String.Format(CTargetRaporTemsilci.Sorgu, vUser.SirketKodu, Convert.ToInt32(Yil), (Convert.ToInt32(Ay) + 1), Berk.GrupKod.ToString(), r);
+                // sorgu2 = String.Format(TargetGrupKodSelect.Sorgu, vUser.SirketKodu, Convert.ToInt32(Yil), (Convert.ToInt32(Ay) + 1), r, GrupKod.ToString());
+                //  var Berk = db.Database.SqlQuery<TargetGrupKodSelect>(string.Format(TargetGrupKodSelect.Sorgu, vUser.SirketKodu, Convert.ToInt32(Yil), (Convert.ToInt32(Ay) + 1), r, GrupKod.ToString())).FirstOrDefault();
+                // sorgu = String.Format(CTargetRaporTemsilci.Sorgu, vUser.SirketKodu, Convert.ToInt32(Yil), (Convert.ToInt32(Ay) + 1), Berk.GrupKod.ToString(), r);
+                sorgu = String.Format(CTargetRaporTemsilci.Sorgu, vUser.SirketKodu, Convert.ToInt32(Yil), (Convert.ToInt32(Ay) + 1), GrupKod.ToString(), r);
                 ctrt = db.Database.SqlQuery<CTargetRaporTemsilci>(sorgu).ToList();
                 if ((ctrt == null ? 0 : ctrt.Count()) > 0)
                 {
@@ -802,8 +803,7 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
             {
                 string sorgu = "", r = "";
                 r = YilAyConvert(Yil, Ay);
-                var Berk = db.Database.SqlQuery<TargetGrupKodSelect>(String.Format(TargetGrupKodSelect.Sorgu, vUser.SirketKodu, Convert.ToInt32(Yil), (Convert.ToInt32(Ay) + 1), r, GrupKod.ToString())).FirstOrDefault();
-                sorgu = String.Format(UrunGrupRapor.Sorgu, vUser.SirketKodu, Berk.GrupKod.ToString(), r, Convert.ToInt32(Yil), (Convert.ToInt32(Ay) + 1));
+                sorgu = String.Format(UrunGrupRapor.Sorgu, vUser.SirketKodu, GrupKod.ToString(), r, Convert.ToInt32(Yil), (Convert.ToInt32(Ay) + 1));
                 ugr = db.Database.SqlQuery<UrunGrupRapor>(sorgu).ToList();
             }
             catch (Exception ex)
@@ -828,8 +828,7 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
             {
                 string sorgu = "";
                 string r = YilAyConvert(Yil, Ay);
-                var Berk = db.Database.SqlQuery<TargetGrupKodSelect>(string.Format(TargetGrupKodSelect.Sorgu, vUser.SirketKodu, Convert.ToInt32(Yil), (Convert.ToInt32(Ay) + 1), r, GrupKod.ToString())).FirstOrDefault();
-                sorgu = String.Format(PRTRapor.Sorgu, vUser.SirketKodu, Convert.ToInt32(Yil), Convert.ToInt32(Ay) + 1, Berk.GrupKod.ToString());
+                sorgu = String.Format(PRTRapor.Sorgu, vUser.SirketKodu, Convert.ToInt32(Yil), Convert.ToInt32(Ay) + 1, GrupKod.ToString());
                 prt = db.Database.SqlQuery<PRTRapor>(sorgu).ToList();
             }
             catch (Exception ex)

@@ -11,14 +11,16 @@
         public string GrupKod { get; set; }
         public static string Sorgu = @"
         SELECT  SPI.EVRAKNO,
-        sum(SPI.Tutar)-sum(SPI.IskontoTutar1)as Tutar,
-        CONVERT(VARCHAR(10),CONVERT(datetime,SPI.Tarih-2),104)as Tarih,
-        SPI.CHK,(CHK.Unvan1+' '+CHK.Unvan2) as Unvan,CHK.TipKod,CHK.GrupKod
-                  FROM FINSAT6{0}.FINSAT6{0}.SPI AS SPI WITH (NOLOCK)
-                  INNER JOIN FINSAT6{0}.FINSAT6{0}.STK AS STK WITH (NOLOCK) ON STK.MALKODU = SPI.MALKODU 
-                  INNER JOIN FINSAT6{0}.FINSAT6{0}.CHK AS CHK WITH (NOLOCK) ON CHK.HesapKodu = SPI.CHK
-                  WHERE SPI.KynkEvrakTip=62
-                  AND SPI.Tarih BETWEEN {1} AND {2}
-                  Group By SPI.EvrakNo,SPI.Tarih, SPI.Chk, (CHK.Unvan1+' '+CHK.Unvan2), CHK.TipKod,CHK.GrupKod";
+	(SELECT sum(CASE satirtip WHEN 0 THEN Iskonto when 15 then -Iskonto else 0 end ) 
+	FROM FINSAT6{0}.FINSAT6{0}.FTD WITH (NOLOCK) 
+	WHERE EvrakNo=SPI.evrakno and KynkEvrakTip=62 group by EvrakNo) as Tutar,
+	CONVERT(VARCHAR(10),CONVERT(datetime,SPI.Tarih-2),104)as Tarih,
+	SPI.CHK,(CHK.Unvan1+' '+CHK.Unvan2) as Unvan,CHK.TipKod,CHK.GrupKod
+FROM FINSAT6{0}.FINSAT6{0}.SPI AS SPI WITH (NOLOCK)
+INNER JOIN FINSAT6{0}.FINSAT6{0}.STK AS STK WITH (NOLOCK) ON STK.MALKODU = SPI.MALKODU 
+INNER JOIN FINSAT6{0}.FINSAT6{0}.CHK AS CHK WITH (NOLOCK) ON CHK.HesapKodu = SPI.CHK
+WHERE SPI.KynkEvrakTip=62
+AND SPI.Tarih BETWEEN {1} AND {2}
+Group By SPI.EvrakNo,SPI.Tarih, SPI.Chk, (CHK.Unvan1+' '+CHK.Unvan2), CHK.TipKod,CHK.GrupKod";
     }
 }

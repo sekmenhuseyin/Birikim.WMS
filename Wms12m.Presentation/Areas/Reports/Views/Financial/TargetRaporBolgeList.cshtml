@@ -94,7 +94,7 @@
 
             "ajax": {
                 "url": '/Reports/Financial/TargetRaporBolgeSelect',
-                "data": { GrupKod: '@ViewBag.GRUPKOD', Ay: '@ViewBag.AY', Yil:'@ViewBag.YIL'},
+                "data": { GrupKod:  '@Html.Raw(ViewBag.GRUPKOD)', Ay: '@ViewBag.AY', Yil:'@ViewBag.YIL'},
                 "dataSrc": function (json) {
                      return json;
                 },

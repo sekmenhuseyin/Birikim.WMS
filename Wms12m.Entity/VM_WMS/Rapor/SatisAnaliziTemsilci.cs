@@ -51,8 +51,8 @@
 						SUM(b.Ekim) as Ekim,
 					  SUM(b.Kasim) as Kasim,
 				    SUM(b.Aralik) as Aralik,	   
-				  SUM(b.NetCiro) as NetCiro
-						 
+				  (SUM(b.Ocak)+SUM(b.Subat)+SUM(b.Mart)+SUM(b.Nisan)+SUM(b.Mayis)+SUM(b.Haziran)+ 
+					SUM(b.Temmuz)+SUM(b.Agustos)+SUM(b.Eylul)+SUM(b.Ekim)+SUM(b.Kasim)+SUM(b.Aralik)) AS NetCiro	 
 						  FROM(
                          SELECT US.MalAdi4,
                          ISNULL(MAX(CASE WHEN US.Ay = 1 THEN US.NetCiro ELSE 0 END),0) AS Ocak,
@@ -66,18 +66,11 @@
                          ISNULL(MAX(CASE WHEN US.Ay = 9 THEN US.NetCiro ELSE 0 END),0) AS Eylul,
                          ISNULL(MAX(CASE WHEN US.Ay = 10 THEN US.NetCiro ELSE 0 END),0) AS Ekim,
                          ISNULL(MAX(CASE WHEN US.Ay = 11 THEN US.NetCiro ELSE 0 END),0) AS Kasim,
-                         ISNULL(MAX(CASE WHEN US.Ay = 12 THEN US.NetCiro ELSE 0 END),0) AS Aralik,
-                         SUM(US2.SumNetCiro) AS NetCiro
+                         ISNULL(MAX(CASE WHEN US.Ay = 12 THEN US.NetCiro ELSE 0 END),0) AS Aralik
                          FROM #UrunBolgeSatisAnalizi AS US WITH (NOLOCK)
-                         INNER JOIN (
-                         SELECT IC1.MalAdi4,SUM(IC1.NetCiro) AS SumNetCiro FROM #UrunBolgeSatisAnalizi AS IC1 WITH (NOLOCK)
-                         GROUP BY IC1.MalAdi4
-                         ) AS US2 ON US2.MalAdi4=US.MalAdi4 
                          GROUP BY US.MalAdi4,US.Kod9 
-						 ) as B
+						 ) AS B
 						 Group BY B.MalAdi4
-						 
-						 --ORDER BY B.Kod9
-                         IF(OBJECT_ID('tempdb..#UrunBolgeSatisAnalizi') IS NOT NULL) BEGIN DROP TABLE #UrunBolgeSatisAnalizi END   ";
+						 IF(OBJECT_ID('tempdb..#UrunBolgeSatisAnalizi') IS NOT NULL) BEGIN DROP TABLE #UrunBolgeSatisAnalizi END   ";
     }
 }
