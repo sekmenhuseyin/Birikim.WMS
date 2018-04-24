@@ -17,6 +17,7 @@
                                 SET @TAR1=FINSAT6{0}.dbo.AyIlkSonGun({1},{2},1)
                                 SET @TAR2=FINSAT6{0}.dbo.AyIlkSonGun({1},{2},0)
 								/*SELECT @TAR1,@TAR2*/
+                                SELECT * FROM (
                                 SELECT 
 	                            CONVERT(NVARCHAR,ROW_NUMBER() OVER(ORDER BY B.GrupKod)) AS SiraNo,
                                 B.GrupKod,
@@ -126,7 +127,10 @@
                                 AND (B.Kod4 BETWEEN '' AND 'ZZZZZ')
                                 AND (B.GrupKod NOT IN ('FİK',''))								)
 								GROUP BY B.Grupkod,TT1.NetCiro,TT1.ToplamIade,TT2.BekleyenSiparis,TT3.Bakiye,TT4.HEDEF
-                                ORDER BY B.GrupKod
+                               ) AS RET
+								WHERE RET.Hedef>0 OR RET.HedefOran>0 OR RET.ToplamIade>0 OR RET.NetCiro>0
+								OR RET.CiroOran>0 OR RET.CariBorc>0 OR RET.PRT>0 OR RET.BekleyenSiparis>0
+                                ORDER BY RET.GrupKod
                                 ";
     }
 }
