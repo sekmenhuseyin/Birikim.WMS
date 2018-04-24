@@ -87,7 +87,7 @@
         $(".satirekle1").prepend("<option value=''>Seçiniz !!!</option>"); @if (ViewBag.New == 0) { <text>$(".satirekle1")[0].selectedIndex = 0;</text> }
     });
     function CallChangefunc(val) {
-        if (val == 75 || val == 77) {
+        if (val === 75 || val === 77) {
             $("#col1").removeClass("col-md-8").addClass("col-md-4");
             $("#col2").removeClass("hidden");
             $("#col3").removeClass("hidden");

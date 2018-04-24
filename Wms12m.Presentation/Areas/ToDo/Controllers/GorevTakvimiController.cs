@@ -95,16 +95,15 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             {
                 ViewBag.Username = new SelectList(Persons.GetList(), "Kod", "AdSoyad");
                 ViewBag.TatilTipi = new SelectList(ComboSub.GetList(Combos.TatilTipi.ToInt32()), "ID", "Name");
-                ViewBag.Yetki = true;
             }
             else
             {
                 ViewBag.Username = new SelectList(Persons.GetList(vUser.Id), "Kod", "AdSoyad", vUser.UserName);
                 ViewBag.TatilTipi = new SelectList(ComboSub.GetList(new int[] { ComboItems.Mazaretİzni.ToInt32(), ComboItems.Yıllıkİzin.ToInt32() }), "ID", "Name");
-                ViewBag.Yetki = false;
             }
 
             ViewBag.New = 0;
+            ViewBag.Yetki = CheckPerm(Perms.TodoTakvim, PermTypes.Writing);
             return PartialView("New", new Etkinlik());
         }
 
@@ -127,11 +126,12 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         public PartialViewResult Dublicate(int Id)
         {
             if (CheckPerm(Perms.TodoTakvim, PermTypes.Writing) == false) return null;
-            var tbl = db.Etkinliks.Where(m => m.ID == Id).FirstOrDefault();
+            var tbl = db.Etkinliks.FirstOrDefault(m => m.ID == Id);
             tbl.ID = 0;
             ViewBag.TatilTipi = new SelectList(ComboSub.GetList(Combos.TatilTipi.ToInt32()), "ID", "Name", tbl.TatilTipi);
             ViewBag.Username = new SelectList(Persons.GetList(), "Kod", "AdSoyad", tbl.Username);
             ViewBag.New = 2;
+            ViewBag.Yetki = CheckPerm(Perms.TodoTakvim, PermTypes.Writing);
             return PartialView("New", tbl);
         }
 
@@ -172,7 +172,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                 }
                 else
                 {
-                    var tbl = db.Etkinliks.Where(m => m.ID == satir.ID).FirstOrDefault();
+                    var tbl = db.Etkinliks.FirstOrDefault(m => m.ID == satir.ID);
                     tbl.TatilTipi = satir.TatilTipi;
                     tbl.Username = satir.Username;
                     tbl.Aciklama = satir.Aciklama;
