@@ -16,10 +16,17 @@
                                 SET @TAR2=ISNULL(FINSAT6{0}.dbo.AyIlkSonGun({1},{2},0),0)
 								/*SELECT @TAR1,@TAR2*/
                                 SELECT * FROM (
-								    SELECT GrupKod FROM(
                                 SELECT 
-								 ROW_NUMBER() OVER(ORDER BY B.GrupKod) AS SiraNo,
-                                B.GrupKod
+	                            CONVERT(NVARCHAR,ROW_NUMBER() OVER(ORDER BY B.GrupKod)) AS SiraNo,
+                                B.GrupKod,
+                                ISNULL(TT4.HEDEF,0) AS Hedef,
+                                (CASE WHEN ISNULL(TT4.HEDEF,0) = '0' THEN 0 ELSE (ISNULL(TT1.NetCiro,0) * 100 / ISNULL(TT4.HEDEF,0)) END) AS HedefOran,
+                                ISNULL(TT1.ToplamIade,0) AS ToplamIade,
+                                ISNULL(TT1.NetCiro,0) AS NetCiro,
+                                0.0 AS CiroOran,
+                                ISNULL(SUM(CASE WHEN A.BA = 0 THEN A.Tutar ELSE -A.Tutar END),0) AS CariBorc,
+                                ISNULL(TT3.Bakiye,0) AS PRT,
+                                ISNULL(TT2.BekleyenSiparis,0) AS BekleyenSiparis
                                 FROM 
 								FINSAT6{0}.FINSAT6{0}.CHK AS B WITH (NOLOCK) 
 								LEFT JOIN 
@@ -102,7 +109,7 @@
                                 ) AS TT3 ON B.GrupKod=TT3.GrupKod
                                 LEFT JOIN (
                                 SELECT H1.BOLGE AS GrupKod,H1.HEDEF FROM FINSAT6{0}.FINSAT6{0}.HDF AS H1 WITH (NOLOCK)
-                                 WHERE H1.TIP=0 AND H1.AYYIL = '{3}'
+                                  WHERE H1.TIP=0 AND H1.AYYIL = '{3}'
                                 ) AS TT4 ON B.GrupKod=TT4.GrupKod
                                 WHERE (B.KartTip IN (0,4) 
                                 AND (B.HesapKodu BETWEEN '1' AND '8')
@@ -118,11 +125,15 @@
                                 AND (B.Kod4 BETWEEN '' AND 'ZZZZZ')
                                 AND (B.GrupKod NOT IN ('FİK',''))								)
 								GROUP BY B.Grupkod,TT1.NetCiro,TT1.ToplamIade,TT2.BekleyenSiparis,TT3.Bakiye,TT4.HEDEF
-								  ) AS D WHERE D.SiraNo = '{4}'
-                           ) AS RET
-								WHERE RET.Hedef>0 OR RET.HedefOran>0 OR RET.ToplamIade>0 OR RET.NetCiro>0
-								OR RET.CiroOran>0 OR RET.CariBorc>0 OR RET.PRT>0 OR RET.BekleyenSiparis>0
-                                ORDER BY RET.GrupKod";
+                               ) AS RET
+								WHERE (RET.Hedef>0 OR RET.HedefOran>0 OR RET.ToplamIade>0 OR RET.NetCiro>0
+								OR RET.CiroOran>0 OR RET.CariBorc>0 OR RET.PRT>0 OR RET.BekleyenSiparis>0)
+								AND SiraNo = '{4}'
+                                ORDER BY RET.GrupKod
+
+
+
+";
 
 
     }

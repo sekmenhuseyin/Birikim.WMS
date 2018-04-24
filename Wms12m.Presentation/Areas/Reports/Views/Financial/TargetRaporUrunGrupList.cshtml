@@ -67,7 +67,7 @@
             "pagingType": "full_numbers",
             "ajax": {
                 "url": '/Reports/Financial/TargetRaporUrunGrupSelect',
-                "data": { GrupKod: '@ViewBag.GRUPKOD', Ay: '@ViewBag.AY', Yil:'@ViewBag.YIL'},
+                "data": { GrupKod: '@Html.Raw(ViewBag.GRUPKOD)', Ay: '@ViewBag.AY', Yil:'@ViewBag.YIL'},
                 "dataSrc": function (json) {
                      return json;
                 },
@@ -82,7 +82,7 @@
                 { "data": "NetCiro", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
                 { "data": "Oran", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
             ],
-       
+
             "fnRowCallback": function (nRow, aData, iDisplayIndex) {
                 $('td', nRow).attr('nowrap', 'nowrap');
                 return nRow;

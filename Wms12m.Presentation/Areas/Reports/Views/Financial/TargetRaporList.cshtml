@@ -197,9 +197,8 @@
         trigger: 'left',
         callback: function (key, options) {
 
-            var rowIndex = parseInt(options.$trigger[0].rowIndex)-2;
-            var satir = table.row(rowIndex).data().SiraNo;
-
+            var rowIndex = parseInt(options.$trigger[0].rowIndex) - 2;
+            var satir = table.row(rowIndex).data().GrupKod;
 
             switch (key) {
                 case 'bkTemsilciler':
