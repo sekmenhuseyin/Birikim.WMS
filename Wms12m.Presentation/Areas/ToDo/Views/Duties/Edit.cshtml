@@ -115,7 +115,7 @@
         @if (Model.Sorumlu2.ToString2().Length == 0) { <text>$(".satirekle")[0].selectedIndex = 0;</text> }
         @if (Model.Sorumlu3.ToString2().Length == 0) { <text>$(".satirekle")[1].selectedIndex = 0;</text> }
         @if (Model.KontrolSorumlusu.ToString2().Length == 0) { <text>$(".satirekle")[2].selectedIndex = 0;</text> }
-        var model = @Html.Raw(Json.Encode(Model.GorevlerToDoLists.Select(m=> new frmGorevTodos { ID=m.ID, Aciklama=m.Aciklama, TahminiBitis=m.TahminiBitis.ToDatetime().ToString("dd.MM.yyyy hh:mm"), Onay = m.Onay }).ToList()));
+        var model = @Html.Raw(Json.Encode(Model.GorevlerToDoLists.Select(m=> new frmGorevTodos { ID=m.ID, Aciklama=m.Aciklama, TahminiBitis=m.TahminiBitis.ToDatetime().ToString("dd.MM.yyyy HH:mm"), Onay = m.Onay }).ToList()));
         $.each(model, function (index, value) {
             console.log(value);
             var i = sayac++;
