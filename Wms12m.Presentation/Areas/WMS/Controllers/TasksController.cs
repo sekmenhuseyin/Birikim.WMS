@@ -3,6 +3,7 @@ using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Web.Mvc;
@@ -214,24 +215,34 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         }
         public JsonResult CountFarkSave(string Id, string YeniMiktar)
         {
-            GorevYer gy;
-            try
+            Result t = new Result();
+            int _id = 0;
+            decimal _yeniMiktar = 0;
+            _id = Id.ToInt32();
+            _yeniMiktar = YeniMiktar.ToDecimal();
+            using (DbContextTransaction et = db.Database.BeginTransaction())
             {
-                int id = 0, yeniMiktar = 0;
-                id = Id.ToInt32();
-                yeniMiktar = YeniMiktar.ToInt32();
-                gy = db.GorevYers.Where(x => x.ID == id).FirstOrDefault();
-                if ((gy.IsNull() ? 0 : gy.ID) > 0)
+                try
                 {
-                    //TO BE CONTUNIE
+                    GorevYer gy = db.GorevYers.Where(x => x.ID == _id).FirstOrDefault();
+                    if ((gy.IsNull() ? 0 : gy.ID) > 0)
+                    {
+                        gy.Miktar = _yeniMiktar;
+                        gy.YerlestirmeMiktari = _yeniMiktar;
+                        db.SaveChanges();
+                        t.Status = true;
+                    }
+                    else { t.Status = false; }
+                    et.Commit();
+                }
+                catch (Exception ex)
+                {
+                    Logger(ex, "/WMS/Tasks/CountFarkSave");
+                    et.Rollback();
+                    t.Status = false;
                 }
             }
-            catch (Exception ex)
-            {
-
-                throw;
-            }
-            return null;
+            return Json(t.Status, JsonRequestBehavior.AllowGet);
         }
         /// <summary>
         /// sayım fişi kaydeder

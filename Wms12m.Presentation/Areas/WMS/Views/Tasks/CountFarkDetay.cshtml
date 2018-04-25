@@ -1,45 +1,44 @@
 ﻿@model List<GorevYer>
-<thead>
-    <tr>
-        <th></th>
-        <th style="display:none">ID</th>
-        <th>Görev No</th>
-        <th>Hücre Adı</th>
-        <th>MalKodu</th>
-        <th>Miktar</th>
-        <th>Yeni Miktar</th>
-    </tr>
-</thead>
-<tbody>
-    @foreach (GorevYer item in Model)
-    {
+<table>
+    <thead>
         <tr>
-            <td><input id="@(String.Concat("btn",item.ID.ToString()))" onclick="Gunc(@item.ID)" type="button" class="btn green-haze" value="Güncelle" /></td>
-            <td style="display:none">@item.ID</td>
-            <td>@item.Gorev.GorevNo</td>
-            <td>@item.Yer.HucreAd</td>
-            <td>@item.MalKodu</td>
-            <td align="right">@String.Format("{0:n}", item.Miktar)</td>
-            <td><input id="@(String.Concat("txt",item.ID.ToString()))" type="number" class="form-control" /></td>
+            <th></th>
+            <th style="display:none">ID</th>
+            <th>Görev No</th>
+            <th>Hücre Adı</th>
+            <th>MalKodu</th>
+            <th>Miktar</th>
+            <th>Yeni Miktar</th>
         </tr>
-    }
-</tbody>
+    </thead>
+    <tbody>
+        @foreach (GorevYer item in Model)
+        {
+            <tr>
+                <td><input id="@(String.Concat("btn",item.ID.ToString()))" onclick="Gunc(@item.ID)" type="button" class="btn blue-hoki" value="Güncelle" /></td>
+                <td style="display:none">@item.ID</td>
+                <td>@item.Gorev.GorevNo</td>
+                <td>@item.Yer.HucreAd</td>
+                <td>@item.MalKodu</td>
+                <td align="right">@String.Format("{0:n}", item.Miktar)</td>
+                <td><input id="@(String.Concat("txt",item.ID.ToString()))" type="number" min="0" step="1" class="form-control" /></td>
+            </tr>
+        }
+    </tbody>
+</table>
 <script type="text/javascript">
     function Gunc(id) {
         var yeniMiktar = $('#txt' + id).val();
-        if (yeniMiktar !="") {
+        if (yeniMiktar != "") {
             $.ajax({
                 url: window.location.origin + "/WMS/Tasks/CountFarkSave",
                 data: { ID: id, YeniMiktar: yeniMiktar },
                 type: "post",
                 dataType: "json",
                 success: function (data) {
-                    if (data != "") {
-                        //$.each(data, function (i, item) {
-                        //    $('#temsilci-select').append($('<option>', { value: item.Value, text: item.Text }));
-                        //});
-                        //$("#temsilci-select").prepend("<option value='0'>Tümü</option>");
-                        //$("#temsilci-select")[0].selectedIndex = 0;
+                    if (data) {
+                        $('#btn' + id).val("Güncellendi")
+                        $('#btn' + id).removeClass("btn blue-hoki").addClass("btn green-haze");
                     }
                 }
             });
