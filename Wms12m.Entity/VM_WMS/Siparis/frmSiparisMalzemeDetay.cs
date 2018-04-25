@@ -1,7 +1,7 @@
 ﻿namespace Wms12m.Entity
 {
     /// <summary>
-    /// siparişlerin malzeme detay
+    /// Siparişlerin malzeme detay
     /// </summary>
     public class frmSiparisMalzemeDetay
     {
@@ -18,5 +18,8 @@
         public string Unvan { get; set; }
         public decimal WmsRezerv { get; set; }
         public decimal WmsStok { get; set; }
+        public decimal SayimFarki { get; set; }  // Miktar - WmsStok
+        public static string SorguEksikListe = @"EXEC FINSAT6{0}.wms.getSayimEksikList @ID = {1}";
+        public static string SorguTumFarkListe = @"EXEC FINSAT6{0}.wms.getSayimList @ID = {1}, @FarkMi = {2}";
     }
 }
