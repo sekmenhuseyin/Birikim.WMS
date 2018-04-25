@@ -10,8 +10,7 @@
 namespace Wms12m.Entity.Models
 {
     using System;
-    using System.Collections.Generic;
-    
+
     public partial class Setting
     {
         public int ID { get; set; }
@@ -41,5 +40,6 @@ namespace Wms12m.Entity.Models
         public string GitServerAddress { get; set; }
         public bool Aktif { get; set; }
         public bool BolgeKoduParametre { get; set; }
+        public bool TahsilatSorumlusuParametre { get; set; }
     }
 }

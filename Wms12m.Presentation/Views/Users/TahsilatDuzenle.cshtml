@@ -6,14 +6,14 @@
         <div class="portlet box green">
             <div class="portlet-title">
                 <div class="caption">
-                    <i class="fa fa-gift"></i>Bölge Kodu Düzenle
+                    <i class="fa fa-gift"></i>Tahsilat Sorumlusu Düzenle
                 </div>
             </div>
             <div class="portlet-body form">
                 <div class="form-body">
-                   
+
                     <div class="row">
-                        <div class="col-md-3 m-l-10" style="line-height:36px;color: #5bc8d2;font-weight:bold;">Bölge Kodları</div>
+                        <div class="col-md-3 m-l-10" style="line-height:36px;color: #5bc8d2;font-weight:bold;">Tahsilat Sorumluları</div>
                         <div class="col-md-8 m-l-20 p-r-10 bas-tipkod"></div>
                     </div>
                     <div class="row m-t-10">
@@ -44,7 +44,7 @@
     tipKod = new Array();
 
     $.ajax({
-        url: window.location.origin + "/Users/BolgeKodList",
+        url: window.location.origin + "/Users/TahsilatSorumlusuList",
         data: {},
         type: "post",
         success: function (data)
@@ -53,16 +53,15 @@
             jQuery.each(result, function (i, val) {
 
                     var inputAttr = {};
-                    inputAttr["BolgeKod"] = val.BolgeKod;
-                    inputAttr["Aciklama"] = val.Aciklama;
+                    inputAttr["Kod"] = val.Kod;
                     tipKod.push(inputAttr);
 
             });
             $(".bas-tipkod").dxTagBox({
                 dataSource: tipKod,
                 placeholder: 'Seçiniz...',
-                displayExpr: 'Aciklama',
-                valueExpr: 'BolgeKod',
+                displayExpr: 'Kod',
+                valueExpr: 'Kod',
                 value: tiplist,
                 showSelectionControls: true,
                 applyValueMode: "useButtons",
@@ -82,7 +81,7 @@
     $('.save-buton').click(function () {
 
         $.ajax({
-            url: window.location.origin + "/Users/BolgeKodUpdate",
+            url: window.location.origin + "/Users/TahsilatSorumlusuUpdate",
             data: { Tipler: secilitipkod, ID: ID, Kod: Kod },
             type: "post",
             success: function (data) {

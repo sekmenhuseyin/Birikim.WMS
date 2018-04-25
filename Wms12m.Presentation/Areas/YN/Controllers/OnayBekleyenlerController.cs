@@ -37,6 +37,7 @@ namespace Wms12m.Presentation.Areas.YN.Controllers
 
             var list = db.Database.SqlQuery<frmOnaySiparisList>(string.Format(@"
 
+
 SELECT  STK002_EvrakSeriNo AS EvrakSeriNo, CAR002_BankaHesapKodu AS HesapKodu, CAR002_Unvan1 AS Unvan, COUNT(STK002_MalKodu) 
 					AS Cesit, SUM(STK002_Miktari) AS Miktar, STK002_GirenKodu AS Kaydeden, 
 					 CONVERT(VARCHAR(15), CAST(STK002_GirenTarih - 2 AS datetime), 104) AS Tarih,
@@ -47,10 +48,12 @@ SELECT  STK002_EvrakSeriNo AS EvrakSeriNo, CAR002_BankaHesapKodu AS HesapKodu, C
 			INNER JOIN
 				   YNS{0}.YNS{0}.CAR002(NOLOCK) ON STK002_CariHesapKodu = CAR002_HesapKodu
 			WHERE   STK002_GC = 1 AND STK002_SipDurumu = 0  AND STK002_Kod10 = '{1}'
+			AND STK002_GirenKodu IN (
+	SELECT [Data] FROM YNS{0}.dbo.Split(
+	(SELECT TOP 1 Email FROM BIRIKIM.usr.Users WITH (NOLOCK) WHERE Kod = '{2}' AND Email!=''),';')
+    WHERE [Data] != '')
 			GROUP BY CAR002_BankaHesapKodu, CAR002_Unvan1, STK002_EvrakSeriNo, STK002_GirenKodu, CONVERT(VARCHAR(15), CAST(STK002_GirenTarih - 2 AS datetime), 104)
-			ORDER BY STK002_EvrakSeriNo
-
-			", vUser.SirketKodu, secimParam)).ToList();
+			ORDER BY STK002_EvrakSeriNo	", vUser.SirketKodu, secimParam, vUser.UserName)).ToList();
             var json = new JavaScriptSerializer().Serialize(list);
             return json;
         }
@@ -131,13 +134,24 @@ SELECT  STK002_EvrakSeriNo AS EvrakSeriNo, CAR002_BankaHesapKodu AS HesapKodu, C
         /// </summary>
         public string Teklif_List(int Secim)
         {
-            var list = db.Database.SqlQuery<frmOnayTeklifList>(string.Format(@"SELECT TeklifNo,HesapKodu,COUNT(MalKodu) AS Cesit,
-																					SUM(Miktar) AS Miktar,Kaydeden,
-																					CONVERT(VARCHAR(15), CAST(KayitTarih - 2 AS datetime), 104) AS KayitTarihi,
-																					CONVERT(VARCHAR(15), CAST(TeklifTarihi - 2 AS datetime), 104) AS TeklifTarihi
-																					FROM YNS{0}.YNS{0}.[Teklif]
-																					WHERE OnayDurumu={1}
-																					  GROUP BY TeklifNo,TeklifTarihi,HesapKodu,KayitTarih,Kaydeden", vUser.SirketKodu, Secim)).ToList();
+            var list = db.Database.SqlQuery<frmOnayTeklifList>(string.Format(@"
+																				
+              SELECT TeklifNo,HesapKodu,COUNT(MalKodu) AS Cesit,
+			SUM(Miktar) AS Miktar,Kaydeden,
+			CONVERT(VARCHAR(15), CAST(KayitTarih - 2 AS datetime), 104) AS KayitTarihi,
+			CONVERT(VARCHAR(15), CAST(TeklifTarihi - 2 AS datetime), 104) AS TeklifTarihi
+			FROM YNS{0}.YNS{0}.[Teklif]
+			WHERE OnayDurumu={1}
+			AND Kaydeden IN (
+            	SELECT [Data] FROM YNS{0}.dbo.Split(
+            	(SELECT TOP 1 Email FROM BIRIKIM.usr.Users WITH (NOLOCK) WHERE Kod = '{2}' AND Email!=''),';')
+              WHERE [Data] != '')
+		     GROUP BY TeklifNo,TeklifTarihi,HesapKodu,KayitTarih,Kaydeden
+
+
+
+
+", vUser.SirketKodu, Secim, vUser.UserName)).ToList();
             var json = new JavaScriptSerializer().Serialize(list);
             return json;
         }
@@ -248,7 +262,11 @@ SELECT  STK002_EvrakSeriNo AS EvrakSeriNo, CAR002_BankaHesapKodu AS HesapKodu, C
 			FROM  YNS{0}.YNS{0}.TempFatura(NOLOCK) 
 			INNER JOIN YNS{0}.YNS{0}.CAR002(NOLOCK) ON TempFatura.HesapKodu = CAR002.CAR002_HesapKodu
 			WHERE TempFatura.IslemDurumu = {1}
-			GROUP BY TempFatura.EvrakNo, TempFatura.HesapKodu, TempFatura.Depo, TempFatura.Kaydeden, TempFatura.KayitTarih", vUser.SirketKodu, Secim)).ToList();
+			AND TempFatura.Kaydeden IN (
+	SELECT [Data] FROM YNS{0}.dbo.Split(
+	(SELECT TOP 1 Email FROM BIRIKIM.usr.Users WITH (NOLOCK) WHERE Kod = '{2}' AND Email!=''),';')
+    WHERE [Data] != '')
+			GROUP BY TempFatura.EvrakNo, TempFatura.HesapKodu, TempFatura.Depo, TempFatura.Kaydeden, TempFatura.KayitTarih", vUser.SirketKodu, Secim, vUser.UserName)).ToList();
 
             var json = new JavaScriptSerializer().Serialize(list);
             return json;
@@ -316,7 +334,7 @@ SELECT  STK002_EvrakSeriNo AS EvrakSeriNo, CAR002_BankaHesapKodu AS HesapKodu, C
         /// </summary>
         public string SatisIade_List()
         {
-            var list = db.Database.SqlQuery<SatisIadeIcmal>(string.Format(SatisIadeIcmal.Sorgu, vUser.SirketKodu)).ToList();
+            var list = db.Database.SqlQuery<SatisIadeIcmal>(string.Format(SatisIadeIcmal.Sorgu, vUser.SirketKodu, vUser.UserName)).ToList();
 
             var json = new JavaScriptSerializer().Serialize(list);
             return json;
@@ -407,9 +425,13 @@ SELECT  STK002_EvrakSeriNo AS EvrakSeriNo, CAR002_BankaHesapKodu AS HesapKodu, C
 						Tutar, DovizCinsi, KapatilanTL, KapatilanUSD, KapatilanEUR, Kaydeden, Aciklama,
 						(CASE WHEN KapatilanUSD>0 THEN ISNULL(DvzEfektisSatis1, 0) ELSE 0 END) AS USDKur,
 						(CASE WHEN KapatilanEUR>0 THEN ISNULL(DvzEfektisSatis2, 0) ELSE 0 END) AS EURKur
-				FROM YNS{0}.YNS{0}.TahsilatMobil(NOLOCK) 
-				LEFT JOIN YNS{0}.YNS{0}.CAR002 ON TahsilatMobil.HesapKodu = CAR002_HesapKodu
-				WHERE IslemDurumu=0", vUser.SirketKodu)).ToList();
+				FROM YNS0TEST.YNS0TEST.TahsilatMobil(NOLOCK) 
+				LEFT JOIN YNS0TEST.YNS0TEST.CAR002 ON TahsilatMobil.HesapKodu = CAR002_HesapKodu
+				WHERE IslemDurumu=0
+				AND TahsilatMobil.Kaydeden IN (
+	        SELECT [Data] FROM YNS0TEST.dbo.Split(
+	    (SELECT TOP 1 Email FROM BIRIKIM.usr.Users WITH (NOLOCK) WHERE Kod = '{1}' AND Email!=''),';')
+         WHERE [Data] != '')", vUser.SirketKodu, vUser.UserName)).ToList();
 
             var json = new JavaScriptSerializer().Serialize(list);
             return json;
@@ -454,7 +476,7 @@ SELECT  STK002_EvrakSeriNo AS EvrakSeriNo, CAR002_BankaHesapKodu AS HesapKodu, C
         }
         #endregion
 
-        #region IskontroListAktarim
+        #region IskontoListAktarim
         public ActionResult IskontoListAktarim()
         {
             return View("IskontoListAktarim");

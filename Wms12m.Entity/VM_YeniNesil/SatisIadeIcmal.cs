@@ -15,6 +15,10 @@
         LEFT JOIN YNS{0}.YNS{0}.CAR002(NOLOCK) ON STK005_Kod8=CAR002_HesapKodu
         WHERE STK005_EvrakTipi in(99, 22) AND STK005_IslemTipi=2 AND STK005_GC=0 AND STK005_Kod11>0 AND STK005_Kod9<>'' AND
                 STK005_Kod10='Onay Bekliyor' AND SUBSTRING(STK005_Not5,1,8)='AndMobil'
+				AND STK005_GirenKodu IN (
+	SELECT [Data] FROM YNS{0}.dbo.Split(
+	(SELECT TOP 1 Email FROM BIRIKIM.usr.Users WITH (NOLOCK) WHERE Kod = '{1}' AND Email!=''),';')
+    WHERE [Data] != '')
         GROUP BY STK005_EvrakSeriNo, STK005_IslemTarihi, STK005_Kod8, STK005_Depo, STK005_Kod9, STK005_GirenKodu";
 
         public int Cesit { get; set; }

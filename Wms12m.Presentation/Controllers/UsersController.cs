@@ -484,16 +484,36 @@ namespace Wms12m.Presentation.Controllers
             if (tbl != null)
             {
 
-                yetki.AdSoyad = tbl.User.AdSoyad;
+                yetki.Kod = tbl.User.Kod;
             }
             else
             {
                 var grv = db.Users.FirstOrDefault(m => m.ID == ID);
-                if (grv != null) yetki.AdSoyad = grv.AdSoyad;
+                if (grv != null) yetki.Kod = grv.Kod;
             }
 
             ViewBag.ID = ID;
             return PartialView("BolgeKoduDuzenle", yetki);
+        }
+
+        public PartialViewResult TahsilatDuzenle(int ID)
+        {
+            if (CheckPerm(Perms.Kullanıcılar, PermTypes.Reading) == false || ID == 1) return null;
+            var tbl = db.UserDetails.FirstOrDefault(m => m.UserID == ID);
+            var yetki = new SipOnayYetkiler();
+            if (tbl != null)
+            {
+
+                yetki.Kod = tbl.User.Kod;
+            }
+            else
+            {
+                var grv = db.Users.FirstOrDefault(m => m.ID == ID);
+                if (grv != null) yetki.Kod = grv.Kod;
+            }
+
+            ViewBag.ID = ID;
+            return PartialView("TahsilatDuzenle", yetki);
         }
 
         /// <summary>
@@ -511,6 +531,39 @@ namespace Wms12m.Presentation.Controllers
             var BolgeKod = db.Database.SqlQuery<BolgeKodSelect>(string.Format(BolgeKodSelect.Sorgu, vUser.SirketKodu)).ToList();
             var json = new JavaScriptSerializer().Serialize(BolgeKod);
             return json;
+        }
+
+        public string TahsilatSorumlusuList()
+        {
+            var TahsilatSorumlusu = db.Database.SqlQuery<TahsilatSorumlusuSelect>(string.Format(TahsilatSorumlusuSelect.Sorgu, vUser.SirketKodu)).ToList();
+            var json = new JavaScriptSerializer().Serialize(TahsilatSorumlusu);
+            return json;
+        }
+
+        public JsonResult TahsilatSorumlusuUpdate(string Tipler, int ID, string Kod)
+        {
+            if (CheckPerm(Perms.Kullanıcılar, PermTypes.Writing) == false || ID == 1) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
+            var result = new Result(false, "Hata Oluştu. ");
+            if (Tipler != null)
+            {
+                try
+                {
+                    db.Database.ExecuteSqlCommand(string.Format("UPDATE BIRIKIM.usr.Users SET Email = '{0}' WHERE Kod = '{1}'", Tipler, Kod));
+                    db.SaveChanges();
+                    result.Status = true;
+                    result.Id = ID;
+                    result.Message = "İşlem Başarılı ";
+                }
+                catch (Exception)
+                {
+                    // ignored
+
+                }
+            }
+            else result.Message = "Tahsilat Sorumlusu Seçiniz. ";
+
+
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
 
 
@@ -557,7 +610,7 @@ namespace Wms12m.Presentation.Controllers
             {
                 try
                 {
-                    db.Database.ExecuteSqlCommand(string.Format("UPDATE BIRIKIM.usr.Users SET Tema = '{0}' WHERE AdSoyad = '{1}'", Tipler, Kod));
+                    db.Database.ExecuteSqlCommand(string.Format("UPDATE BIRIKIM.usr.Users SET Tema = '{0}' WHERE Kod = '{1}'", Tipler, Kod));
                     db.SaveChanges();
                     result.Status = true;
                     result.Id = ID;

@@ -898,6 +898,7 @@
     <Content Include="Views\Users\Parametre.cshtml" />
     <Content Include="Views\Home\Box.cshtml" />
     <Content Include="Views\Users\BolgeKoduDuzenle.cshtml" />
+    <Content Include="Views\Users\TahsilatDuzenle.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

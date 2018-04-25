@@ -426,6 +426,7 @@
     <Compile Include="VM_WMS\Rapor\RaporTargetUrunGrup.cs" />
     <Compile Include="VM_WMS\Rapor\SatisAnaliziTemsilci.cs" />
     <Compile Include="VM_WMS\Rapor\SevkiyatKalanDetay.cs" />
+    <Compile Include="VM_WMS\Rapor\TahsilatSorumlusuSelect.cs" />
     <Compile Include="VM_WMS\Rapor\TargetGrupKodSelect.cs" />
     <Compile Include="VM_WMS\Rapor\UrunGrupRapor.cs" />
     <Compile Include="VM_WMS\Rapor\WebSiparis.cs" />
