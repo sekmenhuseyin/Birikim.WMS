@@ -38,7 +38,10 @@
                 success: function (data) {
                     if (data) {
                         $('#btn' + id).val("Güncellendi")
-                        $('#btn' + id).removeClass("btn blue-hoki").addClass("btn green-haze");
+                        $('#btn' + id).removeClass("btn blue-hoki").addClass("btn green-haze disabled");
+                    }
+                    else {
+                        Modaldialog("İşlem Başarısız.Kontrol ediniz!", "Hata", "Tamam", "btn-danger");
                     }
                 }
             });
