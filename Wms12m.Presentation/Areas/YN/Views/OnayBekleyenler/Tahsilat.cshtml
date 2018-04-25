@@ -57,7 +57,25 @@ $(document).ready(function () {
             { "data": "Tarih" },
             { "data": "Kaydeden" },
             { "data": "Aciklama" }
-        ]
+        ],
+        "fnRowCallback": function (nRow, aData, iDisplayIndex) {
+            $('td', nRow).attr('nowrap', 'nowrap');
+            return nRow;
+        },
+        "footerCallback": function (row, data, start, end, display) {
+            var Tutar = 0, KapatilanTL = 0, KapatilanUSD = 0, KapatilanEUR = 0;
+            table.rows({ search: 'applied' }).data().each(function (val, index) {
+                Tutar += val.Tutar;
+                KapatilanTL += val.KapatilanTL;
+                KapatilanUSD += val.KapatilanUSD;
+                KapatilanEUR += val.KapatilanEUR;
+            });
+            var api = this.api(), data;
+            $(api.column(5).footer()).html(numeral(Tutar).format());
+            $(api.column(7).footer()).html(numeral(KapatilanTL).format());
+            $(api.column(8).footer()).html(numeral(KapatilanUSD).format());
+            $(api.column(10).footer()).html(numeral(KapatilanEUR).format());
+        }
     });
     $('#sample_1 tbody').on('click', 'tr', function () {
         selected = table.rows('.selected').data()[0]["TahsilatNo"];

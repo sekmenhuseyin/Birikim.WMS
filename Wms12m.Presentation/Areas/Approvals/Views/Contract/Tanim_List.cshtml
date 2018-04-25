@@ -56,6 +56,7 @@
     var secili_satir = new Array();
     var secili_table = new Array();
     var silinecek = new Array();
+    var redlistno = "";
     var table = "";
     var listeNO = JSON.parse('@Html.Raw(ViewBag.ListeNo)');
     if (listeNO != "#12MConsulting#")
@@ -228,6 +229,89 @@
         });
 
     }
+
+
+
+  
+   
+
+    function bbbb() {
+        var x = table.rows().data();
+        for (var i = 0; i < x.length; i++) {
+            var jObject = {};
+            jObject["HesapKodu"] = $(".select_musteri_kodu").dxLookup("instance").option("value");
+            jObject["Unvan"] = $(".select_musteri_kodu").dxLookup("instance").option("selectedItem").Unvan;
+            if ($(".swtch_vade_valor").dxSwitch("instance").option("value") == false) {
+                jObject["VadeTarihInt"] = 0;
+                jObject["ValorGun"] = $(".numb_valor_gun").dxTextBox("instance").option("value");
+            }
+            else {
+                jObject["VadeTarihInt"] = Math.ceil(($(".date_vade_tarihi").dxDateBox("instance").option("value") - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000));
+                jObject["VadeTarih"] = $(".date_vade_tarihi").dxDateBox("instance").option("value");
+                jObject["ValorGun"] = 0;
+            }
+            jObject["ListeNo"] = $(".txt_sozlesme_sira_no").dxTextBox("instance").option("value");
+            jObject["BasTarihInt"] = Math.ceil(($(".date_baslangic_tarihi").dxDateBox("instance").option("value") - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000));
+            jObject["BasTarih"] = $(".date_baslangic_tarihi").dxDateBox("instance").option("value");
+            jObject["BitTarihInt"] = Math.ceil(($(".date_bitis_tarihi").dxDateBox("instance").option("value") - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000));
+            jObject["BitTarih"] = $(".date_bitis_tarihi").dxDateBox("instance").option("value");
+            jObject["Not"] = $(".txt_sozlesme_notu").dxTextBox("instance").option("value");
+            jObject["BaglantiTipi"] = $(".select_baglanti_tipi").dxSelectBox("instance").option("value");
+            jObject["SiraNo"] = $(".txt_sira_no").dxTextBox("instance").option("value");
+            jObject["BaglantiTutari"] = $(".numb_baglanti_tutari").dxTextBox("instance").option("value");
+            jObject["CekTutari"] = $(".numb_alinan_cek_tutari").dxTextBox("instance").option("value");
+            jObject["CekOrtVadeTarihi"] = $(".date_alinan_cek_ort_vade").dxDateBox("instance").option("value");
+            jObject["NakitTutar"] = $(".numb_alinan_nakit_vb").dxTextBox("instance").option("value");
+            jObject["BaglantiParaCinsi"] = $(".select_baglanti_tutari_doviz").dxSelectBox("instance").option("value");
+            jObject["AktifPasif"] = $(".swtch_aktif_pasif").dxSwitch("instance").option("value");
+
+            jObject["Kod10"] = x[i]["Kod10"];
+            jObject["UrunGrubu"] = x[i]["MalKodGrup"];
+            jObject["UrunKodu"] = x[i]["MalKod"];
+            jObject["UrunAdi"] = x[i]["MalAdi"];
+            jObject["Kalite"] = x[i]["Kalite"];
+            jObject["Iskonto1"] = x[i]["Oran1"];
+            jObject["Iskonto2"] = x[i]["Oran2"];
+            jObject["Iskonto3"] = x[i]["Oran3"];
+            jObject["Iskonto4"] = x[i]["Oran4"];
+            jObject["Iskonto5"] = x[i]["Oran5"];
+
+            secili_table.push(jObject);
+        }
+        redlistno = $(".txt_sozlesme_sira_no").dxTextBox("instance").option("value");
+        $.ajax({
+            url: window.location.origin + "/Approvals/Contract/RedOnayaDusur",
+            data: { Data: JSON.stringify(secili_table), redlistno: redlistno },
+            type: "post",
+            success: function (data) {
+                if (data == "OK") {
+                    $(".selected").remove();
+                    inputClear();
+                    element = [];
+                    var jsonElement = JSON.stringify(element);
+                    PartialView("/Approvals/Contract/Tanim_List", 'sozlesme_tanim_data', JSON.stringify({ listeNo: "#12MConsulting#", satir: jsonElement }));
+                }
+                else if (data.substring(0, 3) == "SÖZ") {
+                    Modaldialog("Sözleşme sıra no =>" + data + " şeklinde başarıyla kaydedildi.", "Kayıt İşlemi", "Tamam", "btn-success");
+                    inputClear();
+                    element = [];
+                    var jsonElement = JSON.stringify(element);
+                    PartialView("/Approvals/Contract/Tanim_List", 'sozlesme_tanim_data', JSON.stringify({ listeNo: "#12MConsulting#", satir: jsonElement }));
+                }
+                else {
+                    Modaldialog("Hata Oluştu.", "Kayıt İşlemi", "Tamam", "btn-danger");
+                    inputClear();
+                }
+
+            }
+        });
+
+    }
+
+
+
+
+
 
     function SatirSil() {
         silinecek.sort(function (a, b) { return b - a })

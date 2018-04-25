@@ -711,6 +711,7 @@ namespace Wms12m.Entity
         public string OnayMerci { get; set; }
     }
 
+
     public class UrunGrup
     {
         public string Kod { get; set; }
@@ -1299,5 +1300,5 @@ namespace Wms12m.Entity
         public decimal CikMiktar { get; set; }
         public decimal StokMiktar { get; set; }
     }
-  
+
 }

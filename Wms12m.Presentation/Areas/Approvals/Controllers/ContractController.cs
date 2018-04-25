@@ -451,7 +451,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             {
                 foreach (JObject insertObj in parameters)
                 {
-                    db.Database.ExecuteSqlCommand(string.Format("DELETE FROM [FINSAT6{0}].[FINSAT6{0}].[ISS_Temp] WHERE  ListeNo = '{1}'", vUser.SirketKodu, insertObj["ListeNo"].ToString()));
+                    db.Database.ExecuteSqlCommand(string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[ISS_Temp] SET Kod5='1' WHERE  ListeNo = '{1}'", vUser.SirketKodu, insertObj["ListeNo"].ToString()));
                 }
 
                 _Result.Status = true;
@@ -513,9 +513,15 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             {
                 sozlesmeler = db.Database.SqlQuery<SozlesmeListesi>(string.Format("[FINSAT6{0}].[wms].[SozlesmeOnaylanmisList]", vUser.SirketKodu)).ToList();
             }
-            else
+            else if (tip == 1)
             {
                 sozlesmeler = db.Database.SqlQuery<SozlesmeListesi>(string.Format("[FINSAT6{0}].[wms].[SozlesmeOnaylanmamisList]", vUser.SirketKodu)).ToList();
+            }
+
+            else if (tip == 2)
+            {
+
+                sozlesmeler = db.Database.SqlQuery<SozlesmeListesi>(string.Format("[FINSAT6{0}].[wms].[SozlesmeReddedilmisList]", vUser.SirketKodu)).ToList();
             }
 
             var json = new JavaScriptSerializer().Serialize(sozlesmeler);
@@ -622,7 +628,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                             Kod2 = lst.Kod2,
                             Kod3 = lst.Kod3,
                             Kod4 = lst.Kod4,
-                            Kod5 = lst.Kod5,
+                            Kod5 = "",
                             Kod6 = lst.Kod6,
                             Kod7 = lst.Kod7,
                             Kod8 = lst.Kod8,
@@ -933,6 +939,236 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                 return "Satır Girmelisiniz.";
             }
         }
+
+
+        public string RedOnayaDusur(string Data, string redlistno)
+        {
+            if (CheckPerm(Perms.SözleşmeTanim, PermTypes.Writing) == false) return null;
+            var parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
+            var filtreKagitVarmi = false;
+
+
+            var SiraNo = 0;
+            bool? AktifPasif = null;
+
+            db.Database.ExecuteSqlCommand(string.Format("DELETE FROM [FINSAT6{0}].[FINSAT6{0}].[ISS_Temp] WHERE ListeNo = '{1}'", vUser.SirketKodu, redlistno));
+
+
+            List<ISS_Temp> listiss = new List<ISS_Temp>();
+            foreach (JObject bds in parameters)
+            {
+                var isstmp = new ISS_Temp();
+                AktifPasif = bds["AktifPasif"].ToBool();
+                var ListeAdi = bds["Unvan"].ToString().Length >= 10 ? bds["Unvan"].ToString().Substring(0, 10) : bds["Unvan"].ToString();
+                if (bds["VadeTarihInt"].ToInt32() == 0)
+                    isstmp.ValorGun = bds["ValorGun"].ToInt32();
+                else if (bds["ValorGun"].ToInt32() == 0)
+                    isstmp.VadeTarihi = bds["VadeTarihInt"].ToInt32();
+
+                isstmp.ListeNo = bds["ListeNo"].ToString();
+                isstmp.ListeAdi = bds["Unvan"].ToString().Length >= 30 ? bds["Unvan"].ToString().Substring(0, 30) : bds["Unvan"].ToString();
+                isstmp.BasTarih = bds["BasTarih"].ToString() == "" ? (int)DateTime.Now.ToOADate() : bds["BasTarihInt"].ToInt32();
+                isstmp.BasSaat = fn.ToOATime();
+                // saati araştır
+                isstmp.BitTarih = bds["BitTarih"].ToString() == "" ? (int)DateTime.Now.ToOADate() : bds["BitTarihInt"].ToInt32();
+                isstmp.BitSaat = fn.ToOATime();
+                isstmp.MusUygSekli = 1;
+                isstmp.MusKodGrup = 0;
+                isstmp.MusteriKod = bds["HesapKodu"] == null ? "" : bds["HesapKodu"].ToString();
+                isstmp.MalUygSekli = 1;
+                if (bds["UrunGrubu"].ToString() == "Mal Kodu")
+                    isstmp.MalKodGrup = 0;
+                else if (bds["UrunGrubu"].ToString() == "Grup Kodu")
+                    isstmp.MalKodGrup = 1;
+                else if (bds["UrunGrubu"].ToString() == "Tip Kodu")
+                    isstmp.MalKodGrup = 2;
+                else if (bds["UrunGrubu"].ToString() == "Özel Kod")
+                    isstmp.MalKodGrup = 3;
+                else if (bds["UrunGrubu"].ToString() == "Kod1")
+                    isstmp.MalKodGrup = 4;
+                else if (bds["UrunGrubu"].ToString() == "Kod2")
+                    isstmp.MalKodGrup = 5;
+                else if (bds["UrunGrubu"].ToString() == "Kod3")
+                    isstmp.MalKodGrup = 6;
+                else if (bds["UrunGrubu"].ToString() == "Kod4")
+                    isstmp.MalKodGrup = 7;
+
+                isstmp.MalKod = bds["UrunKodu"].ToString();
+                isstmp.SiraNo = (short)SiraNo;
+                SiraNo++;
+                isstmp.Oran = 0;
+                isstmp.Oran1 = Convert.ToSingle(bds["Iskonto1"].ToString());
+                isstmp.Oran2 = Convert.ToSingle(bds["Iskonto2"].ToString());
+                isstmp.Oran3 = Convert.ToSingle(bds["Iskonto3"].ToString());
+                isstmp.Oran4 = Convert.ToSingle(bds["Iskonto4"].ToString());
+                isstmp.Oran5 = Convert.ToSingle(bds["Iskonto5"].ToString());
+                isstmp.MikAralik1 = 0;
+                isstmp.MikYuzde1 = 0;
+                isstmp.MikAralik2 = 0;
+                isstmp.MikYuzde2 = 0;
+                isstmp.MikAralik3 = 0;
+                isstmp.MikYuzde3 = 0;
+                isstmp.MikAralik4 = 0;
+                isstmp.MikYuzde4 = 0;
+                isstmp.MikAralik5 = 0;
+                isstmp.MikYuzde5 = 0;
+                isstmp.MikAralik6 = 0;
+                isstmp.MikYuzde6 = 0;
+                isstmp.MikAralik7 = 0;
+                isstmp.MikYuzde7 = 0;
+                isstmp.MikAralik8 = 0;
+                isstmp.MikYuzde8 = 0;
+                isstmp.TutarAralik1 = 0;
+                isstmp.TutarYuzde1 = 0;
+                isstmp.TutarAralik2 = 0;
+                isstmp.TutarYuzde2 = 0;
+                isstmp.TutarAralik3 = 0;
+                isstmp.TutarYuzde3 = 0;
+                isstmp.TutarAralik4 = 0;
+                isstmp.TutarYuzde4 = 0;
+                isstmp.TutarAralik5 = 0;
+                isstmp.TutarYuzde5 = 0;
+                isstmp.TutarAralik6 = 0;
+                isstmp.TutarYuzde6 = 0;
+                isstmp.TutarAralik7 = 0;
+                isstmp.TutarYuzde7 = 0;
+                isstmp.TutarAralik8 = 0;
+                isstmp.TutarYuzde8 = 0;
+                isstmp.OdemeAralik1 = 0;
+                isstmp.OdemeYuzde1 = 0;
+                isstmp.OdemeAralik2 = 0;
+                isstmp.OdemeYuzde2 = 0;
+                isstmp.OdemeAralik3 = 0;
+                isstmp.OdemeYuzde3 = 0;
+                isstmp.OdemeAralik4 = 0;
+                isstmp.OdemeYuzde4 = 0;
+                isstmp.OdemeAralik5 = 0;
+                isstmp.OdemeYuzde5 = 0;
+                isstmp.OdemeAralik6 = 0;
+                isstmp.OdemeYuzde6 = 0;
+                isstmp.OdemeAralik7 = 0;
+                isstmp.OdemeYuzde7 = 0;
+                isstmp.OdemeAralik8 = 0;
+                isstmp.OdemeYuzde8 = 0;
+                isstmp.KayitTuru = -1;
+                isstmp.GuvenlikKod = "12";
+                isstmp.Kaydeden = vUser.UserName.ToString();
+                isstmp.KayitTarih = (int)DateTime.Now.ToOADate();
+                isstmp.KayitSaat = fn.ToOATime();
+                isstmp.KayitKaynak = 136;
+                isstmp.KayitSurum = "8.00.001";
+                isstmp.Degistiren = vUser.UserName.ToString();
+                isstmp.DegisTarih = (int)DateTime.Now.ToOADate();
+                isstmp.DegisSaat = fn.ToOATime();
+                isstmp.DegisKaynak = 136;
+                isstmp.DegisSurum = "8.00.001";
+                isstmp.CheckSum = 12;
+                isstmp.Aciklama = bds["Not"].ToString();
+                isstmp.Kod1 = bds["BaglantiTipi"].ToString();
+                isstmp.Kod2 = bds["SiraNo"].ToString();
+                isstmp.Kod3 = "";
+                isstmp.Kod4 = bds["Kalite"].ToString();
+                isstmp.Kod5 = "";
+                isstmp.Kod6 = "";
+                isstmp.Kod7 = "";
+                isstmp.Kod8 = "";
+                isstmp.Kod9 = "";
+                isstmp.Kod10 = bds["Kod10"].ToString();
+                isstmp.Kod11 = Convert.ToDecimal(bds["BaglantiTutari"].ToString());
+                isstmp.Kod12 = 0;
+                isstmp.DevirTarih = 0;
+                isstmp.DevirTutar = 0;
+
+                /// Sözleşmeler İçin KağıtFiltre Kontrolü
+                if ((isstmp.MalKodGrup == 0 && isstmp.MalKod.StartsWith("2800")) ||
+                   (isstmp.MalKodGrup == 1 && isstmp.MalKod == "FKAĞIT") ||
+                    (isstmp.MalKodGrup == 0 && (isstmp.MalKod == "M001001000017051" || isstmp.MalKod == "M001001000022051")))
+                {
+                    filtreKagitVarmi = true;
+                }
+
+                isstmp.OnayTip = -1;
+                isstmp.SatisMuduruOnay = false;
+                isstmp.FinansmanMuduruOnay = false;
+                isstmp.GenelMudurOnay = false;
+                isstmp.OnaylayanSatisMuduru = "";
+                isstmp.OnaylayanFinansmanMuduru = "";
+                isstmp.OnaylayanGenelMudur = "";
+
+                isstmp.CekTutari = Convert.ToDecimal(bds["CekTutari"].ToString());
+                isstmp.CekOrtalamaVadeTarih = bds["CekOrtVadeTarihi"].ToString() == "" ? DateTime.Now : bds["CekOrtVadeTarihi"].ToDatetime();
+                isstmp.NakitTutari = Convert.ToDecimal(bds["NakitTutar"].ToString());
+
+                isstmp.BaglantiParaCinsi = bds["BaglantiParaCinsi"].ToString();
+                isstmp.AktifPasif = AktifPasif.ToBool();
+
+                listiss.Add(isstmp);
+            }
+
+            if (filtreKagitVarmi)
+            {
+                foreach (var item in listiss)
+                {
+                    item.OnayTip = 2;
+                    item.SatisMuduruOnay = false;
+                    item.FinansmanMuduruOnay = true;
+                    item.GenelMudurOnay = false;
+                    item.OnaylayanSatisMuduru = "OZ";  /// SM sadece Özgür Beyin onayına düşsün diye
+                    item.OnaylayanFinansmanMuduru = "";
+                    item.OnaylayanGenelMudur = "";
+                }
+            }
+
+            if (listiss.Count > 0)
+            {
+                using (var dbContextTransaction = db.Database.BeginTransaction())
+                {
+                    try
+                    {
+                        var kontrol = false;
+                        var SozlesmeSiraNo = "";
+
+                        SozlesmeSiraNo = "SÖZ " + db.Database.SqlQuery<int>(string.Format("[FINSAT6{0}].[wms].[SozlesmeSiraNoSelect]", vUser.SirketKodu)).FirstOrDefault();
+                        var HesapKodu = "";
+                        var ListeNo = "";
+                        decimal BaglantiTutari = 0;
+                        foreach (ISS_Temp isstemp in listiss)
+                        {
+                            if (isstemp.Kod2.Trim() != SozlesmeSiraNo)
+                            {
+                                kontrol = true;
+                                isstemp.Kod2 = SozlesmeSiraNo;
+                            }
+
+                            HesapKodu = isstemp.MusteriKod;
+                            ListeNo = isstemp.ListeNo;
+                            BaglantiTutari = isstemp.Kod11;
+                            SqlExper.Insert(isstemp);
+                            var sonuc = SqlExper.AcceptChanges();
+                            if (sonuc.Status == false) return "NO";
+                        }
+
+                        var s = string.Format("[FINSAT6{0}].[wms].[SetSozlesmeOnayTip] @HesapKodu='{1}' , @ListeNo='{2}' , @BaglantiTutari={3}", vUser.SirketKodu, HesapKodu, ListeNo, BaglantiTutari.ToString().Replace(",", "."));
+                        var xx = db.Database.ExecuteSqlCommand(s);
+                        db.SaveChanges();
+                        dbContextTransaction.Commit();
+                        if (kontrol) return SozlesmeSiraNo;
+                        else return "OK";
+                    }
+                    catch (Exception hata)
+                    {
+                        return hata.Message;
+                    }
+                }
+            }
+            else
+            {
+                return "Satır Girmelisiniz.";
+            }
+        }
+
+
+
 
         public JsonResult Sil(string SozlesmeNo)
         {
