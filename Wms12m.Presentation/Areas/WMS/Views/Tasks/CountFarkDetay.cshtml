@@ -15,30 +15,36 @@
         @foreach (GorevYer item in Model)
         {
             <tr>
-                <td><input id="@(String.Concat("btn",item.ID.ToString()))" onclick="Gunc(@item.ID)" type="button" class="btn blue-hoki" value="Güncelle" /></td>
+                <td><input id="@(String.Concat("btn",item.ID.ToString()))" onclick="Gunc(@item.ID,@item.GorevID)" type="button" class="btn blue-hoki" value="Güncelle" /></td>
                 <td style="display:none">@item.ID</td>
                 <td>@item.Gorev.GorevNo</td>
                 <td>@item.Yer.HucreAd</td>
                 <td>@item.MalKodu</td>
                 <td align="right">@String.Format("{0:n}", item.Miktar)</td>
-                <td><input id="@(String.Concat("txt",item.ID.ToString()))" type="number" min="0" step="1" class="form-control" /></td>
+                <td>
+                    <input id="@(String.Concat("txt",item.ID.ToString()))" type="number" min="0" step="1"
+                           onkeypress="return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57" class="form-control" />
+                </td>
             </tr>
         }
     </tbody>
 </table>
 <script type="text/javascript">
-    function Gunc(id) {
+    function Gunc(id, gorevID) {
         var yeniMiktar = $('#txt' + id).val();
         if (yeniMiktar != "") {
             $.ajax({
                 url: window.location.origin + "/WMS/Tasks/CountFarkSave",
-                data: { ID: id, YeniMiktar: yeniMiktar },
+                data: { ID: id, YeniMiktar: yeniMiktar, GorevID: gorevID },
                 type: "post",
                 dataType: "json",
                 success: function (data) {
-                    if (data) {
+                    if (data.Status) {
                         $('#btn' + id).val("Güncellendi")
                         $('#btn' + id).removeClass("btn blue-hoki").addClass("btn green-haze disabled");
+                        $('#btn' + id).attr('disabled', 'disabled');
+                        $('#m' + data.Data[0]).html(data.Data[1] + ",00");
+                        $('#s' + data.Data[0]).html(data.Data[2] + ",00");
                     }
                     else {
                         Modaldialog("İşlem Başarısız.Kontrol ediniz!", "Hata", "Tamam", "btn-danger");

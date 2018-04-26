@@ -21,5 +21,6 @@
         public decimal SayimFarki { get; set; }  // Miktar - WmsStok
         public static string SorguEksikListe = @"EXEC FINSAT6{0}.wms.getSayimEksikList @ID = {1}";
         public static string SorguTumFarkListe = @"EXEC FINSAT6{0}.wms.getSayimList @ID = {1}, @FarkMi = {2}";
+        public static string SorguWmsMiktar = @"SELECT ISNULL(BIRIKIM.wms.fnGetStockByID((SELECT TOP 1 G.DepoID FROM BIRIKIM.wms.Gorev AS G WITH (NOLOCK) WHERE G.ID={0}), '{1}',''),0)";
     }
 }

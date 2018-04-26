@@ -186,13 +186,16 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         {
             JavaScriptSerializer json = new JavaScriptSerializer() { MaxJsonLength = Int32.MaxValue };
             List<frmSiparisMalzemeDetay> list;
+            string sql = "";
+            if (Tip == "2") { sql = String.Format(frmSiparisMalzemeDetay.SorguEksikListe, vUser.SirketKodu, ID); }
+            else { sql = String.Format(frmSiparisMalzemeDetay.SorguTumFarkListe, vUser.SirketKodu, ID, (Tip == "1" ? 1 : 0)); }
             try
             {
-                string sql = "";
-                if (Tip == "2") { sql = String.Format(frmSiparisMalzemeDetay.SorguEksikListe, vUser.SirketKodu, ID); }
-                else { sql = String.Format(frmSiparisMalzemeDetay.SorguTumFarkListe, vUser.SirketKodu, ID, (Tip == "1" ? 1 : 0)); }
                 list = db.Database.SqlQuery<frmSiparisMalzemeDetay>(sql).ToList();
-                foreach (frmSiparisMalzemeDetay item in list) { item.SayimFarki = item.Miktar - item.WmsStok; }
+                foreach (frmSiparisMalzemeDetay item in list)
+                {
+                    item.SayimFarki = item.Miktar - item.WmsStok;
+                }
             }
             catch (Exception ex)
             {
@@ -213,26 +216,46 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             }
             return PartialView(gy);
         }
-        public JsonResult CountFarkSave(string Id, string YeniMiktar)
+        public JsonResult CountFarkSave(string Id, string YeniMiktar, string GorevID)
         {
             Result t = new Result();
-            int _id = 0;
+            int _id = 0, _gorevID = 0;
             decimal _yeniMiktar = 0;
             _id = Id.ToInt32();
             _yeniMiktar = YeniMiktar.ToDecimal();
+            _gorevID = GorevID.ToInt32();
             using (DbContextTransaction et = db.Database.BeginTransaction())
             {
                 try
                 {
-                    GorevYer gy = db.GorevYers.Where(x => x.ID == _id).FirstOrDefault();
+                    GorevYer gy = db.GorevYers.Where(x => x.ID == _id && x.GorevID == _gorevID).FirstOrDefault();
                     if ((gy.IsNull() ? 0 : gy.ID) > 0)
                     {
+                        List<object> dt = new List<object>();
                         gy.Miktar = _yeniMiktar;
                         gy.YerlestirmeMiktari = _yeniMiktar;
                         db.SaveChanges();
+
+                        dt.Add(gy.MalKodu.ToString2().Replace(" ", ""));
+                        List<GorevYer> tet = db.GorevYers.Where(x => x.MalKodu.Equals(gy.MalKodu) && x.GorevID == _gorevID).ToList();
+                        if ((tet.IsNull() ? 0 : tet.Count) > 0)
+                        {
+                            decimal sumMiktar = 0, sumWmsStok = 0;
+                            string wmsSorgu = "";
+                            wmsSorgu = String.Format(frmSiparisMalzemeDetay.SorguWmsMiktar, gy.GorevID, gy.MalKodu);
+                            sumMiktar = tet.Sum(x => x.Miktar);
+                            sumWmsStok = (db.Database.SqlQuery<decimal>(wmsSorgu).FirstOrDefault()).ToDecimal();
+                            dt.Add(sumMiktar);
+                            dt.Add(sumMiktar - sumWmsStok);
+                        }
                         t.Status = true;
+                        t.Data = dt;
                     }
-                    else { t.Status = false; }
+                    else
+                    {
+                        t.Status = false;
+                        t.Data = null;
+                    }
                     et.Commit();
                 }
                 catch (Exception ex)
@@ -240,9 +263,10 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                     Logger(ex, "/WMS/Tasks/CountFarkSave");
                     et.Rollback();
                     t.Status = false;
+                    t.Data = null;
                 }
             }
-            return Json(t.Status, JsonRequestBehavior.AllowGet);
+            return Json(t, JsonRequestBehavior.AllowGet);
         }
         /// <summary>
         /// sayım fişi kaydeder
