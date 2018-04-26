@@ -1,13 +1,13 @@
 ﻿@model IEnumerable<GorevlerToDoList>
 @{ 
     DateTime checkin = new DateTime(); string gitServerAddress = ViewBag.settings.GitServerAddress;
-    bool checkinGoster = ((ViewBag.vUser.RoleName == " " || ViewBag.vUser.RoleName == "Admin") && ViewBag.Tip == false) ? true : false;
+    bool checkinGoster = (ViewBag.vUser.RoleName == " " || ViewBag.vUser.RoleName == "Admin") && ViewBag.Tip == false;
     var checkinsList = new List<ForToDosList>();
 }
 <table class="table table-bordered table-striped table-condensed" id="sample_1">
-    <thead><tr><th style="max-width:20px;"></th><th>Müşteri</th><th>Görev</th><th>Madde</th><th>Bitiş Tarihi</th>@if (ViewBag.Tip == true || ViewBag.vUser.RoleName == " " || ViewBag.vUser.RoleName == "Admin"){<th>Sorumlu</th><th>Çalışan</th><th>Bekleten</th>}@if (checkinGoster == true){<th>Check In<br />Tarihi</th>}<th></th></tr></thead>
-    <tfoot><tr><th style="max-width:20px;"></th><th></th><th></th><th></th><th></th>@if (ViewBag.Tip == true || ViewBag.vUser.RoleName == " " || ViewBag.vUser.RoleName == "Admin"){<th></th><th></th><th></th>}@if(checkinGoster == true){<th></th>}<th></th></tr></tfoot>
-    <tfoot class="tf-search"><tr><th style="max-width:20px;"></th><th></th><th></th><th></th><th></th>@if (ViewBag.Tip == true || ViewBag.vUser.RoleName == " " || ViewBag.vUser.RoleName == "Admin"){<th></th><th></th><th></th>}@if(checkinGoster == true){<th></th>}<th></th></tr></tfoot>
+    <thead><tr><th style="max-width:20px;"></th><th>Müşteri</th><th>Görev</th><th>Madde</th><th>Bitiş Tarihi</th>@if (ViewBag.Tip == true || ViewBag.vUser.RoleName == " " || ViewBag.vUser.RoleName == "Admin"){<th>Sorumlu</th><th>Çalışan</th><th>Bekleten</th>}@if (checkinGoster){<th>Check In<br />Tarihi</th>}<th></th></tr></thead>
+    <tfoot><tr><th style="max-width:20px;"></th><th></th><th></th><th></th><th></th>@if (ViewBag.Tip == true || ViewBag.vUser.RoleName == " " || ViewBag.vUser.RoleName == "Admin"){<th></th><th></th><th></th>}@if(checkinGoster){<th></th>}<th></th></tr></tfoot>
+    <tfoot class="tf-search"><tr><th style="max-width:20px;"></th><th></th><th></th><th></th><th></th>@if (ViewBag.Tip == true || ViewBag.vUser.RoleName == " " || ViewBag.vUser.RoleName == "Admin"){<th></th><th></th><th></th>}@if(checkinGoster){<th></th>}<th></th></tr></tfoot>
     <tbody>
         @foreach (var item in Model)
         {
