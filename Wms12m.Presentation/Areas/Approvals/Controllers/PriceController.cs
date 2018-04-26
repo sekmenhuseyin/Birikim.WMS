@@ -1414,11 +1414,13 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
 
         #endregion SM
 
+        #region Tanim
+
         public ActionResult List()
         {
             if (CheckPerm(Perms.FiyatTanim, PermTypes.Reading) == false) return Redirect("/");
-            var LNO = db.Database.SqlQuery<ListeNoSelect>(string.Format("[FINSAT6{0}].[wms].[FYTSelect2]", vUser.SirketKodu)).ToList();
-            return View(LNO);
+            var list = db.Database.SqlQuery<ListeNoSelect>(string.Format("[FINSAT6{0}].[wms].[FYTSelect2]", vUser.SirketKodu)).ToList();
+            return View(list);
         }
 
         public string UrunGrupSelect()
@@ -1643,5 +1645,18 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
                 }
             }
         }
+
+        #endregion Tanim
+
+        #region Sözleşmeli Fiyat Onay
+
+        public ActionResult SozlesmeliFiyat()
+        {
+            if (CheckPerm(Perms.FiyatOnaylama, PermTypes.Reading) == false) return Redirect("/");
+            var list = db.Database.SqlQuery<SatTeklif>(string.Format("[FINSAT6{0}].[wms].[FYTSelect2]", vUser.SirketKodu)).ToList();
+            return View(list);
+        }
+
+        #endregion Sözleşmeli Fiyat Onay
     }
 }

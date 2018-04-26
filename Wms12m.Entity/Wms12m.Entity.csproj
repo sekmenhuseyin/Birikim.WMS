@@ -380,10 +380,55 @@
     <Compile Include="Mysql\sure.cs">
       <DependentUpon>ModelKablo.tt</DependentUpon>
     </Compile>
+    <Compile Include="VM_Finsat\BekleyenFiyatListesi.cs" />
+    <Compile Include="VM_Finsat\CekOnayDetay.cs" />
+    <Compile Include="VM_Finsat\CHKSelect1Result.cs" />
     <Compile Include="VM_Finsat\EMG2.cs" />
+    <Compile Include="Enums\FiyatE.cs" />
+    <Compile Include="VM_Finsat\FaturaDetayData.cs" />
+    <Compile Include="VM_Finsat\FaturaDetayFTD.cs" />
+    <Compile Include="VM_Finsat\FaturaDetayGenel.cs" />
+    <Compile Include="VM_Finsat\FaturaDetaySTI.cs" />
+    <Compile Include="VM_Finsat\FiyatGrupSelect.cs" />
+    <Compile Include="VM_Finsat\FiyatKoleksiyonSelect.cs" />
+    <Compile Include="Enums\FYTE.cs" />
+    <Compile Include="VM_Finsat\FiyatListSelect.cs" />
+    <Compile Include="VM_Finsat\FiyatUrunGrupSelect.cs" />
     <Compile Include="VM_Finsat\HDF.cs" />
+    <Compile Include="VM_Finsat\IHLTAH.cs" />
+    <Compile Include="VM_Finsat\IHLTAHKayitResult.cs" />
+    <Compile Include="Enums\ISSE.cs" />
+    <Compile Include="Enums\ISS_TempE.cs" />
     <Compile Include="VM_Finsat\KabloTanim.cs" />
+    <Compile Include="VM_Finsat\ListeNoSelect.cs" />
+    <Compile Include="VM_Finsat\MMK.cs" />
+    <Compile Include="VM_Finsat\MyChi.cs" />
+    <Compile Include="VM_Finsat\MyDep.cs" />
+    <Compile Include="VM_Finsat\MyDst.cs" />
     <Compile Include="VM_Finsat\MyGlobalVariables.cs" />
+    <Compile Include="VM_Finsat\MySti.cs" />
+    <Compile Include="VM_Finsat\RaporCHK.cs" />
+    <Compile Include="VM_Finsat\RaporFTD.cs" />
+    <Compile Include="VM_Finsat\RaporSiparis.cs" />
+    <Compile Include="Enums\RiskTanimE.cs" />
+    <Compile Include="VM_Finsat\RiskTanimToplu.cs" />
+    <Compile Include="VM_Finsat\SatinAlmaGMOnayList.cs" />
+    <Compile Include="VM_Finsat\SatinalmaRaporData.cs" />
+    <Compile Include="VM_Finsat\SatMalListesi.cs" />
+    <Compile Include="VM_Finsat\SatOnayliTed.cs" />
+    <Compile Include="VM_Finsat\SatTalep.cs" />
+    <Compile Include="VM_Finsat\SatTeklif.cs" />
+    <Compile Include="VM_Finsat\SipOnay.cs" />
+    <Compile Include="VM_Finsat\SonAlimListesi.cs" />
+    <Compile Include="VM_Finsat\SozlesmeCariBilgileri.cs" />
+    <Compile Include="VM_Finsat\SozlesmeListesi.cs" />
+    <Compile Include="VM_Finsat\TahsisliIsletmeKasa.cs" />
+    <Compile Include="VM_Finsat\TahsisOnayOdun.cs" />
+    <Compile Include="VM_Finsat\Teklif.cs" />
+    <Compile Include="Enums\TeminatE.cs" />
+    <Compile Include="Enums\TeklifDurum.cs" />
+    <Compile Include="VM_Finsat\Teminat.cs" />
+    <Compile Include="VM_Finsat\UrunGrup.cs" />
     <Compile Include="VM_WMS\Charts\BekleyenOnaylar.cs" />
     <Compile Include="VM_WMS\Charts\ChartAylikSatisAnalizi.cs" />
     <Compile Include="VM_WMS\Charts\ChartBaglantiUrunGrup.cs" />
@@ -558,10 +603,10 @@
     <Compile Include="VM_YeniNesil\Tables\STK004.cs" />
     <Compile Include="VM_YeniNesil\Tables\STK005.cs" />
     <Compile Include="VM_Finsat\Fiyat.cs" />
-    <Compile Include="VM_Finsat\frmWood.cs" />
+    <Compile Include="VM_Finsat\MyStk.cs" />
     <Compile Include="VM_Finsat\FYT.cs" />
-    <Compile Include="VM_Finsat\GenelAyarVeParam.cs" />
-    <Compile Include="VM_Finsat\Invoice.cs" />
+    <Compile Include="VM_Finsat\GenelAyarVeParams.cs" />
+    <Compile Include="VM_Finsat\FaturaOnay.cs" />
     <Compile Include="VM_Finsat\ISS.cs" />
     <Compile Include="VM_Finsat\ISS_Temp.cs" />
     <Compile Include="VM_WMS\Rapor\Reports.cs" />
@@ -585,7 +630,6 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="VM_Finsat\RiskTanim.cs" />
-    <Compile Include="VM_Finsat\STI.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">

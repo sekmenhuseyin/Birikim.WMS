@@ -8,6 +8,7 @@ using OnikimCore.Table;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Birikim.Models.Finsat;
 using TumFaturaKayit;
 using TumFaturaKayit.Enum;
 using TumFaturaKayit.Models;
@@ -290,7 +291,7 @@ namespace Wms12m
             // finsat işlemlerini çalıştırır ve veritabanına kaydeder
             try
             {
-                var result = new Result();
+                Result result;
                 if (stiBaseList.Count > 0)
                 {
                     var parametre = new FaturaKayitParametre()

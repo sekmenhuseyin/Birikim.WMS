@@ -3,263 +3,133 @@ using System.ComponentModel;
 
 namespace Wms12m.Entity
 {
-    #region FYT Class 
-
-    #region FYTE Enum 
-    public enum FYTE
-    {
-        MalKodu,
-        BasTarih,
-        BasSaat,
-        BitTarih,
-        BitSaat,
-        SiraNo,
-        RenkBedenKod1,
-        RenkBedenKod2,
-        RenkBedenKod3,
-        RenkBedenKod4,
-        FiyatListNum,
-        FiyatTuru,
-        Kod1,
-        Kod2,
-        Kod3,
-        KodTipi,
-        MusteriKodu,
-        AlisFiyat1,
-        AlisFiyat2,
-        AlisFiyat3,
-        DvzAlisFiyat1,
-        DvzAlisFiyat2,
-        DvzAlisFiyat3,
-        AF1DovizCinsi,
-        AF2DovizCinsi,
-        AF3DovizCinsi,
-        AF1KDV,
-        AF2KDV,
-        AF3KDV,
-        DovizAF1KDV,
-        DovizAF2KDV,
-        DovizAF3KDV,
-        AF1Birim,
-        AF2Birim,
-        AF3Birim,
-        DovizAF1Birim,
-        DovizAF2Birim,
-        DovizAF3Birim,
-        SatisFiyat1,
-        SatisFiyat2,
-        SatisFiyat3,
-        SatisFiyat4,
-        SatisFiyat5,
-        SatisFiyat6,
-        DvzSatisFiyat1,
-        DvzSatisFiyat2,
-        DvzSatisFiyat3,
-        SF1DovizCinsi,
-        SF2DovizCinsi,
-        SF3DovizCinsi,
-        SF4DovizCinsi,
-        SF5DovizCinsi,
-        SF6DovizCinsi,
-        SF1KDV,
-        SF2KDV,
-        SF3KDV,
-        SF4KDV,
-        SF5KDV,
-        SF6KDV,
-        DovizSF1KDV,
-        DovizSF2KDV,
-        DovizSF3KDV,
-        SF1Birim,
-        SF2Birim,
-        SF3Birim,
-        SF4Birim,
-        SF5Birim,
-        SF6Birim,
-        DovizSF1Birim,
-        DovizSF2Birim,
-        DovizSF3Birim,
-        FiyatListName,
-        SatisFiyatAltLimit,
-        SatisFiyatUstLimit,
-        SF1ValorGun,
-        SF2ValorGun,
-        SF3ValorGun,
-        SF4ValorGun,
-        SF5ValorGun,
-        SF6ValorGun,
-        DvzSF1ValorGun,
-        DvzSF2ValorGun,
-        DvzSF3ValorGun,
-        KayitTuru,
-        GuvenlikKod,
-        Kaydeden,
-        KayitTarih,
-        KayitSaat,
-        KayitKaynak,
-        KayitSurum,
-        Degistiren,
-        DegisTarih,
-        DegisSaat,
-        DegisKaynak,
-        DegisSurum,
-        CheckSum,
-        Aciklama,
-        Kod4,
-        Kod5,
-        Kod6,
-        Kod7,
-        Kod8,
-        Kod9,
-        Kod10,
-        Kod11,
-        Kod12,
-        SF1VadeTarih,
-        SF2VadeTarih,
-        SF3VadeTarih,
-        SF4VadeTarih,
-        SF5VadeTarih,
-        SF6VadeTarih,
-        DvzSF1VadeTarih,
-        DvzSF2VadeTarih,
-        DvzSF3VadeTarih,
-        FiyatListeTipi,
-        ROW_ID,
-        timestamp
-
-    }
-    #endregion /// FYTE Enum           
-
     public class FYT : INotifyPropertyChanged
     {
-        #region Properties
-        #region Fields  
-        string malKodu;
-        int basTarih;
-        int basSaat;
-        int bitTarih;
-        int bitSaat;
-        short siraNo;
-        string renkBedenKod1;
-        string renkBedenKod2;
-        string renkBedenKod3;
-        string renkBedenKod4;
-        string fiyatListNum;
-        short fiyatTuru;
-        string kod1;
-        string kod2;
-        string kod3;
-        short kodTipi;
-        string musteriKodu;
-        decimal alisFiyat1;
-        decimal alisFiyat2;
-        decimal alisFiyat3;
-        decimal dvzAlisFiyat1;
-        decimal dvzAlisFiyat2;
-        decimal dvzAlisFiyat3;
-        string aF1DovizCinsi;
-        string aF2DovizCinsi;
-        string aF3DovizCinsi;
-        short aF1KDV;
-        short aF2KDV;
-        short aF3KDV;
-        short dovizAF1KDV;
-        short dovizAF2KDV;
-        short dovizAF3KDV;
-        short aF1Birim;
-        short aF2Birim;
-        short aF3Birim;
-        short dovizAF1Birim;
-        short dovizAF2Birim;
-        short dovizAF3Birim;
-        decimal satisFiyat1;
-        decimal satisFiyat2;
-        decimal satisFiyat3;
-        decimal satisFiyat4;
-        decimal satisFiyat5;
-        decimal satisFiyat6;
-        decimal dvzSatisFiyat1;
-        decimal dvzSatisFiyat2;
-        decimal dvzSatisFiyat3;
-        string sF1DovizCinsi;
-        string sF2DovizCinsi;
-        string sF3DovizCinsi;
-        string sF4DovizCinsi;
-        string sF5DovizCinsi;
-        string sF6DovizCinsi;
-        short sF1KDV;
-        short sF2KDV;
-        short sF3KDV;
-        short sF4KDV;
-        short sF5KDV;
-        short sF6KDV;
-        short dovizSF1KDV;
-        short dovizSF2KDV;
-        short dovizSF3KDV;
-        short sF1Birim;
-        short sF2Birim;
-        short sF3Birim;
-        short sF4Birim;
-        short sF5Birim;
-        short sF6Birim;
-        short dovizSF1Birim;
-        short dovizSF2Birim;
-        short dovizSF3Birim;
-        string fiyatListName;
-        decimal satisFiyatAltLimit;
-        decimal satisFiyatUstLimit;
-        short sF1ValorGun;
-        short sF2ValorGun;
-        short sF3ValorGun;
-        short sF4ValorGun;
-        short sF5ValorGun;
-        short sF6ValorGun;
-        short dvzSF1ValorGun;
-        short dvzSF2ValorGun;
-        short dvzSF3ValorGun;
-        short kayitTuru;
-        string guvenlikKod;
-        string kaydeden;
-        int kayitTarih;
-        int kayitSaat;
-        short kayitKaynak;
-        string kayitSurum;
-        string degistiren;
-        int degisTarih;
-        int degisSaat;
-        short degisKaynak;
-        string degisSurum;
-        short checkSum;
-        string aciklama;
-        string kod4;
-        string kod5;
-        string kod6;
-        string kod7;
-        string kod8;
-        string kod9;
-        string kod10;
-        decimal kod11;
-        decimal kod12;
-        int sF1VadeTarih;
-        int sF2VadeTarih;
-        int sF3VadeTarih;
-        int sF4VadeTarih;
-        int sF5VadeTarih;
-        int sF6VadeTarih;
-        int dvzSF1VadeTarih;
-        int dvzSF2VadeTarih;
-        int dvzSF3VadeTarih;
-        short fiyatListeTipi;
-        int rOW_ID;
-        byte[] _timestamp;
-        string _pk_MalKodu;
-        int _pk_BasTarih;
-        int _pk_BasSaat;
-        short _pk_SiraNo;
-        string _pk_FiyatListNum;
-        string _pk_MusteriKodu;
-        short _pk_FiyatListeTipi;
-        #endregion /// Fields
+        private string malKodu;
+        private int basTarih;
+        private int basSaat;
+        private int bitTarih;
+        private int bitSaat;
+        private short siraNo;
+        private string renkBedenKod1;
+        private string renkBedenKod2;
+        private string renkBedenKod3;
+        private string renkBedenKod4;
+        private string fiyatListNum;
+        private short fiyatTuru;
+        private string kod1;
+        private string kod2;
+        private string kod3;
+        private short kodTipi;
+        private string musteriKodu;
+        private decimal alisFiyat1;
+        private decimal alisFiyat2;
+        private decimal alisFiyat3;
+        private decimal dvzAlisFiyat1;
+        private decimal dvzAlisFiyat2;
+        private decimal dvzAlisFiyat3;
+        private string aF1DovizCinsi;
+        private string aF2DovizCinsi;
+        private string aF3DovizCinsi;
+        private short aF1KDV;
+        private short aF2KDV;
+        private short aF3KDV;
+        private short dovizAF1KDV;
+        private short dovizAF2KDV;
+        private short dovizAF3KDV;
+        private short aF1Birim;
+        private short aF2Birim;
+        private short aF3Birim;
+        private short dovizAF1Birim;
+        private short dovizAF2Birim;
+        private short dovizAF3Birim;
+        private decimal satisFiyat1;
+        private decimal satisFiyat2;
+        private decimal satisFiyat3;
+        private decimal satisFiyat4;
+        private decimal satisFiyat5;
+        private decimal satisFiyat6;
+        private decimal dvzSatisFiyat1;
+        private decimal dvzSatisFiyat2;
+        private decimal dvzSatisFiyat3;
+        private string sF1DovizCinsi;
+        private string sF2DovizCinsi;
+        private string sF3DovizCinsi;
+        private string sF4DovizCinsi;
+        private string sF5DovizCinsi;
+        private string sF6DovizCinsi;
+        private short sF1KDV;
+        private short sF2KDV;
+        private short sF3KDV;
+        private short sF4KDV;
+        private short sF5KDV;
+        private short sF6KDV;
+        private short dovizSF1KDV;
+        private short dovizSF2KDV;
+        private short dovizSF3KDV;
+        private short sF1Birim;
+        private short sF2Birim;
+        private short sF3Birim;
+        private short sF4Birim;
+        private short sF5Birim;
+        private short sF6Birim;
+        private short dovizSF1Birim;
+        private short dovizSF2Birim;
+        private short dovizSF3Birim;
+        private string fiyatListName;
+        private decimal satisFiyatAltLimit;
+        private decimal satisFiyatUstLimit;
+        private short sF1ValorGun;
+        private short sF2ValorGun;
+        private short sF3ValorGun;
+        private short sF4ValorGun;
+        private short sF5ValorGun;
+        private short sF6ValorGun;
+        private short dvzSF1ValorGun;
+        private short dvzSF2ValorGun;
+        private short dvzSF3ValorGun;
+        private short kayitTuru;
+        private string guvenlikKod;
+        private string kaydeden;
+        private int kayitTarih;
+        private int kayitSaat;
+        private short kayitKaynak;
+        private string kayitSurum;
+        private string degistiren;
+        private int degisTarih;
+        private int degisSaat;
+        private short degisKaynak;
+        private string degisSurum;
+        private short checkSum;
+        private string aciklama;
+        private string kod4;
+        private string kod5;
+        private string kod6;
+        private string kod7;
+        private string kod8;
+        private string kod9;
+        private string kod10;
+        private decimal kod11;
+        private decimal kod12;
+        private int sF1VadeTarih;
+        private int sF2VadeTarih;
+        private int sF3VadeTarih;
+        private int sF4VadeTarih;
+        private int sF5VadeTarih;
+        private int sF6VadeTarih;
+        private int dvzSF1VadeTarih;
+        private int dvzSF2VadeTarih;
+        private int dvzSF3VadeTarih;
+        private short fiyatListeTipi;
+        private int rOW_ID;
+        private byte[] _timestamp;
+        private string _pk_MalKodu;
+        private int _pk_BasTarih;
+        private int _pk_BasSaat;
+        private short _pk_SiraNo;
+        private string _pk_FiyatListNum;
+        private string _pk_MusteriKodu;
+        private short _pk_FiyatListeTipi;
 
         /// <summary> VARCHAR (30) PrimaryKey * </summary>
         public string MalKodu
@@ -1635,17 +1505,15 @@ namespace Wms12m.Entity
                 OnPropertyChanged("pk_FiyatListeTipi");
             }
         }
-        #endregion /// Properties       
 
-        #region Tablo Bilgileri & Metodlar
+        private List<string> WhereList = new List<string>();
+        private List<string> SetList = new List<string>();
+        private string info_FullTableName = "FINSAT6{0}.FINSAT6{0}.FYT";
+        private string[] info_PrimaryKeys = { "pk_MalKodu", "pk_BasTarih", "pk_BasSaat", "pk_SiraNo", "pk_FiyatListNum", "pk_MusteriKodu", "pk_FiyatListeTipi" };
+        private string[] info_IdentityKeys = { "ROW_ID" };
 
-        List<string> WhereList = new List<string>();
-        List<string> SetList = new List<string>();
-        string info_FullTableName = "FINSAT6{0}.FINSAT6{0}.FYT";
-        string[] info_PrimaryKeys = { "pk_MalKodu", "pk_BasTarih", "pk_BasSaat", "pk_SiraNo", "pk_FiyatListNum", "pk_MusteriKodu", "pk_FiyatListeTipi" };
-        string[] info_IdentityKeys = { "ROW_ID" };
+        private List<string> ChangedProperties = new List<string>();
 
-        List<string> ChangedProperties = new List<string>();
         public event PropertyChangedEventHandler PropertyChanged;
 
         public FYT()
@@ -1656,7 +1524,7 @@ namespace Wms12m.Entity
 
         public void AcceptChanges() => ChangedProperties.Clear();
 
-        void FYT_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void FYT_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (!ChangedProperties.Contains(e.PropertyName))
             {
@@ -1664,14 +1532,12 @@ namespace Wms12m.Entity
             }
         }
 
-        void OnPropertyChanged(string propertyName)
+        private void OnPropertyChanged(string propertyName)
         {
             if (PropertyChanged != null)
             {
                 PropertyChanged.Invoke(this, new PropertyChangedEventArgs(propertyName));
             }
         }
-        #endregion  /// Tablo Bilgileri & Metodlar
     }
-    #endregion /// FYT Class
 }

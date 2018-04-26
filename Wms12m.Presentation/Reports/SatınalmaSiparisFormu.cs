@@ -114,8 +114,8 @@ namespace Wms12m.Presentation
 
             try
             {
-                var satisUzmani = db.Database.SqlQuery<GenelAyarVeParam>(string.Format("SELECT * FROM [Kaynak].[sta].[GenelAyarVeParams] WHERE Tip=1 AND Tip2=0 AND SiparisSorumlu = '{0}'", talep.Kaydeden)).FirstOrDefault();
-                var gmy = db.Database.SqlQuery<GenelAyarVeParam>(string.Format("SELECT * FROM [Kaynak].[sta].[GenelAyarVeParams] WHERE Tip=1 AND Tip2=1 AND SiparisSorumlu = '{0}'", talep.GMYMaliOnaylayan)).FirstOrDefault();
+                var satisUzmani = db.Database.SqlQuery<GenelAyarVeParams>(string.Format("SELECT * FROM [Kaynak].[sta].[GenelAyarVeParams] WHERE Tip=1 AND Tip2=0 AND SiparisSorumlu = '{0}'", talep.Kaydeden)).FirstOrDefault();
+                var gmy = db.Database.SqlQuery<GenelAyarVeParams>(string.Format("SELECT * FROM [Kaynak].[sta].[GenelAyarVeParams] WHERE Tip=1 AND Tip2=1 AND SiparisSorumlu = '{0}'", talep.GMYMaliOnaylayan)).FirstOrDefault();
 
                 var rep = new SatSipForm();
                 if (islemTip == (short)KKPIslemTipSPI.İçPiyasa)
@@ -141,7 +141,7 @@ namespace Wms12m.Presentation
 
                     if (talep.GMOnaylayan != null)
                     {
-                        var gm = db.Database.SqlQuery<GenelAyarVeParam>(string.Format("SELECT * FROM [Kaynak].[sta].[GenelAyarVeParams] WHERE Tip=1 AND Tip2=2 AND SiparisSorumlu = '{0}'", (talep.GMOnaylayan ?? "-1"))).FirstOrDefault();
+                        var gm = db.Database.SqlQuery<GenelAyarVeParams>(string.Format("SELECT * FROM [Kaynak].[sta].[GenelAyarVeParams] WHERE Tip=1 AND Tip2=2 AND SiparisSorumlu = '{0}'", (talep.GMOnaylayan ?? "-1"))).FirstOrDefault();
                         if (gm != null)
                         {
                             var user = db.Users.Where(m => m.Kod == gm.SiparisSorumlu).FirstOrDefault();
@@ -188,7 +188,7 @@ namespace Wms12m.Presentation
 
                     if (talep.GMOnaylayan != null)
                     {
-                        var gm = db.Database.SqlQuery<GenelAyarVeParam>(string.Format("SELECT * FROM [Kaynak].[sta].[GenelAyarVeParams] WHERE Tip=1 AND Tip2=2 AND SiparisSorumlu = '{0}'", talep.GMOnaylayan ?? "-1")).FirstOrDefault();
+                        var gm = db.Database.SqlQuery<GenelAyarVeParams>(string.Format("SELECT * FROM [Kaynak].[sta].[GenelAyarVeParams] WHERE Tip=1 AND Tip2=2 AND SiparisSorumlu = '{0}'", talep.GMOnaylayan ?? "-1")).FirstOrDefault();
                         if (gm != null)
                         {
                             var user = db.Users.Where(m => m.Kod == gm.SiparisSorumlu).FirstOrDefault();

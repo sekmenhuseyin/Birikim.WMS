@@ -3,12 +3,10 @@ using System.ComponentModel;
 
 namespace Wms12m.Entity
 {
-    #region STI Class 
 
     public class STI : INotifyPropertyChanged
     {
-        #region Properties
-        #region Fields  
+
         short islemTur;
         string evrakNo;
         int tarih;
@@ -230,7 +228,6 @@ namespace Wms12m.Entity
         string _pk_Chk;
         short _pk_KynkEvrakTip;
         short _pk_SiraNo;
-        #endregion /// Fields
 
         /// <summary> SMALLINT (2) PrimaryKey * </summary>
         public short IslemTur
@@ -2654,9 +2651,6 @@ namespace Wms12m.Entity
                 OnPropertyChanged("pk_SiraNo");
             }
         }
-        #endregion /// Properties       
-
-        #region Tablo Bilgileri & Metodlar
 
         List<string> WhereList = new List<string>();
         List<string> SetList = new List<string>();
@@ -2690,7 +2684,7 @@ namespace Wms12m.Entity
                 PropertyChanged.Invoke(this, new PropertyChangedEventArgs(propertyName));
             }
         }
-        #endregion  /// Tablo Bilgileri & Metodlar
+
     }
-    #endregion /// STI Class
+
 }

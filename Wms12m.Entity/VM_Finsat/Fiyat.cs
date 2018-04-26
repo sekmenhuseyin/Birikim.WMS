@@ -4,106 +4,9 @@ using System.ComponentModel;
 
 namespace Wms12m.Entity
 {
-    public class FiyatKoleksiyonSelect
-    {
-        /// <summary> VarChar(20) (Not Null) </summary>
-        public string Kod4 { get; set; }
-        /// <summary> VarChar(20) (Not Null) </summary>
-        public string TipKod { get; set; }
-        /// <summary> VarChar(8) (Not Null) </summary>
-        public string FiyatListNum { get; set; }
-        /// <summary> Decimal(24,6) (Not Null) </summary>
-        public decimal SatisFiyat1 { get; set; }
-        /// <summary> VarChar(50) (Not Null) </summary>
-        public string SatisFiyat1Birim { get; set; }
-        /// <summary> Int (Not Null) </summary>
-        public int SatisFiyat1BirimInt { get; set; }
-        /// <summary> Decimal(24,6) (Not Null) </summary>
-        public decimal DovizSatisFiyat1 { get; set; }
-        /// <summary> VarChar(50) (Not Null) </summary>
-        public string DovizSF1Birim { get; set; }
-        /// <summary> Int (Not Null) </summary>
-        public int DovizSF1BirimInt { get; set; }
-        /// <summary> VarChar(50) (Not Null) </summary>
-        public string DovizCinsi { get; set; }
-        /// <summary> Bit (Allow Null) </summary>
-        public bool? Onay { get; set; }
-        /// <summary> VarChar(19) (Not Null) </summary>
-        public string Durum { get; set; }
-    }
-    public class FiyatGrupSelect
-    {
-        /// <summary> VarChar(20) (Not Null) </summary>
-        public string GrupKod { get; set; }
-        /// <summary> VarChar(20) (Not Null) </summary>
-        public string Kalite { get; set; }
-        /// <summary> VarChar(20) (Not Null) </summary>
-        public string En { get; set; }
-        /// <summary> VarChar(20) (Not Null) </summary>
-        public string Boy { get; set; }
-        /// <summary> VarChar(20) (Not Null) </summary>
-        public string Kalinlik { get; set; }
-        /// <summary> VarChar(20) (Not Null) </summary>
-        public string Yuzey { get; set; }
-        /// <summary> VarChar(8) (Not Null) </summary>
-        public string FiyatListNum { get; set; }
-        /// <summary> Decimal(24,6) (Not Null) </summary>
-        public decimal SatisFiyat1 { get; set; }
-        /// <summary> VarChar(50) (Not Null) </summary>
-        public string SatisFiyat1Birim { get; set; }
-        /// <summary> Int (Not Null) </summary>
-        public int SatisFiyat1BirimInt { get; set; }
-        /// <summary> Decimal(24,6) (Not Null) </summary>
-        public decimal DovizSatisFiyat1 { get; set; }
-        /// <summary> VarChar(50) (Not Null) </summary>
-        public string DovizSF1Birim { get; set; }
-        /// <summary> Int (Not Null) </summary>
-        public int DovizSF1BirimInt { get; set; }
-        /// <summary> VarChar(50) (Not Null) </summary>
-        public string DovizCinsi { get; set; }
-        /// <summary> Bit (Allow Null) </summary>
-        public bool? Onay { get; set; }
-        /// <summary> VarChar(19) (Not Null) </summary>
-        public string Durum { get; set; }
-    }
-
-    #region Fiyat Class 
-
-    #region FiyatE Enum 
-    public enum FiyatE
-    {
-        ID,
-        FiyatListNum,
-        MalKodu,
-        HesapKodu,
-        SatisFiyat1,
-        SatisFiyat1Birim,
-        SatisFiyat1BirimInt,
-        DovizSatisFiyat1,
-        DovizSF1Birim,
-        DovizSF1BirimInt,
-        DovizCinsi,
-        ROW_ID,
-        Durum,
-        Onay,
-        Onaylayan,
-        SMOnayTarih,
-        SPGMYOnay,
-        SPGMYOnaylayan,
-        SPGMYOnayTarih,
-        GMOnay,
-        GMOnaylayan,
-        GMOnayTarih,
-        BasTarih,
-        BitTarih
-
-    }
-    #endregion /// FiyatE Enum           
-
     public class Fiyat : INotifyPropertyChanged
     {
-        #region Properties
-        #region Fields  
+
         int _ID;
         string _FiyatListNum;
         string _MalKodu;
@@ -129,7 +32,6 @@ namespace Wms12m.Entity
         int _BasTarih;
         int _BitTarih;
         int _pk_ID;
-        #endregion /// Fields
 
         /// <summary> INT (4) PrimaryKey IdentityKey * </summary>
         public int ID
@@ -401,9 +303,6 @@ namespace Wms12m.Entity
                 OnPropertyChanged("pk_ID");
             }
         }
-        #endregion /// Properties       
-
-        #region Tablo Bilgileri & Metodlar
 
         List<string> WhereList = new List<string>();
         List<string> SetList = new List<string>();
@@ -437,7 +336,7 @@ namespace Wms12m.Entity
                 PropertyChanged.Invoke(this, new PropertyChangedEventArgs(propertyName));
             }
         }
-        #endregion  /// Tablo Bilgileri & Metodlar
+
     }
-    #endregion /// Fiyat Class
+
 }

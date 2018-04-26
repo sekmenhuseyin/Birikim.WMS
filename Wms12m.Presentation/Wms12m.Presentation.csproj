@@ -545,6 +545,7 @@
     <Content Include="Areas\Reports\Views\Financial\MalzemeDepoList.cshtml" />
     <Content Include="Areas\YN\Views\OnayBekleyenler\IskontoListAktarim.cshtml" />
     <Content Include="Areas\WMS\Views\Tasks\CountFarkDetay.cshtml" />
+    <Content Include="Areas\Approvals\Views\Price\SozlesmeliFiyat.cshtml" />
     <None Include="bundleconfig.json" />
     <Content Include="Content\SizeSablon.xlsx" />
     <Content Include="Content\StockSablon.xlsx" />

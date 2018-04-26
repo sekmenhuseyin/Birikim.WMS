@@ -8,6 +8,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
+using Birikim.Models.Finsat;
 using TumFaturaKayit;
 using Wms12m.Business;
 using Wms12m.Entity;

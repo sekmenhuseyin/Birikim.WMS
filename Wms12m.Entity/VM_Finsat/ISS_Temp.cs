@@ -4,252 +4,126 @@ using System.ComponentModel;
 
 namespace Wms12m.Entity
 {
-    #region ISS_Temp Class 
-
-    #region ISS_TempE Enum 
-    public enum ISS_TempE
-    {
-        ListeNo,
-        ListeAdi,
-        BasTarih,
-        BasSaat,
-        BitTarih,
-        BitSaat,
-        MusUygSekli,
-        MusKodGrup,
-        MusteriKod,
-        MalUygSekli,
-        MalKodGrup,
-        MalKod,
-        SiraNo,
-        Oran,
-        Oran1,
-        Oran2,
-        Oran3,
-        Oran4,
-        Oran5,
-        MikAralik1,
-        MikYuzde1,
-        MikAralik2,
-        MikYuzde2,
-        MikAralik3,
-        MikYuzde3,
-        MikAralik4,
-        MikYuzde4,
-        MikAralik5,
-        MikYuzde5,
-        MikAralik6,
-        MikYuzde6,
-        MikAralik7,
-        MikYuzde7,
-        MikAralik8,
-        MikYuzde8,
-        TutarAralik1,
-        TutarYuzde1,
-        TutarAralik2,
-        TutarYuzde2,
-        TutarAralik3,
-        TutarYuzde3,
-        TutarAralik4,
-        TutarYuzde4,
-        TutarAralik5,
-        TutarYuzde5,
-        TutarAralik6,
-        TutarYuzde6,
-        TutarAralik7,
-        TutarYuzde7,
-        TutarAralik8,
-        TutarYuzde8,
-        OdemeAralik1,
-        OdemeYuzde1,
-        OdemeAralik2,
-        OdemeYuzde2,
-        OdemeAralik3,
-        OdemeYuzde3,
-        OdemeAralik4,
-        OdemeYuzde4,
-        OdemeAralik5,
-        OdemeYuzde5,
-        OdemeAralik6,
-        OdemeYuzde6,
-        OdemeAralik7,
-        OdemeYuzde7,
-        OdemeAralik8,
-        OdemeYuzde8,
-        KayitTuru,
-        GuvenlikKod,
-        Kaydeden,
-        KayitTarih,
-        KayitSaat,
-        KayitKaynak,
-        KayitSurum,
-        Degistiren,
-        DegisTarih,
-        DegisSaat,
-        DegisKaynak,
-        DegisSurum,
-        CheckSum,
-        Aciklama,
-        Kod1,
-        Kod2,
-        Kod3,
-        Kod4,
-        Kod5,
-        Kod6,
-        Kod7,
-        Kod8,
-        Kod9,
-        Kod10,
-        Kod11,
-        Kod12,
-        DevirTarih,
-        DevirTutar,
-        OnayTip,
-        SatisMuduruOnay,
-        FinansmanMuduruOnay,
-        GenelMudurOnay,
-        OnaylayanSatisMuduru,
-        OnayTarihSatisMuduru,
-        OnaylayanFinansmanMuduru,
-        OnayTarihFinansmanMuduru,
-        OnaylayanGenelMudur,
-        OnayTarihGenelMudur,
-        CekTutari,
-        CekOrtalamaVadeTarih,
-        NakitTutari,
-        BaglantiParaCinsi,
-        AktifPasif,
-        VadeTarihi,
-        ValorGun,
-        Row_ID,
-        timestamp
-
-    }
-    #endregion /// ISS_TempE Enum           
-
     public class ISS_Temp : INotifyPropertyChanged
     {
-        #region Properties
-        #region Fields  
-        string listeNo;
-        string listeAdi;
-        int basTarih;
-        int basSaat;
-        int bitTarih;
-        int bitSaat;
-        short musUygSekli;
-        short musKodGrup;
-        string musteriKod;
-        short malUygSekli;
-        short malKodGrup;
-        string malKod;
-        short siraNo;
-        float oran;
-        float oran1;
-        float oran2;
-        float oran3;
-        float oran4;
-        float oran5;
-        decimal mikAralik1;
-        float mikYuzde1;
-        decimal mikAralik2;
-        float mikYuzde2;
-        decimal mikAralik3;
-        float mikYuzde3;
-        decimal mikAralik4;
-        float mikYuzde4;
-        decimal mikAralik5;
-        float mikYuzde5;
-        decimal mikAralik6;
-        float mikYuzde6;
-        decimal mikAralik7;
-        float mikYuzde7;
-        decimal mikAralik8;
-        float mikYuzde8;
-        decimal tutarAralik1;
-        float tutarYuzde1;
-        decimal tutarAralik2;
-        float tutarYuzde2;
-        decimal tutarAralik3;
-        float tutarYuzde3;
-        decimal tutarAralik4;
-        float tutarYuzde4;
-        decimal tutarAralik5;
-        float tutarYuzde5;
-        decimal tutarAralik6;
-        float tutarYuzde6;
-        decimal tutarAralik7;
-        float tutarYuzde7;
-        decimal tutarAralik8;
-        float tutarYuzde8;
-        decimal odemeAralik1;
-        float odemeYuzde1;
-        decimal odemeAralik2;
-        float odemeYuzde2;
-        decimal odemeAralik3;
-        float odemeYuzde3;
-        decimal odemeAralik4;
-        float odemeYuzde4;
-        decimal odemeAralik5;
-        float odemeYuzde5;
-        decimal odemeAralik6;
-        float odemeYuzde6;
-        decimal odemeAralik7;
-        float odemeYuzde7;
-        decimal odemeAralik8;
-        float odemeYuzde8;
-        short kayitTuru;
-        string guvenlikKod;
-        string kaydeden;
-        int kayitTarih;
-        int kayitSaat;
-        short kayitKaynak;
-        string kayitSurum;
-        string degistiren;
-        int degisTarih;
-        int degisSaat;
-        short degisKaynak;
-        string degisSurum;
-        short checkSum;
-        string aciklama;
-        string kod1;
-        string kod2;
-        string kod3;
-        string kod4;
-        string kod5;
-        string kod6;
-        string kod7;
-        string kod8;
-        string kod9;
-        string kod10;
-        decimal kod11;
-        decimal kod12;
-        int? devirTarih;
-        decimal? devirTutar;
-        short onayTip;
-        bool? satisMuduruOnay;
-        bool? finansmanMuduruOnay;
-        bool? genelMudurOnay;
-        string onaylayanSatisMuduru;
-        DateTime? onayTarihSatisMuduru;
-        string onaylayanFinansmanMuduru;
-        DateTime? onayTarihFinansmanMuduru;
-        string onaylayanGenelMudur;
-        DateTime? onayTarihGenelMudur;
-        decimal? cekTutari;
-        DateTime? cekOrtalamaVadeTarih;
-        decimal? nakitTutari;
-        string baglantiParaCinsi;
-        bool aktifPasif;
-        int? vadeTarihi;
-        int? valorGun;
-        int row_ID;
-        byte[] _timestamp;
-        string _pk_ListeNo;
-        int _pk_BasTarih;
-        short _pk_MusUygSekli;
-        short _pk_SiraNo;
-        #endregion /// Fields
+        private string listeNo;
+        private string listeAdi;
+        private int basTarih;
+        private int basSaat;
+        private int bitTarih;
+        private int bitSaat;
+        private short musUygSekli;
+        private short musKodGrup;
+        private string musteriKod;
+        private short malUygSekli;
+        private short malKodGrup;
+        private string malKod;
+        private short siraNo;
+        private float oran;
+        private float oran1;
+        private float oran2;
+        private float oran3;
+        private float oran4;
+        private float oran5;
+        private decimal mikAralik1;
+        private float mikYuzde1;
+        private decimal mikAralik2;
+        private float mikYuzde2;
+        private decimal mikAralik3;
+        private float mikYuzde3;
+        private decimal mikAralik4;
+        private float mikYuzde4;
+        private decimal mikAralik5;
+        private float mikYuzde5;
+        private decimal mikAralik6;
+        private float mikYuzde6;
+        private decimal mikAralik7;
+        private float mikYuzde7;
+        private decimal mikAralik8;
+        private float mikYuzde8;
+        private decimal tutarAralik1;
+        private float tutarYuzde1;
+        private decimal tutarAralik2;
+        private float tutarYuzde2;
+        private decimal tutarAralik3;
+        private float tutarYuzde3;
+        private decimal tutarAralik4;
+        private float tutarYuzde4;
+        private decimal tutarAralik5;
+        private float tutarYuzde5;
+        private decimal tutarAralik6;
+        private float tutarYuzde6;
+        private decimal tutarAralik7;
+        private float tutarYuzde7;
+        private decimal tutarAralik8;
+        private float tutarYuzde8;
+        private decimal odemeAralik1;
+        private float odemeYuzde1;
+        private decimal odemeAralik2;
+        private float odemeYuzde2;
+        private decimal odemeAralik3;
+        private float odemeYuzde3;
+        private decimal odemeAralik4;
+        private float odemeYuzde4;
+        private decimal odemeAralik5;
+        private float odemeYuzde5;
+        private decimal odemeAralik6;
+        private float odemeYuzde6;
+        private decimal odemeAralik7;
+        private float odemeYuzde7;
+        private decimal odemeAralik8;
+        private float odemeYuzde8;
+        private short kayitTuru;
+        private string guvenlikKod;
+        private string kaydeden;
+        private int kayitTarih;
+        private int kayitSaat;
+        private short kayitKaynak;
+        private string kayitSurum;
+        private string degistiren;
+        private int degisTarih;
+        private int degisSaat;
+        private short degisKaynak;
+        private string degisSurum;
+        private short checkSum;
+        private string aciklama;
+        private string kod1;
+        private string kod2;
+        private string kod3;
+        private string kod4;
+        private string kod5;
+        private string kod6;
+        private string kod7;
+        private string kod8;
+        private string kod9;
+        private string kod10;
+        private decimal kod11;
+        private decimal kod12;
+        private int? devirTarih;
+        private decimal? devirTutar;
+        private short onayTip;
+        private bool? satisMuduruOnay;
+        private bool? finansmanMuduruOnay;
+        private bool? genelMudurOnay;
+        private string onaylayanSatisMuduru;
+        private DateTime? onayTarihSatisMuduru;
+        private string onaylayanFinansmanMuduru;
+        private DateTime? onayTarihFinansmanMuduru;
+        private string onaylayanGenelMudur;
+        private DateTime? onayTarihGenelMudur;
+        private decimal? cekTutari;
+        private DateTime? cekOrtalamaVadeTarih;
+        private decimal? nakitTutari;
+        private string baglantiParaCinsi;
+        private bool aktifPasif;
+        private int? vadeTarihi;
+        private int? valorGun;
+        private int row_ID;
+        private byte[] _timestamp;
+        private string _pk_ListeNo;
+        private int _pk_BasTarih;
+        private short _pk_MusUygSekli;
+        private short _pk_SiraNo;
 
         /// <summary> VARCHAR (16) PrimaryKey * </summary>
         public string ListeNo
@@ -459,10 +333,6 @@ namespace Wms12m.Entity
                 OnPropertyChanged("Oran5");
             }
         }
-
-
-
-
 
         /// <summary> NUMERIC (13) * </summary>
         public decimal MikAralik1
@@ -1544,17 +1414,15 @@ namespace Wms12m.Entity
                 OnPropertyChanged("pk_SiraNo");
             }
         }
-        #endregion /// Properties       
 
-        #region Tablo Bilgileri & Metodlar
+        private List<string> WhereList = new List<string>();
+        private List<string> SetList = new List<string>();
+        private string info_FullTableName = "FINSAT6{0}.FINSAT6{0}.ISS_Temp";
+        private string[] info_PrimaryKeys = { "pk_ListeNo", "pk_BasTarih", "pk_MusUygSekli", "pk_SiraNo" };
+        private string[] info_IdentityKeys = { "Row_ID" };
 
-        List<string> WhereList = new List<string>();
-        List<string> SetList = new List<string>();
-        string info_FullTableName = "FINSAT6{0}.FINSAT6{0}.ISS_Temp";
-        string[] info_PrimaryKeys = { "pk_ListeNo", "pk_BasTarih", "pk_MusUygSekli", "pk_SiraNo" };
-        string[] info_IdentityKeys = { "Row_ID" };
+        private List<string> ChangedProperties = new List<string>();
 
-        List<string> ChangedProperties = new List<string>();
         public event PropertyChangedEventHandler PropertyChanged;
 
         public ISS_Temp()
@@ -1565,7 +1433,7 @@ namespace Wms12m.Entity
 
         public void AcceptChanges() => ChangedProperties.Clear();
 
-        void ISS_Temp_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void ISS_Temp_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (!ChangedProperties.Contains(e.PropertyName))
             {
@@ -1573,14 +1441,12 @@ namespace Wms12m.Entity
             }
         }
 
-        void OnPropertyChanged(string propertyName)
+        private void OnPropertyChanged(string propertyName)
         {
             if (PropertyChanged != null)
             {
                 PropertyChanged.Invoke(this, new PropertyChangedEventArgs(propertyName));
             }
         }
-        #endregion  /// Tablo Bilgileri & Metodlar
     }
-    #endregion /// ISS_Temp Class
 }

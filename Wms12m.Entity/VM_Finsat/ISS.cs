@@ -3,116 +3,9 @@ using System.ComponentModel;
 
 namespace Wms12m.Entity
 {
-    #region ISS Class 
-
-    #region ISSE Enum 
-    public enum ISSE
-    {
-        ListeNo,
-        ListeAdi,
-        BasTarih,
-        BasSaat,
-        BitTarih,
-        BitSaat,
-        MusUygSekli,
-        MusKodGrup,
-        MusteriKod,
-        MalUygSekli,
-        MalKodGrup,
-        MalKod,
-        SiraNo,
-        Oran,
-        Oran1,
-        Oran2,
-        Oran3,
-        Oran4,
-        Oran5,
-        MikAralik1,
-        MikYuzde1,
-        MikAralik2,
-        MikYuzde2,
-        MikAralik3,
-        MikYuzde3,
-        MikAralik4,
-        MikYuzde4,
-        MikAralik5,
-        MikYuzde5,
-        MikAralik6,
-        MikYuzde6,
-        MikAralik7,
-        MikYuzde7,
-        MikAralik8,
-        MikYuzde8,
-        TutarAralik1,
-        TutarYuzde1,
-        TutarAralik2,
-        TutarYuzde2,
-        TutarAralik3,
-        TutarYuzde3,
-        TutarAralik4,
-        TutarYuzde4,
-        TutarAralik5,
-        TutarYuzde5,
-        TutarAralik6,
-        TutarYuzde6,
-        TutarAralik7,
-        TutarYuzde7,
-        TutarAralik8,
-        TutarYuzde8,
-        OdemeAralik1,
-        OdemeYuzde1,
-        OdemeAralik2,
-        OdemeYuzde2,
-        OdemeAralik3,
-        OdemeYuzde3,
-        OdemeAralik4,
-        OdemeYuzde4,
-        OdemeAralik5,
-        OdemeYuzde5,
-        OdemeAralik6,
-        OdemeYuzde6,
-        OdemeAralik7,
-        OdemeYuzde7,
-        OdemeAralik8,
-        OdemeYuzde8,
-        KayitTuru,
-        GuvenlikKod,
-        Kaydeden,
-        KayitTarih,
-        KayitSaat,
-        KayitKaynak,
-        KayitSurum,
-        Degistiren,
-        DegisTarih,
-        DegisSaat,
-        DegisKaynak,
-        DegisSurum,
-        CheckSum,
-        Aciklama,
-        Kod1,
-        Kod2,
-        Kod3,
-        Kod4,
-        Kod5,
-        Kod6,
-        Kod7,
-        Kod8,
-        Kod9,
-        Kod10,
-        Kod11,
-        Kod12,
-        DevirTarih,
-        DevirTutar,
-        Row_ID,
-        timestamp
-
-    }
-    #endregion /// ISSE Enum           
-
     public class ISS : INotifyPropertyChanged
     {
-        #region Properties
-        #region Fields  
+
         string listeNo;
         string listeAdi;
         int basTarih;
@@ -214,7 +107,6 @@ namespace Wms12m.Entity
         int _pk_BasTarih;
         short _pk_MusUygSekli;
         short _pk_SiraNo;
-        #endregion /// Fields
 
         /// <summary> VARCHAR (16) PrimaryKey * </summary>
         public string ListeNo
@@ -1318,9 +1210,6 @@ namespace Wms12m.Entity
                 OnPropertyChanged("pk_SiraNo");
             }
         }
-        #endregion /// Properties       
-
-        #region Tablo Bilgileri & Metodlar
 
         List<string> WhereList = new List<string>();
         List<string> SetList = new List<string>();
@@ -1354,7 +1243,6 @@ namespace Wms12m.Entity
                 PropertyChanged.Invoke(this, new PropertyChangedEventArgs(propertyName));
             }
         }
-        #endregion  /// Tablo Bilgileri & Metodlar
+
     }
-    #endregion /// ISS Class
 }
